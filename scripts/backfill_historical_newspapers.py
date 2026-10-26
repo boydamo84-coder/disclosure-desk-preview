@@ -16,14 +16,14 @@ import urllib.request
 
 ROOT=Path(__file__).resolve().parents[1]
 OUTPUT=ROOT/"data/historical-news-archive.json"
-TERMS=("flying saucer","flying discs","unidentified flying object","UFO")
+TERMS=("flying saucer","flying saucers","flying disc","flying disks","unidentified flying object","UFO","strange lights in sky")
 API="https://www.loc.gov/collections/chronicling-america/"
 HEADERS={"User-Agent":"DisclosureDeskResearch/1.0 (historical metadata importer)"}
 
 def discover(year,term,page=1):
     args={"fo":"json","at":"results,pagination","dl":"page","qs":term,"ops":"PHRASE",
           "start_date":f"{year}-01-01","end_date":f"{year}-12-31",
-          "c":"50","sp":str(page)}
+          "c":"50","sp":str(page),"sb":"date_desc"}
     url=API+"?"+urllib.parse.urlencode(args)
     req=urllib.request.Request(url,headers=HEADERS)
     with urllib.request.urlopen(req,timeout=30) as response:
@@ -72,6 +72,9 @@ def main():
     first_sample=True
     rejected=0
     observed_years={}
+    yearly_added={}
+    term_added={}
+    seen_this_run=set()
     for year in range(args.start_year,args.end_year+1):
         for term in TERMS:
             for page in range(1,args.pages_per_query+1):
@@ -93,14 +96,20 @@ def main():
                             y=raw[:4]
                             observed_years[y]=observed_years.get(y,0)+1
                             continue
+                        if record["id"] in seen_this_run:continue
+                        seen_this_run.add(record["id"])
                         if record["id"] not in records:
                             records[record["id"]]=record
                             added+=1
+                            yearly_added[year]=yearly_added.get(year,0)+1
+                            term_added[term]=term_added.get(term,0)+1
                     if len(data["results"])<50:break
                 except Exception as exc:
                     print(f"LOC unavailable for {year} / {term} / {page}: {type(exc).__name__}: {str(exc)[:90]}")
                     break
                 time.sleep(1.2)
+    print("Added by year:",sorted(yearly_added.items()))
+    print("Added by search phrase:",sorted(term_added.items()))
     print("Rejected LOC result rows:",rejected)
     print("Rejected publication years:",sorted(observed_years.items(),key=lambda x:-x[1])[:20])
     if not successes:
