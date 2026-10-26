@@ -45,6 +45,7 @@ public final class DiscoveryWorker extends Worker {
             for(int i=0;i<entries.length();i++){
                 JSONObject c=entries.optJSONObject(i);
                 if(c==null)continue;
+                if(!video && !"major".equals(c.optString("priority","standard")))continue;
                 if(video && (c.optBoolean("videoAvailable",true)==false || !(c.has("youtubeId")||c.has("dvidsId")||c.has("media"))))continue;
                 String id=c.optString("id","");
                 if(!id.isEmpty())current.add(id);
