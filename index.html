@@ -496,6 +496,7 @@ function switchNewsArchive(archive){
  $('newsLatestTab').classList.toggle('active',!archive);
  $('historicalArchive').classList.toggle('hidden',!archive);
  for(const id of ['newsSearch','topicChips','feedRefresh','feedStatus','newsGrid']){$(id).classList.toggle('hidden',archive);}
+ const interestPanel=document.querySelector('.interest-panel');if(interestPanel)interestPanel.classList.toggle('hidden',archive);
  if(archive&&!historicalRecords.length)loadHistoricalArchive();
 }
 $('newsArchiveTab').onclick=()=>switchNewsArchive(true);
