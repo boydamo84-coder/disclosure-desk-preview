@@ -26,7 +26,7 @@ def discover(year,term,page=1):
           "c":"50","sp":str(page),"dates":f"{year}/{year}","searchType":"advanced"}
     url=API+"?"+urllib.parse.urlencode(args)
     req=urllib.request.Request(url,headers=HEADERS)
-    with urllib.request.urlopen(req,timeout=30) as response:
+    with urllib.request.urlopen(req,timeout=12) as response:
         return json.load(response)
 
 def normalise(item,year,term):
@@ -75,6 +75,7 @@ def main():
     if not isinstance(existing,list):raise ValueError("Existing archive must be a JSON array")
     records={x["id"]:x for x in existing if isinstance(x,dict) and x.get("id")}
     attempts=successes=added=0
+    consecutive_failures=0
     first_sample=True
     rejected=0
     observed_years={}
@@ -84,12 +85,13 @@ def main():
     for year in range(args.start_year,args.end_year+1):
         for term in TERMS[args.term_offset:]:
             for page in range(1,args.pages_per_query+1):
-                if added>=args.max_records or attempts>=args.max_queries:break
+                if added>=args.max_records or attempts>=args.max_queries or consecutive_failures>=3:break
                 attempts+=1
                 try:
                     data=discover(year,term,page)
                     if not isinstance(data.get("results"),list):raise ValueError("No results array")
                     successes+=1
+                    consecutive_failures=0
                     for item in data["results"]:
                         if first_sample:
                             print("Sample LOC schema keys:",sorted(item.keys()) if isinstance(item,dict) else type(item).__name__)
@@ -113,6 +115,10 @@ def main():
                     if len(data["results"])<50:break
                 except Exception as exc:
                     print(f"LOC unavailable for {year} / {term} / {page}: {type(exc).__name__}: {str(exc)[:90]}")
+                    consecutive_failures+=1
+                    if consecutive_failures>=3:
+                        print("Stopping early after three consecutive source errors; archive preserved")
+                        break
                     break
                 time.sleep(1.2)
             if added>=args.max_records or attempts>=args.max_queries:break
