@@ -68,6 +68,8 @@ def main():
     if not isinstance(existing,list):raise ValueError("Existing archive must be a JSON array")
     records={x["id"]:x for x in existing if isinstance(x,dict) and x.get("id")}
     attempts=successes=added=0
+    first_sample=True
+    rejected=0
     for year in range(args.start_year,args.end_year+1):
         for term in TERMS:
             for page in range(1,args.pages_per_query+1):
@@ -77,8 +79,15 @@ def main():
                     if not isinstance(data.get("results"),list):raise ValueError("No results array")
                     successes+=1
                     for item in data["results"]:
+                        if first_sample:
+                            print("Sample LOC schema keys:",sorted(item.keys()) if isinstance(item,dict) else type(item).__name__)
+                            print("Sample LOC ID:",str(item.get("id",""))[:150] if isinstance(item,dict) else "")
+                            print("Sample LOC date:",str(item.get("date",item.get("dates","")))[:120] if isinstance(item,dict) else "")
+                            first_sample=False
                         record=normalise(item,year,term)
-                        if not record:continue
+                        if not record:
+                            rejected+=1
+                            continue
                         if record["id"] not in records:
                             records[record["id"]]=record
                             added+=1
@@ -87,8 +96,11 @@ def main():
                     print(f"LOC unavailable for {year} / {term} / {page}: {type(exc).__name__}: {str(exc)[:90]}")
                     break
                 time.sleep(1.2)
+    print("Rejected LOC result rows:",rejected)
     if not successes:
         raise RuntimeError("All Library of Congress queries failed; existing archive preserved")
+    if added==0 and not any(x.startswith("loc-") for x in records):
+        raise RuntimeError("Zero historical pages imported; inspect sample LOC schema in logs. Existing archive preserved")
     ordered=sorted(records.values(),key=lambda x:(-int(x.get("year",0)),x.get("id","")))
     temp=OUTPUT.with_suffix(".json.tmp")
     temp.write_text(json.dumps(ordered,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
