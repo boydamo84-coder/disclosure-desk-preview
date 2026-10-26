@@ -466,6 +466,7 @@ news();renderCases();showDrafts();const requestedCase=new URLSearchParams(locati
 // Save uses the same persistent Investigation Board workflow as News.
 let historicalRecords=[];
 let newsArchiveMode=false;
+let archiveDisplayCount=60;
 function renderHistoricalArchive(){
  const q=($('archiveSearch').value||'').trim().toLowerCase();
  const selectedYear=$('archiveYear').value,kind=$('archiveType').value,category=$('archiveCategory').value;
@@ -475,8 +476,14 @@ function renderHistoricalArchive(){
   (category==='all'||r.category===category)&&
   (!q||[r.title,r.source,r.description,r.kind,r.category,r.year,r.city,r.country,r.location,r.keywords,r.eventName].join(' ').toLowerCase().includes(q))
  );
- $('archiveStatus').textContent=matches.length+' of '+historicalRecords.length+' source-linked historical resources';
- $('archiveList').innerHTML=matches.map((r,i)=>`<article class="card"><div class="card-body"><span class="tag">${esc(r.kind)}</span><h3>${esc(r.title)}</h3><p>${esc(r.description||'')}</p><p class="meta">${esc(r.source)} · Record/event year: ${esc(String(r.year))}${r.endYear?'–'+esc(String(r.endYear)):''}</p><a class="news-open" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">Open original source ↗</a> <button class="outline" type="button" data-save-archive="${i}">☆ Save to Investigation Board</button></div></article>`).join('')||'<div class="card empty">No matching historical sources. Try another search or decade.</div>';
+ $('archiveStatus').textContent=matches.length+' of '+historicalRecords.length+' source-linked historical resources · Showing up to '+archiveDisplayCount;
+ $('archiveList').innerHTML=matches.slice(0,archiveDisplayCount).map((r,i)=>`<article class="card"><div class="card-body"><span class="tag">${esc(r.kind)}</span><h3>${esc(r.title)}</h3><p>${esc(r.description||'')}</p><p class="meta">${esc(r.source)} · Record/event year: ${esc(String(r.year))}${r.endYear?'–'+esc(String(r.endYear)):''}</p><a class="news-open" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">Open original source ↗</a> <button class="outline" type="button" data-save-archive="${i}">☆ Save to Investigation Board</button></div></article>`).join('')||'<div class="card empty">No matching historical sources. Try another search or decade.</div>';
+ if(matches.length>archiveDisplayCount){
+ const more=document.createElement('button');more.type='button';more.className='outline';
+ more.textContent='Load more ('+(matches.length-archiveDisplayCount)+' remaining)';
+ more.onclick=()=>{archiveDisplayCount+=60;renderHistoricalArchive()};
+ $('archiveList').appendChild(more);
+ }
  document.querySelectorAll('[data-save-archive]').forEach(button=>button.onclick=()=>{let item=matches[Number(button.dataset.saveArchive)];if(item)addInvestigationLink(item.title,item.url)});
 }
 async function loadHistoricalArchive(){
@@ -554,6 +561,6 @@ $('newsLatestTab').onclick=()=>switchNewsView('latest');
 $('newsTopTab').onclick=()=>switchNewsView('top');
 $('newsReadTab').onclick=()=>switchNewsView('read');
 $('readSearch').addEventListener('input',renderReadHistory);
-for(const id of ['archiveSearch','archiveYear','archiveType','archiveCategory'])$(id).addEventListener(id==='archiveSearch'?'input':'change',renderHistoricalArchive);
+for(const id of ['archiveSearch','archiveYear','archiveType','archiveCategory'])$(id).addEventListener(id==='archiveSearch'?'input':'change',()=>{archiveDisplayCount=60;renderHistoricalArchive()});
 $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
 </script></body></html>
