@@ -30,6 +30,66 @@
     "description": "NASA published its independent study team's final report on 14 September 2023."
   },
   {
+    "id": "loc-4e4967166adfd71d0927",
+    "title": "Image 1 of The Southern Jewish weekly (Jacksonville, Fla.), September 19, 1952",
+    "source": "Library of Congress · Chronicling America",
+    "url": "https://www.loc.gov/resource/sn78000090/1952-09-19/ed-1/",
+    "year": 1952,
+    "category": "UAP",
+    "kind": "Historic newspaper page (keyword match)",
+    "description": "Newspaper page returned for the historical search phrase 'UFO'. This is a page-level search result, not proof that an individual UFO article appears on the page.",
+    "keywords": [
+      "UFO"
+    ],
+    "dateType": "newspaper publication year",
+    "evidenceStatus": "archival newspaper source; claim unverified"
+  },
+  {
+    "id": "loc-406ad45c8167bcd36182",
+    "title": "Image 1 of The Southern Jewish weekly (Jacksonville, Fla.), September 8, 1950",
+    "source": "Library of Congress · Chronicling America",
+    "url": "https://www.loc.gov/resource/sn78000090/1950-09-08/ed-1/",
+    "year": 1950,
+    "category": "UAP",
+    "kind": "Historic newspaper page (keyword match)",
+    "description": "Newspaper page returned for the historical search phrase 'unidentified flying object'. This is a page-level search result, not proof that an individual UFO article appears on the page.",
+    "keywords": [
+      "unidentified flying object"
+    ],
+    "dateType": "newspaper publication year",
+    "evidenceStatus": "archival newspaper source; claim unverified"
+  },
+  {
+    "id": "loc-94ae852a6265d18283be",
+    "title": "Image 1 of The Southern Jewish weekly (Jacksonville, Fla.), September 23, 1949",
+    "source": "Library of Congress · Chronicling America",
+    "url": "https://www.loc.gov/resource/sn78000090/1949-09-23/ed-1/",
+    "year": 1949,
+    "category": "UAP",
+    "kind": "Historic newspaper page (keyword match)",
+    "description": "Newspaper page returned for the historical search phrase 'flying saucer'. This is a page-level search result, not proof that an individual UFO article appears on the page.",
+    "keywords": [
+      "flying saucer"
+    ],
+    "dateType": "newspaper publication year",
+    "evidenceStatus": "archival newspaper source; claim unverified"
+  },
+  {
+    "id": "loc-c020fff4caa8bb081653",
+    "title": "Image 1 of The Southern Jewish weekly (Jacksonville, Fla.), October 1, 1948",
+    "source": "Library of Congress · Chronicling America",
+    "url": "https://www.loc.gov/resource/sn78000090/1948-10-01/ed-1/",
+    "year": 1948,
+    "category": "UAP",
+    "kind": "Historic newspaper page (keyword match)",
+    "description": "Newspaper page returned for the historical search phrase 'flying discs'. This is a page-level search result, not proof that an individual UFO article appears on the page.",
+    "keywords": [
+      "flying discs"
+    ],
+    "dateType": "newspaper publication year",
+    "evidenceStatus": "archival newspaper source; claim unverified"
+  },
+  {
     "id": "archive-bluebook",
     "title": "Project Blue Book UFO investigation records (1947–1969)",
     "source": "US National Archives",
