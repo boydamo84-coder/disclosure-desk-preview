@@ -31,7 +31,10 @@
     "youtubeId": "G0umQy73jQc",
     "publishedAt": "2026-10-26",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-IVBNqKKgE0w",
@@ -43,7 +46,10 @@
     "youtubeId": "IVBNqKKgE0w",
     "publishedAt": "2026-10-26",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-CmijGgWF-Js",
@@ -55,7 +61,10 @@
     "youtubeId": "CmijGgWF-Js",
     "publishedAt": "2026-10-26",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-hFNJ9ZbdyLE",
@@ -67,7 +76,10 @@
     "youtubeId": "hFNJ9ZbdyLE",
     "publishedAt": "2026-10-26",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-WqHr-2-3mVA",
@@ -79,7 +91,10 @@
     "youtubeId": "WqHr-2-3mVA",
     "publishedAt": "2026-10-26",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-RHZWK2WjRUM",
@@ -91,7 +106,10 @@
     "youtubeId": "RHZWK2WjRUM",
     "publishedAt": "2026-10-26",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-Jv623AMQ-Lc",
@@ -103,7 +121,10 @@
     "youtubeId": "Jv623AMQ-Lc",
     "publishedAt": "2026-10-26",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-IYlAaEB2eFg",
@@ -115,7 +136,10 @@
     "youtubeId": "IYlAaEB2eFg",
     "publishedAt": "2026-10-26",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-h9rIvHaNa5E",
@@ -125,6 +149,21 @@
     "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
     "source": "https://www.youtube.com/watch?v=h9rIvHaNa5E",
     "youtubeId": "h9rIvHaNa5E",
+    "publishedAt": "2026-10-26",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
+  },
+  {
+    "id": "yt-mv4c4JDGuAo",
+    "title": "🐅 The Vanishing Blue Tiger of China 🇨🇳 | A Mystery Lost in the Mist! 🌫️",
+    "publisher": "AETHER & ABYSS ",
+    "group": "YouTube",
+    "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
+    "source": "https://www.youtube.com/watch?v=mv4c4JDGuAo",
+    "youtubeId": "mv4c4JDGuAo",
     "publishedAt": "2026-10-26",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
@@ -139,7 +178,10 @@
     "youtubeId": "ZDPALeS1wsw",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-zbg3Y_Sn9XE",
@@ -151,7 +193,10 @@
     "youtubeId": "zbg3Y_Sn9XE",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-P9GOMwB436A",
@@ -163,7 +208,10 @@
     "youtubeId": "P9GOMwB436A",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-g9-RUBayF7Y",
@@ -175,7 +223,10 @@
     "youtubeId": "g9-RUBayF7Y",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-mfKhvfuvL0g",
@@ -187,7 +238,10 @@
     "youtubeId": "mfKhvfuvL0g",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-131yM3LMMzQ",
@@ -199,7 +253,10 @@
     "youtubeId": "131yM3LMMzQ",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-pNUB9yVJ7Hc",
@@ -211,7 +268,10 @@
     "youtubeId": "pNUB9yVJ7Hc",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-_rLkocc6WD4",
@@ -223,7 +283,10 @@
     "youtubeId": "_rLkocc6WD4",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-MoypS_r8o3w",
@@ -235,7 +298,10 @@
     "youtubeId": "MoypS_r8o3w",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-THW5kflo1YA",
@@ -247,7 +313,10 @@
     "youtubeId": "THW5kflo1YA",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-Mw5IuUUUlDw",
@@ -259,7 +328,10 @@
     "youtubeId": "Mw5IuUUUlDw",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-wi_huZZ8n8o",
@@ -271,7 +343,10 @@
     "youtubeId": "wi_huZZ8n8o",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-IXk4VssellM",
@@ -283,7 +358,10 @@
     "youtubeId": "IXk4VssellM",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-BKrwxaXPb2Y",
@@ -295,7 +373,10 @@
     "youtubeId": "BKrwxaXPb2Y",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-JdjqZezdA80",
@@ -307,7 +388,10 @@
     "youtubeId": "JdjqZezdA80",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-xuffli94WCA",
@@ -319,7 +403,10 @@
     "youtubeId": "xuffli94WCA",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-0Y9c4IxSoTs",
@@ -331,7 +418,10 @@
     "youtubeId": "0Y9c4IxSoTs",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-duPf7PJAnrk",
@@ -343,7 +433,10 @@
     "youtubeId": "duPf7PJAnrk",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-7OVm65Aq5Ts",
@@ -353,6 +446,21 @@
     "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
     "source": "https://www.youtube.com/watch?v=7OVm65Aq5Ts",
     "youtubeId": "7OVm65Aq5Ts",
+    "publishedAt": "2026-10-25",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
+  },
+  {
+    "id": "yt-Zm49xfbg1zo",
+    "title": "Alien Base Beyond Ice Wall‼️😱 UFO Sightings News (2026)",
+    "publisher": "Dezzmon",
+    "group": "YouTube",
+    "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
+    "source": "https://www.youtube.com/watch?v=Zm49xfbg1zo",
+    "youtubeId": "Zm49xfbg1zo",
     "publishedAt": "2026-10-25",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
@@ -367,7 +475,10 @@
     "youtubeId": "ozYctf0XFFw",
     "publishedAt": "2026-10-24",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-VRSdwbdMFMU",
@@ -379,7 +490,10 @@
     "youtubeId": "VRSdwbdMFMU",
     "publishedAt": "2026-10-24",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-SaWe5KnaVRM",
@@ -391,7 +505,10 @@
     "youtubeId": "SaWe5KnaVRM",
     "publishedAt": "2026-10-24",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-Wk9KciAM8BE",
@@ -403,7 +520,10 @@
     "youtubeId": "Wk9KciAM8BE",
     "publishedAt": "2026-10-24",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-eYxe8QClogs",
@@ -415,7 +535,10 @@
     "youtubeId": "eYxe8QClogs",
     "publishedAt": "2026-10-24",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-zKKSJ2t1Ku4",
@@ -427,7 +550,10 @@
     "youtubeId": "zKKSJ2t1Ku4",
     "publishedAt": "2026-10-24",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-doFRKYQh2zc",
@@ -439,7 +565,10 @@
     "youtubeId": "doFRKYQh2zc",
     "publishedAt": "2026-10-24",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-mV2Ix-ShFFE",
@@ -451,7 +580,10 @@
     "youtubeId": "mV2Ix-ShFFE",
     "publishedAt": "2026-10-24",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-dTe18F4ZZIo",
@@ -463,7 +595,10 @@
     "youtubeId": "dTe18F4ZZIo",
     "publishedAt": "2026-10-24",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-K-7R1tj1_n0",
@@ -475,7 +610,10 @@
     "youtubeId": "K-7R1tj1_n0",
     "publishedAt": "2026-10-24",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-FsjtLSiSZqs",
@@ -487,7 +625,10 @@
     "youtubeId": "FsjtLSiSZqs",
     "publishedAt": "2026-10-24",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-fqSMeMy44G8",
@@ -499,7 +640,10 @@
     "youtubeId": "fqSMeMy44G8",
     "publishedAt": "2026-10-24",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-26T18:57:17+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
   },
   {
     "id": "yt-iFCTfI98gws",
@@ -797,6 +941,18 @@
     "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
     "source": "https://www.youtube.com/watch?v=AeyWizT534E",
     "youtubeId": "AeyWizT534E",
+    "publishedAt": "2026-10-23",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+  },
+  {
+    "id": "yt-9R0U0NGN3q4",
+    "title": "3 Chilling UFO Sightings That Will Leave You Terrified!",
+    "publisher": "LAB 360",
+    "group": "YouTube",
+    "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
+    "source": "https://www.youtube.com/watch?v=9R0U0NGN3q4",
+    "youtubeId": "9R0U0NGN3q4",
     "publishedAt": "2026-10-23",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
@@ -1306,6 +1462,18 @@
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
   },
   {
+    "id": "yt-6qIvQR7QKuI",
+    "title": "UFO Whistleblowers Say Scientists Are Tracking Incoming Intelligent Object",
+    "publisher": "Channeling History",
+    "group": "YouTube",
+    "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
+    "source": "https://www.youtube.com/watch?v=6qIvQR7QKuI",
+    "youtubeId": "6qIvQR7QKuI",
+    "publishedAt": "2026-10-15",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+  },
+  {
     "id": "yt-U-KuhgVb3iU",
     "title": "The Chilling Truth About Alien Abductions",
     "publisher": "The Ryan Files",
@@ -1373,6 +1541,18 @@
     "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
     "source": "https://www.youtube.com/watch?v=5UQpg6Tj3gM",
     "youtubeId": "5UQpg6Tj3gM",
+    "publishedAt": "2026-10-14",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+  },
+  {
+    "id": "yt-tnukk792n30",
+    "title": "UFO Documentary:  UFO CHRONICLES WITH LEE MAJORS 2003",
+    "publisher": "UFO TIMELINE PROJECT",
+    "group": "YouTube",
+    "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
+    "source": "https://www.youtube.com/watch?v=tnukk792n30",
+    "youtubeId": "tnukk792n30",
     "publishedAt": "2026-10-14",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
@@ -1805,6 +1985,18 @@
     "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
     "source": "https://www.youtube.com/watch?v=wb_ThA6QXEw",
     "youtubeId": "wb_ThA6QXEw",
+    "publishedAt": "2026-10-08",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+  },
+  {
+    "id": "yt-rv163Stt9H4",
+    "title": "The Most BELIEVABLE skinwalker encounter! | The SKINWALKER RANCH story!",
+    "publisher": "dark hours",
+    "group": "YouTube",
+    "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
+    "source": "https://www.youtube.com/watch?v=rv163Stt9H4",
+    "youtubeId": "rv163Stt9H4",
     "publishedAt": "2026-10-08",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
@@ -3042,6 +3234,18 @@
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
   },
   {
+    "id": "yt-kCwk1Z311WM",
+    "title": "TRUE Alien Abduction Stories | 7 True Encounters with Alien and UFO&#39;s",
+    "publisher": "Weird World",
+    "group": "YouTube",
+    "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
+    "source": "https://www.youtube.com/watch?v=kCwk1Z311WM",
+    "youtubeId": "kCwk1Z311WM",
+    "publishedAt": "2026-08-09",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+  },
+  {
     "id": "dvids-1017793",
     "title": "DOW-UAP-PR117 — Gulf of Oman (16 sec)",
     "publisher": "All-domain Anomaly Resolution Office / DVIDS",
@@ -3252,6 +3456,18 @@
     "source": "https://www.youtube.com/watch?v=TNwUuF6fRnI",
     "youtubeId": "TNwUuF6fRnI",
     "publishedAt": "2026-08-04",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
+  },
+  {
+    "id": "yt-c3pAf5-ha8A",
+    "title": "New Disclosure Reveals What Grays Do in the First 60 Seconds of Abduction",
+    "publisher": "Contact Redacted",
+    "group": "YouTube",
+    "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
+    "source": "https://www.youtube.com/watch?v=c3pAf5-ha8A",
+    "youtubeId": "c3pAf5-ha8A",
+    "publishedAt": "2026-07-30",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified"
   },
