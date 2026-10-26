@@ -16,7 +16,7 @@ import urllib.request
 
 ROOT=Path(__file__).resolve().parents[1]
 OUTPUT=ROOT/"data/historical-news-archive.json"
-TERMS=("flying saucer","flying saucers","flying disc","flying disks","unidentified flying object","UFO","strange lights in sky")
+TERMS=("flying saucer","flying saucers","flying disc","flying disks","unidentified flying object","UFO")
 API="https://www.loc.gov/collections/chronicling-america/"
 HEADERS={"User-Agent":"DisclosureDeskResearch/1.0 (historical metadata importer)"}
 
