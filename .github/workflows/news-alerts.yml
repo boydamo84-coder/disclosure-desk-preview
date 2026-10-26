@@ -5,6 +5,7 @@ on:
     - cron: '43 */2 * * *'
 permissions:
   contents: write
+  actions: write
 jobs:
   news:
     runs-on: ubuntu-latest
