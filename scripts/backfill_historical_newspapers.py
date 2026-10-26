@@ -32,6 +32,7 @@ def discover(year,term,page=1):
 def normalise(item,year,term):
     if not isinstance(item,dict):return None
     url=str(item.get("id") or item.get("url") or "").split("?")[0]
+    if url.startswith("http://www.loc.gov/"):url="https://"+url[len("http://"):]
     if not url.startswith(("https://www.loc.gov/resource/","https://www.loc.gov/item/")):return None
     raw_dates=item.get("date") or item.get("dates") or []
     if isinstance(raw_dates,list): raw_dates=next((str(d) for d in raw_dates if re.search(r"\d{4}",str(d))),"")
@@ -70,6 +71,7 @@ def main():
     attempts=successes=added=0
     first_sample=True
     rejected=0
+    observed_years={}
     for year in range(args.start_year,args.end_year+1):
         for term in TERMS:
             for page in range(1,args.pages_per_query+1):
@@ -87,6 +89,9 @@ def main():
                         record=normalise(item,year,term)
                         if not record:
                             rejected+=1
+                            raw=str(item.get("date","")) if isinstance(item,dict) else ""
+                            y=raw[:4]
+                            observed_years[y]=observed_years.get(y,0)+1
                             continue
                         if record["id"] not in records:
                             records[record["id"]]=record
@@ -97,6 +102,7 @@ def main():
                     break
                 time.sleep(1.2)
     print("Rejected LOC result rows:",rejected)
+    print("Rejected publication years:",sorted(observed_years.items(),key=lambda x:-x[1])[:20])
     if not successes:
         raise RuntimeError("All Library of Congress queries failed; existing archive preserved")
     if added==0 and not any(x.startswith("loc-") for x in records):
