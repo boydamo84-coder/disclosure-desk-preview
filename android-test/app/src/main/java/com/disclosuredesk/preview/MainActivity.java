@@ -13,6 +13,15 @@ import android.webkit.WebSettings;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.app.AlertDialog;
+import android.content.SharedPreferences;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import java.util.concurrent.TimeUnit;
 import android.view.Gravity;
 import android.view.WindowInsets;
 import android.os.Build;
@@ -40,6 +49,15 @@ public final class MainActivity extends Activity {
         launch.addView(mark,markParams);
         splash=launch;
         root.addView(launch,new FrameLayout.LayoutParams(-1,-1));
+        Button notifications=new Button(this);
+        notifications.setText("🔔");
+        notifications.setContentDescription("Notification preferences");
+        notifications.setTextSize(15);
+        notifications.setAllCaps(false);
+        FrameLayout.LayoutParams bell=new FrameLayout.LayoutParams(dp(55),dp(48),Gravity.TOP|Gravity.RIGHT);
+        bell.topMargin=dp(3);bell.rightMargin=dp(4);
+        root.addView(notifications,bell);
+        notifications.setOnClickListener(v->notificationSettings());
         setContentView(root);
         // Android 15+ enforces edge-to-edge for target SDK 35. Keep web content below the status bar.
         if(Build.VERSION.SDK_INT >= 35){
@@ -82,6 +100,32 @@ public final class MainActivity extends Activity {
             }
         });
         web.loadUrl(HOME);
+    }
+    private void notificationSettings(){
+        SharedPreferences prefs=getSharedPreferences(DiscoveryWorker.PREFS,MODE_PRIVATE);
+        LinearLayout choices=new LinearLayout(this);
+        choices.setOrientation(LinearLayout.VERTICAL);
+        choices.setPadding(dp(24),dp(12),dp(20),dp(12));
+        CheckBox footage=new CheckBox(this);
+        footage.setText("Fresh video discoveries");
+        footage.setChecked(prefs.getBoolean("videos",false));
+        CheckBox news=new CheckBox(this);
+        news.setText("Major-media UAP news");
+        news.setChecked(prefs.getBoolean("news",false));
+        choices.addView(footage);choices.addView(news);
+        new AlertDialog.Builder(this).setTitle("Discovery alerts")
+          .setMessage("Optional alerts. Checks run approximately every 2 hours. You will not get an alert for the existing library. News comes from attributed mainstream media reporting, not verified proof of extraordinary claims.")
+          .setView(choices).setNegativeButton("Cancel",null)
+          .setPositiveButton("Save",(dialog,which)->{
+              boolean vids=footage.isChecked(),stories=news.isChecked();
+              prefs.edit().putBoolean("videos",vids).putBoolean("news",stories).apply();
+              if(vids||stories){
+                  PeriodicWorkRequest req=new PeriodicWorkRequest.Builder(DiscoveryWorker.class,2,TimeUnit.HOURS).build();
+                  WorkManager.getInstance(this).enqueueUniquePeriodicWork(DiscoveryWorker.JOB,ExistingPeriodicWorkPolicy.KEEP,req);
+                  if(Build.VERSION.SDK_INT>=33&&checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED)
+                    requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS},712);
+              }else WorkManager.getInstance(this).cancelUniqueWork(DiscoveryWorker.JOB);
+          }).show();
     }
     private int dp(int pixels){return (int)(pixels*getResources().getDisplayMetrics().density+0.5f);}
     @Override public void onBackPressed(){
