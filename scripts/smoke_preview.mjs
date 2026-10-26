@@ -24,7 +24,7 @@ try{
   const errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   await page.goto('http://127.0.0.1:'+port+'/disclosure-desk-preview/',{waitUntil:'domcontentloaded'});
-  await page.locator('[data-go="clips"]').first().click();
+  await page.locator('[data-tab="clips"]').click();
   await page.locator('#clipDiscoveryMode').selectOption('fresh');
   await page.locator('#clipDiscoveryMode').selectOption('recommended');
   await page.locator('#openImmersiveClips').click();
