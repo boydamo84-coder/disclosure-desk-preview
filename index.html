@@ -293,8 +293,10 @@ function immersiveMount(index){
  const tile=$('immersiveFeed').querySelector('[data-index="'+index+'"]');if(!tile)return;
  const c=immersiveQueue[index],slot=tile.querySelector('[data-media]');if(!c||!slot||slot.querySelector('iframe,video'))return;
  if(c.youtubeId)slot.innerHTML='<iframe title="'+esc(c.title)+'" loading="eager" src="https://www.youtube-nocookie.com/embed/'+esc(c.youtubeId)+'?playsinline=1&enablejsapi=1'+(immersiveAutoplay?'&autoplay=1&mute=1&loop=1&playlist='+encodeURIComponent(c.youtubeId):'')+'" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
- else if(c.dvidsId)slot.innerHTML='<iframe title="'+esc(c.title)+'" loading="eager" src="https://www.dvidshub.net/video/embed/'+esc(c.dvidsId)+'" allow="fullscreen; picture-in-picture" allowfullscreen></iframe>';
+ else if(c.dvidsId)slot.innerHTML='<iframe title="'+esc(c.title)+'" loading="eager" src="https://www.dvidshub.net/video/embed/'+esc(c.dvidsId)+(immersiveAutoplay?'?autoplay=1&muted=1&loop=1':'')+'" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'+(immersiveAutoplay?'<div class="muted small" style="padding:5px">DVIDS controls autoplay; tap Play if it does not start.</div>':'');
  else if(c.media)slot.innerHTML='<video controls playsinline preload="metadata" '+(immersiveAutoplay?'autoplay muted loop ':'')+'src="'+esc(c.media)+'"></video>';
+ if(c.youtubeId&&immersiveAutoplay){const frame=slot.querySelector('iframe');frame.addEventListener('load',()=>{if(!immersiveAutoplay||immersiveQueue[immersivePosition]?.id!==c.id)return;try{for(const func of ['mute','playVideo'])frame.contentWindow.postMessage(JSON.stringify({event:'command',func,args:[]}), 'https://www.youtube-nocookie.com')}catch{}},{once:true})}
+ if(c.media&&immersiveAutoplay){const video=slot.querySelector('video');video.muted=true;video.loop=true;video.play().catch(()=>{})}
 }
 function immersiveAddBatch(){const feed=$('immersiveFeed'),start=feed.children.length,end=Math.min(start+20,immersiveQueue.length);if(start>=end)return;feed.insertAdjacentHTML('beforeend',immersiveQueue.slice(start,end).map((c,i)=>immersiveTile(c,start+i)).join(''));if(immersiveObserver)for(const tile of [...feed.children].slice(start))immersiveObserver.observe(tile)}
 let immersiveLastPlayingIndex=-1;
@@ -334,7 +336,7 @@ function closeImmersive(){
 }
 function immersiveEscape(e){if(e.key==='Escape'||e.key==='Backspace'){e.preventDefault();closeImmersive()}}
 function openImmersive(){
- immersiveQueue=immersiveCandidates();const viewer=$('immersiveViewer');const feed=$('immersiveFeed');
+ immersiveQueue=immersiveCandidates();if(immersiveAutoplay)immersiveQueue.sort((a,b)=>Number(!!b.youtubeId||!!b.media)-Number(!!a.youtubeId||!!a.media));const viewer=$('immersiveViewer');const feed=$('immersiveFeed');
  if(!immersiveQueue.length){alert('No playable clips match these filters yet.');return}
  immersiveLastPlayingIndex=-1;feed.innerHTML='';immersiveAddBatch();viewer.hidden=false;document.body.style.overflow='hidden';feed.scrollTop=0;
  immersiveWindow(0);
