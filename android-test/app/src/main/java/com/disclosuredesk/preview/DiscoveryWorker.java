@@ -50,14 +50,21 @@ public final class DiscoveryWorker extends Worker {
                 String id=c.optString("id","");
                 if(!id.isEmpty())current.add(id);
             }
-            if(current.isEmpty())return;
+            if(current.isEmpty()){
+                prefs.edit().putString("check-"+type,"No eligible records in published feed").apply();
+                return;
+            }
             String storage="known-"+type;
             Set<String> previous=prefs.getStringSet(storage,null);
             int added=0;
             if(previous!=null)for(String id:current)if(!previous.contains(id))added++;
             prefs.edit().putStringSet(storage,new HashSet<>(current)).apply();
+            prefs.edit().putString("check-"+type,(previous==null?"Baseline recorded: ":"Feed OK: ")+current.size()+" eligible; "+added+" new").apply();
             if(previous!=null&&added>0)notifyUser(type,added);
-        }catch(Exception ex){android.util.Log.w("DisclosureDesk","Alert check deferred: "+type);}
+        }catch(Exception ex){
+            prefs.edit().putString("check-"+type,"Check failed: "+ex.getClass().getSimpleName()).apply();
+            android.util.Log.w("DisclosureDesk","Alert check deferred: "+type,ex);
+        }
     }
     @NonNull @Override public Result doWork(){
         if(getInputData().getBoolean("dd_test",false)){
@@ -67,6 +74,8 @@ public final class DiscoveryWorker extends Worker {
         SharedPreferences p=getApplicationContext().getSharedPreferences(PREFS,Context.MODE_PRIVATE);
         check("videos","disclosure-clips.json",true,p);
         check("news","news-alerts.json",false,p);
+        String summary="Videos: "+p.getString("check-videos","Off or not checked")+"; News: "+p.getString("check-news","Off or not checked");
+        p.edit().putLong("last-check-time",System.currentTimeMillis()).putString("last-check-summary",summary).apply();
         return Result.success();
     }
     private void notifyUser(String type,int count){
