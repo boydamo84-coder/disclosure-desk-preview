@@ -1,17 +1,5 @@
 [
   {
-    "id": "weaponized-skinwalker-cryptids",
-    "title": "WEAPONIZED — Skinwalker Ranch, Cryptids and Unexplained Reports",
-    "publisher": "Jeremy Corbell & George Knapp · WEAPONIZED",
-    "group": "YouTube",
-    "description": "Original discussion of Skinwalker Ranch, cryptid reports and unexplained experiences. Eyewitness accounts and interpretations are not established scientific findings.",
-    "source": "https://www.youtube.com/watch?v=9Q-vkymdpyw",
-    "youtubeId": "9Q-vkymdpyw",
-    "publishedAt": "2023-04-11",
-    "evidenceStatus": "unverified",
-    "status": "ORIGINAL INVESTIGATION · claims not independently verified"
-  },
-  {
     "id": "aaro-uap-official-catalogue",
     "title": "AARO — official UAP imagery catalogue",
     "publisher": "US Department of Defense · AARO",
@@ -34,52 +22,52 @@
     "status": "EYEWITNESS REPORTS · original source"
   },
   {
-    "id": "weaponized-russian-ufo-files",
-    "title": "WEAPONIZED — George Knapp investigates Russian UFO files",
-    "publisher": "Jeremy Corbell · WEAPONIZED",
+    "id": "yt-wuVIWaU2k_A",
+    "title": "Religious Scholar: “UFO Disclosure Is THE APOCALYPSE!”",
+    "publisher": "Jesse Michels — American Alchemy",
     "group": "YouTube",
-    "description": "George Knapp discusses interviews and claims surrounding a reported Soviet military UFO investigation. The claims require separate corroboration.",
-    "source": "https://www.youtube.com/watch?v=hgtymg5E6F0",
-    "youtubeId": "hgtymg5E6F0",
-    "publishedAt": "2023-04-18",
+    "description": "Publisher-supplied alleged UAP recording. This claim has not been independently authenticated. View the original upload for context.",
+    "source": "https://www.youtube.com/watch?v=wuVIWaU2k_A",
+    "youtubeId": "wuVIWaU2k_A",
+    "publishedAt": "2026-10-21",
     "evidenceStatus": "unverified",
-    "status": "JOURNALISM · historical claims not independently verified"
+    "status": "UNVERIFIED CLAIM · publisher-supplied recording; authenticity not established"
   },
   {
-    "id": "weaponized-corbell-knapp-introduction",
-    "title": "WEAPONIZED — Jeremy Corbell and George Knapp",
-    "publisher": "Jeremy Corbell · WEAPONIZED",
+    "id": "yt-gd5D7xm3hYQ",
+    "title": "Chris Ramsay and I visited the actual site of a UFO crash in Aztec, New Mexico.",
+    "publisher": "Jesse Michels — American Alchemy",
     "group": "YouTube",
-    "description": "Official introduction to the investigative series hosted by Jeremy Corbell and George Knapp; reporting and guest allegations are not independently verified findings.",
-    "source": "https://www.youtube.com/watch?v=tKP7Zzi1GrE",
-    "youtubeId": "tKP7Zzi1GrE",
-    "publishedAt": "2023-01-23",
+    "description": "Publisher-supplied alleged UAP recording. This claim has not been independently authenticated. View the original upload for context.",
+    "source": "https://www.youtube.com/watch?v=gd5D7xm3hYQ",
+    "youtubeId": "gd5D7xm3hYQ",
+    "publishedAt": "2026-09-25",
     "evidenceStatus": "unverified",
-    "status": "INDEPENDENT INVESTIGATION · publisher identified"
+    "status": "UNVERIFIED CLAIM · publisher-supplied recording; authenticity not established"
   },
   {
-    "id": "ross-coulthart-road-to-disclosure",
-    "title": "Ross Coulthart — Road to Disclosure",
-    "publisher": "NewsNation · Reality Check with Ross Coulthart",
-    "group": "Research",
-    "description": "NewsNation documentary examining whistleblower allegations, government files and UAP reporting. Journalistic coverage and interview claims are distinct from officially established findings.",
-    "source": "https://www.youtube.com/watch?v=wAur0awdEjw",
-    "youtubeId": "wAur0awdEjw",
-    "publishedAt": "2026-06-13",
-    "evidenceStatus": "traceable",
-    "status": "TRACEABLE SOURCE · journalism, not confirmation of claims"
+    "id": "yt-4dIt1xve3fc",
+    "title": "The Aztec UFO crash was completely overshadowed by Roswell.",
+    "publisher": "Jesse Michels — American Alchemy",
+    "group": "YouTube",
+    "description": "Publisher-supplied alleged UAP recording. This claim has not been independently authenticated. View the original upload for context.",
+    "source": "https://www.youtube.com/watch?v=4dIt1xve3fc",
+    "youtubeId": "4dIt1xve3fc",
+    "publishedAt": "2026-09-24",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · publisher-supplied recording; authenticity not established"
   },
   {
-    "id": "jesse-michels-grusch-interview",
-    "title": "Jesse Michels — David Grusch UFO interview",
-    "publisher": "Jesse Michels / American Alchemy",
+    "id": "yt-gbeLO8miZDc",
+    "title": "We investigated one of the most overlooked cases ever: the Aztec UFO crash",
+    "publisher": "Jesse Michels — American Alchemy",
     "group": "YouTube",
-    "description": "Long-form interview featuring David Grusch. Interviewees' claims are presented as claims, not independently confirmed evidence.",
-    "source": "https://www.youtube.com/watch?v=kRO5jOa06Qw",
-    "youtubeId": "kRO5jOa06Qw",
-    "publishedAt": "2023-09-10",
+    "description": "Publisher-supplied alleged UAP recording. This claim has not been independently authenticated. View the original upload for context.",
+    "source": "https://www.youtube.com/watch?v=gbeLO8miZDc",
+    "youtubeId": "gbeLO8miZDc",
+    "publishedAt": "2026-09-23",
     "evidenceStatus": "unverified",
-    "status": "UNVERIFIED CLAIM · original publisher interview"
+    "status": "UNVERIFIED CLAIM · publisher-supplied recording; authenticity not established"
   },
   {
     "id": "dvids-1023416",
@@ -256,6 +244,18 @@
     "dvidsId": "1023396",
     "publishedAt": "2026-09-18",
     "evidenceStatus": "official"
+  },
+  {
+    "id": "yt-fpUa3xJN64Q",
+    "title": "“I Met The Head Of The Entire UFO Program!” - Grant Cameron",
+    "publisher": "Jesse Michels — American Alchemy",
+    "group": "YouTube",
+    "description": "Publisher-supplied alleged UAP recording. This claim has not been independently authenticated. View the original upload for context.",
+    "source": "https://www.youtube.com/watch?v=fpUa3xJN64Q",
+    "youtubeId": "fpUa3xJN64Q",
+    "publishedAt": "2026-09-15",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · publisher-supplied recording; authenticity not established"
   },
   {
     "id": "dvids-1017793",
@@ -657,6 +657,18 @@
     "evidenceStatus": "official"
   },
   {
+    "id": "ross-coulthart-road-to-disclosure",
+    "title": "Ross Coulthart — Road to Disclosure",
+    "publisher": "NewsNation · Reality Check with Ross Coulthart",
+    "group": "Research",
+    "description": "NewsNation documentary examining whistleblower allegations, government files and UAP reporting. Journalistic coverage and interview claims are distinct from officially established findings.",
+    "source": "https://www.youtube.com/watch?v=wAur0awdEjw",
+    "youtubeId": "wAur0awdEjw",
+    "publishedAt": "2026-06-13",
+    "evidenceStatus": "traceable",
+    "status": "TRACEABLE SOURCE · journalism, not confirmation of claims"
+  },
+  {
     "id": "dvids-1007781",
     "title": "DOW-UAP-PR069 — F/A-18 FLIR (29 sec)",
     "publisher": "All-domain Anomaly Resolution Office / DVIDS",
@@ -717,6 +729,17 @@
     "evidenceStatus": "official"
   },
   {
+    "id": "dvids-1007737",
+    "title": "DOW-UAP-PR098, \"UFOs in formation over Persian Gulf?",
+    "publisher": "DVIDS (US military media service)",
+    "group": "Official",
+    "description": "\"On March 6, 2026, eight members of the U.S. House of Representatives requested access to 51 potentially UAP-related records allegedly held by the Department of War and the Intelligence Community. The All-domain Anomaly Resolution Office (AARO) identified a collection of responsive materials held on a classified network. Many of these materials lac · Government-hosted video; footage alone does not confirm an extraordinary explanation.",
+    "source": "https://www.dvidshub.net/video/1007737/dow-uap-pr098-ufos-formation-over-persian-gulf",
+    "dvidsId": "1007737",
+    "publishedAt": "2026-05-22",
+    "evidenceStatus": "official"
+  },
+  {
     "id": "dvids-1006111",
     "title": "DOW-UAP-PR049 — Army infrared footage (1m49s)",
     "publisher": "All-domain Anomaly Resolution Office / DVIDS",
@@ -727,6 +750,54 @@
     "releaseDate": "2026-05-08",
     "status": "Government-hosted recording · official publication, not confirmation of claim",
     "evidenceStatus": "official"
+  },
+  {
+    "id": "jesse-michels-grusch-interview",
+    "title": "Jesse Michels — David Grusch UFO interview",
+    "publisher": "Jesse Michels / American Alchemy",
+    "group": "YouTube",
+    "description": "Long-form interview featuring David Grusch. Interviewees' claims are presented as claims, not independently confirmed evidence.",
+    "source": "https://www.youtube.com/watch?v=kRO5jOa06Qw",
+    "youtubeId": "kRO5jOa06Qw",
+    "publishedAt": "2023-09-10",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · original publisher interview"
+  },
+  {
+    "id": "weaponized-russian-ufo-files",
+    "title": "WEAPONIZED — George Knapp investigates Russian UFO files",
+    "publisher": "Jeremy Corbell · WEAPONIZED",
+    "group": "YouTube",
+    "description": "George Knapp discusses interviews and claims surrounding a reported Soviet military UFO investigation. The claims require separate corroboration.",
+    "source": "https://www.youtube.com/watch?v=hgtymg5E6F0",
+    "youtubeId": "hgtymg5E6F0",
+    "publishedAt": "2023-04-18",
+    "evidenceStatus": "unverified",
+    "status": "JOURNALISM · historical claims not independently verified"
+  },
+  {
+    "id": "weaponized-skinwalker-cryptids",
+    "title": "WEAPONIZED — Skinwalker Ranch, Cryptids and Unexplained Reports",
+    "publisher": "Jeremy Corbell & George Knapp · WEAPONIZED",
+    "group": "YouTube",
+    "description": "Original discussion of Skinwalker Ranch, cryptid reports and unexplained experiences. Eyewitness accounts and interpretations are not established scientific findings.",
+    "source": "https://www.youtube.com/watch?v=9Q-vkymdpyw",
+    "youtubeId": "9Q-vkymdpyw",
+    "publishedAt": "2023-04-11",
+    "evidenceStatus": "unverified",
+    "status": "ORIGINAL INVESTIGATION · claims not independently verified"
+  },
+  {
+    "id": "weaponized-corbell-knapp-introduction",
+    "title": "WEAPONIZED — Jeremy Corbell and George Knapp",
+    "publisher": "Jeremy Corbell · WEAPONIZED",
+    "group": "YouTube",
+    "description": "Official introduction to the investigative series hosted by Jeremy Corbell and George Knapp; reporting and guest allegations are not independently verified findings.",
+    "source": "https://www.youtube.com/watch?v=tKP7Zzi1GrE",
+    "youtubeId": "tKP7Zzi1GrE",
+    "publishedAt": "2023-01-23",
+    "evidenceStatus": "unverified",
+    "status": "INDEPENDENT INVESTIGATION · publisher identified"
   },
   {
     "id": "nasa-uap-meeting-2023",
