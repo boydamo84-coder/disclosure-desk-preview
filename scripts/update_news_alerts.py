@@ -9,11 +9,13 @@ OUT=ROOT/"data/news-alerts.json"
 QUERIES=[
  '("UAP" OR "UFO") (Pentagon OR Congress OR NASA OR government OR hearing)',
  '("unidentified anomalous phenomena" OR "UFO") (investigation OR official OR report)',
- '("alien" OR "extraterrestrial") (scientists OR space agency OR investigation)'
+ '("alien" OR "extraterrestrial") (scientists OR space agency OR investigation)',
+ '("Skinwalker Ranch" OR "cryptid" OR "Bigfoot") (research OR investigation OR evidence)',
+ '("alien abduction" OR "close encounter" OR "unexplained phenomena") (investigation OR testimony OR report)'
 ]
 PUBLISHERS=("Reuters","Associated Press","AP News","BBC","The Guardian","Sky News","CNN","ABC News","NBC News","CBS News","The New York Times","The Washington Post","AFP","France 24","Al Jazeera","DW","Euronews","CBC","The Independent")
-RELEVANCE=re.compile(r'\b(uap|ufo|unidentified anomalous|unidentified aerial|alien|extraterrestrial)\b',re.I)
-MAJOR=re.compile(r'\b(nasa|pentagon|congress|hearing|official|government|military|agency|scientist|report|disclosure|investigation|releases?|reveals?)\b',re.I)
+RELEVANCE=re.compile(r'\b(uap|ufo|unidentified anomalous|unidentified aerial|alien|extraterrestrial|skinwalker ranch|cryptids?|bigfoot|sasquatch|alien abduction|close encounter|unexplained phenomena)\b',re.I)
+MAJOR=re.compile(r'\b(pentagon|congress|nasa|aar o|aaro|department of defense|ministry of defence|government|official|military|hearing|declassified|released files|new documents)\b',re.I)
 def collect(query):
     url="https://news.google.com/rss/search?"+urllib.parse.urlencode({"q":query,"hl":"en-GB","gl":"GB","ceid":"GB:en"})
     req=urllib.request.Request(url,headers={"User-Agent":"DisclosureDeskResearch/1.0"})
@@ -37,6 +39,24 @@ def collect(query):
         uid=hashlib.sha256((clean.lower()+"|"+publisher).encode()).hexdigest()[:20]
         found.append(dict(id=uid,headline=clean,source=publisher,url=link,date=published.isoformat(),category="UAP",priority=("major" if MAJOR.search(clean) else "standard")) )
     return found
+def similar(a,b):
+    """Compare substantive title words to remove syndicated/rewritten duplicates."""
+    stop={"the","a","an","of","in","on","at","over","new","from","and","to","for","with","as","ufo","uap","files","report","reports","detail","details","reveals","reveal"}
+    def words(e):
+        return {w for w in re.findall(r"[a-z0-9]+",(e.get("headline") or "").lower()) if len(w)>2 and w not in stop}
+    x,y=words(a),words(b)
+    if len(x)<3 or len(y)<3:return False
+    return len(x & y)/min(len(x),len(y))>=0.78
+
+def consolidate(entries):
+    retained=[]
+    for entry in sorted(entries,key=lambda x:x["date"],reverse=True):
+        # Only merge articles from the same publisher on the same subject.
+        if any(entry.get("source")==other.get("source") and similar(entry,other) for other in retained):
+            continue
+        retained.append(entry)
+    return retained
+
 def main():
     unique={}
     # Retain previously collected articles for up to seven days, so a quiet
@@ -57,7 +77,7 @@ def main():
                 unique[entry["id"]]=entry
                 fetched+=1
         except Exception as e:print("News source unavailable:",str(e)[:130])
-    recent=sorted(unique.values(),key=lambda x:x["date"],reverse=True)[:60]
+    recent=consolidate(unique.values())[:60]
     if not recent:
         print("No eligible sourced reports found within seven days; feed remains empty")
     OUT.write_text(json.dumps(recent,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
