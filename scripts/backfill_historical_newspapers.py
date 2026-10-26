@@ -64,11 +64,13 @@ def main():
     parser.add_argument("--pages-per-query",type=int,default=2)
     parser.add_argument("--max-records",type=int,default=350)
     parser.add_argument("--max-queries",type=int,default=8)
+    parser.add_argument("--term-offset",type=int,default=0)
     args=parser.parse_args()
     if not 1860<=args.start_year<=args.end_year<=1963: parser.error("LOC historical pilot supports 1860–1963")
     if not 1<=args.pages_per_query<=4:parser.error("pages-per-query must be between 1 and 4")
     if not 1<=args.max_records<=2000:parser.error("max-records must be 1–2000")
     if not 1<=args.max_queries<=30:parser.error("max-queries must be 1–30")
+    if not 0<=args.term_offset<len(TERMS):parser.error("term-offset out of range")
     existing=json.loads(OUTPUT.read_text(encoding="utf-8"))
     if not isinstance(existing,list):raise ValueError("Existing archive must be a JSON array")
     records={x["id"]:x for x in existing if isinstance(x,dict) and x.get("id")}
@@ -80,7 +82,7 @@ def main():
     term_added={}
     seen_this_run=set()
     for year in range(args.start_year,args.end_year+1):
-        for term in TERMS:
+        for term in TERMS[args.term_offset:]:
             for page in range(1,args.pages_per_query+1):
                 if added>=args.max_records or attempts>=args.max_queries:break
                 attempts+=1
