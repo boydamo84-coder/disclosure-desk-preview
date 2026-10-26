@@ -29,7 +29,7 @@ jobs:
           import {join} from 'node:path';
           import {execFileSync} from 'node:child_process';
           const html=readFileSync('index.html','utf8');
-          const scripts=[...html.matchAll(/<script(?:\\s[^>]*)?>([\\s\\S]*?)<\\/script>/gi)].map(m=>m[1]).filter(s=>s.trim());
+          const scripts=[...html.matchAll(new RegExp('<script(?:\\s[^>]*)?>([\\s\\S]*?)</script>','gi'))].map(m=>m[1]).filter(s=>s.trim());
           if(!scripts.length)throw Error('No inline application JavaScript found');
           const dir=mkdtempSync(join(tmpdir(),'dd-check-'));
           scripts.forEach((script,i)=>{const file=join(dir,'script-'+i+'.js');writeFileSync(file,script);execFileSync('node',['--check',file],{stdio:'inherit'})});
