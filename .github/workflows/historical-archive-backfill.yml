@@ -1,0 +1,58 @@
+name: Historical newspaper archive backfill
+on:
+  workflow_dispatch:
+    inputs:
+      start_year:
+        description: "First year (1860–1963)"
+        required: true
+        default: "1947"
+      end_year:
+        description: "Last year (1860–1963)"
+        required: true
+        default: "1952"
+      pages_per_query:
+        description: "Pages per search term (1–4)"
+        required: true
+        default: "2"
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: disclosure-historical-import
+  cancel-in-progress: false
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Import attributed historical newspaper page records
+        env:
+          START_YEAR: ${{ inputs.start_year }}
+          END_YEAR: ${{ inputs.end_year }}
+          PAGES_PER_QUERY: ${{ inputs.pages_per_query }}
+        run: python scripts/backfill_historical_newspapers.py --start-year "$START_YEAR" --end-year "$END_YEAR" --pages-per-query "$PAGES_PER_QUERY"
+      - name: Validate archive JSON
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          rows=json.loads(Path('data/historical-news-archive.json').read_text())
+          assert isinstance(rows,list)
+          assert len({r['id'] for r in rows})==len(rows)
+          assert all(r['url'].startswith('https://www.loc.gov/') or not r['id'].startswith('loc-') for r in rows)
+          print('Validated',len(rows),'historical archive records')
+          PY
+      - name: Commit archive metadata
+        run: |
+          git config user.name "Disclosure Desk Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/historical-news-archive.json
+          git diff --cached --quiet || (git commit -m "Backfill dated Library of Congress newspaper pages" && git push)
+      - name: Publish updated archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --ref main
