@@ -12,3 +12,5 @@ android {
     buildTypes { getByName("release") { isMinifyEnabled = false } }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
 }
+
+dependencies { implementation("androidx.work:work-runtime:2.9.1") }
