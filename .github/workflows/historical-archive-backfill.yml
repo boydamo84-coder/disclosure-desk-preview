@@ -10,6 +10,10 @@ on:
         description: "Last year (1860–1963)"
         required: true
         default: "1952"
+      term_offset:
+        description: "Skip first N search terms (0–11) for later batches"
+        required: true
+        default: "0"
       pages_per_query:
         description: "Pages per search term (1–4)"
         required: true
@@ -34,7 +38,8 @@ jobs:
           START_YEAR: ${{ inputs.start_year }}
           END_YEAR: ${{ inputs.end_year }}
           PAGES_PER_QUERY: ${{ inputs.pages_per_query }}
-        run: python scripts/backfill_historical_newspapers.py --start-year "$START_YEAR" --end-year "$END_YEAR" --pages-per-query "$PAGES_PER_QUERY"
+          TERM_OFFSET: ${{ inputs.term_offset }}
+        run: python scripts/backfill_historical_newspapers.py --start-year "$START_YEAR" --end-year "$END_YEAR" --pages-per-query "$PAGES_PER_QUERY" --term-offset "$TERM_OFFSET"
       - name: Validate archive JSON
         run: |
           python - <<'PY'
