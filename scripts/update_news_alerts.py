@@ -34,7 +34,7 @@ def collect(query):
         date=item.findtext("pubDate") or ""
         try:published=parsedate_to_datetime(date).astimezone(dt.timezone.utc)
         except:continue
-        if not dt.timedelta(0)<=now-published<=dt.timedelta(days=7):continue
+        if not dt.timedelta(0)<=now-published<=dt.timedelta(days=183):continue
         clean=re.sub(r"\s+-\s+"+re.escape(publisher)+r"$","",title).strip()
         uid=hashlib.sha256((clean.lower()+"|"+publisher).encode()).hexdigest()[:20]
         found.append(dict(id=uid,headline=clean,source=publisher,url=link,date=published.isoformat(),category="UAP",priority=("major" if MAJOR.search(clean) else "standard")) )
@@ -59,7 +59,7 @@ def consolidate(entries):
 
 def main():
     unique={}
-    # Retain previously collected articles for up to seven days, so a quiet
+    # Retain previously collected articles for up to approximately six months, so a quiet
     # news cycle or temporary RSS outage doesn't blank the live news tab.
     now=dt.datetime.now(dt.timezone.utc)
     try:
@@ -77,9 +77,9 @@ def main():
                 unique[entry["id"]]=entry
                 fetched+=1
         except Exception as e:print("News source unavailable:",str(e)[:130])
-    recent=consolidate(unique.values())[:60]
+    recent=consolidate(unique.values())[:1200]
     if not recent:
-        print("No eligible sourced reports found within seven days; feed remains empty")
+        print("No eligible sourced reports found within six months; feed remains empty")
     OUT.write_text(json.dumps(recent,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     print(f"Prepared {len(recent)} attributed world-media UAP headlines ({fetched} retrieved in this run)")
 if __name__=="__main__":main()
