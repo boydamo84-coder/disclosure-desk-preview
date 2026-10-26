@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.Settings;
+import java.text.DateFormat;
+import java.util.Date;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -131,6 +134,34 @@ public final class MainActivity extends Activity {
             WorkManager.getInstance(this).enqueueUniqueWork("dd-test-notification",ExistingWorkPolicy.REPLACE,req);
             android.widget.Toast.makeText(this,"TEST scheduled. Close the app; Android can delay background jobs.",android.widget.Toast.LENGTH_LONG).show();
         });
+        Button checkNow=new Button(this);
+        checkNow.setAllCaps(false);
+        checkNow.setText("Check live feeds now");
+        choices.addView(checkNow);
+        checkNow.setOnClickListener(v->{
+            OneTimeWorkRequest req=new OneTimeWorkRequest.Builder(DiscoveryWorker.class).build();
+            WorkManager.getInstance(this).enqueueUniqueWork("dd-manual-check",ExistingWorkPolicy.REPLACE,req);
+            android.widget.Toast.makeText(this,"Feed check queued. Reopen settings to see the result.",android.widget.Toast.LENGTH_LONG).show();
+        });
+        TextView status=new TextView(this);
+        long checked=prefs.getLong("last-check-time",0);
+        status.setText("Last feed check: "+(checked>0?DateFormat.getDateTimeInstance().format(new Date(checked))+"\n":"")+prefs.getString("last-check-summary","Not checked yet"));
+        status.setTextSize(12);
+        status.setPadding(0,dp(10),0,dp(8));
+        choices.addView(status);
+        Button battery=new Button(this);
+        battery.setAllCaps(false);
+        battery.setText("Battery settings / notification help");
+        choices.addView(battery);
+        battery.setOnClickListener(v->
+            new AlertDialog.Builder(this).setTitle("Background notifications")
+             .setMessage("Samsung battery restrictions may delay background checks. For more reliable alerts, open app settings, choose Battery, then Unrestricted if available. This is optional, may increase battery usage and does not guarantee instant alerts.")
+             .setNegativeButton("Cancel",null)
+             .setPositiveButton("Open settings",(d,which)->{
+                try{startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,Uri.parse("package:"+getPackageName())));}
+                catch(Exception ignored){}
+             }).show()
+        );
         new AlertDialog.Builder(this).setTitle("Discovery alerts")
           .setMessage("Optional alerts. Checks run approximately every 2 hours. You will not get an alert for the existing library. News comes from attributed mainstream media reporting, not verified proof of extraordinary claims.")
           .setView(choices).setNegativeButton("Cancel",null)
