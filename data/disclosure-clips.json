@@ -1,0 +1,162 @@
+[
+  {
+    "id": "dvids-1017793",
+    "title": "DOW-UAP-PR117 — Gulf of Oman (16 sec)",
+    "publisher": "All-domain Anomaly Resolution Office / DVIDS",
+    "group": "Official",
+    "description": "Secondary phone recording of an AC-130J infrared display from 2021; visual artifacts and provenance limits are documented.",
+    "source": "https://www.dvidshub.net/video/1017793",
+    "dvidsId": "1017793",
+    "releaseDate": "2026-08-07",
+    "status": "Government-hosted recording · official publication, not confirmation of claim",
+    "evidenceStatus": "official"
+  },
+  {
+    "id": "dvids-1017802",
+    "title": "DOW-UAP-PR121 — Gulf of Oman (34 sec)",
+    "publisher": "All-domain Anomaly Resolution Office / DVIDS",
+    "group": "Official",
+    "description": "AARO-published 2021 secondary capture of a military infrared display; overlaps another clip in the release.",
+    "source": "https://www.dvidshub.net/video/1017802",
+    "dvidsId": "1017802",
+    "releaseDate": "2026-08-07",
+    "status": "Government-hosted recording · official publication, not confirmation of claim",
+    "evidenceStatus": "official"
+  },
+  {
+    "id": "dvids-1006111",
+    "title": "DOW-UAP-PR049 — Army infrared footage (1m49s)",
+    "publisher": "All-domain Anomaly Resolution Office / DVIDS",
+    "group": "Official",
+    "description": "Two areas of contrast tracked by a military infrared sensor. No extraordinary interpretation established.",
+    "source": "https://www.dvidshub.net/video/1006111",
+    "dvidsId": "1006111",
+    "releaseDate": "2026-05-08",
+    "status": "Government-hosted recording · official publication, not confirmation of claim",
+    "evidenceStatus": "official"
+  },
+  {
+    "id": "dvids-1007781",
+    "title": "DOW-UAP-PR069 — F/A-18 FLIR (29 sec)",
+    "publisher": "All-domain Anomaly Resolution Office / DVIDS",
+    "group": "Official",
+    "description": "Released infrared footage; AARO notes uncertain chain of custody for this batch.",
+    "source": "https://www.dvidshub.net/video/1007781",
+    "dvidsId": "1007781",
+    "releaseDate": "2026-05-22",
+    "status": "Government-hosted recording · official publication, not confirmation of claim",
+    "evidenceStatus": "official"
+  },
+  {
+    "id": "dvids-1007709",
+    "title": "DOW-UAP-PR053 — October 2022 infrared clip (21 sec)",
+    "publisher": "All-domain Anomaly Resolution Office / DVIDS",
+    "group": "Official",
+    "description": "Video includes slowed replays and was digitally altered before submission; title is uploader-defined.",
+    "source": "https://www.dvidshub.net/video/1007709",
+    "dvidsId": "1007709",
+    "releaseDate": "2026-05-22",
+    "status": "Government-hosted recording · official publication, not confirmation of claim",
+    "evidenceStatus": "official"
+  },
+  {
+    "id": "dvids-1007797",
+    "title": "DOW-UAP-PR086 — East Coast 2019 (34 sec)",
+    "publisher": "All-domain Anomaly Resolution Office / DVIDS",
+    "group": "Official",
+    "description": "Infrared sensor footage, provenance not fully substantiated; source describes contrast changes.",
+    "source": "https://www.dvidshub.net/video/1007797",
+    "dvidsId": "1007797",
+    "releaseDate": "2026-05-22",
+    "status": "Government-hosted recording · official publication, not confirmation of claim",
+    "evidenceStatus": "official"
+  },
+  {
+    "id": "dvids-1007707",
+    "title": "DOW-UAP-PR051 — Syria 2021 (5m02s)",
+    "publisher": "All-domain Anomaly Resolution Office / DVIDS",
+    "group": "Official",
+    "description": "Uploader-titled instant acceleration; media had been digitally altered before AARO received it.",
+    "source": "https://www.dvidshub.net/video/1007707",
+    "dvidsId": "1007707",
+    "releaseDate": "2026-05-22",
+    "status": "Government-hosted recording · official publication, not confirmation of claim",
+    "evidenceStatus": "official"
+  },
+  {
+    "id": "dvids-1007708",
+    "title": "DOW-UAP-PR052 — USO formation report (8m16s)",
+    "publisher": "All-domain Anomaly Resolution Office / DVIDS",
+    "group": "Official",
+    "description": "Four contrast areas are visible in parts of a recording. An anomalous explanation is not established.",
+    "source": "https://www.dvidshub.net/video/1007708",
+    "dvidsId": "1007708",
+    "releaseDate": "2026-05-22",
+    "status": "Government-hosted recording · official publication, not confirmation of claim",
+    "evidenceStatus": "official"
+  },
+  {
+    "id": "cbs-2026-release-05-coverage",
+    "title": "CBS News — 16 newly released government UAP videos",
+    "publisher": "CBS News (verified publisher)",
+    "group": "Research",
+    "description": "News compilation of August 2026 government video releases. Journalistic compilation; check linked government records for original footage and provenance.",
+    "source": "https://www.youtube.com/watch?v=DAofoWG5Lwg",
+    "youtubeId": "DAofoWG5Lwg",
+    "releaseDate": "2026-08-07",
+    "status": "Publisher video · government release coverage",
+    "evidenceStatus": "traceable"
+  },
+  {
+    "id": "nasa-uap-meeting-2023",
+    "title": "NASA UAP Study — Public Meeting",
+    "publisher": "NASA Video (official YouTube channel)",
+    "group": "Official",
+    "description": "NASA's May 2023 public study meeting on data collection and scientific examination of UAP. Full-length event rather than a short sighting video.",
+    "source": "https://www.youtube.com/watch?v=bQo08JRY0iM",
+    "youtubeId": "bQo08JRY0iM",
+    "status": "Official NASA meeting · playable YouTube embed",
+    "evidenceStatus": "official"
+  },
+  {
+    "id": "nasa-uap-briefing-2023",
+    "title": "NASA UAP Independent Study — Official Report Briefing",
+    "publisher": "NASA (verified YouTube channel)",
+    "group": "Official",
+    "description": "NASA's September 2023 briefing about how to investigate UAP scientifically. Official source is verified; it is not proof of extraterrestrial activity. Full-length briefing, not a short incident clip.",
+    "source": "https://www.youtube.com/watch?v=TQcqOW39ksk",
+    "youtubeId": "TQcqOW39ksk",
+    "status": "Official NASA briefing · playable YouTube embed",
+    "evidenceStatus": "official"
+  },
+  {
+    "id": "aaro-pr018-2024",
+    "title": "PR-018 — Europe 2024 infrared observation",
+    "publisher": "All-domain Anomaly Resolution Office (AARO)",
+    "group": "Official",
+    "description": "Government-published footage. AARO describes the report as unresolved but says its observed characteristics do not warrant further analysis. View footage and context at the source.",
+    "source": "https://www.aaro.mil/UAP-Cases/Official-UAP-Imagery/4/",
+    "status": "Official release · watch at source",
+    "evidenceStatus": "official"
+  },
+  {
+    "id": "aaro-middle-east-object",
+    "title": "Middle East Object — MQ-9 video",
+    "publisher": "All-domain Anomaly Resolution Office (AARO)",
+    "group": "Official",
+    "description": "AARO-published MQ-9 recording. AARO says the object remains unidentified but shows no anomalous behaviour.",
+    "source": "https://www.aaro.mil/UAP-Cases/Official-UAP-Imagery/4/",
+    "status": "Official release · watch at source",
+    "evidenceStatus": "official"
+  },
+  {
+    "id": "aaro-flyby-2021",
+    "title": "Navy Flyby — 2021 footage",
+    "publisher": "All-domain Anomaly Resolution Office (AARO)",
+    "group": "Official",
+    "description": "An official imagery record with cockpit footage and context about apparent relative speed. No extraordinary origin is established.",
+    "source": "https://www.aaro.mil/UAP-Cases/Official-UAP-Imagery/4/",
+    "status": "Official release · watch at source",
+    "evidenceStatus": "official"
+  }
+]
