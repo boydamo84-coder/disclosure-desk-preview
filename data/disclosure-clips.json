@@ -1,5 +1,51 @@
 [
   {
+    "id": "aaro-uap-official-catalogue",
+    "title": "AARO — official UAP imagery catalogue",
+    "publisher": "US Department of Defense · AARO",
+    "group": "Official",
+    "description": "Government-maintained UAP release checklist. Linked here for individual footage reconciliation; being officially released does not establish unusual origin.",
+    "source": "https://www.aaro.mil/Next-AARO-Home-redesign/Next-Parent/Next-AARO-UAP-Imagery-Acc-Table/",
+    "publishedAt": "2026-10-26",
+    "evidenceStatus": "official",
+    "status": "OFFICIAL GOVERNMENT CATALOGUE · source link"
+  },
+  {
+    "id": "mufon-investigations-directory",
+    "title": "MUFON — UFO reports and investigations",
+    "publisher": "MUFON · civilian investigative organisation",
+    "group": "Research",
+    "description": "MUFON's official source for civilian eyewitness reports and investigations. Some MUFON TV recordings require membership and must not be rehosted.",
+    "source": "https://mufon.com/",
+    "publishedAt": "2026-10-26",
+    "evidenceStatus": "unverified",
+    "status": "EYEWITNESS REPORTS · original source"
+  },
+  {
+    "id": "weaponized-russian-ufo-files",
+    "title": "WEAPONIZED — George Knapp investigates Russian UFO files",
+    "publisher": "Jeremy Corbell · WEAPONIZED",
+    "group": "YouTube",
+    "description": "George Knapp discusses interviews and claims surrounding a reported Soviet military UFO investigation. The claims require separate corroboration.",
+    "source": "https://www.youtube.com/watch?v=hgtymg5E6F0",
+    "youtubeId": "hgtymg5E6F0",
+    "publishedAt": "2023-04-18",
+    "evidenceStatus": "unverified",
+    "status": "JOURNALISM · historical claims not independently verified"
+  },
+  {
+    "id": "weaponized-corbell-knapp-introduction",
+    "title": "WEAPONIZED — Jeremy Corbell and George Knapp",
+    "publisher": "Jeremy Corbell · WEAPONIZED",
+    "group": "YouTube",
+    "description": "Official introduction to the investigative series hosted by Jeremy Corbell and George Knapp; reporting and guest allegations are not independently verified findings.",
+    "source": "https://www.youtube.com/watch?v=tKP7Zzi1GrE",
+    "youtubeId": "tKP7Zzi1GrE",
+    "publishedAt": "2023-01-23",
+    "evidenceStatus": "unverified",
+    "status": "INDEPENDENT INVESTIGATION · publisher identified"
+  },
+  {
     "id": "ross-coulthart-road-to-disclosure",
     "title": "Ross Coulthart — Road to Disclosure",
     "publisher": "NewsNation · Reality Check with Ross Coulthart",
