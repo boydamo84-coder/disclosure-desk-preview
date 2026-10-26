@@ -18,6 +18,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check embedded JavaScript before publishing
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFileSync,writeFileSync,mkdtempSync} from 'node:fs';
+          import {tmpdir} from 'node:os';
+          import {join} from 'node:path';
+          import {execFileSync} from 'node:child_process';
+          const html=readFileSync('index.html','utf8');
+          const scripts=[...html.matchAll(/<script(?:\\s[^>]*)?>([\\s\\S]*?)<\\/script>/gi)].map(m=>m[1]).filter(s=>s.trim());
+          if(!scripts.length)throw Error('No inline application JavaScript found');
+          const dir=mkdtempSync(join(tmpdir(),'dd-check-'));
+          scripts.forEach((script,i)=>{const file=join(dir,'script-'+i+'.js');writeFileSync(file,script);execFileSync('node',['--check',file],{stdio:'inherit'})});
+          const clips=JSON.parse(readFileSync('data/disclosure-clips.json','utf8'));
+          if(!Array.isArray(clips)||clips.length<10)throw Error('Invalid or unexpectedly small public video catalogue');
+          const ids=new Set();
+          for(const c of clips){if(!c||!c.id||!c.title||!c.source||ids.has(c.id))throw Error('Malformed or duplicate video: '+c?.id);ids.add(c.id)}
+          console.log('Validated '+scripts.length+' script(s) and '+clips.length+' video records');
+          NODE
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
