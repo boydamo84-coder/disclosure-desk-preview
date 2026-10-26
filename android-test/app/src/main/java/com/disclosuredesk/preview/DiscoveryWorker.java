@@ -20,6 +20,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
+import java.time.OffsetDateTime;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Set;
 
 public final class DiscoveryWorker extends Worker {
@@ -45,7 +48,14 @@ public final class DiscoveryWorker extends Worker {
             for(int i=0;i<entries.length();i++){
                 JSONObject c=entries.optJSONObject(i);
                 if(c==null)continue;
-                if(!video && !"major".equals(c.optString("priority","standard")))continue;
+                if(!video){
+                    if(!"major".equals(c.optString("priority","standard")))continue;
+                    try{
+                        Instant published=OffsetDateTime.parse(c.optString("date","")).toInstant();
+                        long hours=Duration.between(published,Instant.now()).toHours();
+                        if(hours<0 || hours>48)continue;
+                    }catch(Exception badDate){continue;}
+                }
                 if(video && (c.optBoolean("videoAvailable",true)==false || !(c.has("youtubeId")||c.has("dvidsId")||c.has("media"))))continue;
                 String id=c.optString("id","");
                 if(!id.isEmpty())current.add(id);
