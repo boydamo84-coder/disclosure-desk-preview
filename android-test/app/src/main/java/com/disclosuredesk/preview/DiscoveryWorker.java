@@ -59,26 +59,33 @@ public final class DiscoveryWorker extends Worker {
         }catch(Exception ex){android.util.Log.w("DisclosureDesk","Alert check deferred: "+type);}
     }
     @NonNull @Override public Result doWork(){
+        if(getInputData().getBoolean("dd_test",false)){
+            sendNotification("test","TEST · Disclosure Desk","Background alert test — not a real news story.",503);
+            return Result.success();
+        }
         SharedPreferences p=getApplicationContext().getSharedPreferences(PREFS,Context.MODE_PRIVATE);
         check("videos","disclosure-clips.json",true,p);
         check("news","news-alerts.json",false,p);
         return Result.success();
     }
     private void notifyUser(String type,int count){
+        String title=type.equals("news")?"Disclosure Desk: news updates":"Disclosure Desk: fresh videos";
+        String message=count+(type.equals("news")?" new major-media UAP headline":" new playable video")+(count==1?"":"s");
+        sendNotification(type,title,message,type.equals("news")?502:501);
+    }
+    private void sendNotification(String type,String title,String message,int notificationId){
         Context ctx=getApplicationContext();
         if(Build.VERSION.SDK_INT>=33&&ctx.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)!=PackageManager.PERMISSION_GRANTED)return;
         NotificationManager mgr=(NotificationManager)ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         if(mgr==null)return;
         String channel="dd-"+type;
-        mgr.createNotificationChannel(new NotificationChannel(channel,type.equals("news")?"Major-media UAP news":"Fresh video discoveries",NotificationManager.IMPORTANCE_DEFAULT));
+        mgr.createNotificationChannel(new NotificationChannel(channel,type.equals("news")?"Major-media UAP news":type.equals("test")?"Test alerts":"Fresh video discoveries",NotificationManager.IMPORTANCE_DEFAULT));
         Intent open=new Intent(ctx,MainActivity.class);
         open.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent intent=PendingIntent.getActivity(ctx,0,open,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
-        String title=type.equals("news")?"Disclosure Desk: news updates":"Disclosure Desk: fresh videos";
-        String message=count+(type.equals("news")?" new major-media UAP headline":" new playable video")+(count==1?"":"s");
+        PendingIntent intent=PendingIntent.getActivity(ctx,notificationId,open,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
         Notification notice=new Notification.Builder(ctx,channel)
             .setSmallIcon(android.R.drawable.ic_menu_search).setContentTitle(title).setContentText(message)
             .setContentIntent(intent).setAutoCancel(true).build();
-        mgr.notify(type.equals("news")?502:501,notice);
+        mgr.notify(notificationId,notice);
     }
 }
