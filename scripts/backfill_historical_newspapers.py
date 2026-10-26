@@ -83,6 +83,7 @@ def main():
     term_added={}
     seen_this_run=set()
     for year in range(args.start_year,args.end_year+1):
+        if consecutive_failures>=3:break
         for term in TERMS[args.term_offset:]:
             for page in range(1,args.pages_per_query+1):
                 if added>=args.max_records or attempts>=args.max_queries or consecutive_failures>=3:break
