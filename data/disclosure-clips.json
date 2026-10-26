@@ -1,5 +1,29 @@
 [
   {
+    "id": "ross-coulthart-road-to-disclosure",
+    "title": "Ross Coulthart — Road to Disclosure",
+    "publisher": "NewsNation · Reality Check with Ross Coulthart",
+    "group": "Research",
+    "description": "NewsNation documentary examining whistleblower allegations, government files and UAP reporting. Journalistic coverage and interview claims are distinct from officially established findings.",
+    "source": "https://www.youtube.com/watch?v=wAur0awdEjw",
+    "youtubeId": "wAur0awdEjw",
+    "publishedAt": "2026-06-13",
+    "evidenceStatus": "traceable",
+    "status": "TRACEABLE SOURCE · journalism, not confirmation of claims"
+  },
+  {
+    "id": "jesse-michels-grusch-interview",
+    "title": "Jesse Michels — David Grusch UFO interview",
+    "publisher": "Jesse Michels / American Alchemy",
+    "group": "YouTube",
+    "description": "Long-form interview featuring David Grusch. Interviewees' claims are presented as claims, not independently confirmed evidence.",
+    "source": "https://www.youtube.com/watch?v=kRO5jOa06Qw",
+    "youtubeId": "kRO5jOa06Qw",
+    "publishedAt": "2023-09-10",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · original publisher interview"
+  },
+  {
     "id": "dvids-1023416",
     "title": "LLE-UAP-PR004, Unresolved UAP Report, Colorado, October 2023",
     "publisher": "DVIDS (US military media service)",
