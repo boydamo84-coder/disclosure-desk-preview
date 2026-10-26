@@ -1,0 +1,54 @@
+[
+  {
+    "id": "archive-bluebook",
+    "title": "Project Blue Book UFO investigation records (1947–1969)",
+    "source": "US National Archives",
+    "url": "https://www.archives.gov/research/military/air-force/ufos",
+    "year": 1947,
+    "endYear": 1969,
+    "category": "UAP",
+    "kind": "Government records collection",
+    "description": "Original US Air Force case records and investigations. Year refers to the beginning of the record series, not the web page publication."
+  },
+  {
+    "id": "archive-nara-uap",
+    "title": "National Archives UAP records and historical collections",
+    "source": "US National Archives",
+    "url": "https://www.archives.gov/research/topics/uaps",
+    "year": 2024,
+    "category": "Government disclosure",
+    "kind": "Government archive index",
+    "description": "Official UAP records catalogue including material transferred by US government agencies. This is an archive index, not a single 2024 news article."
+  },
+  {
+    "id": "archive-nasa-2023",
+    "title": "NASA UAP Independent Study final report",
+    "source": "NASA",
+    "url": "https://science.nasa.gov/uap/",
+    "year": 2023,
+    "category": "UAP",
+    "kind": "Scientific report",
+    "description": "NASA published its independent study team's final report on 14 September 2023."
+  },
+  {
+    "id": "archive-nara-2025",
+    "title": "National Archives releases UAP records",
+    "source": "US National Archives",
+    "url": "https://www.archives.gov/press/press-releases/2025/nr25-07",
+    "year": 2025,
+    "category": "Government disclosure",
+    "kind": "Original press release",
+    "description": "Official 24 April 2025 release describing newly transferred UAP records."
+  },
+  {
+    "id": "archive-nara-downloads",
+    "title": "Historical UAP records: downloadable collections",
+    "source": "US National Archives",
+    "url": "https://www.archives.gov/research/catalog/catalog-bulk-downloads/uap-bulk-download",
+    "year": 1947,
+    "endYear": 1969,
+    "category": "UAP",
+    "kind": "Archive collection",
+    "description": "Access Project Blue Book case-file records from 1947–1969. Dates describe record coverage, not the publication date of this archive webpage."
+  }
+]
