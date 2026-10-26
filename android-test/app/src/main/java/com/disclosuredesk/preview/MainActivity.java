@@ -14,6 +14,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.Gravity;
+import android.view.WindowInsets;
+import android.os.Build;
 import android.graphics.Color;
 import android.webkit.WebChromeClient.CustomViewCallback;
 
@@ -39,6 +41,15 @@ public final class MainActivity extends Activity {
         splash=launch;
         root.addView(launch,new FrameLayout.LayoutParams(-1,-1));
         setContentView(root);
+        // Android 15+ enforces edge-to-edge for target SDK 35. Keep web content below the status bar.
+        if(Build.VERSION.SDK_INT >= 35){
+            root.setOnApplyWindowInsetsListener((view,insets)->{
+                int top=insets.getInsets(WindowInsets.Type.statusBars()).top;
+                view.setPadding(0,top,0,0);
+                return insets;
+            });
+            root.requestApplyInsets();
+        }
         web.setBackgroundColor(Color.rgb(9,16,28));
         WebSettings settings=web.getSettings();
         settings.setJavaScriptEnabled(true);
