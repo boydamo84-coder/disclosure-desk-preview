@@ -34,7 +34,7 @@ def collect(query):
         date=item.findtext("pubDate") or ""
         try:published=parsedate_to_datetime(date).astimezone(dt.timezone.utc)
         except:continue
-        if not dt.timedelta(0)<=now-published<=dt.timedelta(days=183):continue
+        if not dt.timedelta(0)<=now-published<=dt.timedelta(days=365):continue
         clean=re.sub(r"\s+-\s+"+re.escape(publisher)+r"$","",title).strip()
         uid=hashlib.sha256((clean.lower()+"|"+publisher).encode()).hexdigest()[:20]
         found.append(dict(id=uid,headline=clean,source=publisher,url=link,date=published.isoformat(),category="UAP",priority=("major" if MAJOR.search(clean) else "standard")) )
@@ -59,14 +59,14 @@ def consolidate(entries):
 
 def main():
     unique={}
-    # Retain previously collected articles for up to approximately six months, so a quiet
+    # Retain previously collected articles for up to one year, so a quiet
     # news cycle or temporary RSS outage doesn't blank the live news tab.
     now=dt.datetime.now(dt.timezone.utc)
     try:
         prior=json.loads(OUT.read_text(encoding="utf-8"))
         for entry in prior if isinstance(prior,list) else []:
             published=dt.datetime.fromisoformat(entry["date"].replace("Z","+00:00"))
-            if dt.timedelta(0)<=now-published<=dt.timedelta(days=7) and entry.get("id") and entry.get("url","").startswith("https://"):
+            if dt.timedelta(0)<=now-published<=dt.timedelta(days=365) and entry.get("id") and entry.get("url","").startswith("https://"):
                 unique[entry["id"]]=entry
     except (OSError,ValueError,KeyError,TypeError) as exc:
         print("Previous catalogue unavailable:",type(exc).__name__)
@@ -79,7 +79,7 @@ def main():
         except Exception as e:print("News source unavailable:",str(e)[:130])
     recent=consolidate(unique.values())[:1200]
     if not recent:
-        print("No eligible sourced reports found within six months; feed remains empty")
+        print("No eligible sourced reports found within one year; feed remains empty")
     OUT.write_text(json.dumps(recent,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     print(f"Prepared {len(recent)} attributed world-media UAP headlines ({fetched} retrieved in this run)")
 if __name__=="__main__":main()
