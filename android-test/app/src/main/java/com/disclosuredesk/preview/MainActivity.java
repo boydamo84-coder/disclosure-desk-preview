@@ -19,6 +19,9 @@ import android.widget.LinearLayout;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import androidx.work.PeriodicWorkRequest;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.Data;
+import androidx.work.ExistingWorkPolicy;
 import androidx.work.WorkManager;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import java.util.concurrent.TimeUnit;
@@ -113,6 +116,21 @@ public final class MainActivity extends Activity {
         news.setText("Major-media UAP news");
         news.setChecked(prefs.getBoolean("news",false));
         choices.addView(footage);choices.addView(news);
+        Button test=new Button(this);
+        test.setText("Schedule TEST alert (about 1 minute)");
+        test.setAllCaps(false);
+        choices.addView(test);
+        test.setOnClickListener(v->{
+            if(Build.VERSION.SDK_INT>=33 && checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED){
+                requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS},712);
+                android.widget.Toast.makeText(this,"Allow notifications, then tap TEST again.",android.widget.Toast.LENGTH_LONG).show();
+                return;
+            }
+            Data data=new Data.Builder().putBoolean("dd_test",true).build();
+            OneTimeWorkRequest req=new OneTimeWorkRequest.Builder(DiscoveryWorker.class).setInputData(data).setInitialDelay(1,TimeUnit.MINUTES).build();
+            WorkManager.getInstance(this).enqueueUniqueWork("dd-test-notification",ExistingWorkPolicy.REPLACE,req);
+            android.widget.Toast.makeText(this,"TEST scheduled. Close the app; Android can delay background jobs.",android.widget.Toast.LENGTH_LONG).show();
+        });
         new AlertDialog.Builder(this).setTitle("Discovery alerts")
           .setMessage("Optional alerts. Checks run approximately every 2 hours. You will not get an alert for the existing library. News comes from attributed mainstream media reporting, not verified proof of extraordinary claims.")
           .setView(choices).setNegativeButton("Cancel",null)
