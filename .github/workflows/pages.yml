@@ -39,6 +39,12 @@ jobs:
           for(const c of clips){if(!c||!c.id||!c.title||!c.source||ids.has(c.id))throw Error('Malformed or duplicate video: '+c?.id);ids.add(c.id)}
           console.log('Validated '+scripts.length+' script(s) and '+clips.length+' video records');
           NODE
+      - name: Install mobile browser test tools
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Test mobile and desktop app interactions
+        run: node scripts/smoke_preview.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
