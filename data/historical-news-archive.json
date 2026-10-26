@@ -1,14 +1,13 @@
 [
   {
-    "id": "archive-bluebook",
-    "title": "Project Blue Book UFO investigation records (1947–1969)",
+    "id": "archive-nara-2025",
+    "title": "National Archives releases UAP records",
     "source": "US National Archives",
-    "url": "https://www.archives.gov/research/military/air-force/ufos",
-    "year": 1947,
-    "endYear": 1969,
-    "category": "UAP",
-    "kind": "Government records collection",
-    "description": "Original US Air Force case records and investigations. Year refers to the beginning of the record series, not the web page publication."
+    "url": "https://www.archives.gov/press/press-releases/2025/nr25-07",
+    "year": 2025,
+    "category": "Government disclosure",
+    "kind": "Original press release",
+    "description": "Official 24 April 2025 release describing newly transferred UAP records."
   },
   {
     "id": "archive-nara-uap",
@@ -31,14 +30,15 @@
     "description": "NASA published its independent study team's final report on 14 September 2023."
   },
   {
-    "id": "archive-nara-2025",
-    "title": "National Archives releases UAP records",
+    "id": "archive-bluebook",
+    "title": "Project Blue Book UFO investigation records (1947–1969)",
     "source": "US National Archives",
-    "url": "https://www.archives.gov/press/press-releases/2025/nr25-07",
-    "year": 2025,
-    "category": "Government disclosure",
-    "kind": "Original press release",
-    "description": "Official 24 April 2025 release describing newly transferred UAP records."
+    "url": "https://www.archives.gov/research/military/air-force/ufos",
+    "year": 1947,
+    "endYear": 1969,
+    "category": "UAP",
+    "kind": "Government records collection",
+    "description": "Original US Air Force case records and investigations. Year refers to the beginning of the record series, not the web page publication."
   },
   {
     "id": "archive-nara-downloads",
