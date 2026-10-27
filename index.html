@@ -624,6 +624,7 @@ function switchNewsView(view){
  $('newsReadPanel').classList.toggle('hidden',!read);
  if(archive){navigateTo('archivePage');return;}
  $('newsTopPanel').classList.toggle('hidden',!top);
+ $('newsStickyControls').classList.toggle('hidden',archive||top||read);
  for(const id of ['newsSearch','topicChips','feedRefresh','feedStatus','newsGrid'])$(id).classList.toggle('hidden',archive||top||read);
  const interestPanel=document.querySelector('.interest-panel');if(interestPanel)interestPanel.classList.toggle('hidden',archive||top);
  if(archive&&!historicalRecords.length)loadHistoricalArchive();
