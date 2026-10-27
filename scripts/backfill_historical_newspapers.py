@@ -14,6 +14,7 @@ import time
 import urllib.parse
 import urllib.request
 import urllib.error
+import urllib.error
 
 ROOT=Path(__file__).resolve().parents[1]
 OUTPUT=ROOT/"data/historical-news-archive.json"
@@ -23,8 +24,7 @@ HEADERS={"User-Agent":"DisclosureDeskResearch/1.0 (historical metadata importer)
 
 def discover(year,term,page=1):
     args={"fo":"json","at":"results,pagination","dl":"page","qs":term,"ops":"PHRASE",
-          "start_date":f"{year}-01-01","end_date":f"{year}-12-31",
-          "c":"50","sp":str(page),"dates":f"{year}/{year}","searchType":"advanced"}
+          "c":"20","sp":str(page),"dates":f"{year}/{year}"}
     url=API+"?"+urllib.parse.urlencode(args)
     req=urllib.request.Request(url,headers=HEADERS)
     for attempt in range(2):
@@ -71,7 +71,7 @@ def main():
     parser.add_argument("--end-year",type=int,default=1952)
     parser.add_argument("--pages-per-query",type=int,default=2)
     parser.add_argument("--max-records",type=int,default=350)
-    parser.add_argument("--max-queries",type=int,default=8)
+    parser.add_argument("--max-queries",type=int,default=3)
     parser.add_argument("--term-offset",type=int,default=0)
     args=parser.parse_args()
     if not 1860<=args.start_year<=args.end_year<=1963: parser.error("LOC historical pilot supports 1860–1963")
