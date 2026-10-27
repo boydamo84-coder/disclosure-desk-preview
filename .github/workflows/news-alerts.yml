@@ -3,6 +3,9 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '43 */2 * * *'
+concurrency:
+  group: disclosure-news-catalogue-writer
+  cancel-in-progress: false
 permissions:
   contents: write
   actions: write
