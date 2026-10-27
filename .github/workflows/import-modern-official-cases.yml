@@ -1,13 +1,13 @@
 name: Import modern official UAP cases
 on:
   workflow_dispatch:
-permissions:
-  contents: write
 concurrency:
   group: disclosure-bluebook-import
   cancel-in-progress: false
 jobs:
   modern-cases:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -31,7 +31,10 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data/historical-news-archive.json
           git diff --cached --quiet || (git commit -m "Import verified modern AARO UAP case references" && git push)
-      - name: Publish updated archive
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run pages.yml --ref main
+  publish:
+    needs: modern-cases
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/pages.yml
