@@ -1,0 +1,41 @@
+name: Backfill previous 12 months of sourced news
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: disclosure-news-catalogue-writer
+  cancel-in-progress: false
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Query each month and merge source-linked articles
+        run: python scripts/backfill_news_12months.py
+      - name: Validate archive and commit
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          records=json.loads(Path('data/news-alerts.json').read_text(encoding='utf-8'))
+          assert isinstance(records,list) and len(records)<=1200
+          assert len(records)==len({r['id'] for r in records})
+          assert all(r['url'].startswith('https://') and r['headline'] and r['source'] and r['date'] for r in records)
+          print('Validated',len(records),'source-linked news articles')
+          PY
+          git config user.name "Disclosure Desk Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/news-alerts.json
+          git diff --cached --quiet || (git commit -m "Backfill dated source-attributed news for rolling year" && git push)
+  publish:
+    needs: backfill
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/pages.yml
