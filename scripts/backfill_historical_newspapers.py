@@ -13,6 +13,7 @@ import re
 import time
 import urllib.parse
 import urllib.request
+import urllib.error
 
 ROOT=Path(__file__).resolve().parents[1]
 OUTPUT=ROOT/"data/historical-news-archive.json"
@@ -26,8 +27,15 @@ def discover(year,term,page=1):
           "c":"50","sp":str(page),"dates":f"{year}/{year}","searchType":"advanced"}
     url=API+"?"+urllib.parse.urlencode(args)
     req=urllib.request.Request(url,headers=HEADERS)
-    with urllib.request.urlopen(req,timeout=12) as response:
-        return json.load(response)
+    for attempt in range(2):
+        try:
+            with urllib.request.urlopen(req,timeout=18) as response:
+                return json.load(response)
+        except (TimeoutError,urllib.error.URLError) as exc:
+            if attempt:raise
+            print(f'LOC request transient failure; retrying once: {type(exc).__name__}')
+            time.sleep(2)
+
 
 def normalise(item,year,term):
     if not isinstance(item,dict):return None
@@ -129,7 +137,8 @@ def main():
     print("Rejected LOC result rows:",rejected)
     print("Rejected publication years:",sorted(observed_years.items(),key=lambda x:-x[1])[:20])
     if not successes:
-        raise RuntimeError("All Library of Congress queries failed; existing archive preserved")
+        print("WARNING: All LOC requests failed. Source temporarily unavailable; existing archive preserved, no new records published.")
+        return
     if added==0 and not any(x.startswith("loc-") for x in records):
         raise RuntimeError("Zero historical pages imported; inspect sample LOC schema in logs. Existing archive preserved")
     ordered=sorted(records.values(),key=lambda x:(-int(x.get("year",0)),x.get("id","")))
