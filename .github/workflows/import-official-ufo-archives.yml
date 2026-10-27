@@ -1,0 +1,42 @@
+name: Import verified government UFO archive collections
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - scripts/import_official_ufo_archives.py
+      - .github/workflows/import-official-ufo-archives.yml
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: disclosure-official-archive-import
+  cancel-in-progress: false
+jobs:
+  import-official:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Add curated official archive collections
+        run: python scripts/import_official_ufo_archives.py
+      - name: Validate archive and save
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          rows=json.loads(Path('data/historical-news-archive.json').read_text())
+          assert len(rows)==len({row['id'] for row in rows})
+          assert all(row['url'].startswith('https://') for row in rows)
+          print('Verified',len(rows),'source-linked archive references')
+          PY
+          git config user.name "Disclosure Desk Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/historical-news-archive.json
+          git diff --cached --quiet || (git commit -m "Add verified UK and US UFO archives" && git push)
+      - name: Publish new archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --ref main
