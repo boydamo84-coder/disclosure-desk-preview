@@ -59,10 +59,10 @@ def normalize(row):
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--limit',type=int,default=200)
+    parser.add_argument('--limit',type=int,default=2000)
     parser.add_argument('--offset',type=int,default=0)
     args=parser.parse_args()
-    if not 1<=args.limit<=500:parser.error('Limit must be 1–500')
+    if not 1<=args.limit<=5000:parser.error('Limit must be 1–5000')
     if not 0<=args.offset<=11000:parser.error('Offset must be 0–11000')
     raw=load_source()
     candidates=[]
