@@ -1,0 +1,50 @@
+name: Import Project Blue Book case files
+on:
+  workflow_dispatch:
+    inputs:
+      offset:
+        description: "Starting case in sorted dataset"
+        default: "0"
+        required: true
+      limit:
+        description: "Maximum new case records (1–500)"
+        default: "200"
+        required: true
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: disclosure-bluebook-import
+  cancel-in-progress: false
+jobs:
+  bluebook:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Import original NARA case file links
+        env:
+          OFFSET: ${{ inputs.offset || '0' }}
+          LIMIT: ${{ inputs.limit || '200' }}
+        run: python scripts/import_bluebook_cases.py --offset "$OFFSET" --limit "$LIMIT"
+      - name: Validate and commit
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          rows=json.loads(Path('data/historical-news-archive.json').read_text())
+          assert len(rows)==len({x['id'] for x in rows})
+          assert all(not any(k in x for k in ('lat','lon','latitude','longitude','street','address')) for x in rows if x['id'].startswith('nara-bluebook-'))
+          print('Verified',len(rows),'archive records')
+          PY
+          git config user.name "Disclosure Desk Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/historical-news-archive.json
+          git diff --cached --quiet || (git commit -m "Import attributed Blue Book case-file metadata" && git push)
+      - name: Publish updated archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --ref main
