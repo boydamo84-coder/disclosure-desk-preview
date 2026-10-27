@@ -520,9 +520,21 @@ function archiveConnections(item){
    return {record:r,shared,score,nearYear};
  }).filter(x=>x.shared.length>0||x.nearYear).sort((a,b)=>b.score-a.score||Math.abs(a.record.year-item.year)-Math.abs(b.record.year-item.year)).slice(0,8);
 }
+function archiveMediaLinks(r){
+ const terms=archiveTokens(r);
+ function rank(title){const shared=[...archiveTokens({title})].filter(t=>terms.has(t));return {shared,score:shared.length};}
+ function meaningful(x){return x.score>=2 || (x.score===1 && x.shared[0]?.length>=7 && !['europe','american','national','official','western','eastern','northern','southern'].includes(x.shared[0]))}
+ const newsMatches=(feedLive?stories:[]).map(item=>({item,...rank(item.headline)})).filter(x=>meaningful(x)&&safePublicUrl(x.item.url)).sort((a,b)=>b.score-a.score).slice(0,5);
+ const videoMatches=disclosureClips.map(item=>({item,...rank(item.title)})).filter(x=>meaningful(x)&&x.item.videoAvailable!==false).map(x=>({...x,url:x.item.youtubeId?'https://www.youtube.com/watch?v='+x.item.youtubeId:(x.item.source||'')})).filter(x=>safePublicUrl(x.url)).sort((a,b)=>b.score-a.score).slice(0,5);
+ return {newsMatches,videoMatches};
+}
+function archiveMediaHtml(matches,type){
+ if(!matches.length)return '<p class="muted small">No sufficiently specific '+type+' matches in the current catalogue. This does not mean no related material exists.</p>';
+ return matches.map(x=>'<div class="card" style="margin-bottom:8px"><div class="card-body"><strong>'+esc(x.item.headline||x.item.title)+'</strong><p class="muted small">'+esc(x.item.publisher||x.item.source||'Source')+' · Shared title terms: '+esc(x.shared.join(', '))+' · Suggested research lead only</p><a class="news-open" href="'+esc(x.url||x.item.url)+'" target="_blank" rel="noopener noreferrer">Open original '+(type==='news'?'article':'video/source')+' ↗</a> <button type="button" class="outline" data-archive-save-media="'+esc(x.url||x.item.url)+'" data-media-label="'+esc(x.item.headline||x.item.title)+'">☆ Save</button></div></div>').join('');
+}
 function archiveCaseOpen(id){
  const r=historicalRecords.find(x=>String(x.id)===String(id));if(!r)return;
- const related=archiveConnections(r);const body=$('archiveCaseBody');
+ const related=archiveConnections(r);const media=archiveMediaLinks(r);const body=$('archiveCaseBody');
  body.innerHTML='<h2 id="archiveCaseTitle">'+esc(r.title)+'</h2>'+
  '<p class="muted small">'+esc(r.kind||'Archive record')+' · Record/event year: '+esc(String(r.year))+(r.endYear?'–'+esc(String(r.endYear)):'')+'</p>'+
  '<h3>Record description</h3><p>'+esc(r.description||'No additional description is available in the source metadata.')+'</p>'+
@@ -533,9 +545,12 @@ function archiveCaseOpen(id){
  '<p class="muted small">A listing confirms the existence of this record, not that any extraordinary explanation is established.</p>'+
  '<p><a class="news-open" href="'+esc(r.url)+'" target="_blank" rel="noopener noreferrer">Open original source ↗</a> <button class="outline" id="archiveCaseSave" type="button">☆ Save to Investigation Board</button></p>'+
  '<h3>Explore related records</h3><p class="muted small">Suggestions based on title keywords or nearby years. These are discovery leads, not established connections between events.</p>'+
- (related.length?related.map(x=>'<div class="card" style="margin-bottom:8px"><div class="card-body"><button class="outline" type="button" data-archive-related="'+esc(String(x.record.id))+'">'+esc(x.record.title)+'</button><p class="muted small">'+esc(String(x.record.year))+' · '+(x.shared.length?'Shared title terms: '+esc(x.shared.slice(0,4).join(', ')):'Nearby record year')+'</p></div></div>').join(''):'<p class="muted small">No suggested related records found.</p>');
+ (related.length?related.map(x=>'<div class="card" style="margin-bottom:8px"><div class="card-body"><button class="outline" type="button" data-archive-related="'+esc(String(x.record.id))+'">'+esc(x.record.title)+'</button><p class="muted small">'+esc(String(x.record.year))+' · '+(x.shared.length?'Shared title terms: '+esc(x.shared.slice(0,4).join(', ')):'Nearby record year')+'</p></div></div>').join(''):'<p class="muted small">No suggested related records found.</p>')+
+ '<h3>Related news coverage</h3><p class="muted small">Matching keywords suggest research leads; they do not establish that two reports concern the same incident.</p>'+archiveMediaHtml(media.newsMatches,'news')+
+ '<h3>Research videos and source footage</h3>'+archiveMediaHtml(media.videoMatches,'videos');
  $('archiveCaseSave').onclick=()=>addInvestigationLink(r.title,r.url);
  body.querySelectorAll('[data-archive-related]').forEach(b=>b.onclick=()=>archiveCaseOpen(b.dataset.archiveRelated));
+ body.querySelectorAll('[data-archive-save-media]').forEach(b=>b.onclick=()=>addInvestigationLink(b.dataset.mediaLabel,b.dataset.archiveSaveMedia));
  const dlg=$('archiveCaseDialog');if(!dlg.open)dlg.showModal();
 }
 $('archiveCaseClose').onclick=()=>$('archiveCaseDialog').close();
