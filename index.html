@@ -162,10 +162,10 @@ async function loadLiveNews(force=false){
    const valid=rows.filter(x=>x&&typeof x.headline==='string'&&typeof x.source==='string'&&safePublicUrl(x.url)&&!Number.isNaN(Date.parse(x.date)));
    if(!valid.length)throw Error('No eligible attributed reports currently available');
    ddUpdateBadge('news',valid.filter(x=>x.priority==='major'&&Date.now()-Date.parse(x.date)<48*3600000).map(x=>x.id||x.url));
-   stories=valid.map(x=>({headline:x.headline,source:x.source,publisher:x.source,summary:'Reported by '+x.source+' · Open the original reporting for full context.',url:x.url,date:x.date,category:x.category||'UAP'}));
+   stories=valid.filter(x=>{const age=Date.now()-Date.parse(x.date);return age>=0&&age<=365*86400000}).sort((a,b)=>Date.parse(b.date)-Date.parse(a.date)).map(x=>({headline:x.headline,source:x.source,publisher:x.source,summary:'Reported by '+x.source+' · Open the original reporting for full context.',url:x.url,date:x.date,category:x.category||'UAP'}));
    feedLive=true;updatedAt=valid.reduce((a,x)=>x.date>a?x.date:a,valid[0].date);
    $('feedStatus').classList.remove('feed-error');
-   $('feedStatus').textContent='WORLD MEDIA · '+stories.length+' sourced reports · Latest article '+new Date(updatedAt).toLocaleDateString('en-GB')+' · Updated periodically';
+   $('feedStatus').textContent='WORLD MEDIA · '+stories.length+' available sourced stories from the past 12 months · Newest first · Latest '+new Date(updatedAt).toLocaleDateString('en-GB')+' · Updated periodically';
    renderCases();news();
  }catch(e){
    if(feedLive){$('feedStatus').textContent='Could not refresh · Showing last fetched stories';}
