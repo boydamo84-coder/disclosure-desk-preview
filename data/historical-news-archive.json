@@ -95,6 +95,34 @@
     "evidenceStatus": "official collection; individual claims not independently verified"
   },
   {
+    "id": "cia-0000015343",
+    "title": "Flying Saucers — CIA historical document (August 1952)",
+    "source": "CIA FOIA Electronic Reading Room",
+    "url": "https://www.cia.gov/readingroom/document/0000015343",
+    "year": 1952,
+    "category": "UAP",
+    "kind": "Individual declassified document",
+    "description": "CIA FOIA record titled Flying Saucers, published 1 August 1952 and released 5 October 1978. A historical primary-source document, not independent confirmation of any alleged craft.",
+    "publicationDate": "1952-08-01",
+    "releaseDate": "1978-10-05",
+    "dateType": "document publication year",
+    "evidenceStatus": "primary document; extraordinary claims not established"
+  },
+  {
+    "id": "cia-0005516214",
+    "title": "Proposed Study on the 'Flying Saucers' Phenomena — 1952 memorandum",
+    "source": "CIA FOIA Electronic Reading Room",
+    "url": "https://www.cia.gov/readingroom/document/0005516214",
+    "year": 1952,
+    "category": "UAP",
+    "kind": "Individual declassified document",
+    "description": "CIA FOIA record on a proposed study of the flying-saucer phenomenon; original publication 5 December 1952, released 31 January 2011. Historical discussion does not establish an extraterrestrial explanation.",
+    "publicationDate": "1952-12-05",
+    "releaseDate": "2011-01-31",
+    "dateType": "document publication year",
+    "evidenceStatus": "primary document; extraordinary claims not established"
+  },
+  {
     "id": "loc-4e4967166adfd71d0927",
     "title": "Image 1 of The Southern Jewish weekly (Jacksonville, Fla.), September 19, 1952",
     "source": "Library of Congress · Chronicling America",
@@ -581,5 +609,17 @@
     "description": "Official archive series 597821; individual case dates vary.",
     "dateType": "archive record coverage",
     "evidenceStatus": "official collection; individual claims not independently verified"
+  },
+  {
+    "id": "us-na-roswell-1947-investigation",
+    "title": "Roswell 1947 — US National Archives Air Force investigation summary",
+    "source": "US National Archives",
+    "url": "https://www.archives.gov/research/military/air-force/ufos",
+    "year": 1947,
+    "category": "UAP",
+    "kind": "Documented historical case",
+    "description": "National Archives summary of the 1947 Roswell claims and subsequent 1994–95 Air Force investigation. The Air Force attributed recovered material to a balloon project; this source does not establish extraterrestrial recovery.",
+    "dateType": "incident year (subsequent inquiry 1994–1995)",
+    "evidenceStatus": "historical allegation; US Air Force found no evidence of extraterrestrial recovery"
   }
 ]
