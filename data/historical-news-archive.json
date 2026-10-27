@@ -30,6 +30,71 @@
     "description": "NASA published its independent study team's final report on 14 September 2023."
   },
   {
+    "id": "uk-mod-ufo-reports",
+    "title": "UK Ministry of Defence UFO sighting reports (1997–2009)",
+    "source": "UK Ministry of Defence",
+    "url": "https://www.gov.uk/government/publications/ufo-reports-in-the-uk",
+    "year": 1997,
+    "endYear": 2009,
+    "category": "UAP",
+    "kind": "Government reports collection",
+    "description": "Official UK UFO reporting tables for 1997–2009. The dates describe sighting-report coverage, not the webpage publication date.",
+    "dateType": "archive record coverage",
+    "evidenceStatus": "official collection; individual claims not independently verified"
+  },
+  {
+    "id": "us-na-roswell-files",
+    "title": "Roswell Report source files (1987–1996)",
+    "source": "US National Archives",
+    "url": "https://www.archives.gov/research/topics/uaps/textual-and-microfilm",
+    "year": 1987,
+    "endYear": 1996,
+    "category": "UAP",
+    "kind": "Government archive series",
+    "description": "Official archive series 17618564, materials assembled for later historical research about the 1947 Roswell incident; years refer to source-file series dates.",
+    "dateType": "archive record coverage",
+    "evidenceStatus": "official collection; individual claims not independently verified"
+  },
+  {
+    "id": "us-na-4602d-squadron",
+    "title": "4602D Air Intelligence Service Squadron UFO case-file copies (1954–1956)",
+    "source": "US National Archives",
+    "url": "https://www.archives.gov/research/topics/uaps/textual-and-microfilm",
+    "year": 1954,
+    "endYear": 1956,
+    "category": "UAP",
+    "kind": "Government archive series",
+    "description": "Official archive series 23857158. Copies of sightings case files.",
+    "dateType": "archive record coverage",
+    "evidenceStatus": "official collection; individual claims not independently verified"
+  },
+  {
+    "id": "us-na-bluebook-audio",
+    "title": "Project Blue Book investigation sound recordings (1953–1967)",
+    "source": "US National Archives",
+    "url": "https://www.archives.gov/research/topics/uaps/rg-collections",
+    "year": 1953,
+    "endYear": 1967,
+    "category": "UAP",
+    "kind": "Government archive series",
+    "description": "Official archive series 1142703, historical audio recordings associated with investigations.",
+    "dateType": "archive record coverage",
+    "evidenceStatus": "official collection; individual claims not independently verified"
+  },
+  {
+    "id": "us-na-ufo-1953",
+    "title": "US UFO sightings case files (1953–1960)",
+    "source": "US National Archives",
+    "url": "https://www.archives.gov/research/topics/uaps/textual-and-microfilm",
+    "year": 1953,
+    "endYear": 1960,
+    "category": "UAP",
+    "kind": "Government archive series",
+    "description": "Official archive series 23857159. Records of investigated sightings; conclusions vary.",
+    "dateType": "archive record coverage",
+    "evidenceStatus": "official collection; individual claims not independently verified"
+  },
+  {
     "id": "loc-4e4967166adfd71d0927",
     "title": "Image 1 of The Southern Jewish weekly (Jacksonville, Fla.), September 19, 1952",
     "source": "Library of Congress · Chronicling America",
@@ -60,6 +125,45 @@
     "evidenceStatus": "archival newspaper source; claim unverified"
   },
   {
+    "id": "uk-na-ufo-collection",
+    "title": "UK National Archives UFO reports and government documents",
+    "source": "The National Archives (UK)",
+    "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/",
+    "year": 1950,
+    "endYear": 1995,
+    "category": "UAP",
+    "kind": "Government records collection",
+    "description": "Source-linked exhibition of released UK UFO documents and archival catalogue references. Years indicate broad collection coverage, not a specific incident.",
+    "dateType": "archive record coverage",
+    "evidenceStatus": "official collection; individual claims not independently verified"
+  },
+  {
+    "id": "uk-na-ufo-guide",
+    "title": "UK National Archives guide to released UFO files",
+    "source": "The National Archives (UK)",
+    "url": "https://www.nationalarchives.gov.uk/help-with-your-research/research-guides/ufos/",
+    "year": 1950,
+    "endYear": 2002,
+    "category": "UAP",
+    "kind": "Government archive index",
+    "description": "Guide to UK government files on sightings, policy, Parliamentary business, and correspondence. Record coverage is approximate; individual files have their own dates.",
+    "dateType": "archive record coverage",
+    "evidenceStatus": "official collection; individual claims not independently verified"
+  },
+  {
+    "id": "us-na-bluebook-film",
+    "title": "Project Blue Book motion picture films (1950–1966)",
+    "source": "US National Archives",
+    "url": "https://www.archives.gov/research/topics/uaps/rg-collections",
+    "year": 1950,
+    "endYear": 1966,
+    "category": "UAP",
+    "kind": "Government archive series",
+    "description": "Official archive series 61934, motion picture material associated with Project Blue Book.",
+    "dateType": "archive record coverage",
+    "evidenceStatus": "official collection; individual claims not independently verified"
+  },
+  {
     "id": "loc-94ae852a6265d18283be",
     "title": "Image 1 of The Southern Jewish weekly (Jacksonville, Fla.), September 23, 1949",
     "source": "Library of Congress · Chronicling America",
@@ -88,6 +192,19 @@
     ],
     "dateType": "newspaper publication year",
     "evidenceStatus": "archival newspaper source; claim unverified"
+  },
+  {
+    "id": "us-na-air-intelligence",
+    "title": "US Air Intelligence Reports (1948–1953)",
+    "source": "US National Archives",
+    "url": "https://www.archives.gov/research/topics/uaps/textual-and-microfilm",
+    "year": 1948,
+    "endYear": 1953,
+    "category": "UAP",
+    "kind": "Government archive series",
+    "description": "Official archive series 23857122. Archived reports; not all necessarily describe anomalous craft.",
+    "dateType": "archive record coverage",
+    "evidenceStatus": "official collection; individual claims not independently verified"
   },
   {
     "id": "archive-bluebook",
@@ -425,5 +542,44 @@
     ],
     "dateType": "newspaper publication year",
     "evidenceStatus": "archival newspaper source; claim unverified"
+  },
+  {
+    "id": "us-na-bluebook-admin",
+    "title": "Project Blue Book administrative files (1947–1969)",
+    "source": "US National Archives",
+    "url": "https://www.archives.gov/research/topics/uaps/textual-and-microfilm",
+    "year": 1947,
+    "endYear": 1969,
+    "category": "UAP",
+    "kind": "Government archive series",
+    "description": "Official archive series 595175. Administrative records, not individual verified sightings.",
+    "dateType": "archive record coverage",
+    "evidenceStatus": "official collection; individual claims not independently verified"
+  },
+  {
+    "id": "us-na-bluebook-cases",
+    "title": "Project Blue Book case files (1947–1969)",
+    "source": "US National Archives",
+    "url": "https://www.archives.gov/research/catalog/catalog-bulk-downloads/uap-bulk-download",
+    "year": 1947,
+    "endYear": 1969,
+    "category": "UAP",
+    "kind": "Government archive series",
+    "description": "Official archive series 595466: historical case-file collection. Source lists available metadata and downloads.",
+    "dateType": "archive record coverage",
+    "evidenceStatus": "official collection; individual claims not independently verified"
+  },
+  {
+    "id": "us-na-bluebook-sanitized",
+    "title": "Sanitized Project Blue Book sighting case files (1947–1969)",
+    "source": "US National Archives",
+    "url": "https://www.archives.gov/research/topics/uaps/textual-and-microfilm",
+    "year": 1947,
+    "endYear": 1969,
+    "category": "UAP",
+    "kind": "Government archive series",
+    "description": "Official archive series 597821; individual case dates vary.",
+    "dateType": "archive record coverage",
+    "evidenceStatus": "official collection; individual claims not independently verified"
   }
 ]
