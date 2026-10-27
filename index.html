@@ -79,6 +79,12 @@ async function loadRabbitBatch(details,story,index,page=0){
  const area=details.querySelector('.rabbit-results'),btn=details.querySelector('[data-rabbit-refresh]');
  if(!area)return;
  if(btn)btn.disabled=true;
+ const q=encodeURIComponent(String(story?.headline||'UFO mystery'));
+ const safeFallback='<div class="tag">RESEARCH THESE SOURCES</div><p class="muted small">Live matching is unavailable, but these external research searches still work.</p>'+
+ '<p><a class="connection-link" target="_blank" rel="noopener noreferrer" href="https://www.google.com/search?q='+q+'">Search related reporting ↗</a></p>'+
+ '<p><a class="connection-link" target="_blank" rel="noopener noreferrer" href="https://www.loc.gov/collections/chronicling-america/?qs='+q+'">Search historical newspapers ↗</a></p>'+
+ '<p><a class="connection-link" target="_blank" rel="noopener noreferrer" href="https://www.archives.gov/search?query='+q+'">Search National Archives ↗</a></p>';
+ area.innerHTML=safeFallback;
  try{
   // Static GitHub catalogues replace the retired Netlify rabbit endpoint.
   const keywords=String(story.headline||'').toLowerCase().match(/[a-z0-9]{4,}/g)||[];
@@ -101,7 +107,6 @@ async function loadRabbitBatch(details,story,index,page=0){
   for(const x of ranked){if(used.has(x.url))continue;used.add(x.url);unique.push(x);}
   const cursor=Math.max(0,Number(page)||0)*5;
   const selected=unique.slice(cursor,cursor+5);
-  const q=encodeURIComponent(story.headline||'UFO mystery');
   const searches=[
    {title:'Search original reporting on this topic',url:'https://www.google.com/search?q='+q},
    {title:'Search Library of Congress historical newspapers',url:'https://www.loc.gov/collections/chronicling-america/?fo=json&qs='+q},
@@ -112,9 +117,10 @@ async function loadRabbitBatch(details,story,index,page=0){
   details.dataset.page=String(page);
   area.innerHTML=rabbitResultsHTML(data,index);
   if(!selected.length)area.insertAdjacentHTML('afterbegin','<p class="muted small">No close matches in our current catalogues. Use the research searches below to explore external sources.</p>');
-  refreshBookmarkStars();
- }catch{
-  area.textContent='Unable to load research leads right now. Please try again.';
+  try{refreshBookmarkStars()}catch(e){console.warn('Rabbit Hole bookmark styling',e)}
+ }catch(e){
+  console.warn('Rabbit Hole source matching unavailable',e);
+  area.innerHTML=safeFallback;
  }finally{if(btn)btn.disabled=false;}
 }
 function newsRabbitHole(story,index){
