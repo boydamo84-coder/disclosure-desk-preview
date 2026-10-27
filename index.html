@@ -77,49 +77,45 @@ function rabbitResultsHTML(data,index){
 }
 async function loadRabbitBatch(details,story,index,page=0){
  const area=details.querySelector('.rabbit-results'),btn=details.querySelector('[data-rabbit-refresh]');
- if(btn)btn.disabled=true;area.textContent='Searching for fresh research leads specific to this story…';
- let selected=[],data=null,lastPage=page;
+ if(!area)return;
+ if(btn)btn.disabled=true;
  try{
-  // Compare against everything previously shown in other Rabbit Holes this session.
-  for(let attempt=0;attempt<5&&selected.length<5;attempt++){
-   const current=page+attempt;
-   const response=await fetch('/.netlify/functions/rabbit?title='+encodeURIComponent(story.headline)+'&category='+encodeURIComponent(story.category||'')+'&page='+current,{signal:AbortSignal.timeout(16000)});
-   if(!response.ok)throw Error('Search unavailable');
-   const batch=await response.json();data=batch;lastPage=current;
-   for(const item of batch.stories||[]){
-    const key=rabbitResultKey(item);
-    if(!safePublicUrl(item.url)||rabbitSeen.has(key)||selected.some(x=>rabbitResultKey(x)===key))continue;
-    selected.push(item);if(selected.length===5)break;
+  // Static GitHub catalogues replace the retired Netlify rabbit endpoint.
+  const keywords=String(story.headline||'').toLowerCase().match(/[a-z0-9]{4,}/g)||[];
+  const stop=new Set(['with','from','that','this','about','have','their','said','report','reports','after','over','more','news','amid','into']);
+  const needle=new Set(keywords.filter(w=>!stop.has(w)));
+  let pool=[...interestStories,...stories].filter(x=>x&&safePublicUrl(x.url||'')&&x.url!==story.url);
+  try{
+   const response=await fetch('/disclosure-desk-preview/data/historical-news-archive.json',{cache:'no-store'});
+   if(response.ok){
+    const archive=await response.json();
+    pool.push(...archive.filter(x=>x&&safePublicUrl(x.url||'')).map(x=>({headline:x.title,source:x.source,url:x.url,date:x.year?String(x.year)+'-01-01':'',category:x.category,kind:x.kind||'Historical archive'})));
    }
-  }
-  // When direct matches dry up, branch into other mysteries rather than displaying a dead end.
-  if(selected.length<5){
-   for(let i=0;i<12&&selected.length<5;i++){
-    const next=Number(details.dataset.discoveryCursor||0)+i;
-    try{
-     const preferences=myInterests.length?'&interests='+encodeURIComponent(myInterests.join('|')):'';const res=await fetch('/.netlify/functions/rabbit?discover=1&title='+encodeURIComponent(story.headline)+'&page='+next+preferences,{signal:AbortSignal.timeout(9000)});
-     if(!res.ok)continue;
-     const batch=await res.json();
-     for(const item of batch.stories||[]){
-      const key=rabbitResultKey(item);
-      if(!safePublicUrl(item.url)||rabbitSeen.has(key)||selected.some(x=>rabbitResultKey(x)===key))continue;
-      selected.push({...item,kind:'Explore another mystery · '+(item.kind||'Research')});
-      if(selected.length===5)break;
-     }
-    }catch{}
-    details.dataset.discoveryCursor=String(next+1);
-   }
-  }
-  details.dataset.page=String(lastPage);
-  if(selected.length){
-   selected.forEach(x=>rabbitSeen.add(rabbitResultKey(x)));
-   const result={...data,stories:selected};
-   area.innerHTML=rabbitResultsHTML(result,index);details._rabbitData=result;refreshBookmarkStars();
-  }else area.textContent='No new indexed discoveries found just now. Tap Refresh to try further topics; existing bookmarks remain safe.';
+  }catch{}
+  const ranked=pool.map(x=>{
+   const title=String(x.headline||x.title||'');
+   const overlap=(title.toLowerCase().match(/[a-z0-9]{4,}/g)||[]).filter(w=>needle.has(w)).length;
+   return {title,source:x.source,url:x.url,date:x.date,kind:x.kind||'Related source',score:overlap};
+  }).filter(x=>x.score>0&&safePublicUrl(x.url)).sort((a,b)=>b.score-a.score);
+  const unique=[],used=new Set([story.url]);
+  for(const x of ranked){if(used.has(x.url))continue;used.add(x.url);unique.push(x);}
+  const cursor=Math.max(0,Number(page)||0)*5;
+  const selected=unique.slice(cursor,cursor+5);
+  const q=encodeURIComponent(story.headline||'UFO mystery');
+  const searches=[
+   {title:'Search original reporting on this topic',url:'https://www.google.com/search?q='+q},
+   {title:'Search Library of Congress historical newspapers',url:'https://www.loc.gov/collections/chronicling-america/?fo=json&qs='+q},
+   {title:'Search US National Archives records',url:'https://www.archives.gov/search?query='+q}
+  ];
+  const data={scope:'Source-linked research',stories:selected,searches};
+  details._rabbitData=data;
+  details.dataset.page=String(page);
+  area.innerHTML=rabbitResultsHTML(data,index);
+  if(!selected.length)area.insertAdjacentHTML('afterbegin','<p class="muted small">No close matches in our current catalogues. Use the research searches below to explore external sources.</p>');
+  refreshBookmarkStars();
  }catch{
-  if(selected.length){selected.forEach(x=>rabbitSeen.add(rabbitResultKey(x)));const result={...(data||{}),stories:selected};area.innerHTML=rabbitResultsHTML(result,index);details._rabbitData=result;refreshBookmarkStars();}
-  else area.textContent='Discovery sources are temporarily unavailable. Tap Refresh to try again.';
- }finally{if(btn)btn.disabled=false}
+  area.textContent='Unable to load research leads right now. Please try again.';
+ }finally{if(btn)btn.disabled=false;}
 }
 function newsRabbitHole(story,index){
  if(!newsRabbitEligible(story))return '';
