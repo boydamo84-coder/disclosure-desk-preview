@@ -156,6 +156,7 @@ function ddOpenVideoTarget(){
  $('clipSearch').value='';
  $('clipFilter').value='All';$('clipTrustFilter').value='all';
  $('clipFavoritesOnly').checked=false;$('clipInterestOnly').checked=false;
+ setClipMode('all');$('clipDiscoveryMode').value='latest';
  clipRenderLimit=Math.max(clipRenderLimit,disclosureClips.length);
  navigateTo('clips');
  const item=[...$('clipsFeed').querySelectorAll('[data-video-id]')].find(x=>x.dataset.videoId===id);
