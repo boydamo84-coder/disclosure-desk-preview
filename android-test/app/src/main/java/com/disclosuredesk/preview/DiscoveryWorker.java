@@ -67,10 +67,22 @@ public final class DiscoveryWorker extends Worker {
             String storage="known-"+type;
             Set<String> previous=prefs.getStringSet(storage,null);
             int added=0;
-            if(previous!=null)for(String id:current)if(!previous.contains(id))added++;
+            JSONObject newest=null;
+            if(previous!=null)for(int i=0;i<entries.length();i++){
+                JSONObject candidate=entries.optJSONObject(i);
+                if(candidate==null)continue;
+                String candidateId=candidate.optString("id","");
+                if(current.contains(candidateId)&&!previous.contains(candidateId)){
+                    added++;
+                    if(newest==null)newest=candidate;
+                }
+            }
             prefs.edit().putStringSet(storage,new HashSet<>(current)).apply();
             prefs.edit().putString("check-"+type,(previous==null?"Baseline recorded: ":"Feed OK: ")+current.size()+" eligible; "+added+" new").apply();
-            if(previous!=null&&added>0)notifyUser(type,added);
+            if(previous!=null&&added>0 && newest!=null){
+                String headline=newest.optString(video?"title":"headline",video?"New research video":"New major UAP story");
+                sendNotification(type,video?"New research video":"Major UAP news",headline+(added>1?"  ·  +"+(added-1)+" more":""),video?501:502,newest.optString("id",""));
+            }
         }catch(Exception ex){
             prefs.edit().putString("check-"+type,"Check failed: "+ex.getClass().getSimpleName()).apply();
             android.util.Log.w("DisclosureDesk","Alert check deferred: "+type,ex);
@@ -78,7 +90,7 @@ public final class DiscoveryWorker extends Worker {
     }
     @NonNull @Override public Result doWork(){
         if(getInputData().getBoolean("dd_test",false)){
-            sendNotification("test","TEST · Disclosure Desk","Background alert test — not a real news story.",503);
+            sendNotification("test","TEST · Disclosure Desk","Background alert test — not a real news story.",503,"");
             return Result.success();
         }
         SharedPreferences p=getApplicationContext().getSharedPreferences(PREFS,Context.MODE_PRIVATE);
@@ -88,12 +100,7 @@ public final class DiscoveryWorker extends Worker {
         p.edit().putLong("last-check-time",System.currentTimeMillis()).putString("last-check-summary",summary).apply();
         return Result.success();
     }
-    private void notifyUser(String type,int count){
-        String title=type.equals("news")?"Disclosure Desk: news updates":"Disclosure Desk: fresh videos";
-        String message=count+(type.equals("news")?" new major-media UAP headline":" new playable video")+(count==1?"":"s");
-        sendNotification(type,title,message,type.equals("news")?502:501);
-    }
-    private void sendNotification(String type,String title,String message,int notificationId){
+    private void sendNotification(String type,String title,String message,int notificationId,String recordId){
         Context ctx=getApplicationContext();
         if(Build.VERSION.SDK_INT>=33&&ctx.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)!=PackageManager.PERMISSION_GRANTED)return;
         NotificationManager mgr=(NotificationManager)ctx.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -102,9 +109,10 @@ public final class DiscoveryWorker extends Worker {
         mgr.createNotificationChannel(new NotificationChannel(channel,type.equals("news")?"Major-media UAP news":type.equals("test")?"Test alerts":"Fresh video discoveries",NotificationManager.IMPORTANCE_DEFAULT));
         Intent open=new Intent(ctx,MainActivity.class);
         open.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        if(!recordId.isEmpty() && !type.equals("test"))open.setData(android.net.Uri.parse("https://boydamo84-coder.github.io/disclosure-desk-preview/?dd_"+type+"="+android.net.Uri.encode(recordId)));
         PendingIntent intent=PendingIntent.getActivity(ctx,notificationId,open,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
         Notification notice=new Notification.Builder(ctx,channel)
-            .setSmallIcon(android.R.drawable.ic_menu_search).setContentTitle(title).setContentText(message)
+            .setSmallIcon(android.R.drawable.ic_menu_search).setContentTitle(title).setContentText(message).setStyle(new Notification.BigTextStyle().bigText(message))
             .setContentIntent(intent).setAutoCancel(true).build();
         mgr.notify(notificationId,notice);
     }
