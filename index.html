@@ -485,7 +485,16 @@ function mapStoryLink(r){return 'https://news.google.com/search?q='+encodeURICom
 function mapResearchLink(r){return 'https://www.google.com/search?q='+encodeURIComponent(r.title+' history research official sources')}
 function mapDocumentLink(r){return r.source&&safePublicUrl(r.source)?'<a href="'+esc(r.source)+'" target="_blank" rel="noopener noreferrer">📄 View source document / archive ↗</a> · ':''}
 function mapEntryHtml(r){return '<div class="card"><div class="card-body"><span class="tag">'+esc(r.category)+' · '+(r.year<0?Math.abs(r.year)+' BCE':r.year)+''+'</span><h3>'+esc(r.title)+'</h3><p>'+esc(r.city)+' — '+esc(r.desc)+'</p>'+mapDocumentLink(r)+'<a href="'+esc(mapResearchLink(r))+'" target="_blank" rel="noopener noreferrer">Research the case ↗</a> · <a href="'+esc(mapStoryLink(r))+'" target="_blank" rel="noopener noreferrer">Related reporting ↗</a><div class="map-case-actions">'+mapSaveButton(r)+'</div></div></div>'}
-function renderMapList(){const entries=filteredMap();const archive=$('mapViewMode')?.value==='archive';if(archive)$('mapArchiveStatus').textContent=entries.length+' location-reviewed, city-level mapped case'+(entries.length===1?'':'s')+' for this selection. This is a curated map, not all 10,273 archive records; missing map pins do not mean missing archive files.';$('mapItems').innerHTML=entries.map(mapEntryHtml).join('')||'<div class="card empty">'+(archive?'No location-reviewed cases mapped for that year yet. The searchable archive may still contain records for this year.':'No dated reports for this time range yet. Choose All time to explore the historic archive.')+'</div>';refreshBookmarkStars()}
+let mapListLimit=30;
+function renderMapList(){
+ const entries=filteredMap(),archive=$('mapViewMode')?.value==='archive';
+ if(archive)$('mapArchiveStatus').textContent=entries.length+' location-reviewed, town-level mapped reports for this selection. Pins are approximate; the archive contains additional unmapped records.';
+ $('mapItems').innerHTML=entries.slice(0,mapListLimit).map(mapEntryHtml).join('')+
+ (entries.length>mapListLimit?'<button type="button" class="outline" id="mapListMore">Show 30 more of '+entries.length+' mapped reports</button>':'')||
+ '<div class="card empty">No mapped reports for these filters. The source archive may have additional unmapped reports.</div>';
+ const more=$('mapListMore');if(more)more.onclick=()=>{mapListLimit+=30;renderMapList()};
+ refreshBookmarkStars();
+}
 function mapClusterGroups(entries){
  const zoom=map.getZoom(),size=zoom>=10?32:zoom>=7?52:zoom>=5?65:82;
  const groups=new Map();
@@ -520,13 +529,19 @@ function renderMapPins(){
   marker.on('click',()=>{
    if(map.getZoom()<10){
     const bounds=L.latLngBounds(items.map(r=>[r.lat,r.lon]));
-    if(bounds.getNorthEast().distanceTo(bounds.getSouthWest())>3500)map.fitBounds(bounds.pad(0.3),{maxZoom:Math.min(map.getZoom()+3,10)});
-    else map.setView([lat,lon],Math.min(map.getZoom()+2,10));
+    // At shared town-centre coordinates, zooming can never separate cases.
+    // Open the case list immediately instead of making users tap repeatedly.
+    if(bounds.getNorthEast().distanceTo(bounds.getSouthWest())<500){
+     marker.bindPopup(mapClusterPopup(items),{maxWidth:340,minWidth:240}).openPopup();
+    }else{
+     const next=Math.min(map.getZoom()+3,10);
+     map.fitBounds(bounds.pad(0.3),{maxZoom:next});
+    }
    }else marker.bindPopup(mapClusterPopup(items),{maxWidth:340,minWidth:240}).openPopup();
   });
  }
 }
-function renderMarkers(){renderMapList();renderArchiveMapResults();renderMapPins()}
+function renderMarkers(){mapListLimit=30;renderMapList();renderArchiveMapResults();renderMapPins()}
 
 function drafts(){try{return JSON.parse(localStorage.getItem('unknown_v02_witness_drafts')||'[]')}catch{return []}}function showDrafts(){let a=drafts();$('draftCount').textContent=`${a.length} draft${a.length===1?'':'s'}`;$('myDrafts').innerHTML=a.length?a.map(d=>`<article class="card"><div class="card-body"><div class="tag">PRIVATE DRAFT · NOT PUBLISHED</div><h3>${esc(d.type)} · ${esc(d.city)}</h3><div class="meta">${esc(d.date)} ${esc(d.time)}</div><p>${esc(d.story)}</p><button class="outline" data-remove="${d.id}">Delete draft</button></div></article>`).join(''):'<div class="card empty">No drafts saved yet.</div>';document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{if(!confirm('Delete this local draft?'))return;localStorage.setItem('unknown_v02_witness_drafts',JSON.stringify(drafts().filter(d=>String(d.id)!==b.dataset.remove)));showDrafts()})}document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>navigateTo(b.dataset.tab));$('mapViewMode').onchange=setMapViewMode;$('mapArchiveYear').onchange=()=>{mapArchiveVisibleCount=40;renderMarkers()};$('mapArchiveMore').onclick=()=>{mapArchiveVisibleCount+=40;renderArchiveMapResults()};$('mapCategory').onchange=renderMarkers;$('mapPeriod').onchange=renderMarkers;$('caseSearch').oninput=renderCases;$('rabbitSearch').oninput=renderRabbitHole;$('rabbitCategory').onchange=renderRabbitHole;$('newsSearch').addEventListener('input',news);$('clipSearch').addEventListener('input',renderClips);$('clipInterestOnly').addEventListener('change',renderClips);$('clipDiscoveryMode').addEventListener('change',()=>{try{localStorage.setItem(CLIP_DISCOVERY_MODE_KEY,clipDiscoveryMode())}catch{}renderClips()});try{const mode=localStorage.getItem(CLIP_DISCOVERY_MODE_KEY);if(['recommended','fresh','latest','unseen'].includes(mode))$('clipDiscoveryMode').value=mode}catch{}$('youtubeSearchButton').addEventListener('click',()=>{const q=$('clipSearch').value.trim()||myInterests.join(' ');if(!q){$('clipSearch').focus();return}window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(q+' UFO UAP'),'_blank','noopener,noreferrer')});$('clipFilter').onchange=renderClips;$('clipFavoritesOnly').onchange=renderClips;$('clipTrustFilter').onchange=renderClips;loadDisclosureClips();document.querySelectorAll('[data-clip-mode]').forEach(b=>b.addEventListener('click',()=>setClipMode(b.dataset.clipMode)));$('featuredCaseCategory').onchange=renderCases;$('witnessForm').onsubmit=e=>{e.preventDefault();let city=$('reportCity').value.trim(),story=$('reportStory').value.trim();let bad=/\b(street|st\.|road|rd\.|avenue|ave\.|lane|drive|postcode|zip code|apartment|flat number|house number|\d{1,5}\s+\w+\s+(st|street|road|rd|lane|avenue))\b/i;if(bad.test(city)||/\d{1,5}\s+[a-z]+\s+(street|road|lane|avenue|drive)\b/i.test(story)||/\b[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}\b/i.test(story)){$('formStatus').textContent='Please remove street addresses, postcodes and exact location details before saving.';return}let d={id:Date.now(),type:$('reportType').value,date:$('reportDate').value,time:$('reportTime').value,city,story,anonymous:$('anonymous').checked};let arr=drafts();arr.unshift(d);localStorage.setItem('unknown_v02_witness_drafts',JSON.stringify(arr));$('witnessForm').reset();$('anonymous').checked=true;$('formStatus').textContent='Saved privately in this browser. This report has NOT been submitted or published.';showDrafts()};
 const resourceItems=[
