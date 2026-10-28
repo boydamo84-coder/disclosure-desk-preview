@@ -82,12 +82,15 @@ def run():
     audit={}
     for year,url in sorted(sources.items()):
         good=0;checked=0
+        confirmed_columns=None
         with pdfplumber.open(io.BytesIO(read(url))) as pdf:
             for page_no,page in enumerate(pdf.pages,1):
                 for table_no,table in enumerate(page.extract_tables() or []):
-                    # Only trust 6-column MoD tables with an explicit location header.
+                    # A verified header also applies to following pages with the same table shape.
                     head=' '.join(clean(c).lower() for row in table[:3] for c in (row or []))
-                    if not ('town' in head and ('area' in head or 'county' in head) and 'date' in head):continue
+                    width=max((len(row) for row in table if row),default=0)
+                    if 'town' in head and ('area' in head or 'county' in head) and 'date' in head and width>=6:confirmed_columns=width
+                    if confirmed_columns is None or width!=confirmed_columns:continue
                     for row_no,row in enumerate(table):
                         if not row or len(row)<5:continue
                         date=date_of(row[0],year)
