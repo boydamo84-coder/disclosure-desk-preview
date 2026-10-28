@@ -486,13 +486,14 @@ function mapResearchLink(r){return 'https://www.google.com/search?q='+encodeURIC
 function mapDocumentLink(r){return r.source&&safePublicUrl(r.source)?'<a href="'+esc(r.source)+'" target="_blank" rel="noopener noreferrer">📄 View source document / archive ↗</a> · ':''}
 function mapEntryHtml(r){return '<div class="card"><div class="card-body"><span class="tag">'+esc(r.category)+' · '+(r.year<0?Math.abs(r.year)+' BCE':r.year)+''+'</span><h3>'+esc(r.title)+'</h3><p>'+esc(r.city)+' — '+esc(r.desc)+'</p>'+mapDocumentLink(r)+'<a href="'+esc(mapResearchLink(r))+'" target="_blank" rel="noopener noreferrer">Research the case ↗</a> · <a href="'+esc(mapStoryLink(r))+'" target="_blank" rel="noopener noreferrer">Related reporting ↗</a><div class="map-case-actions">'+mapSaveButton(r)+'</div></div></div>'}
 let mapListLimit=30;
+let ddMapListLimit=40;
 function renderMapList(){
  const entries=filteredMap(),archive=$('mapViewMode')?.value==='archive';
- if(archive)$('mapArchiveStatus').textContent=entries.length+' location-reviewed, town-level mapped reports for this selection. Pins are approximate; the archive contains additional unmapped records.';
- $('mapItems').innerHTML=entries.slice(0,mapListLimit).map(mapEntryHtml).join('')+
- (entries.length>mapListLimit?'<button type="button" class="outline" id="mapListMore">Show 30 more of '+entries.length+' mapped reports</button>':'')||
- '<div class="card empty">No mapped reports for these filters. The source archive may have additional unmapped reports.</div>';
- const more=$('mapListMore');if(more)more.onclick=()=>{mapListLimit+=30;renderMapList()};
+ if(archive)$('mapArchiveStatus').textContent=entries.length+' location-reviewed, city-level mapped reports for this selection. Pins are approximate town/region markers; the full Evidence Archive contains additional records.';
+ const shown=entries.slice(0,ddMapListLimit);
+ $('mapItems').innerHTML=(shown.map(mapEntryHtml).join('')||'<div class="card empty">'+(archive?'No location-reviewed cases mapped for that year yet. The searchable archive may still contain records.':'No dated reports for this time range yet. Choose All time to explore the historic archive.')+'</div>')+
+ (entries.length>shown.length?'<button type="button" class="outline" id="ddMapMore" style="width:100%;margin:12px 0">Load more mapped cases ('+shown.length+' of '+entries.length+')</button>':'');
+ const more=$('ddMapMore');if(more)more.onclick=()=>{ddMapListLimit+=40;renderMapList()};
  refreshBookmarkStars();
 }
 function mapClusterGroups(entries){
