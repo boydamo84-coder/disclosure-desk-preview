@@ -105,7 +105,25 @@ public final class MainActivity extends Activity {
                 if(fullCallback!=null){fullCallback.onCustomViewHidden();fullCallback=null;}
             }
         });
-        web.loadUrl(HOME);
+        web.loadUrl(notificationUrl(getIntent()));
+    }
+    private String notificationUrl(Intent intent){
+        if(intent!=null && intent.getData()!=null){
+            Uri data=intent.getData();
+            if("boydamo84-coder.github.io".equals(data.getHost()) && "/disclosure-desk-preview/".equals(data.getPath())){
+                String id=data.getQueryParameter("dd_news");
+                String key="dd_news";
+                if(id==null){id=data.getQueryParameter("dd_videos");key="dd_videos";}
+                if(id!=null && id.matches("[A-Za-z0-9_-]{1,150}"))return HOME+"?"+key+"="+Uri.encode(id);
+            }
+        }
+        return HOME;
+    }
+    @Override protected void onNewIntent(Intent intent){
+        super.onNewIntent(intent);
+        setIntent(intent);
+        String target=notificationUrl(intent);
+        if(!HOME.equals(target)&&web!=null)web.loadUrl(target);
     }
     private void notificationSettings(){
         SharedPreferences prefs=getSharedPreferences(DiscoveryWorker.PREFS,MODE_PRIVATE);
