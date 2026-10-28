@@ -108,6 +108,12 @@ public final class MainActivity extends Activity {
         web.loadUrl(notificationUrl(getIntent()));
     }
     private String notificationUrl(Intent intent){
+        if(intent!=null){
+            String kind=intent.getStringExtra("dd_type");
+            String record=intent.getStringExtra("dd_record_id");
+            if(("news".equals(kind)||"videos".equals(kind)) && record!=null && record.matches("[A-Za-z0-9_-]{1,150}"))
+                return HOME+"?dd_"+kind+"="+Uri.encode(record);
+        }
         if(intent!=null && intent.getData()!=null){
             Uri data=intent.getData();
             if("boydamo84-coder.github.io".equals(data.getHost()) && "/disclosure-desk-preview/".equals(data.getPath())){
