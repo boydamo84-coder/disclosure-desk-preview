@@ -1,0 +1,42 @@
+name: Import UK MoD UFO sighting reports 1997-2009
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: disclosure-bluebook-import
+  cancel-in-progress: false
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PDF table parser
+        run: python -m pip install 'pdfplumber==0.11.7'
+      - name: Import dated UK MOD records
+        run: python scripts/import_uk_mod_ufo.py
+      - name: Verify and commit
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('data/historical-news-archive.json').read_text(encoding='utf-8'))
+          assert len(r)==len({x['id'] for x in r})
+          assert all(not any(k in x for k in ('lat','lon','latitude','longitude','street','address')) for x in r if x['id'].startswith('uk-mod-ufo-'))
+          print('Validated archive:',len(r))
+          PY
+          git config user.name "Disclosure Desk Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/historical-news-archive.json
+          git diff --cached --quiet || (git commit -m "Import dated UK MoD annual sighting log references" && git push)
+  publish:
+    needs: import
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/pages.yml
