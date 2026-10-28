@@ -109,7 +109,11 @@ public final class DiscoveryWorker extends Worker {
         mgr.createNotificationChannel(new NotificationChannel(channel,type.equals("news")?"Major-media UAP news":type.equals("test")?"Test alerts":"Fresh video discoveries",NotificationManager.IMPORTANCE_DEFAULT));
         Intent open=new Intent(ctx,MainActivity.class);
         open.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        if(!recordId.isEmpty() && !type.equals("test"))open.setData(android.net.Uri.parse("https://boydamo84-coder.github.io/disclosure-desk-preview/?dd_"+type+"="+android.net.Uri.encode(recordId)));
+        if(!recordId.isEmpty() && !type.equals("test")){
+            open.putExtra("dd_type",type);
+            open.putExtra("dd_record_id",recordId);
+            open.setData(android.net.Uri.parse("https://boydamo84-coder.github.io/disclosure-desk-preview/?dd_"+type+"="+android.net.Uri.encode(recordId)));
+        }
         PendingIntent intent=PendingIntent.getActivity(ctx,notificationId,open,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
         Notification notice=new Notification.Builder(ctx,channel)
             .setSmallIcon(android.R.drawable.ic_menu_search).setContentTitle(title).setContentText(message).setStyle(new Notification.BigTextStyle().bigText(message))
