@@ -1,0 +1,44 @@
+name: Map reviewed UK MoD sighting towns
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: disclosure-bluebook-import
+  cancel-in-progress: false
+jobs:
+  map:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'pdfplumber==0.11.7'
+      - name: Extract only source-header-confirmed towns
+        run: python scripts/map_uk_mod_towns.py
+      - name: Validate and commit reviewed location feed
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          rows=json.loads(Path('data/disclosure-map.json').read_text('utf-8'))
+          assert len({r['id'] for r in rows})==len(rows)
+          for r in rows:
+            assert -9<=r['lon']<=3 and 49<=r['lat']<=60
+            assert r['source'].startswith('https://')
+            assert 'street' not in r and 'address' not in r
+          print('Validated UK location pins:',len(rows))
+          PY
+          git config user.name "Disclosure Desk Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/disclosure-map.json
+          git diff --cached --quiet || (git commit -m "Map source-linked UK MoD town-level sighting reports" && git push)
+  publish:
+    needs: map
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/pages.yml
