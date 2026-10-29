@@ -5647,5 +5647,47 @@
     ],
     "locationPrecision": "approximate town centre",
     "assessment": "GEIPAN B — probable Mylar balloon"
+  },
+  {
+    "id": "dd-fr-geipan-1981-10-01678",
+    "title": "GEIPAN · Saint-Hilaire (Essonne) · 4 Oct 1981",
+    "category": "UAP",
+    "city": "Saint-Hilaire, Essonne, France",
+    "lat": 48.4333,
+    "lon": 2.0761,
+    "eventDate": "1981-10-04",
+    "desc": "Witnesses reported lights at ground level at night. GEIPAN re-examined the file and classified it C: outside its remit for a ground-level phenomenon without evidence of aerial movement. Approximate commune centre, not the observation site.",
+    "source": "https://www.cnes-geipan.fr/fr/cas/1981-10-01678",
+    "documents": [
+      {
+        "title": "Official case and investigation report",
+        "publisher": "CNES / GEIPAN",
+        "url": "https://www.cnes-geipan.fr/fr/cas/1981-10-01678",
+        "kind": "Official investigation record"
+      }
+    ],
+    "locationPrecision": "approximate town centre",
+    "assessment": "GEIPAN C — not exploitable within its remit"
+  },
+  {
+    "id": "dd-fr-geipan-1981-10-00891",
+    "title": "GEIPAN · Saint-Pierre (Réunion) · 22 Oct 1981",
+    "category": "UAP",
+    "city": "Saint-Pierre, Réunion, France",
+    "lat": -21.339,
+    "lon": 55.478,
+    "eventDate": "1981-10-22",
+    "desc": "Two witnesses reported a bright stationary phenomenon in the direction of the rising sun. GEIPAN re-examined the report and classified it C for insufficient reliable information; an aircraft condensation trail remained a possible explanation. Approximate town centre only.",
+    "source": "https://www.cnes-geipan.fr/fr/cas/1981-10-00891",
+    "documents": [
+      {
+        "title": "Official case and investigation report",
+        "publisher": "CNES / GEIPAN",
+        "url": "https://www.cnes-geipan.fr/fr/cas/1981-10-00891",
+        "kind": "Official investigation record"
+      }
+    ],
+    "locationPrecision": "approximate town centre",
+    "assessment": "GEIPAN C — insufficient reliable information"
   }
 ]
