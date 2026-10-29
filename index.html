@@ -528,10 +528,11 @@ function mapClusterGroups(entries){
  }
  return [...groups.values()];
 }
-function mapClusterPopup(items){
- return '<div style="max-height:270px;overflow-y:auto"><strong>'+items.length+' reported cases in this area</strong><br><small>Approximate town/region locations · not confirmed UFO hotspots</small>'+
- items.slice(0,60).map(r=>'<div style="border-top:1px solid #52616a;padding:8px 0"><strong>'+esc(r.title)+'</strong><br><small>'+esc(r.city)+' · '+esc(String(r.year))+'</small><br><a href="'+esc(r.source)+'" target="_blank" rel="noopener noreferrer">Official/source document ↗</a> · <button type="button" class="evidence-open" data-evidence-open="'+esc(r.id)+'">Open case</button></div>').join('')+
- (items.length>60?'<small>Showing first 60. Narrow by year to see more.</small>':'')+'</div>';
+function mapClusterPopup(items,visible=30){
+ const shown=items.slice(0,visible);
+ return '<div style="max-height:300px;overflow-y:auto"><strong>'+items.length+' reported cases in this area</strong><br><small>Approximate town/region locations · not confirmed UFO hotspots</small>'+
+ shown.map(r=>'<div style="border-top:1px solid #52616a;padding:8px 0"><strong>'+esc(r.title)+'</strong><br><small>'+esc(r.city)+' · '+esc(String(r.year))+'</small><br><a href="'+esc(r.source)+'" target="_blank" rel="noopener noreferrer">Official/source document ↗</a> · <button type="button" class="evidence-open" data-evidence-open="'+esc(r.id)+'">Open case</button></div>').join('')+
+ (items.length>shown.length?'<button type="button" class="outline" data-map-cluster-more="1" style="width:100%;margin-top:8px">Load 30 more ('+shown.length+' of '+items.length+')</button>':'')+'</div>';
 }
 function renderMapPins(){
  if(!map||!layer)return;
@@ -547,18 +548,24 @@ function renderMapPins(){
   const width=items.length>99?48:items.length>9?42:36;
   const icon=L.divIcon({className:'',html:'<div class="dd-map-cluster '+(items.length>19?'dd-map-cluster-large':'')+'" style="width:'+width+'px;height:'+width+'px" aria-label="'+items.length+' reported cases">'+items.length+'</div>',iconSize:[width,width],iconAnchor:[width/2,width/2]});
   const marker=L.marker([lat,lon],{icon}).addTo(layer);
+  // Paginate large same-town clusters without building hundreds of popup rows at once.
+  const showCluster=(visible=30)=>{
+   marker.bindPopup(mapClusterPopup(items,visible),{maxWidth:340,minWidth:240}).openPopup();
+   const more=marker.getPopup()?.getElement()?.querySelector('[data-map-cluster-more]');
+   if(more)more.onclick=()=>showCluster(visible+30);
+  };
   marker.on('click',()=>{
    if(map.getZoom()<10){
     const bounds=L.latLngBounds(items.map(r=>[r.lat,r.lon]));
     // At shared town-centre coordinates, zooming can never separate cases.
     // Open the case list immediately instead of making users tap repeatedly.
     if(bounds.getNorthEast().distanceTo(bounds.getSouthWest())<500){
-     marker.bindPopup(mapClusterPopup(items),{maxWidth:340,minWidth:240}).openPopup();
+     showCluster();
     }else{
      const next=Math.min(map.getZoom()+3,10);
      map.fitBounds(bounds.pad(0.3),{maxZoom:next});
     }
-   }else marker.bindPopup(mapClusterPopup(items),{maxWidth:340,minWidth:240}).openPopup();
+   }else showCluster();
   });
  }
 }
