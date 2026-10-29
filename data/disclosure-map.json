@@ -5689,5 +5689,89 @@
     ],
     "locationPrecision": "approximate town centre",
     "assessment": "GEIPAN C — insufficient reliable information"
+  },
+  {
+    "id": "dd-fr-geipan-1980-10-00809",
+    "title": "GEIPAN · Monthermé · 1980-10-11",
+    "category": "UAP",
+    "city": "Monthermé, Ardennes, France",
+    "lat": 49.884,
+    "lon": 4.739,
+    "eventDate": "1980-10-11",
+    "desc": "A family reported luminous phenomena near their home. GEIPAN reassessed the former Class D case as Class C because accounts conflicted and key information was insufficient. Pin indicates an approximate town centre, not the witness observation point.",
+    "source": "https://www.cnes-geipan.fr/fr/cas/1980-10-00809",
+    "documents": [
+      {
+        "title": "GEIPAN case 1980-10-00809",
+        "publisher": "CNES / GEIPAN",
+        "url": "https://www.cnes-geipan.fr/fr/cas/1980-10-00809",
+        "kind": "Official case record"
+      }
+    ],
+    "locationPrecision": "approximate town centre",
+    "assessment": "C — insufficient consistent testimony"
+  },
+  {
+    "id": "dd-fr-geipan-1981-03-00864",
+    "title": "GEIPAN · Metz · 1981-03-30",
+    "category": "UAP",
+    "city": "Metz, Moselle, France",
+    "lat": 49.12,
+    "lon": 6.177,
+    "eventDate": "1981-03-30",
+    "desc": "Six witnesses reported a multicoloured sphere. GEIPAN considered a festive balloon plausible but retained Class C because the testimony could not resolve the explanation. Pin indicates an approximate town centre, not the witness observation point.",
+    "source": "https://www.cnes-geipan.fr/fr/cas/1981-03-00864",
+    "documents": [
+      {
+        "title": "GEIPAN case 1981-03-00864",
+        "publisher": "CNES / GEIPAN",
+        "url": "https://www.cnes-geipan.fr/fr/cas/1981-03-00864",
+        "kind": "Official case record"
+      }
+    ],
+    "locationPrecision": "approximate town centre",
+    "assessment": "C — insufficient information"
+  },
+  {
+    "id": "dd-fr-geipan-1980-04-00761",
+    "title": "GEIPAN · Fay-le-Clos · 1980-03-29",
+    "category": "UAP",
+    "city": "Fay-le-Clos, Drôme, France",
+    "lat": 45.216,
+    "lon": 4.913,
+    "eventDate": "1980-03-29",
+    "desc": "Witnesses in cars described a bright circular light. GEIPAN reassessed the original Class D case as Class A, very probably the planet Venus. Pin indicates an approximate town centre, not the witness observation point.",
+    "source": "https://www.cnes-geipan.fr/fr/cas/1980-04-00761",
+    "documents": [
+      {
+        "title": "GEIPAN case 1980-04-00761",
+        "publisher": "CNES / GEIPAN",
+        "url": "https://www.cnes-geipan.fr/fr/cas/1980-04-00761",
+        "kind": "Official case record"
+      }
+    ],
+    "locationPrecision": "approximate town centre",
+    "assessment": "A — likely planet Venus"
+  },
+  {
+    "id": "dd-fr-geipan-1981-01-00850",
+    "title": "GEIPAN · Calais · 1981-01-09",
+    "category": "UAP",
+    "city": "Calais, Pas-de-Calais, France",
+    "lat": 50.952,
+    "lon": 1.858,
+    "eventDate": "1981-01-09",
+    "desc": "Three witnesses reported a moving elongated luminous object. GEIPAN investigated the possibility of an aircraft contrail; see original case record for its final classification. Pin indicates an approximate town centre, not the witness observation point.",
+    "source": "https://www.cnes-geipan.fr/fr/cas/1981-01-00850",
+    "documents": [
+      {
+        "title": "GEIPAN case 1981-01-00850",
+        "publisher": "CNES / GEIPAN",
+        "url": "https://www.cnes-geipan.fr/fr/cas/1981-01-00850",
+        "kind": "Official case record"
+      }
+    ],
+    "locationPrecision": "approximate town centre",
+    "assessment": "GEIPAN investigated; review original conclusion"
   }
 ]
