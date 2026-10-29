@@ -5761,7 +5761,7 @@
     "lat": 50.952,
     "lon": 1.858,
     "eventDate": "1981-01-09",
-    "desc": "Three witnesses reported a moving elongated luminous object. GEIPAN investigated the possibility of an aircraft contrail; see original case record for its final classification. Pin indicates an approximate town centre, not the witness observation point.",
+    "desc": "Three witnesses reported a moving elongated luminous object. GEIPAN reclassified the case as B: probable high-altitude aircraft contrails illuminated by the rising sun. Pin indicates an approximate town centre, not the witness observation point.",
     "source": "https://www.cnes-geipan.fr/fr/cas/1981-01-00850",
     "documents": [
       {
@@ -5772,6 +5772,6 @@
       }
     ],
     "locationPrecision": "approximate town centre",
-    "assessment": "GEIPAN investigated; review original conclusion"
+    "assessment": "GEIPAN B — probable high-altitude aircraft contrail"
   }
 ]
