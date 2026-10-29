@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "description": "Source discovery queue for international case imports. Listing a collection does not authorise copying, publishing or mapping individual incidents.",
+  "sources": [
+    {
+      "country": "France",
+      "name": "CNES GEIPAN case search",
+      "url": "https://www.cnes-geipan.fr/en/search/cas",
+      "status": "case-review",
+      "sourceType": "official-investigation",
+      "note": "Preserve A/B/C/D classification and changes; individual source and approximate town location required."
+    },
+    {
+      "country": "Brazil",
+      "name": "Arquivo Nacional OVNI collection",
+      "url": "https://www.gov.br/arquivonacional/pt-br/canais_atendimento/imprensa/noticias/conheca-o-fundo-sobre-ovnis-do-arquivo-nacional",
+      "status": "catalogue-review",
+      "sourceType": "official-archive",
+      "note": "Collection contains reports and other material, not one sighting per document. Obtain individual SIAN references before mapping."
+    },
+    {
+      "country": "Russia",
+      "name": "Russian historical UAP case-source discovery",
+      "url": null,
+      "status": "source-needed",
+      "sourceType": "research-queue",
+      "note": "No verified bulk source approved. Seek primary documents and translation before importing."
+    },
+    {
+      "country": "India",
+      "name": "Indian historical UAP case-source discovery",
+      "url": null,
+      "status": "source-needed",
+      "sourceType": "research-queue",
+      "note": "No verified bulk source approved. Seek official aviation/defence documentation or attributable contemporary reporting."
+    },
+    {
+      "country": "South Africa",
+      "name": "South African historical UAP case-source discovery",
+      "url": null,
+      "status": "source-needed",
+      "sourceType": "research-queue",
+      "note": "Do not copy third-party sighting databases without permission; review original reports and city-level locations."
+    },
+    {
+      "country": "Africa (other)",
+      "name": "Additional African country archives",
+      "url": null,
+      "status": "source-needed",
+      "sourceType": "research-queue",
+      "note": "Country-by-country source review; distinguish reports from independently investigated incidents."
+    }
+  ]
+}
