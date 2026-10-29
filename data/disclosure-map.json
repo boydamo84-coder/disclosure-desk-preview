@@ -5605,5 +5605,47 @@
     ],
     "archiveRecordId": "uk-mod-ufo-2009-p38-t0-r14",
     "locationPrecision": "approximate town centre"
+  },
+  {
+    "id": "dd-fr-geipan-1980-01-00709",
+    "title": "GEIPAN · Compiègne · 1 Jan 1980 (Class D)",
+    "category": "UAP",
+    "city": "Compiègne, France",
+    "lat": 49.417,
+    "lon": 2.826,
+    "eventDate": "1980-01-01",
+    "desc": "GEIPAN reports repeated observations of an orange luminous phenomenon by military witnesses. The published case remains Class D (unexplained). This marker represents Compiègne town centre, not a sighting position; unexplained does not establish extraordinary origin.",
+    "source": "https://www.cnes-geipan.fr/fr/cas/1980-01-00709",
+    "documents": [
+      {
+        "title": "GEIPAN official case 1980-01-00709",
+        "publisher": "CNES / GEIPAN",
+        "url": "https://www.cnes-geipan.fr/fr/cas/1980-01-00709",
+        "kind": "Official investigation record"
+      }
+    ],
+    "locationPrecision": "approximate town centre",
+    "assessment": "GEIPAN D — unexplained"
+  },
+  {
+    "id": "dd-fr-geipan-1979-07-00639",
+    "title": "GEIPAN · Fréjus · 13 Jul 1979 (Class B)",
+    "category": "UAP",
+    "city": "Fréjus, France",
+    "lat": 43.433,
+    "lon": 6.737,
+    "eventDate": "1979-07-13",
+    "desc": "Two witnesses reported a bright spherical object. GEIPAN re-examined the report and classified it B: probable Mylar balloon. The marker is an approximate town centre, not the observation position.",
+    "source": "https://www.cnes-geipan.fr/fr/cas/1979-07-00639",
+    "documents": [
+      {
+        "title": "GEIPAN official case 1979-07-00639",
+        "publisher": "CNES / GEIPAN",
+        "url": "https://www.cnes-geipan.fr/fr/cas/1979-07-00639",
+        "kind": "Official investigation record"
+      }
+    ],
+    "locationPrecision": "approximate town centre",
+    "assessment": "GEIPAN B — probable Mylar balloon"
   }
 ]
