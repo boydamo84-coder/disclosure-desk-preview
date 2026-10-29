@@ -3,6 +3,15 @@
   "description": "Source discovery queue for international case imports. Listing a collection does not authorise copying, publishing or mapping individual incidents.",
   "sources": [
     {
+      "country": "Germany",
+      "name": "GEP UFO/UAP case data 1972–September 2026",
+      "url": "https://zenodo.org/records/23117630",
+      "doi": "10.5281/zenodo.23117630",
+      "status": "licence-and-schema-review",
+      "sourceType": "research-organisation-dataset",
+      "note": "2.5 MB CSV. Exact licence of October 2026 version and column contents must be checked before republishing. Do not import source text or raw location fields until privacy validation; map only reviewed city-level coordinates. Source dataset is not independently verified sightings."
+    },
+    {
       "country": "France",
       "name": "CNES GEIPAN case search",
       "url": "https://www.cnes-geipan.fr/en/search/cas",
