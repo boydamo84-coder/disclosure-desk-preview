@@ -34,7 +34,10 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument("reviewed_json",type=Path)
     p.add_argument("--apply",action="store_true")
+    p.add_argument("--batch-size",type=int,default=5000,help="Maximum new records per run (1-5000)")
     a=p.parse_args()
+    if not 1 <= a.batch_size <= 5000:
+        raise ValueError("Batch size must be between 1 and 5000")
     incoming=json.loads(a.reviewed_json.read_text(encoding="utf-8"))
     existing=json.loads(TARGET.read_text(encoding="utf-8"))
     if not isinstance(incoming,list) or not isinstance(existing,list):
@@ -50,7 +53,9 @@ def main():
         ids.add(row["id"])
         sources.add(row["source"])
         pending.append(row)
-    print("Validated new cases:",len(pending))
+    total=len(pending)
+    pending=pending[:a.batch_size]
+    print("Validated new cases:",total,"; selected for batch:",len(pending),"; remaining:",total-len(pending))
     if a.apply and pending:
         TARGET.write_text(json.dumps(existing+pending,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
         print("Saved approved records")
