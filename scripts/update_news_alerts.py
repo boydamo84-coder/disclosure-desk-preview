@@ -16,6 +16,15 @@ QUERIES=[
 ]
 PUBLISHERS=("Reuters","Associated Press","AP News","BBC","The Guardian","Sky News","CNN","ABC News","NBC News","CBS News","The New York Times","The Washington Post","AFP","France 24","Al Jazeera","DW","Euronews","CBC","The Independent")
 RELEVANCE=re.compile(r'\b(uap|ufo|unidentified anomalous|unidentified aerial|alien|extraterrestrial|skinwalker ranch|cryptids?|bigfoot|sasquatch|alien abduction|close encounter|unexplained phenomena)\b',re.I)
+# Filter ambiguous phrases that routinely produce unrelated mainstream headlines.
+FALSE_POSITIVES=re.compile(r"\\b(close encounter with (?:the |a |an )?(?:king|queen|prince|princess|ball|football|fan|crowd|animal)|street ball game|close encounter with a shark)\\b",re.I)
+def relevant_headline(title):
+    if FALSE_POSITIVES.search(title):return False
+    # Broad phrases need an anomalous/space context; avoid ordinary human encounters.
+    lowered=title.lower()
+    ambiguous=bool(re.search(r"\\bclose encounter(s)?\\b",lowered))
+    context=bool(re.search(r"\\b(ufo|uap|alien|extraterrestrial|anomalous|unidentified|space|sighting|abduction|sky|mystery|paranormal)\\b",lowered))
+    return bool(RELEVANCE.search(title)) and (not ambiguous or context)
 MAJOR=re.compile(r'\b(pentagon|congress|nasa|aar o|aaro|department of defense|ministry of defence|government|official|military|hearing|declassified|released files|new documents)\b',re.I)
 def approved_rss_image(item):
     """Accept actual publisher-provided RSS media URLs; never invent photos."""
@@ -94,7 +103,7 @@ def collect(query):
         link=(item.findtext("link") or "").strip()
         publisher=(item.findtext("source") or "").strip()
         if not any(publisher.casefold()==allowed.casefold() for allowed in PUBLISHERS) or not title or not link.startswith("https://"):continue
-        if not RELEVANCE.search(title):continue
+        if not relevant_headline(title):continue
         # Broadly relevant mainstream reports are useful in the live feed;
         # stronger priority labels can be applied separately for breaking alerts.
         date=item.findtext("pubDate") or ""
@@ -128,7 +137,7 @@ def collect_direct_feed(publisher,feed_url):
     for item in root.findall(".//item"):
         title=(item.findtext("title") or "").strip()
         url=(item.findtext("link") or "").strip()
-        if not title or not RELEVANCE.search(title) or not public_https(url):continue
+        if not title or not relevant_headline(title) or not public_https(url):continue
         date=item.findtext("pubDate") or ""
         try:published=parsedate_to_datetime(date).astimezone(dt.timezone.utc)
         except (TypeError,ValueError,OverflowError):continue
@@ -192,7 +201,7 @@ def main():
                 unique[entry["id"]]=entry
         except Exception as exc:
             print("Direct publisher feed unavailable:",publisher,type(exc).__name__)
-    recent=consolidate(unique.values())[:1200]
+    recent=consolidate(e for e in unique.values() if relevant_headline(e.get("headline","")))[:1200]
     # Resolve a bounded batch of opaque Google News URLs to real publisher pages.
     # This uses Google's current URL resolution mechanism; failures are harmless.
     slot=int(now.timestamp()//7200)
