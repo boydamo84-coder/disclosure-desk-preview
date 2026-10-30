@@ -73,6 +73,6 @@ document.getElementById('ddCloudLogout').onclick=async()=>{await db.auth.signOut
 document.getElementById('ddCloudUpload').onclick=upload;
 document.getElementById('ddCloudDownload').onclick=download;
 document.getElementById('ddCloudReset').onclick=async()=>{const e=email.value.trim();if(!e){say('Enter your email to request a password reset.');return}const {error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin+'/'});say(error?'Reset request failed: '+error.message:'Check your email for a password-reset link.');};
-db.auth.onAuthStateChange(()=>setTimeout(refresh,0));
+db.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY'){setTimeout(async()=>{const next=prompt('Choose your new Disclosure Desk password (minimum 8 characters):');if(!next)return;if(next.length<8){say('Password must contain at least 8 characters.');return}const {error}=await db.auth.updateUser({password:next});say(error?'Password update failed: '+error.message:'Password updated. You can now sign in.');},0)}setTimeout(refresh,0)});
 refresh();
 })();
