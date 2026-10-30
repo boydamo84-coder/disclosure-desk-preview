@@ -16,6 +16,21 @@ QUERIES=[
 PUBLISHERS=("Reuters","Associated Press","AP News","BBC","The Guardian","Sky News","CNN","ABC News","NBC News","CBS News","The New York Times","The Washington Post","AFP","France 24","Al Jazeera","DW","Euronews","CBC","The Independent")
 RELEVANCE=re.compile(r'\b(uap|ufo|unidentified anomalous|unidentified aerial|alien|extraterrestrial|skinwalker ranch|cryptids?|bigfoot|sasquatch|alien abduction|close encounter|unexplained phenomena)\b',re.I)
 MAJOR=re.compile(r'\b(pentagon|congress|nasa|aar o|aaro|department of defense|ministry of defence|government|official|military|hearing|declassified|released files|new documents)\b',re.I)
+def approved_rss_image(item):
+    """Accept actual publisher-provided RSS media URLs; never invent photos."""
+    tags=("{http://search.yahoo.com/mrss/}content",
+          "{http://search.yahoo.com/mrss/}thumbnail",
+          "enclosure")
+    for tag in tags:
+        for node in item.findall(tag):
+            url=(node.get("url") or "").strip()
+            typ=(node.get("type") or "").lower()
+            if url.startswith("https://") and (tag!="enclosure" or typ.startswith("image/")):
+                parsed=urllib.parse.urlsplit(url)
+                if parsed.hostname and not parsed.username and len(url)<1500:
+                    return url
+    return None
+
 def collect(query):
     url="https://news.google.com/rss/search?"+urllib.parse.urlencode({"q":query,"hl":"en-GB","gl":"GB","ceid":"GB:en"})
     req=urllib.request.Request(url,headers={"User-Agent":"DisclosureDeskResearch/1.0"})
@@ -37,7 +52,10 @@ def collect(query):
         if not dt.timedelta(0)<=now-published<=dt.timedelta(days=365):continue
         clean=re.sub(r"\s+-\s+"+re.escape(publisher)+r"$","",title).strip()
         uid=hashlib.sha256((clean.lower()+"|"+publisher).encode()).hexdigest()[:20]
-        found.append(dict(id=uid,headline=clean,source=publisher,url=link,date=published.isoformat(),category="UAP",priority=("major" if MAJOR.search(clean) else "standard")) )
+        record=dict(id=uid,headline=clean,source=publisher,url=link,date=published.isoformat(),category="UAP",priority=("major" if MAJOR.search(clean) else "standard"))
+        image=approved_rss_image(item)
+        if image:record["imageUrl"]=image
+        found.append(record)
     return found
 def similar(a,b):
     """Compare substantive title words to remove syndicated/rewritten duplicates."""
