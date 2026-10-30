@@ -7,9 +7,8 @@
     "date": "2026-10-24T09:28:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "publisherUrl": "https://www.independent.co.uk/news/world/americas/pentagon-ufo-files-triangles-us-trump-b3072621.html",
     "imageUrl": "https://static.independent.co.uk/2026/10/24/8/54/Screenshot-2026-10-24-at-09-09-18.png?trim=0,0,0,74&width=1200&height=800&crop=1200:800",
-    "imageSource": "publisher_meta"
+    "publisherUrl": "https://www.independent.co.uk/news/world/americas/pentagon-ufo-files-triangles-us-trump-b3072621.html"
   },
   {
     "id": "008d55b843dbf7d567d9",
@@ -19,9 +18,8 @@
     "date": "2026-10-24T05:58:41+00:00",
     "category": "UAP",
     "priority": "major",
-    "publisherUrl": "https://www.cbsnews.com/losangeles/news/new-pentagon-ufo-files-detail-sightings-over-catalina-island/",
     "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/10/24/08f21b69-9c92-4cb6-84d8-70c823b35ec1/thumbnail/1200x630/2e49e15f05bb57b9b3667f7c501be821/catalina-ufo.png",
-    "imageSource": "publisher_meta"
+    "publisherUrl": "https://www.cbsnews.com/losangeles/news/new-pentagon-ufo-files-detail-sightings-over-catalina-island/"
   },
   {
     "id": "49b4639821a22bbed2e8",
@@ -31,9 +29,8 @@
     "date": "2026-10-23T21:02:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "publisherUrl": "https://www.cbsnews.com/news/ufo-files-pentagon-triangular-craft/",
     "imageUrl": "https://assets2.cbsnewsstatic.com/hub/i/r/2026/10/23/d30caa55-8792-4014-8998-8471a8e64661/thumbnail/1200x630/bb789382a0429331e0033a2c642d192f/screenshot-2026-10-23-at-4-18-51-pm.png",
-    "imageSource": "publisher_meta"
+    "publisherUrl": "https://www.cbsnews.com/news/ufo-files-pentagon-triangular-craft/"
   },
   {
     "id": "a43e61ef63ff51e85916",
@@ -43,9 +40,8 @@
     "date": "2026-10-23T20:23:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "publisherUrl": "https://www.theguardian.com/world/2026/oct/23/ufo-pentagon-files",
     "imageUrl": "https://i.guim.co.uk/img/media/88c4a85fbc23a00f87395cdc6dff14db1ee7f624/0_0_1379_1104/master/1379.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=f32b1954d1997027fc2e2cd0f3ec4ca1",
-    "imageSource": "publisher_meta"
+    "publisherUrl": "https://www.theguardian.com/world/2026/oct/23/ufo-pentagon-files"
   },
   {
     "id": "5945b4c646b3c3b11ddb",
@@ -55,9 +51,8 @@
     "date": "2026-10-16T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "publisherUrl": "https://www.cbsnews.com/video/former-us-intel-official-releases-book-on-uap-government-cover-up/",
     "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/10/16/c4ced0c5-18a0-43b1-bc0d-ee5bb646def6/thumbnail/1200x630/f4ba0230cc9dd0ed24921272fc729391/cbsn-fusion-former-us-intel-official-releases-book-on-uap-government-cover-up-thumbnail.jpg",
-    "imageSource": "publisher_meta"
+    "publisherUrl": "https://www.cbsnews.com/video/former-us-intel-official-releases-book-on-uap-government-cover-up/"
   },
   {
     "id": "a82d2cdff1697632e01f",
@@ -66,7 +61,10 @@
     "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNZlZmNGFFWlBqUUR3N0IyS29SVUhLVDROYkNRYjUydmdvaVBnbnUwTE1fMHJybzRZMDNYcHVJaUlJRjJRZFo0bi1aN3lINU9jYV9HaWdNYXZ2TlZHSjB6eWJ2RDBHSWIyaFVoUTNHZ1FnQkRmdng5N1VrNjM1a0o3OElKbGZLSElrejFxTURUbllULTJfclN5b0VhY1c?oc=5",
     "date": "2026-10-13T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.cbsnews.com/newyork/video/li-familys-close-encounter-with-humpback-whale-goes-viral/",
+    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/10/13/60ba2844-3a71-443a-888d-ca74eddad800/thumbnail/1200x630/c00e7da7d3717112be6eb115c1419c00/fe078cb23c4ed872236d303559cefa68.png",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "0a9e3834392a1dca9fff",
@@ -207,7 +205,7 @@
     "id": "b2fcbe81b93c328747b6",
     "headline": "Watch: Pentagon releases fresh UFO videos in new document dump",
     "source": "BBC",
-    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1fWXVQN0tFN2Z4Q2ZrbUlGWUZ1RXljeWdETjFWVWtmb2o5WktJUDRLcWw2WmVHUGt0eUN5NlhyWDVYa0wwNUN4ano4SnNiSDg4TkRTcUI3ZC1MQQ?oc=5",
+    "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBYREVGSVMweGZIQTM1YXpYQ0ZjNkkwTjloMVB4M0NkN092d28yQnBCdHR2MlpfMVExZm5EYnd6cGxpWktjM28ySXRudnFjTTlhUjlnY2dOWQ?oc=5",
     "date": "2026-08-07T07:00:00+00:00",
     "category": "UAP",
     "priority": "major"
@@ -678,7 +676,10 @@
     "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5JbDdMUlhjZWRnRFJHMjVjOWxWR1lpLTAyVDVFdGZDZVYwUkpocUtCZWktc2N0MlZRckx5bEdHejc5UXBFUGRMbWNoS2NXWVBvNkxFeGt0Wm5HQQ?oc=5",
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.bbc.com/news/articles/c1m2epkey44o",
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3d2f/live/55b14d10-4b17-11f1-be9e-ad2f8d891a76.png",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "b978ae47550c8e369f4f",
@@ -687,7 +688,10 @@
     "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOMXdKX0NpcThmTmY3NmdiSnE1eUNxVllwcFlLWndxLW1mN2k2OHU3NndEVF9KNWdxakZrVnJRRW12WnZ4YTZ2SE5XNFhDekdlajdTdVVzblBnZF93TzZ3a0JCOXZBQU5LWjNZYTdfR2p1SEQ4Tm00a2tfaFRubUZLRDEyU2d1X3oxV0tSanN3Z2l0Ympsak5rN2lFYVNBTHFteEJUc1JhdzYzWklR?oc=5",
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.nbcnews.com/science/ufos-and-anomalous-phenomena/ufo-uap-files-pentagon-release-trump-rcna344204",
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-05/260508-uap-ufo-mn-0945-3ba239.jpg",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "91d80d6f4aeb9eaf02cb",
@@ -696,7 +700,8 @@
     "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBkYkJzOW8tOElfelQ2Z2NiRnVqcHA3MkpiQ2FtM2xRZlBDN3B6bzlsT3oyTFEzNnkwRzRvS2FWM0cyWTRnQWtDU2RwTnJwYVd4bGV3V3BQNVZxRTVKTVVhNkoyVFBVSmM?oc=5",
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.cnn.com/2026/05/08/us/bigfoot-sightings-ohio"
   },
   {
     "id": "23e00aca8a9c6ddcf09e",
@@ -705,7 +710,10 @@
     "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNQUlsYjJNTVhwRk82dVZwWGdEMmdUZmVuRGJBMUxXczZMTThMbzZOQ0w1S01lZW1SbjlYa09sQVpvY092X1QwN1hWRlhVcEpMaGJNdzlHSks2c3VnaG1jVHh2VWlPZFVONWVMTkgySmVMLU1XN25rdTZVa1Nxb1NSdkNaNkNDNk9OR0ZobjBmV1BxZlllSkJLVw?oc=5",
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.cbc.ca/news/world/ufo-files-released-unidentified-aerial-phenomena-nasa-9.7192864",
+    "imageUrl": "https://i.cbc.ca/ais/50c4115a-a1a3-41bf-ba00-cea4bb157870,1778274584549/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C145%2C3420%2C1923%29%3BResize%3D620",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "720fbcb4e4a90e156846",
@@ -714,7 +722,10 @@
     "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQRVZsYlJ5OGxHcWloQllsRlpreld0dy1GNU45ZGZDNDRKSWNjLWN4RlB6OHM3eHd0bGxyTGVjZUM2MDl0QWVZVWZZYUlzT3lLN1BBaERSYXJ2QUJTcmZnaHFCU3NhX3BqSTlCWkFmYXB0dk9vQlNTaFJSNGg4QTdZdUcwWXM0QWhLbVkwY0czY3JITndYZFQ0Y0o3QVZlS0FMWmtDSnFiWmpYNGxs0gGyAUFVX3lxTE9pMXdJWHhqdXk4ekxDYlB2RkVIaWwyS2VXN2V5bWFMa2JYaGNTUUlsVW1USm9DQVJHcTBseHEtSnZ0ZjBleGI1RVdtSGxWTkFtMXBCel85bUhiQ1JMekhScjh0RXJ1VjljbHo5ZjNjY3l2MTBVTUZBSHBzMEh4VEhGbVN4b0FLTFpJVTVweE1ub01jaDZJbnktdTZfb3VVYXh6blExcUNDQVp2ME1QRUZ6NUE?oc=5",
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.aljazeera.com/news/2026/5/8/make-up-their-own-minds-pentagon-releases-first-tranche-of-ufo-files",
+    "imageUrl": "https://www.aljazeera.com/wp-content/uploads/2026/05/afp_69fdf38c18c3-1778250636.jpg?resize=1200%2C630",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "2e721a2f47861731cf69",
@@ -723,7 +734,10 @@
     "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBUMC1fRW90LUYzOTZlT2NvR3BsZWpydUhkRkxzcVFlV3VWUGdoVHRKV0pxSWZxYU51djlLd0x2YXJkTXNUelYyenVBQ05xWVhNVzYyQTdBQ2RmOS1JTWJjZXF1d1pJcV9vc01HaF9CeTE?oc=5",
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.cbsnews.com/news/pentagon-begins-release-ufo-files/",
+    "imageUrl": "https://assets2.cbsnewsstatic.com/hub/i/r/2026/05/08/be16d4fa-f081-483e-8d16-7978fd6be40f/thumbnail/1200x630/7783e5382eb495fed6fd82904fd4ff98/dow-uap-pr46-unresolved-uap-report-indopacom-2024.jpg",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "1eb50a2fdcb6bb40ebd3",
@@ -732,7 +746,10 @@
     "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5VMTBMTVFQOEQtb3ZDV1JDZmY2NDExclIySWdqZFM1eXRwQ1Fqbjc2NDNObkpUMDFfNmNDQnhJbmRCQ1p3TjlCMVR0S2M5UHdESk1NRGxFTXVoOXZ2a0gxWTU1UXAwQjRPQVZ4dzJDLVJ1SkU?oc=5",
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.cbsnews.com/news/ufo-files-released-scientists-trump/",
+    "imageUrl": "https://assets2.cbsnewsstatic.com/hub/i/r/2025/09/10/97734feb-5904-4635-9202-47b73d97e3ff/thumbnail/1200x630g7/ab016c06f305d0c7f6d6caf999278488/1757512699013.png",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "ab8111687115b76c4255",
