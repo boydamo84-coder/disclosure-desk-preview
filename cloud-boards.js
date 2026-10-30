@@ -29,8 +29,8 @@ async function auth(mode){
   const out=mode==='signup'?await db.auth.signUp({email:e,password:p,options:{emailRedirectTo:location.origin+'/'}}):await db.auth.signInWithPassword({email:e,password:p});
   if(out.error)throw out.error;
   pass.value='';
-  say(mode==='signup'&&!out.data.session?'Check your email for the confirmation link, then sign in.':'Signed in. Your device boards have not been changed.');
   await refresh();
+  if(mode==='signup'&&!out.data.session){say('Account created. Check your inbox for the Disclosure Desk confirmation email and tap its verification link before signing in. Check spam if needed.')}else{say('Signed in successfully. Your existing device boards have not been changed.')}
  }catch(ex){say('Account action failed: '+ex.message)}
 }
 async function upload(){
