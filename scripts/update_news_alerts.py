@@ -2,7 +2,8 @@
 """Curate source-attributed UAP/world-mystery headlines for optional Android alerts.
 Only mainstream publishers; no unsourced headlines and no private information.
 """
-import datetime as dt, hashlib, json, pathlib, re, urllib.parse, urllib.request, xml.etree.ElementTree as ET
+import datetime as dt, hashlib, html, ipaddress, json, pathlib, re, socket, urllib.parse, urllib.request, xml.etree.ElementTree as ET
+from html.parser import HTMLParser
 from email.utils import parsedate_to_datetime
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 OUT=ROOT/"data/news-alerts.json"
@@ -31,6 +32,56 @@ def approved_rss_image(item):
                     return url
     return None
 
+class ImageMetaParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.images=[]
+    def handle_starttag(self,tag,attrs):
+        if tag!="meta":return
+        fields=dict(attrs)
+        key=(fields.get("property") or fields.get("name") or "").lower()
+        if key in ("og:image","og:image:url","twitter:image","twitter:image:src"):
+            self.images.append(fields.get("content",""))
+
+def public_https(url):
+    try:
+        parsed=urllib.parse.urlsplit(url)
+        if parsed.scheme!="https" or not parsed.hostname or parsed.username or parsed.password or len(url)>1600:return False
+        host=parsed.hostname.lower()
+        if host in ("localhost","metadata.google.internal") or host.endswith((".local",".internal")):return False
+        try:
+            addr=ipaddress.ip_address(host)
+            return addr.is_global
+        except ValueError:
+            return True
+    except ValueError:return False
+
+def publisher_image(link,source_host):
+    """Resolve an RSS link and read publisher page metadata, without copying photos."""
+    if not public_https(link):return None
+    try:
+        req=urllib.request.Request(link,headers={"User-Agent":"Mozilla/5.0 (compatible; DisclosureDeskResearch/1.0)"})
+        with urllib.request.urlopen(req,timeout=7) as response:
+            article=response.geturl()
+            if not public_https(article):return None
+            host=urllib.parse.urlsplit(article).hostname.lower()
+            # Don't mistake a Google News landing-page illustration for the article.
+            if host.endswith(("google.com","google.co.uk","googleusercontent.com")):return None
+            # Feed publisher URLs are an optional additional consistency check.
+            if source_host and host!=source_host and not host.endswith("."+source_host) and not source_host.endswith("."+host):
+                return None
+            typ=response.headers.get("Content-Type","").lower()
+            if "text/html" not in typ:return None
+            page=response.read(250000).decode("utf-8","replace")
+        parser=ImageMetaParser()
+        parser.feed(page)
+        for candidate in parser.images:
+            image=urllib.parse.urljoin(article,html.unescape(candidate.strip()))
+            if public_https(image) and not urllib.parse.urlsplit(image).hostname.lower().endswith(("google.com","googleusercontent.com")):
+                return image
+    except (OSError,ValueError,UnicodeError,TimeoutError):pass
+    return None
+
 def collect(query):
     url="https://news.google.com/rss/search?"+urllib.parse.urlencode({"q":query,"hl":"en-GB","gl":"GB","ceid":"GB:en"})
     req=urllib.request.Request(url,headers={"User-Agent":"DisclosureDeskResearch/1.0"})
@@ -55,6 +106,7 @@ def collect(query):
         record=dict(id=uid,headline=clean,source=publisher,url=link,date=published.isoformat(),category="UAP",priority=("major" if MAJOR.search(clean) else "standard"))
         image=approved_rss_image(item)
         if image:record["imageUrl"]=image
+        # RSS rarely supplies media; defer article metadata checks to a capped refresh pass.
         found.append(record)
     return found
 def similar(a,b):
@@ -92,10 +144,26 @@ def main():
     for q in QUERIES:
         try:
             for entry in collect(q):
+                old=unique.get(entry["id"],{})
+                if old.get("imageUrl") and not entry.get("imageUrl"):entry["imageUrl"]=old["imageUrl"]
                 unique[entry["id"]]=entry
                 fetched+=1
         except Exception as e:print("News source unavailable:",str(e)[:130])
     recent=consolidate(unique.values())[:1200]
+    # Bound network requests to prevent news schedules from stalling.
+    # Google News RSS often uses opaque links; those remain themed art.
+    checked=0
+    for entry in recent:
+        if checked>=24:break
+        if entry.get("imageUrl"):continue
+        source_url=entry.get("url","")
+        if not public_https(source_url):continue
+        if urllib.parse.urlsplit(source_url).hostname.lower() not in ("news.google.com",):
+            continue
+        checked+=1
+        image=publisher_image(source_url,None)
+        if image:entry["imageUrl"]=image
+    print(f"Publisher image checks: {checked}; image URLs available: {sum(bool(v.get('imageUrl')) for v in recent)}")
     if not recent:
         print("No eligible sourced reports found within one year; feed remains empty")
     OUT.write_text(json.dumps(recent,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
