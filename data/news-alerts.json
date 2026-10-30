@@ -213,7 +213,10 @@
     "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxORUplRUtwT19Zek1aWDdwMllOR0cySmwxb2ZUaEJWN2dIM2E2Uks1YmhETGkzMFkxU2hCLVA1NHdpc084elFhWjN3Sjh6Yzk0QWlwQjd0U1VDZ0kyOHYyVUdkeXJmMkUwcjIwb1lMTGJQU2VuLUtVZFVuSWswcVBackpHMA?oc=5",
     "date": "2026-08-07T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.cbsnews.com/news/ufo-files-pentagon-5th-release-documents-videos/",
+    "imageUrl": "https://assets1.cbsnewsstatic.com/hub/i/r/2026/08/07/9b3db812-037e-428a-b511-f3a495d1d5f9/thumbnail/1200x630/4bcb692226f6c36109624aaad0aefa15/screenshot-2026-08-07-at-8-54-30-am.png",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "2dc15181dfcbc27ac5e6",
@@ -222,7 +225,10 @@
     "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNbGdVWWxQUVJOTzg1QWY0N0ZtclBQem5TZ3d1NGJGa0t6X3htcGdVb2Y3OFU3em1IUS1yN1NzVVh4WEJDdHBQTHo1Nl9sWUczWjcxNkdNR0R3TXZtR0pEVEIweHNIMGFOQVlxVU0xdXdUQnVXTWdsb0FNYlVDalgzQTR2d2tNZUdnNHdRWHZB?oc=5",
     "date": "2026-08-07T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.nbcnews.com/video/pentagon-releases-fifth-batch-of-uap-files-267979333691",
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/mpx/2704722219/2026_08/1787002887150_now_staytuned_loeb_uap_260807_S3_1920x1080-84voe0.jpg",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "d1b3eb8863afa12b3908",
@@ -231,7 +237,10 @@
     "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOYlBuNTlZLU4tbHpQU0dfMVVsbUhCZTRwWEE3UGhPZTExeEZ1Mi03a2RDSGxkT1FkTVl2ZjJFejZxd1o0c2lDX1hBSE4zSmo2ckdzbEFyMGhvTE1xaWxJRC1kdXMtakFlZGpCWk9YSVdwbUZKT1FyUkYtc01FYXUyb1NKNC15Z3I1SXlIUlRIRDJ0bWZyUGRnTEFkUVVOd2VTeTNVNXBnRmJTOXlkMzhXc3k1NldpaGs?oc=5",
     "date": "2026-08-02T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.cbc.ca/news/canada/nova-scotia/shag-harbour-ufo-incident-oct-4-1967-laurie-wickens-nova-scotia-9.7292815",
+    "imageUrl": "https://i.cbc.ca/ais/4ce467bf-f494-4ccb-a68c-f9aa889bee45,1785524576564/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C59%2C3000%2C1687%29%3BResize%3D620",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "0139c181048e35bcb0a7",
@@ -240,7 +249,10 @@
     "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOVFhfWFVwYXR5V3Y2ZFRjdWVGVUV5RHJ6OWVNMmZXUnhRdFpRWmg1eGRTdmhrVFViY3hmemlNbEZ1NXZTMVRfcE1tVkdQRE51RlEyRnotRzlZcXk1TFRiNXFEcGJ3ekxxSXpPUGpRUzZuN1JYbE9HR2xkdDlxY2gySDB6X2pCLWxPRzQxVC0zLVcwOUc1MzdZ?oc=5",
     "date": "2026-07-28T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.independent.co.uk/news/uk/home-news/ufo-letter-durban-south-africa-b3022890.html",
+    "imageUrl": "https://static.independent.co.uk/2026/07/28/9/59/Durban_Botanic_cycads_and_trees-2f6caa02.jpeg?trim=36,0,36,0&width=1200&height=800&crop=1200:800",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "c96b5cfd09d09066b04d",
@@ -249,7 +261,10 @@
     "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQTldSbF95S3pTdjluSzR3dW1FcFRkOG9tNC0yaUVpQ0lkTmQ2RWlLT3hIcjVPOFBUYWpGeU04Zk5hNFFVbThHX2RYWTlmNWo3NE5Fakp5bWxVOXoybzVVaWNaMnEtc1ExR3d5dGF1MW14QTZpbFZyRmZCUV9aWS1WNVRnQ1I1dVlERFBhUzJQTUhJTHNEam5zNFhB?oc=5",
     "date": "2026-07-27T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.bbc.com/travel/article/20260724-an-up-close-encounter-with-giant-sharks-in-ireland",
+    "imageUrl": "https://ychef.files.bbci.co.uk/624x351/p0p0r2zq.jpg",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "8f713617120916504351",
@@ -258,7 +273,10 @@
     "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNY0FVdkpUM2FveWRzZVJKNmczSWR1MkoxRlR6dUlNN0tFVFl1dnhvWjJ0QVRCdzd4ejVmT0xOcy1sRlVtZm11R1BuT3gzOGw3U3E2Sk1CUHhvc1JlR21BUmdyZDAtdTEwOFdkdi1uMG4tT0toM1hPemk4ckpaYndQcjNtQ1hWZ2ctdFN1aDNoY2V3ZGlCMXdWWlpBblA?oc=5",
     "date": "2026-07-23T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.independent.co.uk/bulletin/news/dr-phil-trump-ufos-government-cover-up-b3019990.html",
+    "imageUrl": "https://static.independent.co.uk/2026/07/23/07/2283475798..?trim=0,0,0,0&width=1200&height=800&crop=1200:800",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "7bf2529778f8ef2adb71",
@@ -267,7 +285,8 @@
     "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPZ2RBczhyakt0VTVSQkt1VUR3eG9XR2M4RHVGUGlVNU9ZUTVCQllZS1JoWlNiMmFzUjBDUjdwWml6ZHNWNkl3cURZbnJBNWNpTHkydGxXOWNJZ2d5dV9wQ0hwNHdTWDZWaUhJNTEwUUgzdzd1TVpRckRXMHR3OXZiYXBHckRlRkZxMVR4U0NiMkR6ZzZfdTBjMWdZcw?oc=5",
     "date": "2026-07-14T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.nytimes.com/2026/07/07/world/australia/queensland-australia-space-balls-debris.html"
   },
   {
     "id": "b1fb11b777028fca4aba",
@@ -276,7 +295,10 @@
     "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOV3VOM2hYdVhfT05lTEV5Yk9HVkY0SUhsSXFiRnFidEpSODdTdktHUXg3U3p3ekpybk9IN2MybS1NamM0YW5hZzhHRExfTEpaNjN6b2dXTHBRM0FrSDV1VGpOUDBBcjl0VzB0TTl6NXItWm10dnhCTE9BQUdCQmlPdDhUeVBiNUVsV09XU28wX1FzaG9MR2JKSmVvQ2x2c19jeDZtQ1FyMA?oc=5",
     "date": "2026-07-11T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.cnn.com/2026/07/11/world/video/pentagon-ufo-files-michaelson-reader-071101aseg2-cnni-us-fast",
+    "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/videoframe-0-2-20260711081026740.png?c=16x9&q=w_800,c_fill",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "3866cfa8c254c444e171",
@@ -285,7 +307,10 @@
     "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5uUUJXd1BTOG9sWlBITnQ2X19SQ1ljY2hMa0tFUTJkOHlvaDJBcXpHYi1qbWJ4REZnSDcxa0ZlYU0zUWpTekVsRFVrVnR4djBPOVRIbHdpOA?oc=5",
     "date": "2026-07-10T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.bbc.com/news/videos/c8x2zez8qwzo",
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/d3bb/live/51ab41d0-7c72-11f1-9fad-d539485c17c2.png",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "9670db22421ee589ac78",
@@ -294,7 +319,10 @@
     "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNeFRxdW42SnFseU9QZS1yVFBTLWc4Qk5WTzU2blRwXzFiRTJiN2V5Wjl2S2xpa1FRZHgxeHNSdmxidWlyS3NYZkx2c2R2RG13VC1fNF9fRV83M0tQQW84Zl9NRThlclZfSksyekIxbGR4bzhtSjdLSXhzMTBFeTRnMXhHWDN6MFhoU2liaG5OVQ?oc=5",
     "date": "2026-07-10T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.nbcnews.com/video/pentagon-releases-fourth-batch-of-ufo-files-266532933775",
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/mpx/2704722219/2026_07/1783734848308_now_staytuned_pentagon_ufo_files_fourth_batch_260710_S3_1920x1080-881xs3.jpg",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "c184b657ffce0a850368",
@@ -303,7 +331,10 @@
     "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPMWRoaXBPNE9Jbmk5UHRlSTRDdFBiak9nWi1wc2M5c19GVS1jcW5VMW1kc3o5blJLYUM2eGZDRUhDT0kwcHNpNUVNQUpYZkEtbHU5X2ltTlB3SzdxYXZHM2hrOC1lNnZBUXZtRkJFMTVCck9rdkVtWEQ5OEt2S0tid04yV01qd0U?oc=5",
     "date": "2026-07-10T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.cnn.com/2026/07/10/us/video/pentagon-released-ufo-fourth-digvid-vrtc",
+    "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/22795641-cln-pentagon-ufo-thumb.png?c=16x9&q=w_800,c_fill",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "062951f0f67dc251ef70",
@@ -312,7 +343,10 @@
     "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNRXdtYVNZUHNIYTU3YlhHZEVzZzVGYVJrUzRFcVZnLTZuNFQtNUFyeU9COWxJaTVBTlhtZUItTGFJMWc5b0NrLU0xUG56bVBNVGJtd3BKSGxLNHhxWGx4VHBvcVU1YzU4bVlLbFFTb081UWhvTzQzYXJIbHI5dXd5aUFjbVVpb1BIQWQ1SVZB?oc=5",
     "date": "2026-07-10T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.cbsnews.com/video/astrophysicist-avi-loeb-pentagon-4th-ufo-files-release/",
+    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/07/10/67bf2fd2-3f7f-49e5-9fa9-f67ce02986fd/thumbnail/1200x630/c3f6ac228b5abad892a8dbad602e2cf8/cbsn-fusion-astrophysicist-avi-loeb-pentagon-4th-ufo-files-release-thumbnail.jpg",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "119b3be51a5b7b52e004",
@@ -358,9 +392,8 @@
     "date": "2026-06-25T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "publisherUrl": "https://www.nbcnews.com/video/catching-up-with-whistleblowers-on-secret-government-ufo-programs-265709637802",
     "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/mpx/2704722219/2026_06/1782437664430_now_staytuned_ufo_whistleblowers_interview_260625_S3_1920x1080-oo3h85.jpg",
-    "imageSource": "publisher_meta"
+    "publisherUrl": "https://www.nbcnews.com/video/catching-up-with-whistleblowers-on-secret-government-ufo-programs-265709637802"
   },
   {
     "id": "27b0ea2b42d34e8897b4",
@@ -394,9 +427,8 @@
     "date": "2026-06-13T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "publisherUrl": "https://www.bbc.com/news/articles/c3929kk7gdjo",
     "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/81bf/live/cc19f4f0-65c2-11f1-b1db-af71d47507d6.png",
-    "imageSource": "publisher_meta"
+    "publisherUrl": "https://www.bbc.com/news/articles/c3929kk7gdjo"
   },
   {
     "id": "cf279d727e97d05e75da",
@@ -418,9 +450,8 @@
     "date": "2026-06-12T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "publisherUrl": "https://www.bbc.com/news/videos/c8e2w83kxryo",
     "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/fa2c/live/d7a50d30-666e-11f1-8e1d-bbbb1017d210.jpg",
-    "imageSource": "publisher_meta"
+    "publisherUrl": "https://www.bbc.com/news/videos/c8e2w83kxryo"
   },
   {
     "id": "0f50d51e797fdd617f8a",
@@ -440,9 +471,7 @@
     "date": "2026-06-12T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "publisherUrl": "https://www.theguardian.com/world/2026/jun/12/ufo-uap-files-us-government-release",
-    "imageUrl": "https://i.guim.co.uk/img/media/1cb6882282fcda76dc07c2f1a40d31854457dfe8/0_210_606_484/master/606.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=5b07209154852409e823b82a819faca1",
-    "imageSource": "publisher_meta"
+    "imageUrl": "https://i.guim.co.uk/img/media/1cb6882282fcda76dc07c2f1a40d31854457dfe8/0_210_606_484/master/606.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=5b07209154852409e823b82a819faca1"
   },
   {
     "id": "66b062a629c257670361",
@@ -452,9 +481,7 @@
     "date": "2026-06-12T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "publisherUrl": "https://www.nbcnews.com/politics/national-security/third-batch-declassified-ufo-files-reveals-sightings-world-investigate-rcna349775",
-    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-06/260612-ufo-files-ch-0912-4d1dae.jpg",
-    "imageSource": "publisher_meta"
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-06/260612-ufo-files-ch-0912-4d1dae.jpg"
   },
   {
     "id": "cff61608291853c6b56f",
@@ -464,9 +491,7 @@
     "date": "2026-06-12T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "publisherUrl": "https://www.nbcnews.com/now/video/pentagon-releases-third-batch-of-declassified-ufo-files-265009221934",
-    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/mpx/2704722219/2026_06/1781290694870_now_daily_b_kube_ufo_third_260612_S3_1920x1080-zkfqej.jpg",
-    "imageSource": "publisher_meta"
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/mpx/2704722219/2026_06/1781290694870_now_daily_b_kube_ufo_third_260612_S3_1920x1080-zkfqej.jpg"
   },
   {
     "id": "0c99f86cd5bd5219898a",
@@ -475,8 +500,7 @@
     "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOak8wUWdwdFd3TEdsYUJENHVjQ2lNbGVxTjA1d2RfTHFHUVdEMHdJR3BxS2VsM1F5emwta0tGTGlOWUlkY0xzNmZSdy1MdVpzbTUwWC1pakpuRHI4bzhza29Wci1jT3ZPNlJTSWxQcm9xS3hGT1RyZVk4OFN3eG1oR3h5X0o3SXZtbDliQ05xMlpfOEd0UW05amc5dkd3WEJYTnc?oc=5",
     "date": "2026-06-12T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major",
-    "publisherUrl": "https://www.reuters.com/world/us/new-pentagon-ufo-file-reveals-glowing-orbs-us-northeast-2026-06-12/"
+    "priority": "major"
   },
   {
     "id": "ba40c8b0cc19209dce67",
@@ -486,9 +510,7 @@
     "date": "2026-06-12T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "publisherUrl": "https://www.cbsnews.com/news/ufo-files-pentagon-3rd-release-documents-videos/",
-    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/06/12/febde104-5cc2-4783-8582-34f806818772/thumbnail/1200x630/8a025256b6eec384e832241188ab121a/screenshot-2026-06-12-at-8-37-47-am.png",
-    "imageSource": "publisher_meta"
+    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/06/12/febde104-5cc2-4783-8582-34f806818772/thumbnail/1200x630/8a025256b6eec384e832241188ab121a/screenshot-2026-06-12-at-8-37-47-am.png"
   },
   {
     "id": "a1ecc63cd232ed682082",
