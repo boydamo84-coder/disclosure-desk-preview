@@ -1,6 +1,10 @@
 name: Update world media news alerts
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/news-alerts.yml'
   schedule:
     - cron: '43 */2 * * *'
 concurrency:
