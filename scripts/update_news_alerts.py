@@ -153,16 +153,25 @@ def main():
     # Bound network requests to prevent news schedules from stalling.
     # Google News RSS often uses opaque links; those remain themed art.
     checked=0
-    for entry in recent:
-        if checked>=24:break
-        if entry.get("imageUrl"):continue
-        source_url=entry.get("url","")
-        if not public_https(source_url):continue
-        if urllib.parse.urlsplit(source_url).hostname.lower() not in ("news.google.com",):
-            continue
+    # Rotate through records, rather than retrying the first 24 every run.
+    # A changing Google News landing page is not an original publisher image.
+    eligible=[entry for entry in recent if not entry.get("imageUrl") and public_https(entry.get("url",""))]
+    slot=int(now.timestamp()//7200)
+    if eligible:
+        offset=(slot*24)%len(eligible)
+        chosen=(eligible[offset:]+eligible[:offset])[:24]
+    else:
+        chosen=[]
+    for entry in chosen:
+        source_url=entry["url"]
         checked+=1
         image=publisher_image(source_url,None)
-        if image:entry["imageUrl"]=image
+        if image:
+            entry["imageUrl"]=image
+            entry["imageSource"]="publisher_meta"
+        else:
+            # Leave the branded artwork; do not substitute unrelated photographs.
+            pass
     print(f"Publisher image checks: {checked}; image URLs available: {sum(bool(v.get('imageUrl')) for v in recent)}")
     if not recent:
         print("No eligible sourced reports found within one year; feed remains empty")
