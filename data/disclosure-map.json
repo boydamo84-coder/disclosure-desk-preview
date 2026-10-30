@@ -5773,5 +5773,26 @@
     ],
     "locationPrecision": "approximate town centre",
     "assessment": "GEIPAN B — probable high-altitude aircraft contrail"
+  },
+  {
+    "id": "dd-us-aaro-al-taqaddum-2017",
+    "title": "AARO · Al Taqaddum object · 23 Oct 2017",
+    "category": "UAP",
+    "city": "Fallujah region, Iraq",
+    "lat": 33.35,
+    "lon": 43.78,
+    "eventDate": "2017-10-23",
+    "desc": "A US military sensor recorded an object near Al Taqaddum Air Base. AARO concluded with high confidence it showed no anomalous capabilities and was consistent with a cluster of balloons. Marker is deliberately placed at an approximate nearby city/region centre, not at the observation or military site.",
+    "source": "https://www.aaro.mil/Next-AARO-Home-redesign/Next-Parent/Next-UAP-Case-RR-Data-Table/",
+    "documents": [
+      {
+        "title": "AARO Al Taqaddum Case Resolution",
+        "publisher": "US Department of Defense / AARO",
+        "url": "https://www.aaro.mil/Portals/136/PDFs/case_resolution_reports/AARO_Al_Taqaddam_Case_Resolution_Final.pdf",
+        "kind": "Official case-resolution report"
+      }
+    ],
+    "locationPrecision": "approximate regional centre",
+    "assessment": "AARO: high confidence, balloons; no anomalous performance"
   }
 ]
