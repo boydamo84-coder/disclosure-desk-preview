@@ -5793,6 +5793,14 @@
       }
     ],
     "locationPrecision": "approximate regional centre",
-    "assessment": "AARO: high confidence, balloons; no anomalous performance"
+    "assessment": "AARO: high confidence, balloons; no anomalous performance",
+    "videoLinks": [
+      {
+        "title": "Al Taqaddum Object (17-minute AARO footage)",
+        "publisher": "AARO / DVIDS",
+        "url": "https://www.dvidshub.net/video/960331/al-taqaddum-object",
+        "dvidsId": "960331"
+      }
+    ]
   }
 ]
