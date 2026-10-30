@@ -29,8 +29,7 @@
     "date": "2026-10-23T21:02:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://assets2.cbsnewsstatic.com/hub/i/r/2026/10/23/d30caa55-8792-4014-8998-8471a8e64661/thumbnail/1200x630/bb789382a0429331e0033a2c642d192f/screenshot-2026-10-23-at-4-18-51-pm.png",
-    "publisherUrl": "https://www.cbsnews.com/news/ufo-files-pentagon-triangular-craft/"
+    "imageUrl": "https://assets2.cbsnewsstatic.com/hub/i/r/2026/10/23/d30caa55-8792-4014-8998-8471a8e64661/thumbnail/1200x630/bb789382a0429331e0033a2c642d192f/screenshot-2026-10-23-at-4-18-51-pm.png"
   },
   {
     "id": "a43e61ef63ff51e85916",
@@ -426,7 +425,8 @@
     "date": "2026-06-12T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-06/260612-ufo-files-ch-0912-4d1dae.jpg"
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-06/260612-ufo-files-ch-0912-4d1dae.jpg",
+    "publisherUrl": "https://www.nbcnews.com/politics/national-security/third-batch-declassified-ufo-files-reveals-sightings-world-investigate-rcna349775"
   },
   {
     "id": "cff61608291853c6b56f",
@@ -436,7 +436,8 @@
     "date": "2026-06-12T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/mpx/2704722219/2026_06/1781290694870_now_daily_b_kube_ufo_third_260612_S3_1920x1080-zkfqej.jpg"
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/mpx/2704722219/2026_06/1781290694870_now_daily_b_kube_ufo_third_260612_S3_1920x1080-zkfqej.jpg",
+    "publisherUrl": "https://www.nbcnews.com/now/video/pentagon-releases-third-batch-of-declassified-ufo-files-265009221934"
   },
   {
     "id": "0c99f86cd5bd5219898a",
@@ -445,7 +446,8 @@
     "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOak8wUWdwdFd3TEdsYUJENHVjQ2lNbGVxTjA1d2RfTHFHUVdEMHdJR3BxS2VsM1F5emwta0tGTGlOWUlkY0xzNmZSdy1MdVpzbTUwWC1pakpuRHI4bzhza29Wci1jT3ZPNlJTSWxQcm9xS3hGT1RyZVk4OFN3eG1oR3h5X0o3SXZtbDliQ05xMlpfOEd0UW05amc5dkd3WEJYTnc?oc=5",
     "date": "2026-06-12T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.reuters.com/world/us/new-pentagon-ufo-file-reveals-glowing-orbs-us-northeast-2026-06-12/"
   },
   {
     "id": "ba40c8b0cc19209dce67",
@@ -455,7 +457,8 @@
     "date": "2026-06-12T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/06/12/febde104-5cc2-4783-8582-34f806818772/thumbnail/1200x630/8a025256b6eec384e832241188ab121a/screenshot-2026-06-12-at-8-37-47-am.png"
+    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/06/12/febde104-5cc2-4783-8582-34f806818772/thumbnail/1200x630/8a025256b6eec384e832241188ab121a/screenshot-2026-06-12-at-8-37-47-am.png",
+    "publisherUrl": "https://www.cbsnews.com/news/ufo-files-pentagon-3rd-release-documents-videos/"
   },
   {
     "id": "a1ecc63cd232ed682082",
@@ -547,7 +550,8 @@
     "date": "2026-05-22T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/e06b/live/6ec4a980-56a9-11f1-89a3-d1f559421220.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/e06b/live/6ec4a980-56a9-11f1-89a3-d1f559421220.jpg",
+    "publisherUrl": "https://www.bbc.com/news/articles/cn8pzzlyy66o"
   },
   {
     "id": "4c065819660f60cbe9b5",
