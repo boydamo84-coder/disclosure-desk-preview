@@ -1,0 +1,29 @@
+{
+  "dataset": "GEP UFO/UAP Falldaten 1972–2026.09",
+  "source": "https://zenodo.org/records/23117630",
+  "doi": "10.5281/zenodo.23117630",
+  "checksums": {
+    "md5": "0e644aa110ff6eef6c0a3666590a2042",
+    "sha256": "81b98140fd2075099aae6e8bff84cf9cbeebfde7ab8b34ad80089b89bf193b2b"
+  },
+  "bytes": 2483553,
+  "delimiter": "semicolon",
+  "encoding": "utf-8-sig",
+  "audit": {
+    "records": 6766,
+    "distinct_nonblank_country_labels": 73,
+    "germany_records": 5998,
+    "with_case_number_sighting_date_country_location": 6427,
+    "records_classified_IFO": 4643,
+    "records_classified_insufficient_data": 650,
+    "coordinate_columns": false,
+    "description_field_present": true
+  },
+  "status": "PREPUBLICATION ONLY — licence of this version not confirmed; raw locations and free-text require privacy review; place-name geocoding required; individual case outcomes must be preserved",
+  "notes": [
+    "Counts reflect submitted reports, not independently verified anomalous craft.",
+    "Third-party site identifies a 2024 release as CDLA-Permissive-1.0; do not assume it applies to version 2026.09.",
+    "Do not publish raw reports, source text, postcodes or address-level coordinates. Only add validated, approximate town/regional map positions.",
+    "Do not conflate GEP Hendry classifications with GEIPAN A/B/C/D categories."
+  ]
+}
