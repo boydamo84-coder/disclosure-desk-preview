@@ -83,7 +83,7 @@ async function auth(mode){
   pass.value='';
   await refresh();
   if(mode==='signup'&&!out.data.session){say('Signup request received. Check your inbox for a confirmation link (and check spam).');signupNotice()}else if(mode==='signup'){say('Account created and signed in. Your device boards have not been changed.');}else{say('Signed in successfully. Your existing device boards have not been changed.')}
- }catch(ex){say('Account action failed: '+ex.message)}
+ }catch(ex){const msg=String(ex.message||'Unknown error');say(mode==='signup'&&/already registered|already exists|user already registered/i.test(msg)?'This email is already registered. Tap Sign in instead, or Reset password if needed.':'Account action failed: '+msg)}
 }
 async function upload(){
  if(!session){say('Sign in first.');return}
@@ -119,6 +119,20 @@ async function download(){
   boardSave();say('Imported '+added+' collections. Existing device boards preserved. Cloud import is a snapshot; upload changes manually when ready.');
  }catch(ex){say('Cloud retrieval failed: '+ex.message+'. Device boards were not changed.')}
 }
+const eyeButton=document.getElementById('ddCloudShowPass');
+const eyeGraphic=eyeButton.querySelector('svg');
+eyeButton.onclick=()=>{
+ const visible=pass.type==='password';
+ pass.type=visible?'text':'password';
+ eyeButton.setAttribute('aria-label',visible?'Hide password':'Show password');
+ eyeButton.setAttribute('title',visible?'Hide password':'Show password');
+ eyeButton.setAttribute('aria-pressed',String(visible));
+ eyeGraphic.innerHTML=visible?'<path d="M3 3l18 18"/><path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a16 16 0 0 1-3.2 4.1"/><path d="M6.1 6.1C3.5 8.1 2 12 2 12s3.5 7 10 7c1.5 0 2.9-.4 4.1-1"/><path d="M10 10a3 3 0 0 0 4 4"/>':'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>';
+};
+document.getElementById('ddCloudAlreadyRegistered').onclick=()=>{
+ say('Already have an account? Enter your email and password, then tap Sign in. Forgotten your password? Use Reset password.');
+ document.getElementById('ddCloudLogin').focus();
+};
 document.getElementById('ddCloudSignup').onclick=()=>auth('signup');
 document.getElementById('ddCloudLogin').onclick=()=>auth('login');
 document.getElementById('ddCloudLogout').onclick=async()=>{await db.auth.signOut();await refresh()};
