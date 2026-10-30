@@ -21,6 +21,25 @@ async function refresh(){
   if(s){act.textContent='Signed in as '+s.user.email;say('Signed in. Device boards stay on this device until you choose an action.')}else{act.textContent='Optional private account';say('Guest mode: your research stays on this device. Sign in to access cloud boards.')}
  }catch(e){say('Sign-in service unavailable: '+e.message)}
 }
+function signupNotice(){
+ const overlay=document.createElement('div');
+ overlay.setAttribute('role','presentation');
+ overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(2,10,18,.82);display:flex;align-items:center;justify-content:center;padding:18px;';
+ const panel=document.createElement('div');
+ panel.setAttribute('role','alertdialog');
+ panel.setAttribute('aria-modal','true');
+ panel.setAttribute('aria-labelledby','ddSignupHeading');
+ panel.style.cssText='width:min(100%,430px);box-sizing:border-box;background:#102131;border:1px solid #E0C48E;border-radius:16px;padding:30px 22px;text-align:center;color:#E8EDF1;box-shadow:0 20px 65px rgba(0,0,0,.55);font-family:Arial,Helvetica,sans-serif;';
+ const logo=document.createElement('div');logo.textContent='DISCLOSURE DESK';logo.style.cssText='color:#E0C48E;font-size:19px;font-weight:800;letter-spacing:2px;margin-bottom:20px;';
+ const heading=document.createElement('h2');heading.id='ddSignupHeading';heading.textContent='Check your email';heading.style.cssText='color:#F5F0E6;font-size:25px;margin:0 0 15px;';
+ const p=document.createElement('p');p.textContent='Your signup request was received. We have sent a confirmation link if this email address can be registered. Open the email and tap “Confirm my email” to activate your account.';p.style.cssText='font-size:15px;line-height:1.65;color:#D5E0E8;';
+ const tip=document.createElement('p');tip.textContent='No email? Check Spam or Junk, then try again if needed.';tip.style.cssText='font-size:13px;line-height:1.5;color:#B5C1CE;margin:16px 0 25px;';
+ const btn=document.createElement('button');btn.type='button';btn.textContent='Got it';btn.style.cssText='background:#E0C48E;color:#0E1D2B;border:0;border-radius:9px;padding:13px 29px;font-size:15px;font-weight:700;cursor:pointer;min-height:44px;';
+ const close=()=>{overlay.remove();document.removeEventListener('keydown',esc);};
+ const esc=ev=>{if(ev.key==='Escape')close()};
+ btn.addEventListener('click',close);document.addEventListener('keydown',esc);
+ panel.append(logo,heading,p,tip,btn);overlay.append(panel);document.body.append(overlay);btn.focus();
+}
 async function auth(mode){
  const e=email.value.trim(),p=pass.value;
  if(!e||!p){say('Enter an email and password.');return}
@@ -30,7 +49,7 @@ async function auth(mode){
   if(out.error)throw out.error;
   pass.value='';
   await refresh();
-  if(mode==='signup'&&!out.data.session){say('Account created. Check your inbox for the Disclosure Desk confirmation email and tap its verification link before signing in. Check spam if needed.')}else{say('Signed in successfully. Your existing device boards have not been changed.')}
+  if(mode==='signup'&&!out.data.session){say('Signup request received. Check your inbox for a confirmation link (and check spam).');signupNotice()}else if(mode==='signup'){say('Account created and signed in. Your device boards have not been changed.');}else{say('Signed in successfully. Your existing device boards have not been changed.')}
  }catch(ex){say('Account action failed: '+ex.message)}
 }
 async function upload(){
