@@ -13,4 +13,4 @@ android {
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
 }
 
-dependencies { implementation("androidx.work:work-runtime:2.9.1"); implementation("com.google.android.gms:play-services-ads:25.5.0"); implementation("com.google.android.ump:user-messaging-platform:3.2.0") }
+dependencies { implementation("androidx.work:work-runtime:2.9.1"); implementation("com.google.guava:listenablefuture:1.0"); implementation("com.google.android.gms:play-services-ads:25.5.0"); implementation("com.google.android.ump:user-messaging-platform:3.2.0") }
