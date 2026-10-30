@@ -306,7 +306,7 @@ async function importPortableBoard(file){
  if(raw?.format!=='disclosure-desk-board'||raw.version!==1||!b||typeof b.name!=='string'||!Array.isArray(b.links)||!Array.isArray(b.notes)||b.links.length>500||b.notes.length>500)throw Error('Unsupported board format');
  const links=b.links.map(l=>({title:String(l.title||'').slice(0,120),url:safePublicUrl(l.url),note:String(l.note||'').slice(0,4000)})).filter(l=>l.title&&l.url);
  const notes=b.notes.filter(n=>typeof n==='string').map(n=>n.slice(0,2000));
- if(!confirm('Import “‘+b.name.slice(0,60)+'” as a NEW private collection with '+links.length+' source links and '+notes.length+' notes?'))return;
+ if(!confirm('Import '+b.name.slice(0,60)+' as a NEW private collection with '+links.length+' source links and '+notes.length+' notes?'))return;
  investigationBoards.push({id:String(Date.now())+'-'+Math.random().toString(36).slice(2,6),name:b.name.slice(0,60)+' (imported)',links,notes});boardSave();alert('Imported as a separate collection. Your existing boards were not replaced.');
  }catch(e){alert('Unable to import this board: '+e.message)}
 }
