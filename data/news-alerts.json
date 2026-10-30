@@ -789,7 +789,10 @@
     "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQUEdhbmhZYVlCbExNNk1hblBEMS1OeUgyX21WNHZvckhkZHJLbENDeGloSlo1Tmo0c2RpUkhmVTRHaDJ0OXp5eDBhTU1ha0FDRnBXb09wY0x1SXdNaV9hNzRpM0V5U2MwVlh4RFUxdG1nUnJCTkpoTGpZaDBqTUxaMkZWZjhZRkY1eS1Db2xXbUo5bk1hbzlRVlhVVGk5QWp0TzZzV0stV3BDcWpJdUNqSA?oc=5",
     "date": "2026-04-16T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.independent.co.uk/arts-entertainment/music/news/kacey-musgraves-ufo-sighting-response-b2956099.html",
+    "imageUrl": "https://static.the-independent.com/2025/06/20/19/43/Kacey-Musgraves.jpeg?trim=64,0,64,0&width=1200&height=800&crop=1200:800",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "7cecf522d4dccda3bcf1",
@@ -798,7 +801,10 @@
     "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9TMjZUUTZIUWtuallibkRRTjBZd0pBeTg2OWg0dDREenB5QzRnaG5oVGY5UGNvYzBrRXUzaHlhODBYVkNveTNCQzJxZXo1eDZnS3c0cW9IUWY0WHgxNlk5MGJUUk43bGoxQVhEMWt3Nmp2eVFIaFBR?oc=5",
     "date": "2026-04-12T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.theguardian.com/world/2026/apr/12/trump-vance-aliens-ufo",
+    "imageUrl": "https://i.guim.co.uk/img/media/23e5839d27255c6cc25ffe2154e4dd65d6b03c61/427_0_3767_3015/master/3767.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=10f52f739dc32ac6d06dc24b25b9e498",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "bd5a30dd49b4114299f8",
@@ -807,7 +813,10 @@
     "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxONUVuZkk1a1pESGFYY2psamNqYUVObUU5dVI4RkNEelp2Q29OSGprR1RQRkJJeTY4M3l1VTB2c3dSYnFVVlh2RXhHVGZZMW5mTmUzbDlCZTAxbkRpbWlJVlA1V2hBd2JmVS16NkdWVWo3QTRVQmVRYlRnZWVrVGZva3JrWTU1WXhCVnh5eHM5MHU2S0E?oc=5",
     "date": "2026-04-05T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.theguardian.com/us-news/2026/apr/05/alien-life-nasa-jared-isaacman-artemis-ii",
+    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "ef2cf6dd2b9e6f0cd58a",
@@ -816,7 +825,10 @@
     "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPOHV3YlpsU0FzRU9DR0JNNVNQRmY4WXNWLVk1YTgyUEN1SloyRm5Ba2RnMzJJYXFqVjVEbVlBeDcyeFRXQzgwSnN5MTBBLXU4cVNUOUhpdF9MYUdyRUFtUW5FWGVwc3lqRlo3dzYzZVVqZVRoWjlidzlvbGI5OHVnZXp3bFpzbmNiRi1TMVNKVjYzcXFwem5lajl3?oc=5",
     "date": "2026-04-04T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.independent.co.uk/news/ufos-pentagon-barack-obama-new-mexico-roswell-b2951744.html",
+    "imageUrl": "https://static.independent.co.uk/2026/04/04/05/What_on_Earth_88898.jpg?width=1200&height=800&crop=1200:800",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "abb16d1c92f3fe8fd468",
@@ -825,7 +837,10 @@
     "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE50cUFMRDJpYTcyTkpPei1YLW0yU3hQYXhpa1Uyd1NzNXFGTi1EaE1TXzZQckh0UlR6N3poVjNVaEtlSTBycWFpUEJWZnhpSnA5OGdhamJDVzIwQQ?oc=5",
     "date": "2026-04-03T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.bbc.com/news/articles/cvg58ydn4jpo",
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "8d06dd474e5f2e6f3926",
@@ -834,7 +849,10 @@
     "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQQkM3cWdDd1BOYUZVNDZXZjRzS3AzeFdNODdwbDVWdk5JZGtzUWhJU3IyWGxZM2dzUVZzNDVGRjM5aUJYYy1PbDBlRnNmNTVwWVhEajNKZmQwMXlZcVZCcnhqYkZvSmpCZlYwbDY5R294NzRWNWZNU0Vvb0tWRjFLRUdqT2VWd1U?oc=5",
     "date": "2026-03-22T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.theguardian.com/us-news/2026/mar/22/ufos-uaps-us-trump-files-release",
+    "imageUrl": "https://i.guim.co.uk/img/media/86a75e795d2a8093f6b42fd5b5cfa0638fcd1a20/865_0_5000_4000/master/5000.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=6bff1fe911f51e000810c4a8d8fe0a79",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "c19fffb3e2268a06d507",
@@ -843,7 +861,10 @@
     "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPZm0tODB3Q0c0SFdUNnZaYXVyTWV5MDd4ZTFiRWdILWRIZGZnY2RUMU1RUGVheHo2MGFmc3A0VmJHc2hrZkpleTRoZmlscVRsaVpISkk1Z0oxSnFhZ2NFUll5bUpqdXN5R2Nqci05Sm9xWVdvanpLRGdZU3k5RmJzM04zbHgtVmI0bnhkOHlOT0w2TmZCd1FrRWtSU2JLLVVpY0ZKekp0Sl9EdVRyeGd2bm5CLWFxZw?oc=5",
     "date": "2026-03-21T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.theguardian.com/science/2026/mar/21/anniversary-et-of-legend-varginha-alien-incident-musuem-documentary",
+    "imageUrl": "https://i.guim.co.uk/img/media/f2734050a554a59df29fd02f007c940373f6d3be/132_0_1667_1333/master/1667.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=847ad05bce757a722f2a3069861be4d7",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "1132fc216e749f3d03b8",
@@ -852,7 +873,8 @@
     "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9mZGM5QXNPMW1fSmVTYnJQeE0xb3NyRzhVSmc2cDhiWW9mWi01QzJRTWFST2l5MUlkS3lHUjN1eDZhejZRTU5sWkRPalNKSndmRWpRZlhhSWdlVGV4bVNET1NLYmczRHZUZlAxOVVwOVkxb2c?oc=5",
     "date": "2026-03-15T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.cnn.com/2026/03/15/us/wright-patterson-air-force-base"
   },
   {
     "id": "86a1db05dcb09dd837c1",
@@ -861,7 +883,10 @@
     "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPdm1ZRTR0dHk1dm01TllER25hbGk5RC04MTZDWm9ycngzTTdXRGljWFI1cDM2RWZhVk5CTi1qRzAwUFRqckUydnRLd3BnWHkwUkRzZVBYODhYS1gwYzRndWhLSTd5V2VRaVk3cVJiakxLaEVrNWhKR2JGNm5SeGNxbnN2WUcxYWJFbUhB?oc=5",
     "date": "2026-02-24T08:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.cbc.ca/news/canada/ottawa/ottawa-man-turkey-chase-video-story-9.7103190",
+    "imageUrl": "https://i.cbc.ca/ais/ee5b92b3-7c7c-42c7-9249-5a8f85207976,1771941852602/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C241%2C1080%2C607%29%3BResize%3D620",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "f4d6b279ade08e9082b2",
@@ -870,7 +895,10 @@
     "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNRWxsODRpWE1kYzV6OXY5RWdzdVk5el9BOHZvZlBPMENnVjFjWFo0MTdUUG9xTVVvTjJqU3RLZ1B5ZnZXR2ZUcUdrblJUSWJSRVN2TWdoQjBMd3lTU1RmLV9SX3lYcmJZbkduLURtcFZrWHViRUJrYmRmUkJjNkxfdmZkdWhKc0lDeG9OMVdEQQ?oc=5",
     "date": "2026-02-20T08:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.cbsnews.com/news/trump-ufo-alien-and-extraterrestrial-life-files-pentagon/",
+    "imageUrl": "https://assets1.cbsnewsstatic.com/hub/i/r/2023/07/26/bf1776cf-9c1d-4673-926a-30119a7a1065/thumbnail/1200x630/66947262f48ae4329523e3d3d1c59ccb/cnn-l19jb21wb25lbnrzl2ltywdll2luc3rhbmnlcy9szwrlltuyzge4otbhyzc1nmuxmwnmogvizji5mdy4zdm1yti1-l19wywdlcy9ox2e3zmyyyjflmjq1zjrindnkndzknzzhywmzntmxy2e1.jpg",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "34e3e673276d4dee79a8",
@@ -879,7 +907,8 @@
     "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQMmZvbHFfaE5SQXVQY3pKWkUyeUhaYVZhdmpzaTJDQ3BRVW5sdkthX0M5LXYxbmZZNmhWaEt5SXpPMjFtaVFDWVZnZl9FaWFqeFc0V1l5RXJXRjd3T1NWX0s2QWgtWnlkdzV3YkUtQWNHT0VxN3VaVzlRT1Z4QzFfczhSdURUa0NwLVNERTdmSmlaaGRQZi1CZ195aER3SFdWQnpqV1l6NnBMZTdoRnVBVC02TjlMRW9FRldPTGpzTjFSQQ?oc=5",
     "date": "2026-02-20T08:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.reuters.com/world/us/trump-claims-obama-revealed-classified-information-when-he-said-aliens-are-real-2026-02-19/"
   },
   {
     "id": "48bf00ea61a7d51d6691",
@@ -888,7 +917,8 @@
     "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPdEdIcEptdE9FcG4ydk1nSG5HODZNT09ERGFnQUpTVmdLN3BJSGd6S1dWLWgzbEpOcm9pbUlreVFMQVBWRVltNnRMVmZVMDM1X0VfXzN5OUJzRlJOamczay1CRXVNYnoySEVHY2dYdFFyNWRBY0hsdXBKVUNHRnRjWg?oc=5",
     "date": "2026-01-29T15:12:40+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.washingtonpost.com/opinions/interactive/2026/ufo-upa-sightings/"
   },
   {
     "id": "5ba80055f2e5ce86c208",
@@ -897,7 +927,10 @@
     "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNem5CLTF5dVY2ZkxzRmJ5bkRyekNySGVrczcxWm53RUxOOF9oWnZqdms3UTBxMWtVSnhuVDdfTnExYzZEd2lvMXVFdFFNM1FBYTZtRDdzWHlzakNnTzhEd3B6UHRVQm5GWnFzSUl5LXp5VU14MktRVWNXbE5EUG5mU0dzSHZybk80RTEzTzVPWFdpYUhjUGc?oc=5",
     "date": "2026-01-17T08:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.cnn.com/2026/01/17/world/video/swimmer-close-encounter-orcas-new-zealand-digvid",
+    "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/116438-sunbather-orcas-horizontal-thumb-cln.png?c=16x9&q=w_800,c_fill",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "51dbc94c1abf1240ea02",
@@ -906,7 +939,10 @@
     "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE9hRGN6NEFrdkdaUUY1Q3Jad2NwWUQxSkU3Sm5fd2pyUXVsZEF1QjducVI5ampkcTJmN1JQa241VFFYRm56Y0dFaXhLaUYtY3BuR3loeHpRcw?oc=5",
     "date": "2026-01-09T08:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.bbc.com/news/videos/c041zkzxqr2o",
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/37c2/live/20a5ff20-ed58-11f0-b5f7-49f0357294ff.png",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "bc6bb1a16a7f35f477a4",
@@ -915,7 +951,10 @@
     "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxObmhPX2lFdEtVdkNYWklIbzZKRnVTY1VONVhuMzdjdWRfQWJmaHZYZDVNdUt2SUpUSm1fRVd4Q1lWUVg0WWNGdmRrdkxOLWJvYzNaZ2xaVnh6aHROajUxeVRtakl2RjV1eVdCbWZwYmdQdDBZblU4Z3Yyb0h4N3hzTmtsZUtxNDZTZXR1RDh5N2Y0MGltbUdOZkdRVkNuLUtrWnJJ?oc=5",
     "date": "2026-01-05T08:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.cbsnews.com/pittsburgh/video/more-than-100-ufo-sighting-reported-in-pennsylvania-in-2025/",
+    "imageUrl": "https://assets1.cbsnewsstatic.com/hub/i/r/2026/01/05/85de7460-55d9-416d-9107-23265729d4c9/thumbnail/1200x630/287f7437cad73c075a3b5248a6ec6a82/104f63e6d70f636589492e34698c9e22.jpg",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "86ae1c583a6c2d02b510",
@@ -924,7 +963,10 @@
     "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9DcWpzeklQcjZ6M1VEcjRPOEx4U2VsOHhma1B5RWFyWlhLLTdYUUtJSy1pdDVJeC1NelZ2eGNZUUFQd3NuTVV5SVRwcDlQRnBvdU4yWWRTV3lTUQ?oc=5",
     "date": "2025-12-26T08:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.bbc.com/news/articles/ckgzewj38peo",
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/7762/live/455c30e0-7518-11f0-9cb3-2344cd85f55f.jpg",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "e378738d101f06ede5a1",
