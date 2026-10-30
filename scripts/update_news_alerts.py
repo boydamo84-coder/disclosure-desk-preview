@@ -109,6 +109,37 @@ def collect(query):
         # RSS rarely supplies media; defer article metadata checks to a capped refresh pass.
         found.append(record)
     return found
+# Direct publisher RSS feeds provide real article URLs, unlike opaque Google News links.
+# These are supplemental: the existing Google News coverage remains unchanged.
+DIRECT_FEEDS=(
+    ("BBC","https://feeds.bbci.co.uk/news/science_and_environment/rss.xml"),
+    ("The Guardian","https://www.theguardian.com/science/rss"),
+    ("The Guardian","https://www.theguardian.com/world/rss"),
+    ("Sky News","https://feeds.skynews.com/feeds/rss/technology.xml"),
+)
+
+def collect_direct_feed(publisher,feed_url):
+    if not public_https(feed_url):return []
+    req=urllib.request.Request(feed_url,headers={"User-Agent":"DisclosureDeskResearch/1.0"})
+    with urllib.request.urlopen(req,timeout=12) as response:
+        root=ET.fromstring(response.read(1500000))
+    now=dt.datetime.now(dt.timezone.utc)
+    found=[]
+    for item in root.findall(".//item"):
+        title=(item.findtext("title") or "").strip()
+        url=(item.findtext("link") or "").strip()
+        if not title or not RELEVANCE.search(title) or not public_https(url):continue
+        date=item.findtext("pubDate") or ""
+        try:published=parsedate_to_datetime(date).astimezone(dt.timezone.utc)
+        except (TypeError,ValueError,OverflowError):continue
+        if not dt.timedelta(0)<=now-published<=dt.timedelta(days=365):continue
+        uid=hashlib.sha256((title.lower()+"|"+publisher).encode()).hexdigest()[:20]
+        record=dict(id=uid,headline=title,source=publisher,url=url,date=published.isoformat(),category="UAP",priority=("major" if MAJOR.search(title) else "standard"))
+        image=approved_rss_image(item)
+        if image:record["imageUrl"]=image;record["imageSource"]="publisher_rss"
+        found.append(record)
+    return found
+
 def similar(a,b):
     """Compare substantive title words to remove syndicated/rewritten duplicates."""
     stop={"the","a","an","of","in","on","at","over","new","from","and","to","for","with","as","ufo","uap","files","report","reports","detail","details","reveals","reveal"}
@@ -149,13 +180,25 @@ def main():
                 unique[entry["id"]]=entry
                 fetched+=1
         except Exception as e:print("News source unavailable:",str(e)[:130])
+    # Direct feeds add original publisher links and verified RSS-provided images.
+    # A feed failure must not interrupt normal news collection.
+    for publisher,feed_url in DIRECT_FEEDS:
+        try:
+            for entry in collect_direct_feed(publisher,feed_url):
+                old=unique.get(entry["id"],{})
+                if old.get("imageUrl") and not entry.get("imageUrl"):
+                    entry["imageUrl"]=old["imageUrl"]
+                    entry["imageSource"]=old.get("imageSource","previous")
+                unique[entry["id"]]=entry
+        except Exception as exc:
+            print("Direct publisher feed unavailable:",publisher,type(exc).__name__)
     recent=consolidate(unique.values())[:1200]
     # Bound network requests to prevent news schedules from stalling.
     # Google News RSS often uses opaque links; those remain themed art.
     checked=0
     # Rotate through records, rather than retrying the first 24 every run.
     # A changing Google News landing page is not an original publisher image.
-    eligible=[entry for entry in recent if not entry.get("imageUrl") and public_https(entry.get("url",""))]
+    eligible=[entry for entry in recent if not entry.get("imageUrl") and public_https(entry.get("url","")) and urllib.parse.urlsplit(entry["url"]).hostname.lower()!="news.google.com"]
     slot=int(now.timestamp()//7200)
     if eligible:
         offset=(slot*24)%len(eligible)
