@@ -220,7 +220,7 @@
     "publishedAt": "2026-10-29",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -685,7 +685,7 @@
     "publishedAt": "2026-10-28",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -895,7 +895,7 @@
     "publishedAt": "2026-10-28",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -1000,7 +1000,7 @@
     "publishedAt": "2026-10-27",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -1015,7 +1015,7 @@
     "publishedAt": "2026-10-27",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -1150,9 +1150,9 @@
     "publishedAt": "2026-10-27",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
-    "healthFailures": 1,
-    "videoAvailable": true
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
+    "healthFailures": 2,
+    "videoAvailable": false
   },
   {
     "id": "yt-JiI6zmEYOrU",
@@ -2417,7 +2417,7 @@
     "publishedAt": "2026-10-24",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -2657,7 +2657,7 @@
     "publishedAt": "2026-10-23",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -2902,6 +2902,21 @@
     "videoAvailable": true
   },
   {
+    "id": "yt-QedEr7JopwA",
+    "title": "America’s Most Mysterious Cryptid? | Dover Demon",
+    "publisher": "Echoes of the Unknown",
+    "group": "YouTube",
+    "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
+    "source": "https://www.youtube.com/watch?v=QedEr7JopwA",
+    "youtubeId": "QedEr7JopwA",
+    "publishedAt": "2026-10-21",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
+  },
+  {
     "id": "yt-pfiJRYWCh7I",
     "title": "ABDUCTED FOR 5 DAYS! | The Travis Walton Story | UNSEALED: #ALIEN #files",
     "publisher": "Unsealed Alien Files TV",
@@ -2972,7 +2987,7 @@
     "publishedAt": "2026-10-20",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5027,7 +5042,7 @@
     "publishedAt": "2026-09-24",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · publisher-supplied recording; authenticity not established",
-    "healthCheckedAt": "2026-10-29T10:56:34+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5042,7 +5057,7 @@
     "publishedAt": "2026-09-24",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T10:56:34+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5057,7 +5072,7 @@
     "publishedAt": "2026-09-24",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T10:56:34+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5072,7 +5087,7 @@
     "publishedAt": "2026-09-24",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T10:56:34+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5087,7 +5102,7 @@
     "publishedAt": "2026-09-24",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T10:56:34+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5102,7 +5117,7 @@
     "publishedAt": "2026-09-23",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · publisher-supplied recording; authenticity not established",
-    "healthCheckedAt": "2026-10-29T10:56:34+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5117,7 +5132,7 @@
     "publishedAt": "2026-09-23",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T10:56:34+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5132,7 +5147,7 @@
     "publishedAt": "2026-09-23",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T10:56:34+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5147,7 +5162,7 @@
     "publishedAt": "2026-09-23",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T10:56:34+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5162,7 +5177,7 @@
     "publishedAt": "2026-09-22",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T10:56:34+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5177,7 +5192,7 @@
     "publishedAt": "2026-09-22",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T10:56:34+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5192,7 +5207,7 @@
     "publishedAt": "2026-09-22",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5207,7 +5222,7 @@
     "publishedAt": "2026-09-21",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5222,7 +5237,7 @@
     "publishedAt": "2026-09-21",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5237,7 +5252,7 @@
     "publishedAt": "2026-09-21",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5267,7 +5282,7 @@
     "publishedAt": "2026-09-20",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5282,7 +5297,7 @@
     "publishedAt": "2026-09-20",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5297,7 +5312,7 @@
     "publishedAt": "2026-09-20",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5312,7 +5327,7 @@
     "publishedAt": "2026-09-19",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5327,7 +5342,22 @@
     "publishedAt": "2026-09-19",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
+  },
+  {
+    "id": "yt-yfdIOL4RqtY",
+    "title": "Cryptid Reports From Remote Areas | Sightings Captured on Camera",
+    "publisher": "Trail Terror",
+    "group": "YouTube",
+    "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
+    "source": "https://www.youtube.com/watch?v=yfdIOL4RqtY",
+    "youtubeId": "yfdIOL4RqtY",
+    "publishedAt": "2026-09-19",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5518,7 +5548,7 @@
     "publishedAt": "2026-09-18",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5533,7 +5563,7 @@
     "publishedAt": "2026-09-18",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5548,7 +5578,7 @@
     "publishedAt": "2026-09-17",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5578,7 +5608,7 @@
     "publishedAt": "2026-09-16",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5593,7 +5623,7 @@
     "publishedAt": "2026-09-16",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5608,7 +5638,7 @@
     "publishedAt": "2026-09-16",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5624,6 +5654,21 @@
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · publisher-supplied recording; authenticity not established",
     "healthCheckedAt": "2026-10-29T13:06:37+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
+  },
+  {
+    "id": "yt-Tvde2ec-Bro",
+    "title": "THIS Triggered Millions of Experiencers - Whitley Strieber | ep. 96",
+    "publisher": "Area52 Clips",
+    "group": "YouTube",
+    "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
+    "source": "https://www.youtube.com/watch?v=Tvde2ec-Bro",
+    "youtubeId": "Tvde2ec-Bro",
+    "publishedAt": "2026-09-15",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -6616,6 +6661,21 @@
     "videoAvailable": true
   },
   {
+    "id": "yt-Um21ifqDqUc",
+    "title": "In Conversation with Whitley Strieber continues",
+    "publisher": "SNG-Breaking the Silence ",
+    "group": "YouTube",
+    "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
+    "source": "https://www.youtube.com/watch?v=Um21ifqDqUc",
+    "youtubeId": "Um21ifqDqUc",
+    "publishedAt": "2026-07-24",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
+  },
+  {
     "id": "yt-mlK83afpGFE",
     "title": "&#39;They&#39; Are Not Who You Think | Whitley Strieber",
     "publisher": "What It Means To Be Human",
@@ -7068,7 +7128,7 @@
     "publishedAt": "2026-05-26",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-29T10:56:34+00:00",
+    "healthCheckedAt": "2026-10-30T10:54:29+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
