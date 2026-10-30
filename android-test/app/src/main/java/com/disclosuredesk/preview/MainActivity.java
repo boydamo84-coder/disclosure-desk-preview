@@ -33,6 +33,13 @@ import android.view.WindowInsets;
 import android.os.Build;
 import android.graphics.Color;
 import android.webkit.WebChromeClient.CustomViewCallback;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.ump.ConsentInformation;
+import com.google.android.ump.ConsentRequestParameters;
+import com.google.android.ump.UserMessagingPlatform;
 
 public final class MainActivity extends Activity {
     private static final String HOME = "https://boydamo84-coder.github.io/disclosure-desk-preview/";
@@ -41,6 +48,12 @@ public final class MainActivity extends Activity {
     private View fullView;
     private View splash;
     private CustomViewCallback fullCallback;
+    private AdView adView;
+    private ConsentInformation consentInformation;
+    private boolean adStarted=false;
+    // Real unit configured in AdMob: ca-app-pub-6712657097464071/7357709206
+    // All test builds MUST use Google test inventory; never use the real unit in this debug APK.
+    private static final String TEST_BANNER_UNIT = "ca-app-pub-3940256099942544/6300978111";
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         root = new FrameLayout(this);
@@ -106,6 +119,32 @@ public final class MainActivity extends Activity {
             }
         });
         web.loadUrl(notificationUrl(getIntent()));
+        prepareTestBanner();
+    }
+    private void prepareTestBanner(){
+        consentInformation=UserMessagingPlatform.getConsentInformation(this);
+        ConsentRequestParameters params=new ConsentRequestParameters.Builder().build();
+        consentInformation.requestConsentInfoUpdate(this,params,
+            ()->UserMessagingPlatform.loadAndShowConsentFormIfRequired(this,error->{
+                if(consentInformation.canRequestAds())showTestBanner();
+            }),
+            error->{if(consentInformation.canRequestAds())showTestBanner();}
+        );
+    }
+    private void showTestBanner(){
+        if(adStarted || isFinishing() || isDestroyed())return;
+        adStarted=true;
+        MobileAds.initialize(this, status->runOnUiThread(()->{
+            if(isFinishing() || isDestroyed())return;
+            adView=new AdView(this);
+            adView.setAdUnitId(TEST_BANNER_UNIT);
+            adView.setAdSize(AdSize.BANNER);
+            FrameLayout.LayoutParams layout=new FrameLayout.LayoutParams(-2,dp(50),Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL);
+            root.addView(adView,layout);
+            // Keep the web page clear of the banner rather than covering content.
+            web.setPadding(0,0,0,dp(50));
+            adView.loadAd(new AdRequest.Builder().build());
+        }));
     }
     private String notificationUrl(Intent intent){
         if(intent!=null){
@@ -209,5 +248,7 @@ public final class MainActivity extends Activity {
             }
         });
     }
-    @Override protected void onDestroy(){web.destroy();super.onDestroy();}
+    @Override protected void onPause(){if(adView!=null)adView.pause();super.onPause();}
+    @Override protected void onResume(){super.onResume();if(adView!=null)adView.resume();}
+    @Override protected void onDestroy(){if(adView!=null)adView.destroy();web.destroy();super.onDestroy();}
 }
