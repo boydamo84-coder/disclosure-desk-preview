@@ -40,12 +40,45 @@ function signupNotice(){
  btn.addEventListener('click',close);document.addEventListener('keydown',esc);
  panel.append(logo,heading,p,tip,btn);overlay.append(panel);document.body.append(overlay);btn.focus();
 }
+function verificationNotice(success,message){
+ const overlay=document.createElement('div');
+ overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(2,10,18,.84);display:flex;align-items:center;justify-content:center;padding:18px;';
+ const panel=document.createElement('section');
+ panel.setAttribute('role','alertdialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-labelledby','ddVerificationTitle');
+ panel.style.cssText='width:min(100%,430px);box-sizing:border-box;background:#102131;border:1px solid #E0C48E;border-radius:16px;padding:30px 24px;text-align:center;color:#E8EDF1;box-shadow:0 20px 65px rgba(0,0,0,.55);font-family:Arial,Helvetica,sans-serif;';
+ const logo=document.createElement('div');logo.textContent='DISCLOSURE DESK';logo.style.cssText='color:#E0C48E;font-weight:800;letter-spacing:2px;margin-bottom:20px;';
+ const title=document.createElement('h2');title.id='ddVerificationTitle';title.textContent=success?'Email verified successfully!':'Confirmation link problem';title.style.cssText='font-size:24px;color:#F5F0E6;margin:0 0 14px;';
+ const body=document.createElement('p');body.textContent=message;body.style.cssText='font-size:15px;color:#D5E0E8;line-height:1.6;margin:0 0 24px;';
+ const button=document.createElement('button');button.type='button';button.textContent='Continue to Disclosure Desk';button.style.cssText='background:#E0C48E;color:#0E1D2B;border:0;border-radius:8px;min-height:44px;padding:12px 22px;font-weight:700;font-size:14px;cursor:pointer;';
+ const close=()=>{overlay.remove();document.removeEventListener('keydown',escape)};
+ const escape=e=>{if(e.key==='Escape')close()};
+ button.onclick=close;document.addEventListener('keydown',escape);
+ panel.append(logo,title,body,button);overlay.append(panel);document.body.append(overlay);button.focus();
+}
+async function handleConfirmationReturn(){
+ const query=new URLSearchParams(location.search),hash=new URLSearchParams(location.hash.replace(/^#/,'')),targeted=query.get('dd_confirm')==='1'||hash.get('type')==='signup';
+ if(!targeted)return;
+ const failure=query.get('error_description')||hash.get('error_description')||query.get('error')||hash.get('error');
+ // Supabase processes the email tokens/code asynchronously; let the auth client finish first.
+ try{
+  if(!failure){
+   const {data:{session:s},error}=await db.auth.getSession();
+   if(!error&&s?.user?.email_confirmed_at){
+    verificationNotice(true,'Your email address has been confirmed. Your private Investigation Boards account is ready to use.');
+   }else{
+    verificationNotice(false,'We could not verify this confirmation yet. Please try the link again or sign in to check your account.');
+   }
+  }else verificationNotice(false,'The confirmation link was invalid or expired. Please request a new confirmation email. ('+failure.replace(/_/g,' ')+')');
+ }catch(_){verificationNotice(false,'We could not check your confirmation. Please try signing in again.')}
+ // Remove only our marker; leave Supabase callback parameters alone.
+ if(query.has('dd_confirm')){query.delete('dd_confirm');history.replaceState(null,'',location.pathname+(query.toString()?'?'+query.toString():'')+location.hash)}
+}
 async function auth(mode){
  const e=email.value.trim(),p=pass.value;
  if(!e||!p){say('Enter an email and password.');return}
  say('Contacting sign-in service…');
  try{
-  const out=mode==='signup'?await db.auth.signUp({email:e,password:p,options:{emailRedirectTo:location.origin+'/'}}):await db.auth.signInWithPassword({email:e,password:p});
+  const out=mode==='signup'?await db.auth.signUp({email:e,password:p,options:{emailRedirectTo:location.origin+location.pathname+'?dd_confirm=1'}}):await db.auth.signInWithPassword({email:e,password:p});
   if(out.error)throw out.error;
   pass.value='';
   await refresh();
@@ -94,4 +127,5 @@ document.getElementById('ddCloudDownload').onclick=download;
 document.getElementById('ddCloudReset').onclick=async()=>{const e=email.value.trim();if(!e){say('Enter your email to request a password reset.');return}const {error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin+'/'});say(error?'Reset request failed: '+error.message:'Check your email for a password-reset link.');};
 db.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY'){setTimeout(async()=>{const next=prompt('Choose your new Disclosure Desk password (minimum 8 characters):');if(!next)return;if(next.length<8){say('Password must contain at least 8 characters.');return}const {error}=await db.auth.updateUser({password:next});say(error?'Password update failed: '+error.message:'Password updated. You can now sign in.');},0)}setTimeout(refresh,0)});
 refresh();
+handleConfirmationReturn();
 })();
