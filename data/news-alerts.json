@@ -6,7 +6,10 @@
     "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPU043V3JkYkhfbDJRaU4zVXY5RVI1WWdQVTJIU1dMQ3JuTGtJUngybUtVMjRlUHNDa2dfZkUwOVNMSVBwTXFKNTE3cEZUWEpfZWZyVUc3RDY1VjZ0TnItLTVyNmprd3Y5VjRURzlyLUdfajVQa3ZaSmk1ZTZfUGQyY3FnU1g4YTRiZFdsSF9PdXJSUlpYd1k0NkFNU2IwZV9tbi0w?oc=5",
     "date": "2026-10-24T09:28:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.independent.co.uk/news/world/americas/pentagon-ufo-files-triangles-us-trump-b3072621.html",
+    "imageUrl": "https://static.independent.co.uk/2026/10/24/8/54/Screenshot-2026-10-24-at-09-09-18.png?trim=0,0,0,74&width=1200&height=800&crop=1200:800",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "008d55b843dbf7d567d9",
@@ -15,7 +18,10 @@
     "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOVXh6V0NsOUJUdkl4S0NOTHVZTEx3NEVrbExNR2VUbWNIZzN1MkxGVUR2UDhtdDk0b0F3ckhsUGZ1RUE2dDZBM1lXUERiTU5JQWRSS0d4NjYtTkF5NFVIbURYeEtkNjRkemxXaWFrRGNNR0JBYVd1QzZMdzA3YThFa1AzXzlCTnhONHQydklYYTNMendLTk9majZMejN2RVc0Skd3?oc=5",
     "date": "2026-10-24T05:58:41+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.cbsnews.com/losangeles/news/new-pentagon-ufo-files-detail-sightings-over-catalina-island/",
+    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/10/24/08f21b69-9c92-4cb6-84d8-70c823b35ec1/thumbnail/1200x630/2e49e15f05bb57b9b3667f7c501be821/catalina-ufo.png",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "49b4639821a22bbed2e8",
@@ -24,7 +30,10 @@
     "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1Eb0dKY01WYTFnWWxjbVZOMFRwNU12d1UwSmUtLTZFbm82OEJmT3FsYmJqQXJJZ1c3TFliQ3hoeU1WLTlOdVhLMG1JZWswNUkzZTU4ZVEyRTRlWUFORWVlNDB6ZHlNUzN0cDJDOUJhc3ZTU1k?oc=5",
     "date": "2026-10-23T21:02:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.cbsnews.com/news/ufo-files-pentagon-triangular-craft/",
+    "imageUrl": "https://assets2.cbsnewsstatic.com/hub/i/r/2026/10/23/d30caa55-8792-4014-8998-8471a8e64661/thumbnail/1200x630/bb789382a0429331e0033a2c642d192f/screenshot-2026-10-23-at-4-18-51-pm.png",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "a43e61ef63ff51e85916",
@@ -33,7 +42,10 @@
     "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9QTF9tU3hxVkJrVkw3UUtiUmg2cDNwUDZVaTIzNjJMcDAyVUdIUGxoMGFBbVRTc1pMQ2hIVWtZNGk3eEhoOTlqSE5OTi1mUnNoOHdPeUVYdWhraTROUkFOSXdXb0c5aWN2c3d3SUNBMmJSQQ?oc=5",
     "date": "2026-10-23T20:23:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.theguardian.com/world/2026/oct/23/ufo-pentagon-files",
+    "imageUrl": "https://i.guim.co.uk/img/media/88c4a85fbc23a00f87395cdc6dff14db1ee7f624/0_0_1379_1104/master/1379.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=f32b1954d1997027fc2e2cd0f3ec4ca1",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "5945b4c646b3c3b11ddb",
@@ -42,7 +54,10 @@
     "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOc1pkdmpXWUdGY1BSNXRUczdKYmVReGhfRGhOM3BBczhzanNPMDZfem5ITVVCWUZ3VnFYNXlqTWdhSTBrTDEzdG9oY2NkRUZDVm0tMGpfVl9WV0JvWWRGUS1hWGdrQ0trY3Jzekp0cngtcFJrSnlPSERyNnM0bEJIdXhUZU9lZWhja2xkM3hwQUNpZmhQbmZ0YzNhYUE?oc=5",
     "date": "2026-10-16T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.cbsnews.com/video/former-us-intel-official-releases-book-on-uap-government-cover-up/",
+    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/10/16/c4ced0c5-18a0-43b1-bc0d-ee5bb646def6/thumbnail/1200x630/f4ba0230cc9dd0ed24921272fc729391/cbsn-fusion-former-us-intel-official-releases-book-on-uap-government-cover-up-thumbnail.jpg",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "a82d2cdff1697632e01f",
@@ -84,7 +99,7 @@
     "id": "0501a6c949de643566a9",
     "headline": "Watch: Sixth batch of UFO files includes orbs from 1952",
     "source": "BBC",
-    "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE4xQThHSEhzakVsRm1DYzh0bjJGcTZpT2J6WjVzWjBrSVA3Y0djNVJCUGh0WFdUSGNPUVk2Ykc5RWk5amtIWnlCOHE5UU1qbHFzaEttWl8tZWs?oc=5",
+    "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBSZ0NkWldiWnlYbGFEXzZncjh0OFVNQnN3RzZlY3FtX2ZQeldyT0tyNmJ5cmU1VUNLT1dmakFoSU5rYmN3VUNsWFZpSFkwNElBN2ZKX09KYklVZ28?oc=5",
     "date": "2026-09-18T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard"
@@ -726,7 +741,8 @@
     "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNRTl5cm4xelY1c2R0SXY0T1dURG13TTRxdmxDWThZVlo4aHpjUHlEOHo3VmFHY1JiMTNpbWxwRDk3cndhMlNiU2xIMm1DbzFJejlmNnVUdTgzcHpMdndsU19mLWVJNWVUbm1PZF9CLTFaV0hrbnNVZEdfQ1ByODRFd0FkcGlUVVVWYTlweHNDN3R1Q1NOMVhYWXN1OG1FSDFyV1BDNC1sY0pUX29Dd3B4QmZR?oc=5",
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://apnews.com/article/trump-ufos-uap-aliens-pentagon-records-investigation-3e658d2cf3742465127c0049c872240a"
   },
   {
     "id": "0582f270b7022665967b",
@@ -735,7 +751,10 @@
     "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE1yaWFOYVJYbHBvdVMxOFQ0dUE1eU5kQkVBd2tsd0o5aFJxa3NMV252SGNxbWZQMy1JWlpJM3M5OU5GX1ZvQU9abDF0RHlFcURubTFwUW1LVQ?oc=5",
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.bbc.com/news/videos/c9v3e7vgwxeo",
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/1502/live/6f99d190-4b29-11f1-ac78-2112837ce2aa.jpg",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "580cf2308598f270d357",
@@ -744,7 +763,10 @@
     "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPSVNTUWxjU05JWDlLZnpHcUVuS0trdkJKUXZTd2k0cDgtajZETjhZd01ELWQ3eVlBUmc0VGc4TFR4aTdJY0dXOV9VSVJmZlFkVjBnRUFtcDVaODg2cHFEdVBXbEJGMERGYTVWTDA2Wmo4ZzI2UVpjend0Zm5xZnNoMTlMNkpHRkZwQWpQS0l3WGxxN3U5c19zQzVNdGxfNFJwVjN6ZjFJR1JlNHZoMnlqUw?oc=5",
     "date": "2026-04-30T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.theguardian.com/world/2026/apr/30/the-rendlesham-forest-mystery-its-the-perfect-storm-of-a-ufo-case",
+    "imageUrl": "https://i.guim.co.uk/img/media/5c865ffdce7393f3d3e05ba1851a8294456c8561/843_0_4542_3634/master/4542.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=e9006f484ee7b6c6ddee5d1143cf1560",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "74294474c0c5bbca9f97",
@@ -753,7 +775,10 @@
     "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQY2RjaDRWLVh2dHVuQ1h5eklqQXBhanA3c1luU3VxVXRrTFgzXzR3bGd6dnpNLTZvamE5cm9CWWVRaGM3WHc5NlRDSXM0dk15Y2Zjd3dPcVluc1J5eTRnRUtOU21NM2pxbVRNM1BfNFB3MVZOSXExdm01QlpTSGo2czE4RnZfcFVBcTNWUGFB?oc=5",
     "date": "2026-04-30T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.cbc.ca/news/canada/sudbury/polar-bear-spring-hunt-scare-weenusk-9.7181729",
+    "imageUrl": "https://i.cbc.ca/ais/8fe04448-7013-4580-9449-e481f1fcef28,1777495905326/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C5%2C512%2C288%29%3BResize%3D620",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "5d16f5f34d9c207e6806",
@@ -762,7 +787,10 @@
     "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOelhNU0JJVFVCVEFvMUloN1VNY1QyZmVVbW9rREI1N3hGSjh3V2tQeVY0R2ZDejF2aGFRT2tMVEx3bGVJMzhqOWpOaG1ieUVFcUIzMHZKS3V4R2tiZXR5bjZUY1d3S3drSlJfdUo0bTVaUVdVRUFIbXpCYV9ZM1IzcmdQbGJabEQtWDgxWWFIMUJLamM?oc=5",
     "date": "2026-04-22T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.theguardian.com/science/2026/apr/22/pentagon-released-ufo-videos-chase-aliens",
+    "imageUrl": "https://i.guim.co.uk/img/media/ed98517cae01bcf53ece2c226641a36766ad7e33/444_0_1350_1080/master/1350.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=a8372289603af43003457e608cabe4ae",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "ca6e383f5207c9657d2d",
@@ -771,7 +799,10 @@
     "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQQ1UtTmRjMlBUWnZWSUx5b1o3aWZJNTdFcC1ONG05eUtSeHBYc041UjRUZ1BVY0gwak5Nd1lmTXNRXzBwYmlVMFJDdUJpUV9DTV9Kemk3b01fbEVZUk9WVWVUdEdFNE9oeVhSOC1LbHg1djdITlBud2NQUElycEkzOEE1eExBWjFoWTFDQVVKVE5ZN0lIcHFFVTZPRnE5Zk51U2MxMUZFejhIcllQLVJGSjRn?oc=5",
     "date": "2026-04-18T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.nbcnews.com/politics/donald-trump/trump-says-review-ufo-files-found-interesting-documents-rcna333389",
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2022-05/220517-ufo-mjf-0953-5ad8c4.jpg",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "57b27b5a7be062beb617",
@@ -780,7 +811,8 @@
     "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPamVuTVFmekFOMkRRZTlTUi1vVFZ6MHZkelR3Rmxsd1dTUlRVek9IOGczVVJiQ2hKcmU0QjRfVmVTSFJDZmdoT1VSQUlIUTQ4cjVfNVlVbHY3QzBsRWY3aTZNWHNfVUQwSGxfVnp1M09PeVkwdE1YTEV5SlJwU0VQMkppZC1IVVk0Nmk3NmRXZFo5M0E0bDA3NFhZYw?oc=5",
     "date": "2026-04-17T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.reuters.com/world/trump-says-ufo-review-uncovered-interesting-documents-2026-04-17/"
   },
   {
     "id": "3e888ff82df2bfc51c6b",
@@ -814,9 +846,8 @@
     "date": "2026-04-05T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "publisherUrl": "https://www.theguardian.com/us-news/2026/apr/05/alien-life-nasa-jared-isaacman-artemis-ii",
     "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8",
-    "imageSource": "publisher_meta"
+    "publisherUrl": "https://www.theguardian.com/us-news/2026/apr/05/alien-life-nasa-jared-isaacman-artemis-ii"
   },
   {
     "id": "ef2cf6dd2b9e6f0cd58a",
@@ -838,9 +869,8 @@
     "date": "2026-04-03T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "publisherUrl": "https://www.bbc.com/news/articles/cvg58ydn4jpo",
     "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg",
-    "imageSource": "publisher_meta"
+    "publisherUrl": "https://www.bbc.com/news/articles/cvg58ydn4jpo"
   },
   {
     "id": "8d06dd474e5f2e6f3926",
@@ -975,7 +1005,10 @@
     "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPeXFVVjZpMGRPalY3TWRwbmVHSlpwX21LRWpHeGhTT3Y5YWJJYUx0Z3Ewb2RTYVlXRWVpeEFNZk85T25IT3N0TDBwelpjMm12dmRlWEg2eHROUThBQzV1cUYtNHR5MUdBWEJCWW1Ra293Vkl6OHNkRlRtTDQyS0xYTDRNa2thQ0hVby0xbUk3c1pwOFhmbWJzbklEWENTQVlLZ2lYZk5tamdEb19laW81N2M3Z0ZiYWdxaGs2czVzY0dJUmk3RHQ4cA?oc=5",
     "date": "2025-12-09T08:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.theguardian.com/environment/2025/dec/09/country-diary-a-close-encounter-with-a-buzzard-close-enough-to-make-me-wonder",
+    "imageUrl": "https://i.guim.co.uk/img/media/1efd5ffe37281fdb87308b9f6ba244d4d7bd698f/823_0_4640_3712/master/4640.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=07baac226567fc8629a48062ead9c44f",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "00430fc8a94978cbda9b",
@@ -984,6 +1017,7 @@
     "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQVmxXbGgyVXRkYlhadk15RUN3UDFwMnpOUXp5azRUaWN3ZTBSMHNTYkhwY2hlcG5oek5GZnY5eFVSYmt6SWl3bGUtc05wSkI3LWVRanM4YjN0Y3k2STlkeHhSZ3RTMzZPVjBfSEl0d1VtdlVXeXNlRnJXci1mVmZQdW55X3JfVXlENmtIMFlveVF1Q0VqRnROalltNnlKS3Nr?oc=5",
     "date": "2025-11-19T08:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.reuters.com/science/nasa-set-release-new-images-interstellar-object-3iatlas-2025-11-19/"
   }
 ]
