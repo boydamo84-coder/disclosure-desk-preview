@@ -631,9 +631,8 @@
     "date": "2026-05-22T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "publisherUrl": "https://www.bbc.com/news/videos/cp3p2dkqxd0o",
     "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/07b3/live/d34ce420-55fb-11f1-8b8c-6d33e1d5abb6.jpg",
-    "imageSource": "publisher_meta"
+    "publisherUrl": "https://www.bbc.com/news/videos/cp3p2dkqxd0o"
   },
   {
     "id": "ab9fb402600a826d1736",
@@ -642,7 +641,10 @@
     "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQUzQtaS1kaWlFeXpaZTlDMlh4ZkFXcVZ1dnZacVNBbEljcTZzbUJydXF2dGlkRXpEUzd6SnRaR3FPNEVOMC1ZYWN2c2cyd1k4UHkwYkxxTExRc0tyTXdpcTl5eDhvY2JORUZCSmRDaDRoblMtRExSSklNQUlTQ0lDeWIyZTRnRGN2VGxjd0tZb2l0RWotSHlIR2JScEFITUd6RU1mTTZOUjlqYlAzbEQ5bjBwa0Ntc2l3UnJNNXVDWQ?oc=5",
     "date": "2026-05-22T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.independent.co.uk/news/world/americas/us-politics/pentagon-ufo-files-release-orbs-latest-updates-b2982000.html",
+    "imageUrl": "https://static.independent.co.uk/2026/05/22/13/17/DOW-UAP-PR051.jpg?trim=0,0,0,0&width=1200&height=800&crop=1200:800",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "1a08ef7b074ed0d424e2",
@@ -798,9 +800,7 @@
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "publisherUrl": "https://www.cbc.ca/news/world/ufo-files-released-unidentified-aerial-phenomena-nasa-9.7192864",
-    "imageUrl": "https://i.cbc.ca/ais/50c4115a-a1a3-41bf-ba00-cea4bb157870,1778274584549/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C145%2C3420%2C1923%29%3BResize%3D620",
-    "imageSource": "publisher_meta"
+    "imageUrl": "https://i.cbc.ca/ais/50c4115a-a1a3-41bf-ba00-cea4bb157870,1778274584549/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C145%2C3420%2C1923%29%3BResize%3D620"
   },
   {
     "id": "720fbcb4e4a90e156846",
