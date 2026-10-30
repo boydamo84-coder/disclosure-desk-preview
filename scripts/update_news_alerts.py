@@ -17,13 +17,13 @@ QUERIES=[
 PUBLISHERS=("Reuters","Associated Press","AP News","BBC","The Guardian","Sky News","CNN","ABC News","NBC News","CBS News","The New York Times","The Washington Post","AFP","France 24","Al Jazeera","DW","Euronews","CBC","The Independent")
 RELEVANCE=re.compile(r'\b(uap|ufo|unidentified anomalous|unidentified aerial|alien|extraterrestrial|skinwalker ranch|cryptids?|bigfoot|sasquatch|alien abduction|close encounter|unexplained phenomena)\b',re.I)
 # Filter ambiguous phrases that routinely produce unrelated mainstream headlines.
-FALSE_POSITIVES=re.compile(r"\\b(close encounter with (?:the |a |an )?(?:king|queen|prince|princess|ball|football|fan|crowd|animal)|street ball game|close encounter with a shark)\\b",re.I)
+FALSE_POSITIVES=re.compile(r"\b(close encounter with (?:the |a |an )?(?:king|queen|prince|princess|ball|football|fan|crowd|animal)|street ball game|close encounter with a shark)\b",re.I)
 def relevant_headline(title):
     if FALSE_POSITIVES.search(title):return False
     # Broad phrases need an anomalous/space context; avoid ordinary human encounters.
     lowered=title.lower()
-    ambiguous=bool(re.search(r"\\bclose encounter(s)?\\b",lowered))
-    context=bool(re.search(r"\\b(ufo|uap|alien|extraterrestrial|anomalous|unidentified|space|sighting|abduction|sky|mystery|paranormal)\\b",lowered))
+    ambiguous=bool(re.search(r"\bclose encounter(s)?\b",lowered))
+    context=bool(re.search(r"\b(ufo|uap|alien|extraterrestrial|anomalous|unidentified|space|sighting|abduction|sky|mystery|paranormal)\b",lowered))
     return bool(RELEVANCE.search(title)) and (not ambiguous or context)
 MAJOR=re.compile(r'\b(pentagon|congress|nasa|aar o|aaro|department of defense|ministry of defence|government|official|military|hearing|declassified|released files|new documents)\b',re.I)
 def approved_rss_image(item):
