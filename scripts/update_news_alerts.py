@@ -193,29 +193,37 @@ def main():
         except Exception as exc:
             print("Direct publisher feed unavailable:",publisher,type(exc).__name__)
     recent=consolidate(unique.values())[:1200]
-    # Bound network requests to prevent news schedules from stalling.
-    # Google News RSS often uses opaque links; those remain themed art.
-    checked=0
-    # Rotate through records, rather than retrying the first 24 every run.
-    # A changing Google News landing page is not an original publisher image.
-    eligible=[entry for entry in recent if not entry.get("imageUrl") and public_https(entry.get("url","")) and urllib.parse.urlsplit(entry["url"]).hostname.lower()!="news.google.com"]
+    # Resolve a bounded batch of opaque Google News URLs to real publisher pages.
+    # This uses Google's current URL resolution mechanism; failures are harmless.
     slot=int(now.timestamp()//7200)
-    if eligible:
-        offset=(slot*24)%len(eligible)
-        chosen=(eligible[offset:]+eligible[:offset])[:24]
-    else:
-        chosen=[]
-    for entry in chosen:
-        source_url=entry["url"]
+    opaque=[e for e in recent if urllib.parse.urlsplit(e.get("url","")).hostname=="news.google.com"]
+    pending=[e for e in opaque if not e.get("publisherUrl")]
+    chosen=[]
+    if pending:
+        offset=(slot*16)%len(pending)
+        chosen=(pending[offset:]+pending[:offset])[:16]
+    resolved=0
+    if chosen:
+        try:
+            from gnews_decoder import decode_many
+            mapping=decode_many([e["url"] for e in chosen])
+            for entry in chosen:
+                target=mapping.get(entry["url"]) if isinstance(mapping,dict) else None
+                if isinstance(target,str) and public_https(target) and urllib.parse.urlsplit(target).hostname!="news.google.com":
+                    entry["publisherUrl"]=target
+                    resolved+=1
+        except Exception as exc:
+            print("Google News source resolution unavailable:",type(exc).__name__,str(exc)[:110])
+    # Images must be derived from actual publisher pages, not a Google landing page.
+    eligible=[e for e in recent if not e.get("imageUrl") and public_https(e.get("publisherUrl") or e.get("url","")) and urllib.parse.urlsplit(e.get("publisherUrl") or e["url"]).hostname!="news.google.com"]
+    checked=0
+    for entry in eligible[:16]:
         checked+=1
-        image=publisher_image(source_url,None)
+        image=publisher_image(entry.get("publisherUrl") or entry["url"],None)
         if image:
             entry["imageUrl"]=image
             entry["imageSource"]="publisher_meta"
-        else:
-            # Leave the branded artwork; do not substitute unrelated photographs.
-            pass
-    print(f"Publisher image checks: {checked}; image URLs available: {sum(bool(v.get('imageUrl')) for v in recent)}")
+    print(f"Google News source URLs resolved: {resolved}/{len(chosen)}; publisher image checks: {checked}; image URLs: {sum(bool(e.get('imageUrl')) for e in recent)}")
     if not recent:
         print("No eligible sourced reports found within one year; feed remains empty")
     OUT.write_text(json.dumps(recent,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
