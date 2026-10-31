@@ -234,7 +234,23 @@ document.getElementById('ddCloudAlreadyRegistered').onclick=()=>{
 document.getElementById('ddCloudSignup').onclick=()=>auth('signup');
 document.getElementById('ddCloudLogin').onclick=()=>auth('login');
 document.getElementById('ddCloudLogout').onclick=async()=>{await db.auth.signOut();await refresh()};
-document.getElementById('ddCloudUpload').textContent='↑ Upload boards to cloud';document.getElementById('ddCloudDownload').textContent='↓ Download boards from cloud';document.getElementById('ddCloudUpload').onclick=upload;
+document.getElementById('ddCloudUpload').textContent='↑ Upload boards to cloud';document.getElementById('ddCloudDownload').textContent='↓ Download boards from cloud';async function emailBackup(){
+ const button=document.getElementById('ddEmailBackup');
+ if(!session?.user?.email_confirmed_at){await cloudDialog('Verified account required','Please sign in to a verified Disclosure Desk account before sending backups.');return}
+ if(!investigationBoards.length){await cloudDialog('Nothing to back up','Create or download at least one Investigation Board first.');return}
+ const count=investigationBoards.length;
+ if(!await cloudDialog('Email my private Boards','Send an attached JSON backup of '+quantity(count,'board')+' to your registered account email ('+session.user.email+'). The file includes private notes, saved sources, timeline events and videos. Email attachments are not end-to-end encrypted; protect your inbox and do not forward the file.','Send backup'))return;
+ button.disabled=true;button.textContent='Sending backup…';say('Requesting private email backup…');
+ try{
+  const {data,error}=await db.functions.invoke('email-board-backup',{body:{boards:investigationBoards}});
+  if(error||!data?.ok)throw Error(data?.error||'Email backup service is not yet available or could not complete the request.');
+  say('Backup requested for '+session.user.email+'. Check your inbox and spam folder.');
+  await cloudDialog('Backup email requested','Your backup has been accepted for delivery to your registered email. Check your inbox and spam folder. Your Boards remain unchanged.');
+ }catch(e){say('Email backup unavailable: '+e.message);await cloudDialog('Email backup not available','The email backup service has not been configured or could not send your backup. Your Boards are safe on this device. Use a Board JSON export until email delivery is enabled.');}
+ finally{button.disabled=false;button.textContent='✉ Send backup to my email'}
+}
+document.getElementById('ddCloudUpload').onclick=upload;
+document.getElementById('ddEmailBackup').onclick=emailBackup;
 document.getElementById('ddCloudDownload').onclick=download;
 document.getElementById('ddCloudReset').onclick=async()=>{const e=email.value.trim();if(!e){say('Enter your email first, then choose Reset password.');return}const {error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin+location.pathname});say(error?'Reset request failed: '+error.message:'If an account exists for that address, a password-reset email will arrive shortly. Check your spam folder too.');};
 db.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY'){setTimeout(resetNotice,0)}setTimeout(refresh,0)});
