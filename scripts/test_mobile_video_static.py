@@ -37,6 +37,8 @@ def main():
         'iframe[data-src]',
         'window.ddVideoGetProgress',
         'window.ddVideoMergeProgress',
+        'id="pickerIncludeDiscussion"',
+        'data-open-saved-discussion',
         'function openImmersive(resume=false)',
     ]
     missing = [token for token in required if token not in page]
@@ -58,6 +60,8 @@ def main():
         result = subprocess.run(["node", "--check", str(discussion)], capture_output=True, text=True)
         if result.returncode:
             sys.exit("Case discussion syntax failed: " + result.stderr)
+        if 'window.ddOpenCaseDiscussion' not in discussion.read_text(encoding='utf-8'):
+            sys.exit('Board discussion opener missing')
         if 'data-case-discussion' not in page:
             sys.exit("Case discussion button missing from case cards")
         print("PASS: Case discussion JS syntax and case button wiring.")
