@@ -14,11 +14,56 @@ const pass=document.getElementById('ddCloudPass');
 const act=document.getElementById('ddCloudActions');
 const guest=document.getElementById('ddCloudGuest');
 const cloudControls=document.getElementById('ddCloudControls');
+const syncKey=()=>session?.user?.id?'dd-sync-log-'+session.user.id:null;
+function syncStamp(kind,count){
+ const key=syncKey();if(!key)return;
+ try{const old=JSON.parse(localStorage.getItem(key)||'{}');old[kind]={time:new Date().toISOString(),count};localStorage.setItem(key,JSON.stringify(old));}catch(_){}
+ renderSyncStamp();
+}
+function renderSyncStamp(){
+ const area=document.getElementById('ddCloudSyncInfo');if(!area)return;
+ if(!session){area.hidden=true;return}
+ area.hidden=false;
+ let info={};try{info=JSON.parse(localStorage.getItem(syncKey())||'{}')}catch(_){}
+ const fmt=v=>v?.time?new Date(v.time).toLocaleString()+' ('+v.count+' board(s))':'Not yet on this device';
+ area.textContent='Last cloud upload: '+fmt(info.upload)+' • Last cloud import: '+fmt(info.download)+'. Manual transfers only; this is this device’s activity history.';
+}
+function resetNotice(){
+ const overlay=document.createElement('div');
+ overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:#020a12de;display:flex;align-items:center;justify-content:center;padding:18px';
+ const panel=document.createElement('section');panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label','Set new Disclosure Desk password');
+ panel.style.cssText='background:#102131;border:1px solid #E0C48E;border-radius:14px;box-sizing:border-box;padding:24px;width:min(100%,420px);color:#F5F0E6;font-family:Arial,sans-serif';
+ const title=document.createElement('h2');title.textContent='Choose a new password';title.style.cssText='color:#E0C48E;font-size:22px;margin:0 0 12px';
+ const description=document.createElement('p');description.textContent='Enter your new password twice. Your Investigation Boards will not be changed.';description.style.cssText='font-size:14px;line-height:1.5';
+ const inputs=[0,1].map(i=>{const box=document.createElement('input');box.type='password';box.placeholder=i?'Confirm new password':'New password (8+ characters)';box.autocomplete='new-password';box.style.cssText='width:100%;box-sizing:border-box;margin:7px 0;padding:13px;background:#0A151F;color:#F5F0E6;border:1px solid #8B7754;border-radius:7px';return box});
+ const msg=document.createElement('p');msg.setAttribute('role','status');msg.style.cssText='font-size:13px;color:#E0C48E';
+ const actions=document.createElement('div');actions.style.cssText='display:flex;gap:10px;flex-wrap:wrap';
+ const submit=document.createElement('button');submit.type='button';submit.textContent='Update password';
+ const cancel=document.createElement('button');cancel.type='button';cancel.textContent='Cancel';
+ for(const button of [submit,cancel])button.style.cssText='padding:12px;background:#E0C48E;color:#102131;border:0;border-radius:8px;font-weight:bold;cursor:pointer';
+ const close=()=>{overlay.remove();};
+ cancel.onclick=close;
+ submit.onclick=async()=>{
+  if(inputs[0].value.length<8){msg.textContent='Please use at least 8 characters.';return}
+  if(inputs[0].value!==inputs[1].value){msg.textContent='Passwords do not match.';return}
+  submit.disabled=true;msg.textContent='Updating password…';
+  const {error}=await db.auth.updateUser({password:inputs[0].value});
+  if(error){msg.textContent='Update failed: '+error.message;submit.disabled=false;return}
+  close();say('Password changed successfully. Your boards are unchanged.');
+ };
+ actions.append(submit,cancel);panel.append(title,description,...inputs,msg,actions);overlay.append(panel);document.body.append(overlay);inputs[0].focus();
+}
+function ensureSyncInfo(){
+ if(document.getElementById('ddCloudSyncInfo'))return;
+ const area=document.createElement('p');area.id='ddCloudSyncInfo';area.className='muted small';area.setAttribute('aria-live','polite');
+ cloudControls.append(area);
+}
+ensureSyncInfo();
 async function refresh(){
  try{
   const {data:{session:s}}=await db.auth.getSession();session=s;
   guest.hidden=!!s; cloudControls.hidden=!s;
-  if(s){act.textContent='Signed in as '+s.user.email;say('Signed in. Device boards stay on this device until you choose an action.')}else{act.textContent='Optional private account';say('Guest mode: your research stays on this device. Sign in to access cloud boards.')}
+  if(s){act.textContent='Signed in as '+s.user.email;say('Signed in. Device boards stay on this device until you choose an action.')}else{act.textContent='Optional private account';say('Guest mode: your research stays on this device. Sign in to access cloud boards.')}renderSyncStamp();
  }catch(e){say('Sign-in service unavailable: '+e.message)}
 }
 function signupNotice(){
@@ -101,7 +146,7 @@ async function upload(){
    const {error}=await db.from('investigation_boards').insert({name:String(b.name).slice(0,60),content:{links:b.links||[],notes:b.notes||[]}});
    if(error)throw error;count++;
   }
-  say('Copied '+count+' board(s) to cloud; '+skipped+' already present. Your device boards are unchanged.');
+  syncStamp('upload',count);say('Copied '+count+' board(s) to cloud; '+skipped+' already present. Your device boards are unchanged.');
  }catch(ex){say('Cloud copy interrupted: '+ex.message+'. Device boards are unchanged; please export a backup before retrying.')}
 }
 async function download(){
@@ -116,7 +161,7 @@ async function download(){
   const fp=b=>JSON.stringify({name:b.name,links:b.links||[],notes:b.notes||[]});
   const seen=new Set(investigationBoards.map(fp));let added=0;
   for(const row of incoming){const b={name:row.name,links:row.content.links,notes:row.content.notes};if(!seen.has(fp(b))&&investigationBoards.length<40){investigationBoards.push(b);seen.add(fp(b));added++}}
-  boardSave();say('Imported '+added+' collections. Existing device boards preserved. Cloud import is a snapshot; upload changes manually when ready.');
+  boardSave();syncStamp('download',added);say('Imported '+added+' collections. Existing device boards preserved. Cloud import is a snapshot; upload changes manually when ready.');
  }catch(ex){say('Cloud retrieval failed: '+ex.message+'. Device boards were not changed.')}
 }
 const eyeButton=document.getElementById('ddCloudShowPass');
@@ -138,8 +183,8 @@ document.getElementById('ddCloudLogin').onclick=()=>auth('login');
 document.getElementById('ddCloudLogout').onclick=async()=>{await db.auth.signOut();await refresh()};
 document.getElementById('ddCloudUpload').onclick=upload;
 document.getElementById('ddCloudDownload').onclick=download;
-document.getElementById('ddCloudReset').onclick=async()=>{const e=email.value.trim();if(!e){say('Enter your email to request a password reset.');return}const {error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin+'/'});say(error?'Reset request failed: '+error.message:'Check your email for a password-reset link.');};
-db.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY'){setTimeout(async()=>{const next=prompt('Choose your new Disclosure Desk password (minimum 8 characters):');if(!next)return;if(next.length<8){say('Password must contain at least 8 characters.');return}const {error}=await db.auth.updateUser({password:next});say(error?'Password update failed: '+error.message:'Password updated. You can now sign in.');},0)}setTimeout(refresh,0)});
+document.getElementById('ddCloudReset').onclick=async()=>{const e=email.value.trim();if(!e){say('Enter your email first, then choose Reset password.');return}const {error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin+location.pathname});say(error?'Reset request failed: '+error.message:'If an account exists for that address, a password-reset email will arrive shortly. Check your spam folder too.');};
+db.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY'){setTimeout(resetNotice,0)}setTimeout(refresh,0)});
 refresh();
 handleConfirmationReturn();
 })();
