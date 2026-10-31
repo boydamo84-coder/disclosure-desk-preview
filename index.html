@@ -667,13 +667,13 @@ function governmentVideoAgency(c){
  const officialNasa=hostname==='nasa.gov'||hostname.endsWith('.nasa.gov');
  const officialUk=hostname==='gov.uk'||hostname.endsWith('.gov.uk');
  const officialFrance=hostname==='cnes.fr'||hostname.endsWith('.cnes.fr')||hostname==='geipan.fr'||hostname.endsWith('.geipan.fr')||hostname==='gouv.fr'||hostname.endsWith('.gouv.fr');
- const recognized=/\\b(aaro|department of defense|department of defence|\\bdod\\b|pentagon|dvids|us air force|u\\.s\\. air force|nasa|noaa|uk ministry of defence|british ministry of defence|uk mod|cnes|geipan|french government|france government)\\b/i;
+ const recognized=/\b(aaro|department of defense|department of defence|\bdod\b|pentagon|dvids|us air force|u\.s\. air force|nasa|noaa|uk ministry of defence|british ministry of defence|uk mod|cnes|geipan|french government|france government)\b/i;
  if(!explicit&&!officialDvids&&!officialAaro&&!officialNasa&&!officialUk&&!officialFrance&&!recognized.test(publisher))return null;
  const tag=explicit||publisher;
- if(officialDvids||officialAaro||/\\b(aaro|department of defense|department of defence|\\bdod\\b|pentagon|dvids|us air force|u\\.s\\. air force)\\b/i.test(tag))return 'us-dod';
- if(officialNasa||/\\b(nasa|national aeronautics and space administration|noaa|us geological survey)\\b/i.test(tag))return 'us-nasa';
- if(officialUk||/\\b(uk ministry of defence|british ministry of defence|uk mod|\\bmod uk\\b)\\b/i.test(tag))return 'uk-mod';
- if(officialFrance||/\\b(cnes|geipan|gouvernement français|ministère des armées|french government|france government)\\b/i.test(tag))return 'fr-gov';
+ if(officialDvids||officialAaro||/\b(aaro|department of defense|department of defence|\bdod\b|pentagon|dvids|us air force|u\.s\. air force)\b/i.test(tag))return 'us-dod';
+ if(officialNasa||/\b(nasa|national aeronautics and space administration|noaa|us geological survey)\b/i.test(tag))return 'us-nasa';
+ if(officialUk||/\b(uk ministry of defence|british ministry of defence|uk mod|\bmod uk\b)\b/i.test(tag))return 'uk-mod';
+ if(officialFrance||/\b(cnes|geipan|gouvernement français|ministère des armées|french government|france government)\b/i.test(tag))return 'fr-gov';
  return explicit?'other':null;
 }
 function governmentVideoMatches(c){
