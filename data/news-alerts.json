@@ -7,7 +7,8 @@
     "date": "2026-10-24T09:28:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://static.independent.co.uk/2026/10/24/8/54/Screenshot-2026-10-24-at-09-09-18.png?trim=0,0,0,74&width=1200&height=800&crop=1200:800"
+    "imageUrl": "https://static.independent.co.uk/2026/10/24/8/54/Screenshot-2026-10-24-at-09-09-18.png?trim=0,0,0,74&width=1200&height=800&crop=1200:800",
+    "publisherUrl": "https://www.independent.co.uk/news/world/americas/pentagon-ufo-files-triangles-us-trump-b3072621.html"
   },
   {
     "id": "008d55b843dbf7d567d9",
@@ -289,8 +290,7 @@
     "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPZ2RBczhyakt0VTVSQkt1VUR3eG9XR2M4RHVGUGlVNU9ZUTVCQllZS1JoWlNiMmFzUjBDUjdwWml6ZHNWNkl3cURZbnJBNWNpTHkydGxXOWNJZ2d5dV9wQ0hwNHdTWDZWaUhJNTEwUUgzdzd1TVpRckRXMHR3OXZiYXBHckRlRkZxMVR4U0NiMkR6ZzZfdTBjMWdZcw?oc=5",
     "date": "2026-07-14T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard",
-    "publisherUrl": "https://www.nytimes.com/2026/07/07/world/australia/queensland-australia-space-balls-debris.html"
+    "priority": "standard"
   },
   {
     "id": "b1fb11b777028fca4aba",
@@ -300,8 +300,7 @@
     "date": "2026-07-11T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/videoframe-0-2-20260711081026740.png?c=16x9&q=w_800,c_fill",
-    "publisherUrl": "https://www.cnn.com/2026/07/11/world/video/pentagon-ufo-files-michaelson-reader-071101aseg2-cnni-us-fast"
+    "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/videoframe-0-2-20260711081026740.png?c=16x9&q=w_800,c_fill"
   },
   {
     "id": "3866cfa8c254c444e171",
@@ -311,8 +310,7 @@
     "date": "2026-07-10T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/d3bb/live/51ab41d0-7c72-11f1-9fad-d539485c17c2.png",
-    "publisherUrl": "https://www.bbc.com/news/videos/c8x2zez8qwzo"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/d3bb/live/51ab41d0-7c72-11f1-9fad-d539485c17c2.png"
   },
   {
     "id": "9670db22421ee589ac78",
@@ -943,7 +941,8 @@
     "date": "2026-04-03T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg",
+    "publisherUrl": "https://www.bbc.com/news/articles/cvg58ydn4jpo"
   },
   {
     "id": "8d06dd474e5f2e6f3926",
