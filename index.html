@@ -810,7 +810,20 @@ function archiveCaseOpen(id){
  body.innerHTML='<h2 id="archiveCaseTitle">'+esc(r.title)+'</h2>'+
  '<p class="muted small">'+esc(r.kind||'Archive record')+' · Record/event year: '+esc(String(r.year))+(r.endYear?'–'+esc(String(r.endYear)):'')+'</p>'+
  '<h3>Record description</h3><p>'+esc(r.description||'No additional description is available in the source metadata.')+'</p>'+
- '<h3>Source and evidence</h3><p><strong>Publisher/catalogue:</strong> '+esc(r.source)+'</p>'+
+ '<h3>Research overview</h3>'+
+ '<p><strong>Subject:</strong> '+esc(r.category||'Historical research')+' · <strong>Record type:</strong> '+esc(r.kind||'Archive record')+'</p>'+
+ '<h3>Timeline and dates</h3>'+
+ '<ol style="padding-left:23px">'+
+ '<li><strong>Recorded period:</strong> '+esc(String(r.year))+(r.endYear?'–'+esc(String(r.endYear)):'')+'. '+(r.dateType?esc(r.dateType):'A catalogue year or reporting period; the event date may differ.')+'</li>'+
+ (Array.isArray(r.timeline)?r.timeline.filter(x=>x&&x.date&&x.event).slice(0,12).map(x=>'<li><strong>'+esc(x.date)+':</strong> '+esc(x.event)+'</li>').join(''):'')+
+ '</ol>'+
+ '<h3>Evidence and provenance</h3>'+
+ '<p><strong>Publisher/catalogue:</strong> '+esc(r.source)+'</p>'+
+ '<p><strong>Documentation:</strong> Source-linked archival record. This confirms a record was catalogued, not the reported event or interpretation.</p>'+
+ (Array.isArray(r.evidenceNotes)?r.evidenceNotes.filter(Boolean).slice(0,8).map(x=>'<p class="muted small">• '+esc(x)+'</p>').join(''):'')+
+ '<h3>Accounts and explanations</h3>'+
+ (Array.isArray(r.witnessAccounts)&&r.witnessAccounts.length?'<p><strong>Documented accounts:</strong></p><ul>'+r.witnessAccounts.filter(Boolean).slice(0,8).map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p class="muted small">No verified witness testimony has been transcribed into this case file yet. Consult the original record for first-hand accounts.</p>')+
+ (Array.isArray(r.explanations)&&r.explanations.length?'<p><strong>Explanations discussed in sources:</strong></p><ul>'+r.explanations.filter(Boolean).slice(0,8).map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p class="muted small">No source-supported explanation has been entered yet. Unidentified does not necessarily mean extraordinary.</p>')+
  (r.dateType?'<p class="muted small"><strong>Date meaning:</strong> '+esc(r.dateType)+'</p>':'')+
  (r.evidenceStatus?'<p class="muted small"><strong>Evidence status:</strong> '+esc(r.evidenceStatus)+'</p>':'')+
  (r.metadataCredit?'<p class="muted small"><strong>Metadata credit:</strong> '+esc(r.metadataCredit)+'</p>':'')+
@@ -819,8 +832,11 @@ function archiveCaseOpen(id){
  '<h3>Explore related records</h3><p class="muted small">Suggestions based on title keywords or nearby years. These are discovery leads, not established connections between events.</p>'+
  (related.length?related.map(x=>'<div class="card" style="margin-bottom:8px"><div class="card-body"><button class="outline" type="button" data-archive-related="'+esc(String(x.record.id))+'">'+esc(x.record.title)+'</button><p class="muted small">'+esc(String(x.record.year))+' · '+(x.shared.length?'Shared title terms: '+esc(x.shared.slice(0,4).join(', ')):'Nearby record year')+'</p></div></div>').join(''):'<p class="muted small">No suggested related records found.</p>')+
  '<h3>Related news coverage</h3><p class="muted small">Matching keywords suggest research leads; they do not establish that two reports concern the same incident.</p>'+archiveMediaHtml(media.newsMatches,'news')+
- '<h3>Research videos and source footage</h3>'+archiveMediaHtml(media.videoMatches,'videos');
+ '<h3>Research videos and source footage</h3>'+archiveMediaHtml(media.videoMatches,'videos')+
+ '<h3>Continue your investigation</h3><p class="muted small">Save the original source to a private Investigation Board, then add your own notes and supporting links. Related matches above are automated suggestions, not independently confirmed case associations.</p>'+
+ '<button class="outline" id="archiveCaseSaveBottom" type="button">☆ Save source to my Board</button>';
  $('archiveCaseSave').onclick=()=>addInvestigationLink(r.title,r.url);
+ $('archiveCaseSaveBottom').onclick=()=>addInvestigationLink(r.title,r.url);
  body.querySelectorAll('[data-archive-related]').forEach(b=>b.onclick=()=>archiveCaseOpen(b.dataset.archiveRelated));
  body.querySelectorAll('[data-archive-save-media]').forEach(b=>b.onclick=()=>addInvestigationLink(b.dataset.mediaLabel,b.dataset.archiveSaveMedia));
  const dlg=$('archiveCaseDialog');if(!dlg.open)dlg.showModal();
