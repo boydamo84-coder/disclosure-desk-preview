@@ -860,7 +860,7 @@ function toggleClipFavourite(id){
  document.querySelectorAll('[data-clip-action="favourite"]').forEach(button=>{
   if(button.dataset.clipId!==id)return;
   const saved=clipFavourites.includes(id);
-  button.textContent=saved?'★ Saved':'☆ Save';
+  button.textContent=button.closest('.clip-card')?(saved?'★ Fav':'☆ Fav'):(saved?'★ Saved':'☆ Save');
   button.setAttribute('aria-pressed',String(saved));
  });
  renderClips();
