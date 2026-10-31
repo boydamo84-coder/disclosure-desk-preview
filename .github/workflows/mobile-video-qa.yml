@@ -1,0 +1,33 @@
+name: Mobile video QA (no deploy)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check JavaScript syntax and video features
+        run: python scripts/test_mobile_video_static.py
+      - name: Package branch snapshot for QA (not an APK)
+        run: |
+          mkdir -p qa_snapshot
+          cp index.html qa_snapshot/
+          if [ -d assets ]; then cp -R assets qa_snapshot/; fi
+          if [ -d data ]; then cp -R data qa_snapshot/; fi
+          printf 'Development snapshot only. Not an Android APK or a live deployment.\n' > qa_snapshot/README.txt
+      - name: Upload offline QA snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: disclosure-mobile-video-dev-snapshot
+          path: qa_snapshot/
