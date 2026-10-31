@@ -1,0 +1,40 @@
+name: Desktop and Complete Tour QA
+on:
+  push:
+    branches: [feature/desktop-layout-complete-tour-oct31]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and feature checks
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFileSync,writeFileSync,mkdtempSync} from 'node:fs';
+          import {join} from 'node:path';
+          import {tmpdir} from 'node:os';
+          import {execFileSync} from 'node:child_process';
+          const html=readFileSync('index.html','utf8');
+          const checks=[
+            '.shell{max-width:1320px',
+            'tourMode===\'complete\'',
+            "openTour('complete')",
+            "data-start-tour",
+            "dd-welcome-tour-choice-v2",
+            'adsbygoogle.js?client=',
+          ];
+          checks.forEach(x=>{if(!html.includes(x))throw Error('Missing '+x)});
+          const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(x=>x[1]).filter(Boolean);
+          const dir=mkdtempSync(join(tmpdir(),'dd-web-'));
+          scripts.forEach((code,i)=>{const file=join(dir,i+'.js');writeFileSync(file,code);execFileSync('node',['--check',file]);});
+          execFileSync('node',['--check','cloud-boards.js']);
+          const catalogue=JSON.parse(readFileSync('data/disclosure-clips.json','utf8'));
+          if(catalogue.length!==648)throw Error('Production catalogue changed');
+          console.log('Desktop and tour syntax, production safety checks PASS');
+          NODE
