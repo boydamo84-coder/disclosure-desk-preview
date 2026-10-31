@@ -14,6 +14,7 @@ const pass=document.getElementById('ddCloudPass');
 const act=document.getElementById('ddCloudActions');
 const guest=document.getElementById('ddCloudGuest');
 const cloudControls=document.getElementById('ddCloudControls');
+const ddLocalIndicator=document.createElement('p');ddLocalIndicator.id='ddLocalBoardIdentity';ddLocalIndicator.className='muted small';ddLocalIndicator.setAttribute('aria-live','polite');ddLocalIndicator.textContent='Checking account-specific local Boards…';panel.append(ddLocalIndicator);
 const syncKey=()=>session?.user?.id?'dd-sync-log-'+session.user.id:null;
 function syncStamp(kind,count){
  const key=syncKey();if(!key)return;
@@ -77,11 +78,50 @@ async function refreshAccountOverview(){
  }catch(e){cloudCount.textContent='—';cloudCheck.textContent='Could not check cloud boards. Your device boards are unchanged.'}
 }
 document.getElementById('ddAccountRefresh').addEventListener('click',refreshAccountOverview);
+let ddAuthGeneration=0;
+let ddVideoSyncTimer=null,ddVideoSyncUser=null;
+function ddScheduleVideoSync(){
+ if(!session?.user?.id)return;
+ clearTimeout(ddVideoSyncTimer);
+ const userId=session.user.id;
+ ddVideoSyncTimer=setTimeout(()=>ddUploadVideoProgress(userId),2200);
+}
+async function ddUploadVideoProgress(userId){
+ if(!session||session.user.id!==userId||typeof window.ddVideoGetProgress!=='function')return;
+ const data=window.ddVideoGetProgress();
+ const {error}=await db.from('video_progress').upsert({user_id:userId,watched:data.watched,skipped:data.skipped,last_clip_id:data.last_clip_id,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+ if(error)console.warn('Video progress sync unavailable:',error.message);
+}
+async function ddLoadVideoProgress(userId){
+ const {data,error}=await db.from('video_progress').select('watched,skipped,last_clip_id').eq('user_id',userId).maybeSingle();
+ if(!session||session.user.id!==userId)return;
+ if(error){console.warn('Video progress download unavailable:',error.message);return}
+ if(data)window.ddVideoMergeProgress?.(data);
+ ddScheduleVideoSync();
+}
+window.ddVideoProgressChanged=ddScheduleVideoSync;
+function applyBoardSession(nextSession){
+ const oldId=ddVideoSyncUser;
+ session=nextSession||null;
+ const currentId=session?.user?.id||null;
+ if(oldId!==currentId){clearTimeout(ddVideoSyncTimer);ddVideoSyncUser=currentId;window.ddVideoSetAccount?.(currentId);if(currentId)ddLoadVideoProgress(currentId)}
+ if(typeof ddSwitchBoardSpace==='function')ddSwitchBoardSpace(session?.user?.id||null);
+ guest.hidden=!!session;cloudControls.hidden=!session;
+ const emailText=session?.user?.email||'';
+ act.textContent=session?'Signed in as '+emailText:'Optional private account';
+ say(session?'Signed in. Your local Boards are separated by account. Cloud transfers are manual.':'Guest mode: legacy guest Boards are separate from signed-in account Boards.');
+ renderSyncStamp();
+ const indicator=document.getElementById('ddLocalBoardIdentity');
+ if(indicator)indicator.textContent='Local Board space: '+(session?'Signed-in account ('+emailText+')':'Guest / legacy')+' · '+investigationBoards.length+' Board(s) · isolation v2';
+ if(session)refreshAccountOverview();
+}
 async function refresh(){
+ const generation=++ddAuthGeneration;
  try{
-  const {data:{session:s}}=await db.auth.getSession();session=s;
-  guest.hidden=!!s; cloudControls.hidden=!s;
-  if(s){act.textContent='Signed in as '+s.user.email;say('Signed in. Device boards stay on this device until you choose an action.')}else{act.textContent='Optional private account';say('Guest mode: your research stays on this device. Sign in to access cloud boards.')}renderSyncStamp();if(s)refreshAccountOverview();
+  const {data:{session:s},error}=await db.auth.getSession();
+  if(error)throw error;
+  if(generation!==ddAuthGeneration)return;
+  applyBoardSession(s);
  }catch(e){say('Sign-in service unavailable: '+e.message)}
 }
 function signupNotice(){
@@ -180,11 +220,11 @@ async function upload(){
  try{
   const {data:existing,error:readErr}=await db.from('investigation_boards').select('id,name,content');
   if(readErr)throw readErr;
-  const fingerprint=b=>JSON.stringify({name:b.name,links:b.links||[],notes:b.notes||[]});
+  const fingerprint=b=>JSON.stringify({name:b.name,links:b.links||[],notes:b.notes||[],timeline:b.timeline||[],videos:b.videos||[],connections:b.connections||[],comparisons:b.comparisons||[]});
   const saved=new Set((existing||[]).map(x=>fingerprint({name:x.name,...x.content})));
   for(const b of investigationBoards){
    const fp=fingerprint(b);if(saved.has(fp)){skipped++;continue}
-   const {error}=await db.from('investigation_boards').insert({name:String(b.name).slice(0,60),content:{links:b.links||[],notes:b.notes||[]}});
+   const {error}=await db.from('investigation_boards').insert({name:String(b.name).slice(0,60),content:{links:b.links||[],notes:b.notes||[],timeline:(b.timeline||[]).slice(0,250),videos:(b.videos||[]).slice(0,100),connections:(b.connections||[]).slice(0,100),comparisons:(b.comparisons||[]).slice(0,100)}});
    if(error)throw error;added++;saved.add(fp);
   }
   syncStamp('upload',added);refreshAccountOverview();say('Upload complete: '+quantity(added,'new board')+', '+quantity(skipped,'duplicate')+' skipped.');
@@ -203,10 +243,10 @@ async function download(){
   cloudBusy(false,'download');
   if(!await cloudDialog('Download boards from cloud','Check '+quantity(incoming.length,'board')+' in your private cloud account and add any missing boards to this device. Existing boards will never be overwritten.','Download to device')){say('Download cancelled.');return}
   cloudBusy(true,'download');
-  const fp=b=>JSON.stringify({name:b.name,links:b.links||[],notes:b.notes||[]});
+  const fp=b=>JSON.stringify({name:b.name,links:b.links||[],notes:b.notes||[],timeline:b.timeline||[],videos:b.videos||[],connections:b.connections||[],comparisons:b.comparisons||[]});
   const seen=new Set(investigationBoards.map(fp));let added=0,skipped=0,full=0;
   for(const row of incoming){
-   const b={name:row.name,links:row.content.links,notes:row.content.notes};
+   const b={name:row.name,links:row.content.links,notes:row.content.notes,timeline:Array.isArray(row.content.timeline)?row.content.timeline.slice(0,250):[],videos:Array.isArray(row.content.videos)?row.content.videos.slice(0,100).filter(v=>v&&typeof v.title==='string'&&/^https?:\/\//.test(v.url||'')):[],connections:Array.isArray(row.content.connections)?row.content.connections.slice(0,100):[],comparisons:Array.isArray(row.content.comparisons)?row.content.comparisons.slice(0,100):[]};
    if(seen.has(fp(b))){skipped++;continue}
    if(investigationBoards.length>=40){full++;continue}
    investigationBoards.push(b);seen.add(fp(b));added++;
@@ -234,10 +274,26 @@ document.getElementById('ddCloudAlreadyRegistered').onclick=()=>{
 document.getElementById('ddCloudSignup').onclick=()=>auth('signup');
 document.getElementById('ddCloudLogin').onclick=()=>auth('login');
 document.getElementById('ddCloudLogout').onclick=async()=>{await db.auth.signOut();await refresh()};
-document.getElementById('ddCloudUpload').textContent='↑ Upload boards to cloud';document.getElementById('ddCloudDownload').textContent='↓ Download boards from cloud';document.getElementById('ddCloudUpload').onclick=upload;
+document.getElementById('ddCloudUpload').textContent='↑ Upload boards to cloud';document.getElementById('ddCloudDownload').textContent='↓ Download boards from cloud';async function emailBackup(){
+ const button=document.getElementById('ddEmailBackup');
+ if(!session?.user?.email_confirmed_at){await cloudDialog('Verified account required','Please sign in to a verified Disclosure Desk account before sending backups.');return}
+ if(!investigationBoards.length){await cloudDialog('Nothing to back up','Create or download at least one Investigation Board first.');return}
+ const count=investigationBoards.length;
+ if(!await cloudDialog('Email my private Boards','Send an attached JSON backup of '+quantity(count,'board')+' to your registered account email ('+session.user.email+'). The file includes private notes, saved sources, timeline events and videos. Email attachments are not end-to-end encrypted; protect your inbox and do not forward the file.','Send backup'))return;
+ button.disabled=true;button.textContent='Sending backup…';say('Requesting private email backup…');
+ try{
+  const {data,error}=await db.functions.invoke('email-board-backup',{body:{boards:investigationBoards}});
+  if(error||!data?.ok)throw Error(data?.error||'Email backup service is not yet available or could not complete the request.');
+  say('Backup requested for '+session.user.email+'. Check your inbox and spam folder.');
+  await cloudDialog('Backup email requested','Your backup has been accepted for delivery to your registered email. Check your inbox and spam folder. Your Boards remain unchanged.');
+ }catch(e){say('Email backup unavailable: '+e.message);await cloudDialog('Email backup not available','The email backup service has not been configured or could not send your backup. Your Boards are safe on this device. Use a Board JSON export until email delivery is enabled.');}
+ finally{button.disabled=false;button.textContent='✉ Send backup to my email'}
+}
+document.getElementById('ddCloudUpload').onclick=upload;
+document.getElementById('ddEmailBackup').onclick=emailBackup;
 document.getElementById('ddCloudDownload').onclick=download;
 document.getElementById('ddCloudReset').onclick=async()=>{const e=email.value.trim();if(!e){say('Enter your email first, then choose Reset password.');return}const {error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin+location.pathname});say(error?'Reset request failed: '+error.message:'If an account exists for that address, a password-reset email will arrive shortly. Check your spam folder too.');};
-db.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY'){setTimeout(resetNotice,0)}setTimeout(refresh,0)});
+db.auth.onAuthStateChange((event,authSession)=>{if(event==='PASSWORD_RECOVERY'){setTimeout(resetNotice,0)}++ddAuthGeneration;applyBoardSession(authSession)});
 refresh();
 handleConfirmationReturn();
 })();
