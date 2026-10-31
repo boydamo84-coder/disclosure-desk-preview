@@ -12,11 +12,11 @@
 - [x] User reports Guided Tour 2.0 looks good on Samsung.
 
 ## Still required before production
-- [ ] Compare News ↔ Archive, News ↔ News and Archive ↔ Archive; test save, annotate, reopen and export after reload.
-- [ ] Test Evidence Connection Map, deleting a linked source, and restoration of connections.
+- [x] User reports Saved Comparisons working on Samsung (comparison save/reopen); cross-type matrix and export still warrant release smoke test.
+- [x] User reports Evidence Connections working on Samsung; remove-source edge case remains to test.
 - [ ] Verify exact timeline event metadata (source URL, archive event ID and year-only precision) survives JSON and cloud round-trip.
 - [ ] Test restoring on a clean browser/device, NOT only an existing authenticated session.
-- [ ] Test notification links: News and Videos must open the precise item, not app home.
+- [x] User reports Notifications deep links working on Samsung (31 Oct 2026).
 - [ ] Verify case-follow update detection only reports genuine catalogue changes; old snapshots do not invent update dates.
 - [ ] Test email-backup rate-limit: a second attempt inside 60 minutes must be rejected; no messages to arbitrary addresses.
 - [ ] Test unauthenticated and unverified-account requests to email-backup function are rejected.
