@@ -842,6 +842,20 @@ function savePendingTimeline(board){
  $('pickerTimelineDone').onclick=()=>$('collectionPicker').close();
  $('pickerCreate').classList.add('hidden');
 }
+function archiveEvidencePanel(r){
+ const refs=[{title:'Primary catalogue record',url:r.url,type:'Catalogue / original link'},...(Array.isArray(r.sources)?r.sources:[])].filter(x=>x&&safePublicUrl(x.url));
+ const unique=[...new Map(refs.map(x=>[x.url,x])).values()];
+ const lines=[
+  ['Official / archival documents',unique.length?unique.length+' source link(s) listed':'Not documented here'],
+  ['Witness accounts',Array.isArray(r.witnessAccounts)&&r.witnessAccounts.length?r.witnessAccounts.length+' account summary/ies entered':'Not yet transcribed'],
+  ['Video or sensor evidence',Array.isArray(r.evidenceMedia)&&r.evidenceMedia.length?r.evidenceMedia.length+' independently cited media item(s)':'Not independently catalogued'],
+  ['Independent corroboration',Array.isArray(r.corroboration)&&r.corroboration.length?r.corroboration.length+' sourced corroborating record(s)':'Not assessed'],
+  ['Alternative explanations',Array.isArray(r.explanations)&&r.explanations.length?r.explanations.length+' documented perspective(s)':'Not yet assessed']
+ ];
+ const list=lines.map(([name,value])=>'<div style="display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #324653;padding:9px 0"><strong>'+esc(name)+'</strong><span style="text-align:right;color:#dbc38e">'+esc(String(value))+'</span></div>').join('');
+ const sources=unique.map(x=>'<li><a href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.title||'Original source')+' ↗</a> <span class="muted small">('+esc(x.type||'Source')+')</span></li>').join('');
+ return '<section style="border:1px solid #bc9d62;border-radius:12px;background:#142736;padding:15px;margin:18px 0"><h3 style="margin-top:0;color:#e0c48e">◈ Evidence & Sources</h3><p class="muted small">This measures documentation in this case file, not the likelihood of an extraordinary explanation. Missing information means not yet catalogued, not necessarily nonexistent.</p>'+list+'<details style="margin-top:14px"><summary style="color:#e0c48e;cursor:pointer">Review documented sources ('+unique.length+')</summary><ol>'+sources+'</ol></details></section>';
+}
 function archiveCaseOpen(id){
  const r=historicalRecords.find(x=>String(x.id)===String(id));if(!r)return;
  const related=archiveConnections(r);const media=archiveMediaLinks(r);const body=$('archiveCaseBody');
@@ -855,6 +869,7 @@ function archiveCaseOpen(id){
  '<li><strong>Recorded period:</strong> '+esc(String(r.year))+(r.endYear?'–'+esc(String(r.endYear)):'')+'. '+(r.dateType?esc(r.dateType):'A catalogue year or reporting period; the event date may differ.')+'</li>'+
  (Array.isArray(r.timeline)?r.timeline.slice(0,12).map((x,i)=>x&&x.date&&x.event?'<li><strong>'+esc(x.date)+':</strong> '+esc(x.event)+' <button class="outline" type="button" data-add-archive-event="'+i+'">＋ Add to my timeline</button></li>':'').join(''):'')+
  '</ol>'+
+ archiveEvidencePanel(r)+
  '<h3>Evidence and provenance</h3>'+
  '<p><strong>Publisher/catalogue:</strong> '+esc(r.source)+'</p>'+
  '<p><strong>Documentation:</strong> Source-linked archival record. This confirms a record was catalogued, not the reported event or interpretation.</p>'+
