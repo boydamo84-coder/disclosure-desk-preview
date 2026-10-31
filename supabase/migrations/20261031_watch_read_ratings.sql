@@ -52,3 +52,16 @@ create policy dd_media_votes_delete on public.dd_media_votes for delete to authe
 revoke all on public.dd_media_titles from anon,authenticated;
 grant select on public.dd_media_titles to anon,authenticated;
 grant select,insert,update,delete on public.dd_media_votes to authenticated;
+
+-- Curated starter records; no invented ratings or votes.
+insert into public.dd_media_titles(id,category,title,release_year,creator,status) values
+ ('documentaries-the-phenomenon','documentaries','The Phenomenon',2020,'James Fox','approved'),
+ ('documentaries-moment-of-contact','documentaries','Moment of Contact',2022,'James Fox','approved'),
+ ('documentaries-the-age-of-disclosure','documentaries','The Age of Disclosure',2025,'Dan Farah','approved'),
+ ('movies-close-encounters-of-the-third-kind','movies','Close Encounters of the Third Kind',1977,'Steven Spielberg','approved'),
+ ('movies-arrival','movies','Arrival',2016,'Denis Villeneuve','approved'),
+ ('movies-contact','movies','Contact',1997,'Robert Zemeckis','approved'),
+ ('books-ufos-generals-pilots-and-government-officials-go-on-the-record','books','UFOs: Generals, Pilots, and Government Officials Go on the Record',2010,'Leslie Kean','approved'),
+ ('books-passport-to-magonia','books','Passport to Magonia',1969,'Jacques Vallée','approved'),
+ ('books-in-plain-sight','books','In Plain Sight',2021,'Ross Coulthart','approved')
+on conflict (id) do nothing;
