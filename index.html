@@ -364,8 +364,10 @@ function renderResearchDashboard(){
  '<div class="dd-dashboard-stats">'+summary.map(([label,value])=>'<div class="dd-dashboard-stat"><strong>'+value+'</strong><span>'+esc(label)+'</span></div>').join('')+'</div>'+
  '<h4 style="color:#e0c48e;margin:18px 0 8px">Continue investigating</h4>'+
  (boards.length?boards.map((b,i)=>'<button type="button" class="dd-dashboard-open" data-dashboard-board="'+i+'"><strong>'+esc(b.name)+'</strong><span>'+((b.links||[]).length)+' sources · '+((b.timeline||[]).length)+' events · '+((b.videos||[]).length)+' videos</span><span aria-hidden="true">›</span></button>').join(''):'<p class="muted small">No investigations yet. Create your first Board below or save a source from the Archive.</p>')+
+ '<h4 style="color:#e0c48e;margin:18px 0 8px">Following investigations</h4>'+ddFollowedDashboard()+
  '<h4 style="color:#e0c48e;margin:18px 0 8px">Recent timeline entries</h4>'+
  (timeline.length?timeline.slice(0,4).map(t=>'<div class="dd-dashboard-event"><strong>'+esc(t.datePrecision==='year'?String(t.date).slice(0,4):t.date)+'</strong><span>'+esc(t.title||'Research event')+'</span><small>'+esc(t.boardName)+'</small></div>').join(''):'<p class="muted small">Timeline events you add will appear here.</p>');
+ host.querySelectorAll('[data-follow-open]').forEach(b=>b.onclick=()=>{const id=b.dataset.followOpen,r=historicalRecords.find(x=>String(x.id)===id);if(!r)return;navigateTo('archivePage');const f=ddReadFollowed();if(f[id]){f[id].lastSeenFingerprint=ddCaseFingerprint(r);localStorage.setItem(DD_FOLLOW_KEY,JSON.stringify(f))}archiveCaseOpen(id);renderResearchDashboard()});
  host.querySelectorAll('[data-dashboard-board]').forEach(btn=>btn.onclick=()=>{
   const i=Number(btn.dataset.dashboardBoard),cards=$('boardList').querySelectorAll('article.card'),card=cards[i];
   if(!card)return;
@@ -926,13 +928,31 @@ function archiveEvidencePanel(r){
  const sources=unique.map(x=>'<li><a href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.title||'Original source')+' ↗</a> <span class="muted small">('+esc(x.type||'Source')+')</span></li>').join('');
  return '<section style="border:1px solid #bc9d62;border-radius:12px;background:#142736;padding:15px;margin:18px 0"><h3 style="margin-top:0;color:#e0c48e">◈ Evidence & Sources</h3><p class="muted small">This measures documentation in this case file, not the likelihood of an extraordinary explanation. Missing information means not yet catalogued, not necessarily nonexistent.</p>'+list+'<details style="margin-top:14px"><summary style="color:#e0c48e;cursor:pointer">Review documented sources ('+unique.length+')</summary><ol>'+sources+'</ol></details></section>';
 }
+const DD_FOLLOW_KEY='dd_followed_cases_v1';
+function ddReadFollowed(){try{const x=JSON.parse(localStorage.getItem(DD_FOLLOW_KEY)||'{}');return x&&typeof x==='object'&&!Array.isArray(x)?x:{}}catch{return {}}}
+function ddFollowCase(id){
+ const followed=ddReadFollowed(),r=historicalRecords.find(x=>String(x.id)===String(id));if(!r)return;
+ if(followed[id])delete followed[id];else followed[id]={title:r.title,followedAt:new Date().toISOString(),lastSeenFingerprint:ddCaseFingerprint(r)};
+ try{localStorage.setItem(DD_FOLLOW_KEY,JSON.stringify(followed))}catch{alert('Unable to save followed cases on this device.');return}
+ renderHistoricalArchive();renderResearchDashboard();archiveCaseOpen(id);
+}
+function ddCaseFingerprint(r){return JSON.stringify({description:r.description||'',timeline:r.timeline||[],sources:r.sources||[],evidenceNotes:r.evidenceNotes||[],witnessAccounts:r.witnessAccounts||[],explanations:r.explanations||[]})}
+function ddFollowedDashboard(){
+ const followed=ddReadFollowed(),items=Object.entries(followed);
+ if(!items.length)return '<p class="muted small">Follow an archive case to see its updates here. Follows are saved on this device.</p>';
+ return items.map(([id,meta])=>{
+ const r=historicalRecords.find(x=>String(x.id)===id),changed=r&&meta.lastSeenFingerprint!==ddCaseFingerprint(r);
+ return '<div class="dd-dashboard-event"><strong>'+esc(r?.title||meta.title||'Followed investigation')+'</strong><span>'+(!r?'Archive not loaded':changed?'New or revised case details detected':'No newly catalogued details since last checked')+'</span>'+(r?'<button class="outline" type="button" data-follow-open="'+esc(id)+'">Open case & review</button>':'')+'</div>';
+ }).join('');
+}
 function archiveCaseOpen(id){
  const r=historicalRecords.find(x=>String(x.id)===String(id));if(!r)return;
  const related=archiveConnections(r);const media=archiveMediaLinks(r);const body=$('archiveCaseBody');
  body.innerHTML='<h2 id="archiveCaseTitle">'+esc(r.title)+'</h2>'+
  '<p class="muted small">'+esc(r.kind||'Archive record')+' · Record/event year: '+esc(String(r.year))+(r.endYear?'–'+esc(String(r.endYear)):'')+'</p>'+
  '<h3>Record description</h3><p>'+esc(r.description||'No additional description is available in the source metadata.')+'</p>'+
- '<h3>Research overview</h3>'+
+ '<button type="button" class="outline" id="ddFollowCaseButton">'+(ddReadFollowed()[String(r.id)]?'✓ Following · Unfollow':'☆ Follow Investigation')+'</button>'+ 
+'<h3>Research overview</h3>'+
  '<p><strong>Subject:</strong> '+esc(r.category||'Historical research')+' · <strong>Record type:</strong> '+esc(r.kind||'Archive record')+'</p>'+
  '<h3>Timeline and dates</h3>'+
  '<ol style="padding-left:23px">'+
@@ -959,6 +979,7 @@ function archiveCaseOpen(id){
  '<h3>Research videos and source footage</h3>'+archiveMediaHtml(media.videoMatches,'videos')+
  '<h3>Continue your investigation</h3><p class="muted small">Save the original source to a private Investigation Board, then add your own notes and supporting links. Related matches above are automated suggestions, not independently confirmed case associations.</p>'+
  '<button class="outline" id="archiveCaseSaveBottom" type="button">☆ Save source to my Board</button>';
+ $('ddFollowCaseButton').onclick=()=>ddFollowCase(String(r.id));
  $('archiveCaseSave').onclick=()=>addInvestigationLink(r.title,r.url);
  body.querySelectorAll('[data-add-archive-event]').forEach(btn=>btn.onclick=()=>importArchiveTimelineEvent(r,Number(btn.dataset.addArchiveEvent)));
  $('archiveCaseSaveBottom').onclick=()=>addInvestigationLink(r.title,r.url);
@@ -978,7 +999,7 @@ function renderHistoricalArchive(){
  );
  matches.sort((a,b)=>Number(b.kind==='Featured investigation')-Number(a.kind==='Featured investigation'));
  $('archiveStatus').textContent=matches.length+' of '+historicalRecords.length+' source-linked historical resources · Showing up to '+archiveDisplayCount;
- $('archiveList').innerHTML=matches.slice(0,archiveDisplayCount).map((r,i)=>`<article class="card"><div class="card-body"><span class="tag">${esc(r.kind)}</span><h3>${esc(r.title)}</h3><p>${esc(r.description||'')}</p><p class="meta">${esc(r.source)} · Record/event year: ${esc(String(r.year))}${r.endYear?'–'+esc(String(r.endYear)):''}</p><button class="outline" type="button" data-open-archive="${esc(String(r.id))}">📂 Open Case File</button> <a class="news-open" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">Original source ↗</a> <button class="outline" type="button" data-save-archive="${i}">☆ Save to Investigation Board</button> <button class="outline" type="button" data-compare-archive="${esc(String(r.id))}">${ddCompareSelected.includes(String(r.id))?"✓ Added to Compare":"⚖ Add to Compare"}</button></div></article>`).join('')||'<div class="card empty">No matching historical sources. Try another search or decade.</div>';
+ $('archiveList').innerHTML=matches.slice(0,archiveDisplayCount).map((r,i)=>`<article class="card"><div class="card-body"><span class="tag">${esc(r.kind)}</span><h3>${esc(r.title)}</h3><p>${esc(r.description||'')}</p><p class="meta">${esc(r.source)} · Record/event year: ${esc(String(r.year))}${r.endYear?'–'+esc(String(r.endYear)):''}</p><button class="outline" type="button" data-open-archive="${esc(String(r.id))}">📂 Open Case File</button> <a class="news-open" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">Original source ↗</a> <button class="outline" type="button" data-save-archive="${i}">☆ Save to Investigation Board</button> <button class="outline" type="button" data-follow-archive="${esc(String(r.id))}">${ddReadFollowed()[String(r.id)]?"✓ Following":"☆ Follow"}</button> <button class="outline" type="button" data-compare-archive="${esc(String(r.id))}">${ddCompareSelected.includes(String(r.id))?"✓ Added to Compare":"⚖ Add to Compare"}</button></div></article>`).join('')||'<div class="card empty">No matching historical sources. Try another search or decade.</div>';
  if(matches.length>archiveDisplayCount){
  const more=document.createElement('button');more.type='button';more.className='outline';
  more.textContent='Load more ('+(matches.length-archiveDisplayCount)+' remaining)';
@@ -986,6 +1007,7 @@ function renderHistoricalArchive(){
  $('archiveList').appendChild(more);
  }
  document.querySelectorAll('[data-compare-archive]').forEach(b=>b.onclick=()=>ddCompareSelect(b.dataset.compareArchive));
+ document.querySelectorAll('[data-follow-archive]').forEach(b=>b.onclick=()=>ddFollowCase(b.dataset.followArchive));
  document.querySelectorAll('[data-open-archive]').forEach(b=>b.onclick=()=>archiveCaseOpen(b.dataset.openArchive));
  document.querySelectorAll('[data-save-archive]').forEach(button=>button.onclick=()=>{let item=matches[Number(button.dataset.saveArchive)];if(item)addInvestigationLink(item.title,item.url)});
 }
