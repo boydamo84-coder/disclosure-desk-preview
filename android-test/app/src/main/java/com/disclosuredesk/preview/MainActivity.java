@@ -42,7 +42,7 @@ import com.google.android.ump.ConsentRequestParameters;
 import com.google.android.ump.UserMessagingPlatform;
 
 public final class MainActivity extends Activity {
-    private static final String HOME = "https://boydamo84-coder.github.io/disclosure-desk-preview/";
+    private static final String HOME = "https://uapdisclosuredesk.com/";
     private WebView web;
     private FrameLayout root;
     private View fullView;
@@ -99,7 +99,7 @@ public final class MainActivity extends Activity {
             @Override public boolean shouldOverrideUrlLoading(WebView view,WebResourceRequest request){
                 Uri url=request.getUrl();
                 String host=url.getHost();
-                if(host != null && (host.equals("boydamo84-coder.github.io") || host.equals("www.youtube-nocookie.com") || host.equals("www.youtube.com") || host.equals("www.dvidshub.net"))) return false;
+                if(host != null && (host.equals("uapdisclosuredesk.com") || host.equals("www.uapdisclosuredesk.com") || host.equals("www.youtube-nocookie.com") || host.equals("www.youtube.com") || host.equals("www.dvidshub.net"))) return false;
                 try { startActivity(new Intent(Intent.ACTION_VIEW,url)); } catch(Exception ignored) {}
                 return true;
             }
@@ -157,7 +157,7 @@ public final class MainActivity extends Activity {
         }
         if(intent!=null && intent.getData()!=null){
             Uri data=intent.getData();
-            if("boydamo84-coder.github.io".equals(data.getHost()) && "/disclosure-desk-preview/".equals(data.getPath())){
+            if(("uapdisclosuredesk.com".equals(data.getHost()) || "www.uapdisclosuredesk.com".equals(data.getHost())) && "/".equals(data.getPath())){
                 String id=data.getQueryParameter("dd_news");
                 String key="dd_news";
                 if(id==null){id=data.getQueryParameter("dd_videos");key="dd_videos";}
