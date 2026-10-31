@@ -59,11 +59,29 @@ function ensureSyncInfo(){
  cloudControls.append(area);
 }
 ensureSyncInfo();
+async function refreshAccountOverview(){
+ const box=document.getElementById('ddAccountSummary');
+ if(!box)return;
+ box.hidden=!session;
+ if(!session)return;
+ document.getElementById('ddAccountSummaryEmail').textContent=session.user.email;
+ document.getElementById('ddAccountLocalCount').textContent=Array.isArray(investigationBoards)?String(investigationBoards.length):'—';
+ const cloudCount=document.getElementById('ddAccountCloudCount');
+ const cloudCheck=document.getElementById('ddAccountCloudCheck');
+ cloudCheck.textContent='Checking private cloud collections…';
+ try{
+  const {count,error}=await db.from('investigation_boards').select('id',{count:'exact',head:true});
+  if(error)throw error;
+  cloudCount.textContent=String(count??0);
+  cloudCheck.textContent='Counts checked just now. Cloud transfers remain manual.';
+ }catch(e){cloudCount.textContent='—';cloudCheck.textContent='Could not check cloud boards. Your device boards are unchanged.'}
+}
+document.getElementById('ddAccountRefresh').addEventListener('click',refreshAccountOverview);
 async function refresh(){
  try{
   const {data:{session:s}}=await db.auth.getSession();session=s;
   guest.hidden=!!s; cloudControls.hidden=!s;
-  if(s){act.textContent='Signed in as '+s.user.email;say('Signed in. Device boards stay on this device until you choose an action.')}else{act.textContent='Optional private account';say('Guest mode: your research stays on this device. Sign in to access cloud boards.')}renderSyncStamp();
+  if(s){act.textContent='Signed in as '+s.user.email;say('Signed in. Device boards stay on this device until you choose an action.')}else{act.textContent='Optional private account';say('Guest mode: your research stays on this device. Sign in to access cloud boards.')}renderSyncStamp();if(s)refreshAccountOverview();
  }catch(e){say('Sign-in service unavailable: '+e.message)}
 }
 function signupNotice(){
@@ -169,7 +187,7 @@ async function upload(){
    const {error}=await db.from('investigation_boards').insert({name:String(b.name).slice(0,60),content:{links:b.links||[],notes:b.notes||[]}});
    if(error)throw error;added++;saved.add(fp);
   }
-  syncStamp('upload',added);say('Upload complete: '+quantity(added,'new board')+', '+quantity(skipped,'duplicate')+' skipped.');
+  syncStamp('upload',added);refreshAccountOverview();say('Upload complete: '+quantity(added,'new board')+', '+quantity(skipped,'duplicate')+' skipped.');
   await cloudDialog('Cloud upload complete',quantity(added,'new board')+' uploaded. '+quantity(skipped,'duplicate')+' skipped. Your device boards remain unchanged.');
  }catch(ex){say('Upload interrupted: '+ex.message+'. Existing device boards are safe.');await cloudDialog('Cloud upload interrupted','Some boards may have been copied before the interruption. Your device boards have not changed. Check your connection and retry; existing identical copies will be skipped.');}
  finally{cloudBusy(false,'upload')}
@@ -193,7 +211,7 @@ async function download(){
    if(investigationBoards.length>=40){full++;continue}
    investigationBoards.push(b);seen.add(fp(b));added++;
   }
-  if(added)boardSave();syncStamp('download',added);
+  if(added)boardSave();syncStamp('download',added);refreshAccountOverview();
   say('Download complete: '+quantity(added,'new board')+', '+quantity(skipped,'duplicate')+' skipped'+(full?', '+full+' beyond device limit':'')+'.');
   await cloudDialog('Cloud download complete',quantity(added,'new board')+' added. '+quantity(skipped,'duplicate')+' skipped.'+(full?' '+full+' could not be added because the device limit is 40.':'')+' Your existing boards remain safe.');
  }catch(ex){say('Cloud retrieval failed: '+ex.message);await cloudDialog('Cloud download failed','We could not complete the cloud download. Your existing device boards are unchanged. Please try again.')}
