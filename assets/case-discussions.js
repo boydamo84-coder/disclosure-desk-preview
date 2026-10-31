@@ -42,12 +42,15 @@ function init(){
  document.body.append(root);
  document.querySelector('#ddCaseDiscussionClose').onclick=()=>{root.hidden=true;document.body.style.overflow='';current=null};
  root.addEventListener('click',e=>{if(e.target===root)document.querySelector('#ddCaseDiscussionClose').click()});
- document.addEventListener('click',e=>{
-   const button=e.target.closest('[data-case-discussion]');
-   if(!button)return;
-   current=button.dataset.caseDiscussion;
+ window.ddOpenCaseDiscussion=id=>{
+   if(!id)return;
+   current=String(id).slice(0,180);
    root.hidden=false;document.body.style.overflow='hidden';
    announce('');load();
+ };
+ document.addEventListener('click',e=>{
+   const button=e.target.closest('[data-case-discussion]');
+   if(button)window.ddOpenCaseDiscussion(button.dataset.caseDiscussion);
  });
  document.querySelector('#ddCaseDiscussionForm').onsubmit=async e=>{
    e.preventDefault();const c=client();if(!c){announce('Sign-in service unavailable.');return}
