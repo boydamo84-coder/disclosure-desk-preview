@@ -37,3 +37,11 @@ Keep exact pre-release production commit SHA and verified private JSON export be
 ## Security audit handoff
 - [x] User supplied Supabase SQL screenshots (31 Oct 2026): `investigation_boards.relrowsecurity = true`; SELECT, INSERT, UPDATE and DELETE owner policies use `auth.uid() = user_id` in the relevant `qual` / `with_check` expressions. Independent adversarial cross-account write test remains outstanding.
 - [ ] Capture the production branch HEAD commit ID before any production merge; a fetched `index.html` file SHA is **not** a rollback commit SHA.
+
+## Release preparation — 31 October 2026
+- [x] Exact production HEAD before release: `96368eab4860aadc3dcfe43db4049ca47059452a`.
+- [x] Rollback branch created: `backup/production-pre-investigator-release-2026-10-31`.
+- [x] Development app inline JavaScript parses after converting eleven preview-root asset URLs to portable relative paths.
+- [ ] **Branch divergence blocker:** production and main are divergent (97 commits ahead, 18 behind as compared from production to main). Carefully reconcile the production-only changes, particularly live AdSense/domain paths, before merging. Do not force-push.
+- [ ] Run hosted preview smoke test after relative path changes (News, Archive, Videos, Maps, icon, cloud sign-in).
+- [ ] Run production smoke test only after explicit bundled release approval.
