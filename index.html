@@ -669,7 +669,7 @@ function openImmersive(resume=false){
  immersiveObserver=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting&&entry.intersectionRatio>.65)immersiveWindow(Number(entry.target.dataset.index))},{root:feed,threshold:[.65,.9]});
  feed.querySelectorAll('.immersive-item').forEach(tile=>immersiveObserver.observe(tile));document.addEventListener('keydown',immersiveEscape);
 }
-$('openImmersiveClips').addEventListener('click',()=>openImmersive(false));$('resumeClips').addEventListener('click',()=>openImmersive(true));$('resetClipHistory').addEventListener('click',()=>{clipWatched={};ddClipSkipped={};try{localStorage.removeItem(ddVideoStorageKey('watched'));localStorage.removeItem(ddVideoStorageKey('skipped'));localStorage.removeItem(ddVideoStorageKey('last'))}catch{}renderClips()});
+$('openImmersiveClips').addEventListener('click',()=>openImmersive(false));$('resumeClips').addEventListener('click',()=>openImmersive(true));$('resetClipHistory').addEventListener('click',()=>{clipWatched={};ddClipSkipped={};try{localStorage.removeItem(ddVideoStorageKey('watched'));localStorage.removeItem(ddVideoStorageKey('skipped'));localStorage.removeItem(ddVideoStorageKey('last'))}catch{}window.ddVideoProgressChanged?.();renderClips()});
 $('closeImmersive').addEventListener('click',closeImmersive);
 
 let clipMode='all';
