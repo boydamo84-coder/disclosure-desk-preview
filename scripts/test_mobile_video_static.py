@@ -81,6 +81,12 @@ def main():
         if 'assets/case-comment-moderation.js' not in page:
             sys.exit("Moderator UI script not wired")
         print("PASS: Case moderation JS syntax and wiring.")
+    ratings_sql = ROOT / "supabase" / "migrations" / "20261031_watch_read_ratings.sql"
+    if not ratings_sql.exists():
+        sys.exit("Watch & Read ratings migration missing")
+    for token in ["dd_media_votes", "dd_media_ranking()", "primary key(title_id,user_id)"]:
+        if token not in ratings_sql.read_text(encoding="utf-8"):
+            sys.exit("Watch & Read ratings security/schema missing: "+token)
     watch = ROOT / "assets" / "watch-read.js"
     if not watch.exists():
         sys.exit("Watch & Read script missing")
