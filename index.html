@@ -390,6 +390,7 @@ container.querySelectorAll('.board-add-timeline').forEach(f=>f.onsubmit=e=>{e.pr
 container.querySelectorAll('[data-remove-timeline]').forEach(btn=>btn.onclick=()=>{const [i,j]=btn.dataset.removeTimeline.split(':').map(Number);const b=investigationBoards[i];if(!b?.timeline?.[j])return;if(confirm('Remove this private timeline event?')){b.timeline.splice(j,1);boardSave()}});
 container.querySelectorAll('.dd-add-connection').forEach(f=>f.onsubmit=e=>{
  e.preventDefault();const b=investigationBoards[Number(f.dataset.bid)];if(!b)return;
+ if(f.elements.from.value===''||f.elements.to.value===''){alert('Choose two saved items to connect.');return}
  const items=boardConnectionItems(b),a=items[Number(f.elements.from.value)],c=items[Number(f.elements.to.value)];
  if(!a||!c||a.key===c.key){alert('Choose two different saved items to connect.');return}
  b.connections??=[];if(b.connections.length>=100){alert('Limit of 100 private connections per Board.');return}
