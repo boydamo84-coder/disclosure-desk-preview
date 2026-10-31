@@ -829,6 +829,7 @@ function archiveCaseOpen(id){
  (r.metadataCredit?'<p class="muted small"><strong>Metadata credit:</strong> '+esc(r.metadataCredit)+'</p>':'')+
  '<p class="muted small">A listing confirms the existence of this record, not that any extraordinary explanation is established.</p>'+
  '<p><a class="news-open" href="'+esc(r.url)+'" target="_blank" rel="noopener noreferrer">Open original source ↗</a> <button class="outline" id="archiveCaseSave" type="button">☆ Save to Investigation Board</button></p>'+
+ (Array.isArray(r.sources)&&r.sources.length?'<h3>Original documents and research references</h3>'+r.sources.filter(x=>x&&safePublicUrl(x.url)).map(x=>'<p><a class="news-open" href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.title||'Source document')+' ↗</a> <span class="muted small">'+esc(x.type||'Reference')+'</span></p>').join(''):'')+
  '<h3>Explore related records</h3><p class="muted small">Suggestions based on title keywords or nearby years. These are discovery leads, not established connections between events.</p>'+
  (related.length?related.map(x=>'<div class="card" style="margin-bottom:8px"><div class="card-body"><button class="outline" type="button" data-archive-related="'+esc(String(x.record.id))+'">'+esc(x.record.title)+'</button><p class="muted small">'+esc(String(x.record.year))+' · '+(x.shared.length?'Shared title terms: '+esc(x.shared.slice(0,4).join(', ')):'Nearby record year')+'</p></div></div>').join(''):'<p class="muted small">No suggested related records found.</p>')+
  '<h3>Related news coverage</h3><p class="muted small">Matching keywords suggest research leads; they do not establish that two reports concern the same incident.</p>'+archiveMediaHtml(media.newsMatches,'news')+
@@ -851,6 +852,7 @@ function renderHistoricalArchive(){
   (category==='all'||r.category===category)&&
   (!q||[r.title,r.source,r.description,r.kind,r.category,r.year,r.city,r.country,r.location,r.keywords,r.eventName].join(' ').toLowerCase().includes(q))
  );
+ matches.sort((a,b)=>Number(b.kind==='Featured investigation')-Number(a.kind==='Featured investigation'));
  $('archiveStatus').textContent=matches.length+' of '+historicalRecords.length+' source-linked historical resources · Showing up to '+archiveDisplayCount;
  $('archiveList').innerHTML=matches.slice(0,archiveDisplayCount).map((r,i)=>`<article class="card"><div class="card-body"><span class="tag">${esc(r.kind)}</span><h3>${esc(r.title)}</h3><p>${esc(r.description||'')}</p><p class="meta">${esc(r.source)} · Record/event year: ${esc(String(r.year))}${r.endYear?'–'+esc(String(r.endYear)):''}</p><button class="outline" type="button" data-open-archive="${esc(String(r.id))}">📂 Open Case File</button> <a class="news-open" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">Original source ↗</a> <button class="outline" type="button" data-save-archive="${i}">☆ Save to Investigation Board</button></div></article>`).join('')||'<div class="card empty">No matching historical sources. Try another search or decade.</div>';
  if(matches.length>archiveDisplayCount){
