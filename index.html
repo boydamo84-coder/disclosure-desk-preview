@@ -936,7 +936,7 @@ $('tourPrevious').onclick=()=>{if(tourStep>0){tourStep--;renderTour()}};
 $('tourNext').onclick=()=>{if(tourStep===tourSteps.length-1)closeTour();else{tourStep++;renderTour()}};
 $('appTourDialog').addEventListener('close',clearTourHighlight);
 function offerFirstVisitTour(){
- const key='dd-welcome-tour-choice-v1';
+ const key='dd-welcome-tour-choice-v2';
  try{if(localStorage.getItem(key))return}catch(_){return}
  const overlay=document.createElement('div');
  overlay.style.cssText='position:fixed;inset:0;z-index:11000;background:rgba(2,9,17,.82);display:flex;align-items:center;justify-content:center;padding:20px';
