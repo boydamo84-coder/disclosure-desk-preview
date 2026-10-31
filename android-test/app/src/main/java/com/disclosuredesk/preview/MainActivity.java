@@ -142,7 +142,9 @@ public final class MainActivity extends Activity {
             FrameLayout.LayoutParams layout=new FrameLayout.LayoutParams(-2,dp(50),Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL);
             root.addView(adView,layout);
             // Keep the web page clear of the banner rather than covering content.
-            web.setPadding(0,0,0,dp(50));
+            FrameLayout.LayoutParams webLayout=(FrameLayout.LayoutParams)web.getLayoutParams();
+            webLayout.bottomMargin=dp(50);
+            web.setLayoutParams(webLayout);
             adView.loadAd(new AdRequest.Builder().build());
         }));
     }
