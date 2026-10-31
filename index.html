@@ -700,21 +700,28 @@ const ddEventClock=(date,now)=>{
 };
 function ddRenderUpcomingEvents(){
  const host=$('ddEventList'),counter=$('ddEventCount');if(!host||!counter)return;
- const now=new Date(),future=ddDisclosureEvents.filter(e=>new Date(e.startsAt).getTime()+3600000>now.getTime()).sort((a,b)=>new Date(a.startsAt)-new Date(b.startsAt)).slice(0,6);
- counter.textContent=future.length?future.length+' confirmed upcoming':'Monitoring official schedules';
- host.innerHTML=future.length?future.map(e=>{
-  const d=new Date(e.startsAt),valid=Number.isFinite(d.getTime());
-  if(!valid)return '';
-  const start=esc(d.toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short',timeZone:'Europe/London'}));
-  return '<article class="dd-event-item"><small>'+esc(e.agency||'Official source')+' · Confirmed date</small><strong>'+esc(e.title)+'</strong><div class="dd-event-clock" data-event-start="'+esc(e.startsAt)+'">'+ddEventClock(d,now)+'</div><small>'+start+' UK time</small><a href="'+esc(e.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Official announcement ↗</a>'+(e.liveUrl?'<br><a href="'+esc(e.liveUrl)+'" target="_blank" rel="noopener noreferrer">Watch official stream ↗</a>':'')+'</article>';
- }).join(''):'<p class="muted small">No future events with confirmed dates found yet. We monitor official announcements for hearings and UAP releases; an undated announcement never becomes a countdown.</p>';
+ const now=new Date();
+ const entries=ddDisclosureEvents.filter(e=>{
+  const start=Date.parse(e.startsAt);
+  return Number.isFinite(start)&&(start+3600000>now.getTime()||Boolean(e.recordingUrl));
+ }).sort((a,b)=>Date.parse(a.startsAt)-Date.parse(b.startsAt)).slice(0,8);
+ counter.textContent=entries.length?entries.length+' scheduled / recorded events':'Monitoring official schedules';
+ host.innerHTML=entries.length?entries.map(e=>{
+  const d=new Date(e.startsAt),start=esc(d.toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short',timeZone:'Europe/London'}));
+  const isPast=Date.now()>d.getTime(),recorded=isPast&&e.recordingUrl;
+  const clock=recorded?'RECORDING AVAILABLE':isPast?'EVENT UNDERWAY / ENDED':ddEventClock(d,now);
+  const links='<a href="'+esc(e.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Official announcement ↗</a>'
+   +(e.liveUrl&&!recorded?'<br><a href="'+esc(e.liveUrl)+'" target="_blank" rel="noopener noreferrer">Official livestream ↗</a>':'')
+   +(recorded?'<br><a href="'+esc(e.recordingUrl)+'" target="_blank" rel="noopener noreferrer">▶ Official recording ↗</a>':'');
+  return '<article class="dd-event-item"><small>'+esc(e.agency||'Official source')+' · '+(recorded?'Recorded event':'Confirmed date')+'</small><strong>'+esc(e.title)+'</strong><div class="dd-event-clock">'+clock+'</div><small>'+start+' UK time</small>'+links+'</article>';
+ }).join(''):'<p class="muted small">No confirmed upcoming disclosure events or verified recordings found yet. Undated announcements never receive a countdown.</p>';
 }
 async function ddLoadUpcomingEvents(){
  try{
   const response=await fetch('data/upcoming-disclosure-events.json',{cache:'no-store'});
   if(!response.ok)throw Error('Event schedule unavailable');
-  const rows=await response.json(),now=Date.now();
-  ddDisclosureEvents=Array.isArray(rows)?rows.filter(e=>e&&typeof e.id==='string'&&typeof e.title==='string'&&typeof e.startsAt==='string'&&e.status==='confirmed'&&Number.isFinite(Date.parse(e.startsAt))&&Date.parse(e.startsAt)>now-3600000&&safePublicUrl(e.sourceUrl)&&(!e.liveUrl||safePublicUrl(e.liveUrl))).slice(0,100):[];
+  const rows=await response.json();
+  ddDisclosureEvents=Array.isArray(rows)?rows.filter(e=>e&&typeof e.id==='string'&&typeof e.title==='string'&&typeof e.startsAt==='string'&&e.status==='confirmed'&&Number.isFinite(Date.parse(e.startsAt))&&safePublicUrl(e.sourceUrl)&&(!e.liveUrl||safePublicUrl(e.liveUrl))&&(!e.recordingUrl||safePublicUrl(e.recordingUrl))).slice(0,100):[];
  }catch{ddDisclosureEvents=[]}
  ddRenderUpcomingEvents();
 }
