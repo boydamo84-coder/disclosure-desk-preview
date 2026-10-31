@@ -130,6 +130,7 @@ async function auth(mode){
   if(mode==='signup'&&!out.data.session){say('Signup request received. Check your inbox for a confirmation link (and check spam).');signupNotice()}else if(mode==='signup'){say('Account created and signed in. Your device boards have not been changed.');}else{say('Signed in successfully. Your existing device boards have not been changed.')}
  }catch(ex){const msg=String(ex.message||'Unknown error');say(mode==='signup'&&/already registered|already exists|user already registered/i.test(msg)?'This email is already registered. Tap Sign in instead, or Reset password if needed.':'Account action failed: '+msg)}
 }
+const quantity=(n,singular,plural=singular+'s')=>n+' '+(n===1?singular:plural);
 function cloudDialog(title,description,confirmLabel){
  return new Promise(resolve=>{
   const overlay=document.createElement('div');overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:#020a12df;display:flex;align-items:center;justify-content:center;padding:16px';
@@ -155,7 +156,7 @@ const cloudBusy=(busy,type)=>{
 async function upload(){
  if(!session){await cloudDialog('Sign in required','Sign in to use your private cloud boards.');return}
  if(!Array.isArray(investigationBoards)||!investigationBoards.length){await cloudDialog('No boards on this device','Create an Investigation Board first, then upload it to your private cloud.');return}
- if(!await cloudDialog('Upload boards to cloud','Copy '+investigationBoards.length+' board(s) from this device to your private account. Existing cloud boards stay safe; identical copies will be skipped.\n\nWe recommend exporting a backup before uploading.','Upload to cloud'))return;
+ if(!await cloudDialog('Upload boards to cloud','Copy '+quantity(investigationBoards.length,'board')+' from this device to your private account. Existing cloud boards stay safe; identical copies will be skipped.\n\nWe recommend exporting a backup before uploading.','Upload to cloud'))return;
  cloudBusy(true,'upload');say('Uploading your boards…');
  let added=0,skipped=0;
  try{
@@ -168,8 +169,8 @@ async function upload(){
    const {error}=await db.from('investigation_boards').insert({name:String(b.name).slice(0,60),content:{links:b.links||[],notes:b.notes||[]}});
    if(error)throw error;added++;saved.add(fp);
   }
-  syncStamp('upload',added);say('Upload complete: '+added+' new board(s), '+skipped+' skipped.');
-  await cloudDialog('Cloud upload complete',added+' new board(s) uploaded. '+skipped+' duplicate(s) skipped. Your device boards remain unchanged.');
+  syncStamp('upload',added);say('Upload complete: '+quantity(added,'new board')+', '+quantity(skipped,'duplicate')+' skipped.');
+  await cloudDialog('Cloud upload complete',quantity(added,'new board')+' uploaded. '+quantity(skipped,'duplicate')+' skipped. Your device boards remain unchanged.');
  }catch(ex){say('Upload interrupted: '+ex.message+'. Existing device boards are safe.');await cloudDialog('Cloud upload interrupted','Some boards may have been copied before the interruption. Your device boards have not changed. Check your connection and retry; existing identical copies will be skipped.');}
  finally{cloudBusy(false,'upload')}
 }
@@ -182,7 +183,7 @@ async function download(){
   const incoming=(data||[]).filter(x=>x&&typeof x.name==='string'&&Array.isArray(x.content?.links)&&Array.isArray(x.content?.notes));
   if(!incoming.length){say('No cloud boards found yet.');await cloudDialog('No cloud boards found','You have not uploaded any Investigation Boards to this account yet.');return}
   cloudBusy(false,'download');
-  if(!await cloudDialog('Download boards from cloud','Check '+incoming.length+' board(s) in your private cloud account and add any missing boards to this device. Existing boards will never be overwritten.','Download to device')){say('Download cancelled.');return}
+  if(!await cloudDialog('Download boards from cloud','Check '+quantity(incoming.length,'board')+' in your private cloud account and add any missing boards to this device. Existing boards will never be overwritten.','Download to device')){say('Download cancelled.');return}
   cloudBusy(true,'download');
   const fp=b=>JSON.stringify({name:b.name,links:b.links||[],notes:b.notes||[]});
   const seen=new Set(investigationBoards.map(fp));let added=0,skipped=0,full=0;
@@ -193,8 +194,8 @@ async function download(){
    investigationBoards.push(b);seen.add(fp(b));added++;
   }
   if(added)boardSave();syncStamp('download',added);
-  say('Download complete: '+added+' new board(s), '+skipped+' duplicate(s) skipped'+(full?', '+full+' beyond device limit':'')+'.');
-  await cloudDialog('Cloud download complete',added+' new board(s) added. '+skipped+' duplicate(s) skipped.'+(full?' '+full+' could not be added because the device limit is 40.':'')+' Your existing boards remain safe.');
+  say('Download complete: '+quantity(added,'new board')+', '+quantity(skipped,'duplicate')+' skipped'+(full?', '+full+' beyond device limit':'')+'.');
+  await cloudDialog('Cloud download complete',quantity(added,'new board')+' added. '+quantity(skipped,'duplicate')+' skipped.'+(full?' '+full+' could not be added because the device limit is 40.':'')+' Your existing boards remain safe.');
  }catch(ex){say('Cloud retrieval failed: '+ex.message);await cloudDialog('Cloud download failed','We could not complete the cloud download. Your existing device boards are unchanged. Please try again.')}
  finally{cloudBusy(false,'download')}
 }
