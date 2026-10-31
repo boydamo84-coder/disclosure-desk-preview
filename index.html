@@ -218,10 +218,11 @@ function news(){
   const link=s.url&&/^https:\/\//.test(s.url)?`<a class="news-open" data-read-story="${i}" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">Read original story ↗</a>`:'';
   const when=s.date?new Date(s.date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'';
   const imageLabel=realImage?'Publisher/feed image':'Editorial illustration';
-  return `<article data-news-id="${esc(s.id||'')}" class="card ${i===0?'hero-news':'news-row'}"><div class="news-image-wrap ${realImage?'':'pillar-fallback'}">${realImage?`<img loading="lazy" alt="Publisher article image" src="${esc(pic)}" onload="verifyNewsPhoto(this)" onerror="usePillarFallback(this)">`:newsEditorialArt(s)}<span class="image-credit">${realImage?'Publisher article image':'Editorial illustration · not event evidence'}</span></div><div class="card-body"><span class="tag">${esc(s.category)}</span><h3>${safePublicUrl(s.url||'')?`<a class="news-headline-link" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.headline)}</a>`:esc(s.headline)}</h3><p>${esc(s.desc||'Open the original publisher for the full report.')}</p><div class="news-story-source"><span class="source-chip">${esc(s.source||'Publisher')}</span>${when?`<span class="meta">${esc(when)}</span>`:''}</div>${link}${safePublicUrl(s.url||'')?`<button type="button" class="outline" data-save-news="${i}" data-bookmark-url="${esc(s.url)}" data-bookmark-label="${esc(s.headline)}" style="margin-top:10px"><span data-star-icon>☆</span> Save to Investigation Board</button>`:'' }${newsRabbitHole(s,i)}</div></article>`;
+  return `<article data-news-id="${esc(s.id||'')}" class="card ${i===0?'hero-news':'news-row'}"><div class="news-image-wrap ${realImage?'':'pillar-fallback'}">${realImage?`<img loading="lazy" alt="Publisher article image" src="${esc(pic)}" onload="verifyNewsPhoto(this)" onerror="usePillarFallback(this)">`:newsEditorialArt(s)}<span class="image-credit">${realImage?'Publisher article image':'Editorial illustration · not event evidence'}</span></div><div class="card-body"><span class="tag">${esc(s.category)}</span><h3>${safePublicUrl(s.url||'')?`<a class="news-headline-link" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.headline)}</a>`:esc(s.headline)}</h3><p>${esc(s.desc||'Open the original publisher for the full report.')}</p><div class="news-story-source"><span class="source-chip">${esc(s.source||'Publisher')}</span>${when?`<span class="meta">${esc(when)}</span>`:''}</div>${link}${safePublicUrl(s.url||'')?`<button type="button" class="outline" data-save-news="${i}" data-bookmark-url="${esc(s.url)}" data-bookmark-label="${esc(s.headline)}" style="margin-top:10px"><span data-star-icon>☆</span> Save to Investigation Board</button>`:'' }${safePublicUrl(s.url||"")?`<button class="outline" data-compare-news="${i}" type="button">⚖ Add to Compare</button>`:""}${newsRabbitHole(s,i)}</div></article>`;
  }).join('')||'<div class="card empty">No stories in this category right now. Try All or Refresh.</div>';
  document.querySelectorAll('[data-read-story]').forEach(b=>b.onclick=()=>{const item=results[Number(b.dataset.readStory)];if(item)rememberReadStory(item);});
  document.querySelectorAll('[data-topic]').forEach(b=>b.onclick=()=>{topic=b.dataset.topic;news()});refreshBookmarkStars();
+ document.querySelectorAll('[data-compare-news]').forEach(btn=>btn.onclick=()=>ddNewsCompareSave(results[Number(btn.dataset.compareNews)]));
  document.querySelectorAll('[data-save-news]').forEach(btn=>btn.onclick=()=>{const story=results[Number(btn.dataset.saveNews)];if(story)addInvestigationLink(story.headline,story.url)});
  document.querySelectorAll('[data-news-rabbit]').forEach(btn=>btn.onclick=()=>{const story=results[Number(btn.dataset.newsRabbit)];if(!story)return;const link=newsRabbitSources(story)[Number(btn.dataset.newsTrail)];if(link)addInvestigationLink(link.name,link.url)});
  document.querySelectorAll('[data-news-rabbit-panel]').forEach(el=>{const loadOnOpen=()=>{if(!el.open||el.dataset.searched==='1'||!el.querySelector('.rabbit-results'))return;el.dataset.searched='1';const i=Number(el.dataset.newsRabbitPanel);loadRabbitBatch(el,results[i],i,0)};el.addEventListener('toggle',loadOnOpen);el.querySelector('summary')?.addEventListener('click',()=>requestAnimationFrame(loadOnOpen));});
@@ -1037,7 +1038,10 @@ function renderHistoricalArchive(){
  document.querySelectorAll('[data-open-archive]').forEach(b=>b.onclick=()=>archiveCaseOpen(b.dataset.openArchive));
  document.querySelectorAll('[data-save-archive]').forEach(button=>button.onclick=()=>{let item=matches[Number(button.dataset.saveArchive)];if(item)addInvestigationLink(item.title,item.url)});
 }
-let ddCompareSelected=[];
+let ddCompareSelected=[];const ddNewsCompare=new Map();
+function ddCompareItem(key){if(String(key).startsWith('news:'))return ddNewsCompare.get(key)||null;return historicalRecords.find(x=>String(x.id)===String(key))||null;}
+function ddNewsCompareKey(story){return 'news:'+encodeURIComponent(story.url);}
+function ddNewsCompareSave(story){if(!story||!safePublicUrl(story.url))return;const key=ddNewsCompareKey(story);ddNewsCompare.set(key,{id:key,title:story.headline||'News report',source:story.source||story.publisher||'News publisher',url:story.url,description:story.desc||story.summary||'',category:story.category||'News',date:story.date||'',kind:'News article',news:true});ddCompareSelect(key);navigateTo('archivePage');}
 function ddCompareSelect(id){
  const key=String(id);
  if(ddCompareSelected.includes(key)){ddCompareSelected=ddCompareSelected.filter(x=>x!==key)}
@@ -1049,7 +1053,7 @@ function ddCompareSelect(id){
  panel.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function ddSetupCompareCases(){
- const cases=historicalRecords;
+ const cases=[...historicalRecords,...ddNewsCompare.values()];
  const left=$('ddCompareLeft'),right=$('ddCompareRight');if(!left||!right)return;
  const oldLeft=ddCompareSelected[0]||left.value,oldRight=ddCompareSelected[1]||right.value;
  const option='<option value="">Select a case…</option>'+cases.map(x=>'<option value="'+esc(String(x.id))+'">'+esc(x.title)+'</option>').join('');
@@ -1061,22 +1065,22 @@ function ddSetupCompareCases(){
 }
 function ddFilterCompareOptions(inputId,selectId){
  const q=$(inputId).value.trim().toLowerCase(),select=$(selectId),current=select.value;
- const filtered=historicalRecords.filter(r=>[r.title,r.source,r.category,r.description,r.year].join(' ').toLowerCase().includes(q));
+ const filtered=[...historicalRecords,...ddNewsCompare.values()].filter(r=>[r.title,r.source,r.category,r.description,r.year].join(' ').toLowerCase().includes(q));
  select.innerHTML='<option value="">Select a case ('+filtered.length+' found)</option>'+filtered.map(r=>'<option value="'+esc(String(r.id))+'">'+esc(r.title)+'</option>').join('');
  if(filtered.some(r=>String(r.id)===current))select.value=current;
 }
 for(const [input,select] of [['ddCompareSearchLeft','ddCompareLeft'],['ddCompareSearchRight','ddCompareRight']])$(input).addEventListener('input',()=>ddFilterCompareOptions(input,select));
 function ddRenderComparison(){
- const first=historicalRecords.find(x=>String(x.id)===$('ddCompareLeft').value),second=historicalRecords.find(x=>String(x.id)===$('ddCompareRight').value),out=$('ddCompareResult');
+ const first=ddCompareItem($('ddCompareLeft').value),second=ddCompareItem($('ddCompareRight').value),out=$('ddCompareResult');
  if(!first||!second||first.id===second.id){out.textContent='Choose two different documented cases.';return}
  const cell=(x,k)=>{
-  if(k==='Dates')return esc(String(x.year)+(x.endYear?'–'+x.endYear:''));
+  if(k==='Dates')return x.news?esc(String(x.date||'Publication date unavailable'))+' (publication)':esc(String(x.year)+(x.endYear?'–'+x.endYear:''));
   if(k==='Source')return '<a href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.source)+' ↗</a>';
-  if(k==='Documents')return esc(String(1+(Array.isArray(x.sources)?x.sources.length:0)))+' catalogue/source link(s)';
-  if(k==='Timeline')return (x.timeline||[]).length?'<ul>'+x.timeline.slice(0,5).map(t=>'<li>'+esc(t.date||'')+' — '+esc(t.event||'')+'</li>').join('')+'</ul>':'Not yet documented in this record';
+  if(k==='Documents')return x.news?'Publisher article link · claims not independently verified':esc(String(1+(Array.isArray(x.sources)?x.sources.length:0)))+' catalogue/source link(s)';
+  if(k==='Timeline')return x.news?'Article publication is not the historical event date':(x.timeline||[]).length?'<ul>'+x.timeline.slice(0,5).map(t=>'<li>'+esc(t.date||'')+' — '+esc(t.event||'')+'</li>').join('')+'</ul>':'Not yet documented in this record';
   if(k==='Witness accounts')return (x.witnessAccounts||[]).length?'<ul>'+x.witnessAccounts.slice(0,4).map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'Not yet transcribed';
   if(k==='Explanations')return (x.explanations||[]).length?'<ul>'+x.explanations.slice(0,4).map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'Not yet assessed';
-  return esc(x.category||'Not classified')
+  return esc((x.news?'News reporting · ':'Archive record · ')+(x.category||'Not classified'))
  };
  out.innerHTML='<div class="dd-compare-table"><div class="dd-compare-head">Evidence category</div><div class="dd-compare-head">'+esc(first.title)+'</div><div class="dd-compare-head">'+esc(second.title)+'</div>'+
  ['Dates','Category','Source','Documents','Timeline','Witness accounts','Explanations'].map(k=>'<div class="dd-compare-label">'+esc(k)+'</div><div>'+cell(first,k)+'</div><div>'+cell(second,k)+'</div>').join('')+'</div><p class="muted small">This comparison reflects the currently catalogued fields only. Missing details do not mean evidence does not exist. No automatic connection is inferred.</p>';
