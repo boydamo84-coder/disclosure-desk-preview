@@ -345,7 +345,7 @@ function ddRestoreBoardFile(file){
    return {name:b.name.slice(0,60),links,notes,timeline,videos,connections,comparisons};
   });
   const fingerprint=b=>JSON.stringify({name:b.name,links:b.links||[],notes:b.notes||[],timeline:b.timeline||[],videos:b.videos||[],connections:b.connections||[],comparisons:b.comparisons||[]});
-  const seen=new Set(investigationBoards.map(fingerprint)),pending=safe.filter(b=>!seen.has(fingerprint(b)));
+  const seen=new Set(investigationBoards.map(fingerprint));const pending=safe.filter(b=>{const fp=fingerprint(b);if(seen.has(fp))return false;seen.add(fp);return true});
   if(!pending.length){alert('All Boards in this backup already exist. Nothing changed.');return}
   if(pending.length+investigationBoards.length>40)throw Error('Not enough available Board slots. Nothing imported.');
   if(!confirm('Restore '+pending.length+' missing Board(s) as NEW local collections? Existing Boards will never be overwritten.'))return;
