@@ -268,6 +268,9 @@ let pendingBookmark=null;
 function isBookmarked(url){const clean=safePublicUrl(url);return !!clean&&investigationBoards.some(b=>b.links.some(l=>l.url===clean))}
 function refreshBookmarkStars(){document.querySelectorAll('[data-bookmark-url]').forEach(el=>{const saved=isBookmarked(el.dataset.bookmarkUrl);const icon=el.querySelector('[data-star-icon]');if(icon)icon.textContent=saved?'★':'☆';el.classList.toggle('bookmark-saved',saved);el.setAttribute('aria-label',(saved?'Saved: ':'Save: ')+(el.dataset.bookmarkLabel||'research link'));el.title=saved?'Already saved in an investigation':'Save to Investigation Board'})}
 function addInvestigationLink(label,url){
+ pendingTimelineEvent=null;
+ $('pickerTitle').textContent='Save discovery';
+ $('pickerCreate').querySelector('button[type="submit"]').textContent='Create and save';
  const clean=safePublicUrl(url);if(!clean)return;
  pendingBookmark={title:String(label).slice(0,120),url:clean};
  const dlg=$('collectionPicker');
@@ -772,7 +775,7 @@ if(id==='cases')renderCases();
 if(id==='clips')renderClips();else pauseClips();
 if(id==='mapPage'){renderMapOfficialVideos();initMap();if(map){requestAnimationFrame(()=>map.invalidateSize({pan:false}));setTimeout(()=>map.invalidateSize({pan:false}),450)}}
 }
-$('interestForm').addEventListener('submit',e=>{e.preventDefault();submitInterest()});renderInterests();loadInterestNews();loadDisclosureMapUpdates();$('boardCreate').addEventListener('submit',e=>{e.preventDefault();const name=$('boardName').value.trim();if(!name)return;investigationBoards.push({id:String(Date.now()),name:name.slice(0,60),links:[],notes:[]});$('boardName').value='';boardSave()});$('pickerClose').onclick=()=> $('collectionPicker').close();$('collectionPicker').addEventListener('close',()=>{pendingBookmark=null});$('pickerCreate').addEventListener('submit',e=>{e.preventDefault();const name=$('pickerNewName').value.trim();if(!name)return;const b={id:String(Date.now()),name:name.slice(0,60),links:[],notes:[]};investigationBoards.push(b);savePendingBookmark(b)});$('boardExportPDF').onclick=()=>{const b=investigationBoards[Number($('boardExportSelect').value)];if(b)exportBoardPrintable(b)};
+$('interestForm').addEventListener('submit',e=>{e.preventDefault();submitInterest()});renderInterests();loadInterestNews();loadDisclosureMapUpdates();$('boardCreate').addEventListener('submit',e=>{e.preventDefault();const name=$('boardName').value.trim();if(!name)return;investigationBoards.push({id:String(Date.now()),name:name.slice(0,60),links:[],notes:[]});$('boardName').value='';boardSave()});$('pickerClose').onclick=()=> $('collectionPicker').close();$('collectionPicker').addEventListener('close',()=>{pendingBookmark=null;pendingTimelineEvent=null});$('pickerCreate').addEventListener('submit',e=>{e.preventDefault();const name=$('pickerNewName').value.trim();if(!name)return;const b={id:String(Date.now()),name:name.slice(0,60),links:[],notes:[]};investigationBoards.push(b);if(pendingTimelineEvent)savePendingTimeline(b);else savePendingBookmark(b)});$('boardExportPDF').onclick=()=>{const b=investigationBoards[Number($('boardExportSelect').value)];if(b)exportBoardPrintable(b)};
 $('boardExportFile').onclick=()=>{const b=investigationBoards[Number($('boardExportSelect').value)];if(b)exportPortableBoard(b)};
 $('boardImportFile').onchange=e=>{const file=e.target.files?.[0];if(file)importPortableBoard(file).finally(()=>{e.target.value=''})};renderResources();$('podcastList').innerHTML=podcastItems.map(resourceCard).join('');document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>navigateTo(b.dataset.go));
 news();renderCases();showDrafts();const requestedCase=new URLSearchParams(location.search).get('case');if(requestedCase&&mapData.some(r=>r.id===requestedCase)){navigateTo('mapPage');evidenceOpen(requestedCase)}
@@ -806,24 +809,38 @@ function archiveMediaHtml(matches,type){
  if(!matches.length)return '<p class="muted small">No sufficiently specific '+type+' matches in the current catalogue. This does not mean no related material exists.</p>';
  return matches.map(x=>'<div class="card" style="margin-bottom:8px"><div class="card-body"><strong>'+esc(x.item.headline||x.item.title)+'</strong><p class="muted small">'+esc(x.item.publisher||x.item.source||'Source')+' · Shared title terms: '+esc(x.shared.join(', '))+' · Suggested research lead only</p><a class="news-open" href="'+esc(x.url||x.item.url)+'" target="_blank" rel="noopener noreferrer">Open original '+(type==='news'?'article':'video/source')+' ↗</a> <button type="button" class="outline" data-archive-save-media="'+esc(x.url||x.item.url)+'" data-media-label="'+esc(x.item.headline||x.item.title)+'">☆ Save</button></div></div>').join('');
 }
+let pendingTimelineEvent=null;
 function importArchiveTimelineEvent(record,index){
  const ev=record?.timeline?.[index];if(!ev)return;
  const date=String(ev.date||'').trim();
- const full=/^\d{4}-\d{2}-\d{2}$/.test(date)?date:null;
+ const exact=/^\d{4}-\d{2}-\d{2}$/.test(date)?date:null;
  const year=(date.match(/\b(?:19|20)\d{2}\b/)||[])[0];
- const eventDate=full||(year?year+'-01-01':null);
- if(!eventDate){alert('This archive event has no sufficiently precise date to import. Save its original source to your Board instead.');return}
- if(!investigationBoards.length){alert('Create an Investigation Board under Boards first, then return to this event.');return}
- const choices=investigationBoards.map((b,i)=>(i+1)+'. '+b.name).join('\n');
- const response=prompt('Add this source-attributed event to which private Board?\n'+choices+'\nEnter Board number:');
- if(response===null)return;
- const number=Number(response);if(!Number.isInteger(number)||number<1||number>investigationBoards.length){alert('Choose a valid Board number.');return}
- const board=investigationBoards[number-1];board.timeline??=[];
- const id=String(record.id)+':'+index;
- if(board.timeline.some(t=>t.archiveEventId===id)){alert('This archive event is already in that timeline.');return}
- if(board.timeline.length>=250){alert('This Board has reached its 250-event limit.');return}
- board.timeline.push({date:eventDate,title:String(ev.event).slice(0,120),note:'Source: '+record.title+' ('+record.source+'). Original event date text: '+date,sourceUrl:record.url,archiveEventId:id,datePrecision:full?'day':'year'});
- board.timeline.sort((a,b)=>a.date.localeCompare(b.date));boardSave();alert('Added to '+board.name+'. Your private timeline is saved on this device.');
+ if(!exact&&!year){$('pickerMessage').textContent='';return alert('The source does not specify a usable date for this event. Save the original case source instead.')}
+ pendingBookmark=null;
+ pendingTimelineEvent={date:exact||(year+'-01-01'),datePrecision:exact?'day':'year',title:String(ev.event).slice(0,120),note:'Source: '+record.title+' ('+record.source+'). Original event date text: '+date,sourceUrl:record.url,archiveEventId:String(record.id)+':'+index};
+ $('pickerTitle').textContent='Add to my timeline';
+ $('pickerSubtitle').textContent=(exact||year)+' · '+pendingTimelineEvent.title;
+ $('pickerMessage').textContent='Choose an Investigation Board or create a new one.';
+ $('pickerCreate').classList.add('hidden');$('pickerNewName').value='';
+ $('pickerChoices').innerHTML=investigationBoards.map((b,i)=>`<button type="button" class="picker-choice" data-picker-index="${i}"><span><strong>${esc(b.name)}</strong><small>${(b.timeline||[]).length} timeline events</small></span><span aria-hidden="true">›</span></button>`).join('')+'<button type="button" class="picker-choice picker-new" id="pickerNewCollection"><strong>＋ Create a new Investigation Board</strong><span aria-hidden="true">›</span></button>';
+ $('pickerChoices').querySelectorAll('[data-picker-index]').forEach(btn=>btn.onclick=()=>savePendingTimeline(investigationBoards[Number(btn.dataset.pickerIndex)]));
+ $('pickerNewCollection').onclick=()=>{$('pickerCreate').classList.remove('hidden');$('pickerNewName').focus()};
+ $('pickerCreate').querySelector('button[type="submit"]').textContent='Create Board and add event';
+ if(!$('collectionPicker').open)$('collectionPicker').showModal();
+}
+function savePendingTimeline(board){
+ const event=pendingTimelineEvent;if(!board||!event)return;
+ board.timeline??=[];
+ if(board.timeline.some(t=>t.archiveEventId===event.archiveEventId)){$('pickerMessage').textContent='✓ Already saved to '+board.name+'.';return}
+ if(board.timeline.length>=250){$('pickerMessage').textContent='This Board is full (250 timeline events). Choose another Board.';return}
+ board.timeline.push({...event});board.timeline.sort((a,b)=>a.date.localeCompare(b.date));boardSave();
+ pendingTimelineEvent=null;
+ $('pickerTitle').textContent='✓ Event added';
+ $('pickerSubtitle').textContent='Saved to '+board.name+'. Your private timeline now includes the original source reference.';
+ $('pickerMessage').textContent='You can view it from Boards → '+board.name+'.';
+ $('pickerChoices').innerHTML='<button type="button" class="picker-choice" id="pickerTimelineDone"><strong>✓ Done</strong><span aria-hidden="true">›</span></button>';
+ $('pickerTimelineDone').onclick=()=>$('collectionPicker').close();
+ $('pickerCreate').classList.add('hidden');
 }
 function archiveCaseOpen(id){
  const r=historicalRecords.find(x=>String(x.id)===String(id));if(!r)return;
