@@ -1,0 +1,36 @@
+name: Post-0130 release integration check (no deploy)
+on:
+  push:
+    branches: [release/post-0130-tested-features-2026-10-31]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate integrated application and production requirements
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFileSync, writeFileSync, mkdtempSync} from 'node:fs';
+          import {tmpdir} from 'node:os';
+          import {join} from 'node:path';
+          import {execFileSync} from 'node:child_process';
+          const html=readFileSync('index.html','utf8');
+          const required=['adsbygoogle.js?client=','google-adsense-account','cloud-boards.js?v=video-sync-1','videoProgress'];
+          for(const item of required) if(!html.includes(item))throw Error('Missing integration: '+item);
+          const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(x=>x[1]).filter(Boolean);
+          if(!scripts.length)throw Error('No inline application scripts found');
+          const dir=mkdtempSync(join(tmpdir(),'dd-'));
+          scripts.forEach((s,i)=>{const path=join(dir,i+'.js');writeFileSync(path,s);execFileSync('node',['--check',path])});
+          execFileSync('node',['--check','cloud-boards.js']);
+          const clips=JSON.parse(readFileSync('data/disclosure-clips.json','utf8'));
+          const ids=new Set(clips.map(x=>x.id));
+          if(clips.length!==648 || ids.size!==clips.length)throw Error('Production clip list changed');
+          for(const file of ['supabase/video_progress.sql','supabase/pre_release_rls_audit_read_only.sql','supabase/functions/email-board-backup/index.ts'])readFileSync(file,'utf8');
+          console.log('Integrated application syntax, advertising, backend source and unchanged catalogue: PASS');
+          NODE
