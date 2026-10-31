@@ -932,11 +932,36 @@ const DD_FOLLOW_KEY='dd_followed_cases_v1';
 function ddReadFollowed(){try{const x=JSON.parse(localStorage.getItem(DD_FOLLOW_KEY)||'{}');return x&&typeof x==='object'&&!Array.isArray(x)?x:{}}catch{return {}}}
 function ddFollowCase(id){
  const followed=ddReadFollowed(),r=historicalRecords.find(x=>String(x.id)===String(id));if(!r)return;
- if(followed[id])delete followed[id];else followed[id]={title:r.title,followedAt:new Date().toISOString(),lastSeenFingerprint:ddCaseFingerprint(r)};
+ if(followed[id])delete followed[id];else followed[id]={title:r.title,followedAt:new Date().toISOString(),lastSeenFingerprint:ddCaseFingerprint(r),snapshot:ddCaseSnapshot(r),history:[]};
  try{localStorage.setItem(DD_FOLLOW_KEY,JSON.stringify(followed))}catch{alert('Unable to save followed cases on this device.');return}
  renderHistoricalArchive();renderResearchDashboard();archiveCaseOpen(id);
 }
-function ddCaseFingerprint(r){return JSON.stringify({description:r.description||'',timeline:r.timeline||[],sources:r.sources||[],evidenceNotes:r.evidenceNotes||[],witnessAccounts:r.witnessAccounts||[],explanations:r.explanations||[]})}
+function ddCaseSnapshot(r){return {description:r.description||'',timeline:r.timeline||[],sources:r.sources||[],evidenceNotes:r.evidenceNotes||[],witnessAccounts:r.witnessAccounts||[],explanations:r.explanations||[]}}
+function ddCaseFingerprint(r){return JSON.stringify(ddCaseSnapshot(r))}
+function ddRecordCaseUpdates(){
+ const followed=ddReadFollowed();let dirty=false;
+ const labels={description:'Case description',timeline:'Timeline',sources:'Original documents',evidenceNotes:'Evidence notes',witnessAccounts:'Witness accounts',explanations:'Competing explanations'};
+ for(const [id,entry] of Object.entries(followed)){
+  const record=historicalRecords.find(x=>String(x.id)===id);if(!record)continue;
+  const snap=ddCaseSnapshot(record),prior=entry.snapshot;
+  if(!prior){entry.snapshot=snap;entry.lastSeenFingerprint=ddCaseFingerprint(record);dirty=true;continue}
+  const changed=Object.keys(labels).filter(k=>JSON.stringify(prior[k]||'')!==JSON.stringify(snap[k]||''));
+  if(!changed.length)continue;
+  const signature=ddCaseFingerprint(record);
+  if(entry.lastRecordedFingerprint!==signature){
+   entry.history??=[];entry.history.unshift({at:new Date().toISOString(),sections:changed.map(k=>labels[k]),summary:'Source catalogue fields updated. Review the case to assess their significance.'});entry.history=entry.history.slice(0,30);
+   entry.lastRecordedFingerprint=signature;
+  }
+  entry.snapshot=snap;dirty=true;
+ }
+ if(dirty)try{localStorage.setItem(DD_FOLLOW_KEY,JSON.stringify(followed))}catch{}
+}
+function ddCaseHistoryHtml(id){
+ const entry=ddReadFollowed()[String(id)];if(!entry)return '';
+ const entries=Array.isArray(entry.history)?entry.history:[];
+ return '<section class="dd-case-update-history"><h3>Case Update History</h3><p class="muted small">Changes tracked since you followed this investigation on this device. This is a local catalogue-change log, not a record of when events occurred.</p>'+
+ (entries.length?entries.map(x=>'<article class="dd-dashboard-event"><strong>'+esc(new Date(x.at).toLocaleString())+'</strong><span>Updated: '+esc((x.sections||[]).join(', '))+'</span><small>'+esc(x.summary||'')+'</small></article>').join(''):'<p class="muted small">No catalogue changes recorded since you started following this case.</p>')+'</section>';
+}
 function ddFollowedDashboard(){
  const followed=ddReadFollowed(),items=Object.entries(followed);
  if(!items.length)return '<p class="muted small">Follow an archive case to see its updates here. Follows are saved on this device.</p>';
@@ -952,6 +977,7 @@ function archiveCaseOpen(id){
  '<p class="muted small">'+esc(r.kind||'Archive record')+' · Record/event year: '+esc(String(r.year))+(r.endYear?'–'+esc(String(r.endYear)):'')+'</p>'+
  '<h3>Record description</h3><p>'+esc(r.description||'No additional description is available in the source metadata.')+'</p>'+
  '<button type="button" class="outline" id="ddFollowCaseButton">'+(ddReadFollowed()[String(r.id)]?'✓ Following · Unfollow':'☆ Follow Investigation')+'</button>'+ 
+ddCaseHistoryHtml(r.id)+
 '<h3>Research overview</h3>'+
  '<p><strong>Subject:</strong> '+esc(r.category||'Historical research')+' · <strong>Record type:</strong> '+esc(r.kind||'Archive record')+'</p>'+
  '<h3>Timeline and dates</h3>'+
@@ -1070,7 +1096,7 @@ async function loadHistoricalArchive(){
  $('archiveCategory').innerHTML='<option value="all">All subjects</option>'+categories.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
  const kinds=[...new Set(historicalRecords.map(x=>x.kind))].sort();
  $('archiveType').innerHTML='<option value="all">All types</option>'+kinds.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
- renderHistoricalArchive();ddSetupCompareCases();
+ ddRecordCaseUpdates();renderHistoricalArchive();ddSetupCompareCases();renderResearchDashboard();
  if($('mapViewMode').value==='archive'){refreshArchiveMapYears();renderMarkers()}
  }catch(e){$('archiveStatus').textContent='Archive unavailable; try again later.';}
 }
