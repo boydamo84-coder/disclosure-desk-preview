@@ -792,11 +792,11 @@ function closeImmersive(){
  $('immersiveFeed').innerHTML='';document.removeEventListener('keydown',immersiveEscape);
 }
 function immersiveEscape(e){if(e.key==='Escape'||e.key==='Backspace'){e.preventDefault();closeImmersive()}}
-function openImmersive(resume=false){
+function openImmersive(resume=false,selectedId=null){
  immersiveQueue=immersiveCandidates();if(immersiveAutoplay)immersiveQueue.sort((a,b)=>Number(!!b.youtubeId||!!b.media)-Number(!!a.youtubeId||!!a.media));const viewer=$('immersiveViewer');const feed=$('immersiveFeed');
  if(!immersiveQueue.length){alert('No playable clips match these filters yet.');return}
  immersiveLastPlayingIndex=-1;feed.innerHTML='';immersiveAddBatch();viewer.hidden=false;document.body.style.overflow='hidden';feed.scrollTop=0;
- const resumeId=resume?localStorage.getItem(ddVideoStorageKey('last')):null;let lastIndex=resumeId?immersiveQueue.findIndex(c=>c.id===resumeId):-1;if(resume&&lastIndex<0)lastIndex=immersiveQueue.findIndex(c=>!clipWatched[c.id]&&!ddClipSkipped[c.id]);
+ const resumeId=resume?localStorage.getItem(ddVideoStorageKey('last')):null;let lastIndex=selectedId?immersiveQueue.findIndex(c=>c.id===selectedId):(resumeId?immersiveQueue.findIndex(c=>c.id===resumeId):-1);if(resume&&lastIndex<0)lastIndex=immersiveQueue.findIndex(c=>!clipWatched[c.id]&&!ddClipSkipped[c.id]);
  if(lastIndex>0){while($('immersiveFeed').children.length<=lastIndex)immersiveAddBatch();$('immersiveFeed').scrollTop=$('immersiveFeed').children[lastIndex].offsetTop;$('immersiveFeed').children[lastIndex].scrollIntoView({block:'start'});}immersiveWindow(lastIndex>=0?lastIndex:0);
  immersiveObserver=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting&&entry.intersectionRatio>.65)immersiveWindow(Number(entry.target.dataset.index))},{root:feed,threshold:[.65,.9]});
  feed.querySelectorAll('.immersive-item').forEach(tile=>immersiveObserver.observe(tile));document.addEventListener('keydown',immersiveEscape);
@@ -806,9 +806,7 @@ $('clipsFeed').addEventListener('click',event=>{
  if(!button)return;
  event.preventDefault();
  const id=button.dataset.watchClip;
- openImmersive(false);
- const index=immersiveQueue.findIndex(item=>item.id===id);
- if(index>=0)immersiveGoTo(index);
+ openImmersive(false,id);
 });
 $('openImmersiveClips').addEventListener('click',()=>openImmersive(false));$('resumeClips').addEventListener('click',()=>openImmersive(true));$('resetClipHistory').addEventListener('click',()=>{clipWatched={};ddClipSkipped={};try{localStorage.removeItem(ddVideoStorageKey('watched'));localStorage.removeItem(ddVideoStorageKey('skipped'));localStorage.removeItem(ddVideoStorageKey('last'))}catch{}window.ddVideoProgressChanged?.();renderClips()});
 $('closeImmersive').addEventListener('click',closeImmersive);
