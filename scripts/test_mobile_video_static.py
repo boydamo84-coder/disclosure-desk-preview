@@ -39,6 +39,8 @@ def main():
         'window.ddVideoMergeProgress',
         'id="pickerIncludeDiscussion"',
         'data-open-saved-discussion',
+        'data-clip-action="discuss"',
+        "'video:'+c.id",
         'function openImmersive(resume=false)',
     ]
     missing = [token for token in required if token not in page]
