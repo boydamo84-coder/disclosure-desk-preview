@@ -628,7 +628,7 @@ function immersiveCandidates(){
  const q=($('clipSearch')?.value||'').trim().toLowerCase();return orderDiscovery(disclosureClips.filter(c=>c.videoAvailable!==false&&(!$('clipInterestOnly').checked||videoInterestMatches(c))&&(!q||[c.title,c.publisher,c.description,c.status].filter(Boolean).join(' ').toLowerCase().includes(q))&&(c.youtubeId||c.dvidsId||c.media)&&(!$('clipFavoritesOnly').checked||clipIsFavourite(c))&&(clipMode==='all'||(clipMode==='verified'?['official','traceable'].includes(c.evidenceStatus):c.evidenceStatus==='unverified'))&&(source==='All'||c.group===source)&&(trust==='all'||(trust==='traceable'?['official','traceable'].includes(c.evidenceStatus):c.evidenceStatus===trust))));
 }
 function immersiveTile(c,index){
- return '<article class="immersive-item" data-index="'+index+'"><div class="immersive-media" data-media="'+esc(c.id)+'"><span>▶ Tap to watch</span></div><div class="immersive-details"><b>'+esc(c.title)+'</b><div class="dd-clip-publisher">'+esc(c.publisher)+' · <span>'+esc(c.evidenceStatus==='official'?'OFFICIAL RELEASE':c.evidenceStatus==='traceable'?'TRACEABLE SOURCE':'UNVERIFIED CLAIM')+'</span></div><a href="'+esc(c.source)+'" rel="noopener noreferrer" target="_blank">Original evidence ↗</a></div><div class="immersive-tools"><button data-clip-action="favourite" data-clip-id="'+esc(c.id)+'">'+(clipIsFavourite(c)?'★ Saved':'☆ Save')+'</button><button type="button" class="dd-more-actions" aria-expanded="false" aria-label="More video actions">⋯ More</button><div class="dd-video-actions-menu" hidden><button data-clip-action="board" data-clip-id="'+esc(c.id)+'">Add to Board</button><button data-clip-action="share" data-clip-id="'+esc(c.id)+'">Share</button><button data-clip-action="skip" data-clip-id="'+esc(c.id)+'">Skip ↓</button><label><input type="checkbox" class="dd-video-menu-autoplay"> Autoplay + Loop</label><p>'+esc(c.description||'Interpretation remains subject to investigation.')+'</p></div></div></article>';
+ return '<article class="immersive-item" data-index="'+index+'"><div class="immersive-media" data-media="'+esc(c.id)+'"><span>▶ Tap to watch</span></div><div class="immersive-details"><b>'+esc(c.title)+'</b><div class="dd-clip-publisher">'+esc(c.publisher)+' · <span>'+esc(c.evidenceStatus==='official'?'OFFICIAL RELEASE':c.evidenceStatus==='traceable'?'TRACEABLE SOURCE':'UNVERIFIED CLAIM')+'</span></div><a href="'+esc(c.source)+'" rel="noopener noreferrer" target="_blank">Original evidence ↗</a></div><div class="immersive-tools"><button data-clip-action="favourite" data-clip-id="'+esc(c.id)+'">'+(clipIsFavourite(c)?'★ Saved':'☆ Save')+'</button><button type="button" class="dd-more-actions" aria-expanded="false" aria-label="More video actions">⋯ More</button><div class="dd-video-actions-menu" hidden><button data-clip-action="board" data-clip-id="'+esc(c.id)+'">Add to Board</button><button data-clip-action="share" data-clip-id="'+esc(c.id)+'">Share</button><button data-clip-action="skip" data-clip-id="'+esc(c.id)+'">Skip ↓</button><label><input type="checkbox" class="dd-video-menu-autoplay"> Autoplay + Loop</label><label><input type="checkbox" class="dd-video-menu-controls"> Show YouTube playback controls</label><p>'+esc(c.description||'Interpretation remains subject to investigation.')+'</p></div></div></article>';
 }
 $('immersiveFeed').addEventListener('click',event=>{
  const more=event.target.closest('.dd-more-actions');
@@ -638,7 +638,14 @@ $('immersiveFeed').addEventListener('click',event=>{
   $('immersiveFeed').querySelectorAll('.dd-video-actions-menu').forEach(m=>m.hidden=true);
   $('immersiveFeed').querySelectorAll('.dd-more-actions').forEach(b=>b.setAttribute('aria-expanded','false'));
   menu.hidden=!opening;more.setAttribute('aria-expanded',String(opening));
-  if(opening)menu.querySelector('.dd-video-menu-autoplay').checked=immersiveAutoplay;
+  if(opening){menu.querySelector('.dd-video-menu-autoplay').checked=immersiveAutoplay;menu.querySelector('.dd-video-menu-controls').checked=immersiveShowControls;}
+  return;
+ }
+ const controlToggle=event.target.closest('.dd-video-menu-controls');
+ if(controlToggle){
+  immersiveShowControls=controlToggle.checked;
+  try{localStorage.setItem(IMMERSIVE_CONTROLS_KEY,String(immersiveShowControls))}catch{}
+  immersiveWindow(immersivePosition,true);
   return;
  }
  const toggle=event.target.closest('.dd-video-menu-autoplay');
@@ -649,6 +656,9 @@ $('immersiveFeed').addEventListener('click',event=>{
   immersiveWindow(immersivePosition,true);
  }
 });
+const IMMERSIVE_CONTROLS_KEY='dd_clips_controls_v1';
+let immersiveShowControls=false;
+try{immersiveShowControls=localStorage.getItem(IMMERSIVE_CONTROLS_KEY)==='true'}catch{}
 const IMMERSIVE_AUTOPLAY_KEY='dd_clips_autoplay_v1';
 const IMMERSIVE_SOUND_KEY='dd_clips_sound_v1';
 let immersiveSoundOn=false;
@@ -679,7 +689,7 @@ $('immersiveAutoplay').addEventListener('change',()=>{immersiveAutoplay=$('immer
 function immersiveMount(index){
  const tile=$('immersiveFeed').querySelector('[data-index="'+index+'"]');if(!tile)return;
  const c=immersiveQueue[index],slot=tile.querySelector('[data-media]');if(!c||!slot||slot.querySelector('iframe,video'))return;
- if(c.youtubeId)slot.innerHTML='<iframe title="'+esc(c.title)+'" loading="eager" src="https://www.youtube-nocookie.com/embed/'+esc(c.youtubeId)+'?playsinline=1&enablejsapi=1'+(immersiveAutoplay?'&autoplay=1&mute='+(immersiveSoundOn?'0':'1')+'&loop=1&playlist='+encodeURIComponent(c.youtubeId):'')+'" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+ if(c.youtubeId)slot.innerHTML='<iframe title="'+esc(c.title)+'" loading="eager" src="https://www.youtube-nocookie.com/embed/'+esc(c.youtubeId)+'?playsinline=1&enablejsapi=1&controls='+(immersiveShowControls?'1':'0')+'&fs=1'+(immersiveAutoplay?'&autoplay=1&mute='+(immersiveSoundOn?'0':'1')+'&loop=1&playlist='+encodeURIComponent(c.youtubeId):'')+'" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
  else if(c.dvidsId)slot.innerHTML='<iframe title="'+esc(c.title)+'" loading="eager" src="https://www.dvidshub.net/video/embed/'+esc(c.dvidsId)+(immersiveAutoplay?'?autoplay=1&muted='+(immersiveSoundOn?'0':'1')+'&loop=1':'')+'" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'+(immersiveAutoplay?'<div class="muted small" style="padding:5px">DVIDS controls autoplay; tap Play if it does not start.</div>':'');
  else if(c.media)slot.innerHTML='<video controls playsinline preload="metadata" '+(immersiveAutoplay?'autoplay '+(immersiveSoundOn?'':'muted ')+'loop ':'')+'src="'+esc(c.media)+'"></video>';
  if(c.youtubeId&&immersiveAutoplay){const frame=slot.querySelector('iframe');frame.addEventListener('load',()=>{if(!immersiveAutoplay||immersiveQueue[immersivePosition]?.id!==c.id)return;try{for(const func of [immersiveSoundOn?'unMute':'mute','playVideo'])frame.contentWindow.postMessage(JSON.stringify({event:'command',func,args:[]}), 'https://www.youtube-nocookie.com')}catch{}},{once:true})}
