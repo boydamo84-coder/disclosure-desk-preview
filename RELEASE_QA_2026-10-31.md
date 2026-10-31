@@ -35,5 +35,5 @@
 Keep exact pre-release production commit SHA and verified private JSON export before release; if major issue occurs, roll back deployed branch without deleting cloud Boards.
 
 ## Security audit handoff
-- [ ] Run `supabase/pre_release_rls_audit_read_only.sql` in the project's SQL Editor. Verify RLS enabled and policy ownership predicates for `investigation_boards`. Separate-account count test alone is not proof of RLS isolation.
+- [x] User supplied Supabase SQL screenshots (31 Oct 2026): `investigation_boards.relrowsecurity = true`; SELECT, INSERT, UPDATE and DELETE owner policies use `auth.uid() = user_id` in the relevant `qual` / `with_check` expressions. Independent adversarial cross-account write test remains outstanding.
 - [ ] Capture the production branch HEAD commit ID before any production merge; a fetched `index.html` file SHA is **not** a rollback commit SHA.
