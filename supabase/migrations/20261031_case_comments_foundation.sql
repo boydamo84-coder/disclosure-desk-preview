@@ -59,3 +59,60 @@ grant select,insert on public.dd_case_comments to authenticated;
 grant select,insert on public.dd_case_comment_flags to authenticated;
 revoke update,delete on public.dd_case_comments from anon,authenticated;
 revoke update,delete on public.dd_case_comment_flags from anon,authenticated;
+
+-- Server-enforced rate limits; a client cannot bypass these by modifying JavaScript.
+create or replace function public.dd_guard_comment_insert()
+returns trigger language plpgsql security definer set search_path=public
+as $$
+begin
+ if new.author_id <> auth.uid() then raise exception 'Incorrect comment author'; end if;
+ if (select count(*) from public.dd_case_comments
+     where author_id=new.author_id and created_at > now()-interval '10 minutes') >= 5 then
+   raise exception 'Posting limit reached. Try again later';
+ end if;
+ if (select count(*) from public.dd_case_comments
+     where author_id=new.author_id and created_at > now()-interval '24 hours') >= 40 then
+   raise exception 'Daily posting limit reached';
+ end if;
+ if exists(select 1 from public.dd_case_comments
+   where author_id=new.author_id and case_id=new.case_id
+     and lower(btrim(body))=lower(btrim(new.body))
+     and created_at > now()-interval '24 hours') then
+   raise exception 'Duplicate comment';
+ end if;
+ return new;
+end $$;
+drop trigger if exists dd_guard_comment_insert_trigger on public.dd_case_comments;
+create trigger dd_guard_comment_insert_trigger before insert on public.dd_case_comments
+ for each row execute function public.dd_guard_comment_insert();
+
+-- Only allow moderators to change comment status using a narrowly scoped RPC.
+create or replace function public.dd_moderate_case_comment(p_id uuid, p_status text)
+returns void language plpgsql security definer set search_path=public
+as $$
+begin
+ if not public.dd_is_comment_moderator() then raise exception 'Not authorised'; end if;
+ if p_status not in ('approved','hidden','rejected') then raise exception 'Invalid status'; end if;
+ update public.dd_case_comments set status=p_status,updated_at=now() where id=p_id;
+ if not found then raise exception 'Comment not found'; end if;
+end $$;
+revoke all on function public.dd_moderate_case_comment(uuid,text) from public;
+grant execute on function public.dd_moderate_case_comment(uuid,text) to authenticated;
+
+-- Read-only moderator queue; don't expose reporter identities or free-text details to other users.
+create or replace function public.dd_case_comment_moderation_queue()
+returns table(comment_id uuid, case_id text, body text, status text,
+              flag_count bigint, latest_flag timestamptz)
+language plpgsql stable security definer set search_path=public
+as $$
+begin
+ if not public.dd_is_comment_moderator() then raise exception 'Not authorised'; end if;
+ return query
+ select c.id,c.case_id,c.body,c.status,count(f.id),max(f.created_at)
+ from public.dd_case_comments c join public.dd_case_comment_flags f on f.comment_id=c.id
+ where c.status in ('approved','hidden')
+ group by c.id,c.case_id,c.body,c.status
+ order by max(f.created_at) desc limit 200;
+end $$;
+revoke all on function public.dd_case_comment_moderation_queue() from public;
+grant execute on function public.dd_case_comment_moderation_queue() to authenticated;
