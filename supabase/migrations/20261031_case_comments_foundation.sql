@@ -1,12 +1,12 @@
 -- Disclosure Desk case comments: draft migration, run manually after review.
--- Authenticated comments are visible only after moderator approval.
+-- Authenticated comments publish immediately. Flagged content is reviewed by moderators.
 create table if not exists public.dd_case_comments (
  id uuid primary key default gen_random_uuid(),
  case_id text not null check (length(case_id) between 1 and 180),
  author_id uuid not null references auth.users(id) on delete cascade,
  parent_id uuid references public.dd_case_comments(id) on delete set null,
  body text not null check (char_length(btrim(body)) between 3 and 2000),
- status text not null default 'pending' check (status in ('pending','approved','hidden','rejected')),
+ status text not null default 'approved' check (status in ('pending','approved','hidden','rejected')),
  created_at timestamptz not null default now(),
  updated_at timestamptz not null default now()
 );
@@ -44,7 +44,7 @@ create policy dd_comments_read on public.dd_case_comments for select to authenti
  using (status='approved' or author_id=auth.uid() or public.dd_is_comment_moderator());
 drop policy if exists dd_comments_submit on public.dd_case_comments;
 create policy dd_comments_submit on public.dd_case_comments for insert to authenticated
- with check (author_id=auth.uid() and status='pending'
+ with check (author_id=auth.uid() and status='approved'
   and (parent_id is null or exists(select 1 from public.dd_case_comments parent where parent.id=dd_case_comments.parent_id and parent.case_id=dd_case_comments.case_id and parent.status='approved')));
 -- Never permit client UPDATE/DELETE: moderation and withdrawal must use trusted server workflows.
 drop policy if exists dd_flags_insert on public.dd_case_comment_flags;
