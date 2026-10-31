@@ -663,7 +663,8 @@ function governmentVideoAgency(c){
  if(/\b(nasa|national aeronautics and space administration|noaa|us geological survey)\b/i.test(tag))return 'us-nasa';
  if(/\b(uk ministry of defence|british ministry of defence|uk mod|\bmod uk\b)/i.test(tag))return 'uk-mod';
  if(/\b(cnes|geipan|gouvernement français|ministère des armées|french government|france government)\b/i.test(tag))return 'fr-gov';
- return 'other';
+ if(explicit||/\b(government|govt|department of|ministry of|armed forces|national archives|federal agency)\b/i.test(publisher))return 'other';
+ return null;
 }
 function governmentVideoMatches(c){
  const selected=$('clipGovernmentFilter')?.value||'all';
