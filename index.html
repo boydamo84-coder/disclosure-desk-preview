@@ -699,7 +699,7 @@ const tourSteps=[
  {title:'Welcome to Disclosure Desk',body:'Explore source-attributed news, historical records, case maps and private research boards. Follow the evidence.',page:'discover',target:'.hero'},
  {title:'Latest News',body:'Search and filter current reporting, then save interesting stories to an Investigation Board.',page:'discover',target:'.news-sticky-controls'},
  {title:'Evidence Archive',body:'Browse older stories and compare their original sources.',page:'archivePage',target:'.archive-toolbar'},
- {title:'World Map',body:'Explore reported cases by location and filters. Map pins are approximate, not proof of an event.',page:'mapPage',target:'#mapPage'},
+ {title:'World Map',body:'Explore reported cases by location and filters. Map pins are approximate, not proof of an event.',page:'mapPage',target:'#map'},
  {title:'Videos',body:'Find footage and interviews, with links back to the source.',page:'clips',target:'#clips'},
  {title:'Your Investigation Boards',body:'Your saved collections are at the top. Add notes and keep your research private.',page:'boards',target:'#boardList'},
  {title:'Account & Cloud Backup',body:'Sign in to manually upload and download boards across devices. Nothing is automatically overwritten.',page:'boards',target:'#ddCloudAccount'},
@@ -723,7 +723,8 @@ function renderTour(){
   const target=document.querySelector(item.target);
   if(target&&!target.classList.contains('hidden')){
    tourHighlight=target;target.style.outline='3px solid #E0C48E';target.style.outlineOffset='4px';
-   target.scrollIntoView({behavior:'smooth',block:'center'});
+   target.scrollIntoView({behavior:'instant',block:'center'});
+   if(item.page==='mapPage'&&map){setTimeout(()=>map.invalidateSize({pan:false}),120)}
   }
  });
 }
