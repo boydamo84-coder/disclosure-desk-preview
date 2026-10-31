@@ -619,6 +619,7 @@ window.ddVideoSetAccount=function(userId){
  const read=(key)=>{try{const x=JSON.parse(localStorage.getItem(key)||'{}');return x&&typeof x==='object'&&!Array.isArray(x)?x:{}}catch{return {}}};
  clipWatched=read(ddVideoStorageKey('watched'));
  ddClipSkipped=read(ddVideoStorageKey('skipped'));
+ clipFavourites=readClipFavourites();
  if(!$('clips').classList.contains('hidden'))renderClips();
 };
 window.ddVideoGetProgress=function(){return {watched:{...clipWatched},skipped:{...ddClipSkipped},last_clip_id:localStorage.getItem(ddVideoStorageKey('last'))||null}};
@@ -844,14 +845,18 @@ function setClipMode(mode){
  renderClips();
 }
 const CLIP_FAVOURITES_KEY='disclosure_desk_video_favourites_v1';
-let clipFavourites=[];
-try{const values=JSON.parse(localStorage.getItem(CLIP_FAVOURITES_KEY)||'[]');if(Array.isArray(values))clipFavourites=values.filter(x=>typeof x==='string').slice(0,5000)}catch{}
+function clipFavouriteStorageKey(){return ddVideoAccount?'dd_video_user_v1_'+ddVideoAccount+'_favourites':CLIP_FAVOURITES_KEY}
+function readClipFavourites(){
+ try{const values=JSON.parse(localStorage.getItem(clipFavouriteStorageKey())||'[]');return Array.isArray(values)?values.filter(x=>typeof x==='string').slice(0,5000):[]}
+ catch{return []}
+}
+let clipFavourites=readClipFavourites();
 function clipIsFavourite(c){return clipFavourites.includes(c.id)}
 function toggleClipFavourite(id){
  const previous=clipFavourites.slice();
  const alreadySaved=clipFavourites.includes(id);
  clipFavourites=alreadySaved?clipFavourites.filter(x=>x!==id):[...clipFavourites,id];
- try{localStorage.setItem(CLIP_FAVOURITES_KEY,JSON.stringify(clipFavourites))}
+ try{localStorage.setItem(clipFavouriteStorageKey(),JSON.stringify(clipFavourites))}
  catch(error){
   clipFavourites=previous;
   alert('Unable to save this video on this device. Check browser storage settings.');
