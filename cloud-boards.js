@@ -26,7 +26,7 @@ function renderSyncStamp(){
  area.hidden=false;
  let info={};try{info=JSON.parse(localStorage.getItem(syncKey())||'{}')}catch(_){}
  const fmt=v=>v?.time?new Date(v.time).toLocaleString()+' ('+v.count+' board(s))':'Not yet on this device';
- area.textContent='Last cloud upload: '+fmt(info.upload)+' • Last cloud import: '+fmt(info.download)+'. Manual transfers only; this is this device’s activity history.';
+ area.textContent='CLOUD SYNC STATUS\\nLast upload from this device: '+fmt(info.upload)+'\\nLast download to this device: '+fmt(info.download)+'\\nTransfers are manual. Existing boards are never overwritten.';area.style.whiteSpace='pre-line';
 }
 function resetNotice(){
  const overlay=document.createElement('div');
@@ -130,39 +130,73 @@ async function auth(mode){
   if(mode==='signup'&&!out.data.session){say('Signup request received. Check your inbox for a confirmation link (and check spam).');signupNotice()}else if(mode==='signup'){say('Account created and signed in. Your device boards have not been changed.');}else{say('Signed in successfully. Your existing device boards have not been changed.')}
  }catch(ex){const msg=String(ex.message||'Unknown error');say(mode==='signup'&&/already registered|already exists|user already registered/i.test(msg)?'This email is already registered. Tap Sign in instead, or Reset password if needed.':'Account action failed: '+msg)}
 }
+function cloudDialog(title,description,confirmLabel){
+ return new Promise(resolve=>{
+  const overlay=document.createElement('div');overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:#020a12df;display:flex;align-items:center;justify-content:center;padding:16px';
+  const card=document.createElement('section');card.setAttribute('role','dialog');card.setAttribute('aria-modal','true');card.setAttribute('aria-label',title);card.style.cssText='width:min(100%,440px);box-sizing:border-box;background:#102131;color:#F5F0E6;border:1px solid #E0C48E;border-radius:15px;padding:25px 22px;font:15px/1.6 Arial,sans-serif;box-shadow:0 18px 65px #0009';
+  const brand=document.createElement('div');brand.textContent='DISCLOSURE DESK';brand.style.cssText='color:#E0C48E;font-weight:bold;letter-spacing:2px;margin-bottom:14px';
+  const heading=document.createElement('h2');heading.textContent=title;heading.style.cssText='font-size:23px;margin:0 0 12px;color:#F5F0E6';
+  const body=document.createElement('p');body.textContent=description;body.style.cssText='white-space:pre-line;color:#D5E0E8;margin:0 0 20px';
+  const actions=document.createElement('div');actions.style.cssText='display:flex;flex-wrap:wrap;gap:10px';
+  const cancel=document.createElement('button');cancel.type='button';cancel.textContent='Cancel';cancel.style.cssText='flex:1;min-width:100px;background:#1C2B39;color:#F5F0E6;border:1px solid #8B7754;border-radius:8px;padding:12px';
+  const ok=document.createElement('button');ok.type='button';ok.textContent=confirmLabel||'Close';ok.style.cssText='flex:1;min-width:140px;background:#E0C48E;color:#0E1D2B;border:0;border-radius:8px;padding:12px;font-weight:bold';
+  const close=value=>{overlay.remove();document.removeEventListener('keydown',esc);resolve(value)};
+  const esc=e=>{if(e.key==='Escape')close(false)};
+  if(confirmLabel){cancel.onclick=()=>close(false);actions.append(cancel)}
+  ok.onclick=()=>close(true);actions.append(ok);card.append(brand,heading,body,actions);overlay.append(card);document.body.append(overlay);document.addEventListener('keydown',esc);ok.focus();
+ });
+}
+const cloudBusy=(busy,type)=>{
+ for(const id of ['ddCloudUpload','ddCloudDownload']){const btn=document.getElementById(id);btn.disabled=busy;btn.style.opacity=busy?'.65':''}
+ const button=document.getElementById(type==='upload'?'ddCloudUpload':'ddCloudDownload');
+ if(busy){button.dataset.originalText=button.textContent;button.textContent=type==='upload'?'Uploading…':'Downloading…'}
+ else if(button.dataset.originalText){button.textContent=button.dataset.originalText;delete button.dataset.originalText}
+};
 async function upload(){
- if(!session){say('Sign in first.');return}
- if(!Array.isArray(investigationBoards)||!investigationBoards.length){say('No device boards to copy.');return}
- if(!confirm('Copy your '+investigationBoards.length+' DEVICE collections to your private cloud account? Nothing will be deleted locally. Make an export backup first.'))return;
- say('Copying device boards…');
+ if(!session){await cloudDialog('Sign in required','Sign in to use your private cloud boards.');return}
+ if(!Array.isArray(investigationBoards)||!investigationBoards.length){await cloudDialog('No boards on this device','Create an Investigation Board first, then upload it to your private cloud.');return}
+ if(!await cloudDialog('Upload boards to cloud','Copy '+investigationBoards.length+' board(s) from this device to your private account. Existing cloud boards stay safe; identical copies will be skipped.\\n\\nWe recommend exporting a backup before uploading.','Upload to cloud'))return;
+ cloudBusy(true,'upload');say('Uploading your boards…');
+ let added=0,skipped=0;
  try{
   const {data:existing,error:readErr}=await db.from('investigation_boards').select('id,name,content');
   if(readErr)throw readErr;
   const fingerprint=b=>JSON.stringify({name:b.name,links:b.links||[],notes:b.notes||[]});
   const saved=new Set((existing||[]).map(x=>fingerprint({name:x.name,...x.content})));
-  let count=0,skipped=0;
   for(const b of investigationBoards){
-   if(saved.has(fingerprint(b))){skipped++;continue}
+   const fp=fingerprint(b);if(saved.has(fp)){skipped++;continue}
    const {error}=await db.from('investigation_boards').insert({name:String(b.name).slice(0,60),content:{links:b.links||[],notes:b.notes||[]}});
-   if(error)throw error;count++;
+   if(error)throw error;added++;saved.add(fp);
   }
-  syncStamp('upload',count);say('Copied '+count+' board(s) to cloud; '+skipped+' already present. Your device boards are unchanged.');
- }catch(ex){say('Cloud copy interrupted: '+ex.message+'. Device boards are unchanged; please export a backup before retrying.')}
+  syncStamp('upload',added);say('Upload complete: '+added+' new board(s), '+skipped+' skipped.');
+  await cloudDialog('Cloud upload complete',added+' new board(s) uploaded. '+skipped+' duplicate(s) skipped. Your device boards remain unchanged.');
+ }catch(ex){say('Upload interrupted: '+ex.message+'. Existing device boards are safe.');await cloudDialog('Cloud upload interrupted','Some boards may have been copied before the interruption. Your device boards have not changed. Check your connection and retry; existing identical copies will be skipped.');}
+ finally{cloudBusy(false,'upload')}
 }
 async function download(){
- if(!session){say('Sign in first.');return}
- say('Checking private cloud boards…');
+ if(!session){await cloudDialog('Sign in required','Sign in to access your private cloud boards.');return}
+ cloudBusy(true,'download');say('Checking your cloud boards…');
  try{
   const {data,error}=await db.from('investigation_boards').select('id,name,content').order('updated_at',{ascending:false});
   if(error)throw error;
   const incoming=(data||[]).filter(x=>x&&typeof x.name==='string'&&Array.isArray(x.content?.links)&&Array.isArray(x.content?.notes));
-  if(!incoming.length){say('No cloud boards found yet.');return}
-  if(!confirm('Import '+incoming.length+' cloud collection(s) onto this device? Existing collections stay untouched and identical copies will be skipped.')){say('Import cancelled.');return}
+  if(!incoming.length){say('No cloud boards found yet.');await cloudDialog('No cloud boards found','You have not uploaded any Investigation Boards to this account yet.');return}
+  cloudBusy(false,'download');
+  if(!await cloudDialog('Download boards from cloud','Check '+incoming.length+' board(s) in your private cloud account and add any missing boards to this device. Existing boards will never be overwritten.','Download to device')){say('Download cancelled.');return}
+  cloudBusy(true,'download');
   const fp=b=>JSON.stringify({name:b.name,links:b.links||[],notes:b.notes||[]});
-  const seen=new Set(investigationBoards.map(fp));let added=0;
-  for(const row of incoming){const b={name:row.name,links:row.content.links,notes:row.content.notes};if(!seen.has(fp(b))&&investigationBoards.length<40){investigationBoards.push(b);seen.add(fp(b));added++}}
-  boardSave();syncStamp('download',added);say('Imported '+added+' collections. Existing device boards preserved. Cloud import is a snapshot; upload changes manually when ready.');
- }catch(ex){say('Cloud retrieval failed: '+ex.message+'. Device boards were not changed.')}
+  const seen=new Set(investigationBoards.map(fp));let added=0,skipped=0,full=0;
+  for(const row of incoming){
+   const b={name:row.name,links:row.content.links,notes:row.content.notes};
+   if(seen.has(fp(b))){skipped++;continue}
+   if(investigationBoards.length>=40){full++;continue}
+   investigationBoards.push(b);seen.add(fp(b));added++;
+  }
+  if(added)boardSave();syncStamp('download',added);
+  say('Download complete: '+added+' new board(s), '+skipped+' duplicate(s) skipped'+(full?', '+full+' beyond device limit':'')+'.');
+  await cloudDialog('Cloud download complete',added+' new board(s) added. '+skipped+' duplicate(s) skipped.'+(full?' '+full+' could not be added because the device limit is 40.':'')+' Your existing boards remain safe.');
+ }catch(ex){say('Cloud retrieval failed: '+ex.message);await cloudDialog('Cloud download failed','We could not complete the cloud download. Your existing device boards are unchanged. Please try again.')}
+ finally{cloudBusy(false,'download')}
 }
 const eyeButton=document.getElementById('ddCloudShowPass');
 const eyeGraphic=eyeButton.querySelector('svg');
@@ -181,7 +215,7 @@ document.getElementById('ddCloudAlreadyRegistered').onclick=()=>{
 document.getElementById('ddCloudSignup').onclick=()=>auth('signup');
 document.getElementById('ddCloudLogin').onclick=()=>auth('login');
 document.getElementById('ddCloudLogout').onclick=async()=>{await db.auth.signOut();await refresh()};
-document.getElementById('ddCloudUpload').onclick=upload;
+document.getElementById('ddCloudUpload').textContent='↑ Upload boards to cloud';document.getElementById('ddCloudDownload').textContent='↓ Download boards from cloud';document.getElementById('ddCloudUpload').onclick=upload;
 document.getElementById('ddCloudDownload').onclick=download;
 document.getElementById('ddCloudReset').onclick=async()=>{const e=email.value.trim();if(!e){say('Enter your email first, then choose Reset password.');return}const {error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin+location.pathname});say(error?'Reset request failed: '+error.message:'If an account exists for that address, a password-reset email will arrive shortly. Check your spam folder too.');};
 db.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY'){setTimeout(resetNotice,0)}setTimeout(refresh,0)});
