@@ -277,10 +277,36 @@ function connectionPanel(c){
  const newsLinks=matches.length?matches.map(a=>`<a class="connection-link" href="${esc(a.url)}" target="_blank" rel="noopener noreferrer"><strong>${esc(a.headline)} ↗</strong><small>${esc(a.source||'Publisher')} · Headline keyword match only</small></a>`).join(''):'<p class="muted small">No specifically matching current headlines found. This does not mean there are no historical reports.</p>';
  return `<details class="connections"><summary>Explore connected sources <span class="connection-count">${connections.sources.length} curated links · ${matches.length} headline matches</span></summary><div class="connection-content"><div class="tag">CURATED RESEARCH STARTING POINTS</div>${sources}<div class="tag connection-section-title">POTENTIALLY RELATED LIVE HEADLINES</div>${newsLinks}<p class="connection-disclaimer">Headlines are matched by named topic only. They are not corroboration or evidence of a link between events. Archive and podcast directories are starting points, not endorsements.</p></div></details>`;
 }
+// Local research is partitioned by verified Supabase user ID, with a separate guest/legacy space.
+// Never assign legacy shared-device research to whichever user signs in first.
 const BOARD_KEY='unknown_investigation_boards_v08';
-let investigationBoards=[];
-try{const saved=JSON.parse(localStorage.getItem(BOARD_KEY)||'[]');if(Array.isArray(saved))investigationBoards=saved.filter(b=>b&&typeof b.name==='string'&&Array.isArray(b.links)).slice(0,40)}catch{}
-const boardSave=()=>{localStorage.setItem(BOARD_KEY,JSON.stringify(investigationBoards));renderBoards();refreshBookmarkStars()};
+const DD_GUEST_BOARD_KEY='dd_local_boards_guest_v1';
+const DD_ACCOUNT_BOARD_PREFIX='dd_local_boards_account_v1_';
+let ddActiveBoardKey=DD_GUEST_BOARD_KEY;
+function ddLoadBoardSpace(key){try{const raw=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(raw)?raw.filter(b=>b&&typeof b.name==='string'&&Array.isArray(b.links)).slice(0,40):[]}catch{return []}}
+function ddMigrateLegacyBoards(){
+ try{
+  if(localStorage.getItem('dd_boards_legacy_migrated_v1'))return;
+  const old=ddLoadBoardSpace(BOARD_KEY),existing=ddLoadBoardSpace(DD_GUEST_BOARD_KEY);
+  if(old.length){
+   const merged=[...existing],seen=new Set(existing.map(b=>JSON.stringify(b)));
+   for(const b of old){const fingerprint=JSON.stringify(b);if(!seen.has(fingerprint)&&merged.length<40){merged.push(b);seen.add(fingerprint)}}
+   localStorage.setItem(DD_GUEST_BOARD_KEY,JSON.stringify(merged));
+  }
+  // Keep the original key as a non-destructive fallback backup.
+  localStorage.setItem('dd_boards_legacy_migrated_v1','1');
+ }catch(e){console.warn('Local Board migration was not completed',e)}
+}
+ddMigrateLegacyBoards();
+let investigationBoards=ddLoadBoardSpace(ddActiveBoardKey);
+function ddSwitchBoardSpace(userId){
+ const key=userId&&/^[0-9a-f-]{36}$/i.test(String(userId))?DD_ACCOUNT_BOARD_PREFIX+userId:DD_GUEST_BOARD_KEY;
+ if(key===ddActiveBoardKey)return;
+ ddActiveBoardKey=key;
+ investigationBoards=ddLoadBoardSpace(key);
+ renderBoards();refreshBookmarkStars();
+}
+const boardSave=()=>{localStorage.setItem(ddActiveBoardKey,JSON.stringify(investigationBoards));renderBoards();refreshBookmarkStars()};
 function safePublicUrl(value){try{const u=new URL(value);return (u.protocol==='https:'||u.protocol==='http:')&&!u.username&&!u.password&&!/(^localhost$|^127\\.|^10\\.|^192\\.168\\.)/.test(u.hostname)?u.href:null}catch{return null}}
 let pendingBookmark=null;
 function isBookmarked(url){const clean=safePublicUrl(url);return !!clean&&investigationBoards.some(b=>b.links.some(l=>l.url===clean))}
