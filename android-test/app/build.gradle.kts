@@ -3,7 +3,7 @@ android {
     namespace = "com.disclosuredesk.preview"
     compileSdk = 36
     defaultConfig {
-        applicationId = "com.disclosuredesk.preview"
+        applicationId = "com.boyddigitalstudios.disclosuredesk"
         minSdk = 26
         targetSdk = 36
         versionCode = 12
