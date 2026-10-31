@@ -14,6 +14,7 @@ const pass=document.getElementById('ddCloudPass');
 const act=document.getElementById('ddCloudActions');
 const guest=document.getElementById('ddCloudGuest');
 const cloudControls=document.getElementById('ddCloudControls');
+const ddLocalIndicator=document.createElement('p');ddLocalIndicator.id='ddLocalBoardIdentity';ddLocalIndicator.className='muted small';ddLocalIndicator.setAttribute('aria-live','polite');ddLocalIndicator.textContent='Checking account-specific local Boards…';panel.append(ddLocalIndicator);
 const syncKey=()=>session?.user?.id?'dd-sync-log-'+session.user.id:null;
 function syncStamp(kind,count){
  const key=syncKey();if(!key)return;
@@ -77,13 +78,26 @@ async function refreshAccountOverview(){
  }catch(e){cloudCount.textContent='—';cloudCheck.textContent='Could not check cloud boards. Your device boards are unchanged.'}
 }
 document.getElementById('ddAccountRefresh').addEventListener('click',refreshAccountOverview);
+let ddAuthGeneration=0;
+function applyBoardSession(nextSession){
+ session=nextSession||null;
+ if(typeof ddSwitchBoardSpace==='function')ddSwitchBoardSpace(session?.user?.id||null);
+ guest.hidden=!!session;cloudControls.hidden=!session;
+ const emailText=session?.user?.email||'';
+ act.textContent=session?'Signed in as '+emailText:'Optional private account';
+ say(session?'Signed in. Your local Boards are separated by account. Cloud transfers are manual.':'Guest mode: legacy guest Boards are separate from signed-in account Boards.');
+ renderSyncStamp();
+ const indicator=document.getElementById('ddLocalBoardIdentity');
+ if(indicator)indicator.textContent='Local Board space: '+(session?'Signed-in account ('+emailText+')':'Guest / legacy')+' · '+investigationBoards.length+' Board(s) · isolation v2';
+ if(session)refreshAccountOverview();
+}
 async function refresh(){
+ const generation=++ddAuthGeneration;
  try{
-  const {data:{session:s}}=await db.auth.getSession();session=s;
-  // Partition BEFORE rendering account counts and data. Guest/legacy research stays untouched.
-  if(typeof ddSwitchBoardSpace==='function')ddSwitchBoardSpace(s?.user?.id||null);
-  guest.hidden=!!s; cloudControls.hidden=!s;
-  if(s){act.textContent='Signed in as '+s.user.email;say('Signed in. Only this account’s locally saved Boards are displayed. Cloud transfers are manual.')}else{act.textContent='Optional private account';say('Guest mode: legacy and guest Boards are preserved here, separate from account Boards. Sign in to access your private cloud.')}renderSyncStamp();if(s)refreshAccountOverview();
+  const {data:{session:s},error}=await db.auth.getSession();
+  if(error)throw error;
+  if(generation!==ddAuthGeneration)return;
+  applyBoardSession(s);
  }catch(e){say('Sign-in service unavailable: '+e.message)}
 }
 function signupNotice(){
@@ -255,7 +269,7 @@ document.getElementById('ddCloudUpload').onclick=upload;
 document.getElementById('ddEmailBackup').onclick=emailBackup;
 document.getElementById('ddCloudDownload').onclick=download;
 document.getElementById('ddCloudReset').onclick=async()=>{const e=email.value.trim();if(!e){say('Enter your email first, then choose Reset password.');return}const {error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin+location.pathname});say(error?'Reset request failed: '+error.message:'If an account exists for that address, a password-reset email will arrive shortly. Check your spam folder too.');};
-db.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY'){setTimeout(resetNotice,0)}setTimeout(refresh,0)});
+db.auth.onAuthStateChange((event,authSession)=>{if(event==='PASSWORD_RECOVERY'){setTimeout(resetNotice,0)}++ddAuthGeneration;applyBoardSession(authSession)});
 refresh();
 handleConfirmationReturn();
 })();
