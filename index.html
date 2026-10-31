@@ -49,6 +49,10 @@
 .immersive-navigation button{min-width:38px;min-height:38px;font-size:18px}
 @media(max-width:520px){.immersive-media{inset:12% 0 25%}.immersive-details{bottom:max(83px,env(safe-area-inset-bottom))}.immersive-top{padding:8px;gap:7px}.immersive-top strong{font-size:11px}.immersive-navigation{bottom:180px}}
 </style><style>
+/* Portrait captions remain unobstructed during playback; show research data on pause. */
+.immersive-viewer .immersive-item .immersive-details{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s ease}
+.immersive-viewer .immersive-item.dd-video-paused .immersive-details{opacity:1;visibility:visible;pointer-events:auto}
+@media (prefers-reduced-motion:reduce){.immersive-viewer .immersive-item .immersive-details{transition:none}}
 /* Landscape fullscreen video: prioritize unobstructed footage. */
 @media (orientation:landscape) and (max-height:650px){
  .immersive-viewer .immersive-details,
@@ -699,12 +703,40 @@ let immersiveAutoplay=false;
 try{immersiveAutoplay=localStorage.getItem(IMMERSIVE_AUTOPLAY_KEY)==='true'}catch{}
 $('immersiveAutoplay').checked=immersiveAutoplay;
 $('immersiveAutoplay').addEventListener('change',()=>{immersiveAutoplay=$('immersiveAutoplay').checked;localStorage.setItem(IMMERSIVE_AUTOPLAY_KEY,String(immersiveAutoplay));immersiveWindow(immersivePosition,true)});
+function ddVideoPaused(index,paused){
+ const tile=$('immersiveFeed').querySelector('[data-index="'+index+'"]');
+ if(tile)tile.classList.toggle('dd-video-paused',paused);
+}
+window.addEventListener('message',event=>{
+ if(event.origin!=='https://www.youtube-nocookie.com'&&event.origin!=='https://www.youtube.com')return;
+ let message=event.data;
+ if(typeof message==='string'){try{message=JSON.parse(message)}catch{return}}
+ if(!message||message.event!=='onStateChange')return;
+ const tile=$('immersiveFeed').querySelector('[data-index="'+immersivePosition+'"]');
+ const frame=tile?.querySelector('iframe');
+ if(!frame||frame.contentWindow!==event.source)return;
+ if(message.info===2 || message.info===0 || message.info===-1)ddVideoPaused(immersivePosition,true);
+ else if(message.info===1 || message.info===3)ddVideoPaused(immersivePosition,false);
+});
 function immersiveMount(index){
  const tile=$('immersiveFeed').querySelector('[data-index="'+index+'"]');if(!tile)return;
  const c=immersiveQueue[index],slot=tile.querySelector('[data-media]');if(!c||!slot||slot.querySelector('iframe,video'))return;
  if(c.youtubeId)slot.innerHTML='<iframe title="'+esc(c.title)+'" loading="eager" src="https://www.youtube-nocookie.com/embed/'+esc(c.youtubeId)+'?playsinline=1&enablejsapi=1&controls='+(immersiveShowControls?'1':'0')+'&fs=1'+(immersiveAutoplay?'&autoplay=1&mute='+(immersiveSoundOn?'0':'1')+'&loop=1&playlist='+encodeURIComponent(c.youtubeId):'')+'" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
  else if(c.dvidsId)slot.innerHTML='<iframe title="'+esc(c.title)+'" loading="eager" src="https://www.dvidshub.net/video/embed/'+esc(c.dvidsId)+(immersiveAutoplay?'?autoplay=1&muted='+(immersiveSoundOn?'0':'1')+'&loop=1':'')+'" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'+(immersiveAutoplay?'<div class="muted small" style="padding:5px">DVIDS controls autoplay; tap Play if it does not start.</div>':'');
  else if(c.media)slot.innerHTML='<video controls playsinline preload="metadata" '+(immersiveAutoplay?'autoplay '+(immersiveSoundOn?'':'muted ')+'loop ':'')+'src="'+esc(c.media)+'"></video>';
+ if(c.youtubeId){
+  const frame=slot.querySelector('iframe');
+  frame.addEventListener('load',()=>{
+   try{frame.contentWindow.postMessage(JSON.stringify({event:'command',func:'addEventListener',args:['onStateChange']}),'https://www.youtube-nocookie.com')}catch{}
+  });
+ }
+ if(c.media){
+  const video=slot.querySelector('video');
+  video.addEventListener('play',()=>ddVideoPaused(index,false));
+  video.addEventListener('playing',()=>ddVideoPaused(index,false));
+  video.addEventListener('pause',()=>ddVideoPaused(index,true));
+  video.addEventListener('ended',()=>ddVideoPaused(index,true));
+ }
  if(c.youtubeId&&immersiveAutoplay){const frame=slot.querySelector('iframe');frame.addEventListener('load',()=>{if(!immersiveAutoplay||immersiveQueue[immersivePosition]?.id!==c.id)return;try{for(const func of [immersiveSoundOn?'unMute':'mute','playVideo'])frame.contentWindow.postMessage(JSON.stringify({event:'command',func,args:[]}), 'https://www.youtube-nocookie.com')}catch{}},{once:true})}
  if(c.media&&immersiveAutoplay){const video=slot.querySelector('video');video.muted=!immersiveSoundOn;video.loop=true;video.play().catch(()=>{if(immersiveSoundOn){video.muted=true;video.play().catch(()=>{})}})}
 }
@@ -714,7 +746,7 @@ function immersiveWindow(index,forceRemount=false){
  immersivePosition=index;const current=immersiveQueue[index];if(current){markClipWatched(current.id);ddSaveClipProgress(current.id)}$('immersivePrev').disabled=index===0;$('immersiveNext').disabled=index===immersiveQueue.length-1;if(index>= $('immersiveFeed').children.length-5)immersiveAddBatch();$('immersiveCount').textContent=(index+1)+' / '+immersiveQueue.length;
  for(const tile of $('immersiveFeed').querySelectorAll('.immersive-item')){
   const n=Number(tile.dataset.index);
-  if(n===index){const slot=tile.querySelector('[data-media]');if(slot&&(forceRemount||immersiveLastPlayingIndex!==index))slot.innerHTML='<span>▶ Tap to watch</span>';immersiveMount(n)}
+  if(n===index){tile.classList.remove('dd-video-paused');const slot=tile.querySelector('[data-media]');if(slot&&(forceRemount||immersiveLastPlayingIndex!==index))slot.innerHTML='<span>▶ Tap to watch</span>';immersiveMount(n)}
   else {const slot=tile.querySelector('[data-media]');if(slot&&slot.querySelector('iframe,video'))slot.innerHTML='<span>▶ Tap to watch</span>';}
  }
  immersiveLastPlayingIndex=index;
