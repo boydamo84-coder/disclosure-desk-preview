@@ -1,0 +1,100 @@
+[
+  {
+    "id": "uk-mod-research-guide",
+    "title": "UK Ministry of Defence UFO records: research guide",
+    "year": 1950,
+    "endYear": 2009,
+    "source": "UK National Archives",
+    "kind": "Government records",
+    "category": "Historical reports",
+    "url": "https://www.nationalarchives.gov.uk/help-with-your-research/research-guides/ufos/",
+    "description": "How to locate UK Ministry of Defence sighting files, official correspondence and policy records. Many early files were destroyed under historic retention rules."
+  },
+  {
+    "id": "uk-mod-ufo-collection",
+    "title": "UK National Archives: UFO reports collection",
+    "year": 1963,
+    "endYear": 2009,
+    "source": "UK National Archives",
+    "kind": "Government records",
+    "category": "Historical reports",
+    "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/",
+    "description": "UK government-held reports and correspondence, including eyewitness accounts and prosaic explanations. The existence of a file does not validate its claims."
+  },
+  {
+    "id": "uk-mod-desk-closure",
+    "title": "UK UFO desk closure and final released files",
+    "year": 2007,
+    "endYear": 2009,
+    "source": "UK National Archives",
+    "kind": "Official release",
+    "category": "Government policy",
+    "url": "https://cdn.nationalarchives.gov.uk/documents/final-tranche-of-UFO-files-released.pdf",
+    "description": "National Archives account of the final MoD UFO files covering the 2007–2009 period and the UFO desk closure in 2009."
+  },
+  {
+    "id": "us-project-bluebook",
+    "title": "Project Blue Book: USAF investigation records",
+    "year": 1947,
+    "endYear": 1969,
+    "source": "US National Archives",
+    "kind": "Government records",
+    "category": "Project Blue Book",
+    "url": "https://www.archives.gov/research/military/air-force/ufos",
+    "description": "Official archived Air Force program documentation, case files and indexing information. Unidentified does not imply extraterrestrial."
+  },
+  {
+    "id": "us-bluebook-case-series",
+    "title": "Project Blue Book individual sighting case files",
+    "year": 1947,
+    "endYear": 1969,
+    "source": "US National Archives",
+    "kind": "Government records",
+    "category": "Project Blue Book",
+    "url": "https://www.archives.gov/research/topics/uaps/textual-and-microfilm",
+    "description": "Catalogue overview of declassified USAF case-file series and related historical material held by NARA."
+  },
+  {
+    "id": "us-jal-1628",
+    "title": "Japan Airlines Flight 1628: FAA 1986 information releases",
+    "year": 1986,
+    "source": "US National Archives",
+    "kind": "Government records",
+    "category": "Aviation",
+    "url": "https://www.archives.gov/research/topics/uaps/textual-and-microfilm",
+    "description": "NARA lists the FAA information-release series relating to Japan Airlines Flight 1628, a reported aerial encounter."
+  },
+  {
+    "id": "us-roswell-files",
+    "title": "Roswell source files and official investigative records",
+    "year": 1946,
+    "endYear": 1996,
+    "source": "US National Archives",
+    "kind": "Government records",
+    "category": "Roswell",
+    "url": "https://www.archives.gov/research/topics/uaps/rg-collections",
+    "description": "NARA inventory identifies the Roswell Report source files and related historical records. The case remains controversial; this entry documents records, not alien recovery."
+  },
+  {
+    "id": "us-bluebook-films",
+    "title": "Project Blue Book: historical film and sound records",
+    "year": 1950,
+    "endYear": 1967,
+    "source": "US National Archives",
+    "kind": "Government records",
+    "category": "Historical footage",
+    "url": "https://www.archives.gov/research/topics/uaps/rg-collections",
+    "description": "Find motion picture films and sound recordings connected with Project Blue Book investigations."
+  },
+  {
+    "id": "us-uap-bulk",
+    "title": "US National Archives UAP digitised records bulk catalogue",
+    "year": 1947,
+    "endYear": 1969,
+    "source": "US National Archives",
+    "kind": "Research catalogue",
+    "category": "Project Blue Book",
+    "url": "https://www.archives.gov/research/catalog/catalog-bulk-downloads/uap-bulk-download",
+    "description": "Catalogue and download options for extensive archival UFO/UAP record collections. Large datasets may require substantial storage."
+  }
+]
