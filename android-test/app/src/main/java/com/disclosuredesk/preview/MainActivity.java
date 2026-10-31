@@ -13,6 +13,8 @@ import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceError;
+import android.graphics.Typeface;
 import android.webkit.WebSettings;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -50,6 +52,8 @@ public final class MainActivity extends Activity {
     private FrameLayout root;
     private View fullView;
     private View splash;
+    private View offlinePanel;
+    private boolean mainPageFailed=false;
     private CustomViewCallback fullCallback;
     private AdView adView;
     private ConsentInformation consentInformation;
@@ -79,6 +83,9 @@ public final class MainActivity extends Activity {
         FrameLayout.LayoutParams bell=new FrameLayout.LayoutParams(dp(55),dp(48),Gravity.TOP|Gravity.RIGHT);
         bell.topMargin=dp(3);bell.rightMargin=dp(4);
         root.addView(notifications,bell);
+        offlinePanel=createOfflinePanel();
+        root.addView(offlinePanel,new FrameLayout.LayoutParams(-1,-1));
+        offlinePanel.setVisibility(View.GONE);
         notifications.setOnClickListener(v->notificationSettings());
         setContentView(root);
         // Android 15+ enforces edge-to-edge for target SDK 35. Keep web content below the status bar.
@@ -97,8 +104,23 @@ public final class MainActivity extends Activity {
         settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setAllowFileAccess(false);
         web.setWebViewClient(new WebViewClient(){
-            @Override public void onPageCommitVisible(WebView view,String url){if(splash!=null){root.removeView(splash);splash=null;}}
-            @Override public void onPageFinished(WebView view,String url){if(splash!=null){root.removeView(splash);splash=null;}}
+            @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap favicon){
+                if(HOME.equals(url))mainPageFailed=false;
+            }
+            @Override public void onPageCommitVisible(WebView view,String url){
+                if(!mainPageFailed && HOME.equals(url))showOnline();
+            }
+            @Override public void onPageFinished(WebView view,String url){
+                if(!mainPageFailed && HOME.equals(url))showOnline();
+            }
+            @Override public void onReceivedError(WebView view,WebResourceRequest request,WebResourceError error){
+                if(request.isForMainFrame() && request.getUrl()!=null &&
+                   ("uapdisclosuredesk.com".equals(request.getUrl().getHost()) ||
+                    "www.uapdisclosuredesk.com".equals(request.getUrl().getHost()))){
+                    mainPageFailed=true;
+                    showOffline();
+                }
+            }
             @Override public boolean shouldOverrideUrlLoading(WebView view,WebResourceRequest request){
                 Uri url=request.getUrl();
                 String host=url.getHost();
@@ -146,6 +168,57 @@ public final class MainActivity extends Activity {
             pendingFiles=null;
             callback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode,data));
         }
+    }
+    private View createOfflinePanel(){
+        LinearLayout panel=new LinearLayout(this);
+        panel.setOrientation(LinearLayout.VERTICAL);
+        panel.setGravity(Gravity.CENTER);
+        panel.setPadding(dp(28),dp(24),dp(28),dp(24));
+        panel.setBackgroundColor(Color.rgb(9,16,28));
+        ImageView emblem=new ImageView(this);
+        emblem.setImageResource(com.disclosuredesk.preview.R.drawable.dd_emblem);
+        emblem.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        panel.addView(emblem,new LinearLayout.LayoutParams(dp(94),dp(94)));
+        TextView title=new TextView(this);
+        title.setText("DISCLOSURE DESK");
+        title.setTextColor(Color.rgb(200,167,101));
+        title.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
+        title.setTextSize(22);
+        title.setGravity(Gravity.CENTER);
+        title.setPadding(0,dp(26),0,dp(8));
+        panel.addView(title);
+        TextView message=new TextView(this);
+        message.setText("You're offline\\nConnect to the internet to access your latest research. Your saved account data has not been cleared.");
+        message.setTextColor(Color.rgb(218,228,239));
+        message.setTextSize(16);
+        message.setGravity(Gravity.CENTER);
+        message.setPadding(0,0,0,dp(22));
+        panel.addView(message);
+        Button retry=new Button(this);
+        retry.setText("Retry connection");
+        retry.setAllCaps(false);
+        retry.setOnClickListener(v->{
+            offlinePanel.setVisibility(View.GONE);
+            mainPageFailed=false;
+            web.loadUrl(HOME);
+        });
+        panel.addView(retry,new LinearLayout.LayoutParams(-1,dp(52)));
+        return panel;
+    }
+    private void showOffline(){
+        if(isFinishing() || offlinePanel==null)return;
+        runOnUiThread(()->{
+            if(splash!=null){root.removeView(splash);splash=null;}
+            offlinePanel.setVisibility(View.VISIBLE);
+            offlinePanel.bringToFront();
+        });
+    }
+    private void showOnline(){
+        if(isFinishing())return;
+        runOnUiThread(()->{
+            if(splash!=null){root.removeView(splash);splash=null;}
+            if(offlinePanel!=null)offlinePanel.setVisibility(View.GONE);
+        });
     }
     private void prepareTestBanner(){
         consentInformation=UserMessagingPlatform.getConsentInformation(this);
