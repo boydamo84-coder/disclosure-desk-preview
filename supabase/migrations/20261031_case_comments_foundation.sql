@@ -45,7 +45,7 @@ create policy dd_comments_read on public.dd_case_comments for select to authenti
 drop policy if exists dd_comments_submit on public.dd_case_comments;
 create policy dd_comments_submit on public.dd_case_comments for insert to authenticated
  with check (author_id=auth.uid() and status='approved'
-  and (parent_id is null or exists(select 1 from public.dd_case_comments parent where parent.id=dd_case_comments.parent_id and parent.case_id=dd_case_comments.case_id and parent.status='approved')));
+);
 -- Never permit client UPDATE/DELETE: moderation and withdrawal must use trusted server workflows.
 drop policy if exists dd_flags_insert on public.dd_case_comment_flags;
 create policy dd_flags_insert on public.dd_case_comment_flags for insert to authenticated
@@ -65,7 +65,9 @@ create or replace function public.dd_guard_comment_insert()
 returns trigger language plpgsql security definer set search_path=public
 as $$
 begin
- if new.author_id <> auth.uid() then raise exception 'Incorrect comment author'; end if;
+ if new.author_id is distinct from auth.uid() then raise exception 'Incorrect comment author'; end if;
+ if new.parent_id is not null and not exists(select 1 from public.dd_case_comments p where p.id=new.parent_id and p.case_id=new.case_id and p.status='approved') then raise exception 'Invalid reply parent'; end if;
+ new.created_at:=now(); new.updated_at:=now();
  if (select count(*) from public.dd_case_comments
      where author_id=new.author_id and created_at > now()-interval '10 minutes') >= 5 then
    raise exception 'Posting limit reached. Try again later';
@@ -85,6 +87,23 @@ end $$;
 drop trigger if exists dd_guard_comment_insert_trigger on public.dd_case_comments;
 create trigger dd_guard_comment_insert_trigger before insert on public.dd_case_comments
  for each row execute function public.dd_guard_comment_insert();
+
+-- Prevent submitted flag timestamps from bypassing rate limits; restrict repeated flagging.
+create or replace function public.dd_guard_comment_flag()
+returns trigger language plpgsql security definer set search_path=public
+as $
+begin
+ if new.reporter_id is distinct from auth.uid() then raise exception 'Incorrect flag reporter'; end if;
+ if (select count(*) from public.dd_case_comment_flags f
+     where f.reporter_id=new.reporter_id and f.created_at>now()-interval '1 hour')>=12 then
+   raise exception 'Flagging limit reached';
+ end if;
+ new.created_at:=now();
+ return new;
+end $;
+drop trigger if exists dd_guard_comment_flag_trigger on public.dd_case_comment_flags;
+create trigger dd_guard_comment_flag_trigger before insert on public.dd_case_comment_flags
+ for each row execute function public.dd_guard_comment_flag();
 
 -- Only allow moderators to change comment status using a narrowly scoped RPC.
 create or replace function public.dd_moderate_case_comment(p_id uuid, p_status text)
