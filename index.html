@@ -708,12 +708,12 @@ function governmentVideoMatch(c,selected){
  const p=String(c.publisher||'').toLowerCase();
  const source=String(c.source||'').toLowerCase();
  // Publisher and canonical source domains, never unverified user-supplied video titles.
- if(selected==='aaro')return /\\baaro\\b|all.domain anomaly/.test(p)||/^https:\/\/(?:www\\.)?aaro\\.mil\//.test(source);
- if(selected==='defense')return /\\b(pentagon|department of defense|department of war|dod|dow)\\b/.test(p)||/^https:\/\/(?:www\\.)?defense\\.gov\//.test(source);
- if(selected==='nasa')return /\\bnasa\\b/.test(p)||/^https:\/\/(?:www\\.)?nasa\\.gov\//.test(source);
- if(selected==='congress')return /\\bcongress|house (?:oversight|committee)|senate (?:committee|hearing)/.test(p)||/^https:\/\/(?:www\\.)?congress\\.gov\//.test(source);
- if(selected==='dvids')return /\\bdvids\\b/.test(p)||/^https:\/\/(?:www\\.)?dvidshub\\.net\//.test(source);
- if(selected==='france')return /\\b(france|french government|cnes|geipan)\\b/.test(p)||/^https:\/\/(?:www\\.)?(?:cnes\\.fr|geipan\\.fr|gouv\\.fr)\//.test(source);
+ if(selected==='aaro')return /\baaro\b|all.domain anomaly/.test(p)||/^https:\/\/(?:www\.)?aaro\.mil\//.test(source);
+ if(selected==='defense')return /\b(pentagon|department of defense|department of war|dod|dow)\b/.test(p)||/^https:\/\/(?:www\.)?defense\.gov\//.test(source);
+ if(selected==='nasa')return /\bnasa\b/.test(p)||/^https:\/\/(?:www\.)?nasa\.gov\//.test(source);
+ if(selected==='congress')return /\bcongress|house (?:oversight|committee)|senate (?:committee|hearing)/.test(p)||/^https:\/\/(?:www\.)?congress\.gov\//.test(source);
+ if(selected==='dvids')return /\bdvids\b/.test(p)||/^https:\/\/(?:www\.)?dvidshub\.net\//.test(source);
+ if(selected==='france')return /\b(france|french government|cnes|geipan)\b/.test(p)||/^https:\/\/(?:www\.)?(?:cnes\.fr|geipan\.fr|gouv\.fr)\//.test(source);
  return false;
 }
 let clipRenderLimit=24;
