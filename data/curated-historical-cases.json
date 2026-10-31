@@ -1,5 +1,160 @@
 [
   {
+    "id": "featured-rendlesham-1980",
+    "title": "FEATURED INVESTIGATION · Rendlesham Forest (1980)",
+    "year": 1980,
+    "endYear": 1981,
+    "source": "UK National Archives / Ministry of Defence",
+    "kind": "Featured investigation",
+    "category": "Military encounters",
+    "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/",
+    "description": "USAF personnel reported unusual lights near RAF Woodbridge in Suffolk in December 1980. Contemporary official correspondence exists; the interpretations of the sightings remain disputed.",
+    "dateType": "Reported incident December 1980; memorandum dated January 1981",
+    "evidenceStatus": "Official documentation exists; anomalous explanation unverified",
+    "timeline": [
+      {
+        "date": "December 1980",
+        "event": "US Air Force personnel reported lights and investigated in Rendlesham Forest on separate nights."
+      },
+      {
+        "date": "13 January 1981",
+        "event": "Lt Col Charles Halt dated his 'Unexplained Lights' memorandum describing the incident."
+      },
+      {
+        "date": "2009",
+        "event": "UK National Archives opened the later Ministry of Defence Rendlesham file DEFE 24/1948/1."
+      }
+    ],
+    "witnessAccounts": [
+      "Lt Col Charles Halt documented observations of unexplained lights in official correspondence; his report is an account, not independent proof of the cause."
+    ],
+    "explanations": [
+      "Unidentified lights or other ordinary light sources and perceptual effects have been discussed.",
+      "The UK MoD determined the available evidence did not indicate an air-defence threat; this assessment does not identify every observed light."
+    ],
+    "evidenceNotes": [
+      "MoD file reference DEFE 24/1948/1 includes the Halt memorandum and later correspondence.",
+      "Different witnesses described different observations; review contemporaneous records separately from retrospective accounts."
+    ],
+    "sources": [
+      {
+        "title": "UK National Archives collection: Rendlesham correspondence",
+        "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/",
+        "type": "Primary archive"
+      },
+      {
+        "title": "National Archives research notes on Rendlesham",
+        "url": "https://cdn.nationalarchives.gov.uk/documents/aug-2011-research-guide.pdf",
+        "type": "Archive research guide"
+      }
+    ]
+  },
+  {
+    "id": "featured-nimitz-2004",
+    "title": "FEATURED INVESTIGATION · USS Nimitz / Tic Tac (2004)",
+    "year": 2004,
+    "endYear": 2020,
+    "source": "US Department of Defense",
+    "kind": "Featured investigation",
+    "category": "Naval UAP",
+    "url": "https://www.defense.gov/News/Releases/release/article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+    "description": "Navy personnel described an unusual encounter during operations off Southern California in November 2004. The Department of Defense officially released the associated FLIR video in April 2020, while leaving the observed phenomena characterized as unidentified.",
+    "dateType": "Reported encounter in November 2004; official video release 27 April 2020",
+    "evidenceStatus": "Military video provenance officially acknowledged; object origin unresolved in release",
+    "timeline": [
+      {
+        "date": "November 2004",
+        "event": "A Navy aircraft operating from USS Nimitz recorded FLIR imagery during the reported encounter."
+      },
+      {
+        "date": "2007",
+        "event": "The footage circulated without authorisation."
+      },
+      {
+        "date": "27 April 2020",
+        "event": "The Department of Defense authorised public release of the 2004 footage alongside two unrelated 2015 Navy clips."
+      }
+    ],
+    "witnessAccounts": [
+      "Naval aviators and operators have described encounter details publicly; personal recollections must be distinguished from what the released short FLIR clip alone demonstrates."
+    ],
+    "explanations": [
+      "Insufficient publicly released data to identify the observed object confidently.",
+      "Sensor geometry, apparent movement and interpretation of infrared imagery are important questions; competing analyses do not establish a conclusive identification."
+    ],
+    "evidenceNotes": [
+      "The FLIR video is one of three officially released Navy videos; GIMBAL and GOFAST are from 2015 and are not Nimitz encounter videos.",
+      "DoD authenticated the military origin of the released file, not an extraterrestrial interpretation."
+    ],
+    "sources": [
+      {
+        "title": "DoD statement authorising release of Navy videos",
+        "url": "https://www.defense.gov/News/Releases/release/article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+        "type": "Primary official statement"
+      },
+      {
+        "title": "Naval Air Systems Command FOIA reading room",
+        "url": "https://www.navair.navy.mil/foia/documents",
+        "type": "Official footage archive"
+      }
+    ]
+  },
+  {
+    "id": "featured-roswell-1947",
+    "title": "FEATURED INVESTIGATION · Roswell (1947)",
+    "year": 1947,
+    "endYear": 1997,
+    "source": "US National Archives / US Air Force",
+    "kind": "Featured investigation",
+    "category": "Crash-retrieval claims",
+    "url": "https://www.archives.gov/research/military/air-force/ufos",
+    "description": "Army Air Forces personnel recovered debris near Roswell in July 1947. Later accounts asserted an alien craft and occupants; the Air Force's subsequent investigations attributed recovered debris to Project MOGUL balloon research. These conclusions are disputed by some witnesses and researchers.",
+    "dateType": "Debris recovery July 1947; later investigations and reports 1994–1997",
+    "evidenceStatus": "Historical debris recovery and official inquiries documented; alien craft claims unsubstantiated by cited records",
+    "timeline": [
+      {
+        "date": "July 1947",
+        "event": "Army Air Forces personnel recovered debris near Roswell, New Mexico; public statements and reporting prompted controversy."
+      },
+      {
+        "date": "1994–1995",
+        "event": "The Air Force investigated relevant records in response to a GAO inquiry and published findings attributing debris to Project MOGUL."
+      },
+      {
+        "date": "1997",
+        "event": "The Air Force issued 'The Roswell Report: Case Closed' addressing later claims, including alleged bodies."
+      }
+    ],
+    "witnessAccounts": [
+      "Original participants and later witnesses have offered differing accounts; retrospective statements should be assessed against contemporary documentary evidence."
+    ],
+    "explanations": [
+      "US Air Force's documented explanation: balloon-borne Project MOGUL equipment.",
+      "Claims of a recovered extraterrestrial craft and occupants are disputed and not established by the cited official records."
+    ],
+    "evidenceNotes": [
+      "US National Archives reports it has not found documentation of the Roswell incident among Project Blue Book records.",
+      "Official investigations are relevant primary sources but are not equivalent to universal agreement about the incident."
+    ],
+    "sources": [
+      {
+        "title": "US National Archives Roswell and Project Blue Book guide",
+        "url": "https://www.archives.gov/research/military/air-force/ufos",
+        "type": "Primary archival guide"
+      },
+      {
+        "title": "US Air Force Roswell Report (1995)",
+        "url": "https://www.govinfo.gov/app/details/GOVPUB-D301-PURL-LPS71655",
+        "type": "Official investigation"
+      },
+      {
+        "title": "US Air Force Case Closed report (1997)",
+        "url": "https://www.govinfo.gov/app/details/GOVPUB-D301-PURL-gpo92195",
+        "type": "Official investigation"
+      }
+    ]
+  },
+  {
     "id": "uk-mod-research-guide",
     "title": "UK Ministry of Defence UFO records: research guide",
     "year": 1950,
