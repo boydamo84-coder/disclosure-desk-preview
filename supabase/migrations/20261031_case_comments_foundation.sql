@@ -45,7 +45,7 @@ create policy dd_comments_read on public.dd_case_comments for select to authenti
 drop policy if exists dd_comments_submit on public.dd_case_comments;
 create policy dd_comments_submit on public.dd_case_comments for insert to authenticated
  with check (author_id=auth.uid() and status='pending'
-  and (parent_id is null or exists(select 1 from public.dd_case_comments parent where parent.id=parent_id and parent.case_id=case_id and parent.status='approved')));
+  and (parent_id is null or exists(select 1 from public.dd_case_comments parent where parent.id=dd_case_comments.parent_id and parent.case_id=dd_case_comments.case_id and parent.status='approved')));
 -- Never permit client UPDATE/DELETE: moderation and withdrawal must use trusted server workflows.
 drop policy if exists dd_flags_insert on public.dd_case_comment_flags;
 create policy dd_flags_insert on public.dd_case_comment_flags for insert to authenticated
