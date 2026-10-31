@@ -61,6 +61,14 @@ def main():
         if 'data-case-discussion' not in page:
             sys.exit("Case discussion button missing from case cards")
         print("PASS: Case discussion JS syntax and case button wiring.")
+    moderator = ROOT / "assets" / "case-comment-moderation.js"
+    if moderator.exists():
+        result = subprocess.run(["node", "--check", str(moderator)], capture_output=True, text=True)
+        if result.returncode:
+            sys.exit("Moderator JS syntax failed: " + result.stderr)
+        if 'assets/case-comment-moderation.js' not in page:
+            sys.exit("Moderator UI script not wired")
+        print("PASS: Case moderation JS syntax and wiring.")
     print(f"PASS: {len(scripts)} inline JS script(s) parsed; video controls and progress hooks present.")
     print("NOTE: browser runtime, mobile performance, and APK integration are not validated by this test.")
 
