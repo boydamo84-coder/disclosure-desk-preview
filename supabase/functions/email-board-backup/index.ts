@@ -1,8 +1,12 @@
 // Disclosure Desk: authenticated, user-addressed board backup email.
 // Deploy via Supabase Edge Functions; configure RESEND_API_KEY and BACKUP_FROM_EMAIL secrets.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-const json=(data:unknown,status=200)=>new Response(JSON.stringify(data),{status,headers:{"Content-Type":"application/json"}});
+const allowedOrigins=new Set(["https://uapdisclosuredesk.com","https://www.uapdisclosuredesk.com","https://boydamo84-coder.github.io"]);
+const cors=(origin:string|null)=>({...((origin&&allowedOrigins.has(origin))?{"Access-Control-Allow-Origin":origin}:{}),"Access-Control-Allow-Headers":"authorization, x-client-info, apikey, content-type","Access-Control-Allow-Methods":"POST, OPTIONS","Vary":"Origin"});
 Deno.serve(async(req)=>{
+ const headers=cors(req.headers.get("Origin"));
+ const json=(data:unknown,status=200)=>new Response(JSON.stringify(data),{status,headers:{"Content-Type":"application/json",...headers}});
+ if(req.method==="OPTIONS")return new Response(null,{status:204,headers});
  if(req.method!=="POST")return json({error:"Method not allowed"},405);
  const auth=req.headers.get("Authorization")||"";
  if(!auth.startsWith("Bearer "))return json({error:"Sign in required"},401);
