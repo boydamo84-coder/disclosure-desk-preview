@@ -26,7 +26,7 @@ function renderSyncStamp(){
  area.hidden=false;
  let info={};try{info=JSON.parse(localStorage.getItem(syncKey())||'{}')}catch(_){}
  const fmt=v=>v?.time?new Date(v.time).toLocaleString()+' ('+v.count+' board(s))':'Not yet on this device';
- area.textContent='CLOUD SYNC STATUS\\nLast upload from this device: '+fmt(info.upload)+'\\nLast download to this device: '+fmt(info.download)+'\\nTransfers are manual. Existing boards are never overwritten.';area.style.whiteSpace='pre-line';
+ area.textContent='CLOUD SYNC STATUS\nLast upload from this device: '+fmt(info.upload)+'\nLast download to this device: '+fmt(info.download)+'\nTransfers are manual. Existing boards are never overwritten.';area.style.whiteSpace='pre-line';
 }
 function resetNotice(){
  const overlay=document.createElement('div');
@@ -155,7 +155,7 @@ const cloudBusy=(busy,type)=>{
 async function upload(){
  if(!session){await cloudDialog('Sign in required','Sign in to use your private cloud boards.');return}
  if(!Array.isArray(investigationBoards)||!investigationBoards.length){await cloudDialog('No boards on this device','Create an Investigation Board first, then upload it to your private cloud.');return}
- if(!await cloudDialog('Upload boards to cloud','Copy '+investigationBoards.length+' board(s) from this device to your private account. Existing cloud boards stay safe; identical copies will be skipped.\\n\\nWe recommend exporting a backup before uploading.','Upload to cloud'))return;
+ if(!await cloudDialog('Upload boards to cloud','Copy '+investigationBoards.length+' board(s) from this device to your private account. Existing cloud boards stay safe; identical copies will be skipped.\n\nWe recommend exporting a backup before uploading.','Upload to cloud'))return;
  cloudBusy(true,'upload');say('Uploading your boards…');
  let added=0,skipped=0;
  try{
