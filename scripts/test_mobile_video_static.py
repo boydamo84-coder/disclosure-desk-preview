@@ -42,6 +42,7 @@ def main():
         'data-clip-action="discuss"',
         'data-news-discussion',
         'ddGoToDiscussionOrigin',
+        'assets/live-hearings.js',
         "'video:'+c.id",
         'function openImmersive(resume=false)',
     ]
@@ -79,6 +80,15 @@ def main():
         if 'assets/case-comment-moderation.js' not in page:
             sys.exit("Moderator UI script not wired")
         print("PASS: Case moderation JS syntax and wiring.")
+    live = ROOT / "assets" / "live-hearings.js"
+    if live.exists():
+        result = subprocess.run(["node", "--check", str(live)], capture_output=True, text=True)
+        if result.returncode:
+            sys.exit("Live hearing syntax failed: " + result.stderr)
+        events = ROOT / "data" / "approved-live-events.json"
+        if not events.exists():
+            sys.exit("Approved hearing events feed missing")
+        print("PASS: Live hearing JS syntax and curated feed present.")
     print(f"PASS: {len(scripts)} inline JS script(s) parsed; video controls and progress hooks present.")
     print("NOTE: browser runtime, mobile performance, and APK integration are not validated by this test.")
 
