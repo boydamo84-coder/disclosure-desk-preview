@@ -21,8 +21,9 @@ jobs:
           import {join} from 'node:path';
           import {execFileSync} from 'node:child_process';
           const html=readFileSync('index.html','utf8');
-          const required=['adsbygoogle.js?client=','google-adsense-account','cloud-boards.js?v=video-sync-1','videoProgress'];
+          const required=['adsbygoogle.js?client=','google-adsense-account','cloud-boards.js?v=video-sync-1','ddVideoProgressChanged'];
           for(const item of required) if(!html.includes(item))throw Error('Missing integration: '+item);
+          if(!readFileSync('cloud-boards.js','utf8').includes('ddUploadVideoProgress'))throw Error('Missing cloud video-progress synchronisation');
           const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(x=>x[1]).filter(Boolean);
           if(!scripts.length)throw Error('No inline application scripts found');
           const dir=mkdtempSync(join(tmpdir(),'dd-'));
