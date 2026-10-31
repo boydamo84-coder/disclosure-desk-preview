@@ -42,9 +42,10 @@ function init(){
  document.body.append(root);
  document.querySelector('#ddCaseDiscussionClose').onclick=()=>{root.hidden=true;document.body.style.overflow='';current=null};
  root.addEventListener('click',e=>{if(e.target===root)document.querySelector('#ddCaseDiscussionClose').click()});
- window.ddOpenCaseDiscussion=id=>{
+ window.ddOpenCaseDiscussion=(id,title='Case Discussion')=>{
    if(!id)return;
    current=String(id).slice(0,180);
+   const heading=root.querySelector('h2');if(heading)heading.textContent=title;
    root.hidden=false;document.body.style.overflow='hidden';
    announce('');load();
  };
