@@ -43,6 +43,7 @@ def main():
         'data-news-discussion',
         'ddGoToDiscussionOrigin',
         'assets/live-hearings.js',
+        'assets/watch-read.js',
         "'video:'+c.id",
         'function openImmersive(resume=false)',
     ]
@@ -80,6 +81,12 @@ def main():
         if 'assets/case-comment-moderation.js' not in page:
             sys.exit("Moderator UI script not wired")
         print("PASS: Case moderation JS syntax and wiring.")
+    watch = ROOT / "assets" / "watch-read.js"
+    if not watch.exists():
+        sys.exit("Watch & Read script missing")
+    check = subprocess.run(["node", "--check", str(watch)], capture_output=True, text=True)
+    if check.returncode:
+        sys.exit("Watch & Read syntax failed: " + check.stderr)
     live = ROOT / "assets" / "live-hearings.js"
     if live.exists():
         result = subprocess.run(["node", "--check", str(live)], capture_output=True, text=True)
