@@ -709,10 +709,12 @@ function ddRenderUpcomingEvents(){
  host.innerHTML=entries.length?entries.map(e=>{
   const d=new Date(e.startsAt),start=esc(d.toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short',timeZone:'Europe/London'}));
   const isPast=Date.now()>d.getTime(),recorded=isPast&&e.recordingUrl;
+  const linkedClip=e.recordingClipId?disclosureClips.find(c=>c.id===e.recordingClipId&&c.evidenceStatus==='official'&&c.videoAvailable!==false):null;
   const clock=recorded?'RECORDING AVAILABLE':isPast?'EVENT UNDERWAY / ENDED':ddEventClock(d,now);
   const links='<a href="'+esc(e.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Official announcement ↗</a>'
    +(e.liveUrl&&!recorded?'<br><a href="'+esc(e.liveUrl)+'" target="_blank" rel="noopener noreferrer">Official livestream ↗</a>':'')
-   +(recorded?'<br><a href="'+esc(e.recordingUrl)+'" target="_blank" rel="noopener noreferrer">▶ Official recording ↗</a>':'');
+   +(recorded?'<br><a href="'+esc(e.recordingUrl)+'" target="_blank" rel="noopener noreferrer">▶ Official recording ↗</a>':'')
+   +(linkedClip?'<br><button type="button" class="outline" data-event-video="'+esc(linkedClip.id)+'">▶ Watch in Disclosure Desk</button>':'');
   return '<article class="dd-event-item"><small>'+esc(e.agency||'Official source')+' · '+(recorded?'Recorded event':'Confirmed date')+'</small><strong>'+esc(e.title)+'</strong><div class="dd-event-clock">'+clock+'</div><small>'+start+' UK time</small>'+links+'</article>';
  }).join(''):'<p class="muted small">No confirmed upcoming disclosure events or verified recordings found yet. Undated announcements never receive a countdown.</p>';
 }
@@ -726,6 +728,19 @@ async function ddLoadUpcomingEvents(){
  ddRenderUpcomingEvents();
 }
 ddLoadUpcomingEvents();
+$('ddEventList').addEventListener('click',event=>{
+ const button=event.target.closest('[data-event-video]');if(!button)return;
+ const clip=disclosureClips.find(c=>c.id===button.dataset.eventVideo&&c.evidenceStatus==='official');
+ if(!clip)return;
+ navigateTo('clips');
+ $('clipFilter').value='All';
+ $('clipGovernmentFilter').value='all';
+ $('clipSearch').value='';
+ $('clipFavoritesOnly').checked=false;
+ $('clipTrustFilter').value='all';
+ clipMode='all';
+ openImmersive(false,clip.id);
+});
 setInterval(()=>{if(!document.hidden)ddRenderUpcomingEvents()},60000);
 function immersiveCandidates(){
  const source=$('clipFilter').value,trust=$('clipTrustFilter').value;
