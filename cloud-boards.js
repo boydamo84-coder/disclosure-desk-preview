@@ -80,8 +80,10 @@ document.getElementById('ddAccountRefresh').addEventListener('click',refreshAcco
 async function refresh(){
  try{
   const {data:{session:s}}=await db.auth.getSession();session=s;
+  // Partition BEFORE rendering account counts and data. Guest/legacy research stays untouched.
+  if(typeof ddSwitchBoardSpace==='function')ddSwitchBoardSpace(s?.user?.id||null);
   guest.hidden=!!s; cloudControls.hidden=!s;
-  if(s){act.textContent='Signed in as '+s.user.email;say('Signed in. Device boards stay on this device until you choose an action.')}else{act.textContent='Optional private account';say('Guest mode: your research stays on this device. Sign in to access cloud boards.')}renderSyncStamp();if(s)refreshAccountOverview();
+  if(s){act.textContent='Signed in as '+s.user.email;say('Signed in. Only this account’s locally saved Boards are displayed. Cloud transfers are manual.')}else{act.textContent='Optional private account';say('Guest mode: legacy and guest Boards are preserved here, separate from account Boards. Sign in to access your private cloud.')}renderSyncStamp();if(s)refreshAccountOverview();
  }catch(e){say('Sign-in service unavailable: '+e.message)}
 }
 function signupNotice(){
