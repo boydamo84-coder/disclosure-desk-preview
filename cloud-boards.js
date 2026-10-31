@@ -79,8 +79,32 @@ async function refreshAccountOverview(){
 }
 document.getElementById('ddAccountRefresh').addEventListener('click',refreshAccountOverview);
 let ddAuthGeneration=0;
+let ddVideoSyncTimer=null,ddVideoSyncUser=null;
+function ddScheduleVideoSync(){
+ if(!session?.user?.id)return;
+ clearTimeout(ddVideoSyncTimer);
+ const userId=session.user.id;
+ ddVideoSyncTimer=setTimeout(()=>ddUploadVideoProgress(userId),2200);
+}
+async function ddUploadVideoProgress(userId){
+ if(!session||session.user.id!==userId||typeof window.ddVideoGetProgress!=='function')return;
+ const data=window.ddVideoGetProgress();
+ const {error}=await db.from('video_progress').upsert({user_id:userId,watched:data.watched,skipped:data.skipped,last_clip_id:data.last_clip_id,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+ if(error)console.warn('Video progress sync unavailable:',error.message);
+}
+async function ddLoadVideoProgress(userId){
+ const {data,error}=await db.from('video_progress').select('watched,skipped,last_clip_id').eq('user_id',userId).maybeSingle();
+ if(!session||session.user.id!==userId)return;
+ if(error){console.warn('Video progress download unavailable:',error.message);return}
+ if(data)window.ddVideoMergeProgress?.(data);
+ ddScheduleVideoSync();
+}
+window.ddVideoProgressChanged=ddScheduleVideoSync;
 function applyBoardSession(nextSession){
+ const oldId=ddVideoSyncUser;
  session=nextSession||null;
+ const currentId=session?.user?.id||null;
+ if(oldId!==currentId){clearTimeout(ddVideoSyncTimer);ddVideoSyncUser=currentId;window.ddVideoSetAccount?.(currentId);if(currentId)ddLoadVideoProgress(currentId)}
  if(typeof ddSwitchBoardSpace==='function')ddSwitchBoardSpace(session?.user?.id||null);
  guest.hidden=!!session;cloudControls.hidden=!session;
  const emailText=session?.user?.email||'';
