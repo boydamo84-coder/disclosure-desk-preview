@@ -806,6 +806,25 @@ function archiveMediaHtml(matches,type){
  if(!matches.length)return '<p class="muted small">No sufficiently specific '+type+' matches in the current catalogue. This does not mean no related material exists.</p>';
  return matches.map(x=>'<div class="card" style="margin-bottom:8px"><div class="card-body"><strong>'+esc(x.item.headline||x.item.title)+'</strong><p class="muted small">'+esc(x.item.publisher||x.item.source||'Source')+' · Shared title terms: '+esc(x.shared.join(', '))+' · Suggested research lead only</p><a class="news-open" href="'+esc(x.url||x.item.url)+'" target="_blank" rel="noopener noreferrer">Open original '+(type==='news'?'article':'video/source')+' ↗</a> <button type="button" class="outline" data-archive-save-media="'+esc(x.url||x.item.url)+'" data-media-label="'+esc(x.item.headline||x.item.title)+'">☆ Save</button></div></div>').join('');
 }
+function importArchiveTimelineEvent(record,index){
+ const ev=record?.timeline?.[index];if(!ev)return;
+ const date=String(ev.date||'').trim();
+ const full=/^\d{4}-\d{2}-\d{2}$/.test(date)?date:null;
+ const year=(date.match(/\b(?:19|20)\d{2}\b/)||[])[0];
+ const eventDate=full||(year?year+'-01-01':null);
+ if(!eventDate){alert('This archive event has no sufficiently precise date to import. Save its original source to your Board instead.');return}
+ if(!investigationBoards.length){alert('Create an Investigation Board under Boards first, then return to this event.');return}
+ const choices=investigationBoards.map((b,i)=>(i+1)+'. '+b.name).join('\n');
+ const response=prompt('Add this source-attributed event to which private Board?\n'+choices+'\nEnter Board number:');
+ if(response===null)return;
+ const number=Number(response);if(!Number.isInteger(number)||number<1||number>investigationBoards.length){alert('Choose a valid Board number.');return}
+ const board=investigationBoards[number-1];board.timeline??=[];
+ const id=String(record.id)+':'+index;
+ if(board.timeline.some(t=>t.archiveEventId===id)){alert('This archive event is already in that timeline.');return}
+ if(board.timeline.length>=250){alert('This Board has reached its 250-event limit.');return}
+ board.timeline.push({date:eventDate,title:String(ev.event).slice(0,120),note:'Source: '+record.title+' ('+record.source+'). Original event date text: '+date,sourceUrl:record.url,archiveEventId:id,datePrecision:full?'day':'year'});
+ board.timeline.sort((a,b)=>a.date.localeCompare(b.date));boardSave();alert('Added to '+board.name+'. Your private timeline is saved on this device.');
+}
 function archiveCaseOpen(id){
  const r=historicalRecords.find(x=>String(x.id)===String(id));if(!r)return;
  const related=archiveConnections(r);const media=archiveMediaLinks(r);const body=$('archiveCaseBody');
@@ -817,7 +836,7 @@ function archiveCaseOpen(id){
  '<h3>Timeline and dates</h3>'+
  '<ol style="padding-left:23px">'+
  '<li><strong>Recorded period:</strong> '+esc(String(r.year))+(r.endYear?'–'+esc(String(r.endYear)):'')+'. '+(r.dateType?esc(r.dateType):'A catalogue year or reporting period; the event date may differ.')+'</li>'+
- (Array.isArray(r.timeline)?r.timeline.filter(x=>x&&x.date&&x.event).slice(0,12).map(x=>'<li><strong>'+esc(x.date)+':</strong> '+esc(x.event)+'</li>').join(''):'')+
+ (Array.isArray(r.timeline)?r.timeline.slice(0,12).map((x,i)=>x&&x.date&&x.event?'<li><strong>'+esc(x.date)+':</strong> '+esc(x.event)+' <button class="outline" type="button" data-add-archive-event="'+i+'">＋ Add to my timeline</button></li>':'').join(''):'')+
  '</ol>'+
  '<h3>Evidence and provenance</h3>'+
  '<p><strong>Publisher/catalogue:</strong> '+esc(r.source)+'</p>'+
@@ -839,6 +858,7 @@ function archiveCaseOpen(id){
  '<h3>Continue your investigation</h3><p class="muted small">Save the original source to a private Investigation Board, then add your own notes and supporting links. Related matches above are automated suggestions, not independently confirmed case associations.</p>'+
  '<button class="outline" id="archiveCaseSaveBottom" type="button">☆ Save source to my Board</button>';
  $('archiveCaseSave').onclick=()=>addInvestigationLink(r.title,r.url);
+ body.querySelectorAll('[data-add-archive-event]').forEach(btn=>btn.onclick=()=>importArchiveTimelineEvent(r,Number(btn.dataset.addArchiveEvent)));
  $('archiveCaseSaveBottom').onclick=()=>addInvestigationLink(r.title,r.url);
  body.querySelectorAll('[data-archive-related]').forEach(b=>b.onclick=()=>archiveCaseOpen(b.dataset.archiveRelated));
  body.querySelectorAll('[data-archive-save-media]').forEach(b=>b.onclick=()=>addInvestigationLink(b.dataset.mediaLabel,b.dataset.archiveSaveMedia));
