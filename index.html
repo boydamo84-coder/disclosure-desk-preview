@@ -645,7 +645,7 @@ function immersiveCandidates(){
  const q=($('clipSearch')?.value||'').trim().toLowerCase();return orderDiscovery(disclosureClips.filter(c=>c.videoAvailable!==false&&(!$('clipInterestOnly').checked||videoInterestMatches(c))&&(!q||[c.title,c.publisher,c.description,c.status].filter(Boolean).join(' ').toLowerCase().includes(q))&&(c.youtubeId||c.dvidsId||c.media)&&(!$('clipFavoritesOnly').checked||clipIsFavourite(c))&&(clipMode==='all'||(clipMode==='verified'?['official','traceable'].includes(c.evidenceStatus):c.evidenceStatus==='unverified'))&&(source==='All'||c.group===source)&&(trust==='all'||(trust==='traceable'?['official','traceable'].includes(c.evidenceStatus):c.evidenceStatus===trust))));
 }
 function immersiveTile(c,index){
- return '<article class="immersive-item" data-index="'+index+'"><div class="immersive-media" data-media="'+esc(c.id)+'"><span>▶ Tap to watch</span></div><div class="immersive-details"><b>'+esc(c.title)+'</b><div class="dd-clip-publisher">'+esc(c.publisher)+' · <span>'+esc(c.evidenceStatus==='official'?'OFFICIAL RELEASE':c.evidenceStatus==='traceable'?'TRACEABLE SOURCE':'UNVERIFIED CLAIM')+'</span></div><a href="'+esc(c.source)+'" rel="noopener noreferrer" target="_blank">Original evidence ↗</a></div><div class="immersive-tools"><button data-clip-action="favourite" data-clip-id="'+esc(c.id)+'">'+(clipIsFavourite(c)?'★ Saved':'☆ Save')+'</button><button type="button" class="dd-more-actions" aria-expanded="false" aria-label="More video actions">⋯ More</button><div class="dd-video-actions-menu" hidden><button data-clip-action="board" data-clip-id="'+esc(c.id)+'">Add to Board</button><button data-clip-action="share" data-clip-id="'+esc(c.id)+'">Share</button><button data-clip-action="skip" data-clip-id="'+esc(c.id)+'">Skip ↓</button><label><input type="checkbox" class="dd-video-menu-autoplay"> Autoplay + Loop</label><label><input type="checkbox" class="dd-video-menu-controls"> Show YouTube playback controls</label><p>'+esc(c.description||'Interpretation remains subject to investigation.')+'</p></div></div></article>';
+ return '<article class="immersive-item" data-index="'+index+'"><div class="immersive-media" data-media="'+esc(c.id)+'"><span>▶ Tap to watch</span></div><div class="immersive-details"><b>'+esc(c.title)+'</b><div class="dd-clip-publisher">'+esc(c.publisher)+' · <span>'+esc(c.evidenceStatus==='official'?'OFFICIAL RELEASE':c.evidenceStatus==='traceable'?'TRACEABLE SOURCE':'UNVERIFIED CLAIM')+'</span></div><a href="'+esc(c.source)+'" rel="noopener noreferrer" target="_blank">Original evidence ↗</a></div><div class="immersive-tools"><button data-clip-action="favourite" data-clip-id="'+esc(c.id)+'">'+(clipIsFavourite(c)?'★ Saved':'☆ Save')+'</button><button type="button" class="dd-more-actions" aria-expanded="false" aria-label="More video actions">⋯ More</button><div class="dd-video-actions-menu" hidden><button data-clip-action="board" data-clip-id="'+esc(c.id)+'">Add to Board</button><button data-clip-action="share" data-clip-id="'+esc(c.id)+'">Share</button><button type="button" class="dd-show-video-details">Show clip details</button><button data-clip-action="skip" data-clip-id="'+esc(c.id)+'">Skip ↓</button><label><input type="checkbox" class="dd-video-menu-autoplay"> Autoplay + Loop</label><label><input type="checkbox" class="dd-video-menu-controls"> Show YouTube playback controls</label><p>'+esc(c.description||'Interpretation remains subject to investigation.')+'</p></div></div></article>';
 }
 $('immersiveFeed').addEventListener('click',event=>{
  const more=event.target.closest('.dd-more-actions');
@@ -656,6 +656,13 @@ $('immersiveFeed').addEventListener('click',event=>{
   $('immersiveFeed').querySelectorAll('.dd-more-actions').forEach(b=>b.setAttribute('aria-expanded','false'));
   menu.hidden=!opening;more.setAttribute('aria-expanded',String(opening));
   if(opening){menu.querySelector('.dd-video-menu-autoplay').checked=immersiveAutoplay;menu.querySelector('.dd-video-menu-controls').checked=immersiveShowControls;}
+  return;
+ }
+ const details=event.target.closest('.dd-show-video-details');
+ if(details){
+  const tile=details.closest('.immersive-item');
+  const visible=tile.classList.toggle('dd-video-paused');
+  details.textContent=visible?'Hide clip details':'Show clip details';
   return;
  }
  const controlToggle=event.target.closest('.dd-video-menu-controls');
