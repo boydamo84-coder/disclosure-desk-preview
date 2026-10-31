@@ -6,8 +6,8 @@ android {
         applicationId = "com.disclosuredesk.preview"
         minSdk = 26
         targetSdk = 35
-        versionCode = 10
-        versionName = "0.9-live-sync-test"
+        versionCode = 11
+        versionName = "0.9.1-offline-test"
     }
     buildTypes { getByName("release") { isMinifyEnabled = false } }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
