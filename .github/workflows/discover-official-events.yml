@@ -1,0 +1,28 @@
+name: Discover confirmed UAP hearings and events
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '19 6,18 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: disclosure-event-discovery
+  cancel-in-progress: false
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: development/global-archive-100k
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/discover_official_events.py
+      - name: Commit verified event schedule to development only
+        run: |
+          git config user.name "Disclosure Desk Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/upcoming-disclosure-events.json
+          git diff --cached --quiet || (git commit -m "Update confirmed upcoming disclosure events" && git push origin HEAD:development/global-archive-100k)
