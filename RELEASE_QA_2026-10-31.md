@@ -21,7 +21,7 @@
 - [ ] Test email-backup rate-limit: a second attempt inside 60 minutes must be rejected; no messages to arbitrary addresses.
 - [ ] Test unauthenticated and unverified-account requests to email-backup function are rejected.
 - [ ] Check signup/login/password reset, user-specific Supabase RLS isolation, and that sign-out doesn't leak previous user's private cloud Board data.
-- [ ] Verify hosted assets and navigation on both GitHub Pages preview subpath and production root path.
+- [ ] Browser-test both hosting locations after release; 11 hard-coded preview asset paths removed from development code on 31 Oct 2026. Production hosting smoke test still outstanding.
 - [ ] Review privacy language on email attachments, data export/retention, and recovery limits.
 - [ ] Final user-approved bundled production deployment and post-deploy smoke test.
 
@@ -33,3 +33,7 @@
 
 ## Rollback
 Keep exact pre-release production commit SHA and verified private JSON export before release; if major issue occurs, roll back deployed branch without deleting cloud Boards.
+
+## Security audit handoff
+- [ ] Run `supabase/pre_release_rls_audit_read_only.sql` in the project's SQL Editor. Verify RLS enabled and policy ownership predicates for `investigation_boards`. Separate-account count test alone is not proof of RLS isolation.
+- [ ] Capture the production branch HEAD commit ID before any production merge; a fetched `index.html` file SHA is **not** a rollback commit SHA.
