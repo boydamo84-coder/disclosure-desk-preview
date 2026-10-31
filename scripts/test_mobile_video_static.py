@@ -53,6 +53,14 @@ def main():
             if run.returncode:
                 print(run.stderr)
                 sys.exit(f"JavaScript syntax error in inline script {i}")
+    discussion = ROOT / "assets" / "case-discussions.js"
+    if discussion.exists():
+        result = subprocess.run(["node", "--check", str(discussion)], capture_output=True, text=True)
+        if result.returncode:
+            sys.exit("Case discussion syntax failed: " + result.stderr)
+        if 'data-case-discussion' not in page:
+            sys.exit("Case discussion button missing from case cards")
+        print("PASS: Case discussion JS syntax and case button wiring.")
     print(f"PASS: {len(scripts)} inline JS script(s) parsed; video controls and progress hooks present.")
     print("NOTE: browser runtime, mobile performance, and APK integration are not validated by this test.")
 
