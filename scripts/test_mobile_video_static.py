@@ -40,6 +40,8 @@ def main():
         'id="pickerIncludeDiscussion"',
         'data-open-saved-discussion',
         'data-clip-action="discuss"',
+        'data-news-discussion',
+        'ddGoToDiscussionOrigin',
         "'video:'+c.id",
         'function openImmersive(resume=false)',
     ]
@@ -62,6 +64,8 @@ def main():
         result = subprocess.run(["node", "--check", str(discussion)], capture_output=True, text=True)
         if result.returncode:
             sys.exit("Case discussion syntax failed: " + result.stderr)
+        if 'My Profile · My Comments' not in discussion.read_text(encoding='utf-8'):
+            sys.exit('My Comments profile missing')
         if 'window.ddOpenCaseDiscussion' not in discussion.read_text(encoding='utf-8'):
             sys.exit('Board discussion opener missing')
         if 'data-case-discussion' not in page:
