@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import android.view.View;
 import android.webkit.WebChromeClient;
+import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebResourceRequest;
@@ -42,6 +43,8 @@ import com.google.android.ump.ConsentRequestParameters;
 import com.google.android.ump.UserMessagingPlatform;
 
 public final class MainActivity extends Activity {
+    private static final int FILE_CHOOSER_REQUEST = 4312;
+    private ValueCallback<Uri[]> pendingFiles;
     private static final String HOME = "https://uapdisclosuredesk.com/";
     private WebView web;
     private FrameLayout root;
@@ -105,6 +108,21 @@ public final class MainActivity extends Activity {
             }
         });
         web.setWebChromeClient(new WebChromeClient(){
+            @Override public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> callback, FileChooserParams params){
+                if(pendingFiles!=null){pendingFiles.onReceiveValue(null);pendingFiles=null;}
+                pendingFiles=callback;
+                try{
+                    Intent picker=params.createIntent();
+                    picker.addCategory(Intent.CATEGORY_OPENABLE);
+                    startActivityForResult(picker,FILE_CHOOSER_REQUEST);
+                    return true;
+                }catch(Exception error){
+                    pendingFiles=null;
+                    callback.onReceiveValue(null);
+                    android.widget.Toast.makeText(MainActivity.this,"Cannot open file picker on this device",android.widget.Toast.LENGTH_LONG).show();
+                    return true;
+                }
+            }
             @Override public void onShowCustomView(View view,CustomViewCallback callback){
                 if(fullView!=null){callback.onCustomViewHidden();return;}
                 fullView=view;fullCallback=callback;
@@ -120,6 +138,14 @@ public final class MainActivity extends Activity {
         });
         web.loadUrl(notificationUrl(getIntent()));
         prepareTestBanner();
+    }
+    @Override protected void onActivityResult(int requestCode,int resultCode,Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode==FILE_CHOOSER_REQUEST && pendingFiles!=null){
+            ValueCallback<Uri[]> callback=pendingFiles;
+            pendingFiles=null;
+            callback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode,data));
+        }
     }
     private void prepareTestBanner(){
         consentInformation=UserMessagingPlatform.getConsentInformation(this);
@@ -252,5 +278,5 @@ public final class MainActivity extends Activity {
     }
     @Override protected void onPause(){if(adView!=null)adView.pause();super.onPause();}
     @Override protected void onResume(){super.onResume();if(adView!=null)adView.resume();}
-    @Override protected void onDestroy(){if(adView!=null)adView.destroy();web.destroy();super.onDestroy();}
+    @Override protected void onDestroy(){if(pendingFiles!=null){pendingFiles.onReceiveValue(null);pendingFiles=null;}if(adView!=null)adView.destroy();web.destroy();super.onDestroy();}
 }
