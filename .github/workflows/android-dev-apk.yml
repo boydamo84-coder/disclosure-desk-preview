@@ -1,0 +1,70 @@
+name: Android development APK (separate test app)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+      - name: Validate development video UI
+        run: python3 scripts/test_mobile_video_static.py
+      - name: Build standalone local web bundle
+        run: |
+          mkdir -p android-dev/www
+          cp index.html android-dev/www/index.html
+          for folder in assets data; do
+            if [ -d "$folder" ]; then cp -R "$folder" android-dev/www/; fi
+          done
+          for file in manifest.webmanifest service-worker.js sw.js; do
+            if [ -f "$file" ]; then cp "$file" android-dev/www/; fi
+          done
+          # Include any root JSON resources used by the single-page application.
+          find . -maxdepth 1 -name '*.json' -type f -exec cp {} android-dev/www/ \;
+      - name: Create isolated Capacitor Android test project
+        working-directory: android-dev
+        run: |
+          npm init -y
+          npm install --no-audit --no-fund @capacitor/core@7 @capacitor/android@7
+          npm install --no-audit --no-fund --save-dev @capacitor/cli@7
+          cat > capacitor.config.json <<'JSON'
+          {
+            "appId": "com.boyddigitalstudios.disclosuredesk.dev",
+            "appName": "Disclosure Desk DEV",
+            "webDir": "www",
+            "server": {"androidScheme": "https"}
+          }
+          JSON
+          npx cap add android
+          npx cap sync android
+      - name: Assemble unsigned-for-store debug APK (GitHub test artifact)
+        working-directory: android-dev/android
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
+      - name: Verify package ID and collect APK
+        run: |
+          test -f android-dev/android/app/build/outputs/apk/debug/app-debug.apk
+          mkdir -p apk-output
+          cp android-dev/android/app/build/outputs/apk/debug/app-debug.apk apk-output/Disclosure-Desk-DEV-debug.apk
+          echo "Separate debug package: com.boyddigitalstudios.disclosuredesk.dev"
+          echo "Development testing only; not signed for Play Store; app behaviour and sync require device QA."
+      - uses: actions/upload-artifact@v4
+        with:
+          name: disclosure-desk-dev-android-apk
+          path: apk-output/Disclosure-Desk-DEV-debug.apk
+          if-no-files-found: error
+          retention-days: 7
