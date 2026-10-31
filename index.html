@@ -735,6 +735,25 @@ $('tourClose').onclick=closeTour;
 $('tourPrevious').onclick=()=>{if(tourStep>0){tourStep--;renderTour()}};
 $('tourNext').onclick=()=>{if(tourStep===tourSteps.length-1)closeTour();else{tourStep++;renderTour()}};
 $('appTourDialog').addEventListener('close',clearTourHighlight);
+function offerFirstVisitTour(){
+ const key='dd-welcome-tour-choice-v1';
+ try{if(localStorage.getItem(key))return}catch(_){return}
+ const overlay=document.createElement('div');
+ overlay.style.cssText='position:fixed;inset:0;z-index:11000;background:rgba(2,9,17,.82);display:flex;align-items:center;justify-content:center;padding:20px';
+ const card=document.createElement('section');
+ card.setAttribute('role','dialog');card.setAttribute('aria-modal','true');card.setAttribute('aria-labelledby','ddWelcomeTitle');
+ card.style.cssText='background:#102131;border:1px solid #E0C48E;border-radius:16px;padding:26px 22px;width:min(100%,420px);box-sizing:border-box;box-shadow:0 16px 55px #000a;color:#F5F0E6;font:15px/1.6 Arial,sans-serif';
+ const brand=document.createElement('div');brand.textContent='DISCLOSURE DESK';brand.style.cssText='font-weight:800;color:#E0C48E;letter-spacing:2px;margin-bottom:14px';
+ const title=document.createElement('h2');title.id='ddWelcomeTitle';title.textContent='Welcome to Disclosure Desk';title.style.cssText='font-size:24px;margin:0 0 12px;color:#F5F0E6';
+ const desc=document.createElement('p');desc.textContent='Explore the news, map, videos and private Investigation Boards with a guided tour. No account required.';desc.style.cssText='color:#D5E0E8;margin:0 0 22px';
+ const actions=document.createElement('div');actions.style.cssText='display:flex;gap:10px;flex-wrap:wrap';
+ const later=document.createElement('button');later.textContent='Not now';later.type='button';later.style.cssText='flex:1;min-width:110px;padding:13px;border-radius:9px;background:#1C2B39;color:#F5F0E6;border:1px solid #8B7754';
+ const begin=document.createElement('button');begin.textContent='Take the tour';begin.type='button';begin.style.cssText='flex:1;min-width:140px;padding:13px;border-radius:9px;background:#E0C48E;color:#0E1D2B;border:0;font-weight:700';
+ const finish=take=>{try{localStorage.setItem(key,take?'started':'dismissed')}catch(_){}overlay.remove();if(take)openTour()};
+ later.onclick=()=>finish(false);begin.onclick=()=>finish(true);
+ actions.append(later,begin);card.append(brand,title,desc,actions);overlay.append(card);document.body.append(overlay);begin.focus();
+}
+window.addEventListener('load',()=>{setTimeout(offerFirstVisitTour,850)},{once:true});
 function navigateTo(id){
 if(id==='discover')ddMarkSeen('news');
 if(id==='clips')ddMarkSeen('videos');
