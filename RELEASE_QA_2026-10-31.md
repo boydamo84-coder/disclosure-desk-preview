@@ -15,7 +15,7 @@
 - [x] User reports Saved Comparisons working on Samsung (comparison save/reopen); cross-type matrix and export still warrant release smoke test.
 - [x] User reports Evidence Connections working on Samsung; remove-source edge case remains to test.
 - [ ] Verify exact timeline event metadata (source URL, archive event ID and year-only precision) survives JSON and cloud round-trip.
-- [ ] Test restoring on a clean browser/device, NOT only an existing authenticated session.
+- [x] User confirmed recovery in a fresh Chrome Incognito browser session: account sign-in, cloud download and recovered Boards working (31 Oct 2026). This does not independently verify a separate physical device.
 - [x] User reports Notifications deep links working on Samsung (31 Oct 2026).
 - [ ] Verify case-follow update detection only reports genuine catalogue changes; old snapshots do not invent update dates.
 - [ ] Test email-backup rate-limit: a second attempt inside 60 minutes must be rejected; no messages to arbitrary addresses.
