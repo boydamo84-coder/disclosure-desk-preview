@@ -180,11 +180,11 @@ async function upload(){
  try{
   const {data:existing,error:readErr}=await db.from('investigation_boards').select('id,name,content');
   if(readErr)throw readErr;
-  const fingerprint=b=>JSON.stringify({name:b.name,links:b.links||[],notes:b.notes||[],timeline:b.timeline||[],videos:b.videos||[]});
+  const fingerprint=b=>JSON.stringify({name:b.name,links:b.links||[],notes:b.notes||[],timeline:b.timeline||[],videos:b.videos||[],connections:b.connections||[]});
   const saved=new Set((existing||[]).map(x=>fingerprint({name:x.name,...x.content})));
   for(const b of investigationBoards){
    const fp=fingerprint(b);if(saved.has(fp)){skipped++;continue}
-   const {error}=await db.from('investigation_boards').insert({name:String(b.name).slice(0,60),content:{links:b.links||[],notes:b.notes||[],timeline:(b.timeline||[]).slice(0,250),videos:(b.videos||[]).slice(0,100)}});
+   const {error}=await db.from('investigation_boards').insert({name:String(b.name).slice(0,60),content:{links:b.links||[],notes:b.notes||[],timeline:(b.timeline||[]).slice(0,250),videos:(b.videos||[]).slice(0,100),connections:(b.connections||[]).slice(0,100)}});
    if(error)throw error;added++;saved.add(fp);
   }
   syncStamp('upload',added);refreshAccountOverview();say('Upload complete: '+quantity(added,'new board')+', '+quantity(skipped,'duplicate')+' skipped.');
@@ -203,10 +203,10 @@ async function download(){
   cloudBusy(false,'download');
   if(!await cloudDialog('Download boards from cloud','Check '+quantity(incoming.length,'board')+' in your private cloud account and add any missing boards to this device. Existing boards will never be overwritten.','Download to device')){say('Download cancelled.');return}
   cloudBusy(true,'download');
-  const fp=b=>JSON.stringify({name:b.name,links:b.links||[],notes:b.notes||[],timeline:b.timeline||[],videos:b.videos||[]});
+  const fp=b=>JSON.stringify({name:b.name,links:b.links||[],notes:b.notes||[],timeline:b.timeline||[],videos:b.videos||[],connections:b.connections||[]});
   const seen=new Set(investigationBoards.map(fp));let added=0,skipped=0,full=0;
   for(const row of incoming){
-   const b={name:row.name,links:row.content.links,notes:row.content.notes,timeline:Array.isArray(row.content.timeline)?row.content.timeline.slice(0,250):[],videos:Array.isArray(row.content.videos)?row.content.videos.slice(0,100).filter(v=>v&&typeof v.title==='string'&&/^https?:\/\//.test(v.url||'')):[]};
+   const b={name:row.name,links:row.content.links,notes:row.content.notes,timeline:Array.isArray(row.content.timeline)?row.content.timeline.slice(0,250):[],videos:Array.isArray(row.content.videos)?row.content.videos.slice(0,100).filter(v=>v&&typeof v.title==='string'&&/^https?:\/\//.test(v.url||'')):[],connections:Array.isArray(row.content.connections)?row.content.connections.slice(0,100):[]};
    if(seen.has(fp(b))){skipped++;continue}
    if(investigationBoards.length>=40){full++;continue}
    investigationBoards.push(b);seen.add(fp(b));added++;
