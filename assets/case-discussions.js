@@ -1,4 +1,4 @@
-/* Disclosure Desk: preview-only case discussions. Comments require approved status. */
+/* Disclosure Desk: preview-only case discussions. Registered comments publish immediately; flagged comments require review. */
 (()=>{
 'use strict';
 const URL='https://omqxizswzcwgzqaczlhe.supabase.co';
@@ -15,7 +15,7 @@ async function load(){
  const {data,error}=await c.from('dd_case_comments').select('id,case_id,author_id,parent_id,body,status,created_at').eq('case_id',current).eq('status','approved').order('created_at',{ascending:true}).limit(100);
  if(error){list.textContent='Comments unavailable. The database migration may not have been applied.';return}
  list.textContent='';
- if(!data?.length)list.textContent='No approved comments yet. Be the first to contribute.';
+ if(!data?.length)list.textContent='No comments yet. Be the first to contribute.';
  for(const item of data||[]){
    const card=document.createElement('article');card.className='card';card.style.cssText='padding:12px;margin:8px 0';
    const header=document.createElement('div');header.className='muted small';header.textContent='Community member · '+displayDate(item.created_at);
@@ -38,7 +38,7 @@ function init(){
  root.id='ddCaseDiscussionDialog';
  root.hidden=true;
  root.style.cssText='position:fixed;inset:0;z-index:100100;background:#050b13ed;overflow-y:auto;padding:14px';
- root.innerHTML='<section role="dialog" aria-modal="true" aria-label="Case discussion" style="max-width:700px;margin:auto;background:#112131;border:1px solid #9e875d;border-radius:14px;padding:18px;color:#f4ead9"><button type="button" id="ddCaseDiscussionClose" class="outline" style="float:right">✕ Close</button><h2>Case Discussion</h2><p class="muted small">Comments are community contributions, not verified evidence. New comments require moderator approval.</p><div id="ddCaseDiscussionList" aria-live="polite"></div><form id="ddCaseDiscussionForm"><label for="ddCaseDiscussionBody">Add a comment (registered users)</label><textarea id="ddCaseDiscussionBody" minlength="3" maxlength="2000" required rows="4" style="width:100%;margin:10px 0" placeholder="Ask a question or share a source reference. Never post personal details."></textarea><button type="submit">Submit for review</button></form><p id="ddCaseDiscussionStatus" role="status" class="muted small"></p></section>';
+ root.innerHTML='<section role="dialog" aria-modal="true" aria-label="Case discussion" style="max-width:700px;margin:auto;background:#112131;border:1px solid #9e875d;border-radius:14px;padding:18px;color:#f4ead9"><button type="button" id="ddCaseDiscussionClose" class="outline" style="float:right">✕ Close</button><h2>Case Discussion</h2><p class="muted small">Comments are community contributions, not verified evidence. Comments appear immediately. Flag inappropriate content for moderation.</p><div id="ddCaseDiscussionList" aria-live="polite"></div><form id="ddCaseDiscussionForm"><label for="ddCaseDiscussionBody">Add a comment (registered users)</label><textarea id="ddCaseDiscussionBody" minlength="3" maxlength="2000" required rows="4" style="width:100%;margin:10px 0" placeholder="Ask a question or share a source reference. Never post personal details."></textarea><button type="submit">Post comment</button></form><p id="ddCaseDiscussionStatus" role="status" class="muted small"></p></section>';
  document.body.append(root);
  document.querySelector('#ddCaseDiscussionClose').onclick=()=>{root.hidden=true;document.body.style.overflow='';current=null};
  root.addEventListener('click',e=>{if(e.target===root)document.querySelector('#ddCaseDiscussionClose').click()});
@@ -56,9 +56,9 @@ function init(){
    const body=document.querySelector('#ddCaseDiscussionBody').value.trim();
    if(body.length<3||body.length>2000){announce('Comments must contain 3–2000 characters.');return}
    const button=e.target.querySelector('button[type=submit]');button.disabled=true;
-   const {error}=await c.from('dd_case_comments').insert({case_id:current,author_id:user.id,body,status:'pending'});
-   announce(error?'Unable to submit comment. Please try again.':'Submitted for moderation. Your comment is not publicly visible yet.');
-   if(!error)e.target.reset();
+   const {error}=await c.from('dd_case_comments').insert({case_id:current,author_id:user.id,body,status:'approved'});
+   announce(error?'Unable to submit comment. Please try again.':'Comment posted.');
+   if(!error){e.target.reset();await load();}
    button.disabled=false;
  };
 }
