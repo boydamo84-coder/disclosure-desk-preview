@@ -1,0 +1,33 @@
+name: Import reviewed official international collections (DEV only)
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'Commit vetted collection references to DEV archive (off = preview only)'
+        type: boolean
+        default: false
+        required: true
+permissions:
+  contents: write
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate importer and preview records
+        run: |
+          python -m py_compile scripts/import_official_international_collections.py
+          python scripts/import_official_international_collections.py
+      - name: Apply reviewed collection additions to DEV only
+        if: ${{ inputs.apply }}
+        run: |
+          python scripts/import_official_international_collections.py --apply
+          git config user.name "Disclosure Desk Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/historical-news-archive.json
+          git diff --cached --quiet || (git commit -m "Add verified international archive collections [skip netlify]" && git push origin HEAD:dev/mobile-video-performance-oct31)
