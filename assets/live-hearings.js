@@ -11,8 +11,8 @@ function init(){
  const title=h('h2','🔴 Disclosure Desk LIVE');host.append(title);
  const caption=h('p','Confirmed Congressional hearing streams and their research discussions. Comments are community opinion, not verified testimony.');caption.className='muted small';host.append(caption);
  const list=h('div');host.append(list);
- const root=document.getElementById('clips')||document.getElementById('discover');
- if(!root)return;root.prepend(host);
+ const root=document.getElementById('ddLiveMount');
+ if(!root)return;root.append(host);
  function openEvent(event){
    const overlay=h('div');overlay.style.cssText='position:fixed;inset:0;z-index:100050;background:#08111bf5;overflow:auto;padding:14px';
    const box=h('section');box.style.cssText='max-width:750px;margin:auto;background:#142536;border:1px solid #b39a70;border-radius:12px;padding:16px';
