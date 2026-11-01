@@ -43,7 +43,9 @@
     "date": "2026-10-31T09:34:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://i2-prod.walesonline.co.uk/article29063707.ece/ALTERNATES/s1200d/0_GettyImages-1787690966.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "3f8008ee080b81bad3e2",
@@ -256,6 +258,19 @@
     "imageSource": "Publisher Open Graph image"
   },
   {
+    "id": "98a377599d82713613d1",
+    "headline": "British Airways jet almost collided with UFO",
+    "source": "Female First",
+    "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQQVFDd0FuUnA4WHR1QWZ5MWs4RFpSZ3RPUVQ0b2pjU2o4aXc0Y2tqc3lqYjRoMmZyVDFyc19lN3JGdllraUJjdkhCc3ZFdUxSRUc3d0Z5ejkwY1hGVTlMVDNmMlhqYWlzSHNGX25veFk1RlFJZXJObTRBN2VwRzlPeHh0MnRfUVJDZl9vdHpRVF9HVjJx?oc=5",
+    "date": "2026-10-27T14:04:51+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details.",
+    "country": "United Kingdom",
+    "imageUrl": "https://www.femalefirst.co.uk/image-library/partners/bang/land/500/a/a-british-airways-passenger-jet-almost-collided-with-a-ufo-a.jpg",
+    "imageSource": "Publisher Open Graph image"
+  },
+  {
     "id": "d162820b57f0e776823d",
     "headline": "Retired Navy admiral warns of decades-long UAP 'cover-up,' points to deep ocean as ultimate hiding spot",
     "source": "Fox News",
@@ -275,9 +290,7 @@
     "date": "2026-10-27T14:00:22+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details.",
-    "imageUrl": "https://hermes.media.static.aol.com/media/2026/10/27/e1121606-6fd8-3aa4-81cb-0e3fd8561115/b8dca398-74b9-4c96-8dda-282436c46c7b.jpg",
-    "imageSource": "Publisher Open Graph image"
+    "desc": "Read the source article for details."
   },
   {
     "id": "b03e842689c50715134d",
