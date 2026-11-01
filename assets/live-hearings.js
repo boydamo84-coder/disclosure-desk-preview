@@ -28,10 +28,18 @@ function init(){
  function render(){
   list.replaceChildren();
   if(!events.length){const msg=h('p','No confirmed hearing streams listed yet. We publish only verified events.');msg.className='muted small';list.append(msg);return}
-  for(const event of events){
-   const card=h('article');card.className='card';card.style.padding='12px';
-   card.append(h('strong',event.title),h('p',event.date+' · '+event.status.toUpperCase()));
-   const btn=h('button',event.status==='live'?'🔴 Watch live':event.status==='ended'?'▶ Recording / Discussion':'View event');btn.onclick=()=>openEvent(event);card.append(btn);list.append(card);
+  for(const [sectionTitle,filtered] of [['🔴 Live Now',events.filter(e=>e.status==='live')],['📅 Upcoming Hearings',events.filter(e=>e.status==='upcoming')],['▶ Past Hearings · Official Recordings',events.filter(e=>e.status==='ended')]]){
+   if(!filtered.length)continue;
+   const heading=h('h3',sectionTitle);heading.style.margin='18px 0 10px';list.append(heading);
+   for(const event of filtered){
+    const card=h('article');card.className='card';card.style.padding='14px';card.style.marginBottom='10px';
+    const heading=h('strong',event.title);heading.style.display='block';heading.style.marginBottom='6px';
+    const date=h('p',event.date+' · '+(event.status==='ended'?'Past hearing':event.status==='live'?'Live hearing':'Upcoming hearing'));date.className='muted small';
+    const actions=h('div');actions.style.cssText='display:flex;flex-wrap:wrap;gap:8px;margin-top:10px';
+    const btn=h('button',event.status==='live'?'🔴 Watch live':event.status==='ended'?'▶ Watch recording':'View event');btn.type='button';btn.onclick=()=>openEvent(event);actions.append(btn);
+    const official=h('a','Official hearing page ↗');official.href=event.sourceUrl;official.target='_blank';official.rel='noopener noreferrer';official.className='outline';official.style.cssText='display:inline-flex;align-items:center;padding:10px;text-decoration:none';actions.append(official);
+    card.append(heading,date,actions);list.append(card);
+   }
   }
  }
  render();
