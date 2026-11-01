@@ -9,8 +9,10 @@ const starter=[
  ['movies','Contact','1997','Robert Zemeckis'],
  ['books','UFOs: Generals, Pilots, and Government Officials Go on the Record','2010','Leslie Kean'],
  ['books','Passport to Magonia','1969','Jacques Vallée'],
- ['books','In Plain Sight','2021','Ross Coulthart']
-].map(([category,title,year,creator])=>({category,title,year,creator,id:(category+'-'+title).toLowerCase().replace(/[^a-z0-9]+/g,'-')}));
+ ['books','In Plain Sight','2021','Ross Coulthart'],
+ ['podcasts','Confessions Of A UFO Insider — The David Grusch Revelations','2023','WEAPONIZED · Episode 21','https://www.youtube.com/watch?v=dc6V0O_OPJ0'],
+ ['podcasts','Hollywood, The CIA & UFOs: The History Beyond Spielberg','2026','American Alchemy · Jesse Michels','https://www.youtube.com/watch?v=yJUBSuPh1pM']
+].map(([category,title,year,creator,url])=>({category,title,year,creator,url,id:(category+'-'+title).toLowerCase().replace(/[^a-z0-9]+/g,'-')}));
 const key='dd_watch_read_saved_v1';
 let client=null;
 const db=()=>{const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};if(!window.supabase||!cfg.url||!cfg.publishableKey||cfg.environment!=='test')return null;return client||(client=window.supabase.createClient(cfg.url,cfg.publishableKey));};
@@ -54,13 +56,13 @@ function node(tag,value){const n=document.createElement(tag);if(value!==undefine
 function init(){
  const host=document.getElementById('ddWatchReadMount');if(!host)return;
  const section=node('div');section.className='section';section.id='ddWatchRead';
- section.append(node('p','Explore documentaries, movies and books. Starter titles are editorial picks, not community-ranked results.'));
+ section.append(node('p','Explore documentaries, movies, books and podcast episodes. Starter titles are editorial picks, not community-ranked results.'));
  const toolbar=node('div');toolbar.style.cssText='display:flex;gap:7px;flex-wrap:wrap;margin:12px 0';
  const list=node('div'),msg=node('p','Community voting and member nominations will launch after our Supabase security tests.');msg.className='muted small';
  let category='documentaries',viewAll=false,sort='picks';
  function render(){
   toolbar.replaceChildren();
-  for(const [cat,label] of [['documentaries','Documentaries'],['movies','Movies'],['books','Books']]){
+  for(const [cat,label] of [['documentaries','Documentaries'],['movies','Movies'],['books','Books'],['podcasts','Podcast Episodes']]){
    const b=node('button',label);b.type='button';b.className=category===cat?'chip active':'chip';b.onclick=()=>{category=cat;viewAll=false;render()};toolbar.append(b);
   }
   list.replaceChildren();
@@ -78,6 +80,7 @@ function init(){
   for(const item of candidates.slice(0,viewAll?100:10)){
    const card=node('article');card.className='card';card.style.cssText='padding:12px;margin:8px 0';
    card.append(node('strong',item.title),node('p',item.year+' · '+item.creator));
+   if(item.url){const source=node('a','▶ Watch episode ↗');source.href=item.url;source.target='_blank';source.rel='noopener noreferrer';source.style.cssText='display:inline-block;color:#dfc48d;margin:0 0 12px;text-decoration:underline';card.append(source)}
    const save=node('button',saved[item.id]?'✓ On my list':'+ My list');save.type='button';save.className='outline';
    save.onclick=()=>{if(saved[item.id])delete saved[item.id];else saved[item.id]=true;try{localStorage.setItem(key,JSON.stringify(saved))}catch{}render()};
    const discuss=node('button','💬 Discuss');discuss.type='button';discuss.className='outline';discuss.style.marginLeft='6px';
