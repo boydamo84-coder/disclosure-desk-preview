@@ -273,7 +273,9 @@
     "date": "2026-10-29T14:32:50+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://lamag.com/wp-content/uploads/2026/10/Screenshot-2026-10-29-at-9.31.45-AM.png",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "c947b8e28347a16b08f7",
@@ -283,7 +285,9 @@
     "date": "2026-10-29T14:05:37+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://www.femalefirst.co.uk/image-library/partners/bang/land/500/t/the-identity-of-aliens-could-soon-be-revealed-aW1hZ2VzMS8yMD.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "21059935b4f5e6f92c13",
