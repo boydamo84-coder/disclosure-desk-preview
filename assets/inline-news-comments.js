@@ -5,16 +5,20 @@ let db;
 const client=()=>{if(cfg.environment!=='test'||!cfg.url||!cfg.publishableKey||!window.supabase)return null;return db||(db=window.supabase.createClient(cfg.url,cfg.publishableKey));};
 const el=(tag,value)=>{const n=document.createElement(tag);if(value!==undefined)n.textContent=value;return n;};
 const states=new WeakMap();
+const drafts=new Map(); // Preserve expansion and unfinished text when news cards are refreshed.
 function mount(container){
  if(states.has(container))return;
  const id=container.dataset.newsComments;
  if(!id)return;
- const state={expanded:false,items:[],busy:false};
+ const previous=drafts.get(id)||{expanded:false,draft:''};
+ const state={expanded:previous.expanded,items:[],busy:false};
  states.set(container,state);
  const toggle=el('button','Comments ▼');toggle.type='button';toggle.className='outline';toggle.setAttribute('aria-expanded','false');
  const entries=el('div');entries.className='dd-inline-comments-preview';
  const form=el('form');form.hidden=true;
  const body=el('textarea');body.placeholder='Add a comment or source reference…';body.rows=3;body.maxLength=2000;body.minLength=3;body.required=true;body.style.cssText='display:block;width:100%;box-sizing:border-box;margin:8px 0';
+ body.value=previous.draft;
+ body.addEventListener('input',()=>drafts.set(id,{expanded:state.expanded,draft:body.value}));
  const post=el('button','Post comment');post.type='submit';post.className='outline';
  const message=el('p');message.className='muted small';message.setAttribute('role','status');
  form.append(body,post);container.append(toggle,entries,form,message);
@@ -47,12 +51,12 @@ function mount(container){
   if(error){message.textContent='Comments temporarily unavailable.';return}
   state.items=data||[];render();
  }
- toggle.onclick=()=>{state.expanded=!state.expanded;render()};
+ toggle.onclick=()=>{state.expanded=!state.expanded;drafts.set(id,{expanded:state.expanded,draft:body.value});render()};
  form.onsubmit=async ev=>{ev.preventDefault();if(state.busy)return;const c=client();if(!c)return;
    const {data:{user}}=await c.auth.getUser();if(!user){message.textContent='Sign in to post.';return}
    state.busy=true;post.disabled=true;
    const {error}=await c.from('dd_case_comments').insert({case_id:id,author_id:user.id,body:body.value.trim(),status:'approved'});
-   if(!error){body.value='';message.textContent='Comment posted.';await refresh()}else message.textContent='Unable to post. Please try again.';
+   if(!error){body.value='';drafts.set(id,{expanded:true,draft:''});message.textContent='Comment posted.';await refresh()}else message.textContent='Unable to post. Please try again.';
    state.busy=false;post.disabled=false;
  };
  render();refresh();
