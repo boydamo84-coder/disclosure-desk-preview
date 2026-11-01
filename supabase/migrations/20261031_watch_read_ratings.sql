@@ -45,7 +45,7 @@ create policy dd_media_votes_insert on public.dd_media_votes for insert to authe
  with check (user_id=auth.uid() and exists(select 1 from public.dd_media_titles t where t.id=title_id and t.status='approved'));
 drop policy if exists dd_media_votes_update on public.dd_media_votes;
 create policy dd_media_votes_update on public.dd_media_votes for update to authenticated
- using(user_id=auth.uid()) with check(user_id=auth.uid());
+ using(user_id=auth.uid()) with check(user_id=auth.uid() and exists(select 1 from public.dd_media_titles t where t.id=title_id and t.status='approved'));
 drop policy if exists dd_media_votes_delete on public.dd_media_votes;
 create policy dd_media_votes_delete on public.dd_media_votes for delete to authenticated using(user_id=auth.uid());
 -- Only trusted admins seed and approve catalogue records.
