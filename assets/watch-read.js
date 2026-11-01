@@ -1,6 +1,6 @@
 /* Watch & Read beta — curated starter list; rankings need moderated database votes. */
 (()=>{'use strict';
-const starter=[
+const starterRows=[
  ['documentaries','The Phenomenon','2020','James Fox'],
  ['documentaries','Moment of Contact','2022','James Fox'],
  ['documentaries','The Age of Disclosure','2025','Dan Farah'],
@@ -14,7 +14,17 @@ const starter=[
  ['podcasts','Hollywood, The CIA & UFOs: The History Beyond Spielberg','2026','American Alchemy · Jesse Michels','https://www.youtube.com/watch?v=yJUBSuPh1pM'],
  ['podcasts','David Grusch: UFOs, Atomic Secrecy and Anti-Gravity Research','2023','American Alchemy · Jesse Michels','https://www.youtube.com/watch?v=kRO5jOa06Qw'],
  ['podcasts','WEAPONIZED #21 — The David Grusch Whistleblower Story','2023','WEAPONIZED · Corbell & Knapp','https://www.weaponizedpodcast.com/episodes-1/episode-number-21']
-].map(([category,title,year,creator,url])=>({category,title,year,creator,url,id:(category+'-'+title).toLowerCase().replace(/[^a-z0-9]+/g,'-')}));
+];
+// Official publisher episode pages; these are unranked catalogue entries, NOT listening statistics.
+// Episode #31 covers animal welfare rather than UFO investigations, so it is not included.
+const weaponizedEpisodes=[...Array.from({length:30},(_,i)=>i+1),...Array.from({length:17},(_,i)=>i+32)]
+ .map(n=>['podcasts','WEAPONIZED — Episode #'+n,'2023–2024','Jeremy Corbell & George Knapp · WEAPONIZED',
+ 'https://www.weaponizedpodcast.com/'+(n<=30?'episodes-1/episode-number-':'episodes-2/episode-')+n]);
+const seenUrls=new Set();
+const starter=[...starterRows,...weaponizedEpisodes].filter(row=>{
+ const url=row[4];if(url&&seenUrls.has(url))return false;
+ if(url)seenUrls.add(url);return true;
+}).map(([category,title,year,creator,url])=>({category,title,year,creator,url,id:(category+'-'+title).toLowerCase().replace(/[^a-z0-9]+/g,'-')}));
 const key='dd_watch_read_saved_v1';
 let client=null;
 const db=()=>{const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};if(!window.supabase||!cfg.url||!cfg.publishableKey||cfg.environment!=='test')return null;return client||(client=window.supabase.createClient(cfg.url,cfg.publishableKey));};
@@ -69,7 +79,7 @@ function init(){
   }
   list.replaceChildren();
   if(category==='podcasts'){
-   const info=node('p','Top 100 UFO Podcast Episodes · Building the curated shortlist. '+starter.filter(v=>v.category==='podcasts').length+' verified episode links so far; no invented community rankings.');info.className='muted small';list.append(info);
+   const info=node('p','Top 100 UFO Podcast Episodes · Unranked starter catalogue (official episode links; not a most-listened chart). '+starter.filter(v=>v.category==='podcasts').length+' verified episode links so far; no invented community rankings.');info.className='muted small';list.append(info);
    const search=node('input');search.type='search';search.className='field';search.placeholder='Search episode, guest or podcast…';search.value=podcastSearch;search.setAttribute('aria-label','Search podcast episode recommendations');search.oninput=()=>{podcastSearch=search.value;render();const next=list.querySelector('input[type="search"]');next?.focus();next?.setSelectionRange(podcastSearch.length,podcastSearch.length)};list.append(search);
   }
   if(category==='podcasts'){
