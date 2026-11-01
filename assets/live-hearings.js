@@ -4,7 +4,7 @@
 const URL='https://omqxizswzcwgzqaczlhe.supabase.co',KEY='sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X';
 const client=()=>window.supabase?.createClient(URL,KEY);
 const h=(tag,txt)=>{const e=document.createElement(tag);if(txt!==undefined)e.textContent=txt;return e};
-const safeVideo=url=>{try{const u=new URL(url);return u.protocol==='https:'&&(/(^|\.)youtube\.com$|(^|\.)youtube-nocookie\.com$|(^|\.)congress\.gov$|(^|\.)house\.gov$|(^|\.)senate\.gov$/).test(u.hostname)}catch{return false}};
+const safeVideo=url=>{try{const u=new URL(url);return u.protocol==='https:'&&['youtube.com','youtube-nocookie.com','congress.gov','house.gov','senate.gov'].some(domain=>u.hostname===domain||u.hostname.endsWith('.'+domain))}catch{return false}};
 const BUNDLED_HEARINGS=[
  {id:'house-uap-2025-09-09',title:'Restoring Public Trust Through UAP Transparency and Whistleblower Protection',date:'2025-09-09',status:'ended',embedUrl:'https://www.youtube-nocookie.com/embed/LBKRr5OvF6E',sourceUrl:'https://oversight.house.gov/hearing/restoring-public-trust-through-uap-transparency-and-whistleblower-protection/'},
  {id:'house-uap-2024-11-13',title:'Unidentified Anomalous Phenomena: Exposing the Truth',date:'2024-11-13',status:'ended',embedUrl:'https://www.youtube-nocookie.com/embed/kT2iWKZr0qA',sourceUrl:'https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/'},
@@ -51,7 +51,7 @@ function init(){
  fetch('data/approved-live-events.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('No events file');return r.json()}).then(data=>{
   if(!Array.isArray(data)||!data.length)return;
   const verified=data.filter(x=>x&&typeof x.id==='string'&&/^[a-zA-Z0-9_-]{3,120}$/.test(x.id)&&typeof x.title==='string'&&x.title.length<180&&typeof x.date==='string'&&['upcoming','live','ended'].includes(x.status)&&typeof x.sourceUrl==='string'&&safeVideo(x.sourceUrl)&&(!x.embedUrl||safeVideo(x.embedUrl))).slice(0,40);
-  if(verified.length)events=verified;render();
+  if(verified.length){const bundled=new Map(BUNDLED_HEARINGS.map(e=>[e.id,e]));events=verified.map(e=>({...bundled.get(e.id),...e,embedUrl:e.embedUrl||bundled.get(e.id)?.embedUrl}));}render();
  }).catch(()=>{render()});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
