@@ -115,6 +115,9 @@ def main():
     for path in ["assets/case-discussions.js","assets/case-comment-moderation.js","assets/watch-read.js"]:
         if "DD_COMMUNITY_TEST_CONFIG" not in (ROOT / path).read_text(encoding="utf-8"):
             sys.exit("Community script does not use isolated test configuration: "+path)
+    for required in ['id="ddCompareCreateBoard"', 'ddCompareNewBoardName', 'saveComparisonToBoard(b)', 'investigationBoards.push(b);saveComparisonToBoard(b)']:
+        if required not in html:
+            sys.exit("First-use comparison save must support creating a Board in-place: "+required)
     watch = ROOT / "assets" / "watch-read.js"
     if not watch.exists():
         sys.exit("Watch & Read script missing")
