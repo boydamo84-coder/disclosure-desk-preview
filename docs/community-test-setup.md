@@ -1,4 +1,22 @@
-# Community test project setup — no production changes
+# Community testing using existing Disclosure Desk Supabase
+
+**Current plan:** use existing Supabase project `omqxizswzcwgzqaczlhe`, with two existing tester accounts, and keep all features unreleased on DEV. Existing account / Boards tables must remain unchanged.
+
+## Apply additive SQL cautiously
+1. Open existing Disclosure Desk Supabase project > SQL Editor.
+2. Run `supabase/migrations/20261031_case_comments_foundation.sql`. Verify there are no SQL errors.
+3. Run `supabase/migrations/20261031_watch_read_ratings.sql`. Verify starter catalogue and tables.
+4. These scripts create only new `dd_*` community tables and functions. Do not modify the existing user authentication or Investigation Boards data.
+5. Rebuild the DEV APK after SQL succeeds and verify with each of the two existing sign-ins; keep the production app unchanged.
+
+## Security checks before public release
+- Moderation access requires trusted admin allowlist; do not add arbitrary users as moderators.
+- The new tables use RLS; test both account separation and forbidden operations before enabling public access.
+- A database transaction rollback/test backup is recommended before applying SQL.
+
+---
+
+
 
 This DEV branch intentionally disables Comments, My Comments, moderator tools, and Watch & Read voting unless a **separate** Supabase test project is configured.
 
