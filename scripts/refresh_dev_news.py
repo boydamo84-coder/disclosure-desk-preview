@@ -55,6 +55,28 @@ def parse(xml):
                'source':publisher[:100],'url':url,'date':date.isoformat(timespec='seconds'),
                'category':'UAP','priority':'standard','desc':'Read the source article for details.',
                **({'imageUrl':image_url,'imageSource':'Publisher RSS image'} if image_url else {})}
+def publisher_image(article_url):
+    """Best-effort Open Graph image from an actual publisher page, never a search preview."""
+    from html.parser import HTMLParser
+    class Images(HTMLParser):
+        found=''
+        def handle_starttag(self,tag,attrs):
+            if tag!='meta' or self.found:return
+            props=dict(attrs)
+            if (props.get('property') or props.get('name') or '').lower() in ('og:image','twitter:image'):
+                self.found=props.get('content','')
+    try:
+        req=urllib.request.Request(article_url,headers={'User-Agent':'Mozilla/5.0 (compatible; DisclosureDesk/1.0)'})
+        with urllib.request.urlopen(req,timeout=5) as resp:
+            final=resp.geturl()
+            if 'news.google.com/' in urllib.parse.urlparse(final).netloc+urllib.parse.urlparse(final).path:
+                return ''
+            data=resp.read(180000).decode('utf-8',errors='ignore')
+        parser=Images();parser.feed(data)
+        image=urllib.parse.urljoin(final,html.unescape(parser.found))
+        return image if image.startswith('https://') else ''
+    except Exception:return ''
+
 def main():
     old=json.loads(PATH.read_text(encoding='utf-8'))
     if not isinstance(old,list):raise ValueError('Existing catalogue is not a list')
@@ -81,6 +103,19 @@ def main():
     if recent==0:raise RuntimeError('RSS provided no articles within 7 days; refusing to present stale data as refreshed')
     freshest=max(dt.datetime.fromisoformat(x['date']) for x in gathered)
     if NOW-freshest>dt.timedelta(hours=72):raise RuntimeError('Newest RSS article is over 72 hours old; source discovery needs repair. Catalogue not overwritten.')
+    # Try a limited number of publisher pages each run. Image metadata is optional;
+    # failure must never block delivery of new headlines.
+    enriched=0;attempted=0
+    for entry in out[:60]:
+        if entry.get('imageUrl'):continue
+        if attempted>=24:break
+        attempted+=1
+        found=publisher_image(entry['url'])
+        if found:
+            entry['imageUrl']=found
+            entry['imageSource']='Publisher Open Graph image'
+            enriched+=1
+    print('Publisher metadata image enrichment:',enriched,'of',attempted,'attempted')
     PATH.write_text(json.dumps(out[:500],ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print('Updated',len(out[:500]),'stories; new last 7 days',recent,'old newest',old[0].get('date') if old else 'none')
     for err in errors:print('WARNING:',err)
