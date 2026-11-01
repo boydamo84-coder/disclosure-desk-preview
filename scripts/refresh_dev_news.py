@@ -29,7 +29,16 @@ REGIONAL_TERMS={
  'Mexico':'UFO UAP Mexico OVNI when:7d',
  'Japan':'UFO UAP Japan when:7d',
  'Canada':'UFO UAP Canada when:7d',
- 'Australia':'UFO UAP Australia when:7d'
+ 'Australia':'UFO UAP Australia when:7d',
+ 'United Kingdom':'UFO UAP Britain UK when:7d',
+ 'New Zealand':'UFO UAP New Zealand when:7d',
+ 'Argentina':'OVNI UFO Argentina when:7d',
+ 'Chile':'OVNI UFO Chile when:7d',
+ 'Peru':'OVNI UFO Peru when:7d',
+ 'Spain':'OVNI UFO Spain when:7d',
+ 'Italy':'UFO UAP Italy when:7d',
+ 'India':'UFO UAP India when:7d',
+ 'South Africa':'UFO UAP South Africa when:7d'
 }
 # First-party RSS sources, with direct publisher links and optional media thumbnails.
 DIRECT_FEEDS={
@@ -57,7 +66,16 @@ COUNTRY_WORDS={
  'Mexico':r'\b(?:mexico|mexican)\b',
  'Japan':r'\b(?:japan|japanese|tokyo)\b',
  'Canada':r'\b(?:canada|canadian|ottawa)\b',
- 'Australia':r'\b(?:australia|australian|aussie|canberra)\b'
+ 'Australia':r'\b(?:australia|australian|aussie|canberra)\b',
+ 'United Kingdom':r'\b(?:united kingdom|britain|british|england|scotland|wales|northern ireland|london)\b',
+ 'New Zealand':r'\b(?:new zealand|kiwi|auckland|wellington)\b',
+ 'Argentina':r'\b(?:argentina|argentine|argentinian|buenos aires)\b',
+ 'Chile':r'\b(?:chile|chilean|santiago)\b',
+ 'Peru':r'\b(?:peru|peruvian|lima)\b',
+ 'Spain':r'\b(?:spain|spanish|madrid)\b',
+ 'Italy':r'\b(?:italy|italian|rome)\b',
+ 'India':r'\b(?:india|indian|delhi|mumbai)\b',
+ 'South Africa':r'\b(?:south africa|south african|johannesburg|cape town)\b'
 }
 def relevant_headline(title):
     return bool(TOPIC.search(title)) and not bool(OFF_TOPIC.search(title))
