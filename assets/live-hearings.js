@@ -55,10 +55,25 @@ function init(){
     const card=h('article');card.className='card';card.style.padding='14px';card.style.marginBottom='10px';
     const heading=h('strong',event.title);heading.style.display='block';heading.style.marginBottom='6px';
     const date=h('p',event.date+' · '+(event.status==='ended'?'Past hearing':event.status==='live'?'Live hearing':'Upcoming hearing'));date.className='muted small';
-    const actions=h('div');actions.style.cssText='display:flex;flex-wrap:wrap;gap:8px;margin-top:10px';
-    const btn=h('button',event.status==='live'?'🔴 Watch live':event.status==='ended'?'▶ Watch recording':'View event');btn.type='button';btn.onclick=()=>openEvent(event);actions.append(btn);
-    const official=h('a','Official hearing page ↗');official.href=event.sourceUrl;official.target='_blank';official.rel='noopener noreferrer';official.className='outline';official.style.cssText='display:inline-flex;align-items:center;padding:10px;text-decoration:none';actions.append(official);
-    card.append(heading,date,actions);list.append(card);
+    card.append(heading,date);
+    const bundled=BUNDLED_HEARINGS.find(e=>e.id===event.id);
+    const embed=bundled?.embedUrl||event.embedUrl||'';
+    if(embed&&safeVideo(embed)){
+      const player=h('div');player.className='dd-live-inline-player';player.style.cssText='position:relative;aspect-ratio:16/9;background:#07111b;border-radius:12px;overflow:hidden;margin:12px 0';
+      const preview=h('button','▶ Play official recording');preview.type='button';preview.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;color:#fff;background:linear-gradient(145deg,#1d3446,#09121d);font-size:18px;font-weight:700;cursor:pointer';
+      preview.setAttribute('aria-label','Play '+event.title);
+      preview.onclick=()=>{
+        // Only mount the requested player; don't load three third-party embeds on page entry.
+        document.querySelectorAll('.dd-live-inline-player iframe').forEach(frame=>{frame.parentElement?.replaceChildren(frame.parentElement._preview||h('span','Recording paused'))});
+        const frame=h('iframe');frame.title='Official hearing recording: '+event.title;frame.src=embed+'?playsinline=1&rel=0';frame.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';frame.allowFullscreen=true;frame.style.cssText='display:block;width:100%;height:100%;border:0';player.replaceChildren(frame);
+      };
+      player._preview=preview;player.append(preview);card.append(player);
+    }
+    const actions=h('div');actions.className='dd-live-card-actions';actions.style.cssText='display:flex;flex-wrap:wrap;gap:8px;margin-top:10px';
+    const details=h('button','💬 Discussion / Details');details.type='button';details.className='outline';details.onclick=()=>openEvent(event);actions.append(details);
+    if(embed&&safeVideo(embed)){const y=h('a','YouTube ↗');y.href='https://www.youtube.com/watch?v='+embed.split('/').pop();y.target='_blank';y.rel='noopener noreferrer';y.className='outline';y.style.cssText='display:inline-flex;align-items:center;padding:10px;text-decoration:none';actions.append(y)}
+    const official=h('a','Official source ↗');official.href=event.sourceUrl;official.target='_blank';official.rel='noopener noreferrer';official.className='outline';official.style.cssText='display:inline-flex;align-items:center;padding:10px;text-decoration:none';actions.append(official);
+    card.append(actions);list.append(card);
    }
   }
  }
