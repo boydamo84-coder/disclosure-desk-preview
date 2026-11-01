@@ -40,7 +40,8 @@ def main():
         'id="pickerIncludeDiscussion"',
         'data-open-saved-discussion',
         'data-clip-action="discuss"',
-        'data-news-discussion',
+        'data-news-comments',
+        'assets/inline-news-comments.js',
         'ddGoToDiscussionOrigin',
         'assets/live-hearings.js',
         'assets/watch-read.js',
@@ -76,6 +77,15 @@ def main():
         if 'data-case-discussion' not in page:
             sys.exit("Case discussion button missing from case cards")
         print("PASS: Case discussion JS syntax and case button wiring.")
+    inline_news = ROOT / "assets" / "inline-news-comments.js"
+    if not inline_news.exists():
+        sys.exit("Inline news comments script missing")
+    syntax = subprocess.run(["node", "--check", str(inline_news)], capture_output=True, text=True)
+    if syntax.returncode:
+        sys.exit("Inline news comments syntax failed: " + syntax.stderr)
+    for token in ["slice(-2)", "dd_case_comments", "dd_case_comment_flags", "aria-expanded"]:
+        if token not in inline_news.read_text(encoding="utf-8"):
+            sys.exit("Missing inline comments feature: "+token)
     moderator = ROOT / "assets" / "case-comment-moderation.js"
     if moderator.exists():
         result = subprocess.run(["node", "--check", str(moderator)], capture_output=True, text=True)
