@@ -134,6 +134,10 @@ def main():
         if "ddLiveMount" not in live.read_text(encoding="utf-8"):
             sys.exit("LIVE hub is not mounted on its dedicated page")
         live_text = live.read_text(encoding="utf-8")
+        if "const URL=" in live_text or "const URL =" in live_text:
+            sys.exit("LIVE shadows browser URL constructor and breaks all official media validation")
+        if "const SUPABASE_URL=" not in live_text:
+            sys.exit("LIVE missing explicitly named Supabase URL")
         if "embedUrl:e.embedUrl||bundled.get(e.id)?.embedUrl" not in live_text:
             sys.exit("LIVE embeds are not retained when the fetched events omit them")
         if live_text.count("youtube-nocookie.com/embed/") < 3:
