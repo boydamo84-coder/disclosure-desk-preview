@@ -29,19 +29,19 @@
     },
     {
       "country": "Russia",
-      "name": "Russian historical UAP case-source discovery",
-      "url": null,
-      "status": "source-needed",
+      "name": "USSR Setka (1978–1991) and Russian archives",
+      "url": "https://www.afu.se/collections/report-files/",
+      "status": "historical-source-verification",
       "sourceType": "research-queue",
-      "note": "No verified bulk source approved. Seek primary documents and translation before importing."
+      "note": "Published account by Setka coordinators discusses roughly 3,000 reports, but the official underlying records are not verified as a downloadable public catalogue. AFU describes about 1,200 private Russian report files from 1993, not official government records. Do not import private datasets or assume count/rights. Seek primary archival identifiers and permitted access."
     },
     {
       "country": "India",
-      "name": "Indian historical UAP case-source discovery",
-      "url": null,
-      "status": "source-needed",
+      "name": "Parliament Digital Library government UFO/UAP records",
+      "url": "https://eparlib.sansad.in/handle/123456789/538199?view_type=browse",
+      "status": "official-primary-documents-identified",
       "sourceType": "research-queue",
-      "note": "No verified bulk source approved. Seek official aviation/defence documentation or attributable contemporary reporting."
+      "note": "Official Lok Sabha archive has 2004 question 133 (UFO sighting in Himachal Pradesh) and 2012 question 562 (Indo-China border); preserve parliamentary answer and question dates separately from incident dates. 1965 parliamentary debate includes official possible weather-balloon explanation. Search earliest through latest years; do not assume these are distinct unresolved incidents."
     },
     {
       "country": "South Africa",
@@ -66,6 +66,14 @@
       "status": "case-index-review",
       "sourceType": "official-investigation",
       "note": "Official SEFAA publishes resolved-case year links (2018–2026). Identify stable individual case identifiers, distinguish resolved explanations from unidentified reports, check reuse conditions; do not import case texts or precise locations without review."
+    },
+    {
+      "country": "China",
+      "name": "Chinese UAP historical and official-source discovery",
+      "url": "https://www.ised-isde.canada.ca/site/science/en/office-chief-science-advisor/sky-canada-project/management-public-reporting-unidentified-aerial-phenomena-canada",
+      "status": "official-catalogue-not-found",
+      "note": "Canadian government Sky Canada report describes Chinese UFO research history and reports on PLA tracking, but no independently verified accessible government case-level catalogue yet. Seek direct PRC government links; distinguish journalism and private society records from government case files. Translate carefully and verify commercial reuse.",
+      "sourceType": "research-queue"
     }
   ]
 }
