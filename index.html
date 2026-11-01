@@ -1251,13 +1251,23 @@ $('ddComparisonSaveClose').onclick=()=>$('ddComparisonSaveDialog').close();
 function ddOpenComparisonSave(first,second){
  ddPendingComparison={left:ddComparisonSnapshot(first),right:ddComparisonSnapshot(second)};
  const choices=investigationBoards.map((b,i)=>'<button class="picker-choice" data-compare-board="'+i+'"><strong>'+esc(b.name)+'</strong><span>›</span></button>').join('');
- const body=$('ddComparisonSaveChoices');body.innerHTML=choices||'<p class="muted small">Create an Investigation Board under Boards first.</p>';
- body.querySelectorAll('[data-compare-board]').forEach(btn=>btn.onclick=()=>{
-  const b=investigationBoards[Number(btn.dataset.compareBoard)],v=ddPendingComparison;if(!b||!v)return;
+ const body=$('ddComparisonSaveChoices');body.innerHTML=choices+'<form id="ddCompareCreateBoard" class="picker-create" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"><label for="ddCompareNewBoardName" style="width:100%">Create a new Board and save this comparison</label><input id="ddCompareNewBoardName" class="field" maxlength="60" required placeholder="e.g. Rendlesham vs Nimitz" style="flex:1;min-width:160px"><button type="submit" class="outline">＋ Create &amp; Save</button></form>';
+ const saveComparisonToBoard=b=>{
+  const v=ddPendingComparison;if(!b||!v)return;
   b.comparisons??=[];if(b.comparisons.length>=100){$('ddComparisonSaveStatus').textContent='Board limit reached (100 comparisons).';return}
   const key=x=>[x.left.id,x.right.id].sort().join('::');
   if(b.comparisons.some(x=>key(x)===key(v))){$('ddComparisonSaveStatus').textContent='Already saved in this Board.';return}
   b.comparisons.unshift({...v,note:'',savedAt:new Date().toISOString()});boardSave();$('ddComparisonSaveStatus').textContent='✓ Comparison saved to '+b.name+'.';body.innerHTML='<button class="outline" type="button" id="ddComparisonDone">Done</button>';$('ddComparisonDone').onclick=()=>$('ddComparisonSaveDialog').close();
+ };
+ body.querySelector('#ddCompareCreateBoard').onsubmit=e=>{
+  e.preventDefault();const name=body.querySelector('#ddCompareNewBoardName').value.trim();
+  if(!name){$('ddComparisonSaveStatus').textContent='Enter a Board name.';return}
+  if(investigationBoards.length>=40){$('ddComparisonSaveStatus').textContent='Maximum of 40 Boards reached.';return}
+  const b={id:String(Date.now())+'-'+Math.random().toString(36).slice(2,8),name:name.slice(0,60),links:[],notes:[],comparisons:[]};
+  investigationBoards.push(b);saveComparisonToBoard(b);
+ };
+ body.querySelectorAll('[data-compare-board]').forEach(btn=>btn.onclick=()=>{
+  saveComparisonToBoard(investigationBoards[Number(btn.dataset.compareBoard)]);
  });
  $('ddComparisonSaveStatus').textContent='Choose where to save this comparison.';
  $('ddComparisonSaveDialog').showModal();
