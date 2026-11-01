@@ -35,11 +35,11 @@ nameWrap.querySelector('#ddSaveDisplayName').addEventListener('click',async()=>{
  if(!session?.user){say('Sign in to save a display name.');return}
  const name=displayNameInput.value.trim().replace(/\\s+/g,' ');
  if(name.length<2||name.length>32||/[<>]/.test(name)){say('Choose a display name of 2–32 characters without angle brackets.');return}
+ if(!/^[A-Za-z0-9][A-Za-z0-9 _.-]*$/.test(name)){say('Use letters, numbers, spaces, dots, dashes or underscores.');return}
  if(ddNameReserved(name)){say('That display name is reserved for Disclosure Desk or its team. Please choose another.');return}
- const {data,error}=await db.auth.updateUser({data:{display_name:name}});
- if(error){say('Could not save display name: '+error.message);return}
- if(data?.user)session={...session,user:data.user};
- say('Display name saved. Your email remains your sign-in.');
+ const {error}=await db.from('dd_public_names').upsert({user_id:session.user.id,display_name:name},{onConflict:'user_id'});
+ if(error){say(error.code==='23505'?'That display name is already taken. Choose another.':error.code==='23514'?'That display name is not allowed. Please use letters, numbers, spaces, dots, dashes or underscores.':'Could not save display name. The secure usernames database may not be configured yet.');return}
+ say('Display name saved securely. Your email remains your sign-in.');
  window.dispatchEvent(new CustomEvent('dd-account-display-name',{detail:{name}}));
 });
 const ddLocalIndicator=document.createElement('p');ddLocalIndicator.id='ddLocalBoardIdentity';ddLocalIndicator.className='muted small';ddLocalIndicator.setAttribute('aria-live','polite');ddLocalIndicator.textContent='Checking account-specific local Boards…';panel.append(ddLocalIndicator);
@@ -94,7 +94,8 @@ async function refreshAccountOverview(){
  box.hidden=!session;
  nameWrap.hidden=!session;
  if(!session)return;
- displayNameInput.value=session.user.user_metadata?.display_name||'';
+ const {data:displayRow,error:displayErr}=await db.from('dd_public_names').select('display_name').eq('user_id',session.user.id).maybeSingle();
+ displayNameInput.value=displayErr?'':(displayRow?.display_name||'');
  document.getElementById('ddAccountSummaryEmail').textContent=session.user.email;
  document.getElementById('ddAccountLocalCount').textContent=Array.isArray(investigationBoards)?String(investigationBoards.length):'—';
  const cloudCount=document.getElementById('ddAccountCloudCount');
