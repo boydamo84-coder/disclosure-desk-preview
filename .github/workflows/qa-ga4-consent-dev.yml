@@ -1,0 +1,36 @@
+name: Verify GA4 opt-in analytics (DEV, no deploy)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Static integration, consent and privacy QA
+        run: |
+          node --check assets/dd-analytics.js
+          node --input-type=module <<'NODE'
+          import {readFileSync} from 'node:fs';
+          const html=readFileSync('index.html','utf8');
+          const js=readFileSync('assets/dd-analytics.js','utf8');
+          const privacy=readFileSync('privacy.html','utf8');
+          const needed=['G-ZWJQMK8JSW','ddAnalyticsPage','analytics_storage','data-dd-analytics-choice','dd-analytics-choice-v1'];
+          const all=html+'\n'+js;
+          for(const token of needed)if(!all.includes(token))throw Error('Missing '+token);
+          if(!html.includes('assets/dd-analytics.js?v=1'))throw Error('Analytics script not loaded');
+          if(!privacy.includes('Optional website analytics'))throw Error('Missing privacy text');
+          if(html.includes('googletagmanager.com/gtag/js'))throw Error('GA tracking must NOT load directly in HTML');
+          const loaderIndex=js.indexOf('document.createElement(\'script\')');
+          const consentIndex=js.indexOf("if(enabled)load()");
+          if(loaderIndex<0||consentIndex<0)throw Error('Expected opt-in loader not found');
+          console.log('PASS: Measurement ID, user choice UI, section events, privacy text, and syntax.');
+          console.log('No Netlify deployment. Real consent and Analytics Realtime still require browser testing.');
+          NODE
