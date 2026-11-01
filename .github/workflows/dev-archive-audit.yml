@@ -1,0 +1,37 @@
+name: Development archive audit (no deploy)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit case catalogue and news collector
+        run: |
+          python -m py_compile scripts/refresh_dev_news.py scripts/import_international_cases.py
+          python -m unittest discover -s tests -p 'test_news_relevance.py' -v
+          python - <<'PY'
+          import json,pathlib,collections
+          root=pathlib.Path('data')
+          for name in ('disclosure-map.json','historical-news-archive.json','news-alerts.json'):
+              path=root/name
+              if not path.exists():
+                  print(name,'not present');continue
+              entries=json.loads(path.read_text(encoding='utf-8'))
+              if isinstance(entries,dict):
+                  print(name,'object with keys',list(entries)[:12]);continue
+              ids=[str(r.get('id','')) for r in entries if isinstance(r,dict)]
+              repeated=[k for k,n in collections.Counter(ids).items() if n>1]
+              empty=sum(not x for x in ids)
+              print(name,': records=',len(entries),'duplicate ids=',len(repeated),'missing ids=',empty)
+              assert not repeated, f'Duplicate IDs in {name}'
+              assert not empty, f'Missing IDs in {name}'
+          PY
