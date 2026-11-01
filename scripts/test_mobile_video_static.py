@@ -83,7 +83,7 @@ def main():
     syntax = subprocess.run(["node", "--check", str(inline_news)], capture_output=True, text=True)
     if syntax.returncode:
         sys.exit("Inline news comments syntax failed: " + syntax.stderr)
-    for token in ["slice(-2)", "dd_case_comments", "dd_case_comment_flags", "aria-expanded"]:
+    for token in ["slice(-2)", "dd_case_comments", "dd_case_comment_flags", "aria-expanded", "drafts.set(id", "drafts.get(id"]:
         if token not in inline_news.read_text(encoding="utf-8"):
             sys.exit("Missing inline comments feature: "+token)
     moderator = ROOT / "assets" / "case-comment-moderation.js"
