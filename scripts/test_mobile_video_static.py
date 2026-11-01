@@ -120,6 +120,12 @@ def main():
         sys.exit("Watch & Read script missing")
     if "ddWatchReadMount" not in watch.read_text(encoding="utf-8"):
         sys.exit("Watch & Read is not mounted on its own page")
+    watch_text = watch.read_text(encoding="utf-8")
+    for required in ["['podcasts','Podcast Episodes']", "'podcasts','Confessions Of A UFO Insider", "'podcasts','Hollywood, The CIA", "Watch episode", "dd_media_votes", "'media:'+item.id"]:
+        if required not in watch_text:
+            sys.exit("Watch & Read podcast catalog or interactions missing: " + required)
+    if watch_text.count("https://www.youtube.com/watch?v=") < 2:
+        sys.exit("Podcast recommendations need individual episode links")
     check = subprocess.run(["node", "--check", str(watch)], capture_output=True, text=True)
     if check.returncode:
         sys.exit("Watch & Read syntax failed: " + check.stderr)
