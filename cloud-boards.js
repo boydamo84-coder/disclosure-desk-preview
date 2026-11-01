@@ -14,6 +14,23 @@ const pass=document.getElementById('ddCloudPass');
 const act=document.getElementById('ddCloudActions');
 const guest=document.getElementById('ddCloudGuest');
 const cloudControls=document.getElementById('ddCloudControls');
+// Optional public-facing display name stored in Supabase Auth user metadata.
+const nameWrap=document.createElement('div');
+nameWrap.style.cssText='display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0';
+nameWrap.innerHTML='<label for="ddDisplayName" style="font-weight:600">Display name</label><input id="ddDisplayName" class="field" maxlength="32" autocomplete="nickname" placeholder="Choose a display name" style="flex:1;min-width:130px"><button id="ddSaveDisplayName" type="button" class="outline">Save name</button>';
+nameWrap.hidden=true;
+panel.append(nameWrap);
+const displayNameInput=nameWrap.querySelector('#ddDisplayName');
+nameWrap.querySelector('#ddSaveDisplayName').addEventListener('click',async()=>{
+ if(!session?.user){say('Sign in to save a display name.');return}
+ const name=displayNameInput.value.trim().replace(/\\s+/g,' ');
+ if(name.length<2||name.length>32||/[<>]/.test(name)){say('Choose a display name of 2–32 characters without angle brackets.');return}
+ const {data,error}=await db.auth.updateUser({data:{display_name:name}});
+ if(error){say('Could not save display name: '+error.message);return}
+ if(data?.user)session={...session,user:data.user};
+ say('Display name saved. Your email remains your sign-in.');
+ window.dispatchEvent(new CustomEvent('dd-account-display-name',{detail:{name}}));
+});
 const ddLocalIndicator=document.createElement('p');ddLocalIndicator.id='ddLocalBoardIdentity';ddLocalIndicator.className='muted small';ddLocalIndicator.setAttribute('aria-live','polite');ddLocalIndicator.textContent='Checking account-specific local Boards…';panel.append(ddLocalIndicator);
 const syncKey=()=>session?.user?.id?'dd-sync-log-'+session.user.id:null;
 function syncStamp(kind,count){
@@ -64,7 +81,9 @@ async function refreshAccountOverview(){
  const box=document.getElementById('ddAccountSummary');
  if(!box)return;
  box.hidden=!session;
+ nameWrap.hidden=!session;
  if(!session)return;
+ displayNameInput.value=session.user.user_metadata?.display_name||'';
  document.getElementById('ddAccountSummaryEmail').textContent=session.user.email;
  document.getElementById('ddAccountLocalCount').textContent=Array.isArray(investigationBoards)?String(investigationBoards.length):'—';
  const cloudCount=document.getElementById('ddAccountCloudCount');
