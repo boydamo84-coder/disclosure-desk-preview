@@ -1,0 +1,30 @@
+name: AdSense head loader QA (no deploy)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify publisher script exists once in HTML head
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFileSync} from 'node:fs';
+          const html=readFileSync('index.html','utf8');
+          const head=html.split('</head>')[0];
+          const pub='ca-pub-6712657097464071';
+          const loader='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client='+pub;
+          if(!head.includes('name="google-adsense-account" content="'+pub+'"'))throw Error('Missing publisher metadata');
+          if(head.split(loader).length!==2)throw Error('AdSense loader missing or duplicated');
+          if(!head.includes('src="'+loader+'" crossorigin="anonymous"'))throw Error('Invalid script attributes');
+          console.log('PASS: AdSense loader appears once in HEAD, matches publisher ID.');
+          console.log('NOTE: Google CMP delivery and site approval require browser and AdSense dashboard verification.');
+          NODE
