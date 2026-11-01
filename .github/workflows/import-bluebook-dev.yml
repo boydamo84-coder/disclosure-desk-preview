@@ -1,0 +1,83 @@
+name: Expand Blue Book individual cases (DEV only, no deploy)
+on:
+  workflow_dispatch:
+    inputs:
+      offset:
+        description: "Starting row in sorted source dataset"
+        type: string
+        default: "0"
+        required: true
+      limit:
+        description: "Number of cases, maximum 5000"
+        type: string
+        default: "5000"
+        required: true
+      apply:
+        description: "Commit individual case-file records to DEV (unchecked = preview only)"
+        type: boolean
+        default: false
+        required: true
+permissions:
+  contents: write
+concurrency:
+  group: dd-bluebook-dev-import
+  cancel-in-progress: false
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate inputs and existing archive
+        env:
+          OFFSET: ${{ inputs.offset }}
+          LIMIT: ${{ inputs.limit }}
+        run: |
+          python - <<'PY'
+          import os,json
+          offset=int(os.environ['OFFSET']);limit=int(os.environ['LIMIT'])
+          assert 0<=offset<=11000 and 1<=limit<=5000
+          rows=json.load(open('data/historical-news-archive.json'))
+          ids=[r['id'] for r in rows]
+          assert len(ids)==len(set(ids)), 'Existing archive contains duplicate IDs'
+          print('Existing archive:',len(rows),'records; individual Blue Book entries:',sum(x.startswith('nara-bluebook-') for x in ids))
+          PY
+          python -m py_compile scripts/import_bluebook_cases.py
+      - name: Import attributed source metadata to temporary working copy
+        env:
+          OFFSET: ${{ inputs.offset }}
+          LIMIT: ${{ inputs.limit }}
+        run: |
+          python scripts/import_bluebook_cases.py --offset "$OFFSET" --limit "$LIMIT"
+          python - <<'PY'
+          import json,pathlib
+          rows=json.loads(pathlib.Path('data/historical-news-archive.json').read_text())
+          ids=[r['id'] for r in rows]
+          assert len(ids)==len(set(ids))
+          for r in rows:
+            if r['id'].startswith('nara-bluebook-'):
+              assert r['url'].startswith('https://') and all(k not in r for k in ('lat','lon','latitude','longitude','street','address'))
+          print('Validated archive after batch:',len(rows))
+          PY
+      - name: Preview summary, do not publish
+        if: ${{ !inputs.apply }}
+        run: |
+          git diff --stat -- data/historical-news-archive.json
+          echo "PREVIEW ONLY: no commit, no push, no Netlify or GitHub Pages deployment."
+      - name: Commit reviewed source batch to DEV only
+        if: ${{ inputs.apply }}
+        run: |
+          git config user.name "Disclosure Desk Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/historical-news-archive.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Expand individual Blue Book source records on DEV [skip netlify]"
+            git push origin HEAD:dev/mobile-video-performance-oct31
+          fi
+          echo "Development archive updated. Production/Netlify unchanged."
