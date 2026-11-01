@@ -1,0 +1,54 @@
+name: Chile SEFAA case PDF validation sample (no deploy)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate official sample PDFs and case-number links
+        run: |
+          python - <<'PY'
+          import urllib.request,urllib.parse,re
+          from html.parser import HTMLParser
+          class Links(HTMLParser):
+            def __init__(self):super().__init__();self.href=None;self.links=[]
+            def handle_starttag(self,t,attrs):
+              if t=='a':self.href=dict(attrs).get('href')
+            def handle_endtag(self,t):
+              if t=='a':self.href=None
+          pages=['https://sefaa.dgac.gob.cl/2024/10/04/casos-septiembre-2024/','https://sefaa.dgac.gob.cl/2024/10/04/casos-agosto-2024/','https://sefaa.dgac.gob.cl/2025/11/03/casos-octubre-2025/']
+          seen={}
+          for page in pages:
+            req=urllib.request.Request(page,headers={'User-Agent':'DisclosureDeskAudit/1.0'})
+            with urllib.request.urlopen(req,timeout=18) as r:html=r.read(1_500_000).decode('utf-8','replace')
+            links=re.findall(r'href=["\']([^"\']+\.pdf(?:\?[^"\']*)?)',html,re.I)
+            for link in links:
+              url=urllib.parse.urljoin(page,link)
+              if urllib.parse.urlsplit(url).hostname!='sefaa.dgac.gob.cl':continue
+              name=urllib.parse.unquote(urllib.parse.urlsplit(url).path.split('/')[-1])
+              m=re.search(r'caso[\s_-]*(?:n[°ºo.]*)?[\s_-]*(\d{2,5})(?!\d)',name,re.I)
+              if m:seen.setdefault(m.group(1),set()).add(url)
+          print('Sample case IDs:',len(seen),'sample PDF URLs:',sum(map(len,seen.values())))
+          checked=0
+          for case,urls in sorted(seen.items())[:8]:
+            url=sorted(urls)[0]
+            try:
+              req=urllib.request.Request(url,headers={'User-Agent':'DisclosureDeskAudit/1.0','Range':'bytes=0-7'})
+              with urllib.request.urlopen(req,timeout=20) as r:
+                head=r.read(8);status=r.status;host=urllib.parse.urlsplit(r.url).hostname
+              print('Case',case,'PDF header:',head.startswith(b'%PDF-'),'HTTP:',status,'host:',host)
+              if head.startswith(b'%PDF-'):checked+=1
+            except Exception as exc:print('Case',case,'validation warning:',type(exc).__name__)
+          print('PDF signatures confirmed:',checked)
+          print('No report text, witness data or PDFs stored. No import or deployment.')
+          PY
