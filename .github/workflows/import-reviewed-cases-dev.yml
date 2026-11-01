@@ -1,0 +1,66 @@
+name: Import reviewed international cases to DEV (no deploy)
+on:
+  workflow_dispatch:
+    inputs:
+      reviewed_file:
+        description: 'Repository path of reviewed JSON array (e.g. data/imports/reviewed-cases.json)'
+        required: true
+        type: string
+      apply:
+        description: 'Actually commit to DEV after preview (false = audit only)'
+        required: true
+        default: false
+        type: boolean
+permissions:
+  contents: write
+concurrency:
+  group: disclosure-dev-reviewed-case-import
+  cancel-in-progress: false
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate reviewed path and case importer
+        env:
+          REVIEWED_FILE: ${{ inputs.reviewed_file }}
+        run: |
+          python - <<'PY'
+          import os,pathlib
+          path=pathlib.PurePosixPath(os.environ['REVIEWED_FILE'])
+          if path.is_absolute() or '..' in path.parts or not str(path).startswith('data/imports/') or path.suffix != '.json':
+              raise SystemExit('Reviewed file must be a JSON file within data/imports/')
+          if not pathlib.Path(path).is_file():
+              raise SystemExit('Reviewed JSON file not found on DEV branch: '+str(path))
+          print('Validated reviewed input:',path)
+          PY
+          python -m py_compile scripts/import_international_cases.py
+      - name: Preview reviewed batch (maximum 5000 new cases)
+        env:
+          REVIEWED_FILE: ${{ inputs.reviewed_file }}
+        run: python scripts/import_international_cases.py "$REVIEWED_FILE" --batch-size 5000
+      - name: Commit approved batch to development branch only
+        if: ${{ inputs.apply }}
+        env:
+          REVIEWED_FILE: ${{ inputs.reviewed_file }}
+        run: |
+          python scripts/import_international_cases.py "$REVIEWED_FILE" --batch-size 5000 --apply
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data=json.loads(Path('data/disclosure-map.json').read_text())
+          ids=[x['id'] for x in data]
+          assert len(ids)==len(set(ids)), 'Duplicate case IDs'
+          assert all(x.get('locationPrecision') in ('approximate town centre','approximate regional centre') for x in data if x['id'].startswith('dd-'))
+          print('Development case catalogue checked:',len(data),'records')
+          PY
+          git config user.name "Disclosure Desk Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/disclosure-map.json
+          git diff --cached --quiet || (git commit -m "Import reviewed international case batch [skip netlify]" && git push origin HEAD:dev/mobile-video-performance-oct31)
