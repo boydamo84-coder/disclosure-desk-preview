@@ -1,17 +1,17 @@
 {
-  "checkedAt": "2026-11-01T14:44:20.331007+00:00",
+  "checkedAt": "2026-11-01T16:42:52.669299+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 65,
+      "items": 27,
       "latestArticleAt": "2026-11-01T14:28:02+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 9,
-      "latestArticleAt": "2026-10-31T02:20:44+00:00"
+      "items": 33,
+      "latestArticleAt": "2026-11-01T14:28:02+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
@@ -22,7 +22,7 @@
     {
       "source": "Search: AARO Pentagon UFO when:7d",
       "status": "ok",
-      "items": 3,
+      "items": 4,
       "latestArticleAt": "2026-11-01T12:00:24+00:00"
     },
     {
@@ -111,9 +111,9 @@
     },
     {
       "source": "Search: Canada",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-10-31T11:53:13+00:00"
     },
     {
       "source": "Search: Australia",
@@ -206,5 +206,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 216
+  "storiesPublished": 230
 }
