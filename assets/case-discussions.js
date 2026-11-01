@@ -23,6 +23,7 @@ async function load(){
  renderComments();
 }
 function renderComments(){
+ const c=client();
  const list=document.querySelector('#ddCaseDiscussionList');
  list.textContent='';
  const toggle=document.querySelector('#ddCommentsToggle');
