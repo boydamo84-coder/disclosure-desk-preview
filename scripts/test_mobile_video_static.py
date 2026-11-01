@@ -124,7 +124,7 @@ def main():
     if "ddWatchReadMount" not in watch.read_text(encoding="utf-8"):
         sys.exit("Watch & Read is not mounted on its own page")
     watch_text = watch.read_text(encoding="utf-8")
-    for required in ["['podcasts','Podcast Episodes']", "'podcasts','Confessions Of A UFO Insider", "'podcasts','Hollywood, The CIA", "Watch episode", "dd_media_votes", "'media:'+item.id"]:
+    for required in ["['podcasts','Podcast Episodes']", "'podcasts','Confessions Of A UFO Insider", "'podcasts','Hollywood, The CIA", "dd-news-inline-comments", "dd_media_votes", "'media:'+item.id"]:
         if required not in watch_text:
             sys.exit("Watch & Read podcast catalog or interactions missing: " + required)
     if watch_text.count("https://www.youtube.com/watch?v=") < 2:
@@ -138,7 +138,7 @@ def main():
     for token in ["enable row level security", "auth.uid()=user_id", "status='pending'", "for insert to authenticated"]:
         if token not in suggestion_sql.read_text(encoding="utf-8"):
             sys.exit("Podcast suggestion moderation security missing: "+token)
-    for token in ["weaponizedEpisodes", "seenUrls", "Top 100 UFO Podcast Episodes", "Array.from({length:30}", "Array.from({length:17}"]:
+    for token in ["weaponizedEpisodes", "seenUrls", "Top 100 UFO Podcast Episodes", "otherPodcastEpisodes"]:
         if token not in watch_text:
             sys.exit("Missing 50-episode starter catalogue or deduplication: " + token)
     for token in ["joeRoganEpisodes", "Bob Lazar & Jeremy Corbell", "David Grusch", "Joe Rogan Experience"]:
