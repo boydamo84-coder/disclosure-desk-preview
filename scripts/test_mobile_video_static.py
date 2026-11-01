@@ -110,8 +110,14 @@ def main():
         if token not in ratings_sql.read_text(encoding="utf-8"):
             sys.exit("Watch & Read ratings security/schema missing: "+token)
     test_cfg = ROOT / "assets" / "community-test-config.js"
-    if not test_cfg.exists() or "environment: 'test'" not in test_cfg.read_text(encoding="utf-8"):
-        sys.exit("Isolated community database configuration missing")
+    if not test_cfg.exists():
+        sys.exit("Community configuration file missing")
+    cfg = test_cfg.read_text(encoding="utf-8")
+    if "environment:'disabled'" not in cfg and "environment: 'disabled'" not in cfg:
+        sys.exit("Production candidate must disable test community integration")
+    if "sb_publishable_" in cfg or "supabase.co" in cfg:
+        sys.exit("Production candidate includes test Supabase credentials")
+    print("PASS: Test-only community integration safely disabled for production release.")
     for path in ["assets/case-discussions.js","assets/case-comment-moderation.js","assets/watch-read.js"]:
         if "DD_COMMUNITY_TEST_CONFIG" not in (ROOT / path).read_text(encoding="utf-8"):
             sys.exit("Community script does not use isolated test configuration: "+path)
