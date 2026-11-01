@@ -138,6 +138,9 @@ def main():
     for token in ["enable row level security", "auth.uid()=user_id", "status='pending'", "for insert to authenticated"]:
         if token not in suggestion_sql.read_text(encoding="utf-8"):
             sys.exit("Podcast suggestion moderation security missing: "+token)
+    for token in ["weaponizedEpisodes", "seenUrls", "Top 100 UFO Podcast Episodes", "Array.from({length:30}", "Array.from({length:17}"]:
+        if token not in watch_text:
+            sys.exit("Missing 50-episode starter catalogue or deduplication: " + token)
     check = subprocess.run(["node", "--check", str(watch)], capture_output=True, text=True)
     if check.returncode:
         sys.exit("Watch & Read syntax failed: " + check.stderr)
