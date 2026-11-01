@@ -52,9 +52,9 @@ async function castVote(item,patch){
 let saved={};try{saved=JSON.parse(localStorage.getItem(key)||'{}')||{}}catch{}
 function node(tag,value){const n=document.createElement(tag);if(value!==undefined)n.textContent=value;return n}
 function init(){
- const host=document.getElementById('hub');if(!host)return;
+ const host=document.getElementById('ddWatchReadMount');if(!host)return;
  const section=node('div');section.className='section';section.id='ddWatchRead';
- section.append(node('h2','🎬 Watch & Read'),node('p','The UFO one-stop shop: discover documentaries, movies and books. These starter selections are editorial suggestions, NOT community-voted Top 10 rankings.'));
+ section.append(node('p','Explore documentaries, movies and books. Starter titles are editorial picks, not community-ranked results.'));
  const toolbar=node('div');toolbar.style.cssText='display:flex;gap:7px;flex-wrap:wrap;margin:12px 0';
  const list=node('div'),msg=node('p','Community voting and member nominations will launch after our Supabase security tests.');msg.className='muted small';
  let category='documentaries',viewAll=false,sort='picks';
