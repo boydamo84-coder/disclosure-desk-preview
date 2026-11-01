@@ -38,9 +38,23 @@ def parse(xml):
         # RSS labels frequently end in " - Publisher".
         head,sep,publisher=title.rpartition(' - ')
         if not sep:head,publisher=title,'Google News RSS'
+        # Some publishers expose approved image URLs through RSS media elements.
+        # Do not invent an image or treat an illustration as a reported-event photograph.
+        image_url=''
+        for child in item.iter():
+            tag=child.tag.lower()
+            candidate=(child.attrib.get('url') or '').strip()
+            if candidate.startswith('https://') and (
+                tag.endswith('}thumbnail') or tag.endswith('}content') and
+                (child.attrib.get('medium')=='image' or child.attrib.get('type','').startswith('image/'))
+                or tag=='enclosure' and child.attrib.get('type','').startswith('image/')
+            ):
+                image_url=candidate
+                break
         yield {'id':hashlib.sha256(url.encode()).hexdigest()[:20],'headline':head[:240],
                'source':publisher[:100],'url':url,'date':date.isoformat(timespec='seconds'),
-               'category':'UAP','priority':'standard','desc':'Read the source article for details.'}
+               'category':'UAP','priority':'standard','desc':'Read the source article for details.',
+               **({'imageUrl':image_url,'imageSource':'Publisher RSS image'} if image_url else {})}
 def main():
     old=json.loads(PATH.read_text(encoding='utf-8'))
     if not isinstance(old,list):raise ValueError('Existing catalogue is not a list')
