@@ -44,6 +44,8 @@ def main():
         'ddGoToDiscussionOrigin',
         'assets/live-hearings.js',
         'assets/watch-read.js',
+        'data-tab="watchRead"',
+        'scroll-snap-type:y proximity',
         "'video:'+c.id",
         'function openImmersive(resume=false)',
     ]
