@@ -23,8 +23,23 @@ function init(){
    const box=h('section');box.style.cssText='max-width:750px;margin:auto;background:#142536;border:1px solid #b39a70;border-radius:12px;padding:16px';
    const close=h('button','✕ Close');close.onclick=()=>overlay.remove();close.style.cssText='margin-bottom:12px;padding:10px 14px';box.append(close,h('h2',event.title));
    const p=h('p',event.status==='live'?'Official livestream · Discussion':event.status==='ended'?'Recording and discussion archive':'Confirmed event · Awaiting broadcast');p.className='muted small';box.append(p);
-   if(event.embedUrl&&safeVideo(event.embedUrl)){const frame=h('iframe');frame.title='Official hearing recording';frame.src=event.embedUrl+'?playsinline=1&rel=0';frame.allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';frame.referrerPolicy='strict-origin-when-cross-origin';frame.allowFullscreen=true;frame.loading='eager';frame.style.cssText='display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:10px;background:#000;margin:14px 0';box.append(frame);const y=h('a','Watch directly on YouTube ↗');y.href='https://www.youtube.com/watch?v='+event.embedUrl.split('/').pop();y.target='_blank';y.rel='noopener noreferrer';y.style.cssText='display:inline-block;margin-bottom:12px;color:#e6c48a';box.append(y);}
-   else if(event.sourceUrl){const a=h('a','Open verified official event page');a.href=event.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';box.append(a);}
+   // Resolve the recording from the trusted bundled catalogue by hearing ID,
+   // regardless of whether an external event feed omitted or replaced embedUrl.
+   const bundled=BUNDLED_HEARINGS.find(e=>e.id===event.id);
+   const embed=(bundled&&bundled.embedUrl)||event.embedUrl||'';
+   if(embed&&safeVideo(embed)){
+     const videoBox=h('div');videoBox.style.cssText='margin:14px 0;background:#000;border-radius:10px;overflow:hidden;aspect-ratio:16/9';
+     const frame=h('iframe');frame.title='Official hearing recording';frame.src=embed+'?playsinline=1&rel=0';frame.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';frame.allowFullscreen=true;frame.loading='eager';frame.style.cssText='width:100%;height:100%;border:0;display:block';videoBox.append(frame);box.append(videoBox);
+   }
+   const links=h('div');links.style.cssText='display:flex;flex-wrap:wrap;gap:10px;margin:12px 0';
+   if(embed&&safeVideo(embed)){
+     const yt=h('a','▶ Watch on YouTube ↗');yt.href='https://www.youtube.com/watch?v='+embed.split('/').pop();yt.target='_blank';yt.rel='noopener noreferrer';yt.className='outline';yt.style.cssText='display:inline-flex;padding:10px;color:#e7cc9a';links.append(yt);
+   }
+   if(event.sourceUrl&&safeVideo(event.sourceUrl)){
+     const source=h('a','Official hearing page ↗');source.href=event.sourceUrl;source.target='_blank';source.rel='noopener noreferrer';source.className='outline';source.style.cssText='display:inline-flex;padding:10px;color:#e7cc9a';links.append(source);
+   }
+   box.append(links);
+   if(!embed||!safeVideo(embed)){const issue=h('p','Embedded player unavailable for this record. Use the official hearing page.');issue.className='muted small';box.append(issue)}
    const discuss=h('button','💬 '+(event.status==='live'?'Join live discussion':'View hearing discussion'));discuss.type='button';discuss.className='outline';discuss.style.margin='12px';
    discuss.onclick=()=>{overlay.remove();window.ddOpenCaseDiscussion?.('hearing:'+event.id,'Hearing Discussion')};box.append(discuss);
    const note=h('p','Discussion updates appear when reopened. Real-time subscriptions and replay timestamps are still in development.');note.className='muted small';box.append(note);
