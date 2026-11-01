@@ -3,15 +3,21 @@
 import datetime as dt, email.utils, hashlib, html, json, os, pathlib, re, urllib.parse, urllib.request
 PATH=pathlib.Path("data/news-alerts.json")
 NOW=dt.datetime.now(dt.timezone.utc)
+# Worldwide discovery through English-language editions; not restricted to UK/US stories.
+# Native-language ingestion and translations need attribution and a separate review pipeline.
 TERMS=[
- 'UFO when:7d',
- 'UAP when:7d',
+ 'UFO UAP when:7d',
  '"unidentified anomalous phenomena" when:7d',
  'UFO disclosure when:7d',
  'AARO Pentagon UFO when:7d',
  'UFO sightings when:7d',
  'UAP congress hearing when:7d',
- 'UFO unexplained phenomena UK Ireland when:7d'
+ 'UFO UAP Brazil Peru Mexico Argentina when:7d',
+ 'UFO UAP France Germany Italy Spain when:7d',
+ 'UFO UAP Japan South Korea China India when:7d',
+ 'UFO UAP Australia New Zealand when:7d',
+ 'UFO UAP Africa Middle East when:7d',
+ 'UFO UAP Ireland UK Canada when:7d'
 ]
 MAX_AGE=366
 def fetch(query):
