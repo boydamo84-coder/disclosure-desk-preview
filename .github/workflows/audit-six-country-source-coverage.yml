@@ -1,0 +1,33 @@
+name: Six-country official source coverage QA (DEV only)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - name: Read-only source and country coverage report
+        run: |
+          python - <<'PY'
+          import collections,json
+          from pathlib import Path
+          sources=json.loads(Path('data/international-source-registry.json').read_text('utf-8'))['sources']
+          archive=json.loads(Path('data/historical-news-archive.json').read_text('utf-8'))
+          wanted=['Australia','Canada','New Zealand','Russia','China','India']
+          print('Official source and archive discovery report:')
+          for country in wanted:
+            matches=[s for s in sources if s.get('country')==country]
+            if not matches:raise RuntimeError('Missing registry entry for '+country)
+            entries=[r for r in archive if str(r.get('country','')).casefold()==country.casefold()]
+            years=sorted({int(r['year']) for r in entries if str(r.get('year','')).isdigit()})
+            print(country, '| sources:',len(matches),'| status:',matches[0].get('status'),'| archive entries:',len(entries),'| years:',years[:3], '...', years[-3:])
+            print(' official research entry:',matches[0].get('url'))
+          print('Historical year completeness must be verified against each primary source, not inferred from archive entries.')
+          print('Read-only. No imports, downloads of source documents, or Netlify deployment.')
+          PY
