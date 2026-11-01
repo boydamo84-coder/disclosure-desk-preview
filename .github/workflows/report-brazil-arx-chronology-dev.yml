@@ -1,0 +1,44 @@
+name: Brazil ARX chronology and provenance report (DEV only)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - name: Generate Brazil per-year case coverage report
+        run: |
+          python - <<'PY'
+          import json,collections
+          from pathlib import Path
+          archive=json.loads(Path('data/historical-news-archive.json').read_text('utf-8'))
+          brazil=[r for r in archive if str(r.get('country','')).lower() in ('brazil','brasil') or 'brasil' in str(r.get('source','')).lower()]
+          case_refs=[r for r in brazil if 'case' in str(r.get('kind','')).lower() or 'individual' in str(r.get('kind','')).lower()]
+          print('BRAZIL - official source chronology and coverage audit')
+          print('National Archives fund: BR DFANBSB ARX')
+          print('Historical start: 1952; end is dynamic (2025 records may have been transferred by 2026).')
+          print('Current Brazil archive entries:',len(brazil))
+          print('Entries marked individual case/reference:',len(case_refs))
+          print('Document counts are not case counts. No assumption of complete coverage.')
+          print('Year | Existing entries | Individual-tagged | Gap status')
+          years=collections.Counter()
+          eligible=collections.Counter()
+          for r in brazil:
+            y=r.get('year')
+            if isinstance(y,int) or (isinstance(y,str) and y.isdigit()):
+              y=int(y);years[y]+=1
+              if r in case_refs:eligible[y]+=1
+          for y in range(1952,2027):
+            print(y,years[y],eligible[y], 'NO LOCAL RECORDS' if not years[y] else 'PARTIAL/UNVERIFIED')
+          print('Unknown year entries:',sum(not str(r.get('year','')).isdigit() for r in brazil))
+          print('Official SIAN browsing requires registration and acceptance of terms; no unauthenticated import attempted.')
+          print('Collection access guide: https://www.gov.br/pt-br/servicos/consultar-documentos-do-acervo-do-arquivo-nacional')
+          print('Defence Ministry official ARX instructions: https://www.gov.br/defesa/pt-br/acesso-a-informacao/perguntas-frequentes/ministerio-da-defesa')
+          print('NO IMPORTS. NO DEPLOYMENTS.')
+          PY
