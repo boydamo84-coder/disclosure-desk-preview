@@ -21,7 +21,7 @@ function init(){
  function openEvent(event){
    const overlay=h('div');overlay.style.cssText='position:fixed;inset:0;z-index:100050;background:#08111bf5;overflow:auto;padding:max(58px,env(safe-area-inset-top,0px)) 12px max(20px,env(safe-area-inset-bottom,0px))';
    const box=h('section');box.style.cssText='max-width:750px;margin:auto;background:#142536;border:1px solid #b39a70;border-radius:12px;padding:16px';
-   const close=h('button','✕ Close');close.onclick=()=>overlay.remove();close.style.cssText='margin-bottom:12px;padding:10px 14px';box.append(close,h('h2',event.title));
+   const close=h('button','✕ Close');close.onclick=()=>{overlay.remove();if(activePlayback){const player=activePlayback;activePlayback=null;if(player.isConnected&&player._preview)player.replaceChildren(player._preview)}};close.style.cssText='margin-bottom:12px;padding:10px 14px';box.append(close,h('h2',event.title));
    const p=h('p',event.status==='live'?'Official livestream · Discussion':event.status==='ended'?'Recording and discussion archive':'Confirmed event · Awaiting broadcast');p.className='muted small';box.append(p);
    // Resolve the recording from the trusted bundled catalogue by hearing ID,
    // regardless of whether an external event feed omitted or replaced embedUrl.
@@ -45,6 +45,14 @@ function init(){
    const note=h('p','Discussion updates appear when reopened. Real-time subscriptions and replay timestamps are still in development.');note.className='muted small';box.append(note);
    overlay.append(box);document.body.append(overlay);
  }
+ // Add a navigation entry before playing in Android WebView so Back returns to LIVE
+ // instead of closing the activity when there was no previous page history.
+ let activePlayback=null;
+ window.addEventListener('popstate',()=>{
+  if(activePlayback){const player=activePlayback;activePlayback=null;
+   if(player.isConnected&&player._preview)player.replaceChildren(player._preview);
+  }
+ });
  function render(){
   list.replaceChildren();
   if(!events.length){const msg=h('p','No confirmed hearing streams listed yet. We publish only verified events.');msg.className='muted small';list.append(msg);return}
@@ -65,6 +73,8 @@ function init(){
       if(/^[A-Za-z0-9_-]{11}$/.test(videoId)){preview.style.background='linear-gradient(#0005,#0009),url(https://i.ytimg.com/vi/'+videoId+'/hqdefault.jpg) center/cover';preview.style.textShadow='0 2px 8px #000';}
       preview.setAttribute('aria-label','Play '+event.title);
       preview.onclick=()=>{
+        if(!activePlayback){try{history.pushState({ddLivePlayback:true},'','#live-recording')}catch{}}
+        activePlayback=player;
         // Only mount the requested player; don't load three third-party embeds on page entry.
         document.querySelectorAll('.dd-live-inline-player iframe').forEach(frame=>{frame.parentElement?.replaceChildren(frame.parentElement._preview||h('span','Recording paused'))});
         const frame=h('iframe');frame.title='Official hearing recording: '+event.title;frame.src=embed+'?playsinline=1&rel=0';frame.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';frame.allowFullscreen=true;frame.style.cssText='display:block;width:100%;height:100%;border:0';player.replaceChildren(frame);
