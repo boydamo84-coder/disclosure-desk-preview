@@ -5,7 +5,12 @@ const URL='https://omqxizswzcwgzqaczlhe.supabase.co',KEY='sb_publishable_ed7rP98
 const client=()=>window.supabase?.createClient(URL,KEY);
 const h=(tag,txt)=>{const e=document.createElement(tag);if(txt!==undefined)e.textContent=txt;return e};
 const safeVideo=url=>{try{const u=new URL(url);return u.protocol==='https:'&&(/(^|\.)youtube\.com$|(^|\.)youtube-nocookie\.com$|(^|\.)congress\.gov$|(^|\.)house\.gov$|(^|\.)senate\.gov$/).test(u.hostname)}catch{return false}};
-let events=[];
+const BUNDLED_HEARINGS=[
+ {id:'house-uap-2025-09-09',title:'Restoring Public Trust Through UAP Transparency and Whistleblower Protection',date:'2025-09-09',status:'ended',sourceUrl:'https://oversight.house.gov/hearing/restoring-public-trust-through-uap-transparency-and-whistleblower-protection/'},
+ {id:'house-uap-2024-11-13',title:'Unidentified Anomalous Phenomena: Exposing the Truth',date:'2024-11-13',status:'ended',sourceUrl:'https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/'},
+ {id:'house-uap-2023-07-26',title:'UAP: Implications on National Security, Public Safety, and Government Transparency',date:'2023-07-26',status:'ended',sourceUrl:'https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/'}
+];
+let events=BUNDLED_HEARINGS.slice();
 function init(){
  const host=h('section');host.id='ddLiveEvents';host.className='section';
  const title=h('h2','🔴 Disclosure Desk LIVE');host.append(title);
@@ -44,9 +49,10 @@ function init(){
  }
  render();
  fetch('data/approved-live-events.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('No events file');return r.json()}).then(data=>{
-  if(!Array.isArray(data))return;
-  events=data.filter(x=>x&&typeof x.id==='string'&&/^[a-zA-Z0-9_-]{3,120}$/.test(x.id)&&typeof x.title==='string'&&x.title.length<180&&typeof x.date==='string'&&['upcoming','live','ended'].includes(x.status)&&typeof x.sourceUrl==='string'&&safeVideo(x.sourceUrl)&&(!x.embedUrl||safeVideo(x.embedUrl))).slice(0,40);render();
- }).catch(()=>{});
+  if(!Array.isArray(data)||!data.length)return;
+  const verified=data.filter(x=>x&&typeof x.id==='string'&&/^[a-zA-Z0-9_-]{3,120}$/.test(x.id)&&typeof x.title==='string'&&x.title.length<180&&typeof x.date==='string'&&['upcoming','live','ended'].includes(x.status)&&typeof x.sourceUrl==='string'&&safeVideo(x.sourceUrl)&&(!x.embedUrl||safeVideo(x.embedUrl))).slice(0,40);
+  if(verified.length)events=verified;render();
+ }).catch(()=>{render()});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
