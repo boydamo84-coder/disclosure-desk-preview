@@ -10,7 +10,7 @@ jobs:
       - name: Check out combined release branch
         uses: actions/checkout@v4
         with:
-          ref: release/disclosure-desk-nov01-batch
+          ref: release/production-integrated-nov01
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
