@@ -1,0 +1,68 @@
+name: Canada LAC UFO archive discovery (DEV, no deploy)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - name: Audit historical coverage and inspect official collection search links
+        run: |
+          python - <<'PY'
+          import json,collections,re,urllib.request,urllib.parse
+          from pathlib import Path
+          from html.parser import HTMLParser
+          class Links(HTMLParser):
+            def __init__(self):super().__init__();self.href=None;self.label=[];self.found=[]
+            def handle_starttag(self,tag,attrs):
+              if tag=='a':self.href=dict(attrs).get('href');self.label=[]
+            def handle_data(self,s):
+              if self.href is not None:self.label.append(s)
+            def handle_endtag(self,tag):
+              if tag=='a' and self.href is not None:
+                self.found.append((' '.join(self.label).strip(),self.href));self.href=None
+          archive=json.loads(Path('data/historical-news-archive.json').read_text('utf-8'))
+          canada=[x for x in archive if str(x.get('country','')).strip().lower()=='canada' or 'library and archives canada' in str(x.get('source','')).lower()]
+          groups=collections.Counter(x.get('source','unknown') for x in canada)
+          years=collections.Counter(str(x.get('year') or 'unknown') for x in canada)
+          urls=[x.get('url') for x in canada if x.get('url')]
+          print('Existing Canadian archive references:',len(canada))
+          print('Distinct URLs:',len(set(urls)),'duplicate URL entries:',len(urls)-len(set(urls)))
+          print('Existing records by year:',dict(sorted(years.items())))
+          print('Existing records by source:',dict(groups))
+          for x in canada[:12]:print(' Existing:',x.get('id'),x.get('url'))
+          official=[
+            'https://www.canada.ca/en/library-archives/collection/research-help/science-technology/ufos.html',
+            'https://www.canada.ca/en/library-archives/collection/basics/using-collection-search.html'
+          ]
+          discovered=set()
+          for url in official:
+            try:
+              req=urllib.request.Request(url,headers={'User-Agent':'DisclosureDeskSourceAudit/1.0'})
+              with urllib.request.urlopen(req,timeout=22) as resp:
+                html=resp.read(1_500_001);print('SOURCE',resp.status,resp.url,'bytes:',len(html))
+              if len(html)>1_500_000:raise RuntimeError('Oversized source page')
+              p=Links();p.feed(html.decode('utf-8','replace'))
+              found=[]
+              for label,href in p.found:
+                link=urllib.parse.urljoin(url,href)
+                host=urllib.parse.urlsplit(link).hostname or ''
+                if not (host.endswith('canada.ca') or host.endswith('bac-lac.gc.ca') or host.endswith('collectionscanada.gc.ca')):continue
+                if re.search('ufo|ovni|unknown|search|collection|recherche|record|archive',label+' '+link,re.I):
+                  found.append((label[:75],link))
+                  discovered.add(link)
+              print('Official relevant links:',len(found))
+              for label,link in found[:32]:print(' ',repr(label),link[:240])
+            except Exception as exc:print('SOURCE WARNING',type(exc).__name__,str(exc)[:160])
+          print('Unique official link candidates:',len(discovered))
+          print('IMPORTANT: approximately 9,500 refers to digitised documents/pages, not distinct cases.')
+          print('LAC describes 1947 through early 1980s for its themed database; broader LAC government holdings extend to 1995.')
+          print('Separate document creation date from incident date and retain undated records.')
+          print('Read only. No imported case files, no bulk scraping, no Netlify deployment.')
+          PY
