@@ -1,0 +1,38 @@
+name: Brazil official archive source QA (DEV, no deploy)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - name: Verify Brazil collection links and count current archive entries
+        run: |
+          python - <<'PY'
+          import json,urllib.request,urllib.error,re
+          from pathlib import Path
+          records=json.loads(Path('data/historical-news-archive.json').read_text())
+          brazil=[r for r in records if str(r.get('country','')).lower() in ('brazil','brasil') or 'brasil' in str(r.get('source','')).lower()]
+          print('Current archive records classified Brazil:',len(brazil))
+          print('Brazil record IDs (sample):',[r.get('id') for r in brazil[:15]])
+          print('Unique source URLs:',len({r.get('url') for r in brazil if r.get('url')}))
+          official={
+            'Arquivo Nacional UFO collection':'https://www.gov.br/arquivonacional/pt-br/canais_atendimento/imprensa/noticias/conheca-o-fundo-sobre-ovnis-do-arquivo-nacional',
+            'Arquivo Nacional search guidance':'https://www.gov.br/arquivonacional/pt-br/servicos/atendimento/pesquise-em-nosso-acervo',
+            'Official SIAN portal':'https://sian.an.gov.br/'
+          }
+          for name,url in official.items():
+            try:
+              req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 (DisclosureDesk source verification)'})
+              with urllib.request.urlopen(req,timeout=16) as resp:
+                data=resp.read(150000)
+                print(name,'HTTP',resp.status,'final host',urllib.request.urlparse(resp.url).hostname,'text sample',re.sub(rb'\\s+',b' ',data[:120]).decode('utf8','replace')[:90])
+            except Exception as exc:print(name,'SOURCE ACCESS WARNING:',type(exc).__name__,str(exc)[:120])
+          print('READ ONLY: no source copying, no case importing, no Netlify deployment.')
+          PY
