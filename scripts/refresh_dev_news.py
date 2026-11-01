@@ -19,6 +19,14 @@ TERMS=[
  'UFO UAP Africa Middle East when:7d',
  'UFO UAP Ireland UK Canada when:7d'
 ]
+# First-party RSS sources, with direct publisher links and optional media thumbnails.
+DIRECT_FEEDS={
+ 'The Debrief':'https://thedebrief.org/feed/',
+ 'NASA':'https://www.nasa.gov/news-release/feed/',
+ 'BBC Science':'https://feeds.bbci.co.uk/news/science_and_environment/rss.xml'
+}
+# Avoid importing unrelated science/technology stories from broad editorial feeds.
+TOPIC=re.compile(r'\\b(?:UFOs?|UAPs?|unidentified anomalous phenomena|unidentified flying objects?|AARO|extraterrestrial|alien spacecraft|flying saucer|Pentagon UFO|UFO disclosure|mystery drones?)\\b',re.I)
 MAX_AGE=366
 def fetch(query):
     q=urllib.parse.urlencode({'q':query,'hl':'en-GB','gl':'GB','ceid':'GB:en'})
@@ -55,6 +63,35 @@ def parse(xml):
                'source':publisher[:100],'url':url,'date':date.isoformat(timespec='seconds'),
                'category':'UAP','priority':'standard','desc':'Read the source article for details.',
                **({'imageUrl':image_url,'imageSource':'Publisher RSS image'} if image_url else {})}
+def direct_feed(name,url):
+    import xml.etree.ElementTree as ET
+    req=urllib.request.Request(url,headers={'User-Agent':'DisclosureDeskNewsMonitor/1.0 (RSS discovery)'})
+    with urllib.request.urlopen(req,timeout=14) as response:
+        root=ET.fromstring(response.read(1200000))
+    added=[]
+    for item in root.findall('.//channel/item'):
+        title=html.unescape((item.findtext('title') or '').strip())
+        summary=html.unescape(re.sub(r'<[^>]+>',' ',item.findtext('description') or ''))
+        if not TOPIC.search(title):continue
+        article=(item.findtext('link') or '').strip()
+        if not article.startswith('https://'):continue
+        published=item.findtext('pubDate') or ''
+        try:date=email.utils.parsedate_to_datetime(published).astimezone(dt.timezone.utc)
+        except Exception:continue
+        if not dt.timedelta(0)<=NOW-date<=dt.timedelta(days=MAX_AGE):continue
+        image_url=''
+        for child in item.iter():
+            tag=child.tag.lower()
+            link=child.attrib.get('url','')
+            if link.startswith('https://') and (tag.endswith('}thumbnail') or tag.endswith('}content') and (child.attrib.get('medium')=='image' or child.attrib.get('type','').startswith('image/')) or tag=='enclosure' and child.attrib.get('type','').startswith('image/')):
+                image_url=link;break
+        row={'id':hashlib.sha256(article.encode()).hexdigest()[:20],'headline':title[:240],'source':name,
+             'url':article,'date':date.isoformat(timespec='seconds'),'category':'UAP','priority':'standard',
+             'desc':summary[:280] if summary else 'Read the original source'}
+        if image_url:row.update(imageUrl=image_url,imageSource=name+' RSS image')
+        added.append(row)
+    return added
+
 def publisher_image(article_url):
     """Best-effort Open Graph image from an actual publisher page, never a search preview."""
     from html.parser import HTMLParser
@@ -86,6 +123,15 @@ def main():
             result=list(parse(fetch(term)));gathered+=result;success+=1
             print(term,':',len(result),'RSS items; newest:',max((x['date'] for x in result),default='NONE'))
         except Exception as e:errors.append(term+': '+str(e))
+    direct_count=0
+    for name,url in DIRECT_FEEDS.items():
+        try:
+            records=direct_feed(name,url)
+            gathered.extend(records);direct_count+=len(records)
+            print('DIRECT RSS',name,':',len(records),'relevant stories')
+        except Exception as exc:
+            print('WARNING: DIRECT RSS',name,'failed:',type(exc).__name__,str(exc)[:160])
+    print('Direct publisher feeds contributed',direct_count,'matching stories')
     if not success:raise RuntimeError('All RSS sources failed; existing catalogue left unchanged. '+'; '.join(errors))
     print('RSS searches succeeded:',success,'of',len(TERMS),'total items:',len(gathered))
     seen=set();out=[]
