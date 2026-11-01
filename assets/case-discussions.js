@@ -1,11 +1,11 @@
 /* Disclosure Desk: preview-only case discussions. Registered comments publish immediately; flagged comments require review. */
 (()=>{
 'use strict';
-const URL='https://omqxizswzcwgzqaczlhe.supabase.co';
-const KEY='sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X';
+const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
+const URL=cfg.url||'',KEY=cfg.publishableKey||'';
 let db=null, current=null;
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function client(){if(db)return db;if(!window.supabase)return null;db=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});return db;}
+function client(){if(db)return db;if(!window.supabase||!URL||!KEY||cfg.environment!=='test')return null;db=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});return db;}
 function announce(t){const el=document.querySelector('#ddCaseDiscussionStatus');if(el)el.textContent=t;}
 function ownProfileButton(){
  const b=document.createElement('button');b.type='button';b.className='outline';b.textContent='👤 My Comments';b.style.margin='8px';
