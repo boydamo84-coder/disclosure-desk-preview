@@ -49,6 +49,10 @@ def main():
         'data-tab="watchRead"',
         'id="watchRead"',
         'id="ddWatchReadMount"',
+        'id="livePage"',
+        'id="ddLiveMount"',
+        'dd-archive-title-link',
+        'dd-archive-actions',
         'scroll-snap-type:y proximity',
         "'video:'+c.id",
         'function openImmersive(resume=false)',
@@ -124,6 +128,8 @@ def main():
         events = ROOT / "data" / "approved-live-events.json"
         if not events.exists():
             sys.exit("Approved hearing events feed missing")
+        if "ddLiveMount" not in live.read_text(encoding="utf-8"):
+            sys.exit("LIVE hub is not mounted on its dedicated page")
         print("PASS: Live hearing JS syntax and curated feed present.")
     print(f"PASS: {len(scripts)} inline JS script(s) parsed; video controls and progress hooks present.")
     print("NOTE: browser runtime, mobile performance, and APK integration are not validated by this test.")
