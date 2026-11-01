@@ -17,14 +17,14 @@ const starterRows=[
 ];
 // Official publisher episode pages; these are unranked catalogue entries, NOT listening statistics.
 // Episode #31 covers animal welfare rather than UFO investigations, so it is not included.
-const weaponizedEpisodes=[...Array.from({length:30},(_,i)=>i+1),...Array.from({length:17},(_,i)=>i+32)]
+const weaponizedEpisodes=[1,2,3,4,5,6,7,8,9,10,11,12]
  .map(n=>['podcasts','WEAPONIZED — Episode #'+n,'2023–2024','Jeremy Corbell & George Knapp · WEAPONIZED',
  'https://www.weaponizedpodcast.com/'+(n<=30?'episodes-1/episode-number-':'episodes-2/episode-')+n]);
 const joeRoganEpisodes=[[1315,"Bob Lazar & Jeremy Corbell",2019],[1361,"Cmdr. David Fravor & Jeremy Corbell",2019],[1510,"George Knapp & Jeremy Corbell",2020],[1574,"Jacques Vallée & James Fox",2020],[1597,"Travis Walton",2021],[1645,"Christopher Mellon",2021],[1853,"Jeremy Corbell",2022],[1883,"Ryan Graves",2022],[1976,"James Fox",2023],[2028,"Jeremy Corbell & George Knapp",2023],[2065,"David Grusch",2023],[2091,"Diana Walsh Pasulka",2024],[2194,"Luis Elizondo",2024],[2244,"Ryan Graves",2024],[2246,"James Fox",2024],[2288,"Jacques Vallée",2025],[2314,"Hal Puthoff",2025],[2331,"Jesse Michels",2025],[2372,"Garry Nolan",2025],[2479,"Bob Lazar & Luigi Vendittelli",2026],[2560,"David Grusch",2026]]
  .map(([number,guest,year])=>['podcasts','Joe Rogan Experience #'+number+' — '+guest,String(year),'Joe Rogan Experience · '+guest,
  'https://jrelibrary.com/'+number+'-'+guest.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'/']);
 const seenUrls=new Set();
-const starter=[...starterRows,...weaponizedEpisodes,...joeRoganEpisodes].filter(row=>{
+const starter=[...starterRows,...joeRoganEpisodes,...weaponizedEpisodes].filter(row=>{
  const url=row[4];if(url&&seenUrls.has(url))return false;
  if(url)seenUrls.add(url);return true;
 }).map(([category,title,year,creator,url])=>({category,title,year,creator,url,id:(category+'-'+title).toLowerCase().replace(/[^a-z0-9]+/g,'-')}));
@@ -128,13 +128,11 @@ function init(){
   });
   for(const item of candidates.slice(0,viewAll?100:10)){
    const card=node('article');card.className='card';card.style.cssText='padding:12px;margin:8px 0';
-   card.append(node('strong',item.title),node('p',item.year+' · '+item.creator));
-   if(item.url){const source=node('a','▶ Watch episode ↗');source.href=item.url;source.target='_blank';source.rel='noopener noreferrer';source.style.cssText='display:inline-block;color:#dfc48d;margin:0 0 12px;text-decoration:underline';card.append(source)}
+   const name=item.url?node('a',item.title):node('strong',item.title);if(item.url){name.href=item.url;name.target='_blank';name.rel='noopener noreferrer';name.style.cssText='display:block;font-weight:750;color:#e7c58a;text-decoration:underline;text-underline-offset:3px;margin-bottom:6px'}card.append(name,node('p',item.year+' · '+item.creator));
    const save=node('button',saved[item.id]?'✓ On my list':'+ My list');save.type='button';save.className='outline';
    save.onclick=()=>{if(saved[item.id])delete saved[item.id];else saved[item.id]=true;try{localStorage.setItem(key,JSON.stringify(saved))}catch{}render()};
-   const discuss=node('button','💬 Discuss');discuss.type='button';discuss.className='outline';discuss.style.marginLeft='6px';
-   discuss.onclick=()=>window.ddOpenCaseDiscussion?.('media:'+item.id,'Watch & Read Discussion');
-   card.append(save,discuss);
+   card.append(save);
+   const comments=node('div');comments.className='dd-news-inline-comments';comments.dataset.newsComments='media:'+item.id;card.append(comments);
    const summary=node('p',available
      ?((scores[item.id]?.ratings||0)+' ratings · '+(scores[item.id]?.ratings?Number(scores[item.id].average_score).toFixed(1)+'/10':'Not yet rated')+' · '+(scores[item.id]?.recommendations||0)+' recommendations')
      :'Community ratings coming soon · no votes displayed yet');
