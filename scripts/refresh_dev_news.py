@@ -19,6 +19,18 @@ TERMS=[
  'UFO UAP Africa Middle East when:7d',
  'UFO UAP Ireland UK Canada when:7d'
 ]
+# Targeted international English-language searches. Retain the original worldwide
+# discovery and label geography only for explicitly country-scoped queries.
+REGIONAL_TERMS={
+ 'Ireland':'UFO UAP Ireland when:7d',
+ 'France':'UFO UAP France GEIPAN when:7d',
+ 'Germany':'UFO UAP Germany when:7d',
+ 'Brazil':'UFO UAP Brazil OVNI when:7d',
+ 'Mexico':'UFO UAP Mexico OVNI when:7d',
+ 'Japan':'UFO UAP Japan when:7d',
+ 'Canada':'UFO UAP Canada when:7d',
+ 'Australia':'UFO UAP Australia when:7d'
+}
 # First-party RSS sources, with direct publisher links and optional media thumbnails.
 DIRECT_FEEDS={
  'The Debrief':'https://thedebrief.org/feed/',
@@ -118,9 +130,13 @@ def main():
     old=json.loads(PATH.read_text(encoding='utf-8'))
     if not isinstance(old,list):raise ValueError('Existing catalogue is not a list')
     gathered=[];success=0;errors=[]
-    for term in TERMS:
+    for term in list(TERMS)+list(REGIONAL_TERMS.values()):
         try:
-            result=list(parse(fetch(term)));gathered+=result;success+=1
+            result=list(parse(fetch(term)))
+            region=next((country for country,query in REGIONAL_TERMS.items() if term==query),None)
+            if region:
+                for record in result: record['country']=region
+            gathered+=result;success+=1
             print(term,':',len(result),'RSS items; newest:',max((x['date'] for x in result),default='NONE'))
         except Exception as e:errors.append(term+': '+str(e))
     direct_count=0
