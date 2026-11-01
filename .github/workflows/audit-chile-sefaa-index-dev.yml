@@ -1,0 +1,60 @@
+name: Chile SEFAA individual-case discovery (DEV preview only)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Inspect official annual case pages without saving case data
+        run: |
+          python - <<'PY'
+          import json,urllib.request,re,collections
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import urljoin,urlsplit
+          class A(HTMLParser):
+            def __init__(self):
+              super().__init__();self.href=None;self.buf=[];self.links=[]
+            def handle_starttag(self,tag,attrs):
+              if tag=='a':self.href=dict(attrs).get('href');self.buf=[]
+            def handle_data(self,data):
+              if self.href is not None:self.buf.append(data)
+            def handle_endtag(self,tag):
+              if tag=='a':
+                self.links.append((' '.join(self.buf).strip(),self.href));self.href=None
+          known=json.loads(Path('data/historical-news-archive.json').read_text())
+          urls={x.get('url','').rstrip('/') for x in known}
+          seen=set()
+          for year in range(2018,2027):
+            u=f'https://sefaa.dgac.gob.cl/{year}/'
+            try:
+              req=urllib.request.Request(u,headers={'User-Agent':'DisclosureDeskSourceAudit/1.0'})
+              with urllib.request.urlopen(req,timeout=18) as response:
+                raw=response.read(2_000_001)
+              if len(raw)>2_000_000:raise ValueError('Page too large')
+              parser=A();parser.feed(raw.decode('utf-8','replace'))
+              candidates={}
+              for title,href in parser.links:
+                if not re.search(r'casos?\s+(?:resueltos?\s+)?(?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|setiembre|octubre|noviembre|diciembre)',title,re.I):continue
+                target=urljoin(u,href)
+                if urlsplit(target).hostname!='sefaa.dgac.gob.cl':continue
+                candidates[target]=title
+              novel=sum(link.rstrip('/') not in urls for link in candidates)
+              seen.update(candidates)
+              print(year,': official monthly case index links=',len(candidates),'not in archive URL list=',novel)
+            except Exception as exc:
+              print(year,': source not inspected:',type(exc).__name__)
+          print('Distinct SEFAA case-index page URLs discovered:',len(seen))
+          print('These are monthly index pages, NOT verified individual sightings. No case records imported.')
+          print('No archive files modified and no Netlify deployment.')
+          PY
