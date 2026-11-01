@@ -37,6 +37,13 @@ DIRECT_FEEDS={
  'NASA':'https://www.nasa.gov/news-release/feed/',
  'BBC Science':'https://feeds.bbci.co.uk/news/science_and_environment/rss.xml'
 }
+# Optional official sources: failures are recorded and never block other feeds.
+# Feed URLs must be checked against the publisher before being considered operational.
+OFFICIAL_FEEDS={
+ 'CNES GEIPAN':{'url':'https://www.cnes-geipan.fr/fr/rss.xml','country':'France','language':'fr'},
+ 'UK National Archives':{'url':'https://www.nationalarchives.gov.uk/rss/news.xml','country':'United Kingdom','language':'en'}
+}
+HEALTH_PATH=pathlib.Path('data/news-feed-health.json')
 # Avoid importing unrelated science/technology stories from broad editorial feeds.
 TOPIC=re.compile(r'\\b(?:UFOs?|UAPs?|unidentified anomalous phenomena|unidentified flying objects?|AARO|extraterrestrial|alien spacecraft|flying saucer|Pentagon UFO|UFO disclosure|mystery drones?)\\b',re.I)
 MAX_AGE=366
@@ -129,7 +136,7 @@ def publisher_image(article_url):
 def main():
     old=json.loads(PATH.read_text(encoding='utf-8'))
     if not isinstance(old,list):raise ValueError('Existing catalogue is not a list')
-    gathered=[];success=0;errors=[]
+    gathered=[];success=0;errors=[];health=[]
     for term in list(TERMS)+list(REGIONAL_TERMS.values()):
         try:
             result=list(parse(fetch(term)))
@@ -137,16 +144,29 @@ def main():
             if region:
                 for record in result: record['country']=region
             gathered+=result;success+=1
+            health.append({'source':'Search: '+(region or term),'status':'ok' if result else 'empty','items':len(result),'latestArticleAt':max((x['date'] for x in result),default=None)})
             print(term,':',len(result),'RSS items; newest:',max((x['date'] for x in result),default='NONE'))
-        except Exception as e:errors.append(term+': '+str(e))
+        except Exception as e:
+            errors.append(term+': '+str(e));health.append({'source':'Search: '+term,'status':'failed','items':0})
     direct_count=0
     for name,url in DIRECT_FEEDS.items():
         try:
             records=direct_feed(name,url)
             gathered.extend(records);direct_count+=len(records)
+            health.append({'source':name,'status':'ok' if records else 'empty','items':len(records),'latestArticleAt':max((x['date'] for x in records),default=None)})
             print('DIRECT RSS',name,':',len(records),'relevant stories')
         except Exception as exc:
-            print('WARNING: DIRECT RSS',name,'failed:',type(exc).__name__,str(exc)[:160])
+            print('WARNING: DIRECT RSS',name,'failed:',type(exc).__name__,str(exc)[:160]);health.append({'source':name,'status':'failed','items':0})
+    for name,config in OFFICIAL_FEEDS.items():
+        try:
+            records=direct_feed(name,config['url'])
+            for record in records:
+                record.update(country=config['country'],sourceType='official',originalLanguage=config['language'])
+            gathered.extend(records)
+            health.append({'source':name,'status':'ok' if records else 'empty','items':len(records),'latestArticleAt':max((x['date'] for x in records),default=None)})
+        except Exception as exc:
+            print('WARNING: official feed',name,'unavailable:',type(exc).__name__,str(exc)[:160])
+            health.append({'source':name,'status':'failed','items':0})
     print('Direct publisher feeds contributed',direct_count,'matching stories')
     if not success:raise RuntimeError('All RSS sources failed; existing catalogue left unchanged. '+'; '.join(errors))
     print('RSS searches succeeded:',success,'of',len(TERMS),'total items:',len(gathered))
@@ -192,6 +212,7 @@ def main():
             enriched+=1
     print('Publisher image extraction:',enriched,'of',attempted,'publisher URLs tested;',unresolved,'redirects unresolved')
     PATH.write_text(json.dumps(out[:500],ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    HEALTH_PATH.write_text(json.dumps({'checkedAt':NOW.isoformat(),'sources':health,'storiesPublished':len(out[:500])},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print('Updated',len(out[:500]),'stories; new last 7 days',recent,'old newest',old[0].get('date') if old else 'none')
     for err in errors:print('WARNING:',err)
 if __name__=='__main__':main()
