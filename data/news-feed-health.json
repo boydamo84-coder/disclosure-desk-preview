@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-11-01T05:16:23.671738+00:00",
+  "checkedAt": "2026-11-01T05:25:52.485407+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 27,
+      "items": 26,
       "latestArticleAt": "2026-11-01T04:00:00+00:00"
     },
     {
@@ -16,7 +16,7 @@
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 7,
+      "items": 6,
       "latestArticleAt": "2026-11-01T03:00:00+00:00"
     },
     {
@@ -28,13 +28,13 @@
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 16,
+      "items": 12,
       "latestArticleAt": "2026-11-01T04:00:00+00:00"
     },
     {
       "source": "Search: UAP congress hearing when:7d",
       "status": "ok",
-      "items": 2,
+      "items": 1,
       "latestArticleAt": "2026-11-01T03:00:00+00:00"
     },
     {
@@ -57,15 +57,15 @@
     },
     {
       "source": "Search: UFO UAP Australia New Zealand when:7d",
-      "status": "ok",
-      "items": 2,
-      "latestArticleAt": "2026-10-30T03:25:00+00:00"
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "Search: UFO UAP Africa Middle East when:7d",
-      "status": "ok",
-      "items": 2,
-      "latestArticleAt": "2026-10-29T07:24:25+00:00"
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "Search: UFO UAP Ireland UK Canada when:7d",
@@ -87,9 +87,9 @@
     },
     {
       "source": "Search: Germany",
-      "status": "ok",
-      "items": 1,
-      "latestArticleAt": "2026-10-31T02:20:44+00:00"
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "Search: Brazil",
@@ -111,15 +111,15 @@
     },
     {
       "source": "Search: Canada",
-      "status": "ok",
-      "items": 1,
-      "latestArticleAt": "2026-10-26T17:10:36+00:00"
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "Search: Australia",
-      "status": "ok",
-      "items": 5,
-      "latestArticleAt": "2026-10-29T23:07:04+00:00"
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "The Debrief",
@@ -152,5 +152,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 204
+  "storiesPublished": 170
 }
