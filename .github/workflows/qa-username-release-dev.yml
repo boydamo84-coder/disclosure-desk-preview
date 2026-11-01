@@ -1,0 +1,44 @@
+name: Secure Username and Mobile Release QA (DEV only)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check secure name storage, role protections, site features and syntax
+        run: |
+          node --check cloud-boards.js
+          node --check assets/dd-analytics.js
+          node --input-type=module <<'NODE'
+          import {readFileSync,writeFileSync,mkdtempSync} from 'node:fs';
+          import {join} from 'node:path';
+          import {tmpdir} from 'node:os';
+          import {execFileSync} from 'node:child_process';
+          const js=readFileSync('cloud-boards.js','utf8');
+          const html=readFileSync('index.html','utf8');
+          const sql=readFileSync('supabase/migrations/20261101_dd_public_names.sql','utf8');
+          const policy=readFileSync('privacy.html','utf8');
+          for(const t of ['dd_public_names','display_name','onConflict:\'user_id\'','ddNameReserved','Save name'])
+            if(!js.includes(t))throw Error('Missing username UI or storage: '+t);
+          if(js.includes('db.auth.updateUser({data:{display_name'))throw Error('Unsafe Auth metadata username write persists');
+          for(const t of ['row level security','auth.uid()','name_key','create unique index','constraint dd_public_names_reserve','to authenticated'])
+            if(!sql.includes(t))throw Error('Missing database security: '+t);
+          for(const t of ['ddHeaderAccount','ddAnalyticsPreferences','data-dd-analytics-choice','Boyd Digital Studios','appTourDialog','assets/dd-analytics.js'])
+            if(!html.includes(t))throw Error('Missing release feature: '+t);
+          if(!policy.includes('Optional website analytics'))throw Error('No analytics privacy statement');
+          const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(m=>m[1]).filter(t=>t.trim());
+          const temp=mkdtempSync(join(tmpdir(),'dd-release-'));
+          scripts.forEach((s,i)=>{const p=join(temp,i+'.js');writeFileSync(p,s);execFileSync('node',['--check',p])});
+          console.log('PASS: static username and site integrity checks');
+          console.log('IMPORTANT: Supabase migration still requires execution; no server-side DB test was performed.');
+          console.log('NO production deployment');
+          NODE
