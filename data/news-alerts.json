@@ -312,8 +312,7 @@
     "date": "2026-07-10T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/d3bb/live/51ab41d0-7c72-11f1-9fad-d539485c17c2.png",
-    "publisherUrl": "https://www.bbc.com/news/videos/c8x2zez8qwzo"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/d3bb/live/51ab41d0-7c72-11f1-9fad-d539485c17c2.png"
   },
   {
     "id": "9670db22421ee589ac78",
@@ -1041,7 +1040,6 @@
     "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQVmxXbGgyVXRkYlhadk15RUN3UDFwMnpOUXp5azRUaWN3ZTBSMHNTYkhwY2hlcG5oek5GZnY5eFVSYmt6SWl3bGUtc05wSkI3LWVRanM4YjN0Y3k2STlkeHhSZ3RTMzZPVjBfSEl0d1VtdlVXeXNlRnJXci1mVmZQdW55X3JfVXlENmtIMFlveVF1Q0VqRnROalltNnlKS3Nr?oc=5",
     "date": "2025-11-19T08:00:00+00:00",
     "category": "UAP",
-    "priority": "major",
-    "publisherUrl": "https://www.reuters.com/science/nasa-set-release-new-images-interstellar-object-3iatlas-2025-11-19/"
+    "priority": "major"
   }
 ]
