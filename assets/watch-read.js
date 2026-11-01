@@ -20,8 +20,11 @@ const starterRows=[
 const weaponizedEpisodes=[...Array.from({length:30},(_,i)=>i+1),...Array.from({length:17},(_,i)=>i+32)]
  .map(n=>['podcasts','WEAPONIZED — Episode #'+n,'2023–2024','Jeremy Corbell & George Knapp · WEAPONIZED',
  'https://www.weaponizedpodcast.com/'+(n<=30?'episodes-1/episode-number-':'episodes-2/episode-')+n]);
+const joeRoganEpisodes=[[1315,"Bob Lazar & Jeremy Corbell",2019],[1361,"Cmdr. David Fravor & Jeremy Corbell",2019],[1510,"George Knapp & Jeremy Corbell",2020],[1574,"Jacques Vallée & James Fox",2020],[1597,"Travis Walton",2021],[1645,"Christopher Mellon",2021],[1853,"Jeremy Corbell",2022],[1883,"Ryan Graves",2022],[1976,"James Fox",2023],[2028,"Jeremy Corbell & George Knapp",2023],[2065,"David Grusch",2023],[2091,"Diana Walsh Pasulka",2024],[2194,"Luis Elizondo",2024],[2244,"Ryan Graves",2024],[2246,"James Fox",2024],[2288,"Jacques Vallée",2025],[2314,"Hal Puthoff",2025],[2331,"Jesse Michels",2025],[2372,"Garry Nolan",2025],[2479,"Bob Lazar & Luigi Vendittelli",2026],[2560,"David Grusch",2026]]
+ .map(([number,guest,year])=>['podcasts','Joe Rogan Experience #'+number+' — '+guest,String(year),'Joe Rogan Experience · '+guest,
+ 'https://jrelibrary.com/'+number+'-'+guest.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'/']);
 const seenUrls=new Set();
-const starter=[...starterRows,...weaponizedEpisodes].filter(row=>{
+const starter=[...starterRows,...weaponizedEpisodes,...joeRoganEpisodes].filter(row=>{
  const url=row[4];if(url&&seenUrls.has(url))return false;
  if(url)seenUrls.add(url);return true;
 }).map(([category,title,year,creator,url])=>({category,title,year,creator,url,id:(category+'-'+title).toLowerCase().replace(/[^a-z0-9]+/g,'-')}));
