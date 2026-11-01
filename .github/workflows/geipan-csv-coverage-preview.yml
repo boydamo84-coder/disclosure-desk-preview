@@ -1,0 +1,43 @@
+name: GEIPAN official CSV coverage preview (no deploy)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compare official GEIPAN case dataset with our archive (aggregate only)
+        run: |
+          python - <<'PY'
+          import csv,io,json,urllib.request,collections
+          from pathlib import Path
+          url='https://www.cnes-geipan.fr/sites/default/files/Base_de_donn%C3%A9es_des_cas.csv'
+          req=urllib.request.Request(url,headers={'User-Agent':'DisclosureDeskArchiveAudit/1.0'})
+          with urllib.request.urlopen(req,timeout=60) as resp:
+              raw=resp.read(20_000_001)
+          if len(raw)>20_000_000:raise ValueError('Unexpectedly large CSV: no import performed')
+          sample=raw.decode('utf-8-sig',errors='replace')
+          dialect=csv.Sniffer().sniff(sample[:15000],delimiters=';,\t')
+          reader=csv.DictReader(io.StringIO(sample),dialect=dialect)
+          rows=list(reader)
+          cols=reader.fieldnames or []
+          if len(rows)<100 or len(cols)<3:raise RuntimeError('Unexpected official case CSV format; no import attempted')
+          archive=json.loads(Path('data/historical-news-archive.json').read_text(encoding='utf-8'))
+          french=[r for r in archive if any(t in (str(r.get('source',''))+' '+str(r.get('title',''))+' '+str(r.get('id',''))).lower() for t in ('geipan','cnes','france','french'))]
+          print('Official GEIPAN CSV case rows:',len(rows))
+          print('CSV column names:',cols)
+          print('Existing French-labelled archive entries:',len(french))
+          print('Existing French-labelled individual file entries:',sum('individual' in str(r.get('kind','')).lower() for r in french))
+          print('GEIPAN and French-labelled records may not overlap; direct ID matching requires a separately reviewed mapping.')
+          print('No witness descriptions, exact coordinates, source rows or CSV saved.')
+          print('Preview only; no commit, no deployment.')
+          PY
