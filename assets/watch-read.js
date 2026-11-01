@@ -72,6 +72,36 @@ function init(){
    const info=node('p','Top 100 UFO Podcast Episodes · Building the curated shortlist. '+starter.filter(v=>v.category==='podcasts').length+' verified episode links so far; no invented community rankings.');info.className='muted small';list.append(info);
    const search=node('input');search.type='search';search.className='field';search.placeholder='Search episode, guest or podcast…';search.value=podcastSearch;search.setAttribute('aria-label','Search podcast episode recommendations');search.oninput=()=>{podcastSearch=search.value;render();const next=list.querySelector('input[type="search"]');next?.focus();next?.setSelectionRange(podcastSearch.length,podcastSearch.length)};list.append(search);
   }
+  if(category==='podcasts'){
+   const details=node('details');details.className='card';details.style.cssText='padding:12px;margin:12px 0';
+   const heading=node('summary','＋ Suggest a podcast episode');heading.style.cssText='cursor:pointer;color:#e4c58b;font-weight:700';details.append(heading);
+   const description=node('p','Paste a link to a specific episode. Suggestions are private until reviewed; submitting does not add an episode to the Top 100.');description.className='muted small';details.append(description);
+   const form=node('form');form.style.cssText='display:grid;gap:9px';
+   const url=node('input');url.className='field';url.type='url';url.required=true;url.maxLength=1000;url.placeholder='https://… episode URL';url.setAttribute('aria-label','Podcast episode URL');
+   const title=node('input');title.className='field';title.required=true;title.maxLength=180;title.minLength=3;title.placeholder='Episode title';title.setAttribute('aria-label','Episode title');
+   const notes=node('textarea');notes.className='field';notes.maxLength=500;notes.rows=2;notes.placeholder='Why should we feature it? (optional)';notes.setAttribute('aria-label','Reason for recommendation');
+   const submit=node('button','Submit suggestion for review');submit.type='submit';submit.className='outline';
+   const feedback=node('p','');feedback.className='muted small';feedback.setAttribute('role','status');
+   const validUrl=value=>{try{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password&&u.hostname.includes('.')&&!['localhost','127.0.0.1'].includes(u.hostname)}catch{return false}};
+   form.onsubmit=async e=>{
+    e.preventDefault();
+    const link=url.value.trim(),name=title.value.trim(),reason=notes.value.trim();
+    if(!validUrl(link)){feedback.textContent='Please paste a public HTTPS episode link.';return}
+    if(starter.some(v=>v.url===link)){feedback.textContent='This episode is already in our recommendations.';return}
+    const c=db();if(!c){feedback.textContent='Suggestions are not enabled in this build yet.';return}
+    submit.disabled=true;feedback.textContent='Submitting…';
+    try{
+     const {data:{user},error:authError}=await c.auth.getUser();
+     if(authError||!user){feedback.textContent='Please sign in before submitting an episode.';return}
+     const {error}=await c.from('dd_podcast_suggestions').insert({user_id:user.id,episode_url:link,title:name,notes:reason});
+     if(error){feedback.textContent=error.code==='23505'?'You already suggested this episode.':'Could not submit. The suggestions database may not be enabled yet.';return}
+     feedback.textContent='✓ Suggestion received for review. Thank you!';
+     form.reset();
+    }catch(err){feedback.textContent='Could not submit this suggestion. Please try again.'}
+    finally{submit.disabled=false}
+   };
+   form.append(url,title,notes,submit,feedback);details.append(form);list.append(details);
+  }
   const order=node('select');order.setAttribute('aria-label','Sort Watch and Read titles');
   for(const [v,l] of [['picks','Editorial picks'],['score','Community rating'],['recommended','Most recommended']]){
     const opt=node('option',l);opt.value=v;order.append(opt);
