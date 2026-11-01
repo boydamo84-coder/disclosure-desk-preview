@@ -32,7 +32,7 @@ function load(){
 function choose(value){
  enabled=value==='yes';
  persist(value);
- if(enabled)load();
+ if(enabled){load();if(typeof window.gtag==='function')window.gtag('consent','update',{analytics_storage:'granted'});}
  else if(loaded&&typeof window.gtag==='function')window.gtag('consent','update',{analytics_storage:'denied'});
  updateUI();
 }
