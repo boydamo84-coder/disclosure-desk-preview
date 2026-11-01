@@ -24,6 +24,8 @@ jobs:
         run: python3 -m pip install 'gnews-decoder>=0.1.0,<1.0'
       - name: Validate collector Python syntax
         run: python3 -m py_compile scripts/refresh_dev_news.py
+      - name: Test news relevance and country attribution
+        run: python3 -m unittest discover -s tests -p 'test_news_relevance.py' -v
       - name: Collect source-linked news
         run: python3 scripts/refresh_dev_news.py
       - name: Validate non-stale news
