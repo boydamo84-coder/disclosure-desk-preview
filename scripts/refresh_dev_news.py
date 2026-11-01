@@ -45,7 +45,24 @@ OFFICIAL_FEEDS={
 }
 HEALTH_PATH=pathlib.Path('data/news-feed-health.json')
 # Avoid importing unrelated science/technology stories from broad editorial feeds.
-TOPIC=re.compile(r'\\b(?:UFOs?|UAPs?|unidentified anomalous phenomena|unidentified flying objects?|AARO|extraterrestrial|alien spacecraft|flying saucer|Pentagon UFO|UFO disclosure|mystery drones?)\\b',re.I)
+TOPIC=re.compile(r'\b(?:UFOs?|UAPs?|OVNIs?|unidentified anomalous phenomena|unidentified flying objects?|unidentified aerial phenomena|AARO|GEIPAN|extraterrestrial|alien spacecraft|flying saucer|Pentagon UFO|UFO disclosure|mystery drones?)\b',re.I)
+# Exclude finance, company marketing and other false positives, including headlines
+# returned by Google News merely because the query contained a country name.
+OFF_TOPIC=re.compile(r'\b(?:solar panels?|solar range|home battery|balcony solar|sustainability certification|construction materials?|stock price|share price|earnings|investor relations|quarterly results|cryptocurrency)\b',re.I)
+COUNTRY_WORDS={
+ 'Ireland':r'\b(?:ireland|irish|dublin|belfast)\b',
+ 'France':r'\b(?:france|french|paris|geipan|cnes)\b',
+ 'Germany':r'\b(?:germany|german|berlin)\b',
+ 'Brazil':r'\b(?:brazil|brazilian|brasil)\b',
+ 'Mexico':r'\b(?:mexico|mexican)\b',
+ 'Japan':r'\b(?:japan|japanese|tokyo)\b',
+ 'Canada':r'\b(?:canada|canadian|ottawa)\b',
+ 'Australia':r'\b(?:australia|australian|aussie|canberra)\b'
+}
+def relevant_headline(title):
+    return bool(TOPIC.search(title)) and not bool(OFF_TOPIC.search(title))
+def applies_to_country(title,country):
+    return relevant_headline(title) and bool(re.search(COUNTRY_WORDS[country],title,re.I))
 MAX_AGE=366
 def fetch(query):
     q=urllib.parse.urlencode({'q':query,'hl':'en-GB','gl':'GB','ceid':'GB:en'})
@@ -65,6 +82,7 @@ def parse(xml):
         # RSS labels frequently end in " - Publisher".
         head,sep,publisher=title.rpartition(' - ')
         if not sep:head,publisher=title,'Google News RSS'
+        if not relevant_headline(head):continue
         # Some publishers expose approved image URLs through RSS media elements.
         # Do not invent an image or treat an illustration as a reported-event photograph.
         image_url=''
@@ -91,7 +109,7 @@ def direct_feed(name,url):
     for item in root.findall('.//channel/item'):
         title=html.unescape((item.findtext('title') or '').strip())
         summary=html.unescape(re.sub(r'<[^>]+>',' ',item.findtext('description') or ''))
-        if not TOPIC.search(title):continue
+        if not relevant_headline(title):continue
         article=(item.findtext('link') or '').strip()
         if not article.startswith('https://'):continue
         published=item.findtext('pubDate') or ''
@@ -147,6 +165,7 @@ def main():
             result=list(parse(fetch(term)))
             region=next((country for country,query in REGIONAL_TERMS.items() if term==query),None)
             if region:
+                result=[record for record in result if applies_to_country(record['headline'],region)]
                 for record in result: record['country']=region
             gathered+=result;success+=1
             health.append({'source':'Search: '+(region or term),'status':'ok' if result else 'empty','items':len(result),'latestArticleAt':max((x['date'] for x in result),default=None)})
@@ -178,6 +197,9 @@ def main():
     seen=set();out=[]
     for item in sorted(gathered+old,key=lambda x:x.get('date',''),reverse=True):
         if not isinstance(item,dict):continue
+        if not relevant_headline(item.get('headline','')):continue
+        if item.get('country') in COUNTRY_WORDS and not applies_to_country(item['headline'],item['country']):
+            item={k:v for k,v in item.items() if k!='country'}
         url=item.get('url','');key=url.split('?')[0] if url.startswith('https://') else None
         if not key or key in seen or not item.get('headline') or not item.get('date'):continue
         try:age=NOW-dt.datetime.fromisoformat(item['date'].replace('Z','+00:00'))
