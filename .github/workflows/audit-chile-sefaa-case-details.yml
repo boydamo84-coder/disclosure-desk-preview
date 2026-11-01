@@ -1,0 +1,63 @@
+name: Chile SEFAA case detail discovery (DEV, no deploy)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Sample SEFAA monthly indexes for individual case links
+        run: |
+          python - <<'PY'
+          import re,urllib.request,collections
+          from html.parser import HTMLParser
+          from urllib.parse import urljoin,urlsplit
+          class Links(HTMLParser):
+            def __init__(self):super().__init__();self.href=None;self.parts=[];self.links=[]
+            def handle_starttag(self,tag,attrs):
+              if tag=='a':self.href=dict(attrs).get('href');self.parts=[]
+            def handle_data(self,txt):
+              if self.href is not None:self.parts.append(txt)
+            def handle_endtag(self,tag):
+              if tag=='a' and self.href is not None:
+                self.links.append((' '.join(self.parts).strip(),self.href));self.href=None
+          def read(url):
+            req=urllib.request.Request(url,headers={'User-Agent':'DisclosureDeskSourceAudit/1.0'})
+            with urllib.request.urlopen(req,timeout=15) as resp:
+              data=resp.read(1_500_001)
+              if len(data)>1_500_000:raise ValueError('Page oversized')
+              return data.decode('utf-8','replace')
+          months=[]
+          for year in range(2024,2027):
+            try:
+              p=Links();p.feed(read(f'https://sefaa.dgac.gob.cl/{year}/'))
+              for label,href in p.links:
+                if re.search(r'casos?\s+(?:resueltos?\s+)?(?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|setiembre|octubre|noviembre|diciembre)',label,re.I):
+                  url=urljoin(f'https://sefaa.dgac.gob.cl/{year}/',href)
+                  if urlsplit(url).hostname=='sefaa.dgac.gob.cl':months.append((year,label,url))
+            except Exception as exc:print('Annual index unavailable:',year,type(exc).__name__)
+          months=list(dict((url,(year,label,url)) for year,label,url in months).values())
+          print('Available monthly indexes in 2024-2026:',len(months))
+          for year,label,url in months[:12]:
+            try:
+              p=Links();p.feed(read(url))
+              documents=[]
+              for name,href in p.links:
+                target=urljoin(url,href);host=urlsplit(target).hostname or ''
+                if (host=='sefaa.dgac.gob.cl' or host.endswith('.dgac.gob.cl')) and (re.search(r'caso|informe|resoluci|reporte|investigaci|expediente',name,re.I) or re.search(r'\.pdf($|\?)',target,re.I)):
+                  documents.append((name[:70],target))
+              docs=list(dict((u,(n,u)) for n,u in documents).values())
+              print(year,label[:45],': candidate case/report links=',len(docs))
+              for name,target in docs[:5]:print('  ',name,target)
+            except Exception as exc:print('Monthly page unavailable:',year,label[:45],type(exc).__name__)
+          print('Source discovery only: candidate links are NOT verified individual cases. No imports or deployment.')
+          PY
