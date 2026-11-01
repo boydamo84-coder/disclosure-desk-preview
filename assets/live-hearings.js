@@ -61,6 +61,8 @@ function init(){
     if(embed&&safeVideo(embed)){
       const player=h('div');player.className='dd-live-inline-player';player.style.cssText='position:relative;aspect-ratio:16/9;background:#07111b;border-radius:12px;overflow:hidden;margin:12px 0';
       const preview=h('button','▶ Play official recording');preview.type='button';preview.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;color:#fff;background:linear-gradient(145deg,#1d3446,#09121d);font-size:18px;font-weight:700;cursor:pointer';
+      const videoId=embed.split('/').pop();
+      if(/^[A-Za-z0-9_-]{11}$/.test(videoId)){preview.style.background='linear-gradient(#0005,#0009),url(https://i.ytimg.com/vi/'+videoId+'/hqdefault.jpg) center/cover';preview.style.textShadow='0 2px 8px #000';}
       preview.setAttribute('aria-label','Play '+event.title);
       preview.onclick=()=>{
         // Only mount the requested player; don't load three third-party embeds on page entry.
