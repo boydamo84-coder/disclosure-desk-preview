@@ -7,7 +7,9 @@
     "date": "2026-11-01T03:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://nypost.com/2026/10/31/us-news/democrats-plot-taking-ufo-disclosure-issue-from-gop-after-midterms/",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "3633ac2144527be6775f",
@@ -17,7 +19,9 @@
     "date": "2026-10-31T15:29:42+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://s.yimg.com/lo/mysterio/api/123e4a67c0042c16ab641cc48bd6ae6bb06f0fc44e67206a2b2e521d25e82e3d/lightyear_networkapi/resizefill_w1200%3Bquality_80%3Bformat_jpg/https%3A%2F%2Fmedia.zenfs.com%2Fen%2Fderbyshire_live_162%2F3ea2d78d928315281afc4a0dcb5818b4.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "dceeed06bdc0b033b56f",
@@ -27,7 +31,9 @@
     "date": "2026-10-31T15:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://offloadmedia.feverup.com/secretlosangeles.com/wp-content/uploads/2026/10/30131116/Via-Wikimedia-Commons.-.jpg-Camarillo-State-Hospital.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "452769d0db0c9945a1e3",
@@ -37,7 +43,9 @@
     "date": "2026-10-31T09:34:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://i2-prod.walesonline.co.uk/article29063707.ece/ALTERNATES/s1200d/0_GettyImages-1787690966.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "3f8008ee080b81bad3e2",
@@ -57,7 +65,9 @@
     "date": "2026-10-31T08:48:22+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://turkmenportal.com/images/uploads/blogs/2026-02-20T12-04-41_969034fe-1e73-44b5-aa13-c4523e22ce34.webp",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "59ade385cb1194e98373",
@@ -67,7 +77,9 @@
     "date": "2026-10-31T02:20:44+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://i.abcnewsfe.com/a/11b63f52-a6b0-4af7-9434-d1bb04437dec/ufo-gty-jt-260508_1778266575401_hpMain_16x9.jpg?w=1600",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "fb0858460806c7ce466e",
@@ -77,7 +89,9 @@
     "date": "2026-10-30T16:45:28+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://s.yimg.com/lo/mysterio/api/f16b477048c0aa5d1ceb6f27396e1411dfc00c0ae0adef9bc88b4737e7eca29b/lightyear_networkapi/resizefill_w1200%3Bquality_80%3Bformat_jpg/https%3A%2F%2Fmedia.zenfs.com%2Fen%2Fforbes_contributor_845%2F55e1d480de3881e019c8989494e84eb9.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "b6f4a2d623b89243e438",
@@ -107,7 +121,9 @@
     "date": "2026-10-30T06:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://www.krqe.com/wp-content/uploads/sites/12/2026/10/NM-Strange-YT-3.png?w=1280",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "c10a214083929808bcc7",
@@ -157,7 +173,9 @@
     "date": "2026-10-30T01:48:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://cdn4.focus.bg/fakti/photos/fb/b76/vans-izvanzemnite-moje-da-sa-demoni-carkvata-ne-izkluchva-neobasnimoto-1.webp",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "51041dcfa7b7be1ef601",
@@ -187,6 +205,18 @@
     "date": "2026-10-29T19:34:07+00:00",
     "category": "UAP",
     "priority": "standard",
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://www.awn.com/sites/default/files/styles/og_1200/public/image/attached/1081668-posterdisclosure-day-digital-domain.jpg?itok=ATkYKft-",
+    "imageSource": "Publisher Open Graph image"
+  },
+  {
+    "id": "56f0bf88c676a51b75d7",
+    "headline": "Heard about UFOs over Wanaque Reservoir? | Stranger Jersey",
+    "source": "Bergen Record",
+    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQTFFWUzdjYXdlVi1DZWFVTzI3ZkNSb203V1lXejBmSHhIeEdqa0xGTGR3emd6dGVQbExDRlpTVWpZRVRRb2E3NGxwMUlPdzBEYXBwZ0RuRFpuRjY1MERuVjFSQ3BFbEczOG1zNVVxWDV4akJtcUktb3hXLTFTMDFKOHlqODVsTG1QaXNQd2hhMHVYalA4SF9mOTlTdjMwNjBOTGg2di1WOExFcS1lRXhITU9OVE1LWGs?oc=5",
+    "date": "2026-10-29T19:27:55+00:00",
+    "category": "UAP",
+    "priority": "standard",
     "desc": "Read the source article for details."
   },
   {
@@ -207,7 +237,9 @@
     "date": "2026-10-29T17:47:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://cowboystatedaily.imgix.net/UFO-natrium-terra-power.jpg?w=1200&q=75&auto=format%2Ccompress",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "129bb91bd33ca6ac18ad",
@@ -217,7 +249,9 @@
     "date": "2026-10-29T16:02:22+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://patch.com/img/cdn20/shutterstock/25383440/20261029/120221/styles/patch_image/public/shutterstock-728192002___29115323988.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "f05a6e48aca9b0e6dad6",
@@ -227,7 +261,9 @@
     "date": "2026-10-29T14:50:01+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://www.baijing.cn/?suzhou/VTcBJQYl_521186795",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "bc7d198c9d8ed9be3f29",
