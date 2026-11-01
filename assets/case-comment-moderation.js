@@ -1,9 +1,9 @@
 /* Moderator queue. Access is enforced by Supabase RPC, not by hiding the button. */
 (()=>{
 'use strict';
-const URL='https://omqxizswzcwgzqaczlhe.supabase.co';
-const KEY='sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X';
-const db=()=>window.supabase?.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
+const URL=cfg.url||'',KEY=cfg.publishableKey||'';
+const db=()=>cfg.environment==='test'&&URL&&KEY?window.supabase?.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
 function el(tag,text){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;return e;}
 async function init(){
  const client=db();if(!client)return;
