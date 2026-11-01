@@ -22,6 +22,8 @@ jobs:
           python-version: '3.12'
       - name: Install Google News redirect decoder
         run: python3 -m pip install 'gnews-decoder>=0.1.0,<1.0'
+      - name: Validate collector Python syntax
+        run: python3 -m py_compile scripts/refresh_dev_news.py
       - name: Collect source-linked news
         run: python3 scripts/refresh_dev_news.py
       - name: Validate non-stale news
@@ -38,7 +40,7 @@ jobs:
         run: |
           git config user.name "Disclosure Desk News Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/news-alerts.json
+          git add data/news-alerts.json data/news-feed-health.json
           if git diff --cached --quiet; then
             echo "No fresh changes"
           else
