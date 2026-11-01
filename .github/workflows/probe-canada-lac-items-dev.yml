@@ -28,12 +28,13 @@ jobs:
               if tag=='a' and self.href is not None:self.links.append((' '.join(self.buf).strip(),self.href));self.href=None
           urls=['https://www.canada.ca/en/library-archives/collection/research-help/science-technology/ufos.html',
                 'https://www.canada.ca/en/library-archives/collection/basics/using-collection-search.html']
-          links={}
+          links={}; successful_sources=0; failures=[]
           for url in urls:
             try:
               request=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 (Disclosure Desk official archive research)'})
               with urllib.request.urlopen(request,timeout=24) as response:body=response.read(1_500_001);status=response.status
               if len(body)>1_500_000:raise RuntimeError('Oversized official page')
+              successful_sources+=1
               parser=A();parser.feed(body.decode('utf-8','replace'))
               print('Official page:',url,'HTTP:',status,'links:',len(parser.links))
               for label,href in parser.links:
@@ -42,7 +43,11 @@ jobs:
                 if not (hostname.endswith('canada.ca') or hostname.endswith('bac-lac.gc.ca') or hostname.endswith('collectionscanada.gc.ca')):continue
                 if re.search(r'ufo|ovni|collection.*search|item|record|search|recherche|catalogue|database|archive',label+' '+full,re.I):
                   links[full]=label[:110]
-            except Exception as exc:print('Source access warning:',type(exc).__name__,str(exc)[:150])
+            except Exception as exc:
+              failures.append((url,type(exc).__name__))
+              print('Source access warning:',type(exc).__name__,str(exc)[:150])
+          print('Source pages successfully retrieved:',successful_sources,'of',len(urls))
+          if successful_sources==0:raise RuntimeError('No official Canadian source page could be reached; zero links is NOT a successful audit')
           print('Distinct official catalogue/search candidates:',len(links))
           for url,title in list(links.items())[:80]:print(repr(title),url)
           archive=json.loads(Path('data/historical-news-archive.json').read_text(encoding='utf-8'))
