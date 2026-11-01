@@ -34,7 +34,7 @@ jobs:
           for folder in assets data; do
             if [ -d "$folder" ]; then cp -R "$folder" android-dev/www/; fi
           done
-          for file in manifest.webmanifest service-worker.js sw.js; do
+          for file in cloud-boards.js manifest.webmanifest service-worker.js sw.js; do
             if [ -f "$file" ]; then cp "$file" android-dev/www/; fi
           done
           # Include any root JSON resources used by the single-page application.
