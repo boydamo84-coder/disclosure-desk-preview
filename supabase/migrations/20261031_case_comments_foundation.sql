@@ -91,7 +91,7 @@ create trigger dd_guard_comment_insert_trigger before insert on public.dd_case_c
 -- Prevent submitted flag timestamps from bypassing rate limits; restrict repeated flagging.
 create or replace function public.dd_guard_comment_flag()
 returns trigger language plpgsql security definer set search_path=public
-as $
+as $$
 begin
  if new.reporter_id is distinct from auth.uid() then raise exception 'Incorrect flag reporter'; end if;
  if (select count(*) from public.dd_case_comment_flags f
@@ -100,7 +100,7 @@ begin
  end if;
  new.created_at:=now();
  return new;
-end $;
+end $$;
 drop trigger if exists dd_guard_comment_flag_trigger on public.dd_case_comment_flags;
 create trigger dd_guard_comment_flag_trigger before insert on public.dd_case_comment_flags
  for each row execute function public.dd_guard_comment_flag();
