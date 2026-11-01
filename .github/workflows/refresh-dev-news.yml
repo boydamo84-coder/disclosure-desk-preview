@@ -20,6 +20,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install Google News redirect decoder
+        run: python3 -m pip install 'gnews-decoder>=0.1.0,<1.0'
       - name: Collect source-linked news
         run: python3 scripts/refresh_dev_news.py
       - name: Validate non-stale news
