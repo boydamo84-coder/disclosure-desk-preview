@@ -11,7 +11,9 @@ const starter=[
  ['books','Passport to Magonia','1969','Jacques Vallée'],
  ['books','In Plain Sight','2021','Ross Coulthart'],
  ['podcasts','Confessions Of A UFO Insider — The David Grusch Revelations','2023','WEAPONIZED · Episode 21','https://www.youtube.com/watch?v=dc6V0O_OPJ0'],
- ['podcasts','Hollywood, The CIA & UFOs: The History Beyond Spielberg','2026','American Alchemy · Jesse Michels','https://www.youtube.com/watch?v=yJUBSuPh1pM']
+ ['podcasts','Hollywood, The CIA & UFOs: The History Beyond Spielberg','2026','American Alchemy · Jesse Michels','https://www.youtube.com/watch?v=yJUBSuPh1pM'],
+ ['podcasts','David Grusch: UFOs, Atomic Secrecy and Anti-Gravity Research','2023','American Alchemy · Jesse Michels','https://www.youtube.com/watch?v=kRO5jOa06Qw'],
+ ['podcasts','WEAPONIZED #21 — The David Grusch Whistleblower Story','2023','WEAPONIZED · Corbell & Knapp','https://www.weaponizedpodcast.com/episodes-1/episode-number-21']
 ].map(([category,title,year,creator,url])=>({category,title,year,creator,url,id:(category+'-'+title).toLowerCase().replace(/[^a-z0-9]+/g,'-')}));
 const key='dd_watch_read_saved_v1';
 let client=null;
@@ -59,19 +61,23 @@ function init(){
  section.append(node('p','Explore documentaries, movies, books and podcast episodes. Starter titles are editorial picks, not community-ranked results.'));
  const toolbar=node('div');toolbar.style.cssText='display:flex;gap:7px;flex-wrap:wrap;margin:12px 0';
  const list=node('div'),msg=node('p','Community voting and member nominations will launch after our Supabase security tests.');msg.className='muted small';
- let category='documentaries',viewAll=false,sort='picks';
+ let category='documentaries',viewAll=false,sort='picks',podcastSearch='';
  function render(){
   toolbar.replaceChildren();
   for(const [cat,label] of [['documentaries','Documentaries'],['movies','Movies'],['books','Books'],['podcasts','Podcast Episodes']]){
    const b=node('button',label);b.type='button';b.className=category===cat?'chip active':'chip';b.onclick=()=>{category=cat;viewAll=false;render()};toolbar.append(b);
   }
   list.replaceChildren();
+  if(category==='podcasts'){
+   const info=node('p','Top 100 UFO Podcast Episodes · Building the curated shortlist. '+starter.filter(v=>v.category==='podcasts').length+' verified episode links so far; no invented community rankings.');info.className='muted small';list.append(info);
+   const search=node('input');search.type='search';search.className='field';search.placeholder='Search episode, guest or podcast…';search.value=podcastSearch;search.setAttribute('aria-label','Search podcast episode recommendations');search.oninput=()=>{podcastSearch=search.value;render();const next=list.querySelector('input[type="search"]');next?.focus();next?.setSelectionRange(podcastSearch.length,podcastSearch.length)};list.append(search);
+  }
   const order=node('select');order.setAttribute('aria-label','Sort Watch and Read titles');
   for(const [v,l] of [['picks','Editorial picks'],['score','Community rating'],['recommended','Most recommended']]){
     const opt=node('option',l);opt.value=v;order.append(opt);
   }
   order.value=sort;order.onchange=()=>{sort=order.value;render()};toolbar.append(order);
-  const candidates=starter.filter(v=>v.category===category);
+  const candidates=starter.filter(v=>v.category===category&&(!podcastSearch||category!=='podcasts'||[v.title,v.creator,v.year].join(' ').toLowerCase().includes(podcastSearch.toLowerCase()))).slice(0,category==='podcasts'?100:1000);
   if(available&&sort!=='picks')candidates.sort((a,b)=>{
     const x=scores[a.id]||{},y=scores[b.id]||{};
     const value=t=>sort==='score'?(Number(t.ratings)>=5?Number(t.average_score)||0:0):Number(t.recommendations)||0;
@@ -100,7 +106,7 @@ function init(){
    recommend.onclick=()=>castVote(item,{recommended:!mine[item.id]?.recommended});
    card.append(rating,recommend);list.append(card);
   }
-  const more=node('button',viewAll?'Show Top Picks':'View all titles');more.type='button';more.className='outline';more.onclick=()=>{viewAll=!viewAll;render()};list.append(more);
+  if(candidates.length>10){const more=node('button',viewAll?'Show Top Picks':'View all titles');more.type='button';more.className='outline';more.onclick=()=>{viewAll=!viewAll;render()};list.append(more)}
  }
  section.append(toolbar,list,msg);host.append(section);window.ddRenderWatchRead=render;render();loadVotes().then(render);
  const c=db();c?.auth.onAuthStateChange(()=>{mine={};scores={};available=false;render();setTimeout(()=>loadVotes().then(render),0)});
