@@ -74,6 +74,30 @@
       "status": "official-catalogue-not-found",
       "note": "Canadian government Sky Canada report describes Chinese UFO research history and reports on PLA tracking, but no independently verified accessible government case-level catalogue yet. Seek direct PRC government links; distinguish journalism and private society records from government case files. Translate carefully and verify commercial reuse.",
       "sourceType": "research-queue"
+    },
+    {
+      "country": "Australia",
+      "name": "National Archives of Australia RecordSearch — RAAF UAS/UFO files",
+      "url": "https://www.naa.gov.au/help-your-research/getting-started/recordsearch-overview",
+      "status": "official-primary-records-identified",
+      "sourceType": "official-archive",
+      "note": "NAA RecordSearch holds archival records; official March 2021 release listing identifies item A9755, 22 for RAAF UFO/UAS enquiries. Search all accessible years and record item identifiers, access restrictions, date coverage, and reuse conditions. RecordSearch is incomplete relative to total holdings; do not equate archival files with unique sightings or auto-import witness details."
+    },
+    {
+      "country": "Canada",
+      "name": "Library and Archives Canada — Canada's UFOs: The Search for the Unknown",
+      "url": "https://www.canada.ca/en/library-archives/collection/research-help/science-technology/ufos.html",
+      "status": "official-digitised-collection-identified",
+      "sourceType": "official-archive",
+      "note": "Official LAC source describes ~9,500 digitised documents from 1947 through early 1980s across National Defence, Transport, National Research Council and RCMP. These are documents, not 9,500 individual sightings. Discover official individual identifiers and licensed catalogue reuse; review later releases separately; avoid private witness details."
+    },
+    {
+      "country": "New Zealand",
+      "name": "New Zealand Defence Force UFO files 1952–2009",
+      "url": "https://www.nzdf.mil.nz/assets/Uploads/DocumentLibrary/OIA-2023-4763_UAP-UFO-USO.pdf",
+      "status": "official-redacted-release-identified",
+      "sourceType": "official-defence-release",
+      "note": "Official NZDF OIA response confirms 15 redacted volumes of UFO correspondence covering 1952–2009, released to selected public libraries in 2010. National Library catalogue describes 15 volumes. Files contain multiple reports and duplicate materials; originals can be privacy-restricted. Discover original catalogue identifiers and permission/access for each redacted volume; do not treat volumes as sightings."
     }
   ]
 }
