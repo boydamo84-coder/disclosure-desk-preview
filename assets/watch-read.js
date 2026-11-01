@@ -12,10 +12,12 @@ const starter=[
  ['books','In Plain Sight','2021','Ross Coulthart']
 ].map(([category,title,year,creator])=>({category,title,year,creator,id:(category+'-'+title).toLowerCase().replace(/[^a-z0-9]+/g,'-')}));
 const key='dd_watch_read_saved_v1';
-const db=()=>window.supabase?.createClient('https://omqxizswzcwgzqaczlhe.supabase.co','sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X');
+let client=null;
+const db=()=>{if(!window.supabase)return null;return client||(client=window.supabase.createClient('https://omqxizswzcwgzqaczlhe.supabase.co','sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X'));};
 let scores={},mine={},available=false,busy=false;
 async function loadVotes(){
- const c=db();if(!c)return;
+ const c=db();if(!c){available=false;mine={};scores={};return;}
+ available=false;mine={};scores={};
  try {
   const {data,error}=await c.rpc('dd_media_ranking');if(error)throw error;
   scores=Object.fromEntries((data||[]).map(v=>[v.title_id,v]));
@@ -27,7 +29,7 @@ async function loadVotes(){
    mine=Object.fromEntries((rows||[]).map(v=>[v.title_id,v]));
   }
   available=true;
- }catch(ex){available=false;console.warn('Watch & Read voting not activated:',ex.message)}
+ }catch(ex){available=false;mine={};scores={};console.warn('Watch & Read voting not activated:',ex.message)}
 }
 async function castVote(item,patch){
  if(busy)return;
@@ -98,6 +100,7 @@ function init(){
   const more=node('button',viewAll?'Show Top Picks':'View all titles');more.type='button';more.className='outline';more.onclick=()=>{viewAll=!viewAll;render()};list.append(more);
  }
  section.append(toolbar,list,msg);host.append(section);window.ddRenderWatchRead=render;render();loadVotes().then(render);
+ const c=db();c?.auth.onAuthStateChange(()=>{mine={};scores={};available=false;render();setTimeout(()=>loadVotes().then(render),0)});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
