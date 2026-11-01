@@ -7,9 +7,9 @@
       "name": "GEP UFO/UAP case data 1972–September 2026",
       "url": "https://zenodo.org/records/23117630",
       "doi": "10.5281/zenodo.23117630",
-      "status": "licence-and-schema-review",
+      "status": "permission-denied-commercial-use",
       "sourceType": "research-organisation-dataset",
-      "note": "2.5 MB CSV. Exact licence of October 2026 version and column contents must be checked before republishing. Do not import source text or raw location fields until privacy validation; map only reviewed city-level coordinates. Source dataset is not independently verified sightings."
+      "note": "On 2026-11-01 GEP e.V. explicitly declined permission to make its UFO/UAP case dataset available for commercial purposes. Do not import, mirror, extract records from, or use this dataset to populate Disclosure Desk, including through a public copy, absent new express permission or legal review. Link to GEP publicly as an external research source only. No GEP dataset records imported."
     },
     {
       "country": "France",
