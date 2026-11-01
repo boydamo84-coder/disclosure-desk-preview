@@ -1,0 +1,43 @@
+name: Audit French and UK MoD coverage (DEV only)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Count existing case records by archival source and type
+        run: |
+          python - <<'PY'
+          import json,collections
+          from pathlib import Path
+          rows=json.loads(Path('data/historical-news-archive.json').read_text(encoding='utf-8'))
+          assert isinstance(rows,list)
+          assert len(rows)==len({r['id'] for r in rows})
+          groups={
+            'UK MoD individual logs':lambda r:r['id'].startswith('uk-mod-ufo-') and r.get('kind')=='Individual government sighting log entry',
+            'UK MoD archive collections':lambda r:r['id'].startswith('uk-mod-ufo-') and r.get('kind')!='Individual government sighting log entry',
+            'France GEIPAN-labelled entries':lambda r:any(s in str(r.get('source','')).lower()+' '+str(r.get('id','')).lower() for s in ('geipan','cnes')),
+            'French entries by source/title':lambda r:any(s in (str(r.get('source',''))+' '+str(r.get('title',''))).lower() for s in ('france','french','français','geipan')),
+            'Blue Book individual case files':lambda r:r['id'].startswith('nara-bluebook-'),
+            'Brazilian archive records':lambda r:any(s in (str(r.get('source',''))+' '+str(r.get('id',''))).lower() for s in ('brazil','brasil','arquivo nacional')),
+          }
+          print('Total historical archive entries:',len(rows))
+          for group,predicate in groups.items():
+            selection=[r for r in rows if predicate(r)]
+            print(group+':',len(selection))
+            print('  Types:',dict(collections.Counter(r.get('kind','unknown') for r in selection).most_common(6)))
+            print('  Earliest/latest:',min((r.get('year',9999) for r in selection),default='n/a'),max((r.get('year',0) for r in selection),default='n/a'))
+          mod=[r for r in rows if groups['UK MoD individual logs'](r)]
+          print('UK MoD entries by year:',dict(sorted(collections.Counter(r['year'] for r in mod).items())))
+          print('NOTE: Name-matching counts are provisional; records may overlap categories.')
+          print('No changes, no imports, no deployments.')
+          PY
