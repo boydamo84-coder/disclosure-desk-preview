@@ -1,0 +1,36 @@
+name: Tour account privacy and consent static QA (no deploy)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify tour and account controls, privacy page, JS syntax
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFileSync,writeFileSync,mkdtempSync} from 'node:fs';
+          import {join} from 'node:path';
+          import {tmpdir} from 'node:os';
+          import {execFileSync} from 'node:child_process';
+          const html=readFileSync('index.html','utf8');
+          const policy=readFileSync('privacy.html','utf8');
+          for(const text of ['id="ddHeaderAccount"','href="/privacy.html"','function closeTourIfOpen()','id="appTourDialog"','id="ddCloudAccount"','id="ddCloudLogin"','Investigator Tools','Privacy & Backups'])
+            if(!html.includes(text))throw Error('Missing UI feature: '+text);
+          if(!policy.includes('Website advertising and consent') || !policy.includes('Google AdSense'))throw Error('Website privacy coverage missing');
+          const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(x=>x[1]).filter(x=>x.trim());
+          const dir=mkdtempSync(join(tmpdir(),'dd-'));
+          scripts.forEach((x,i)=>{let p=join(dir,i+'.js');writeFileSync(p,x);execFileSync('node',['--check',p],{stdio:'inherit'})});
+          const hasAdsense=/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js/.test(html);
+          const hasCmp=html.includes('__tcfapi')||html.includes('fundingchoicesmessages.google.com');
+          console.log('AdSense loader in HTML:',hasAdsense,'CMP integration in HTML:',hasCmp,'(CMP may be served remotely)');
+          console.log('Static QA passed; CMP delivery requires browser + AdSense dashboard checks.');
+          NODE
