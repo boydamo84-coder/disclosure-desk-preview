@@ -49,6 +49,8 @@ def main():
     # Sanity checks: do not overwrite an existing useful feed with zero fresh articles.
     recent=sum(1 for x in gathered if (NOW-dt.datetime.fromisoformat(x['date']))<dt.timedelta(days=7))
     if recent==0:raise RuntimeError('RSS provided no articles within 7 days; refusing to present stale data as refreshed')
+    freshest=max(dt.datetime.fromisoformat(x['date']) for x in gathered)
+    if NOW-freshest>dt.timedelta(hours=72):raise RuntimeError('Newest RSS article is over 72 hours old; source discovery needs repair. Catalogue not overwritten.')
     PATH.write_text(json.dumps(out[:500],ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print('Updated',len(out[:500]),'stories; new last 7 days',recent,'old newest',old[0].get('date') if old else 'none')
     for err in errors:print('WARNING:',err)
