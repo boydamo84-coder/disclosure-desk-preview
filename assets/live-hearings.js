@@ -6,9 +6,9 @@ const client=()=>window.supabase?.createClient(URL,KEY);
 const h=(tag,txt)=>{const e=document.createElement(tag);if(txt!==undefined)e.textContent=txt;return e};
 const safeVideo=url=>{try{const u=new URL(url);return u.protocol==='https:'&&(/(^|\.)youtube\.com$|(^|\.)youtube-nocookie\.com$|(^|\.)congress\.gov$|(^|\.)house\.gov$|(^|\.)senate\.gov$/).test(u.hostname)}catch{return false}};
 const BUNDLED_HEARINGS=[
- {id:'house-uap-2025-09-09',title:'Restoring Public Trust Through UAP Transparency and Whistleblower Protection',date:'2025-09-09',status:'ended',sourceUrl:'https://oversight.house.gov/hearing/restoring-public-trust-through-uap-transparency-and-whistleblower-protection/'},
- {id:'house-uap-2024-11-13',title:'Unidentified Anomalous Phenomena: Exposing the Truth',date:'2024-11-13',status:'ended',sourceUrl:'https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/'},
- {id:'house-uap-2023-07-26',title:'UAP: Implications on National Security, Public Safety, and Government Transparency',date:'2023-07-26',status:'ended',sourceUrl:'https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/'}
+ {id:'house-uap-2025-09-09',title:'Restoring Public Trust Through UAP Transparency and Whistleblower Protection',date:'2025-09-09',status:'ended',embedUrl:'https://www.youtube-nocookie.com/embed/LBKRr5OvF6E',sourceUrl:'https://oversight.house.gov/hearing/restoring-public-trust-through-uap-transparency-and-whistleblower-protection/'},
+ {id:'house-uap-2024-11-13',title:'Unidentified Anomalous Phenomena: Exposing the Truth',date:'2024-11-13',status:'ended',embedUrl:'https://www.youtube-nocookie.com/embed/kT2iWKZr0qA',sourceUrl:'https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/'},
+ {id:'house-uap-2023-07-26',title:'UAP: Implications on National Security, Public Safety, and Government Transparency',date:'2023-07-26',status:'ended',embedUrl:'https://www.youtube-nocookie.com/embed/KQ7Dw-739VY',sourceUrl:'https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/'}
 ];
 let events=BUNDLED_HEARINGS.slice();
 function init(){
@@ -19,11 +19,11 @@ function init(){
  const root=document.getElementById('ddLiveMount');
  if(!root)return;root.append(host);
  function openEvent(event){
-   const overlay=h('div');overlay.style.cssText='position:fixed;inset:0;z-index:100050;background:#08111bf5;overflow:auto;padding:14px';
+   const overlay=h('div');overlay.style.cssText='position:fixed;inset:0;z-index:100050;background:#08111bf5;overflow:auto;padding:max(58px,env(safe-area-inset-top,0px)) 12px max(20px,env(safe-area-inset-bottom,0px))';
    const box=h('section');box.style.cssText='max-width:750px;margin:auto;background:#142536;border:1px solid #b39a70;border-radius:12px;padding:16px';
-   const close=h('button','✕ Close');close.onclick=()=>overlay.remove();box.append(close,h('h2',event.title));
+   const close=h('button','✕ Close');close.onclick=()=>overlay.remove();close.style.cssText='margin-bottom:12px;padding:10px 14px';box.append(close,h('h2',event.title));
    const p=h('p',event.status==='live'?'Official livestream · Discussion':event.status==='ended'?'Recording and discussion archive':'Confirmed event · Awaiting broadcast');p.className='muted small';box.append(p);
-   if(event.embedUrl&&safeVideo(event.embedUrl)){const frame=h('iframe');frame.title='Official hearing video';frame.src=event.embedUrl;frame.allow='fullscreen; picture-in-picture';frame.allowFullscreen=true;frame.loading='lazy';frame.style.cssText='width:100%;aspect-ratio:16/9;border:0';box.append(frame);}
+   if(event.embedUrl&&safeVideo(event.embedUrl)){const frame=h('iframe');frame.title='Official hearing recording';frame.src=event.embedUrl+'?playsinline=1&rel=0';frame.allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';frame.referrerPolicy='strict-origin-when-cross-origin';frame.allowFullscreen=true;frame.loading='eager';frame.style.cssText='display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:10px;background:#000;margin:14px 0';box.append(frame);const y=h('a','Watch directly on YouTube ↗');y.href='https://www.youtube.com/watch?v='+event.embedUrl.split('/').pop();y.target='_blank';y.rel='noopener noreferrer';y.style.cssText='display:inline-block;margin-bottom:12px;color:#e6c48a';box.append(y);}
    else if(event.sourceUrl){const a=h('a','Open verified official event page');a.href=event.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';box.append(a);}
    const discuss=h('button','💬 '+(event.status==='live'?'Join live discussion':'View hearing discussion'));discuss.type='button';discuss.className='outline';discuss.style.margin='12px';
    discuss.onclick=()=>{overlay.remove();window.ddOpenCaseDiscussion?.('hearing:'+event.id,'Hearing Discussion')};box.append(discuss);
