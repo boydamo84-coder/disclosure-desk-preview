@@ -1,0 +1,43 @@
+name: Review November website release (no deploy)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out combined release branch
+        uses: actions/checkout@v4
+        with:
+          ref: release/disclosure-desk-nov01-batch
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check application scripts and mobile video functionality
+        run: python scripts/test_mobile_video_static.py
+      - name: Check news relevance rules and Python syntax
+        run: |
+          python -m py_compile scripts/refresh_dev_news.py
+          python -m unittest discover -s tests -p 'test_news_relevance.py' -v
+      - name: Validate source catalogues and required assets
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('.')
+          index=(root/'index.html').read_text()
+          assert 'id="newsCountry"' in index
+          assert 'DD_NEWS_REMOTE' in index
+          assert 'orientation:landscape' in index
+          assert 'id="immersiveViewer"' in index
+          for p in ['assets/inline-news-comments.js','assets/live-hearings.js','assets/watch-read.js']:
+              assert (root/p).exists(),p
+          clips=json.loads((root/'data/disclosure-clips.json').read_text())
+          news=json.loads((root/'data/news-alerts.json').read_text())
+          assert len(clips)>100 and len(news)>10
+          print('Release assets and catalogues validated:',len(clips),'clips,',len(news),'news')
+          PY
