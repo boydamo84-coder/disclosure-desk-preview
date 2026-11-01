@@ -121,6 +121,12 @@ def main():
     for token in ["DD_NEWS_REMOTE", "DD_NEWS_CACHE_KEY", "ddStoredNews()", "Online · updated automatically", "Bundled offline news"]:
         if token not in page:
             sys.exit("Online-first News with offline fallback missing: "+token)
+    collector = ROOT / "scripts" / "refresh_dev_news.py"
+    if not collector.exists() or "Publisher RSS image" not in collector.read_text(encoding="utf-8"):
+        sys.exit("News collector missing source-attributed RSS image extraction")
+    verify = subprocess.run([sys.executable, "-m", "py_compile", str(collector)],capture_output=True,text=True)
+    if verify.returncode:
+        sys.exit("News collector syntax failed: "+verify.stderr)
     watch = ROOT / "assets" / "watch-read.js"
     if not watch.exists():
         sys.exit("Watch & Read script missing")
