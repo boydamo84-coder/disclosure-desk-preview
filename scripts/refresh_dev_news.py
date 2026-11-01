@@ -110,7 +110,7 @@ def direct_feed(name,url):
         if not image_url:
             # RSS descriptions may carry their own article thumbnail.
             raw=item.findtext('description') or ''
-            match=re.search(r'<img\\b[^>]*\\bsrc\\s*=\\s*["\\'](https://[^"\\']+)',html.unescape(raw),re.I)
+            match=re.search(r"<img\b[^>]*\bsrc\s*=\s*[\"'](https://[^\"']+)",html.unescape(raw),re.I)
             if match:image_url=html.unescape(match.group(1))
         if image_url:row.update(imageUrl=image_url,imageSource=name+' RSS image')
         added.append(row)
