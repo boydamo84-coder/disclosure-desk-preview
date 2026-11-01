@@ -107,6 +107,11 @@ def direct_feed(name,url):
         row={'id':hashlib.sha256(article.encode()).hexdigest()[:20],'headline':title[:240],'source':name,
              'url':article,'date':date.isoformat(timespec='seconds'),'category':'UAP','priority':'standard',
              'desc':summary[:280] if summary else 'Read the original source'}
+        if not image_url:
+            # RSS descriptions may carry their own article thumbnail.
+            raw=item.findtext('description') or ''
+            match=re.search(r'<img\\b[^>]*\\bsrc\\s*=\\s*["\\'](https://[^"\\']+)',html.unescape(raw),re.I)
+            if match:image_url=html.unescape(match.group(1))
         if image_url:row.update(imageUrl=image_url,imageSource=name+' RSS image')
         added.append(row)
     return added
