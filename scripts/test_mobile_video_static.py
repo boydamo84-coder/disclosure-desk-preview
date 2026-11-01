@@ -47,6 +47,8 @@ def main():
         'assets/watch-read.js',
         'assets/community-test-config.js',
         'data-tab="watchRead"',
+        'id="watchRead"',
+        'id="ddWatchReadMount"',
         'scroll-snap-type:y proximity',
         "'video:'+c.id",
         'function openImmersive(resume=false)',
@@ -109,6 +111,8 @@ def main():
     watch = ROOT / "assets" / "watch-read.js"
     if not watch.exists():
         sys.exit("Watch & Read script missing")
+    if "ddWatchReadMount" not in watch.read_text(encoding="utf-8"):
+        sys.exit("Watch & Read is not mounted on its own page")
     check = subprocess.run(["node", "--check", str(watch)], capture_output=True, text=True)
     if check.returncode:
         sys.exit("Watch & Read syntax failed: " + check.stderr)
