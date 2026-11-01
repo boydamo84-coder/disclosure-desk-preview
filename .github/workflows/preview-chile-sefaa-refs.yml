@@ -1,0 +1,21 @@
+name: Preview Chile SEFAA case references (DEV, no deploy)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate importer and preview unique Chile case-file links
+        run: |
+          python -m py_compile scripts/import_chile_sefaa_references.py
+          python scripts/import_chile_sefaa_references.py
