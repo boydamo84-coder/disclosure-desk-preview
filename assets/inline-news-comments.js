@@ -64,6 +64,6 @@ function mount(container){
 const observer=new IntersectionObserver(entries=>{for(const e of entries){if(e.isIntersecting){observer.unobserve(e.target);mount(e.target)}}},{rootMargin:'350px'});
 function scan(){document.querySelectorAll('[data-news-comments]').forEach(n=>{if(!states.has(n))observer.observe(n)})}
 const mo=new MutationObserver(()=>scan());
-function init(){scan();const root=document.getElementById('newsGrid');if(root)mo.observe(root,{childList:true});}
+function init(){scan();const root=document.getElementById('newsGrid');if(root)mo.observe(root,{childList:true});mo.observe(document.body,{childList:true,subtree:true});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
