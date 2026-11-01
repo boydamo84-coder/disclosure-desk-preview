@@ -1,0 +1,61 @@
+name: Audit complete GEIPAN case coverage (DEV, no deploy)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compare published GEIPAN case IDs against development archive
+        run: |
+          python - <<'PY'
+          import csv,io,json,urllib.request,collections
+          from pathlib import Path
+          source='https://www.cnes-geipan.fr/sites/default/files/Base_de_donn%C3%A9es_des_cas.csv'
+          request=urllib.request.Request(source,headers={'User-Agent':'DisclosureDeskCoverageAudit/1.0'})
+          with urllib.request.urlopen(request,timeout=65) as response:raw=response.read(20_000_001)
+          assert len(raw)<20_000_001,'Source too large'
+          decoded=raw.decode('utf-8-sig',errors='replace')
+          dialect=csv.Sniffer().sniff(decoded[:15000],delimiters=';,\t')
+          records=list(csv.DictReader(io.StringIO(decoded),dialect=dialect))
+          archive=json.loads(Path('data/historical-news-archive.json').read_text(encoding='utf-8'))
+          archive_ids=[r['id'] for r in archive]
+          assert len(archive_ids)==len(set(archive_ids)),'Archive contains duplicate IDs'
+          eligible=[]
+          from datetime import date
+          for r in records:
+              if (r.get('cas_public') or '').strip().lower() not in ('o','oui','yes','true','1'):continue
+              ident=(r.get('id_cas') or '').strip()
+              if not ident or len(ident)>90 or not all(c.isalnum() or c in '-_' for c in ident):continue
+              try:
+                  year,month,day=(int(r[k]) for k in ('cas_AAAA','cas_MM','cas_JJ'))
+                  date(year,month,day)
+                  if not 1900<=year<=2026:continue
+              except (ValueError,TypeError,KeyError):continue
+              classification=(r.get('cas_classification') or '').strip().upper()
+              if not classification or classification[0] not in 'ABCD':continue
+              eligible.append('geipan-'+ident)
+          unique=set(eligible)
+          present=unique.intersection(archive_ids)
+          missing=unique.difference(archive_ids)
+          print('GEIPAN source rows:',len(records))
+          print('Eligible rows:',len(eligible))
+          print('Unique eligible case IDs:',len(unique))
+          print('Eligible IDs already present:',len(present))
+          print('Eligible IDs missing:',len(missing))
+          print('Duplicate eligible source IDs:',len(eligible)-len(unique))
+          print('Total archive records:',len(archive))
+          print('GEIPAN-prefixed archive records:',sum(x.startswith('geipan-') for x in archive_ids))
+          print('Missing IDs (up to 30):',sorted(missing)[:30])
+          print('Coverage:',round(100*len(present)/len(unique),2) if unique else 0,'%')
+          print('No data changed; no deployment.')
+          PY
