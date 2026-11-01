@@ -3,7 +3,16 @@
 import datetime as dt, email.utils, hashlib, html, json, os, pathlib, re, urllib.parse, urllib.request
 PATH=pathlib.Path("data/news-alerts.json")
 NOW=dt.datetime.now(dt.timezone.utc)
-TERMS=['UAP UFO Pentagon hearing','unidentified anomalous phenomena AARO','UFO sighting aviation NASA']
+TERMS=[
+ 'UFO when:7d',
+ 'UAP when:7d',
+ '"unidentified anomalous phenomena" when:7d',
+ 'UFO disclosure when:7d',
+ 'AARO Pentagon UFO when:7d',
+ 'UFO sightings when:7d',
+ 'UAP congress hearing when:7d',
+ 'UFO unexplained phenomena UK Ireland when:7d'
+]
 MAX_AGE=366
 def fetch(query):
     q=urllib.parse.urlencode({'q':query,'hl':'en-GB','gl':'GB','ceid':'GB:en'})
@@ -33,9 +42,10 @@ def main():
     for term in TERMS:
         try:
             result=list(parse(fetch(term)));gathered+=result;success+=1
-            print(term,':',len(result),'recent RSS items')
+            print(term,':',len(result),'RSS items; newest:',max((x['date'] for x in result),default='NONE'))
         except Exception as e:errors.append(term+': '+str(e))
     if not success:raise RuntimeError('All RSS sources failed; existing catalogue left unchanged. '+'; '.join(errors))
+    print('RSS searches succeeded:',success,'of',len(TERMS),'total items:',len(gathered))
     seen=set();out=[]
     for item in sorted(gathered+old,key=lambda x:x.get('date',''),reverse=True):
         if not isinstance(item,dict):continue
