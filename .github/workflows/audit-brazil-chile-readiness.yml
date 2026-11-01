@@ -1,0 +1,46 @@
+name: International Brazil Chile source readiness (DEV, no deploy)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit completed French batch and international case sources
+        run: |
+          python - <<'PY'
+          import json,collections,urllib.request
+          from pathlib import Path
+          rows=json.loads(Path('data/historical-news-archive.json').read_text())
+          ids=[r['id'] for r in rows]
+          assert len(ids)==len(set(ids)),'duplicate IDs'
+          geipan=[x for x in ids if x.startswith('geipan-')]
+          expected={'geipan-'+s for s in ('1721','1722','1724','1727','1728','1729','1730','1731','1732')}
+          print('Total archive entries:',len(rows))
+          print('GEIPAN case IDs:',len(geipan),'unique:',len(set(geipan)))
+          print('Previously missing nine now present:',len(expected.intersection(ids)),'/9')
+          french=[r for r in rows if any(v in (str(r.get('source',''))+' '+str(r.get('title',''))).lower() for v in ('france','french','geipan'))]
+          brazil=[r for r in rows if any(v in (str(r.get('source',''))+' '+str(r.get('title',''))).lower() for v in ('brazil','brasil','arquivo nacional'))]
+          chile=[r for r in rows if any(v in (str(r.get('source',''))+' '+str(r.get('title',''))).lower() for v in ('chile','sefaa','cefaa'))]
+          for country,records in [('France (name-matched)',french),('Brazil',brazil),('Chile',chile)]:
+            print(country,'archive references:',len(records),'kinds:',dict(collections.Counter(r.get('kind','unknown') for r in records)))
+          registry=json.loads(Path('data/international-source-registry.json').read_text())
+          for country in ('Brazil','Chile'):
+            src=next(s for s in registry['sources'] if s['country']==country)
+            print(country,'official source:',src['url'],'status:',src['status'])
+            try:
+              req=urllib.request.Request(src['url'],headers={'User-Agent':'DisclosureDeskSourceAudit/1.0'})
+              with urllib.request.urlopen(req,timeout=18) as response:
+                print(country,'source HTTP:',response.status,'effective host:',response.url.split('/')[2])
+            except Exception as e: print(country,'source accessibility requires manual check:',type(e).__name__)
+          print('No SIAN bulk record access authorised or inferred. No imports, site changes or deployments.')
+          PY
