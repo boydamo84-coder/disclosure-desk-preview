@@ -44,6 +44,7 @@ def main():
         'ddGoToDiscussionOrigin',
         'assets/live-hearings.js',
         'assets/watch-read.js',
+        'assets/community-test-config.js',
         'data-tab="watchRead"',
         'scroll-snap-type:y proximity',
         "'video:'+c.id",
@@ -89,6 +90,12 @@ def main():
     for token in ["dd_media_votes", "dd_media_ranking()", "primary key(title_id,user_id)"]:
         if token not in ratings_sql.read_text(encoding="utf-8"):
             sys.exit("Watch & Read ratings security/schema missing: "+token)
+    test_cfg = ROOT / "assets" / "community-test-config.js"
+    if not test_cfg.exists() or "environment: 'test'" not in test_cfg.read_text(encoding="utf-8"):
+        sys.exit("Isolated community database configuration missing")
+    for path in ["assets/case-discussions.js","assets/case-comment-moderation.js","assets/watch-read.js"]:
+        if "DD_COMMUNITY_TEST_CONFIG" not in (ROOT / path).read_text(encoding="utf-8"):
+            sys.exit("Community script does not use isolated test configuration: "+path)
     watch = ROOT / "assets" / "watch-read.js"
     if not watch.exists():
         sys.exit("Watch & Read script missing")
