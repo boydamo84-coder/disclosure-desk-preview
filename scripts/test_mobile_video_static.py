@@ -133,6 +133,11 @@ def main():
             sys.exit("Approved hearing events feed missing")
         if "ddLiveMount" not in live.read_text(encoding="utf-8"):
             sys.exit("LIVE hub is not mounted on its dedicated page")
+        live_text = live.read_text(encoding="utf-8")
+        if "embedUrl:e.embedUrl||bundled.get(e.id)?.embedUrl" not in live_text:
+            sys.exit("LIVE embeds are not retained when the fetched events omit them")
+        if live_text.count("youtube-nocookie.com/embed/") < 3:
+            sys.exit("Missing bundled hearing playback fallback embeds")
         print("PASS: Live hearing JS syntax and curated feed present.")
     print(f"PASS: {len(scripts)} inline JS script(s) parsed; video controls and progress hooks present.")
     print("NOTE: browser runtime, mobile performance, and APK integration are not validated by this test.")
