@@ -129,6 +129,15 @@ def main():
             sys.exit("Watch & Read podcast catalog or interactions missing: " + required)
     if watch_text.count("https://www.youtube.com/watch?v=") < 2:
         sys.exit("Podcast recommendations need individual episode links")
+    for token in ["Suggest a podcast episode", "dd_podcast_suggestions", "Submit suggestion for review", "status"]:
+        if token not in watch_text and token != "status":
+            sys.exit("Missing moderated podcast suggestion UI: "+token)
+    suggestion_sql = ROOT / "supabase" / "migrations" / "20261101_podcast_suggestions.sql"
+    if not suggestion_sql.exists():
+        sys.exit("Missing podcast suggestion RLS migration")
+    for token in ["enable row level security", "auth.uid()=user_id", "status='pending'", "for insert to authenticated"]:
+        if token not in suggestion_sql.read_text(encoding="utf-8"):
+            sys.exit("Podcast suggestion moderation security missing: "+token)
     check = subprocess.run(["node", "--check", str(watch)], capture_output=True, text=True)
     if check.returncode:
         sys.exit("Watch & Read syntax failed: " + check.stderr)
