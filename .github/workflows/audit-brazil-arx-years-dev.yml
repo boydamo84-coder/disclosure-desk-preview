@@ -1,0 +1,54 @@
+name: Brazil ARX historical coverage discovery (DEV, read only)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+          persist-credentials: false
+      - name: Examine existing Brazilian references and official catalogue links
+        run: |
+          python - <<'PY'
+          import collections,json,re,urllib.request,urllib.parse
+          from html.parser import HTMLParser
+          from pathlib import Path
+          class Anchors(HTMLParser):
+            def __init__(self):super().__init__();self.links=[];self.href=None;self.words=[]
+            def handle_starttag(self,tag,attrs):
+              if tag=='a':self.href=dict(attrs).get('href');self.words=[]
+            def handle_data(self,d):
+              if self.href is not None:self.words.append(d)
+            def handle_endtag(self,tag):
+              if tag=='a' and self.href:
+                self.links.append((' '.join(self.words).strip(),self.href));self.href=None
+          source='https://www.gov.br/arquivonacional/pt-br/canais_atendimento/imprensa/noticias/conheca-o-fundo-sobre-ovnis-do-arquivo-nacional'
+          records=json.loads(Path('data/historical-news-archive.json').read_text('utf-8'))
+          brazil=[x for x in records if str(x.get('country','')).casefold() in ('brazil','brasil') or 'brasil' in str(x.get('source','')).casefold()]
+          by_year=collections.Counter(str(x.get('year') or 'unknown') for x in brazil)
+          print('Already in development archive:',len(brazil))
+          print('Existing Brazil records by source year:',dict(sorted(by_year.items())))
+          print('Sample existing IDs and source URLs:')
+          for item in brazil[:18]:print(' ',item.get('id'),item.get('url'))
+          req=urllib.request.Request(source,headers={'User-Agent':'DisclosureDeskArchiveAudit/1.0'})
+          with urllib.request.urlopen(req,timeout=25) as response:
+            body=response.read(1_000_001)
+            print('National Archives article HTTP:',response.status,'bytes:',len(body))
+          if len(body)>1_000_000:raise RuntimeError('Source page unexpectedly large')
+          parser=Anchors();parser.feed(body.decode('utf-8','replace'))
+          links=[]
+          for label,href in parser.links:
+            dest=urllib.parse.urljoin(source,href)
+            if any(token in dest.lower() for token in ('sian.an.gov.br','imagem.sian.an.gov.br','arquivonacional','ovni')):
+              links.append((label[:90],dest))
+          print('Officially published archive / SIAN links:')
+          for label,dest in links[:35]:print(' ',repr(label),dest[:270])
+          print('Note: SIAN search may require an authenticated session. No bypass or scraping of a third-party case catalogue.')
+          print('Source chronology from 2018 article: 1952–2016; investigate additional recent releases separately.')
+          print('No imports, files downloaded or deployments.')
+          PY
