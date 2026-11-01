@@ -13,7 +13,7 @@ const starter=[
 ].map(([category,title,year,creator])=>({category,title,year,creator,id:(category+'-'+title).toLowerCase().replace(/[^a-z0-9]+/g,'-')}));
 const key='dd_watch_read_saved_v1';
 let client=null;
-const db=()=>{if(!window.supabase)return null;return client||(client=window.supabase.createClient('https://omqxizswzcwgzqaczlhe.supabase.co','sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X'));};
+const db=()=>{const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};if(!window.supabase||!cfg.url||!cfg.publishableKey||cfg.environment!=='test')return null;return client||(client=window.supabase.createClient(cfg.url,cfg.publishableKey));};
 let scores={},mine={},available=false,busy=false;
 async function loadVotes(){
  const c=db();if(!c){available=false;mine={};scores={};return;}
