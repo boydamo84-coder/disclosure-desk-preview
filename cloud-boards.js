@@ -14,6 +14,16 @@ const pass=document.getElementById('ddCloudPass');
 const act=document.getElementById('ddCloudActions');
 const guest=document.getElementById('ddCloudGuest');
 const cloudControls=document.getElementById('ddCloudControls');
+// Reserved and impersonation-sensitive names. This is a UX guard; production DB
+// policies must enforce the same rule for API clients.
+function ddNameKey(value){
+ return String(value||'').normalize('NFKD').toLowerCase().replace(/[\\u0300-\\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+}
+function ddNameReserved(value){
+ const key=ddNameKey(value);
+ const exact=new Set(['admin','administrator','owner','siteowner','superuser','root','sysadmin','staff','mod','moderator','support','helpdesk','official','verified','developer','webmaster','security','disclosuredesk','boyddigitalstudios','bds','uapdisclosuredesk']);
+ return exact.has(key)||/^(admin|administrator|moderator|mod|support|official|disclosuredesk|boyddigitalstudios|uapdisclosuredesk)(\\d+|team|staff|help|account|official)?$/.test(key);
+}
 // Optional public-facing display name stored in Supabase Auth user metadata.
 const nameWrap=document.createElement('div');
 nameWrap.style.cssText='display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0';
@@ -25,6 +35,7 @@ nameWrap.querySelector('#ddSaveDisplayName').addEventListener('click',async()=>{
  if(!session?.user){say('Sign in to save a display name.');return}
  const name=displayNameInput.value.trim().replace(/\\s+/g,' ');
  if(name.length<2||name.length>32||/[<>]/.test(name)){say('Choose a display name of 2–32 characters without angle brackets.');return}
+ if(ddNameReserved(name)){say('That display name is reserved for Disclosure Desk or its team. Please choose another.');return}
  const {data,error}=await db.auth.updateUser({data:{display_name:name}});
  if(error){say('Could not save display name: '+error.message);return}
  if(data?.user)session={...session,user:data.user};
