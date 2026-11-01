@@ -1,0 +1,51 @@
+name: GEIPAN individual case preview/import (DEV only)
+on:
+  workflow_dispatch:
+    inputs:
+      offset:
+        description: 'Start offset in validated public case rows'
+        required: true
+        default: '0'
+      limit:
+        description: 'Maximum entries to review (1–5000)'
+        required: true
+        default: '500'
+      apply:
+        description: 'Commit reviewed metadata into DEV archive (unchecked = preview only)'
+        type: boolean
+        required: true
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: dd-geipan-case-import
+  cancel-in-progress: false
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify importer Python syntax
+        run: python -m py_compile scripts/import_geipan_case_index.py
+      - name: Preview official GEIPAN case metadata
+        env:
+          OFFSET: ${{ inputs.offset }}
+          LIMIT: ${{ inputs.limit }}
+        run: python scripts/import_geipan_case_index.py --offset "$OFFSET" --limit "$LIMIT"
+      - name: Apply to DEV only (no Netlify)
+        if: ${{ inputs.apply }}
+        env:
+          OFFSET: ${{ inputs.offset }}
+          LIMIT: ${{ inputs.limit }}
+        run: |
+          python scripts/import_geipan_case_index.py --offset "$OFFSET" --limit "$LIMIT" --apply
+          git config user.name "Disclosure Desk Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/historical-news-archive.json
+          git diff --cached --quiet || (git commit -m "Import GEIPAN public metadata batch [skip netlify]" && git push origin HEAD:dev/mobile-video-performance-oct31)
