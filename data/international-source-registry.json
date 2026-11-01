@@ -25,7 +25,7 @@
       "url": "https://www.gov.br/arquivonacional/pt-br/canais_atendimento/imprensa/noticias/conheca-o-fundo-sobre-ovnis-do-arquivo-nacional",
       "status": "catalogue-review",
       "sourceType": "official-archive",
-      "note": "Collection contains reports and other material, not one sighting per document. Obtain individual SIAN references before mapping."
+      "note": "Brazil's National Archives documented 743 mixed archival records in 2018 (1952–2016), not 743 unique sightings. Official SIAN requires access and may have newer records; obtain stable individual ARX catalogue identifiers and verify re-use rights before importing. No coordinates or witness narratives."
     },
     {
       "country": "Russia",
@@ -58,6 +58,14 @@
       "status": "source-needed",
       "sourceType": "research-queue",
       "note": "Country-by-country source review; distinguish reports from independently investigated incidents."
+    },
+    {
+      "country": "Chile",
+      "name": "DGAC SEFAA official resolved cases by year",
+      "url": "https://sefaa.dgac.gob.cl/",
+      "status": "case-index-review",
+      "sourceType": "official-investigation",
+      "note": "Official SEFAA publishes resolved-case year links (2018–2026). Identify stable individual case identifiers, distinguish resolved explanations from unidentified reports, check reuse conditions; do not import case texts or precise locations without review."
     }
   ]
 }
