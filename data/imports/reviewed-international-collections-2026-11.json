@@ -1,0 +1,57 @@
+[
+  {
+    "id": "intl-fr-geipan-case-catalogue",
+    "title": "France — CNES GEIPAN public case catalogue",
+    "source": "CNES GEIPAN",
+    "url": "https://www.cnes-geipan.fr/en/search/cas",
+    "year": 2026,
+    "category": "UAP",
+    "kind": "Government case catalogue",
+    "description": "Official searchable French case catalogue, including classification and observation dates. This record represents a collection, not an individual sighting.",
+    "dateType": "catalogue accessed 2026",
+    "evidenceStatus": "official catalogue; individual reports and interpretations not independently verified",
+    "country": "France"
+  },
+  {
+    "id": "intl-br-national-archive-ovni-collection",
+    "title": "Brazil — Arquivo Nacional OVNI collection",
+    "source": "Arquivo Nacional (Brazil)",
+    "url": "https://www.gov.br/arquivonacional/pt-br/canais_atendimento/imprensa/noticias/conheca-o-fundo-sobre-ovnis-do-arquivo-nacional",
+    "year": 1952,
+    "endYear": 2016,
+    "category": "UAP",
+    "kind": "Government records collection",
+    "description": "Brazilian National Archives describes a UFO-related archival collection of 743 records spanning 1952–2016; 743 is the publisher's collection count, not imported individual cases.",
+    "dateType": "archive record coverage",
+    "evidenceStatus": "official collection; individual claims not independently verified",
+    "country": "Brazil"
+  },
+  {
+    "id": "intl-cl-sefaa-resolved-case-index",
+    "title": "Chile — DGAC SEFAA resolved cases index",
+    "source": "DGAC Chile · SEFAA",
+    "url": "https://sefaa.dgac.gob.cl/",
+    "year": 2018,
+    "endYear": 2026,
+    "category": "UAP",
+    "kind": "Government case catalogue",
+    "description": "Chilean aviation authority's SEFAA publishes lists of resolved anomalous-aerial-phenomena cases by year. This is a catalogue reference, not a count of individually reviewed cases.",
+    "dateType": "public index year range",
+    "evidenceStatus": "official case catalogue; case outcomes vary",
+    "country": "Chile"
+  },
+  {
+    "id": "intl-nz-nzdf-released-ufo-files",
+    "title": "New Zealand — NZDF released UFO correspondence files",
+    "source": "New Zealand Defence Force",
+    "url": "https://www.nzdf.mil.nz/assets/Uploads/DocumentLibrary/OIA-2023-4763_UAP-UFO-USO.pdf",
+    "year": 1952,
+    "endYear": 2009,
+    "category": "UAP",
+    "kind": "Government records collection",
+    "description": "NZDF confirms its 2010 release of fifteen redacted correspondence volumes covering reports from 1952–2009. This entry describes the collection, not fifteen sightings.",
+    "dateType": "archive record coverage",
+    "evidenceStatus": "official correspondence collection; individual claims not independently verified",
+    "country": "New Zealand"
+  }
+]
