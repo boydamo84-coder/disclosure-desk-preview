@@ -160,7 +160,7 @@
     "publishedAt": "2026-10-31",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -520,7 +520,7 @@
     "publishedAt": "2026-10-30",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -1000,7 +1000,7 @@
     "publishedAt": "2026-10-29",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -1015,7 +1015,7 @@
     "publishedAt": "2026-10-29",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -1825,7 +1825,7 @@
     "publishedAt": "2026-10-28",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -1990,9 +1990,9 @@
     "publishedAt": "2026-10-27",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
-    "healthFailures": 1,
-    "videoAvailable": true
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
+    "healthFailures": 2,
+    "videoAvailable": false
   },
   {
     "id": "yt-j_I6Irxdo5I",
@@ -2005,7 +2005,7 @@
     "publishedAt": "2026-10-27",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -2110,7 +2110,7 @@
     "publishedAt": "2026-10-27",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -2387,7 +2387,7 @@
     "publishedAt": "2026-10-26",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -2402,7 +2402,7 @@
     "publishedAt": "2026-10-26",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4172,7 +4172,7 @@
     "publishedAt": "2026-10-17",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4397,7 +4397,7 @@
     "publishedAt": "2026-10-16",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4682,7 +4682,7 @@
     "publishedAt": "2026-10-14",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T04:53:21+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4697,7 +4697,7 @@
     "publishedAt": "2026-10-14",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4727,7 +4727,7 @@
     "publishedAt": "2026-10-13",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T04:53:21+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4787,7 +4787,7 @@
     "publishedAt": "2026-10-12",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T04:53:21+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4802,7 +4802,7 @@
     "publishedAt": "2026-10-12",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T04:53:21+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4817,7 +4817,7 @@
     "publishedAt": "2026-10-12",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4832,7 +4832,7 @@
     "publishedAt": "2026-10-12",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4847,7 +4847,7 @@
     "publishedAt": "2026-10-12",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4862,7 +4862,7 @@
     "publishedAt": "2026-10-12",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4877,7 +4877,7 @@
     "publishedAt": "2026-10-12",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4892,7 +4892,7 @@
     "publishedAt": "2026-10-12",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4907,7 +4907,7 @@
     "publishedAt": "2026-10-11",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4922,7 +4922,7 @@
     "publishedAt": "2026-10-11",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4937,7 +4937,7 @@
     "publishedAt": "2026-10-11",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4952,7 +4952,7 @@
     "publishedAt": "2026-10-11",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4967,7 +4967,7 @@
     "publishedAt": "2026-10-11",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4982,7 +4982,7 @@
     "publishedAt": "2026-10-11",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -4997,7 +4997,7 @@
     "publishedAt": "2026-10-11",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5012,7 +5012,7 @@
     "publishedAt": "2026-10-10",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5027,7 +5027,7 @@
     "publishedAt": "2026-10-10",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5042,7 +5042,7 @@
     "publishedAt": "2026-10-10",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5057,7 +5057,7 @@
     "publishedAt": "2026-10-10",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5072,7 +5072,7 @@
     "publishedAt": "2026-10-10",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5087,7 +5087,7 @@
     "publishedAt": "2026-10-10",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5102,7 +5102,7 @@
     "publishedAt": "2026-10-10",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5117,7 +5117,7 @@
     "publishedAt": "2026-10-10",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5132,7 +5132,7 @@
     "publishedAt": "2026-10-10",
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
-    "healthCheckedAt": "2026-10-31T06:59:52+00:00",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
@@ -5598,6 +5598,21 @@
     "evidenceStatus": "unverified",
     "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
     "healthCheckedAt": "2026-11-01T01:17:28+00:00",
+    "healthFailures": 0,
+    "videoAvailable": true
+  },
+  {
+    "id": "yt-GBD_32CFm18",
+    "title": "UFOs Seen In 1st Half Of 2026 I Incredible UFO &amp; UAP Footage Caught on Camera",
+    "publisher": "LAB 360",
+    "group": "YouTube",
+    "description": "YouTube discovery result: publisher-supplied claims or commentary. Authenticity and interpretations not established.",
+    "source": "https://www.youtube.com/watch?v=GBD_32CFm18",
+    "youtubeId": "GBD_32CFm18",
+    "publishedAt": "2026-10-05",
+    "evidenceStatus": "unverified",
+    "status": "UNVERIFIED CLAIM · automatically discovered; independently unverified",
+    "healthCheckedAt": "2026-11-01T10:49:12+00:00",
     "healthFailures": 0,
     "videoAvailable": true
   },
