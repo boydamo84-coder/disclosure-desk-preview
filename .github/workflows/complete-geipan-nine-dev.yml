@@ -1,0 +1,85 @@
+name: Complete nine missing GEIPAN cases (DEV only)
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'Import exactly the nine missing GEIPAN IDs (unchecked = preview)'
+        type: boolean
+        required: true
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: dd-geipan-case-import
+  cancel-in-progress: false
+jobs:
+  complete:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/mobile-video-performance-oct31
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate missing IDs and public source data
+        run: |
+          python - <<'PY'
+          import csv,io,json,urllib.request,datetime
+          from pathlib import Path
+          wanted={'1721','1722','1724','1727','1728','1729','1730','1731','1732'}
+          url='https://www.cnes-geipan.fr/sites/default/files/Base_de_donn%C3%A9es_des_cas.csv'
+          request=urllib.request.Request(url,headers={'User-Agent':'DisclosureDeskArchive/1.0'})
+          with urllib.request.urlopen(request,timeout=60) as response: raw=response.read(20_000_001)
+          if len(raw)>20_000_000:raise ValueError('Source too large')
+          data=raw.decode('utf-8-sig',errors='replace')
+          dialect=csv.Sniffer().sniff(data[:15000],delimiters=';,\t')
+          source=list(csv.DictReader(io.StringIO(data),dialect=dialect))
+          selected={r['id_cas'].strip():r for r in source if r.get('id_cas','').strip() in wanted}
+          if set(selected)!=wanted:raise ValueError('Some case IDs missing from GEIPAN source')
+          for ident,row in selected.items():
+            assert row.get('cas_public','').strip().lower() in ('o','1','oui','yes','true')
+            datetime.date(*(int(row[k]) for k in ('cas_AAAA','cas_MM','cas_JJ')))
+            assert row.get('cas_classification','').strip().upper()[:1] in 'ABCD'
+          existing=json.loads(Path('data/historical-news-archive.json').read_text())
+          present={r['id'] for r in existing}
+          remaining=sorted('geipan-'+x for x in wanted if 'geipan-'+x not in present)
+          print('Target case IDs:',len(wanted),'still absent:',len(remaining),remaining)
+          print('No source data stored; preview/validation only.')
+          PY
+      - name: Import only missing GEIPAN records
+        if: ${{ inputs.apply }}
+        run: |
+          python - <<'PY'
+          import csv,io,json,urllib.request,datetime
+          from pathlib import Path
+          ids={'1721','1722','1724','1727','1728','1729','1730','1731','1732'}
+          url='https://www.cnes-geipan.fr/sites/default/files/Base_de_donn%C3%A9es_des_cas.csv'
+          req=urllib.request.Request(url,headers={'User-Agent':'DisclosureDeskArchive/1.0'})
+          with urllib.request.urlopen(req,timeout=60) as r:raw=r.read(20_000_001)
+          if len(raw)>20_000_000:raise ValueError('Source oversized')
+          data=raw.decode('utf-8-sig',errors='replace')
+          dialect=csv.Sniffer().sniff(data[:15000],delimiters=';,\t')
+          items={r['id_cas'].strip():r for r in csv.DictReader(io.StringIO(data),dialect=dialect) if r.get('id_cas','').strip() in ids}
+          assert set(items)==ids
+          path=Path('data/historical-news-archive.json')
+          archive=json.loads(path.read_text())
+          known={r['id'] for r in archive}
+          added=0
+          for ident,row in sorted(items.items()):
+            if 'geipan-'+ident in known:continue
+            if row.get('cas_public','').strip().lower() not in ('o','1','oui','yes','true'):raise ValueError('Unpublished case')
+            date=datetime.date(*(int(row[k]) for k in ('cas_AAAA','cas_MM','cas_JJ')))
+            classification=row.get('cas_classification','').strip().upper()[:1]
+            if classification not in 'ABCD':raise ValueError('Unknown classification')
+            archive.append({'id':'geipan-'+ident,'title':'GEIPAN case '+ident+' — '+date.isoformat(),'source':'CNES GEIPAN (official French case dataset)','url':'https://www.cnes-geipan.fr/en/search/cas','year':date.year,'category':'UAP','kind':'Individual government case-file index','description':'Official GEIPAN public case index. Classification '+classification+'; consult GEIPAN for details. Inclusion is not evidence of an extraordinary object.','dateType':'reported observation date','evidenceStatus':'official public index; classification '+classification,'caseReference':ident,'classification':classification,'metadataSource':url,'country':'France'})
+            added+=1
+          assert len({r['id'] for r in archive})==len(archive)
+          archive.sort(key=lambda r:(-int(r.get('year',0)),r['id']))
+          path.write_text(json.dumps(archive,ensure_ascii=False,indent=2)+'\n')
+          print('New individual GEIPAN references:',added,'archive total:',len(archive))
+          PY
+          git config user.name "Disclosure Desk Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/historical-news-archive.json
+          git diff --cached --quiet || (git commit -m "Complete missing GEIPAN case index references [skip netlify]" && git push origin HEAD:dev/mobile-video-performance-oct31)
