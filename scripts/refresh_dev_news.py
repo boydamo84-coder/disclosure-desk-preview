@@ -103,19 +103,32 @@ def main():
     if recent==0:raise RuntimeError('RSS provided no articles within 7 days; refusing to present stale data as refreshed')
     freshest=max(dt.datetime.fromisoformat(x['date']) for x in gathered)
     if NOW-freshest>dt.timedelta(hours=72):raise RuntimeError('Newest RSS article is over 72 hours old; source discovery needs repair. Catalogue not overwritten.')
-    # Try a limited number of publisher pages each run. Image metadata is optional;
-    # failure must never block delivery of new headlines.
-    enriched=0;attempted=0
-    for entry in out[:60]:
-        if entry.get('imageUrl'):continue
-        if attempted>=24:break
+    # Decode Google News redirect links in one bounded batch before requesting publisher metadata.
+    # Keep original Google link when a decode fails; do not replace it with an unverified URL.
+    candidates=[entry for entry in out[:80] if not entry.get('imageUrl')][:24]
+    google_links=[entry['url'] for entry in candidates if urllib.parse.urlparse(entry['url']).hostname=='news.google.com']
+    resolved={}
+    if google_links:
+        try:
+            from gnews_decoder import decode_many
+            resolved=decode_many(google_links,timeout=15.0,concurrency=6)
+            print('Google News redirects resolved:',sum(bool(v) for v in resolved.values()),'of',len(google_links))
+        except Exception as exc:
+            print('WARNING: Google News decoding unavailable:',type(exc).__name__,str(exc)[:180])
+    enriched=0;attempted=0;unresolved=0
+    for entry in candidates:
+        original=entry['url']
+        target=resolved.get(original) if original in resolved else original
+        if not isinstance(target,str) or not target.startswith('https://') or urllib.parse.urlparse(target).hostname=='news.google.com':
+            unresolved+=1
+            continue
         attempted+=1
-        found=publisher_image(entry['url'])
+        found=publisher_image(target)
         if found:
             entry['imageUrl']=found
             entry['imageSource']='Publisher Open Graph image'
             enriched+=1
-    print('Publisher metadata image enrichment:',enriched,'of',attempted,'attempted')
+    print('Publisher image extraction:',enriched,'of',attempted,'publisher URLs tested;',unresolved,'redirects unresolved')
     PATH.write_text(json.dumps(out[:500],ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print('Updated',len(out[:500]),'stories; new last 7 days',recent,'old newest',old[0].get('date') if old else 'none')
     for err in errors:print('WARNING:',err)
