@@ -1,8 +1,8 @@
 /* Disclosure Desk LIVE: only curator-approved events, no fabricated schedules or sources. */
 (()=>{
 'use strict';
-const URL='https://omqxizswzcwgzqaczlhe.supabase.co',KEY='sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X';
-const client=()=>window.supabase?.createClient(URL,KEY);
+const SUPABASE_URL='https://omqxizswzcwgzqaczlhe.supabase.co',KEY='sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X';
+const client=()=>window.supabase?.createClient(SUPABASE_URL,KEY);
 const h=(tag,txt)=>{const e=document.createElement(tag);if(txt!==undefined)e.textContent=txt;return e};
 const safeVideo=url=>{try{const u=new URL(url);return u.protocol==='https:'&&['youtube.com','youtube-nocookie.com','congress.gov','house.gov','senate.gov'].some(domain=>u.hostname===domain||u.hostname.endsWith('.'+domain))}catch{return false}};
 const BUNDLED_HEARINGS=[
