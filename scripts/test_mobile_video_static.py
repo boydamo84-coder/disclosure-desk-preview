@@ -32,6 +32,9 @@ def main():
     page = PAGE.read_text(encoding="utf-8")
     required = [
         'id="clipGovernment"',
+        'id="ddBrowseVideos"',
+        'id="ddSwipeVideos"',
+        'dd-video-mode-nav',
         'function governmentVideoMatch(',
         'governmentVideoMatch(c,gov)',
         'iframe[data-src]',
