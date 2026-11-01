@@ -32,7 +32,7 @@ def main():
  # Do not ever copy cas_resume, cas_resume_web, location, witnesses, or coordinates.
  eligible=[]
  for row in rows:
-  if (row.get('cas_public') or '').strip().lower() not in ('1','true','oui','yes'):continue
+  if (row.get('cas_public') or '').strip().lower() not in ('1','true','oui','yes','o'):continue
   ident=(row.get('id_cas') or '').strip()
   if not ident or len(ident)>90 or not all(c.isalnum() or c in '-_' for c in ident):continue
   try:
