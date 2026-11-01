@@ -118,6 +118,9 @@ def main():
     for required in ['id="ddCompareCreateBoard"', 'ddCompareNewBoardName', 'saveComparisonToBoard(b)', 'investigationBoards.push(b);saveComparisonToBoard(b)']:
         if required not in page:
             sys.exit("First-use comparison save must support creating a Board in-place: "+required)
+    for token in ["DD_NEWS_REMOTE", "DD_NEWS_CACHE_KEY", "ddStoredNews()", "Online · updated automatically", "Bundled offline news"]:
+        if token not in page:
+            sys.exit("Online-first News with offline fallback missing: "+token)
     watch = ROOT / "assets" / "watch-read.js"
     if not watch.exists():
         sys.exit("Watch & Read script missing")
