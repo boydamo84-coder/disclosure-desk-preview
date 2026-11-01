@@ -141,6 +141,9 @@ def main():
     for token in ["weaponizedEpisodes", "seenUrls", "Top 100 UFO Podcast Episodes", "Array.from({length:30}", "Array.from({length:17}"]:
         if token not in watch_text:
             sys.exit("Missing 50-episode starter catalogue or deduplication: " + token)
+    for token in ["joeRoganEpisodes", "Bob Lazar & Jeremy Corbell", "David Grusch", "Joe Rogan Experience"]:
+        if token not in watch_text:
+            sys.exit("Missing JRE UFO episode recommendations: "+token)
     check = subprocess.run(["node", "--check", str(watch)], capture_output=True, text=True)
     if check.returncode:
         sys.exit("Watch & Read syntax failed: " + check.stderr)
