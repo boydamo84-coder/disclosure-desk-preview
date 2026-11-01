@@ -28,6 +28,10 @@ def main():
   k=(row.get('cas_public') or '').strip().lower()
   flags[k]=flags.get(k,0)+1
  print('Source rows:',len(rows),'publication field counts:',flags)
+ if not set(flags).issubset({'o','n','1','0','true','false','oui','non','yes','no'}):
+  raise ValueError('Unrecognized publication status; review before importing')
+ if not any(x in flags for x in ('o','1','true','oui','yes')):
+  raise ValueError('No recognized published-case flags; no import performed')
  # Only explicitly published case rows, with a stable ID and valid date.
  # Do not ever copy cas_resume, cas_resume_web, location, witnesses, or coordinates.
  eligible=[]
