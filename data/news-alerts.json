@@ -72,18 +72,6 @@
     "imageSource": "Publisher Open Graph image"
   },
   {
-    "id": "f85141f68dd24d0ad4d7",
-    "headline": "Former Pentagon UFO chief disputes FBI black triangle sighting, says reports lack evidence",
-    "source": "Fox News",
-    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNbnl5d0VHZ1VWQWV2ZkRoX0JVb3Z0RTU1aHlPNFhQWHBuTFV4MGxKcmJaR0hjdVBQSndMbHZZZWJGaVhYbGU0VkVKRHEwcTdhU3piaXB6TktTZzRVSmRBM3VqcjByR2VBSU81b09iRUxRYTN6VGtQdnVnRi1fMjNjSnZmZHdzWU5hZ1VIaGpLTV82bFZFaXQ2RWZ6T0FHaVN0Um9VNUwyY2FQTXpjaEhoVFJJdEQ2blnSAbwBQVVfeXFMUHNBTUVmdkgxOFRWQXRveFNRWUpjTVJsNklILVlzVHV0NWZxUTUxM3Fva3dna1h6YjY0c2xNQ1E4XzJ4OWFqbWhvNjN0Y3lfaTdiblJmVzh0Z01KU0dscDFtRUhIbGF0LVp3MDdSekxjRVhyWkxOUW5MR3dFNkp5QVF6LTV5RVhZeTI0WFFjZjl2cGZkUU5DUWVJTlYteVVSQ3dOOXFDWmkxVWo4S0R2U1lPUE9hN1lNa0Jrc28?oc=5",
-    "date": "2026-11-01T12:00:24+00:00",
-    "category": "UAP",
-    "priority": "standard",
-    "desc": "Read the source article for details.",
-    "imageUrl": "https://static.foxnews.com/foxnews.com/content/uploads/2026/10/AARO-Latest-File-Drop-001.jpg",
-    "imageSource": "Publisher Open Graph image"
-  },
-  {
     "id": "5a1ee07e4038fd759f25",
     "headline": "Former Pentagon UFO chief disputes FBI black triangle sighting, says reports lack evidence",
     "source": "Yahoo",
@@ -93,6 +81,18 @@
     "priority": "standard",
     "desc": "Read the source article for details.",
     "imageUrl": "https://s.yimg.com/lo/mysterio/api/c453fb2dad448fb54be7f3672a3a9681a29c4d123d3d46ceae90fe7b612aa4fc/lightyear_networkapi/resizefill_w1200%3Bquality_80%3Bformat_jpg/https%3A%2F%2Fmedia.zenfs.com%2Fen%2Ffox_news_text_979%2F2a2c9983bb7510d15c4f5b64f39d4068.jpg",
+    "imageSource": "Publisher Open Graph image"
+  },
+  {
+    "id": "f85141f68dd24d0ad4d7",
+    "headline": "Former Pentagon UFO chief disputes FBI black triangle sighting, says reports lack evidence",
+    "source": "Fox News",
+    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNbnl5d0VHZ1VWQWV2ZkRoX0JVb3Z0RTU1aHlPNFhQWHBuTFV4MGxKcmJaR0hjdVBQSndMbHZZZWJGaVhYbGU0VkVKRHEwcTdhU3piaXB6TktTZzRVSmRBM3VqcjByR2VBSU81b09iRUxRYTN6VGtQdnVnRi1fMjNjSnZmZHdzWU5hZ1VIaGpLTV82bFZFaXQ2RWZ6T0FHaVN0Um9VNUwyY2FQTXpjaEhoVFJJdEQ2blnSAbwBQVVfeXFMUHNBTUVmdkgxOFRWQXRveFNRWUpjTVJsNklILVlzVHV0NWZxUTUxM3Fva3dna1h6YjY0c2xNQ1E4XzJ4OWFqbWhvNjN0Y3lfaTdiblJmVzh0Z01KU0dscDFtRUhIbGF0LVp3MDdSekxjRVhyWkxOUW5MR3dFNkp5QVF6LTV5RVhZeTI0WFFjZjl2cGZkUU5DUWVJTlYteVVSQ3dOOXFDWmkxVWo4S0R2U1lPUE9hN1lNa0Jrc28?oc=5",
+    "date": "2026-11-01T12:00:24+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://static.foxnews.com/foxnews.com/content/uploads/2026/10/AARO-Latest-File-Drop-001.jpg",
     "imageSource": "Publisher Open Graph image"
   },
   {
@@ -514,7 +514,9 @@
     "date": "2026-10-29T17:47:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://cowboystatedaily.imgix.net/UFO-natrium-terra-power.jpg?w=1200&q=75&auto=format%2Ccompress",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "80f6954d7ccff1c7ea3a",
@@ -548,7 +550,9 @@
     "date": "2026-10-29T15:02:03+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://cdn-images.the-express.com/img/dynamic/10/1200x630/626140.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "bc7d198c9d8ed9be3f29",
@@ -558,7 +562,9 @@
     "date": "2026-10-29T14:32:50+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://lamag.com/wp-content/uploads/2026/10/Screenshot-2026-10-29-at-9.31.45-AM.png",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "c947b8e28347a16b08f7",
