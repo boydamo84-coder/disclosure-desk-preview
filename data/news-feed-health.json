@@ -1,23 +1,23 @@
 {
-  "checkedAt": "2026-11-02T14:59:59.262982+00:00",
+  "checkedAt": "2026-11-02T17:09:03.540461+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 22,
+      "items": 26,
       "latestArticleAt": "2026-11-01T14:28:02+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 32,
+      "items": 14,
       "latestArticleAt": "2026-11-02T12:21:00+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 5,
-      "latestArticleAt": "2026-11-01T07:00:00+00:00"
+      "items": 23,
+      "latestArticleAt": "2026-11-02T12:21:00+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
@@ -28,8 +28,8 @@
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 12,
-      "latestArticleAt": "2026-11-02T14:28:18+00:00"
+      "items": 11,
+      "latestArticleAt": "2026-11-02T14:35:02+00:00"
     },
     {
       "source": "Search: UAP congress hearing when:7d",
@@ -111,9 +111,9 @@
     },
     {
       "source": "Search: Canada",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-10-31T11:53:13+00:00"
     },
     {
       "source": "Search: Australia",
@@ -195,9 +195,8 @@
     },
     {
       "source": "CNES GEIPAN",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "failed",
+      "items": 0
     },
     {
       "source": "UK National Archives",
@@ -206,5 +205,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 252
+  "storiesPublished": 253
 }
