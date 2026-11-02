@@ -211,7 +211,9 @@
     "date": "2026-11-01T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://www.baijing.cn/?desserts/UTNSdgIh_800876187",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "949ce907b85a52f588e5",
@@ -424,7 +426,9 @@
     "date": "2026-10-31T09:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://hermes.media.static.aol.com/media/2026/10/31/963587ed-26eb-3da7-a494-af09697e7ba9/fbe4667b-b648-4a53-b104-48a60c5c295f.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "5977d7cce15d2625548b",
@@ -446,7 +450,9 @@
     "date": "2026-10-31T02:30:31+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://a57.foxnews.com/cf-images.us-east-1.prod.boltdns.net/v1/static/694940094001/0dfba948-3f1b-4629-90fd-6fd32eb76efa/024e7e78-de98-4c75-994f-b10b7ff8618a/1280x720/match/1024/512/image.jpg?ve=1&tl=1",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "d97b1801ea6de5693b1e",
@@ -456,9 +462,7 @@
     "date": "2026-10-30T15:04:09+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details.",
-    "imageUrl": "https://media.cybernews.com/images/featured-big/2026/10/kelly-chase.jpg",
-    "imageSource": "Publisher Open Graph image"
+    "desc": "Read the source article for details."
   },
   {
     "id": "3fce7098ce98ee531c31",
@@ -925,10 +929,10 @@
     "desc": "Read the source article for details."
   },
   {
-    "id": "d162820b57f0e776823d",
+    "id": "65241f6f7c1004aa878c",
     "headline": "Retired Navy admiral warns of decades-long UAP 'cover-up,' points to deep ocean as ultimate hiding spot",
     "source": "Fox News",
-    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPQ1o3Rk84OGs4RDJSWHV3Sl9xVEwwaWVyeXNRdVF4ZHlVMHVkeGI3enBHT3pWWHR1UkFOclF2TzdxV2hZOWwxcExEdG9KSDBDRVgxR0lHUUhIQXBpckVSWUNRVHJOdGFQSlVueXdHaEFhbXVLTk1jOXZnNV9lNkdlQ045Q3pocGduaWhOR2RuZUZWVWVqUmVOY3R5bWtPRzlIUzZrdUR5bXZPZDYxY0tHNkJERURYdTFzVmRPWTJn0gHDAUFVX3lxTE9yMlp6TzBGSmUzS2FSVUVBWXJiWTZBdFJPY0UyeUtucV92X2xNSDJFQ003d0w5RzRGWUdLLVdvajNIT0FQZFl0U2l4d2dXcVJ1X3lPMWY3VXEzdlVFSjFVSlRGS09zZjZxbWVhMUgxRjJUWnZxcjY0bTNoUTJuOW40RGkxRVR2bEFkdmRSeUd0a21VQXJHN0FKSXZySFMtVEJiSlZ1U1NaTF9RN0U1V1NBVmp0aEhLOUtxYWlTQXUzRmFGbw?oc=5",
+    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPQ1o3Rk84OGs4RDJSWHV3Sl9xVEwwaWVyeXNRdVF4ZHlVMHVkeGI3enBHT3pWWHR1UkFOclF2TzdxV2hZOWwxcExEdG9KSDBDRVgxR0lHUUhIQXBpckVSWUNRVHJOdGFQSlVueXdHaEFhbXVLTk1jOXZnNV9lNkdlQ045Q3pocGduaWhOR2RuZUZWVWVqUmVOY3R5bWtPRzlIUzZrdUR5bXZPZDYxY0tHNkJERURYdTFzVmRPWTJn?oc=5",
     "date": "2026-10-27T14:00:22+00:00",
     "category": "UAP",
     "priority": "standard",
@@ -939,6 +943,16 @@
     "headline": "Retired Navy admiral warns of decades-long UAP 'cover-up,' points to deep ocean as ultimate hiding spot",
     "source": "AOL.com",
     "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQeXc1ZWNNajByeVphZ01vaU5QWkVxeFFZaGt2aEVwb3dyYVJiYWFVNWNGRC1QajVFOWpVOWJVQjA2MW9EYjhCV1hoOXhKTkowQzdwT2RtZDlWSm1Jc1JWWUZzMDZpd3JVMUN4Y0xxYWlIb0pwTUFjRVBiX1VJaXozZ1dyV2U?oc=5",
+    "date": "2026-10-27T14:00:22+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details."
+  },
+  {
+    "id": "d162820b57f0e776823d",
+    "headline": "Retired Navy admiral warns of decades-long UAP 'cover-up,' points to deep ocean as ultimate hiding spot",
+    "source": "Fox News",
+    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPQ1o3Rk84OGs4RDJSWHV3Sl9xVEwwaWVyeXNRdVF4ZHlVMHVkeGI3enBHT3pWWHR1UkFOclF2TzdxV2hZOWwxcExEdG9KSDBDRVgxR0lHUUhIQXBpckVSWUNRVHJOdGFQSlVueXdHaEFhbXVLTk1jOXZnNV9lNkdlQ045Q3pocGduaWhOR2RuZUZWVWVqUmVOY3R5bWtPRzlIUzZrdUR5bXZPZDYxY0tHNkJERURYdTFzVmRPWTJn0gHDAUFVX3lxTE9yMlp6TzBGSmUzS2FSVUVBWXJiWTZBdFJPY0UyeUtucV92X2xNSDJFQ003d0w5RzRGWUdLLVdvajNIT0FQZFl0U2l4d2dXcVJ1X3lPMWY3VXEzdlVFSjFVSlRGS09zZjZxbWVhMUgxRjJUWnZxcjY0bTNoUTJuOW40RGkxRVR2bEFkdmRSeUd0a21VQXJHN0FKSXZySFMtVEJiSlZ1U1NaTF9RN0U1V1NBVmp0aEhLOUtxYWlTQXUzRmFGbw?oc=5",
     "date": "2026-10-27T14:00:22+00:00",
     "category": "UAP",
     "priority": "standard",
@@ -990,6 +1004,16 @@
     "source": "Britannica",
     "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOQVBLTTVsTjZqOTBTVWl1cXdnTVJwbDB3NjdEaWJCTDQxZV9JS2lUQW5EZG14OEhYVG5LdnhYb19hU2NMWk51NHpyQlBEdTIzV1k2N0RwWjQwSUZ5VEg0cy1VdTlJSk13VkJiU1J4ZjZpUXQ0eU55ckdyN29TZW8weEU1WEhzbGRCcGY4RHlzN3g0S0kzRnpVRl9qOTgzRkx2UEVOVG5mV2lZUktGTHlLa21n?oc=5",
     "date": "2026-10-27T05:00:00+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details."
+  },
+  {
+    "id": "91f1dd326b537c383564",
+    "headline": "Rear Adm Timothy Gallaudet reveals shocking UAP ocean sightings",
+    "source": "Fox News",
+    "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5vNHRUOVhtdjdvcWZva0lQUmRUUEtNemtMaU1wNmtLR3habkNlalRYZEdyT3F6T1prc1RLSHBJM2dNbldyWGttTldDWk9FOG93MTNHOXp3?oc=5",
+    "date": "2026-10-27T02:26:31+00:00",
     "category": "UAP",
     "priority": "standard",
     "desc": "Read the source article for details."
