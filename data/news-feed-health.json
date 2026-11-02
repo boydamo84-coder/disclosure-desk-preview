@@ -1,28 +1,28 @@
 {
-  "checkedAt": "2026-11-02T01:09:58.267613+00:00",
+  "checkedAt": "2026-11-02T02:56:38.218235+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
       "items": 27,
-      "latestArticleAt": "2026-11-01T14:28:02+00:00"
+      "latestArticleAt": "2026-11-01T18:07:54+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 20,
+      "items": 17,
       "latestArticleAt": "2026-11-01T14:28:02+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 26,
+      "items": 27,
       "latestArticleAt": "2026-11-01T12:00:24+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
       "status": "ok",
-      "items": 1,
+      "items": 3,
       "latestArticleAt": "2026-11-01T12:00:24+00:00"
     },
     {
@@ -195,8 +195,9 @@
     },
     {
       "source": "CNES GEIPAN",
-      "status": "failed",
-      "items": 0
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "UK National Archives",
