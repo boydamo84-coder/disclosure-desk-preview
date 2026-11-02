@@ -72,18 +72,6 @@
     "imageSource": "Publisher Open Graph image"
   },
   {
-    "id": "5a1ee07e4038fd759f25",
-    "headline": "Former Pentagon UFO chief disputes FBI black triangle sighting, says reports lack evidence",
-    "source": "Yahoo",
-    "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPcV9RMk02cG9paktocUVaYzdGSjhrdDdUY0FMdWJwbExIZ0ljMlZ1S0w0WXZWUXJrcUpiYk9taTZYNERXa1lHWWREV0s5WF9SNzl1cnRyeXhfU1VjT0w1bUcyTkx3ekxCUzlhY05YOFpWdnpxTFNwbElKU1ZxcXlWaVlCNDZMRVZoX2ZEbHlvMlRISUtWN3dZRg?oc=5",
-    "date": "2026-11-01T12:00:24+00:00",
-    "category": "UAP",
-    "priority": "standard",
-    "desc": "Read the source article for details.",
-    "imageUrl": "https://s.yimg.com/lo/mysterio/api/c453fb2dad448fb54be7f3672a3a9681a29c4d123d3d46ceae90fe7b612aa4fc/lightyear_networkapi/resizefill_w1200%3Bquality_80%3Bformat_jpg/https%3A%2F%2Fmedia.zenfs.com%2Fen%2Ffox_news_text_979%2F2a2c9983bb7510d15c4f5b64f39d4068.jpg",
-    "imageSource": "Publisher Open Graph image"
-  },
-  {
     "id": "f85141f68dd24d0ad4d7",
     "headline": "Former Pentagon UFO chief disputes FBI black triangle sighting, says reports lack evidence",
     "source": "Fox News",
@@ -93,6 +81,18 @@
     "priority": "standard",
     "desc": "Read the source article for details.",
     "imageUrl": "https://static.foxnews.com/foxnews.com/content/uploads/2026/10/AARO-Latest-File-Drop-001.jpg",
+    "imageSource": "Publisher Open Graph image"
+  },
+  {
+    "id": "5a1ee07e4038fd759f25",
+    "headline": "Former Pentagon UFO chief disputes FBI black triangle sighting, says reports lack evidence",
+    "source": "Yahoo",
+    "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPcV9RMk02cG9paktocUVaYzdGSjhrdDdUY0FMdWJwbExIZ0ljMlZ1S0w0WXZWUXJrcUpiYk9taTZYNERXa1lHWWREV0s5WF9SNzl1cnRyeXhfU1VjT0w1bUcyTkx3ekxCUzlhY05YOFpWdnpxTFNwbElKU1ZxcXlWaVlCNDZMRVZoX2ZEbHlvMlRISUtWN3dZRg?oc=5",
+    "date": "2026-11-01T12:00:24+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://s.yimg.com/lo/mysterio/api/c453fb2dad448fb54be7f3672a3a9681a29c4d123d3d46ceae90fe7b612aa4fc/lightyear_networkapi/resizefill_w1200%3Bquality_80%3Bformat_jpg/https%3A%2F%2Fmedia.zenfs.com%2Fen%2Ffox_news_text_979%2F2a2c9983bb7510d15c4f5b64f39d4068.jpg",
     "imageSource": "Publisher Open Graph image"
   },
   {
@@ -436,7 +436,9 @@
     "date": "2026-10-30T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://www.baijing.cn/?cucumber/AmBRdVR346532557",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "4015f290d240f2fc4526",
@@ -446,7 +448,9 @@
     "date": "2026-10-30T01:28:31+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://www.youtube.com/watch?si=lLmiTvG0D-1jmWV1&v=35mBptfvFx4&feature=youtu.be",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "8056abadb087a4dfe4d8",
