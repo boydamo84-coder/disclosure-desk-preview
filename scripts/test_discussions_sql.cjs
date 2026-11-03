@@ -70,3 +70,7 @@ assert.doesNotMatch(sql,/as \$\r?\n/,'No orphan dollar delimiter before PLpgSQL 
 assert.doesNotMatch(sql,/end \$;/,'No orphan dollar closing delimiter');
 assert.match(sql,/create or replace function public\.dd_discussions_owner_queue[\s\S]*?as \$\$\r?\nbegin/);
 assert.match(sql,/create or replace function public\.dd_discussions_owner_sections[\s\S]*?as \$\$\r?\nbegin/);
+
+assert.doesNotMatch(sql,/where t\.section_id=section_id/,'Avoid PostgreSQL ambiguous PLpgSQL variable name');
+assert.match(sql,/where t\.section_id=v_section_id/);
+assert.match(sql,/where s\.id=v_section_id/);

@@ -368,24 +368,24 @@ create or replace function public.dd_discussions_pin(
  p_thread_id uuid,p_pinned boolean)
 returns boolean language plpgsql security definer set search_path=pg_catalog,public as $$
 declare actor uuid:=public.dd_discussions_require_registered();
- section_id uuid; steward uuid; pinned boolean;
+ v_section_id uuid; steward uuid; pinned boolean;
 begin
  if p_thread_id is null or p_pinned is null then raise exception 'Invalid pin request';end if;
- select t.section_id into section_id from public.dd_forum_threads t
+ select t.section_id into v_section_id from public.dd_forum_threads t
   join public.dd_forum_sections s on s.id=t.section_id
   where t.id=p_thread_id and t.status='published' and s.status='published';
- if section_id is null then raise exception 'Public topic unavailable';end if;
+ if v_section_id is null then raise exception 'Public topic unavailable';end if;
  select s.steward_id into steward from public.dd_forum_sections s
- where s.id=section_id for update;
+ where s.id=v_section_id for update;
  if actor is distinct from steward and not public.dd_discussions_is_owner()
  then raise exception 'Section steward or site admin required';end if;
  if p_pinned and (select count(*) from public.dd_forum_threads t
-  where t.section_id=section_id and t.is_pinned and t.status='published'
+  where t.section_id=v_section_id and t.is_pinned and t.status='published'
    and t.id<>p_thread_id)>=3
  then raise exception 'Maximum three pinned topics per section';end if;
  update public.dd_forum_threads set is_pinned=p_pinned,updated_at=now() where id=p_thread_id;
  insert into public.dd_forum_audit(actor_id,section_id,action,target_kind,target_id)
- values(actor,section_id,case when p_pinned then 'pin' else 'unpin' end,'thread',p_thread_id);
+ values(actor,v_section_id,case when p_pinned then 'pin' else 'unpin' end,'thread',p_thread_id);
  return true;
 end $$;
 
@@ -393,21 +393,21 @@ create or replace function public.dd_discussions_escalate(
  p_kind text,p_id uuid,p_reason text)
 returns boolean language plpgsql security definer set search_path=pg_catalog,public as $$
 declare actor uuid:=public.dd_discussions_require_registered();
- section_id uuid; steward uuid;
+ v_section_id uuid; steward uuid;
 begin
  if p_kind not in ('thread','reply') or p_id is null or p_reason is null
    or char_length(btrim(p_reason)) not between 10 and 500
  then raise exception 'Reason required (10–500 characters)';end if;
  if p_kind='thread' then
-  select t.section_id into section_id from public.dd_forum_threads t
+  select t.section_id into v_section_id from public.dd_forum_threads t
   where t.id=p_id and t.status<>'removed';
  else
-  select t.section_id into section_id from public.dd_forum_replies r
+  select t.section_id into v_section_id from public.dd_forum_replies r
   join public.dd_forum_threads t on t.id=r.thread_id
   where r.id=p_id and r.status<>'removed';
  end if;
- if section_id is null then raise exception 'Target unavailable';end if;
- select s.steward_id into steward from public.dd_forum_sections s where s.id=section_id;
+ if v_section_id is null then raise exception 'Target unavailable';end if;
+ select s.steward_id into steward from public.dd_forum_sections s where s.id=v_section_id;
  if actor is distinct from steward and not public.dd_discussions_is_owner()
  then raise exception 'Escalation is limited to the section steward or site admin';end if;
  perform pg_advisory_xact_lock(hashtext('dd-forum-escalate:'||actor::text));
@@ -415,9 +415,9 @@ begin
   where e.submitted_by=actor and e.created_at>now()-interval '24 hours')>=10
  then raise exception 'Daily escalation limit reached';end if;
  insert into public.dd_forum_escalations(section_id,target_kind,target_id,submitted_by,reason)
- values(section_id,p_kind,p_id,actor,btrim(p_reason));
+ values(v_section_id,p_kind,p_id,actor,btrim(p_reason));
  insert into public.dd_forum_audit(actor_id,section_id,action,target_kind,target_id)
- values(actor,section_id,'escalate_to_site_owner',p_kind,p_id);
+ values(actor,v_section_id,'escalate_to_site_owner',p_kind,p_id);
  return true;
 end $$;
 

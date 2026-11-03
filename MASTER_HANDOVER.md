@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, isolated PostgreSQL steward Pin runtime fix STAGED:** run `41687573826` **installed candidate SQL successfully** into disposable DB, then synthetic role tests failed due ambiguous `section_id` variable in Pin RPC at line 14. Renamed local variables `v_section_id` in Pin and Escalate RPCs to prevent column/variable conflicts. CI rerun pending. No live DB change.
+
 - **2026-11-03, isolated SQL owner-function footer fix STAGED:** run `41687262065` failed on remaining `end $;` close in final owner-sections function. Root cause was JavaScript string replacement interpreting `$` as a single literal dollar during source generation. Replaced via a function callback, verified correct `end $;` byte-for-byte; rerun CI pending. No live DB changes.
 
 - **2026-11-03, PostgreSQL owner-function delimiter correction STAGED:** isolated CI `41687005397` reached the later owner functions but failed SQL parse at line 548 because the owner queue and owner sections functions each had a single `# Disclosure Desk — MASTER HANDOVER (authoritative)
@@ -223,6 +225,15 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Isolated PostgreSQL steward variable scoping
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `143db9c6a1d5c05fbf36e5a5467269997901d05f`; resulting SHA new branch HEAD.
+- Run `41687573826`: candidate SQL syntax and CREATE FUNCTION PASS in disposable PostgreSQL 17; synthetic registered users created public section, topic and reply, and denied non-steward Pin; valid steward Pin failed due PostgreSQL variable/column ambiguity (`where t.section_id=section_id`).
+- Updated `dd_discussions_pin` and `dd_discussions_escalate` to use explicitly named `v_section_id` local variables while keeping real column identifiers unchanged. Added static regression.
+- Verification: new isolated workflow pending. No live Supabase, Netlify, production branch, Android or Play changes.
+- Next: complete fake-user role/5-flag/restore/admin/guest tests and document verified outcome.
+
+
 
 ### 2026-11-03 — Correct SQL dollar-close without JavaScript replacement expansion
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `f7a8a2afbe6ed7dc5bf179ed26bd988e97602c86`, resulting SHA new HEAD.
