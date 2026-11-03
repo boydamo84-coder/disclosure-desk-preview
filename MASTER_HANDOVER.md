@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, OWNER-APPROVED 10 INVITES / 24 HOURS — ISOLATED SQL CI GREEN, NOT LIVE:** implemented in `5381141b459b47d0377f6b9dda1de589dfd7a7a7`. Disposable PostgreSQL 17 run `41711107391` **SUCCESS** (10 invitations to distinct fake users allowed, 11th rejected); website static QA `41711107588` **SUCCESS**. Registered-only explicit opt-in and one-intro request flow unchanged; existing-chat message rate 30 per 10 minutes. `privateChat:false`, candidate SQL unapplied, production `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` unchanged, no Netlify release.
+
+
 - **2026-11-03, private Chat invite quota change CODE STAGED / CI PENDING:** owner-approved **10 new requests per rolling 24 hours** instead of 5, while accepted-chat messaging remains 30 per 10 minutes. Updated UNAPPLIED SQL, browser guidance, static regression and disposable PostgreSQL tests for 10 accepted/11th rejected. **Private Chat remains OFF**, live database untouched. See `docs/PROFILE_PRIVATE_CHAT_ROADMAP_2026-11-03.md`.
 
 
@@ -288,6 +291,12 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — 10-per-24-hour Chat request quota green in actual disposable database
+- Commit `5381141b459b47d0377f6b9dda1de589dfd7a7a7`: isolated PostgreSQL 17 workflow `41711107391` **SUCCESS**, including exactly ten distinct outbound pending invitations in 24 hours and rejection of the eleventh, plus existing unauthorized access and consent checks. Static website workflow `41711107588` **SUCCESS**.
+- No live database change, no enabled private messaging, no Netlify credits spent. `production` still `9755fba9a5116c0cce6ac433ea022a6e5bfadd15`. Follow-up still needs explicit backend approval + two-user phone/browser testing before release.
+
+
 
 ### 2026-11-03 — Private Chat invitations 10 per 24 hours (approved)
 - Repo/branch `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`. Previous SHA `1817397f04e88fd751631ef5195f454681a987cd`; new SHA current milestone commit.

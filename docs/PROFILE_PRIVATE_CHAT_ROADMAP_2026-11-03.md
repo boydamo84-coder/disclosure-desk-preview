@@ -64,3 +64,9 @@ A review-only candidate lives at `supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql` with
 - Server-side limit applies to every invitation, including pending, accepted or declined; a declined recipient cannot be re-requested. One invite per unordered pair remains enforced.
 - Disposable Postgres acceptance now checks 10 invites to distinct opted-in fake users succeed and an 11th is rejected. Static SQL contract and client guidance updated.
 - This is source staged only: privateChat remains disabled, backend unapplied, no Netlify or Android changes.
+
+### Verification checkpoint
+
+- Implemented in branch commit `5381141b459b47d0377f6b9dda1de589dfd7a7a7`.
+- Real isolated PostgreSQL 17 synthetic integration run **41711107391 SUCCESS**: ten opted-in fake recipients accepted as outgoing requests, eleventh denied; existing consent and message protections remain green.
+- GitHub website source/regression run **41711107588 SUCCESS**. This does not represent a live Supabase deployment or real user/chat acceptance; feature remains OFF.
