@@ -171,7 +171,7 @@ for each row execute function public.dd_witness_report_guard();
 
 -- Limit malicious mass flagging. Each individual report can only be flagged once.
 create or replace function public.dd_witness_flag_guard()
-returns trigger language plpgsql security definer set search_path=public as $
+returns trigger language plpgsql security definer set search_path=public as $$
 begin
  if new.reporter_id is distinct from auth.uid() or auth.uid() is null
     or coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=true then
