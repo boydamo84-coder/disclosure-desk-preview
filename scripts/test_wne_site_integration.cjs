@@ -82,4 +82,15 @@ const indexableSite=read('index.html');
 assert.match(indexableSite,/ddResearchReturnTab=new URLSearchParams\(location\.search\)\.get\('dd_tab'\)/,'Main site must restore tab chosen from W.NE');
 assert.match(indexableSite,/navigateTo\(ddResearchReturnTab\)/,'Directly select destination after leaving W.NE');
 
+
+const rules=read('community-rules.html');
+for(const marker of ['<title>Community Rules','id="accounts"','id="witness"','id="voting"','id="flagging"','id="comments"','id="research"','id="privacy"','3 new public witness reports','5 distinct valid account flags','rolling 24-hour period','sign','town or city','automatically','temporarily hidden','private drafts only']){
+ assert.ok(rules.toLowerCase().includes(marker.toLowerCase()),'Missing community rules explanation: '+marker);
+}
+for(const link of ['href="/community-rules.html"','href="/community-rules.html#flagging"']){
+ assert.ok(html.includes(link),'Site should link from Explore, Witness and Footer: '+link);
+}
+assert.ok((html.match(/href="\/community-rules.html"/g)||[]).length>=3,'Link Community Rules from Explore, Witness and Footer');
+assert.match(rules,/Some community features described below are still being built or tested/,'Do not claim witness publication or voting works until activated');
+
 console.log('PASS: all 9 live tabs preserved, W.NE third, 4 guided tours, Explore, About, contact, privacy, canonical editor, guest isolation, scripts');
