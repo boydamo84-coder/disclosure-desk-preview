@@ -31,8 +31,15 @@ Updated 2026-11-03. **No production, preview, banking or Supabase changes.**
 - Removing operator approval immediately prevents further ledger reads for owner.
 - Every test runs in independent PostgreSQL 17 service; **no access to production credentials, tokens, Supabase or Netlify**.
 
+## Verified milestone 2026-11-03 — isolated PostgreSQL CI green
+- GitHub source commit: `4a225e87c6c6de349e185c33a2d0c5a107dbc38d`.
+- Disposable SQL workflow run [41723430099](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41723430099) **completed SUCCESS**.
+- Combined staged website source checks [41723429851](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41723429851) **completed SUCCESS**.
+- Full SQL candidate installed and role tests run **only inside a synthetic PostgreSQL 17 container**; this establishes candidate SQL behavior, NOT production/Supabase authentication, MFA enrolment, key security, end-to-end browser isolation or backup recovery.
+- Public `production` head `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` when checked; unchanged. Neither new infrastructure nor Netlify builds were used.
+
 ## Milestone gates still OPEN
-1. GitHub CI must pass after staging this SQL (the result must be recorded in MASTER_HANDOVER.md).
+1. ~~GitHub CI candidate validation~~ **PASS**: synthetic PostgreSQL isolated run `41723430099`, static staging run `41723429851`. Re-run after each security/code change.
 2. Security review against real Supabase project creation and current RLS/AAL docs; independent test project, not DD's existing backend.
 3. Owner-authorised provision of new private project, MFA account, signed-in desktop + Samsung cross-account rejection, actual backup/restore with synthetic test record.
 4. Provider-specific consent (Ko-fi, AdSense, Google Play), paid/free quota verification, secure webhook and OAuth token handling.

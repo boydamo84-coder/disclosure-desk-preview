@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, F2 OWNER-ONLY SQL ISOLATED SECURITY CI GREEN — NO REAL FINANCE SERVICE:** staged `finance-review/finance-f2-review.sql`, synthetic fixture/acceptance tests, GitHub-only workflow `validate-bds-finance-isolated.yml`, and `docs/BDS_FINANCE_F2_SECURITY_2026-11-03.md`; code commit `4a225e87c6c6de349e185c33a2d0c5a107dbc38d`. PostgreSQL 17 review SQL installed **only in disposable CI**; 2FA/AAL2 owner verified, unrelated user/guest/anonymous/AAL1 denied, private allowlist hidden, read/append-only, duplicate reference rejected, owner revocation blocked. GitHub Actions **41723430099 SUCCESS**; existing website staging QA **41723429851 SUCCESS**. **F2 partially staged, NOT production secure or deployed**: no real finance Supabase project/login/backend/API/encrypted backup, and public F1 HTML remains sample-only. `production` stays `9755fba9a5116c0cce6ac433ea022a6e5bfadd15`; no Supabase/Netlify/Play changes, secrets, customer data or accounts. Next decide private host/free tier then protected server storage, MFA device/account tests and backup restore before real income.
+
+
 - **2026-11-03, BDS FINANCE CENTRE F1 — OFFLINE SYNTHETIC LEDGER CODE STAGED / GITHUB CI GREEN:** Added one-file fictional-only HTML prototype `docs/prototypes/bds-finance-demo.html` and `scripts/test_bds_finance_demo.cjs`, wired into GitHub-only `validate-sources-directory-staged.yml`. Source test commit `d6106c975fddacf5081bc30ae80029fafa91cdae` passed Actions run **41721383656 SUCCESS**. Test covers UK 6-Apr year rollover, gross/net accounting for fee/refund/expense and excluding estimates/payouts, duplicate import and conflict detection, bad dates, CSV safety, no network resources. Sample dataset calculates £277.50 **fictional** profit for 2026/27. **Not browser/Samsung tested, not private/authenticated, no persistent financial data, no tax calculation or provider sync.** No Netlify, Supabase or Play deployment. Final private tool must not be served publicly from this preview docs/prototypes location after any future release.
 
 
@@ -218,6 +221,8 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**Parallel Finance F2 candidate milestone (CI GREEN, not live):** A private owner/MFA-gated ledger SQL design passed **disposable PostgreSQL role tests** run `41723430099`. No new live account or provider connection. Main Disclosure Desk website release plan and 11-tab navigation are unaffected; next Finance step is secure owner account/project selection and backup plan, not public Finance tab.
+
 **Parallel Finance F1 result (GitHub CI GREEN):** synthetic offline demo at `docs/prototypes/bds-finance-demo.html`; details and limitations in `docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md`. The Finance Centre's real-data F2 owner-only backend/security and F3 provider sync are **NOT BUILT**. No extra public nav tab and no finance deployment; don't let this prototype block existing Disclosure Desk website work.
 
 **BDS Finance F0 updated (2026-11-03):** owner chose sole-trader for now, future optional incorporation. See Finance Centre roadmap. No reason to put a tax or payment dashboard in public Disclosure Desk; finances remain a separate owner-only planned tool, not a blocker to this website's QA queue.
@@ -278,6 +283,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 5. Release plan: website first, then Android / Google Play
 
+**Finance release remains independent and prohibited in this batch:** F2 SQL candidate lives outside `supabase/migrations` and must not be included in the website deployment, which cannot enforce owner-only route access by hiding a URL. The dedicated private finance service and MFA/backup approval are outstanding.
+
 **Additional scope already approved:** consent-first private 1:1 messaging embedded within Profile (Section 4C, no extra chat tab) **and** new public user-created Discussions as a separately approved **12th main tab** (Section 4D). Both belong to the consolidated website roadmap with abuse/security tests and later Android parity. Current `production` remains the original 11-tab version.
 
 **Phase 1 — Unpublished website development:** work only on `feature/sources-archives-next-batch-nov03` or a clearly documented child; integrate already-staged Sources & Archives plus agreed feedback without duplicating the 11-tab production features. Update master after each milestone. Keep Netlify and public domain unchanged.
@@ -289,6 +296,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 **Phase 4 — Play internal test and release preparation:** check Gradle/Android SDK, app ID, target API and Play policy requirements on actual release date; securely configure signed Android App Bundle (AAB) using existing manual `.github/workflows/android-play-internal-aab.yml`; check Play App Signing, release keys, version codes, app icon, screenshots, listing, privacy/data safety, consent/ads implementation, support URL, testing track eligibility, crash-free smoke and multi-device tests. Run internal/closed testing first; production publication requires explicit separate approval. Never publish a debug-signed APK as Play release.
 
 ## 6. Known source paths and supporting records
+
+- Finance F2 review-only SQL/isolated role QA: `finance-review/finance-f2-review.sql`, `finance-review/isolated-fixture.sql`, `finance-review/isolated-acceptance.sql`, `.github/workflows/validate-bds-finance-isolated.yml`; `docs/BDS_FINANCE_F2_SECURITY_2026-11-03.md`. Tests passed 2026-11-03 in disposable DB, no live backend.
 
 - BDS Finance sample-only prototype: `docs/prototypes/bds-finance-demo.html`, `docs/prototypes/README.md`; GitHub tests `scripts/test_bds_finance_demo.cjs`. HTML may be publicly served by a future whole-branch deploy, so exclude/private-host before any real financial use.
 
@@ -302,6 +311,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [x] F2 candidate SQL isolated synthetic owner/cross-user/MFA/revocation/duplicate validation **CI GREEN**; **this does not authorise storing real finance data**.
+- [ ] Separate finance identity/project, real MFA, owner-only API, encrypted backups, secured routes and Samsung/desktop test are still required; keep `docs/prototypes` fake data only.
 
 - [ ] F1 finance demo is **sample-only and unpublished**; don't accidentally publish it in public static deploy output; separate owner-only privacy/RLS, secure backups and real provider connections required before real data.
 
@@ -322,6 +334,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Finance F2 follow-up after verified isolated SQL (not a site-release blocker):** Pick an affordable standalone private owner portal/storage route mindful of existing Supabase free-project limits; test actual owner MFA, backup/restore and user isolation with synthetic data before adding real-money ledger. No deployment or provider approval implied by GitHub Actions.
+
 **Finance F1 next step:** GitHub CI **SUCCESS** run `41721383656` at `d6106c975fddacf5081bc30ae80029fafa91cdae`; owner can download and manually test single HTML demo from unpublished GitHub branch. For F2, first security architecture/owner-only backend/recovery plan with separate private endpoint; no real financial data, tokens or tax owed calculations until that boundary is proven. Keep current Disclosure Desk website QA moving.
 
 **Finance next action:** F1 standalone synthetic-data offline ledger, with backups/exports and real data entry disabled pending privacy/security requirements; optional owner info for start date, PAYE and expenses when estimating real tax. Do not change existing PAYE or tax history assumptions, and do not imply sole trader equals a Companies House company.
@@ -334,6 +348,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — BDS Finance F2 RLS candidate verified in disposable PostgreSQL
+- Repository `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; code SHA `4a225e87c6c6de349e185c33a2d0c5a107dbc38d`. Documentation update is next GitHub branch HEAD; verify when committed.
+- Changed: `finance-review/finance-f2-review.sql`, `finance-review/isolated-fixture.sql`, `finance-review/isolated-acceptance.sql`, `.github/workflows/validate-bds-finance-isolated.yml`, `docs/BDS_FINANCE_F2_SECURITY_2026-11-03.md`, updated Finance roadmap and this master. SQL is review-only outside migrations.
+- Verification: GitHub Actions isolated PostgreSQL `41723430099` **SUCCESS**, source staging `41723429851` **SUCCESS**. Synthetic owner AAL2 allowed; unrelated authenticated user, guest, anonymously signed-in user and owner AAL1 blocked; no raw owner table access; append-only; unique receipt + revocation tested. No actual Supabase authentication, owner login, full RLS audit, private backup/recovery or Samsung/browser security testing yet.
+- Public/live impact: none. No live Supabase SQL, service credentials, user data, Netlify build, public finance route, production branch change or Play upload. Production remained `9755fba9a5116c0cce6ac433ea022a6e5bfadd15`.
+- Next: confirm financially sustainable dedicated private account hosting (free project limits), provision only with owner approval, test MFA and protected API + encrypted backups using synthetic entries. Real financial records and payment connectors stay disabled.
+
 
 ### 2026-11-03 — BDS Finance F1 offline fictional ledger prototype, CI GREEN
 - Repo `boydamo84-coder/disclosure-desk-preview`, branch `feature/sources-archives-next-batch-nov03`; feature source code commits `ed80b05c333ca923db2e20993f777db5ec4f5e20` (demo), `8a9a86f6572217aa8dc6bfd74ef9742fdfbb5dd3` (tests), `1bf4081d1bd0251cf2be4b01c16e37ac79c3ea13` (CI), `d0959f03e709aa8bf41bca0eb7b67260d65931c7` (duplicate conflict guard), `d6106c975fddacf5081bc30ae80029fafa91cdae` (test extension). The handover/roadmap/README commit is the resulting latest branch HEAD after this entry, verify with GitHub branch status.
