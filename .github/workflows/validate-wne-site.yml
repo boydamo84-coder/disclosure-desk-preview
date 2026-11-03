@@ -29,6 +29,8 @@ jobs:
           node scripts/test_witness_community.cjs
           node --check scripts/test_witness_moderation.cjs
           node scripts/test_witness_moderation.cjs
+          node --check scripts/test_witness_geocoding.cjs
+          node scripts/test_witness_geocoding.cjs
           node --check scripts/test_public_profiles.cjs
           node scripts/test_public_profiles.cjs
           node --check scripts/test_comment_security.cjs

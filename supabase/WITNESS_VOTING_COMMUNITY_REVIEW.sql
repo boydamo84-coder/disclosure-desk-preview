@@ -167,6 +167,8 @@ begin
  if new.city~'[0-9@]' or new.country~'[0-9@]'
     or new.city~* '\m(street|st\.|road|rd\.|lane|postcode|zip|apartment|building|house|flat)\M'
     or new.story~* '[A-Za-z0-9_.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
+    -- Do not permit unrounded personal sighting GPS in the public narrative.
+    or new.story ~ '(^|[^0-9])-?[0-9]{1,2}[.][0-9]{3,}[[:space:]]*,[[:space:]]*-?[0-9]{1,3}[.][0-9]{3,}([^0-9]|$)'
     or new.story~* '\m[0-9]{1,5}[[:space:]]+[A-Za-z]+[[:space:]]+(street|road|lane|avenue|drive|place)\M'
     or new.story~* '\m[A-Z]{1,2}[0-9][A-Z0-9]?[[:space:]]*[0-9][A-Z]{2}\M' then
   raise exception 'Please remove identifying location or contact information before publishing';

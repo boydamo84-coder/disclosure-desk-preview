@@ -22,10 +22,30 @@ const response=(status:number,payload:unknown,origin:string)=>new Response(JSON.
  "Cache-Control":"no-store"}
 });
 const normal=(s:unknown)=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toLowerCase();
+// Place-country matching must be exact. "Ireland" must NEVER match Belfast
+// merely because its admin region is named "Northern Ireland".
+function matchesCountry(submitted,found,region) {
+ const want=normal(submitted),country=normal(found),area=normal(region);
+ if(want==="northern ireland")return country==="united kingdom"&&area.includes("northern ireland");
+ if(["england","scotland","wales"].includes(want))
+  return country==="united kingdom"&&(area===want||area.includes(want));
+ const aliases={
+  "uk":"united kingdom","u.k.":"united kingdom","u.k":"united kingdom",
+  "britain":"united kingdom","great britain":"united kingdom",
+  "us":"united states","u.s.":"united states","usa":"united states",
+  "united states of america":"united states",
+  "eire":"ireland","republic of ireland":"ireland"
+ };
+ return country===(aliases[want]||want);
+}
+function containsPreciseCoordinates(value) {
+ return /(?:^|[^0-9])-?\d{1,2}\.\d{3,}\s*,\s*-?\d{1,3}\.\d{3,}(?:$|[^0-9])/u.test(value);
+}
 const isPlace=(s:unknown)=>typeof s==="string"&&s.trim().length>=2&&s.trim().length<=80
  &&/^[\p{L}\s,.'’()-]+$/u.test(s)&&!/\b(?:street|road|lane|postcode|apartment|flat|house|building|avenue)\b/i.test(s);
 const isStory=(s:unknown)=>typeof s==="string"&&s.trim().length>=25&&s.trim().length<=3500
- &&!/[A-Za-z0-9_.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/.test(s);
+ &&!/[A-Za-z0-9_.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/.test(s)
+ &&!containsPreciseCoordinates(s);
 const validDate=(date:unknown)=>{
  if(typeof date!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(date))return false;
  const d=new Date(date+"T12:00:00Z");
@@ -97,12 +117,8 @@ Deno.serve(async(req:Request)=>{
  }catch{return response(503,{error:"Town/city lookup is unavailable. Your private draft has not been published."},origin)}
  const place=matches.filter(trustedPosition).find(x=>{
   const placeName=normal(x.name),wanted=normal(city);
-  const area=normal(x.country)+" "+normal(x.admin1);
-  const countryName=normal(country);
   const matchCity=placeName===wanted;
-  const matchArea=area.includes(countryName)
-   ||(countryName==="northern ireland"&&normal(x.admin1).includes("northern ireland"))
-   ||(countryName==="uk"&&normal(x.country).includes("united kingdom"));
+  const matchArea=matchesCountry(country,x.country,x.admin1||"");
   const settlement=!x.feature_code||x.feature_code.startsWith("PPL");
   return matchCity&&matchArea&&settlement;
  });

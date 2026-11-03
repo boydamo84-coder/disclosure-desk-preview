@@ -143,6 +143,11 @@ W.NE is presented as **W.NE Research Studio**, in Disclosure Desk navy/gold styl
 - Added server-authorised `dd_witness_moderation_queue()` returning only hidden reports for the owner to review and `assets/case-comment-moderation.js` unified view of hidden comments and hidden witness reports with restore/keep hidden/remove actions. Routine flags 1–4 create no moderator queue entry. No anonymous or cross-account moderator queue access.
 - Witness Edge Function `dd-witness-submit` is **not installed** on the project; witness schema still staged. No new users, migration writes, deployment or Netlify credits.
 
+## Witness country validation and precision guard — 3 November 2026
+
+- Old Edge geocoder checked `country + admin1` using substring containment; that can mistakenly place Belfast in the Republic of Ireland. New pure `matchesCountry` uses strict geocoded country and narrow aliases (Northern Ireland only maps to United Kingdom when admin region identifies Northern Ireland). Reject ambiguous truncated country strings; no GPS supplied by browser. Staged narrative coordinate-pair rejection in both Edge and DB guard.
+- Added `scripts/test_witness_geocoding.cjs` to GitHub-only CI. Offline fixtures cover cross-border UK/Ireland and suspicious coordinates. Real network geocoding, HTTP/JWT accounts and Samsung UX remain unverified. All staging commits `[skip netlify]` and no deployments.
+
 ## 6. Non-negotiable product/safety notes
 - No fake hearing dates, fake LIVE state, public/private document leak or precise witness locations.
 - Users may submit reports about unverified experiences; “published” does NOT mean Disclosure Desk authenticated the claim.

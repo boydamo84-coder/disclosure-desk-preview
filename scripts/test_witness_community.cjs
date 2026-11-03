@@ -39,6 +39,7 @@ assert.match(sql,/grant select on public\.dd_public_witness_reports to anon,auth
 assert.match(edge,/db\.auth\.getUser\(bearer\)/);assert.match(edge,/user\.is_anonymous/);
 assert.match(edge,/input\.publicConsent!==true/);assert.match(edge,/createClient\(projectUrl,serviceKey/);
 assert.match(edge,/geocoding-api\.open-meteo\.com/);
+assert.match(edge,/matchesCountry\(country,x\.country,x\.admin1\|\|""\)/,'Country match must respect geopolitical borders');
 assert.match(edge,/lat:Math\.round\(place\.latitude\*10\)\/10/);
 assert.doesNotMatch(edge,/input\.(?:lat|lon|latitude|longitude)/,'Client coordinates must not be trusted');
 assert.match(witness,/\.from\('dd_public_witness_reports'\)/);
