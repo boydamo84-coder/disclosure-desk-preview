@@ -40,6 +40,10 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03 23:49 UK — SAMSUNG L2.1 CHROME NAVIGATION 403 REPRODUCED; NARROW FIX STAGED, PHONE RETEST PENDING:** After upgrading L2.1, owner saw an almost blank Chrome page at `127.0.0.1` with tiny Forbidden text on two attempts, despite entering the passphrase. A real-HTTP simulation confirmed `GET /` with `Sec-Fetch-Site: cross-site` returned 403; direct `none` / `same-origin` fetched HTML. Root cause: Termux-to-Chrome intent navigation is sometimes marked cross-site, but L2.1's new metadata guard rejected all cross-site requests, including the harmless HTML shell. On unpublished branch, commit `3be703de52b368bd5cbd3ced03cb5fb0b0bc1bcf` now allows cross-site **GET `/` only** (no ledger or secret in shell), while still rejecting cross-site calls to authenticated `/api/ledger` and `/api/lock`, and retaining Host/Origin, bearer token, localhost, no-cache, short-lived session, and synthetic-only safeguards. 33 isolated L1/L2 tests passed locally; **GitHub Finance CI 41743244163 was pending when documented**, website staging 41743244182 SUCCESS. New owner-download `BDS_Finance_L2_1_Android_Browser_Fix.zip` contains ONLY dashboard.py and README (local reviewed ZIP SHA-256 `36a5842b9e4afbb66c2306bb4556be9a563c477148b61f81287b72d96d234268`; GitHub artifact will contain same code with latest README, may differ by ZIP checksum). Next test on Samsung; do not declare device success yet. No changes to vault, backup, finance data, production, Netlify, Supabase, or W.NE.
+
+
+
 - **2026-11-03 — L2.1 FILTER & SERVER-SIDE LOCK CI GREEN; SAMSUNG UPGRADE TEST PENDING:** Enhanced only the **synthetic-only**, private Termux Finance dashboard with UK tax-year and BDS-product filter acceptance, on-screen countdown based on **server remaining session lifetime**, authenticated one-tap **Lock now** (revokes token and clears decoded server entries), browser DOM scrub on lock/expiry/tab hide, and stricter cross-site request rejection. Updated `finance_local/dashboard.py`, `finance_local/tests/test_dashboard.py` (15 L2 tests) and `finance_local/DASHBOARD_README.md`, no vault modification. **32/32 isolated Python tests PASS** locally (17 L1 + 15 L2); mocked HTTP headless Chromium mobile UX PASS for 2025/26 £15, 2026/27 £277.50, Disclosure Desk £147, Our Cinema £142.50, BDS shared −£12, manual lock and accelerated timeout. **GitHub Actions 41740238168 SUCCESS** on Python 3.12 and 3.14, source integrity and ZIP artifact upload `BDS-Finance-L2-1-Samsung-Synthetic`; website-only regression **41740238160 SUCCESS** at source commit `7e73c86799eb2c576be3e10a1eacd3fed5f2b72c`. Locally generated upgrade ZIP `BDS_Finance_L2_1_Lock_and_Filters.zip` SHA-256 `1673e2d5b4776d8472eb7ab0f140375bdb2923f0562f97ecaf0c8232611691b1` contains only the dashboard Python and README; GitHub artifact zip may differ at byte level but contains same verified source. The desktop Chromium network environment restricted direct localhost navigation, so UI browser simulation uses a mocked API while real server handlers are Python HTTP-tested. **Not yet Samsung-verified for L2.1**, no real personal financial records, provider APIs, tax calculation, Netlify, Supabase, Play or live website changes.
 
 
@@ -256,6 +260,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**Finance L2.1:** Samsung Chrome 403 regression diagnosed; a narrowly scoped initial navigation fix is staged for phone retesting. This does not affect the Disclosure Desk 11-tab public release, nor authorise a Netlify deploy.
+
+
 **Finance L2.1 separate phone-only milestone CI GREEN:** sample dashboard code and security/filter checks staged; owner Samsung update and on-device Lock now/expiry acceptance remain open. No reason to deploy Disclosure Desk or touch its 11-tab production website.
 
 
@@ -330,6 +337,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 5. Release plan: website first, then Android / Google Play
 
+**Finance Android browser compatibility fix:** synthetic-only Termux source ZIP; not a Play release or live finance system.
+
+
 **Finance Centre L2.1:** one local Termux ZIP containing only dashboard.py and README, not a public site, APK/AAB, paid finance account or permission to use real data. No Netlify or live Supabase work authorised.
 
 
@@ -355,6 +365,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 **Phase 4 — Play internal test and release preparation:** check Gradle/Android SDK, app ID, target API and Play policy requirements on actual release date; securely configure signed Android App Bundle (AAB) using existing manual `.github/workflows/android-play-internal-aab.yml`; check Play App Signing, release keys, version codes, app icon, screenshots, listing, privacy/data safety, consent/ads implementation, support URL, testing track eligibility, crash-free smoke and multi-device tests. Run internal/closed testing first; production publication requires explicit separate approval. Never publish a debug-signed APK as Play release.
 
 ## 6. Known source paths and supporting records
+
+- Samsung L2.1 Chrome 403 patch: `finance_local/dashboard.py`, `finance_local/tests/test_dashboard.py`, `finance_local/DASHBOARD_README.md`, `.github/workflows/validate-bds-finance-termux-l1.yml`; local tested download `BDS_Finance_L2_1_Android_Browser_Fix.zip`; code commit `3be703de52b368bd5cbd3ced03cb5fb0b0bc1bcf`.
+
 
 - L2.1 private sample dashboard `finance_local/dashboard.py`, `finance_local/tests/test_dashboard.py`, `finance_local/DASHBOARD_README.md`; CI `.github/workflows/validate-bds-finance-termux-l1.yml`, source commit `7e73c86799eb2c576be3e10a1eacd3fed5f2b72c`, run `41740238168` SUCCESS with `BDS-Finance-L2-1-Samsung-Synthetic` artifact, public production unchanged.
 
@@ -382,6 +395,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [x] Reproduced 403 on Termux-to-Chrome cross-site initial GET `/`; targeted HTML-shell exception plus tests, local 33 pass.
+- [ ] Confirm corrected L2.1 loads in Samsung Chrome, filters and Lock now work; independently verify ten-minute expiry. No real financial records permitted.
+
 
 - [x] L2.1 32 local Python tests PASS, 390px synthetic Chromium UI test PASS and GitHub Actions Python 3.12/3.14 **41740238168 SUCCESS**.
 - [x] GitHub-only artifact contains only dashboard.py and README; user ZIP with same source validated locally.
@@ -429,6 +446,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Immediate phone QA:** End old server (`Ctrl+C`), download revised `BDS_Finance_L2_1_Android_Browser_Fix.zip`, extract from Downloads with `unzip -o` into `$HOME/bds-finance-l1`, then `python finance_local/dashboard.py`; enter existing vault passphrase only into Termux. Expected BDS navy/gold dashboard with fictional 2026/27 £277.50. Test year/product filters and Lock now once page appears. Do not screenshot URL with `#token`. If still black, review Termux printed status without sharing session key. Original vault and off-device Drive backup untouched.
+
+
 **Next owner Samsung acceptance:** stop old dashboard via Ctrl+C, download `BDS_Finance_L2_1_Lock_and_Filters.zip`, `cd "$HOME/bds-finance-l1"`, `unzip -o "$HOME/storage/downloads/BDS_Finance_L2_1_Lock_and_Filters.zip"`, `python finance_local/dashboard.py`, passphrase only in Termux. Verify year 2025/26 £15, 2026/27 £277.50, Disclosure Desk £147, Our Cinema £142.50 and BDS shared −£12. Confirm countdown and **Lock now** clears ledger and exits server, don't screenshot URL/access key. GitHub CI run 41740238168 and source SHA `7e73c86799eb2c576be3e10a1eacd3fed5f2b72c` green. No real payments, HMRC estimates or external sync; only after owner acceptance plan L3 schema-reviewed CSV.
 
 
@@ -468,6 +488,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 23:49 UK — L2.1 Samsung Chrome GET-root 403, reproduced and fixed in unpublished code
+- Owner screenshot: local URL black, tiny forbidden text, after two correct-passphrase attempts. Initial Termux Chrome intent can send `Sec-Fetch-Site: cross-site` to GET `/`; new L2.1 Fetch Metadata policy denied 403 before HTML could load. Reproduced using a real HTTP handler test; not an incorrect vault password.
+- Patch permits only GET `/` static, unauthenticated shell from cross-site navigation. It does NOT permit cross-site `/api/ledger` or `/api/lock`; bearer, Host, Origin, short expiry, loopback and no-store remain mandatory. 33 local unit tests pass including these attack/compatibility cases. GitHub Finance matrix pending (run 41743244163) at documentation time.
+- Repo `boydamo84-coder/disclosure-desk-preview`, branch `feature/sources-archives-next-batch-nov03`, patched code commit `3be703de52b368bd5cbd3ced03cb5fb0b0bc1bcf`. Production head still `9755fba9a5116c0cce6ac433ea022a6e5bfadd15`. New dashboard-only sample ZIP for Samsung; actual device retest pending; no Netlify, Supabase, W.NE, live or actual finance data touched.
+
+
 
 ### 2026-11-03 — L2.1 Finance private filter/Lock now checks complete in code, Android acceptance pending
 - Repo `boydamo84-coder/disclosure-desk-preview` branch `feature/sources-archives-next-batch-nov03` source commit `7e73c86799eb2c576be3e10a1eacd3fed5f2b72c`, this handover's follow-up SHA is subsequent documentation commit. Live `production` `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` remains unchanged.

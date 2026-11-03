@@ -112,6 +112,10 @@ The owner confirms the new local, fictional-only Finance Centre browser dashboar
 - **32/32 local Python tests pass** (17 L1, 15 L2) and desktop 390px headless Chromium mocked-network UI exercise passes, including accelerated auto-lock. GitHub Actions **41740238168 SUCCESS** on Python 3.12/3.14, downloadable code-only artifact `BDS-Finance-L2-1-Samsung-Synthetic`, source `7e73c86799eb2c576be3e10a1eacd3fed5f2b72c`; site regression **41740238160 SUCCESS**. The raw locally generated ZIP `BDS_Finance_L2_1_Lock_and_Filters.zip` SHA-256 `1673e2d5b4776d8472eb7ab0f140375bdb2923f0562f97ecaf0c8232611691b1`.
 - **Next owner acceptance:** install over running L2 code after Ctrl+C, test 2025/26 £15 and 2026/27 product filters, Lock now and 10-minute auto expiry in Samsung Chrome. Session URL is private. A screenshot of fictional metrics (not URL) is safe. No real finance data, provider sync, tax estimate, security audit or public deploy authorised.
 
+## L2.1 Android Chrome initial navigation 403: fixed candidate, Samsung retest pending (2026-11-03)
+
+Samsung screenshot after two L2.1 unlock attempts showed a nearly blank local page with tiny `Forbidden`. Reproduced from real HTTP GET `/` with `Sec-Fetch-Site: cross-site` (Termux-to-Chrome intent) which L2.1 had rejected. The new patch permits cross-site navigation metadata **only for GET `/` static shell**, still denying API requests to `/api/ledger` and `/api/lock` without same-origin metadata and bearer token. Existing no-cache, localhost, Host/Origin and 10-minute limits remain. Local 33 automated L1/L2 tests PASS. Source commit `3be703de52b368bd5cbd3ced03cb5fb0b0bc1bcf`, GitHub CI 41743244163 pending when written. Download sample-only `BDS_Finance_L2_1_Android_Browser_Fix.zip`, extracted with `unzip -o` in the pre-existing `$HOME/bds-finance-l1`; it cannot replace `vault.py` or any encrypted backup. Real Samsung confirmation still required. Never share browser `#token` or vault passphrase.
+
 ## Status and acceptance
 
 - [x] L1 final CI **GREEN** at source SHA `aac857e4800c2c0b3cb659c2b3d000af4c14e26b`: vault run `41727602097`, website checks `41727601922`.
