@@ -254,7 +254,11 @@ class DashboardHandler(BaseHTTPRequestHandler):
         if self.headers.get('Origin') not in (None, f'http://{self.server.host_port}'):
             self.reply(403, b'Forbidden', 'text/plain; charset=utf-8')
             return False
-        if self.headers.get('Sec-Fetch-Site') not in (None, 'none', 'same-origin'):
+        # Chrome may label a Termux-to-browser intent as cross-site.
+        # Only the no-data HTML shell may be opened from that navigation;
+        # authenticated ledger and lock APIs must still reject cross-site.
+        shell_navigation = self.command == 'GET' and self.path == '/'
+        if not shell_navigation and self.headers.get('Sec-Fetch-Site') not in (None, 'none', 'same-origin'):
             self.reply(403, b'Forbidden', 'text/plain; charset=utf-8')
             return False
         if self.server.expired():

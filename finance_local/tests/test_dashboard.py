@@ -216,6 +216,30 @@ class PrivateDashboardTests(unittest.TestCase):
         self.assertFalse(self.thread.is_alive())
         self.assertEqual((self.root/vault.VAULT_NAME).read_bytes(),before)
 
+    def test_android_termux_chrome_initial_navigation_has_no_private_data(self):
+        # Samsung Chrome opened by Termux can send a cross-site navigation.
+        # It must receive the empty HTML shell, not a 403/blank screen.
+        for site in ('cross-site', 'same-site', 'none'):
+            status, headers, html = self.request('/', headers={
+                'Sec-Fetch-Site': site, 'Sec-Fetch-Mode': 'navigate',
+                'Sec-Fetch-Dest': 'document'})
+            self.assertEqual(status, 200, site)
+            self.assertIn(b'Finance Centre', html)
+            self.assertNotIn(b'demo:coffee', html)
+            self.assertNotIn(self.server.token.encode(), html)
+            self.assertIn('no-store', headers['Cache-Control'])
+        for path,method in (('/api/ledger','GET'),('/api/lock','POST')):
+            status,_,body = self.request(path, method=method,
+                token=self.server.token,
+                headers={'Sec-Fetch-Site':'cross-site'})
+            self.assertEqual(status, 403)
+            self.assertNotIn(b'SIMULATED', body)
+        for extra in ({'Host':'evil.invalid'},{'Origin':'https://evil.invalid'}):
+            status,_,body = self.request('/',headers={
+                **extra,'Sec-Fetch-Site':'cross-site'})
+            self.assertEqual(status,403)
+            self.assertNotIn(b'Finance Centre',body)
+
     def test_cross_site_fetch_metadata_blocks_read_even_with_key(self):
         for site in ['cross-site','same-site']:
             status, _, body = self.request('/api/ledger',token=self.server.token,

@@ -81,3 +81,9 @@ This is an isolated `finance_local/` extension on `boydamo84-coder/disclosure-de
 ### Verification limits
 
 The L2.1 package passed isolated Python HTTP security tests and a headless Chromium mobile-layout/filter/lock simulation on fictional data. Desktop Chromium's environment restricted direct localhost navigation, so the UI browser test used a mocked response; the **actual HTTP server** was tested with local Python HTTP requests. This is not a penetration test or real-device result for L2.1 until the owner tries it. Automatic session expiry and server lock do not protect against malware with access to unlocked phone memory, and real earnings/CSV imports remain disabled. A manually stored encrypted Drive backup was reported previously; independent off-device restore has **not** been re-tested from the Drive copy.
+
+## Samsung L2.1 Chrome 403 initial navigation patch — 2026-11-03
+
+The owner observed a blank browser page with tiny `403 Forbidden` after launching L2.1 twice; it was not a passphrase failure. Chrome may mark the initial Termux-to-browser navigation `Sec-Fetch-Site: cross-site`. This patch allows that fetch metadata **only for GET /**, the unauthenticated HTML shell containing no ledger, secret, or financial data. Private `/api/ledger` and `/api/lock` remain protected by a random bearer token plus cross-site, Host and Origin checks. No external URLs, online services or real transactions are enabled.
+
+Upgrade using `BDS_Finance_L2_1_Android_Browser_Fix.zip`; it contains only `dashboard.py` and this README, never `vault.py`, encrypted vault or backups. After stopping an old session with Ctrl+C: `cd "$HOME/bds-finance-l1"; unzip -o "$HOME/storage/downloads/BDS_Finance_L2_1_Android_Browser_Fix.zip"; python finance_local/dashboard.py`. Do not share the initial private browser URL/key or your passphrase. Samsung re-test is required; Linux checks cannot substitute for on-phone results.
