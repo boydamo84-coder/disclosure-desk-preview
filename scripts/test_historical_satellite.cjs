@@ -16,6 +16,8 @@ const u=new URL(query);
 assert.equal(u.searchParams.get('p'),'geographic');
 assert.equal(u.searchParams.get('t'),'2008-01-20-T12:00:00Z','No time recorded: noon is only a date-browsing anchor');
 assert.equal(u.searchParams.get('s'),'-1.8,53.8');
+assert.equal(u.searchParams.get('l'),'MODIS_Terra_CorrectedReflectance_TrueColor',
+ 'NASA daily true-colour imagery must be explicitly selected instead of a current-day default layer');
 assert.equal(u.searchParams.get('v'),'-6.80,50.80,3.20,56.80');
 assert.equal(new URL(api.worldViewUrl(current,'21:05')).searchParams.get('t'),'2008-01-20-T21:05:00Z','UTC supplied by researcher');
 assert.equal(new URL(api.worldViewUrl(current,'not-time')).searchParams.get('t'),'2008-01-20-T12:00:00Z','Invalid times fall back to browse anchor');
@@ -75,3 +77,6 @@ assert.doesNotMatch(html,/<\/button>\+<button/,
  'Do not display a stray plus between adjacent case card buttons');
 assert.match(html,/data-dd-sat-case/);
 assert.match(html,/data-dd-sat-archive/);
+
+assert.match(js,/NASA opens with the MODIS Terra daily true-colour imagery layer/);
+assert.match(js,/not a guaranteed image at the selected UTC minute/);

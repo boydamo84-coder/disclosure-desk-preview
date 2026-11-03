@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, historical NASA image-layer correction CODE STAGED:** explicit MODIS Terra daily true-colour `l=` added to Worldview case date/viewport link, preventing defaults that may be unavailable for historical dates; source validated against NASA GIBS. The selected UTC minute still **does not imply that an image exists at that minute**. No historical frame ingestion/nearest-time API. CI pending, no deployment.
+
 - **2026-11-03, satellite case-card regression correction CODE STAGED:** run `41699308567` FAILED due old test asserting Map satellite button still used Evidence-file launcher. Updated check to dedicated satellite button, removed two stray plus characters between Featured/Rabbit buttons and added main inline website JS syntax verification. New CI pending; no Netlify builds.
 
 - **2026-11-03, satellite imagery per-case-card navigation CODE STAGED:** added consistent **🛰 Satellite view** actions across Map result cards, Featured Case Files, Explore rabbit-hole case cards and Evidence Archive results/details, opening case-specific timeline/provider dialogue. Full dates/approximate mapped towns carried into NASA Worldview; year-only or locationless archives clearly signal missing evidence. No verified nearest satellite image is auto-retrieved; provider source/time caveats displayed. GitHub-only tests pending; still no public deploy.
@@ -277,6 +279,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — NASA Worldview selects actual historical daily imagery layer
+- Unpublished branch `feature/sources-archives-next-batch-nov03`, previous SHA `0a2711bff0e3587c94743582c452e867a08394c6`; new SHA current branch HEAD.
+- `assets/historical-satellite.js` now passes Worldview's `l=MODIS_Terra_CorrectedReflectance_TrueColor` along with approximate town, date and optional UTC timeline position, rather than accepting a present-day default scene. NASA GIBS documents Terra true-colour daily imagery from 24 Feb 2000 (coverage gaps possible). 
+- Explicitly warn researchers that Terra daily composites **cannot prove minute-specific conditions** and provider's actual frame acquisition time requires separate data/metadata verification. EUMETSAT old archive remains manual date selection and coverage-dependent. Extended `scripts/test_historical_satellite.cjs`; CI pending.
+- No paid API, browser geolocation, live backend update, Netlify, production merge, Android or actual imagery capture.
+
+
 
 ### 2026-11-03 — Fix new case-card satellite button markup/test
 - Repo/branch `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; previous SHA `6e36f463e0e12473bdba8beec3ceabac56dccb38`, new SHA current branch HEAD.

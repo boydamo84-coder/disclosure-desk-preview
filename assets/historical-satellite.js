@@ -52,7 +52,7 @@ function worldViewUrl(r,enteredTime){
   Math.min(180,lon+5).toFixed(2),
   Math.min(90,lat+3).toFixed(2)
  ].join(',');
- const query=new URLSearchParams({p:'geographic',v:extent,t:selected,s:lon.toFixed(1)+','+lat.toFixed(1)});
+ const query=new URLSearchParams({p:'geographic',v:extent,t:selected,s:lon.toFixed(1)+','+lat.toFixed(1),l:'MODIS_Terra_CorrectedReflectance_TrueColor'});
  return NASA+'?'+query.toString();
 }
 function externalLink(parent,label,url){
@@ -146,10 +146,10 @@ function openSatelliteCase(r){
  const timeNote=$('p','No verified time is included in this case record. Leave blank to browse at 12:00 UTC (a navigation default, NOT the event time).','muted small');
  const status=$('p','','muted small');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
  const actions=$('div',undefined,'dd-satellite-actions');
- const primary=externalLink(actions,'Open NASA satellite map for chosen date',NASA);
+ const primary=externalLink(actions,'Open NASA daily satellite imagery · selected date and area',NASA);
  const eumet=externalLink(actions,'Open Meteosat historic imagery',EUMET_DAILY);
  const modern=externalLink(actions,'EUMETSAT weather layers',EUMET_VIEW);
- const caution=$('p','Weather satellite imagery shows clouds and broad atmospheric conditions, not live street-level pictures. These links select a viewing date/area, but DO NOT verify the nearest acquired image time. The provider may lack coverage or frames; check the acquisition timestamp inside the viewer.','muted small');
+ const caution=$('p','NASA opens with the MODIS Terra daily true-colour imagery layer where that date has coverage. This is a daily satellite composite, not a guaranteed image at the selected UTC minute. EUMETSAT historic gallery usually offers one image per day and requires manual date selection. Neither viewer automatically verifies the nearest captured frame to the reported sighting; check original image timestamps and availability. These are NOT street-level or individual-object photographs.','muted small');
  const update=()=>{
   const requested=isoDate(date.value),hasCoords=state.coordinatesKnown;
   const utc=utcTime(time.value);
