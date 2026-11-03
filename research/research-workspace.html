@@ -1,0 +1,293 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Disclosure Desk · Research Studio</title><style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:#091522;color:#e7e9e9;font:14px system-ui,sans-serif}header{display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding:9px 14px;border-bottom:1px solid #526171;background:#152638;min-height:60px}header strong{color:#e6c287;font-size:17px}a{color:#efcc91}button{background:#263e50;color:#f5f4ee;border:1px solid #8799a8;border-radius:9px;padding:8px 13px;font:inherit;cursor:pointer}button[aria-pressed=true]{background:#dbc08e;color:#17212a;font-weight:700}main{height:calc(100% - 60px);display:grid;grid-template-columns:minmax(300px,1.15fr) minmax(300px,1fr);gap:5px;padding:5px}iframe{width:100%;height:100%;border:1px solid #637689;border-radius:9px;background:white}body.mode-writer main{grid-template-columns:1fr}body.mode-writer #bible{display:none}body.mode-bible main{grid-template-columns:1fr}body.mode-bible #writer{display:none}.note{font-size:12px;color:#b7c6d5}@media(max-width:850px){main{grid-template-columns:1fr}#bible{display:none}body.mode-both #bible{display:none}body.mode-bible #bible{display:block}body.mode-bible #writer{display:none}header{min-height:0}main{height:calc(100% - 102px);min-height:300px}}
+@media(max-width:850px){header{display:grid;grid-template-columns:1fr;gap:7px;padding:10px}header strong{font-size:15px}header [role=group]{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;width:100%}header button{padding:9px 3px;font-size:12px;white-space:nowrap}header .note{font-size:11px}main{height:calc(100dvh - 145px);min-height:350px;padding:4px}body.mode-both main{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) minmax(0,1fr)}body.mode-both #bible{display:block}body.mode-both #writer{display:block}body.mode-writer main,body.mode-bible main{grid-template-rows:minmax(0,1fr)}iframe{min-height:0}}@media(min-width:851px){header [role=group]{display:flex;gap:6px}}</style><style id="dd-adaptive-layout">
+html,body{height:100%;height:100dvh;overflow:hidden}
+body{display:flex;flex-direction:column}header{flex:0 0 auto;min-height:0}
+main{flex:1 1 auto;height:auto!important;min-height:0!important;display:grid;grid-template-columns:minmax(0,var(--editor-width,55fr)) 9px minmax(0,var(--library-width,45fr));grid-template-rows:minmax(0,1fr);gap:0;padding:5px}
+iframe{min-width:0;min-height:0;display:block}
+#splitter{background:#263a48;border-radius:5px;cursor:col-resize;touch-action:none;position:relative}
+#splitter:after{content:"";position:absolute;inset:30% 3px;background:#d9c18e;border-radius:3px}
+#splitter:focus-visible{outline:2px solid #e4c58b;outline-offset:2px}
+body.mode-writer main,body.mode-bible main{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr)}
+body.mode-writer #bible,body.mode-bible #editorPanel,body:not(.mode-both) #splitter{display:none}
+@media(max-width:899px){
+header{display:grid;grid-template-columns:1fr;gap:8px;padding:10px}
+header strong{font-size:15px}
+header [role=group]{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+header button{min-width:0;white-space:nowrap;font-size:clamp(10px,2.8vw,13px);padding:9px 2px}
+.note{font-size:11px}
+body.mode-both main{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) 9px minmax(0,1fr)}
+body.mode-both #splitter{cursor:row-resize;touch-action:none}
+body.mode-both #splitter:after{inset:3px 35%}
+}
+@media(min-width:900px){header [role=group]{display:flex;gap:6px}header{padding:10px 14px}}
+@media(max-height:599px){header{padding:5px 9px!important;display:flex!important;align-items:center;gap:7px}header strong{font-size:12px!important}#typingPreference{font-size:11px!important;padding:5px!important;white-space:nowrap}header [role=group]{display:flex!important;flex:1;gap:4px}header button{padding:5px 4px!important;font-size:11px!important}.note{display:none}main{padding:2px}} </style><style id="dd-landscape-columns-v1">
+/* Landscape phones get horizontally scrollable columns, never a cramped vertical stack. */
+body.layout-horizontal.mode-both main{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;grid-template-rows:minmax(0,1fr)!important;justify-content:start;display:grid!important;grid-auto-flow:column!important}body.layout-horizontal.mode-both #editorPanel,body.layout-horizontal.mode-both #bible{display:block!important;min-height:0!important}
+body.layout-horizontal.mode-both #splitter{cursor:col-resize;touch-action:none}
+body.layout-horizontal.mode-both #splitter:after{inset:30% 3px}
+body.layout-horizontal.mode-both iframe{min-height:0}
+body.layout-horizontal.mode-both main::-webkit-scrollbar{height:7px}
+body.layout-horizontal.mode-both main::-webkit-scrollbar-thumb{background:#bfa77a;border-radius:6px}
+#editorPanel{position:relative;min-width:0;min-height:0;overflow:hidden}#editorPanel iframe{width:100%;height:100%}#editorToolsToggle{position:absolute;left:12px;right:auto;top:7px;z-index:5;border:1px solid #bfa77a;border-radius:8px;background:#d9c18e;color:#182430;font-size:12px;font-weight:700;padding:6px 9px;box-shadow:0 2px 8px #0008}#editorToolsToggle:focus-visible{outline:2px solid white}
+</style><style id="dd-typing-layout">body.typing main{display:grid!important}body.typing main #editorPanel{height:100%!important;width:100%!important}body.typing #bible,body.typing #splitter{display:none!important}body.typing header{display:none!important}body.typing #editorToolsToggle{display:none!important}</style><style id="dd-library-size-control">#librarySizeControl{display:flex;gap:5px;align-items:center;white-space:nowrap;color:#e4c58b;font-size:12px}#librarySize{width:85px;accent-color:#d9c18e}#librarySizeValue{min-width:38px;text-align:right}@media(max-width:899px){#librarySizeControl{justify-content:center}#librarySize{width:95px}}@media(max-height:599px){#librarySizeControl{font-size:11px}#librarySize{width:65px}}</style><style id="dd-header-tools-relocate">#editorHeaderTools{background:#d9c18e;color:#182430;border-color:#bfa77a;font-size:12px;font-weight:700;padding:7px 10px;white-space:nowrap}#editorHeaderTools:focus-visible{outline:2px solid #fff;outline-offset:2px}@media(max-width:899px){header{grid-template-columns:minmax(0,1fr) auto!important}header strong,header [role=group]{grid-column:1/-1}#librarySizeControl{grid-column:1;justify-content:start!important;min-width:0}#editorHeaderTools{grid-column:2;grid-row:auto}header .note{grid-column:1/-1}}@media(max-height:599px){#editorHeaderTools{padding:5px 7px!important;font-size:11px!important}}</style><style id="dd-editor-only-tools-visibility">body.mode-bible #editorHeaderTools{display:none!important}body.mode-writer #editorHeaderTools,body.mode-both #editorHeaderTools{display:inline-flex!important;align-items:center;justify-content:center}</style><style id="dd-home-header-compact-v2">#dd-studio-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0}#dd-studio-heading strong{min-width:0}#dd-documents-btn{width:auto!important;min-width:80px!important;max-width:110px!important;flex:0 0 auto;padding:7px 10px!important;font-size:12px!important;white-space:nowrap!important}@media(max-width:899px){header #dd-studio-heading{grid-column:1/-1;display:flex!important;align-items:center}header #dd-studio-heading strong{font-size:15px}#dd-documents-btn{grid-column:auto!important}}</style><style id="dd-live-readiness-v1">
+#dd-live-readiness{border:1px solid #6b7890;background:#1c3344;color:#ebdfc9;border-radius:10px;padding:12px;margin:12px 0;font:13px/1.5 system-ui}
+#dd-live-readiness strong{color:#e8c78b}
+#dd-live-readiness a{color:#e8c78b}
+</style><style id="dd-documents-home-polish">#dd-documents-dialog{width:min(560px,94vw)!important;max-height:84dvh!important}#dd-documents-dialog h2{font:700 26px Georgia,serif;color:#e3c18d;margin:0 0 10px}#dd-documents-dialog h3{font-size:14px;margin:18px 0 5px;color:#e3c18d}#dd-home-status{padding:10px;border:1px solid #526b7c;background:#1e3545;border-radius:8px;font-size:12px;color:#c9d9e3}</style><style id="dd-documents-home-style">
+#dd-documents-btn{background:#24394b;color:#edd1a0;border-color:#a68d62;font-weight:650}
+#dd-documents-dialog{width:min(490px,93vw);max-height:78dvh;overflow:auto;border:1px solid #a68d62;border-radius:15px;background:#122737;color:#f0e1c9;padding:17px}
+#dd-documents-dialog::backdrop{background:#000b}
+#dd-documents-list{display:grid;gap:9px;margin:15px 0}
+#dd-documents-list button,#dd-documents-dialog .dd-doc-actions button{background:#253c4c;color:#f0e2cc;border:1px solid #627487;text-align:left;border-radius:9px;padding:12px;min-height:44px;width:100%}
+#dd-documents-list button[aria-current=true]{border-color:#dfc18b;background:#365064}
+#dd-documents-dialog input{width:100%;padding:11px;border-radius:8px;border:1px solid #778a9d;background:#203949;color:white}
+#dd-documents-dialog .dd-doc-actions{display:grid;gap:8px}
+</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="./wne-cloud-bridge.js"></script><script src="./research-auth-guard.js"></script><style id="dd-mobile-resizer-fix">body.dd-resizing iframe{pointer-events:none!important}#splitter{position:relative;touch-action:none!important}#splitter::after{content:"";position:absolute;inset:-12px -5px;z-index:3;touch-action:none}@media(max-width:850px){#splitter::after{inset:-10px -8px}}</style></head><body class="mode-both"><header><div id="dd-studio-heading"><strong>Disclosure Desk · Research Studio</strong><button id="dd-documents-btn" type="button" title="Open Research Studio Home">⌂ Home</button></div><div role="group" aria-label="Workspace layout"><button type="button" id="writerBtn" aria-pressed="false">✍ Editor</button><button type="button" id="bibleBtn" aria-pressed="false">📚 Research Library</button><button type="button" id="bothBtn" aria-pressed="true">◫ Side by side</button></div><label id="librarySizeControl" title="Adjust Research Library text size">Library text <input id="librarySize" type="range" min="70" max="120" step="5" value="85" aria-label="Research Library text size"><output id="librarySizeValue">85%</output></label><button id="editorHeaderTools" type="button" aria-expanded="true">⌃ Hide tools</button><span class="note">Research Edition · Powered by W.NE</span></header><dialog id="dd-documents-dialog" aria-labelledby="dd-documents-title">
+<h2 id="dd-documents-title">Research Studio Home</h2><p>Welcome back. Open an investigation document or start a new report. Your existing research stays untouched.</p><div id="dd-home-status" aria-live="polite">Research Studio beta · check the saved status before leaving</div><div id="dd-live-readiness"><strong>Research Studio beta · cloud integration</strong><div>Signed-in research documents use the existing Disclosure Desk cloud account. Some older Research Library references, local Board copies and backups may still be device-only.</div><div>Before public launch: verify account isolation, cross-device reopening, protected storage and restore. Keep an independent backup of important reports.</div></div><details id="dd-cloud-staging" style="margin:12px 0;padding:12px;border:1px solid #627487;border-radius:10px">
+<summary style="cursor:pointer;color:#e3c18d;font-weight:700">☁️ Cloud documents · staging preview</summary>
+<p style="font-size:12px">Manual cloud copies for testing only. Your existing local files and Boards are never deleted or overwritten.</p>
+<label style="display:block;margin:8px 0">Disclosure Desk email<input id="dd-cloud-email" type="email" autocomplete="username" placeholder="Email"></label>
+<label style="display:block;margin:8px 0">Password<input id="dd-cloud-password" type="password" autocomplete="current-password" placeholder="Password"></label>
+<div class="dd-doc-actions"><button id="dd-cloud-signin" type="button">Sign in</button><button id="dd-cloud-signout" type="button">Sign out</button><button id="dd-cloud-upload" type="button">Upload current document as NEW copy</button><button id="dd-cloud-refresh" type="button">List cloud documents</button></div>
+<div id="dd-cloud-list" style="display:grid;gap:8px;margin-top:8px"></div>
+<div style="border-top:1px solid #526b7c;margin-top:12px;padding-top:10px">
+<strong style="color:#e3c18d">☷ My existing Investigation Boards</strong>
+<p style="font-size:12px">Read your private cloud Boards and copy selected Boards into the local Research Library. Originals stay in Disclosure Desk.</p>
+<button id="dd-cloud-boards-refresh" type="button">List my cloud Boards</button>
+<div id="dd-cloud-boards-list" style="display:grid;gap:8px;margin-top:8px"></div>
+</div>
+<p id="dd-cloud-staging-status" role="status">Not signed in. Manual cloud testing only.</p>
+</details><h3>My documents</h3>
+<div id="dd-documents-list" role="group" aria-label="Saved documents"></div>
+<div class="dd-doc-actions"><input id="dd-new-document-name" maxlength="150" placeholder="New document name"><button id="dd-create-document" type="button">＋ New research document</button><button id="dd-close-documents" type="button">Continue to editor</button></div>
+<p id="dd-documents-status" role="status"></p></dialog><main><div id="editorPanel"><iframe id="writer" title="Research Studio report editor" src="./wne.html" loading="eager"></iframe></div><div id="splitter" role="separator" aria-label="Resize research panels" aria-orientation="vertical" tabindex="0" title="Drag to resize panels"></div><iframe id="bible" title="Research Library and investigation boards" src="./research-bible.html" loading="eager"></iframe></main><script>
+/* Pass the selected cloud document to the canonical W.NE iframe. */
+(()=>{
+ const query=new URLSearchParams(location.search);
+ const raw=query.get('id');
+ const remembered=sessionStorage.getItem('wne-research-active-document');
+ const id=/^[0-9a-f-]{36}$/i.test(raw||'')?raw:/^[0-9a-f-]{36}$/i.test(remembered||'')?remembered:null;
+ const writer=document.getElementById('writer');
+ if(id&&writer){
+  sessionStorage.setItem('wne-research-active-document',id);
+  if(raw!==id)history.replaceState(null,'',location.pathname+'?id='+encodeURIComponent(id));
+  writer.src='./wne.html?id='+encodeURIComponent(id);
+ }
+})();
+</script>
+<script>
+(()=>{
+const editorPanel=document.getElementById('editorPanel'),toolToggle=document.getElementById('editorToolsToggle');
+const writer=document.getElementById('writer'), bible=document.getElementById('bible'), splitter=document.getElementById('splitter');
+function hideRedundantShortcut(){try{const d=writer.contentDocument;if(!d)return;let style=d.getElementById('dd-workspace-hide-library-shortcut');if(!style){style=d.createElement('style');style.id='dd-workspace-hide-library-shortcut';style.textContent='a[href="./wne_research_bible.html"],a[href="/research-bible"],#wne-research-bible-launch,a[href*="wne_home"],.wne-signature-link{display:none!important}';d.head.appendChild(style)}}catch{}}
+let toolExpanded=!window.matchMedia('(orientation:landscape) and (max-height:599px)').matches;
+function applyEditorTools(){try{const d=writer.contentDocument;if(!d)return;let st=d.getElementById('dd-editor-compact-tools');if(!st){st=d.createElement('style');st.id='dd-editor-compact-tools';d.head.appendChild(st)}st.textContent=toolExpanded?'':'.mobilebar,.topbar,.wne-spell-wrap,.wne-spell-settings,.wne-format-toolbar,.wne-format-row,.formatbar,.toolbar,.format-toolbar{display:none!important} .main,.workarea{min-height:0!important}';toolToggle.textContent='⌄ Tools';const headToggle=document.getElementById('editorHeaderTools');if(headToggle){headToggle.textContent=toolExpanded?'⌃ Hide tools':'⌄ Show tools';headToggle.setAttribute('aria-expanded',String(toolExpanded))}if(toolToggle){toolToggle.hidden=true;toolToggle.style.display='none';toolToggle.setAttribute('aria-expanded',String(toolExpanded))}
+const oldInner=d.getElementById('dd-inner-hide-tools');if(oldInner)oldInner.remove();}catch{}}
+/* The single Research Studio header button controls toolbar visibility. */
+document.getElementById('editorHeaderTools').addEventListener('click',()=>{toolExpanded=!toolExpanded;applyEditorTools()});
+writer.addEventListener('load',()=>{hideRedundantShortcut();applyEditorTools();syncQuickTool();try{const d=writer.contentDocument;let st=d.getElementById('dd-research-writer-labels');if(!st){st=d.createElement('style');st.id='dd-research-writer-labels';st.textContent='.wne-drive-status,[id*="drive-status"],[class*="drive-status"]{display:none!important}';d.head.appendChild(st)}const convert=()=>{const b=d.getElementById('drawer');if(b)b.textContent='☰ Sections';const status=d.querySelectorAll('[class*="drive"],[id*="drive"]');for(const el of status){if(el.children.length===0&&/Drive disconnected/i.test(el.textContent||''))el.style.display='none'}const nodes=d.querySelectorAll('.chapter-title,.chapter-count,.word-count,.chapter-words');for(const el of nodes){if(el.matches('input,textarea,[contenteditable]'))continue; if(el.childElementCount===0&&/Chapter/i.test(el.textContent||''))el.textContent=el.textContent.replace(/\bChapters?\b/g,x=>x==='Chapters'?'Sections':'Section')}};convert();}catch{}});
+function syncQuickTool(){try{const d=writer.contentDocument;if(!d)return;d.body.classList.toggle('dd-in-split',mode==='both'||document.body.classList.contains('typing'))}catch{}}
+const buttons={writer:document.getElementById('writerBtn'),bible:document.getElementById('bibleBtn'),both:document.getElementById('bothBtn')};
+const allowed=['writer','bible','both'];
+const sizeSlider=document.getElementById('librarySize'),sizeValue=document.getElementById('librarySizeValue');
+const sizeKey='dd-research-library-size-v1';let libraryScale=85;
+try{const stored=Number(localStorage.getItem(sizeKey));if(stored>=70&&stored<=120)libraryScale=stored}catch{}
+function updateLibraryScale(){sizeSlider.value=String(libraryScale);sizeValue.textContent=libraryScale+'%';try{const doc=bible.contentDocument;if(!doc)return;let style=doc.getElementById('dd-library-size-override');if(!style){style=doc.createElement('style');style.id='dd-library-size-override';doc.head.appendChild(style)}style.textContent='html{font-size:'+libraryScale/100*15+'px!important}body{font-size:'+libraryScale/100*15+'px!important}h1{font-size:'+libraryScale/100*23+'px!important}h2{font-size:'+libraryScale/100*16+'px!important}button,input,select,textarea{font-size:'+libraryScale/100*15+'px!important}'}catch{}}
+sizeSlider.addEventListener('input',()=>{libraryScale=Number(sizeSlider.value);updateLibraryScale();try{localStorage.setItem(sizeKey,String(libraryScale))}catch{}});
+bible.addEventListener('load',updateLibraryScale);
+const key='dd-research-studio-layout-v2', widthKey='dd-research-studio-panel-width-v2';
+let mode='both', manual=false, editorPct=55, drag=null;
+try{const saved=JSON.parse(localStorage.getItem(key)||'null');if(saved&&allowed.includes(saved.mode)){mode=saved.mode;manual=!!saved.manual;}const p=Number(localStorage.getItem(widthKey));if(p>=20&&p<=80)editorPct=p}catch{}
+function horizontal(){return window.matchMedia('(orientation: landscape)').matches || window.innerWidth>=900 || (screen.orientation && Math.abs(screen.orientation.angle)===90)}
+function phoneLandscape(){return horizontal() && window.innerHeight<650}
+function applyWidth(){
+ const split=horizontal(), phone=phoneLandscape(), main=document.querySelector('main');
+ document.body.classList.toggle('layout-horizontal',split);
+ splitter.setAttribute('aria-orientation',split?'vertical':'horizontal');
+ if(mode!=='both'){main.style.gridTemplateColumns='';main.style.gridTemplateRows='';return}
+ if(split){
+   const available=main.clientWidth-10;
+   const total=phone?Math.max(available,920):available;
+   const left=Math.round(total*editorPct/100), right=total-left;
+   main.style.setProperty('grid-template-columns',left+'px 10px '+right+'px','important');
+   main.style.setProperty('grid-template-rows','minmax(0,1fr)','important');
+ }else{
+   main.style.setProperty('grid-template-columns','minmax(0,1fr)','important');
+   main.style.setProperty('grid-template-rows',editorPct+'fr 9px '+(100-editorPct)+'fr','important');
+ }
+ splitter.setAttribute('aria-valuenow',String(editorPct));
+}
+function select(next,user=false){if(!allowed.includes(next))return;mode=next;if(user)manual=true;document.body.classList.remove('mode-writer','mode-bible','mode-both');document.body.classList.add('mode-'+mode);syncQuickTool();for(const [name,btn] of Object.entries(buttons))btn.setAttribute('aria-pressed',String(name===mode));applyWidth();try{localStorage.setItem(key,JSON.stringify({mode,manual}))}catch{}}
+for(const [name,btn] of Object.entries(buttons))btn.addEventListener('click',()=>select(name,true));
+function resize(p){editorPct=Math.max(20,Math.min(80,Math.round(p)));applyWidth();try{localStorage.setItem(widthKey,String(editorPct))}catch{}}
+splitter.addEventListener('pointerdown',ev=>{if(mode!=='both')return;ev.preventDefault();drag=ev.pointerId;document.body.classList.add('dd-resizing');splitter.setPointerCapture(ev.pointerId)});
+splitter.addEventListener('pointermove',ev=>{if(drag!==ev.pointerId)return;const main=document.querySelector('main'),r=main.getBoundingClientRect(),split=horizontal(),phone=phoneLandscape();const coord=split?ev.clientX-r.left+main.scrollLeft:ev.clientY-r.top;const total=split?(phone?Math.max(main.clientWidth-10,920):main.clientWidth-10):main.clientHeight;resize(100*coord/Math.max(1,total))});
+for(const type of ['pointerup','pointercancel','lostpointercapture'])splitter.addEventListener(type,()=>{drag=null;document.body.classList.remove('dd-resizing')});
+splitter.addEventListener('keydown',ev=>{if(ev.key==='ArrowLeft'||ev.key==='ArrowUp'||ev.key==='ArrowRight'||ev.key==='ArrowDown'){ev.preventDefault();resize(editorPct+((ev.key==='ArrowRight'||ev.key==='ArrowDown')?5:-5))}else if(ev.key==='Home'){resize(20)}else if(ev.key==='End'){resize(80)}});
+function adapt(){if(!manual)select(horizontal()?'both':'writer');else applyWidth()}
+function setTyping(active){document.body.classList.remove('typing');try{writer.contentWindow.ddTemporaryTypewriter?.(false)}catch{}syncQuickTool();applyWidth()}
+writer.addEventListener('load',()=>{try{const doc=writer.contentDocument;doc.addEventListener('focusin',ev=>{if(ev.target.closest('input,textarea,[contenteditable]'))setTyping(true)});doc.addEventListener('focusout',()=>setTimeout(()=>{if(!doc.activeElement?.closest('input,textarea,[contenteditable]'))setTyping(false)},150))}catch{}});
+window.addEventListener('resize',adapt);window.addEventListener('orientationchange',()=>requestAnimationFrame(adapt));adapt();
+window.addEventListener('message',ev=>{if(ev.origin!==location.origin||ev.source!==bible.contentWindow||ev.data?.type!=='wne-research-request-citation-v1')return;const {title,url,style,publisher,projectId}=ev.data;if(typeof title!=='string'||!title.trim()||typeof url!=='string')return;select('writer',false);writer.contentWindow.postMessage({type:'wne-research-insert-citation-v1',title,url,style,publisher,projectId},location.origin)});
+window.addEventListener('message',ev=>{if(ev.origin!==location.origin||ev.source!==writer.contentWindow||ev.data?.type!=='wne-research-citation-result-v1')return;bible.contentWindow.postMessage(ev.data,location.origin)});
+})();
+</script><script id="dd-documents-home-js">
+(function(){
+const dlg=document.getElementById('dd-documents-dialog'),list=document.getElementById('dd-documents-list'),msg=document.getElementById('dd-documents-status'),writer=document.getElementById('writer');
+if(!dlg||!list||!writer)return;
+async function api(body){const r=await fetch('/api/library',{cache:'no-store',...(body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{})});const j=await r.json();if(!r.ok)throw Error(j.error||'Request failed');return j}
+async function refresh(){
+ const d=await api();list.replaceChildren();
+ const items=Array.isArray(d.items)?d.items:[];
+ if(!items.length){const n=document.createElement('p');n.textContent='No documents saved yet.';list.append(n)}
+ for(const item of items){
+ const btn=document.createElement('button');btn.type='button';btn.textContent=(item.active?'✓ ':'📄 ')+(item.title||'Untitled document');btn.setAttribute('aria-current',String(!!item.active));
+ btn.onclick=async()=>{try{btn.disabled=true;msg.textContent='Opening…';await api({action:'open',id:item.id});dlg.close();document.getElementById('writerBtn')?.click();sessionStorage.setItem('wne-research-active-document',item.id);history.replaceState(null,'',location.pathname+'?id='+encodeURIComponent(item.id));writer.src='./wne.html?id='+encodeURIComponent(item.id);}catch(e){msg.textContent=e.message}finally{btn.disabled=false}};
+ list.append(btn);
+ }
+}
+document.addEventListener('dd-research-library-updated',async()=>{try{await refresh()}catch(e){msg.textContent='Could not refresh document list: '+e.message}});
+document.getElementById('dd-documents-btn').onclick=async()=>{dlg.showModal();msg.textContent='';try{await refresh()}catch(e){msg.textContent=e.message}};
+document.getElementById('dd-close-documents').onclick=()=>dlg.close();
+document.getElementById('dd-create-document').onclick=async()=>{
+ const input=document.getElementById('dd-new-document-name'),name=input.value.trim();if(!name){msg.textContent='Enter a document name first.';return}
+ try{msg.textContent='Creating…';const created=await api({action:'create',title:name,mode:'study',structure:'sections'});if(!created.id)throw Error('Created document ID unavailable');await api({action:'open',id:created.id});input.value='';dlg.close();document.getElementById('writerBtn')?.click();sessionStorage.setItem('wne-research-active-document',created.id);history.replaceState(null,'',location.pathname+'?id='+encodeURIComponent(created.id));writer.src='./wne.html?id='+encodeURIComponent(created.id);}catch(e){msg.textContent=e.message}
+};
+})();
+</script><script id="dd-cloud-manual-copy">
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id), BASE='https://omqxizswzcwgzqaczlhe.supabase.co',KEY='sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X';
+let token=null, user=null;const say=x=>$('dd-cloud-staging-status').textContent=x;
+async function request(path,method='GET',data,prefer){
+ const headers={'apikey':KEY,'Content-Type':'application/json'};
+ if(token)headers.Authorization='Bearer '+token;
+ if(prefer)headers.Prefer=prefer;
+ const result=await fetch(BASE+path,{method,headers,...(data!==undefined?{body:JSON.stringify(data)}:{})});
+ const text=await result.text();let body;try{body=text?JSON.parse(text):null}catch{body=null}
+ if(!result.ok)throw Error(body?.message||body?.msg||body?.error_description||'HTTP '+result.status);
+ return body;
+}
+async function run(button,task){button.disabled=true;try{await task()}catch(e){say('Cloud action failed: '+e.message)}finally{button.disabled=false}}
+$('dd-cloud-signin').onclick=()=>run($('dd-cloud-signin'),async()=>{
+ const email=$('dd-cloud-email').value.trim(),password=$('dd-cloud-password').value;
+ if(!email||!password)throw Error('Enter your account email and password');
+ const result=await request('/auth/v1/token?grant_type=password','POST',{email,password});
+ if(!result?.access_token||!result?.user?.id)throw Error('No authenticated session');
+ token=result.access_token;user=result.user;$('dd-cloud-password').value='';
+ say('Signed in: '+user.email+'. Transfers are manual.');
+});
+$('dd-cloud-signout').onclick=()=>{token=null;user=null;$('dd-cloud-list').replaceChildren();$('dd-cloud-boards-list').replaceChildren();$('dd-cloud-password').value='';say('Signed out. Local research unchanged.')};
+$('dd-cloud-upload').onclick=()=>run($('dd-cloud-upload'),async()=>{
+ if(!user||!token)throw Error('Sign in first');
+ if(!confirm('Upload a NEW cloud copy of your CURRENT research document? Local work will not be replaced.'))return;
+ const response=await fetch('/api/manuscript',{cache:'no-store'});if(!response.ok)throw Error('Cannot read local document');
+ const state=await response.json(),doc=state.manuscript;
+ if(!doc||typeof doc!=='object')throw Error('Local manuscript is unavailable');
+ const title=String(doc.bookTitle||'Research document').trim().slice(0,200);
+ const rows=await request('/rest/v1/research_documents?select=id,title,revision','POST',{user_id:user.id,title,content:doc},'return=representation');
+ if(!Array.isArray(rows)||!rows[0]?.id)throw Error('Cloud did not confirm save');
+ say('New cloud document copy saved: '+rows[0].title+'. Local copy untouched.');
+});
+$('dd-cloud-boards-refresh').onclick=()=>run($('dd-cloud-boards-refresh'),async()=>{
+ if(!user||!token)throw Error('Sign in first');
+ const rows=await request('/rest/v1/investigation_boards?select=id,name,content&limit=40');
+ if(!Array.isArray(rows))throw Error('Cloud Board list unavailable');
+ const list=$('dd-cloud-boards-list');list.replaceChildren();
+ for(const cloud of rows){
+  const button=document.createElement('button');button.type='button';
+  button.textContent='＋ Copy Board to Research Library · '+String(cloud.name||'Unnamed Board');
+  button.onclick=()=>run(button,async()=>{
+   const content=cloud.content||{};
+   const board={name:String(cloud.name||'Investigation Board').slice(0,160),
+      links:Array.isArray(content.links)?content.links:[],
+      notes:Array.isArray(content.notes)?content.notes:[],
+      timeline:Array.isArray(content.timeline)?content.timeline:[],
+      comparisons:Array.isArray(content.comparisons)?content.comparisons:[],
+      connections:Array.isArray(content.connections)?content.connections:[],
+      videos:Array.isArray(content.videos)?content.videos:[]};
+   if(!confirm('Copy "'+board.name+'" into the private local Research Library? The cloud Board will not change.'))return;
+   const response=await fetch('/api/research/boards/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({board})});
+   const saved=await response.json();
+   if(!response.ok)throw Error(saved.error||'Local Board copy failed');
+   say('Saved a new local Research Library Board copy: '+board.name+'. Open Research Library and refresh My Boards.');
+  });
+  list.append(button);
+ }
+ if(!rows.length)list.textContent='No cloud Boards in this account.';
+ say(rows.length+' private cloud Board(s) available. Original Boards untouched.');
+});
+$('dd-cloud-refresh').onclick=()=>run($('dd-cloud-refresh'),async()=>{
+ if(!user||!token)throw Error('Sign in first');
+ const rows=await request('/rest/v1/research_documents?select=id,title,revision,updated_at&order=updated_at.desc&limit=50');
+ if(!Array.isArray(rows))throw Error('Unexpected document list');
+ const list=$('dd-cloud-list');list.replaceChildren();
+ for(const d of rows){
+  const b=document.createElement('button');b.type='button';b.textContent='↓ Download copy · '+d.title+' (v'+d.revision+')';
+  b.onclick=()=>run(b,async()=>{
+   const docs=await request('/rest/v1/research_documents?select=content,title&id=eq.'+encodeURIComponent(d.id)+'&limit=1');
+   if(!Array.isArray(docs)||!docs.length)throw Error('Document is unavailable for this account');
+   const data=JSON.stringify(docs[0].content,null,2);
+   const blob=new Blob([data],{type:'application/json'}),url=URL.createObjectURL(blob);
+   try{const a=document.createElement('a');a.href=url;a.download='research-cloud-copy-'+d.id+'.json';a.click()}
+   finally{setTimeout(()=>URL.revokeObjectURL(url),60000)}
+   say('Downloaded separate JSON copy. Local research unchanged.');
+  });
+  const open=document.createElement('button');open.type='button';
+  open.textContent='＋ Save as new local document · '+d.title;
+  open.onclick=()=>run(open,async()=>{
+   const docs=await request('/rest/v1/research_documents?select=content,title&id=eq.'+encodeURIComponent(d.id)+'&limit=1');
+   if(!Array.isArray(docs)||!docs.length)throw Error('Cloud document unavailable');
+   const imported=docs[0].content;
+   if(imported?.version!==2||!Array.isArray(imported.chapters)||!imported.chapters.length){
+    throw Error('This is an older test report, not a complete editor document. Download JSON copy instead.');
+   }
+   if(!confirm('Create a NEW local copy of '+d.title+'? Existing local documents will not be replaced.'))return;
+   const response=await fetch('/api/library',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'import-cloud-copy',document:imported})});
+   const result=await response.json();if(!response.ok)throw Error(result.error||'Local import failed');
+   say('Created new local document: '+result.title+'. It will appear below under My documents. Your current editor remains unchanged.');
+   document.dispatchEvent(new CustomEvent('dd-research-library-updated'));
+  });
+  list.append(b,open);
+ }
+ if(!rows.length)list.textContent='No cloud research reports yet.';
+ say(rows.length+' cloud document(s) available to this account.');
+});
+})();
+</script><script id="dd-account-scoped-document-resume">
+/* Persist the last OPENED cloud document per authenticated account. A local
+ * identifier never grants access; the existing Supabase RLS confirms ownership.
+ * The landing page uses this key only after a fresh signed-in user check.
+ */
+(()=>{
+ 'use strict';
+ if(!window.supabase?.createClient)return;
+ const db=window.supabase.createClient('https://omqxizswzcwgzqaczlhe.supabase.co','sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+ const frame=document.getElementById('writer');
+ const valid=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+ let seq=0;
+ async function remember(){
+  const id=new URL(frame?.src||location.href,location.href).searchParams.get('id');
+  if(!valid.test(id||''))return;
+  const current=++seq;
+  const {data:auth,error:authError}=await db.auth.getUser();
+  if(current!==seq||authError||!auth?.user)return;
+  const {data,error}=await db.from('research_documents').select('id').eq('id',id).maybeSingle();
+  if(current!==seq||error||data?.id!==id)return;
+  try{localStorage.setItem('wne-research-last-document:'+auth.user.id,id)}catch{}
+ }
+ if(frame){
+  new MutationObserver(remember).observe(frame,{attributes:true,attributeFilter:['src']});
+  remember();
+ }
+ db.auth.onAuthStateChange((event)=>{
+  if(event==='SIGNED_OUT'){
+   seq++;
+   sessionStorage.removeItem('wne-research-active-document');
+   location.replace('./index.html');
+  }
+ });
+})();
+</script></body></html>
+<style id="dd-brand-match-v1">html,body{background:#09111a;color:#eef0f1}header{background:#0b131c;border-bottom:1px solid #324252}header strong{color:#e4c58b}button{background:#1c2b39;border-color:#5c6b79;color:#e8d5aa}button[aria-pressed=true]{background:#d9c18e;color:#141e28;border-color:#d9c18e}.note{color:#a3b4c2}iframe{border-color:#324252}</style>
