@@ -74,7 +74,7 @@ function clearTimer(){
 }
 function render(){
  if(!container)return;
- clearTimer();container.replaceChildren();
+ clearTimer();window.ddLiveChatClose?.();container.replaceChildren();
  const head=el('div','dd-hearing-summary');
  head.append(el('h2','', '📅 Upcoming UAP hearings'));
  const msg=el('p','muted small',upcoming.length?'Officially scheduled events; times displayed in UK and US Eastern local time.':'No upcoming UAP hearing has been confirmed by an official source yet. The next countdown will appear here after a dated hearing is verified.');
