@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, disabled Profile Chat test coverage STAGED:** added GitHub-only static test covering accepted-only composer, recipient acceptance, flagged-off state, RPC method signatures and textContent rendering; no database writes/real chat. Workflow results pending for this commit. Original backend candidate remains unapplied.
+
 - **2026-11-03, Profile Chat UI source STAGED / DISABLED:** a seventh native collapsible Hub section houses accepted/pending lists and inline conversation/preview/composer; source-based client actions for invite, accept/decline, block and report. Separate `privateChat:false` and `discussions:false` flags protect the live 11-tab experience; the chat schema remains UNAPPLIED and no messaging is usable. Await GitHub-only CI and isolated backend/RLS testing before activation.
 
 - **2026-11-03, private 1:1 Chat database foundation CODE STAGED / UNAPPLIED:** staged security-reviewed candidate SQL (`supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql`) for separate chat opt-in, one introductory preview, recipient-only accept/decline, participant-only accepted messages, anti-repeat pair uniqueness, request/message rate limits, blocks and limited excerpt-only owner reports. CI tests are static, **NOT SQL execution or authenticated security tests**. Website feature remains disabled; no Supabase migration was applied. This is a candidate requiring independent SQL/RLS review and an isolated database test before activation.
@@ -157,6 +159,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Disabled Profile Chat GitHub regression coverage
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `1ea6d63e9ce3a58ae8d6acd3bc2fadf68c4dcf3f`; resulting branch head is documentation+test commit SHA.
+- Added `scripts/test_private_chat_ui.cjs` and GitHub-only staging workflow step to verify the disabled Profile Chat panel, accepted-only message composer, recipient acceptance RPC wiring, safe text rendering and unlaunched Discussions tab. Updated this handover.
+- Verification: source/contract only, CI pending. **No live backend, preview, user messages, Netlify or Android changes.**
+- Next: resolve any CI failure; implement separate explicit chat contact opt-in behind same flag, then isolated multiactor RLS/anti-spam/acceptance security tests before any enabling.
+
+
 
 ### 2026-11-03 — Profile Chat panel UI staged behind disabled flag
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior `9565f8093a5dae178f2324eb7237bbf925ccb1a5`; resulting SHA is the new GitHub branch head. No release.

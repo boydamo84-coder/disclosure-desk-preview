@@ -37,3 +37,8 @@ jobs:
         run: |
           node --check scripts/test_private_chat_sql.cjs
           node scripts/test_private_chat_sql.cjs
+      - name: Validate disabled in-Profile Chat UI and backend contract
+        run: |
+          node --check assets/profile-private-chat.js
+          node --check scripts/test_private_chat_ui.cjs
+          node scripts/test_private_chat_ui.cjs
