@@ -100,7 +100,7 @@ class PrivateDashboardTests(unittest.TestCase):
         data = json.loads(raw)
         self.assertEqual(data['mode'], 'synthetic-demo')
         self.assertEqual(len(data['entries']), 10)
-        self.assertEqual(vault.demo_summary(data, '2026/27')['profit'], 27750)
+        self.assertEqual(vault.demo_summary({k:v for k,v in data.items() if k!='secondsRemaining'}, '2026/27')['profit'], 27750)
         self.assertNotIn(PASS.encode(), raw)
         self.assertEqual(len(data['entries']), len(self.data['entries']))
 
@@ -147,6 +147,84 @@ class PrivateDashboardTests(unittest.TestCase):
             self.assertEqual(dashboard.main(['--no-open']),0)
         self.assertEqual((self.root/vault.VAULT_NAME).read_bytes(),blob)
         self.assertEqual(len(captured),1)
+
+    def test_filter_reference_totals_match_uk_6_april_boundaries(self):
+        # UI filter acceptance expected from real Samsung demonstration.
+        all_entries = self.data['entries']
+        def summary(year, product='all'):
+            rows = [e for e in all_entries if vault.uk_tax_year(e['date']) == year
+                    and (product == 'all' or e['product'] == product)]
+            return vault.demo_summary({'mode': vault.DEMO_MODE,
+                                       'version': vault.FORMAT_VERSION,
+                                       'entries': rows})
+        self.assertEqual((summary('2026/27')['count'],summary('2026/27')['profit']), (9,27750))
+        self.assertEqual((summary('2025/26')['count'],summary('2025/26')['profit']), (1,1500))
+        self.assertEqual((summary('2026/27','Disclosure Desk')['count'],
+                          summary('2026/27','Disclosure Desk')['profit']), (4,14700))
+        self.assertEqual((summary('2026/27','Our Cinema')['count'],
+                          summary('2026/27','Our Cinema')['profit']), (4,14250))
+        self.assertEqual((summary('2026/27','BDS shared')['count'],
+                          summary('2026/27','BDS shared')['profit']), (1,-1200))
+
+    def test_client_has_server_timed_countdown_and_scrubs_dom_on_lock(self):
+        src = dashboard.PAGE
+        self.assertIn('id="lockNow"', src)
+        self.assertIn('id="sessionLeft"', src)
+        self.assertIn('data.secondsRemaining', src)
+        self.assertIn("window.addEventListener('pagehide'", src)
+        self.assertIn('if(locked)return;', src)
+        self.assertIn("['year','product','bars','breakdown','rows']", src)
+        self.assertNotIn('localStorage', src)
+        self.assertNotIn('sessionStorage', src)
+
+    def test_expiry_remaining_is_server_bounded_not_reset_on_repeated_reads(self):
+        a, _, blob = self.request('/api/ledger', token=self.server.token)
+        self.assertEqual(a,200)
+        obj = json.loads(blob)
+        self.assertGreater(obj['secondsRemaining'],0)
+        self.assertLessEqual(obj['secondsRemaining'], 35)
+        self.server.deadline = time.monotonic() + 5
+        b, _, blob2 = self.request('/api/ledger', token=self.server.token)
+        self.assertEqual(b,200)
+        self.assertLessEqual(json.loads(blob2)['secondsRemaining'],5)
+        self.assertGreater(json.loads(blob2)['secondsRemaining'],0)
+
+    def test_manual_lock_requires_bearer_and_same_origin(self):
+        for token, headers in [
+            (None, {}),('f'*64, {}),
+            (self.server.token, {'Origin':'https://example.org'}),
+            (self.server.token, {'Sec-Fetch-Site':'cross-site'}),
+            (self.server.token, {'Host':'local.invalid'})
+        ]:
+            status, _, body = self.request('/api/lock', method='POST',token=token,headers=headers)
+            self.assertEqual(status,403)
+            self.assertNotIn(b'SIMULATED',body)
+        status, _, body=self.request('/api/ledger',token=self.server.token)
+        self.assertEqual(status,200)
+
+    def test_manual_lock_revokes_key_closes_listener_and_preserves_vault(self):
+        before=(self.root/vault.VAULT_NAME).read_bytes()
+        key=self.server.token
+        status, headers, body=self.request('/api/lock',method='POST',token=key,
+                                           headers={'Origin':'http://'+self.server.host_port,
+                                                    'Sec-Fetch-Site':'same-origin'})
+        self.assertEqual(status,200)
+        self.assertIn(b'Session locked',body)
+        self.thread.join(timeout=4)
+        self.assertEqual(self.server.token,'')
+        self.assertEqual(self.server.entries,[])
+        self.assertFalse(self.thread.is_alive())
+        self.assertEqual((self.root/vault.VAULT_NAME).read_bytes(),before)
+
+    def test_cross_site_fetch_metadata_blocks_read_even_with_key(self):
+        for site in ['cross-site','same-site']:
+            status, _, body = self.request('/api/ledger',token=self.server.token,
+                                           headers={'Sec-Fetch-Site':site})
+            self.assertEqual(status,403)
+            self.assertNotIn(b'SIMULATED',body)
+        status, _, _ = self.request('/api/ledger',token=self.server.token,
+                                     headers={'Sec-Fetch-Site':'same-origin'})
+        self.assertEqual(status,200)
 
     def test_reject_bad_passphrase_no_network_listener(self):
         with mock.patch.object(dashboard.Path,'home',return_value=Path(self.folder.name)), \

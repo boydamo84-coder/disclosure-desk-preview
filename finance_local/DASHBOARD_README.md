@@ -50,3 +50,34 @@
 ## Scope
 
 This is an isolated `finance_local/` extension on `boydamo84-coder/disclosure-desk-preview` unpublished development branch `feature/sources-archives-next-batch-nov03`. No action touches public `production`, legacy `disclosure-desk`, W.NE/Our Cinema source projects, Netlify or Supabase.
+
+## L2.1 security/filters checkpoint — 3 November 2026
+
+**This replacement is still fictional-only** and is for Samsung/Termux testing, not a live personal finance product. It adds an on-screen **Lock now** button, a countdown based on the **server's remaining session lifetime** rather than a fresh ten-minute timeout when Chrome reloads, server-side lock-key revocation, blocked cross-site fetch metadata, and removal of decoded ledger contents from the DOM on lock/hide/expiry. No new provider permissions, cloud accounts, app databases or tax calculations.
+
+### Install over L2 without changing the encrypted vault
+
+1. **End the running dashboard session** using its **Lock now** button, or `Ctrl+C` in Termux. Do not delete any folder, vault or backup.
+2. Download **`BDS_Finance_L2_1_Lock_and_Filters.zip`** into phone Downloads. The ZIP contains **only** `finance_local/dashboard.py` and `finance_local/DASHBOARD_README.md`, never `vault.py`, your encrypted vault, or any backups.
+3. From your existing Termux installation:
+
+   ```sh
+   cd "$HOME/bds-finance-l1"
+   unzip -o "$HOME/storage/downloads/BDS_Finance_L2_1_Lock_and_Filters.zip"
+   python finance_local/dashboard.py
+   ```
+
+   Enter your existing encrypted vault passphrase privately in Termux, **never in ChatGPT or in a command-line argument**. The private Chrome launch address contains a short-lived session secret; do not share, photograph or paste it.
+
+### Samsung test checklist — sample-only values
+
+- On first open, select **2026/27** and **All BDS products**: fictional gross income **£337.00**, outgoings **£59.50**, profit **£277.50**, **9 fictional entries**.
+- Select **2025/26**: fictional income and profit **£15.00**, **1 fictional entry** (6 April accounting-year boundary).
+- Return to **2026/27**, then choose **Disclosure Desk**: fictional profit **£147.00** with **4 entries**; **Our Cinema**: fictional profit **£142.50** with **4 entries**; **BDS shared**: fictional profit **−£12.00** with **1 entry**.
+- Check **Auto-lock in MM:SS** counts down. Press **Lock now**: the transaction list, totals and session token should disappear from the page, and Termux's running dashboard server should exit shortly. The server's bearer token is immediately revoked; refresh should not expose records.
+- For expiry behaviour, start a *fresh* dashboard session and leave Chrome visible until the countdown ends, or switch away and confirm it locks immediately when hidden. When it locks, return to Termux; the vault on disk must remain intact. **Chrome backgrounding can lock sooner than ten minutes**, by design.
+- Do not post URLs from Termux or the Chrome address bar. Screenshots of fictional summary values after the address is hidden are okay.
+
+### Verification limits
+
+The L2.1 package passed isolated Python HTTP security tests and a headless Chromium mobile-layout/filter/lock simulation on fictional data. Desktop Chromium's environment restricted direct localhost navigation, so the UI browser test used a mocked response; the **actual HTTP server** was tested with local Python HTTP requests. This is not a penetration test or real-device result for L2.1 until the owner tries it. Automatic session expiry and server lock do not protect against malware with access to unlocked phone memory, and real earnings/CSV imports remain disabled. A manually stored encrypted Drive backup was reported previously; independent off-device restore has **not** been re-tested from the Drive copy.

@@ -9,6 +9,7 @@ Security design:
 - A token fragment is consumed by the page then removed from browser history.
 - Single read-only endpoint; no POST, imports, provider credentials or true finance data.
 - The vault data and server disappear when the process exits / times out (10m max).
+- An authenticated Lock now button revokes the entire server-side session early.
 
 WARNING: L2 preview is for predefined fictional L1 data ONLY. Not audited or
 approved for actual personal financial records, taxes or production use.
@@ -68,6 +69,7 @@ th,td{border-bottom:1px solid #29394b;padding:10px 7px;text-align:left}th{color:
 .pos{color:#9ae0c0}.neg{color:#f3afae}.quiet{color:#9eacc2}
 footer{border-top:1px solid #30405b;margin-top:21px;padding-top:18px;color:#a7b5ca;font-size:12px}
 #status{font-size:12px;color:#d4b876}#status[role=alert]{color:#ffb1b1}
+.session-tools{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:12px 0}.session-tools button{padding:9px 15px;border:1px solid #b69357;border-radius:9px;background:#2e2a24;color:#f5dfab;font:inherit;cursor:pointer}.session-tools button:focus-visible{outline:3px solid #e5b860}.session-tools output{font-variant-numeric:tabular-nums;font-size:12px;color:#cbd6e5}
 .locked{border:1px solid #5a3434;padding:24px;text-align:center;background:#261c21;border-radius:12px}
 .hidden{display:none!important}
 @media(max-width:760px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}}
@@ -80,6 +82,7 @@ footer{border-top:1px solid #30405b;margin-top:21px;padding-top:18px;color:#a7b5
 <div class="notice">Fictional records only. No Ko-fi, AdSense or Google Play accounts are connected. The vault remains encrypted on your phone. This temporary view automatically expires; it is not a real tax calculation.</div>
 <div id="status" role="status" aria-live="polite">Unlocking private local view…</div>
 <section id="dashboard" class="hidden">
+<div class="session-tools"><button id="lockNow" type="button">Lock now</button><output id="sessionLeft" aria-live="off">Session expires in 10:00</output></div>
 <div class="filters"><label>UK tax year<select id="year"></select></label><label>BDS product<select id="product"></select></label></div>
 <section class="metrics" aria-label="Fictional financial summary">
  <div class="metric"><span>Gross income</span><strong id="income">£0.00</strong><em>Finalised fictional revenue</em></div>
@@ -101,13 +104,37 @@ footer{border-top:1px solid #30405b;margin-top:21px;padding-top:18px;color:#a7b5
  const params=new URLSearchParams(location.hash.replace(/^#/,''));
  let token=params.get('token');
  try{history.replaceState(null,'',location.pathname);}catch(e){}
- let entries=null;
+ let entries=null,locked=false,deadline=0;
  const GBP=new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'});
  const cash=n=>GBP.format(n/100);
  const taxYear=s=>{const y=Number(s.slice(0,4)),m=Number(s.slice(5,7)),d=Number(s.slice(8,10));const start=(m>4||(m===4&&d>=6))?y:y-1;return String(start)+'/'+String((start+1)%100).padStart(2,'0')};
  function opt(select,val,text){const o=document.createElement('option');o.value=val;o.textContent=text;select.append(o)}
  function node(tag,text){const e=document.createElement(tag);e.textContent=text;return e}
- function showLocked(msg){entries=null;token=null;$('dashboard').classList.add('hidden');$('locked').classList.remove('hidden');$('status').setAttribute('role','alert');$('status').textContent=msg}
+ function showLocked(msg){
+  if(locked)return;
+  locked=true;entries=null;token=null;deadline=0;
+  $('dashboard').classList.add('hidden');
+  // Remove decrypted content from the DOM, not just its visibility. This also
+  // prevents accidental browser back/forward snapshot display of old totals.
+  for(const id of ['year','product','bars','breakdown','rows'])$(id).replaceChildren();
+  for(const id of ['income','costs','profit'])$(id).textContent='—';
+  $('counter').textContent='';$('sessionLeft').textContent='Session ended';
+  $('locked').classList.remove('hidden');
+  $('status').setAttribute('role','alert');$('status').textContent=msg;
+ }
+ async function lockNow(){
+   const t=token;
+   // Scrub the browser view immediately, even if the network is unavailable.
+   showLocked('Locked by owner. Return to Termux to start another session.');
+   if(!t)return;
+   try{await fetch('/api/lock',{method:'POST',headers:{Authorization:'Bearer '+t},credentials:'omit',cache:'no-store',redirect:'error'});}catch(e){}
+ }
+ function tick(){
+   if(locked||!deadline)return;
+   const seconds=Math.max(0,Math.ceil((deadline-Date.now())/1000));
+   $('sessionLeft').textContent='Auto-lock in '+String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');
+   if(seconds===0)showLocked('Session timed out. Decrypted sample data cleared.');
+ }
  function bar(host,name,value,max){const row=document.createElement('div');row.className='bar-item';const heading=document.createElement('div');heading.className='bar-name';heading.append(node('span',name),node('strong',cash(value)));const track=document.createElement('div');track.className='bar-bg';const fill=document.createElement('div');fill.className='bar-fill';fill.style.width=(value>0?Math.round(100*value/Math.max(max,1)):0)+'%';track.append(fill);row.append(heading,track);host.append(row)}
  function redraw(){if(!entries)return;
  const yr=$('year').value,pr=$('product').value;
@@ -126,14 +153,22 @@ footer{border-top:1px solid #30405b;margin-top:21px;padding-top:18px;color:#a7b5
  }
  async function start(){if(!/^[a-f0-9]{64}$/.test(token||'')){showLocked('Missing or expired local session key. Return to Termux.');return}
  try{const r=await fetch('/api/ledger',{method:'GET',headers:{Authorization:'Bearer '+token},credentials:'omit',cache:'no-store',redirect:'error'});if(!r.ok)throw Error('This local session is unavailable or expired');const data=await r.json();
+ if(locked)return;
  if(data.mode!=='synthetic-demo'||!Array.isArray(data.entries)||data.entries.length>100)throw Error('Only synthetic samples are supported');
- entries=data.entries;const years=Array.from(new Set(entries.map(x=>taxYear(x.date)))).sort().reverse();const yr=$('year');yr.replaceChildren();years.forEach(y=>opt(yr,y,y));if(years.includes('2026/27'))yr.value='2026/27';
+ entries=data.entries;
+ if(!Number.isFinite(data.secondsRemaining)||data.secondsRemaining<1||data.secondsRemaining>600)throw Error('Invalid session expiry');
+ deadline=Date.now()+Math.max(0,data.secondsRemaining)*1000;tick();
+ const years=Array.from(new Set(entries.map(x=>taxYear(x.date)))).sort().reverse();const yr=$('year');yr.replaceChildren();years.forEach(y=>opt(yr,y,y));if(years.includes('2026/27'))yr.value='2026/27';
  const prod=$('product');prod.replaceChildren();opt(prod,'all','All BDS products');Array.from(new Set(entries.map(x=>x.product))).sort().forEach(p=>opt(prod,p,p));yr.addEventListener('change',redraw);prod.addEventListener('change',redraw);
  $('dashboard').classList.remove('hidden');$('status').textContent='Local encrypted vault unlocked for this temporary session · 10-minute maximum';redraw();
  }catch(e){showLocked('Private session unavailable. Return to Termux to reopen.')}}
- // Browser content goes away after 10 minutes and when the tab becomes hidden.
- setTimeout(()=>showLocked('Session timed out. Decrypted sample data cleared from this page.'),600000);
+ // The server's actual remaining lifetime is returned with the authenticated
+ // data. A browser reload cannot reset the ten-minute server deadline.
+ setInterval(tick,1000);
+ $('lockNow').addEventListener('click',lockNow);
  document.addEventListener('visibilitychange',()=>{if(document.hidden)showLocked('Browser was hidden. Reopen a new session from Termux.')});
+ window.addEventListener('pagehide',()=>showLocked('Page closed. Reopen from Termux.'));
+ window.addEventListener('pageshow',e=>{if(e.persisted)showLocked('Browser history view locked. Reopen from Termux.')});
  start();
 })();
 </script>
@@ -219,6 +254,9 @@ class DashboardHandler(BaseHTTPRequestHandler):
         if self.headers.get('Origin') not in (None, f'http://{self.server.host_port}'):
             self.reply(403, b'Forbidden', 'text/plain; charset=utf-8')
             return False
+        if self.headers.get('Sec-Fetch-Site') not in (None, 'none', 'same-origin'):
+            self.reply(403, b'Forbidden', 'text/plain; charset=utf-8')
+            return False
         if self.server.expired():
             self.reply(410, b'Session expired', 'text/plain; charset=utf-8')
             return False
@@ -234,16 +272,34 @@ class DashboardHandler(BaseHTTPRequestHandler):
             if not hmac.compare_digest(bearer, f'Bearer {self.server.token}'):
                 self.reply(403, b'Forbidden', 'text/plain; charset=utf-8')
                 return
-            payload = {'mode': self.server.mode, 'version': vault.FORMAT_VERSION, 'entries': self.server.entries}
+            payload = {'mode': self.server.mode, 'version': vault.FORMAT_VERSION, 'entries': self.server.entries,
+                       'secondsRemaining': max(1, int(self.server.deadline - time.monotonic()))}
             blob = json.dumps(payload, separators=(',', ':'), ensure_ascii=False).encode('utf-8')
             self.reply(200, blob, 'application/json; charset=utf-8')
         else:
             self.reply(404, b'Not found', 'text/plain; charset=utf-8')
 
     def do_POST(self):
+        if not self._request_ok():
+            return
+        if self.path != '/api/lock':
+            self.reply(405, b'Read-only dashboard', 'text/plain; charset=utf-8')
+            return
+        bearer = self.headers.get('Authorization', '')
+        if not hmac.compare_digest(bearer, f'Bearer {self.server.token}'):
+            self.reply(403, b'Forbidden', 'text/plain; charset=utf-8')
+            return
+        self.reply(200, b'Session locked', 'text/plain; charset=utf-8')
+        # Revoke token and decoded records in the already authenticated server.
+        # The outer request loop then closes its listener promptly.
+        self.server.entries.clear()
+        self.server.token = ''
+        self.server.deadline = time.monotonic() - 1
+
+    def do_unsupported(self):
         self.reply(405, b'Read-only dashboard', 'text/plain; charset=utf-8')
 
-    do_PUT = do_DELETE = do_PATCH = do_OPTIONS = do_POST
+    do_PUT = do_DELETE = do_PATCH = do_OPTIONS = do_unsupported
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -281,6 +337,7 @@ def main(argv: list[str] | None = None) -> int:
             print('Copy URL into your phone browser. The address disappears after opening.')
         try:
             server.run()
+            print('Private dashboard session expired or locked. Vault unchanged.')
         except KeyboardInterrupt:
             server.server_close()
             print('\nPrivate dashboard session closed.')
