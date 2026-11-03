@@ -169,6 +169,27 @@ drop trigger if exists dd_witness_guard_before_insert on public.dd_witness_repor
 create trigger dd_witness_guard_before_insert before insert on public.dd_witness_reports
 for each row execute function public.dd_witness_report_guard();
 
+-- Limit malicious mass flagging. Each individual report can only be flagged once.
+create or replace function public.dd_witness_flag_guard()
+returns trigger language plpgsql security definer set search_path=public as $
+begin
+ if new.reporter_id is distinct from auth.uid() or auth.uid() is null
+    or coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=true then
+  raise exception 'A registered account is required to flag';
+ end if;
+ perform pg_advisory_xact_lock(hashtext('witness-flag-user:'||new.reporter_id::text));
+ if (select count(*) from public.dd_witness_report_flags f
+    where f.reporter_id=new.reporter_id
+      and f.created_at>now()-interval '1 hour')>=20 then
+  raise exception 'Flagging limit reached. Try again later';
+ end if;
+ new.created_at=now();
+ return new;
+end $;
+drop trigger if exists dd_witness_flag_guard_before on public.dd_witness_report_flags;
+create trigger dd_witness_flag_guard_before before insert on public.dd_witness_report_flags
+for each row execute function public.dd_witness_flag_guard();
+
 -- A flag from one account counts once, enforced by PK(report_id,reporter_id).
 -- Five distinct flagging accounts temporarily hide the report from both public list/map.
 create or replace function public.dd_witness_autohide()
