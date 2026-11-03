@@ -50,3 +50,7 @@
 ## Scope
 
 This is an isolated `finance_local/` extension on `boydamo84-coder/disclosure-desk-preview` unpublished development branch `feature/sources-archives-next-batch-nov03`. No action touches public `production`, legacy `disclosure-desk`, W.NE/Our Cinema source projects, Netlify or Supabase.
+
+## Owner-reported Samsung display milestone (2026-11-03 ~23:16 UK)
+
+Owner confirms the fictional-only dashboard looks and displays properly on the Samsung browser. This verifies the visible initial UI from the owner's perspective, **not** independent CSRF/Origin tests on-device, filter correctness, session expiration, locked-screen behaviour or safe use with personal financial data. Keep the local-only sample vault and existing backups unchanged until acceptance tests are complete. No app account or cloud sync is enabled.

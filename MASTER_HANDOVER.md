@@ -40,6 +40,10 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03 ~23:16 UK — SAMSUNG L2 OWNER-REPORTED DISPLAY SUCCESS / REAL-DATA & SECURITY GATES OPEN:** Owner tested the first private L2 Finance Centre browser dashboard on their Samsung using existing synthetic-only Termux vault, and explicitly confirmed **“Yes perfect”** when asked whether the dashboard was displaying nicely. This is a **phone UX/display acceptance report**, not independently observed security, complete filter behaviour, expiry/lock/logout, network-isolation, or financial integration QA. Previously, `finance_local/dashboard.py` read-only local UI plus nine automated L2 server/security tests and L1 tests passed CI run **41736247141 SUCCESS** on Python 3.12/3.14, website regression **41736247039 SUCCESS** at `dfffb15428af973a2a39eb3002b388b3c4efea84`. User reports manually saving an encrypted backup in Google Drive (off-device copy user-confirmed; not independently downloaded/restored). **No genuine financial data, Ko-fi/AdSense/Play sync, tax calculator, Netlify, Supabase, Play release, or live website changes.** Next verify on-device filter/expiry/lock behaviour and a clean Drive recovery drill, then plan opt-in, reviewed real CSV ingestion.
+
+
+
 - **2026-11-03, L2 PRIVATE PHONE DASHBOARD GITHUB CI VERIFIED — SAMSUNG BROWSER TEST PENDING:** Added read-only, synthetic-only `finance_local/dashboard.py`, `finance_local/tests/test_dashboard.py`, `finance_local/DASHBOARD_README.md` and `finance_local/BDS_Finance_L2_Private_Dashboard.zip` on unpublished branch. Dashboard unlocks existing phone-only encrypted L1 vault via hidden Termux passphrase and starts time-limited local 127.0.0.1 server with ephemeral bearer authentication, no persistent browser storage or public network endpoints; shows UK tax years, products, fictional revenue, costs and ledger. Local nine HTTP/security tests plus mobile-size synthetic Chromium visual check passed; **GitHub Actions run 41736247141 SUCCESS** on Python 3.12 and 3.14, including L1 tests and L2 access controls and ZIP/source parity. Site checks **41736247039 SUCCESS** at source commit `dfffb15428af973a2a39eb3002b388b3c4efea84`. Owner reports encrypted L1 backup manually saved to Google Drive, but no independent cloud restore test. **No live finance data, real provider integration, HMRC calculator, public web deploy or actual Samsung L2 UI test.** Next: owner downloads L2 ZIP, extracts with `unzip -n` into existing `$HOME/bds-finance-l1` and runs `python finance_local/dashboard.py`; never share one-time session URL/key. No changes to active vault/backups.
 
 
@@ -248,6 +252,8 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**Finance L2 Samsung display accepted by owner:** BDS private sample dashboard visually displays well in Samsung browser. This is independent of Disclosure Desk's 11-tab site and its pending release batch. Do not claim all security/filters/auto-lock tested by that brief confirmation.
+
 **L1 Termux compatibility fix:** GitHub 17/17 vault tests passed on Python 3.12 and 3.14 (run 41730679400). Waiting for actual Samsung `init` confirmation; keep sample-only. Nothing deployed.
 
 **Termux Finance L1 implementation staged; keep separate from live site.** 14 local automated Linux tests pass, GitHub Actions and Samsung acceptance pending. Code and fictional-only ZIP under `finance_local/`; no tax estimate, owner portal or real income. This doesn't affect the current Disclosure Desk QA/12-tab roadmap.
@@ -317,6 +323,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 5. Release plan: website first, then Android / Google Play
 
+**Finance dashboard stays local and fictional-only:** User-reported mobile L2 display is not a public website release or permission to enable real income/financial connectors; leave production, Netlify and Disclosure Desk Supabase unchanged.
+
 **BDS finance fix is downloadable source ZIP, NOT a site or Play update.** Reuse existing user's Termux installation; no rebuild, Netlify, Supabase or public website work necessary.
 
 **Finance L1 is NOT an Android Play release:** a command-line, passphrase-protected Termux proof only. No separate app signing or public web deployment. Before the next website merge exclude `finance_local/` and `docs/prototypes/` from public deployment output or accept only the explicitly synthetic demonstration as non-sensitive; never publish real finance files.
@@ -337,6 +345,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 **Phase 4 — Play internal test and release preparation:** check Gradle/Android SDK, app ID, target API and Play policy requirements on actual release date; securely configure signed Android App Bundle (AAB) using existing manual `.github/workflows/android-play-internal-aab.yml`; check Play App Signing, release keys, version codes, app icon, screenshots, listing, privacy/data safety, consent/ads implementation, support URL, testing track eligibility, crash-free smoke and multi-device tests. Run internal/closed testing first; production publication requires explicit separate approval. Never publish a debug-signed APK as Play release.
 
 ## 6. Known source paths and supporting records
+
+- L2 Samsung owner acceptance (2026-11-03 ~23:16 UK): `finance_local/dashboard.py`, `finance_local/DASHBOARD_README.md`, `finance_local/BDS_Finance_L2_Private_Dashboard.zip`, automated CI `41736247141`. Screenshot not required to record user's verbal display confirmation; do not store any browser access-key URLs.
 
 - Android Termux missing-os.link fix: `finance_local/vault.py`, `finance_local/tests/test_vault.py`, `finance_local/BDS_Finance_Termux_L1_Android_fix.zip`, corrected canonical ZIP, `finance_local/SHA256SUMS`, and Python 3.12/3.14 workflow; CI 41730679400 SUCCESS.
 
@@ -359,6 +369,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [x] L2 private Finance dashboard visually displays nicely on owner's Samsung (owner confirmation, 2026-11-03); fictional figures only.
+- [ ] Phone verify UK tax-year/product filtering and session timeout/lock; independent localhost/access and browser-cache scrutiny before real-data readiness.
+- [ ] Independently re-download and restore encrypted Drive backup; a reported manual upload is not a recovery drill.
 
 - [x] **L1 actual Samsung encrypted isolated recovery:** `HOME` redirected to fresh test directory, `restore` succeeded without touching normal vault, summary recovered fictional £277.50 profit (2026-11-03 22:36 UK).
 - [ ] **Off-device** independently retrievable encrypted `.bds` copy, SHA-256 match and separate-device restore; no real money accepted until further security/data model review.
@@ -396,6 +410,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Finance follow-up:** L2 private local browser UI is owner-confirmed displayed well. Next on-phone filter + 10-minute timeout/lock tests using fictional data, check local server stops when Termux closes; user-confirm encrypted Drive upload but not recovery. Only after security and provider-parser acceptance implement L3 opt-in CSV imports, never real data in tests/GitHub.
+
 **BDS Finance L2 next acceptance:** CI GREEN run `41736247141`, source `dfffb15428af973a2a39eb3002b388b3c4efea84`. Give owner the L2 ZIP (new `dashboard.py` and README only); in existing Termux test folder run `cd "$HOME/bds-finance-l1" && unzip -n "$HOME/storage/downloads/BDS_Finance_L2_Private_Dashboard.zip" && python finance_local/dashboard.py`. Enter private vault passphrase in Termux, verify Chrome fictional £337 income/£277.50 profit and product filter. Session bearer URL is secret; never ask owner to screenshot/forward it. Ctrl+C ends server. No real data until security review.
 
 
@@ -430,6 +446,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 ~23:16 UK — L2 private Finance dashboard first Samsung viewing accepted
+- Owner replied “Yes perfect” to direct question whether L2 Finance Centre dashboard displays nicely on Samsung. Record **SAMSUNG VERIFIED by user report for visible UI only**. No screenshot, measured real-world performance, browser security probe, filter/timeout acceptance or real financial information was supplied.
+- Source `finance_local/dashboard.py`, `finance_local/DASHBOARD_README.md`, `finance_local/BDS_Finance_L2_Private_Dashboard.zip` on `boydamo84-coder/disclosure-desk-preview`, branch `feature/sources-archives-next-batch-nov03`, previously code-tested at `dfffb15428af973a2a39eb3002b388b3c4efea84`. GitHub Actions `41736247141` and site regression `41736247039` SUCCESS. Current documentation-only next commit HEAD should be rechecked.
+- L1 encrypted sample vault backup/restore previously verified on Samsung; owner reports manually placing ciphertext copy on Google Drive. No independent Drive download/new-device recovery. No public server, Supabase, Netlify, payments/advertising account, production branch or original W.NE modification.
+- Next: real-device L2 filters/session expiry/lock tests, independent Drive restore and further security review before L3 genuine data handling.
+
 
 ### 2026-11-03 — L2 phone dashboard code/test milestone GITHUB CI GREEN (browser/phone pending)
 - Repo `boydamo84-coder/disclosure-desk-preview`, unpublished `feature/sources-archives-next-batch-nov03`. Source commit `dfffb15428af973a2a39eb3002b388b3c4efea84` passes Actions **41736247141** (Python 3.12 and 3.14, existing L1 vault + nine L2 synthetic HTTP security tests + ZIP byte-parity) and website **41736247039** success. Final documentation SHA is subsequent commit; verify branch head. Production at prior checked `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` unchanged.
