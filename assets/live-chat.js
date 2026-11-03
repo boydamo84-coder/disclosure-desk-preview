@@ -6,10 +6,9 @@
 'use strict';
 const URL='https://omqxizswzcwgzqaczlhe.supabase.co',KEY='sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X';
 const make=(tag,className,text)=>{const n=document.createElement(tag);if(className)n.className=className;if(text!==undefined)n.textContent=text;return n};
-let cleanup=()=>{};
-window.ddLiveChatClose=()=>cleanup();
+const cleaners=new Set();
+window.ddLiveChatClose=()=>{for(const dispose of [...cleaners])dispose()};
 window.ddLiveChatMount=(host,event)=>{
- cleanup();
  let active=true,user=null,channel=null,interval=null;
  const db=window.supabase?.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
  const wrapper=make('div','dd-live-chat-room');
@@ -104,12 +103,14 @@ window.ddLiveChatMount=(host,event)=>{
   interval=setInterval(()=>{if(active&&document.visibilityState==='visible')void load()},15000);
  }
  void start();
- cleanup=()=>{
+ const dispose=()=>{
   active=false;
   authListener.data?.subscription?.unsubscribe();
   if(interval)clearInterval(interval);
   if(channel)void db.removeChannel(channel);
+  cleaners.delete(dispose);
  };
- return cleanup;
+ cleaners.add(dispose);
+ return dispose;
 };
 })();
