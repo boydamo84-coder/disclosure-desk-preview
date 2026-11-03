@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, BDS FINANCE CENTRE F1 — OFFLINE SYNTHETIC LEDGER CODE STAGED / GITHUB CI GREEN:** Added one-file fictional-only HTML prototype `docs/prototypes/bds-finance-demo.html` and `scripts/test_bds_finance_demo.cjs`, wired into GitHub-only `validate-sources-directory-staged.yml`. Source test commit `d6106c975fddacf5081bc30ae80029fafa91cdae` passed Actions run **41721383656 SUCCESS**. Test covers UK 6-Apr year rollover, gross/net accounting for fee/refund/expense and excluding estimates/payouts, duplicate import and conflict detection, bad dates, CSV safety, no network resources. Sample dataset calculates £277.50 **fictional** profit for 2026/27. **Not browser/Samsung tested, not private/authenticated, no persistent financial data, no tax calculation or provider sync.** No Netlify, Supabase or Play deployment. Final private tool must not be served publicly from this preview docs/prototypes location after any future release.
+
+
 - **2026-11-03, BDS FINANCE CENTRE F0 — SOLE-TRADER TAX PROFILE OWNER DECISION RECORDED:** Owner confirmed operate as sole trader initially, with potential future limited-company incorporation if BDS becomes profitable. Updated `docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md` to specify 6 Apr–5 Apr tax periods, existing PAYE context needed for accurate additional-tax estimates, £1,000 gross-trading registration checkpoint, and clean effective-date separation for possible future company accounting. Documentation only; structure NOT proof of HMRC registration. No tax calculator, provider sync, financial data, login or deployed dashboard. F1 synthetic offline ledger is next, after privacy-safe data requirements review. GitHub-only staging QA **SUCCESS**, run `41719897014` at source commit `156ff9564dc08280d7f361ab6a2ba709fe6c3e9a` (static checks; not browser/tax/integration verified).
 
 
@@ -215,6 +218,8 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**Parallel Finance F1 result (GitHub CI GREEN):** synthetic offline demo at `docs/prototypes/bds-finance-demo.html`; details and limitations in `docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md`. The Finance Centre's real-data F2 owner-only backend/security and F3 provider sync are **NOT BUILT**. No extra public nav tab and no finance deployment; don't let this prototype block existing Disclosure Desk website work.
+
 **BDS Finance F0 updated (2026-11-03):** owner chose sole-trader for now, future optional incorporation. See Finance Centre roadmap. No reason to put a tax or payment dashboard in public Disclosure Desk; finances remain a separate owner-only planned tool, not a blocker to this website's QA queue.
 
 **Owner-only BDS Finance Centre is a separate planned cross-product tool, NOT a blocker for the next Disclosure Desk website batch.** Design: `docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md`; no implementation/automatic collection or tax calculation exists. Preserve public navigation and current branch release boundaries.
@@ -285,6 +290,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 6. Known source paths and supporting records
 
+- BDS Finance sample-only prototype: `docs/prototypes/bds-finance-demo.html`, `docs/prototypes/README.md`; GitHub tests `scripts/test_bds_finance_demo.cjs`. HTML may be publicly served by a future whole-branch deploy, so exclude/private-host before any real financial use.
+
 - Future private business finance dashboard (design only): `docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md`; no current code or financial records.
 
 - Website: `index.html`, `cloud-boards.js`, `assets/*`, `community-rules.html`, `privacy.html`, `sources.html`, `research/*`, `supabase/*`.
@@ -295,6 +302,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [ ] F1 finance demo is **sample-only and unpublished**; don't accidentally publish it in public static deploy output; separate owner-only privacy/RLS, secure backups and real provider connections required before real data.
 
 - [ ] No proposed BDS financial data/provider authorisation exposed via the public website; Finance Centre has no release approval and requires owner-only security/RLS and tax-assumption testing first.
 
@@ -313,6 +322,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Finance F1 next step:** GitHub CI **SUCCESS** run `41721383656` at `d6106c975fddacf5081bc30ae80029fafa91cdae`; owner can download and manually test single HTML demo from unpublished GitHub branch. For F2, first security architecture/owner-only backend/recovery plan with separate private endpoint; no real financial data, tokens or tax owed calculations until that boundary is proven. Keep current Disclosure Desk website QA moving.
+
 **Finance next action:** F1 standalone synthetic-data offline ledger, with backups/exports and real data entry disabled pending privacy/security requirements; optional owner info for start date, PAYE and expenses when estimating real tax. Do not change existing PAYE or tax history assumptions, and do not imply sole trader equals a Companies House company.
 
 **Parallel finance roadmap:** Before real data, confirm business legal form (sole trader/company), whether BDS income across all apps should be combined, and optional annual PAYE context. If approved, build F1 synthetic local prototype, not public release. Continue existing Disclosure Desk QA/repair queue independently.
@@ -323,6 +334,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — BDS Finance F1 offline fictional ledger prototype, CI GREEN
+- Repo `boydamo84-coder/disclosure-desk-preview`, branch `feature/sources-archives-next-batch-nov03`; feature source code commits `ed80b05c333ca923db2e20993f777db5ec4f5e20` (demo), `8a9a86f6572217aa8dc6bfd74ef9742fdfbb5dd3` (tests), `1bf4081d1bd0251cf2be4b01c16e37ac79c3ea13` (CI), `d0959f03e709aa8bf41bca0eb7b67260d65931c7` (duplicate conflict guard), `d6106c975fddacf5081bc30ae80029fafa91cdae` (test extension). The handover/roadmap/README commit is the resulting latest branch HEAD after this entry, verify with GitHub branch status.
+- Verified automated GitHub-only Actions run `41721383656` **SUCCESS** at code SHA `d6106c975fddacf5081bc30ae80029fafa91cdae`; tested sample date/year boundary, revenue/profit, no estimate/payout duplication, fee/refund filters, JSON import idempotency/conflicts, invalid entries, CSV mitigation, offline-source constraints. No phone/browser rendering performed and no actual owner banking/tax data.
+- Staged files: `docs/prototypes/bds-finance-demo.html`, `scripts/test_bds_finance_demo.cjs`, `.github/workflows/validate-sources-directory-staged.yml`, `docs/prototypes/README.md`, Finance roadmap and MASTER_HANDOVER. No live access control; prototype is only suitable for *fake examples*.
+- Release/data: `production` unchanged at `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` when checked, no Supabase backend changes, no Netlify staging or public deployment, no Android app signing/Play action, no real account connection, no effect on other BDS products.
+- Next: let owner test prototype offline with fictional entries; F2 owner-only security architecture before accepting real income, then selective provider connections and an HMRC-reviewed tax estimator later. Make sure docs/prototypes HTML is excluded from future public build or published only as a harmless synthetic example.
+
 
 ### 2026-11-03 — Sole-trader classification confirmed for Finance Centre (F0 partially specified)
 - Repo/branch `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior head `34c817c5e6a08de17e0af9bb5cffec7ffdcdd8ee`; resulting SHA is the single two-file milestone commit HEAD; verify GitHub Actions and new head after update.
