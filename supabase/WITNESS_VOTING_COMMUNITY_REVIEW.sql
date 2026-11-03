@@ -185,7 +185,7 @@ begin
  end if;
  new.created_at=now();
  return new;
-end $;
+end $$;
 drop trigger if exists dd_witness_flag_guard_before on public.dd_witness_report_flags;
 create trigger dd_witness_flag_guard_before before insert on public.dd_witness_report_flags
 for each row execute function public.dd_witness_flag_guard();
