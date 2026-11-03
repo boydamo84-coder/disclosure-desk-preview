@@ -55,12 +55,22 @@ try{
   await page.locator('#livePage').waitFor({state:'visible'});
   await page.locator('[data-tab="watchRead"]').scrollIntoViewIfNeeded();await page.locator('[data-tab="watchRead"]').click();
   await page.locator('#watchRead').waitFor({state:'visible'});
+  // Preserve each production navigation route. The old main-only video smoke
+  // expects hidden controls and is not valid against this 9-tab production base.
+  for(const route of ['discover','archivePage','mapPage','clips','boards','witness']){
+    await page.locator('[data-tab="'+route+'"]').scrollIntoViewIfNeeded();
+    await page.locator('[data-tab="'+route+'"]').click();
+    await page.locator('#'+route).waitFor({state:'visible'});
+  }
   await page.goto(base+'research/guest-preview.html',{waitUntil:'domcontentloaded'});
   equal((await page.locator('body').innerText()).includes('read-only demonstration'),true,profile+' guest preview readonly');
   await page.locator('[data-section="1"]').click();
   equal((await page.locator('#sample').innerText()).includes('2. Evidence'),true,profile+' guest sample section');
   await page.goto(base+'privacy.html',{waitUntil:'domcontentloaded'});
   equal((await page.locator('body').innerText()).includes('W.NE Research Edition'),true,profile+' policy covers W.NE');
+  await page.goto(base+'research-edition.html',{waitUntil:'domcontentloaded'});
+  equal((await page.locator('h1').innerText()).includes('Write. Nothing Else.'),true,profile+' indexable public W.NE overview');
+  equal(await page.locator('link[rel="canonical"]').getAttribute('href'),'https://uapdisclosuredesk.com/research-edition.html',profile+' canonical public page');
   console.log(profile+': W.NE tab, existing LIVE/Watch & Read tabs, full tour, focused tour, Explore, About, contact, footer, guest preview and Privacy Policy passed');
   await context.close();
  }
