@@ -20,6 +20,8 @@ create table if not exists public.dd_chat_pairs(
  status text not null default 'pending' check(status in ('pending','accepted','declined')),
  created_at timestamptz not null default now(),
  answered_at timestamptz,
+ inviter_read_at timestamptz,
+ invitee_read_at timestamptz,
  check(inviter_id<>invitee_id)
 );
 -- One invite per unordered pair for v1: refusal cannot be circumvented by reversing direction.
@@ -159,7 +161,8 @@ end $$;
 
 create or replace function public.dd_chat_my_pairs()
 returns table(pair_id uuid,direction text,other_username text,initial_preview text,
- status text,created_at timestamptz,answered_at timestamptz,contact_unavailable boolean)
+ status text,created_at timestamptz,answered_at timestamptz,
+ contact_unavailable boolean,unread_count integer)
 language sql stable security definer set search_path=pg_catalog,public as $$
  select p.id,
   case when p.inviter_id=auth.uid() then 'sent' else 'received' end,
@@ -167,7 +170,12 @@ language sql stable security definer set search_path=pg_catalog,public as $$
   p.initial_preview,p.status,p.created_at,p.answered_at,
   exists(select 1 from public.dd_chat_blocks b where
    (b.blocker_id=p.inviter_id and b.blocked_id=p.invitee_id) or
-   (b.blocker_id=p.invitee_id and b.blocked_id=p.inviter_id))
+   (b.blocker_id=p.invitee_id and b.blocked_id=p.inviter_id)),
+  (select count(*)::integer from public.dd_chat_messages m
+   where m.pair_id=p.id and m.author_id<>auth.uid()
+    and (case when p.inviter_id=auth.uid() then p.inviter_read_at else p.invitee_read_at end is null
+     or m.created_at>case when p.inviter_id=auth.uid()
+       then p.inviter_read_at else p.invitee_read_at end))
  from public.dd_chat_pairs p
  left join public.dd_public_names n on n.user_id=
    (case when p.inviter_id=auth.uid() then p.invitee_id else p.inviter_id end)
@@ -195,6 +203,38 @@ begin
  select m.id,m.author_id=auth.uid(),m.body,m.created_at
  from public.dd_chat_messages m where m.pair_id=p_pair_id
  order by m.created_at desc,m.id desc limit p_limit;
+end $$;
+
+-- Mark only a message the participant actually selected from the accepted pair.
+-- No arbitrary future timestamp can be supplied by the browser.
+create or replace function public.dd_chat_mark_read(p_pair_id uuid,p_last_message_id uuid)
+returns boolean language plpgsql security definer set search_path=pg_catalog,public as $$
+declare actor uuid:=auth.uid(); p record; seen timestamptz;
+begin
+ if actor is null or coalesce((auth.jwt()->>'is_anonymous')::boolean,false)
+ then raise exception 'Registered account required';end if;
+ if p_pair_id is null or p_last_message_id is null
+ then raise exception 'Invalid read marker';end if;
+ select * into p from public.dd_chat_pairs
+ where id=p_pair_id and status='accepted'
+  and (inviter_id=actor or invitee_id=actor) for update;
+ if not found then return false;end if;
+ if exists(select 1 from public.dd_chat_blocks b
+  where (b.blocker_id=p.inviter_id and b.blocked_id=p.invitee_id)
+    or (b.blocker_id=p.invitee_id and b.blocked_id=p.inviter_id))
+ then return false;end if;
+ select m.created_at into seen from public.dd_chat_messages m
+ where m.id=p_last_message_id and m.pair_id=p_pair_id;
+ if seen is null then return false;end if;
+ update public.dd_chat_pairs q
+ set inviter_read_at=case when actor=q.inviter_id then
+     greatest(coalesce(q.inviter_read_at,'-infinity'::timestamptz),seen)
+     else q.inviter_read_at end,
+  invitee_read_at=case when actor=q.invitee_id then
+     greatest(coalesce(q.invitee_read_at,'-infinity'::timestamptz),seen)
+     else q.invitee_read_at end
+ where q.id=p_pair_id;
+ return true;
 end $$;
 
 create or replace function public.dd_chat_block(p_pair_id uuid)
@@ -258,6 +298,7 @@ revoke all on function public.dd_chat_send_message(uuid,text) from PUBLIC,anon,a
 revoke all on function public.dd_chat_my_pairs() from PUBLIC,anon,authenticated;
 revoke all on function public.dd_chat_history(uuid,integer) from PUBLIC,anon,authenticated;
 revoke all on function public.dd_chat_block(uuid) from PUBLIC,anon,authenticated;
+revoke all on function public.dd_chat_mark_read(uuid,uuid) from PUBLIC,anon,authenticated;
 revoke all on function public.dd_chat_report(uuid,text,uuid) from PUBLIC,anon,authenticated;
 revoke all on function public.dd_chat_report_queue(integer) from PUBLIC,anon,authenticated;
 grant execute on function public.dd_chat_request(text,text) to authenticated;
@@ -266,6 +307,7 @@ grant execute on function public.dd_chat_send_message(uuid,text) to authenticate
 grant execute on function public.dd_chat_my_pairs() to authenticated;
 grant execute on function public.dd_chat_history(uuid,integer) to authenticated;
 grant execute on function public.dd_chat_block(uuid) to authenticated;
+grant execute on function public.dd_chat_mark_read(uuid,uuid) to authenticated;
 grant execute on function public.dd_chat_report(uuid,text,uuid) to authenticated;
 grant execute on function public.dd_chat_report_queue(integer) to authenticated;
 commit;

@@ -49,3 +49,10 @@ A review-only candidate lives at `supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql` with
 - Drafted disposable PostgreSQL 17 workflow `.github/workflows/validate-private-chat-isolated.yml` plus synthetic fixture and malicious/ordinary account acceptance tests (pending/accepted/declined, separate preview, rate/block/report, participant vs owner, anonymous vs authenticated, direct table ACL). This is **not** the live Supabase project.
 - UI reopens the selected accepted chat when refreshing after sending/acceptance and avoids requesting history for a blocked pair. These are source-level changes only.
 - **Remaining before deployment:** pass isolated CI, review full auth/username assumptions on actual backend, unread indicators, owner reports UI, account deletion/export retention, user-consent privacy text, real two-account desktop/phone QA and Android parity. Live backend untouched.
+
+## 3 November 2026 — unread state and source-stable chat UX (staged)
+
+- `dd_chat_my_pairs` includes a server-derived unread count using participant-specific last-read timestamp markers. The new `dd_chat_mark_read(pair_id,message_id)` RPC validates an actual accepted-pair message, prevents arbitrary future read times and blocks cross-account or blocked changes. Raw user UUIDs and message bodies are not exposed through the unread list.
+- Profile Chat now displays **N unread** in its Accepted list, records last displayed message as read, keeps the selected chat visible after refresh, and renders the introductory message only in pending preview or accepted history (never duplicated).
+- Disposable real-PostgreSQL acceptance extended: intro unread → mark read; other participant replies → unread; stranger cannot mark read; 30 messages/10-min and 5 outgoing invites/day limits enforced.
+- Still feature-flagged off, no Supabase migration, no browser/phone QA or active push notifications. Real-time push is a separately consented later step.

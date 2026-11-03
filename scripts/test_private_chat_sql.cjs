@@ -15,6 +15,7 @@ assert.match(sql,/from PUBLIC,anon,authenticated/);
 const procedures=[
  ['dd_chat_request','text,text'],['dd_chat_respond','uuid,boolean'],['dd_chat_send_message','uuid,text'],
  ['dd_chat_my_pairs',''],['dd_chat_history','uuid,integer'],['dd_chat_block','uuid'],
+ ['dd_chat_mark_read','uuid,uuid'],
  ['dd_chat_report','uuid,text,uuid'],['dd_chat_report_queue','integer']
 ];
 for(const [name,args] of procedures){
@@ -54,3 +55,11 @@ assert.match(acceptance,/Blocked counterpart can still read messages/);
 assert.match(acceptance,/Reverse declined request succeeded/);
 assert.match(acceptance,/Accepted introduction not first chat message/);
 assert.match(acceptance,/Anonymous database role executed chat private RPC/);
+
+
+assert.match(sql,/inviter_read_at timestamptz/);
+assert.match(sql,/invitee_read_at timestamptz/);
+assert.match(sql,/unread_count integer/);
+assert.match(sql,/create or replace function public\.dd_chat_mark_read/);
+assert.match(sql,/where m\.id=p_last_message_id and m\.pair_id=p_pair_id/,
+ 'Read marker is tied to a real message inside this accepted pair');

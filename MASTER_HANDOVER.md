@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, 1:1 Chat unread & rate-limit acceptance staged, CI PENDING:** core disposable PostgreSQL multi-account security integration **SUCCESS** at run `41709436663` (commit `ba19ec4a387c9cea1e495d60d78d913734558ca9`); website static CI `41709436631` SUCCESS. Expanded review-only SQL candidate with per-user unread/read-marker RPC and source-tested chat UI unread badges and active-conversation preservation. Added real Postgres tests for cross-user read-marker rejection and invite/message quota. Still privateChat OFF and live backend UNTOUCHED.
+
 - **2026-11-03, isolated private-chat acceptance fixture privilege fix STAGED:** disposable PostgreSQL run `41709194498` reached role tests and correctly rejected a direct `SELECT` on `dd_chat_messages`. The acceptance fixture accidentally tried to inspect a private table *without trapping the expected denial*. Corrected fixture to use only safe participant RPCs, preserving separate direct-privilege rejection test; source CI `41709194184` SUCCESS. Isolated test rerun pending; schema not applied.
 
 - **2026-11-03, PRIVATE 1:1 CHAT ISOLATED SECURITY TEST MILESTONE (staged, CI PENDING):** Backend candidate corrected to persist the introductory request once on acceptance, reject history after blocking, protect message-send vs block race, expose safe contact-unavailable bool. Added disposable PostgreSQL 17 multi-account CI (fixture+acceptance) and refreshed UI active-conversation handling. Still `privateChat:false`; **NO live Supabase schema applied, messaging NOT usable**, no Netlify/Android build. Exact files/workflow in `docs/PROFILE_PRIVATE_CHAT_ROADMAP_2026-11-03.md`.
@@ -283,6 +285,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Unread badge, real per-user read marker and rate-limit QA
+- Repo/branch `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; preceding commit `ba19ec4a387c9cea1e495d60d78d913734558ca9`; new branch HEAD this milestone.
+- Prior real disposable PostgreSQL 17 Chat integration run **`41709436663` SUCCESS**; website source QA **`41709436631` SUCCESS**. Verified invitation consent, two-party isolation, preview acceptance, decline, block, owner-only selected reports, anon denial and direct-table ACL.
+- Enhanced UNAPPLIED `supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql` with separate `inviter_read_at`/`invitee_read_at`, private `dd_chat_mark_read(uuid,uuid)` validated against a real accepted-pair message, safe `unread_count` in participant-only pair list. Client unread labels and read markers after opening chat; pending-intro not shown twice. Extended disposable synthetic PostgreSQL tests to cover read-marker ownership, unread transitions, 5 invites/day and 30 messages/10 min.
+- No real backend applied, privateChat remains disabled, no Netlify build/publish, no Android release, no real-account cross-device QA. New CI pending.
+
+
 
 ### 2026-11-03 — Isolated chat SQL correctly blocks Data API table read
 - SHA before fix `7c98be683f9a9317ad0b560f549b575dc4e0d854`. GitHub static website CI `41709194184` **SUCCESS**. Real isolated PostgreSQL run `41709194498` **FAILED** at line 24 of test script: `permission denied for table dd_chat_messages`, exactly the intended backend privacy restriction, but the test mistakenly expected to read private table as ordinary authenticated role.

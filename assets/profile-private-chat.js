@@ -35,7 +35,9 @@ function clear(){rows=[];currentId=null;ownerId=null;received?.replaceChildren()
 function drawList(target,list){
  target.replaceChildren();if(!list.length){entry(target,'Nothing here yet.');return}
  for(const row of list){
-  const label=(row.other_username||'Researcher')+' · '+(row.status==='pending'?'Awaiting acceptance':row.status);
+  const unread=Math.max(0,Number(row.unread_count)||0);
+  const suffix=row.status==='accepted'&&!row.contact_unavailable&&unread>0?' · '+unread+' unread':'';
+  const label=(row.other_username||'Researcher')+' · '+(row.status==='pending'?'Awaiting acceptance':row.status)+suffix;
   button(target,label,()=>{currentId=row.pair_id;return openConversation(row)});
  }
 }
@@ -63,9 +65,11 @@ async function refresh(){
 async function openConversation(row){
  conversation.replaceChildren();
  const title=mk('h4',row.other_username||'Private chat');conversation.append(title);
- const intro=mk('article',undefined,'dd-chat-bubble');
- intro.append(mk('small',row.direction==='sent'?'Your invitation':'Invitation preview'),mk('p',row.initial_preview||''));
- conversation.append(intro);
+ if(row.status==='pending'){
+  const intro=mk('article',undefined,'dd-chat-bubble');
+  intro.append(mk('small',row.direction==='sent'?'Your invitation':'Invitation preview'),mk('p',row.initial_preview||''));
+  conversation.append(intro);
+ }
  const actions=mk('div',undefined,'dd-profile-actions');conversation.append(actions);
  const pairId=row.pair_id;
  if(row.status==='pending'){
@@ -104,6 +108,15 @@ async function openConversation(row){
      },'Selected message reported for owner review.');
     });
     history.append(item);
+   }
+   const lastMessageId=(data||[])[0]?.message_id;
+   if(lastMessageId&&currentId===pairId){
+    const seen=await c.rpc('dd_chat_mark_read',{p_pair_id:pairId,p_last_message_id:lastMessageId});
+    if(!seen.error&&seen.data===true&&currentId===pairId){
+     row.unread_count=0;
+     drawList(accepted,rows.filter(x=>x.status==='accepted'));
+     drawList(received,rows.filter(x=>x.status!=='accepted'));
+    }
    }
   }catch(e){entry(history,'History is temporarily unavailable. '+String(e?.message||'').slice(0,100))}
   if(row.contact_unavailable)entry(conversation,'This conversation is blocked. Messages and history are unavailable.');

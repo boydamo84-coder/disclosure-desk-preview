@@ -41,6 +41,14 @@ begin
  select public.dd_chat_respond((select id from chat_test_ids where label='ab'),true) into result;
  if result then raise exception 'Nonparticipant accepted invitation';end if;
 end $$;
+-- C cannot mark messages as seen in someone else's pair.
+do $$
+declare denied boolean;
+begin
+ if public.dd_chat_mark_read((select id from chat_test_ids where label='ab'),
+    '00000000-0000-0000-0000-000000000099') then
+  raise exception 'Outsider falsely marked private chat as read';end if;
+end $$;
 -- Recipient sees only one preview and may accept.
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000002',false);
 do $$
@@ -67,6 +75,23 @@ begin
   (select id from chat_test_ids where label='ab'),100))<>1
  then raise exception 'Duplicate initial message after repeated accept';end if;
 end $$;
+
+-- B receives one unread first message when A's pending invite is accepted.
+select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000002',false);
+do $$
+declare seen_id uuid;ok boolean;
+begin
+ if (select unread_count from public.dd_chat_my_pairs()
+   where pair_id=(select id from chat_test_ids where label='ab'))<>1
+ then raise exception 'Accepted intro must appear as one unread message for recipient';end if;
+ select message_id into seen_id from public.dd_chat_history(
+  (select id from chat_test_ids where label='ab'),100) limit 1;
+ select public.dd_chat_mark_read((select id from chat_test_ids where label='ab'),seen_id) into ok;
+ if not ok then raise exception 'Recipient failed to acknowledge a displayed message';end if;
+ if (select unread_count from public.dd_chat_my_pairs()
+   where pair_id=(select id from chat_test_ids where label='ab'))<>0
+ then raise exception 'Read marker failed to clear recipient unread counter';end if;
+end $$;
 -- Accepted two-way messaging.
 select public.dd_chat_send_message((select id from chat_test_ids where label='ab'),'Found the government archive!');
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000001',false);
@@ -76,6 +101,23 @@ begin
  if (select count(*) from public.dd_chat_history(
  (select id from chat_test_ids where label='ab'),100))<>3
  then raise exception 'Two-way chat history missing';end if;
+end $$;
+
+-- A must see B's unread reply, then marking the actual loaded message clears it.
+do $$
+declare seen_id uuid;ok boolean;
+begin
+ if (select unread_count from public.dd_chat_my_pairs()
+   where pair_id=(select id from chat_test_ids where label='ab'))<>1
+ then raise exception 'Sender missing unread message from recipient';end if;
+ select message_id into seen_id from public.dd_chat_history(
+  (select id from chat_test_ids where label='ab'),100)
+  order by sent_at desc limit 1;
+ select public.dd_chat_mark_read((select id from chat_test_ids where label='ab'),seen_id) into ok;
+ if not ok then raise exception 'Sender failed read marker';end if;
+ if (select unread_count from public.dd_chat_my_pairs()
+   where pair_id=(select id from chat_test_ids where label='ab'))<>0
+ then raise exception 'Sender unread not cleared';end if;
 end $$;
 -- A self-request must be rejected even if public.
 do $$
@@ -92,6 +134,21 @@ begin
  begin perform public.dd_chat_request('Researcher07','I would like to discuss a case');
  exception when others then denied:=true;end;
  if not denied then raise exception 'Opt-out ignored';end if;
+end $$;
+-- Synthetic per-user message throttling: 30 in ten minutes are allowed;
+-- an additional one is denied by the server. B already sent one message.
+select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000002',false);
+do $$
+declare i integer;denied boolean:=false;
+begin
+ for i in 1..29 loop
+  perform public.dd_chat_send_message((select id from chat_test_ids where label='ab'),
+   'Synthetic message burst '||i::text);
+ end loop;
+ begin perform public.dd_chat_send_message((select id from chat_test_ids where label='ab'),
+  'Thirty-first blocked message');
+ exception when others then denied:=true;end;
+ if not denied then raise exception 'Message rate cap failed';end if;
 end $$;
 -- Participant B explicitly reports one selected message (NOT whole history).
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000002',false);
@@ -177,6 +234,19 @@ begin
  begin perform public.dd_chat_request('Researcher05','Try a second time');
  exception when others then denied:=true;end;
  if not denied then raise exception 'Repeated declined request succeeded';end if;
+end $$;
+-- Five outgoing invite requests per account in a rolling day, not six.
+select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000001',false);
+select public.dd_chat_request('Researcher03','Hello, looking for researchers');
+select public.dd_chat_request('Researcher04','Hello, looking for researchers');
+select public.dd_chat_request('Researcher05','Hello, looking for researchers');
+select public.dd_chat_request('Researcher06','Hello, looking for researchers');
+do $$
+declare denied boolean:=false;
+begin
+ begin perform public.dd_chat_request('Researcher08','Sixth invite must fail');
+ exception when others then denied:=true;end;
+ if not denied then raise exception 'Daily request rate cap failed';end if;
 end $$;
 -- Anonymous JWT is not an authenticated human even under authenticated PG role.
 select set_config('request.jwt.claims','{"is_anonymous":true}',false);
