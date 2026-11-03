@@ -24,5 +24,7 @@ assert.match(idx,/kind==='archive'/,'Profile comments navigate to archive');
 assert.match(idx,/kind==='media'/,'Profile comments navigate to Watch & Read');
 assert.match(rules,/The first four valid flags/);
 assert.match(rules,/5 flags from distinct registered accounts/);
-assert.match(mod,/Community-hidden comments/);
+assert.match(mod,/Community review · Hidden content/,'Combined moderator title must describe hidden content');
+assert.match(mod,/dd_witness_moderation_queue/,'Combined review includes hidden witness reports');
+assert.match(mod,/dd_case_comment_moderation_queue/,'Combined review still includes hidden comments');
 console.log('PASS: automatic comments, five distinct flags hide, queue only hidden, and News/Archive/Video/Watch & Read coverage');
