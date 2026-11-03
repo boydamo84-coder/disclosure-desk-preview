@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, L2 PRIVATE PHONE DASHBOARD GITHUB CI VERIFIED — SAMSUNG BROWSER TEST PENDING:** Added read-only, synthetic-only `finance_local/dashboard.py`, `finance_local/tests/test_dashboard.py`, `finance_local/DASHBOARD_README.md` and `finance_local/BDS_Finance_L2_Private_Dashboard.zip` on unpublished branch. Dashboard unlocks existing phone-only encrypted L1 vault via hidden Termux passphrase and starts time-limited local 127.0.0.1 server with ephemeral bearer authentication, no persistent browser storage or public network endpoints; shows UK tax years, products, fictional revenue, costs and ledger. Local nine HTTP/security tests plus mobile-size synthetic Chromium visual check passed; **GitHub Actions run 41736247141 SUCCESS** on Python 3.12 and 3.14, including L1 tests and L2 access controls and ZIP/source parity. Site checks **41736247039 SUCCESS** at source commit `dfffb15428af973a2a39eb3002b388b3c4efea84`. Owner reports encrypted L1 backup manually saved to Google Drive, but no independent cloud restore test. **No live finance data, real provider integration, HMRC calculator, public web deploy or actual Samsung L2 UI test.** Next: owner downloads L2 ZIP, extracts with `unzip -n` into existing `$HOME/bds-finance-l1` and runs `python finance_local/dashboard.py`; never share one-time session URL/key. No changes to active vault/backups.
+
+
 - **2026-11-03 22:36 UK — L1 SAMSUNG ISOLATED RESTORE VERIFIED 22:36:** Owner's screenshot confirms actual Termux success for `HOME="$HOME/bds-finance-restore-test" python finance_local/vault.py restore "$BACKUP"` with `BACKUP="$HOME/bds-finance-sample-backup.bds"`. CLI displayed **"Encrypted backup restored into private Termux HOME. No previous vault overwritten."** Follow-up `summary --year 2026/27` against the restored **separate test HOME** again showed 9 in-year records, £337.00 fictional income, £19.00 refunds, £28.50 fees, £12.00 expenses, and **£277.50 fictional profit**; 10 total preset records in source were previously authenticated. Thus L1 **SAMSUNG VERIFIED for init, sample insert, summary, encrypted backup, verify, isolated restore and recovered totals**. This does **not** establish off-device disaster recovery, independent security review, encrypted cloud backup, real-income readiness or automatic provider integrations. No access to owner's passphrase or encrypted files. **Next:** optional user-led copy of the existing `.bds` ciphertext to Downloads followed by SHA-256 equality check and manual encrypted off-phone copy (Drive or USB); no deletions, no reinstall, no live deployments.
 
 
@@ -393,6 +396,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**BDS Finance L2 next acceptance:** CI GREEN run `41736247141`, source `dfffb15428af973a2a39eb3002b388b3c4efea84`. Give owner the L2 ZIP (new `dashboard.py` and README only); in existing Termux test folder run `cd "$HOME/bds-finance-l1" && unzip -n "$HOME/storage/downloads/BDS_Finance_L2_Private_Dashboard.zip" && python finance_local/dashboard.py`. Enter private vault passphrase in Termux, verify Chrome fictional £337 income/£277.50 profit and product filter. Session bearer URL is secret; never ask owner to screenshot/forward it. Ctrl+C ends server. No real data until security review.
+
+
+
 **Finance L1 after on-phone recovery success:** do **NOT** repeat the restore against the real default HOME, and do not delete either vault. Safely copy `$HOME/bds-finance-sample-backup.bds` ciphertext to a distinct path under `$HOME/storage/downloads/` (if storage permission already granted), then `sha256sum` both files and compare; owner manually puts encrypted file onto a separate USB-C drive or personal cloud and verifies access. An on-device Downloads copy alone is **not** an off-device backup. Once completed, mark L1 off-device recovery/backup gate separately; L2 private local dashboard can be prototyped with fictional-only data. No Netlify, Supabase, provider API or tax change.
 
 **L1 phone backup update (2026-11-03 22:31 UK):** encrypted backup **CREATED and VERIFIED ON SAMSUNG**, with all 10 fictional records authenticated from the backup. **No restore has been performed.** Next test must use `finance_local.vault.restore` targeting a new `~/.bds-finance-restore-test` directory, not the active `.bds-finance`. Verify 2026/27 £277.50 imaginary profit after restore; keep original vault intact and avoid exposing any passphrase. Off-device encrypted backup still required for loss recovery.
@@ -423,6 +430,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — L2 phone dashboard code/test milestone GITHUB CI GREEN (browser/phone pending)
+- Repo `boydamo84-coder/disclosure-desk-preview`, unpublished `feature/sources-archives-next-batch-nov03`. Source commit `dfffb15428af973a2a39eb3002b388b3c4efea84` passes Actions **41736247141** (Python 3.12 and 3.14, existing L1 vault + nine L2 synthetic HTTP security tests + ZIP byte-parity) and website **41736247039** success. Final documentation SHA is subsequent commit; verify branch head. Production at prior checked `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` unchanged.
+- Added `finance_local/dashboard.py`, `finance_local/tests/test_dashboard.py`, `finance_local/DASHBOARD_README.md`, `finance_local/BDS_Finance_L2_Private_Dashboard.zip`; existing vault implementation and phone-only encrypted files not changed. Demo offline UI tested in headless Chromium mocked-data viewport only, not actual Samsung Chrome/Termux; fictional 2026/27 profit £277.50 expected.
+- Owner says manual encrypted backup uploaded to Google Drive, but remote copy integrity/off-device restoration unverified. No payment provider credentials, donor data, real revenue, HMRC tax liability, live community site changes, Netlify deploy, Supabase migration or Play release.
+- Next: actual Samsung unlock/UI/filters/expiry acceptance with private temporary session, then continue local-only security/recovery gates.
+
+
 
 ### 2026-11-03 22:36 UK — L1 Samsung encrypted recovery from independent test HOME verified
 - Real phone screenshot: user restored existing 10-record fictional encrypted backup into `$HOME/bds-finance-restore-test/.bds-finance` by using temporary `HOME` override for the one command. Tool confirmed **no previous vault overwritten**. Separate test HOME summary `2026/27`: 9 in-year fictional records, £337 gross income, £19 refunds, £28.50 fees, £12 expenses; fictional profit £277.50. Original encrypted vault remains in normal `$HOME/.bds-finance` and no destruction was requested.
