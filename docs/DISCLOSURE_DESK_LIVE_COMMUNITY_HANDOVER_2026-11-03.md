@@ -132,6 +132,11 @@ W.NE is presented as **W.NE Research Studio**, in Disclosure Desk navy/gold styl
 
 - Supabase `dd_public_names.name_key` is **GENERATED ALWAYS** from the display name, not user-writable. The staged profile upsert incorrectly supplied it. Removed that field, aligned staged username SQL check with its generated normaliser (including underscores), and strengthened static test. Test was rollback-only, so no account data or schema changed. Run the guest opt-in/hidden-comment alias rollback test again; real HTTP/JWT acceptance still required.
 
+## Username opt-in guest read QA — 3 November 2026
+
+- Supabase rollback test after generated-column fix passed: no public name before opt-in, cross-account raw profile SELECT denied, opted-in display name returned only for approved public comment, hidden comment name suppressed. No test data or schema persisted. All comment self-moderation and public read migrations are still staged for combined beta acceptance.
+- GitHub-only CI run [41586352883](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41586352883) passed on functional five-flag, archive, video and Watch & Read wiring. Later username-fix CI was still running during this note; verify its completion before release claims.
+
 ## 6. Non-negotiable product/safety notes
 - No fake hearing dates, fake LIVE state, public/private document leak or precise witness locations.
 - Users may submit reports about unverified experiences; “published” does NOT mean Disclosure Desk authenticated the claim.
