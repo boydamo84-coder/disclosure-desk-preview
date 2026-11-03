@@ -33,6 +33,9 @@ jobs:
           node scripts/test_witness_geocoding.cjs
           node --check scripts/test_public_profiles.cjs
           node scripts/test_public_profiles.cjs
+          node --check scripts/test_research_hub.cjs
+          node scripts/test_research_hub.cjs
+          node --check assets/research-hub.js
           node --check scripts/test_comment_security.cjs
           node scripts/test_comment_security.cjs
           node --check scripts/test_comment_public_privacy.cjs

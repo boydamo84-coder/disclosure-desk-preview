@@ -76,7 +76,7 @@ async function save(ev){
  }finally{button.disabled=false;}
 }
 function init(){
- const root=document.getElementById('ddCloudAccount');if(!root)return;
+ const root=document.getElementById('ddProfileUsername')||document.getElementById('ddCloudAccount');if(!root)return;
  host=mk('section','dd-public-profile-panel');
  host.hidden=true;host.style.cssText='margin:13px 0;padding:13px;border:1px solid #685d49;background:#132838;border-radius:11px';
  const title=mk('h4','', 'Public username · Community');
@@ -93,7 +93,7 @@ function init(){
  status=mk('p','muted small','');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
  form.append(label,input,line,submit,status);form.addEventListener('submit',save);
  host.append(title,help,form);
- root.querySelector('.card-body')?.append(host);
+ (root.id==='ddProfileUsername'?root:root.querySelector('.card-body'))?.append(host);
  const c=client();if(!c)return;
  c.auth.onAuthStateChange(()=>{Promise.resolve().then(refresh)});
  void refresh();

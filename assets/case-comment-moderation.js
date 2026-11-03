@@ -30,7 +30,7 @@ async function init(){
  const close=el('button','Close');close.type='button';close.onclick=()=>root.hidden=true;
  panel.append(close,title,intro,status,commentsTitle,commentRows,reportsTitle,reportRows);
  root.append(panel);document.body.append(root);
- const anchor=document.querySelector('#ddCloudAccount')||document.querySelector('#cases')||document.body;
+ const anchor=document.querySelector('#ddAdminModerationControl')||document.querySelector('#ddCloudAccount')||document.body;
  anchor.append(trigger);
  function reviewCard(headingText,bodyText){
   const card=el('article');card.style.cssText='border-top:1px solid #526171;padding:14px 0';
