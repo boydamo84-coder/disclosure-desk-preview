@@ -1,6 +1,6 @@
 # Disclosure Desk — Private one-to-one Chat roadmap
 **Approved:** 3 November 2026  
-**Status:** PLANNED / NOT BUILT / NOT DEPLOYED  
+**Status:** Database schema/RPC source CANDIDATE STAGED ONLY; UI NOT BUILT; backend NOT APPLIED; NOT DEPLOYED  
 **Master handover:** [MASTER_HANDOVER.md](../MASTER_HANDOVER.md) — authoritative; update after every milestone.
 
 ## Core experience
@@ -37,3 +37,6 @@
 - Plan only until current staged QA fixes are stable. Do not merge, deploy, migrate database or start messaging users solely because of this roadmap.
 - Do not reuse a *public LIVE chat data store* for private conversations. Inspect existing public alias/auth, LIVE chat and Hub UI code before writing new components; reuse principles safely, without duplicating identity/auth flows.
 - After every milestone update `MASTER_HANDOVER.md` with actual SHA, tested status, production/preview/backend/Android state and the next action.
+
+## 3 November 2026 backend-candidate checkpoint
+A review-only candidate lives at `supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql` with `scripts/test_private_chat_sql.cjs`. This file is intentionally **outside** `supabase/migrations` and must not be applied until isolated SQL/RLS testing and explicit approval. No direct user messaging or opt-in UI is currently operational. See master milestone log.

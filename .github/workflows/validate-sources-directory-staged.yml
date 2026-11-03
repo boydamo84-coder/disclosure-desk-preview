@@ -33,3 +33,7 @@ jobs:
         run: |
           node --check scripts/test_community_rules_accuracy.cjs
           node scripts/test_community_rules_accuracy.cjs
+      - name: Static review of private 1-to-1 consent backend (no SQL deploy)
+        run: |
+          node --check scripts/test_private_chat_sql.cjs
+          node scripts/test_private_chat_sql.cjs
