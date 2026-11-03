@@ -1,0 +1,29 @@
+name: Validate W.NE Research Studio website integration (no deploy)
+on:
+  push:
+    branches:
+      - feature/research-studio-bds-production-based
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  wne-site-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate production tabs, contact, privacy and canonical W.NE integration
+        run: |
+          node --check scripts/test_wne_site_integration.cjs
+          node --check scripts/smoke_wne_website.mjs
+          node scripts/test_wne_site_integration.cjs
+      - name: Install local-browser test tools
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Smoke-test new W.NE website integration on mobile and desktop
+        run: node scripts/smoke_wne_website.mjs
+      - name: Preserve existing Disclosure Desk mobile and video interactions
+        run: node scripts/smoke_preview.mjs
