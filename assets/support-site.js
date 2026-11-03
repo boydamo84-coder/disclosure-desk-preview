@@ -1,9 +1,10 @@
-/* Disclosure Desk - voluntary Ko-fi support, dormant until a real owner profile exists.
- * No Ko-fi account has yet been created. Do not invent donation addresses.
- * No payment capture or third-party iframe in Disclosure Desk.
+/* Disclosure Desk - voluntary Ko-fi support.
+ * Owner provided ko-fi.com/disclosuredesk on 3 Nov 2026 after creator/payment setup.
+ * Safe external link only. No payment capture or third-party iframe on DD.
+ * This is staged on the UNPUBLISHED feature branch; no live website change.
  */
 (()=>{'use strict';
-const VERIFIED_KOFI_PAGE_URL=''; // Set only to user-confirmed active Ko-fi creator profile.
+const VERIFIED_KOFI_PAGE_URL='https://ko-fi.com/disclosuredesk'; // Supplied by the site owner, 3 November 2026.
 function validateSupportUrl(input){
  if(!input||typeof input!=='string')return null;
  try{
@@ -20,7 +21,7 @@ function link(label,url){
 }
 function initialise(){
  const url=validateSupportUrl(VERIFIED_KOFI_PAGE_URL);
- if(!url)return; // Never show fake links or a nonfunctional donate action.
+ if(!url)return; // Reject an invalid/missing external payment destination.
  const header=document.querySelector('header.top');
  if(header){
   const support=link('☕ Support',url);

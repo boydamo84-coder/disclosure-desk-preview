@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, OWNER-SUPPLIED LIVE KO-FI PAGE LINK STAGED:** Site owner provided exact `https://ko-fi.com/disclosuredesk` after Stripe connection and Ko-fi Free Standard-off setup screenshots. Set `VERIFIED_KOFI_PAGE_URL` in `assets/support-site.js`; existing responsive small gold **☕ Support** sticky-header link (beside Profile), About card and footer links will now render after the *next deliberately approved website deployment*. Safe HTTPS/host validation, no embedded payment data, no additional main tab. Updated source assertions and script cache version; GitHub-only CI pending. Public page URL was owner-provided, not independently fetched; actual click/payment checkout needs manual browser verification before launch. Production/Netlify/Supabase unchanged.
+
+
 - **2026-11-03, owner-approved discreet sticky-header Ko-fi Support CODE STAGED / CI PENDING:** Ko-fi page does not exist yet, so button remains *invisible* until an actual verified user-provided Ko-fi profile URL is set. Future sticky header will show gold/navy `☕ Support` beside Profile (small mobile coffee icon), with existing About/footer voluntary links retained. Added source QA and creator bio to `docs/VOLUNTARY_SUPPORT_KOFI_2026-11-03.md`. No Netlify/site deploy.
 
 
@@ -300,6 +303,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Connect owner-supplied Ko-fi profile to website Support links (unpublished)
+- Previous branch SHA `251c117bd5cd7c6cd538140f56576d3f8b6be91e`; owner-provided creator URL **https://ko-fi.com/disclosuredesk**, matching the Ko-fi registration/payment connection they just completed. No invented handle or change to payment-provider account settings.
+- Updated `assets/support-site.js` with exact URL; strict HTTPS ko-fi.com profile validator retained. Sticky mobile-safe gold header Support control beside Profile, About information card, and footer link now resolve to real owner-supplied Ko-fi profile in the next *approved* combined website release.
+- Updated `scripts/test_support_site.cjs` with exact public link acceptance and `index.html` script query version for future cache invalidation. Still no embedded payments, no separate nav tab, no Supabase change, no immediate public deploy or Netlify credits.
+- GitHub-only CI pending; Ko-fi page itself and payment completion should be confirmed using an actual browser by site owner before deployment.
+
 
 ### 2026-11-03 — Voluntary Ko-fi Support in sticky header, if verified account exists
 - Branch `feature/sources-archives-next-batch-nov03`, preceding SHA `cb68e47fe659da0a7f04147e8656dbcbd774c83c`. Prior source QA workflow `41712744151` **SUCCESS** at `cb68e47fe659da0a7f04147e8656dbcbd774c83c` for previous optional-support/hosting docs.

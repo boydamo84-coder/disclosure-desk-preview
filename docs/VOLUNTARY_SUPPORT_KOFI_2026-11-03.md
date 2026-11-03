@@ -40,3 +40,9 @@ Built for curious minds who believe every mystery deserves a closer look—and e
 Created by Boyd Digital Studios. Independent research. Open minds. No predetermined answers.
 
 **Short option (for smaller Ko-fi profile fields):** Independent UFO/UAP research, global sightings, historical archives and evidence-led investigation tools. Follow the mystery. Check the sources. Support curiosity.
+
+## 3 November 2026 — Ko-fi URL now supplied and integrated (unpublished)
+
+The owner created Ko-fi, completed the Stripe connection and showed **Standard OFF** in account settings. They supplied their public creator address as **https://ko-fi.com/disclosuredesk**. The website development branch now sets this URL in `assets/support-site.js`, with exactly the same validated external link in the small sticky header, About card and footer. Header remains compact and gold/navy (small screens show a cup icon but accessible label says Support).
+
+**Release boundary:** this is source-only staging. The public Disclosure Desk website still runs the earlier `production` branch; no Netlify build or published donor link yet. Verification of actual page opening/checkout is a manual step because an independent external fetch could not be confirmed. Ko-fi tips remain voluntary and do not unlock research privileges.
