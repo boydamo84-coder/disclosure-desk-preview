@@ -5,7 +5,7 @@ const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
 const URL=cfg.url||'',KEY=cfg.publishableKey||'';
 let db=null, current=null, expanded=false,loadedComments=[];
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function client(){if(db)return db;if(!window.supabase||!URL||!KEY||cfg.environment!=='test')return null;db=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});return db;}
+function client(){if(db)return db;if(!window.supabase||!URL||!KEY||!['test','production'].includes(cfg.environment))return null;db=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});return db;}
 function announce(t){const el=document.querySelector('#ddCaseDiscussionStatus');if(el)el.textContent=t;}
 function ownProfileButton(){
  const b=document.createElement('button');b.type='button';b.className='outline';b.textContent='👤 My Comments';b.style.margin='8px';
@@ -17,9 +17,12 @@ async function load(){
  const c=client();if(!c||!current)return;
  const list=document.querySelector('#ddCaseDiscussionList');
  list.textContent='Loading comments…';
- const {data,error}=await c.from('dd_case_comments').select('id,case_id,author_id,parent_id,body,status,created_at').eq('case_id',current).eq('status','approved').order('created_at',{ascending:true}).limit(100);
+ const {data,error}=await c.rpc('dd_public_comments',{p_case_id:current,p_limit:100});
  if(error){list.textContent='Comments unavailable. The database migration may not have been applied.';return}
- loadedComments=data||[];
+ const chosen=current;
+ const aliases=await window.DDPublicProfiles?.namesFor('comment',data||[])||{};
+ if(chosen!==current||!list.isConnected)return;
+ loadedComments=(data||[]).map(x=>({...x,publicAlias:aliases[x.id]||null}));
  renderComments();
 }
 function renderComments(){
@@ -33,19 +36,26 @@ function renderComments(){
  const visible=expanded?loadedComments:loadedComments.slice(-2);
  for(const item of visible){
    const card=document.createElement('article');card.className='card';card.id='discussion-comment-'+item.id;card.style.cssText='padding:12px;margin:8px 0';
-   const header=document.createElement('div');header.className='muted small';header.textContent='Community member · '+displayDate(item.created_at);
+   const header=document.createElement('div');header.className='muted small';header.textContent=(item.publicAlias||'Community member')+' · '+displayDate(item.created_at);
    const body=document.createElement('p');body.textContent=item.body;body.style.whiteSpace='pre-wrap';
    const flag=document.createElement('button');flag.className='outline';flag.type='button';flag.textContent='⚑ Flag';flag.style.fontSize='12px';
    flag.onclick=async()=>{
      const {data:{user}}=await c.auth.getUser();
-     if(!user){announce('Sign in to report a comment.');return}
+     if(!user||user.is_anonymous){announce('Sign in with a registered account to flag comments.');return}
+     if(item.is_mine){announce('You cannot flag your own comment.');return}
      const reason=window.prompt('Reason: privacy, abuse, spam, harmful, copyright, other','spam');
      if(!reason)return;
      if(!['privacy','abuse','spam','harmful','copyright','other'].includes(reason.trim().toLowerCase())){announce('Please select a listed reason.');return}
      const {error}=await c.from('dd_case_comment_flags').insert({comment_id:item.id,reporter_id:user.id,reason:reason.trim().toLowerCase()});
-     announce(error?'Flag could not be submitted, or you have already flagged this comment.':'Flag received for moderator review.');
+     const issue=String(error?.message||'');
+     announce(!error?'Flag recorded. Five distinct account flags will hide this comment for review.'
+       :/own comment/i.test(issue)?'You cannot flag your own comment.'
+       :/unique|duplicate/i.test(issue)?'You already flagged this comment.'
+       :/flagging limit/i.test(issue)?'Flagging limit reached. Please try again later.'
+       :'Flag could not be submitted. Please try again.');
+     if(!error)void load();
    };
-   card.append(header,body,flag);list.append(card);
+   card.append(header,body,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);list.append(card);
  }
 }
 function init(){
@@ -65,7 +75,7 @@ function init(){
    profile.hidden=false;profileList.textContent='Loading your comments…';
    const c=client();if(!c){profileList.textContent='Account service unavailable.';return}
    const {data:{user}}=await c.auth.getUser();if(!user){profileList.textContent='Sign in to view your comments.';return}
-   const {data,error}=await c.from('dd_case_comments').select('id,case_id,body,status,created_at').eq('author_id',user.id).order('created_at',{ascending:false}).limit(100);
+   const {data,error}=await c.rpc('dd_my_comments',{p_limit:100});
    profileList.replaceChildren();
    if(error){profileList.textContent='Comments unavailable until the database migration is active.';return}
    if(!data?.length){profileList.textContent='You have not posted any comments yet.';return}
@@ -101,12 +111,16 @@ function init(){
  document.querySelector('#ddCaseDiscussionForm').onsubmit=async e=>{
    e.preventDefault();const c=client();if(!c){announce('Sign-in service unavailable.');return}
    const {data:{user},error:authError}=await c.auth.getUser();
-   if(authError||!user){announce('Please sign in using your Disclosure Desk account first.');return}
+   if(authError||!user||user.is_anonymous){announce('Please sign in with a registered Disclosure Desk account first.');return}
    const body=document.querySelector('#ddCaseDiscussionBody').value.trim();
    if(body.length<3||body.length>2000){announce('Comments must contain 3–2000 characters.');return}
    const button=e.target.querySelector('button[type=submit]');button.disabled=true;
    const {error}=await c.from('dd_case_comments').insert({case_id:current,author_id:user.id,body,status:'approved'});
-   announce(error?'Unable to submit comment. Please try again.':'Comment posted.');
+   const issue=String(error?.message||'');
+   announce(!error?'Comment posted.'
+    :/duplicate comment/i.test(issue)?'You have already posted this comment.'
+    :/limit reached/i.test(issue)?'Posting limit reached. Please try again later.'
+    :'Unable to submit comment. Please try again.');
    if(!error){e.target.reset();await load();}
    button.disabled=false;
  };

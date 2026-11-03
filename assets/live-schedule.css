@@ -1,0 +1,50 @@
+/* Disclosure Desk LIVE — site-branded verified congressional hearing room */
+.dd-live-schedule{scroll-margin-top:90px}
+.dd-hearing-summary{border:1px solid #5b6676;border-radius:15px;background:linear-gradient(140deg,#1a3444,#0e1e2c);padding:18px}
+.dd-hearing-summary h2{font:700 22px Georgia,serif;color:#e8d0a1;margin:0 0 8px}
+.dd-live-sources{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.dd-live-sources a{display:inline-flex;align-items:center;min-height:38px;text-decoration:none}
+.dd-upcoming-card{margin:15px 0;padding:16px;border:1px solid #a18b65;border-radius:15px;background:#162c3c}
+.dd-upcoming-card h3{font:700 clamp(17px,3vw,22px)/1.4 Georgia,serif;color:#f1e1c2;margin:0 0 8px}
+.dd-upcoming-date{color:#f3d49b;font-size:15px;font-weight:700;margin:0 0 3px}
+.dd-upcoming-state{color:#edca8a;font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:750}
+.dd-live-timer{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0 17px}
+.dd-live-time-unit{display:flex;flex:1 1 65px;flex-direction:column;align-items:center;background:#0c1b2b;border:1px solid #5b6a77;border-radius:10px;padding:10px 5px;min-width:65px}
+.dd-live-time-unit strong{font-variant-numeric:tabular-nums;font-size:clamp(23px,4vw,32px);color:#f1d49f}
+.dd-live-time-unit small{font-size:10px;color:#b7c9d7}
+.dd-live-view-and-chat{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(235px,.9fr);gap:12px}
+.dd-live-video-area,.dd-live-chat-panel{min-width:0;border:1px solid #4c6172;background:#0e2030;border-radius:10px;padding:12px}
+.dd-live-video-area>a{display:inline-flex;margin:5px 7px 5px 0;padding:9px;text-decoration:none;font-size:12px}
+.dd-upcoming-video{aspect-ratio:16/9;background:#050a10;border-radius:10px;overflow:hidden;margin-bottom:12px}
+.dd-upcoming-video iframe{width:100%;height:100%;border:0;display:block}
+.dd-upcoming-play{border:0;background:linear-gradient(145deg,#263f53,#07111c);color:#f4dfb5;display:block;width:100%;height:100%;font-size:15px;font-weight:750;cursor:pointer}
+.dd-live-chat-panel h4{margin:0 0 8px;color:#f1d49c;font-size:14px}
+.dd-live-chat-help{font-size:11px;color:#b2c7d7;margin:0 0 10px}
+.dd-live-chat-messages{display:flex;flex-direction:column;gap:9px;overflow-y:auto;height:235px;min-height:150px;max-height:45dvh;padding:7px 5px;border:1px solid #314858;border-radius:8px;background:#0a1a28}
+.dd-live-chat-message{background:#193345;border:1px solid #40566a;border-radius:9px;padding:8px;overflow-wrap:anywhere}
+.dd-live-chat-message .dd-live-chat-meta{display:flex;gap:5px;align-items:center;justify-content:space-between;flex-wrap:wrap;color:#b5c4d1;font-size:10px}
+.dd-live-chat-message p{font-size:12px;margin:5px 0 0;color:#e6edf2}
+.dd-live-chat-report{padding:3px 6px;background:transparent;border:0;color:#d6bc8c;font-size:10px;cursor:pointer;text-decoration:underline}
+.dd-live-chat-form{margin-top:8px;display:flex;flex-direction:column;gap:7px}
+.dd-live-chat-form textarea{resize:vertical;min-height:57px;max-height:95px;width:100%;background:#1d3546;color:#f7f8fa;border:1px solid #62768b;border-radius:8px;padding:9px;font-size:13px}
+.dd-live-chat-form button{background:#d9c18e;color:#13212d;font-weight:750;min-height:38px;border:0;border-radius:8px;cursor:pointer}
+.dd-live-chat-status{font-size:11px;color:#bbd0df;min-height:14px}
+.dd-live-chat-status[data-error=yes]{color:#ffb2a1}
+.dd-live-chat-join{display:inline-flex;align-items:center;padding:9px 11px;border-radius:8px;border:1px solid #b69a68;color:#e9c88e;background:#263d4d;cursor:pointer}
+.dd-archive-chat-panel{margin:14px 0;min-height:200px}
+.dd-archive-chat-panel .dd-live-chat-messages{height:clamp(180px,35vh,320px)}
+.dd-archive-chat-panel .dd-live-chat-join{display:none}
+@media(max-width:710px){.dd-live-view-and-chat{grid-template-columns:1fr}.dd-upcoming-card{padding:12px}.dd-live-chat-messages{height:190px}.dd-live-timer{gap:5px}}
+
+/* News/Home announcement: official event only, auto-hides at start + 48 hours. */
+.dd-live-news-notice[hidden]{display:none!important}
+.dd-live-news-notice{margin:15px 16px 0;padding:14px 16px;border:1px solid #bea16e;border-left:4px solid #edcf8a;border-radius:12px;background:linear-gradient(120deg,#233b4c,#0d2030);color:#e6edf3}
+.dd-news-hearing-title{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.dd-news-hearing-title strong{font:700 clamp(16px,3vw,20px)/1.35 Georgia,serif;color:#f2e0bb}
+.dd-news-hearing-tag{font-size:10px;letter-spacing:1.2px;font-weight:850;color:#131e2b;background:#e5c890;border-radius:5px;padding:4px 6px}
+.dd-news-hearing-dates{margin:8px 0;color:#d5e0e7;font-size:12px}
+.dd-news-hearing-clock{font-variant-numeric:tabular-nums;font-size:16px;font-weight:800;color:#efd195;margin:6px 0}
+.dd-news-hearing-links{display:flex;gap:10px;flex-wrap:wrap}
+.dd-news-hearing-links a{font-size:12px;color:#f1d49e;text-underline-offset:3px;padding:6px 0}
+.dd-news-hearing-links a:focus-visible{outline:2px solid #efd195;outline-offset:3px}
+@media(max-width:600px){.dd-live-news-notice{margin:10px 12px 0;padding:12px}.dd-news-hearing-links a{min-height:32px}}

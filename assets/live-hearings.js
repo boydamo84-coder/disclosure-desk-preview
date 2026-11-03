@@ -10,18 +10,39 @@ const BUNDLED_HEARINGS=[
  {id:'house-uap-2024-11-13',title:'Unidentified Anomalous Phenomena: Exposing the Truth',date:'2024-11-13',status:'ended',embedUrl:'https://www.youtube-nocookie.com/embed/kT2iWKZr0qA',sourceUrl:'https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/'},
  {id:'house-uap-2023-07-26',title:'UAP: Implications on National Security, Public Safety, and Government Transparency',date:'2023-07-26',status:'ended',embedUrl:'https://www.youtube-nocookie.com/embed/KQ7Dw-739VY',sourceUrl:'https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/'}
 ];
-let events=BUNDLED_HEARINGS.slice();
+let events=BUNDLED_HEARINGS.slice(),verifiedCatalogue=BUNDLED_HEARINGS.slice(),approvedArchives=[];
+function recordingEmbed(link){
+ try{
+  const u=new URL(link);if(!safeVideo(link))return '';
+  if(u.hostname==='youtu.be'){
+   const v=u.pathname.slice(1);return /^[\w-]{11}$/.test(v)?'https://www.youtube-nocookie.com/embed/'+v:'';
+  }
+  if(u.hostname==='youtube.com'||u.hostname==='www.youtube.com'||u.hostname.endsWith('.youtube-nocookie.com')){
+   const v=u.searchParams.get('v')||u.pathname.split('/').filter(Boolean).pop();
+   return /^[\w-]{11}$/.test(v||'')?'https://www.youtube-nocookie.com/embed/'+v:'';
+  }
+ }catch(_){}
+ return '';
+}
+function mergeArchives(render){
+ const byId=new Map(verifiedCatalogue.map(e=>[e.id,e]));
+ for(const e of approvedArchives)byId.set(e.id,{...byId.get(e.id),...e});
+ events=[...byId.values()].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+ render();
+}
+
 function init(){
  const host=h('section');host.id='ddLiveEvents';host.className='section';
- const title=h('h2','🔴 Disclosure Desk LIVE');host.append(title);
- const caption=h('p','Confirmed Congressional hearing streams and their research discussions. Comments are community opinion, not verified testimony.');caption.className='muted small';host.append(caption);
+ const title=h('h2','▶ Previous Congressional UAP hearings');host.append(title);
+ const caption=h('p','Official recordings and archived discussions. Upcoming verified hearings and live chat appear above; comments are community opinion, not verified testimony.');caption.className='muted small';host.append(caption);
  const list=h('div');host.append(list);
  const root=document.getElementById('ddLiveMount');
  if(!root)return;root.append(host);
  function openEvent(event){
    const overlay=h('div');overlay.style.cssText='position:fixed;inset:0;z-index:100050;background:#08111bf5;overflow:auto;padding:max(58px,env(safe-area-inset-top,0px)) 12px max(20px,env(safe-area-inset-bottom,0px))';
    const box=h('section');box.style.cssText='max-width:750px;margin:auto;background:#142536;border:1px solid #b39a70;border-radius:12px;padding:16px';
-   const close=h('button','✕ Close');close.onclick=()=>{overlay.remove();if(activePlayback){const player=activePlayback;activePlayback=null;if(player.isConnected&&player._preview)player.replaceChildren(player._preview)}};close.style.cssText='margin-bottom:12px;padding:10px 14px';box.append(close,h('h2',event.title));
+   let disposeChat=null;
+   const close=h('button','✕ Close');close.onclick=()=>{disposeChat?.();overlay.remove();if(activePlayback){const player=activePlayback;activePlayback=null;if(player.isConnected&&player._preview)player.replaceChildren(player._preview)}};close.style.cssText='margin-bottom:12px;padding:10px 14px';box.append(close,h('h2',event.title));
    const p=h('p',event.status==='live'?'Official livestream · Discussion':event.status==='ended'?'Recording and discussion archive':'Confirmed event · Awaiting broadcast');p.className='muted small';box.append(p);
    // Resolve the recording from the trusted bundled catalogue by hearing ID,
    // regardless of whether an external event feed omitted or replaced embedUrl.
@@ -40,9 +61,17 @@ function init(){
    }
    box.append(links);
    if(!embed||!safeVideo(embed)){const issue=h('p','Embedded player unavailable for this record. Use the official hearing page.');issue.className='muted small';box.append(issue)}
-   const discuss=h('button','💬 '+(event.status==='live'?'Join live discussion':'View hearing discussion'));discuss.type='button';discuss.className='outline';discuss.style.margin='12px';
-   discuss.onclick=()=>{overlay.remove();window.ddOpenCaseDiscussion?.('hearing:'+event.id,'Hearing Discussion')};box.append(discuss);
-   const note=h('p','Discussion updates appear when reopened. Real-time subscriptions and replay timestamps are still in development.');note.className='muted small';box.append(note);
+   if(event.hasArchivedChat&&window.ddLiveChatMount){
+     const archive=h('div');archive.className='dd-live-chat-panel dd-archive-chat-panel';
+     box.append(archive);
+     disposeChat=window.ddLiveChatMount(archive,{id:event.id,status:'ended'});
+   }else{
+     const msg=h('p','This recording predates the Disclosure Desk LIVE chat archive, or no verified saved chat is available.');
+     msg.className='muted small';box.append(msg);
+   }
+   const discuss=h('button','💬 Discuss the hearing');discuss.type='button';discuss.className='outline';discuss.style.margin='12px 0';
+   discuss.onclick=()=>{disposeChat?.();overlay.remove();window.ddOpenCaseDiscussion?.('hearing:'+event.id,'Hearing Discussion')};box.append(discuss);
+   const note=h('p','Saved live chat is read-only. The separate hearing discussion stays open for later questions.');note.className='muted small';box.append(note);
    overlay.append(box);document.body.append(overlay);
  }
  // Add a navigation entry before playing in Android WebView so Back returns to LIVE
@@ -55,8 +84,8 @@ function init(){
  });
  function render(){
   list.replaceChildren();
-  if(!events.length){const msg=h('p','No confirmed hearing streams listed yet. We publish only verified events.');msg.className='muted small';list.append(msg);return}
-  for(const [sectionTitle,filtered] of [['🔴 Live Now',events.filter(e=>e.status==='live')],['📅 Upcoming Hearings',events.filter(e=>e.status==='upcoming')],['▶ Past Hearings · Official Recordings',events.filter(e=>e.status==='ended')]]){
+  if(!events.length){const msg=h('p','No archived hearing recordings listed yet. We publish only verified sources.');msg.className='muted small';list.append(msg);return}
+  for(const [sectionTitle,filtered] of [['▶ Past Hearings · Official Recordings',events.filter(e=>e.status==='ended')]]){
    if(!filtered.length)continue;
    const heading=h('h3',sectionTitle);heading.style.margin='18px 0 10px';list.append(heading);
    for(const event of filtered){
@@ -64,6 +93,7 @@ function init(){
     const heading=h('strong',event.title);heading.style.display='block';heading.style.marginBottom='6px';
     const date=h('p',event.date+' · '+(event.status==='ended'?'Past hearing':event.status==='live'?'Live hearing':'Upcoming hearing'));date.className='muted small';
     card.append(heading,date);
+    if(event.hasArchivedChat)card.append(h('p','💬 Saved LIVE chat · Read-only replay'));
     const bundled=BUNDLED_HEARINGS.find(e=>e.id===event.id);
     const embed=bundled?.embedUrl||event.embedUrl||'';
     if(embed&&safeVideo(embed)){
@@ -83,6 +113,7 @@ function init(){
     }
     const actions=h('div');actions.className='dd-live-card-actions';actions.style.cssText='display:flex;flex-wrap:wrap;gap:8px;margin-top:10px';
     const details=h('button','💬 Discussion / Details');details.type='button';details.className='outline';details.onclick=()=>openEvent(event);actions.append(details);
+    if(event.recordingUrl&&safeVideo(event.recordingUrl)&&!embed){const record=h('a','Official recording ↗');record.href=event.recordingUrl;record.target='_blank';record.rel='noopener noreferrer';record.className='outline';record.style.cssText='display:inline-flex;align-items:center;padding:10px;text-decoration:none';actions.append(record)}
     if(embed&&safeVideo(embed)){const y=h('a','YouTube ↗');y.href='https://www.youtube.com/watch?v='+embed.split('/').pop();y.target='_blank';y.rel='noopener noreferrer';y.className='outline';y.style.cssText='display:inline-flex;align-items:center;padding:10px;text-decoration:none';actions.append(y)}
     const official=h('a','Official source ↗');official.href=event.sourceUrl;official.target='_blank';official.rel='noopener noreferrer';official.className='outline';official.style.cssText='display:inline-flex;align-items:center;padding:10px;text-decoration:none';actions.append(official);
     card.append(actions);list.append(card);
@@ -93,8 +124,22 @@ function init(){
  fetch('data/approved-live-events.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('No events file');return r.json()}).then(data=>{
   if(!Array.isArray(data)||!data.length)return;
   const verified=data.filter(x=>x&&typeof x.id==='string'&&/^[a-zA-Z0-9_-]{3,120}$/.test(x.id)&&typeof x.title==='string'&&x.title.length<180&&typeof x.date==='string'&&['upcoming','live','ended'].includes(x.status)&&typeof x.sourceUrl==='string'&&safeVideo(x.sourceUrl)&&(!x.embedUrl||safeVideo(x.embedUrl))).slice(0,40);
-  if(verified.length){const bundled=new Map(BUNDLED_HEARINGS.map(e=>[e.id,e]));events=verified.map(e=>({...bundled.get(e.id),...e,embedUrl:e.embedUrl||bundled.get(e.id)?.embedUrl}));}render();
+  if(verified.length){const bundled=new Map(BUNDLED_HEARINGS.map(e=>[e.id,e]));verifiedCatalogue=verified.map(e=>({...bundled.get(e.id),...e,embedUrl:e.embedUrl||bundled.get(e.id)?.embedUrl}));}mergeArchives(render);
  }).catch(()=>{render()});
+ const db=client();
+ if(db)void db.from('dd_live_events')
+  .select('id,title,starts_at,status,source_url,recording_url')
+  .eq('is_public',true).eq('status','ended').not('recording_url','is',null)
+  .order('starts_at',{ascending:false}).limit(60)
+  .then(({data,error})=>{
+    if(error||!Array.isArray(data))return;
+    approvedArchives=data.filter(x=>x&&/^[a-z0-9-]{8,120}$/.test(x.id)
+      &&typeof x.title==='string'&&safeVideo(x.source_url)&&safeVideo(x.recording_url))
+     .map(x=>({id:x.id,title:x.title.slice(0,180),date:String(x.starts_at).slice(0,10),
+       status:'ended',sourceUrl:x.source_url,recordingUrl:x.recording_url,
+       embedUrl:recordingEmbed(x.recording_url),hasArchivedChat:true}));
+    mergeArchives(render);
+  }).catch(()=>{});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();

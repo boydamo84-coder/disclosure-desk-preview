@@ -1,0 +1,6 @@
+# Public Disclosure Desk discovery. Private research is protected by authentication,
+# account RLS and per-page noindex directives, NOT by robots.txt secrecy.
+User-agent: *
+Allow: /
+
+Sitemap: https://uapdisclosuredesk.com/sitemap.xml
