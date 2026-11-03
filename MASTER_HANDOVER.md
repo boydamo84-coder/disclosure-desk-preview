@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03 voluntary Ko-fi support integration CODE STAGED / LINK DORMANT:** user confirms no Ko-fi page/account yet. Added guarded About and footer Support button that remains invisible until an owner-provided verified HTTPS ko-fi.com creator link is inserted; no invented URL, payment handling, public deployment or Netlify build. Free Ko-fi one-time tip commission 0% only after turning Standard/Contributor mode off (processor fees remain). New GitHub static QA pending.
+
+
 - **2026-11-03, OWNER-APPROVED 10 INVITES / 24 HOURS — ISOLATED SQL CI GREEN, NOT LIVE:** implemented in `5381141b459b47d0377f6b9dda1de589dfd7a7a7`. Disposable PostgreSQL 17 run `41711107391` **SUCCESS** (10 invitations to distinct fake users allowed, 11th rejected); website static QA `41711107588` **SUCCESS**. Registered-only explicit opt-in and one-intro request flow unchanged; existing-chat message rate 30 per 10 minutes. `privateChat:false`, candidate SQL unapplied, production `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` unchanged, no Netlify release.
 
 
@@ -291,6 +294,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Ko-fi dormant About and footer support links
+- Branch feature/sources-archives-next-batch-nov03, prior SHA 8447aba1f8bb5ba3e9aec727d89b334f3655c8ef. Owner stated no Ko-fi account exists. No creator address is assumed.
+- Added assets/support-site.js, scripts/test_support_site.cjs and index.html script load. Only a real owner-confirmed HTTPS Ko-fi creator profile URL activates support links in About and footer. Donations are entirely voluntary and external; no payment data is stored by the website.
+- Ko-fi Free has 0% service fees on one-off tips ONLY when Contributor/Standard status is off; standard Stripe/PayPal fees apply. New accounts commonly start with 5% on tips until switched. Real account creation and payment-provider setup are still required by the owner.
+- New static GitHub CI step added, pending result. No live Supabase, production site, Android or Netlify change.
+
 
 ### 2026-11-03 — 10-per-24-hour Chat request quota green in actual disposable database
 - Commit `5381141b459b47d0377f6b9dda1de589dfd7a7a7`: isolated PostgreSQL 17 workflow `41711107391` **SUCCESS**, including exactly ten distinct outbound pending invitations in 24 hours and rejection of the eleventh, plus existing unauthorized access and consent checks. Static website workflow `41711107588` **SUCCESS**.

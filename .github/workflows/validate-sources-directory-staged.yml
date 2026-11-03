@@ -56,6 +56,11 @@ jobs:
           node --check assets/discussions-admin.js
           node --check scripts/test_discussions_admin.cjs
           node scripts/test_discussions_admin.cjs
+      - name: Validate dormant voluntary support link and verified Ko-fi destination
+        run: |
+          node --check assets/support-site.js
+          node --check scripts/test_support_site.cjs
+          node scripts/test_support_site.cjs
       - name: Check source-grounded historical weather satellite case links
         run: |
           node --check assets/historical-satellite.js
