@@ -39,6 +39,10 @@ jobs:
           node scripts/test_comment_public_privacy.cjs
           node --check scripts/test_comment_self_moderation.cjs
           node scripts/test_comment_self_moderation.cjs
+      - name: Live community HTTP guest and unauthorised-access checks (no deployment)
+        run: |
+          node --check scripts/test_community_http.mjs
+          node scripts/test_community_http.mjs
       - name: Install local-browser test tools
         run: |
           npm install --no-save playwright
