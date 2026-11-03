@@ -102,7 +102,7 @@ begin
      or (b.blocker_id=receiver and b.blocked_id=actor))
  then raise exception 'Chat request unavailable';end if;
  if (select count(*) from public.dd_chat_pairs p
-    where p.inviter_id=actor and p.created_at>now()-interval '24 hours')>=5
+    where p.inviter_id=actor and p.created_at>now()-interval '24 hours')>=10
  then raise exception 'Daily chat-request limit reached';end if;
  insert into public.dd_chat_pairs(inviter_id,invitee_id,initial_preview)
  values(actor,receiver,btrim(p_preview))

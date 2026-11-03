@@ -54,5 +54,13 @@ A review-only candidate lives at `supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql` with
 
 - `dd_chat_my_pairs` includes a server-derived unread count using participant-specific last-read timestamp markers. The new `dd_chat_mark_read(pair_id,message_id)` RPC validates an actual accepted-pair message, prevents arbitrary future read times and blocks cross-account or blocked changes. Raw user UUIDs and message bodies are not exposed through the unread list.
 - Profile Chat now displays **N unread** in its Accepted list, records last displayed message as read, keeps the selected chat visible after refresh, and renders the introductory message only in pending preview or accepted history (never duplicated).
-- Disposable real-PostgreSQL acceptance extended: intro unread → mark read; other participant replies → unread; stranger cannot mark read; 30 messages/10-min and 5 outgoing invites/day limits enforced.
+- Disposable real-PostgreSQL acceptance extended: intro unread → mark read; other participant replies → unread; stranger cannot mark read; 30 messages/10-min; **the prior 5-invite cap was superseded by the 10-request change below**.
 - Still feature-flagged off, no Supabase migration, no browser/phone QA or active push notifications. Real-time push is a separately consented later step.
+
+## 3 November 2026 — owner-approved invitation limit adjustment
+
+- **10 new one-to-one Chat requests per rolling 24-hour window per registered sender**, across all recipients. This replaces 5. Only one introductory message per request until the recipient chooses Accept or Decline.
+- Existing **30 accepted-chat messages per 10 minutes** remains unchanged; there is no daily cap on established conversations.
+- Server-side limit applies to every invitation, including pending, accepted or declined; a declined recipient cannot be re-requested. One invite per unordered pair remains enforced.
+- Disposable Postgres acceptance now checks 10 invites to distinct opted-in fake users succeed and an 11th is rejected. Static SQL contract and client guidance updated.
+- This is source staged only: privateChat remains disabled, backend unapplied, no Netlify or Android changes.

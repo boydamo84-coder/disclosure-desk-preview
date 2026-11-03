@@ -154,7 +154,7 @@ async function openConversation(row){
 }
 function invite(target){
  const form=mk('form',undefined,'dd-chat-compose');
- form.append(mk('h4','Start a new chat'),mk('p','Enter their exact public username. Only one preview message is sent until they accept.','muted small'));
+ form.append(mk('h4','Start a new chat'),mk('p','Enter their exact public username. Up to 10 new chat requests per rolling 24 hours. Only one preview message is sent until they accept.','muted small'));
  const label=mk('label','Username');
  const name=mk('input');name.required=true;name.maxLength=24;name.autocomplete='off';label.append(name);
  const caption=mk('label','Your introductory message (5–1000 characters)');

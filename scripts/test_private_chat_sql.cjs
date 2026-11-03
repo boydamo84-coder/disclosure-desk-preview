@@ -28,6 +28,10 @@ assert.match(sql,/p\.invitee_id=actor and p\.status='pending'/,'Only invited rec
 assert.match(sql,/select n\.user_id into receiver[\s\S]*n\.chat_contact_opt_in/,'Recipient opt-in must be checked by server');
 assert.match(sql,/n\.user_id=actor and n\.is_public and n\.chat_contact_opt_in/,'Sender consent required');
 assert.match(sql,/char_length\(btrim\(p_preview\)\) not between 5 and 1000/,'Intro cap');
+assert.match(sql,/where p\.inviter_id=actor and p\.created_at>now\(\)-interval '24 hours'\)>=10/,
+ 'Ten new chat requests per rolling 24 hours must be checked server-side');
+assert.doesNotMatch(sql,/where p\.inviter_id=actor and p\.created_at>now\(\)-interval '24 hours'\)>=5/,
+ 'Old five-request limit must not survive in candidate backend');
 assert.match(sql,/char_length\(btrim\(p_body\)\) not between 1 and 2000/,'Message cap');
 assert.match(sql,/select 1 from public\.dd_chat_blocks/,'Block check');
 assert.match(sql,/dd_chat_owner_admins a where a\.user_id=auth\.uid\(\)/,'Owner-only private report snapshot');

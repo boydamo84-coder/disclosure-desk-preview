@@ -235,18 +235,28 @@ begin
  exception when others then denied:=true;end;
  if not denied then raise exception 'Repeated declined request succeeded';end if;
 end $$;
--- Five outgoing invite requests per account in a rolling day, not six.
+-- Ten outgoing invitations are permitted in a rolling 24 hours.
+-- A->B is the first request earlier in this disposable acceptance script.
+-- Nine MORE unique opted-in recipients below bring A to exactly ten.
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000001',false);
 select public.dd_chat_request('Researcher03','Hello, looking for researchers');
 select public.dd_chat_request('Researcher04','Hello, looking for researchers');
 select public.dd_chat_request('Researcher05','Hello, looking for researchers');
 select public.dd_chat_request('Researcher06','Hello, looking for researchers');
+select public.dd_chat_request('Researcher08','Hello, looking for researchers');
+select public.dd_chat_request('Researcher09','Hello, looking for researchers');
+select public.dd_chat_request('Researcher10','Hello, looking for researchers');
+select public.dd_chat_request('Researcher11','Hello, looking for researchers');
+select public.dd_chat_request('Researcher12','Hello, looking for researchers');
 do $$
 declare denied boolean:=false;
 begin
- begin perform public.dd_chat_request('Researcher08','Sixth invite must fail');
+ if (select count(*) from public.dd_chat_my_pairs()
+     where direction='sent' and created_at>now()-interval '24 hours')<>10
+ then raise exception 'Exactly ten new chat requests should be permitted';end if;
+ begin perform public.dd_chat_request('Researcher13','Eleventh invite must fail');
  exception when others then denied:=true;end;
- if not denied then raise exception 'Daily request rate cap failed';end if;
+ if not denied then raise exception 'Eleventh outgoing request bypassed 24-hour quota';end if;
 end $$;
 -- Anonymous JWT is not an authenticated human even under authenticated PG role.
 select set_config('request.jwt.claims','{"is_anonymous":true}',false);

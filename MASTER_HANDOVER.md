@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, private Chat invite quota change CODE STAGED / CI PENDING:** owner-approved **10 new requests per rolling 24 hours** instead of 5, while accepted-chat messaging remains 30 per 10 minutes. Updated UNAPPLIED SQL, browser guidance, static regression and disposable PostgreSQL tests for 10 accepted/11th rejected. **Private Chat remains OFF**, live database untouched. See `docs/PROFILE_PRIVATE_CHAT_ROADMAP_2026-11-03.md`.
+
+
 - **2026-11-03, 1:1 Chat unread & rate-limit acceptance staged, CI PENDING:** core disposable PostgreSQL multi-account security integration **SUCCESS** at run `41709436663` (commit `ba19ec4a387c9cea1e495d60d78d913734558ca9`); website static CI `41709436631` SUCCESS. Expanded review-only SQL candidate with per-user unread/read-marker RPC and source-tested chat UI unread badges and active-conversation preservation. Added real Postgres tests for cross-user read-marker rejection and invite/message quota. Still privateChat OFF and live backend UNTOUCHED.
 
 - **2026-11-03, isolated private-chat acceptance fixture privilege fix STAGED:** disposable PostgreSQL run `41709194498` reached role tests and correctly rejected a direct `SELECT` on `dd_chat_messages`. The acceptance fixture accidentally tried to inspect a private table *without trapping the expected denial*. Corrected fixture to use only safe participant RPCs, preserving separate direct-privilege rejection test; source CI `41709194184` SUCCESS. Isolated test rerun pending; schema not applied.
@@ -285,6 +288,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Private Chat invitations 10 per 24 hours (approved)
+- Repo/branch `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`. Previous SHA `1817397f04e88fd751631ef5195f454681a987cd`; new SHA current milestone commit.
+- Changed UNAPPLIED `dd_chat_request` server cap to **10 new requests per rolling 24 hours per sender** (previously 5), with existing 30 accepted chat messages/10-minute cap unchanged. New requests count regardless of acceptance/decline.
+- Updated Profile Chat invitation text and disposable PostgreSQL security test: exactly 10 distinct invitations permitted, 11th rejected; static SQL check rejects old five-request condition. CI pending.
+- Private Chat remains feature-flagged OFF. No live Supabase SQL, Netlify deploy or Android changes.
+
+
 
 ### 2026-11-03 — Unread badge, real per-user read marker and rate-limit QA
 - Repo/branch `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; preceding commit `ba19ec4a387c9cea1e495d60d78d913734558ca9`; new branch HEAD this milestone.
