@@ -1,0 +1,21 @@
+name: Sources & Archives staging QA (no deploy)
+on:
+  push:
+    branches:
+      - feature/sources-archives-next-batch-nov03
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    name: Static archive directory checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate source directory, 11-tab layout and indexing
+        run: |
+          node --check scripts/test_sources_directory.cjs
+          node scripts/test_sources_directory.cjs
