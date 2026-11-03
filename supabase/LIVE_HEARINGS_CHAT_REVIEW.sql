@@ -147,3 +147,168 @@ begin
   alter publication supabase_realtime add table public.dd_live_chat_messages;
  end if;
 end $$;
+
+-- ARCHIVED HEARING CHAT, READ-ONLY AFTER CLOSE, AND COMMUNITY FIVE-FLAG REVIEW
+-- Hearing rows and approved messages persist when events end. Event recordings are
+-- linked through the existing official recording_url field; no video is rehosted.
+-- Guests see message text/time, NEVER account IDs. Explicit moderator actions can hide it.
+alter table public.dd_live_chat_messages
+ add column if not exists review_flag_floor integer not null default 0
+ check(review_flag_floor >= 0);
+
+-- Never expose raw author IDs via Data API, even on an approved message.
+revoke select on table public.dd_live_chat_messages from public,anon,authenticated;
+grant insert on table public.dd_live_chat_messages to authenticated;
+drop policy if exists dd_live_chat_read on public.dd_live_chat_messages;
+
+-- Stable public record for a publisher-verified hearing; callable by guests.
+create or replace function public.dd_public_hearing_chat(
+ p_event_id text,p_before timestamptz default null,p_limit integer default 60)
+returns table(id uuid,body text,created_at timestamptz,is_mine boolean)
+language plpgsql stable security definer set search_path=pg_catalog,public as $$
+begin
+ if p_event_id is null or p_event_id !~ '^[a-z0-9-]{8,120}$'
+  or p_limit is null or p_limit<1 or p_limit>100 then
+  raise exception 'Invalid hearing discussion request';
+ end if;
+ return query
+  select m.id,m.body,m.created_at,
+    (auth.uid() is not null and m.author_id=auth.uid()) as is_mine
+  from public.dd_live_chat_messages m
+  join public.dd_live_events e on e.id=m.event_id
+  where m.event_id=p_event_id and e.is_public=true and e.status<>'cancelled'
+   and m.status='approved'
+   and (p_before is null or m.created_at<p_before)
+  order by m.created_at desc,m.id desc limit p_limit;
+end $$;
+revoke all on function public.dd_public_hearing_chat(text,timestamptz,integer)
+ from public,anon,authenticated;
+grant execute on function public.dd_public_hearing_chat(text,timestamptz,integer)
+ to anon,authenticated;
+
+-- INSERT guard can inspect prior messages without exposing author rows to callers.
+create or replace function public.dd_live_chat_guard()
+returns trigger language plpgsql security definer set search_path=pg_catalog,public as $$
+begin
+ if auth.uid() is null or new.author_id is distinct from auth.uid()
+  or coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=true then
+   raise exception 'Registered account required';
+ end if;
+ perform pg_advisory_xact_lock(hashtext('live-chat-user:'||new.author_id::text));
+ new.created_at=now();new.status='approved';
+ if exists(select 1 from public.dd_live_chat_messages m
+   where m.author_id=new.author_id and m.created_at>now()-interval '4 seconds') then
+  raise exception 'Please slow down before posting again';
+ end if;
+ if (select count(*) from public.dd_live_chat_messages m
+   where m.author_id=new.author_id and m.created_at>now()-interval '10 minutes')>=24 then
+  raise exception 'Chat rate limit reached. Try again later';
+ end if;
+ if (select count(*) from public.dd_live_chat_messages m
+   where m.author_id=new.author_id and m.created_at>now()-interval '1 day')>=180 then
+  raise exception 'Daily chat limit reached';
+ end if;
+ if exists(select 1 from public.dd_live_chat_messages m
+   where m.author_id=new.author_id and lower(btrim(m.body))=lower(btrim(new.body))
+    and m.created_at>now()-interval '2 minutes') then
+  raise exception 'Duplicate message';
+ end if;
+ return new;
+end $$;
+revoke all on function public.dd_live_chat_guard() from public,anon,authenticated;
+
+-- A registered user may flag only a published non-self message.
+create or replace function public.dd_can_flag_live_chat(p_id uuid)
+returns boolean language sql stable security definer set search_path=pg_catalog,public as $$
+ select auth.uid() is not null
+  and coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=false
+  and exists(
+   select 1 from public.dd_live_chat_messages m
+   join public.dd_live_events e on e.id=m.event_id and e.is_public=true
+   where m.id=p_id and m.author_id<>auth.uid() and m.status='approved'
+  )
+$$;
+revoke all on function public.dd_can_flag_live_chat(uuid) from public,anon,authenticated;
+grant execute on function public.dd_can_flag_live_chat(uuid) to authenticated;
+drop policy if exists dd_live_chat_flag_insert on public.dd_live_chat_flags;
+create policy dd_live_chat_flag_insert on public.dd_live_chat_flags for insert
+ to authenticated with check(
+  reporter_id=(select auth.uid())
+  and public.dd_can_flag_live_chat(message_id)
+ );
+
+create or replace function public.dd_live_chat_flag_guard()
+returns trigger language plpgsql security definer set search_path=pg_catalog,public as $$
+begin
+ if auth.uid() is null or new.reporter_id is distinct from auth.uid()
+  or coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=true
+  or not public.dd_can_flag_live_chat(new.message_id) then
+  raise exception 'Cannot report this hearing message';
+ end if;
+ perform pg_advisory_xact_lock(hashtext('live-chat-user-flags:'||new.reporter_id::text));
+ perform pg_advisory_xact_lock(hashtext('live-chat-message-flags:'||new.message_id::text));
+ if (select count(*) from public.dd_live_chat_flags f
+   where f.reporter_id=new.reporter_id and f.created_at>now()-interval '1 hour')>=10 then
+  raise exception 'Reporting limit reached';
+ end if;
+ new.created_at=now();return new;
+end $$;
+revoke all on function public.dd_live_chat_flag_guard() from public,anon,authenticated;
+
+create or replace function public.dd_live_chat_autohide()
+returns trigger language plpgsql security definer set search_path=pg_catalog,public as $$
+begin
+ perform pg_advisory_xact_lock(hashtext('live-chat-message-flags:'||new.message_id::text));
+ update public.dd_live_chat_messages m
+ set status='hidden'
+ where m.id=new.message_id and m.status='approved'
+  and (select count(*) from public.dd_live_chat_flags f
+       where f.message_id=m.id)-m.review_flag_floor>=5;
+ return new;
+end $$;
+revoke all on function public.dd_live_chat_autohide() from public,anon,authenticated;
+drop trigger if exists dd_live_chat_autohide_trigger on public.dd_live_chat_flags;
+create trigger dd_live_chat_autohide_trigger
+ after insert on public.dd_live_chat_flags for each row execute function public.dd_live_chat_autohide();
+
+create or replace function public.dd_live_chat_moderation_queue()
+returns table(id uuid,event_id text,body text,flag_count bigint,latest_flag timestamptz)
+language plpgsql stable security definer set search_path=pg_catalog,public as $$
+begin
+ if auth.uid() is null
+  or coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=true
+  or not public.dd_is_comment_moderator() then raise exception 'Not authorised';end if;
+ return query
+  select m.id,m.event_id,m.body,count(f.reporter_id),max(f.created_at)
+  from public.dd_live_chat_messages m
+  left join public.dd_live_chat_flags f on f.message_id=m.id
+  where m.status='hidden'
+  group by m.id,m.event_id,m.body,m.created_at
+  order by m.created_at desc limit 200;
+end $$;
+revoke all on function public.dd_live_chat_moderation_queue() from public,anon,authenticated;
+grant execute on function public.dd_live_chat_moderation_queue() to authenticated;
+
+create or replace function public.dd_moderate_live_chat(p_id uuid,p_status text)
+returns void language plpgsql security definer set search_path=pg_catalog,public as $$
+begin
+ if auth.uid() is null
+  or coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=true
+  or not public.dd_is_comment_moderator() then raise exception 'Not authorised';end if;
+ if p_id is null or p_status not in ('approved','hidden') then
+  raise exception 'Invalid moderation status';end if;
+ perform pg_advisory_xact_lock(hashtext('live-chat-message-flags:'||p_id::text));
+ update public.dd_live_chat_messages m
+ set status=p_status,
+  review_flag_floor=case when p_status='approved'
+   then (select count(*)::integer from public.dd_live_chat_flags f where f.message_id=m.id)
+   else m.review_flag_floor end
+ where m.id=p_id;
+ if not found then raise exception 'Message not found';end if;
+end $$;
+revoke all on function public.dd_moderate_live_chat(uuid,text) from public,anon,authenticated;
+grant execute on function public.dd_moderate_live_chat(uuid,text) to authenticated;
+
+-- Only approved public hearing events will ever be returned to non-mod guests.
+-- Archived messages do not expire when the official video finishes; all posts
+-- after the approved live-chat window stay forbidden by dd_live_chat_insert RLS.
