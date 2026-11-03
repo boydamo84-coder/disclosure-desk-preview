@@ -36,3 +36,21 @@ assert.doesNotMatch(sql,/insert into public\.dd_chat_owner_admins/,'No admin acc
 assert.doesNotMatch(cfg,/privateChat:true/,'Backend should not be automatically exposed to public website');
 assert.match(master,/Private one-to-one user messaging/);
 console.log('PASS: reviewed-only 1:1 chat schema; consent, single preview, recipient-only acceptance, participant-only messages, block/report and owner-only snapshot, no rollout.');
+
+
+/* First safe isolated SQL acceptance must cover real PostgreSQL execution,
+ * not only matching source text. The SQL stays outside migrations. */
+assert.match(sql,/values\(accepted_pair,inviter,preview\)/,
+ 'Accepted introduction is persisted exactly once as first message');
+assert.match(sql,/contact_unavailable boolean/,'Client receives block status from server');
+assert.match(sql,/Accepted and unblocked chat required/,'Blocked history must be denied');
+const privateWorkflow=fs.readFileSync('.github/workflows/validate-private-chat-isolated.yml','utf8');
+const fixture=fs.readFileSync('scripts/private-chat-isolated-fixture.sql','utf8');
+const acceptance=fs.readFileSync('scripts/private-chat-isolated-acceptance.sql','utf8');
+assert.match(privateWorkflow,/postgres:17/);
+assert.match(privateWorkflow,/private-chat-isolated-acceptance\.sql/);
+assert.match(fixture,/fake|Fake|synthetic|Synthetic/,'No real user data in security CI');
+assert.match(acceptance,/Blocked counterpart can still read messages/);
+assert.match(acceptance,/Reverse declined request succeeded/);
+assert.match(acceptance,/Accepted introduction not first chat message/);
+assert.match(acceptance,/Anonymous database role executed chat private RPC/);

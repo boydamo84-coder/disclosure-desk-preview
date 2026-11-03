@@ -53,6 +53,10 @@ async function refresh(){
   rows=Array.isArray(response.data)?response.data:[];
   drawList(accepted,rows.filter(x=>x.status==='accepted'));
   drawList(received,rows.filter(x=>x.status!=='accepted'));
+  const active=rows.find(x=>x.pair_id===currentId);
+  if(active)await openConversation(active);
+  else if(currentId){currentId=null;conversation?.replaceChildren()}
+  if(stamp!==epoch)return;
   say('Private chat requests updated.');
  }catch(e){say('Chat unavailable. '+String(e?.message||'Please retry').slice(0,135))}
 }
@@ -84,6 +88,7 @@ async function openConversation(row){
   history.setAttribute('aria-label','Private conversation');
   conversation.append(history);
   try{
+   if(row.contact_unavailable)throw Error('Conversation blocked');
    const c=await auth();
    const {data,error}=await c.rpc('dd_chat_history',{p_pair_id:pairId,p_limit:100});
    if(error)throw error;
@@ -101,7 +106,7 @@ async function openConversation(row){
     history.append(item);
    }
   }catch(e){entry(history,'History is temporarily unavailable. '+String(e?.message||'').slice(0,100))}
-  if(row.contact_unavailable)entry(conversation,'This conversation is unavailable for new messages.');
+  if(row.contact_unavailable)entry(conversation,'This conversation is blocked. Messages and history are unavailable.');
   else {
    const form=mk('form',undefined,'dd-chat-compose');
    const label=mk('label','Write a private message (max 2000 characters)');

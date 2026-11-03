@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, PRIVATE 1:1 CHAT ISOLATED SECURITY TEST MILESTONE (staged, CI PENDING):** Backend candidate corrected to persist the introductory request once on acceptance, reject history after blocking, protect message-send vs block race, expose safe contact-unavailable bool. Added disposable PostgreSQL 17 multi-account CI (fixture+acceptance) and refreshed UI active-conversation handling. Still `privateChat:false`; **NO live Supabase schema applied, messaging NOT usable**, no Netlify/Android build. Exact files/workflow in `docs/PROFILE_PRIVATE_CHAT_ROADMAP_2026-11-03.md`.
+
 - **2026-11-03, historical NASA image-layer correction CODE STAGED:** explicit MODIS Terra daily true-colour `l=` added to Worldview case date/viewport link, preventing defaults that may be unavailable for historical dates; source validated against NASA GIBS. The selected UTC minute still **does not imply that an image exists at that minute**. No historical frame ingestion/nearest-time API. CI pending, no deployment.
 
 - **2026-11-03, satellite case-card regression correction CODE STAGED:** run `41699308567` FAILED due old test asserting Map satellite button still used Evidence-file launcher. Updated check to dedicated satellite button, removed two stray plus characters between Featured/Rabbit buttons and added main inline website JS syntax verification. New CI pending; no Netlify builds.
@@ -279,6 +281,16 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Private Profile Chat functional/security hardening plus isolated database CI
+- Repo/branch `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; previous SHA `5c6e04885a437866d1c2d29cc7f322fcbe973d05`; new SHA current branch HEAD.
+- Reviewed current LIVE/public chat and opted-in alias schema; private Profile Chat remains a distinct user-consented 1:1 area and disabled `privateChat:false`.
+- Updated **UNAPPLIED** `supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql`: recipient-only acceptance atomically materialises exactly one introductory message in accepted history; response cannot recur; server denies blocked reads and messages; send locks chat row against block; pair projection now includes boolean `contact_unavailable` for safe UI. Owner report queue denies anonymous JWT.
+- Added `.github/workflows/validate-private-chat-isolated.yml`, `scripts/private-chat-isolated-fixture.sql`, `scripts/private-chat-isolated-acceptance.sql`: disposable Postgres 17 / fake users / real RPC and role checks; live Supabase untouched. Source regression extended; Profile Chat client refreshes selected thread, avoids fetching known blocked history.
+- **Verification:** source JS parsed; **CI PENDING**, no claims about actual multi-account pass yet. No Netlify, production branch, Android or live database write.
+- **Remaining:** CI real PostgreSQL security suite green; real backend compatibility audit (RLS, owner row seeding after approval), unread tracking, archive/remove controls, report moderation UI and documentation, real cross-device/browser tests.
+
+
 
 ### 2026-11-03 — NASA Worldview selects actual historical daily imagery layer
 - Unpublished branch `feature/sources-archives-next-batch-nov03`, previous SHA `0a2711bff0e3587c94743582c452e867a08394c6`; new SHA current branch HEAD.

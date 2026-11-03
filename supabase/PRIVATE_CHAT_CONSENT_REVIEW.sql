@@ -111,20 +111,25 @@ end $$;
 
 create or replace function public.dd_chat_respond(p_pair_id uuid,p_accept boolean)
 returns boolean language plpgsql security definer set search_path=pg_catalog,public as $$
-declare actor uuid:=auth.uid(); affected int;
+declare actor uuid:=auth.uid(); accepted_pair uuid; inviter uuid; preview text;
 begin
  if actor is null or coalesce((auth.jwt()->>'is_anonymous')::boolean,false)
  then raise exception 'Registered account required';end if;
  if p_pair_id is null or p_accept is null then raise exception 'Invalid chat response';end if;
- -- Sender cannot accept their own request; only pending state can change.
+ -- One recipient-only pending -> decided transition under the row update lock.
+ -- Only a successful acceptance writes the introduction as message number one.
  update public.dd_chat_pairs p
  set status=case when p_accept then 'accepted' else 'declined' end,answered_at=now()
  where p.id=p_pair_id and p.invitee_id=actor and p.status='pending'
  and not exists(select 1 from public.dd_chat_blocks b where
   (b.blocker_id=p.inviter_id and b.blocked_id=p.invitee_id) or
-  (b.blocker_id=p.invitee_id and b.blocked_id=p.inviter_id));
- get diagnostics affected=row_count;
- return affected=1;
+  (b.blocker_id=p.invitee_id and b.blocked_id=p.inviter_id))
+ returning p.id,p.inviter_id,p.initial_preview into accepted_pair,inviter,preview;
+ if accepted_pair is not null and p_accept then
+  insert into public.dd_chat_messages(pair_id,author_id,body)
+  values(accepted_pair,inviter,preview);
+ end if;
+ return accepted_pair is not null;
 end $$;
 
 create or replace function public.dd_chat_send_message(p_pair_id uuid,p_body text)
@@ -137,7 +142,7 @@ begin
  then raise exception 'Message must contain 1–2000 characters';end if;
  select * into p from public.dd_chat_pairs
  where id=p_pair_id and status='accepted'
-  and (inviter_id=actor or invitee_id=actor);
+  and (inviter_id=actor or invitee_id=actor) for share;
  if not found then raise exception 'Accepted chat required';end if;
  if exists(select 1 from public.dd_chat_blocks b
   where (b.blocker_id=p.inviter_id and b.blocked_id=p.invitee_id)
@@ -154,12 +159,15 @@ end $$;
 
 create or replace function public.dd_chat_my_pairs()
 returns table(pair_id uuid,direction text,other_username text,initial_preview text,
- status text,created_at timestamptz,answered_at timestamptz)
+ status text,created_at timestamptz,answered_at timestamptz,contact_unavailable boolean)
 language sql stable security definer set search_path=pg_catalog,public as $$
  select p.id,
   case when p.inviter_id=auth.uid() then 'sent' else 'received' end,
   case when n.is_public then n.display_name else 'Researcher' end,
-  p.initial_preview,p.status,p.created_at,p.answered_at
+  p.initial_preview,p.status,p.created_at,p.answered_at,
+  exists(select 1 from public.dd_chat_blocks b where
+   (b.blocker_id=p.inviter_id and b.blocked_id=p.invitee_id) or
+   (b.blocker_id=p.invitee_id and b.blocked_id=p.inviter_id))
  from public.dd_chat_pairs p
  left join public.dd_public_names n on n.user_id=
    (case when p.inviter_id=auth.uid() then p.invitee_id else p.inviter_id end)
@@ -178,8 +186,11 @@ begin
  if p_pair_id is null or coalesce(p_limit,0) not between 1 and 100
  then raise exception 'Invalid chat history request';end if;
  if not exists(select 1 from public.dd_chat_pairs p where p.id=p_pair_id
-  and p.status='accepted' and (p.inviter_id=auth.uid() or p.invitee_id=auth.uid()))
- then raise exception 'Accepted chat required';end if;
+  and p.status='accepted' and (p.inviter_id=auth.uid() or p.invitee_id=auth.uid())
+  and not exists(select 1 from public.dd_chat_blocks b where
+   (b.blocker_id=p.inviter_id and b.blocked_id=p.invitee_id) or
+   (b.blocker_id=p.invitee_id and b.blocked_id=p.inviter_id)))
+ then raise exception 'Accepted and unblocked chat required';end if;
  return query
  select m.id,m.author_id=auth.uid(),m.body,m.created_at
  from public.dd_chat_messages m where m.pair_id=p_pair_id
@@ -231,7 +242,8 @@ create or replace function public.dd_chat_report_queue(p_limit integer default 5
 returns table(report_id uuid,reason text,reported_excerpt text,created_at timestamptz)
 language plpgsql stable security definer set search_path=pg_catalog,public as $$
 begin
- if auth.uid() is null or not exists(select 1 from public.dd_chat_owner_admins a where a.user_id=auth.uid())
+ if auth.uid() is null or coalesce((auth.jwt()->>'is_anonymous')::boolean,false)
+  or not exists(select 1 from public.dd_chat_owner_admins a where a.user_id=auth.uid())
  then raise exception 'Site owner authorisation required';end if;
  if coalesce(p_limit,0) not between 1 and 100 then raise exception 'Invalid limit';end if;
  return query

@@ -1,6 +1,6 @@
 # Disclosure Desk — Private one-to-one Chat roadmap
 **Approved:** 3 November 2026  
-**Status:** Database schema/RPC source CANDIDATE STAGED ONLY; UI NOT BUILT; backend NOT APPLIED; NOT DEPLOYED  
+**Status:** UI built but feature-flagged OFF; separate private-chat candidate SQL/RPC STAGED; new disposable PostgreSQL 17 multi-account integration CI STAGED (result pending), backend NOT APPLIED, NOT DEPLOYED  
 **Master handover:** [MASTER_HANDOVER.md](../MASTER_HANDOVER.md) — authoritative; update after every milestone.
 
 ## Core experience
@@ -40,3 +40,12 @@
 
 ## 3 November 2026 backend-candidate checkpoint
 A review-only candidate lives at `supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql` with `scripts/test_private_chat_sql.cjs`. This file is intentionally **outside** `supabase/migrations` and must not be applied until isolated SQL/RLS testing and explicit approval. No direct user messaging or opt-in UI is currently operational. See master milestone log.
+
+## 3 November 2026 isolated backend hardening milestone (source staged; CI pending)
+
+- Corrected recipient-only acceptance to insert the introductory request into the accepted conversation **exactly once**, with no messages saved on a declined request.
+- Locked chat pair on message send to serialize against block; both the message history RPC and send RPC reject blocked conversations.
+- Extended pair list projection with `contact_unavailable` for client-side block state, while retaining server-side checks; no private identifiers/emails exposed.
+- Drafted disposable PostgreSQL 17 workflow `.github/workflows/validate-private-chat-isolated.yml` plus synthetic fixture and malicious/ordinary account acceptance tests (pending/accepted/declined, separate preview, rate/block/report, participant vs owner, anonymous vs authenticated, direct table ACL). This is **not** the live Supabase project.
+- UI reopens the selected accepted chat when refreshing after sending/acceptance and avoids requesting history for a blocked pair. These are source-level changes only.
+- **Remaining before deployment:** pass isolated CI, review full auth/username assumptions on actual backend, unread indicators, owner reports UI, account deletion/export retention, user-consent privacy text, real two-account desktop/phone QA and Android parity. Live backend untouched.
