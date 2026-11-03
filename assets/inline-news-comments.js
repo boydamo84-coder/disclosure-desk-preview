@@ -34,6 +34,7 @@ function mount(container){
    const header=el('small',(item.publicAlias||'Community member')+' · '+new Date(item.created_at).toLocaleDateString());header.className='muted';
    const text=el('p',item.body);text.style.whiteSpace='pre-wrap';
    const flag=el('button','⚑ Flag');flag.type='button';flag.className='outline';
+   if(item.is_mine){flag.disabled=true;flag.title='You cannot flag your own comment';}
    flag.onclick=async()=>{const c=client();if(!c)return;const {data:{user}}=await c.auth.getUser();if(!user||user.is_anonymous){message.textContent='Sign in with a registered account to flag comments.';return}
     const reason=prompt('Flag reason: privacy, abuse, spam, harmful, copyright or other','spam');
     if(!reason)return;const selected=reason.trim().toLowerCase();
@@ -51,7 +52,7 @@ function mount(container){
  }
  async function refresh(){
   const c=client();if(!c){message.textContent='Comments are not configured.';return}
-  const {data,error}=await c.from('dd_case_comments').select('id,body,created_at').eq('case_id',id).eq('status','approved').order('created_at',{ascending:true}).limit(100);
+  const {data,error}=await c.rpc('dd_public_comments',{p_case_id:id,p_limit:100});
   if(!container.isConnected)return;
   if(error){message.textContent='Comments temporarily unavailable.';return}
   const aliases=await window.DDPublicProfiles?.namesFor('comment',data||[])||{};

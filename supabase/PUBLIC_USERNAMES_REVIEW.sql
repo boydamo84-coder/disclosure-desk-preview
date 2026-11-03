@@ -48,4 +48,6 @@ begin
   end if;
 end $$;
 revoke all on function public.dd_public_aliases(text,uuid[]) from public,anon,authenticated;
-grant execute on function public.dd_public_aliases(text,uuid[]) to authenticated;
+-- The username owner opted into public display. Guests may see the name for
+-- APPROVED public content only; no email, member roster or account UUID.
+grant execute on function public.dd_public_aliases(text,uuid[]) to anon,authenticated;

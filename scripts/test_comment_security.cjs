@@ -27,7 +27,7 @@ console.log('PASS: staged comment/flag security patch enforces registered-only, 
 // Browser copy is equally important: never pretend a rejected post/flag was accepted.
 const caseUi=fs.readFileSync('assets/case-discussions.js','utf8');
 const newsUi=fs.readFileSync('assets/inline-news-comments.js','utf8');
-assert.match(caseUi,/item\.author_id===user\.id/,'Case UI catches self-flags before posting');
+assert.match(caseUi,/item\.is_mine/,'Case UI uses privacy-safe is_mine from public RPC');
 assert.match(caseUi,/You cannot flag your own comment/);
 assert.match(newsUi,/You have already flagged this comment/);
 assert.match(newsUi,/Sign in with a registered account to comment/);

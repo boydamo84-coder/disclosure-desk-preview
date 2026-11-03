@@ -17,7 +17,7 @@ async function load(){
  const c=client();if(!c||!current)return;
  const list=document.querySelector('#ddCaseDiscussionList');
  list.textContent='Loading comments…';
- const {data,error}=await c.from('dd_case_comments').select('id,case_id,author_id,parent_id,body,status,created_at').eq('case_id',current).eq('status','approved').order('created_at',{ascending:true}).limit(100);
+ const {data,error}=await c.rpc('dd_public_comments',{p_case_id:current,p_limit:100});
  if(error){list.textContent='Comments unavailable. The database migration may not have been applied.';return}
  const chosen=current;
  const aliases=await window.DDPublicProfiles?.namesFor('comment',data||[])||{};
@@ -42,7 +42,7 @@ function renderComments(){
    flag.onclick=async()=>{
      const {data:{user}}=await c.auth.getUser();
      if(!user||user.is_anonymous){announce('Sign in with a registered account to flag comments.');return}
-     if(item.author_id===user.id){announce('You cannot flag your own comment.');return}
+     if(item.is_mine){announce('You cannot flag your own comment.');return}
      const reason=window.prompt('Reason: privacy, abuse, spam, harmful, copyright, other','spam');
      if(!reason)return;
      if(!['privacy','abuse','spam','harmful','copyright','other'].includes(reason.trim().toLowerCase())){announce('Please select a listed reason.');return}
@@ -74,7 +74,7 @@ function init(){
    profile.hidden=false;profileList.textContent='Loading your comments…';
    const c=client();if(!c){profileList.textContent='Account service unavailable.';return}
    const {data:{user}}=await c.auth.getUser();if(!user){profileList.textContent='Sign in to view your comments.';return}
-   const {data,error}=await c.from('dd_case_comments').select('id,case_id,body,status,created_at').eq('author_id',user.id).order('created_at',{ascending:false}).limit(100);
+   const {data,error}=await c.rpc('dd_my_comments',{p_limit:100});
    profileList.replaceChildren();
    if(error){profileList.textContent='Comments unavailable until the database migration is active.';return}
    if(!data?.length){profileList.textContent='You have not posted any comments yet.';return}
