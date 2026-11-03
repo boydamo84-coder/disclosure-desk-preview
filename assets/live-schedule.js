@@ -4,7 +4,7 @@
  */
 (()=>{
 'use strict';
-const URL='https://omqxizswzcwgzqaczlhe.supabase.co',KEY='sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X';
+const SUPABASE_URL='https://omqxizswzcwgzqaczlhe.supabase.co',KEY='sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X';
 const HOSTS=['congress.gov','house.gov','senate.gov','youtube.com','youtube-nocookie.com','youtu.be'];
 const validUrl=(raw)=>{try{const u=new URL(raw);return u.protocol==='https:'&&HOSTS.some(x=>u.hostname===x||u.hostname.endsWith('.'+x))}catch{return false}};
 const el=(tag,cls,txt)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(txt!==undefined)x.textContent=txt;return x};
@@ -57,7 +57,7 @@ async function sources(){
  }catch(_){}
  let fromDb=[];
  try{
-  const db=window.supabase?.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+  const db=window.supabase?.createClient(SUPABASE_URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
   if(db){
    const {data,error}=await db.from('dd_live_events').select('id,title,starts_at,ends_at,status,source_url,stream_url,recording_url,source_label,is_public').eq('is_public',true).in('status',['upcoming','live']).order('starts_at',{ascending:true}).limit(40);
    if(!error&&Array.isArray(data))fromDb=data.map(normalize).filter(Boolean);
