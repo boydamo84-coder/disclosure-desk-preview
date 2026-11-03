@@ -81,3 +81,11 @@ const isolatedSql=fs.readFileSync('scripts/forum-isolated-acceptance.sql','utf8'
 assert.doesNotMatch(isolatedSql,/^do \$$/m,'No single-dollar DO block');
 assert.doesNotMatch(isolatedSql,/^end \$;$/m,'No single-dollar DO close');
 assert.equal((isolatedSql.match(/^do \$\$$/gm)||[]).length,(isolatedSql.match(/^end \$\$;$/gm)||[]).length,'Balanced synthetic DO bodies');
+
+/* Real PostgreSQL flagged replies need the same reviewed baseline column as topics. */
+const replyDDL=sql.slice(sql.indexOf('create table if not exists public.dd_forum_replies('),
+ sql.indexOf('create index if not exists dd_forum_replies_thread_idx'));
+const topicDDL=sql.slice(sql.indexOf('create table if not exists public.dd_forum_threads('),
+ sql.indexOf('create index if not exists dd_forum_threads_section_idx'));
+assert.match(replyDDL,/reviewed_flag_count integer not null default 0/);
+assert.match(topicDDL,/reviewed_flag_count integer not null default 0/);

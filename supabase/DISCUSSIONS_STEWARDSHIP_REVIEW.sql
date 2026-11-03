@@ -45,6 +45,7 @@ create table if not exists public.dd_forum_replies(
  author_id uuid references auth.users(id) on delete set null,
  body text not null check(char_length(btrim(body)) between 2 and 2000),
  status text not null default 'published' check(status in ('published','hidden','removed')),
+ reviewed_flag_count integer not null default 0 check(reviewed_flag_count>=0),
  created_at timestamptz not null default now(),
  updated_at timestamptz not null default now(),
  check(id is distinct from parent_id)

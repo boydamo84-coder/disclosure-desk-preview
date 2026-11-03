@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, reply flag-baseline correction SOURCE STAGED:** isolated expanded CI run `41688611725` FAILED at first reply flag because `dd_discussions_flag` expected `dd_forum_replies.reviewed_flag_count`, missing from candidate reply DDL. Corrected the review-only table definition and added matched topic/reply DDL regression. No live DB affected; isolated test rerun pending.
+
 - **2026-11-03, expanded isolated forum SQL test fixture delimiter fix STAGED:** new run `41688410287` FAILED in test script after original integration tests passed; seven newly added `do $` blocks were changed to `do # Disclosure Desk — MASTER HANDOVER (authoritative)
 
 **Updated:** 2026-11-03 UTC  
@@ -269,6 +271,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Discussions reply review threshold fixed after isolated test
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `0afee9bd0393e9513e36172d13730fae30a67b0f`; resulting SHA is new HEAD.
+- Run `41688611725` **FAILED** on real disposable PostgreSQL acceptance at the fifth stage (first flagged reply): `column r.reviewed_flag_count does not exist`. Candidate schema had correctly added this reviewed threshold to topics but not replies.
+- Updated **unapplied** `supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql` reply DDL to include `reviewed_flag_count integer not null default 0` and extended `scripts/test_discussions_sql.cjs` to assert both table definitions match.
+- Normal website source CI `41688611745` passed on preceding SHA; rerunning both pipelines. No Supabase production schema/rows, Netlify, or Android changes. Next verify isolated expanded reply/escalation sequence green.
+
+
 
 ### 2026-11-03 — Fix disposable acceptance script quoting, add static regression
 - Branch `feature/sources-archives-next-batch-nov03`, prior SHA `d09c36631af571db135d72ed02ef24c66e8cfcb6`; resulting SHA new HEAD.
