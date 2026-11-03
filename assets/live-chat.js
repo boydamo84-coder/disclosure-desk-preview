@@ -84,8 +84,8 @@ window.ddLiveChatMount=(host,event)=>{
  if(!db){form.hidden=true;say('Live chat is temporarily unavailable.',true);return ()=>{active=false}};
  const authListener=db.auth.onAuthStateChange((_event,session)=>{
   if(!active)return;
-  const id=session?.user?.id||null;
-  if(id!==user?.id){user=session?.user||null;if(!user)showSignedOut();else{form.hidden=false;void load()}}
+  const next=session?.user&&!session.user.is_anonymous?session.user:null;
+  if((next?.id||null)!==(user?.id||null)){user=next;if(!user)showSignedOut();else{form.hidden=false;void load()}}
  });
  async function start(){
   const {data,error}=await db.auth.getUser();
