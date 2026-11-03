@@ -101,5 +101,79 @@ function mountCaseCard(record,host){
  if(first)first.before(card);else host.append(card);
  return true;
 }
-window.DDHistoricalSatellite=Object.freeze({details,isoDate,worldViewUrl,mountCaseCard});
+
+// Case-card satellite inspection. Source cards with partial dates must not
+// substitute an arbitrary day or a catalogue year as an actual event date.
+function caseSelection(r){
+ if(!r||r.isWitness)return null;
+ const lat=Number(r.lat),lon=Number(r.lon);
+ const coordinatesKnown=Number.isFinite(lat)&&Number.isFinite(lon)&&
+  Math.abs(lat)<=90&&Math.abs(lon)<=180&&r.lat!==null&&r.lon!==null&&
+  r.lat!==undefined&&r.lon!==undefined;
+ const date=isoDate(r.eventDate); // Do NOT reuse a published/document date.
+ const year=Number(r.year);
+ return {date,year:Number.isInteger(year)&&year>=1&&year<=9999?year:null,
+  coordinatesKnown,lat:coordinatesKnown?Math.round(lat*10)/10:null,
+  lon:coordinatesKnown?Math.round(lon*10)/10:null,
+  city:String(r.city||r.location||'Location not verified').slice(0,120),
+  provenance:String(r.locationPrecision||'Approximate case region').slice(0,100)};
+}
+function validatedViewerUrl(r,chosenDate,chosenTime){
+ const info=caseSelection(r);
+ if(!info||!info.coordinatesKnown||!isoDate(chosenDate))return null;
+ // NASA viewer may still contain no image on this day; no frame is fetched.
+ return worldViewUrl({...r,eventDate:chosenDate,lat:info.lat,lon:info.lon},chosenTime);
+}
+function openSatelliteCase(r){
+ const state=caseSelection(r),dialog=document.getElementById('ddSatelliteDialog');
+ if(!dialog||!state)return false;
+ const content=document.getElementById('ddSatelliteDialogBody');
+ const heading=document.getElementById('ddSatelliteTitle');
+ if(!content||!heading)return false;
+ heading.textContent='🛰 Historical satellite imagery · '+String(r.title||'Case').slice(0,160);
+ content.replaceChildren();
+ const summary=$('p',state.city+' · '+(state.date||state.year&&'Year '+state.year||'Date not recorded'),'muted small');
+ const geo=$('p',state.coordinatesKnown
+  ?'Approximate mapped area only · location rounded to 0.1° · not the exact sighting point.'
+  :'No verified mappable town position is linked to this case. Map centring is unavailable until the location is researched.','muted small');
+ content.append(summary,geo);
+ const label=$('label','Sighting date (YYYY-MM-DD)');label.htmlFor='ddSatDateInput';
+ const date=$('input');date.type='date';date.id='ddSatDateInput';date.className='field';date.value=state.date||'';
+ date.max=new Date().toISOString().slice(0,10);date.setAttribute('aria-describedby','ddSatDateSource');
+ const dateOrigin=$('p',state.date?'Recorded event date from this case.':'Date not verified in this case. Enter a researcher-supplied date only if you have supporting evidence.','muted small');dateOrigin.id='ddSatDateSource';
+ const timeLabel=$('label','Reported time (UTC, optional)');timeLabel.htmlFor='ddSatUtcInput';
+ const time=$('input');time.type='time';time.id='ddSatUtcInput';time.className='field';
+ const timeNote=$('p','No verified time is included in this case record. Leave blank to browse at 12:00 UTC (a navigation default, NOT the event time).','muted small');
+ const status=$('p','','muted small');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+ const actions=$('div',undefined,'dd-satellite-actions');
+ const primary=externalLink(actions,'Open NASA satellite map for chosen date',NASA);
+ const eumet=externalLink(actions,'Open Meteosat historic imagery',EUMET_DAILY);
+ const modern=externalLink(actions,'EUMETSAT weather layers',EUMET_VIEW);
+ const caution=$('p','Weather satellite imagery shows clouds and broad atmospheric conditions, not live street-level pictures. These links select a viewing date/area, but DO NOT verify the nearest acquired image time. The provider may lack coverage or frames; check the acquisition timestamp inside the viewer.','muted small');
+ const update=()=>{
+  const requested=isoDate(date.value),hasCoords=state.coordinatesKnown;
+  const utc=utcTime(time.value);
+  const world=validatedViewerUrl(r,requested,utc);
+  primary.hidden=!world;
+  if(world)primary.href=world;
+  eumet.hidden=!requested||requested<DAILY_START;
+  modern.hidden=false;
+  if(!requested)status.textContent='Choose a valid day from the original report; no exact event date has been confirmed.';
+  else if(!hasCoords)status.textContent='The date is selected, but this archive lacks a verified town-level map position. Check the original source before a location-specific search.';
+  else if(world)status.textContent='Date selected: '+requested+' · '+(utc?'manually entered '+utc+' UTC (unverified)':'12:00 UTC date-browsing default (not sighting time)')+' · approximate '+state.city+'. The image acquisition time is NOT checked.';
+  else if(requested>=DAILY_START)status.textContent='For this older date, use the Meteosat daily gallery and choose '+requested+' manually. Location and exact acquisition time must be checked in the source.';
+  else status.textContent='No verified source viewer coverage established for this date. Do not substitute modern imagery as historical.';
+  if(!state.date&&requested)dateOrigin.textContent='Researcher-supplied date · not verified against the archive. Confirm the exact event date in the original document.';
+  if(time.value&&!utc)timeNote.textContent='Enter a valid 24-hour UTC time. This will not be saved as a documented sighting time.';
+  else if(utc)timeNote.textContent='Researcher-supplied '+utc+' UTC, not a confirmed sighting time or actual image timestamp. Verify the time zone and provider frame.';
+  else timeNote.textContent='No verified sighting time. The 12:00 UTC timeline position is a browsing default only, not the event time.';
+ };
+ date.addEventListener('input',update);time.addEventListener('input',update);
+ content.append(label,date,dateOrigin,timeLabel,time,timeNote,status,actions,caution);
+ if(!dialog.open)dialog.showModal();
+ update();date.focus();
+ return true;
+}
+
+window.DDHistoricalSatellite=Object.freeze({details,isoDate,worldViewUrl,mountCaseCard,caseSelection,validatedViewerUrl,openSatelliteCase});
 })();

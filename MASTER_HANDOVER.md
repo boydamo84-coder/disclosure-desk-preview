@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, satellite imagery per-case-card navigation CODE STAGED:** added consistent **🛰 Satellite view** actions across Map result cards, Featured Case Files, Explore rabbit-hole case cards and Evidence Archive results/details, opening case-specific timeline/provider dialogue. Full dates/approximate mapped towns carried into NASA Worldview; year-only or locationless archives clearly signal missing evidence. No verified nearest satellite image is auto-retrieved; provider source/time caveats displayed. GitHub-only tests pending; still no public deploy.
+
 - **2026-11-03, historical satellite imagery case-handoff STAGED, CI GREEN, NOT LIVE:** Existing dated Map case list now has a **🛰 Historic satellite imagery** action opening its Evidence file, where `assets/historical-satellite.js` will show official NASA Worldview date+approximate-city handoff and EUMETSAT long-term gallery/EUMETView links. Date-only source records remain labelled date-only; optional researcher UTC time is NOT validated as actual event time. GitHub-only CI run `41693881342` SUCCESS at SHA `dda6f9bd9a87bc400859d4664773adef04ba2480`; no external imagery fetched, no live deployment, no third-party tracking without explicit user click. Detailed source/limitations `docs/HISTORICAL_SATELLITE_IMAGERY_2026-11-03.md` (parent approved post-launch Phase B).
 
 - **2026-11-03, reply flag-baseline correction SOURCE STAGED:** isolated expanded CI run `41688611725` FAILED at first reply flag because `dd_discussions_flag` expected `dd_forum_replies.reviewed_flag_count`, missing from candidate reply DDL. Corrected the review-only table definition and added matched topic/reply DDL regression. No live DB affected; isolated test rerun pending.
@@ -273,6 +275,16 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Historical satellite view on all existing public case-card families (unpublished)
+- Branch `feature/sources-archives-next-batch-nov03`, previous SHA `43011c53a95e703ffc7d294bac0192951894c7d8`; resulting SHA is this GitHub milestone commit.
+- Added **🛰 Satellite view** on Map report cards, Featured Case Files, Rabbit Hole cases and Evidence Archive list/detail via exact-scoped case IDs. New historic satellite research dialogue from `assets/historical-satellite.js` gives recorded event date + optional researcher-supplied UTC time and approximate mapped public area, using official NASA Worldview date/viewport or EUMETSAT manual archive links. No new navigation tab.
+- Year-only records do not get invented day/time; archives with no exact linked mapped case ID are shown as unlocated and do not receive fake coordinates. No witness/private GPS or automatic third-party requests. Modern map basemaps are not mislabelled as historical images.
+- **Not built:** in-app image frame preview, API-based nearest actual acquisition selection, historical time slider, verified frame timestamp provenance, satellite object-track analysis. Source viewer handoff only, no claim frame exists at exact minute.
+- Expanded `scripts/test_historical_satellite.cjs` static source/URL/date/archive-scope tests, docs updated. GitHub CI pending; browser and Samsung device acceptance pending.
+- No Netlify preview/publish, Supabase data changes, production branch/11-tabs or Android changes.
+
+
 
 ### 2026-11-03 — Historical satellite imagery GitHub-only QA verified
 - Implementation SHA `dda6f9bd9a87bc400859d4664773adef04ba2480` on unpublished branch `feature/sources-archives-next-batch-nov03` passed GitHub workflow **`41693881342` SUCCESS**. Verified in CI: JavaScript syntax, historical case date parsing, approximate town-only coordinates, Worldview geographic/date/UTC parameter format, NASA vs EUMETSAT coverage boundaries, absence of witness/private location forwarding, no fake event time, case Evidence mount, and retained 11-tab navigation.

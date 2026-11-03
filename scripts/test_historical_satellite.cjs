@@ -38,3 +38,26 @@ assert.match(html,/assets\/historical-satellite\.js\?v=/);
 const nav=html.match(/<nav\s+class="nav"[\s\S]*?<\/nav>/i)?.[0]||'';
 assert.equal((nav.match(/class="tab(?: active)?"/g)||[]).length,11,'Live navigation stays at 11 tabs');
 console.log('PASS: historical satellite links use exact event date and approximate city only, no fabricated sighting time, pre-2000 fallback, case Evidence UI, safe official links.');
+
+/* Consistent satellite-case action from every public case-card collection.
+ * Archived records cannot be assigned a false event day or map coordinate. */
+const yearOnly={id:'year-only',title:'Roswell',city:'Roswell, New Mexico',year:1947,lat:33.4,lon:-104.5};
+assert.equal(api.caseSelection(yearOnly).date,null,'Year is not a verified exact event date');
+assert.equal(api.caseSelection(yearOnly).year,1947);
+assert.equal(api.validatedViewerUrl(yearOnly,null,null),null);
+assert.equal(api.validatedViewerUrl(yearOnly,'2008-01-20',null).includes('2008-01-20'),true,
+ 'Explicitly entered date can open available NASA viewer; do not write it to case');
+assert.equal(api.caseSelection({...yearOnly,lat:null,lon:null}).coordinatesKnown,false);
+assert.equal(api.validatedViewerUrl({...yearOnly,lat:null,lon:null},'2008-01-20',null),null,
+ 'Do not send a locationless historical archive record to a false point');
+assert.equal(api.caseSelection({...yearOnly,isWitness:true}),null);
+assert.match(js,/No verified time is included in this case record/);
+assert.match(js,/image acquisition time is NOT checked/);
+assert.match(js,/No verified mappable town position is linked to this case/);
+assert.match(html,/id="ddSatelliteDialog"/);
+assert.match(html,/id="ddSatelliteDialogBody"/);
+assert.match(html,/data-dd-sat-case="'\+esc\(String\(r\.id\)\)\+'/);
+assert.match(html,/data-dd-sat-archive="\$\{esc\(String\(r\.id\)\)\}"/);
+assert.match(html,/String\(x\.archiveRecordId\|\|''\)===String\(archive\.id\)/,
+ 'Only exact mapped archive references can supply coordinates');
+assert.match(html,/data-dd-sat-archive/, 'Archived case card access');
