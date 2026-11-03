@@ -66,6 +66,13 @@ try{
   equal((await page.locator('body').innerText()).includes('read-only demonstration'),true,profile+' guest preview readonly');
   await page.locator('[data-section="1"]').click();
   equal((await page.locator('#sample').innerText()).includes('2. Evidence'),true,profile+' guest sample section');
+  await page.locator('a.dd-return-to-site').click();
+  await page.locator('[data-tab="discover"]').waitFor({state:'visible'});
+  equal(await page.locator('.nav-inner').isVisible(),true,profile+' guest return restores main website navigation');
+  await page.goto(base+'research/index.html',{waitUntil:'domcontentloaded'});
+  await page.locator('a.dd-return-to-site').click();
+  await page.locator('[data-tab="researchStudio"]').waitFor({state:'visible'});
+  equal(await page.locator('.nav-inner').isVisible(),true,profile+' Research Studio landing exit returns to main website');
   await page.goto(base+'privacy.html',{waitUntil:'domcontentloaded'});
   equal((await page.locator('body').innerText()).includes('W.NE Research Edition'),true,profile+' policy covers W.NE');
   await page.goto(base+'research-edition.html',{waitUntil:'domcontentloaded'});
