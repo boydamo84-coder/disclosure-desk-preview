@@ -229,7 +229,7 @@ for each row execute function public.dd_witness_autohide();
 -- The existing moderator allowlist controls restoration and removal.
 -- Lock the report's flag stream, then mark old flags reviewed when restoring.
 create or replace function public.dd_moderate_witness(p_id uuid,p_action text)
-returns void language plpgsql security definer set search_path=pg_catalog,public as $
+returns void language plpgsql security definer set search_path=pg_catalog,public as $$
 begin
  if auth.uid() is null
     or coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=true
@@ -260,7 +260,7 @@ grant execute on function public.dd_moderate_witness(uuid,text) to authenticated
 create or replace function public.dd_witness_moderation_queue()
 returns table(report_id uuid,category text,city text,country text,story text,
               status text,flag_count bigint,latest_flag timestamptz,hidden_at timestamptz)
-language plpgsql stable security definer set search_path=pg_catalog,public as $
+language plpgsql stable security definer set search_path=pg_catalog,public as $$
 begin
  if auth.uid() is null
     or coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=true
