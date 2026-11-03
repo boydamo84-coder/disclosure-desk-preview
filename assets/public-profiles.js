@@ -1,10 +1,10 @@
 /* Disclosure Desk pseudonymous community names: private until explicit opt-in.
  * Uses the existing owner-only dd_public_names table. No public direct SELECT.
- * Preview is gated by community-test-config; production changes separately.
+ * Trusted official hosts are enabled; private names remain opt-in.
  */
 (()=>{'use strict';
 const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
-const enabled=cfg.environment==='test'&&!!cfg.url&&!!cfg.publishableKey;
+const enabled=['test','production'].includes(cfg.environment)&&!!cfg.url&&!!cfg.publishableKey;
 const VALID=/^[A-Za-z][A-Za-z0-9_]{2,23}$/;
 const RESERVED=/(admin|moderator|support|official|verified|staff|disclosuredesk|boyddigitalstudios|uapdisclosuredesk)/i;
 const idOk=/^[0-9a-f]{8}-[0-9a-f-]{27,36}$/i;

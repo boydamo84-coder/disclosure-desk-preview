@@ -8,7 +8,7 @@
 'use strict';
 const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
 const feature=window.DD_COMMUNITY_FEATURES||{};
-const enabled=feature.witnessPublic===true&&cfg.environment==='test';
+const enabled=feature.witnessPublic===true&&['test','production'].includes(cfg.environment);
 const make=(tag,cls,content)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(content!==undefined)x.textContent=content;return x;};
 const reportKey=/^[0-9a-f]{8}-[0-9a-f-]{27,36}$/i;
 let db=null,publicRows=[],busy=false,refreshTimer=null,detail=null;

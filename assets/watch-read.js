@@ -36,7 +36,7 @@ const starter=[...starterRows,...otherPodcastEpisodes,...joeRoganEpisodes,...wea
 }).map(([category,title,year,creator,url])=>({category,title,year,creator,url,id:(category+'-'+title).toLowerCase().replace(/[^a-z0-9]+/g,'-')}));
 const key='dd_watch_read_saved_v1';
 let client=null;
-const db=()=>{const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};if(!window.supabase||!cfg.url||!cfg.publishableKey||cfg.environment!=='test')return null;return client||(client=window.supabase.createClient(cfg.url,cfg.publishableKey));};
+const db=()=>{const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};if(!window.supabase||!cfg.url||!cfg.publishableKey||!['test','production'].includes(cfg.environment))return null;return client||(client=window.supabase.createClient(cfg.url,cfg.publishableKey));};
 let scores={},mine={},available=false,busy=false;
 async function loadVotes(){
  const c=db();if(!c){available=false;mine={};scores={};return;}

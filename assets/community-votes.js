@@ -5,7 +5,7 @@
 (()=>{
 'use strict';
 const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
-const enabled=window.DD_COMMUNITY_FEATURES?.voting===true&&cfg.environment==='test';
+const enabled=window.DD_COMMUNITY_FEATURES?.voting===true&&['test','production'].includes(cfg.environment);
 const key=/^[0-9a-f]{8}-[0-9a-f-]{27,36}$/i;
 let db=null;
 const client=()=>db||(db=enabled&&window.supabase?.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}));

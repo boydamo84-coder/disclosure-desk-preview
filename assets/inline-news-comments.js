@@ -2,7 +2,7 @@
 (()=>{'use strict';
 const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
 let db;
-const client=()=>{if(cfg.environment!=='test'||!cfg.url||!cfg.publishableKey||!window.supabase)return null;return db||(db=window.supabase.createClient(cfg.url,cfg.publishableKey));};
+const client=()=>{if(!['test','production'].includes(cfg.environment)||!cfg.url||!cfg.publishableKey||!window.supabase)return null;return db||(db=window.supabase.createClient(cfg.url,cfg.publishableKey));};
 const el=(tag,value)=>{const n=document.createElement(tag);if(value!==undefined)n.textContent=value;return n;};
 const states=new WeakMap();
 const drafts=new Map(); // Preserve expansion and unfinished text when news cards are refreshed.

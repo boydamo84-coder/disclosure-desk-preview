@@ -5,7 +5,7 @@
 (()=>{
 'use strict';
 const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
-const db=()=>cfg.environment==='test'&&cfg.url&&cfg.publishableKey
+const db=()=>['test','production'].includes(cfg.environment)&&cfg.url&&cfg.publishableKey
  ?window.supabase?.createClient(cfg.url,cfg.publishableKey,{auth:{
     persistSession:true,autoRefreshToken:true,detectSessionInUrl:true
   }}):null;
