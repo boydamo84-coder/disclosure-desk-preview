@@ -40,6 +40,11 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, BDS FINANCE CENTRE 2026-11-03 DECISION MILESTONE — PLANNED ONLY:** added `docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md` at commit `137fb8164f30aa7f9fabb6cd43e06e094093568a`. Private BDS-wide finance dashboard and automation plan: Ko-fi verified payment webhooks, AdSense readonly estimated/paid reports, Google Play monthly earnings CSV/Cloud Storage, expenses, FX/fees/refunds and reconciliation, conditional NI/UK sole trader/company tax calculation, protected owner portal + opt-in offline snapshots. **No dashboard UI, provider connection, backend migration, user finances, tax estimate or public deployment.** Requires business-form/PAYE inputs and separate go-ahead.
+
+- **2026-11-03, most recent Ko-fi support CODE STAGED / GitHub CI GREEN:** commit `32974cbde4fe336bf81315fae87f6b8568448937` passed `Sources & Archives staging QA (no deploy)` Actions run **41717709506** (success). Source and Ko-fi link static tests pass; no owner/browser test of profile checkout, payment receipt, Netlify production release, Supabase or Android change. Existing `production` SHA `9755fba9a5116c0cce6ac433ea022a6e5bfadd15`.
+
+
 - **2026-11-03, OWNER-SUPPLIED LIVE KO-FI PAGE LINK STAGED:** Site owner provided exact `https://ko-fi.com/disclosuredesk` after Stripe connection and Ko-fi Free Standard-off setup screenshots. Set `VERIFIED_KOFI_PAGE_URL` in `assets/support-site.js`; existing responsive small gold **☕ Support** sticky-header link (beside Profile), About card and footer links will now render after the *next deliberately approved website deployment*. Safe HTTPS/host validation, no embedded payment data, no additional main tab. Updated source assertions and script cache version; GitHub-only CI pending. Public page URL was owner-provided, not independently fetched; actual click/payment checkout needs manual browser verification before launch. Production/Netlify/Supabase unchanged.
 
 
@@ -207,6 +212,8 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**Owner-only BDS Finance Centre is a separate planned cross-product tool, NOT a blocker for the next Disclosure Desk website batch.** Design: `docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md`; no implementation/automatic collection or tax calculation exists. Preserve public navigation and current branch release boundaries.
+
 **Release rule:** collect work into the next significant unpublished batch, preserving 11 tabs and all tested capabilities. No individual feature deployment.
 
 ### 4A. Current QA/repair and polish queue — verify existing behavior first
@@ -273,6 +280,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 6. Known source paths and supporting records
 
+- Future private business finance dashboard (design only): `docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md`; no current code or financial records.
+
 - Website: `index.html`, `cloud-boards.js`, `assets/*`, `community-rules.html`, `privacy.html`, `sources.html`, `research/*`, `supabase/*`.
 - Research Studio: `research/wne.html`, `research/research-workspace.html`, `research/research-site-nav.js`, cloud/local bridges and canonical Research Edition source.
 - Backend: `supabase/functions/dd-witness-submit/index.ts`, `supabase/functions/email-board-backup/index.ts`; reviewed migrations in `supabase/`.
@@ -281,6 +290,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [ ] No proposed BDS financial data/provider authorisation exposed via the public website; Finance Centre has no release approval and requires owner-only security/RLS and tax-assumption testing first.
 
 - [ ] Confirm exact branch and HEAD; no unexpected merge, deployment or automation run.
 - [ ] Current 11 tabs, original W.NE UI and existing features present; no UI/code leak, duplicate editor or blank sections.
@@ -297,12 +308,21 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Parallel finance roadmap:** Before real data, confirm business legal form (sole trader/company), whether BDS income across all apps should be combined, and optional annual PAYE context. If approved, build F1 synthetic local prototype, not public release. Continue existing Disclosure Desk QA/repair queue independently.
+
 1. Read **this master file** plus any specific linked QA record needed for the imminent milestone; fetch GitHub's **actual** `production`, `feature/sources-archives-next-batch-nov03` and Android candidate heads and compare them before coding.
 2. Continue the **current unpublished website QA/repair queue** from Section 4A, starting with code audit of deletion/edit permissions and Research Hub collapsing plus the latest reported witness/mobile issue. Do not duplicate existing feature implementations.
 3. Work in an unpublished branch, run targeted tests and verify no Netlify/public deploy. At each completed milestone, **edit this master file in the same milestone**, including exact SHA, tests and blocker status.
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Ko-fi static QA verified and BDS Finance Centre design staged (NO FINANCE BUILD)
+- Repository/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`. Source Ko-fi build SHA `32974cbde4fe336bf81315fae87f6b8568448937`; Finance roadmap doc commit `137fb8164f30aa7f9fabb6cd43e06e094093568a`; this master update is the subsequent branch HEAD, verify SHA after write.
+- Verification: GitHub-only Actions https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41717709506 completed **SUCCESS**, verifying static source + Ko-fi destination; does NOT prove public Ko-fi checkout works. Official Ko-fi/Google/HMRC docs researched and requirements recorded in the new roadmap. Finance code does not exist; no test transactions or tax calculations performed.
+- Changed: new `docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md` + this handover. Existing 11-tab site/code, Android, Supabase accounts and user records unchanged. No production merge, Netlify staging build/deploy, payment tokens or Play publishing.
+- Next: continue QA for staged Disclosure Desk source and functional phone/browser acceptance before any combined site deployment. Finance F0 awaits owner decision on legal form, annual PAYE-income input and private/offline preference; then F1 synthetic-only implementation with security review.
+
 
 ### 2026-11-03 — Connect owner-supplied Ko-fi profile to website Support links (unpublished)
 - Previous branch SHA `251c117bd5cd7c6cd538140f56576d3f8b6be91e`; owner-provided creator URL **https://ko-fi.com/disclosuredesk**, matching the Ko-fi registration/payment connection they just completed. No invented handle or change to payment-provider account settings.
