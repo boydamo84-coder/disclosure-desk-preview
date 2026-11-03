@@ -15,12 +15,8 @@ begin
  if (select count(*) from public.dd_chat_my_pairs()
     where direction='sent' and status='pending')<>1
  then raise exception 'Sender pending view missing';end if;
- if (select count(*) from public.dd_chat_messages
-    where pair_id=(select id from chat_test_ids where label='ab'))<>1
- then
-  -- Do not directly read private table as authenticated: verify pending via RPC.
-  null;
- end if;
+ -- Only the safe pending-pair projection is exposed. Table rows are not
+ -- directly readable with a web client's role (checked explicitly below).
 end $$;
 -- Sender cannot send another message or accept own request.
 do $$

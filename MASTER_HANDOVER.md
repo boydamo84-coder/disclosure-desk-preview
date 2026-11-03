@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, isolated private-chat acceptance fixture privilege fix STAGED:** disposable PostgreSQL run `41709194498` reached role tests and correctly rejected a direct `SELECT` on `dd_chat_messages`. The acceptance fixture accidentally tried to inspect a private table *without trapping the expected denial*. Corrected fixture to use only safe participant RPCs, preserving separate direct-privilege rejection test; source CI `41709194184` SUCCESS. Isolated test rerun pending; schema not applied.
+
 - **2026-11-03, PRIVATE 1:1 CHAT ISOLATED SECURITY TEST MILESTONE (staged, CI PENDING):** Backend candidate corrected to persist the introductory request once on acceptance, reject history after blocking, protect message-send vs block race, expose safe contact-unavailable bool. Added disposable PostgreSQL 17 multi-account CI (fixture+acceptance) and refreshed UI active-conversation handling. Still `privateChat:false`; **NO live Supabase schema applied, messaging NOT usable**, no Netlify/Android build. Exact files/workflow in `docs/PROFILE_PRIVATE_CHAT_ROADMAP_2026-11-03.md`.
 
 - **2026-11-03, historical NASA image-layer correction CODE STAGED:** explicit MODIS Terra daily true-colour `l=` added to Worldview case date/viewport link, preventing defaults that may be unavailable for historical dates; source validated against NASA GIBS. The selected UTC minute still **does not imply that an image exists at that minute**. No historical frame ingestion/nearest-time API. CI pending, no deployment.
@@ -281,6 +283,12 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Isolated chat SQL correctly blocks Data API table read
+- SHA before fix `7c98be683f9a9317ad0b560f549b575dc4e0d854`. GitHub static website CI `41709194184` **SUCCESS**. Real isolated PostgreSQL run `41709194498` **FAILED** at line 24 of test script: `permission denied for table dd_chat_messages`, exactly the intended backend privacy restriction, but the test mistakenly expected to read private table as ordinary authenticated role.
+- Corrected synthetic acceptance test to inspect only participant-scoped safe RPCs. Explicit private-table access denial is tested separately. No SQL candidate schema relaxations, no live backend, no user data touched. Rerun isolated CI before claiming green.
+
+
 
 ### 2026-11-03 — Private Profile Chat functional/security hardening plus isolated database CI
 - Repo/branch `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; previous SHA `5c6e04885a437866d1c2d29cc7f322fcbe973d05`; new SHA current branch HEAD.
