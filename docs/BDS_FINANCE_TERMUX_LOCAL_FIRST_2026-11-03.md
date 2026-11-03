@@ -83,6 +83,12 @@ This option is **potentially safer for this particular single-owner use case**, 
 ## L1 first real Samsung acceptance (2026-11-03 22:28 UK)
 **PASS:** Corrected Termux Python 3.14 build extracted; `init` created synthetic-only encrypted vault; `demo-fill` added ten fictional records; `summary --year 2026/27` showed nine in-year rows, £337 income, £19 refunds, £28.50 platform fees, £12 expenses and £277.50 fictional profit. This verifies the corrected initial write/read/add/totals workflow on the owner's actual phone. **NOT TESTED ON DEVICE:** encrypted backup, verification, isolated recovery, off-device copy, private dashboard or real provider sync. Next steps are `backup` to a new filename and `verify-backup`, without overwriting/deleting `~/.bds-finance/vault.bds`. All data remains fictional.
 
+## L1 on-phone encrypted backup acceptance — 2026-11-03 22:31 UK
+
+**SAMSUNG VERIFIED:** The owner ran `python finance_local/vault.py backup "$HOME/bds-finance-sample-backup.bds"`; app confirmed "Verified encrypted backup exported; NOT plaintext." Then `python finance_local/vault.py verify-backup "$HOME/bds-finance-sample-backup.bds"` confirmed "Encrypted backup verified. Fictional entries: 10. No restore performed." This verifies ciphertext backup creation and authenticated opening on the original phone, not that a disconnected backup copy or separate restore exists.
+
+**Still required:** test restoration into a new isolated private Termux folder without touching `~/.bds-finance/vault.bds`; independently copy the encrypted backup off the device and test recoverability. Actual income or provider imports remain disallowed; the vault contains only fictional transactions. No hosted backend or live site changed.
+
 ## Status and acceptance
 
 - [x] L1 final CI **GREEN** at source SHA `aac857e4800c2c0b3cb659c2b3d000af4c14e26b`: vault run `41727602097`, website checks `41727601922`.
