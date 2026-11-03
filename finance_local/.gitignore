@@ -1,0 +1,10 @@
+# No user finances, encrypted vaults, backup artifacts or secrets in Git.
+.bds-finance/
+*.bds
+*.enc
+*.sqlite
+*.db
+.env
+.venv/
+__pycache__/
+*.pyc

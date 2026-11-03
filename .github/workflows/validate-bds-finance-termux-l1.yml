@@ -1,0 +1,39 @@
+name: BDS Finance L1 encrypted Termux vault (synthetic-only, no deploy)
+on:
+  push:
+    branches:
+      - feature/sources-archives-next-batch-nov03
+    paths:
+      - 'finance_local/**'
+      - '.github/workflows/validate-bds-finance-termux-l1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  local-vault:
+    name: Offline encryption and recovery regression (disposable Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audited cryptography dependency for CI only
+        run: python -m pip install 'cryptography==46.0.4'
+      - name: Compile offline vault
+        run: python -m py_compile finance_local/vault.py finance_local/tests/test_vault.py
+      - name: Test AES-GCM, Scrypt, passphrase denial, simulated failure, encrypted backup and restore
+        run: python -m unittest discover -s finance_local/tests -v
+      - name: Verify source has no provider-sync endpoint or server listener
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          src=Path('finance_local/vault.py').read_text()
+          assert 'DEMO_MODE = "synthetic-demo"' in src
+          assert 'AESGCM' in src and 'Scrypt' in src
+          assert 'getpass.getpass' in src
+          assert 'socket.' not in src and 'http.server' not in src
+          assert 'requests.' not in src and 'urllib.request' not in src
+          assert 'os.environ.get("PAYPAL' not in src
+          print('PASS: local-only L1 demonstration; no payment account or network interfaces')
+          PY

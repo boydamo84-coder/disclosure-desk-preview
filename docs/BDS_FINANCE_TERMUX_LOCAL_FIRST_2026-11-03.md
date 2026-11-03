@@ -58,7 +58,7 @@ This option is **potentially safer for this particular single-owner use case**, 
 
 ## Next implementation milestones
 
-- **L1 — Local encrypted vault proof (next):** Termux-compatible Python app, **synthetic data only**. Test lock/unlock, wrong passphrase, no plaintext leakage, transaction deduplication, UK tax-year dates, backup/restore and crash recovery. Do not replace F1 until it passes.
+- **L1 — Local encrypted vault proof (CODE STAGED, LOCAL TESTS PASS; GitHub CI and Samsung QA pending):** `finance_local/vault.py` and bundled demo ZIP. AES-256-GCM + scrypt encrypted offline fictional transactions, hidden passphrase prompts, private HOME file locks, backup/verify/restore and 14 automated tests PASS on Linux. **NOT independently audited / not yet compatible-tested on Samsung.** No real income allowed. See `finance_local/README.md`. Do not replace F1 with a real-data app yet.
 - **L2 — Local dashboard integration:** same BDS styling; read-only financial summaries from unlocked vault, owner-controlled unlock, local HTTP protection or file rendering, Samsung browser QA, no exposure on LAN or public website.
 - **L3 — Real official CSV import adapters after L1+L2 security acceptance:** Ko-fi export and Play reports; validate schema, document fees/VAT/FX, reject duplicate or conflicting provider references, minimize donor personal data, test with owner-redacted sample file before handling real records.
 - **L4 — Optional AdSense OAuth reporting:** after AdSense approval, opt-in installed-app Google authorisation with short-lived access and encrypted refresh credentials; no service-account attempt.
@@ -71,12 +71,18 @@ This option is **potentially safer for this particular single-owner use case**, 
 - First run `41724778280` failed on two mismatched **assertion text snippets**, not a financial sync or security implementation; test corrected with no product code change.
 - No phone runtime/security, encrypted vault, report parser, real online sync or backup has been created or exercised. Previous F2 PostgreSQL SQL remains unused.
 
+## L1 technical implementation checkpoint — 2026-11-03
+
+- **Code staged:** `finance_local/vault.py` and `finance_local/tests/test_vault.py`, source `finance_local/README.md` and portable demonstration ZIP. CI workflow `.github/workflows/validate-bds-finance-termux-l1.yml` added, GitHub result **pending** at this source commit. Existing root `docs/prototypes/bds-finance-demo.html` remains a separate browser-only fictional UI and does not automatically unlock or read this vault.
+- **Locally checked on Linux:** 14 unit tests PASS, including AEAD tag, wrong password, April boundary, imports/duplicates, file permission rejection, fail-before-replace crash simulation and ciphertext backup/restore. No source files include private financial information or credentials.
+- **Remaining requirements:** test real Termux `python-cryptography` package and OS permissions, verify independent recovery, consider biometric/device-key integration and device threats, then stage L2 protected phone UI. L1 is CLI only; no direct Ko-fi, Play or AdSense sync and no tax calculation.
+
 ## Status and acceptance
 
 - [x] Provider feasibility checked against official documentation.
 - [x] Device-only local-first path documented and distinguished from webhook/server model.
-- [ ] Vault encryption implemented and tested on actual Termux.
-- [ ] Encrypted backup recoverability tested.
+- [x] AES-GCM encrypted synthetic CLI vault implemented and tested on Linux (14 PASS); [ ] actual Termux device test.
+- [x] Encrypted backup/recovery verified in isolated Linux temporary directories; [ ] physical Samsung/off-device recovery drill.
 - [ ] Localhost interface protected and tested against other apps / CSRF.
 - [ ] Ko-fi, Play CSV parsers and AdSense permissioned sync implemented.
 - [ ] Real owner data accepted. **Not permitted yet.**

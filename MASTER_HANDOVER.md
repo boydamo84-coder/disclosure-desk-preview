@@ -40,6 +40,10 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, FINANCE TERMUX L1 ENCRYPTED DEMO — CODE STAGED / LOCAL TESTS GREEN / GITHUB CI PENDING:** Implemented `finance_local/vault.py` as an **offline, synthetic-only** Python command-line vault for Samsung Termux; `finance_local/tests/test_vault.py` with **14 Linux local unit tests PASS** (no Android test); `finance_local/README.md` usage and release ZIP `finance_local/BDS_Finance_Termux_L1_demo.zip`. Uses PyCA AES-256-GCM + scrypt (N=32768), fresh salts/nonces, hidden passphrase prompt, strict private permissions, exclusive file lock, atomic encrypted updates, fictional ledger and totals, ciphertext-only backup/verify and no-overwrite restore; no provider API, tax calculator, service or real data entry. Tests cover wrong passphrase, tamper, failure before atomic replace, UK 6 April tax-year boundaries, duplicates, backup/restore and permissions. **NOT phone-tested, NOT security audited or suitable for real finances.** Unpublished branch only, no Netlify or live Supabase changes. GitHub-only isolated CI to verify after commit; L2 visual dashboard and on-device backup drill remain future gates.
+
+
+
 - **2026-11-03, FINANCE TERMUX LOCAL-FIRST OPTION OWNER-PROPOSED / ARCHITECTURE DOCUMENTED — NO APP BUILT:** owner asked to keep financial tracking on a Samsung and use Termux for online-on-demand income retrieval. Official provider docs checked: Ko-fi offers full history CSV but its API is outbound webhooks (no documented history polling); AdSense supports installed-app OAuth reporting, not service accounts; Play private reports downloadable as CSV/Cloud Storage. Staged `docs/BDS_FINANCE_TERMUX_LOCAL_FIRST_2026-11-03.md` to prioritise encrypted private Termux storage, optional offline dashboard, manual/consented online sync and encrypted off-device backups. The earlier finance PostgreSQL F2 SQL is an **unapplied alternative**, not a live requirement. **No encryption code, actual data, login, provider sync or service deployment exists**. L1 synthetic-data secure-vault prototype is the next build; no public website, Supabase, Netlify, W.NE or Our Cinema changes. GitHub-only documentation QA **SUCCESS** at code SHA `98ec9c88f8673b40afb27804ebe09afbe8b70e24`, Actions run `41724910278`. Initial QA `41724778280` failed on two incorrect documentation test expectations, corrected with assertions reflecting actual source wording; no product code change. Documentation and proposed architecture only.
 
 
@@ -225,6 +229,8 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**Termux Finance L1 implementation staged; keep separate from live site.** 14 local automated Linux tests pass, GitHub Actions and Samsung acceptance pending. Code and fictional-only ZIP under `finance_local/`; no tax estimate, owner portal or real income. This doesn't affect the current Disclosure Desk QA/12-tab roadmap.
+
 **Finance direction update:** Termux + encrypted on-device vault is now the preferred practical next prototype, not a deployed Supabase backend. The PostgreSQL F2 tests remain a separate unused alternative. No additional public site tab, finance route, online event receiver, or Netlify build. Only manual or user-initiated source imports/sync in the proposal.
 
 
@@ -290,6 +296,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 5. Release plan: website first, then Android / Google Play
 
+**Finance L1 is NOT an Android Play release:** a command-line, passphrase-protected Termux proof only. No separate app signing or public web deployment. Before the next website merge exclude `finance_local/` and `docs/prototypes/` from public deployment output or accept only the explicitly synthetic demonstration as non-sensitive; never publish real finance files.
+
 **Finance-specific exception:** Termux local-only Finance Centre is a separate private owner app and not part of Disclosure Desk's public website or Play release; L1 encryption/backup and L2 device-only UI require physical phone testing before real finance data. The staged F2 finance SQL MUST NOT be applied to Disclosure Desk.
 
 
@@ -306,6 +314,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 **Phase 4 — Play internal test and release preparation:** check Gradle/Android SDK, app ID, target API and Play policy requirements on actual release date; securely configure signed Android App Bundle (AAB) using existing manual `.github/workflows/android-play-internal-aab.yml`; check Play App Signing, release keys, version codes, app icon, screenshots, listing, privacy/data safety, consent/ads implementation, support URL, testing track eligibility, crash-free smoke and multi-device tests. Run internal/closed testing first; production publication requires explicit separate approval. Never publish a debug-signed APK as Play release.
 
 ## 6. Known source paths and supporting records
+
+- New Termux L1 source/test/ZIP: `finance_local/vault.py`, `finance_local/tests/test_vault.py`, `finance_local/README.md`, `finance_local/BDS_Finance_Termux_L1_demo.zip`; GitHub-only workflow `.github/workflows/validate-bds-finance-termux-l1.yml`. Contains no personal income or keys.
 
 - Local-first BDS Finance design: `docs/BDS_FINANCE_TERMUX_LOCAL_FIRST_2026-11-03.md`; Ko-fi export/AdSense installed OAuth/Play report constraints documented. No local encryption or provider sync code exists yet. Prior `finance-review/` SQL remains unapplied.
 
@@ -324,6 +334,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [x] Finance L1 synthetic-only vault prototype and 14 local automated tests PASS (Linux); no live money records.
+- [ ] GitHub Actions L1 unit tests PASS and exact source/ZIP match verified.
+- [ ] Actual Samsung Termux `python-cryptography` availability, encrypted recovery drill and private-storage confirmation manually verified; no real finances until then.
 
 - [ ] Phone-only Finance L1: encrypted private Termux vault and independent encrypted backup restore using synthetic transactions; no unencrypted actual records in shared downloads or local browser cache. Not implemented.
 - [ ] Finance Ko-fi source is manual verified history CSV under phone-only architecture; any real-time webhook relay requires separate explicit online-service approval.
@@ -351,6 +365,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Finance L1 active gate:** confirm GitHub-only workflow `validate-bds-finance-termux-l1.yml` passed, verify documented source/demo ZIP SHA against local tested package, then let owner test encrypted **fictional** vault and backup on Samsung in existing Termux without disturbing other projects. Record actual on-device observations before L1 SAMSUNG VERIFIED; move to L2 local dashboard only once vault/recovery is accepted.
+
 **Finance next milestone:** Build a tested Termux-compatible local encrypted vault L1 using fictional data only, portable backup/restore, lock/unlock and wrong-passphrase tests, and no open ports; then L2 an authenticated localhost interface if necessary. Do not load any financial credentials or perform actual online sync until approval and physical phone testing.
 
 
@@ -368,6 +384,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Termux Finance L1 fictional encrypted vault, source and 14 local Linux tests
+- Repo/branch `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `9addf980284a871627632e0fd9b7a01956d3309c`; new combined code+documentation milestone HEAD is resulting commit (verify next read). Live `production` remains `9755fba9a5116c0cce6ac433ea022a6e5bfadd15`.
+- Files added: `finance_local/vault.py`, `finance_local/__init__.py`, `finance_local/tests/test_vault.py`, `finance_local/README.md`, `finance_local/.gitignore`, `finance_local/BDS_Finance_Termux_L1_demo.zip`, `.github/workflows/validate-bds-finance-termux-l1.yml`; this handover and Termux roadmap updated.
+- Verification on isolated Linux container **14/14 unittest checks PASS**: AES-GCM confidentiality/tag, Scrypt, wrong passphrase, case-limited fictional dataset, idempotency, 6 Apr tax year, atomic interrupted save rollback, strong file modes/symlink rejection, backup/restore on separate temporary directories and no plaintext log. GitHub workflow pending for source commit; no Samsung runtime test.
+- Bounds: **SYNTHETIC ONLY**. No local HTTP listener, cloud API, real account credentials, HMRC tax estimates, real money data, Netlify deploy, Supabase schema or Play release; original W.NE and Our Cinema unchanged. Backup reliability on external Android storage still requires phone acceptance.
+- Next: observe GitHub CI; require on-device user-led synthetic backup/restoration drill with new strong passphrase, then L2 protected offline dashboard.
+
 
 ### 2026-11-03 — Local-first Finance Centre design CI verified (no backend)
 - Repo `boydamo84-coder/disclosure-desk-preview`, branch `feature/sources-archives-next-batch-nov03`, tested source SHA `98ec9c88f8673b40afb27804ebe09afbe8b70e24`, handover-update commit is next branch HEAD.
