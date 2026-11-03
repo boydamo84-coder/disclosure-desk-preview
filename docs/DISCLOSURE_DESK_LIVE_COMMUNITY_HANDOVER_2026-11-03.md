@@ -92,6 +92,16 @@ W.NE is presented as **W.NE Research Studio**, in Disclosure Desk navy/gold styl
 - Existing `dd_case_comments` includes a UUID `author_id`; public username wiring must avoid leaking additional identity data through lookups.
 - No SQL migration, Edge Function deployment, writes, deletions, or user-account changes were performed in this audit. No data from the Cinema app project was accessed.
 
+## Backend/usernames continuation — 3 November 2026 (new)
+
+- GitHub username batch committed as `3bd6999fd0cd30ee9c02377c5c60b1300183cb5d` with **[skip netlify]**. Reuses the existing owner-private `dd_public_names`, adds explicit opt-in `is_public`, and a tightly scoped RPC for approved comment/chat IDs. Frontend shows no UUID fragments or emails; registration username is only a safe prefill until a verified sign-in saves it. **Staged only, not live.**
+- Follow-up duplicate-submission guard at `9db2f42a5843e535e0434e8c87c6ed8558312194` with **[skip netlify]**; protects against repeated case/whitespace-equivalent posts under the existing author transaction lock, and returns 409 to the browser. **Staged only.**
+- Read-only Supabase grants audit confirmed existing `dd_public_names` owner access is SELECT/INSERT/UPDATE for `authenticated`, NOT SELECT for `anon`; existing unique `name_key` index and reserved-name constraints are retained.
+- Actual SQL **ROLLBACK-ONLY** tests passed for proposed witness schema, role-simulated direct INSERT denial, synthetic service-role INSERT, vote switch/removal, five distinct synthetic flaggers causing public hide, fourth-in-24h denial, and duplicate report denial. Name migration also accepted then rolled back. **No real test users were created; no witness/name data persisted.**
+- GitHub Actions full suite run `41583518444` was SUCCESS at the username commit. The duplicate-guard commit's workflow `41583896781` was still in progress at the time the initial QA note was drafted; check latest run status before claiming final green.
+- Reproducibility, precise caveats, and next acceptance steps: [`docs/COMMUNITY_BACKEND_QA_2026-11-03.md`](COMMUNITY_BACKEND_QA_2026-11-03.md).
+- Next: verify latest GitHub Actions green; test real HTTP/JWT RLS and Edge Function with disposable users in a safe environment, concurrent fifth flag, user-controlled public aliases, geocoding, moderation and Samsung UX. Staged `WITNESS_VOTING_COMMUNITY_REVIEW.sql`, `PUBLIC_USERNAMES_REVIEW.sql` and `LIVE_HEARINGS_CHAT_REVIEW.sql` are NOT applied. No Netlify deploy or production merge without separate explicit release approval.
+
 ## 6. Non-negotiable product/safety notes
 - No fake hearing dates, fake LIVE state, public/private document leak or precise witness locations.
 - Users may submit reports about unverified experiences; “published” does NOT mean Disclosure Desk authenticated the claim.
