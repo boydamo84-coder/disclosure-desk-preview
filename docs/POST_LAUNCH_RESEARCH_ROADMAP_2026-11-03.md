@@ -11,6 +11,8 @@ Ship the current Disclosure Desk community/social beta reliably first: News/Arch
 - Acceptance: trustworthy source URLs, date/time ordering, understandable duplicate warnings, no fabricated matches, source provenance attached, graceful no-results state.
 
 ## Phase B — What was in the sky?
+
+**New approved historical imagery subfeature, 3 Nov 2026:** Click a dated Disclosure Map case → Evidence file → **🛰 See area at the time of this sighting**. Stage official NASA Worldview area/date handoff, with optional researcher-entered UTC time clearly NOT verified; Meteosat historical viewer from 1981 (daily/manual case-date selection), and EUMETView research links. Later build integrated timestamp-verified weather satellite imagery slider/Map layer using real archived products, while independently checking satellites *overhead*. Do not conflate cloud pictures with satellite orbit positions, and never invent a view at an event minute. See [detailed imagery source/QA plan](HISTORICAL_SATELLITE_IMAGERY_2026-11-03.md).
 - Researcher-controlled investigation tools for date, approximate city/region and time zone; possible aircraft, satellite/Starlink, meteor/astronomical, weather and space-launch explanations.
 - Historical ADS-B coverage can be incomplete, satellite orbit propagation has temporal limits, public data may have gaps and time-zone ambiguity. State these limits instead of automatically classifying sightings as explained.
 - Acceptance: external-source citations, timestamp precision/caveats, UTC/local display, responsible uncertainty indicators, no GPS leakage, never infer 'not extraterrestrial' from a possible match.

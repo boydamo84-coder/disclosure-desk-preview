@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, historical satellite imagery case-handoff STAGED, NOT LIVE:** Existing dated Map case list now has a **🛰 Historic satellite imagery** action opening its Evidence file, where `assets/historical-satellite.js` will show official NASA Worldview date+approximate-city handoff and EUMETSAT long-term gallery/EUMETView links. Date-only source records remain labelled date-only; optional researcher UTC time is NOT validated as actual event time. Source-only CI pending; no external imagery fetched, no live deployment, no third-party tracking without explicit user click. Detailed source/limitations `docs/HISTORICAL_SATELLITE_IMAGERY_2026-11-03.md` (parent approved post-launch Phase B).
+
 - **2026-11-03, reply flag-baseline correction SOURCE STAGED:** isolated expanded CI run `41688611725` FAILED at first reply flag because `dd_discussions_flag` expected `dd_forum_replies.reviewed_flag_count`, missing from candidate reply DDL. Corrected the review-only table definition and added matched topic/reply DDL regression. No live DB affected; isolated test rerun pending.
 
 - **2026-11-03, expanded isolated forum SQL test fixture delimiter fix STAGED:** new run `41688410287` FAILED in test script after original integration tests passed; seven newly added `do $` blocks were changed to `do # Disclosure Desk — MASTER HANDOVER (authoritative)
@@ -198,7 +200,7 @@
 All five were approved on 2026-11-03 and are documented in [the original roadmap](docs/POST_LAUNCH_RESEARCH_ROADMAP_2026-11-03.md). Their previous document calls them *post-launch*. Newer user direction says finish the **current agreed roadmap** before the next website update. Reconcile their order with the current QA/release scope before expanding work: do not silently convert future research phases into blockers for a finished beta or promise that they already exist.
 
 1. **Case Intelligence / Investigate:** source-grounded related cases, timeline, articles, media, similar/duplicate labels, evidence provenance.
-2. **What was in the sky?:** optional aircraft/satellite/meteor/weather/launch context with historical-data and timezone limitations, not automatic “explanations”.
+2. **What was in the sky?:** optional aircraft/orbiting-satellite/meteor/weather/launch context with historical-data and timezone limitations, not automatic “explanations”. **New satellite-imagery subfeature staged:** existing Map case Evidence file links to source-grounded historical weather satellite views, approximate location and reported date (NASA Worldview 2000+; EUMETSAT daily 1981+ manual). **No true time-matched imagery is being asserted or hosted**, and future real archived 10/15-minute weather frames need a separately verified data/API/layer workflow. See `docs/HISTORICAL_SATELLITE_IMAGERY_2026-11-03.md`.
 3. **Independent witness matching:** city/region/time only, confidence caveats, opt-in contact, anti-harassment and independence checks.
 4. **Evidence quality / case status:** evidence-completeness checklist, chain of custody, alternate hypotheses, changes/corrections, no “alien probability”.
 5. **Publish an Investigation:** private W.NE copy → redaction preview → explicit owner Publish; citations, history/corrections, PDF/DOCX; prevent private Boards/docs leakage.
@@ -271,6 +273,17 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Historical satellite imagery research handoff from mapped cases
+- Website repo/branch `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `3f991136062186ee88ebbde6b7255f438ef133c9`, resulting SHA new HEAD.
+- Approved researcher flow: Map case → **Historic satellite imagery** → case Evidence file → official provider, centered on **approximate town** at **reported event date**, opening provider only by deliberate click. No new main tab; existing map and 11-tab navigation remain.
+- Added `assets/historical-satellite.js` pure URL builder/UI, `index.html` action and evidence mount, `scripts/test_historical_satellite.cjs` source tests and GitHub-only CI step; documented official NASA Worldview deep-link params, EUMETSAT daily 1981+ archive, EUMETView and deferred time-resolved integration in `docs/HISTORICAL_SATELLITE_IMAGERY_2026-11-03.md` and post-launch Phase B.
+- Source audit `data/disclosure-map.json`: 276 dated records, **no sighting time fields**, locations already approximate town centres. Never fill missing sighting time as fact; Worldview default 12:00 UTC is date-browser anchor only. Round coordinates ~0.1 degree, exclude public witness records and private geolocation; third-party links only on click.
+- NASA 10-minute geostationary viewer advertised ~90-day window, not every historical year; EUMETSAT anniversary gallery one selected image/day starting 17 Aug 1981. Older minute-matched raw imagery requires separate licensed API/product archival work and source acquisition validation. This milestone does NOT host satellite images or claim a minute-matched frame exists.
+- **Verification status:** staged JS source syntax parsed; GitHub-only regression CI PENDING, actual browser interaction/Worldview deep-link and Android tests NOT completed. No Supabase migrations, Netlify/public builds, live 11-tab or Android modifications. Remaining imagery map-layer/time-slider work is roadmap, not delivered.
+- Next: verify GitHub test passes; prepare source coverage/provider selection and daily-frame/link preview; validate original weather time against primary records before any live imagery match claim.
+
+
 
 ### 2026-11-03 — Discussions reply review threshold fixed after isolated test
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `0afee9bd0393e9513e36172d13730fae30a67b0f`; resulting SHA is new HEAD.

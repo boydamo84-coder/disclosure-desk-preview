@@ -56,3 +56,8 @@ jobs:
           node --check assets/discussions-admin.js
           node --check scripts/test_discussions_admin.cjs
           node scripts/test_discussions_admin.cjs
+      - name: Check source-grounded historical weather satellite case links
+        run: |
+          node --check assets/historical-satellite.js
+          node --check scripts/test_historical_satellite.cjs
+          node scripts/test_historical_satellite.cjs
