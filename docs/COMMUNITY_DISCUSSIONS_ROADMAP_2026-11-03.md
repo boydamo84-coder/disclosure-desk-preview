@@ -1,7 +1,7 @@
 # Disclosure Desk — Community Discussions roadmap
 
 **Requested / approved:** 3 November 2026  
-**Status:** FRONTEND SOURCE STAGED BEHIND DISABLED FEATURE FLAG; BACKEND NOT BUILT; NOT DEPLOYED  
+**Status:** FRONTEND STAGED AND OFF; REVIEW-ONLY BACKEND SQL STAGED BUT UNAPPLIED; NOT DEPLOYED  
 **Canonical status log:** [MASTER_HANDOVER.md](../MASTER_HANDOVER.md)
 
 ## Goal and navigation
@@ -67,3 +67,6 @@ Only the **design is approved**; no implementation, Supabase migration, live dep
 
 ## Frontend staging milestone (3 November 2026)
 The unpublished website branch has gated `assets/community-discussions.js` and a hidden `discussionsPage` shell in `index.html`, including section/topic/reply views, creator form and limited steward organisation. It remains **disabled** by `discussions:false`, so the public website and W.NE dock still have 11 tabs and none of the future server RPCs exist yet. See the master handover for CI and backend follow-up. Do not enable without security and user testing.
+
+## Backend candidate checkpoint (3 November 2026)
+`supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql` now contains an **unapplied** RLS/RPC design and `scripts/test_discussions_sql.cjs` checks the permission contract statically. Candidate includes registered creation/replies/votes, public pseudonymous projections, section-scoped stewardship without user bans, five distinct flags temporarily hiding posts, and a separate site-owner review allowlist. No database tables, new privileges, populated sections or visible 12th tab exist. **This SQL is not a migration or deployment authorisation.** Isolated database and actual account testing are required before any activation.

@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, Discussions backend review SOURCE STAGED, UNAPPLIED:** `supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql` proposes section/reply/topic tables with RLS, guest-only safe read projections, registered-only posting and votes, five-distinct-flags temporary hide, limited steward Pin/Escalate, owner-only moderation/role replacement, abuse rate limits and audit trails. No DB schema was installed; GitHub-only source contract added, CI pending; isolated SQL/role tests required.
+
 - **2026-11-03, Discussions frontend CODE STAGED / DISABLED:** responsive section discovery, new-section form, topic posts, reply pane, safe source links, registered posting, user votes/flagging, scoped section-steward pin and escalate actions added in `assets/community-discussions.js` and `index.html`. The module returns immediately when `discussions:false`; no twelfth tab or public RPC calls. **Backend methods not yet implemented.** GitHub-only JS/static UI test added; CI pending and no deployment.
 
 - **2026-11-03, separate private Chat contact opt-in CODE STAGED / DISABLED:** public username management now conditionally shows an independent "allow private chat requests" checkbox, persisting `chat_contact_opt_in` only when `privateChat:true`. With the current **false** flag, existing username reads/writes remain unchanged and never query the unapplied column. GitHub-only source test updated; no backend applied, public feature or messaging.
@@ -111,7 +113,7 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 **Build / acceptance status:** A **review-only SQL backend candidate** now exists in `supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql`, with GitHub-only structural tests; it has **NOT** been applied or verified against a live/staging database. Disabled Profile UI and feature-gated independent contact opt-in source are staged; feature activation, schema testing, real 1:1 messages and security QA remain pending. Feature remains approved for the **current consolidated roadmap** before the next coordinated website release. Inspect the existing LIVE hearing chat and community identity primitives first to reuse safe code patterns **without conflating public LIVE chat and private messaging tables**. Build on the unpublished website branch, test with synthetic multi-account scenarios (pending/accept/decline/block/report/unauthorised read, spam caps, simultaneous requests), RLS audit, Samsung/desktop QA; then port to Android and prepare the Play release. **Do not migrate the live database or deploy Netlify merely to record this feature.** Detailed requirement/acceptance record: [Private Chat roadmap](docs/PROFILE_PRIVATE_CHAT_ROADMAP_2026-11-03.md).
 
-### 4D. User-created Discussions tab — FRONTEND CODE STAGED / DISABLED; BACKEND NOT BUILT
+### 4D. User-created Discussions tab — FRONTEND STAGED/DISABLED; BACKEND SQL CANDIDATE UNAPPLIED
 
 **Requested 2026-11-03:** Add **Discussions** as a separate **12th** main tab in the future combined website release (proposed after Witness, before Watch & Read). The **current live site still has 11 tabs**. This deliberately authorises a new navigation tab, unlike private Profile Chat (which stays inside Profile). Users create public topic sections and then posts, threaded discussions and shareable source links inside them. Guests can read published public discussions; registered users can post, reply, vote and flag. Avoid duplicating current case/news/video comment threads and LIVE chat.
 
@@ -119,7 +121,7 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 **User protection:** registered Auth + safe unique aliases, RLS author/steward/site-owner separation, duplicate/name/rate/spam guards, links/XSS security, appeals, owner moderation override and steward revocation without deleting community content. Public-by-default sections, no private groups or paid gatekeeping in v1. Owner moderation must remain effective; steward abuse must be reversible.
 
-**Status:** Responsive frontend source and gated navigation are CODE STAGED behind `discussions:false`; no backend RPCs/tables yet, no visible 12th tab, no deployment. The staged client is NOT usable without separately reviewed server permissions. Build and test on unpublished branch with fake multi-account permissions, keyboard/phone acceptance and GitHub-only CI before one combined website release; port to Android after website approval. See [full Discussions roadmap and acceptance criteria](docs/COMMUNITY_DISCUSSIONS_ROADMAP_2026-11-03.md).
+**Status:** Responsive frontend and gated navigation CODE STAGED behind `discussions:false`; a **review-only** database schema/RPC candidate is staged in `supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql`, but has NOT been applied or exercised. No visible 12th tab, no deployment. The staged client is NOT usable without separately reviewed server permissions. Build and test on unpublished branch with fake multi-account permissions, keyboard/phone acceptance and GitHub-only CI before one combined website release; port to Android after website approval. See [full Discussions roadmap and acceptance criteria](docs/COMMUNITY_DISCUSSIONS_ROADMAP_2026-11-03.md).
 
 ## 5. Release plan: website first, then Android / Google Play
 
@@ -165,6 +167,16 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Discussions backend candidate with scoped stewardship (SQL UNAPPLIED)
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `d4979fe11d260a57b9511d413b2808834ab0add7`; resulting SHA is this GitHub milestone's branch HEAD.
+- Read-only Supabase discovery confirmed **no existing `dd_forum*`/`dd_discussions*` tables**. No changes to live database or existing public comments/private Chat.
+- New `supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql` is intentionally **OUTSIDE `supabase/migrations`**, not installed. Candidate covers public topic sections with one steward, threads/replies, vote/flag tables, distinct five-flag auto-hide under row locks, safe pseudonymous guest read RPCs, verified account/age/rate restrictions, section title uniqueness, no public raw authors or direct table privileges, pin cap 3, creator-only edits/removals, steward escalation and audit, owner moderation/steward replacement via separate unseeded overall-admin allowlist.
+- Added `scripts/test_discussions_sql.cjs` and staging-only GitHub QA job; updated roadmap and master. Pure structural checks do **not** verify PostgreSQL syntax or direct cross-account behavior.
+- **Known blockers:** required isolated Postgres/Supabase SQL execution, privilege and anti-abuse tests, concurrency/flag-5 race checks, actual owner enrolment, media/link screening/retention/legal review, public mobile/keyboard UX, W.NE dock/tour parity. No Netlify staging, no Edge deployment, no Android/Play release.
+- Next: check CI then review candidate SQL for unexpected rights/SQL errors, implement synthetic multi-account acceptance in isolated DB, and only then deliberately activate the feature with complete site/research dock parity.
+
+
 
 ### 2026-11-03 — Discussions UI source (disabled until backend acceptance)
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview`, `feature/sources-archives-next-batch-nov03`; prior SHA `7b253f1bea70625a4f83d4b9d72e2a61c6be2c54`; resulting SHA is current branch HEAD after this commit.
