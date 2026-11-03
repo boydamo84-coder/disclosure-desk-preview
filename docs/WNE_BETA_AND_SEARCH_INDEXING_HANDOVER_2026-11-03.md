@@ -1,6 +1,8 @@
 # Disclosure Desk / W.NE Research Edition: beta integration and Google Search handover
 Updated: 3 November 2026.
 
+> **Current continuation / NEW CHAT:** Read [Disclosure Desk LIVE & Community Handover](DISCLOSURE_DESK_LIVE_COMMUNITY_HANDOVER_2026-11-03.md) after this file. It contains everything added since the W.NE beta: Congress automation, LIVE timer/chat, public witness submissions and map filter, 3 reports/24h, 5-flag hiding, likes/dislikes, community rules, profile/username and research publishing goals, test status and security blockers. The newer details supersede earlier feature-state notes here.
+
 ## Where the current site really lives
 - **Use `boydamo84-coder/disclosure-desk-preview`, branch `production` as integration base.** This has all nine existing live navigation tabs: News, Archive, Map, LIVE, Videos, Boards, Witness, Watch & Read and Explore. It is not the older `main` branch, nor the separate older `boydamo84-coder/disclosure-desk` repository. Netlify is linked to `production` in this repository per the existing release audit.
 - All work in this batch is on **unpublished branch `feature/research-studio-bds-production-based`**. Expected navigation order after adding W.NE: News, Archive, **W.NE**, Map, LIVE, Videos, Boards, Witness, Watch & Read, Explore.
@@ -14,7 +16,7 @@ Updated: 3 November 2026.
 - Privacy Policy dated 3 November 2026 explains local vs account-based/cloud data, W.NE Research Edition beta, and authenticated LanguageTool processing on Oracle.
 - Previous SEO code was found in **older private** `boydamo84-coder/disclosure-desk` branch `launch-readiness-seo-prep`: its robots, one-URL sitemap, canonical and metadata were never present on this production base. Reused and extended that logic rather than duplicating it:
   - `robots.txt` allows crawl and points at `https://uapdisclosuredesk.com/sitemap.xml`.
-  - `sitemap.xml` lists only indexable public pages `/`, `/research-edition.html`, `/privacy.html`.
+  - `sitemap.xml` lists only indexable public pages `/`, `/research-edition.html`, `/community-rules.html`, `/privacy.html` (four public URLs; new Rules page added after the original SEO batch).
   - Homepage SEO: unique title, description, canonical, social meta and a crawlable link to public `research-edition.html`.
   - Public `research-edition.html`: substantive W.NE description, canonical, links to real sign-in and separate read-only guest preview, privacy notice and factual `WebPage` JSON-LD structured data.
   - Privacy Policy has unique title, description, canonical.
@@ -60,3 +62,11 @@ Updated: 3 November 2026.
 - Latest pre-documentation code commit `bfa2468db615c938ec00119176008e8a0f7eebae`; GitHub workflow run `41575744722` **SUCCESS**, as well as earlier browser save test run `41575712338` **SUCCESS**. These are simulated checks, **not yet live Samsung cloud-save confirmation**.
 - **Deployment:** The existing Netlify beta preview `https://deploy-preview-2--uap-disclosure-desk.netlify.app` still contains the *earlier* release without this unified menu. The draft PR #2 is unmerged, titled `[skip netlify] ...` to avoid unnecessary credit-consuming builds during bug batching. Do not claim these navigation changes are available on that preview until the next **deliberate combined staging redeploy**. Production remains untouched. Preserve scarce Netlify credits.
 - When next staging batch is approved, test on actual Samsung with disposable account and document: type edits, immediately tap a different site tab while save is in flight, confirm persistence on return; simulate interrupted connectivity/conflict, ensure no navigation; hide/show navigation in portrait/landscape; browser back behavior; and local Research Library backup/export separately.
+
+## IMPORTANT: Latest combined-release status (after initial W.NE/SEO beta)
+
+- PR #2 is still **DRAFT / NOT MERGED**. Its older Deploy Preview #2 is **not evidence the later features are published**.
+- The new ten-tab W.NE swipe menu and save-before-navigation passed simulated browser tests, but real Samsung cloud save still needs validation.
+- New LIVE hearing countdown, authenticated chat, witness report city-only map feed, vote counters and community rules exist in the feature branch with **different verification stages**. Read the [LIVE & Community Handover](DISCLOSURE_DESK_LIVE_COMMUNITY_HANDOVER_2026-11-03.md) for exact state, verified tests and next actions.
+- **Critical stop-release issue**: staged witness server-only insert trigger checks `current_user` inside a SECURITY DEFINER function; fix and test before activating public submissions. Witness and LIVE chat SQL have NOT been applied; the witness Edge Function has NOT been deployed.
+- Existing original W.NE and live Disclosure Desk production branch remain untouched. The user prefers a **single next combined Netlify staging build** once code/backends are ready, to conserve credits.
