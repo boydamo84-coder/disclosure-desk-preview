@@ -1,4 +1,4 @@
-/* Disclosure Desk Research Edition: one familiar swipeable ten-tab dock.
+/* Disclosure Desk Research Edition: one familiar swipeable eleven-tab dock.
  * Never navigate away from an open W.NE document unless its existing
  * cloud-save function confirms the current revision has been saved.
  * The independent original W.NE product is not changed by this shell.
@@ -9,7 +9,7 @@ const TABS=[
  ['discover','◈','News'],['archivePage','▥','Archive'],['researchStudio','✎','W.NE'],
  ['mapPage','◎','Map'],['livePage','●','LIVE'],['clips','▶','Videos'],
  ['boards','▣','Boards'],['witness','◉','Witness'],
- ['watchRead','♫','Watch & Read'],['hub','☷','Explore']
+ ['watchRead','♫','Watch & Read'],['hub','☷','Explore'],['profilePage','👤','Profile']
 ];
 const STORAGE_KEY='dd-research-nav-hidden-v1';
 const workspace=!!document.getElementById('writer');

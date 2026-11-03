@@ -7,6 +7,8 @@ assert.match(html,/data-tab="profilePage"/,'Profile is last nav tab');
 assert.match(html,/data-tab="hub"[\s\S]{0,110}data-tab="profilePage"/);
 assert.match(html,/id="ddProfileShortcut"/);
 assert.match(html,/avatar\.hidden=\(id==='researchStudio'\)/,'W.NE hides top right shortcut');
+const dock=fs.readFileSync('research/research-site-nav.js','utf8');
+assert.match(dock,/\['profilePage','👤','Profile'\]/,'Research Edition dock has Profile without a top-right shortcut');
 assert.match(html,/window\.DDResearchHub\?\.refresh\(\)/);
 assert.match(html,/id="ddProfileGuest"/);
 assert.match(html,/id="ddProfilePrivate"/);

@@ -25,8 +25,14 @@ try{
   const tab=page.locator('[data-tab="researchStudio"]');
   await tab.scrollIntoViewIfNeeded();await tab.click();
   await page.locator('#researchStudio').waitFor({state:'visible'});
+  equal(await page.locator('#ddProfileShortcut').isVisible(),false,profile+' top-right Profile shortcut hidden on W.NE tab');
   equal(await page.locator('#discover').isVisible(),false,profile+' news should hide');
   equal(await page.locator('#ddResearchStudioHeading').innerText(),'W.NE Research Studio',profile+' W.NE heading');
+  await page.locator('[data-tab="profilePage"]').scrollIntoViewIfNeeded();
+  await page.locator('[data-tab="profilePage"]').click();
+  await page.locator('#profilePage').waitFor({state:'visible'});
+  equal(await page.locator('#ddProfileTitle').innerText(),'My Research Hub',profile+' Profile destination');
+  equal(await page.locator('#ddProfileAdmin').isVisible(),false,profile+' admin remains hidden for guests');
   await page.locator('[data-tab="hub"]').scrollIntoViewIfNeeded();
   await page.locator('[data-tab="hub"]').click();
   await page.locator('#hub').waitFor({state:'visible'});
@@ -67,13 +73,17 @@ try{
   await page.locator('[data-section="1"]').click();
   equal((await page.locator('#sample').innerText()).includes('2. Evidence'),true,profile+' guest sample section');
   await page.locator('.dd-site-dock').waitFor({state:'visible'});
-  equal(await page.locator('.dd-site-dock-tab').count(),10,profile+' full Disclosure Desk navigation within Research Edition');
+  equal(await page.locator('.dd-site-dock-tab').count(),11,profile+' complete Disclosure Desk dock includes Profile');
   equal(await page.locator('.dd-site-dock-tab[aria-current="page"]').getAttribute('data-dd-tab'),'researchStudio',profile+' W.NE remains selected');
   await page.locator('.dd-site-dock-toggle').click();
   equal(await page.locator('.dd-site-dock').evaluate(el=>el.classList.contains('is-hidden')),true,profile+' hide navigation');
   await page.locator('.dd-site-dock-toggle').click();
   equal(await page.locator('.dd-site-dock').evaluate(el=>el.classList.contains('is-hidden')),false,profile+' show navigation');
   // Guest navigation shares the same deep-links as the main Disclosure Desk tabs.
+  await page.locator('.dd-site-dock-tab[data-dd-tab="profilePage"]').click();
+  await page.locator('#profilePage').waitFor({state:'visible'});
+  equal(new URL(page.url()).searchParams.get('dd_tab'),'profilePage',profile+' W.NE dock opens Profile');
+  await page.goto(base+'research/guest-preview.html',{waitUntil:'domcontentloaded'});
   await page.locator('.dd-site-dock-tab[data-dd-tab="boards"]').click();
   await page.locator('#boards').waitFor({state:'visible'});
   equal(new URL(page.url()).searchParams.get('dd_tab'),'boards',profile+' returns directly to chosen main-site section');

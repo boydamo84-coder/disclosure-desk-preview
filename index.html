@@ -1303,7 +1303,7 @@ $('interestForm').addEventListener('submit',e=>{e.preventDefault();submitInteres
 $('boardExportFile').onclick=()=>{const b=investigationBoards[Number($('boardExportSelect').value)];if(b)exportPortableBoard(b)};
 $('boardImportFile').onchange=e=>{const file=e.target.files?.[0];if(file)importPortableBoard(file).finally(()=>{e.target.value=''})};renderResources();$('podcastList').innerHTML=podcastItems.map(resourceCard).join('');document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>navigateTo(b.dataset.go));
 const ddResearchReturnTab=new URLSearchParams(location.search).get('dd_tab');
-if(['discover','archivePage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','hub'].includes(ddResearchReturnTab)){
+if(['discover','archivePage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','hub','profilePage'].includes(ddResearchReturnTab)){
  navigateTo(ddResearchReturnTab);
 }
 news();renderCases();showDrafts();const requestedCase=new URLSearchParams(location.search).get('case');if(requestedCase&&mapData.some(r=>r.id===requestedCase)){navigateTo('mapPage');evidenceOpen(requestedCase)}

@@ -176,3 +176,7 @@ W.NE is presented as **W.NE Research Studio**, in Disclosure Desk navy/gold styl
 - Existing site News, Archive, Map, LIVE, Videos, Boards, Witness, Watch & Read and Explore must survive the W.NE integration.
 - All current work is owned by **Boyd Digital Studios**. Site About/footer and public policy already reflect branding.
 - Netlify credits are scarce. **Do not merge or trigger deploys via commits without checking configuration and obtaining approval.** GitHub-only QA is allowed. No deploy done as part of writing this handover.
+
+### W.NE dock Profile parity
+
+The W.NE Research Edition's save-before-navigation dock now has an 11th Profile tab, LAST; navigation still requires explicit W.NE save confirmation when leaving an open editor. W.NE does **not** display a top-right shortcut. Main site's `dd_tab` deep-link allowlist includes `profilePage`; mobile/desktop Playwright smoke updated. The writer/editor and independent W.NE product are unchanged.

@@ -60,16 +60,19 @@ async function refresh(){
  $('ddProfileDisplayName').textContent=alias?.data?.display_name||initialName||'Researcher';
  if(docs){
   $('ddProfileFilesCount').textContent=String(docs.count??docs.data?.length??0);
-  empty('ddProfileFilesList',docs.data?.length?'':'No cloud-saved documents yet.');
+  $('ddProfileFilesList').replaceChildren();
+  if(!docs.data?.length)empty('ddProfileFilesList','No cloud-saved documents yet.');
   for(const d of docs.data||[])entry('ddProfileFilesList',d.title||'Untitled research','Saved '+formattedDate(d.updated_at)+' · Browse in W.NE',()=>visit('researchStudio'));
  }else{failed++;empty('ddProfileFilesList','Private document list unavailable. Local files are unchanged.')}
  if(boards){
   $('ddProfileBoardsCount').textContent=String(boards.count??boards.data?.length??0);
-  empty('ddProfileBoardsList',boards.data?.length?'':'No cloud Boards yet.');
+  $('ddProfileBoardsList').replaceChildren();
+  if(!boards.data?.length)empty('ddProfileBoardsList','No cloud Boards yet.');
   for(const b of boards.data||[])entry('ddProfileBoardsList',b.name||'Untitled Board','Updated '+formattedDate(b.updated_at),()=>visit('boards'));
  }else{failed++;empty('ddProfileBoardsList','Cloud Board list unavailable. Device Boards are unchanged.')}
  if(comments){
-  empty('ddProfileCommentsList',comments.data?.length?'':'No comments yet.');
+  $('ddProfileCommentsList').replaceChildren();
+  if(!comments.data?.length)empty('ddProfileCommentsList','No comments yet.');
   for(const item of comments.data||[]){
    const label=item.case_id.startsWith('video:')?'Video':item.case_id.startsWith('archive:')?'Archive':item.case_id.startsWith('news:')?'News':item.case_id.startsWith('media:')?'Watch & Read':'Case';
    const where=item.case_id;
@@ -79,7 +82,8 @@ async function refresh(){
  }else{failed++;empty('ddProfileCommentsList','Private comment history unavailable.')}
  if(reports){
   $('ddProfileWitnessCount').textContent=String(reports.count??reports.data?.length??0);
-  empty('ddProfileWitnessList',reports.data?.length?'':'No witness reports submitted yet.');
+  $('ddProfileWitnessList').replaceChildren();
+  if(!reports.data?.length)empty('ddProfileWitnessList','No witness reports submitted yet.');
   for(const r of reports.data||[])entry('ddProfileWitnessList',r.category+' · '+r.city+', '+r.country,
    r.status+' · Event '+formattedDate(r.event_date),()=>visit('witness'));
  }else{failed++;empty('ddProfileWitnessList','Your witness report history is unavailable.')}

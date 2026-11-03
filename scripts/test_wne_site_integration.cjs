@@ -1,18 +1,18 @@
 'use strict';
-/* W.NE Research Studio on the nine-tab Disclosure Desk production base.
+/* W.NE Research Studio preserves the original Disclosure Desk navigation plus W.NE and Profile.
  * Source and behaviour guards only — no deployments or account data required.
  */
 const fs=require('node:fs');const assert=require('node:assert/strict');
 const read=path=>fs.readFileSync(path,'utf8');
 const html=read('index.html');
-const liveTabs=['discover','archivePage','mapPage','livePage','clips','boards','witness','watchRead','hub'];
-const expectedTabs=['discover','archivePage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','hub'];
+const liveTabs=['discover','archivePage','mapPage','livePage','clips','boards','witness','watchRead','hub','profilePage'];
+const expectedTabs=['discover','archivePage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','hub','profilePage'];
 const actual=[...html.matchAll(/<button class="tab[^>]*data-tab="([^"]+)"/g)].map(m=>m[1]);
-assert.deepEqual(actual,expectedTabs,'Keep all nine live tabs and place W.NE third');
+assert.deepEqual(actual,expectedTabs,'Keep original tabs, W.NE third, and Profile last');
 for(const id of liveTabs)assert.ok(html.includes('data-tab="'+id+'"'),id+' must survive');
 assert.match(html,/<section id="researchStudio" class="hidden"/);
 assert.match(html,/<button class="tab" data-tab="researchStudio"><span class="ico">✎<\/span>W\.NE<\/button>/);
-assert.match(html,/\['discover','archivePage','mapPage','cases','clips','rabbitHole','witness','about','resources','podcasts','hub','boards','watchRead','livePage','researchStudio'\]/);
+assert.match(html,/\['discover','archivePage','mapPage','cases','clips','rabbitHole','witness','about','resources','podcasts','hub','boards','watchRead','livePage','researchStudio','profilePage'\]/);
 for(const id of ['hub','about','researchStudio','ddExploreContact','ddExplorePrivacy','startAppTour'])assert.ok(html.includes('id="'+id+'"'),'Missing '+id);
 assert.match(html,/data-start-tour="studio"/);assert.match(html,/data-start-tour="research"/);assert.match(html,/data-start-tour="safety"/);
 for(const id of ['basics','research','studio','safety'])assert.match(html,new RegExp("\\{id:'"+id+"',label:"),'Missing tour '+id);
@@ -74,7 +74,8 @@ assert.match(integratedCss,/\.dd-site-dock-track/,'Use swipeable navigation layo
 assert.match(integratedCss,/\.dd-site-dock\.is-hidden/,'Hideable navigation must have persistent reveal button');
 assert.match(integratedCss,/body\.dd-site-nav-workspace>main/,'Preserve writing space by resizing workspace around dock');
 const tabs=[...integratedNav.matchAll(/\['(?:discover|archivePage|researchStudio|mapPage|livePage|clips|boards|witness|watchRead|hub)','[^']+','[^']+'\]/g)];
-assert.equal(tabs.length,10,'Show all 10 familiar tabs in Research Edition');
+assert.equal(tabs.length,10,'Preserve all ten original navigation entries in Research Edition');
+assert.match(integratedNav,/\['profilePage','👤','Profile'\]/,'Include Profile as final W.NE dock tab');
 for(const path of ['index.html','guest-preview.html','research-workspace.html','wne.html','research-bible.html','import.html','restore-copy.html']){
  assert.match(read('research/'+path),/<script src="\.\/research-site-nav\.js" defer><\/script>/,path+' must receive shared navigation and return guard');
 }
@@ -93,4 +94,4 @@ for(const link of ['href="/community-rules.html"','href="/community-rules.html#f
 assert.ok((html.match(/href="\/community-rules.html"/g)||[]).length>=3,'Link Community Rules from Explore, Witness and Footer');
 assert.match(rules,/Some community features described below are still being built or tested/,'Do not claim witness publication or voting works until activated');
 
-console.log('PASS: all 9 live tabs preserved, W.NE third, 4 guided tours, Explore, About, contact, privacy, canonical editor, guest isolation, scripts');
+console.log('PASS: all original live tabs and Profile preserved, W.NE third, 4 guided tours, Explore, About, contact, privacy, canonical editor, guest isolation, scripts');
