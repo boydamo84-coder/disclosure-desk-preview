@@ -95,6 +95,13 @@ This option is **potentially safer for this particular single-owner use case**, 
 
 **Still OPEN:** encrypted copy stored outside the device (USB-C or personally controlled Drive), independent checksum/copy verification, phone-loss recovery on another Termux installation, and all real records/provider sync. Merely copying backup into phone Downloads does not protect against a lost phone. Do not delete `~/.bds-finance/vault.bds` or any existing backups. No finance data should be transferred to Git or the public site.
 
+## L2 local private dashboard milestone — GitHub QA passed, phone pending (2026-11-03)
+- Read-only synthetic dashboard staged at `finance_local/dashboard.py` with 10-minute authenticated on-device HTTP session, BDS navy/gold mobile UI, financial totals and filters. Existing encrypted L1 vault, backup and recovery path unchanged.
+- Nine isolated Python L2 HTTP/security tests and mobile Chromium synthetic layout passed locally. GitHub Actions [41736247141](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41736247141) **SUCCESS** on Python 3.12 and 3.14 (L1+L2 and archive parity); Disclosure Desk staging [41736247039](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41736247039) **SUCCESS** at source SHA `dfffb15428af973a2a39eb3002b388b3c4efea84`.
+- Distribution `finance_local/BDS_Finance_L2_Private_Dashboard.zip` includes only `dashboard.py` and `DASHBOARD_README.md`. Instructions use `unzip -n` to avoid overwriting existing L1. It does not contain real money, passphrases, account tokens or backups.
+- **Not yet SAMSUNG VERIFIED:** owner must test Termux passphrase unlock, launch in Chrome, UK year/product filters, and closing server with Ctrl+C. Session launch URLs contain a temporary secret and must not be shared. This is not a security-audited real financial system; Ko-fi, Play, AdSense imports and tax estimates remain unimplemented.
+- Owner reports manually uploading encrypted demo backup to Google Drive, but independent download/recovery from Drive has not been verified. No Netlify/Supabase/public website/Play change.
+
 ## Status and acceptance
 
 - [x] L1 final CI **GREEN** at source SHA `aac857e4800c2c0b3cb659c2b3d000af4c14e26b`: vault run `41727602097`, website checks `41727601922`.
