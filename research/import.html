@@ -97,4 +97,4 @@ $('commit').onclick=async()=>{if(!$('confirm').checked)return;
  $('commitstate').textContent=`Imported ${data.chapters} sections as a new research document. Opening Research Studio…`;
  setTimeout(()=>{location.href='./research-workspace.html?id='+encodeURIComponent(data.id)},500);
  }catch(e){$('commitstate').textContent='Import not completed: '+e.message; $('commit').disabled=false}}
-</script></body></html>
+</script><script src="./research-site-nav.js" defer></script></body></html>
