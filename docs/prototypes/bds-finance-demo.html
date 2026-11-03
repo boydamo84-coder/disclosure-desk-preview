@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>BDS Finance Centre — Offline Demo</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#e7edf7;background:#0b1322;line-height:1.48}
+*{box-sizing:border-box}body{margin:0;min-width:300px}button,input,select{font:inherit}button,select,input{color:inherit}
+button{background:#17253a;border:1px solid #435168;border-radius:10px;padding:10px 14px;cursor:pointer}
+button:hover{border-color:#d7b66c}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #e7be63;outline-offset:3px}
+button.primary{background:#d2a653;color:#142137;font-weight:750;border-color:#d2a653}
+button.danger{border-color:#8f5660;color:#f8b7bb}button.small{font-size:.8rem;padding:6px 9px}button:disabled{opacity:.55;cursor:not-allowed}
+input,select{background:#101e30;border:1px solid #40516b;border-radius:9px;padding:10px;width:100%}input[type=file]{padding:8px;max-width:320px}
+label{font-size:.87rem;color:#b8c5d6;display:block}label input,label select{margin-top:5px}
+h1,h2,h3,p{margin:0}h1{font-size:clamp(1.5rem,5vw,2.2rem);letter-spacing:-.04em}h2{font-size:1.08rem}h3{font-size:.96rem}
+small,.muted{color:#a8b6ca}.wrap{max-width:1130px;margin:0 auto;padding:24px clamp(14px,4vw,32px) 70px}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:18px;margin-bottom:20px}
+.brand{display:flex;gap:15px;align-items:center}.logo{border:1px solid #b88d42;color:#e5be6c;border-radius:14px;padding:13px 10px;letter-spacing:-.08em;font-weight:900}
+.eyebrow{text-transform:uppercase;font-weight:750;letter-spacing:.15em;font-size:.68rem;color:#c5a869}
+.pill{border:1px solid #9d7c46;background:#342b1a;color:#f9db92;padding:6px 11px;border-radius:100px;font-size:.8rem;font-weight:700;display:inline-block}
+.note{padding:15px 18px;border:1px solid #786638;background:#221f1c;border-radius:13px;font-size:.9rem;margin-bottom:20px}
+.note strong{color:#f7d893}.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}.controls{display:grid;grid-template-columns:repeat(3,minmax(140px,1fr));gap:13px;align-items:end;margin:18px 0}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
+.panel,.metric{background:#101d2e;border:1px solid #2c3b52;border-radius:16px;min-width:0}
+.metric{padding:17px}.metric .value{font-size:clamp(1.1rem,2.8vw,1.65rem);font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin:4px 0}.metric .name{font-size:.75rem;color:#b5c2d6}.metric em{font-style:normal;color:#a8b6ca;font-size:.72rem}
+.cols{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.panel{padding:18px}.panel-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}
+.bar-row{margin:12px 0}.bar-head{display:flex;justify-content:space-between;font-size:.9rem;margin-bottom:5px;gap:10px}
+.bar-track{height:8px;background:#25364b;border-radius:99px;overflow:hidden}.bar{height:100%;background:linear-gradient(90deg,#9b7431,#d9ba71);border-radius:99px}
+.status{padding:11px;border:1px solid #40516b;background:#132337;border-radius:10px;margin:10px 0;color:#c2d1e6;font-size:.87rem}
+.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+.field-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:15px 0}
+summary{cursor:pointer;color:#e8bd6b;font-weight:700}
+table{border-collapse:collapse;width:100%;font-size:.86rem;min-width:680px}th,td{text-align:left;padding:10px 9px;border-bottom:1px solid #29384d}
+th{color:#aebed2;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}td.amount{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+td:last-child{text-align:right}.positive{color:#9de7c8}.negative{color:#ffb6b6}.dimmed{color:#9bafc9}.scroll{overflow-x:auto}
+.footer{margin-top:20px;border-top:1px solid #2e3d53;padding-top:18px;color:#9fb0c4;font-size:.8rem}
+a{color:#e0bf78}.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+@media(max-width:850px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.cols{grid-template-columns:1fr}}
+@media(max-width:560px){.controls{grid-template-columns:1fr 1fr}.controls label:last-child{grid-column:1/-1}.field-grid{grid-template-columns:1fr 1fr}.field-grid label:last-child{grid-column:1/-1}.panel{padding:14px}.actions button{flex-grow:1}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+ <div class="brand"><div class="logo" aria-hidden="true">BDS</div><div><div class="eyebrow">Boyd Digital Studios</div><h1>Finance Centre</h1><div class="muted">Sole trader • UK/Northern Ireland</div></div></div>
+ <span class="pill">● OFFLINE SAMPLE DEMO</span>
+</header>
+<div class="note" role="note"><strong>No real financial data.</strong> Every starter transaction is fictional. This standalone prototype has no accounts, sign-in, sync, encryption or secure storage. Do not enter actual income, banking details, donor names or tax information. Changes reset on reload unless you export a sample JSON backup.</div>
+<div class="controls" aria-label="Filters">
+ <label>Tax year<select id="year"></select></label>
+ <label>BDS product<select id="product"><option value="all">All products</option><option>Disclosure Desk</option><option>Our Cinema</option><option>W.NE</option><option>BDS shared</option></select></label>
+ <label>Month<select id="month"><option value="all">All months</option></select></label>
+</div>
+<section class="metrics" aria-label="Sample annual financial summary">
+ <div class="metric"><div class="name">Recognised gross income</div><div class="value" id="income">£0.00</div><em>Excludes estimates and transfers</em></div>
+ <div class="metric"><div class="name">Refunds, fees & expenses</div><div class="value" id="outgoings">£0.00</div><em>Separated in the ledger below</em></div>
+ <div class="metric"><div class="name">Demo trading profit</div><div class="value" id="profit">£0.00</div><em>Not an accounting/tax assessment</em></div>
+ <div class="metric"><div class="name">Estimated additional tax</div><div class="value">Not ready</div><em>PAYE, HMRC rules and real records not configured</em></div>
+</section>
+<div class="cols">
+<section class="panel"><div class="panel-head"><h2>Where the income comes from</h2><small>Recognised sample revenue</small></div><div id="sourceBars" aria-live="polite"></div><div class="status">AdSense estimates are shown in the ledger but excluded from income until finalised. Payout transfers are not counted as new earnings.</div></section>
+<section class="panel"><div class="panel-head"><h2>Offline ledger tools</h2><small>F1 prototype</small></div>
+ <p class="muted">Try adding fictional entries, exporting a sample backup, importing it twice, or resetting the demo.</p>
+ <div class="actions"><button id="exportJson" type="button" class="primary">Export JSON</button><button id="exportCsv" type="button">Export CSV</button><button id="reset" type="button">Reset demo</button></div>
+ <label style="margin-top:12px">Import sample-only JSON <input id="importFile" type="file" accept=".json,application/json"></label>
+ <div id="status" class="status" role="status" aria-live="polite">Sample records loaded. No online accounts are connected.</div>
+</section>
+</div>
+<section class="panel" style="margin-top:14px">
+ <div class="panel-head"><h2>Transaction ledger</h2><small id="rowCount">0 example entries</small></div>
+ <details id="addPanel"><summary>+ Add a fictional sample transaction</summary>
+ <form id="addForm">
+  <div class="field-grid">
+   <label>Date<input id="entryDate" required type="date" value="2026-11-03"></label>
+   <label>Product<select id="entryProduct"><option>Disclosure Desk</option><option>Our Cinema</option><option>W.NE</option><option>BDS shared</option></select></label>
+   <label>Source<select id="entrySource"><option>Ko-fi</option><option>AdSense</option><option>Google Play</option><option>Hosting</option><option>Other</option></select></label>
+   <label>Category<select id="entryKind"><option value="income">Final income</option><option value="estimate">Estimate only</option><option value="refund">Refund</option><option value="fee">Platform fee</option><option value="expense">Expense</option><option value="payout">Payout transfer (excluded)</option></select></label>
+   <label>Amount (£)<input id="entryAmount" required inputmode="decimal" type="number" min=".01" max="999999" step=".01" placeholder="25.00"></label>
+   <label>Fictional description<input id="entryDescription" required maxlength="90" placeholder="Sample revenue"></label>
+  </div>
+  <button class="primary" type="submit">Add example</button>
+ </form></details>
+ <div class="scroll"><table><thead><tr><th>Date</th><th>Product</th><th>Source</th><th>Type</th><th>Description</th><th style="text-align:right">GBP</th><th><span class="visually-hidden">Actions</span></th></tr></thead><tbody id="rows"></tbody></table></div>
+</section>
+<footer class="footer">BDS Finance Centre F1 • Single-file, network-disabled prototype • UK tax year 6 April–5 April • No saved credentials, tax filing or real transaction integrations • This demo is not an accountant-approved calculation.</footer>
+</main>
+<script id="bds-demo-script">
+(function(){
+'use strict';
+const TYPES=['income','estimate','refund','fee','expense','payout'];
+const PRODUCTS=['Disclosure Desk','Our Cinema','W.NE','BDS shared'];
+const SOURCES=['Ko-fi','AdSense','Google Play','Hosting','Other'];
+const EXAMPLES=[
+ {id:'demo-1',ref:'kofi-2026-nov',date:'2026-11-02',product:'Disclosure Desk',source:'Ko-fi',kind:'income',pence:2500,description:'Fictional supporter payment'},
+ {id:'demo-2',ref:'ads-oct-estimate',date:'2026-10-20',product:'Disclosure Desk',source:'AdSense',kind:'estimate',pence:12000,description:'Fictional estimated ads (not booked)'},
+ {id:'demo-3',ref:'ads-oct-final',date:'2026-10-31',product:'Disclosure Desk',source:'AdSense',kind:'income',pence:11000,description:'Fictional final ad earnings'},
+ {id:'demo-4',ref:'play-nov-sales',date:'2026-11-01',product:'Our Cinema',source:'Google Play',kind:'income',pence:19000,description:'Fictional Play sales'},
+ {id:'demo-5',ref:'play-nov-fee',date:'2026-11-01',product:'Our Cinema',source:'Google Play',kind:'fee',pence:2850,description:'Fictional platform fee'},
+ {id:'demo-6',ref:'play-nov-refund',date:'2026-11-02',product:'Our Cinema',source:'Google Play',kind:'refund',pence:1900,description:'Fictional customer refund'},
+ {id:'demo-7',ref:'host-nov',date:'2026-11-01',product:'BDS shared',source:'Hosting',kind:'expense',pence:1200,description:'Fictional hosting expense'},
+ {id:'demo-8',ref:'pay-nov',date:'2026-11-03',product:'Our Cinema',source:'Google Play',kind:'payout',pence:17500,description:'Fictional bank payout (not income)'},
+ {id:'demo-9',ref:'kofi-apr-five',date:'2026-04-05',product:'Disclosure Desk',source:'Ko-fi',kind:'income',pence:1500,description:'Previous UK tax year example'},
+ {id:'demo-10',ref:'kofi-apr-six',date:'2026-04-06',product:'Disclosure Desk',source:'Ko-fi',kind:'income',pence:1200,description:'Current UK tax year example'}
+];
+function yearOf(date){
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(date))throw Error('Invalid date');
+ const y=Number(date.slice(0,4)),m=Number(date.slice(5,7)),d=Number(date.slice(8,10));
+ const x=new Date(Date.UTC(y,m-1,d));
+ if(x.getUTCFullYear()!==y||x.getUTCMonth()!==m-1||x.getUTCDate()!==d||y<2000||y>2100)throw Error('Invalid calendar date');
+ const first=(m>4||(m===4&&d>=6))?y:y-1;
+ return String(first)+'/'+String((first+1)%100).padStart(2,'0');
+}
+function normalise(item){
+ if(!item||typeof item!=='object'||Array.isArray(item))throw Error('Invalid entry');
+ function field(key,max){const x=item[key];if(typeof x!=='string'||!x.trim()||x.length>max)throw Error('Invalid '+key);return x.trim();}
+ const id=field('id',80),ref=field('ref',80),date=field('date',10),product=field('product',60),source=field('source',50),kind=field('kind',20),description=field('description',90);
+ yearOf(date);
+ if(!PRODUCTS.includes(product)||!SOURCES.includes(source)||!TYPES.includes(kind))throw Error('Unknown product, source or category');
+ const pence=item.pence;
+ if(!Number.isSafeInteger(pence)||pence<1||pence>99999900)throw Error('Amount must be positive pence');
+ return {id:id,ref:ref,date:date,product:product,source:source,kind:kind,pence:pence,description:description};
+}
+function identity(entry){return entry.source+'\u0000'+entry.kind+'\u0000'+entry.ref;}
+function merge(existing,incoming){
+ if(!Array.isArray(existing)||!Array.isArray(incoming)||incoming.length>250)throw Error('Too many entries');
+ const ready=incoming.map(normalise);
+ const seenIds=new Set(existing.map(function(x){return x.id;}));
+ const keys=new Map(existing.map(function(x){return [identity(x),JSON.stringify(x)];}));
+ const next=existing.slice();let skipped=0;
+ for(const x of ready){
+  const key=identity(x);
+  if(seenIds.has(x.id)||keys.has(key)){skipped++;continue;}
+  if(next.length>=500)throw Error('Demo capacity exceeded');
+  next.push(x);seenIds.add(x.id);keys.set(key,JSON.stringify(x));
+ }
+ return {records:next,added:next.length-existing.length,skipped:skipped};
+}
+function summarise(records,year,product,month){
+ let income=0,refunds=0,fees=0,expenses=0,estimates=0,payouts=0;const bySource={};
+ const shown=records.filter(function(x){
+  return yearOf(x.date)===year&&(product==='all'||x.product===product)&&(month==='all'||x.date.slice(0,7)===month);
+ });
+ shown.forEach(function(x){
+  if(x.kind==='income'){income+=x.pence;bySource[x.source]=(bySource[x.source]||0)+x.pence;}
+  if(x.kind==='refund')refunds+=x.pence;
+  if(x.kind==='fee')fees+=x.pence;
+  if(x.kind==='expense')expenses+=x.pence;
+  if(x.kind==='estimate')estimates+=x.pence;
+  if(x.kind==='payout')payouts+=x.pence;
+ });
+ return {income:income,refunds:refunds,fees:fees,expenses:expenses,estimates:estimates,payouts:payouts,profit:income-refunds-fees-expenses,outgoings:refunds+fees+expenses,bySource:bySource,shown:shown};
+}
+function format(pence){return new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(pence/100);}
+function csvCell(value){let s=String(value);if(/^\s*[=+\-@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}
+function csv(records){
+ const headers=['id','ref','date','product','source','kind','description','amount_gbp','accounting_treatment'];
+ return [headers.map(csvCell).join(',')].concat(records.map(function(x){
+  return [x.id,x.ref,x.date,x.product,x.source,x.kind,x.description,(x.pence/100).toFixed(2),x.kind==='estimate'||x.kind==='payout'?'excluded-from-profit':x.kind==='income'?'revenue':'deduction'].map(csvCell).join(',');
+ })).join('\r\n')+'\r\n';
+}
+const API=Object.freeze({yearOf:yearOf,normalise:normalise,merge:merge,summarise:summarise,csv:csv,format:format,examples:EXAMPLES.map(normalise)});
+if(typeof window!=='undefined')window.BDSFinanceDemo=API;
+if(typeof document==='undefined')return;
+let records=EXAMPLES.map(normalise),product='all',year='2026/27',month='all',counter=0;
+function el(id){return document.getElementById(id);}
+function message(value){el('status').textContent=value;}
+function download(name,text,type){
+ const url=URL.createObjectURL(new Blob([text],{type:type}));
+ const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},3000);
+}
+function option(value,title){const x=document.createElement('option');x.value=value;x.textContent=title;return x;}
+function refillYears(){
+ const select=el('year'),selected=year;select.replaceChildren();
+ const years=Array.from(new Set(records.map(function(x){return yearOf(x.date);}).concat(['2025/26','2026/27']))).sort().reverse();
+ years.forEach(function(y){select.append(option(y,y));});
+ if(!years.includes(selected))year=years[0];select.value=year;
+}
+function refillMonths(){
+ const select=el('month'),prior=month;select.replaceChildren(option('all','All months'));
+ const months=Array.from(new Set(records.filter(function(x){return yearOf(x.date)===year;}).map(function(x){return x.date.slice(0,7);}))).sort().reverse();
+ months.forEach(function(m){select.append(option(m,new Date(m+'-01T12:00:00Z').toLocaleDateString('en-GB',{year:'numeric',month:'long',timeZone:'UTC'})));});
+ if(!months.includes(prior))month='all';select.value=month;
+}
+function cell(row,value,className){const td=document.createElement('td');td.textContent=value;if(className)td.className=className;row.append(td);return td;}
+function render(){
+ refillYears();refillMonths();el('product').value=product;
+ const data=summarise(records,year,product,month);
+ el('income').textContent=format(data.income);
+ el('outgoings').textContent=format(data.outgoings);
+ el('profit').textContent=format(data.profit);
+ el('rowCount').textContent=data.shown.length+' sample entries';
+ const bars=el('sourceBars');bars.replaceChildren();
+ const sourceItems=Object.entries(data.bySource).sort(function(a,b){return b[1]-a[1];});
+ const max=Math.max(1,...sourceItems.map(function(x){return x[1];}));
+ if(!sourceItems.length){const p=document.createElement('p');p.className='muted';p.textContent='No recognised income in this selection.';bars.append(p);}
+ sourceItems.forEach(function(item){
+  const shell=document.createElement('div');shell.className='bar-row';
+  const head=document.createElement('div');head.className='bar-head';
+  const name=document.createElement('span');name.textContent=item[0];
+  const amount=document.createElement('strong');amount.textContent=format(item[1]);head.append(name,amount);
+  const track=document.createElement('div');track.className='bar-track';
+  const bar=document.createElement('div');bar.className='bar';bar.style.width=String(Math.round(item[1]/max*100))+'%';
+  track.append(bar);shell.append(head,track);bars.append(shell);
+ });
+ const tbody=el('rows');tbody.replaceChildren();
+ const all=data.shown.slice().sort(function(a,b){return b.date.localeCompare(a.date)||a.id.localeCompare(b.id);});
+ if(!all.length){const tr=document.createElement('tr');const td=document.createElement('td');td.colSpan=7;td.className='muted';td.textContent='No sample entries match these filters.';tr.append(td);tbody.append(tr);}
+ all.forEach(function(x){
+  const tr=document.createElement('tr');cell(tr,x.date);cell(tr,x.product);cell(tr,x.source);cell(tr,x.kind);cell(tr,x.description);
+  const sign=x.kind==='income'?'+':x.kind==='payout'||x.kind==='estimate'?'~':'−';
+  cell(tr,sign+format(x.pence),'amount '+(x.kind==='income'?'positive':x.kind==='payout'||x.kind==='estimate'?'dimmed':'negative'));
+  const td=document.createElement('td'),button=document.createElement('button');button.type='button';button.className='small danger';button.textContent='Remove';button.setAttribute('aria-label','Remove sample transaction '+x.id);
+  button.addEventListener('click',function(){records=records.filter(function(row){return row.id!==x.id;});render();message('Removed fictional demo entry '+x.id+'.');});td.append(button);tr.append(td);tbody.append(tr);
+ });
+}
+el('year').addEventListener('change',function(e){year=e.target.value;month='all';render();});
+el('product').addEventListener('change',function(e){product=e.target.value;render();});
+el('month').addEventListener('change',function(e){month=e.target.value;render();});
+el('reset').addEventListener('click',function(){if(!window.confirm('Reset the fictional demonstration records?'))return;records=EXAMPLES.map(normalise);year='2026/27';month='all';product='all';render();message('Demo reset. No real information was stored.');});
+el('exportJson').addEventListener('click',function(){download('bds-finance-synthetic-demo.json',JSON.stringify({version:1,mode:'synthetic-demo',records:records},null,2),'application/json');message('Fictional JSON example exported.');});
+el('exportCsv').addEventListener('click',function(){download('bds-finance-synthetic-demo.csv',csv(records),'text/csv;charset=utf-8');message('Fictional CSV example exported.');});
+el('importFile').addEventListener('change',async function(e){
+ const file=e.target.files&&e.target.files[0];if(!file)return;
+ try{
+  if(file.size>524288)throw Error('Example import file is too large');
+  const data=JSON.parse(await file.text());
+  if(!data||data.mode!=='synthetic-demo'||data.version!==1||!Array.isArray(data.records))throw Error('Only BDS synthetic-demo JSON backups are accepted');
+  const result=merge(records,data.records);records=result.records;render();
+  message('Sample import: '+result.added+' added; '+result.skipped+' duplicates skipped. Figures are fictional.');
+ }catch(err){message('Import rejected: '+err.message);}
+ e.target.value='';
+});
+el('addForm').addEventListener('submit',function(e){
+ e.preventDefault();
+ try{
+  const amount=Number(el('entryAmount').value);
+  if(!Number.isFinite(amount)||amount<=0||amount>999999)throw Error('Invalid sample amount');
+  counter++;
+  const x=normalise({id:'manual-demo-'+counter,ref:'manual-fictional-'+counter,date:el('entryDate').value,product:el('entryProduct').value,source:el('entrySource').value,kind:el('entryKind').value,pence:Math.round(amount*100),description:el('entryDescription').value});
+  const result=merge(records,[x]);records=result.records;year=yearOf(x.date);month='all';product='all';render();message('Added a fictional sample transaction. Not securely saved.');
+  el('addForm').reset();el('entryDate').value='2026-11-03';
+ }catch(err){message('Sample entry rejected: '+err.message);}
+});
+render();
+})();
+</script>
+</body>
+</html>
