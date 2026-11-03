@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, Profile Chat UI source STAGED / DISABLED:** a seventh native collapsible Hub section houses accepted/pending lists and inline conversation/preview/composer; source-based client actions for invite, accept/decline, block and report. Separate `privateChat:false` and `discussions:false` flags protect the live 11-tab experience; the chat schema remains UNAPPLIED and no messaging is usable. Await GitHub-only CI and isolated backend/RLS testing before activation.
+
 - **2026-11-03, private 1:1 Chat database foundation CODE STAGED / UNAPPLIED:** staged security-reviewed candidate SQL (`supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql`) for separate chat opt-in, one introductory preview, recipient-only accept/decline, participant-only accepted messages, anti-repeat pair uniqueness, request/message rate limits, blocks and limited excerpt-only owner reports. CI tests are static, **NOT SQL execution or authenticated security tests**. Website feature remains disabled; no Supabase migration was applied. This is a candidate requiring independent SQL/RLS review and an isolated database test before activation.
 
 - **2026-11-03, Community Rules current-vs-future wording CODE STAGED:** obsolete "private drafts only" notice replaced with feature-flag-aligned status; planned Discussions and consent-only private Chat policy and scoped steward limits added, plus GitHub-only source check. No publication. CI pending.
@@ -89,7 +91,7 @@ All five were approved on 2026-11-03 and are documented in [the original roadmap
 
 Retain these in existing sections/tools, not five new navigation tabs. Before building any part, inspect current Evidence Connections / comparison / research/export implementations to avoid duplication.
 
-### 4C. Private one-to-one user messaging — BACKEND CANDIDATE STAGED, NOT APPLIED / UI NOT BUILT
+### 4C. Private one-to-one user messaging — BACKEND CANDIDATE + DISABLED UI STAGED / NOT APPLIED
 
 **Requested 2026-11-03:** Add a **Chat** section *within* the existing **Profile / My Research Hub**, using its expandable card pattern and an embedded conversation window. No separate chat page or chat-specific navigation tab (the separately approved Discussions tab will be the site's future twelfth tab), and **no group chats**. Include **Accepted chats** and **Pending requests** (incoming and sent), with an unread indicator and a message pane in the same Profile section.
 
@@ -99,7 +101,7 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 **User experience / device:** Inside Profile: an expandable Chat panel with Accepted | Pending (received/sent) states, a selectable conversation list, and a scrollable message window/composer in the *same panel* after acceptance. Inbound pending shows only the submitted preview and Accept/Decline actions. Safe markup/text rendering, touch/keyboard accessibility, responsive mobile, unread state and cross-device consistency; Android should receive the same functionality after website QA. Notifications should be opt-in if added.
 
-**Build / acceptance status:** A **review-only SQL backend candidate** now exists in `supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql`, with GitHub-only structural tests; it has **NOT** been applied or verified against a live/staging database. UI, feature activation, schema testing, real 1:1 messages, and security QA remain pending. Feature remains approved for the **current consolidated roadmap** before the next coordinated website release. Inspect the existing LIVE hearing chat and community identity primitives first to reuse safe code patterns **without conflating public LIVE chat and private messaging tables**. Build on the unpublished website branch, test with synthetic multi-account scenarios (pending/accept/decline/block/report/unauthorised read, spam caps, simultaneous requests), RLS audit, Samsung/desktop QA; then port to Android and prepare the Play release. **Do not migrate the live database or deploy Netlify merely to record this feature.** Detailed requirement/acceptance record: [Private Chat roadmap](docs/PROFILE_PRIVATE_CHAT_ROADMAP_2026-11-03.md).
+**Build / acceptance status:** A **review-only SQL backend candidate** now exists in `supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql`, with GitHub-only structural tests; it has **NOT** been applied or verified against a live/staging database. Disabled Profile UI is staged; feature activation, schema testing, real 1:1 messages, independent contact opt-in controls and security QA remain pending. Feature remains approved for the **current consolidated roadmap** before the next coordinated website release. Inspect the existing LIVE hearing chat and community identity primitives first to reuse safe code patterns **without conflating public LIVE chat and private messaging tables**. Build on the unpublished website branch, test with synthetic multi-account scenarios (pending/accept/decline/block/report/unauthorised read, spam caps, simultaneous requests), RLS audit, Samsung/desktop QA; then port to Android and prepare the Play release. **Do not migrate the live database or deploy Netlify merely to record this feature.** Detailed requirement/acceptance record: [Private Chat roadmap](docs/PROFILE_PRIVATE_CHAT_ROADMAP_2026-11-03.md).
 
 ### 4D. User-created Discussions tab — APPROVED ROADMAP ADDITION (NOT BUILT)
 
@@ -155,6 +157,15 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Profile Chat panel UI staged behind disabled flag
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior `9565f8093a5dae178f2324eb7237bbf925ccb1a5`; resulting SHA is the new GitHub branch head. No release.
+- Added `assets/profile-private-chat.js` (new seventh native Profile accordion, accepted/pending request lists, inline conversation/first-message preview, request/accept/decline, message composer only for accepted chats, report/block buttons and safe `textContent` output), and matching markup/CSS in `index.html`.
+- Added `privateChat:false` / `discussions:false` in `assets/community-test-config.js`. Updated six-to-seven panel assertions in `scripts/test_research_hub.cjs`. Browser JavaScript source parsed with `new Function` before commit.
+- **Limitations:** this is NOT activated, and no contact opt-in UI, real unread badge, real SQL/HTTP test or multi-account security verification exists yet. Backend review SQL remains **UNAPPLIED**. No live/preview/Netlify/Android changes; no real messages sent.
+- Next: GitHub-only check, then add gated separate contact opt-in and test complete backend in isolated staging before any feature launch. The new Discussions tab remains roadmap-only.
+
+
 
 ### 2026-11-03 — 1:1 consent-only Chat backend candidate (SQL not applied)
 - Repository/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `80bab3e870e0f1e1a0b334c8f47e2446c77a35e6`; resulting SHA is this milestone's new GitHub branch HEAD.

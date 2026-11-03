@@ -40,9 +40,9 @@ console.log('PASS: profile navigation, W.NE shortcut exclusion, owner-only accou
 const hubStart=html.indexOf('<section id="profilePage"'), hubEnd=html.indexOf('<section id="ddProfileAdmin"',hubStart);
 assert.ok(hubStart>=0&&hubEnd>hubStart,'Profile section must precede Admin Centre');
 const hubMarkup=html.slice(hubStart,hubEnd);
-assert.equal((hubMarkup.match(/<details class="dd-profile-card dd-profile-fold">/g)||[]).length,6,'Six collapsible Hub sections');
-assert.equal((hubMarkup.match(/<summary><span>/g)||[]).length,6,'Each section has a native keyboard-accessible summary');
-assert.equal((hubMarkup.match(/<\/details>/g)||[]).length,7,'Six Hub accordions plus one nested Recently deleted disclosure close correctly');
+assert.equal((hubMarkup.match(/<details class="dd-profile-card dd-profile-fold">/g)||[]).length,7,'Seven collapsible Hub sections including planned Profile Chat');
+assert.equal((hubMarkup.match(/<summary><span>/g)||[]).length,7,'Each section has a native keyboard-accessible summary');
+assert.equal((hubMarkup.match(/<\/details>/g)||[]).length,8,'Seven Hub accordions plus one nested Recently deleted disclosure close correctly');
 for(const id of ['ddProfileFilesList','ddProfileBoardsList','ddProfileCommentsList','ddProfileWitnessList','ddProfileUsername','ddProfilePasswordForm']){
  assert.match(hubMarkup,new RegExp('id="'+id+'"'),'Existing private destination '+id+' stays mounted');
 }
