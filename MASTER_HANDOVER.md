@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, owner-approved discreet sticky-header Ko-fi Support CODE STAGED / CI PENDING:** Ko-fi page does not exist yet, so button remains *invisible* until an actual verified user-provided Ko-fi profile URL is set. Future sticky header will show gold/navy `☕ Support` beside Profile (small mobile coffee icon), with existing About/footer voluntary links retained. Added source QA and creator bio to `docs/VOLUNTARY_SUPPORT_KOFI_2026-11-03.md`. No Netlify/site deploy.
+
+
 - **2026-11-03, media cost/release roadmap documented (NO uploads implemented):** User requested public Discussion image sharing, native chat GIFs/emojis, low hosting costs and satellite work status. Confirmed Imgur UK block/commercial-hosting restriction; compared existing Supabase Free 1GB file storage/5+5GB egress with Cloudflare R2 Standard Free 10 GB-month/no egress charge; documented conservative image size/rate/EXIF/moderation safeguards in docs/COMMUNITY_MEDIA_COSTS_2026-11-03.md. Native phone emojis are supported as Unicode text in draft Chat; keyboard GIFs/stickers/image attachments are NOT supported. Satellite automatic nearest historical acquisition and internal imagery slider remain undone. No live bucket, backend changes or deployments.
 
 
@@ -297,6 +300,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Voluntary Ko-fi Support in sticky header, if verified account exists
+- Branch `feature/sources-archives-next-batch-nov03`, preceding SHA `cb68e47fe659da0a7f04147e8656dbcbd774c83c`. Prior source QA workflow `41712744151` **SUCCESS** at `cb68e47fe659da0a7f04147e8656dbcbd774c83c` for previous optional-support/hosting docs.
+- User approved a subtle always-visible `☕ Support` in header. Updated dormant `assets/support-site.js` to insert accessible Ko-fi header link directly before Profile shortcut, alongside optional About and footer links, **only when** a verified owner profile URL is configured. `index.html` styles match existing navy/gold palette, with mobile icon-only compact treatment. Expanded `scripts/test_support_site.cjs` for header and mobile.
+- Ko-fi biography copy and shorter fallback saved in `docs/VOLUNTARY_SUPPORT_KOFI_2026-11-03.md`.
+- **No Ko-fi account or verified payment URL exists; actual button hidden.** Source CI pending. No live Supabase, Netlify, Android, new tab or production release.
+
+
 
 ### 2026-11-03 — Media-cost planning and voluntary support setup instructions
 - Branch feature/sources-archives-next-batch-nov03; preceding SHA 0ae7aec077fbfcee0d500a1c9314d6fd9c6a77c7. Added docs/COMMUNITY_MEDIA_COSTS_2026-11-03.md and docs/VOLUNTARY_SUPPORT_KOFI_2026-11-03.md, updated canonical Discussions, Profile Chat and historical satellite roadmaps. Planning and documentation only, no file upload code.

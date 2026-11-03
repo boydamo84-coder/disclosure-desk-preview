@@ -21,6 +21,19 @@ function link(label,url){
 function initialise(){
  const url=validateSupportUrl(VERIFIED_KOFI_PAGE_URL);
  if(!url)return; // Never show fake links or a nonfunctional donate action.
+ const header=document.querySelector('header.top');
+ if(header){
+  const support=link('☕ Support',url);
+  support.classList.add('dd-header-support');
+  support.setAttribute('aria-label','Support Disclosure Desk voluntarily on Ko-fi');
+  support.title='Voluntary support · Ko-fi';
+  const word=document.createElement('span');
+  word.className='dd-support-word';
+  word.textContent='Support';
+  support.replaceChildren(document.createTextNode('☕ '),word);
+  const profile=header.querySelector('#ddProfileShortcut');
+  if(profile)profile.before(support);else header.append(support);
+ }
  const footer=document.querySelector('.dd-site-footer-actions');
  if(footer)footer.append(link('☕ Support Disclosure Desk',url));
  const about=document.querySelector('#about .section');

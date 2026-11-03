@@ -23,3 +23,20 @@ Sources:
 https://help.ko-fi.com/hc/en-us/articles/360002506494-Does-Ko-fi-take-a-fee
 https://help.ko-fi.com/hc/en-us/articles/360014098514-Getting-started-on-Ko-fi
 https://help.ko-fi.com/hc/en-us/articles/360009392953-What-information-do-supporters-share-Public-private-options
+
+## Header placement decision — 3 November 2026
+
+- The Ko-fi support link is now also prepared in the **sticky header**, beside the Profile shortcut, styled as a discreet gold/blue `☕ Support` item on desktop. On mobile widths up to 430px the label is visually shortened to the coffee icon, with accessible `aria-label` and tooltip. The About and footer versions are retained for discovery.
+- **Still not public:** the creator has not yet created a Ko-fi account; `VERIFIED_KOFI_PAGE_URL` remains blank, so NO Support button is rendered anywhere. No invented handle or third-party payment embed.
+
+### Suggested Ko-fi creator bio
+
+**Disclosure Desk — Where curiosity meets evidence.**
+
+An independent platform exploring UFOs, UAPs and the unexplained through historical archives, worldwide sightings, breaking news and powerful research tools.
+
+Built for curious minds who believe every mystery deserves a closer look—and every claim deserves evidence.
+
+Created by Boyd Digital Studios. Independent research. Open minds. No predetermined answers.
+
+**Short option (for smaller Ko-fi profile fields):** Independent UFO/UAP research, global sightings, historical archives and evidence-led investigation tools. Follow the mystery. Check the sources. Support curiosity.
