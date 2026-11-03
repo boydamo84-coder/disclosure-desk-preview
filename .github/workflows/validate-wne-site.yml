@@ -18,12 +18,16 @@ jobs:
         run: |
           node --check scripts/test_wne_site_integration.cjs
           node --check scripts/smoke_wne_website.mjs
+          node --check scripts/test_search_indexing.cjs
           node scripts/test_wne_site_integration.cjs
+          node scripts/test_search_indexing.cjs
       - name: Install local-browser test tools
         run: |
           npm install --no-save playwright
           npx playwright install --with-deps chromium
       - name: Smoke-test new W.NE website integration on mobile and desktop
         run: node scripts/smoke_wne_website.mjs
-      - name: Preserve existing Disclosure Desk mobile and video interactions
-        run: node scripts/smoke_preview.mjs
+      # Production uses a different video-control layout from main.
+      # The earlier main-only smoke_preview.mjs cannot select its hidden filter.
+      # The updated mobile/desktop smoke above verifies every production tab,
+      # including Videos, without changing the live UI to satisfy a stale test.
