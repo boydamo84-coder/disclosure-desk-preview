@@ -74,3 +74,10 @@ assert.match(sql,/create or replace function public\.dd_discussions_owner_sectio
 assert.doesNotMatch(sql,/where t\.section_id=section_id/,'Avoid PostgreSQL ambiguous PLpgSQL variable name');
 assert.match(sql,/where t\.section_id=v_section_id/);
 assert.match(sql,/where s\.id=v_section_id/);
+
+/* Disposable SQL integration test blocks must preserve literal PostgreSQL dollar quotes.
+ * JS String.replace with "$$" silently reduces it to "$"; disallow that regression. */
+const isolatedSql=fs.readFileSync('scripts/forum-isolated-acceptance.sql','utf8');
+assert.doesNotMatch(isolatedSql,/^do \$$/m,'No single-dollar DO block');
+assert.doesNotMatch(isolatedSql,/^end \$;$/m,'No single-dollar DO close');
+assert.equal((isolatedSql.match(/^do \$\$$/gm)||[]).length,(isolatedSql.match(/^end \$\$;$/gm)||[]).length,'Balanced synthetic DO bodies');
