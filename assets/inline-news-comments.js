@@ -41,7 +41,7 @@ function mount(container){
     const {error}=await c.from('dd_case_comment_flags').insert({comment_id:item.id,reporter_id:user.id,reason:selected});
     message.textContent=error?'Flag not submitted (perhaps already reported).':'Sent for moderator review.';
    };
-   card.append(header,text,flag);entries.append(card);
+   card.append(header,text,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);entries.append(card);
   }
  }
  async function refresh(){
