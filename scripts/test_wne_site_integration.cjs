@@ -45,4 +45,18 @@ assert.match(read('research/research-entry.js'),/wne-research-last-document:/);
 const guest=read('research/guest-preview.html');
 assert.doesNotMatch(guest,/supabase|research_documents|investigation_boards|fetch\s*\(|XMLHttpRequest|contenteditable|localStorage|sessionStorage/i);
 assert.ok(fs.existsSync('research/data/curated-public-cases.json'));
+
+for(const name of ['index.html','research-workspace.html','wne.html','research-bible.html','guest-preview.html','import.html','restore-copy.html']){
+ const source=read('research/'+name);
+ assert.match(source,/<a\b[^>]*href="\/"[^>]*>/,'Research screen must provide a direct back-to-main-site link: '+name);
+ assert.match(source,/Disclosure Desk/,'Back link must identify destination: '+name);
+}
+const fullEditor=read('research/wne.html');
+assert.match(fullEditor,/<a class="button dd-return-to-site dd-return-desktop" href="\/" target="_top"/,'Editor toolbar exit must escape iframe');
+assert.match(fullEditor,/<a class="dd-return-to-site dd-return-mobile" href="\/" target="_top"/,'Mobile editor exit must be visible in mobile bar');
+assert.match(fullEditor,/window\.addEventListener\('beforeunload',e=>\{if\(gen!==savedGen\)/,'Retain original unsaved-writing warning');
+assert.match(read('research/research-workspace.html'),/class="dd-workspace-site-return"[^>]*>← Disclosure Desk/,'Outer workspace must have direct exit');
+assert.match(read('research/guest-preview.html'),/href="\/" target="_top"/,'Guest preview must return to main site');
+assert.match(read('research/import.html'),/href="\.\/research-workspace\.html"/,'Importer must return to valid local workspace, not broken root endpoint');
+
 console.log('PASS: all 9 live tabs preserved, W.NE third, 4 guided tours, Explore, About, contact, privacy, canonical editor, guest isolation, scripts');
