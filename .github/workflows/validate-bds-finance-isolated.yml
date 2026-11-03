@@ -1,0 +1,42 @@
+name: BDS Finance isolated PostgreSQL security QA (no deploy)
+on:
+  push:
+    branches: [feature/sources-archives-next-batch-nov03]
+    paths:
+      - 'finance-review/**'
+      - '.github/workflows/validate-bds-finance-isolated.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  finance-security:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: synthetic-ci-only
+          POSTGRES_DB: bds_finance_disposable
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d bds_finance_disposable"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: synthetic-ci-only
+      PGDATABASE: bds_finance_disposable
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check PostgreSQL client
+        run: psql --version
+      - name: Create isolated synthetic Auth identity fixtures
+        run: psql -X -v ON_ERROR_STOP=1 -f finance-review/isolated-fixture.sql
+      - name: Apply UNAPPLIED finance candidate to disposable PostgreSQL only
+        run: psql -X -v ON_ERROR_STOP=1 -f finance-review/finance-f2-review.sql
+      - name: Verify real PostgreSQL RLS, MFA, other-user denial, revocation and duplicate guards
+        run: psql -X -v ON_ERROR_STOP=1 -f finance-review/isolated-acceptance.sql
