@@ -1,7 +1,7 @@
 # Disclosure Desk — Community Discussions roadmap
 
 **Requested / approved:** 3 November 2026  
-**Status:** ROADMAP ONLY — NOT CODED, NOT DEPLOYED  
+**Status:** FRONTEND SOURCE STAGED BEHIND DISABLED FEATURE FLAG; BACKEND NOT BUILT; NOT DEPLOYED  
 **Canonical status log:** [MASTER_HANDOVER.md](../MASTER_HANDOVER.md)
 
 ## Goal and navigation
@@ -64,3 +64,6 @@ Responsive top level: community directory/search, sections a user follows, recen
 ## Delivery status and guardrails
 
 Only the **design is approved**; no implementation, Supabase migration, live deploy or Android change has been carried out as part of this planning entry. It belongs to the consolidated website roadmap alongside the new Profile Chat feature. Work on the unpublished development branch, update MASTER_HANDOVER.md **after every milestone** with changed paths/SHA, tests and actual release state. Do not spend Netlify credits on individual incremental previews.
+
+## Frontend staging milestone (3 November 2026)
+The unpublished website branch has gated `assets/community-discussions.js` and a hidden `discussionsPage` shell in `index.html`, including section/topic/reply views, creator form and limited steward organisation. It remains **disabled** by `discussions:false`, so the public website and W.NE dock still have 11 tabs and none of the future server RPCs exist yet. See the master handover for CI and backend follow-up. Do not enable without security and user testing.

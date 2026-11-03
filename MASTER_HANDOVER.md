@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, Discussions frontend CODE STAGED / DISABLED:** responsive section discovery, new-section form, topic posts, reply pane, safe source links, registered posting, user votes/flagging, scoped section-steward pin and escalate actions added in `assets/community-discussions.js` and `index.html`. The module returns immediately when `discussions:false`; no twelfth tab or public RPC calls. **Backend methods not yet implemented.** GitHub-only JS/static UI test added; CI pending and no deployment.
+
 - **2026-11-03, separate private Chat contact opt-in CODE STAGED / DISABLED:** public username management now conditionally shows an independent "allow private chat requests" checkbox, persisting `chat_contact_opt_in` only when `privateChat:true`. With the current **false** flag, existing username reads/writes remain unchanged and never query the unapplied column. GitHub-only source test updated; no backend applied, public feature or messaging.
 
 - **2026-11-03, Profile Chat accordion static-test correction STAGED:** initial GitHub-only run `41683343386` failed because assertion matched `class` as the first attribute, while the new Chat `<details>` intentionally begins with an accessible `id`. Updated regex to accept safe attribute order and still assert seven sections. Re-run pending; no live UI or backend enabled.
@@ -109,7 +111,7 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 **Build / acceptance status:** A **review-only SQL backend candidate** now exists in `supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql`, with GitHub-only structural tests; it has **NOT** been applied or verified against a live/staging database. Disabled Profile UI and feature-gated independent contact opt-in source are staged; feature activation, schema testing, real 1:1 messages and security QA remain pending. Feature remains approved for the **current consolidated roadmap** before the next coordinated website release. Inspect the existing LIVE hearing chat and community identity primitives first to reuse safe code patterns **without conflating public LIVE chat and private messaging tables**. Build on the unpublished website branch, test with synthetic multi-account scenarios (pending/accept/decline/block/report/unauthorised read, spam caps, simultaneous requests), RLS audit, Samsung/desktop QA; then port to Android and prepare the Play release. **Do not migrate the live database or deploy Netlify merely to record this feature.** Detailed requirement/acceptance record: [Private Chat roadmap](docs/PROFILE_PRIVATE_CHAT_ROADMAP_2026-11-03.md).
 
-### 4D. User-created Discussions tab — APPROVED ROADMAP ADDITION (NOT BUILT)
+### 4D. User-created Discussions tab — FRONTEND CODE STAGED / DISABLED; BACKEND NOT BUILT
 
 **Requested 2026-11-03:** Add **Discussions** as a separate **12th** main tab in the future combined website release (proposed after Witness, before Watch & Read). The **current live site still has 11 tabs**. This deliberately authorises a new navigation tab, unlike private Profile Chat (which stays inside Profile). Users create public topic sections and then posts, threaded discussions and shareable source links inside them. Guests can read published public discussions; registered users can post, reply, vote and flag. Avoid duplicating current case/news/video comment threads and LIVE chat.
 
@@ -117,7 +119,7 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 **User protection:** registered Auth + safe unique aliases, RLS author/steward/site-owner separation, duplicate/name/rate/spam guards, links/XSS security, appeals, owner moderation override and steward revocation without deleting community content. Public-by-default sections, no private groups or paid gatekeeping in v1. Owner moderation must remain effective; steward abuse must be reversible.
 
-**Status:** PLANNED, no DB migration, no 12th tab yet, no deployment. Build and test on unpublished branch with fake multi-account permissions, keyboard/phone acceptance and GitHub-only CI before one combined website release; port to Android after website approval. See [full Discussions roadmap and acceptance criteria](docs/COMMUNITY_DISCUSSIONS_ROADMAP_2026-11-03.md).
+**Status:** Responsive frontend source and gated navigation are CODE STAGED behind `discussions:false`; no backend RPCs/tables yet, no visible 12th tab, no deployment. The staged client is NOT usable without separately reviewed server permissions. Build and test on unpublished branch with fake multi-account permissions, keyboard/phone acceptance and GitHub-only CI before one combined website release; port to Android after website approval. See [full Discussions roadmap and acceptance criteria](docs/COMMUNITY_DISCUSSIONS_ROADMAP_2026-11-03.md).
 
 ## 5. Release plan: website first, then Android / Google Play
 
@@ -163,6 +165,15 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Discussions UI source (disabled until backend acceptance)
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview`, `feature/sources-archives-next-batch-nov03`; prior SHA `7b253f1bea70625a4f83d4b9d72e2a61c6be2c54`; resulting SHA is current branch HEAD after this commit.
+- Added `assets/community-discussions.js` (section directory, create section/post/reply UI, source links, vote/flag, limited steward Pin/Escalate, registered-only writes, DOM text rendering, rate/error messaging); added fully hidden `discussionsPage` DOM/CSS and gated navigation in `index.html`. No new visible main tab until `DD_COMMUNITY_FEATURES.discussions===true`.
+- Added `scripts/test_discussions_ui.cjs` and a GitHub-only workflow step; amended master and detailed roadmap. Existing case/news/LIVE comments and private Chat untouched.
+- **Verification:** source parses via `new Function`; GitHub-only CI pending, not runtime-tested, not Samsung-tested. Backend RPC names are **contracts only**, not yet implemented; no actual user posts or sections possible.
+- **Release/data:** feature flag remains false; live 11-tab production unchanged, no Supabase migration, no Netlify deploy, no Android changes. W.NE research nav remains eleven until deliberate 12-tab parity release work.
+- Next: stage and review a narrowly permissioned server schema/RPC candidate for public sections, threads, replies, reactions/flags, steward pin/escalate and owner review; test in isolated database with synthetic accounts, then unify site nav/research dock/tour before release.
+
 
 ### 2026-11-03 — Independent private Chat contact opt-in (disabled source)
 - Branch `feature/sources-archives-next-batch-nov03` of `boydamo84-coder/disclosure-desk-preview`; prior SHA `065204175ddae168c0448dd5ac3924263b605283`; new HEAD is the milestone commit.

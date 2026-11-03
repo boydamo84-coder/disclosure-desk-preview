@@ -148,6 +148,25 @@
 @media(max-width:700px){.top{gap:9px}.top .logo{font-size:11px;letter-spacing:2.5px}.top .micro{font-size:9px;letter-spacing:.75px;line-height:1.3}}
 .dd-profile-shortcut[hidden]{display:none!important}
 .dd-profile-page{max-width:840px;margin:auto;padding-bottom:24px}
+/* Discussions: existing navy/gold theme, responsive and keyboard friendly. */
+.dd-forum{max-width:920px;margin:auto}
+.dd-forum-tools{display:flex;align-items:end;gap:12px;flex-wrap:wrap}
+.dd-forum-tools>label{flex:1;min-width:200px}
+.dd-forum .field{display:block;width:100%;max-width:100%;box-sizing:border-box;margin:6px 0 14px}
+.dd-forum label{display:block;font-size:13px;color:#e5cca1}
+.dd-forum h3,.dd-forum h4{color:#eed2a1}
+.dd-forum-list{display:grid;gap:12px;margin:12px 0 20px}
+.dd-forum-item,.dd-forum-form-card{border:1px solid #546678;background:#112536;border-radius:12px;padding:15px}
+.dd-forum-form-card{display:block;margin:14px 0}
+.dd-forum-form-card>summary{cursor:pointer;font-weight:700;color:#e8c98d}
+.dd-forum-title{display:block;font-size:16px;font-weight:700;color:#f0d7a7;background:transparent;text-align:left;border:0;padding:5px 0;cursor:pointer;overflow-wrap:anywhere}
+.dd-forum-title:focus-visible,.dd-forum-form-card>summary:focus-visible{outline:2px solid #e8c98d;outline-offset:3px}
+.dd-forum-body{color:#dbe5ea;white-space:pre-wrap;overflow-wrap:anywhere}
+.dd-forum-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.dd-forum-actions button{font-size:12px;padding:7px 10px}
+.dd-forum-link{display:inline-block;color:#e8c98d;font-size:12px;overflow-wrap:anywhere}
+@media(max-width:630px){.dd-forum-tools{display:block}.dd-forum-item,.dd-forum-form-card{padding:12px}}
+
 .dd-profile-card{border:1px solid #71674d;border-radius:12px;padding:16px;margin:13px 0;background:#112536;min-width:0}
 .dd-profile-card h3{color:#e8c98d;margin:0 0 9px}
 /* Native keyboard-accessible Research Hub accordions. Main account status remains visible. */
@@ -284,6 +303,43 @@
 <div class="dd-explore-contact-actions"><a class="outline" href="/privacy.html">Privacy Policy</a><a class="outline" href="mailto:support@uapdisclosuredesk.com?subject=Disclosure%20Desk%20enquiry">Contact &amp; enquiries</a></div>
 </div></div>
 <div class="note">Independent research includes uncertainty. We distinguish reporting, source material, disputed claims and personal interpretation wherever possible. Public maps must not disclose precise witness locations.</div>
+</div></section>
+<section id="discussionsPage" class="hidden" hidden aria-labelledby="ddForumHeading">
+<div class="section dd-forum">
+ <div class="head"><h2 id="ddForumHeading">Community Discussions</h2><span class="pill">PUBLIC COMMUNITY</span></div>
+ <p class="muted small">Create research sections, discuss evidence and share sources. Open posts need no section-steward approval. Stewards organise and escalate issues; they cannot silence people for disagreeing.</p>
+ <p id="ddForumStatus" class="muted small" role="status" aria-live="polite"></p>
+ <div id="ddForumSectionsPane">
+  <div class="dd-forum-tools"><label for="ddForumSearch">Find a section<input id="ddForumSearch" class="field" type="search" placeholder="Search sections and topics" maxlength="80"></label><button id="ddForumRefresh" type="button" class="outline">Refresh</button></div>
+  <div id="ddForumSections" class="dd-forum-list"></div>
+  <details class="dd-forum-form-card"><summary>Create a public discussion section</summary>
+   <p class="muted small">As creator, you become this section's steward—not a moderator with banning powers.</p>
+   <form id="ddForumSectionCreate">
+    <label>Section title<input class="field" name="title" minlength="4" maxlength="60" required></label>
+    <label>Description<textarea class="field" name="description" maxlength="400" rows="3"></textarea></label>
+    <label>Topic / category<input class="field" name="topic" maxlength="40" placeholder="e.g. UAP Evidence"></label>
+    <button type="submit" class="action">Create section</button>
+   </form></details>
+ </div>
+ <div id="ddForumThreadPane" hidden>
+  <button type="button" class="outline" id="ddForumBackSections">← All sections</button>
+  <h3 id="ddForumThreadTitle">Section</h3>
+  <p id="ddForumSectionInfo" class="muted small"></p>
+  <label for="ddForumSort">Sort threads<select id="ddForumSort" class="field"><option value="recent">Newest</option><option value="active">Recently active</option><option value="top">Most liked</option></select></label>
+  <div id="ddForumPostList" class="dd-forum-list"></div>
+  <form id="ddForumPostCreate" class="dd-forum-form-card">
+   <h4>Start a discussion</h4>
+   <label>Title<input class="field" name="title" minlength="4" maxlength="150" required></label>
+   <label>Your post<textarea class="field" name="body" rows="5" maxlength="5000"></textarea></label>
+   <label>Source URL (optional)<input class="field" name="link_url" type="url" placeholder="https://..." maxlength="1000"></label>
+   <button type="submit" class="action">Publish post</button></form>
+  <div id="ddForumReplyPane" hidden>
+   <button type="button" class="outline" id="ddForumBackThreads">← All topics</button>
+   <div id="ddForumReplyContent" class="dd-forum-item"></div>
+   <h4>Replies</h4><div id="ddForumReplies" class="dd-forum-list"></div>
+   <form id="ddForumReplyCreate" class="dd-forum-form-card"><label>Your reply<textarea class="field" name="body" rows="4" minlength="2" maxlength="2000" required></textarea></label><button type="submit" class="action">Reply</button></form>
+  </div>
+ </div>
 </div></section><section id="profilePage" class="hidden" aria-labelledby="ddProfileTitle"><div class="section dd-profile-page">
 <div class="head"><h2 id="ddProfileTitle">My Research Hub</h2><span class="pill">PRIVATE</span></div>
 <p class="muted small">Your research, Boards, community contributions and account settings together. Everything remains private unless you choose to publish it.</p>
@@ -1343,16 +1399,18 @@ function ddVideoModeSetup(){
 }
 ddVideoModeSetup();
 function navigateTo(id){
+if(id==='discussionsPage'&&window.DD_COMMUNITY_FEATURES?.discussions!==true)return;
 const avatar=document.getElementById('ddProfileShortcut');if(avatar)avatar.hidden=(id==='researchStudio');
 if(id==='discover')ddMarkSeen('news');
 if(id==='clips')ddMarkSeen('videos');
 if(id==='clips'&&$('clips').classList.contains('hidden'))clipRenderLimit=24;
 const explorePages=['cases','rabbitHole','resources','podcasts','about','hub'];
 document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===id||(t.dataset.tab==='hub'&&explorePages.includes(id))));
-['discover','archivePage','mapPage','cases','clips','rabbitHole','witness','about','resources','podcasts','hub','boards','watchRead','livePage','researchStudio','profilePage'].forEach(k=>$(k).classList.toggle('hidden',k!==id));
+['discover','archivePage','mapPage','cases','clips','rabbitHole','witness','about','resources','podcasts','hub','boards','watchRead','livePage','researchStudio','profilePage','discussionsPage'].forEach(k=>$(k).classList.toggle('hidden',k!==id));
 document.querySelectorAll('[data-rabbit-view]').forEach(t=>{const active=t.dataset.rabbitView===id;t.classList.toggle('active',active);t.setAttribute('aria-pressed',String(active))});
 window.scrollTo(0,0);
 if(id==='profilePage')window.DDResearchHub?.refresh();
+if(id==='discussionsPage')window.DDDiscussions?.refresh?.();
 if(id==='archivePage'&&!historicalRecords.length)loadHistoricalArchive();
 if(id==='boards')renderBoards();
 if(id==='rabbitHole')renderRabbitHole();
@@ -1717,4 +1775,4 @@ $('newsReadTab').onclick=()=>switchNewsView('read');
 $('readSearch').addEventListener('input',renderReadHistory);
 for(const id of ['archiveSearch','archiveYear','archiveType','archiveCategory'])$(id).addEventListener(id==='archiveSearch'?'input':'change',()=>{archiveDisplayCount=60;renderHistoricalArchive()});
 $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
-</script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=video-sync-1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov3-username-stage"></script><script defer src="assets/research-hub.js?v=nov3-hub1"></script><script defer src="assets/profile-private-chat.js?v=nov3-private-staged"></script><script defer src="assets/community-votes.js?v=nov3-community"></script><script defer src="assets/case-discussions.js?v=dev-1"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=dev-1"></script><script defer src="assets/live-hearings.js?v=dev-1"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=nov3-beta1"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/watch-read.js?v=dev-1"></script></body></html>
+</script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=video-sync-1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov3-username-stage"></script><script defer src="assets/research-hub.js?v=nov3-hub1"></script><script defer src="assets/profile-private-chat.js?v=nov3-private-staged"></script><script defer src="assets/community-discussions.js?v=nov3-forum-staged"></script><script defer src="assets/community-votes.js?v=nov3-community"></script><script defer src="assets/case-discussions.js?v=dev-1"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=dev-1"></script><script defer src="assets/live-hearings.js?v=dev-1"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=nov3-beta1"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/watch-read.js?v=dev-1"></script></body></html>
