@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, Profile Chat accordion static-test correction STAGED:** initial GitHub-only run `41683343386` failed because assertion matched `class` as the first attribute, while the new Chat `<details>` intentionally begins with an accessible `id`. Updated regex to accept safe attribute order and still assert seven sections. Re-run pending; no live UI or backend enabled.
+
 - **2026-11-03, disabled Profile Chat test coverage STAGED:** added GitHub-only static test covering accepted-only composer, recipient acceptance, flagged-off state, RPC method signatures and textContent rendering; no database writes/real chat. Workflow results pending for this commit. Original backend candidate remains unapplied.
 
 - **2026-11-03, Profile Chat UI source STAGED / DISABLED:** a seventh native collapsible Hub section houses accepted/pending lists and inline conversation/preview/composer; source-based client actions for invite, accept/decline, block and report. Separate `privateChat:false` and `discussions:false` flags protect the live 11-tab experience; the chat schema remains UNAPPLIED and no messaging is usable. Await GitHub-only CI and isolated backend/RLS testing before activation.
@@ -159,6 +161,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Fix Profile Chat accordion test selector (staging QA)
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior `2be2ed321fb0c13d6af5f6a171e9ccdace4914b6`; resulting SHA is branch head.
+- Corrected `scripts/test_research_hub.cjs`: new `<details id="ddProfileChatPanel" class="dd-profile-card dd-profile-fold">` is valid, but old regex counted only class-first markup. Updated to count any attribute order and preserve seven-panel accessibility assertion.
+- GitHub-only workflow `41683343386` failed at old regex (6 detected vs 7 expected); site source static assertions up to this check passed. Next run pending after correction. No live/Supabase/Android/Netlify changes.
+
+
 
 ### 2026-11-03 — Disabled Profile Chat GitHub regression coverage
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `1ea6d63e9ce3a58ae8d6acd3bc2fadf68c4dcf3f`; resulting branch head is documentation+test commit SHA.
