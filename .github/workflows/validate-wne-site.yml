@@ -29,6 +29,8 @@ jobs:
           node scripts/test_witness_community.cjs
           node --check scripts/test_public_profiles.cjs
           node scripts/test_public_profiles.cjs
+          node --check scripts/test_comment_security.cjs
+          node scripts/test_comment_security.cjs
       - name: Install local-browser test tools
         run: |
           npm install --no-save playwright

@@ -102,6 +102,12 @@ W.NE is presented as **W.NE Research Studio**, in Disclosure Desk navy/gold styl
 - Reproducibility, precise caveats, and next acceptance steps: [`docs/COMMUNITY_BACKEND_QA_2026-11-03.md`](COMMUNITY_BACKEND_QA_2026-11-03.md).
 - Next: verify latest GitHub Actions green; test real HTTP/JWT RLS and Edge Function with disposable users in a safe environment, concurrent fifth flag, user-controlled public aliases, geocoding, moderation and Samsung UX. Staged `WITNESS_VOTING_COMMUNITY_REVIEW.sql`, `PUBLIC_USERNAMES_REVIEW.sql` and `LIVE_HEARINGS_CHAT_REVIEW.sql` are NOT applied. No Netlify deploy or production merge without separate explicit release approval.
 
+## Comment hardening continuation — 3 November 2026
+
+- Existing deployed comments/flags permit `authenticated` RLS inserts without excluding Supabase anonymous sign-ins, and self-flags were allowed. Both violations are against the Community Rules. Concurrent comment/flag rate checks also lack per-user locks.
+- New staged review-only `supabase/COMMENT_SECURITY_HARDENING_REVIEW.sql` corrects both RLS and trigger guards and revokes public executable privileges from internal trigger functions. Adds `scripts/test_comment_security.cjs` to GitHub-only CI. **Not applied or deployed.**
+- Planned My Research Hub/profile is **deferred** until comment/vote/witness/report/moderation security and acceptance testing passes; no new site tab or deployment now.
+
 ## 6. Non-negotiable product/safety notes
 - No fake hearing dates, fake LIVE state, public/private document leak or precise witness locations.
 - Users may submit reports about unverified experiences; “published” does NOT mean Disclosure Desk authenticated the claim.

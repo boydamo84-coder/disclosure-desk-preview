@@ -37,3 +37,7 @@ Run these against an explicitly designated safe test environment or carefully is
 
 ## Existing security advisor warnings
 The read-only security advisor identified prior `SECURITY DEFINER` execute grants and leaked-password-protection settings in the existing project. They were not changed in this batch. Triage them separately; see the Supabase dashboard security advisors before launch.
+
+## Comment security hardening QA (continued 3 November 2026)
+
+Read-only inspection of the **existing** `dd_case_comments` and `dd_case_comment_flags` RLS policies/trigger definitions found that anonymous Supabase sign-ins inherit the `authenticated` role but were not specifically rejected, and that a comment author could flag their own approved comment. The existing 5-in-10-minute comment rate and 12-per-hour flag rate were subject to concurrent-request races. The staged `supabase/COMMENT_SECURITY_HARDENING_REVIEW.sql` adds explicit `is_anonymous=false` RLS checks and trigger guards, self-flag rejection in both layers, per-author/per-flagger advisory locks, and removes publicly executable privileges from the two internal trigger helpers. No live policies/functions have been changed. Run rollback-only SQL validation and real-session HTTP/5-account acceptance before enabling. This is not the separate five-flag auto-hide rule for witness reports.
