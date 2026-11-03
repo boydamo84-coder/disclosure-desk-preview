@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, BDS FINANCE CENTRE F0 — SOLE-TRADER TAX PROFILE OWNER DECISION RECORDED:** Owner confirmed operate as sole trader initially, with potential future limited-company incorporation if BDS becomes profitable. Updated `docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md` to specify 6 Apr–5 Apr tax periods, existing PAYE context needed for accurate additional-tax estimates, £1,000 gross-trading registration checkpoint, and clean effective-date separation for possible future company accounting. Documentation only; structure NOT proof of HMRC registration. No tax calculator, provider sync, financial data, login or deployed dashboard. F1 synthetic offline ledger is next, after privacy-safe data requirements review. GitHub-only staging CI pending on this milestone.
+
+
 - **2026-11-03, BDS FINANCE CENTRE 2026-11-03 DECISION MILESTONE — ROADMAP STAGED / GITHUB SOURCE CI GREEN (41719213568), NOT BUILT:** added `docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md` at commit `137fb8164f30aa7f9fabb6cd43e06e094093568a`. Private BDS-wide finance dashboard and automation plan: Ko-fi verified payment webhooks, AdSense readonly estimated/paid reports, Google Play monthly earnings CSV/Cloud Storage, expenses, FX/fees/refunds and reconciliation, conditional NI/UK sole trader/company tax calculation, protected owner portal + opt-in offline snapshots. **No dashboard UI, provider connection, backend migration, user finances, tax estimate or public deployment.** Requires business-form/PAYE inputs and separate go-ahead.
 
 - **2026-11-03, most recent Ko-fi support CODE STAGED / GitHub CI GREEN:** commit `32974cbde4fe336bf81315fae87f6b8568448937` passed `Sources & Archives staging QA (no deploy)` Actions run **41717709506** (success). Source and Ko-fi link static tests pass; no owner/browser test of profile checkout, payment receipt, Netlify production release, Supabase or Android change. Existing `production` SHA `9755fba9a5116c0cce6ac433ea022a6e5bfadd15`.
@@ -212,6 +215,8 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**BDS Finance F0 updated (2026-11-03):** owner chose sole-trader for now, future optional incorporation. See Finance Centre roadmap. No reason to put a tax or payment dashboard in public Disclosure Desk; finances remain a separate owner-only planned tool, not a blocker to this website's QA queue.
+
 **Owner-only BDS Finance Centre is a separate planned cross-product tool, NOT a blocker for the next Disclosure Desk website batch.** Design: `docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md`; no implementation/automatic collection or tax calculation exists. Preserve public navigation and current branch release boundaries.
 
 **Release rule:** collect work into the next significant unpublished batch, preserving 11 tabs and all tested capabilities. No individual feature deployment.
@@ -308,6 +313,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Finance next action:** F1 standalone synthetic-data offline ledger, with backups/exports and real data entry disabled pending privacy/security requirements; optional owner info for start date, PAYE and expenses when estimating real tax. Do not change existing PAYE or tax history assumptions, and do not imply sole trader equals a Companies House company.
+
 **Parallel finance roadmap:** Before real data, confirm business legal form (sole trader/company), whether BDS income across all apps should be combined, and optional annual PAYE context. If approved, build F1 synthetic local prototype, not public release. Continue existing Disclosure Desk QA/repair queue independently.
 
 1. Read **this master file** plus any specific linked QA record needed for the imminent milestone; fetch GitHub's **actual** `production`, `feature/sources-archives-next-batch-nov03` and Android candidate heads and compare them before coding.
@@ -316,6 +323,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Sole-trader classification confirmed for Finance Centre (F0 partially specified)
+- Repo/branch `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior head `34c817c5e6a08de17e0af9bb5cffec7ffdcdd8ee`; resulting SHA is the single two-file milestone commit HEAD; verify GitHub Actions and new head after update.
+- Owner decision: sole trader now, limited company only as a possible later transition if profitable; preserve historical sole-trader records rather than reclassifying old receipts. UK HMRC official pages checked for Self Assessment gross-trading £1,000 criterion and NI employed/self-employed interactions.
+- Changed `docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md` and this handover only; no application code, provider credentials, accounts, payroll or customer financial records.
+- Status: F0 partially defined; F1 synthetic local ledger unstarted; no Supabase migration, Netlify deployment/credits, public 11-tab website merge, Play release or modification to W.NE/Our Cinema.
+- Next: keep current Disclosure Desk staged QA/repair roadmap moving; prototype local ledger and backup/import with sample transactions; request actual salary/tax inputs only through a future secured owner interface, never through Git.
+
 
 ### 2026-11-03 — Ko-fi static QA verified and BDS Finance Centre design staged (NO FINANCE BUILD)
 - Repository/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`. Source Ko-fi build SHA `32974cbde4fe336bf81315fae87f6b8568448937`; Finance roadmap doc commit `137fb8164f30aa7f9fabb6cd43e06e094093568a`; master milestone commit `7cb7999b1a28014898aa979769801569af119ac7`. GitHub-only staging Actions run **41719213568 SUCCESS** at that SHA on 2026-11-03 (static source QA, not provider, tax, mobile or deployed finance testing).
