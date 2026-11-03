@@ -51,7 +51,7 @@ const rules=read('community-rules.html');
 for(const section of ['accounts','witness','voting','flagging','comments','research','privacy']){
  assert.ok(rules.includes('id="'+section+'"'),'Document community rule category '+section);
 }
-for(const needle of ['3 new public witness reports','5 distinct valid account flags','one active vote per item','private drafts only','rolling 24-hour period','community-published W.NE research']){
+for(const needle of ['3 new public witness reports','5 distinct valid account flags','one active vote per item','private drafts only','rolling 24-hour period','Community-published W.NE research']){
  assert.ok(rules.includes(needle),'Missing clear beta community policy: '+needle);
 }
 assert.match(rules,/some community features described below are still being built or tested/i,'No misleading claim that public publishing is live');
