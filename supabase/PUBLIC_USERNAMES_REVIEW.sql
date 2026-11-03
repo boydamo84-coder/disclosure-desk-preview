@@ -17,7 +17,7 @@ begin
   ) then
     alter table public.dd_public_names add constraint dd_public_names_safe_public_format
       check (display_name ~ '^[A-Za-z][A-Za-z0-9_]{2,23}$'
-        and name_key = lower(display_name)) not valid;
+        and name_key = lower(regexp_replace(display_name, '[^A-Za-z0-9]', '', 'g'))) not valid;
   end if;
 end $$;
 

@@ -12,7 +12,7 @@ const news=read('assets/inline-news-comments.js');
 const chat=read('assets/live-chat.js');
 assert.doesNotThrow(()=>new Function(js));
 assert.match(sql,/add column if not exists is_public boolean not null default false/);
-assert.match(sql,/name_key = lower\(display_name\)/,'Owner writes cannot forge normalisation');
+assert.match(sql,/name_key = lower\(regexp_replace\(display_name/,'Database generated key remains authoritative');
 assert.match(sql,/create or replace function public\.dd_public_aliases/);
 assert.match(sql,/cardinality\(p_ids\)>100/);
 assert.match(sql,/status='approved'/,'Only approved comments/chat');
@@ -25,6 +25,7 @@ assert.match(sql,/grant execute on function public\.dd_public_aliases\(text,uuid
 assert.doesNotMatch(sql,/grant select on public\.dd_public_names to anon/,'Do not open owner-private names table');
 assert.match(js,/environment==='test'/,'Keep production feature off');
 assert.match(js,/\.upsert\(/,'Edit owner name via existing RLS table');
+assert.doesNotMatch(js,/name_key:name\.toLowerCase\(\)/,'name_key is GENERATED ALWAYS and may not be written by clients');
 assert.match(js,/is_public:publicName/,'Opt-in owner-controlled');
 assert.match(js,/\.rpc\('dd_public_aliases'/,'Only explicit approved alias RPC for public reads');
 assert.match(js,/auth\.getUser\(\)/,'Verified account on name save');

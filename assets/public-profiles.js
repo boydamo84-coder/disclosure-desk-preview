@@ -65,7 +65,7 @@ async function save(ev){
   const user=data.user;
   // Existing table already enforces owner-only INSERT/UPDATE and unique name_key.
   const {error:writeError}=await c.from('dd_public_names').upsert({
-   user_id:user.id,display_name:name,name_key:name.toLowerCase(),is_public:publicName,updated_at:new Date().toISOString()
+   user_id:user.id,display_name:name,is_public:publicName,updated_at:new Date().toISOString()
   },{onConflict:'user_id'});
   if(writeError)throw writeError;
   say(publicName?'Saved. Your username can appear beside approved public comments and chat messages.'

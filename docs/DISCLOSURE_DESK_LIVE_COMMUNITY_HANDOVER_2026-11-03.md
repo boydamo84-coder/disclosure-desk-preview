@@ -128,6 +128,10 @@ W.NE is presented as **W.NE Research Studio**, in Disclosure Desk navy/gold styl
 - Updated historical CI assertions that required username aliases to be authenticated-only (guests may read opt-in public aliases) and the old 5-flags phrasing. Adjusted UI copy: individual flag records a concern, five distinct flags trigger hide/review; refresh discussions after successful flag to remove auto-hidden comments.
 - All work remains on unpublished GitHub feature branch, `[skip netlify]`; never enable guest raw author UUID table access. No Netlify deployment or production merge.
 
+## Username generated-key fix — 3 November 2026
+
+- Supabase `dd_public_names.name_key` is **GENERATED ALWAYS** from the display name, not user-writable. The staged profile upsert incorrectly supplied it. Removed that field, aligned staged username SQL check with its generated normaliser (including underscores), and strengthened static test. Test was rollback-only, so no account data or schema changed. Run the guest opt-in/hidden-comment alias rollback test again; real HTTP/JWT acceptance still required.
+
 ## 6. Non-negotiable product/safety notes
 - No fake hearing dates, fake LIVE state, public/private document leak or precise witness locations.
 - Users may submit reports about unverified experiences; “published” does NOT mean Disclosure Desk authenticated the claim.
