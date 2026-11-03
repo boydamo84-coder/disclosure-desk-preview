@@ -59,4 +59,27 @@ assert.match(read('research/research-workspace.html'),/class="dd-workspace-site-
 assert.match(read('research/guest-preview.html'),/href="\/" target="_top"/,'Guest preview must return to main site');
 assert.match(read('research/import.html'),/href="\.\/research-workspace\.html"/,'Importer must return to valid local workspace, not broken root endpoint');
 
+
+const integratedNav=read('research/research-site-nav.js');
+const integratedCss=read('research/research-site-nav.css');
+assert.doesNotThrow(()=>new Function(integratedNav),'Integrated navigation has invalid JavaScript');
+assert.match(integratedNav,/wneSaveBeforeNavigation/,'Navigation must call W.NE existing verified save hook');
+assert.match(integratedNav,/if\(ok!==true\)/,'Only an explicit confirmed save should allow navigation');
+assert.match(integratedNav,/if\(!await verifySaved\(tab\)\)return false/,'Prevent navigation on failed or unavailable save');
+assert.match(integratedNav,/window\.top\.location\.assign\(destination\(tab\)\)/,'Return to whole website, not just an iframe');
+assert.match(integratedNav,/localStorage\.setItem\(STORAGE_KEY/,'Menu visibility persists per browser');
+assert.match(integratedNav,/if\(isFrame\)return/,'Do not double-mount bottom navigation inside iframe');
+assert.match(integratedNav,/window\.parent\.ddResearchNavigateTo/,'Child editor return links must delegate save gating to parent');
+assert.match(integratedCss,/\.dd-site-dock-track/,'Use swipeable navigation layout');
+assert.match(integratedCss,/\.dd-site-dock\.is-hidden/,'Hideable navigation must have persistent reveal button');
+assert.match(integratedCss,/body\.dd-site-nav-workspace>main/,'Preserve writing space by resizing workspace around dock');
+const tabs=[...integratedNav.matchAll(/\['(?:discover|archivePage|researchStudio|mapPage|livePage|clips|boards|witness|watchRead|hub)','[^']+','[^']+'\]/g)];
+assert.equal(tabs.length,10,'Show all 10 familiar tabs in Research Edition');
+for(const path of ['index.html','guest-preview.html','research-workspace.html','wne.html','research-bible.html','import.html','restore-copy.html']){
+ assert.match(read('research/'+path),/<script src="\.\/research-site-nav\.js" defer><\/script>/,path+' must receive shared navigation and return guard');
+}
+const indexableSite=read('index.html');
+assert.match(indexableSite,/ddResearchReturnTab=new URLSearchParams\(location\.search\)\.get\('dd_tab'\)/,'Main site must restore tab chosen from W.NE');
+assert.match(indexableSite,/navigateTo\(ddResearchReturnTab\)/,'Directly select destination after leaving W.NE');
+
 console.log('PASS: all 9 live tabs preserved, W.NE third, 4 guided tours, Explore, About, contact, privacy, canonical editor, guest isolation, scripts');
