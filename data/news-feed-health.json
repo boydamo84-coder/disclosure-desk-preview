@@ -1,17 +1,17 @@
 {
-  "checkedAt": "2026-11-03T20:53:28.423109+00:00",
+  "checkedAt": "2026-11-03T22:51:06.740933+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 18,
-      "latestArticleAt": "2026-11-02T22:15:12+00:00"
+      "items": 21,
+      "latestArticleAt": "2026-11-03T01:29:22+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 9,
-      "latestArticleAt": "2026-11-02T17:54:34+00:00"
+      "items": 17,
+      "latestArticleAt": "2026-11-03T01:29:22+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
@@ -28,7 +28,7 @@
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 11,
+      "items": 12,
       "latestArticleAt": "2026-11-02T22:15:12+00:00"
     },
     {
@@ -206,5 +206,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 265
+  "storiesPublished": 266
 }
