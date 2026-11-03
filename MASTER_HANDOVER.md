@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, Community Rules current-vs-future wording CODE STAGED:** obsolete "private drafts only" notice replaced with feature-flag-aligned status; planned Discussions and consent-only private Chat policy and scoped steward limits added, plus GitHub-only source check. No publication. CI pending.
+
 - **2026-11-03, email backup presentation CODE STAGED:** new static responsive Disclosure Desk/BDS-branded HTML and text email, existing attachment/auth/hourly limit unchanged. Template regression added to GitHub-only staging workflow. Not deployed to Edge and no real email sent. CI pending.
 
 - **2026-11-03, QA correction STAGED:** new account-owned controls added a nested Recently deleted panel (6 main accordions + 1 nested). First GitHub run `41678969054` failed only on an outdated count-of-closing-tags assertion. Test corrected to seven; local static assertions PASS. Await GitHub-only rerun before claiming green.
@@ -68,7 +70,7 @@
 - **Watch & Read / Videos / LIVE:** verify labels, podcast variety, buttons, fullscreen back handling, archived comments/chat, original source links and autoplay/YouTube behavior. Existing site calls Podcasts; do not reimplement an already-correct chip. Test on Samsung.
 - **LIVE hearing discovery:** check the separate Congress candidate workflow and controlled approval-to-public-event process, realistic countdown/link/home notice, cancellation, 48h removal, archived hearing recordings with original chat, no fictitious dates.
 - **Sources & Archives:** finish checking the staged directory, source URLs and rights, responsive search/filter and sitemap. Do not copy or republish Canadian/Brazilian archive originals without checking permissions.
-- **Community Rules, tour and controls:** update coherent descriptions to match actual enabled features and moderation routes, full-site tour including 11 tabs, guest read-only vs signed-in, account separation, keyboard/screen-reader support, and browser/device regression.
+- **Community Rules, tour and controls:** **CODE STAGED** corrected active-versus-planned community notice, outlined future Discussions stewards and 1:1 consent-based Chat, while preserving 11 currently live tabs. GitHub-only policy regression added. Still verify full-site tour (including future 12-tab changes only after approved backend), guest read-only vs signed-in, account separation, keyboard/screen-reader and mobile/device flows.
 - **World map/archives:** extend case coverage toward the agreed long-term 100k goal through existing bulk-import + de-duplication, provenance and batching; check current count rather than assuming; preserve UK/Ireland and global coverage, no duplicate ingestion or privacy violations.
 
 **Release blockers:** real registered-user browser/HTTP and Samsung tests; public/owner/guest permission tests; safe report delete/edit and comment workflow; backup/recovery test; unique username test; LIVE/countdown/chat QA; responsive, performance and accessibility checks. Verify any missing feature in code before marking it incomplete.
@@ -151,6 +153,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Community Rules correct feature status and future governance (source staged)
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `eab8e926bd19096cccc2c0b9ff5ab92a85413fc9`; resulting SHA is new GitHub branch HEAD.
+- Changed `community-rules.html`: replaced incorrect private-only Witness notice with accurate official-host feature-flag status; clear that private drafts never publish automatically; added planned Discussions, constrained section steward and consent-required Profile private Chat rules; clarified author self-management and witness rolling quota. New `scripts/test_community_rules_accuracy.cjs` tests correct status and explicitly preserves original 11 tabs until Discussions implemented. Staging-only workflow and master updated.
+- Existing behavior checked in `assets/community-test-config.js` (`witnessPublic:enabled`, `voting:enabled`, `researchPublishing:false`) and approved user roadmap. No feature toggle, backend, public layout/tab, Supabase or Android code changed.
+- Status: CODE STAGED; GitHub-only CI pending; no staging build, public publish or phone acceptance. Next: verify staging CI then continue deeper approved feature foundation/security planning and existing mobile QA.
+
+
 
 ### 2026-11-03 — Email backup branding + privacy-safe template (source staged)
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `85c91664306c7b46e71e50b9528e6c8a15251ae6`, resulting SHA equals new branch HEAD after this single milestone commit.

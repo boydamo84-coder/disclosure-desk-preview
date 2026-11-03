@@ -29,3 +29,7 @@ jobs:
           node --check supabase/functions/email-board-backup/email-template.mjs
           node --check scripts/test_backup_email_template.mjs
           node scripts/test_backup_email_template.mjs
+      - name: Validate live versus planned community rules
+        run: |
+          node --check scripts/test_community_rules_accuracy.cjs
+          node scripts/test_community_rules_accuracy.cjs
