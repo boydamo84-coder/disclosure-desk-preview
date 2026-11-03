@@ -250,7 +250,7 @@ begin
         else r.review_flag_floor end
   where r.id=p_id;
  if not found then raise exception 'Report not found';end if;
-end $;
+end $$;
 revoke all on function public.dd_moderate_witness(uuid,text) from public,anon,authenticated;
 grant execute on function public.dd_moderate_witness(uuid,text) to authenticated;
 
@@ -275,7 +275,7 @@ begin
   where r.status='hidden'
   group by r.id,r.category,r.city,r.country,r.story,r.status,r.hidden_at
   order by r.hidden_at desc nulls last,r.id desc limit 200;
-end $;
+end $$;
 revoke all on function public.dd_witness_moderation_queue() from public,anon,authenticated;
 grant execute on function public.dd_witness_moderation_queue() to authenticated;
 
