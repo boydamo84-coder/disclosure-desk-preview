@@ -23,7 +23,7 @@ assert.doesNotMatch(sql,/returns table\([^;]*email|returns table\([^;]*author_id
 assert.match(sql,/revoke all on function public\.dd_public_aliases\(text,uuid\[\]\) from public,anon,authenticated/);
 assert.match(sql,/grant execute on function public\.dd_public_aliases\(text,uuid\[\]\) to anon,authenticated/);
 assert.doesNotMatch(sql,/grant select on public\.dd_public_names to anon/,'Do not open owner-private names table');
-assert.match(js,/environment==='test'/,'Keep production feature off');
+assert.match(js,/\['test','production'\]\.includes\(cfg\.environment\)/,'Public username edit requires the trusted official host config');
 assert.match(js,/\.upsert\(/,'Edit owner name via existing RLS table');
 assert.doesNotMatch(js,/name_key:name\.toLowerCase\(\)/,'name_key is GENERATED ALWAYS and may not be written by clients');
 assert.match(js,/is_public:publicName/,'Opt-in owner-controlled');

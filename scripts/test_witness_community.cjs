@@ -54,6 +54,7 @@ assert.match(html,/id="ddWitnessPublish"/);
 assert.match(vote,/widget\.dataset\.myVote===String\(value\)\?0:value/);
 assert.match(vote,/\.rpc\('dd_vote_summary'/);
 assert.match(vote,/\.rpc\('dd_vote_set'/);
-assert.match(cfg,/environment:enabled\?'test':'disabled'/,'Keep production writes disabled');
+assert.match(cfg,/environment:production\?'production':enabled\?'test':'disabled'/,'Only trusted official domains enable public community APIs');
+assert.match(cfg,/researchPublishing:false/,'Publishing private research remains disabled');
 assert.match(rules,/Community Rules/);
 console.log('PASS: static witness/community API, privacy, rate, map and voting contracts (NOT live RLS acceptance)');
