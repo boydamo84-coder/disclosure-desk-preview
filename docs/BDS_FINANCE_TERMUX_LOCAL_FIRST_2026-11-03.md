@@ -89,6 +89,12 @@ This option is **potentially safer for this particular single-owner use case**, 
 
 **Still required:** test restoration into a new isolated private Termux folder without touching `~/.bds-finance/vault.bds`; independently copy the encrypted backup off the device and test recoverability. Actual income or provider imports remain disallowed; the vault contains only fictional transactions. No hosted backend or live site changed.
 
+## L1 Samsung independent-test-folder recovery — 2026-11-03 22:36 UK
+
+**SAMSUNG VERIFIED:** The owner restored the **ciphertext-only** backup into a newly created, separate private Termux HOME via a temporary `HOME` override. The command printed **"Encrypted backup restored into private Termux HOME. No previous vault overwritten."** The recovered vault's `summary --year 2026/27` returned exactly the original fictional £277.50 profit (9 rows, £337.00 income, £19.00 refunds, £28.50 fees, £12.00 expenses). With earlier successful `init`, `demo-fill`, `backup` and `verify-backup`, the L1 **on-device synthetic** recovery drill is now complete. This is not a real accounting app or an independent cryptographic audit.
+
+**Still OPEN:** encrypted copy stored outside the device (USB-C or personally controlled Drive), independent checksum/copy verification, phone-loss recovery on another Termux installation, and all real records/provider sync. Merely copying backup into phone Downloads does not protect against a lost phone. Do not delete `~/.bds-finance/vault.bds` or any existing backups. No finance data should be transferred to Git or the public site.
+
 ## Status and acceptance
 
 - [x] L1 final CI **GREEN** at source SHA `aac857e4800c2c0b3cb659c2b3d000af4c14e26b`: vault run `41727602097`, website checks `41727601922`.
@@ -98,7 +104,7 @@ This option is **potentially safer for this particular single-owner use case**, 
 - [x] Provider feasibility checked against official documentation.
 - [x] Device-only local-first path documented and distinguished from webhook/server model.
 - [x] AES-GCM encrypted synthetic CLI vault implemented and tested on Linux (14 PASS); [ ] actual Termux device test.
-- [x] Encrypted backup/recovery verified in isolated Linux temporary directories; [ ] physical Samsung/off-device recovery drill.
+- [x] Encrypted backup and independent test-directory restore **verified on actual Samsung** with fictional £277.50 matching; [ ] off-device copy and fresh-device recovery still unverified.
 - [ ] Localhost interface protected and tested against other apps / CSRF.
 - [ ] Ko-fi, Play CSV parsers and AdSense permissioned sync implemented.
 - [ ] Real owner data accepted. **Not permitted yet.**
