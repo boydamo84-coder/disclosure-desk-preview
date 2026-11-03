@@ -51,20 +51,31 @@ alter table public.dd_witness_reports enable row level security;
 alter table public.dd_witness_report_flags enable row level security;
 alter table public.dd_content_votes enable row level security;
 revoke all on table public.dd_witness_reports,public.dd_witness_report_flags,public.dd_content_votes from public,anon,authenticated;
-grant select on public.dd_witness_reports to anon;
-grant select,insert on public.dd_witness_reports to authenticated;
-grant select,insert on public.dd_witness_report_flags to authenticated;
+grant select on public.dd_witness_reports to authenticated;
+-- Report creation is server-geocoded by our Edge Function with a service-role credential.
+-- Never grant browser direct INSERT: that would allow fabricated latitude/longitude.
+-- The public read-only view omits author identity and hidden reports.
+grant insert on public.dd_witness_report_flags to authenticated;
 
 drop policy if exists dd_witness_public_select on public.dd_witness_reports;
-create policy dd_witness_public_select on public.dd_witness_reports for select to anon,authenticated
- using (status='published' or (select auth.uid())=author_id);
+create policy dd_witness_public_select on public.dd_witness_reports for select to authenticated
+ using ((select auth.uid())=author_id);
+
+-- The view has an explicit status condition and omits author_id, hidden_at and update fields.
+-- Public readers cannot SELECT the base report table. Be aware this view intentionally
+-- uses its DB owner's privileges; do not add private columns or drop the WHERE clause.
+create or replace view public.dd_public_witness_reports with (security_barrier=true) as
+select id,category,event_date,approximate_time,city,country,story,anonymous,
+       lat,lon,created_at
+from public.dd_witness_reports where status='published';
+revoke all on public.dd_public_witness_reports from public,anon,authenticated;
+grant select on public.dd_public_witness_reports to anon,authenticated;
 drop policy if exists dd_witness_owner_insert on public.dd_witness_reports;
-create policy dd_witness_owner_insert on public.dd_witness_reports for insert to authenticated
- with check ((select auth.uid())=author_id and status='published'
-   and coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=false);
+-- Intentionally NO authenticated/anon INSERT policy on reports.
+-- Only the Edge Function's private service-role client may create a new record.
 drop policy if exists dd_witness_flag_owner_read on public.dd_witness_report_flags;
-create policy dd_witness_flag_owner_read on public.dd_witness_report_flags for select to authenticated
- using (reporter_id=(select auth.uid()));
+-- The flagging table is not publicly queryable; unique reports are counted privately.
+-- Clients receive confirmation from INSERT, not a public list of who reported.
 drop policy if exists dd_witness_flag_submit on public.dd_witness_report_flags;
 create policy dd_witness_flag_submit on public.dd_witness_report_flags for insert to authenticated
  with check (
@@ -78,10 +89,11 @@ create policy dd_witness_flag_submit on public.dd_witness_report_flags for inser
 create or replace function public.dd_witness_report_guard()
 returns trigger language plpgsql security definer set search_path=public as $$
 begin
- if auth.uid() is null or new.author_id is distinct from auth.uid()
-    or coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=true then
-  raise exception 'A registered account is required to publish';
+ if current_user <> 'service_role' or new.author_id is null then
+  raise exception 'Reports may only be published by the verified server';
  end if;
+ -- The Edge Function verifies the user's bearer token, resolves the typed city
+ -- and sets author_id. The service role is never available to a browser.
  perform pg_advisory_xact_lock(hashtext('witness:'||new.author_id::text));
  if (select count(*) from public.dd_witness_reports r
      where r.author_id=new.author_id and r.created_at>now()-interval '24 hours')>=3 then
