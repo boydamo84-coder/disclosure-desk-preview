@@ -1,0 +1,31 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { backupEmailHtml, backupEmailText } from "../supabase/functions/email-board-backup/email-template.mjs";
+const html=backupEmailHtml(),text=backupEmailText();
+const handler=readFileSync("supabase/functions/email-board-backup/index.ts","utf8");
+assert.match(html,/DISCLOSURE DESK/);
+assert.match(html,/INDEPENDENT INVESTIGATIONS/);
+assert.match(html,/Boyd Digital Studios/);
+assert.match(html,/Your Investigation Boards backup/);
+assert.match(html,/JSON file/);
+assert.match(html,/role="presentation"/);
+assert.match(html,/https:\/\/uapdisclosuredesk.com/);
+assert.match(html,/Keep it secure/);
+assert.match(html,/background:#081622/);
+assert.match(html,/#[a-f\d]{6}/i);
+assert.doesNotMatch(html,/<img|<script|<style|<form/i,"No remote trackers, scripts, forms or stylesheets");
+assert.equal(backupEmailHtml(),html,"Deterministic public-safe HTML");
+assert.equal(backupEmailText(),text);
+assert.match(text,/research notes/);
+for(const secret of ["sensitive@example.com","Secret Board 123","99999999-9999-9999-9999-999999999999"]) {
+ assert.ok(!html.includes(secret)&&!text.includes(secret),"No account-derived content in email bodies");
+}
+assert.match(handler,/email-template\.mjs/);
+assert.match(handler,/html:backupEmailHtml\(\),text:backupEmailText\(\)/);
+assert.match(handler,/attachments:\[\{filename:"disclosure-desk-boards-"/);
+assert.match(handler,/dd_reserve_email_backup/,"Existing server-side hourly limiter remains");
+assert.match(handler,/!user\.email_confirmed_at/,"Verified recipient authentication preserved");
+assert.match(handler,/to:\[user\.email\]/,"Email only goes to verified signed-in recipient");
+assert.match(handler,/if\(content\.length>4_000_000\)/,"Large attachments still restricted");
+assert.doesNotMatch(handler,/text:JSON\.stringify\(boards\)/,"No private research in plain text");
+console.log("PASS: branded responsive email, safe text/plain, no private content in body, verified recipient, unchanged attachment and rate limiter.");

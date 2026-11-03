@@ -24,3 +24,8 @@ jobs:
           node --check scripts/test_research_hub.cjs
           node scripts/test_research_hub.cjs
           node --check assets/research-hub.js
+      - name: Verify private backup email template and email security contract
+        run: |
+          node --check supabase/functions/email-board-backup/email-template.mjs
+          node --check scripts/test_backup_email_template.mjs
+          node scripts/test_backup_email_template.mjs

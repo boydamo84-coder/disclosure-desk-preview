@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, email backup presentation CODE STAGED:** new static responsive Disclosure Desk/BDS-branded HTML and text email, existing attachment/auth/hourly limit unchanged. Template regression added to GitHub-only staging workflow. Not deployed to Edge and no real email sent. CI pending.
+
 - **2026-11-03, QA correction STAGED:** new account-owned controls added a nested Recently deleted panel (6 main accordions + 1 nested). First GitHub run `41678969054` failed only on an outdated count-of-closing-tags assertion. Test corrected to seven; local static assertions PASS. Await GitHub-only rerun before claiming green.
 
 - **2026-11-03, private-content management CODE STAGED:** existing Supabase backend checked read-only. Confirmed `dd_delete_my_comment`, `dd_edit_my_comment` (30-minute/unflagged), owner-only witness DELETE with retained 24h quota, and research trash/restore/purge RPCs. Added Profile/Hub UI against existing backend in code commit `0cb9dcafe93495c213f98e4c4bcf778c62d733ca`. No new DB policies/tables or real user writes; awaiting CI and Samsung real-account acceptance.
@@ -61,7 +63,7 @@
 - **Comments:** **CODE STAGED** owner Edit (within 30 min, unflagged only) and Delete controls in Profile → My Comments using verified existing `dd_edit_my_comment` and `dd_delete_my_comment` RPCs. Confirm before delete; retain all server moderation rules. **No real edit/delete submitted in tests**; verify real-account behavior and counts.
 - **Research documents:** **CODE STAGED** move private cloud documents to Recently deleted, restore, and guarded permanent purge from Hub; reuse existing RLS/owner RPCs. Media-bearing purges are server-blocked, not bypassed. Local copies not touched. **No real-user restore or purge tested**; verify Studio library refresh/export/recovery and private asset linkage.
 - **My Research Hub:** **CODE STAGED** six native keyboard-accessible collapsible panels via `<details>/<summary>`; default closed; live account summary and owner Admin Centre stay independent. Existing private lists were not rewritten. Await GitHub-only CI and Samsung/desktop acceptance before marking done.
-- **Email backups:** refine existing `supabase/functions/email-board-backup/index.ts` with branded responsive email presentation; preserve verified recipient, JSON attachment, hourly limit, no leaked research in subject/previews, and sender configuration. Do not break delivery/restore.
+- **Email backups:** **CODE STAGED** branded responsive dark/gold message with plain-text alternative, content-minimising body, existing JSON attachment, verified-only recipient and hourly limiter preserved. GitHub-only template contract check added. **Not yet deployed to Supabase Edge or delivery-tested.**
 - **Usernames:** existing `dd_public_names` has generated unique `name_key` and opt-in display policies. Verify *duplicate rejection* and proper error messages with two real test accounts before changing DB schema.
 - **Watch & Read / Videos / LIVE:** verify labels, podcast variety, buttons, fullscreen back handling, archived comments/chat, original source links and autoplay/YouTube behavior. Existing site calls Podcasts; do not reimplement an already-correct chip. Test on Samsung.
 - **LIVE hearing discovery:** check the separate Congress candidate workflow and controlled approval-to-public-event process, realistic countdown/link/home notice, cancellation, 48h removal, archived hearing recordings with original chat, no fictitious dates.
@@ -149,6 +151,15 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Email backup branding + privacy-safe template (source staged)
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `85c91664306c7b46e71e50b9528e6c8a15251ae6`, resulting SHA equals new branch HEAD after this single milestone commit.
+- Changed `supabase/functions/email-board-backup/email-template.mjs` (responsive dark/gold table-based HTML + plain text; deterministic and free of private content); `supabase/functions/email-board-backup/index.ts` (imports template and passes HTML/text to Resend); `scripts/test_backup_email_template.mjs` (content privacy/regression and auth/attachment/rate guards); `.github/workflows/validate-sources-directory-staged.yml` (Node-only template QA); master handover.
+- Preserved existing Edge recipient from confirmed user email, `dd_reserve_email_backup` hourly limiter, 40 Boards and 4MB JSON validation, private attachment and service-only secrets. No remote email trackers, Board titles or user data in the email body/subject.
+- Status: CODE STAGED, GitHub-only CI PENDING. No Supabase function deploy, Resend delivery, actual backup email, preview, Netlify build, production or Android release. No user data touched.
+- Next: verify CI green and later perform owner-authorised disposable test email + attachment restore during consolidated QA. Continue current roadmap, including accurate Community Rules and new feature foundations.
+
+
 
 ### 2026-11-03 — User-created Discussions tab and scoped steward governance (planning only)
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview`, `feature/sources-archives-next-batch-nov03`; prior SHA `946f9c77ab4cabc90ae818c030fa67e4e8a5355e`. The resulting SHA is the next GitHub branch head.

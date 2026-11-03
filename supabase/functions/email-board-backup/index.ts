@@ -1,6 +1,7 @@
 // Disclosure Desk: authenticated, user-addressed board backup email.
 // Deploy via Supabase Edge Functions; configure RESEND_API_KEY and BACKUP_FROM_EMAIL secrets.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { backupEmailHtml, backupEmailText } from "./email-template.mjs";
 const allowedOrigins=new Set(["https://uapdisclosuredesk.com","https://www.uapdisclosuredesk.com","https://boydamo84-coder.github.io"]);
 const cors=(origin:string|null)=>({...((origin&&allowedOrigins.has(origin))?{"Access-Control-Allow-Origin":origin}:{}),"Access-Control-Allow-Headers":"authorization, x-client-info, apikey, content-type","Access-Control-Allow-Methods":"POST, OPTIONS","Vary":"Origin"});
 Deno.serve(async(req)=>{
@@ -35,8 +36,8 @@ Deno.serve(async(req)=>{
  const response=await fetch("https://api.resend.com/emails",{
   method:"POST",headers:{"Authorization":"Bearer "+apiKey,"Content-Type":"application/json"},
   body:JSON.stringify({
-   from,to:[user.email],subject:"Your Disclosure Desk Investigation Boards backup",
-   html:"<div style='font:16px Arial,sans-serif;color:#13263a'><h2>Disclosure Desk</h2><p>Your private Investigation Boards backup is attached as a JSON file.</p><p>It may include private research notes, timelines, videos and evidence connections. Keep the attachment secure, and do not forward it unless you intend to share that information.</p><p>This backup was requested while signed in to your account. If this was unexpected, review your account security.</p></div>",
+   from,to:[user.email],subject:"Disclosure Desk | Your Investigation Boards backup",
+   html:backupEmailHtml(),text:backupEmailText(),
    attachments:[{filename:"disclosure-desk-boards-"+new Date().toISOString().slice(0,10)+".json",content:attachment}]
   })
  });
