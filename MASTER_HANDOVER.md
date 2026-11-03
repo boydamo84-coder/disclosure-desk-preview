@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, satellite case-card regression correction CODE STAGED:** run `41699308567` FAILED due old test asserting Map satellite button still used Evidence-file launcher. Updated check to dedicated satellite button, removed two stray plus characters between Featured/Rabbit buttons and added main inline website JS syntax verification. New CI pending; no Netlify builds.
+
 - **2026-11-03, satellite imagery per-case-card navigation CODE STAGED:** added consistent **🛰 Satellite view** actions across Map result cards, Featured Case Files, Explore rabbit-hole case cards and Evidence Archive results/details, opening case-specific timeline/provider dialogue. Full dates/approximate mapped towns carried into NASA Worldview; year-only or locationless archives clearly signal missing evidence. No verified nearest satellite image is auto-retrieved; provider source/time caveats displayed. GitHub-only tests pending; still no public deploy.
 
 - **2026-11-03, historical satellite imagery case-handoff STAGED, CI GREEN, NOT LIVE:** Existing dated Map case list now has a **🛰 Historic satellite imagery** action opening its Evidence file, where `assets/historical-satellite.js` will show official NASA Worldview date+approximate-city handoff and EUMETSAT long-term gallery/EUMETView links. Date-only source records remain labelled date-only; optional researcher UTC time is NOT validated as actual event time. GitHub-only CI run `41693881342` SUCCESS at SHA `dda6f9bd9a87bc400859d4664773adef04ba2480`; no external imagery fetched, no live deployment, no third-party tracking without explicit user click. Detailed source/limitations `docs/HISTORICAL_SATELLITE_IMAGERY_2026-11-03.md` (parent approved post-launch Phase B).
@@ -275,6 +277,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Fix new case-card satellite button markup/test
+- Repo/branch `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; previous SHA `6e36f463e0e12473bdba8beec3ceabac56dccb38`, new SHA current branch HEAD.
+- Prior GitHub check `41699308567` failed obsolete regression expecting `data-evidence-open` on Map satellite button, now intentionally `data-dd-sat-case`. Updated `scripts/test_historical_satellite.cjs`, eliminated two accidental literal `+` characters between neighbouring case card buttons, added full inline 11-tab main script parser check.
+- JavaScript test and extracted main site inline JavaScript parse successfully in source verification. CI pending; no real browser QA, original provider frames/nearest timestamp verification, Netlify, Supabase or Android changes.
+
+
 
 ### 2026-11-03 — Historical satellite view on all existing public case-card families (unpublished)
 - Branch `feature/sources-archives-next-batch-nov03`, previous SHA `43011c53a95e703ffc7d294bac0192951894c7d8`; resulting SHA is this GitHub milestone commit.

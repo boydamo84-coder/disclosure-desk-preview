@@ -33,7 +33,8 @@ assert.match(js,/https:\/\/pics\.eumetsat\.int\//);
 assert.match(js,/https:\/\/view\.eumetsat\.int\//);
 assert.match(js,/noopener noreferrer/,'Third party opens safely');
 assert.match(html,/window\.DDHistoricalSatellite\?\.mountCaseCard\(r,\$\('evidenceBody'\)\)/);
-assert.match(html,/data-evidence-open="'\+esc\(r\.id\)\+'" aria-label="View historical weather satellite imagery/);
+assert.match(html,/data-dd-sat-case="'\+esc\(String\(r\.id\)\)\+'"/,
+ 'Map card now opens the case-specific satellite dialogue');
 assert.match(html,/assets\/historical-satellite\.js\?v=/);
 const nav=html.match(/<nav\s+class="nav"[\s\S]*?<\/nav>/i)?.[0]||'';
 assert.equal((nav.match(/class="tab(?: active)?"/g)||[]).length,11,'Live navigation stays at 11 tabs');
@@ -61,3 +62,16 @@ assert.match(html,/data-dd-sat-archive="\$\{esc\(String\(r\.id\)\)\}"/);
 assert.match(html,/String\(x\.archiveRecordId\|\|''\)===String\(archive\.id\)/,
  'Only exact mapped archive references can supply coordinates');
 assert.match(html,/data-dd-sat-archive/, 'Archived case card access');
+
+
+/* Parse every inline JavaScript script, including the current 11-tab main-site code.
+ * A dedicated module check alone will not catch malformed HTML string fragments. */
+const inlineScripts=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
+  .filter(m=>!/\bsrc\s*=/.test(m[1])&&m[2].trim());
+assert.ok(inlineScripts.length>=1,'Main website script exists');
+for(const s of inlineScripts)
+ assert.doesNotThrow(()=>new Function(s[2]),'Inline website JavaScript must parse');
+assert.doesNotMatch(html,/<\/button>\+<button/,
+ 'Do not display a stray plus between adjacent case card buttons');
+assert.match(html,/data-dd-sat-case/);
+assert.match(html,/data-dd-sat-archive/);
