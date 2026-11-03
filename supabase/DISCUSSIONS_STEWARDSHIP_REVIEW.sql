@@ -599,7 +599,7 @@ begin
  from public.dd_forum_sections s
  left join public.dd_public_names n on n.user_id=s.steward_id
  order by s.created_at desc limit p_limit;
-end $;
+end $$;
 
 -- Block implicit PUBLIC execute on EVERY security-definer function,
 -- even internal helpers, and grant precisely selected safe public reads.

@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, isolated SQL owner-function footer fix STAGED:** run `41687262065` failed on remaining `end $;` close in final owner-sections function. Root cause was JavaScript string replacement interpreting `$` as a single literal dollar during source generation. Replaced via a function callback, verified correct `end $;` byte-for-byte; rerun CI pending. No live DB changes.
+
 - **2026-11-03, PostgreSQL owner-function delimiter correction STAGED:** isolated CI `41687005397` reached the later owner functions but failed SQL parse at line 548 because the owner queue and owner sections functions each had a single `# Disclosure Desk — MASTER HANDOVER (authoritative)
 
 **Updated:** 2026-11-03 UTC  
@@ -221,6 +223,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Correct SQL dollar-close without JavaScript replacement expansion
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `f7a8a2afbe6ed7dc5bf179ed26bd988e97602c86`, resulting SHA new HEAD.
+- Isolated PostgreSQL run `41687262065` FAILED because owner-sections closing delimiter was `end $;`. Root cause identified: JavaScript `String.replace(old, replacementString)` treats `$` as an escape for a single dollar. Used a **callback replacement** so literal `$` is preserved and verified after replacement.
+- File changed: `supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql`; master handover updated. Existing static assertion rejects malformed SQL closer.
+- Release: **NOT APPLIED** to live Supabase, no production/app changes. Next review isolated Docker PostgreSQL run and synthetic access tests.
+
+
 
 ### 2026-11-03 — Isolated SQL owner function delimiter fix
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `6c90c3c42d9b605bac64ff6829d95b17b6d87cb5`; resulting SHA is this new commit.
