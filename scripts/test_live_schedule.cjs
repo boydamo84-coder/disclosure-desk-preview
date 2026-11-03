@@ -8,7 +8,7 @@ assert.doesNotThrow(()=>new Function(js));assert.doesNotThrow(()=>new Function(c
 const listeners={};const w={};
 vm.runInNewContext(js,{window:w,document:{readyState:'loading',addEventListener:(n,cb)=>listeners[n]=cb},Date,URL,Intl,setInterval,clearInterval,console,fetch:()=>{throw Error('Network must not run during pure tests')}});
 const t=w.DD_LIVE_SCHEDULE_TEST;
-assert.ok(t&&t.normalize&&t.remaining&&t.embedUrl);
+assert.ok(t&&t.normalize&&t.remaining&&t.embedUrl&&t.noticeCandidate);
 const f={id:'congress-119-house-12345',title:'Confirmed UAP Transparency Hearing',startAt:'2026-12-01T15:00:00Z',sourceUrl:'https://oversight.house.gov/hearing/test',status:'upcoming'};
 assert.equal(t.normalize(f)?.id,f.id,'Complete official source and timezone-qualified date required');
 assert.equal(t.normalize({...f,startAt:''}),null,'Do not turn date-only or undated events into countdowns');
@@ -19,10 +19,18 @@ assert.equal(t.normalize({...f,embedUrl:'javascript:alert(1)'}),null,'Reject uns
 assert.deepEqual(JSON.parse(JSON.stringify(t.remaining((24*60*60+3*60*60+42*60+8)*1000))),{days:1,hours:3,minutes:42,seconds:8});
 assert.equal(t.embedUrl('https://www.youtube.com/watch?v=LBKRr5OvF6E'),'https://www.youtube-nocookie.com/embed/LBKRr5OvF6E');
 assert.equal(t.embedUrl('https://bad-video-provider.example/stream'),null,'No arbitrary iframe destinations');
+const official=t.normalize(f),started=official.startsAt.getTime();
+assert.equal(t.noticeCandidate([official],started-1000).id,official.id,'Approved future event gets a News banner');
+assert.equal(t.noticeCandidate([official],started+47*3600000).id,official.id,'Notice remains during 48-hour post-start window');
+assert.equal(t.noticeCandidate([official],started+48*3600000),null,'Notice retires at start plus 48 hours');
+assert.equal(t.noticeCandidate([],started),null,'No event means no banner');
+assert.equal(t.noticeCandidate([t.normalize({...f,status:'cancelled'})],started-1000),null,'Cancelled event never promoted');
 const feed=JSON.parse(read('data/approved-live-events.json'));
 assert.equal(feed.filter(e=>['upcoming','live'].includes(e.status)).length,0,'Never publish an invented upcoming hearing in the beta data fixture');
 assert.ok(css.includes('.dd-live-view-and-chat')&&css.includes('@media(max-width:710px)'),'Stream and chat layout must be mobile responsive');
 assert.ok(html.includes('assets/live-schedule.js')&&html.includes('assets/live-chat.js')&&html.includes('assets/live-schedule.css'),'LIVE assets must be loaded by production site');
+assert.ok(html.includes('id="ddLiveNewsNotice"')&&js.includes('renderNewsNotice(result)'),'Home banner linked to LIVE source');
+assert.ok(css.includes('.dd-live-news-notice[hidden]'),'Hidden notice stays hidden');
 assert.ok(js.includes("timeZone:'Europe/London'")&&js.includes("timeZone:'America/New_York'"),'Show both UK and US Eastern time');
 assert.ok(js.includes('1000);'),'Countdown runs every real second');
 assert.ok(js.includes('window.ddLiveChatMount'),'Tie live chat to the approved event');

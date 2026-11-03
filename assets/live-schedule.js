@@ -8,7 +8,7 @@ const URL='https://omqxizswzcwgzqaczlhe.supabase.co',KEY='sb_publishable_ed7rP98
 const HOSTS=['congress.gov','house.gov','senate.gov','youtube.com','youtube-nocookie.com','youtu.be'];
 const validUrl=(raw)=>{try{const u=new URL(raw);return u.protocol==='https:'&&HOSTS.some(x=>u.hostname===x||u.hostname.endsWith('.'+x))}catch{return false}};
 const el=(tag,cls,txt)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(txt!==undefined)x.textContent=txt;return x};
-let root,container,upcoming=[],tick=null,scheduledRefresh=null;
+let root,container,upcoming=[],tick=null,scheduledRefresh=null,noticeTick=null,currentNotice=null,noticeClock=null;
 const publicStatus=x=>['upcoming','live','ended','cancelled'].includes(x);
 function normalize(x){
  const id=String(x.id||'');
@@ -66,13 +66,56 @@ async function sources(){
  const byId=new Map();
  for(const a of fromFile)if(a.status==='upcoming'||a.status==='live')byId.set(a.id,a);
  for(const a of fromDb)byId.set(a.id,a); // Only server-published events can open actual chat rooms.
- return [...byId.values()].filter(x=>x.startsAt.getTime()>Date.now()-6*60*60*1000).sort((a,b)=>a.startsAt-b.startsAt).slice(0,25);
+ return [...byId.values()].filter(x=>x.startsAt.getTime()>Date.now()-48*60*60*1000).sort((a,b)=>a.startsAt-b.startsAt).slice(0,25);
 }
 function link(text,href){
  const a=el('a','outline',text);a.href=href;a.target='_blank';a.rel='noopener noreferrer';return a;
 }
 function clearTimer(){
  if(tick){clearInterval(tick);tick=null;}
+}
+// Approved official source + qualified start only. Never promote speculative reports.
+function noticeCandidate(items,now=Date.now()){
+ const valid=items.filter(x=>x&&['upcoming','live'].includes(x.status)
+  &&x.startsAt instanceof Date&&Number.isFinite(x.startsAt.getTime())
+  &&validUrl(x.source)&&x.startsAt.getTime()+48*60*60*1000>now);
+ return valid.find(x=>x.startsAt.getTime()<=now)
+   ||valid.find(x=>x.startsAt.getTime()>now)||null;
+}
+function updateNoticeClock(){
+ if(!currentNotice||!noticeClock)return;
+ const now=Date.now(),start=currentNotice.startsAt.getTime();
+ if(now>=start+48*60*60*1000){
+  document.getElementById('ddLiveNewsNotice')?.setAttribute('hidden','');
+  currentNotice=null;noticeClock=null;return;
+ }
+ if(now<start){
+  const t=remaining(start-now);
+  noticeClock.textContent='Starts in '+t.days+'d '+String(t.hours).padStart(2,'0')+'h '
+    +String(t.minutes).padStart(2,'0')+'m '+String(t.seconds).padStart(2,'0')+'s';
+ }else{
+  noticeClock.textContent=currentNotice.status==='live'
+   ?'Officially listed as LIVE — check the official stream'
+   :'Scheduled start reached — check the official hearing page for status';
+ }
+}
+function renderNewsNotice(items){
+ const host=document.getElementById('ddLiveNewsNotice');if(!host)return;
+ const event=noticeCandidate(items);
+ if(!event){host.hidden=true;host.replaceChildren();currentNotice=null;noticeClock=null;return;}
+ currentNotice=event;host.hidden=false;host.replaceChildren();
+ const heading=el('div','dd-news-hearing-title');
+ heading.append(el('span','dd-news-hearing-tag','OFFICIAL UAP HEARING'),el('strong','',event.title));
+ const dates=el('p','dd-news-hearing-dates',
+  formatted(event.startsAt,'Europe/London')+' (UK) · '
+  +formatted(event.startsAt,'America/New_York')+' (US Eastern)');
+ noticeClock=el('p','dd-news-hearing-clock');
+ noticeClock.setAttribute('role','timer');noticeClock.setAttribute('aria-live','off');
+ const actions=el('div','dd-news-hearing-links');
+ actions.append(link('Official hearing announcement',event.source),
+  link('LIVE coverage on Disclosure Desk','/?dd_tab=live'));
+ host.append(heading,dates,noticeClock,actions);
+ updateNoticeClock();
 }
 function render(){
  if(!container)return;
@@ -158,9 +201,11 @@ function render(){
 }
 async function refresh(){
  const result=await sources();
+ renderNewsNotice(result);
+ const visible=result.filter(e=>e.startsAt.getTime()>Date.now()-6*60*60*1000);
  const fingerprint=items=>JSON.stringify(items.map(e=>[e.id,e.title,e.startsAt.toISOString(),e.status,e.stream,e.recording,e.chatAvailable,e.source]));
- if(container&&fingerprint(result)===fingerprint(upcoming)&&container.childElementCount)return;
- upcoming=result;
+ if(container&&fingerprint(visible)===fingerprint(upcoming)&&container.childElementCount)return;
+ upcoming=visible;
  render();
 }
 function init(){
@@ -171,8 +216,9 @@ function init(){
  void refresh();
  // Fresh public event status after curator updates without rebuilding Netlify.
  scheduledRefresh=setInterval(()=>{if(document.visibilityState==='visible')void refresh()},5*60*1000);
- window.addEventListener('pagehide',()=>{clearTimer();if(scheduledRefresh)clearInterval(scheduledRefresh)},{once:true});
+ noticeTick=setInterval(()=>{if(document.visibilityState==='visible')updateNoticeClock()},1000);
+ window.addEventListener('pagehide',()=>{clearTimer();if(scheduledRefresh)clearInterval(scheduledRefresh);if(noticeTick)clearInterval(noticeTick)},{once:true});
 }
-window.DD_LIVE_SCHEDULE_TEST={normalize,remaining,embedUrl}; // Pure fixture testing only; no private data.
+window.DD_LIVE_SCHEDULE_TEST={normalize,remaining,embedUrl,noticeCandidate}; // Pure fixture testing only; no private data.
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();

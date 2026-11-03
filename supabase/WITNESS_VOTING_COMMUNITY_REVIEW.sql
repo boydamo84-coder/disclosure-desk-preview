@@ -51,6 +51,8 @@ alter table public.dd_witness_reports enable row level security;
 alter table public.dd_witness_report_flags enable row level security;
 alter table public.dd_content_votes enable row level security;
 revoke all on table public.dd_witness_reports,public.dd_witness_report_flags,public.dd_content_votes from public,anon,authenticated;
+-- Explicit server-only privileges; keep anon/authenticated INSERT revoked.
+grant select,insert,update,delete on public.dd_witness_reports to service_role;
 grant select on public.dd_witness_reports to authenticated;
 -- Report creation is server-geocoded by our Edge Function with a service-role credential.
 -- Never grant browser direct INSERT: that would allow fabricated latitude/longitude.
@@ -132,9 +134,11 @@ create policy dd_witness_flag_submit on public.dd_witness_report_flags for inser
   and public.dd_witness_can_flag(report_id)
  );
 
--- Admission guard runs on the database, not in JavaScript.
+-- SECURITY INVOKER preserves the actual calling role. A SECURITY DEFINER
+-- function would see its OWNER as current_user and reject valid service inserts.
+-- Browser users still cannot INSERT (no grant or INSERT policy).
 create or replace function public.dd_witness_report_guard()
-returns trigger language plpgsql security definer set search_path=public as $$
+returns trigger language plpgsql security invoker set search_path=public as $$
 begin
  if current_user <> 'service_role' or new.author_id is null then
   raise exception 'Reports may only be published by the verified server';
@@ -178,6 +182,8 @@ begin
   raise exception 'A registered account is required to flag';
  end if;
  perform pg_advisory_xact_lock(hashtext('witness-flag-user:'||new.reporter_id::text));
+ -- Serialise per REPORT before insert: concurrent fifth flags must not be missed.
+ perform pg_advisory_xact_lock(hashtext('witness-flags:'||new.report_id::text));
  if (select count(*) from public.dd_witness_report_flags f
     where f.reporter_id=new.reporter_id
       and f.created_at>now()-interval '1 hour')>=20 then

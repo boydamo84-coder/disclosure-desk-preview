@@ -21,6 +21,12 @@ jobs:
           node --check scripts/test_search_indexing.cjs
           node scripts/test_wne_site_integration.cjs
           node scripts/test_search_indexing.cjs
+      - name: Staged LIVE and witness community source checks (no deploy)
+        run: |
+          node --check scripts/test_live_schedule.cjs
+          node scripts/test_live_schedule.cjs
+          node --check scripts/test_witness_community.cjs
+          node scripts/test_witness_community.cjs
       - name: Install local-browser test tools
         run: |
           npm install --no-save playwright
