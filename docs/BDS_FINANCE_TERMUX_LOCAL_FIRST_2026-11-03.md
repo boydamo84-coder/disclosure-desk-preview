@@ -106,6 +106,12 @@ This option is **potentially safer for this particular single-owner use case**, 
 
 The owner confirms the new local, fictional-only Finance Centre browser dashboard displays properly on Samsung. This is an owner-reported UX confirmation, not a comprehensive functionality or security audit. Manual encrypted Google Drive backup upload was also reported earlier; **Drive-to-clean-environment recovery remains untested**. Next: validate year/product filters and session expiry/lock on-device, then harden data-import consent and provenance rules before any genuine financial records.
 
+## L2.1 fictitious filter/lock candidate — GitHub CI GREEN (2026-11-03)
+
+- **Code staged, user Samsung upgrade still pending:** `finance_local/dashboard.py` and 15 L2 HTTP/security tests with server-backed countdown, Lock now token revocation, ledger DOM scrub, same-origin/Sec-Fetch-Site checks and tax-year/BDS-product sample filters. Original L1 vault remains read-only.
+- **32/32 local Python tests pass** (17 L1, 15 L2) and desktop 390px headless Chromium mocked-network UI exercise passes, including accelerated auto-lock. GitHub Actions **41740238168 SUCCESS** on Python 3.12/3.14, downloadable code-only artifact `BDS-Finance-L2-1-Samsung-Synthetic`, source `7e73c86799eb2c576be3e10a1eacd3fed5f2b72c`; site regression **41740238160 SUCCESS**. The raw locally generated ZIP `BDS_Finance_L2_1_Lock_and_Filters.zip` SHA-256 `1673e2d5b4776d8472eb7ab0f140375bdb2923f0562f97ecaf0c8232611691b1`.
+- **Next owner acceptance:** install over running L2 code after Ctrl+C, test 2025/26 £15 and 2026/27 product filters, Lock now and 10-minute auto expiry in Samsung Chrome. Session URL is private. A screenshot of fictional metrics (not URL) is safe. No real finance data, provider sync, tax estimate, security audit or public deploy authorised.
+
 ## Status and acceptance
 
 - [x] L1 final CI **GREEN** at source SHA `aac857e4800c2c0b3cb659c2b3d000af4c14e26b`: vault run `41727602097`, website checks `41727601922`.
