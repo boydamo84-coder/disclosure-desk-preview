@@ -383,6 +383,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**L1 phone acceptance update (3 Nov 2026, 22:28 UK):** init, demo-fill and summary are VERIFIED ON SAMSUNG with fictional £277.50 profit. Next test: `python finance_local/vault.py backup "$HOME/bds-finance-sample-backup.bds"` and `python finance_local/vault.py verify-backup "$HOME/bds-finance-sample-backup.bds"`; never delete the existing vault. Recovery to a separate directory and off-device encrypted copy still pending.
+
+
 **Next: owner Samsung test** with corrected `BDS_Finance_Termux_L1_Android_fix.zip` from conversation/GitHub; `cd "$HOME/bds-finance-l1"`, `unzip -o "$HOME/storage/downloads/BDS_Finance_Termux_L1_Android_fix.zip"`, `python finance_local/vault.py init`, enter passphrase (do not share). Prior `os.link` exception preceded successful vault creation, so safe to retry without deleting; if any `vault.bds` exists, stop and inspect first. Then fictional `demo-fill`, `summary --year 2026/27`, encrypted backup/recovery drills.
 
 **Finance L1 active gate:** confirm GitHub-only workflow `validate-bds-finance-termux-l1.yml` passed, verify documented source/demo ZIP SHA against local tested package, then let owner test encrypted **fictional** vault and backup on Samsung in existing Termux without disturbing other projects. Record actual on-device observations before L1 SAMSUNG VERIFIED; move to L2 local dashboard only once vault/recovery is accepted.
@@ -404,6 +407,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 22:28 UK — Samsung L1 patched init and synthetic ledger verified
+- Owner screenshot: updated ZIP extracted, hidden-passphrase `init` successful, `demo-fill` inserted ten fictional entries; 2026/27 summary has nine rows and £277.50 imaginary profit (£337.00 income, £19.00 refunds, £28.50 fees, £12.00 expenses). Initial `os.link` Android error no longer occurs on exercised path.
+- Status: SAMSUNG VERIFIED for init/fill/summary only; BACKUP/VERIFY/RESTORE NOT YET PHONE-TESTED; no actual financial records, APIs, tax calculation or cloud release.
+- Repo `boydamo84-coder/disclosure-desk-preview`, unpublished `feature/sources-archives-next-batch-nov03`; tested source `d073b5509341800be56b729590eb72c6cdbc712b`, CI run `41730679400` green, site regression `41730679360` green. Production unchanged.
+- Next: encrypted backup to a new filename in Termux HOME and `verify-backup`; then isolated restore without touching the active vault. Do not record private passphrases or photos in GitHub.
+
 
 ### 2026-11-03 — Samsung L1 Python 3.14 missing os.link fixed and GitHub QA GREEN
 - Branch `feature/sources-archives-next-batch-nov03` in `boydamo84-coder/disclosure-desk-preview`; code commit `d073b5509341800be56b729590eb72c6cdbc712b`, documentation handover next commit HEAD. Production `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` unchanged.
