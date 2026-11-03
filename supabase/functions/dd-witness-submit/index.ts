@@ -6,6 +6,7 @@ import { createClient } from "npm:@supabase/supabase-js@2.57.0";
 
 const projectUrl=Deno.env.get("SUPABASE_URL")??"";
 const anonKey=Deno.env.get("SUPABASE_ANON_KEY")??"";
+const serviceKey=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")??"";
 const allowOrigin=(origin:string|null)=>{
  if(!origin)return "";
  if(origin==="https://uapdisclosuredesk.com"
@@ -48,7 +49,7 @@ Deno.serve(async(req:Request)=>{
  if(req.method!=="POST")return response(405,{error:"Use POST"},origin);
  if(req.headers.get("content-length")&&Number(req.headers.get("content-length"))>9000)
   return response(413,{error:"Submission too large"},origin);
- if(!projectUrl||!anonKey)return response(503,{error:"Submission service is not configured"},origin);
+ if(!projectUrl||!anonKey||!serviceKey)return response(503,{error:"Submission service is not configured"},origin);
  const bearer=(req.headers.get("authorization")||"").replace(/^Bearer\s+/i,"");
  if(!bearer)return response(401,{error:"Sign in to submit a public report"},origin);
  const db=createClient(projectUrl,anonKey,{
@@ -81,7 +82,7 @@ Deno.serve(async(req:Request)=>{
  if((count||0)>=3)return response(429,{error:"Maximum 3 public witness reports per rolling 24 hours"},origin);
  // A public CITY search: never request GPS, coordinates, street address or exact position.
  const api=new URL("https://geocoding-api.open-meteo.com/v1/search");
- api.searchParams.set("name",city+", "+country);
+ api.searchParams.set("name",city);
  api.searchParams.set("count","10");api.searchParams.set("language","en");api.searchParams.set("format","json");
  let matches:unknown[];
  try{
@@ -109,12 +110,15 @@ Deno.serve(async(req:Request)=>{
  const record={
   author_id:user.id,category,event_date:input.event_date,
   approximate_time:approxTime||null,
-  city:place.name,country:place.country,
+  city:place.name,country,
   story,anonymous:input.anonymous!==false,
   lat:Math.round(place.latitude*10)/10,lon:Math.round(place.longitude*10)/10,
   status:"published"
  };
- const {data,error}=await db.from("dd_witness_reports").insert(record).select("id,city,country,created_at,status").single();
+ // Writes run under a server-held service key. Browser users cannot insert rows,
+ // spoof coordinates or choose publication status through the Data API.
+ const admin=createClient(projectUrl,serviceKey,{auth:{persistSession:false,autoRefreshToken:false}});
+ const {data,error}=await admin.from("dd_witness_reports").insert(record).select("id,city,country,created_at,status").single();
  if(error){
   const message=String(error.message||"");
   if(/limit reached|24.hour|3 in a rolling/i.test(message))return response(429,{error:"Daily limit reached. Maximum 3 reports per rolling 24 hours."},origin);
