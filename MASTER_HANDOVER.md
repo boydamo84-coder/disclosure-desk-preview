@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, isolated SQL parser correction STAGED:** run `41686804284` FAILED on a PL/pgSQL `IF` conditional using an unparenthesised `CASE` expression in `dd_discussions_edit_own`. Replaced it with independent validated thread/reply length guards and updated static assertions. **Test now rerunning; do not claim backend ready.** No live data touched.
+
 - **2026-11-03, isolated Discussions PostgreSQL security workflow CODE STAGED:** Docker PostgreSQL 17 GitHub Action will run candidate SQL in a disposable database with synthetic Auth roles/users, test guest raw-table denial, nonsteward pin denial, owner review, author posting/replies and two rounds of five distinct flags. Trigger restricted to the review SQL/test files and workflow itself; **no connection to live Supabase, no Netlify deploy**. Workflow result pending; errors must be fixed before treating SQL as executable.
 
 - **2026-11-03, Discussions overall-admin view CODE STAGED / DISABLED:** owner-only review pane inside existing Profile/Admin Centre displays hidden/escalated threads/replies, limited excerpts and escalation reasons, with Restore/Hide/Remove decisions requiring reasons. Owner can revoke a section steward without deleting their section. Server-side owner-only RPC candidates are reviewed SQL source only; no owner allowlist seeded, schema installed or live moderation performed. GitHub-only CI pending.
@@ -177,6 +179,15 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Isolated PostgreSQL first execution found edit-rule SQL syntax error
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `5db7fe5454128ce8cb5e3e5d574009d11f753558`; resulting SHA is new HEAD.
+- GitHub isolated Postgres 17 run `41686804284` **FAILED** while parsing `dd_discussions_edit_own`, at review SQL line 469 (`IF ... > case when ... end`); fixture and synthetic database initialized successfully, no acceptance executed.
+- Fixed `supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql` using separate 5000-character thread/2000-character reply guards, and updated `scripts/test_discussions_sql.cjs` accordingly. Test JS source compile passed.
+- No Supabase production schema/records, Netlify builds or public feature changes. New isolated workflow run pending.
+- Next: inspect fresh PostgreSQL CI. Continue correcting genuine SQL/permission errors until synthetic role tests run successfully; do not mark security approved based on static source tests.
+
+
 
 ### 2026-11-03 — Isolated PostgreSQL security and moderation integration tests
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `8623fb795bb95b028db5311a285e1c86e154a40b`; resulting SHA is current commit on unpublished branch.

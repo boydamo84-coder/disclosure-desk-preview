@@ -449,7 +449,8 @@ declare actor uuid:=public.dd_discussions_require_registered(); affected integer
 begin
  if p_kind not in ('thread','reply') or p_id is null or p_body is null
    or char_length(btrim(p_body))<2
-   or char_length(btrim(p_body))>case when p_kind='thread' then 5000 else 2000 end
+   or (p_kind='thread' and char_length(btrim(p_body))>5000)
+   or (p_kind='reply' and char_length(btrim(p_body))>2000)
  then raise exception 'Invalid edit';end if;
  if p_kind='thread' then
   update public.dd_forum_threads t set body=btrim(p_body),updated_at=now()

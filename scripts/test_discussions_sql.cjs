@@ -46,7 +46,8 @@ assert.match(sql,/creator_id uuid references auth.users\(id\) on delete set null
 assert.match(sql,/author_id uuid references auth.users\(id\) on delete set null/,'Post author removal can be anonymised');
 assert.match(sql,/submitted_by uuid references auth.users\(id\) on delete set null/,"Escalation author account can be deleted");
 assert.match(sql,/body='\[Removed by author\]'/,'Author withdraw must preserve body check while clearing original text');
-assert.match(sql,/or char_length\(btrim\(p_body\)\)>case when p_kind='thread' then 5000 else 2000 end/,'Thread author edits retain 5000-character limit');
+assert.match(sql,/p_kind='thread' and char_length\(btrim\(p_body\)\)>5000/,'Thread author edit cap remains 5000');
+assert.match(sql,/p_kind='reply' and char_length\(btrim\(p_body\)\)>2000/,'Reply edit cap remains 2000');
 assert.match(sql,/select 'thread'::text as kind/,'Owner queue includes threads');
 assert.match(sql,/select 'reply'::text as kind/,'Owner queue includes replies');
 assert.match(sql,/if not found then raise exception 'Discussion unavailable';end if;/,'Anonymised former authors must not disable flags');
