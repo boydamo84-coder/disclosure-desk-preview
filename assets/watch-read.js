@@ -83,7 +83,7 @@ function init(){
  let category='documentaries',viewAll=false,sort='picks',podcastSearch='';
  function render(){
   toolbar.replaceChildren();
-  for(const [cat,label] of [['documentaries','Documentaries'],['movies','Movies'],['books','Books'],['podcasts','Podcast Episodes']]){
+  for(const [cat,label] of [['documentaries','Documentaries'],['movies','Movies'],['books','Books'],['podcasts','Podcasts']]){
    const b=node('button',label);b.type='button';b.className=category===cat?'chip active':'chip';b.onclick=()=>{category=cat;viewAll=false;render()};toolbar.append(b);
   }
   list.replaceChildren();

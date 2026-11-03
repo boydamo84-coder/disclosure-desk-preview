@@ -64,7 +64,7 @@ Deno.serve(async(req:Request)=>{
  const origin=allowOrigin(req.headers.get("origin"));
  if(req.method==="OPTIONS")return new Response(null,{
   status:204,headers:{"Access-Control-Allow-Origin":origin,"Access-Control-Allow-Methods":"POST, OPTIONS",
-   "Access-Control-Allow-Headers":"authorization, apikey, content-type","Vary":"Origin"}
+   "Access-Control-Allow-Headers":"authorization, x-client-info, apikey, content-type","Vary":"Origin"}
  });
  if(req.method!=="POST")return response(405,{error:"Use POST"},origin);
  if(req.headers.get("content-length")&&Number(req.headers.get("content-length"))>9000)
