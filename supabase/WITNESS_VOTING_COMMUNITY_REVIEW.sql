@@ -61,15 +61,52 @@ drop policy if exists dd_witness_public_select on public.dd_witness_reports;
 create policy dd_witness_public_select on public.dd_witness_reports for select to authenticated
  using ((select auth.uid())=author_id);
 
--- The view has an explicit status condition and omits author_id, hidden_at and update fields.
--- Public readers cannot SELECT the base report table. Be aware this view intentionally
--- uses its DB owner's privileges; do not add private columns or drop the WHERE clause.
-create or replace view public.dd_public_witness_reports with (security_barrier=true) as
-select id,category,event_date,approximate_time,city,country,story,anonymous,
-       lat,lon,created_at
-from public.dd_witness_reports where status='published';
-revoke all on public.dd_public_witness_reports from public,anon,authenticated;
+-- Public projection never contains author_id, private flags or moderation metadata.
+-- Unlike a definer view, this is a real RLS-protected table with a strict column set.
+create table if not exists public.dd_public_witness_reports (
+ id uuid primary key references public.dd_witness_reports(id) on delete cascade,
+ category text not null,
+ event_date date not null,
+ approximate_time time without time zone,
+ city text not null,
+ country text not null,
+ story text not null,
+ anonymous boolean not null default true,
+ lat numeric(5,2) not null,
+ lon numeric(5,2) not null,
+ created_at timestamptz not null
+);
+create index if not exists dd_public_witness_recent on public.dd_public_witness_reports(created_at desc);
+alter table public.dd_public_witness_reports enable row level security;
+revoke all on table public.dd_public_witness_reports from public,anon,authenticated;
 grant select on public.dd_public_witness_reports to anon,authenticated;
+drop policy if exists dd_public_witness_read on public.dd_public_witness_reports;
+create policy dd_public_witness_read on public.dd_public_witness_reports
+ for select to anon,authenticated using (true);
+
+-- Internal sync runs only on trusted DB changes; public users cannot write projection.
+create or replace function public.dd_sync_public_witness()
+returns trigger language plpgsql security definer set search_path=public as $$
+begin
+ if new.status='published' then
+  insert into public.dd_public_witness_reports
+   (id,category,event_date,approximate_time,city,country,story,anonymous,lat,lon,created_at)
+  values(new.id,new.category,new.event_date,new.approximate_time,new.city,new.country,
+    new.story,new.anonymous,new.lat,new.lon,new.created_at)
+  on conflict(id) do update set category=excluded.category,
+    event_date=excluded.event_date,approximate_time=excluded.approximate_time,
+    city=excluded.city,country=excluded.country,story=excluded.story,
+    anonymous=excluded.anonymous,lat=excluded.lat,lon=excluded.lon,
+    created_at=excluded.created_at;
+ else
+  delete from public.dd_public_witness_reports where id=new.id;
+ end if;
+ return new;
+end $$;
+drop trigger if exists dd_witness_sync_public on public.dd_witness_reports;
+create trigger dd_witness_sync_public after insert or update on public.dd_witness_reports
+for each row execute function public.dd_sync_public_witness();
+
 drop policy if exists dd_witness_owner_insert on public.dd_witness_reports;
 -- Intentionally NO authenticated/anon INSERT policy on reports.
 -- Only the Edge Function's private service-role client may create a new record.
