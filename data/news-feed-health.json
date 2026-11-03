@@ -1,23 +1,23 @@
 {
-  "checkedAt": "2026-11-03T17:01:10.329311+00:00",
+  "checkedAt": "2026-11-03T18:57:56.243459+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 19,
+      "items": 18,
       "latestArticleAt": "2026-11-02T22:15:12+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 17,
-      "latestArticleAt": "2026-11-02T22:15:12+00:00"
+      "items": 9,
+      "latestArticleAt": "2026-11-02T12:21:00+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 24,
-      "latestArticleAt": "2026-11-03T13:58:10+00:00"
+      "items": 26,
+      "latestArticleAt": "2026-11-03T16:24:33+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
@@ -35,7 +35,7 @@
       "source": "Search: UAP congress hearing when:7d",
       "status": "ok",
       "items": 4,
-      "latestArticleAt": "2026-11-03T13:30:00+00:00"
+      "latestArticleAt": "2026-11-03T13:34:11+00:00"
     },
     {
       "source": "Search: UFO UAP Brazil Peru Mexico Argentina when:7d",
@@ -206,5 +206,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 264
+  "storiesPublished": 265
 }
