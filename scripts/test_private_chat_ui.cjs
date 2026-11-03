@@ -32,3 +32,11 @@ assert.match(sql,/dd_chat_unique_unordered_pair/,'Denied invitations cannot be s
 assert.match(sql,/p\.invitee_id=actor and p\.status='pending'/,'Only recipient can accept');
 assert.match(sql,/status='accepted'/,'Only accepted chat may contain messages');
 console.log('PASS: private Profile Chat frontend is accessible and server-contract aligned, off by default, no HTML injection, no twelfth tab.');
+
+/* Chat contact discoverability is independently opted into and gated until schema QA. */
+const names=fs.readFileSync('assets/public-profiles.js','utf8');
+assert.match(names,/const chatEnabled=window\.DD_COMMUNITY_FEATURES\?\.privateChat===true/);
+assert.match(names,/chatEnabled\?'display_name,is_public,chat_contact_opt_in':'display_name,is_public'/,'Never query missing schema column while disabled');
+assert.match(names,/settings\.chat_contact_opt_in=publicName&&chatOptIn\.checked/,'Public username alone must not enable contact requests');
+assert.match(names,/if\(chatEnabled\)\{/,'Opt-in control exists only after approved feature activation');
+assert.match(names,/id='ddChatContactOptIn'/);

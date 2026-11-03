@@ -8,7 +8,8 @@ const enabled=['test','production'].includes(cfg.environment)&&!!cfg.url&&!!cfg.
 const VALID=/^[A-Za-z][A-Za-z0-9_]{2,23}$/;
 const RESERVED=/(admin|moderator|support|official|verified|staff|disclosuredesk|boyddigitalstudios|uapdisclosuredesk)/i;
 const idOk=/^[0-9a-f]{8}-[0-9a-f-]{27,36}$/i;
-let db=null,sessionId=null,revision=0,host=null,input=null,optIn=null,status=null;
+const chatEnabled=window.DD_COMMUNITY_FEATURES?.privateChat===true;
+let db=null,sessionId=null,revision=0,host=null,input=null,optIn=null,chatOptIn=null,status=null;
 const client=()=>enabled&&window.supabase?(db||(db=window.supabase.createClient(cfg.url,cfg.publishableKey,{
  auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}
 }))):null;
@@ -42,11 +43,12 @@ async function refresh(){
  if(!user){input.value='';optIn.checked=false;return;}
  say('Loading private username…');
  const {data:row,error:readError}=await c.from('dd_public_names')
-  .select('display_name,is_public').eq('user_id',user.id).maybeSingle();
+  .select(chatEnabled?'display_name,is_public,chat_contact_opt_in':'display_name,is_public').eq('user_id',user.id).maybeSingle();
  if(marker!==revision||sessionId!==user.id)return;
  if(readError){input.value='';optIn.checked=false;say('Username settings are not active in this beta yet. No account data changed.',true);return;}
  input.value=row?.display_name||String(user.user_metadata?.dd_requested_username||'').slice(0,24);
  optIn.checked=row?.is_public===true;
+ if(chatOptIn)chatOptIn.checked=row?.chat_contact_opt_in===true;
  say(row?'Username loaded. You can update it or change public visibility.':'Choose a username. Public display is off until you opt in.');
 }
 async function save(ev){
@@ -64,9 +66,9 @@ async function save(ev){
   if(error||!data?.user||data.user.is_anonymous)throw Error('Sign in with a registered account first.');
   const user=data.user;
   // Existing table already enforces owner-only INSERT/UPDATE and unique name_key.
-  const {error:writeError}=await c.from('dd_public_names').upsert({
-   user_id:user.id,display_name:name,is_public:publicName,updated_at:new Date().toISOString()
-  },{onConflict:'user_id'});
+  const settings={user_id:user.id,display_name:name,is_public:publicName,updated_at:new Date().toISOString()};
+  if(chatEnabled)settings.chat_contact_opt_in=publicName&&chatOptIn.checked;
+  const {error:writeError}=await c.from('dd_public_names').upsert(settings,{onConflict:'user_id'});
   if(writeError)throw writeError;
   say(publicName?'Saved. Your username can appear beside approved public comments and chat messages.'
     :'Saved privately. Your name will not appear publicly.');
@@ -91,7 +93,15 @@ function init(){
  line.append(optIn,mk('span','','Show my username publicly next to my approved comments and LIVE chat messages.'));
  const submit=mk('button','outline','Save username & visibility');submit.type='submit';
  status=mk('p','muted small','');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
- form.append(label,input,line,submit,status);form.addEventListener('submit',save);
+ form.append(label,input,line);
+ if(chatEnabled){
+  const chatLine=mk('label','muted small');
+  chatLine.style.cssText='display:flex;gap:8px;align-items:flex-start;margin:9px 0';
+  chatOptIn=mk('input');chatOptIn.type='checkbox';chatOptIn.id='ddChatContactOptIn';
+  chatLine.append(chatOptIn,mk('span','','Allow other registered users to request a one-to-one private chat. This is separate from showing your username publicly; both choices must be on.'));
+  form.append(chatLine);
+ }
+ form.append(submit,status);form.addEventListener('submit',save);
  host.append(title,help,form);
  (root.id==='ddProfileUsername'?root:root.querySelector('.card-body'))?.append(host);
  const c=client();if(!c)return;

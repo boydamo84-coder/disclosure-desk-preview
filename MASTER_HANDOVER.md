@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, separate private Chat contact opt-in CODE STAGED / DISABLED:** public username management now conditionally shows an independent "allow private chat requests" checkbox, persisting `chat_contact_opt_in` only when `privateChat:true`. With the current **false** flag, existing username reads/writes remain unchanged and never query the unapplied column. GitHub-only source test updated; no backend applied, public feature or messaging.
+
 - **2026-11-03, Profile Chat accordion static-test correction STAGED:** initial GitHub-only run `41683343386` failed because assertion matched `class` as the first attribute, while the new Chat `<details>` intentionally begins with an accessible `id`. Updated regex to accept safe attribute order and still assert seven sections. Re-run pending; no live UI or backend enabled.
 
 - **2026-11-03, disabled Profile Chat test coverage STAGED:** added GitHub-only static test covering accepted-only composer, recipient acceptance, flagged-off state, RPC method signatures and textContent rendering; no database writes/real chat. Workflow results pending for this commit. Original backend candidate remains unapplied.
@@ -105,7 +107,7 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 **User experience / device:** Inside Profile: an expandable Chat panel with Accepted | Pending (received/sent) states, a selectable conversation list, and a scrollable message window/composer in the *same panel* after acceptance. Inbound pending shows only the submitted preview and Accept/Decline actions. Safe markup/text rendering, touch/keyboard accessibility, responsive mobile, unread state and cross-device consistency; Android should receive the same functionality after website QA. Notifications should be opt-in if added.
 
-**Build / acceptance status:** A **review-only SQL backend candidate** now exists in `supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql`, with GitHub-only structural tests; it has **NOT** been applied or verified against a live/staging database. Disabled Profile UI is staged; feature activation, schema testing, real 1:1 messages, independent contact opt-in controls and security QA remain pending. Feature remains approved for the **current consolidated roadmap** before the next coordinated website release. Inspect the existing LIVE hearing chat and community identity primitives first to reuse safe code patterns **without conflating public LIVE chat and private messaging tables**. Build on the unpublished website branch, test with synthetic multi-account scenarios (pending/accept/decline/block/report/unauthorised read, spam caps, simultaneous requests), RLS audit, Samsung/desktop QA; then port to Android and prepare the Play release. **Do not migrate the live database or deploy Netlify merely to record this feature.** Detailed requirement/acceptance record: [Private Chat roadmap](docs/PROFILE_PRIVATE_CHAT_ROADMAP_2026-11-03.md).
+**Build / acceptance status:** A **review-only SQL backend candidate** now exists in `supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql`, with GitHub-only structural tests; it has **NOT** been applied or verified against a live/staging database. Disabled Profile UI and feature-gated independent contact opt-in source are staged; feature activation, schema testing, real 1:1 messages and security QA remain pending. Feature remains approved for the **current consolidated roadmap** before the next coordinated website release. Inspect the existing LIVE hearing chat and community identity primitives first to reuse safe code patterns **without conflating public LIVE chat and private messaging tables**. Build on the unpublished website branch, test with synthetic multi-account scenarios (pending/accept/decline/block/report/unauthorised read, spam caps, simultaneous requests), RLS audit, Samsung/desktop QA; then port to Android and prepare the Play release. **Do not migrate the live database or deploy Netlify merely to record this feature.** Detailed requirement/acceptance record: [Private Chat roadmap](docs/PROFILE_PRIVATE_CHAT_ROADMAP_2026-11-03.md).
 
 ### 4D. User-created Discussions tab — APPROVED ROADMAP ADDITION (NOT BUILT)
 
@@ -161,6 +163,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Independent private Chat contact opt-in (disabled source)
+- Branch `feature/sources-archives-next-batch-nov03` of `boydamo84-coder/disclosure-desk-preview`; prior SHA `065204175ddae168c0448dd5ac3924263b605283`; new HEAD is the milestone commit.
+- Changed `assets/public-profiles.js`: only if approved `privateChat:true`, Public Username preferences add a second independent contact-request checkbox. Selecting public alias alone does **not** consent to chat. Save only persists `chat_contact_opt_in` if both public visibility and separate contact consent are enabled. Current `privateChat:false` leaves database SELECT and upsert unchanged.
+- Changed `scripts/test_private_chat_ui.cjs` with explicit opt-in and disabled-schema guards; updated handover. JS syntax parsed before commit.
+- Status CODE STAGED / FEATURE OFF; no new Supabase column applied or actual messages; no Netlify, preview, public or Android release. Next verify GitHub-only QA and review SQL/RLS in isolated environment.
+
+
 
 ### 2026-11-03 — Fix Profile Chat accordion test selector (staging QA)
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior `2be2ed321fb0c13d6af5f6a171e9ccdace4914b6`; resulting SHA is branch head.
