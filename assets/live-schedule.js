@@ -59,12 +59,12 @@ async function sources(){
  try{
   const db=window.supabase?.createClient(SUPABASE_URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
   if(db){
-   const {data,error}=await db.from('dd_live_events').select('id,title,starts_at,ends_at,status,source_url,stream_url,recording_url,source_label,is_public').eq('is_public',true).in('status',['upcoming','live']).order('starts_at',{ascending:true}).limit(40);
+   const {data,error}=await db.from('dd_live_events').select('id,title,starts_at,ends_at,status,source_url,stream_url,recording_url,source_label,is_public').eq('is_public',true).in('status',['upcoming','live','ended']).gte('starts_at',new Date(Date.now()-48*60*60*1000).toISOString()).order('starts_at',{ascending:true}).limit(40);
    if(!error&&Array.isArray(data))fromDb=data.map(normalize).filter(Boolean);
   }
  }catch(_){}
  const byId=new Map();
- for(const a of fromFile)if(a.status==='upcoming'||a.status==='live')byId.set(a.id,a);
+ for(const a of fromFile)if(['upcoming','live','ended'].includes(a.status))byId.set(a.id,a);
  for(const a of fromDb)byId.set(a.id,a); // Only server-published events can open actual chat rooms.
  return [...byId.values()].filter(x=>x.startsAt.getTime()>Date.now()-48*60*60*1000).sort((a,b)=>a.startsAt-b.startsAt).slice(0,25);
 }
@@ -76,11 +76,13 @@ function clearTimer(){
 }
 // Approved official source + qualified start only. Never promote speculative reports.
 function noticeCandidate(items,now=Date.now()){
- const valid=items.filter(x=>x&&['upcoming','live'].includes(x.status)
+ const valid=items.filter(x=>x&&['upcoming','live','ended'].includes(x.status)
   &&x.startsAt instanceof Date&&Number.isFinite(x.startsAt.getTime())
-  &&validUrl(x.source)&&x.startsAt.getTime()+48*60*60*1000>now);
- return valid.find(x=>x.startsAt.getTime()<=now)
-   ||valid.find(x=>x.startsAt.getTime()>now)||null;
+  &&validUrl(x.source)&&x.startsAt.getTime()+48*60*60*1000>now
+  &&(x.status!=='ended'||x.startsAt.getTime()<=now));
+ return valid.find(x=>x.status==='live'&&x.startsAt.getTime()<=now)
+   ||valid.find(x=>x.startsAt.getTime()>now)
+   ||valid.find(x=>x.startsAt.getTime()<=now)||null;
 }
 function updateNoticeClock(){
  if(!currentNotice||!noticeClock)return;
@@ -96,7 +98,9 @@ function updateNoticeClock(){
  }else{
   noticeClock.textContent=currentNotice.status==='live'
    ?'Officially listed as LIVE — check the official stream'
-   :'Scheduled start reached — check the official hearing page for status';
+   :currentNotice.status==='ended'
+    ?'Hearing concluded — check the official page for a recording'
+    :'Scheduled start reached — check the official hearing page for status';
  }
 }
 function renderNewsNotice(items){
@@ -202,7 +206,7 @@ function render(){
 async function refresh(){
  const result=await sources();
  renderNewsNotice(result);
- const visible=result.filter(e=>e.startsAt.getTime()>Date.now()-6*60*60*1000);
+ const visible=result.filter(e=>['upcoming','live'].includes(e.status)&&e.startsAt.getTime()>Date.now()-6*60*60*1000);
  const fingerprint=items=>JSON.stringify(items.map(e=>[e.id,e.title,e.startsAt.toISOString(),e.status,e.stream,e.recording,e.chatAvailable,e.source]));
  if(container&&fingerprint(visible)===fingerprint(upcoming)&&container.childElementCount)return;
  upcoming=visible;
