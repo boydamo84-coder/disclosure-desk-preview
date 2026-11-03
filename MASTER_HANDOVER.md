@@ -83,7 +83,21 @@ All five were approved on 2026-11-03 and are documented in [the original roadmap
 
 Retain these in existing sections/tools, not five new navigation tabs. Before building any part, inspect current Evidence Connections / comparison / research/export implementations to avoid duplication.
 
+### 4C. Private one-to-one user messaging — APPROVED ROADMAP ADDITION (NOT BUILT)
+
+**Requested 2026-11-03:** Add a **Chat** section *within* the existing **Profile / My Research Hub**, using its expandable card pattern and an embedded conversation window. No separate page or 12th navigation tab, and **no group chats**. Include **Accepted chats** and **Pending requests** (incoming and sent), with an unread indicator and a message pane in the same Profile section.
+
+**Consent-first start:** A signed-in, non-anonymous registered user may find an eligible **opted-in public username** and send **exactly one initial message as a chat request**. Recipient sees *only that first message as a request preview*, with **Accept** or **Decline**. Sender may not continue the conversation or send follow-ups while pending. Only acceptance enables a persistent private two-way conversation visible to the two members; a declined request does not become a chat.
+
+**Privacy / abuse controls:** Usernames must be unique and discoverable for chat only with explicit opt-in, reusing existing `dd_public_names` and existing Auth rather than creating an unrelated profile directory. Do not expose emails, underlying auth UUIDs, private Boards/research or location. RLS and server-side checks must restrict request/chat/message access to the two participants and prevent the sender from self-accepting, bypassing a decline, spam-retrying or contacting a blocked account. Include **Block** and **Report** controls, request rate limits, anti-harassment restrictions, refusal without mandatory explanation, and appropriate moderation/report review without routine moderator access to everyone's private conversations. No unsolicited group broadcasts; no attachments initially.
+
+**User experience / device:** Inside Profile: an expandable Chat panel with Accepted | Pending (received/sent) states, a selectable conversation list, and a scrollable message window/composer in the *same panel* after acceptance. Inbound pending shows only the submitted preview and Accept/Decline actions. Safe markup/text rendering, touch/keyboard accessibility, responsive mobile, unread state and cross-device consistency; Android should receive the same functionality after website QA. Notifications should be opt-in if added.
+
+**Build / acceptance status:** PLANNED and approved for the **current consolidated roadmap** before the next coordinated website release (not implemented or deployed by this documentation update). Inspect the existing LIVE hearing chat and community identity primitives first to reuse safe code patterns **without conflating public LIVE chat and private messaging tables**. Build on the unpublished website branch, test with synthetic multi-account scenarios (pending/accept/decline/block/report/unauthorised read, spam caps, simultaneous requests), RLS audit, Samsung/desktop QA; then port to Android and prepare the Play release. **Do not migrate the live database or deploy Netlify merely to record this feature.** Detailed requirement/acceptance record: [Private Chat roadmap](docs/PROFILE_PRIVATE_CHAT_ROADMAP_2026-11-03.md).
+
 ## 5. Release plan: website first, then Android / Google Play
+
+**Additional scope already approved:** consent-first private 1:1 messaging embedded within Profile (Section 4C). Add it to the consolidated website roadmap, verify account isolation/abuse safeguards, and retain the same UI in the later Android port. No 12th site tab.
 
 **Phase 1 — Unpublished website development:** work only on `feature/sources-archives-next-batch-nov03` or a clearly documented child; integrate already-staged Sources & Archives plus agreed feedback without duplicating the 11-tab production features. Update master after each milestone. Keep Netlify and public domain unchanged.
 
@@ -125,6 +139,15 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — One-to-one private chat roadmap addition (planning only)
+- Repository/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; baseline `8629b86e94b8929aad6aeee422b3e4807b71a0b7`. This documentation milestone's resulting SHA is the GitHub branch HEAD immediately after the commit, verify next session.
+- Added consent-first registered-user **1:1 Chat within Profile**, one-message preview invitation and explicit Accept/Decline, Accepted/Pending (incoming/outgoing) lists, and in-page conversation pane. No groups, no separate page, no extra navigation tab.
+- Privacy/security requirements: opted-in searchable unique usernames, strict participant RLS, block/report, rate limits and no unrequested repeat messages; avoid public chat/private Boards crossover.
+- Status: **PLANNED ONLY**. No feature implementation, no Supabase migration, no Netlify deploy, no production/Android change or test messaging. Existing current QA/repair milestone remains the active implementation priority.
+- Next: continue current staged code QA, then design and implement chat on the unpublished branch as part of the next consolidated roadmap batch, followed by synthetic multi-account security tests and Android parity checks.
+
+
 
 ### 2026-11-03 — Private content management using existing Supabase guards (code staged)
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview`, `feature/sources-archives-next-batch-nov03`; prior SHA `1050baa275a69f25ae872dc7f07ae7584c975460`; implementation commit `0cb9dcafe93495c213f98e4c4bcf778c62d733ca`; documentation follow-up commit is branch HEAD.
