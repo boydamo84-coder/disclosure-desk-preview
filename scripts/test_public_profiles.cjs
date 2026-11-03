@@ -21,7 +21,7 @@ assert.match(sql,/e\.is_public=true/,'No hidden hearing aliases');
 assert.match(sql,/returns table\(content_id uuid,display_name text\)/);
 assert.doesNotMatch(sql,/returns table\([^;]*email|returns table\([^;]*author_id/);
 assert.match(sql,/revoke all on function public\.dd_public_aliases\(text,uuid\[\]\) from public,anon,authenticated/);
-assert.match(sql,/grant execute on function public\.dd_public_aliases\(text,uuid\[\]\) to authenticated/);
+assert.match(sql,/grant execute on function public\.dd_public_aliases\(text,uuid\[\]\) to anon,authenticated/);
 assert.doesNotMatch(sql,/grant select on public\.dd_public_names to anon/,'Do not open owner-private names table');
 assert.match(js,/environment==='test'/,'Keep production feature off');
 assert.match(js,/\.upsert\(/,'Edit owner name via existing RLS table');

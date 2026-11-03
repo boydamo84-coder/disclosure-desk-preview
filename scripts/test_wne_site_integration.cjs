@@ -84,7 +84,7 @@ assert.match(indexableSite,/navigateTo\(ddResearchReturnTab\)/,'Directly select 
 
 
 const rules=read('community-rules.html');
-for(const marker of ['<title>Community Rules','id="accounts"','id="witness"','id="voting"','id="flagging"','id="comments"','id="research"','id="privacy"','3 new public witness reports','5 distinct valid account flags','rolling 24-hour period','sign','town or city','automatically','temporarily hidden','private drafts only']){
+for(const marker of ['<title>Community Rules','id="accounts"','id="witness"','id="voting"','id="flagging"','id="comments"','id="research"','id="privacy"','3 new public witness reports','5 flags from distinct registered accounts','rolling 24-hour period','sign','town or city','automatically','temporarily hidden','private drafts only']){
  assert.ok(rules.toLowerCase().includes(marker.toLowerCase()),'Missing community rules explanation: '+marker);
 }
 for(const link of ['href="/community-rules.html"','href="/community-rules.html#flagging"']){

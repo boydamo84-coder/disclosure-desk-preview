@@ -41,11 +41,12 @@ function mount(container){
     if(!['privacy','abuse','spam','harmful','copyright','other'].includes(selected)){message.textContent='Choose a listed reason.';return}
     const {error}=await c.from('dd_case_comment_flags').insert({comment_id:item.id,reporter_id:user.id,reason:selected});
     const issue=String(error?.message||'');
-    message.textContent=!error?'Sent for moderator review.'
+    message.textContent=!error?'Flag recorded. Five distinct account flags will hide this comment for review.'
       :/own comment/i.test(issue)?'You cannot flag your own comment.'
       :/unique|duplicate/i.test(issue)?'You have already flagged this comment.'
       :/flagging limit/i.test(issue)?'Flagging limit reached. Please try again later.'
       :'Flag could not be submitted. Please try again.';
+    if(!error)void refresh();
    };
    card.append(header,text,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);entries.append(card);
   }

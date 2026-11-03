@@ -122,6 +122,12 @@ W.NE is presented as **W.NE Research Studio**, in Disclosure Desk navy/gold styl
 - Coverage: News reports (inline), historical Archive (new Discuss button), Videos (feed Discuss and immersive More), Watch & Read (inline for documentaries/films/books/podcasts). 'My Comments' opens back to original Archive or Watch & Read. Same comment database and flag guard across sections.
 - Staged files: `supabase/COMMENT_SELF_MODERATION_REVIEW.sql`, `scripts/test_comment_self_moderation.cjs`, updated `community-rules.html` and QA workflow. The database modifications are **NOT APPLIED**. This commit and all remaining feature work is **[skip netlify]**, no deployment/merge.
 
+## Self-moderation database check and GitHub QA cleanup — 3 November 2026
+
+- Rollback SQL verified guest public comment view, raw author-row SELECT denial, flag numbers 1–4 remain visible, fifth distinct account hides, hidden-only moderator queue, moderator restoration, guest visibility after restore, reviewed-flag baseline reset, and no synthetic changes remaining. Real HTTP/JWT and concurrent account/browser acceptance remain open.
+- Updated historical CI assertions that required username aliases to be authenticated-only (guests may read opt-in public aliases) and the old 5-flags phrasing. Adjusted UI copy: individual flag records a concern, five distinct flags trigger hide/review; refresh discussions after successful flag to remove auto-hidden comments.
+- All work remains on unpublished GitHub feature branch, `[skip netlify]`; never enable guest raw author UUID table access. No Netlify deployment or production merge.
+
 ## 6. Non-negotiable product/safety notes
 - No fake hearing dates, fake LIVE state, public/private document leak or precise witness locations.
 - Users may submit reports about unverified experiences; “published” does NOT mean Disclosure Desk authenticated the claim.
