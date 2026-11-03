@@ -49,3 +49,19 @@ for(const id of ['ddProfileFilesList','ddProfileBoardsList','ddProfileCommentsLi
 assert.match(html,/\.dd-profile-fold>summary:focus-visible/,'Keyboard focus remains visible');
 assert.match(html,/\.dd-profile-fold\[open\] \.dd-profile-chevron/,'Expandable arrow indicates open state');
 assert.doesNotMatch(hubMarkup,/<details class="dd-profile-card dd-profile-fold" open/,'Hub remains tidy/collapsed by default');
+
+/* Account-owned content management reuses already installed RLS/RPC permissions.
+ * All operations are user-initiated, never automatic on refreshing Profile. */
+assert.match(html,/id="ddProfileTrashList"/,'Recently deleted documents live in the existing W.NE Hub');
+assert.match(hub,/from\('research_document_trash'\)\.select\('id,title,trashed_at'/);
+assert.match(hub,/rpc\('research_trash_document',\{p_id:d\.id\}\)/);
+assert.match(hub,/rpc\('research_restore_document',\{p_id:d\.id\}\)/);
+assert.match(hub,/rpc\('research_purge_trashed_document',\{p_id:d\.id\}\)/);
+assert.match(hub,/rpc\('dd_edit_my_comment',\{p_id:item\.id,p_body:body\}\)/);
+assert.match(hub,/rpc\('dd_delete_my_comment',\{p_id:item\.id\}\)/);
+assert.match(hub,/from\('dd_witness_reports'\)\.delete\(\)\.eq\('id',r\.id\)\.eq\('author_id',user\.id\)\.select\('id'\)/);
+assert.match(hub,/async function runOwned\(ownerId/,'Mutation guard verifies a current registered owner session');
+assert.match(hub,/data\.user\.id!==ownerId/,'Do not trust stale signed-in state during mutations');
+assert.match(hub,/prompt\('This permanently removes the trashed cloud document/,'Permanent deletion requires typed confirmation');
+assert.match(hub,/does NOT reset the three-per-day report limit/,'Witness quota is preserved after deletion');
+assert.doesNotMatch(hub,/\.from\('dd_witness_reports'\)\.insert/,'No browser-controlled geocoded report creation');

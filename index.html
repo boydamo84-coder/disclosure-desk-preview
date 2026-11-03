@@ -171,6 +171,18 @@
 .dd-profile-entry{display:block;width:100%;text-align:left;white-space:normal;border-radius:9px;padding:11px;border:1px solid #355164;background:#173044;color:#f4e6c9;overflow-wrap:anywhere}
 .dd-profile-entry strong{display:block;font-size:13px}
 .dd-profile-entry small{display:block;font-size:11px;color:#b6cad5;line-height:1.5;margin-top:3px}
+.dd-profile-managed-entry{cursor:default}
+.dd-profile-managed-entry .dd-profile-actions{margin:9px 0 0}
+.dd-profile-managed-entry .dd-profile-actions button{font-size:12px;padding:7px 11px;min-height:34px}
+.dd-profile-entry-status{margin:5px 0 0;overflow-wrap:anywhere}
+.dd-profile-entry-status:empty{display:none}
+.dd-profile-edit{margin-top:10px}
+.dd-profile-edit label{font-size:12px;color:#e8c98d;display:block}
+.dd-profile-edit textarea{min-height:95px;resize:vertical}
+.dd-profile-trashed{border-top:1px solid #405868;margin-top:14px;padding-top:12px}
+.dd-profile-trashed>summary{cursor:pointer;color:#e8c98d;font-weight:600}
+.dd-profile-trashed>summary:focus-visible{outline:2px solid #e8c98d;outline-offset:3px}
+
 .dd-profile-actions{display:flex;gap:9px;flex-wrap:wrap;margin:10px 0}
 .dd-profile-empty{font-size:12px;color:#bdcbd4}
 .dd-profile-card [role=status]{overflow-wrap:anywhere}
@@ -268,7 +280,11 @@
  <div class="dd-profile-stats"><div class="dd-profile-stat"><strong id="ddProfileFilesCount">—</strong><small>Cloud documents</small></div><div class="dd-profile-stat"><strong id="ddProfileBoardsCount">—</strong><small>Cloud Boards</small></div><div class="dd-profile-stat"><strong id="ddProfileWitnessCount">—</strong><small>Witness reports</small></div></div>
  <p id="ddProfileStatus" role="status" class="muted small" aria-live="polite"></p>
  <div class="dd-profile-grid">
-  <details class="dd-profile-card dd-profile-fold"><summary><span>✎ My W.NE Research</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary><p class="muted small">Recent private cloud documents. Unsynced or device-only research may not appear here.</p><div class="dd-profile-list" id="ddProfileFilesList"></div><button type="button" class="outline" data-profile-go="researchStudio">Open Research Studio</button></details>
+  <details class="dd-profile-card dd-profile-fold"><summary><span>✎ My W.NE Research</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary><p class="muted small">Recent private cloud documents. Unsynced or device-only research may not appear here.</p><div class="dd-profile-list" id="ddProfileFilesList"></div>
+  <details class="dd-profile-trashed"><summary>Recently deleted cloud documents</summary>
+  <p class="muted small">Restore deleted cloud copies here. Permanent deletion requires a second confirmation; documents containing linked media may require support. Local files and downloaded backups are not affected.</p>
+  <div class="dd-profile-list" id="ddProfileTrashList"></div></details>
+  <button type="button" class="outline" data-profile-go="researchStudio">Open Research Studio</button></details>
   <details class="dd-profile-card dd-profile-fold"><summary><span>▣ Investigation Boards</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary><p class="muted small">Private cloud Boards. Device-only Boards remain in the Boards tab.</p><div class="dd-profile-list" id="ddProfileBoardsList"></div><button type="button" class="outline" data-profile-go="boards">Open Boards &amp; backups</button></details>
   <details class="dd-profile-card dd-profile-fold"><summary><span>💬 My Comments</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary><p class="muted small">Recent comments and moderation status, visible only to you.</p><div class="dd-profile-list" id="ddProfileCommentsList"></div></details>
   <details class="dd-profile-card dd-profile-fold"><summary><span>◉ My Witness Reports</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary><p class="muted small">Your reports and whether they are published, hidden or removed.</p><div class="dd-profile-list" id="ddProfileWitnessList"></div><button type="button" class="outline" data-profile-go="witness">Open Witness Reports</button></details>
