@@ -10,6 +10,10 @@ assert.match(html,/avatar\.hidden=\(id==='researchStudio'\)/,'W.NE hides top rig
 const dock=fs.readFileSync('research/research-site-nav.js','utf8');
 assert.match(dock,/\['profilePage','👤','Profile'\]/,'Research Edition dock has Profile without a top-right shortcut');
 assert.match(html,/window\.DDResearchHub\?\.refresh\(\)/);
+const reveal=html.indexOf("classList.toggle('hidden',k!==id)");
+const load=html.indexOf("if(id==='profilePage')window.DDResearchHub?.refresh();");
+assert.ok(reveal>=0&&load>reveal,'The Profile must become visible BEFORE refresh runs or both guest and account sections stay blank');
+assert.match(html,/EVIDENCE ARCHIVE<\/div><\/div><\/div><\/div><button type="button" class="dd-profile-shortcut"/,'Profile shortcut must be outside logo brand wrapper for one-row header');
 assert.match(html,/id="ddProfileGuest"/);
 assert.match(html,/id="ddProfilePrivate"/);
 assert.match(hub,/c\.from\('research_documents'\)\.select\('id,title,updated_at'/,'Cloud docs only');

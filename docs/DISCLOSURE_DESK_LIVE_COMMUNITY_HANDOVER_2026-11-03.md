@@ -180,3 +180,10 @@ W.NE is presented as **W.NE Research Studio**, in Disclosure Desk navy/gold styl
 ### W.NE dock Profile parity
 
 The W.NE Research Edition's save-before-navigation dock now has an 11th Profile tab, LAST; navigation still requires explicit W.NE save confirmation when leaving an open editor. W.NE does **not** display a top-right shortcut. Main site's `dd_tab` deep-link allowlist includes `profilePage`; mobile/desktop Playwright smoke updated. The writer/editor and independent W.NE product are unchanged.
+
+### Mobile beta feedback: Videos-first menu and Profile visibility — 3 November 2026
+
+- Samsung screenshot revealed an avatar BELOW site branding. Fixed a missing header wrapper closing tag so shortcut is a right-aligned sibling of the brand, with narrower mobile type/padding. W.NE still hides the top-right shortcut.
+- The blank My Research Hub arose from asking it to `refresh()` **before** removing the page's `.hidden` class. Now render destination first, refresh second; Playwright checks the guest sign-in card is visible.
+- Swapped Videos and LIVE so Videos is fifth and LIVE sixth, both in the main site footer nav and W.NE's save-guarded dock. New order: News, Archive, W.NE, Map, Videos, LIVE, Boards, Witness, Watch & Read, Explore, Profile.
+- Do not deploy each small fix. Keep this batch on unpublished draft PR #2, tagged `[skip netlify]`. Keep W.NE emergency navigation/saving fallback while evaluating duplicate Back to site controls.

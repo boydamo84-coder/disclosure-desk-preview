@@ -33,6 +33,11 @@ try{
   await page.locator('#profilePage').waitFor({state:'visible'});
   equal(await page.locator('#ddProfileTitle').innerText(),'My Research Hub',profile+' Profile destination');
   equal(await page.locator('#ddProfileAdmin').isVisible(),false,profile+' admin remains hidden for guests');
+  await page.locator('#ddProfileGuest').waitFor({state:'visible'});
+  equal(await page.locator('#ddProfileGuest #ddProfileSignIn').isVisible(),true,profile+' guest sign-in card should never be blank');
+  equal(await page.locator('.nav-inner [data-tab="clips"]').evaluate(el=>Boolean(el.compareDocumentPosition(document.querySelector('.nav-inner [data-tab="livePage"]')) & Node.DOCUMENT_POSITION_FOLLOWING)),true,profile+' Videos placed before LIVE');
+  const headerRow=await page.locator('#ddProfileShortcut').evaluate(el=>({top:el.getBoundingClientRect().top,brand:document.querySelector('.top .brand-line').getBoundingClientRect().top}));
+  equal(Math.abs(headerRow.top-headerRow.brand)<48,true,profile+' right-side profile icon stays in compact header');
   await page.locator('[data-tab="hub"]').scrollIntoViewIfNeeded();
   await page.locator('[data-tab="hub"]').click();
   await page.locator('#hub').waitFor({state:'visible'});

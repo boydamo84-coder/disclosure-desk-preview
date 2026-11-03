@@ -7,7 +7,7 @@
 'use strict';
 const TABS=[
  ['discover','◈','News'],['archivePage','▥','Archive'],['researchStudio','✎','W.NE'],
- ['mapPage','◎','Map'],['livePage','●','LIVE'],['clips','▶','Videos'],
+ ['mapPage','◎','Map'],['clips','▶','Videos'],['livePage','●','LIVE'],
  ['boards','▣','Boards'],['witness','◉','Witness'],
  ['watchRead','♫','Watch & Read'],['hub','☷','Explore'],['profilePage','👤','Profile']
 ];

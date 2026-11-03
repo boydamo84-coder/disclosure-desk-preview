@@ -6,7 +6,7 @@ const fs=require('node:fs');const assert=require('node:assert/strict');
 const read=path=>fs.readFileSync(path,'utf8');
 const html=read('index.html');
 const liveTabs=['discover','archivePage','mapPage','livePage','clips','boards','witness','watchRead','hub','profilePage'];
-const expectedTabs=['discover','archivePage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','hub','profilePage'];
+const expectedTabs=['discover','archivePage','researchStudio','mapPage','clips','livePage','boards','witness','watchRead','hub','profilePage'];
 const actual=[...html.matchAll(/<button class="tab[^>]*data-tab="([^"]+)"/g)].map(m=>m[1]);
 assert.deepEqual(actual,expectedTabs,'Keep original tabs, W.NE third, and Profile last');
 for(const id of liveTabs)assert.ok(html.includes('data-tab="'+id+'"'),id+' must survive');
@@ -76,6 +76,7 @@ assert.match(integratedCss,/body\.dd-site-nav-workspace>main/,'Preserve writing 
 const tabs=[...integratedNav.matchAll(/\['(?:discover|archivePage|researchStudio|mapPage|livePage|clips|boards|witness|watchRead|hub)','[^']+','[^']+'\]/g)];
 assert.equal(tabs.length,10,'Preserve all ten original navigation entries in Research Edition');
 assert.match(integratedNav,/\['profilePage','👤','Profile'\]/,'Include Profile as final W.NE dock tab');
+assert.ok(integratedNav.indexOf("['clips','▶','Videos']")<integratedNav.indexOf("['livePage','●','LIVE']"),'Research Edition Videos must precede LIVE');
 for(const path of ['index.html','guest-preview.html','research-workspace.html','wne.html','research-bible.html','import.html','restore-copy.html']){
  assert.match(read('research/'+path),/<script src="\.\/research-site-nav\.js" defer><\/script>/,path+' must receive shared navigation and return guard');
 }
