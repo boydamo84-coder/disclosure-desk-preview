@@ -44,7 +44,7 @@ for(const n of ['dd_discussions_sections','dd_discussions_threads','dd_discussio
 }
 assert.match(sql,/creator_id uuid references auth.users\(id\) on delete set null/,'Founder account removal must not delete community section');
 assert.match(sql,/author_id uuid references auth.users\(id\) on delete set null/,'Post author removal can be anonymised');
-assert.match(sql,/submitted_by uuid references auth.users\(id\) on delete set null/,'Escalation author's account can be deleted');
+assert.match(sql,/submitted_by uuid references auth.users\(id\) on delete set null/,"Escalation author account can be deleted");
 assert.match(sql,/body='\[Removed by author\]'/,'Author withdraw must preserve body check while clearing original text');
 assert.match(sql,/or char_length\(btrim\(p_body\)\)>case when p_kind='thread' then 5000 else 2000 end/,'Thread author edits retain 5000-character limit');
 assert.match(sql,/select 'thread'::text as kind/,'Owner queue includes threads');

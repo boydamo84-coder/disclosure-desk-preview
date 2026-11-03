@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, Discussions test-file syntax correction STAGED:** GitHub run `41685385409` FAILED on an unescaped apostrophe in one newly appended JS assertion, not on application code. Fixed the assertion string and parsed the full test source with `new Function`; rerun CI before calling this milestone green.
+
 - **2026-11-03, Discussions candidate safety review CORRECTION STAGED:** verified GitHub-only contract run `41685136138` passed previous SQL source; identified and patched review-only edge cases: anonymised users should not block section/account deletion or report flagging, withdrawn topics must satisfy nonempty constraints, post edits retain original length limits, and owner queue now includes both hidden/escalated **threads and replies**. Corrected source **still unapplied and not database-tested**. CI pending.
 
 - **2026-11-03, Discussions backend review SOURCE STAGED, UNAPPLIED:** `supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql` proposes section/reply/topic tables with RLS, guest-only safe read projections, registered-only posting and votes, five-distinct-flags temporary hide, limited steward Pin/Escalate, owner-only moderation/role replacement, abuse rate limits and audit trails. No DB schema was installed; GitHub-only source contract added, CI pending; isolated SQL/role tests required.
@@ -169,6 +171,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Fix structural SQL test syntax before re-verification
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview`, `feature/sources-archives-next-batch-nov03`; prior SHA `102108d1b17cc4c97d449201bf07fa14bb493bea`; resulting SHA is next GitHub HEAD.
+- Previous GitHub-only run `41685385409` FAILED with JavaScript SyntaxError (unescaped apostrophe in a test assertion). Replaced the assertion label with a quoted string; local `new Function` parse PASSED.
+- No SQL schema/database/UI change in this correction; code and permissions are still **staged only**. CI result pending.
+- Next: confirm GitHub-only checks green, continue isolated SQL tests/security review before any Discussions activation.
+
+
 
 ### 2026-11-03 — Discussions SQL review correction: withdrawn content, privacy, reply moderation
 - Repository/branch: `boydamo84-coder/disclosure-desk-preview`, `feature/sources-archives-next-batch-nov03`; prior SHA `acd2c47f0bd754dc3b3cc307eb0113d365fa5880`; resulting SHA is next GitHub HEAD.
