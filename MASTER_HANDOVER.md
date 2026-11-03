@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, My Research Hub collapsible UI STAGED:** six native keyboard-accessible expand/collapse sections implemented on unpublished branch, code commit `2dd0efeba5a36648bdd71048348ea0af8e445812`; static regression added to GitHub-only staging QA. Not yet marked CI GREEN, not Samsung-tested, not deployed. Existing account summary, private lists, backend and Admin Centre unchanged.
+
 - **2026-11-03 16:29 UTC, Sources & Archives GitHub-only CI:** branch `feature/sources-archives-next-batch-nov03` head `3470c53f0f1ba4cd46a2627ee5f8238e2589f0f8`; Actions run `41674655120` SUCCESS. This is **source/CI validation, not Samsung QA or a deployment**.
 - **Sources & Archives build staged:** `sources.html` with 13 reviewed country-level official/independent archive sources, country/type filtering, search, citation/right-to-reproduce cautions, Brazil SIAN guidance; About/Explore/Documents routes and sitemap wired. Test `scripts/test_sources_directory.cjs`; workflow `validate-sources-directory-staged.yml`. No PR or deployment for this branch. External links, accessibility and phone experience still require final acceptance.
 - **2026-11-03 08:02 UTC, combined 11-tab website release:** PR #2 merged to `production`. PR describes news/archive/videos/Watch & Read discussions, likes/dislikes, five-flag moderation, witness public reports, W.NE Research Studio, My Research Hub/Profile, owner Admin Centre, LIVE hearing archive, refreshed tours, Podcasts chip, and backend migrations. CI run `41599937501` is described as successful in the merged PR. **Do not assume every real-account/mobile flow is verified.** Production `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` was confirmed again in this session.
@@ -54,7 +56,7 @@
 - **Witness Reports:** user-confirmed report submission once worked in beta, but requests a safe owner delete/withdraw option to remove test posts; verify server ownership, removal from map, appeals and moderation. Confirm latest deployed Edge `dd-witness-submit` CORS including `x-client-info`, genuine auth POST and city-only map display. Source branch has the header, which does not prove the deployed function version. Preserve 3/day quota and distinct five-flag rules.
 - **Comments:** users should be able to edit/delete their own comments subject to safe history/moderation; owner moderation can hide/restore/remove abusive material. Existing comment *post, flag and votes* are coded; editing and deletion must be checked before implementation, with RLS, rate limits, counters, and guest reads intact.
 - **Research documents:** user requests delete/remove and recovery safeguards. Inspect existing W.NE file menu, cloud/local library and backup/export first; distinguish delete from unlink, archived/trash from permanent erasure, and retain export/restore/confirmation paths.
-- **My Research Hub:** collapse/expand major sections by arrow on small displays, while preserving private fetch states and profile/admin access. Inspect `assets/research-hub.js` and existing markup before introducing duplicate panels.
+- **My Research Hub:** **CODE STAGED** six native keyboard-accessible collapsible panels via `<details>/<summary>`; default closed; live account summary and owner Admin Centre stay independent. Existing private lists were not rewritten. Await GitHub-only CI and Samsung/desktop acceptance before marking done.
 - **Email backups:** refine existing `supabase/functions/email-board-backup/index.ts` with branded responsive email presentation; preserve verified recipient, JSON attachment, hourly limit, no leaked research in subject/previews, and sender configuration. Do not break delivery/restore.
 - **Usernames:** existing `dd_public_names` has generated unique `name_key` and opt-in display policies. Verify *duplicate rejection* and proper error messages with two real test accounts before changing DB schema.
 - **Watch & Read / Videos / LIVE:** verify labels, podcast variety, buttons, fullscreen back handling, archived comments/chat, original source links and autoplay/YouTube behavior. Existing site calls Podcasts; do not reimplement an already-correct chip. Test on Samsung.
@@ -119,6 +121,16 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — My Research Hub six-section accordion (code staged)
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview`, `feature/sources-archives-next-batch-nov03`; prior SHA `efe88a4d535ab28b26725330cd5cb81e14f89d95`, implementation commit `2dd0efeba5a36648bdd71048348ea0af8e445812`; documentation follow-up commit is the new branch HEAD.
+- Changed: `index.html` (six existing Profile card panels converted to native `<details>/<summary>` with visible arrow, keyboard focus and reduced-motion styling), `scripts/test_research_hub.cjs` (six-panel/contract regressions), `.github/workflows/validate-sources-directory-staged.yml` (GitHub-only source + Hub regression).
+- Existing implementation checked: preserved current 11 tabs, existing `assets/research-hub.js`, account summary/private lists, `ddProfileAdmin` moderator gate and sign-in; no second profile/auth source. No Supabase or API change.
+- Verification: source replacement assertions confirmed six cards, not yet CI run or phone/browser acceptance. **Do not call this feature live.**
+- Release: **unpublished GitHub source only**; `production`, Android candidate, Supabase and original W.NE unchanged. No Netlify preview or site publishing requested.
+- Next: verify GitHub-only staging workflow PASS and continue account-owned comment edit/delete, witness withdraw and research trash/restore controls using ALREADY INSTALLED protected backend operations, not new tables. Never test deletion on real user content.
+
+
 
 **Rule for ALL FUTURE CHATS/AGENTS:** Every implemented milestone, significant test, migration, staged deployment, Android port or release decision MUST produce a corresponding update to this file. No “completed” claim without recording evidence. Update last verified state, outstanding tasks and next step above; append a log entry. If a chat stops early, write a **WIP/handoff** entry describing exactly what was left unfinished. Do not store secrets, passwords, real users' private data or raw auth identifiers.
 
