@@ -34,4 +34,34 @@ await verify('guest moderator queue blocked','/rest/v1/rpc/dd_witness_moderation
 await verify('guest witness submission blocked by JWT gate','/functions/v1/dd-witness-submit',{
  method:'POST',body:{},expected:[401,403]
 });
+// LIVE hearing archive: guests can read approved text but never raw author IDs.
+await verify('guest public hearing schedule',
+ '/rest/v1/dd_live_events?select=id,title,status&limit=1',{expected:[200]});
+await verify('guest archived hearing transcript',
+ '/rest/v1/rpc/dd_public_hearing_chat',{
+ method:'POST',body:{p_event_id:'qa-archive-no-match',p_before:null,p_limit:1},expected:[200]});
+await verify('guest raw LIVE author IDs blocked',
+ '/rest/v1/dd_live_chat_messages?select=author_id&limit=1',{expected:[401,403]});
+await verify('guest LIVE moderation queue blocked',
+ '/rest/v1/rpc/dd_live_chat_moderation_queue',{method:'POST',body:{},expected:[401,403]});
+
+// Reproduce the Samsung browser failure precisely: CORS preflight must allow
+// Supabase-js's x-client-info header for both preview and production origins.
+// The only real witness POST below is unsigned/unauthorised; it creates no report.
+for(const origin of ['https://deploy-preview-2--uap-disclosure-desk.netlify.app','https://uapdisclosuredesk.com']){
+ const preflight=await fetch(url+'/functions/v1/dd-witness-submit',{
+  method:'OPTIONS',headers:{Origin:origin,
+    'Access-Control-Request-Method':'POST',
+    'Access-Control-Request-Headers':'authorization, x-client-info, apikey, content-type'},
+  signal:AbortSignal.timeout(15000)
+ });
+ assert.equal(preflight.status,204,'CORS preflight '+origin);
+ assert.equal(preflight.headers.get('access-control-allow-origin'),origin,
+   'CORS origin denied: '+origin);
+ const allowed=String(preflight.headers.get('access-control-allow-headers')||'').toLowerCase();
+ for(const name of ['authorization','x-client-info','apikey','content-type'])
+  assert.ok(allowed.includes(name),'Missing browser CORS header '+name+' on '+origin);
+ checks++;
+ console.log('PASS witness browser preflight '+origin+' HTTP 204');
+}
 console.log('PASS '+checks+' live guest/auth security HTTP checks. No user data written.');
