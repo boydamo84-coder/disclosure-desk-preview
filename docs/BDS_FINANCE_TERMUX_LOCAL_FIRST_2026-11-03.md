@@ -80,6 +80,9 @@ This option is **potentially safer for this particular single-owner use case**, 
 - **Locally checked on Linux:** 14 unit tests PASS, including AEAD tag, wrong password, April boundary, imports/duplicates, file permission rejection, fail-before-replace crash simulation and ciphertext backup/restore. No source files include private financial information or credentials.
 - **Remaining requirements:** test real Termux `python-cryptography` package and OS permissions, verify independent recovery, consider biometric/device-key integration and device threats, then stage L2 protected phone UI. L1 is CLI only; no direct Ko-fi, Play or AdSense sync and no tax calculation.
 
+## L1 first real Samsung acceptance (2026-11-03 22:28 UK)
+**PASS:** Corrected Termux Python 3.14 build extracted; `init` created synthetic-only encrypted vault; `demo-fill` added ten fictional records; `summary --year 2026/27` showed nine in-year rows, £337 income, £19 refunds, £28.50 platform fees, £12 expenses and £277.50 fictional profit. This verifies the corrected initial write/read/add/totals workflow on the owner's actual phone. **NOT TESTED ON DEVICE:** encrypted backup, verification, isolated recovery, off-device copy, private dashboard or real provider sync. Next steps are `backup` to a new filename and `verify-backup`, without overwriting/deleting `~/.bds-finance/vault.bds`. All data remains fictional.
+
 ## Status and acceptance
 
 - [x] L1 final CI **GREEN** at source SHA `aac857e4800c2c0b3cb659c2b3d000af4c14e26b`: vault run `41727602097`, website checks `41727601922`.
