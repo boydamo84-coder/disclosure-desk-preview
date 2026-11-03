@@ -4,6 +4,20 @@
 
 The L1 vault is a single Python command-line application that holds predefined **fictional** transaction records encrypted in Termux's private app data. It does not run a server or open a port; online access is not required for any vault operation. The vault decrypts only into the current Python process and re-encrypts on each change. The passphrase is read from a hidden interactive prompt, never from arguments or source code. This is a starting point for future phone QA and security review, **not a security certification**.
 
+## Samsung Android/Termux compatibility patch — 3 November 2026
+
+**Fix for the reported error** `AttributeError: module 'os' has no attribute 'link'`: Termux Python 3.14 on the Samsung lacks `os.link`. The initial L1 build called it during new-vault creation. This revised build **does not call `os.link`**: an exclusive `O_CREAT|O_EXCL` reservation prevents overwrite, followed by `os.replace` of an already-fsynced encrypted temporary file under the private directory lock. If a crash occurs after reservation but before replace, a zero-byte placeholder might remain. It is never mistaken for a valid encrypted vault and is not automatically overwritten on retry. A failed `os.link` attempt should leave only the harmless `.vault.lock` file and no `vault.bds`.
+
+**To upgrade the previously extracted test code, without deleting/resetting Termux or W.NE:** download `BDS_Finance_Termux_L1_Android_fix.zip`, then run:
+
+```sh
+cd "$HOME/bds-finance-l1"
+unzip -o "$HOME/storage/downloads/BDS_Finance_Termux_L1_Android_fix.zip"
+python finance_local/vault.py init
+```
+
+The ZIP contains only `finance_local/` source, tests and README. It does not contain or overwrite the encrypted vault in `~/.bds-finance/`. After successful initialization you can run `demo-fill` and `summary` as described below. Passwords entered before the previous exception did not produce a completed encrypted file and will need to be entered again; never share them in chat. If `init` now reports that a vault already exists, **do not delete it**: inspect its status with the `status` command or ask for safe next steps. The updated isolated Linux test suite has 17 tests, including a fake `os.link`-unavailable Android regression test; real device acceptance is still pending.
+
 ## Installation / testing on your Samsung, without changing other projects
 
 **Don't uninstall Termux or run a Termux reset.** Use your existing Termux installation and current package source. Verify [Termux package documentation](https://github.com/termux/termux-packages/blob/master/packages/python-cryptography/build.sh) first if a package is missing.
@@ -76,7 +90,7 @@ Tests use only fresh temporary directories; they do not touch your real `~/.bds-
 
 - AES-256-GCM authenticated encryption with a **new 96-bit nonce** and **new 128-bit salt** for each save; scrypt N=32768, r=8, p=1 derives the encryption key from the passphrase. The format version and encryption label are fixed. The encrypted container reveals the format and cipher size but not transaction contents. [PyCA AESGCM documentation](https://cryptography.io/en/latest/hazmat/primitives/aead/#cryptography.hazmat.primitives.ciphers.aead.AESGCM).
 - The vault's default location is `~/.bds-finance/vault.bds` inside Termux's private `$HOME`. The directory is created `0700`, the file and lock are `0600`. Symbolic-link targets and unexpectedly permissive private-vault files are rejected. The command does not accept a public/external data-directory option.
-- A process lock prevents concurrent writes. Updates use a fresh encrypted temporary file, fsync, then atomic replacement within private storage; a simulated interrupted save preserves the old vault. The backup writer uses exclusive create + fsync + readback and refuses overwriting existing files. Actual removable-storage durability varies by filesystem and Android providers.
+- A process lock prevents concurrent writes. Updates use a fresh encrypted temporary file, fsync, then atomic replacement within private storage; a simulated interrupted save preserves the old vault. On **new** vault creation only, the writer first reserves the target exclusively using `os.open(..., O_EXCL)` before replacing its own empty reservation, avoiding unsupported Android `os.link`. An abrupt power loss between reserve and replace could leave a zero-byte placeholder that requires inspection before a safe retry. The backup writer uses exclusive create + fsync + readback and refuses overwriting existing files. Actual removable-storage durability varies by filesystem and Android providers.
 - Backup and restore verify the authentication tag before proceeding. Restore is **refused if any file already exists** in the target directory. Only supplied **predefined synthetic records** can be added using the CLI. No input from real provider CSV files is accepted in this L1 build.
 - The current Python process necessarily has the decrypted data and key in memory. Malware with access to the unlocked Android account/Termux process, root access, or a compromised phone is outside this proof's protection. Termux/Android backups may differ by OS; the tool does **not** yet implement device-bound keys, biometric lock, recovery key rotation, auto-lock/session policies or a security audit.
 - Backups are encrypted, but **the filename and file size are visible**; a strong unique passphrase is essential. There is no forgotten-password recovery mechanism.

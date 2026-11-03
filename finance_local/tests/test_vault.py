@@ -177,6 +177,39 @@ class EncryptedVaultTests(unittest.TestCase):
         self.assertEqual(len(vault.load(self.root, PASS)["entries"]), 1)
         self.assertEqual(list(self.root.glob("*.tmp")), [])
 
+    def test_android_without_os_link_supports_init_and_restore(self):
+        # Regression for Samsung Termux Python 3.14: os.link is unavailable.
+        # Fresh vault creation/restoration must use exclusive destination
+        # reservation + atomic os.replace, never os.link.
+        with mock.patch.object(vault.os, "link", None, create=True):
+            path = self.create()
+            vault.add_preset(self.root, PASS, "coffee")
+            vault.backup(self.root, PASS, self.dest)
+            recovered = Path(self.folder.name) / "android-recovered"
+            vault.restore(recovered, self.dest, PASS)
+            self.assertEqual(vault.load(recovered, PASS), vault.load(self.root, PASS))
+            self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o600)
+
+    def test_failed_fresh_init_does_not_leave_empty_reservation(self):
+        vault_path = self.root / vault.VAULT_NAME
+        with mock.patch.object(vault.os, "replace", side_effect=OSError("simulated Android rename failure")):
+            with self.assertRaisesRegex(OSError, "rename failure"):
+                vault.init(self.root, PASS)
+        self.assertFalse(vault_path.exists(), "Empty reservation should be rolled back")
+        self.assertEqual(list(self.root.glob("*.tmp")), [])
+        # Retrying once rename works must create an encrypted vault normally.
+        vault.init(self.root, PASS)
+        self.assertEqual(vault.load(self.root, PASS)["entries"], [])
+
+    def test_exclusive_new_vault_destination_refuses_foreign_contents(self):
+        vault_path = self.root / vault.VAULT_NAME
+        self.root.mkdir(mode=0o700)
+        vault_path.write_bytes(b"OTHER USER FILE - NEVER OVERWRITE")
+        before = vault_path.read_bytes()
+        with self.assertRaisesRegex(vault.VaultError, "already exists"):
+            vault.init(self.root, PASS)
+        self.assertEqual(vault_path.read_bytes(), before)
+
     def test_invalid_demo_entry_and_duplicate_identity(self):
         self.create()
         data = vault._new_payload()

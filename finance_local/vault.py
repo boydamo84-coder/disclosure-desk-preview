@@ -229,6 +229,7 @@ def _atomic_write(path: Path, blob: bytes, *, replace: bool):
         raise VaultError("Vault target not a regular file")
     tmp = path.with_name("." + path.name + "." + secrets.token_hex(8) + ".tmp")
     fd = None
+    reserved_identity = None
     try:
         fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
         with os.fdopen(fd, "wb") as stream:
@@ -237,11 +238,20 @@ def _atomic_write(path: Path, blob: bytes, *, replace: bool):
             stream.flush()
             os.fsync(stream.fileno())
         if not replace:
-            # For fresh destinations, a hard link gives O_EXCL-equivalent atomic no-overwrite.
-            os.link(tmp, path, follow_symlinks=False)
-            tmp.unlink()
-        else:
-            os.replace(tmp, path)
+            # Android/Termux Python may not expose os.link(). Reserve the destination
+            # exclusively *after* the encrypted temp file is durable. Only our
+            # app-private locked writer may replace that empty reservation.
+            # O_EXCL protects against overwriting an existing vault or backup.
+            reserve_fd = os.open(
+                path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600
+            )
+            try:
+                reserved = os.fstat(reserve_fd)
+                reserved_identity = (reserved.st_dev, reserved.st_ino)
+            finally:
+                os.close(reserve_fd)
+        os.replace(tmp, path)
+        reserved_identity = None
         try:
             directory_fd = os.open(str(path.parent), os.O_RDONLY | os.O_DIRECTORY)
             try:
@@ -256,6 +266,16 @@ def _atomic_write(path: Path, blob: bytes, *, replace: bool):
     finally:
         if fd is not None:
             os.close(fd)
+        # If committing a fresh vault fails, remove ONLY the exact empty file
+        # that this call reserved. Never remove a pre-existing user file.
+        if reserved_identity is not None:
+            try:
+                current = path.lstat()
+                if (stat.S_ISREG(current.st_mode) and current.st_size == 0
+                        and (current.st_dev, current.st_ino) == reserved_identity):
+                    path.unlink()
+            except FileNotFoundError:
+                pass
         tmp.unlink(missing_ok=True)
 
 

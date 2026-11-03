@@ -13,11 +13,15 @@ jobs:
   local-vault:
     name: Offline encryption and recovery regression (disposable Linux)
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.12', '3.14']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: ${{ matrix.python-version }}
       - name: Install audited cryptography dependency for CI only
         run: python -m pip install 'cryptography==46.0.4'
       - name: Compile offline vault
@@ -36,4 +40,26 @@ jobs:
           assert 'requests.' not in src and 'urllib.request' not in src
           assert 'os.environ.get("PAYPAL' not in src
           print('PASS: local-only L1 demonstration; no payment account or network interfaces')
+          PY
+      - name: Verify exact ZIP/source parity and missing os.link safety
+        run: |
+          python - <<'PY'
+          import ast
+          import hashlib
+          import zipfile
+          from pathlib import Path
+          files=['finance_local/vault.py','finance_local/tests/test_vault.py','finance_local/README.md','finance_local/__init__.py','finance_local/.gitignore']
+          expected='b4b51143ad53487d82f2c6a0588ddac45fc22220df9fa76ac5b7a9bd07331422'
+          for archive in ['finance_local/BDS_Finance_Termux_L1_demo.zip','finance_local/BDS_Finance_Termux_L1_Android_fix.zip']:
+              blob=Path(archive).read_bytes()
+              assert hashlib.sha256(blob).hexdigest()==expected,archive
+              with zipfile.ZipFile(archive) as z:
+                  assert sorted(z.namelist())==sorted(files)
+                  for p in files:
+                      assert z.read(p)==Path(p).read_bytes(),(archive,p)
+          tree=ast.parse(Path('finance_local/vault.py').read_text())
+          for n in ast.walk(tree):
+              if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and n.func.attr=='link' and isinstance(n.func.value,ast.Name) and n.func.value.id=='os':
+                  raise AssertionError('os.link incompatible with Samsung Termux')
+          print('PASS: Android patch ZIP and GitHub sources identical; no os.link calls')
           PY
