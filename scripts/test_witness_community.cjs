@@ -24,6 +24,7 @@ assert.match(sql,/primary key\(report_id,reporter_id\)/i,'One flag per account p
 assert.match(flag,/pg_advisory_xact_lock\(hashtext\('witness-flags:'\|\|new\.report_id::text\)\)/i,'Per-report lock BEFORE flag INSERT');
 assert.match(hide,/>=5/);assert.match(hide,/status='hidden'/);
 assert.match(sql,/author_id<>auth\.uid\(\)/,'Reject self-flags');
+assert.match(sql,/revoke all on function public\.dd_delete_target_votes\(\) from public,anon,authenticated/,'Internal vote cleanup trigger is not REST executable');
 assert.match(sql,/interval '24 hours'/);assert.match(guard,/>=3/);
 assert.match(guard,/Duplicate witness report/i,'Duplicate submissions are prevented by the server');
 assert.match(guard,/lower\(btrim\(r\.story\)\)=lower\(btrim\(new\.story\)\)/,'Near-identical case-insensitive retries rejected');

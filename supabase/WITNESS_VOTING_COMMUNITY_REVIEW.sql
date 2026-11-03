@@ -352,6 +352,8 @@ begin
  where v.target_id=old.id and v.target_kind=tg_argv[0];
  return old;
 end $$;
+-- This is an internal trigger, never a client-callable API method.
+revoke all on function public.dd_delete_target_votes() from public,anon,authenticated;
 drop trigger if exists dd_witness_delete_votes on public.dd_witness_reports;
 create trigger dd_witness_delete_votes after delete on public.dd_witness_reports
 for each row execute function public.dd_delete_target_votes('witness');
