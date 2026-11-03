@@ -127,14 +127,18 @@ function identity(entry){return entry.source+'\u0000'+entry.kind+'\u0000'+entry.
 function merge(existing,incoming){
  if(!Array.isArray(existing)||!Array.isArray(incoming)||incoming.length>250)throw Error('Too many entries');
  const ready=incoming.map(normalise);
- const seenIds=new Set(existing.map(function(x){return x.id;}));
- const keys=new Map(existing.map(function(x){return [identity(x),JSON.stringify(x)];}));
+ function signature(x){return [x.ref,x.date,x.product,x.source,x.kind,x.pence,x.description].join('\u0000');}
+ const seenIds=new Map(existing.map(function(x){return [x.id,signature(x)];}));
+ const keys=new Map(existing.map(function(x){return [identity(x),signature(x)];}));
  const next=existing.slice();let skipped=0;
  for(const x of ready){
-  const key=identity(x);
-  if(seenIds.has(x.id)||keys.has(key)){skipped++;continue;}
+  const key=identity(x),sig=signature(x);
+  if(seenIds.has(x.id)||keys.has(key)){
+   if((seenIds.has(x.id)&&seenIds.get(x.id)!==sig)||(keys.has(key)&&keys.get(key)!==sig))throw Error('Conflicting duplicate reference; import not applied');
+   skipped++;continue;
+  }
   if(next.length>=500)throw Error('Demo capacity exceeded');
-  next.push(x);seenIds.add(x.id);keys.set(key,JSON.stringify(x));
+  next.push(x);seenIds.set(x.id,sig);keys.set(key,sig);
  }
  return {records:next,added:next.length-existing.length,skipped:skipped};
 }
