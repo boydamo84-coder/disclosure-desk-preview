@@ -13,8 +13,8 @@ const BUNDLED_HEARINGS=[
 let events=BUNDLED_HEARINGS.slice();
 function init(){
  const host=h('section');host.id='ddLiveEvents';host.className='section';
- const title=h('h2','🔴 Disclosure Desk LIVE');host.append(title);
- const caption=h('p','Confirmed Congressional hearing streams and their research discussions. Comments are community opinion, not verified testimony.');caption.className='muted small';host.append(caption);
+ const title=h('h2','▶ Previous Congressional UAP hearings');host.append(title);
+ const caption=h('p','Official recordings and archived discussions. Upcoming verified hearings and live chat appear above; comments are community opinion, not verified testimony.');caption.className='muted small';host.append(caption);
  const list=h('div');host.append(list);
  const root=document.getElementById('ddLiveMount');
  if(!root)return;root.append(host);
@@ -55,8 +55,8 @@ function init(){
  });
  function render(){
   list.replaceChildren();
-  if(!events.length){const msg=h('p','No confirmed hearing streams listed yet. We publish only verified events.');msg.className='muted small';list.append(msg);return}
-  for(const [sectionTitle,filtered] of [['🔴 Live Now',events.filter(e=>e.status==='live')],['📅 Upcoming Hearings',events.filter(e=>e.status==='upcoming')],['▶ Past Hearings · Official Recordings',events.filter(e=>e.status==='ended')]]){
+  if(!events.length){const msg=h('p','No archived hearing recordings listed yet. We publish only verified sources.');msg.className='muted small';list.append(msg);return}
+  for(const [sectionTitle,filtered] of [['▶ Past Hearings · Official Recordings',events.filter(e=>e.status==='ended')]]){
    if(!filtered.length)continue;
    const heading=h('h3',sectionTitle);heading.style.margin='18px 0 10px';list.append(heading);
    for(const event of filtered){
