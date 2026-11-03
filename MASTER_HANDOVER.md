@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, L1 TERMUX ENCRYPTED VAULT — FINAL GITHUB CI GREEN SHA aac857:** 14/14 unit tests for **synthetic-only** AES-256-GCM + scrypt vault, encrypted backup, wrong-passphrase/tamper rejection, idempotency and safe no-overwrite restore passed GitHub-only Actions **41727602097 SUCCESS** at code/checksum SHA `aac857e4800c2c0b3cb659c2b3d000af4c14e26b`. Existing website staging QA **41727601922 SUCCESS** at same SHA. Readable source text is now byte-aligned with zipped release `finance_local/BDS_Finance_Termux_L1_demo.zip` (SHA-256 `ba5f27427ab518df73c85108169723a1c571a1aed42900a2025944cc99c89977`), recorded in `finance_local/SHA256SUMS`. **Still NOT SAMSUNG VERIFIED, security-audited, connected to real providers, or appropriate for actual finances**. No Netlify, production, Supabase, Play, private BDS accounts or personal financial data changed. Next owner-led Termux package/backup test with synthetic data; only then local dashboard L2.
+
+
 - **2026-11-03, FINANCE TERMUX L1 ENCRYPTED DEMO — CODE STAGED / LOCAL TESTS GREEN / GITHUB CI PENDING:** Implemented `finance_local/vault.py` as an **offline, synthetic-only** Python command-line vault for Samsung Termux; `finance_local/tests/test_vault.py` with **14 Linux local unit tests PASS** (no Android test); `finance_local/README.md` usage and release ZIP `finance_local/BDS_Finance_Termux_L1_demo.zip`. Uses PyCA AES-256-GCM + scrypt (N=32768), fresh salts/nonces, hidden passphrase prompt, strict private permissions, exclusive file lock, atomic encrypted updates, fictional ledger and totals, ciphertext-only backup/verify and no-overwrite restore; no provider API, tax calculator, service or real data entry. Tests cover wrong passphrase, tamper, failure before atomic replace, UK 6 April tax-year boundaries, duplicates, backup/restore and permissions. **NOT phone-tested, NOT security audited or suitable for real finances.** Unpublished branch only, no Netlify or live Supabase changes. GitHub-only isolated Finance L1 Actions **41727300663 SUCCESS** at source code SHA `fa26ec8cec96fb859aef6c0336d1d887a9ac4179` (14 tests); staging regression run **41727300502 SUCCESS**. Repackaged text-source trailing newlines to match the previously generated ZIP; source/ZIP SHA-256 checked locally, final run pending on checksum/documentation commit; L2 visual dashboard and on-device backup drill remain future gates.
 
 
@@ -384,6 +387,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — L1 final source/checksum branch CI verified; device acceptance pending
+- Repo `boydamo84-coder/disclosure-desk-preview`, unpublished `feature/sources-archives-next-batch-nov03`; source SHA `aac857e4800c2c0b3cb659c2b3d000af4c14e26b`; resulting documentation SHA is the next HEAD, verify after update.
+- **CI GREEN:** offline vault Python 3.12 14-unit suite [run 41727602097](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41727602097); parallel site regression [run 41727601922](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41727601922); both success.
+- Git source `finance_local/vault.py`, tests and README now byte-parallel with `finance_local/BDS_Finance_Termux_L1_demo.zip`, checked with source SHA and ZIP SHA-256 `ba5f27427ab518df73c85108169723a1c571a1aed42900a2025944cc99c89977`. The full ZIP contents remain fictional only.
+- No on-device Termux/Android package installation or recovery acceptance; no third-party accounts, genuine revenue, plaintext reports, cloud or network listeners. This is **CODE STAGED + CI GREEN, not SAMSUNG VERIFIED or LIVE**. Original website release baseline `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` remains unchanged; no Netlify credits used or live backend migrations.
+- Next: owner tests demo package using existing Termux and 14-char+ passphrase; encrypted backup verify and recovery to isolated scratch before allowing any real data. Keep future L2 and providers disabled.
+
 
 ### 2026-11-03 — L1 encrypted vault GitHub CI GREEN, source/ZIP parity follow-up
 - GitHub Actions run [41727300663](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41727300663) **SUCCESS** (14 synthetic CLI encryption/backup/recovery tests); website staging source run [41727300502](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41727300502) **SUCCESS**. Tested branch commit `fa26ec8cec96fb859aef6c0336d1d887a9ac4179`.

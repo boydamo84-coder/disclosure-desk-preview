@@ -74,11 +74,15 @@ This option is **potentially safer for this particular single-owner use case**, 
 
 ## L1 technical implementation checkpoint — 2026-11-03
 
-- **Code staged:** `finance_local/vault.py` and `finance_local/tests/test_vault.py`, source `finance_local/README.md` and portable demonstration ZIP. CI workflow `.github/workflows/validate-bds-finance-termux-l1.yml` passed **GitHub Actions 41727300663 SUCCESS** (14 Linux tests) at SHA `fa26ec8cec96fb859aef6c0336d1d887a9ac4179`; follow-up byte-parity/checksum commit retest pending. No on-device acceptance. Existing root `docs/prototypes/bds-finance-demo.html` remains a separate browser-only fictional UI and does not automatically unlock or read this vault.
+- **Code staged:** `finance_local/vault.py` and `finance_local/tests/test_vault.py`, source `finance_local/README.md` and portable demonstration ZIP. CI workflow `.github/workflows/validate-bds-finance-termux-l1.yml` passed **GitHub Actions 41727602097 SUCCESS** (14 Linux tests) at exact source SHA `aac857e4800c2c0b3cb659c2b3d000af4c14e26b`; site regression checks **41727601922 SUCCESS**. Source/ZIP byte parity confirmed locally; ZIP SHA-256 recorded in `finance_local/SHA256SUMS`. No Samsung testing. No on-device acceptance. Existing root `docs/prototypes/bds-finance-demo.html` remains a separate browser-only fictional UI and does not automatically unlock or read this vault.
 - **Locally checked on Linux:** 14 unit tests PASS, including AEAD tag, wrong password, April boundary, imports/duplicates, file permission rejection, fail-before-replace crash simulation and ciphertext backup/restore. No source files include private financial information or credentials.
 - **Remaining requirements:** test real Termux `python-cryptography` package and OS permissions, verify independent recovery, consider biometric/device-key integration and device threats, then stage L2 protected phone UI. L1 is CLI only; no direct Ko-fi, Play or AdSense sync and no tax calculation.
 
 ## Status and acceptance
+
+- [x] L1 final CI **GREEN** at source SHA `aac857e4800c2c0b3cb659c2b3d000af4c14e26b`: vault run `41727602097`, website checks `41727601922`.
+- [x] L1 ZIP checksum and source parity verified; user download must still be tested on their actual Android device.
+
 
 - [x] Provider feasibility checked against official documentation.
 - [x] Device-only local-first path documented and distinguished from webhook/server model.
