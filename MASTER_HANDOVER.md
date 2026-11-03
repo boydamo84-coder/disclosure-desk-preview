@@ -415,6 +415,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 9. Milestone log — REQUIRED after *every* milestone
 
+### 2026-11-03 22:31 UK — L1 real-device encrypted backup/verify success, restore still pending
+- Actual Samsung Termux screenshot: `python finance_local/vault.py backup "$HOME/bds-finance-sample-backup.bds"` succeeded with encrypted-only backup export confirmation, and `python finance_local/vault.py verify-backup "$HOME/bds-finance-sample-backup.bds"` confirmed **10 fictional records**. Encryption authentication check passed and command explicitly reported **"No restore performed."**
+- Distinguish: **SAMSUNG VERIFIED backup creation + verification only**, after earlier Samsung init/entry/summary acceptance. Not yet independently restored, duplicated off-device or approved for real financial data.
+- Corrected code source `d073b5509341800be56b729590eb72c6cdbc712b` (17 automated tests each on Python 3.12 and 3.14; GitHub Actions `41730679400` success); working branch `feature/sources-archives-next-batch-nov03`. The screenshot itself and the private vault/backup stay outside GitHub.
+- Next: safe restored-copy test in a **new** private Termux folder using `vault.restore(new_root, backup, password)` and `vault.demo_summary`, never invoke CLI `restore` against active default `~/.bds-finance`. Next independent encrypted off-phone copy; no Netlify, production, live DB or Play changes.
+
+
 ### 2026-11-03 22:28 UK — Samsung L1 patched init and synthetic ledger verified
 - Owner screenshot: updated ZIP extracted, hidden-passphrase `init` successful, `demo-fill` inserted ten fictional entries; 2026/27 summary has nine rows and £277.50 imaginary profit (£337.00 income, £19.00 refunds, £28.50 fees, £12.00 expenses). Initial `os.link` Android error no longer occurs on exercised path.
 - Status: SAMSUNG VERIFIED for init/fill/summary only; BACKUP/VERIFY/RESTORE NOT YET PHONE-TESTED; no actual financial records, APIs, tax calculation or cloud release.
