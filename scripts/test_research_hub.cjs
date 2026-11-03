@@ -28,6 +28,6 @@ assert.match(names,/getElementById\('ddProfileUsername'\)/);
 assert.match(mod,/querySelector\('#ddAdminModerationControl'\)/);
 assert.match(html,/Search Console/);
 assert.match(html,/Google Analytics/);
-assert.match(html,/urgent community report/,'placeholder for urgent escalations');
+assert.match(html,/urgent%20community%20report/,'Actual urgent-report email path is present');
 assert.doesNotMatch(html,/id="ddAdminHiddenComments">[0-9]+/,'No fake admin counts');
 console.log('PASS: profile navigation, W.NE shortcut exclusion, owner-only account data, moderator-gated admin, no fake traffic data');
