@@ -63,6 +63,10 @@ jobs:
                   raise AssertionError('os.link incompatible with Samsung Termux')
           print('PASS: Android patch ZIP and GitHub sources identical; no os.link calls')
           PY
+      - name: Run L2 private dashboard HTTP security unit tests (no provider or network access)
+        run: |
+          python -m py_compile finance_local/dashboard.py finance_local/tests/test_dashboard.py
+          python -m unittest discover -s finance_local/tests -p 'test_dashboard.py' -v
       - name: Verify BDS Finance L2 private dashboard ZIP and local security assumptions
         run: |
           python - <<'PY'
