@@ -45,7 +45,7 @@ function renderComments(){
      const {error}=await c.from('dd_case_comment_flags').insert({comment_id:item.id,reporter_id:user.id,reason:reason.trim().toLowerCase()});
      announce(error?'Flag could not be submitted, or you have already flagged this comment.':'Flag received for moderator review.');
    };
-   card.append(header,body,flag);list.append(card);
+   card.append(header,body,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);list.append(card);
  }
 }
 function init(){
