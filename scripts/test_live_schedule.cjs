@@ -31,7 +31,7 @@ assert.ok(css.includes('.dd-live-view-and-chat')&&css.includes('@media(max-width
 assert.ok(html.includes('assets/live-schedule.js')&&html.includes('assets/live-chat.js')&&html.includes('assets/live-schedule.css'),'LIVE assets must be loaded by production site');
 assert.ok(html.includes('id="ddLiveNewsNotice"')&&js.includes('renderNewsNotice(result)'),'Home banner linked to LIVE source');
 assert.ok(css.includes('.dd-live-news-notice[hidden]'),'Hidden notice stays hidden');
-assert.ok(js.includes("timeZone:'Europe/London'")&&js.includes("timeZone:'America/New_York'"),'Show both UK and US Eastern time');
+assert.ok(js.includes("formatted(event.startsAt,'Europe/London')")&&js.includes("formatted(event.startsAt,'America/New_York')"),'Show both UK and US Eastern time in LIVE and News announcement');
 assert.ok(js.includes('1000);'),'Countdown runs every real second');
 assert.ok(js.includes('window.ddLiveChatMount'),'Tie live chat to the approved event');
 assert.ok(js.includes('is_public'),'Only database-approved event opens chat');
