@@ -1,4 +1,4 @@
-# No user finances, encrypted vaults, backup artifacts or secrets in Git.
+# No local financial data, passwords, backups, caches or Python environment in Git.
 .bds-finance/
 *.bds
 *.enc

@@ -67,13 +67,14 @@ This option is **potentially safer for this particular single-owner use case**, 
 - **L7 — Owner-confirmed recovery drill:** decrypt a real encrypted backup on a clean local test directory, then decide if the system can safely graduate from synthetic-only.
 
 ## Verification — 2026-11-03
+- L1 GitHub Actions [41727300663](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41727300663) **SUCCESS**, 14 tests. ZIP SHA-256 `ba5f27427ab518df73c85108169723a1c571a1aed42900a2025944cc99c89977`; source/ZIP byte-parity correction + checksum file staged. This is not an Android test.
 - GitHub-only static/documentation QA run [41724910278](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41724910278) **SUCCESS** at source SHA `98ec9c88f8673b40afb27804ebe09afbe8b70e24`.
 - First run `41724778280` failed on two mismatched **assertion text snippets**, not a financial sync or security implementation; test corrected with no product code change.
 - No phone runtime/security, encrypted vault, report parser, real online sync or backup has been created or exercised. Previous F2 PostgreSQL SQL remains unused.
 
 ## L1 technical implementation checkpoint — 2026-11-03
 
-- **Code staged:** `finance_local/vault.py` and `finance_local/tests/test_vault.py`, source `finance_local/README.md` and portable demonstration ZIP. CI workflow `.github/workflows/validate-bds-finance-termux-l1.yml` added, GitHub result **pending** at this source commit. Existing root `docs/prototypes/bds-finance-demo.html` remains a separate browser-only fictional UI and does not automatically unlock or read this vault.
+- **Code staged:** `finance_local/vault.py` and `finance_local/tests/test_vault.py`, source `finance_local/README.md` and portable demonstration ZIP. CI workflow `.github/workflows/validate-bds-finance-termux-l1.yml` passed **GitHub Actions 41727300663 SUCCESS** (14 Linux tests) at SHA `fa26ec8cec96fb859aef6c0336d1d887a9ac4179`; follow-up byte-parity/checksum commit retest pending. No on-device acceptance. Existing root `docs/prototypes/bds-finance-demo.html` remains a separate browser-only fictional UI and does not automatically unlock or read this vault.
 - **Locally checked on Linux:** 14 unit tests PASS, including AEAD tag, wrong password, April boundary, imports/duplicates, file permission rejection, fail-before-replace crash simulation and ciphertext backup/restore. No source files include private financial information or credentials.
 - **Remaining requirements:** test real Termux `python-cryptography` package and OS permissions, verify independent recovery, consider biometric/device-key integration and device threats, then stage L2 protected phone UI. L1 is CLI only; no direct Ko-fi, Play or AdSense sync and no tax calculation.
 

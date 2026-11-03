@@ -1,1 +1,1 @@
-"""Local-only synthetic proof; no genuine income support in L1."""
+"""Local-only, synthetic test finance vault; never use for actual income yet."""
