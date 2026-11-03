@@ -21,7 +21,9 @@ create table if not exists public.dd_witness_reports (
  status text not null default 'published' check (status in ('published','hidden','removed')),
  created_at timestamptz not null default now(),
  updated_at timestamptz not null default now(),
- hidden_at timestamptz
+ hidden_at timestamptz,
+ -- Prevent a previously reviewed/approved report being hidden again by old flags.
+ review_flag_floor integer not null default 0 check (review_flag_floor>=0)
 );
 create index if not exists dd_witness_public_created on public.dd_witness_reports(created_at desc) where status='published';
 create index if not exists dd_witness_author_time on public.dd_witness_reports(author_id,created_at desc);
@@ -213,32 +215,75 @@ create or replace function public.dd_witness_autohide()
 returns trigger language plpgsql security definer set search_path=public as $$
 begin
  perform pg_advisory_xact_lock(hashtext('witness-flags:'||new.report_id::text));
- if (select count(*) from public.dd_witness_report_flags f where f.report_id=new.report_id)>=5 then
-  update public.dd_witness_reports
-   set status='hidden',hidden_at=now(),updated_at=now()
-   where id=new.report_id and status='published';
- end if;
+ update public.dd_witness_reports r
+ set status='hidden',hidden_at=now(),updated_at=now()
+ where r.id=new.report_id and r.status='published'
+   and (select count(*) from public.dd_witness_report_flags f
+         where f.report_id=r.id) - r.review_flag_floor >=5;
  return new;
 end $$;
 drop trigger if exists dd_witness_autohide_after_flag on public.dd_witness_report_flags;
 create trigger dd_witness_autohide_after_flag after insert on public.dd_witness_report_flags
 for each row execute function public.dd_witness_autohide();
 
--- The existing independent comment moderation allowlist decides who may restore/hide.
+-- The existing moderator allowlist controls restoration and removal.
+-- Lock the report's flag stream, then mark old flags reviewed when restoring.
 create or replace function public.dd_moderate_witness(p_id uuid,p_action text)
-returns void language plpgsql security definer set search_path=public as $$
+returns void language plpgsql security definer set search_path=pg_catalog,public as $
 begin
- if auth.uid() is null or not public.dd_is_comment_moderator() then
+ if auth.uid() is null
+    or coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=true
+    or not public.dd_is_comment_moderator() then
   raise exception 'Not authorised';
  end if;
- if p_action not in ('published','hidden','removed') then raise exception 'Invalid status'; end if;
- update public.dd_witness_reports set status=p_action,updated_at=now(),
- hidden_at=case when p_action='published' then null else coalesce(hidden_at,now()) end
- where id=p_id;
+ if p_id is null or p_action not in ('published','hidden','removed') then
+  raise exception 'Invalid moderation action';
+ end if;
+ perform pg_advisory_xact_lock(hashtext('witness-flags:'||p_id::text));
+ update public.dd_witness_reports r
+  set status=p_action,updated_at=now(),
+      hidden_at=case when p_action='published' then null
+        else coalesce(r.hidden_at,now()) end,
+      review_flag_floor=case when p_action='published'
+        then (select count(*)::integer from public.dd_witness_report_flags f
+              where f.report_id=r.id)
+        else r.review_flag_floor end
+  where r.id=p_id;
  if not found then raise exception 'Report not found';end if;
-end $$;
-revoke all on function public.dd_moderate_witness(uuid,text) from public,anon;
+end $;
+revoke all on function public.dd_moderate_witness(uuid,text) from public,anon,authenticated;
 grant execute on function public.dd_moderate_witness(uuid,text) to authenticated;
+
+-- The normal admin queue shows HIDDEN reports only. Four or fewer flags
+-- create no routine moderator backlog. This never returns reporter IDs,
+-- author IDs or exact private location metadata to browsers.
+create or replace function public.dd_witness_moderation_queue()
+returns table(report_id uuid,category text,city text,country text,story text,
+              status text,flag_count bigint,latest_flag timestamptz,hidden_at timestamptz)
+language plpgsql stable security definer set search_path=pg_catalog,public as $
+begin
+ if auth.uid() is null
+    or coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=true
+    or not public.dd_is_comment_moderator() then
+  raise exception 'Not authorised';
+ end if;
+ return query
+  select r.id,r.category,r.city,r.country,r.story,r.status,
+    count(f.reporter_id),max(f.created_at),r.hidden_at
+  from public.dd_witness_reports r
+   left join public.dd_witness_report_flags f on f.report_id=r.id
+  where r.status='hidden'
+  group by r.id,r.category,r.city,r.country,r.story,r.status,r.hidden_at
+  order by r.hidden_at desc nulls last,r.id desc limit 200;
+end $;
+revoke all on function public.dd_witness_moderation_queue() from public,anon,authenticated;
+grant execute on function public.dd_witness_moderation_queue() to authenticated;
+
+-- Privileged trigger helpers are not public callable APIs.
+revoke all on function public.dd_sync_public_witness() from public,anon,authenticated;
+revoke all on function public.dd_witness_report_guard() from public,anon,authenticated;
+revoke all on function public.dd_witness_flag_guard() from public,anon,authenticated;
+revoke all on function public.dd_witness_autohide() from public,anon,authenticated;
 
 -- Individual votes are private; the functions only return totals + YOUR own vote.
 create or replace function public.dd_vote_set(p_kind text,p_id uuid,p_value smallint)

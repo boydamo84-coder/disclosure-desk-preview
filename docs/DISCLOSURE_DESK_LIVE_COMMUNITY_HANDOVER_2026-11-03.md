@@ -137,6 +137,12 @@ W.NE is presented as **W.NE Research Studio**, in Disclosure Desk navy/gold styl
 - Supabase rollback test after generated-column fix passed: no public name before opt-in, cross-account raw profile SELECT denied, opted-in display name returned only for approved public comment, hidden comment name suppressed. No test data or schema persisted. All comment self-moderation and public read migrations are still staged for combined beta acceptance.
 - GitHub-only CI run [41586352883](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41586352883) passed on functional five-flag, archive, video and Watch & Read wiring. Later username-fix CI was still running during this note; verify its completion before release claims.
 
+## Witness review and flag-cycle hardening — 3 November 2026
+
+- Found staged witness status restoration counted historical 5 flags again, causing premature rehide. Staged `review_flag_floor` and moderator restoration resets the reviewed baseline while holding same per-report flag lock. Fresh 5 distinct flags after restoration are needed to auto-hide again; existing flaggers cannot flag a second time. This also discourages moderation churn.
+- Added server-authorised `dd_witness_moderation_queue()` returning only hidden reports for the owner to review and `assets/case-comment-moderation.js` unified view of hidden comments and hidden witness reports with restore/keep hidden/remove actions. Routine flags 1–4 create no moderator queue entry. No anonymous or cross-account moderator queue access.
+- Witness Edge Function `dd-witness-submit` is **not installed** on the project; witness schema still staged. No new users, migration writes, deployment or Netlify credits.
+
 ## 6. Non-negotiable product/safety notes
 - No fake hearing dates, fake LIVE state, public/private document leak or precise witness locations.
 - Users may submit reports about unverified experiences; “published” does NOT mean Disclosure Desk authenticated the claim.
