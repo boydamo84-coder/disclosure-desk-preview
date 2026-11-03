@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, SAMSUNG TERMUX L1 `os.link` FIX — CODE STAGED / GITHUB CI GREEN / PHONE RETEST PENDING:** Owner's screenshot showed unzip and passphrase prompts succeeded, but `finance_local/vault.py init` crashed with `AttributeError: module 'os' has no attribute 'link'` on Termux Python 3.14. Fixed unsupported `os.link` in fresh-vault/restore by securely reserving destination with exclusive `os.open(... O_EXCL)`, then `os.replace` of fsynced ciphertext under directory lock; rollback removes only the call's exact empty reservation on failed rename. No existing vault or unrelated data is overwritten. Added three regression tests (17 total), Python 3.12/3.14 GitHub matrix, and checksum/byte-parity assertions for new corrected ZIP and canonical ZIP. Source commit `d073b5509341800be56b729590eb72c6cdbc712b`, vault CI run **41730679400 SUCCESS** (both Python versions), site CI **41730679360 SUCCESS**. Corrected ZIP `BDS_Finance_Termux_L1_Android_fix.zip` SHA-256 `b4b51143ad53487d82f2c6a0588ddac45fc22220df9fa76ac5b7a9bd07331422`. User should extract patched ZIP into existing `$HOME/bds-finance-l1` and rerun `init` without deleting anything. **Actual Samsung rerun NOT YET VERIFIED**, no real finance records accepted, no deployment/Netlify/Supabase/W.NE changes.
+
+
 - **2026-11-03, L1 TERMUX ENCRYPTED VAULT — FINAL GITHUB CI GREEN SHA aac857:** 14/14 unit tests for **synthetic-only** AES-256-GCM + scrypt vault, encrypted backup, wrong-passphrase/tamper rejection, idempotency and safe no-overwrite restore passed GitHub-only Actions **41727602097 SUCCESS** at code/checksum SHA `aac857e4800c2c0b3cb659c2b3d000af4c14e26b`. Existing website staging QA **41727601922 SUCCESS** at same SHA. Readable source text is now byte-aligned with zipped release `finance_local/BDS_Finance_Termux_L1_demo.zip` (SHA-256 `ba5f27427ab518df73c85108169723a1c571a1aed42900a2025944cc99c89977`), recorded in `finance_local/SHA256SUMS`. **Still NOT SAMSUNG VERIFIED, security-audited, connected to real providers, or appropriate for actual finances**. No Netlify, production, Supabase, Play, private BDS accounts or personal financial data changed. Next owner-led Termux package/backup test with synthetic data; only then local dashboard L2.
 
 
@@ -232,6 +235,8 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**L1 Termux compatibility fix:** GitHub 17/17 vault tests passed on Python 3.12 and 3.14 (run 41730679400). Waiting for actual Samsung `init` confirmation; keep sample-only. Nothing deployed.
+
 **Termux Finance L1 implementation staged; keep separate from live site.** 14 local automated Linux tests pass, GitHub Actions and Samsung acceptance pending. Code and fictional-only ZIP under `finance_local/`; no tax estimate, owner portal or real income. This doesn't affect the current Disclosure Desk QA/12-tab roadmap.
 
 **Finance direction update:** Termux + encrypted on-device vault is now the preferred practical next prototype, not a deployed Supabase backend. The PostgreSQL F2 tests remain a separate unused alternative. No additional public site tab, finance route, online event receiver, or Netlify build. Only manual or user-initiated source imports/sync in the proposal.
@@ -299,6 +304,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 5. Release plan: website first, then Android / Google Play
 
+**BDS finance fix is downloadable source ZIP, NOT a site or Play update.** Reuse existing user's Termux installation; no rebuild, Netlify, Supabase or public website work necessary.
+
 **Finance L1 is NOT an Android Play release:** a command-line, passphrase-protected Termux proof only. No separate app signing or public web deployment. Before the next website merge exclude `finance_local/` and `docs/prototypes/` from public deployment output or accept only the explicitly synthetic demonstration as non-sensitive; never publish real finance files.
 
 **Finance-specific exception:** Termux local-only Finance Centre is a separate private owner app and not part of Disclosure Desk's public website or Play release; L1 encryption/backup and L2 device-only UI require physical phone testing before real finance data. The staged F2 finance SQL MUST NOT be applied to Disclosure Desk.
@@ -317,6 +324,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 **Phase 4 — Play internal test and release preparation:** check Gradle/Android SDK, app ID, target API and Play policy requirements on actual release date; securely configure signed Android App Bundle (AAB) using existing manual `.github/workflows/android-play-internal-aab.yml`; check Play App Signing, release keys, version codes, app icon, screenshots, listing, privacy/data safety, consent/ads implementation, support URL, testing track eligibility, crash-free smoke and multi-device tests. Run internal/closed testing first; production publication requires explicit separate approval. Never publish a debug-signed APK as Play release.
 
 ## 6. Known source paths and supporting records
+
+- Android Termux missing-os.link fix: `finance_local/vault.py`, `finance_local/tests/test_vault.py`, `finance_local/BDS_Finance_Termux_L1_Android_fix.zip`, corrected canonical ZIP, `finance_local/SHA256SUMS`, and Python 3.12/3.14 workflow; CI 41730679400 SUCCESS.
 
 - New Termux L1 source/test/ZIP: `finance_local/vault.py`, `finance_local/tests/test_vault.py`, `finance_local/README.md`, `finance_local/BDS_Finance_Termux_L1_demo.zip`; GitHub-only workflow `.github/workflows/validate-bds-finance-termux-l1.yml`. Contains no personal income or keys.
 
@@ -337,6 +346,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [x] Android missing `os.link` regression covered; 17 tests PASS on both Python 3.12 and 3.14, exact ZIP/source parity CI GREEN.
+- [ ] Verify fixed `init`, fictional `demo-fill`/`summary` and encrypted backup on actual Samsung. Never wipe private app storage.
 
 - [x] Finance L1 synthetic-only vault prototype and 14 local automated tests PASS (Linux); no live money records.
 - [x] GitHub Actions L1 unit tests passed at SHA `fa26ec8cec96fb859aef6c0336d1d887a9ac4179` (run `41727300663`); exact ZIP binary SHA-256 verified locally; source-text byte parity corrected on the follow-up commit; retest pending.
@@ -368,6 +380,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Next: owner Samsung test** with corrected `BDS_Finance_Termux_L1_Android_fix.zip` from conversation/GitHub; `cd "$HOME/bds-finance-l1"`, `unzip -o "$HOME/storage/downloads/BDS_Finance_Termux_L1_Android_fix.zip"`, `python finance_local/vault.py init`, enter passphrase (do not share). Prior `os.link` exception preceded successful vault creation, so safe to retry without deleting; if any `vault.bds` exists, stop and inspect first. Then fictional `demo-fill`, `summary --year 2026/27`, encrypted backup/recovery drills.
+
 **Finance L1 active gate:** confirm GitHub-only workflow `validate-bds-finance-termux-l1.yml` passed, verify documented source/demo ZIP SHA against local tested package, then let owner test encrypted **fictional** vault and backup on Samsung in existing Termux without disturbing other projects. Record actual on-device observations before L1 SAMSUNG VERIFIED; move to L2 local dashboard only once vault/recovery is accepted.
 
 **Finance next milestone:** Build a tested Termux-compatible local encrypted vault L1 using fictional data only, portable backup/restore, lock/unlock and wrong-passphrase tests, and no open ports; then L2 an authenticated localhost interface if necessary. Do not load any financial credentials or perform actual online sync until approval and physical phone testing.
@@ -387,6 +401,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Samsung L1 Python 3.14 missing os.link fixed and GitHub QA GREEN
+- Branch `feature/sources-archives-next-batch-nov03` in `boydamo84-coder/disclosure-desk-preview`; code commit `d073b5509341800be56b729590eb72c6cdbc712b`, documentation handover next commit HEAD. Production `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` unchanged.
+- Screenshot confirmed unhandled `os.link` on Termux Python 3.14 when initialising vault; initial user passphrase prompt worked, no completed vault creation. Replaced with O_EXCL reservation and os.replace, preserving existing-file no-overwrite and simulated failed-save safety.
+- Files updated: `finance_local/vault.py`, `finance_local/tests/test_vault.py`, `finance_local/README.md`, `finance_local/BDS_Finance_Termux_L1_demo.zip`, new `finance_local/BDS_Finance_Termux_L1_Android_fix.zip`, SHA256SUMS, and dedicated GitHub-only CI matrix.
+- Verified **17 automated tests on Python 3.12 and 3.14** by [run 41730679400](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41730679400) **SUCCESS**; source/site regression [run 41730679360](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41730679360) **SUCCESS**, ZIP checksum and source-byte parity checked. Corrected ZIP SHA-256 `b4b51143ad53487d82f2c6a0588ddac45fc22220df9fa76ac5b7a9bd07331422`.
+- **Not yet verified:** Android actual patched run, phone backup/restore, real revenue, provider sync, tax calculator, or independent security audit. No Netlify build, Supabase DB changes, Play release or live deploy.
+
 
 ### 2026-11-03 — L1 final source/checksum branch CI verified; device acceptance pending
 - Repo `boydamo84-coder/disclosure-desk-preview`, unpublished `feature/sources-archives-next-batch-nov03`; source SHA `aac857e4800c2c0b3cb659c2b3d000af4c14e26b`; resulting documentation SHA is the next HEAD, verify after update.
