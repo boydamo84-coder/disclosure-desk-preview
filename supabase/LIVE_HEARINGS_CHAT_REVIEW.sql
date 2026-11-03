@@ -312,3 +312,7 @@ grant execute on function public.dd_moderate_live_chat(uuid,text) to authenticat
 -- Only approved public hearing events will ever be returned to non-mod guests.
 -- Archived messages do not expire when the official video finishes; all posts
 -- after the approved live-chat window stay forbidden by dd_live_chat_insert RLS.
+-- Trusted ingest service: explicit grants on this project's Data API.
+grant select,insert,update on public.dd_live_events to service_role;
+grant select,insert,update,delete on public.dd_live_chat_messages to service_role;
+grant select,insert,update,delete on public.dd_live_chat_flags to service_role;

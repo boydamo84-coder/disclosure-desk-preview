@@ -97,13 +97,15 @@ async function adminStats(c,n,id){
  const reqs=await Promise.allSettled([
   c.rpc('dd_case_comment_moderation_queue'),
   c.rpc('dd_witness_moderation_queue'),
-  c.from('dd_public_witness_reports').select('id',{count:'exact',head:true})
+  c.from('dd_public_witness_reports').select('id',{count:'exact',head:true}),
+  c.rpc('dd_live_chat_moderation_queue')
  ]);
  if(n!==nonce||userId!==id||$('ddProfileAdmin').hidden)return;
  const value=i=>reqs[i].status==='fulfilled'&&!reqs[i].value.error?reqs[i].value:null;
- const comments=value(0),reports=value(1),published=value(2);
+ const comments=value(0),reports=value(1),published=value(2),live=value(3);
  $('ddAdminHiddenComments').textContent=comments?String(comments.data?.length??0):'—';
  $('ddAdminHiddenWitness').textContent=reports?String(reports.data?.length??0):'—';
+ $('ddAdminHiddenLive').textContent=live?String(live.data?.length??0):'—';
  $('ddAdminPublicWitness').textContent=published?String(published.count??0):'—';
  $('ddAdminStatus').textContent=comments&&reports?'Only hidden items enter routine moderation. Ordinary comments publish immediately.':'Some moderation counters are unavailable. No permissions were changed.';
 }

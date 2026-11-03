@@ -39,9 +39,11 @@ assert.ok(js.includes('1000);'),'Countdown runs every real second');
 assert.ok(js.includes('window.ddLiveChatMount'),'Tie live chat to the approved event');
 assert.ok(js.includes('is_public'),'Only database-approved event opens chat');
 assert.ok(chat.includes('db.auth.getUser()')&&chat.includes("!data.user.is_anonymous"),'Registered authentication needed for chat');
+assert.ok(chat.includes("db.rpc('dd_public_hearing_chat'"),'Guest-safe public hearing chat RPC');
+assert.ok(chat.includes("form.hidden=archived||!user"),'Archived chat is read-only');
 assert.ok(chat.includes("'dd_live_chat_messages'")&&chat.includes("'dd_live_chat_flags'"),'Chat and reports use protected tables');
 assert.ok(chat.includes('postgres_changes')&&chat.includes('15000'),'Realtime events with polling fallback');
-assert.ok(chat.includes("item.append(meta,make('p','',String(m.body||'')))"),'Render chat as text, never untrusted HTML');
+assert.ok(chat.includes("item.append(meta,mk('p','',String(m.body||'')))"),'Render chat as text, never untrusted HTML');
 assert.ok(chat.includes("['spam','abuse','privacy','other']"),'Report reasons available');
 const sql=read('supabase/LIVE_HEARINGS_CHAT_REVIEW.sql');
 for(const marker of ['enable row level security',"create policy dd_live_chat_insert","is_public=true","coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=false","dd_live_chat_guard","dd_live_chat_flag_insert","dd_is_comment_moderator","grant select,insert on public.dd_live_chat_messages to authenticated","alter publication supabase_realtime add table public.dd_live_chat_messages"]){

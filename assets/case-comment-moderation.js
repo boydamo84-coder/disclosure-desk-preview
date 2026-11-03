@@ -27,8 +27,10 @@ async function init(){
  const commentRows=el('div');
  const reportsTitle=el('h3','Hidden witness reports');
  const reportRows=el('div');
+ const liveTitle=el('h3','Hidden LIVE hearing chat messages');
+ const liveRows=el('div');
  const close=el('button','Close');close.type='button';close.onclick=()=>root.hidden=true;
- panel.append(close,title,intro,status,commentsTitle,commentRows,reportsTitle,reportRows);
+ panel.append(close,title,intro,status,commentsTitle,commentRows,reportsTitle,reportRows,liveTitle,liveRows);
  root.append(panel);document.body.append(root);
  const anchor=document.querySelector('#ddAdminModerationControl')||document.querySelector('#ddCloudAccount')||document.body;
  anchor.append(trigger);
@@ -52,10 +54,11 @@ async function init(){
  }
  async function refresh(){
   status.textContent='Loading hidden content…';
-  commentRows.replaceChildren();reportRows.replaceChildren();
-  const [comments,reports]=await Promise.all([
+  commentRows.replaceChildren();reportRows.replaceChildren();liveRows.replaceChildren();
+  const [comments,reports,live]=await Promise.all([
    client.rpc('dd_case_comment_moderation_queue'),
-   client.rpc('dd_witness_moderation_queue')
+   client.rpc('dd_witness_moderation_queue'),
+   client.rpc('dd_live_chat_moderation_queue')
   ]);
   if(comments.error){
    status.textContent='Comment moderation unavailable or access denied.';
@@ -83,8 +86,18 @@ async function init(){
    reportRows.append(card);
   }
   if(!(reports.data||[]).length)reportRows.textContent='No hidden witness reports to review.';
+  if(!live.error){
+   for(const item of live.data||[]){
+    const card=reviewCard(item.event_id+' · '+item.flag_count+' flags',item.body);
+    actionButton(card,'Restore','dd_moderate_live_chat',{p_id:item.id,p_status:'approved'});
+    actionButton(card,'Keep hidden','dd_moderate_live_chat',{p_id:item.id,p_status:'hidden'});
+    liveRows.append(card);
+   }
+   if(!(live.data||[]).length)liveRows.textContent='No hidden LIVE messages to review.';
+  }else liveRows.textContent='LIVE moderation unavailable. Please refresh.';
   status.textContent=(comments.data||[]).length+' hidden comments · '+
-    (reports.data||[]).length+' hidden witness reports.';
+    (reports.data||[]).length+' hidden witness reports · '+
+    (live.error?'—':(live.data||[]).length)+' hidden LIVE messages.';
  }
  trigger.onclick=()=>{root.hidden=false;void refresh()};
  async function check(){
