@@ -34,12 +34,17 @@ function mount(container){
    const header=el('small',(item.publicAlias||'Community member')+' · '+new Date(item.created_at).toLocaleDateString());header.className='muted';
    const text=el('p',item.body);text.style.whiteSpace='pre-wrap';
    const flag=el('button','⚑ Flag');flag.type='button';flag.className='outline';
-   flag.onclick=async()=>{const c=client();if(!c)return;const {data:{user}}=await c.auth.getUser();if(!user){message.textContent='Sign in to flag comments.';return}
+   flag.onclick=async()=>{const c=client();if(!c)return;const {data:{user}}=await c.auth.getUser();if(!user||user.is_anonymous){message.textContent='Sign in with a registered account to flag comments.';return}
     const reason=prompt('Flag reason: privacy, abuse, spam, harmful, copyright or other','spam');
     if(!reason)return;const selected=reason.trim().toLowerCase();
     if(!['privacy','abuse','spam','harmful','copyright','other'].includes(selected)){message.textContent='Choose a listed reason.';return}
     const {error}=await c.from('dd_case_comment_flags').insert({comment_id:item.id,reporter_id:user.id,reason:selected});
-    message.textContent=error?'Flag not submitted (perhaps already reported).':'Sent for moderator review.';
+    const issue=String(error?.message||'');
+    message.textContent=!error?'Sent for moderator review.'
+      :/own comment/i.test(issue)?'You cannot flag your own comment.'
+      :/unique|duplicate/i.test(issue)?'You have already flagged this comment.'
+      :/flagging limit/i.test(issue)?'Flagging limit reached. Please try again later.'
+      :'Flag could not be submitted. Please try again.';
    };
    card.append(header,text,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);entries.append(card);
   }
@@ -55,10 +60,15 @@ function mount(container){
  }
  toggle.onclick=()=>{state.expanded=!state.expanded;drafts.set(id,{expanded:state.expanded,draft:body.value});render()};
  form.onsubmit=async ev=>{ev.preventDefault();if(state.busy)return;const c=client();if(!c)return;
-   const {data:{user}}=await c.auth.getUser();if(!user){message.textContent='Sign in to post.';return}
+   const {data:{user}}=await c.auth.getUser();if(!user||user.is_anonymous){message.textContent='Sign in with a registered account to comment.';return}
    state.busy=true;post.disabled=true;
    const {error}=await c.from('dd_case_comments').insert({case_id:id,author_id:user.id,body:body.value.trim(),status:'approved'});
-   if(!error){body.value='';drafts.set(id,{expanded:true,draft:''});message.textContent='Comment posted.';await refresh()}else message.textContent='Unable to post. Please try again.';
+   if(!error){body.value='';drafts.set(id,{expanded:true,draft:''});message.textContent='Comment posted.';await refresh()}else{
+     const issue=String(error.message||'');
+     message.textContent=/duplicate comment/i.test(issue)?'You have already posted this comment.'
+        :/limit reached/i.test(issue)?'Posting limit reached. Please try again later.'
+        :'Unable to post. Please try again.';
+   }
    state.busy=false;post.disabled=false;
  };
  render();refresh();

@@ -41,3 +41,11 @@ The read-only security advisor identified prior `SECURITY DEFINER` execute grant
 ## Comment security hardening QA (continued 3 November 2026)
 
 Read-only inspection of the **existing** `dd_case_comments` and `dd_case_comment_flags` RLS policies/trigger definitions found that anonymous Supabase sign-ins inherit the `authenticated` role but were not specifically rejected, and that a comment author could flag their own approved comment. The existing 5-in-10-minute comment rate and 12-per-hour flag rate were subject to concurrent-request races. The staged `supabase/COMMENT_SECURITY_HARDENING_REVIEW.sql` adds explicit `is_anonymous=false` RLS checks and trigger guards, self-flag rejection in both layers, per-author/per-flagger advisory locks, and removes publicly executable privileges from the two internal trigger helpers. No live policies/functions have been changed. Run rollback-only SQL validation and real-session HTTP/5-account acceptance before enabling. This is not the separate five-flag auto-hide rule for witness reports.
+
+## Registered owner's moderator role — confirmed
+
+The existing email-confirmed Disclosure Desk site-owner account was added to `public.dd_comment_moderators` at the owner's explicit request. No new Supabase Auth account was created, and no other private project was accessed. An authenticated-role SQL simulation confirmed `dd_is_comment_moderator()` is true for the owner and `dd_case_comment_moderation_queue()` is accessible; an unrelated simulated identity was denied. This is a **persistent allowlist change**, unlike the rollback-only synthetic tests. It does not give global database administration or direct access to private research files.
+
+A subsequent temporary synthetic-account transaction also confirmed existing comment moderation correctly handles: no self-flags, no duplicate flags, non-moderator moderation denial, approved/hidden/reapproved visibility rules, hidden author visibility, moderator queue access and restoration. All temporary test accounts, flags, comments, and FK changes rolled back, leaving the owner's new allowlist entry intact.
+
+A UI copy patch also provides clearer errors for duplicate comments, rate limits, self-flags and sign-in requirements. The code remains on the unpublished feature branch and needs the consolidated beta acceptance check.

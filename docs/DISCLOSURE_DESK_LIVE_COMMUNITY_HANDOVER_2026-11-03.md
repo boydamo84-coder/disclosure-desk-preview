@@ -108,6 +108,14 @@ W.NE is presented as **W.NE Research Studio**, in Disclosure Desk navy/gold styl
 - New staged review-only `supabase/COMMENT_SECURITY_HARDENING_REVIEW.sql` corrects both RLS and trigger guards and revokes public executable privileges from internal trigger functions. Adds `scripts/test_comment_security.cjs` to GitHub-only CI. **Not applied or deployed.**
 - Planned My Research Hub/profile is **deferred** until comment/vote/witness/report/moderation security and acceptance testing passes; no new site tab or deployment now.
 
+## Owner moderation access and follow-up QA — 3 November 2026
+
+- On the user's explicit request, the **existing verified site-owner account** was provisioned in `public.dd_comment_moderators` in the connected Disclosure Desk Supabase project. This is a **real persistent allowlist change**; it does not grant Supabase project/database admin, bypass user research privacy, or deploy the staged witness schema.
+- Verified under simulated authenticated SQL claims that the owner can access the moderator queue and an unrelated account cannot. Existing owner allowlist remains after all test rollbacks. Do not publish the owner's email address or account UUID in this repository.
+- Synthetic comment/flag/moderator QA passed: other-author flag, duplicate flag rejection, self-flag rejection, non-moderator denial, hide and restore, hidden-comment invisibility to peers/visibility to owner. All synthetic data and test-only FK changes were rolled back.
+- Unpublished UI changes now show clear messages for duplicate comments/flags, self-flags, sign-in failures and posting-rate limits. No Netlify deploy, production merge, or application of the staged `COMMENT_SECURITY_HARDENING_REVIEW.sql` yet.
+- Keep **My Research Hub** planned but unbuilt until remaining community acceptance gates pass.
+
 ## 6. Non-negotiable product/safety notes
 - No fake hearing dates, fake LIVE state, public/private document leak or precise witness locations.
 - Users may submit reports about unverified experiences; “published” does NOT mean Disclosure Desk authenticated the claim.

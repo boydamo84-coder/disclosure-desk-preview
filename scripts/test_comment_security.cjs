@@ -23,3 +23,13 @@ assert.match(sql,/revoke all on function public\.dd_guard_comment_insert\(\) fro
 assert.match(sql,/revoke all on function public\.dd_guard_comment_flag\(\) from public,anon,authenticated/);
 assert.doesNotMatch(sql,/grant\s+(?:insert|update|delete)\s+on\s+public\.dd_case_comments\s+to\s+anon/i);
 console.log('PASS: staged comment/flag security patch enforces registered-only, no self-flags, per-user rate locks, and restricted triggers');
+
+// Browser copy is equally important: never pretend a rejected post/flag was accepted.
+const caseUi=fs.readFileSync('assets/case-discussions.js','utf8');
+const newsUi=fs.readFileSync('assets/inline-news-comments.js','utf8');
+assert.match(caseUi,/item\.author_id===user\.id/,'Case UI catches self-flags before posting');
+assert.match(caseUi,/You cannot flag your own comment/);
+assert.match(newsUi,/You have already flagged this comment/);
+assert.match(newsUi,/Sign in with a registered account to comment/);
+assert.match(caseUi,/You have already posted this comment/);
+assert.match(newsUi,/Posting limit reached/);
