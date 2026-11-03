@@ -10,5 +10,8 @@ assert(html.includes('BETA'),'Prominently identify beta status');
 assert(html.includes('Sign-in is required'),'Protect research content expectations');
 assert(html.includes('Keep a separate backup'),'Communicate beta data precautions');
 assert(!html.includes('arch-staging.netlify.app'),'Never reuse unverified wrong Netlify hostname');
+assert(html.includes('https://deploy-preview-1--disclosure-desk-research-staging.netlify.app/wne.html'),'Beta button must target the original full W.NE editor');
+assert(html.includes('aria-label="Open W.NE Research Editor beta in a new tab"'),'Editor link should have an accessible label');
+assert(html.includes('This preview address may change'),'Do not present a temporary deploy preview as permanent');
 for(const id of ['discover','archivePage','mapPage','clips','boards','hub']) assert(html.includes('data-tab="'+id+'"'),'Existing navigation missing '+id);
 console.log('Research Studio beta tab, navigation and safe launch wording verified');
