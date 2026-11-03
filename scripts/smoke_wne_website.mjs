@@ -3,7 +3,7 @@ import {createServer} from 'node:http';
 import {readFileSync} from 'node:fs';
 import {resolve,extname} from 'node:path';
 const root=process.cwd();
-const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json','.svg':'image/svg+xml','.webmanifest':'application/manifest+json'};
+const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json','.svg':'image/svg+xml','.webmanifest':'application/manifest+json'};
 const server=createServer((req,res)=>{
  const pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
  const relative=pathname.replace(/^\/disclosure-desk-preview\/?/,'').replace(/^\//,'')||'index.html';
@@ -66,6 +66,18 @@ try{
   equal((await page.locator('body').innerText()).includes('read-only demonstration'),true,profile+' guest preview readonly');
   await page.locator('[data-section="1"]').click();
   equal((await page.locator('#sample').innerText()).includes('2. Evidence'),true,profile+' guest sample section');
+  await page.locator('.dd-site-dock').waitFor({state:'visible'});
+  equal(await page.locator('.dd-site-dock-tab').count(),10,profile+' full Disclosure Desk navigation within Research Edition');
+  equal(await page.locator('.dd-site-dock-tab[aria-current="page"]').getAttribute('data-dd-tab'),'researchStudio',profile+' W.NE remains selected');
+  await page.locator('.dd-site-dock-toggle').click();
+  equal(await page.locator('.dd-site-dock').evaluate(el=>el.classList.contains('is-hidden')),true,profile+' hide navigation');
+  await page.locator('.dd-site-dock-toggle').click();
+  equal(await page.locator('.dd-site-dock').evaluate(el=>el.classList.contains('is-hidden')),false,profile+' show navigation');
+  // Guest navigation shares the same deep-links as the main Disclosure Desk tabs.
+  await page.locator('.dd-site-dock-tab[data-dd-tab="boards"]').click();
+  await page.locator('#boards').waitFor({state:'visible'});
+  equal(new URL(page.url()).searchParams.get('dd_tab'),'boards',profile+' returns directly to chosen main-site section');
+  await page.goto(base+'research/guest-preview.html',{waitUntil:'domcontentloaded'});
   await page.locator('a.dd-return-to-site').click();
   await page.locator('[data-tab="discover"]').waitFor({state:'visible'});
   equal(await page.locator('.nav-inner').isVisible(),true,profile+' guest return restores main website navigation');
@@ -73,6 +85,30 @@ try{
   await page.locator('a.dd-return-to-site').click();
   await page.locator('[data-tab="researchStudio"]').waitFor({state:'visible'});
   equal(await page.locator('.nav-inner').isVisible(),true,profile+' Research Studio landing exit returns to main website');
+  // Test W.NE save-before-navigation without creating any real Supabase data.
+  // A local HTML fixture supplies a fake editor whose save resolves only when
+  // the test explicitly decides success or failure.
+  await page.route('**/research/research-workspace.html',route=>route.fulfill({
+   status:200,contentType:'text/html',
+   body:'<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><header>Research Studio test editor</header><main><iframe id="writer" srcdoc="<html><body>Disposable editor test</body></html>"></iframe></main><script src="./research-site-nav.js"></script></body></html>'
+  }));
+  await page.goto(base+'research/research-workspace.html',{waitUntil:'domcontentloaded'});
+  await page.locator('.dd-site-dock').waitFor({state:'visible'});
+  await page.evaluate(()=>{
+   const frame=document.querySelector('#writer');
+   frame.contentWindow.wneSaveBeforeNavigation=()=>new Promise(resolve=>{window.__resolveTestSave=resolve});
+  });
+  await page.locator('.dd-site-dock-tab[data-dd-tab="boards"]').click();
+  equal(new URL(page.url()).pathname.endsWith('/research/research-workspace.html'),true,profile+' save must finish before navigation');
+  await page.evaluate(()=>window.__resolveTestSave(false));
+  await page.locator('.dd-site-dock-status[data-error="yes"]').waitFor({state:'visible'});
+  equal(new URL(page.url()).pathname.endsWith('/research/research-workspace.html'),true,profile+' failed save keeps editor open');
+  await page.locator('.dd-site-dock-tab[data-dd-tab="boards"]').click();
+  equal(new URL(page.url()).pathname.endsWith('/research/research-workspace.html'),true,profile+' pending save keeps editor open');
+  await page.evaluate(()=>window.__resolveTestSave(true));
+  await page.waitForURL('**/?dd_tab=boards');
+  await page.locator('#boards').waitFor({state:'visible'});
+  await page.unroute('**/research/research-workspace.html');
   await page.goto(base+'privacy.html',{waitUntil:'domcontentloaded'});
   equal((await page.locator('body').innerText()).includes('W.NE Research Edition'),true,profile+' policy covers W.NE');
   await page.goto(base+'research-edition.html',{waitUntil:'domcontentloaded'});
