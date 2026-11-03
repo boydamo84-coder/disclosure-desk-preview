@@ -5,3 +5,5 @@ Product requirement (approved by owner): chats are attached to each official LIV
 `supabase/LIVE_HEARINGS_CHAT_REVIEW.sql` remains staged until transaction-rollback QA passes. Database did not previously have LIVE chat tables. The attached recording URL must be from a verified official source; this site links/embeds the official video rather than copying video files.
 
 Initial archive must not suggest there were historical chats for hearings that predate chat launch. Dynamic, verified ended `dd_live_events` can be added alongside existing bundled Congressional hearing recordings.
+
+Schedule-refresh safety: The global LIVE-only chat cleanup skips archival replay components; closing the recording itself disposes its archived chat. This prevents a 5-minute LIVE schedule refresh from erasing the replay transcript while the user watches the official recording.

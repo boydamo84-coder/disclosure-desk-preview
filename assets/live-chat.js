@@ -7,7 +7,8 @@
 const URL='https://omqxizswzcwgzqaczlhe.supabase.co',KEY='sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X';
 const mk=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n};
 const cleaners=new Set();
-window.ddLiveChatClose=()=>{for(const fn of [...cleaners])fn()};
+// LIVE countdown refreshing must not silently close an archived recording's chat.
+window.ddLiveChatClose=()=>{for(const fn of [...cleaners])if(!fn.isArchivedReplay)fn()};
 window.ddLiveChatMount=(host,event)=>{
  let active=true,user=null,interval=null,channel=null,history=[],oldest=null,hasOlder=false;
  const archived=event.status==='ended';
@@ -106,6 +107,7 @@ window.ddLiveChatMount=(host,event)=>{
  }
  void start();
  const dispose=()=>{if(!active)return;active=false;listener.data?.subscription?.unsubscribe();if(interval)clearInterval(interval);if(channel)void db.removeChannel(channel);cleaners.delete(dispose)};
+ dispose.isArchivedReplay=archived;
  cleaners.add(dispose);
  return dispose;
 };

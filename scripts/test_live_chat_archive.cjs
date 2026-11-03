@@ -19,6 +19,7 @@ assert.doesNotMatch(sql,/grant select,insert on public\.dd_live_chat_messages to
 const hearing=fs.readFileSync('assets/live-hearings.js','utf8');
 assert.match(watch,/dd_public_hearing_chat/,'Public hearing chat must use privacy-safe RPC');
 assert.match(watch,/form.hidden=archived\|\|!user/,'Archived chat read-only in frontend');
+assert.match(watch,/if\(!fn\.isArchivedReplay\)fn\(\)/,'Live schedule refresh must not close an archived recording transcript');
 assert.match(hearing,/hasArchivedChat&&window.ddLiveChatMount/,'Verified official recording exposes saved chat');
 assert.match(hearing,/This recording predates the Disclosure Desk LIVE chat archive/,'Never invent old hearing chat');
 console.log('PASS: hearing chats persist as guest-readable, author-private, five-flag moderated, read-only archived records');
