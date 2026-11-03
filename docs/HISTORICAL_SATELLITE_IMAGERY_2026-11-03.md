@@ -56,3 +56,8 @@
 NASA's GIBS documentation confirms `MODIS_Terra_CorrectedReflectance_TrueColor` as a real layer with a temporal start of **24 February 2000**, daily coverage when scenes are available, and about **250 m** rendered imagery. Its official Worldview permalink supports `l=` to select this layer along with `t=` for the selected timeline date and `v=` for viewport. We now explicitly request the **MODIS Terra daily true-colour layer** rather than allowing the viewer to retain a modern default layer incompatible with older cases. The handoff remains a viewer search **not verification that a frame exists, nor a minute-resolution match**.
 
 Source: NASA GIBS layer/Worldview metadata https://gis.earthdata.nasa.gov/portal/home/item.html?id=780c03ffe3dc42e8bb03ca3b07b283e and https://github.com/nasa-gibs/worldview/blob/main/doc/url_parameters.md . The client conservatively starts NASA daily handoff 1 March 2000; EUMETSAT remains the manual older-date fallback.
+
+
+## 3 November 2026 — provider image completion status
+
+Historical satellite **date-and-area viewer links** from existing case cards are staged and CI-tested; they are not an in-app historical satellite image archive. **Still required:** verify real historical provider frame availability, actual acquisition timestamp nearest to sighting UTC time, alternate provider coverage/gaps, copyright/reuse permissions, integrated historic map overlay/animation and working time slider. For year-only cases, no exact event date/time is known and users must supply their own clearly unverified date. Keep this work independent from user-uploaded community photos.

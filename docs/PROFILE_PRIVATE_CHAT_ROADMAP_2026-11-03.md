@@ -70,3 +70,8 @@ A review-only candidate lives at `supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql` with
 - Implemented in branch commit `5381141b459b47d0377f6b9dda1de589dfd7a7a7`.
 - Real isolated PostgreSQL 17 synthetic integration run **41711107391 SUCCESS**: ten opted-in fake recipients accepted as outgoing requests, eleventh denied; existing consent and message protections remain green.
 - GitHub website source/regression run **41711107588 SUCCESS**. This does not represent a live Supabase deployment or real user/chat acceptance; feature remains OFF.
+
+
+## 3 November 2026 — native emoji vs media GIF keyboard
+
+Plain Unicode emoji (including emojis typed by Android/iPhone system keyboard) can pass through the existing text-only 2,000-character Chat composer. Keyboard GIFs, stickers and image attachments send media rather than plain text, and are NOT currently supported. A pasted GIF URL is text-only. Proper licensed GIF-media support and secure attachments are future work described in docs/COMMUNITY_MEDIA_COSTS_2026-11-03.md. No backend or app change made for GIFs.

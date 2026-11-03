@@ -76,3 +76,8 @@ A second disabled client module, `assets/discussions-admin.js`, now stages the o
 
 ## Isolated database security checkpoint (3 November 2026)
 GitHub run `41687803769` succeeded with disposable PostgreSQL 17 and synthetic users: normal members posting without steward approval, scoped Pin, owner-only moderation, anonymous projections vs raw-table denial, 5-distinct-flags hide, reapproval requiring five *new* reports, and steward revocation. **No real Supabase migration or launch**. A follow-up synthetic suite now extends coverage to individual reply flags and owner-facing escalations; results to be recorded in the master handover.
+
+
+## 3 November 2026 — optional discussion images (hosting/cost roadmap)
+
+Public Discussions currently has text and source-link support only. Image uploads and inline GIFs are NOT built; feature flags remain disabled. Imgur is no longer accessible in the UK and its ToS prohibits commercial image hosting. Review safe, quota-limited first-party uploads using existing Supabase Storage or Cloudflare R2 in docs/COMMUNITY_MEDIA_COSTS_2026-11-03.md; do not enable uploads or create live storage buckets without separate server-side security approval.

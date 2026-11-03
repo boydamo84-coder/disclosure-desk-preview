@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, media cost/release roadmap documented (NO uploads implemented):** User requested public Discussion image sharing, native chat GIFs/emojis, low hosting costs and satellite work status. Confirmed Imgur UK block/commercial-hosting restriction; compared existing Supabase Free 1GB file storage/5+5GB egress with Cloudflare R2 Standard Free 10 GB-month/no egress charge; documented conservative image size/rate/EXIF/moderation safeguards in docs/COMMUNITY_MEDIA_COSTS_2026-11-03.md. Native phone emojis are supported as Unicode text in draft Chat; keyboard GIFs/stickers/image attachments are NOT supported. Satellite automatic nearest historical acquisition and internal imagery slider remain undone. No live bucket, backend changes or deployments.
+
+
 - **2026-11-03 voluntary Ko-fi support integration CODE STAGED / LINK DORMANT:** user confirms no Ko-fi page/account yet. Added guarded About and footer Support button that remains invisible until an owner-provided verified HTTPS ko-fi.com creator link is inserted; no invented URL, payment handling, public deployment or Netlify build. Free Ko-fi one-time tip commission 0% only after turning Standard/Contributor mode off (processor fees remain). New GitHub static QA pending.
 
 
@@ -294,6 +297,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Media-cost planning and voluntary support setup instructions
+- Branch feature/sources-archives-next-batch-nov03; preceding SHA 0ae7aec077fbfcee0d500a1c9314d6fd9c6a77c7. Added docs/COMMUNITY_MEDIA_COSTS_2026-11-03.md and docs/VOLUNTARY_SUPPORT_KOFI_2026-11-03.md, updated canonical Discussions, Profile Chat and historical satellite roadmaps. Planning and documentation only, no file upload code.
+- User has not created Ko-fi account. Prior support code stays dormant with blank URL until owner-verified page link is supplied. Ko-fi Free 0% on one-off tips requires turning off Standard/Contributor mode; Stripe/PayPal fees remain.
+- Media hosting: Imgur unavailable for UK visitors including embeds and prohibits commercial image hosting. Supabase free 1GB/5+5GB bandwidth and Cloudflare R2 10GB-month/no direct egress are candidate options, both quota-limited. Recommended tiny secure beta with EXIF removal, rate/file caps, owner delete and abuse checks; never send precise witness coordinates.
+- Chat accepts native Unicode emoji text; actual GIF media and image attachments not implemented. Satellite nearest-acquisition image matching and true historical Map overlay/slider also unfinished. No Supabase/Netlify/production/Android changes.
+
 
 ### 2026-11-03 — Ko-fi dormant About and footer support links
 - Branch feature/sources-archives-next-batch-nov03, prior SHA 8447aba1f8bb5ba3e9aec727d89b334f3655c8ef. Owner stated no Ko-fi account exists. No creator address is assumed.
