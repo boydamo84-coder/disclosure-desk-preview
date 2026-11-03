@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03 22:31 UK — SAMSUNG L1 ENCRYPTED BACKUP + VERIFY PASSED:** owner screenshot confirms `vault.py backup "$HOME/bds-finance-sample-backup.bds"` returned `Verified encrypted backup exported; NOT plaintext`, and `vault.py verify-backup "$HOME/bds-finance-sample-backup.bds"` returned `Encrypted backup verified. Fictional entries: 10. No restore performed.` The existing source vault remains intact; **phone backup creation and AES-GCM verification are SAMSUNG VERIFIED**, but isolated **restore**, independent/off-device copy, loss recovery, security review and real financial functionality remain UNVERIFIED. Sample-only data, no actual revenue or Netlify/Supabase/Play changes. Next: restore ciphertext to a separate test directory without modifying `~/.bds-finance/vault.bds`, then prove original unchanged.
+
+
 - **2026-11-03 22:28 UK — L1 SAMSUNG INIT / FICTITIOUS TOTALS VERIFIED:** Owner screenshot confirms patched Termux ZIP extracted, `vault.py init` succeeded with hidden passphrase, `demo-fill` added 10 synthetic presets, and `summary --year 2026/27` reported 9 records, income £337.00, refunds £19.00, fees £28.50, expenses £12.00, fictional profit £277.50. Previous `os.link` incompatibility resolved for this workflow. **Encrypted backup, verify, independent restore and off-device copy still UNTESTED ON SAMSUNG.** No real finances or online sync. Next: backup to new file in Termux HOME and verify its integrity; never overwrite or delete the main vault. No live site, Supabase or Netlify changes.
 
 
@@ -382,6 +385,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - [ ] After website approval: Android native parity, signed AAB, notifications, ads/consent, Play internal track acceptance before Play production approval.
 
 ## 8. Exact next task for the next chat
+
+**L1 phone backup update (2026-11-03 22:31 UK):** encrypted backup **CREATED and VERIFIED ON SAMSUNG**, with all 10 fictional records authenticated from the backup. **No restore has been performed.** Next test must use `finance_local.vault.restore` targeting a new `~/.bds-finance-restore-test` directory, not the active `.bds-finance`. Verify 2026/27 £277.50 imaginary profit after restore; keep original vault intact and avoid exposing any passphrase. Off-device encrypted backup still required for loss recovery.
+
+
 
 **L1 phone acceptance update (3 Nov 2026, 22:28 UK):** init, demo-fill and summary are VERIFIED ON SAMSUNG with fictional £277.50 profit. Next test: `python finance_local/vault.py backup "$HOME/bds-finance-sample-backup.bds"` and `python finance_local/vault.py verify-backup "$HOME/bds-finance-sample-backup.bds"`; never delete the existing vault. Recovery to a separate directory and off-device encrypted copy still pending.
 
