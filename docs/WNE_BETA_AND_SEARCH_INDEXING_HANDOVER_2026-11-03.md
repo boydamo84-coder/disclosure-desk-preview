@@ -41,3 +41,10 @@ Updated: 3 November 2026.
 - Use **URL Inspection** to verify canonical and indexability for the homepage and public Research Edition information page; request indexing if appropriate. Do **not** submit private Research Studio, login or guest document URLs.
 - Monitor **Pages / Page indexing** for noindex, duplicate-canonical and crawl errors. Do not claim Google has indexed all UAP news or the large case archive.
 - For individual article/case discoverability in a later milestone, create meaningful stable public URLs with clear original sources, unique factual summaries and appropriate copyright/provenance; don't generate a giant sitemap of SPA filter states or low-value pages.
+
+## Single staging-preview trigger — 3 November 2026
+- Owner confirmed Netlify builds were re-enabled and approved the **single combined W.NE / Disclosure Desk staging test**. This documentation-only commit intentionally nudges the existing draft PR #2, head `feature/research-studio-bds-production-based`, base `production`.
+- GitHub automated validation before trigger: **green** at `b2bc4c9bf211a7963e3ef2eaf9f3c2307050efed`, run https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41572715092.
+- Draft PR: https://github.com/boydamo84-coder/disclosure-desk-preview/pull/2. **Do not merge.** Netlify preview build must be verified independently; a branch commit is not proof of a successful deploy.
+- Beta uses the real Supabase instance, so use only disposable research content and two test accounts. The original W.NE repo and live `production` branch must remain unchanged.
+- Avoid any further trigger commits before checking Netlify's own Deploy Preview status and URL. If no preview appears, inspect Netlify's Deploy Preview settings and build eligibility rather than consuming credits through repeated commits.
