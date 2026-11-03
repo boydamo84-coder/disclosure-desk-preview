@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, private-content management CODE STAGED:** existing Supabase backend checked read-only. Confirmed `dd_delete_my_comment`, `dd_edit_my_comment` (30-minute/unflagged), owner-only witness DELETE with retained 24h quota, and research trash/restore/purge RPCs. Added Profile/Hub UI against existing backend in code commit `0cb9dcafe93495c213f98e4c4bcf778c62d733ca`. No new DB policies/tables or real user writes; awaiting CI and Samsung real-account acceptance.
+
 - **2026-11-03, My Research Hub collapsible UI STAGED:** six native keyboard-accessible expand/collapse sections implemented on unpublished branch, code commit `2dd0efeba5a36648bdd71048348ea0af8e445812`; static regression added to GitHub-only staging QA. Not yet marked CI GREEN, not Samsung-tested, not deployed. Existing account summary, private lists, backend and Admin Centre unchanged.
 
 - **2026-11-03 16:29 UTC, Sources & Archives GitHub-only CI:** branch `feature/sources-archives-next-batch-nov03` head `3470c53f0f1ba4cd46a2627ee5f8238e2589f0f8`; Actions run `41674655120` SUCCESS. This is **source/CI validation, not Samsung QA or a deployment**.
@@ -53,9 +55,9 @@
 
 ### 4A. Current QA/repair and polish queue — verify existing behavior first
 
-- **Witness Reports:** user-confirmed report submission once worked in beta, but requests a safe owner delete/withdraw option to remove test posts; verify server ownership, removal from map, appeals and moderation. Confirm latest deployed Edge `dd-witness-submit` CORS including `x-client-info`, genuine auth POST and city-only map display. Source branch has the header, which does not prove the deployed function version. Preserve 3/day quota and distinct five-flag rules.
-- **Comments:** users should be able to edit/delete their own comments subject to safe history/moderation; owner moderation can hide/restore/remove abusive material. Existing comment *post, flag and votes* are coded; editing and deletion must be checked before implementation, with RLS, rate limits, counters, and guest reads intact.
-- **Research documents:** user requests delete/remove and recovery safeguards. Inspect existing W.NE file menu, cloud/local library and backup/export first; distinguish delete from unlink, archived/trash from permanent erasure, and retain export/restore/confirmation paths.
+- **Witness Reports:** **CODE STAGED** owner's `Delete report` in private Profile via existing owner DELETE RLS, immediate map refresh, confirmation and quota-retention warning. Read-only database audit verified delete trigger retains 24h quota. **Not real-account/phone tested.** Confirm latest Edge CORS including `x-client-info`, signed-in POST, map privacy and moderation; no test report deletion was performed.
+- **Comments:** **CODE STAGED** owner Edit (within 30 min, unflagged only) and Delete controls in Profile → My Comments using verified existing `dd_edit_my_comment` and `dd_delete_my_comment` RPCs. Confirm before delete; retain all server moderation rules. **No real edit/delete submitted in tests**; verify real-account behavior and counts.
+- **Research documents:** **CODE STAGED** move private cloud documents to Recently deleted, restore, and guarded permanent purge from Hub; reuse existing RLS/owner RPCs. Media-bearing purges are server-blocked, not bypassed. Local copies not touched. **No real-user restore or purge tested**; verify Studio library refresh/export/recovery and private asset linkage.
 - **My Research Hub:** **CODE STAGED** six native keyboard-accessible collapsible panels via `<details>/<summary>`; default closed; live account summary and owner Admin Centre stay independent. Existing private lists were not rewritten. Await GitHub-only CI and Samsung/desktop acceptance before marking done.
 - **Email backups:** refine existing `supabase/functions/email-board-backup/index.ts` with branded responsive email presentation; preserve verified recipient, JSON attachment, hourly limit, no leaked research in subject/previews, and sender configuration. Do not break delivery/restore.
 - **Usernames:** existing `dd_public_names` has generated unique `name_key` and opt-in display policies. Verify *duplicate rejection* and proper error messages with two real test accounts before changing DB schema.
@@ -121,6 +123,16 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Private content management using existing Supabase guards (code staged)
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview`, `feature/sources-archives-next-batch-nov03`; prior SHA `1050baa275a69f25ae872dc7f07ae7584c975460`; implementation commit `0cb9dcafe93495c213f98e4c4bcf778c62d733ca`; documentation follow-up commit is branch HEAD.
+- Source inspection and read-only backend audit confirmed RLS owner DELETE on `dd_witness_reports`, witness quota-preserving deletion trigger, `dd_edit_my_comment`/ `dd_delete_my_comment` owner RPCs, `research_trash_document`, `research_restore_document`, `research_purge_trashed_document`, owner-only `research_document_trash` SELECT. No new backend needed.
+- Changed: `assets/research-hub.js` adds per-item owner-confirmed actions (comment Edit/Delete, witness Delete, W.NE cloud trash/restore/purge), refresh and owner-session check; `index.html` adds Recently deleted subpanel and managed-action styles; `scripts/test_research_hub.cjs` tests method contracts.
+- Verification: JavaScript compile check with `new Function` passed before commit; source assertions passed. GitHub-only CI and real signed-in Samsung acceptances still pending at commit. No synthetic/real authenticated write or destructive test performed. Browser errors must be reported accurately.
+- Supabase/site/Android: **all unchanged**; GitHub staging only, no deployment or data modifications. Existing server privileges remain authoritative. Permanent purge must be typed-confirmed and rejects asset-bearing documents.
+- Next: verify staging workflow, then perform private synthetic-account UI/session/permission checks on approved preview; inspect reported mobile UI, comment edit window, witness map and cloud restore. Continue roadmap QA without reimplementing existing features.
+
+
 
 ### 2026-11-03 — My Research Hub six-section accordion (code staged)
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview`, `feature/sources-archives-next-batch-nov03`; prior SHA `efe88a4d535ab28b26725330cd5cb81e14f89d95`, implementation commit `2dd0efeba5a36648bdd71048348ea0af8e445812`; documentation follow-up commit is the new branch HEAD.
