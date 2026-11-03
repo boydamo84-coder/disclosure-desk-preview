@@ -79,6 +79,19 @@
  #immersiveViewer .immersive-media iframe,
  #immersiveViewer .immersive-media video{width:100%;height:100%;object-fit:contain}
 }
+</style><style id="dd-explore-cleanup-20261103">
+.dd-explore-page{padding-bottom:10px}
+.dd-explore-tour-card{border-color:#9b8154;background:linear-gradient(145deg,#1b3040,#112332)}
+.dd-explore-tour-card h3{color:#f0dfb9}
+.dd-explore-main-tour{width:100%;min-height:49px;margin:12px 0 10px}
+.dd-explore-tour-options,.dd-explore-contact-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:11px 0}
+.dd-explore-tour-options button,.dd-explore-contact-actions a,.dd-explore-contact-actions button{text-align:center;display:flex;justify-content:center;align-items:center;min-height:44px;font-size:12px;text-decoration:none;overflow-wrap:anywhere}
+.dd-explore-evidence-list{padding-left:23px;color:#cad7e0;font-size:13px;line-height:1.65}
+.dd-explore-evidence-list li{margin:9px 0}
+.dd-explore-page a:not(.outline){color:#e4c58b}
+.dd-site-footer-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:9px 0 0}
+.dd-site-footer-actions a{color:#d9c18e;text-underline-offset:3px}
+@media(max-width:420px){.dd-explore-tour-options,.dd-explore-contact-actions{grid-template-columns:1fr}}
 </style><style id="dd-research-studio-tab-bds">
 .dd-studio-overview{background:linear-gradient(160deg,#142737,#0e1d2c);border:1px solid #425769;border-radius:17px;padding:18px;margin-top:18px}
 .dd-studio-eyebrow{font-size:10px;color:#e4c58b;letter-spacing:1.7px;font-weight:800}
@@ -121,7 +134,45 @@
 <p class="muted small">Sign in using your existing Disclosure Desk account. On this browser, returning users resume their last accessible document. Guest preview is read-only, using sample data only.</p>
 <div class="dd-studio-features"><div><strong>✎ Reports &amp; sections</strong><small>The original W.NE document editor adapted for researchers.</small></div><div><strong>▦ Side-by-side research</strong><small>See sources alongside your investigation report.</small></div><div><strong>✓ Writing assistance</strong><small>British English spelling and grammar suggestions using LanguageTool.</small></div><div><strong>⌑ Exports &amp; copies</strong><small>Work with research copies and document exports.</small></div></div>
 <div class="note"><strong>Beta notice:</strong> Research Studio is being tested. Avoid storing irreplaceable research until saving, privacy, export and recovery checks are verified. Research Edition is part of W.NE by Boyd Digital Studios.</div>
-</div></section><section id="hub" class="hidden"><div class="section"><h2>Explore Disclosure Desk</h2><div class="dd-feature-row"><button type="button" class="hub-tile" data-go="watchRead"><span class="hub-emoji">🎬</span><strong>Watch &amp; Read</strong><small>Top documentaries, movies, books and community picks</small></button><button type="button" class="hub-tile" data-go="clips"><span class="hub-emoji">🔴</span><strong>Disclosure LIVE &amp; Videos</strong><small>Congressional hearings, recorded streams and discussion</small></button></div><button type="button" class="outline" id="startAppTour" style="margin:8px 0 14px;width:100%">🧭 Getting Started tour</button><div class="dd-tour-menu"><button class="outline" type="button" data-start-tour="research">🔎 Become an Investigator</button><button class="outline" type="button" data-start-tour="safety">🔐 Protect Your Research</button></div><p class="muted small">Documents, interviews and the wider investigation — without cluttering the main news navigation.</p><div class="hub-grid"><button class="hub-tile" data-go="clips"><span class="hub-emoji">▶</span><strong>Disclosure Clips</strong><small>Swipe through footage and open the original sources</small></button><button class="hub-tile" data-go="rabbitHole"><span class="hub-emoji">🕳️</span><strong>Rabbit Hole</strong><small>Rumours, disputed encounters and strange theories · clearly unverified</small></button><button class="hub-tile" data-go="boards"><span class="hub-emoji">▦</span><strong>My Investigation Board</strong><small>Saved links, collections and private notes</small></button><button class="hub-tile" data-go="resources"><span class="hub-emoji">▤</span><strong>Documents</strong><small>CIA, The Black Vault, MUFON and more</small></button><button class="hub-tile" data-go="podcasts"><span class="hub-emoji">♫</span><strong>Podcasts</strong><small>Telepathy Tapes, WEAPONIZED and interviews</small></button><button class="hub-tile" data-go="witness"><span class="hub-emoji">✎</span><strong>Witness Reports</strong><small>Save a private, city-only report draft</small></button><button class="hub-tile" data-go="about"><span class="hub-emoji">ⓘ</span><strong>About</strong><small>What is this archive?</small></button></div></div></section>
+</div></section><section id="hub" class="hidden" aria-labelledby="ddExploreTitle"><div class="section dd-explore-page">
+<h2 id="ddExploreTitle">Explore Disclosure Desk</h2>
+<p class="muted small">New here? Start with a tour. Explore also includes our research approach, support information and privacy guidance.</p>
+<div class="card dd-explore-tour-card"><div class="card-body">
+<div class="tag">START HERE · GUIDED TOURS</div>
+<h3>Get to know Disclosure Desk</h3>
+<p>See how News, Archive, W.NE Research Studio, Map, LIVE, Videos, Boards, Witness and Watch &amp; Read fit together.</p>
+<button class="action dd-explore-main-tour" type="button" id="startAppTour">🧭 Take the full site tour</button>
+<div class="dd-explore-tour-options" role="group" aria-label="Focused guided tours">
+<button class="outline" type="button" data-start-tour="studio">✎ W.NE Research Studio tour</button>
+<button class="outline" type="button" data-start-tour="research">🔎 Investigation tools tour</button>
+<button class="outline" type="button" data-start-tour="safety">🔐 Privacy &amp; backup tour</button>
+</div>
+</div></div>
+<div class="card"><div class="card-body"><div class="tag">RESEARCH GUIDANCE</div>
+<h3>How to assess a report</h3>
+<p>Our news, cases, videos and research links are starting points for investigation, not proof of a claim.</p>
+<ol class="dd-explore-evidence-list"><li><strong>Trace the source.</strong> Find the original document, footage or firsthand account where possible.</li>
+<li><strong>Check the context.</strong> Look at the date, location, alternative explanations and any missing information.</li>
+<li><strong>Separate evidence from interpretation.</strong> Note what is documented, alleged, disputed or unresolved before drawing conclusions.</li></ol>
+<p class="muted small">Source attribution and corrections matter. If we have overlooked an original source, please contact us below.</p>
+</div></div>
+<div class="card" id="ddExploreContact"><div class="card-body"><div class="tag">BOYD DIGITAL STUDIOS · CONTACT</div>
+<h3>Contact &amp; enquiries</h3>
+<p>Questions about Disclosure Desk or W.NE Research Edition? Send us an email using the appropriate subject.</p>
+<div class="dd-explore-contact-actions">
+<a class="outline" href="mailto:support@uapdisclosuredesk.com?subject=General%20enquiry%20-%20Disclosure%20Desk">General enquiries</a>
+<a class="outline" href="mailto:support@uapdisclosuredesk.com?subject=Source%20or%20correction%20-%20Disclosure%20Desk">Source corrections</a>
+<a class="outline" href="mailto:support@uapdisclosuredesk.com?subject=W.NE%20Research%20Edition%20beta%20feedback">W.NE beta feedback</a>
+</div>
+<p class="small muted">Email: <a href="mailto:support@uapdisclosuredesk.com">support@uapdisclosuredesk.com</a>. Please do not email private research, passwords or identifying witness details.</p>
+</div></div>
+<div class="card" id="ddExplorePrivacy"><div class="card-body"><div class="tag">PRIVACY &amp; TRUST</div>
+<h3>Your privacy matters</h3>
+<p>Guest previews show example content only. Signed-in Boards and Research Studio documents are separate from the public archive. Some older local notes and backup copies remain on your device.</p>
+<p>Writing suggestions may send the text being checked through our authenticated LanguageTool service. Read the policy before using W.NE with sensitive material.</p>
+<div class="dd-explore-contact-actions"><a class="outline" href="/privacy.html">Read Privacy Policy</a><button class="outline" type="button" data-go="about">About Disclosure Desk &amp; W.NE</button></div>
+</div></div>
+</div></section>
 <section id="witness" class="hidden"><div class="section"><h2>Witness Reports</h2><p class="muted small">A place to share experiences without revealing where you live. Real publication will require verified sign-in and moderator approval.</p><div class="note"><strong>Safety first:</strong> Submissions in this prototype are saved only in this browser as PRIVATE DRAFTS. Nothing is uploaded, posted publicly or added to the map.</div><div class="card"><div class="card-body"><h3>Record an experience</h3><form id="witnessForm" class="formgrid"><div class="wide"><label for="reportType">Category</label><select class="field" id="reportType"><option>UAP / lights</option><option>Unusual drones</option><option>Unexplained encounter</option><option>Animal-related mystery</option><option>Other unexplained experience</option></select></div><div><label for="reportDate">Date of event</label><input class="field" id="reportDate" type="date" required></div><div><label for="reportTime">Approximate time (optional)</label><input class="field" id="reportTime" type="time"></div><div class="wide"><label for="reportCity">Town or city only</label><input class="field" id="reportCity" maxlength="70" placeholder="e.g. Newtownards" required><div class="hint">No street names, buildings, addresses or coordinates.</div></div><div class="wide"><label for="reportStory">What happened?</label><textarea class="field" id="reportStory" minlength="25" maxlength="3500" required placeholder="Describe what you witnessed without names, exact addresses or identifying details."></textarea></div><div class="wide"><label><input id="anonymous" type="checkbox" checked> Show publicly as Anonymous if approved later</label></div><div class="wide"><button class="action" type="submit">Save private draft</button><p class="hint" id="formStatus" role="status"></p></div></form></div></div><div class="head"><h2>My private drafts</h2><span class="floatcount" id="draftCount"></span></div><div id="myDrafts"></div></div></section>
 <section id="about" class="hidden"><div class="section"><h2>About the Archive</h2><div class="card"><div class="card-body"><div class="tag">DISCLOSURE DESK · INDEPENDENT INVESTIGATIONS</div><h3>Watch the mystery. Check the source. Follow the evidence.</h3><p>Disclosure Desk explores reported UAP incidents and unexplained claims with attributed sources, transparent evidence labels and room for uncertainty.</p><p>Official publication does not establish an extraordinary explanation. Original publishers retain ownership of their material.</p></div></div><div class="note">Version 0.5 is a functional pre-release prototype. Story cards are editorial examples; the map uses demo locations; witness drafts stay on this device. Live news requires Netlify functions; source correlation, a moderation queue, accounts and App Store builds are not implemented yet.</div><<div class="card"><div class="card-body"><div class="tag">W.NE RESEARCH EDITION · BOYD DIGITAL STUDIOS</div>
 <h3>Write. Nothing Else. Investigate everything.</h3>
@@ -1038,10 +1089,12 @@ const tourSections=[
   {title:'Welcome to Disclosure Desk',body:'Independent investigation starts with original sources. News reporting and historical case records are not automatically verified evidence.',page:'discover',target:'.hero'},
   {title:'Latest News',body:'Explore recent reporting, search topics and save useful articles to your private Investigation Boards.',page:'discover',target:'.news-sticky-controls'},
   {title:'Historical Archive',body:'Search historical cases, examine original sources and open detailed case files.',page:'archivePage',target:'.archive-toolbar'},
+  {title:'W.NE Research Studio',body:'Meet W.NE Research Edition. Use the original research workspace to organise reports, sections and sources. Sign in with your Disclosure Desk account, or open the read-only guest demonstration.',page:'researchStudio',target:'.dd-studio-overview'},
   {title:'World Map',body:'Find regional case reports. Public pins use approximate locations, never precise witness addresses.',page:'mapPage',target:'#map'},
   {title:'Videos',body:'Browse footage, interviews and original-source links. Video claims should be evaluated independently.',page:'clips',target:'.clip-search-tools'}
  ]},
  {id:'research',label:'Become an Investigator',icon:'🔎',steps:[
+  {title:'Start with W.NE Research Studio',body:'The W.NE tab introduces the research workspace and a safe guest preview. Signed-in investigators can return to their own research documents.',page:'researchStudio',target:'.dd-studio-actions'},
   {title:'Your Investigation Boards',body:'Create private research collections and save stories, sources and case links in one place.',page:'boards',target:'#boardList'},
   {title:'Research Notes and Videos',body:'Attach private notes and external video links to your Boards. You control what you save.',page:'boards',target:'#boardList'},
   {title:'Private Timelines',body:'Build your own dated research chronology and link events to original archive entries.',page:'boards',target:'#boardList'},
@@ -1049,11 +1102,18 @@ const tourSections=[
   {title:'Compare Two Items',body:'Compare cases with cases, news with news or reporting against a historical case. Save comparisons to your Board.',page:'archivePage',target:'#ddCompareCases'},
   {title:'Follow Investigations',body:'Follow a case and review its locally tracked catalogue changes in Case Update History. Background alerts are not yet part of this feature.',page:'archivePage',target:'.archive-toolbar'}
  ]},
+ {id:'studio',label:'W.NE Research Studio',icon:'✎',steps:[
+  {title:'Introducing W.NE',body:'W.NE stands for Write. Nothing Else. Research Edition is the same original W.NE foundation adapted for investigators.',page:'researchStudio',target:'#ddResearchStudioHeading'},
+  {title:'Side-by-side research',body:'The Research Studio brings investigation reports, sources and reference notes together. This illustration is a sample, not a personal research document.',page:'researchStudio',target:'.dd-studio-preview'},
+  {title:'Sign in or preview',body:'Open Research Studio with your existing Disclosure Desk account to resume your accessible research, or explore its separate read-only guest sample. Keep backups during beta testing.',page:'researchStudio',target:'.dd-studio-actions'},
+  {title:'Writing checks and exporting',body:'The beta includes LanguageTool spelling and grammar assistance and report exports. Verify a saved copy before trusting valuable research to the beta.',page:'researchStudio',target:'.dd-studio-features'}
+ ]},
  {id:'safety',label:'Protect Your Research',icon:'🔐',steps:[
   {title:'Your Private Account',body:'Sign in with a verified email to use optional account features. Boards on this device remain yours.',page:'boards',target:'#ddCloudAccount'},
   {title:'Cloud Backups',body:'Manually upload and download Boards to your private account. Existing local collections are not overwritten.',page:'boards',target:'#ddCloudAccount'},
   {title:'Email Backups',body:'Send a full JSON copy of your Boards to your registered email. Attachments may include private notes, so keep them secure.',page:'boards',target:'#ddCloudAccount'},
-  {title:'Restore Your Research',body:'Choose Restore email backup to import the downloaded JSON attachment as new local Boards. Check your data before deleting old copies.',page:'boards',target:'#ddCloudAccount'}
+  {title:'Restore Your Research',body:'Choose Restore email backup to import the downloaded JSON attachment as new local Boards. Check your data before deleting old copies.',page:'boards',target:'#ddCloudAccount'},
+  {title:'Privacy and contact',body:'Our Privacy Policy explains local and cloud research storage and the writing-check service. Explore also has support and enquiry links.',page:'hub',target:'#ddExplorePrivacy'}
  ]}
 ];
 let tourSection=0;
@@ -1098,7 +1158,7 @@ function offerFirstVisitTour(){
  card.style.cssText='background:#102131;border:1px solid #E0C48E;border-radius:16px;padding:26px 22px;width:min(100%,420px);box-sizing:border-box;box-shadow:0 16px 55px #000a;color:#F5F0E6;font:15px/1.6 Arial,sans-serif';
  const brand=document.createElement('div');brand.textContent='DISCLOSURE DESK';brand.style.cssText='font-weight:800;color:#E0C48E;letter-spacing:2px;margin-bottom:14px';
  const title=document.createElement('h2');title.id='ddWelcomeTitle';title.textContent='Welcome to Disclosure Desk';title.style.cssText='font-size:24px;margin:0 0 12px;color:#F5F0E6';
- const desc=document.createElement('p');desc.textContent='Explore the news, map, videos and private Investigation Boards with a guided tour. No account required.';desc.style.cssText='color:#D5E0E8;margin:0 0 22px';
+ const desc=document.createElement('p');desc.textContent='Explore the News, Archive, W.NE Research Studio, Map and investigation tools with a guided tour. No account is needed to take the tour.';desc.style.cssText='color:#D5E0E8;margin:0 0 22px';
  const actions=document.createElement('div');actions.style.cssText='display:flex;gap:10px;flex-wrap:wrap';
  const later=document.createElement('button');later.textContent='Not now';later.type='button';later.style.cssText='flex:1;min-width:110px;padding:13px;border-radius:9px;background:#1C2B39;color:#F5F0E6;border:1px solid #8B7754';
  const begin=document.createElement('button');begin.textContent='Take the tour';begin.type='button';begin.style.cssText='flex:1;min-width:140px;padding:13px;border-radius:9px;background:#E0C48E;color:#0E1D2B;border:0;font-weight:700';
