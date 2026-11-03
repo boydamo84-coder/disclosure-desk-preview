@@ -19,3 +19,8 @@ jobs:
         run: |
           node --check scripts/test_sources_directory.cjs
           node scripts/test_sources_directory.cjs
+      - name: Validate My Research Hub navigation and collapsible panels
+        run: |
+          node --check scripts/test_research_hub.cjs
+          node scripts/test_research_hub.cjs
+          node --check assets/research-hub.js

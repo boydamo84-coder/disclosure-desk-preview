@@ -35,3 +35,17 @@ assert.match(html,/Google Analytics/);
 assert.match(html,/urgent%20community%20report/,'Actual urgent-report email path is present');
 assert.doesNotMatch(html,/id="ddAdminHiddenComments">[0-9]+/,'No fake admin counts');
 console.log('PASS: profile navigation, W.NE shortcut exclusion, owner-only account data, moderator-gated admin, no fake traffic data');
+
+/* Research Hub accordion regression: collapses only the six personal sections, never auth/admin. */
+const hubStart=html.indexOf('<section id="profilePage"'), hubEnd=html.indexOf('<section id="ddProfileAdmin"',hubStart);
+assert.ok(hubStart>=0&&hubEnd>hubStart,'Profile section must precede Admin Centre');
+const hubMarkup=html.slice(hubStart,hubEnd);
+assert.equal((hubMarkup.match(/<details class="dd-profile-card dd-profile-fold">/g)||[]).length,6,'Six collapsible Hub sections');
+assert.equal((hubMarkup.match(/<summary><span>/g)||[]).length,6,'Each section has a native keyboard-accessible summary');
+assert.equal((hubMarkup.match(/<\/details>/g)||[]).length,6,'Native detail elements are closed correctly');
+for(const id of ['ddProfileFilesList','ddProfileBoardsList','ddProfileCommentsList','ddProfileWitnessList','ddProfileUsername','ddProfilePasswordForm']){
+ assert.match(hubMarkup,new RegExp('id="'+id+'"'),'Existing private destination '+id+' stays mounted');
+}
+assert.match(html,/\.dd-profile-fold>summary:focus-visible/,'Keyboard focus remains visible');
+assert.match(html,/\.dd-profile-fold\[open\] \.dd-profile-chevron/,'Expandable arrow indicates open state');
+assert.doesNotMatch(hubMarkup,/<details class="dd-profile-card dd-profile-fold" open/,'Hub remains tidy/collapsed by default');
