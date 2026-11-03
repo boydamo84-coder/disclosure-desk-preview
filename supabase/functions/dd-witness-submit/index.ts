@@ -121,6 +121,7 @@ Deno.serve(async(req:Request)=>{
  const {data,error}=await admin.from("dd_witness_reports").insert(record).select("id,city,country,created_at,status").single();
  if(error){
   const message=String(error.message||"");
+  if(/duplicate witness report/i.test(message))return response(409,{error:"You have already submitted this report. Please keep a private draft if you need to edit it."},origin);
   if(/limit reached|24.hour|3 in a rolling/i.test(message))return response(429,{error:"Daily limit reached. Maximum 3 reports per rolling 24 hours."},origin);
   if(/identifying|location|privacy|event date|registered/i.test(message))return response(422,{error:message.slice(0,180)},origin);
   return response(503,{error:"Report could not be published. Please keep your private draft."},origin);

@@ -146,6 +146,17 @@ begin
  -- The Edge Function verifies the user's bearer token, resolves the typed city
  -- and sets author_id. The service role is never available to a browser.
  perform pg_advisory_xact_lock(hashtext('witness:'||new.author_id::text));
+ -- Same-author submissions are serialised before the duplicate/quota checks.
+ -- Repeated retry clicks must not publish identical reports repeatedly.
+ if exists (
+  select 1 from public.dd_witness_reports r
+  where r.author_id=new.author_id
+    and r.created_at>now()-interval '24 hours'
+    and r.event_date=new.event_date
+    and lower(btrim(r.city))=lower(btrim(new.city))
+    and lower(btrim(r.country))=lower(btrim(new.country))
+    and lower(btrim(r.story))=lower(btrim(new.story))
+ ) then raise exception 'Duplicate witness report: this account already submitted this account of the event'; end if;
  if (select count(*) from public.dd_witness_reports r
      where r.author_id=new.author_id and r.created_at>now()-interval '24 hours')>=3 then
   raise exception 'Witness report limit reached: maximum 3 in a rolling 24-hour period';

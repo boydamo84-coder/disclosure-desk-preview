@@ -25,6 +25,9 @@ assert.match(flag,/pg_advisory_xact_lock\(hashtext\('witness-flags:'\|\|new\.rep
 assert.match(hide,/>=5/);assert.match(hide,/status='hidden'/);
 assert.match(sql,/author_id<>auth\.uid\(\)/,'Reject self-flags');
 assert.match(sql,/interval '24 hours'/);assert.match(guard,/>=3/);
+assert.match(guard,/Duplicate witness report/i,'Duplicate submissions are prevented by the server');
+assert.match(guard,/lower\(btrim\(r\.story\)\)=lower\(btrim\(new\.story\)\)/,'Near-identical case-insensitive retries rejected');
+assert.match(edge,/response\(409,\{error:/,'Duplicate submission receives an actionable response');
 assert.match(sql,/interval '1 hour'/);
 assert.match(sql,/p_value=0[\s\S]*?delete from public\.dd_content_votes/,'Vote removal');
 assert.match(sql,/on conflict\(target_kind,target_id,voter_id\)[\s\S]*?do update set value=excluded\.value/,'Vote switch');
