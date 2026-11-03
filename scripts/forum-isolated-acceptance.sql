@@ -131,6 +131,88 @@ begin
   where target_kind='thread')<>1 then raise exception 'Hidden topic missing from owner queue';end if;
 end $$;
 
+-- A hidden thread can be restored independently to test reply-level moderation.
+select public.dd_discussions_owner_review('thread',
+ (select id from forum_test_ids where label='thread'),
+ 'published','Reviewing independent reply moderation');
+do $
+begin
+ if (select count(*) from public.dd_discussions_replies(
+  (select id from forum_test_ids where label='thread'),100))<>1
+ then raise exception 'Previously published reply must be visible before its own flags';end if;
+end $;
+
+-- Unlike topic flags, these five reports target the REPLY alone.
+-- A reply hidden by flags must reach the overall-owner review queue.
+select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000004',false);
+select public.dd_discussions_flag('reply',(select id from forum_test_ids where label='reply'),'privacy');
+select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000005',false);
+select public.dd_discussions_flag('reply',(select id from forum_test_ids where label='reply'),'privacy');
+select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000006',false);
+select public.dd_discussions_flag('reply',(select id from forum_test_ids where label='reply'),'privacy');
+select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000007',false);
+select public.dd_discussions_flag('reply',(select id from forum_test_ids where label='reply'),'privacy');
+do $
+begin
+ if (select count(*) from public.dd_discussions_replies(
+  (select id from forum_test_ids where label='thread'),100))<>1
+ then raise exception 'Four independent reply flags must not hide a reply';end if;
+end $;
+select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000008',false);
+select public.dd_discussions_flag('reply',(select id from forum_test_ids where label='reply'),'privacy');
+do $
+begin
+ if (select count(*) from public.dd_discussions_replies(
+  (select id from forum_test_ids where label='thread'),100))<>0
+ then raise exception 'Fifth independent reply flag must hide the reply';end if;
+end $;
+
+-- Only owner C may view/restore the hidden reply and its safety preview.
+select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000003',false);
+do $
+begin
+ if (select count(*) from public.dd_discussions_owner_queue(50)
+  where target_kind='reply' and flag_count=5
+   and content_preview like '%additional public document%')<>1
+ then raise exception 'Owner queue must include flagged reply content preview';end if;
+end $;
+select public.dd_discussions_owner_review('reply',
+ (select id from forum_test_ids where label='reply'),
+ 'published','Reviewed reply and found it acceptable');
+do $
+begin
+ if (select count(*) from public.dd_discussions_replies(
+  (select id from forum_test_ids where label='thread'),100))<>1
+ then raise exception 'Owner restore did not make reply visible again';end if;
+end $;
+
+-- Ordinary member B cannot escalate as a steward, even on their own reply.
+select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000002',false);
+do $
+declare denied boolean:=false;
+begin
+ begin
+  perform public.dd_discussions_escalate('reply',
+   (select id from forum_test_ids where label='reply'),
+   'Synthetic ordinary user is attempting to bypass steward powers');
+ exception when others then denied:=true;end;
+ if not denied then raise exception 'Normal member unexpectedly obtained steward escalation';end if;
+end $;
+
+-- Steward A can report serious concerns directly to owner even before five NEW flags.
+select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000001',false);
+select public.dd_discussions_escalate('reply',
+ (select id from forum_test_ids where label='reply'),
+ 'Suspected sensitive personal information requires review');
+select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000003',false);
+do $
+begin
+ if (select count(*) from public.dd_discussions_owner_queue(50)
+  where target_kind='reply' and escalation_count=1
+   and latest_escalation_reason like '%sensitive personal information%')<>1
+ then raise exception 'Steward escalation did not reach the site owner';end if;
+end $;
+
 -- No section can be deleted by a founder's account removal: public content
 -- remains in place but creator/steward references are anonymised.
 select public.dd_discussions_owner_set_steward(

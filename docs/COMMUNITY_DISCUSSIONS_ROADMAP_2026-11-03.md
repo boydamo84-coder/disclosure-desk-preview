@@ -73,3 +73,6 @@ The unpublished website branch has gated `assets/community-discussions.js` and a
 
 ## Owner review source checkpoint (3 November 2026)
 A second disabled client module, `assets/discussions-admin.js`, now stages the overall-owner review interface within the existing Profile Admin Centre. The **unapplied** SQL candidate includes owner-only queue projections for flagged/escalated threads and replies, and owner-only stewardship revocation. No forum owner accounts are seeded and **no moderation action can actually run** until explicit backend approval/testing. Section stewards cannot access this owner-only queue.
+
+## Isolated database security checkpoint (3 November 2026)
+GitHub run `41687803769` succeeded with disposable PostgreSQL 17 and synthetic users: normal members posting without steward approval, scoped Pin, owner-only moderation, anonymous projections vs raw-table denial, 5-distinct-flags hide, reapproval requiring five *new* reports, and steward revocation. **No real Supabase migration or launch**. A follow-up synthetic suite now extends coverage to individual reply flags and owner-facing escalations; results to be recorded in the master handover.

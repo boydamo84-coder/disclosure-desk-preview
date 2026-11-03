@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, isolated PostgreSQL Discussions CI GREEN:** Docker/PostgreSQL 17 run `41687803769` SUCCESS at implementation SHA `102fc572a405ee298b81f9fad8ee92388bb8dc4a`; synthetic users verified section creator vs ordinary poster, scoped Pin, site-owner role, guest safe RPC/raw-table denial, first and second 5-distinct-flags hide cycles, owner restore and steward revocation. Paired GitHub static QA run `41687803846` SUCCESS. **Only disposable DB; real Supabase remains untouched.** Expanded reply/escalation test coverage now staged and pending a new run.
+
 - **2026-11-03, isolated PostgreSQL steward Pin runtime fix STAGED:** run `41687573826` **installed candidate SQL successfully** into disposable DB, then synthetic role tests failed due ambiguous `section_id` variable in Pin RPC at line 14. Renamed local variables `v_section_id` in Pin and Escalate RPCs to prevent column/variable conflicts. CI rerun pending. No live DB change.
 
 - **2026-11-03, isolated SQL owner-function footer fix STAGED:** run `41687262065` failed on remaining `end $;` close in final owner-sections function. Root cause was JavaScript string replacement interpreting `$` as a single literal dollar during source generation. Replaced via a function callback, verified correct `end $;` byte-for-byte; rerun CI pending. No live DB changes.
@@ -225,6 +227,15 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Expand proven isolated Discussions SQL tests to replies and escalations
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `102fc572a405ee298b81f9fad8ee92388bb8dc4a`; resulting SHA new commit.
+- Confirmed `41687803769` **SUCCESS** isolated Postgres 17 role and 5-flag integration run, and `41687803846` **SUCCESS** source regression run, both at prior SHA.
+- Updated `scripts/forum-isolated-acceptance.sql` to test **reply-specific 4 vs 5 distinct flags**, limited owner queue text preview, owner restoration of reply, denial of ordinary member's steward escalation, and steward's owner-visible urgent escalation without five *new* flags. Retains synthetic IDs and isolated DB only.
+- New Postgres CI pending. No SQL source, live Supabase, website production, Netlify, original W.NE or Android changes. Feature remains `discussions:false`; no 12th visible tab.
+- Next: verify new CI and fix test/SQL permission failures; continue audit of owner moderation, guest read-only and cross-account author isolation before an approved consolidated release.
+
+
 
 ### 2026-11-03 — Isolated PostgreSQL steward variable scoping
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `143db9c6a1d5c05fbf36e5a5467269997901d05f`; resulting SHA new branch HEAD.
