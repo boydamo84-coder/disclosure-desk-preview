@@ -1,0 +1,14 @@
+const fs=require('node:fs'), assert=require('node:assert/strict');
+const html=fs.readFileSync('index.html','utf8');
+assert.equal((html.match(/data-tab="studio"/g)||[]).length,1,'Exactly one Studio navigation tab');
+assert.equal((html.match(/id="studio"/g)||[]).length,1,'Exactly one Research Studio section');
+assert(html.includes("'boards','studio'"),'Page router must show/hide Studio correctly');
+assert(html.includes("document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>navigateTo(b.dataset.tab))"),'Native tab navigation must remain');
+assert(html.includes('Research Studio</h2>'),'Studio title required');
+assert(html.includes('W.NE — Write. Nothing Else.'),'Preserve authoring brand');
+assert(html.includes('BETA'),'Prominently identify beta status');
+assert(html.includes('Sign-in is required'),'Protect research content expectations');
+assert(html.includes('Keep a separate backup'),'Communicate beta data precautions');
+assert(!html.includes('arch-staging.netlify.app'),'Never reuse unverified wrong Netlify hostname');
+for(const id of ['discover','archivePage','mapPage','clips','boards','hub']) assert(html.includes('data-tab="'+id+'"'),'Existing navigation missing '+id);
+console.log('Research Studio beta tab, navigation and safe launch wording verified');
