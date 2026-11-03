@@ -1,8 +1,11 @@
-# disclosure-desk-preview
+# Disclosure Desk — website and Android source
 
-## Development handovers — start here
+## START HERE — authoritative continuity
 
-- **[LATEST: LIVE Congress hearings, Witness Reports, Community Rules, voting, profiles and release blockers](docs/DISCLOSURE_DESK_LIVE_COMMUNITY_HANDOVER_2026-11-03.md)** — read before making changes in a new chat.
-- [W.NE Research Edition integration, 10-tab navigation, save-before-leave and Google indexing](docs/WNE_BETA_AND_SEARCH_INDEXING_HANDOVER_2026-11-03.md).
+**[MASTER_HANDOVER.md](MASTER_HANDOVER.md)** is the single current source of truth for every new chat, milestone and release decision. Read it **before changing code**; update it **after EVERY milestone**, with exact branch/SHA, what was verified, what is still pending and the next action.
 
-**Release status (3 November 2026):** Work is staged on `feature/research-studio-bds-production-based` in draft [PR #2](https://github.com/boydamo84-coder/disclosure-desk-preview/pull/2) targeting `production`. It is **not merged**. The current Netlify Deploy Preview #2 predates the newer community, witness, LIVE and unified navigation changes. Database witness/chat migrations and the new witness submission function have **not** been deployed. Keep Netlify costs down; perform GitHub-only checks and correct security blockers before one approved staging release. This is the production-based website repo; do not deploy its old `main` branch.
+**Correct website branch:** `production` (11 tabs), not outdated `main`. **Current unpublished next batch:** `feature/sources-archives-next-batch-nov03`. Read the master file on that branch; don't use the older default-branch README as a release authority.
+
+Historical details remain in [LIVE/community handover](docs/DISCLOSURE_DESK_LIVE_COMMUNITY_HANDOVER_2026-11-03.md), [community QA](docs/COMMUNITY_BACKEND_QA_2026-11-03.md), [W.NE integration handover](docs/WNE_BETA_AND_SEARCH_INDEXING_HANDOVER_2026-11-03.md), [research roadmap](docs/POST_LAUNCH_RESEARCH_ROADMAP_2026-11-03.md) and [release readiness](RELEASE_READINESS.md). Where these conflict with later verified facts, **MASTER_HANDOVER.md wins**.
+
+**Deployment:** do not merge, run a Netlify preview, change live Supabase, publish the site or release an Android app merely because this documentation was updated. Finish agreed website roadmap in a combined batch, then reconcile Android and prepare signed Play internal testing.
