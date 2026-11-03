@@ -40,6 +40,10 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03 22:36 UK — L1 SAMSUNG ISOLATED RESTORE VERIFIED 22:36:** Owner's screenshot confirms actual Termux success for `HOME="$HOME/bds-finance-restore-test" python finance_local/vault.py restore "$BACKUP"` with `BACKUP="$HOME/bds-finance-sample-backup.bds"`. CLI displayed **"Encrypted backup restored into private Termux HOME. No previous vault overwritten."** Follow-up `summary --year 2026/27` against the restored **separate test HOME** again showed 9 in-year records, £337.00 fictional income, £19.00 refunds, £28.50 fees, £12.00 expenses, and **£277.50 fictional profit**; 10 total preset records in source were previously authenticated. Thus L1 **SAMSUNG VERIFIED for init, sample insert, summary, encrypted backup, verify, isolated restore and recovered totals**. This does **not** establish off-device disaster recovery, independent security review, encrypted cloud backup, real-income readiness or automatic provider integrations. No access to owner's passphrase or encrypted files. **Next:** optional user-led copy of the existing `.bds` ciphertext to Downloads followed by SHA-256 equality check and manual encrypted off-phone copy (Drive or USB); no deletions, no reinstall, no live deployments.
+
+
+
 - **2026-11-03 22:31 UK — SAMSUNG L1 ENCRYPTED BACKUP + VERIFY PASSED:** owner screenshot confirms `vault.py backup "$HOME/bds-finance-sample-backup.bds"` returned `Verified encrypted backup exported; NOT plaintext`, and `vault.py verify-backup "$HOME/bds-finance-sample-backup.bds"` returned `Encrypted backup verified. Fictional entries: 10. No restore performed.` The existing source vault remains intact; **phone backup creation and AES-GCM verification are SAMSUNG VERIFIED**, but isolated **restore**, independent/off-device copy, loss recovery, security review and real financial functionality remain UNVERIFIED. Sample-only data, no actual revenue or Netlify/Supabase/Play changes. Next: restore ciphertext to a separate test directory without modifying `~/.bds-finance/vault.bds`, then prove original unchanged.
 
 
@@ -353,6 +357,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 7. Invariant acceptance checklist — before any public/Play release
 
+- [x] **L1 actual Samsung encrypted isolated recovery:** `HOME` redirected to fresh test directory, `restore` succeeded without touching normal vault, summary recovered fictional £277.50 profit (2026-11-03 22:36 UK).
+- [ ] **Off-device** independently retrievable encrypted `.bds` copy, SHA-256 match and separate-device restore; no real money accepted until further security/data model review.
+
 - [x] Android missing `os.link` regression covered; 17 tests PASS on both Python 3.12 and 3.14, exact ZIP/source parity CI GREEN.
 - [ ] Verify fixed `init`, fictional `demo-fill`/`summary` and encrypted backup on actual Samsung. Never wipe private app storage.
 
@@ -386,6 +393,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Finance L1 after on-phone recovery success:** do **NOT** repeat the restore against the real default HOME, and do not delete either vault. Safely copy `$HOME/bds-finance-sample-backup.bds` ciphertext to a distinct path under `$HOME/storage/downloads/` (if storage permission already granted), then `sha256sum` both files and compare; owner manually puts encrypted file onto a separate USB-C drive or personal cloud and verifies access. An on-device Downloads copy alone is **not** an off-device backup. Once completed, mark L1 off-device recovery/backup gate separately; L2 private local dashboard can be prototyped with fictional-only data. No Netlify, Supabase, provider API or tax change.
+
 **L1 phone backup update (2026-11-03 22:31 UK):** encrypted backup **CREATED and VERIFIED ON SAMSUNG**, with all 10 fictional records authenticated from the backup. **No restore has been performed.** Next test must use `finance_local.vault.restore` targeting a new `~/.bds-finance-restore-test` directory, not the active `.bds-finance`. Verify 2026/27 £277.50 imaginary profit after restore; keep original vault intact and avoid exposing any passphrase. Off-device encrypted backup still required for loss recovery.
 
 
@@ -414,6 +423,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 22:36 UK — L1 Samsung encrypted recovery from independent test HOME verified
+- Real phone screenshot: user restored existing 10-record fictional encrypted backup into `$HOME/bds-finance-restore-test/.bds-finance` by using temporary `HOME` override for the one command. Tool confirmed **no previous vault overwritten**. Separate test HOME summary `2026/27`: 9 in-year fictional records, £337 gross income, £19 refunds, £28.50 fees, £12 expenses; fictional profit £277.50. Original encrypted vault remains in normal `$HOME/.bds-finance` and no destruction was requested.
+- Status: **SAMSUNG VERIFIED** init/demo/summary/encrypted backup/backup verification/isolated restore and recovered summary. Off-phone backup, copy integrity and recovery on a different device **NOT VERIFIED**. This is a synthetic security prototype, not audited handling of real financial records.
+- Repo `boydamo84-coder/disclosure-desk-preview`, branch `feature/sources-archives-next-batch-nov03`; tested code `d073b5509341800be56b729590eb72c6cdbc712b`, GitHub 3.12/3.14 tests `41730679400` passed, previous documentation branch head `85a3dc4242909fee9af848f0e1f725dd171e5343`; new docs commit becomes latest HEAD. `production` unchanged at `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` when checked.
+- No finances, passphrases or device screenshot committed, no Netlify, Supabase, Play, live website or W.NE changes.
+- Next: user-controlled ciphertext-only copy off device and verify same SHA-256. Keep L2 app synthetic-only until security and source connector approval.
+
 
 ### 2026-11-03 22:31 UK — L1 real-device encrypted backup/verify success, restore still pending
 - Actual Samsung Termux screenshot: `python finance_local/vault.py backup "$HOME/bds-finance-sample-backup.bds"` succeeded with encrypted-only backup export confirmation, and `python finance_local/vault.py verify-backup "$HOME/bds-finance-sample-backup.bds"` confirmed **10 fictional records**. Encryption authentication check passed and command explicitly reported **"No restore performed."**
