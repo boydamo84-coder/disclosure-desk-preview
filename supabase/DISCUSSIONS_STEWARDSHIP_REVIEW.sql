@@ -541,21 +541,24 @@ end $$;
 
 create or replace function public.dd_discussions_owner_queue(p_limit integer default 50)
 returns table(target_kind text,target_id uuid,section_title text,
- flag_count bigint,escalation_count bigint)
-language plpgsql stable security definer set search_path=pg_catalog,public as $$
+ flag_count bigint,escalation_count bigint,content_preview text,latest_escalation_reason text)
+language plpgsql stable security definer set search_path=pg_catalog,public as $
 begin
  if not public.dd_discussions_is_owner() then raise exception 'Overall site owner required';end if;
  if coalesce(p_limit,0) not between 1 and 100 then raise exception 'Invalid queue limit';end if;
- -- A single queue includes BOTH threads and individual replies. A steward
- -- escalation is visible even before five distinct flags; it is not a deletion.
+ -- Only overall site owner sees the reported text and reported concern. No author or flagger identity leaks.
  return query
- select q.kind,q.item_id,q.title,q.flags,q.escalations
+ select q.kind,q.item_id,q.title,q.flags,q.escalations,q.excerpt,q.last_reason
  from (
   select 'thread'::text as kind,t.id as item_id,s.title,
    (select count(*) from public.dd_forum_flags f where
      f.target_kind='thread' and f.target_id=t.id) as flags,
    (select count(*) from public.dd_forum_escalations e where
      e.target_kind='thread' and e.target_id=t.id and e.status='open') as escalations,
+   left(t.body,600) as excerpt,
+   (select e.reason from public.dd_forum_escalations e where
+    e.target_kind='thread' and e.target_id=t.id and e.status='open'
+    order by e.created_at desc limit 1) as last_reason,
    t.updated_at as changed_at
   from public.dd_forum_threads t join public.dd_forum_sections s on s.id=t.section_id
   where t.status='hidden' or exists(
@@ -567,6 +570,10 @@ begin
      f.target_kind='reply' and f.target_id=r.id) as flags,
    (select count(*) from public.dd_forum_escalations e where
      e.target_kind='reply' and e.target_id=r.id and e.status='open') as escalations,
+   left(r.body,600) as excerpt,
+   (select e.reason from public.dd_forum_escalations e where
+    e.target_kind='reply' and e.target_id=r.id and e.status='open'
+    order by e.created_at desc limit 1) as last_reason,
    r.updated_at as changed_at
   from public.dd_forum_replies r
   join public.dd_forum_threads t on t.id=r.thread_id
@@ -577,6 +584,21 @@ begin
  ) q
  order by q.changed_at desc limit p_limit;
 end $$;
+
+create or replace function public.dd_discussions_owner_sections(p_limit integer default 100)
+returns table(section_id uuid,title text,steward_name text,has_steward boolean)
+language plpgsql stable security definer set search_path=pg_catalog,public as $
+begin
+ if not public.dd_discussions_is_owner() then raise exception 'Overall site owner required';end if;
+ if coalesce(p_limit,0) not between 1 and 100 then raise exception 'Invalid limit';end if;
+ return query
+ select s.id,s.title,
+  case when n.is_public then n.display_name else 'Private alias' end,
+  s.steward_id is not null
+ from public.dd_forum_sections s
+ left join public.dd_public_names n on n.user_id=s.steward_id
+ order by s.created_at desc limit p_limit;
+end $;
 
 -- Block implicit PUBLIC execute on EVERY security-definer function,
 -- even internal helpers, and grant precisely selected safe public reads.
@@ -599,6 +621,7 @@ revoke all on function public.dd_discussions_withdraw_own(text,uuid) from PUBLIC
 revoke all on function public.dd_discussions_owner_review(text,uuid,text,text) from PUBLIC,anon,authenticated;
 revoke all on function public.dd_discussions_owner_set_steward(uuid,uuid,text) from PUBLIC,anon,authenticated;
 revoke all on function public.dd_discussions_owner_queue(integer) from PUBLIC,anon,authenticated;
+revoke all on function public.dd_discussions_owner_sections(integer) from PUBLIC,anon,authenticated;
 grant execute on function public.dd_discussions_sections(integer) to anon,authenticated;
 grant execute on function public.dd_discussions_threads(uuid,integer,text) to anon,authenticated;
 grant execute on function public.dd_discussions_replies(uuid,integer) to anon,authenticated;
@@ -615,4 +638,5 @@ grant execute on function public.dd_discussions_withdraw_own(text,uuid) to authe
 grant execute on function public.dd_discussions_owner_review(text,uuid,text,text) to authenticated;
 grant execute on function public.dd_discussions_owner_set_steward(uuid,uuid,text) to authenticated;
 grant execute on function public.dd_discussions_owner_queue(integer) to authenticated;
+grant execute on function public.dd_discussions_owner_sections(integer) to authenticated;
 commit;

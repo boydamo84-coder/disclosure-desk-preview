@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, Discussions overall-admin view CODE STAGED / DISABLED:** owner-only review pane inside existing Profile/Admin Centre displays hidden/escalated threads/replies, limited excerpts and escalation reasons, with Restore/Hide/Remove decisions requiring reasons. Owner can revoke a section steward without deleting their section. Server-side owner-only RPC candidates are reviewed SQL source only; no owner allowlist seeded, schema installed or live moderation performed. GitHub-only CI pending.
+
 - **2026-11-03, Discussions owner/author/steward polish CODE STAGED / DISABLED:** added verified-author Edit/Withdraw buttons, removable votes, steward section description/topic settings and focused thread/reply navigation; corrected schema candidate to preserve a five-**new**-flags threshold after owner restoration, rather than instantly rehiding on an old tally. Backend is still **UNAPPLIED**, GitHub-only CI pending; no user access or database modifications.
 
 - **2026-11-03, Discussions test-file syntax correction STAGED:** GitHub run `41685385409` FAILED on an unescaped apostrophe in one newly appended JS assertion, not on application code. Fixed the assertion string and parsed the full test source with `new Function`; rerun CI before calling this milestone green.
@@ -173,6 +175,15 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Overall site-owner Discussions queue and steward revocation (disabled)
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `f95ece056fe2e5151a5a02860c079ad63541d76a`; new branch HEAD is resulting commit.
+- New `assets/discussions-admin.js` and hidden `index.html` Admin Centre pane: authorized owner can review hidden/escalated threads/replies with limited post excerpts/urgent steward reasons, choose Restore/Hide/Remove with documented explanation, and revoke abusive stewards while leaving sections and other members' posts untouched. App code renders user content with `textContent`, refuses anonymous users and calls privileged RPCs.
+- **Unapplied** `supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql` expands owner queue with limited excerpt/reason and owner-only section/steward list RPC. Admin permission stays in separate `dd_forum_owner_admins` server table (no owner IDs hard-coded or seeded). `scripts/test_discussions_admin.cjs` and GitHub-only QA check added.
+- Preserves the 11-tab deployed release and `discussions:false`; no public access, no Supabase DB changes, no Netlify builds/production merge, no Android/Play updates. **CI pending; DB/RLS runtime tests and safe data-retention/correction policy still required.**
+- Next: verify CI and review any security/test issues; build isolated multi-user role tests; coordinate full beta/phone QA and one combined website release only after approval.
+
+
 
 ### 2026-11-03 — Discussions author controls, steward settings and reviewed-flag baseline
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `deb63dbe86eec5feb5d4e394feae8c74b58f1725`; resulting SHA is new GitHub HEAD.

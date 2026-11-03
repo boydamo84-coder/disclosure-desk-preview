@@ -70,3 +70,6 @@ The unpublished website branch has gated `assets/community-discussions.js` and a
 
 ## Backend candidate checkpoint (3 November 2026)
 `supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql` now contains an **unapplied** RLS/RPC design and `scripts/test_discussions_sql.cjs` checks the permission contract statically. Candidate includes registered creation/replies/votes, public pseudonymous projections, section-scoped stewardship without user bans, five distinct flags temporarily hiding posts, and a separate site-owner review allowlist. No database tables, new privileges, populated sections or visible 12th tab exist. **This SQL is not a migration or deployment authorisation.** Isolated database and actual account testing are required before any activation.
+
+## Owner review source checkpoint (3 November 2026)
+A second disabled client module, `assets/discussions-admin.js`, now stages the overall-owner review interface within the existing Profile Admin Centre. The **unapplied** SQL candidate includes owner-only queue projections for flagged/escalated threads and replies, and owner-only stewardship revocation. No forum owner accounts are seeded and **no moderation action can actually run** until explicit backend approval/testing. Section stewards cannot access this owner-only queue.
