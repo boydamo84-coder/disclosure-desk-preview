@@ -84,6 +84,14 @@ W.NE is presented as **W.NE Research Studio**, in Disclosure Desk navy/gold styl
 
 **Still blocked / next exact steps:** Apply neither witness SQL nor Edge Function before controlled safe SQL validation and two/5-account security tests; verify distinct flagging, direct Data API insert denial, city-only geocoding and privacy of public projection, moderator restore, report duplication/rate limits, mobile map, real LIVE event review/approval ingestion, chat and usernames. Community W.NE document publication is still opt-in roadmap. Keep production and original W.NE unchanged. After security and QA, request ONE deliberate Netlify staging preview for Samsung acceptance; do not merge to production without explicit separate approval.
 
+## Read-only Supabase metadata audit — 3 November 2026
+
+- Confirmed the correct connected project is **Disclosure Desk**, ref `omqxizswzcwgzqaczlhe`; the other account project was NOT accessed or changed.
+- Queried only public schema metadata and function inventory. The witness reports, public witness projection, vote, flag, and LIVE event/chat tables are **not installed**. The staged `dd-witness-submit` Edge Function is **not deployed**. Existing `email-board-backup` and `wne-live-spelling` functions remain as before.
+- Confirmed existing `dd_public_names(user_id,display_name,name_key,updated_at)` has RLS owner-only SELECT, INSERT and UPDATE. **Do not enable unrestricted public SELECT just to show names**. Build a tightly scoped opt-in public username projection or SECURITY DEFINER RPC limited to visible approved comment/chat authors, and separately test access checks; never expose emails or unconsented usernames.
+- Existing `dd_case_comments` includes a UUID `author_id`; public username wiring must avoid leaking additional identity data through lookups.
+- No SQL migration, Edge Function deployment, writes, deletions, or user-account changes were performed in this audit. No data from the Cinema app project was accessed.
+
 ## 6. Non-negotiable product/safety notes
 - No fake hearing dates, fake LIVE state, public/private document leak or precise witness locations.
 - Users may submit reports about unverified experiences; “published” does NOT mean Disclosure Desk authenticated the claim.
