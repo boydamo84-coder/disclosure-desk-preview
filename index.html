@@ -1254,6 +1254,9 @@ $('tourNext').onclick=()=>{if(tourStep===tourSteps.length-1)closeTour();else{tou
 $('appTourDialog').addEventListener('close',clearTourHighlight);
 function offerFirstVisitTour(){
  if(new URLSearchParams(location.search).has('dd_tab'))return; // Respect W.NE return navigation.
+ // Never interrupt someone who has already navigated, or opened a tour themselves.
+ if($('appTourDialog')?.open)return;
+ if(!document.querySelector('.tab[data-tab="discover"].active'))return;
  const key='dd-welcome-tour-choice-v2';
  try{if(localStorage.getItem(key))return}catch(_){return}
  const overlay=document.createElement('div');

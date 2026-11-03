@@ -19,7 +19,7 @@ const browser=await chromium.launch({headless:true});
 try{
  for(const [profile,options] of [['mobile',devices['Pixel 7']],['desktop',{viewport:{width:1280,height:860}}]]){
   const context=await browser.newContext(options);
-  await context.addInitScript(()=>{try{localStorage.setItem('dd-welcome-tour-choice-v1','dismissed')}catch{}});
+  await context.addInitScript(()=>{try{localStorage.setItem('dd-welcome-tour-choice-v1','dismissed');localStorage.setItem('dd-welcome-tour-choice-v2','dismissed')}catch{}});
   const page=await context.newPage();
   await page.goto(base,{waitUntil:'domcontentloaded'});
   const tab=page.locator('[data-tab="researchStudio"]');
