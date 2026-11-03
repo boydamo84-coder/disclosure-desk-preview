@@ -85,7 +85,7 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ### 4C. Private one-to-one user messaging — APPROVED ROADMAP ADDITION (NOT BUILT)
 
-**Requested 2026-11-03:** Add a **Chat** section *within* the existing **Profile / My Research Hub**, using its expandable card pattern and an embedded conversation window. No separate page or 12th navigation tab, and **no group chats**. Include **Accepted chats** and **Pending requests** (incoming and sent), with an unread indicator and a message pane in the same Profile section.
+**Requested 2026-11-03:** Add a **Chat** section *within* the existing **Profile / My Research Hub**, using its expandable card pattern and an embedded conversation window. No separate chat page or chat-specific navigation tab (the separately approved Discussions tab will be the site's future twelfth tab), and **no group chats**. Include **Accepted chats** and **Pending requests** (incoming and sent), with an unread indicator and a message pane in the same Profile section.
 
 **Consent-first start:** A signed-in, non-anonymous registered user may find an eligible **opted-in public username** and send **exactly one initial message as a chat request**. Recipient sees *only that first message as a request preview*, with **Accept** or **Decline**. Sender may not continue the conversation or send follow-ups while pending. Only acceptance enables a persistent private two-way conversation visible to the two members; a declined request does not become a chat.
 
@@ -95,9 +95,19 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 **Build / acceptance status:** PLANNED and approved for the **current consolidated roadmap** before the next coordinated website release (not implemented or deployed by this documentation update). Inspect the existing LIVE hearing chat and community identity primitives first to reuse safe code patterns **without conflating public LIVE chat and private messaging tables**. Build on the unpublished website branch, test with synthetic multi-account scenarios (pending/accept/decline/block/report/unauthorised read, spam caps, simultaneous requests), RLS audit, Samsung/desktop QA; then port to Android and prepare the Play release. **Do not migrate the live database or deploy Netlify merely to record this feature.** Detailed requirement/acceptance record: [Private Chat roadmap](docs/PROFILE_PRIVATE_CHAT_ROADMAP_2026-11-03.md).
 
+### 4D. User-created Discussions tab — APPROVED ROADMAP ADDITION (NOT BUILT)
+
+**Requested 2026-11-03:** Add **Discussions** as a separate **12th** main tab in the future combined website release (proposed after Witness, before Watch & Read). The **current live site still has 11 tabs**. This deliberately authorises a new navigation tab, unlike private Profile Chat (which stays inside Profile). Users create public topic sections and then posts, threaded discussions and shareable source links inside them. Guests can read published public discussions; registered users can post, reply, vote and flag. Avoid duplicating current case/news/video comment threads and LIVE chat.
+
+**Governance:** A section creator becomes a **scoped section steward**, not an unchecked moderator. They may manage section description/tags, pin a few posts, flag issues and **escalate directly to overall site admin**. They cannot ban critics, gatekeep post approval, permanently hide/delete somebody else's content or grant themselves more powers. Continue **five distinct user flags → temporarily hidden pending review**; dislikes are not flags. Serious safety/privacy cases need urgent report routing without waiting for five flags. Narrow emergency safety holds are a design proposal only and require time limits, owner review, audited reason and appeals before any approval.
+
+**User protection:** registered Auth + safe unique aliases, RLS author/steward/site-owner separation, duplicate/name/rate/spam guards, links/XSS security, appeals, owner moderation override and steward revocation without deleting community content. Public-by-default sections, no private groups or paid gatekeeping in v1. Owner moderation must remain effective; steward abuse must be reversible.
+
+**Status:** PLANNED, no DB migration, no 12th tab yet, no deployment. Build and test on unpublished branch with fake multi-account permissions, keyboard/phone acceptance and GitHub-only CI before one combined website release; port to Android after website approval. See [full Discussions roadmap and acceptance criteria](docs/COMMUNITY_DISCUSSIONS_ROADMAP_2026-11-03.md).
+
 ## 5. Release plan: website first, then Android / Google Play
 
-**Additional scope already approved:** consent-first private 1:1 messaging embedded within Profile (Section 4C). Add it to the consolidated website roadmap, verify account isolation/abuse safeguards, and retain the same UI in the later Android port. No 12th site tab.
+**Additional scope already approved:** consent-first private 1:1 messaging embedded within Profile (Section 4C, no extra chat tab) **and** new public user-created Discussions as a separately approved **12th main tab** (Section 4D). Both belong to the consolidated website roadmap with abuse/security tests and later Android parity. Current `production` remains the original 11-tab version.
 
 **Phase 1 — Unpublished website development:** work only on `feature/sources-archives-next-batch-nov03` or a clearly documented child; integrate already-staged Sources & Archives plus agreed feedback without duplicating the 11-tab production features. Update master after each milestone. Keep Netlify and public domain unchanged.
 
@@ -139,6 +149,15 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — User-created Discussions tab and scoped steward governance (planning only)
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview`, `feature/sources-archives-next-batch-nov03`; prior SHA `946f9c77ab4cabc90ae818c030fa67e4e8a5355e`. The resulting SHA is the next GitHub branch head.
+- Approved new **12th Discussions** tab for the future combined release, hosting user-created public sections, posts, threaded replies, source links, search and self-moderation. Existing live release still has 11 tabs.
+- Each section's creator becomes **limited section steward**: structure/pin/organise, flag/escalate; **no preapproval gatekeeping, unilateral bans or permanent censorship**. Existing five distinct flags temporarily hide content; site owner remains ultimate moderator and can review/remove stewards. Urgent safety channel and audited, appealable interventions required.
+- Source updated: `MASTER_HANDOVER.md`; new detailed acceptance/security spec `docs/COMMUNITY_DISCUSSIONS_ROADMAP_2026-11-03.md`. Existing 1:1 Profile Chat remains separate and unchanged.
+- **PLANNED ONLY:** no front-end code, Supabase changes, guest/account permissions, actual new tab, Netlify/production or Android deploy. Next implement after assessing existing discussion/vote/flag backend; synthetic multi-account RLS/author/steward/owner tests and Samsung QA before publishing.
+
+
 
 ### 2026-11-03 — One-to-one private chat roadmap addition (planning only)
 - Repository/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; baseline `8629b86e94b8929aad6aeee422b3e4807b71a0b7`. This documentation milestone's resulting SHA is the GitHub branch HEAD immediately after the commit, verify next session.
