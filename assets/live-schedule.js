@@ -13,6 +13,8 @@ const publicStatus=x=>['upcoming','live','ended','cancelled'].includes(x);
 function normalize(x){
  const id=String(x.id||'');
  const start=x.starts_at||x.startAt||'';
+ // A date without an official time/offset cannot be used for a live countdown.
+ if(typeof start!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})$/i.test(start))return null;
  const d=new Date(start);
  const status=String(x.status||'');
  const source=x.source_url||x.sourceUrl||'';
@@ -155,7 +157,10 @@ function render(){
  tick=setInterval(()=>{if(document.visibilityState==='visible')for(const c of container.querySelectorAll('.dd-upcoming-card'))c._updateClock?.()},1000);
 }
 async function refresh(){
- upcoming=await sources();
+ const result=await sources();
+ const fingerprint=items=>JSON.stringify(items.map(e=>[e.id,e.title,e.startsAt.toISOString(),e.status,e.stream,e.recording,e.chatAvailable,e.source]));
+ if(container&&fingerprint(result)===fingerprint(upcoming)&&container.childElementCount)return;
+ upcoming=result;
  render();
 }
 function init(){
