@@ -63,3 +63,25 @@ jobs:
                   raise AssertionError('os.link incompatible with Samsung Termux')
           print('PASS: Android patch ZIP and GitHub sources identical; no os.link calls')
           PY
+      - name: Verify BDS Finance L2 private dashboard ZIP and local security assumptions
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          import hashlib, ast
+          archive=Path('finance_local/BDS_Finance_L2_Private_Dashboard.zip')
+          expected='ae425e6f40ece9f5a44afe5bf42803dc67b15d6a73ef44369ef5241e8eb9e2dc'
+          assert hashlib.sha256(archive.read_bytes()).hexdigest()==expected
+          files=['finance_local/dashboard.py','finance_local/DASHBOARD_README.md']
+          with ZipFile(archive) as z:
+            assert sorted(z.namelist())==sorted(files)
+            for f in files: assert z.read(f)==Path(f).read_bytes(),f
+          code=Path('finance_local/dashboard.py').read_text()
+          ast.parse(code)
+          assert "HOST = '127.0.0.1'" in code
+          assert 'MAX_SESSION_SECONDS = 600' in code
+          assert 'hmac.compare_digest' in code and 'Cache-Control' in code
+          assert 'vault.load(' in code and 'vault.seal(' not in code
+          assert 'localStorage' not in code and 'sessionStorage' not in code
+          print('PASS L2: no-vault-overwrite ZIP, local read-only access and short session')
+          PY
