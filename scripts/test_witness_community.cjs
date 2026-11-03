@@ -44,6 +44,8 @@ assert.match(edge,/lat:Math\.round\(place\.latitude\*10\)\/10/);
 assert.doesNotMatch(edge,/input\.(?:lat|lon|latitude|longitude)/,'Client coordinates must not be trusted');
 assert.match(witness,/\.from\('dd_public_witness_reports'\)/);
 assert.match(witness,/\.functions\.invoke\('dd-witness-submit'/);
+assert.match(witness,/await response\.clone\(\)\.json\(\)/,'Surface safe Edge 409\/429\/422 messages');
+assert.match(witness,/Your form has not been cleared/,'Keep draft text after failed publish');
 assert.match(witness,/body\.textContent=item\.story/,'Public user text is escaped');
 assert.match(html,/<option[^>]+value="witness"[^>]*>/i);
 assert.match(html,/id="witnessPublicConsent"/);

@@ -138,6 +138,19 @@ function open(id,{report=false}={}){
  mountVotes();close.focus();
  if(report){flag.onclick()}
 }
+// Supabase functions.invoke wraps non-2xx responses in an HTTP error. Read the
+// safe server-supplied message (409 duplicate, 429 quota, 422 invalid location)
+// instead of exposing a generic "non-2xx" error to the researcher.
+async function submissionError(error){
+ try{
+  const response=error?.context;
+  if(response&&typeof response.clone==='function'){
+   const body=await response.clone().json();
+   if(body&&typeof body.error==='string')return body.error;
+  }
+ }catch(_){}
+ return String(error?.message||'Please try again.');
+}
 async function publish(){
  if(!enabled){note('Public witness submissions are not available yet. Your private draft is safe.',true);return;}
  if(busy)return;
@@ -182,8 +195,9 @@ async function publish(){
   document.getElementById('mapViewMode').value='witness';
   document.getElementById('mapViewMode').dispatchEvent(new Event('change',{bubbles:true}));
  }catch(error){
-  const msg=error?.context?.error||error?.message||'Please try again.';
-  note('Not published. Keep a private draft or try again. '+String(msg).slice(0,170),true);
+  const msg=await submissionError(error);
+  // Do not clear or overwrite the report on error. The form remains editable.
+  note('Not published. Your form has not been cleared. '+String(msg).slice(0,190),true);
  }finally{button.disabled=false;busy=false}
 }
 function init(){

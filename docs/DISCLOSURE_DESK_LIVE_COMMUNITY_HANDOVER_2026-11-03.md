@@ -148,6 +148,12 @@ W.NE is presented as **W.NE Research Studio**, in Disclosure Desk navy/gold styl
 - Old Edge geocoder checked `country + admin1` using substring containment; that can mistakenly place Belfast in the Republic of Ireland. New pure `matchesCountry` uses strict geocoded country and narrow aliases (Northern Ireland only maps to United Kingdom when admin region identifies Northern Ireland). Reject ambiguous truncated country strings; no GPS supplied by browser. Staged narrative coordinate-pair rejection in both Edge and DB guard.
 - Added `scripts/test_witness_geocoding.cjs` to GitHub-only CI. Offline fixtures cover cross-border UK/Ireland and suspicious coordinates. Real network geocoding, HTTP/JWT accounts and Samsung UX remain unverified. All staging commits `[skip netlify]` and no deployments.
 
+## Witness backend completed QA pass — 3 November 2026
+
+- Staged witness schema passed rollback transaction, with zero witness tables after. Simulated role-based results: server-only reporting, public approximate map projection, first five distinct flags auto-hide, owner-only hidden moderation queue, restore baseline and five NEW distinct flags re-hide; another account denied moderator operations. Existing owner's admin allowlist remained unchanged.
+- Duplicate submissions, three-per-day limit, posted exact latitude/longitude narrative redaction, own-report RLS, votes (like/dislike/remove), anonymous vote summaries and hidden vote filtering all passed rollback-only SQL acceptance. No real registered-account HTTP JWTs, separate concurrent sessions, actual Open-Meteo network traffic or Samsung UI tested.
+- Frontend now displays response-body errors from Edge function (409 duplicate, 429 quota, 422 invalid city) while leaving form text intact on failure. **Edge function not deployed**, all community migrations NOT applied, site still gated to preview. One consolidated controlled beta deploy is still a separate release step.
+
 ## 6. Non-negotiable product/safety notes
 - No fake hearing dates, fake LIVE state, public/private document leak or precise witness locations.
 - Users may submit reports about unverified experiences; “published” does NOT mean Disclosure Desk authenticated the claim.
