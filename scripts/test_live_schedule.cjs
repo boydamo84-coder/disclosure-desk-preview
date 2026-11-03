@@ -25,6 +25,9 @@ assert.equal(t.noticeCandidate([official],started+47*3600000).id,official.id,'No
 assert.equal(t.noticeCandidate([official],started+48*3600000),null,'Notice retires at start plus 48 hours');
 assert.equal(t.noticeCandidate([],started),null,'No event means no banner');
 assert.equal(t.noticeCandidate([t.normalize({...f,status:'cancelled'})],started-1000),null,'Cancelled event never promoted');
+assert.equal(t.noticeCandidate([t.normalize({...f,status:'ended'})],started-1000),null,'Ended hearing cannot be promoted before its scheduled start');
+assert.equal(t.noticeCandidate([t.normalize({...f,status:'ended'})],started+47*3600000).id,f.id,'Officially ended hearing remains announced until 48 hours after scheduled start');
+assert.equal(t.noticeCandidate([t.normalize({...f,status:'ended'})],started+48*3600000),null,'Ended hearing announcement retires at 48 hours');
 const feed=JSON.parse(read('data/approved-live-events.json'));
 assert.equal(feed.filter(e=>['upcoming','live'].includes(e.status)).length,0,'Never publish an invented upcoming hearing in the beta data fixture');
 assert.ok(css.includes('.dd-live-view-and-chat')&&css.includes('@media(max-width:710px)'),'Stream and chat layout must be mobile responsive');
