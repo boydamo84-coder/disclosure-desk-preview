@@ -66,3 +66,7 @@ jobs:
           node --check assets/historical-satellite.js
           node --check scripts/test_historical_satellite.cjs
           node scripts/test_historical_satellite.cjs
+      - name: Verify standalone BDS Finance synthetic-only prototype (no deployment)
+        run: |
+          node --check scripts/test_bds_finance_demo.cjs
+          node scripts/test_bds_finance_demo.cjs
