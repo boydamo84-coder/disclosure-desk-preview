@@ -4,8 +4,8 @@ const fs=require('node:fs');
 const assert=require('node:assert/strict');
 const read=p=>fs.readFileSync(p,'utf8');
 const domain='https://uapdisclosuredesk.com';
-const publicPages=['/','/research-edition.html','/privacy.html'];
-const publicFiles={'/':'index.html','/research-edition.html':'research-edition.html','/privacy.html':'privacy.html'};
+const publicPages=['/','/research-edition.html','/community-rules.html','/privacy.html'];
+const publicFiles={'/':'index.html','/research-edition.html':'research-edition.html','/community-rules.html':'community-rules.html','/privacy.html':'privacy.html'};
 const robots=read('robots.txt'),sitemap=read('sitemap.xml');
 assert.match(robots,/User-agent:\s*\*/);
 assert.match(robots,/Allow:\s*\//);
@@ -28,6 +28,7 @@ for(const p of publicPages){
 const home=read('index.html');
 assert.ok(home.includes('href="/research-edition.html"'),'Provide a crawlable public link to W.NE Research Edition');
 assert.ok(home.includes('href="/privacy.html"'),'Provide a crawlable Privacy Policy link');
+assert.ok(home.includes('href="/community-rules.html"'),'Provide a crawlable community rules link');
 assert.match(home,/<meta property="og:title"/);
 assert.match(home,/<meta property="og:url" content="https:\/\/uapdisclosuredesk.com\/">/);
 const research=read('research-edition.html');
@@ -46,4 +47,13 @@ for(const p of ['research/index.html','research/guest-preview.html','research/wn
  assert.ok(!urls.some(url=>url.endsWith(p.replace('research/','/research/'))),p+' must not be in public sitemap');
 }
 assert.ok(!urls.some(x=>x.includes('?')||x.includes('#')),'Sitemap must use permanent clean URLs');
+const rules=read('community-rules.html');
+for(const section of ['accounts','witness','voting','flagging','comments','research','privacy']){
+ assert.ok(rules.includes('id="'+section+'"'),'Document community rule category '+section);
+}
+for(const needle of ['3 new public witness reports','5 distinct valid account flags','one active vote per item','private drafts only','rolling 24-hour period','community-published W.NE research']){
+ assert.ok(rules.includes(needle),'Missing clear beta community policy: '+needle);
+}
+assert.match(rules,/some community features described below are still being built or tested/i,'No misleading claim that public publishing is live');
+
 console.log('PASS: robots, canonical public sitemap, homepage social metadata, W.NE structured page, crawlable links, noindex private research and no leakage of dynamic records');
