@@ -7,7 +7,8 @@
     "date": "2026-10-24T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://static.independent.co.uk/2026/10/24/8/54/Screenshot-2026-10-24-at-09-09-18.png?trim=0,0,0,74&width=1200&height=800&crop=1200:800"
+    "imageUrl": "https://static.independent.co.uk/2026/10/24/8/54/Screenshot-2026-10-24-at-09-09-18.png?trim=0,0,0,74&width=1200&height=800&crop=1200:800",
+    "publisherUrl": "https://www.independent.co.uk/news/world/americas/pentagon-ufo-files-triangles-us-trump-b3072621.html"
   },
   {
     "id": "e229969c3fd10be8998b",
@@ -17,7 +18,8 @@
     "date": "2026-10-24T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://assets1.cbsnewsstatic.com/hub/i/r/2026/10/24/4b232dc1-0eaa-48c7-b9a5-0e31dbdb485b/thumbnail/1200x630/bdf3eb6e5abef557ec702fa5a11fa07e/04e5a4aa97488fc37c8a47617cf1e3db.png"
+    "imageUrl": "https://assets1.cbsnewsstatic.com/hub/i/r/2026/10/24/4b232dc1-0eaa-48c7-b9a5-0e31dbdb485b/thumbnail/1200x630/bdf3eb6e5abef557ec702fa5a11fa07e/04e5a4aa97488fc37c8a47617cf1e3db.png",
+    "publisherUrl": "https://www.cbsnews.com/losangeles/video/new-ufo-files-from-the-pentagon-detail-sightings-over-catalina-island/"
   },
   {
     "id": "49b4639821a22bbed2e8",
@@ -494,7 +496,8 @@
     "date": "2026-06-10T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://static.independent.co.uk/2026/06/10/02/2280748945..?trim=0,0,0,0&width=1200&height=800&crop=1200:800"
+    "imageUrl": "https://static.independent.co.uk/2026/06/10/02/2280748945..?trim=0,0,0,0&width=1200&height=800&crop=1200:800",
+    "publisherUrl": "https://www.independent.co.uk/bulletin/news/ufo-whistleblower-david-grusch-aliens-b2992877.html"
   },
   {
     "id": "100fe51473aa3782713c",
@@ -925,7 +928,8 @@
     "date": "2026-04-05T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8"
+    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8",
+    "publisherUrl": "https://www.theguardian.com/us-news/2026/apr/05/alien-life-nasa-jared-isaacman-artemis-ii"
   },
   {
     "id": "ef2cf6dd2b9e6f0cd58a",
@@ -947,7 +951,8 @@
     "date": "2026-04-02T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg",
+    "publisherUrl": "https://www.bbc.co.uk/news/articles/cvg58ydn4jpo"
   },
   {
     "id": "8d06dd474e5f2e6f3926",
@@ -1045,6 +1050,7 @@
     "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQVmxXbGgyVXRkYlhadk15RUN3UDFwMnpOUXp5azRUaWN3ZTBSMHNTYkhwY2hlcG5oek5GZnY5eFVSYmt6SWl3bGUtc05wSkI3LWVRanM4YjN0Y3k2STlkeHhSZ3RTMzZPVjBfSEl0d1VtdlVXeXNlRnJXci1mVmZQdW55X3JfVXlENmtIMFlveVF1Q0VqRnROalltNnlKS3Nr?oc=5",
     "date": "2025-11-19T08:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.reuters.com/science/nasa-set-release-new-images-interstellar-object-3iatlas-2025-11-19/"
   }
 ]
