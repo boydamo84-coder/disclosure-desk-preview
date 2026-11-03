@@ -1,0 +1,44 @@
+name: Discussions isolated PostgreSQL security review (no live backend)
+on:
+  push:
+    branches: [feature/sources-archives-next-batch-nov03]
+    paths:
+      - 'supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql'
+      - 'scripts/forum-isolated-fixture.sql'
+      - 'scripts/forum-isolated-acceptance.sql'
+      - '.github/workflows/validate-discussions-isolated.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-forum:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: disposable-ci-only
+          POSTGRES_DB: forum_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d forum_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: disposable-ci-only
+      PGDATABASE: forum_test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify PostgreSQL client
+        run: psql --version
+      - name: Prepare disposable synthetic Supabase role fixture
+        run: psql -X -v ON_ERROR_STOP=1 -f scripts/forum-isolated-fixture.sql
+      - name: Parse and install UNAPPLIED Discussions candidate into isolated PostgreSQL only
+        run: psql -X -v ON_ERROR_STOP=1 -f supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql
+      - name: Execute synthetic guest, steward and overall-admin security acceptance
+        run: psql -X -v ON_ERROR_STOP=1 -f scripts/forum-isolated-acceptance.sql

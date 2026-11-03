@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, isolated Discussions PostgreSQL security workflow CODE STAGED:** Docker PostgreSQL 17 GitHub Action will run candidate SQL in a disposable database with synthetic Auth roles/users, test guest raw-table denial, nonsteward pin denial, owner review, author posting/replies and two rounds of five distinct flags. Trigger restricted to the review SQL/test files and workflow itself; **no connection to live Supabase, no Netlify deploy**. Workflow result pending; errors must be fixed before treating SQL as executable.
+
 - **2026-11-03, Discussions overall-admin view CODE STAGED / DISABLED:** owner-only review pane inside existing Profile/Admin Centre displays hidden/escalated threads/replies, limited excerpts and escalation reasons, with Restore/Hide/Remove decisions requiring reasons. Owner can revoke a section steward without deleting their section. Server-side owner-only RPC candidates are reviewed SQL source only; no owner allowlist seeded, schema installed or live moderation performed. GitHub-only CI pending.
 
 - **2026-11-03, Discussions owner/author/steward polish CODE STAGED / DISABLED:** added verified-author Edit/Withdraw buttons, removable votes, steward section description/topic settings and focused thread/reply navigation; corrected schema candidate to preserve a five-**new**-flags threshold after owner restoration, rather than instantly rehiding on an old tally. Backend is still **UNAPPLIED**, GitHub-only CI pending; no user access or database modifications.
@@ -175,6 +177,16 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Isolated PostgreSQL security and moderation integration tests
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `8623fb795bb95b028db5311a285e1c86e154a40b`; resulting SHA is current commit on unpublished branch.
+- Added GitHub-only workflow `.github/workflows/validate-discussions-isolated.yml`: disposable `postgres:17` service, test database `forum_test`, fixture of **synthetic** Supabase-shaped roles/auth functions/users; loads `supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql` into disposable CI database ONLY.
+- Added `scripts/forum-isolated-fixture.sql` and `scripts/forum-isolated-acceptance.sql`: tests signed-in creator vs outsider, public posting and replying without steward preapproval, site-owner allowlist isolation, 4/5 independent flags hide semantics, restored baseline requiring five *new* flags, admin-only queue/steward revocation, guest public-RPC read and raw table denial.
+- Isolation: uses fake UUIDs/no real email or customer data, `PGHOST=localhost`, no live Supabase secret, no schema/API deployment, no Netlify preview. GitHub workflow restricted to relevant changed paths for economical runs.
+- Verification status at source commit: **new workflow queued/unknown**; not yet a proven SQL/RLS runtime test. Any failures must be fixed before claiming security approval. Full authenticated HTTP/device QA still pending even after SQL green.
+- Next: inspect GitHub isolated PostgreSQL job and fix SQL/test errors, then document actual results and remaining privacy release blockers.
+
+
 
 ### 2026-11-03 — Overall site-owner Discussions queue and steward revocation (disabled)
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `f95ece056fe2e5151a5a02860c079ad63541d76a`; new branch HEAD is resulting commit.
