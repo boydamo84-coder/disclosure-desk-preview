@@ -77,6 +77,8 @@ begin
   raise exception 'You cannot flag your own or an unavailable comment';
  end if;
  perform pg_advisory_xact_lock(hashtext('dd-comment-flag-user:'||new.reporter_id::text));
+ -- Serialise per comment BEFORE insert; concurrent fifth flags cannot slip by.
+ perform pg_advisory_xact_lock(hashtext('dd-comment-flags:'||new.comment_id::text));
  if (select count(*) from public.dd_case_comment_flags f
     where f.reporter_id=new.reporter_id and f.created_at>now()-interval '1 hour')>=12 then
   raise exception 'Flagging limit reached';

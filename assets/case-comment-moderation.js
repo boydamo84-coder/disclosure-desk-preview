@@ -7,11 +7,11 @@ const db=()=>cfg.environment==='test'&&URL&&KEY?window.supabase?.createClient(UR
 function el(tag,text){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;return e;}
 async function init(){
  const client=db();if(!client)return;
- const trigger=el('button','🛡 Moderator queue');
+ const trigger=el('button','🛡 Community review');
  trigger.type='button';trigger.className='outline';trigger.style.cssText='display:none;margin:8px';
  const root=el('section');root.hidden=true;root.style.cssText='position:fixed;inset:0;z-index:100200;background:#06101bf4;overflow-y:auto;padding:16px;color:#f5e9cb';
  const panel=el('div');panel.style.cssText='max-width:720px;margin:auto;padding:18px;background:#112331;border:1px solid #987b4f;border-radius:12px';
- const title=el('h2','Flagged Case Comments');
+ const title=el('h2','Community-hidden comments · Review');
  const status=el('p','');status.setAttribute('role','status');
  const rows=el('div');
  const close=el('button','Close');close.type='button';close.onclick=()=>root.hidden=true;
@@ -22,13 +22,13 @@ async function init(){
   rows.replaceChildren();status.textContent='Loading flagged comments…';
   const {data,error}=await client.rpc('dd_case_comment_moderation_queue');
   if(error){status.textContent='Moderation queue unavailable or access denied.';return}
-  status.textContent=data.length+' flagged comments';
+  status.textContent=data.length?data.length+' community-hidden comments to review':'No community-hidden comments need review.';
   for(const item of data){
    const card=el('article');card.style.cssText='border-top:1px solid #526171;padding:14px 0';
    const heading=el('strong',item.case_id+' · '+item.flag_count+' flags · '+item.status);
    const body=el('p',item.body);body.style.whiteSpace='pre-wrap';
    card.append(heading,body);
-   for(const [label,next] of [['Keep visible','approved'],['Hide','hidden'],['Reject','rejected']]){
+   for(const [label,next] of [['Restore','approved'],['Keep hidden','hidden'],['Reject','rejected']]){
     const action=el('button',label);action.type='button';action.style.margin='4px';
     action.onclick=async()=>{action.disabled=true;const {error}=await client.rpc('dd_moderate_case_comment',{p_id:item.comment_id,p_status:next});if(error){status.textContent='Action failed: '+error.message;action.disabled=false;}else await refresh();};
     card.append(action);

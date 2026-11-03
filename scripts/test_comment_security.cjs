@@ -14,6 +14,7 @@ assert.match(flags,/Registered account required to flag a comment/);
 assert.match(flags,/c\.author_id<>auth\.uid\(\)/,'Trigger also blocks self flags');
 assert.match(comments,/pg_advisory_xact_lock\(hashtext\('dd-comment-user:'\|\|new\.author_id::text\)\)/);
 assert.match(flags,/pg_advisory_xact_lock\(hashtext\('dd-comment-flag-user:'\|\|new\.reporter_id::text\)\)/);
+assert.match(flags,/pg_advisory_xact_lock\(hashtext\('dd-comment-flags:'\|\|new\.comment_id::text\)\)/,'Fifth flag concurrency requires per-item lock BEFORE insertion');
 assert.match(comments,/>=5/);
 assert.match(comments,/>=40/);
 assert.match(flags,/>=12/);

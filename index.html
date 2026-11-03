@@ -837,7 +837,7 @@ function immersiveTile(c,index){
  '<button data-clip-action="board" data-clip-id="'+esc(c.id)+'">☆ Board</button>'+
  '<button data-clip-action="share" data-clip-id="'+esc(c.id)+'">Share</button>'+
  '<button data-clip-action="skip" data-clip-id="'+esc(c.id)+'">Skip ↓</button></div>'+
- '<details class="immersive-more"><summary>More ▾</summary><p>'+esc(c.description||'Publisher-supplied claims or commentary; authenticity and interpretations not established.')+'</p>'+(source?'<a href="'+esc(source)+'" rel="noopener noreferrer" target="_blank">Original source ↗</a>':'')+'</details></article>';
+ '<details class="immersive-more"><summary>More ▾</summary><button data-clip-action="discuss" data-clip-id="'+esc(c.id)+'">💬 Comments</button><p>'+esc(c.description||'Publisher-supplied claims or commentary; authenticity and interpretations not established.')+'</p>'+(source?'<a href="'+esc(source)+'" rel="noopener noreferrer" target="_blank">Original source ↗</a>':'')+'</details></article>';
 }
 const IMMERSIVE_AUTOPLAY_KEY='dd_clips_autoplay_v1';
 let immersiveAutoplay=false;
@@ -1221,6 +1221,8 @@ window.ddGoToDiscussionOrigin=(ref)=>{
  const kind=ref.slice(0,colon),id=ref.slice(colon+1);
  if(kind==='video'){navigateTo('clips');const card=[...$('clipsFeed').querySelectorAll('[data-video-id]')].find(x=>x.dataset.videoId===id);ddFocusCard(card);}
  else if(kind==='news'){topic='All';if($('newsSearch'))$('newsSearch').value='';navigateTo('discover');news();const card=[...$('newsGrid').querySelectorAll('[data-news-id]')].find(x=>x.dataset.newsId===id);ddFocusCard(card);}
+ else if(kind==='archive'){navigateTo('archivePage');const btn=[...$('archiveList').querySelectorAll('[data-discuss-archive]')].find(x=>x.dataset.discussArchive===id);ddFocusCard(btn?.closest('article'))}
+ else if(kind==='media'){navigateTo('watchRead');const card=[...$('ddWatchReadMount').querySelectorAll('[data-news-comments]')].find(x=>x.dataset.newsComments===ref);ddFocusCard(card?.closest('article'))}
  else {navigateTo('cases');const card=[...$('caseList').querySelectorAll('[data-case-discussion]')].find(x=>x.dataset.caseDiscussion===ref);ddFocusCard(card);}
 };
 function ddInitNavSwipeHint(){
@@ -1435,7 +1437,7 @@ function renderHistoricalArchive(){
  );
  matches.sort((a,b)=>Number(b.kind==='Featured investigation')-Number(a.kind==='Featured investigation'));
  $('archiveStatus').textContent=matches.length+' of '+historicalRecords.length+' source-linked historical resources · Showing up to '+archiveDisplayCount;
- $('archiveList').innerHTML=matches.slice(0,archiveDisplayCount).map((r,i)=>`<article class="card"><div class="card-body"><span class="tag">${esc(r.kind)}</span><h3><button type="button" class="dd-archive-title-link" data-open-archive="${esc(String(r.id))}" aria-label="Open case file: ${esc(r.title)}">${esc(r.title)}</button></h3><p>${esc(r.description||'')}</p><p class="meta">${esc(r.source)} · Record/event year: ${esc(String(r.year))}${r.endYear?'–'+esc(String(r.endYear)):''}</p><div class="dd-archive-actions"><button class="outline" type="button" data-save-archive="${i}">☆ Board</button><button class="outline" type="button" data-follow-archive="${esc(String(r.id))}">${ddReadFollowed()[String(r.id)]?"✓ Following":"☆ Follow"}</button><button class="outline" type="button" data-compare-archive="${esc(String(r.id))}">${ddCompareSelected.includes(String(r.id))?"✓ Compared":"⚖ Compare"}</button></div><a class="dd-archive-source-link" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">Original source ↗</a></div></article>`).join('')||'<div class="card empty">No matching historical sources. Try another search or decade.</div>';
+ $('archiveList').innerHTML=matches.slice(0,archiveDisplayCount).map((r,i)=>`<article class="card"><div class="card-body"><span class="tag">${esc(r.kind)}</span><h3><button type="button" class="dd-archive-title-link" data-open-archive="${esc(String(r.id))}" aria-label="Open case file: ${esc(r.title)}">${esc(r.title)}</button></h3><p>${esc(r.description||'')}</p><p class="meta">${esc(r.source)} · Record/event year: ${esc(String(r.year))}${r.endYear?'–'+esc(String(r.endYear)):''}</p><div class="dd-archive-actions"><button class="outline" type="button" data-save-archive="${i}">☆ Board</button><button class="outline" type="button" data-follow-archive="${esc(String(r.id))}">${ddReadFollowed()[String(r.id)]?"✓ Following":"☆ Follow"}</button><button class="outline" type="button" data-compare-archive="${esc(String(r.id))}">${ddCompareSelected.includes(String(r.id))?"✓ Compared":"⚖ Compare"}</button><button class="outline" type="button" data-discuss-archive="${esc(String(r.id))}">💬 Comments</button></div><a class="dd-archive-source-link" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">Original source ↗</a></div></article>`).join('')||'<div class="card empty">No matching historical sources. Try another search or decade.</div>';
  if(matches.length>archiveDisplayCount){
  const more=document.createElement('button');more.type='button';more.className='outline';
  more.textContent='Load more ('+(matches.length-archiveDisplayCount)+' remaining)';
@@ -1445,6 +1447,8 @@ function renderHistoricalArchive(){
  document.querySelectorAll('[data-compare-archive]').forEach(b=>b.onclick=()=>ddCompareSelect(b.dataset.compareArchive));
  document.querySelectorAll('[data-follow-archive]').forEach(b=>b.onclick=()=>ddFollowCase(b.dataset.followArchive));
  document.querySelectorAll('[data-open-archive]').forEach(b=>b.onclick=()=>archiveCaseOpen(b.dataset.openArchive));
+ document.querySelectorAll('[data-discuss-archive]').forEach(b=>b.onclick=()=>window.ddOpenCaseDiscussion?.('archive:'+String(b.dataset.discussArchive).slice(0,170),'Archive Discussion'));
+
  document.querySelectorAll('[data-save-archive]').forEach(button=>button.onclick=()=>{let item=matches[Number(button.dataset.saveArchive)];if(item)addInvestigationLink(item.title,item.url)});
 }
 let ddCompareSelected=[];const ddNewsCompare=new Map();

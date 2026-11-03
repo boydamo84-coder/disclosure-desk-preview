@@ -116,6 +116,12 @@ W.NE is presented as **W.NE Research Studio**, in Disclosure Desk navy/gold styl
 - Unpublished UI changes now show clear messages for duplicate comments/flags, self-flags, sign-in failures and posting-rate limits. No Netlify deploy, production merge, or application of the staged `COMMENT_SECURITY_HARDENING_REVIEW.sql` yet.
 - Keep **My Research Hub** planned but unbuilt until remaining community acceptance gates pass.
 
+## Owner-approved five-flag community comment self-moderation — 3 November 2026
+
+- **All valid comments publish immediately**, no routine approval. Guest readers may see approved comments through the staged privacy-safe RPC. **At 5 distinct registered account flags, a comment is auto-hidden for review**; fewer than 5 leaves it public. Comment author cannot self-flag, one flag per user, abuse rate guards, no dislikes-as-flags. Hidden items enter the owner's existing moderator queue; on restore the reviewed flag baseline advances so stale flags cannot instantly re-hide it. Escalate genuinely urgent safety/privacy issues independently of the five-flag system.
+- Coverage: News reports (inline), historical Archive (new Discuss button), Videos (feed Discuss and immersive More), Watch & Read (inline for documentaries/films/books/podcasts). 'My Comments' opens back to original Archive or Watch & Read. Same comment database and flag guard across sections.
+- Staged files: `supabase/COMMENT_SELF_MODERATION_REVIEW.sql`, `scripts/test_comment_self_moderation.cjs`, updated `community-rules.html` and QA workflow. The database modifications are **NOT APPLIED**. This commit and all remaining feature work is **[skip netlify]**, no deployment/merge.
+
 ## 6. Non-negotiable product/safety notes
 - No fake hearing dates, fake LIVE state, public/private document leak or precise witness locations.
 - Users may submit reports about unverified experiences; “published” does NOT mean Disclosure Desk authenticated the claim.

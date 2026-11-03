@@ -49,3 +49,9 @@ The existing email-confirmed Disclosure Desk site-owner account was added to `pu
 A subsequent temporary synthetic-account transaction also confirmed existing comment moderation correctly handles: no self-flags, no duplicate flags, non-moderator moderation denial, approved/hidden/reapproved visibility rules, hidden author visibility, moderator queue access and restoration. All temporary test accounts, flags, comments, and FK changes rolled back, leaving the owner's new allowlist entry intact.
 
 A UI copy patch also provides clearer errors for duplicate comments, rate limits, self-flags and sign-in requirements. The code remains on the unpublished feature branch and needs the consolidated beta acceptance check.
+
+## Approved product change: self-moderated comments and full coverage
+
+The owner confirmed: publish all valid signed-in member comments immediately (no routine preapproval), allow guest reading, hide ONLY after **five distinct signed-in accounts flag** a given comment; first four flags need no routine moderator attention, and likes/dislikes do not count. The staged `supabase/COMMENT_SELF_MODERATION_REVIEW.sql` adds a per-comment advisory lock/after-insert autohide, resets the reviewed flag baseline on reapproval, and limits the moderator queue to actually hidden items. This migration is **not deployed**. Keep an urgent safety/privacy contact path independent of the five-flag threshold.
+
+Surface coverage verified in code: latest News uses inline comments; Videos use `video:<id>` case discussion in cards and immersive More; Watch & Read creates inline discussions `media:<stable-id>` for documentaries, films, books and podcast episodes; added `archive:<id>` comment controls to historical Archive cards and added both Archive and Media navigation to My Comments.

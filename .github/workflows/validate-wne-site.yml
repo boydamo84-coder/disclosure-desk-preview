@@ -33,6 +33,8 @@ jobs:
           node scripts/test_comment_security.cjs
           node --check scripts/test_comment_public_privacy.cjs
           node scripts/test_comment_public_privacy.cjs
+          node --check scripts/test_comment_self_moderation.cjs
+          node scripts/test_comment_self_moderation.cjs
       - name: Install local-browser test tools
         run: |
           npm install --no-save playwright
