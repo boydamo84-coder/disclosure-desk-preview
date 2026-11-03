@@ -15,7 +15,7 @@ assert.match(sql,/create table if not exists public.dd_forum_owner_admins/);
 assert.match(sql,/steward_id uuid references auth.users/,'Steward scoped to section');
 assert.doesNotMatch(sql,/ban_member|ban_user|kick_member|require_approval|shadow_ban|grant (?:select|update|delete|insert) on table public\.dd_forum/i,'No gatekeeper powers');
 assert.match(sql,/primary key\(target_kind,target_id,reporter_id\)/,'Distinct registered flaggers');
-assert.match(sql,/if flags>=5 then/,'Five separate flags trigger temporary hide');
+assert.match(sql,/if flags-coalesce\(baseline,0\)>=5 then/,'Five fresh unique flags after latest owner review');
 assert.match(sql,/original_author=actor/,'Cannot flag own post');
 assert.match(sql,/for update of t/,'Concurrent thread flags serialised');
 assert.match(sql,/for update of r/,'Concurrent reply flags serialised');
@@ -55,3 +55,11 @@ assert.match(config,/discussions:false/,'Not activated');
 assert.match(js,/flags\.discussions===true/,'Browser stays gated');
 assert.doesNotMatch(sql,/create policy .*dd_forum_/i,'No implicit browser table read policies');
 console.log('PASS: unapplied Discussions candidate guards section stewardship, owner override, flags, distinct votes, guest read and privileged RPCs. Database execution and synthetic role tests are still required.');
+
+/* Restored content must receive five fresh flags before being hidden again. */
+assert.match(sql,/reviewed_flag_count integer not null default 0/,'Reviewed-flag baseline stored');
+assert.match(sql,/select t\.author_id,t\.reviewed_flag_count into original_author,baseline/);
+assert.match(sql,/select r\.author_id,r\.reviewed_flag_count into original_author,baseline/);
+assert.match(sql,/reviewed_flag_count=case when p_status='published'/,'Owner review advances flag baseline');
+assert.match(sql,/v\.voter_id=auth\.uid\(\)/,'Safe current-user vote only');
+assert.match(sql,/my_vote smallint/,'Public read returns current viewer state only');

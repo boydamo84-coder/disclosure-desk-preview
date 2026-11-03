@@ -34,7 +34,7 @@ async function registered(){
 }
 async function change(button,operation,ok){
  button.disabled=true;say('Checking your account…');
- try{await registered();await operation();say(ok);await refresh()}catch(e){say(e?.message||'Unable to save.')}
+ try{await registered();const result=await operation();if(result===false)throw Error('Action not permitted or no change was made.');say(ok);await refresh()}catch(e){say(e?.message||'Unable to save.')}
  finally{button.disabled=false}
 }
 function link(parent,url,label){
@@ -47,6 +47,11 @@ async function openSection(item){
  $('ddForumSectionsPane').hidden=true;$('ddForumThreadPane').hidden=false;
  $('ddForumThreadTitle').textContent=item.title||'Discussions';
  $('ddForumSectionInfo').textContent=(item.description||'')+(item.is_steward?' · You steward this section.':'');
+ $('ddForumStewardPanel').hidden=!item.is_steward;
+ $('ddForumStewardForm').elements.namedItem('description').value=item.description||'';
+ $('ddForumStewardForm').elements.namedItem('topic').value=item.topic||'';
+ $('ddForumPostList').hidden=false;
+ $('ddForumSortLabel').hidden=false;
  $('ddForumPostCreate').hidden=false;
  $('ddForumPostCreate').reset();
  $('ddForumPostList').replaceChildren();
@@ -56,6 +61,9 @@ async function openThread(item){
  if(!isId(item?.id))return;thread=item;
  $('ddForumThreadTitle').textContent=item.title||'Discussion';
  $('ddForumPostCreate').hidden=true;
+ $('ddForumPostList').hidden=true;
+ $('ddForumSortLabel').hidden=true;
+ $('ddForumStewardPanel').hidden=true;
  $('ddForumReplyPane').hidden=false;
  const pane=$('ddForumReplyContent');pane.replaceChildren();
  pane.append(mk('p',item.body||'','dd-forum-body'));
@@ -82,13 +90,16 @@ async function loadReplies(){
   }
  }catch(e){say(e?.message||'Replies temporarily unavailable.')}
 }
-async function vote(kind,id,value,button){
- await change(button,()=>rpc('dd_discussions_vote',{p_kind:kind,p_id:id,p_value:value}), 'Vote saved.');
+async function vote(kind,row,value,button){
+ const next=Number(row.my_vote)===value?0:value;
+ await change(button,()=>rpc('dd_discussions_vote',{p_kind:kind,p_id:row.id,p_value:next}), 'Vote saved.');
 }
 function actionsFor(parent,kind,row){
  if(!isId(row.id))return;
- nodeAction(parent,'👍 '+(row.likes||0),b=>vote(kind,row.id,1,b));
- nodeAction(parent,'👎 '+(row.dislikes||0),b=>vote(kind,row.id,-1,b));
+ const like=nodeAction(parent,'👍 '+(row.likes||0),b=>vote(kind,row,1,b));
+ const dislike=nodeAction(parent,'👎 '+(row.dislikes||0),b=>vote(kind,row,-1,b));
+ like.setAttribute('aria-pressed',String(Number(row.my_vote)===1));
+ dislike.setAttribute('aria-pressed',String(Number(row.my_vote)===-1));
  nodeAction(parent,'⚑ Flag',async b=>{
   const reason=prompt('Reason: spam, abuse, privacy, harassment, harmful or other','spam');
   if(!reason)return;
@@ -96,12 +107,27 @@ function actionsFor(parent,kind,row){
   if(!['spam','abuse','privacy','harassment','harmful','other'].includes(code)){say('Choose a listed reason.');return}
   await change(b,()=>rpc('dd_discussions_flag',{p_kind:kind,p_id:row.id,p_reason:code}),'Report recorded for community moderation.');
  });
- if(kind==='thread'&&section?.is_steward){
-  nodeAction(parent,row.is_pinned?'Unpin':'Pin',b=>change(b,()=>rpc('dd_discussions_pin',{p_thread_id:row.id,p_pinned:!row.is_pinned}),'Section pin saved.'));
-  nodeAction(parent,'Escalate',async b=>{
-   const reason=prompt('Escalation reason for the overall site admin (minimum 10 characters):');
+ if(row.is_mine){
+  const posted=Date.parse(row.created_at);
+  if(Number.isFinite(posted)&&Date.now()>=posted&&Date.now()-posted<30*60*1000)
+   nodeAction(parent,'Edit my '+(kind==='thread'?'post':'reply'),async b=>{
+    const edited=prompt('Edit your own text (up to '+(kind==='thread'?'5000':'2000')+' characters):',row.body||'');
+    if(edited===null)return;
+    if(edited.trim().length<2||edited.trim().length>(kind==='thread'?5000:2000)){say('Check your text length.');return}
+    await change(b,()=>rpc('dd_discussions_edit_own',{p_kind:kind,p_id:row.id,p_body:edited.trim()}),'Your text was updated.');
+   });
+  nodeAction(parent,'Withdraw my '+(kind==='thread'?'post':'reply'),async b=>{
+   if(!confirm('Withdraw your own content from public Discussions? This will hide it; minimal moderation history may remain.'))return;
+   await change(b,()=>rpc('dd_discussions_withdraw_own',{p_kind:kind,p_id:row.id}),'Your content was withdrawn.');
+   if(kind==='thread'&&thread?.id===row.id){thread=null;$('ddForumReplyPane').hidden=true;$('ddForumPostList').hidden=false;$('ddForumSortLabel').hidden=false;}
+  });
+ }
+ if(section?.is_steward){
+  if(kind==='thread')nodeAction(parent,row.is_pinned?'Unpin':'Pin',b=>change(b,()=>rpc('dd_discussions_pin',{p_thread_id:row.id,p_pinned:!row.is_pinned}),'Section pin saved.'));
+  nodeAction(parent,'Escalate to site owner',async b=>{
+   const reason=prompt('Explain this serious concern for the overall site admin (minimum 10 characters):');
    if(!reason||reason.trim().length<10)return;
-   await change(b,()=>rpc('dd_discussions_escalate',{p_kind:kind,p_id:row.id,p_reason:reason.trim().slice(0,500)}),'Flagged for overall administrator attention.');
+   await change(b,()=>rpc('dd_discussions_escalate',{p_kind:kind,p_id:row.id,p_reason:reason.trim().slice(0,500)}),'Concern sent to overall administrator.');
   });
  }
 }
@@ -163,8 +189,20 @@ function init(){
  witness?.after(tab);
  $('ddForumSearch').addEventListener('input',drawSections);
  $('ddForumBackSections').onclick=()=>{thread=null;section=null;++epoch;$('ddForumSectionsPane').hidden=false;$('ddForumThreadPane').hidden=true;void refresh()};
- $('ddForumBackThreads').onclick=()=>{thread=null;++epoch;$('ddForumPostCreate').hidden=false;$('ddForumReplyPane').hidden=true;$('ddForumThreadTitle').textContent=section?.title||'Section';void loadThreads()};
+ $('ddForumBackThreads').onclick=()=>{thread=null;++epoch;$('ddForumPostCreate').hidden=false;$('ddForumPostList').hidden=false;$('ddForumSortLabel').hidden=false;$('ddForumStewardPanel').hidden=!section?.is_steward;$('ddForumReplyPane').hidden=true;$('ddForumThreadTitle').textContent=section?.title||'Section';void loadThreads()};
  $('ddForumSort').onchange=event=>{sort=event.target.value;void loadThreads()};
+ $('ddForumStewardForm').onsubmit=event=>{
+  event.preventDefault();
+  if(!section?.is_steward){say('Only the current section steward can organise this section.');return}
+  const form=event.currentTarget,b=form.querySelector('button[type="submit"]');
+  const desc=form.elements.namedItem('description').value.trim(),topic=form.elements.namedItem('topic').value.trim();
+  if(desc.length>400||topic.length>40){say('Section description and category are too long.');return}
+  void change(b,async()=>{
+   const ok=await rpc('dd_discussions_update_section',{p_section_id:section.id,p_description:desc,p_topic:topic});
+   if(ok===true){section.description=desc;section.topic=topic;$('ddForumSectionInfo').textContent=desc+' · You steward this section.'}
+   return ok;
+  },'Your section details were updated.');
+ };
  $('ddForumRefresh').onclick=()=>{void refresh()};
  $('ddForumSectionCreate').onsubmit=event=>{
   event.preventDefault();

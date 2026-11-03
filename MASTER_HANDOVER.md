@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, Discussions owner/author/steward polish CODE STAGED / DISABLED:** added verified-author Edit/Withdraw buttons, removable votes, steward section description/topic settings and focused thread/reply navigation; corrected schema candidate to preserve a five-**new**-flags threshold after owner restoration, rather than instantly rehiding on an old tally. Backend is still **UNAPPLIED**, GitHub-only CI pending; no user access or database modifications.
+
 - **2026-11-03, Discussions test-file syntax correction STAGED:** GitHub run `41685385409` FAILED on an unescaped apostrophe in one newly appended JS assertion, not on application code. Fixed the assertion string and parsed the full test source with `new Function`; rerun CI before calling this milestone green.
 
 - **2026-11-03, Discussions candidate safety review CORRECTION STAGED:** verified GitHub-only contract run `41685136138` passed previous SQL source; identified and patched review-only edge cases: anonymised users should not block section/account deletion or report flagging, withdrawn topics must satisfy nonempty constraints, post edits retain original length limits, and owner queue now includes both hidden/escalated **threads and replies**. Corrected source **still unapplied and not database-tested**. CI pending.
@@ -171,6 +173,16 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Discussions author controls, steward settings and reviewed-flag baseline
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `deb63dbe86eec5feb5d4e394feae8c74b58f1725`; resulting SHA is new GitHub HEAD.
+- Implemented in staged disabled `assets/community-discussions.js` and `index.html`: owners can edit (first 30 minutes) or withdraw their own posts/replies using owner RPCs; users can toggle a vote back to zero; section stewards can update description/topic but not control membership; viewing a discussion hides background topic list; UI checks RPC false results instead of claiming success.
+- Updated **unapplied** `supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql`: reader receives `my_vote` for their own vote only, plus `reviewed_flag_count` per post/reply. On owner restore, flag baseline advances, so another **five new distinct flags** are required to temporarily hide previously reviewed content. Added GitHub-only structural test coverage.
+- Verification: JS and test source parsed via `new Function`; CI pending; no isolated SQL execution, real-account browser QA, RLS or concurrency testing.
+- Release unchanged: site still 11 visible tabs, `discussions:false`; Supabase database, Netlify, production branch, Android/Play unaffected.
+- Next: verify CI; stage overall site-owner queue actions and audit-only review; isolated SQL/RLS execution required before activation.
+
+
 
 ### 2026-11-03 — Fix structural SQL test syntax before re-verification
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview`, `feature/sources-archives-next-batch-nov03`; prior SHA `102108d1b17cc4c97d449201bf07fa14bb493bea`; resulting SHA is next GitHub HEAD.

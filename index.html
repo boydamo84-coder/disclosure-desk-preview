@@ -325,7 +325,12 @@
   <button type="button" class="outline" id="ddForumBackSections">← All sections</button>
   <h3 id="ddForumThreadTitle">Section</h3>
   <p id="ddForumSectionInfo" class="muted small"></p>
-  <label for="ddForumSort">Sort threads<select id="ddForumSort" class="field"><option value="recent">Newest</option><option value="active">Recently active</option><option value="top">Most liked</option></select></label>
+  <details id="ddForumStewardPanel" class="dd-forum-form-card" hidden><summary>Steward settings · Organise, don't gatekeep</summary>
+   <p class="muted small">You can update this section's description and topic, pin up to three threads, and escalate issues. You cannot ban members, require approval or erase others' posts.</p>
+   <form id="ddForumStewardForm"><label>Section description<textarea class="field" name="description" rows="3" maxlength="400"></textarea></label>
+   <label>Topic / category<input class="field" name="topic" maxlength="40"></label>
+   <button class="outline" type="submit">Save section details</button></form></details>
+  <label id="ddForumSortLabel" for="ddForumSort">Sort threads<select id="ddForumSort" class="field"><option value="recent">Newest</option><option value="active">Recently active</option><option value="top">Most liked</option></select></label>
   <div id="ddForumPostList" class="dd-forum-list"></div>
   <form id="ddForumPostCreate" class="dd-forum-form-card">
    <h4>Start a discussion</h4>

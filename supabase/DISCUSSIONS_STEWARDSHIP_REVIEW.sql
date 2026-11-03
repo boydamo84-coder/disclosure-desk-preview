@@ -15,6 +15,7 @@ create table if not exists public.dd_forum_sections(
  creator_id uuid references auth.users(id) on delete set null,
  steward_id uuid references auth.users(id) on delete set null,
  status text not null default 'published' check(status in ('published','hidden','removed')),
+ reviewed_flag_count integer not null default 0 check(reviewed_flag_count>=0),
  created_at timestamptz not null default now(),
  updated_at timestamptz not null default now(),
  check(char_length(name_key)>=3)
@@ -30,6 +31,7 @@ create table if not exists public.dd_forum_threads(
  link_url text check(link_url is null or char_length(link_url)<=1000),
  status text not null default 'published' check(status in ('published','hidden','removed')),
  is_pinned boolean not null default false,
+ reviewed_flag_count integer not null default 0 check(reviewed_flag_count>=0),
  created_at timestamptz not null default now(),
  updated_at timestamptz not null default now(),
  check(char_length(btrim(body))>0 or link_url is not null)
@@ -150,7 +152,7 @@ $$;
 create or replace function public.dd_discussions_threads(
  p_section_id uuid,p_limit integer default 100,p_sort text default 'recent')
 returns table(id uuid,title text,body text,link_url text,author_name text,
- is_pinned boolean,created_at timestamptz,likes bigint,dislikes bigint,is_mine boolean)
+ is_pinned boolean,created_at timestamptz,likes bigint,dislikes bigint,is_mine boolean,my_vote smallint)
 language plpgsql stable security definer set search_path=pg_catalog,public as $$
 begin
  if p_section_id is null or coalesce(p_limit,0) not between 1 and 100
@@ -162,7 +164,9 @@ begin
     where v.target_kind='thread' and v.target_id=t.id and v.value=1),
   (select count(*) from public.dd_forum_votes v
     where v.target_kind='thread' and v.target_id=t.id and v.value=-1),
-  coalesce(auth.uid()=t.author_id,false)
+  coalesce(auth.uid()=t.author_id,false),
+  coalesce((select v.value from public.dd_forum_votes v where
+   v.target_kind='thread' and v.target_id=t.id and v.voter_id=auth.uid()),0)::smallint
  from public.dd_forum_threads t
  join public.dd_forum_sections s on s.id=t.section_id
  left join public.dd_public_names n on n.user_id=t.author_id
@@ -178,7 +182,7 @@ end $$;
 create or replace function public.dd_discussions_replies(
  p_thread_id uuid,p_limit integer default 100)
 returns table(id uuid,parent_id uuid,body text,author_name text,
- created_at timestamptz,likes bigint,dislikes bigint,is_mine boolean)
+ created_at timestamptz,likes bigint,dislikes bigint,is_mine boolean,my_vote smallint)
 language plpgsql stable security definer set search_path=pg_catalog,public as $$
 begin
  if p_thread_id is null or coalesce(p_limit,0) not between 1 and 100
@@ -190,7 +194,9 @@ begin
    v.target_kind='reply' and v.target_id=r.id and v.value=1),
   (select count(*) from public.dd_forum_votes v where
    v.target_kind='reply' and v.target_id=r.id and v.value=-1),
-  coalesce(auth.uid()=r.author_id,false)
+  coalesce(auth.uid()=r.author_id,false),
+  coalesce((select v.value from public.dd_forum_votes v where
+   v.target_kind='reply' and v.target_id=r.id and v.voter_id=auth.uid()),0)::smallint
  from public.dd_forum_replies r
  join public.dd_forum_threads t on t.id=r.thread_id
  join public.dd_forum_sections s on s.id=t.section_id
@@ -317,19 +323,19 @@ create or replace function public.dd_discussions_flag(
  p_kind text,p_id uuid,p_reason text)
 returns boolean language plpgsql security definer set search_path=pg_catalog,public as $$
 declare actor uuid:=public.dd_discussions_require_registered();
- original_author uuid; flags integer;
+ original_author uuid; flags integer; baseline integer;
 begin
  if p_kind not in ('thread','reply') or p_id is null
   or p_reason not in ('spam','abuse','privacy','harassment','harmful','other')
  then raise exception 'Invalid report';end if;
  -- One target-row lock serialises concurrent 5th-flag decisions.
  if p_kind='thread' then
-  select t.author_id into original_author from public.dd_forum_threads t
+  select t.author_id,t.reviewed_flag_count into original_author,baseline from public.dd_forum_threads t
    join public.dd_forum_sections s on s.id=t.section_id
    where t.id=p_id and t.status='published' and s.status='published'
    for update of t;
  else
-  select r.author_id into original_author from public.dd_forum_replies r
+  select r.author_id,r.reviewed_flag_count into original_author,baseline from public.dd_forum_replies r
    join public.dd_forum_threads t on t.id=r.thread_id
    join public.dd_forum_sections s on s.id=t.section_id
    where r.id=p_id and r.status='published'
@@ -346,7 +352,7 @@ begin
  values(p_kind,p_id,actor,p_reason);
  select count(*) into flags from public.dd_forum_flags f
  where f.target_kind=p_kind and f.target_id=p_id;
- if flags>=5 then
+ if flags-coalesce(baseline,0)>=5 then
   if p_kind='thread' then
    update public.dd_forum_threads set status='hidden',updated_at=now() where id=p_id;
   else
@@ -491,9 +497,18 @@ begin
  if p_kind='section' then
   update public.dd_forum_sections s set status=p_status,updated_at=now() where s.id=p_id;
  elsif p_kind='thread' then
-  update public.dd_forum_threads t set status=p_status,is_pinned=case when p_status='published' then is_pinned else false end,updated_at=now() where t.id=p_id;
+  update public.dd_forum_threads t set status=p_status,
+   reviewed_flag_count=case when p_status='published' then
+    (select count(*)::integer from public.dd_forum_flags f where f.target_kind='thread' and f.target_id=t.id)
+    else t.reviewed_flag_count end,
+   is_pinned=case when p_status='published' then t.is_pinned else false end,updated_at=now()
+   where t.id=p_id;
  else
-  update public.dd_forum_replies r set status=p_status,updated_at=now() where r.id=p_id;
+  update public.dd_forum_replies r set status=p_status,
+   reviewed_flag_count=case when p_status='published' then
+    (select count(*)::integer from public.dd_forum_flags f where f.target_kind='reply' and f.target_id=r.id)
+    else r.reviewed_flag_count end,
+   updated_at=now() where r.id=p_id;
  end if;
  get diagnostics affected=row_count;
  if affected=1 then

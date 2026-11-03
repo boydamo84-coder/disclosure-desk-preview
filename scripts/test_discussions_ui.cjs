@@ -27,3 +27,16 @@ assert.equal((nav.match(/class="tab(?: active)?"/g)||[]).length,11,'No twelfth t
 assert.doesNotMatch(nav,/data-tab="discussionsPage"/,'No early public Discussions tab');
 assert.doesNotMatch(dock,/'discussionsPage'/,'Preserve current W.NE dock until enabled and 12-tab parity reviewed');
 console.log('PASS: staged Discussions layout/section/thread/replies; disabled gate; no premature 12th tab; safe URLs and limited steward actions.');
+
+/* Only owner actions on their own content, and limited steward organisation. */
+assert.match(html,/id="ddForumStewardPanel"/);
+assert.match(html,/id="ddForumStewardForm"/);
+assert.match(forum,/section\?\.is_steward/);
+assert.match(forum,/dd_discussions_update_section/);
+assert.match(forum,/if\(row\.is_mine\)/,'Only own posts/replies receive edit and withdraw buttons');
+assert.match(forum,/dd_discussions_edit_own/);
+assert.match(forum,/dd_discussions_withdraw_own/);
+assert.match(forum,/Number\(row\.my_vote\)===value\?0:value/,'Vote can be removed by choosing the same button');
+assert.match(forum,/aria-pressed/,'Accessible voting state');
+assert.match(forum,/result===false/,'Server rejection is never presented as successful');
+assert.match(forum,/ddForumPostList'\)\.hidden=true/,'Thread view hides background topic list');
