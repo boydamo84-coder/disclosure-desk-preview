@@ -12,7 +12,7 @@ assert.ok(t&&t.normalize&&t.remaining&&t.embedUrl);
 const f={id:'congress-119-house-12345',title:'Confirmed UAP Transparency Hearing',startAt:'2026-12-01T15:00:00Z',sourceUrl:'https://oversight.house.gov/hearing/test',status:'upcoming'};
 assert.equal(t.normalize(f)?.id,f.id,'Complete official source and timezone-qualified date required');
 assert.equal(t.normalize({...f,startAt:''}),null,'Do not turn date-only or undated events into countdowns');
-assert.equal(t.normalize({...f,startAt:'2026-12-01'}).startsAt.toISOString(),'2026-12-01T00:00:00.000Z','date-only is parsed but lacks verified start time');
+assert.equal(t.normalize({...f,startAt:'2026-12-01'}),null,'Date-only entries must not start a countdown without verified local time and zone');
 assert.equal(t.normalize({...f,status:'rumored'}),null,'No unverified schedule states');
 assert.equal(t.normalize({...f,sourceUrl:'https://fake-oversight.com'}),null,'Reject unofficial schedule host');
 assert.equal(t.normalize({...f,embedUrl:'javascript:alert(1)'}),null,'Reject unsafe stream URLs');
