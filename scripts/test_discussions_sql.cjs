@@ -42,6 +42,14 @@ for(const name of ['dd_discussions_sections','dd_discussions_threads','dd_discus
 for(const n of ['dd_discussions_sections','dd_discussions_threads','dd_discussions_replies']){
  assert.match(sql,new RegExp('grant execute on function public\\.'+n+'\\([^;]+?\\) to anon,authenticated;'),'Guest read '+n);
 }
+assert.match(sql,/creator_id uuid references auth.users\(id\) on delete set null/,'Founder account removal must not delete community section');
+assert.match(sql,/author_id uuid references auth.users\(id\) on delete set null/,'Post author removal can be anonymised');
+assert.match(sql,/submitted_by uuid references auth.users\(id\) on delete set null/,'Escalation author's account can be deleted');
+assert.match(sql,/body='\[Removed by author\]'/,'Author withdraw must preserve body check while clearing original text');
+assert.match(sql,/or char_length\(btrim\(p_body\)\)>case when p_kind='thread' then 5000 else 2000 end/,'Thread author edits retain 5000-character limit');
+assert.match(sql,/select 'thread'::text as kind/,'Owner queue includes threads');
+assert.match(sql,/select 'reply'::text as kind/,'Owner queue includes replies');
+assert.match(sql,/if not found then raise exception 'Discussion unavailable';end if;/,'Anonymised former authors must not disable flags');
 assert.doesNotMatch(sql,/insert into public.dd_forum_owner_admins/,'No owner accounts from Git');
 assert.match(config,/discussions:false/,'Not activated');
 assert.match(js,/flags\.discussions===true/,'Browser stays gated');

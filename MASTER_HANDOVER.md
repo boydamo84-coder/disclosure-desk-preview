@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, Discussions candidate safety review CORRECTION STAGED:** verified GitHub-only contract run `41685136138` passed previous SQL source; identified and patched review-only edge cases: anonymised users should not block section/account deletion or report flagging, withdrawn topics must satisfy nonempty constraints, post edits retain original length limits, and owner queue now includes both hidden/escalated **threads and replies**. Corrected source **still unapplied and not database-tested**. CI pending.
+
 - **2026-11-03, Discussions backend review SOURCE STAGED, UNAPPLIED:** `supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql` proposes section/reply/topic tables with RLS, guest-only safe read projections, registered-only posting and votes, five-distinct-flags temporary hide, limited steward Pin/Escalate, owner-only moderation/role replacement, abuse rate limits and audit trails. No DB schema was installed; GitHub-only source contract added, CI pending; isolated SQL/role tests required.
 
 - **2026-11-03, Discussions frontend CODE STAGED / DISABLED:** responsive section discovery, new-section form, topic posts, reply pane, safe source links, registered posting, user votes/flagging, scoped section-steward pin and escalate actions added in `assets/community-discussions.js` and `index.html`. The module returns immediately when `discussions:false`; no twelfth tab or public RPC calls. **Backend methods not yet implemented.** GitHub-only JS/static UI test added; CI pending and no deployment.
@@ -167,6 +169,15 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Discussions SQL review correction: withdrawn content, privacy, reply moderation
+- Repository/branch: `boydamo84-coder/disclosure-desk-preview`, `feature/sources-archives-next-batch-nov03`; prior SHA `acd2c47f0bd754dc3b3cc307eb0113d365fa5880`; resulting SHA is next GitHub HEAD.
+- Existing static source CI `41685136138` SUCCESS, but non-execution review found four defects: on-delete RESTRICT on authors/founders prevented account deletion; withdrawn topic empty body violated nonempty DDL; edit limit improperly capped long topics at reply length; and owner queue omitted hidden/escalated replies.
+- Corrected `supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql` and extended `scripts/test_discussions_sql.cjs`. Preserve original section on founder departure and pseudonymise deleted account references, allow flags of content after original author's account deletion, soft-withdraw body replaced with `[Removed by author]`, owner queue union for threads and replies.
+- Status: SOURCE STAGED and new GitHub-only regression pending; **not a SQL syntax/permission or real-account test**. No live database schema, data, Supabase migrations, Netlify, production, Android or Play impact.
+- Next: isolated SQL/RLS execution with synthetic separate users, concurrency/threshold tests and security audit BEFORE activating Discussions. 
+
+
 
 ### 2026-11-03 — Discussions backend candidate with scoped stewardship (SQL UNAPPLIED)
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `d4979fe11d260a57b9511d413b2808834ab0add7`; resulting SHA is this GitHub milestone's branch HEAD.

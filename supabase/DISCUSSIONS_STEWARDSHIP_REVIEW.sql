@@ -12,7 +12,7 @@ create table if not exists public.dd_forum_sections(
  name_key text generated always as (lower(regexp_replace(title,'[^A-Za-z0-9]','','g'))) stored unique,
  description text not null default '' check(char_length(description)<=400),
  topic text not null default '' check(char_length(topic)<=40),
- creator_id uuid not null references auth.users(id) on delete restrict,
+ creator_id uuid references auth.users(id) on delete set null,
  steward_id uuid references auth.users(id) on delete set null,
  status text not null default 'published' check(status in ('published','hidden','removed')),
  created_at timestamptz not null default now(),
@@ -24,7 +24,7 @@ create index if not exists dd_forum_sections_created_idx on public.dd_forum_sect
 create table if not exists public.dd_forum_threads(
  id uuid primary key default gen_random_uuid(),
  section_id uuid not null references public.dd_forum_sections(id) on delete cascade,
- author_id uuid not null references auth.users(id) on delete restrict,
+ author_id uuid references auth.users(id) on delete set null,
  title text not null check(char_length(btrim(title)) between 4 and 150),
  body text not null default '' check(char_length(body)<=5000),
  link_url text check(link_url is null or char_length(link_url)<=1000),
@@ -40,7 +40,7 @@ create table if not exists public.dd_forum_replies(
  id uuid primary key default gen_random_uuid(),
  thread_id uuid not null references public.dd_forum_threads(id) on delete cascade,
  parent_id uuid references public.dd_forum_replies(id) on delete set null,
- author_id uuid not null references auth.users(id) on delete restrict,
+ author_id uuid references auth.users(id) on delete set null,
  body text not null check(char_length(btrim(body)) between 2 and 2000),
  status text not null default 'published' check(status in ('published','hidden','removed')),
  created_at timestamptz not null default now(),
@@ -74,7 +74,7 @@ create table if not exists public.dd_forum_escalations(
  section_id uuid not null references public.dd_forum_sections(id) on delete cascade,
  target_kind text not null check(target_kind in ('thread','reply')),
  target_id uuid not null,
- submitted_by uuid not null references auth.users(id) on delete restrict,
+ submitted_by uuid references auth.users(id) on delete set null,
  reason text not null check(char_length(btrim(reason)) between 10 and 500),
  status text not null default 'open' check(status in ('open','resolved')),
  created_at timestamptz not null default now()
@@ -336,7 +336,7 @@ begin
      and t.status='published' and s.status='published'
    for update of r;
  end if;
- if original_author is null then raise exception 'Discussion unavailable';end if;
+ if not found then raise exception 'Discussion unavailable';end if;
  if original_author=actor then raise exception 'You cannot flag your own content';end if;
  perform pg_advisory_xact_lock(hashtext('dd-forum-flag:'||actor::text));
  if (select count(*) from public.dd_forum_flags f
@@ -442,7 +442,8 @@ returns boolean language plpgsql security definer set search_path=pg_catalog,pub
 declare actor uuid:=public.dd_discussions_require_registered(); affected integer;
 begin
  if p_kind not in ('thread','reply') or p_id is null or p_body is null
-   or char_length(btrim(p_body)) not between 2 and 2000
+   or char_length(btrim(p_body))<2
+   or char_length(btrim(p_body))>case when p_kind='thread' then 5000 else 2000 end
  then raise exception 'Invalid edit';end if;
  if p_kind='thread' then
   update public.dd_forum_threads t set body=btrim(p_body),updated_at=now()
@@ -467,10 +468,10 @@ declare actor uuid:=public.dd_discussions_require_registered(); affected integer
 begin
  if p_kind not in ('thread','reply') or p_id is null then raise exception 'Invalid removal';end if;
  if p_kind='thread' then
-  update public.dd_forum_threads t set status='removed',body='',link_url=null,is_pinned=false,updated_at=now()
+  update public.dd_forum_threads t set status='removed',body='[Removed by author]',link_url=null,is_pinned=false,updated_at=now()
    where t.id=p_id and t.author_id=actor and t.status<>'removed';
  else
-  update public.dd_forum_replies r set status='removed',body='',updated_at=now()
+  update public.dd_forum_replies r set status='removed',body='[Removed by author]',updated_at=now()
    where r.id=p_id and r.author_id=actor and r.status<>'removed';
  end if;
  get diagnostics affected=row_count;
@@ -530,17 +531,36 @@ language plpgsql stable security definer set search_path=pg_catalog,public as $$
 begin
  if not public.dd_discussions_is_owner() then raise exception 'Overall site owner required';end if;
  if coalesce(p_limit,0) not between 1 and 100 then raise exception 'Invalid queue limit';end if;
+ -- A single queue includes BOTH threads and individual replies. A steward
+ -- escalation is visible even before five distinct flags; it is not a deletion.
  return query
- select 'thread'::text,t.id,s.title,
-  (select count(*) from public.dd_forum_flags f where
-    f.target_kind='thread' and f.target_id=t.id),
-  (select count(*) from public.dd_forum_escalations e where
-    e.target_kind='thread' and e.target_id=t.id and e.status='open')
- from public.dd_forum_threads t join public.dd_forum_sections s on s.id=t.section_id
- where t.status='hidden' or exists(
-  select 1 from public.dd_forum_escalations e where
-  e.target_kind='thread' and e.target_id=t.id and e.status='open')
- order by t.updated_at desc limit p_limit;
+ select q.kind,q.item_id,q.title,q.flags,q.escalations
+ from (
+  select 'thread'::text as kind,t.id as item_id,s.title,
+   (select count(*) from public.dd_forum_flags f where
+     f.target_kind='thread' and f.target_id=t.id) as flags,
+   (select count(*) from public.dd_forum_escalations e where
+     e.target_kind='thread' and e.target_id=t.id and e.status='open') as escalations,
+   t.updated_at as changed_at
+  from public.dd_forum_threads t join public.dd_forum_sections s on s.id=t.section_id
+  where t.status='hidden' or exists(
+   select 1 from public.dd_forum_escalations e where
+   e.target_kind='thread' and e.target_id=t.id and e.status='open')
+  union all
+  select 'reply'::text as kind,r.id as item_id,s.title,
+   (select count(*) from public.dd_forum_flags f where
+     f.target_kind='reply' and f.target_id=r.id) as flags,
+   (select count(*) from public.dd_forum_escalations e where
+     e.target_kind='reply' and e.target_id=r.id and e.status='open') as escalations,
+   r.updated_at as changed_at
+  from public.dd_forum_replies r
+  join public.dd_forum_threads t on t.id=r.thread_id
+  join public.dd_forum_sections s on s.id=t.section_id
+  where r.status='hidden' or exists(
+   select 1 from public.dd_forum_escalations e where
+   e.target_kind='reply' and e.target_id=r.id and e.status='open')
+ ) q
+ order by q.changed_at desc limit p_limit;
 end $$;
 
 -- Block implicit PUBLIC execute on EVERY security-definer function,
