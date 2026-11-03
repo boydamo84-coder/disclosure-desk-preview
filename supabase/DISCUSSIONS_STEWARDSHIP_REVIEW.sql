@@ -543,7 +543,7 @@ end $$;
 create or replace function public.dd_discussions_owner_queue(p_limit integer default 50)
 returns table(target_kind text,target_id uuid,section_title text,
  flag_count bigint,escalation_count bigint,content_preview text,latest_escalation_reason text)
-language plpgsql stable security definer set search_path=pg_catalog,public as $
+language plpgsql stable security definer set search_path=pg_catalog,public as $$
 begin
  if not public.dd_discussions_is_owner() then raise exception 'Overall site owner required';end if;
  if coalesce(p_limit,0) not between 1 and 100 then raise exception 'Invalid queue limit';end if;
@@ -588,7 +588,7 @@ end $$;
 
 create or replace function public.dd_discussions_owner_sections(p_limit integer default 100)
 returns table(section_id uuid,title text,steward_name text,has_steward boolean)
-language plpgsql stable security definer set search_path=pg_catalog,public as $
+language plpgsql stable security definer set search_path=pg_catalog,public as $$
 begin
  if not public.dd_discussions_is_owner() then raise exception 'Overall site owner required';end if;
  if coalesce(p_limit,0) not between 1 and 100 then raise exception 'Invalid limit';end if;

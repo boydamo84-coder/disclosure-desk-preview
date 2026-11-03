@@ -64,3 +64,9 @@ assert.match(sql,/select r\.author_id,r\.reviewed_flag_count into original_autho
 assert.match(sql,/reviewed_flag_count=case when p_status='published'/,'Owner review advances flag baseline');
 assert.match(sql,/v\.voter_id=auth\.uid\(\)/,'Safe current-user vote only');
 assert.match(sql,/my_vote smallint/,'Public read returns current viewer state only');
+
+/* A real PostgreSQL parser caught malformed SQL dollar delimiters in owner functions. */
+assert.doesNotMatch(sql,/as \$\r?\n/,'No orphan dollar delimiter before PLpgSQL body');
+assert.doesNotMatch(sql,/end \$;/,'No orphan dollar closing delimiter');
+assert.match(sql,/create or replace function public\.dd_discussions_owner_queue[\s\S]*?as \$\$\r?\nbegin/);
+assert.match(sql,/create or replace function public\.dd_discussions_owner_sections[\s\S]*?as \$\$\r?\nbegin/);

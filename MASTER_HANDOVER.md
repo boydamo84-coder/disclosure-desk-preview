@@ -40,6 +40,48 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, PostgreSQL owner-function delimiter correction STAGED:** isolated CI `41687005397` reached the later owner functions but failed SQL parse at line 548 because the owner queue and owner sections functions each had a single `# Disclosure Desk — MASTER HANDOVER (authoritative)
+
+**Updated:** 2026-11-03 UTC  
+**Owner/product:** Boyd Digital Studios — Disclosure Desk  
+**Status:** Active development. The public 11-tab website and the unpublished next-batch branch are **different release states**. No deployment is authorised by this document.
+
+> **START EVERY NEW CHAT HERE.** Read this whole file before changing anything. Inspect current GitHub refs and source code; document reality rather than trusting an outdated paragraph. This file supersedes all older instructions where they conflict. The four legacy continuity filenames in this repository redirect here. Update this file **immediately after EVERY milestone**, not merely at the end of a conversation.
+
+## 1. Canonical repositories, refs, and release boundaries
+
+| Concern | Source of truth | Current evidence / rule |
+|---|---|---|
+| Disclosure Desk website and Android project | `boydamo84-coder/disclosure-desk-preview` | **Do not use its outdated `main` as the current website.** |
+| Current website release baseline | `production` | 11-tab combined release, head `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` when last checked 2026-11-03. Recheck SHA at next session. |
+| Current unpublished website work | `feature/sources-archives-next-batch-nov03` | Built atop `production`; pre-documentation head `3470c53f0f1ba4cd46a2627ee5f8238e2589f0f8`. Update this SHA after changes and recheck branch history. |
+| Earlier website research integration | `feature/research-studio-bds-production-based` | Historical; PR #2 merged into `production` at 08:02 UTC on 2026-11-03. Do not treat it as an open draft PR. |
+| Original W.NE Research Edition | `boydamo84-coder/WNE-Research-Edition` | Canonical pre-existing W.NE-derived UI and exports. Inspect before porting features. |
+| Original W.NE author product | `boydamo84-coder/W.NE` | **Do not edit as part of Disclosure Desk.** |
+| Legacy separate research/news repository | `boydamo84-coder/disclosure-desk` | Contains older automation work; not the present 11-tab website source. Cross-check before touching. |
+| Android Play internal candidate | Branch `android/play-internal-candidate-oct31` in website repo | Exists, with manual `.github/workflows/android-play-internal-aab.yml`. **Diverged substantially from website `production`; not release parity.** |
+| Backend | Supabase Disclosure Desk project `omqxizswzcwgzqaczlhe` | Never operate on separate Our Cinema data/project. No service-role credentials in clients or Git. |
+| Public domain | `https://uapdisclosuredesk.com` | Live changes require separate deliberate release approval. Git commits, CI, staging preview, backend migration and live site are distinct. |
+
+**Verified correction:** PR #2, “Disclosure Desk public release — Community, Research Hub, LIVE archive and tour”, is CLOSED/MERGED. Its PR describes production authorisation, backend migrations and a combined preview, with outstanding real-account witness acceptance. Earlier 2026-11-03 handover paragraphs stating PR #2 is draft or witness/LIVE tables are wholly uninstalled are **historical, not current**. The last known stage has an installed community/LIVE backend, but verify present backend and user-facing status before claiming a specific operation works.
+
+**Current 11 tabs in order:** News, Archive, W.NE, Map, Videos, LIVE, Boards, Witness, Watch & Read, Explore, Profile. Profile is last. W.NE has the matching save-guarded dock and hide/show toggle; top-right avatar is hidden inside W.NE. No new main tabs for roadmap features without a product decision.
+
+## 2. Non-negotiable working and safety rules
+
+1. **Read first, inspect next, edit last:** read this master handover; inspect changed branches, latest commits, workflows, existing implementation, test fixtures and any relevant detailed QA log. Never assume a feature is missing simply because an earlier chat planned it.
+2. **Single canonical W.NE Research Edition:** reuse its established split-screen workspace, existing report functions, local/cloud boundaries, import/export and citation features. Do not create a replacement or second simplified editor. Do not modify original W.NE.
+3. **Data isolation:** preserve Supabase Auth accounts, user-owned documents, private `investigation_boards`, backup/recovery and RLS. Use synthetic test accounts/data, rollback-only SQL tests, least privilege, private by default. No destructive tests on real content.
+4. **Community privacy and moderation:** signed-in registered users alone may publish, comment, vote or flag. Public witness map locations only at town/city-level; no precise coordinates, private addresses or contact details. Three new reports per rolling 24 hours. Five **distinct** registered flags temporarily hide an item for moderator review; dislikes are not flags. Show only opted-in aliases, never public email/author UUID or hidden private content. Owner moderation must be verified server-side, not inferred from UI.
+5. **LIVE:** only official verified hearing announcements are scheduled. Countdown has timezone-qualified date, official link and no invented event times; News banner expires 48h after event start. Attach *actual* approved hearing recordings and their own saved moderated chat; ended-event chat is read-only. Do not fabricate historical conversations or copy copyrighted video.
+6. **Research publication:** all W.NE documents, notes and Boards are private by default. `researchPublishing:false` until explicit opt-in preview/redaction/authorisation and comprehensive privacy QA.
+7. **Site scope:** Disclosure Desk is independent of THE UNKNOWN novel, original W.NE, Our Cinema and other BDS projects. Changes and Supabase queries must be scoped accordingly.
+8. **Release budget:** conserve Netlify build credits. Develop on the unpublished branch and test with GitHub-only Actions/local checks; batch coherent changes. **No opportunistic production merge, live publish, or Netlify staging build.** Check build triggers before pushing and obtain explicit release approval when ready.
+9. **Verification words are strict:** distinguish PLANNED, CODE STAGED, CI GREEN, BACKEND APPLIED, PREVIEW TESTED, SAMSUNG VERIFIED, LIVE RELEASED and PLAY INTERNAL TESTED. A commit or simulated RLS test is not an end-to-end test.
+10. **Master-handover discipline:** after every verified milestone, update Sections 3–8 and append the exact entry in Section 9 in the SAME development batch, citing branch, SHA, test outcome and release status. If work is incomplete, record blocker and next step; never call it done. Keep historical detailed docs as evidence, not competing instructions.
+
+ rather than `$` body opening (and one closing). Both repaired; static regression now rejects unmatched delimiters. Rerun pending; NO live database changes.
+
 - **2026-11-03, isolated SQL parser correction STAGED:** run `41686804284` FAILED on a PL/pgSQL `IF` conditional using an unparenthesised `CASE` expression in `dd_discussions_edit_own`. Replaced it with independent validated thread/reply length guards and updated static assertions. **Test now rerunning; do not claim backend ready.** No live data touched.
 
 - **2026-11-03, isolated Discussions PostgreSQL security workflow CODE STAGED:** Docker PostgreSQL 17 GitHub Action will run candidate SQL in a disposable database with synthetic Auth roles/users, test guest raw-table denial, nonsteward pin denial, owner review, author posting/replies and two rounds of five distinct flags. Trigger restricted to the review SQL/test files and workflow itself; **no connection to live Supabase, no Netlify deploy**. Workflow result pending; errors must be fixed before treating SQL as executable.
@@ -179,6 +221,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Isolated SQL owner function delimiter fix
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `6c90c3c42d9b605bac64ff6829d95b17b6d87cb5`; resulting SHA is this new commit.
+- PostgreSQL test run `41687005397` **FAILED** parsing owner queue after earlier functions compiled successfully: malformed single-dollar PL/pgSQL opening at line 546, plus same issue in owner sections at line 591. Fixed `as $` for both and `end $;` close in `supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql`.
+- Added test in `scripts/test_discussions_sql.cjs` to detect single-dollar function delimiters and assert both owner functions use balanced `$`. JS static test parses.
+- No production/backend/Netlify/Android changes; isolated GitHub PostgreSQL rerun pending. Next: inspect next CI and role acceptance outcomes.
+
+
 
 ### 2026-11-03 — Isolated PostgreSQL first execution found edit-rule SQL syntax error
 - Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `5db7fe5454128ce8cb5e3e5d574009d11f753558`; resulting SHA is new HEAD.
