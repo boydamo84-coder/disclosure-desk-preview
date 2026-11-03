@@ -76,13 +76,23 @@ drop policy if exists dd_witness_owner_insert on public.dd_witness_reports;
 drop policy if exists dd_witness_flag_owner_read on public.dd_witness_report_flags;
 -- The flagging table is not publicly queryable; unique reports are counted privately.
 -- Clients receive confirmation from INSERT, not a public list of who reported.
+-- A private eligibility check avoids disclosing author IDs to other viewers.
+create or replace function public.dd_witness_can_flag(p_id uuid)
+returns boolean language sql stable security definer set search_path=public as $
+ select auth.uid() is not null
+  and coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=false
+  and exists (select 1 from public.dd_witness_reports r
+    where r.id=p_id and r.status='published' and r.author_id<>auth.uid())
+$;
+revoke all on function public.dd_witness_can_flag(uuid) from public,anon;
+grant execute on function public.dd_witness_can_flag(uuid) to authenticated;
+
 drop policy if exists dd_witness_flag_submit on public.dd_witness_report_flags;
 create policy dd_witness_flag_submit on public.dd_witness_report_flags for insert to authenticated
  with check (
   reporter_id=(select auth.uid())
   and coalesce((auth.jwt()->>'is_anonymous')::boolean,false)=false
-  and exists(select 1 from public.dd_witness_reports r where r.id=report_id
-    and r.status='published' and r.author_id<>(select auth.uid()))
+  and public.dd_witness_can_flag(report_id)
  );
 
 -- Admission guard runs on the database, not in JavaScript.
