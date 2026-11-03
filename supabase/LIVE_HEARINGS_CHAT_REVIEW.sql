@@ -86,6 +86,7 @@ create or replace function public.dd_live_chat_guard()
 returns trigger language plpgsql security invoker set search_path=public
 as $$
 begin
+ perform pg_advisory_xact_lock(hashtext(new.author_id::text)); -- Serialise simultaneous posts from one account.
  if new.author_id is distinct from auth.uid() then raise exception 'Invalid chat author'; end if;
  if coalesce((auth.jwt()->>'is_anonymous')::boolean,false) then raise exception 'A registered account is required'; end if;
  new.created_at=now();
@@ -109,9 +110,10 @@ create trigger dd_live_chat_guard_trigger before insert on public.dd_live_chat_m
 for each row execute function public.dd_live_chat_guard();
 
 create or replace function public.dd_live_chat_flag_guard()
-returns trigger language plpgsql security invoker set search_path=public
+returns trigger language plpgsql security definer set search_path=public
 as $$
 begin
+ perform pg_advisory_xact_lock(hashtext(new.reporter_id::text));
  if new.reporter_id is distinct from auth.uid() then raise exception 'Invalid reporter'; end if;
  if (select count(*) from public.dd_live_chat_flags where reporter_id=new.reporter_id and created_at>now()-interval '1 hour')>=10 then
   raise exception 'Reporting limit reached';
