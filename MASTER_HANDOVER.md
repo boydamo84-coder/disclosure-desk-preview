@@ -40,7 +40,7 @@
 
 ## 3. Last verified milestone (most recent first)
 
-- **2026-11-03, historical satellite imagery case-handoff STAGED, NOT LIVE:** Existing dated Map case list now has a **🛰 Historic satellite imagery** action opening its Evidence file, where `assets/historical-satellite.js` will show official NASA Worldview date+approximate-city handoff and EUMETSAT long-term gallery/EUMETView links. Date-only source records remain labelled date-only; optional researcher UTC time is NOT validated as actual event time. Source-only CI pending; no external imagery fetched, no live deployment, no third-party tracking without explicit user click. Detailed source/limitations `docs/HISTORICAL_SATELLITE_IMAGERY_2026-11-03.md` (parent approved post-launch Phase B).
+- **2026-11-03, historical satellite imagery case-handoff STAGED, CI GREEN, NOT LIVE:** Existing dated Map case list now has a **🛰 Historic satellite imagery** action opening its Evidence file, where `assets/historical-satellite.js` will show official NASA Worldview date+approximate-city handoff and EUMETSAT long-term gallery/EUMETView links. Date-only source records remain labelled date-only; optional researcher UTC time is NOT validated as actual event time. GitHub-only CI run `41693881342` SUCCESS at SHA `dda6f9bd9a87bc400859d4664773adef04ba2480`; no external imagery fetched, no live deployment, no third-party tracking without explicit user click. Detailed source/limitations `docs/HISTORICAL_SATELLITE_IMAGERY_2026-11-03.md` (parent approved post-launch Phase B).
 
 - **2026-11-03, reply flag-baseline correction SOURCE STAGED:** isolated expanded CI run `41688611725` FAILED at first reply flag because `dd_discussions_flag` expected `dd_forum_replies.reviewed_flag_count`, missing from candidate reply DDL. Corrected the review-only table definition and added matched topic/reply DDL regression. No live DB affected; isolated test rerun pending.
 
@@ -274,13 +274,21 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 9. Milestone log — REQUIRED after *every* milestone
 
+### 2026-11-03 — Historical satellite imagery GitHub-only QA verified
+- Implementation SHA `dda6f9bd9a87bc400859d4664773adef04ba2480` on unpublished branch `feature/sources-archives-next-batch-nov03` passed GitHub workflow **`41693881342` SUCCESS**. Verified in CI: JavaScript syntax, historical case date parsing, approximate town-only coordinates, Worldview geographic/date/UTC parameter format, NASA vs EUMETSAT coverage boundaries, absence of witness/private location forwarding, no fake event time, case Evidence mount, and retained 11-tab navigation.
+- Published `production` remained `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` (11 tabs). No Supabase data change, Netlify preview/publish, Android build, external image download, or production launch; everything is still SOURCE STAGED ONLY.
+- **Outstanding before beta/production:** actual web browser test of Worldview's satellite layers for sample cases (including date/time navigation and coverage), EUMETSAT source/licence verification for any embedded imagery, source-tagged frame acquisition timestamps, map overlay/time slider, responsive Samsung QA and unified release approval.
+- No need to rerun a Netlify build for this documentation/status checkpoint.
+
+
+
 ### 2026-11-03 — Historical satellite imagery research handoff from mapped cases
 - Website repo/branch `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; prior SHA `3f991136062186ee88ebbde6b7255f438ef133c9`, resulting SHA new HEAD.
 - Approved researcher flow: Map case → **Historic satellite imagery** → case Evidence file → official provider, centered on **approximate town** at **reported event date**, opening provider only by deliberate click. No new main tab; existing map and 11-tab navigation remain.
 - Added `assets/historical-satellite.js` pure URL builder/UI, `index.html` action and evidence mount, `scripts/test_historical_satellite.cjs` source tests and GitHub-only CI step; documented official NASA Worldview deep-link params, EUMETSAT daily 1981+ archive, EUMETView and deferred time-resolved integration in `docs/HISTORICAL_SATELLITE_IMAGERY_2026-11-03.md` and post-launch Phase B.
 - Source audit `data/disclosure-map.json`: 276 dated records, **no sighting time fields**, locations already approximate town centres. Never fill missing sighting time as fact; Worldview default 12:00 UTC is date-browser anchor only. Round coordinates ~0.1 degree, exclude public witness records and private geolocation; third-party links only on click.
 - NASA 10-minute geostationary viewer advertised ~90-day window, not every historical year; EUMETSAT anniversary gallery one selected image/day starting 17 Aug 1981. Older minute-matched raw imagery requires separate licensed API/product archival work and source acquisition validation. This milestone does NOT host satellite images or claim a minute-matched frame exists.
-- **Verification status:** staged JS source syntax parsed; GitHub-only regression CI PENDING, actual browser interaction/Worldview deep-link and Android tests NOT completed. No Supabase migrations, Netlify/public builds, live 11-tab or Android modifications. Remaining imagery map-layer/time-slider work is roadmap, not delivered.
+- **Verification status:** GitHub workflow **SUCCESS** `41693881342` at implementation SHA `dda6f9bd9a87bc400859d4664773adef04ba2480`; source parser and Worldview date/approximate-city URL tests passed. Actual browser interaction/Worldview deep-link and Android tests NOT completed. No Supabase migrations, Netlify/public builds, live 11-tab or Android modifications. Remaining imagery map-layer/time-slider work is roadmap, not delivered.
 - Next: verify GitHub test passes; prepare source coverage/provider selection and daily-frame/link preview; validate original weather time against primary records before any live imagery match claim.
 
 

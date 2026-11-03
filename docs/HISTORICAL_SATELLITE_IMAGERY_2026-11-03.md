@@ -1,7 +1,7 @@
 # Disclosure Desk — Historical satellite imagery from sighting cases
 
 **Approved:** 3 November 2026 (follow-up to “What Was in the Sky?” research roadmap)  
-**Status:** First source-link client MILESTONE STAGED on unpublished website branch; NO live deployment, NO ingested historical frames or overlay yet.
+**Status:** First source-link client MILESTONE STAGED and GitHub static CI GREEN (`41693881342`, implementation SHA `dda6f9bd9a87bc400859d4664773adef04ba2480`); NO live deployment, NO ingested historical frames or overlay yet.
 **Parent roadmap:** [Post-launch research enhancements](POST_LAUNCH_RESEARCH_ROADMAP_2026-11-03.md).  
 **Live baseline:** 11 tabs; no extra tab for this tool.
 
