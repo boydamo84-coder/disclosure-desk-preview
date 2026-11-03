@@ -1,0 +1,18 @@
+'use strict';
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const root=path.join(__dirname,'..');
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const plan=read('docs/BDS_FINANCE_TERMUX_LOCAL_FIRST_2026-11-03.md');
+const roadmap=read('docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md');
+const master=read('MASTER_HANDOVER.md');
+const sec=read('docs/BDS_FINANCE_F2_SECURITY_2026-11-03.md');
+for(const s of ['Termux','Ko-fi','CSV','AdSense','Google Play','127.0.0.1','L1','encrypted','backup','GitHub','Sync'])assert.ok(plan.includes(s),s);
+for(const s of ['no documented history-polling API','outbound payment webhook','OAuth2 installed-app','not the same as application-level encryption','No real finance data']) assert.ok(plan.includes(s),s);
+assert.match(plan,/other local Android apps could contact localhost|Other local Android apps could contact localhost|Other local Android apps could contact localhost|Other local Android apps could contact localhost|Other local Android apps could contact localhost|Other local Android apps could contact localhost/i);
+assert.ok(roadmap.includes('LOCAL-FIRST PIVOT'));
+assert.ok(master.includes('TERMUX LOCAL-FIRST OPTION OWNER-PROPOSED'));
+assert.ok(sec.includes('preferred next prototype'));
+assert.ok(plan.includes('NOT YET IMPLEMENTED'));
+console.log('PASS: BDS Finance Termux local-first architecture and unresolved security gates are documented; no real data or public webhook receiver asserted.');

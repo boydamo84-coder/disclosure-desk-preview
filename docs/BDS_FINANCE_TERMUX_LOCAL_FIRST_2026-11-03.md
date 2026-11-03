@@ -1,0 +1,81 @@
+# BDS Finance Centre — Android/Termux local-first design
+
+**2026-11-03 — OWNER-PROPOSED DIRECTION; FEASIBILITY VERIFIED; NOT YET IMPLEMENTED.**
+
+## Decision and boundary
+
+The owner asked whether the Finance Centre could live **only on the Samsung phone** and use **Termux to pull financial reports**. **Recommended primary design: yes, local-first with manual/on-demand online synchronisation.** The finance database should live on-device, with no financial record tables hosted by the public Disclosure Desk site, no always-on personal server, no externally reachable Termux port, and no user financial data submitted to the current Supabase project. This supersedes the **cloud-hosted F2 rollout as the immediate plan**; it does NOT delete or reverse the previously CI-green PostgreSQL candidate, which remains an **unapplied optional alternative**.
+
+This is not truly always-offline: while the dashboard and previously imported records can work offline, **retrieving fresh revenue requires an internet connection**. The user presses **Sync now** while online; the app locks the vault again after use. Scheduled background Termux sync may be delayed or killed by Android power management, so it is not required for correctness and must not promise real-time updates.
+
+## Sources: capabilities verified 2026-11-03
+
+| Platform | Device-only approach | Important constraints |
+| --- | --- | --- |
+| Ko-fi | Download complete payment history CSV in the signed-in Ko-fi website, then import into the local vault; optionally share the file directly to a future import screen | Ko-fi's documented API is an **outbound payment webhook**, not a documented history-polling API. Fully automatic event delivery while the phone is offline would need an internet-reachable receiver (a separate cloud component), and is deliberately out of the phone-only design. Never invent such an API or scrape the account. |
+| AdSense | Locally authorised Google OAuth2 installed-app flow with read/report scope, then Termux fetches daily estimated earnings as available | Approval/account/API setup required; Google states AdSense does **not support service accounts**. Refresh credentials require encrypted storage and safe browser callback handling. Estimates may change; settled payments should not double-count earnings. |
+| Google Play | Download official monthly financial CSV and import it into the vault initially | Google's private Cloud Storage reports can be fetched programmatically with appropriate account permission, but access tokens/service-account key management on a phone carries risk. Prefer manual file import first; only add direct retrieval after least-privilege and credential storage are proven. Reports are delayed and may be UTF-16. |
+| Other income/expenses | Manual locally entered records and official invoices/receipts | Do not assume that every payout is additional revenue or every expense deductible. Preserve source reference/currency/status; do not store donor personal messages without a genuine need. |
+
+Official documentation:
+- Ko-fi export: https://help.ko-fi.com/hc/en-us/articles/10792069957661-How-tax-works-on-Ko-fi
+- Ko-fi webhook limitations: https://help.ko-fi.com/hc/en-us/articles/360004162298-Does-Ko-fi-have-an-API-or-webhook
+- Google AdSense OAuth: https://developers.google.com/adsense/management/direct_requests
+- Google Play export/private Cloud Storage: https://support.google.com/googleplay/android-developer/answer/6135870?hl=en-GB
+- Google Play financial reports: https://support.google.com/googleplay/android-developer/answer/2482017?hl=en-GB
+- Official Termux app-private storage details: https://github.com/termux/termux-packages/wiki/Termux-file-system-layout
+- Official Termux app installation: https://github.com/termux/termux-app
+
+## Proposed on-phone architecture — not implemented yet
+
+```text
+Samsung device
+  Termux / Python local process (online ONLY for intentional Sync)
+     +-- Ko-fi verified CSV import (manual)
+     +-- Play Console CSV import (manual)
+     +-- AdSense OAuth / reports (later, once approved and reviewed)
+     +-- validation, transaction de-duplication, GBP conversion, audit trail
+     +-- LOCAL ENCRYPTED VAULT
+     +-- encrypted backup / tested restore
+     +-- local-only Finance Centre dashboard
+```
+
+1. Place project and sensitive data **inside Termux private `$HOME`** (proposed `$HOME/.bds-finance/`), not in `/sdcard`, `Download`, public Android shared storage, GitHub or website assets. Android app sandbox is useful but **not the same as application-level encryption**.
+2. Implement a verifiably authenticated-encryption vault with password-derived key or a tested SQLCipher alternative; verify compatibility on the owner's existing Termux packages before installing because Termux builds may conflict with their bundled SQLite. Never write a plaintext database to disk and assume a local passcode makes it encrypted. Never hardcode keys, OAuth tokens or payroll values.
+3. **Backup/restore are essential.** Device-only without backups risks losing the ledger if the phone breaks, is reset, Termux is uninstalled, or app data is cleared. Use independently recoverable, password-encrypted backups to an external USB-C drive or optional user's own cloud service storing ciphertext only; validate restore in a separate test directory before real use. An off-device encrypted backup does not mean exposing usable finance records to a remote service.
+4. Initially run a Python terminal importer and sample dashboard; later expose a web-like interface **only on `127.0.0.1`**, with per-launch unpredictable access token, server-side access checks, CSRF/Origin enforcement, strict local content policy and no LAN binding. Other local Android apps could contact localhost; `127.0.0.1` **is not authentication by itself**. Avoid persisting auth cookies or raw financial data in browser caches.
+5. Keep separate `estimate`, `final income`, `payout transfer`, `fee`, `refund` and `expense` ledger categories. Import is idempotent; provenance and tax-year 6 Apr–5 Apr retained. Show **last sync, pending sources, stale reports and manual file-import state** clearly.
+6. No third-party financial data is permitted in Git commits, tests, demo HTML, source code, support tickets or public Netlify builds. No automatic tax figure until PAYE inputs/other taxable income and HMRC-rule review are available in a protected context.
+7. Keep Termux and plugins sourced consistently; official Termux warns against mixing F-Droid and GitHub signed plugins. Do not reinstall the user's current Termux casually: other projects and manuscripts may exist there.
+
+## Security trade-offs
+
+**Advantages:** no finance-service monthly hosting costs assumed; no public finance DB/API, less external attack surface, device works without network for historical reports; reasonable for a single owner.
+
+**Limitations:** if the phone is compromised or unlocked, the database and decrypted session may be at risk; local code must be protected as well; internet sync and Google OAuth involve external providers; service credentials on phone are sensitive; provider report schema can change; device loss without tested encrypted backup is serious; some accounts cannot be automatically polled (Ko-fi).
+
+This option is **potentially safer for this particular single-owner use case**, not inherently secure without encryption, verified implementation, physical-device testing and backups. Android lock-screen, OS updates, no shared unencrypted exports, shortened open-vault sessions, and clear token revocation are required.
+
+## Next implementation milestones
+
+- **L1 — Local encrypted vault proof (next):** Termux-compatible Python app, **synthetic data only**. Test lock/unlock, wrong passphrase, no plaintext leakage, transaction deduplication, UK tax-year dates, backup/restore and crash recovery. Do not replace F1 until it passes.
+- **L2 — Local dashboard integration:** same BDS styling; read-only financial summaries from unlocked vault, owner-controlled unlock, local HTTP protection or file rendering, Samsung browser QA, no exposure on LAN or public website.
+- **L3 — Real official CSV import adapters after L1+L2 security acceptance:** Ko-fi export and Play reports; validate schema, document fees/VAT/FX, reject duplicate or conflicting provider references, minimize donor personal data, test with owner-redacted sample file before handling real records.
+- **L4 — Optional AdSense OAuth reporting:** after AdSense approval, opt-in installed-app Google authorisation with short-lived access and encrypted refresh credentials; no service-account attempt.
+- **L5 — Optional Play Cloud Storage pull:** only if on-device least-privilege access can be made safe; otherwise retain CSV import.
+- **L6 — Personal tax reserve:** versioned Northern Ireland/UK sole-trader rules, additional PAYE-sensitive estimate, statutory reminders and clear limitations; not HMRC filing.
+- **L7 — Owner-confirmed recovery drill:** decrypt a real encrypted backup on a clean local test directory, then decide if the system can safely graduate from synthetic-only.
+
+## Status and acceptance
+
+- [x] Provider feasibility checked against official documentation.
+- [x] Device-only local-first path documented and distinguished from webhook/server model.
+- [ ] Vault encryption implemented and tested on actual Termux.
+- [ ] Encrypted backup recoverability tested.
+- [ ] Localhost interface protected and tested against other apps / CSRF.
+- [ ] Ko-fi, Play CSV parsers and AdSense permissioned sync implemented.
+- [ ] Real owner data accepted. **Not permitted yet.**
+- [ ] Tax estimate approved. **Not implemented.**
+- [ ] Live website/Netlify/Supabase changed. **Not authorised.**
+
+**Working branch:** `feature/sources-archives-next-batch-nov03` in `boydamo84-coder/disclosure-desk-preview`; current 11-tab website production and all existing client data must remain untouched. Update `MASTER_HANDOVER.md` after every future L milestone.

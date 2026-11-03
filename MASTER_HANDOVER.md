@@ -40,6 +40,10 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-03, FINANCE TERMUX LOCAL-FIRST OPTION OWNER-PROPOSED / ARCHITECTURE DOCUMENTED — NO APP BUILT:** owner asked to keep financial tracking on a Samsung and use Termux for online-on-demand income retrieval. Official provider docs checked: Ko-fi offers full history CSV but its API is outbound webhooks (no documented history polling); AdSense supports installed-app OAuth reporting, not service accounts; Play private reports downloadable as CSV/Cloud Storage. Staged `docs/BDS_FINANCE_TERMUX_LOCAL_FIRST_2026-11-03.md` to prioritise encrypted private Termux storage, optional offline dashboard, manual/consented online sync and encrypted off-device backups. The earlier finance PostgreSQL F2 SQL is an **unapplied alternative**, not a live requirement. **No encryption code, actual data, login, provider sync or service deployment exists**. L1 synthetic-data secure-vault prototype is the next build; no public website, Supabase, Netlify, W.NE or Our Cinema changes. GitHub-only source documentation QA pending at documentation commit.
+
+
+
 - **2026-11-03, F2 OWNER-ONLY SQL ISOLATED SECURITY CI GREEN — NO REAL FINANCE SERVICE:** staged `finance-review/finance-f2-review.sql`, synthetic fixture/acceptance tests, GitHub-only workflow `validate-bds-finance-isolated.yml`, and `docs/BDS_FINANCE_F2_SECURITY_2026-11-03.md`; code commit `4a225e87c6c6de349e185c33a2d0c5a107dbc38d`. PostgreSQL 17 review SQL installed **only in disposable CI**; 2FA/AAL2 owner verified, unrelated user/guest/anonymous/AAL1 denied, private allowlist hidden, read/append-only, duplicate reference rejected, owner revocation blocked. GitHub Actions **41723430099 SUCCESS**; existing website staging QA **41723429851 SUCCESS**. **F2 partially staged, NOT production secure or deployed**: no real finance Supabase project/login/backend/API/encrypted backup, and public F1 HTML remains sample-only. `production` stays `9755fba9a5116c0cce6ac433ea022a6e5bfadd15`; no Supabase/Netlify/Play changes, secrets, customer data or accounts. Next decide private host/free tier then protected server storage, MFA device/account tests and backup restore before real income.
 
 
@@ -221,6 +225,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**Finance direction update:** Termux + encrypted on-device vault is now the preferred practical next prototype, not a deployed Supabase backend. The PostgreSQL F2 tests remain a separate unused alternative. No additional public site tab, finance route, online event receiver, or Netlify build. Only manual or user-initiated source imports/sync in the proposal.
+
+
 **Parallel Finance F2 candidate milestone (CI GREEN, not live):** A private owner/MFA-gated ledger SQL design passed **disposable PostgreSQL role tests** run `41723430099`. No new live account or provider connection. Main Disclosure Desk website release plan and 11-tab navigation are unaffected; next Finance step is secure owner account/project selection and backup plan, not public Finance tab.
 
 **Parallel Finance F1 result (GitHub CI GREEN):** synthetic offline demo at `docs/prototypes/bds-finance-demo.html`; details and limitations in `docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md`. The Finance Centre's real-data F2 owner-only backend/security and F3 provider sync are **NOT BUILT**. No extra public nav tab and no finance deployment; don't let this prototype block existing Disclosure Desk website work.
@@ -283,6 +290,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 5. Release plan: website first, then Android / Google Play
 
+**Finance-specific exception:** Termux local-only Finance Centre is a separate private owner app and not part of Disclosure Desk's public website or Play release; L1 encryption/backup and L2 device-only UI require physical phone testing before real finance data. The staged F2 finance SQL MUST NOT be applied to Disclosure Desk.
+
+
 **Finance release remains independent and prohibited in this batch:** F2 SQL candidate lives outside `supabase/migrations` and must not be included in the website deployment, which cannot enforce owner-only route access by hiding a URL. The dedicated private finance service and MFA/backup approval are outstanding.
 
 **Additional scope already approved:** consent-first private 1:1 messaging embedded within Profile (Section 4C, no extra chat tab) **and** new public user-created Discussions as a separately approved **12th main tab** (Section 4D). Both belong to the consolidated website roadmap with abuse/security tests and later Android parity. Current `production` remains the original 11-tab version.
@@ -296,6 +306,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 **Phase 4 — Play internal test and release preparation:** check Gradle/Android SDK, app ID, target API and Play policy requirements on actual release date; securely configure signed Android App Bundle (AAB) using existing manual `.github/workflows/android-play-internal-aab.yml`; check Play App Signing, release keys, version codes, app icon, screenshots, listing, privacy/data safety, consent/ads implementation, support URL, testing track eligibility, crash-free smoke and multi-device tests. Run internal/closed testing first; production publication requires explicit separate approval. Never publish a debug-signed APK as Play release.
 
 ## 6. Known source paths and supporting records
+
+- Local-first BDS Finance design: `docs/BDS_FINANCE_TERMUX_LOCAL_FIRST_2026-11-03.md`; Ko-fi export/AdSense installed OAuth/Play report constraints documented. No local encryption or provider sync code exists yet. Prior `finance-review/` SQL remains unapplied.
+
 
 - Finance F2 review-only SQL/isolated role QA: `finance-review/finance-f2-review.sql`, `finance-review/isolated-fixture.sql`, `finance-review/isolated-acceptance.sql`, `.github/workflows/validate-bds-finance-isolated.yml`; `docs/BDS_FINANCE_F2_SECURITY_2026-11-03.md`. Tests passed 2026-11-03 in disposable DB, no live backend.
 
@@ -311,6 +324,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [ ] Phone-only Finance L1: encrypted private Termux vault and independent encrypted backup restore using synthetic transactions; no unencrypted actual records in shared downloads or local browser cache. Not implemented.
+- [ ] Finance Ko-fi source is manual verified history CSV under phone-only architecture; any real-time webhook relay requires separate explicit online-service approval.
+
 
 - [x] F2 candidate SQL isolated synthetic owner/cross-user/MFA/revocation/duplicate validation **CI GREEN**; **this does not authorise storing real finance data**.
 - [ ] Separate finance identity/project, real MFA, owner-only API, encrypted backups, secured routes and Samsung/desktop test are still required; keep `docs/prototypes` fake data only.
@@ -334,6 +351,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Finance next milestone:** Build a tested Termux-compatible local encrypted vault L1 using fictional data only, portable backup/restore, lock/unlock and wrong-passphrase tests, and no open ports; then L2 an authenticated localhost interface if necessary. Do not load any financial credentials or perform actual online sync until approval and physical phone testing.
+
+
 **Finance F2 follow-up after verified isolated SQL (not a site-release blocker):** Pick an affordable standalone private owner portal/storage route mindful of existing Supabase free-project limits; test actual owner MFA, backup/restore and user isolation with synthetic data before adding real-money ledger. No deployment or provider approval implied by GitHub Actions.
 
 **Finance F1 next step:** GitHub CI **SUCCESS** run `41721383656` at `d6106c975fddacf5081bc30ae80029fafa91cdae`; owner can download and manually test single HTML demo from unpublished GitHub branch. For F2, first security architecture/owner-only backend/recovery plan with separate private endpoint; no real financial data, tokens or tax owed calculations until that boundary is proven. Keep current Disclosure Desk website QA moving.
@@ -348,6 +368,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Finance Centre local-first Termux architecture chosen for next prototype
+- Working repo/branch `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`, previous SHA `2aa97a252b1576665bf2015b9dcdaac1f40655a3`; new documentation commit is the resulting branch HEAD (inspect GitHub). Production `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` unchanged.
+- Owner suggested phone-only Finance Centre with Termux collecting earnings. Confirmed feasible as **offline storage + online on-demand pull/manual import**, not perpetual offline live sync. Full Ko-fi CSV available and documented webhooks only push; AdSense OAuth installed-app workflow; Google Play download/Cloud Storage financial reports. No third-party financial API access performed.
+- New `docs/BDS_FINANCE_TERMUX_LOCAL_FIRST_2026-11-03.md`, revised `docs/BDS_FINANCE_CENTRE_ROADMAP_2026-11-03.md`, this handover and staging-only documentation regression test. Previous isolated PostgreSQL F2 CI GREEN remains historical, uninstalled and optional rather than a requirement for the new local-first approach.
+- Security pending: actual tested vault encryption, key handling, Termux package compatibility, encrypted backups with restore drill, user-initiated internet permissions and carefully protected localhost or native UI. F1 fake-data HTML is NOT safe for actual revenue.
+- No new Supabase project/SQL, Netlify deployment, personal data, credentials, live website, Play action, original W.NE or Our Cinema modification. Next L1 synthetic-only encrypted vault implementation.
+
 
 ### 2026-11-03 — BDS Finance F2 RLS candidate verified in disposable PostgreSQL
 - Repository `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; code SHA `4a225e87c6c6de349e185c33a2d0c5a107dbc38d`. Documentation update is next GitHub branch HEAD; verify when committed.

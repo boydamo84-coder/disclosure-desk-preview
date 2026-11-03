@@ -1,6 +1,8 @@
 # BDS Finance F2 — dedicated private security architecture (REVIEW ONLY)
 Updated 2026-11-03. **No production, preview, banking or Supabase changes.**
 
+> **2026-11-03 architecture update:** The owner proposed keeping the Finance Centre exclusively on the Samsung with Termux local encrypted storage and on-demand online report fetching. That is now the **preferred next prototype**, documented in `docs/BDS_FINANCE_TERMUX_LOCAL_FIRST_2026-11-03.md`. This PostgreSQL document and review SQL remain **unapplied alternative designs**; previous CI GREEN verifies disposable role tests only. Do not provision a cloud project merely because this earlier option was tested.
+
 ## Choice and hard boundary
 - The Finance Centre is a separate BDS administrative product; **do not reuse the live Disclosure Desk project's Auth, community tables, or Supabase service-role key**. Proposal: a dedicated private finance Supabase project with a separate owner identity, then a private authenticated origin/PWA with MFA. This avoids a single disclosure/community configuration mistake exposing financial records.
 - The current single-file F1 example in \`docs/prototypes/\` is **not** a secure accounts page. Never enter real income there, despite its offline/network-disabled behaviour. It is part of the unreleased site repo solely for synthetic tests.

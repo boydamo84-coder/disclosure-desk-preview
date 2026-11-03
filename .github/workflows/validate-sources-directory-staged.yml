@@ -70,3 +70,7 @@ jobs:
         run: |
           node --check scripts/test_bds_finance_demo.cjs
           node scripts/test_bds_finance_demo.cjs
+      - name: Validate BDS Finance phone-only architecture limitations (no deploy)
+        run: |
+          node --check scripts/test_bds_finance_local_first_docs.cjs
+          node scripts/test_bds_finance_local_first_docs.cjs
