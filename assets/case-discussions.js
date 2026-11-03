@@ -19,7 +19,10 @@ async function load(){
  list.textContent='Loading comments…';
  const {data,error}=await c.from('dd_case_comments').select('id,case_id,author_id,parent_id,body,status,created_at').eq('case_id',current).eq('status','approved').order('created_at',{ascending:true}).limit(100);
  if(error){list.textContent='Comments unavailable. The database migration may not have been applied.';return}
- loadedComments=data||[];
+ const chosen=current;
+ const aliases=await window.DDPublicProfiles?.namesFor('comment',data||[])||{};
+ if(chosen!==current||!list.isConnected)return;
+ loadedComments=(data||[]).map(x=>({...x,publicAlias:aliases[x.id]||null}));
  renderComments();
 }
 function renderComments(){
@@ -33,7 +36,7 @@ function renderComments(){
  const visible=expanded?loadedComments:loadedComments.slice(-2);
  for(const item of visible){
    const card=document.createElement('article');card.className='card';card.id='discussion-comment-'+item.id;card.style.cssText='padding:12px;margin:8px 0';
-   const header=document.createElement('div');header.className='muted small';header.textContent='Community member · '+displayDate(item.created_at);
+   const header=document.createElement('div');header.className='muted small';header.textContent=(item.publicAlias||'Community member')+' · '+displayDate(item.created_at);
    const body=document.createElement('p');body.textContent=item.body;body.style.whiteSpace='pre-wrap';
    const flag=document.createElement('button');flag.className='outline';flag.type='button';flag.textContent='⚑ Flag';flag.style.fontSize='12px';
    flag.onclick=async()=>{

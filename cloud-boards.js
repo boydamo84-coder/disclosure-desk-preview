@@ -179,9 +179,16 @@ async function handleConfirmationReturn(){
 async function auth(mode){
  const e=email.value.trim(),p=pass.value;
  if(!e||!p){say('Enter an email and password.');return}
+ // The requested name is only a sign-up PREFILL. It confers no permissions.
+ // A verified signed-in owner saves it separately with explicit public opt-in.
+ const requestedName=String(document.getElementById('ddSignupUsername')?.value||'').trim();
+ if(mode==='signup'&&(!/^[A-Za-z][A-Za-z0-9_]{2,23}$/.test(requestedName)
+   ||/(admin|moderator|support|official|verified|staff|disclosuredesk|boyddigitalstudios|uapdisclosuredesk)/i.test(requestedName))){
+  say('Choose a 3–24 character username starting with a letter; only letters, numbers and underscores. No official/staff names.');return;
+ }
  say('Contacting sign-in service…');
  try{
-  const out=mode==='signup'?await db.auth.signUp({email:e,password:p,options:{emailRedirectTo:location.origin+location.pathname+'?dd_confirm=1'}}):await db.auth.signInWithPassword({email:e,password:p});
+  const out=mode==='signup'?await db.auth.signUp({email:e,password:p,options:{emailRedirectTo:location.origin+location.pathname+'?dd_confirm=1',data:{dd_requested_username:requestedName}}}):await db.auth.signInWithPassword({email:e,password:p});
   if(out.error)throw out.error;
   pass.value='';
   await refresh();

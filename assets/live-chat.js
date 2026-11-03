@@ -35,7 +35,7 @@ window.ddLiveChatMount=(host,event)=>{
  function addMessage(m){
   const item=make('article','dd-live-chat-message');
   const meta=make('div','dd-live-chat-meta');
-  const name='Researcher '+String(m.author_id||'').replaceAll('-','').slice(0,6).toUpperCase();
+  const name=String(m.publicAlias||'Community member');
   const when=new Date(m.created_at);
   const stamp=Number.isFinite(when.getTime())?new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/London'}).format(when):'';
   meta.append(make('span','',name+' · '+stamp));
@@ -62,8 +62,10 @@ window.ddLiveChatMount=(host,event)=>{
   const {data,error}=await db.from('dd_live_chat_messages').select('id,event_id,author_id,body,created_at').eq('event_id',event.id).order('created_at',{ascending:false}).limit(60);
   if(!active)return;
   if(error){say('Live chat unavailable. '+error.message,true);return;}
+  const aliases=await window.DDPublicProfiles?.namesFor('chat',data||[])||{};
+  if(!active)return;
   messages.replaceChildren();
-  for(const m of (data||[]).slice().reverse())messages.append(addMessage(m));
+  for(const m of (data||[]).slice().reverse())messages.append(addMessage({...m,publicAlias:aliases[m.id]||null}));
   if(!data?.length)messages.append(make('p','muted small','No messages yet. Be the first to join the discussion.'));
   messages.scrollTop=messages.scrollHeight;
  }

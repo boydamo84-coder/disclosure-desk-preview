@@ -31,7 +31,7 @@ function mount(container){
   if(!shown.length){const note=el('p','No comments yet.');note.className='muted small';entries.append(note);}
   for(const item of shown){
    const card=el('div');card.className='card';card.style.cssText='padding:10px;margin:8px 0';
-   const header=el('small','Community member · '+new Date(item.created_at).toLocaleDateString());header.className='muted';
+   const header=el('small',(item.publicAlias||'Community member')+' · '+new Date(item.created_at).toLocaleDateString());header.className='muted';
    const text=el('p',item.body);text.style.whiteSpace='pre-wrap';
    const flag=el('button','⚑ Flag');flag.type='button';flag.className='outline';
    flag.onclick=async()=>{const c=client();if(!c)return;const {data:{user}}=await c.auth.getUser();if(!user){message.textContent='Sign in to flag comments.';return}
@@ -49,7 +49,9 @@ function mount(container){
   const {data,error}=await c.from('dd_case_comments').select('id,body,created_at').eq('case_id',id).eq('status','approved').order('created_at',{ascending:true}).limit(100);
   if(!container.isConnected)return;
   if(error){message.textContent='Comments temporarily unavailable.';return}
-  state.items=data||[];render();
+  const aliases=await window.DDPublicProfiles?.namesFor('comment',data||[])||{};
+  if(!container.isConnected)return;
+  state.items=(data||[]).map(x=>({...x,publicAlias:aliases[x.id]||null}));render();
  }
  toggle.onclick=()=>{state.expanded=!state.expanded;drafts.set(id,{expanded:state.expanded,draft:body.value});render()};
  form.onsubmit=async ev=>{ev.preventDefault();if(state.busy)return;const c=client();if(!c)return;
