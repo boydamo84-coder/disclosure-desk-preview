@@ -1,6 +1,6 @@
 # BDS Finance Centre — Android/Termux local-first design
 
-**2026-11-03 — OWNER-PROPOSED DIRECTION; FEASIBILITY VERIFIED; NOT YET IMPLEMENTED.**
+**2026-11-03 — OWNER-PROPOSED DIRECTION; FEASIBILITY VERIFIED; GITHUB-ONLY DOCS CI GREEN; NOT YET IMPLEMENTED.**
 
 ## Decision and boundary
 
@@ -65,6 +65,11 @@ This option is **potentially safer for this particular single-owner use case**, 
 - **L5 — Optional Play Cloud Storage pull:** only if on-device least-privilege access can be made safe; otherwise retain CSV import.
 - **L6 — Personal tax reserve:** versioned Northern Ireland/UK sole-trader rules, additional PAYE-sensitive estimate, statutory reminders and clear limitations; not HMRC filing.
 - **L7 — Owner-confirmed recovery drill:** decrypt a real encrypted backup on a clean local test directory, then decide if the system can safely graduate from synthetic-only.
+
+## Verification — 2026-11-03
+- GitHub-only static/documentation QA run [41724910278](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41724910278) **SUCCESS** at source SHA `98ec9c88f8673b40afb27804ebe09afbe8b70e24`.
+- First run `41724778280` failed on two mismatched **assertion text snippets**, not a financial sync or security implementation; test corrected with no product code change.
+- No phone runtime/security, encrypted vault, report parser, real online sync or backup has been created or exercised. Previous F2 PostgreSQL SQL remains unused.
 
 ## Status and acceptance
 

@@ -40,7 +40,7 @@
 
 ## 3. Last verified milestone (most recent first)
 
-- **2026-11-03, FINANCE TERMUX LOCAL-FIRST OPTION OWNER-PROPOSED / ARCHITECTURE DOCUMENTED — NO APP BUILT:** owner asked to keep financial tracking on a Samsung and use Termux for online-on-demand income retrieval. Official provider docs checked: Ko-fi offers full history CSV but its API is outbound webhooks (no documented history polling); AdSense supports installed-app OAuth reporting, not service accounts; Play private reports downloadable as CSV/Cloud Storage. Staged `docs/BDS_FINANCE_TERMUX_LOCAL_FIRST_2026-11-03.md` to prioritise encrypted private Termux storage, optional offline dashboard, manual/consented online sync and encrypted off-device backups. The earlier finance PostgreSQL F2 SQL is an **unapplied alternative**, not a live requirement. **No encryption code, actual data, login, provider sync or service deployment exists**. L1 synthetic-data secure-vault prototype is the next build; no public website, Supabase, Netlify, W.NE or Our Cinema changes. GitHub-only source documentation QA pending at documentation commit.
+- **2026-11-03, FINANCE TERMUX LOCAL-FIRST OPTION OWNER-PROPOSED / ARCHITECTURE DOCUMENTED — NO APP BUILT:** owner asked to keep financial tracking on a Samsung and use Termux for online-on-demand income retrieval. Official provider docs checked: Ko-fi offers full history CSV but its API is outbound webhooks (no documented history polling); AdSense supports installed-app OAuth reporting, not service accounts; Play private reports downloadable as CSV/Cloud Storage. Staged `docs/BDS_FINANCE_TERMUX_LOCAL_FIRST_2026-11-03.md` to prioritise encrypted private Termux storage, optional offline dashboard, manual/consented online sync and encrypted off-device backups. The earlier finance PostgreSQL F2 SQL is an **unapplied alternative**, not a live requirement. **No encryption code, actual data, login, provider sync or service deployment exists**. L1 synthetic-data secure-vault prototype is the next build; no public website, Supabase, Netlify, W.NE or Our Cinema changes. GitHub-only documentation QA **SUCCESS** at code SHA `98ec9c88f8673b40afb27804ebe09afbe8b70e24`, Actions run `41724910278`. Initial QA `41724778280` failed on two incorrect documentation test expectations, corrected with assertions reflecting actual source wording; no product code change. Documentation and proposed architecture only.
 
 
 
@@ -368,6 +368,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-03 — Local-first Finance Centre design CI verified (no backend)
+- Repo `boydamo84-coder/disclosure-desk-preview`, branch `feature/sources-archives-next-batch-nov03`, tested source SHA `98ec9c88f8673b40afb27804ebe09afbe8b70e24`, handover-update commit is next branch HEAD.
+- GitHub Actions `41724910278` **SUCCESS**, including existing site staging QA and `scripts/test_bds_finance_local_first_docs.cjs`. Earlier `41724778280` failed solely on two test-text mismatches and was fixed at source SHA above. No live site, browser, phone, finance security or API integration validation was performed.
+- New `docs/BDS_FINANCE_TERMUX_LOCAL_FIRST_2026-11-03.md` and roadmap distinguish manual full Ko-fi CSV history from webhook push, AdSense local installed-app OAuth, Play CSV/Cloud Storage and optional online Sync from encrypted phone-only data storage. Earlier disposable PostgreSQL RLS test still green historically but is not the selected live deployment path.
+- `production` remains `9755fba9a5116c0cce6ac433ea022a6e5bfadd15`; no Netlify/production/Supabase payment changes, no real owner financial information and no data collection, no original W.NE/Our Cinema changes.
+- Next: L1 encrypted local vault proof, synthetic records only, separately verified backup recovery and Termux package compatibility; physical Samsung acceptance prior to real income.
+
 
 ### 2026-11-03 — Finance Centre local-first Termux architecture chosen for next prototype
 - Working repo/branch `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`, previous SHA `2aa97a252b1576665bf2015b9dcdaac1f40655a3`; new documentation commit is the resulting branch HEAD (inspect GitHub). Production `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` unchanged.
