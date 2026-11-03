@@ -1,0 +1,18 @@
+name: Check Research Studio beta navigation
+on:
+  push:
+    branches:
+      - feature/research-studio-beta-nav
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify nav and private beta copy
+        run: node scripts/test_research_studio_beta.cjs
