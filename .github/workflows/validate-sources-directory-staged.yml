@@ -49,6 +49,12 @@ jobs:
           node --check assets/live-chat.js
           node --check scripts/test_live_chat_archive_runtime.cjs
           node scripts/test_live_chat_archive_runtime.cjs
+      - name: Exercise mobile tour, keyboard focus and 11-tab navigation (synthetic only)
+        run: |
+          node --check scripts/test_mobile_tour_a11y.cjs
+          node scripts/test_mobile_tour_a11y.cjs
+          node --check scripts/test_guided_tour_2026.cjs
+          node scripts/test_guided_tour_2026.cjs
       - name: Validate My Research Hub navigation and collapsible panels
         run: |
           node --check scripts/test_research_hub.cjs

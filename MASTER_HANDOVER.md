@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-04 — DISCLOSURE DESK 11-TAB TOUR ACCESSIBILITY & MOBILE NAVIGATION FIX STAGED (CI PENDING):** Inspected actual 384 KB site source and verified all 30 existing full/focused tour targets across 11 production tabs. Found two UX/accessibility issues: tour used nonmodal `dialog.show()` and always jumped to Explore on Close; first-visit overlay pretended to be modal without keyboard focus trapping. Staged native modal tour/welcome `showModal()`, Escape/Close origin-tab + focus restoration, mobile 44px touch controls and 60dvh scrollable tour, active bottom nav `aria-current="page"` and horizontal selected-tab reveal. Added source-extracted runtime synthetic test and existing guided-tour regression to GitHub-only staging suite; `docs/TOUR_MOBILE_ACCESSIBILITY_QA_2026-11-04.md` notes device QA pending. No LIVE schedule/Finance/Cinema/W.NE changes; no Netlify, Supabase or production deployment. Pending CI run must pass before CODE QA GREEN.
+
+
 - **2026-11-04 — LIVE HEARING CHAT WINDOW + ARCHIVED REPLAY SYNTHETIC QA GREEN (NO LIVE DATA):** LIVE source fix opens the authenticated room at verified start−45min and closes it at approved end or start+4h without interrupting embedded hearing video; source commit `a5dd5bc2ba2e3780b6d1552f2c99405cd9c2a637` **GitHub-only Actions 41802115449 SUCCESS**. A separate test executes real `assets/live-chat.js` with mock approved 60+1 saved messages, unauthenticated visitor, live-room refresh and archived pagination; confirms guest cannot post, LIVE cleanup does **not** close saved transcript and older archived messages remain accessible. Test commit `4ae869d19b6b58146b13f4220699f02ce71fb7ef` **GitHub-only Actions 41802463605 SUCCESS**. These are code and synthetic runtime checks; **no real hearing, signed-in chat/RLS, recording replay or Samsung browser acceptance has occurred**. No live event published, Netlify/Supabase data/production/finance/cinema/W.NE changes. Next: real guest and signed-in chat tests only after explicit owner-approved disposable data and verified official event; finish full-site tour/mobile release checklist.
 
 
@@ -304,6 +307,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**CURRENT (4 Nov): full-site tour/mobile navigation/accessibility QA on 11-tab unpublished branch.** Code staged for modal focus and origin-tab restore, accessible 44px controls, a dock ARIA/current-tab update and selected-tab scroll reveal; browser/Samsung actual acceptance pending. Earlier LIVE fake-clock/chat CI green; no published future hearing.
+
+
 **LIVE work now CI GREEN (4 Nov 2026):** verified official-event timer T−45 start and approved closure, plus guest-read-only saved chat replay/pagination/cleanup in synthetic runtime. Real-authorised hearing/chat/RLS and mobile preview still outstanding; no invented hearings.
 
 
@@ -449,6 +455,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 6. Known source paths and supporting records
 
+- Tour/mobile accessibility: `index.html` guided-tour modal/welcome/nav changes, `scripts/test_mobile_tour_a11y.cjs` network-free source/runtime test, `scripts/test_guided_tour_2026.cjs`, `docs/TOUR_MOBILE_ACCESSIBILITY_QA_2026-11-04.md`; 11 tabs and 30 tour targets preserved.
+
+
 - Runtime archived LIVE replay QA: `scripts/test_live_chat_archive_runtime.cjs` executes unchanged `assets/live-chat.js` with mocked public chat RPC, 60+1 fake messages, no network. `docs/LIVE_WINDOW_TRANSITIONS_2026-11-04.md` documents both timer window and transcript safety.
 
 
@@ -502,6 +511,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [x] Source inventory: full/focused tour 30 steps target actual 11-tab site elements. Native modal/keyboard, nav ARIA/current focus fixes code-staged.
+- [ ] Run new GitHub-only tour runtime suite green; then Samsung/Chrome real visual keyboard/touch/landscape/Back/TalkBack acceptance and safe navigation from W.NE.
+
 
 - [x] No-network LIVE chat T−45 transition, 4-hour close and unchanged-video card test GitHub Actions 41802115449 SUCCESS.
 - [x] No-network archived replay guest privacy, no posting, older-message pagination and isolation from LIVE refresh GitHub Actions 41802463605 SUCCESS.
@@ -599,6 +612,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Latest tour QA checkpoint:** verify Node runtime test on actual `index.html` shows Close and native Escape return to original tab, first-visit modal/Escape, 30 targets, nav aria-current. Fix CI failures if necessary, then mark CI GREEN. Next user-only device tests: full tour on Samsung Internet, 11 dock tabs, keyboard/tap/Back and no overlapping bottom nav, preserve W.NE; no Netlify until owner approval.
+
+
 **Next Disclosure Desk QA:** both LIVE synthetic GitHub runs 41802115449 and 41802463605 GREEN; do NOT publish synthetic events. Continue tour, multi-tab navigation, mobile layout and moderation/pre-release QA without Netlify builds. For real LIVE hearing/chat end-to-end, require confirmed official event and owner-approved disposable test users; Supabase role privilege hardening remains review-only.
 
 
@@ -677,6 +693,12 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-04 — Tour and mobile navigation accessibility correction staged, device QA pending
+- Repo `boydamo84-coder/disclosure-desk-preview`, correct dev `feature/sources-archives-next-batch-nov03` prior head `4d749bdf5df9edc9e8d475510745d168f7e3d360`, live `production` `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` untouched. Real index tour contains 10 full steps plus 7/4/4/5 focused = 30; target IDs/classes exist. Fixed nonmodal walk-through and origin page loss and first-visit keyboard trap, 44px tap controls, modal accessibility labels, nav selected aria-current and horizontal reveal. W.NE original and finance untouched.
+- New `scripts/test_mobile_tour_a11y.cjs` VM/static check integrated with existing `scripts/test_guided_tour_2026.cjs` in staging QA; `docs/TOUR_MOBILE_ACCESSIBILITY_QA_2026-11-04.md` documents true verification boundaries. No actual Android/browser or live website tests yet. CI expected on commit.
+
+
 
 ### 2026-11-04 — LIVE timing and guest archived replay synthetic QA both GREEN
 - `assets/live-schedule.js` timing update in source commit `a5dd5bc2ba2e3780b6d1552f2c99405cd9c2a637` passed GitHub-only run **41802115449** (including existing LIVE schedule and archive tests, no network). Opens T−45, disposes at approved end or T+4h, no video card replacement.
