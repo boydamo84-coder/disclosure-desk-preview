@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-04 00:47 UK — L2.1 SAMSUNG INTERNET RENDERS / OWNER LOCK CONFIRMED; CHROME STILL NOT WORKING:** Owner retested the Android browser-navigation hotfix on actual Samsung. Chrome still did not load successfully (specific Chrome failure after fix not yet diagnosed). Samsung Internet DID render the BDS Finance Centre branded navy/gold shell; the owner's screenshot shows the **“Locked by owner. Return to Termux to start another session”** alert and **“Finance Centre locked”** panel after operating the manual Lock now control. This supports **SAMSUNG VERIFIED for Samsung Internet rendering and manual UI lock message**, but does NOT independently establish server-side token revocation or test the unlocked figures, year/product filters, 10-minute expiry or Chrome compatibility. Prior CI fix run 41743244163 SUCCESS with 33 tests; no actual financial data, provider sync, Netlify, Supabase, production or original W.NE changes. Next: relaunch with Samsung Internet and exercise all fictional filters BEFORE clicking Lock now. Keep temporary browser address containing `#token=` private; Chrome diagnosis remains a separate browser-specific issue.
+
+
 - **2026-11-03 — L2.1 ANDROID CHROME 403 FIX GITHUB CI GREEN, SAMSUNG RETEST PENDING:** Corrected source commit `3be703de52b368bd5cbd3ced03cb5fb0b0bc1bcf` passed dedicated offline Finance workflow **41743244163 SUCCESS** (Python 3.12 and 3.14, vault and dashboard regression tests + ZIP artifact), alongside no-deploy website QA **41743244182 SUCCESS**. GitHub artifact **BDS-Finance-L2-1-Android-Browser-Fix-Synthetic** exists. **Still not reverified on the actual Samsung**, real finance data disabled. No production/Netlify/Supabase changes.
 
 - **2026-11-03 23:49 UK — SAMSUNG L2.1 CHROME NAVIGATION 403 REPRODUCED; NARROW FIX STAGED, PHONE RETEST PENDING:** After upgrading L2.1, owner saw an almost blank Chrome page at `127.0.0.1` with tiny Forbidden text on two attempts, despite entering the passphrase. A real-HTTP simulation confirmed `GET /` with `Sec-Fetch-Site: cross-site` returned 403; direct `none` / `same-origin` fetched HTML. Root cause: Termux-to-Chrome intent navigation is sometimes marked cross-site, but L2.1's new metadata guard rejected all cross-site requests, including the harmless HTML shell. On unpublished branch, commit `3be703de52b368bd5cbd3ced03cb5fb0b0bc1bcf` now allows cross-site **GET `/` only** (no ledger or secret in shell), while still rejecting cross-site calls to authenticated `/api/ledger` and `/api/lock`, and retaining Host/Origin, bearer token, localhost, no-cache, short-lived session, and synthetic-only safeguards. 33 isolated L1/L2 tests passed locally; **GitHub Finance CI 41743244163 was pending when documented**, website staging 41743244182 SUCCESS. New owner-download `BDS_Finance_L2_1_Android_Browser_Fix.zip` contains ONLY dashboard.py and README (local reviewed ZIP SHA-256 `36a5842b9e4afbb66c2306bb4556be9a563c477148b61f81287b72d96d234268`; GitHub artifact will contain same code with latest README, may differ by ZIP checksum). Next test on Samsung; do not declare device success yet. No changes to vault, backup, finance data, production, Netlify, Supabase, or W.NE.
@@ -262,6 +265,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**Finance phone browser compatibility update (2026-11-04):** Samsung Internet displays L2.1 and owner sees locked confirmation after Lock now; Chrome still fails on the user's device and needs separate diagnosis, so avoid describing it as fully fixed.
+
+
 **Finance L2.1:** Samsung Chrome 403 regression diagnosed; a narrowly scoped initial navigation fix is staged for phone retesting. This does not affect the Disclosure Desk 11-tab public release, nor authorise a Netlify deploy.
 
 
@@ -339,6 +345,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 5. Release plan: website first, then Android / Google Play
 
+**Local Finance L2.1 is Samsung Internet-tested only for shell/lock UI**, still fictional-only; no public release or finance production approval.
+
+
 **Finance Android browser compatibility fix:** synthetic-only Termux source ZIP; not a Play release or live finance system.
 
 
@@ -367,6 +376,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 **Phase 4 — Play internal test and release preparation:** check Gradle/Android SDK, app ID, target API and Play policy requirements on actual release date; securely configure signed Android App Bundle (AAB) using existing manual `.github/workflows/android-play-internal-aab.yml`; check Play App Signing, release keys, version codes, app icon, screenshots, listing, privacy/data safety, consent/ads implementation, support URL, testing track eligibility, crash-free smoke and multi-device tests. Run internal/closed testing first; production publication requires explicit separate approval. Never publish a debug-signed APK as Play release.
 
 ## 6. Known source paths and supporting records
+
+- 2026-11-04 Samsung Internet screenshot (conversation-only, not in repo) shows the local synthetic Finance Centre page and `Locked by owner` state after manual lock. Chrome user-reported failing even after the latest hotfix. Relevant code `finance_local/dashboard.py`, tests `finance_local/tests/test_dashboard.py`, CI run 41743244163.
+
 
 - Samsung L2.1 Chrome 403 patch: `finance_local/dashboard.py`, `finance_local/tests/test_dashboard.py`, `finance_local/DASHBOARD_README.md`, `.github/workflows/validate-bds-finance-termux-l1.yml`; local tested download `BDS_Finance_L2_1_Android_Browser_Fix.zip`; code commit `3be703de52b368bd5cbd3ced03cb5fb0b0bc1bcf`.
 
@@ -397,6 +409,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [x] Samsung Internet renders BDS Finance Centre local page and shows manual lock confirmation after owner action (user screenshot 2026-11-04 00:47).
+- [ ] On Samsung Internet validate all filters while unlocked, countdown and server-side token revocation/expiry; Chrome compatibility still unresolved.
+
 
 - [x] Reproduced 403 on Termux-to-Chrome cross-site initial GET `/`; targeted HTML-shell exception plus tests, local 33 pass.
 - [ ] Confirm corrected L2.1 loads in Samsung Chrome, filters and Lock now work; independently verify ten-minute expiry. No real financial records permitted.
@@ -448,6 +464,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Immediate next QA:** With the phone's Samsung Internet browser and fictional-only vault, restart `python finance_local/dashboard.py` from `$HOME/bds-finance-l1`; *before* pressing Lock now, test 2026/27 all £277.50, 2025/26 all £15, 2026/27 Disclosure Desk £147, Our Cinema £142.50, BDS shared −£12. Click Lock now last. Avoid sharing initial private `#token` address. If Chrome still fails, gather only a screenshot of the page without any URL token or a Termux non-secret status message. No real data or bank passwords.
+
+
 **Immediate phone QA:** End old server (`Ctrl+C`), download revised `BDS_Finance_L2_1_Android_Browser_Fix.zip`, extract from Downloads with `unzip -o` into `$HOME/bds-finance-l1`, then `python finance_local/dashboard.py`; enter existing vault passphrase only into Termux. Expected BDS navy/gold dashboard with fictional 2026/27 £277.50. Test year/product filters and Lock now once page appears. Do not screenshot URL with `#token`. If still black, review Termux printed status without sharing session key. Original vault and off-device Drive backup untouched.
 
 
@@ -490,6 +509,12 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-04 00:47 UK — Samsung Internet renders L2.1 and owner sees manual lock; Chrome still fails
+- User: “Chrome didnt work but samsung browser worked”, screenshot shows BDS Finance Centre branded fictional-only shell at 127.0.0.1 with status “Locked by owner” and large “Finance Centre locked” panel. This is **SAMSUNG VERIFIED on Samsung Internet for visible shell/locked state**. Does not evidence unlocked profit figures, filter correctness or independent token-revocation audit, and Chrome remains unresolved.
+- Relevant development source `finance_local/dashboard.py`; prior narrow root-GET 403 fix source SHA `3be703de52b368bd5cbd3ced03cb5fb0b0bc1bcf`; 33 Python tests in CI run `41743244163` SUCCESS, site regression run `41743244182` SUCCESS. Development branch `feature/sources-archives-next-batch-nov03`; production stays `9755fba9a5116c0cce6ac433ea022a6e5bfadd15`.
+- Next tests: Samsung Internet filtered fictional totals, session countdown and Lock now after figures. Distinguish browser issue from vault/passphrase; no reinitialisation, vault deletion, public deploy, new financial integration, or private URL disclosure.
+
 
 ### 2026-11-03 23:49 UK — L2.1 Samsung Chrome GET-root 403, reproduced and fixed in unpublished code
 - Owner screenshot: local URL black, tiny forbidden text, after two correct-passphrase attempts. Initial Termux Chrome intent can send `Sec-Fetch-Site: cross-site` to GET `/`; new L2.1 Fetch Metadata policy denied 403 before HTML could load. Reproduced using a real HTTP handler test; not an incorrect vault password.
