@@ -37,6 +37,15 @@ assert.match(sql,/coalesce\(\(auth\.jwt\(\)->>'is_anonymous'\)::boolean,false\)=
 const projection=part('create table if not exists public.dd_public_witness_reports','create index if not exists dd_public_witness_recent');
 assert.ok(projection&&!/author_id|reporter_id/i.test(projection),'Public projection contains no account IDs');
 assert.match(sql,/grant select on public\.dd_public_witness_reports to anon,authenticated/);
+// Witness submit CORS preflight: official Android/website SDK sends x-client-info.
+// The deployed v2 function has verified_jwt=true (checked via read-only metadata).
+assert.match(edge,/if\(req\.method==="OPTIONS"\)return new Response\(null,/,'CORS has explicit preflight');
+assert.match(edge,/"Access-Control-Allow-Methods":"POST, OPTIONS"/,'Permit intended submission method only');
+assert.match(edge,/"Access-Control-Allow-Headers":"authorization, x-client-info, apikey, content-type"/,
+  'Supabase SDK x-client-info must be accepted in the preflight');
+assert.match(edge,/if\(req\.method!=="POST"\)return response\(405,/,'No other mutation method');
+assert.match(edge,/const origin=allowOrigin\(req\.headers\.get\("origin"\)\)/,'CORS origin allowlist used per request');
+assert.doesNotMatch(edge,/"Access-Control-Allow-Origin":\s*"\*"/,'Never wildcard cross-origin access');
 assert.match(edge,/db\.auth\.getUser\(bearer\)/);assert.match(edge,/user\.is_anonymous/);
 assert.match(edge,/input\.publicConsent!==true/);assert.match(edge,/createClient\(projectUrl,serviceKey/);
 assert.match(edge,/geocoding-api\.open-meteo\.com/);
