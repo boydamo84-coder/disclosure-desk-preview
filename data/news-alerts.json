@@ -305,7 +305,8 @@
     "date": "2026-07-10T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/d3bb/live/51ab41d0-7c72-11f1-9fad-d539485c17c2.png"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/d3bb/live/51ab41d0-7c72-11f1-9fad-d539485c17c2.png",
+    "publisherUrl": "https://www.bbc.co.uk/news/videos/c8x2zez8qwzo"
   },
   {
     "id": "9670db22421ee589ac78",
@@ -315,7 +316,8 @@
     "date": "2026-07-10T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/mpx/2704722219/2026_07/1783734848308_now_staytuned_pentagon_ufo_files_fourth_batch_260710_S3_1920x1080-881xs3.jpg"
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/mpx/2704722219/2026_07/1783734848308_now_staytuned_pentagon_ufo_files_fourth_batch_260710_S3_1920x1080-881xs3.jpg",
+    "publisherUrl": "https://www.nbcnews.com/video/pentagon-releases-fourth-batch-of-ufo-files-266532933775"
   },
   {
     "id": "c184b657ffce0a850368",
@@ -361,7 +363,8 @@
     "date": "2026-06-25T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/mpx/2704722219/2026_06/1782437664430_now_staytuned_ufo_whistleblowers_interview_260625_S3_1920x1080-oo3h85.jpg"
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/mpx/2704722219/2026_06/1782437664430_now_staytuned_ufo_whistleblowers_interview_260625_S3_1920x1080-oo3h85.jpg",
+    "publisherUrl": "https://www.nbcnews.com/video/catching-up-with-whistleblowers-on-secret-government-ufo-programs-265709637802"
   },
   {
     "id": "27b0ea2b42d34e8897b4",
@@ -383,7 +386,8 @@
     "date": "2026-06-13T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/81bf/live/cc19f4f0-65c2-11f1-b1db-af71d47507d6.png"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/81bf/live/cc19f4f0-65c2-11f1-b1db-af71d47507d6.png",
+    "publisherUrl": "https://www.bbc.com/news/articles/c3929kk7gdjo"
   },
   {
     "id": "cf279d727e97d05e75da",
@@ -404,7 +408,8 @@
     "date": "2026-06-13T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://cdn.ex.co/transformations-account/production/99589e92-e6b5-4a6b-8db4-bb0120ace3e1/6b003500-5300-4900-8200-6d0038007600/thumbnail-720.webp"
+    "imageUrl": "https://cdn.ex.co/transformations-account/production/99589e92-e6b5-4a6b-8db4-bb0120ace3e1/6b003500-5300-4900-8200-6d0038007600/thumbnail-720.webp",
+    "publisherUrl": "https://www.independent.co.uk/tv/news/ufo-files-pentagon-video-b2995120.html"
   },
   {
     "id": "46fc44bbe28f4fd1a3b8",
@@ -414,7 +419,8 @@
     "date": "2026-06-12T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/fa2c/live/d7a50d30-666e-11f1-8e1d-bbbb1017d210.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/fa2c/live/d7a50d30-666e-11f1-8e1d-bbbb1017d210.jpg",
+    "publisherUrl": "https://www.bbc.com/news/videos/c8e2w83kxryo"
   },
   {
     "id": "0f50d51e797fdd617f8a",
