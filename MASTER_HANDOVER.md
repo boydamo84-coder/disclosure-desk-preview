@@ -40,6 +40,10 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-04 00:50 UK — L2.1 SAMSUNG INTERNET UNLOCKED DASHBOARD & 2026/27 TOTALS VERIFIED:** Owner supplied full Samsung Internet screenshot of unlocked private synthetic Finance Centre L2.1 at local 127.0.0.1. UK tax year dropdown selected `2026/27`, BDS product dropdown `All BDS products`; actual phone rendered **£337.00 fictional gross income**, **£59.50 refunds/fees/expenses**, **£277.50 fictional trading profit**, 9 fictional 2026/27 ledger entries, provider income-source bars, accounting treatment bars, countdown and Lock now button. This confirms initial dashboard UI and default filtered figures on Samsung Internet, complementing earlier user-confirmed manual lock state. **Changing year/product filters, automatic ten-minute expiry and Chrome browser remain NOT device verified**; prior browser issue unresolved. No private token visibly leaked in screenshot, user still must avoid screenshotting initial `#token=` URL. L2 remains fictional-only, not real-money-ready or security audited. No Netlify, Supabase, production, Play or W.NE changes.
+
+
+
 - **2026-11-04 00:47 UK — L2.1 SAMSUNG INTERNET RENDERS / OWNER LOCK CONFIRMED; CHROME STILL NOT WORKING:** Owner retested the Android browser-navigation hotfix on actual Samsung. Chrome still did not load successfully (specific Chrome failure after fix not yet diagnosed). Samsung Internet DID render the BDS Finance Centre branded navy/gold shell; the owner's screenshot shows the **“Locked by owner. Return to Termux to start another session”** alert and **“Finance Centre locked”** panel after operating the manual Lock now control. This supports **SAMSUNG VERIFIED for Samsung Internet rendering and manual UI lock message**, but does NOT independently establish server-side token revocation or test the unlocked figures, year/product filters, 10-minute expiry or Chrome compatibility. Prior CI fix run 41743244163 SUCCESS with 33 tests; no actual financial data, provider sync, Netlify, Supabase, production or original W.NE changes. Next: relaunch with Samsung Internet and exercise all fictional filters BEFORE clicking Lock now. Keep temporary browser address containing `#token=` private; Chrome diagnosis remains a separate browser-specific issue.
 
 
@@ -265,6 +269,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**Finance L2.1 Samsung Internet unlocked UI:** actual screenshot confirms £337.00 sample income, £59.50 sample costs, £277.50 fictional profit and nine 2026/27 ledger rows. Dropdown changes and automatic timeout not yet tested; Chrome issue remains.
+
+
 **Finance phone browser compatibility update (2026-11-04):** Samsung Internet displays L2.1 and owner sees locked confirmation after Lock now; Chrome still fails on the user's device and needs separate diagnosis, so avoid describing it as fully fixed.
 
 
@@ -345,6 +352,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 5. Release plan: website first, then Android / Google Play
 
+**Finance Centre display acceptance does not authorise live financial records or public deployment.** Keep synthetic-only local Termux vault; no Netlify or backend actions.
+
+
 **Local Finance L2.1 is Samsung Internet-tested only for shell/lock UI**, still fictional-only; no public release or finance production approval.
 
 
@@ -376,6 +386,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 **Phase 4 — Play internal test and release preparation:** check Gradle/Android SDK, app ID, target API and Play policy requirements on actual release date; securely configure signed Android App Bundle (AAB) using existing manual `.github/workflows/android-play-internal-aab.yml`; check Play App Signing, release keys, version codes, app icon, screenshots, listing, privacy/data safety, consent/ads implementation, support URL, testing track eligibility, crash-free smoke and multi-device tests. Run internal/closed testing first; production publication requires explicit separate approval. Never publish a debug-signed APK as Play release.
 
 ## 6. Known source paths and supporting records
+
+- 2026-11-04 00:50 UK real Samsung Internet unlocked dashboard screenshot in chat (not committed to repo): default 2026/27 All BDS products gross £337.00, costs £59.50, fictional profit £277.50, nine rows; `finance_local/dashboard.py`, Android browser patch `3be703de52b368bd5cbd3ced03cb5fb0b0bc1bcf`.
+
 
 - 2026-11-04 Samsung Internet screenshot (conversation-only, not in repo) shows the local synthetic Finance Centre page and `Locked by owner` state after manual lock. Chrome user-reported failing even after the latest hotfix. Relevant code `finance_local/dashboard.py`, tests `finance_local/tests/test_dashboard.py`, CI run 41743244163.
 
@@ -409,6 +422,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [x] On Samsung Internet L2.1 private dashboard unlocked and displayed correct default 2026/27 all-products figures, charts and nine fictional ledger entries (owner screenshot 00:50 UK).
+- [ ] On phone change year to 2025/26 (£15.00), then 2026/27 product filters (Disclosure Desk £147.00, Our Cinema £142.50, BDS shared −£12.00), then test ten-minute timeout and manual lock; Chrome compatibility unresolved.
+
 
 - [x] Samsung Internet renders BDS Finance Centre local page and shows manual lock confirmation after owner action (user screenshot 2026-11-04 00:47).
 - [ ] On Samsung Internet validate all filters while unlocked, countdown and server-side token revocation/expiry; Chrome compatibility still unresolved.
@@ -464,6 +481,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Finance L2.1 next:** Owner's real Samsung Internet screenshot VERIFIED unlocked 2026/27 all £277.50 synthetic profit and charts. Next ask them to select **2025/26 All products = £15**, then 2026/27 **Disclosure Desk = £147**, **Our Cinema = £142.50**, **BDS shared = −£12**, and press Lock now last. Only take screenshots with `127.0.0.1` no private `#token=` URL; no passphrase ever. Test automatic expiry separately. Chrome still user-reported broken.
+
+
 **Immediate next QA:** With the phone's Samsung Internet browser and fictional-only vault, restart `python finance_local/dashboard.py` from `$HOME/bds-finance-l1`; *before* pressing Lock now, test 2026/27 all £277.50, 2025/26 all £15, 2026/27 Disclosure Desk £147, Our Cinema £142.50, BDS shared −£12. Click Lock now last. Avoid sharing initial private `#token` address. If Chrome still fails, gather only a screenshot of the page without any URL token or a Termux non-secret status message. No real data or bank passwords.
 
 
@@ -509,6 +529,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-04 00:50 UK — L2.1 real Samsung Internet screenshot verifies unlocked fictional default totals
+- Screenshot displays authenticated local BDS navy/gold Finance Centre with dropdown selections `2026/27` and `All BDS products`, £337.00 simulated gross income, £59.50 combined refunds/fees/expenses, £277.50 fictional profit and transaction ledger of nine in-year rows. Provider income bars, accounting treatment bars and auto-lock countdown visibly rendered; no private URL token visible.
+- This is SAMSUNG VERIFIED for visible unlocked default UI and figures only; changing dropdowns/automatic timeout, verified server revocation and Chrome compatibility remain open. Prior separate Samsung screenshot showed manual Lock now UI result.
+- Repo `boydamo84-coder/disclosure-desk-preview`, unpublished `feature/sources-archives-next-batch-nov03`; production unchanged. Fictional-only data, no credentials, account sync, tax computation or live deployments. Next test other year/product filters, then lock.
+
+
 
 ### 2026-11-04 00:47 UK — Samsung Internet renders L2.1 and owner sees manual lock; Chrome still fails
 - User: “Chrome didnt work but samsung browser worked”, screenshot shows BDS Finance Centre branded fictional-only shell at 127.0.0.1 with status “Locked by owner” and large “Finance Centre locked” panel. This is **SAMSUNG VERIFIED on Samsung Internet for visible shell/locked state**. Does not evidence unlocked profit figures, filter correctness or independent token-revocation audit, and Chrome remains unresolved.
