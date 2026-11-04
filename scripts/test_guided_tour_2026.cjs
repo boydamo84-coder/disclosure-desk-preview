@@ -6,7 +6,7 @@ const chat=fs.readFileSync('assets/live-chat.js','utf8');
 for(const label of ["id:'community',label:'Community & LIVE'","data-start-tour=\"community\"","title:'Witness reports'","title:'LIVE and archived hearings'","title:'My Research Hub and Profile'","title:'Watch & Read'"])assert.ok(html.includes(label),'Missing updated tour: '+label);
 assert.ok(html.indexOf("title:'Videos'")<html.indexOf("title:'LIVE and archived hearings'"),'Videos should precede LIVE in tour');
 assert.match(html,/dd-welcome-tour-choice-v2/);
-assert.match(html,/if\(\$\('appTourDialog'\)\?\.open\)return/,'Welcome prompt must not interrupt an already-open tour');
+assert.match(html,/if\(\$\('appTourDialog'\)\?\.open\|\|document\.querySelector\('dialog\[open\]'\)\)return/,'Welcome prompt must not interrupt an existing modal or tour');
 assert.match(html,/if\(!document\.querySelector\('\.tab\[data-tab="discover"\]\.active'\)\)return/,'New-tour invite must not interrupt navigation away from News');
 assert.match(archive,/dd_live_events/);
 assert.match(archive,/event\.hasArchivedChat&&window\.ddLiveChatMount/);
