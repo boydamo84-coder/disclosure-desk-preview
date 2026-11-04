@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-04 — DISCLOSURE DESK OWNER-ACTION RUNTIME SIMULATION STAGED (CI PENDING, NO LIVE USER WRITES):** Read-only live Disclosure Desk Supabase inspected definitions of owner-only comment edit/delete and research trash/restore/purge functions: authenticated-only EXECUTE, registered-auth.uid ownership, 30-minute unflagged approved comment edit, and media-purge refusal. Staged GitHub-only Node VM test of actual My Research Hub handlers with synthetic account A/B: stale A action rejected after signing into B, cancel blocks report delete, accepted B delete has ID+author filters, comment editing and research trash use expected RPCs. Explicit future owner-led disposable account checklist added. Prior witness Edge v2 config/source parity and 10-table least-privilege review remain valid. **No live records, migrations, Netlify, production branch, Finance Centre, W.NE or Cinema changed.** CI still pending for new runtime test; do not count it as SAMSUNG or HTTP acceptance.
+
+
 - **2026-11-04 — DISCLOSURE DESK LIVE WITNESS EDGE V2 CORS SOURCE PARITY VERIFIED; STATIC QA GREEN / REAL JWT POST STILL PENDING:** Read-only query against **Disclosure Desk Supabase project `omqxizswzcwgzqaczlhe`** confirms `dd-witness-submit` is ACTIVE at **version 2**, with **`verify_jwt=true`**; exact deployed `index.ts` text matched byte-for-byte to `supabase/functions/dd-witness-submit/index.ts` on development branch. Both have explicit OPTIONS 204 response with allowed methods `POST, OPTIONS`, allowed request headers `authorization, x-client-info, apikey, content-type`, strict origin allowlisting and a signed-in, non-anonymous user check before creating a report. Added CORS/regression assertions to existing `scripts/test_witness_community.cjs`, wired into GitHub no-deploy website QA, updated `docs/BETA_FEEDBACK_FIXES_2026-11-03.md`. Source commit **`3a7aba5048a32db25348257a892bef410741e377`**; **Actions run `41757257629` SUCCESS**. No Edge redeploy or website deploy. **This confirms deployed code/config, NOT an actual authenticated browser POST, geocoder acceptance, map marker or report deletion**. Next: user-approved disposable-account/browser acceptance, leave live data untouched during automated tests; continue earlier least-privilege candidate review before release.
 
 
@@ -285,6 +288,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**Current scope:** Disclosure Desk member/moderation QA, not Finance. New no-network A/B owner-action runtime test staged; real-user public report/comment testing requires explicit owner approval.
+
+
 **Witness Edge CORS now verified live at code/config level:** Active `dd-witness-submit` v2 has `verify_jwt=true`, `x-client-info` preflight and exact Git source parity; GitHub no-deploy regression 41757257629 passed. Do not redeploy this Edge function just for the previously reported header bug. A real registered test-account POST and clean deletion are still needed.
 
 
@@ -412,6 +418,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 6. Known source paths and supporting records
 
+- Owner-action account switch test `scripts/test_research_hub_owner_runtime.cjs` runs existing `assets/research-hub.js` against fake identities only. Safe human acceptance `docs/MEMBER_ACTION_ACCEPTANCE_2026-11-04.md`.
+
+
 - Witness v2 source parity and CORS 2026-11-04: `supabase/functions/dd-witness-submit/index.ts` (exact deployed version 2, JWT verified), `scripts/test_witness_community.cjs` (new CORS assertions), `.github/workflows/validate-sources-directory-staged.yml` (static QA step) and `docs/BETA_FEEDBACK_FIXES_2026-11-03.md`; GitHub Actions run 41757257629 SUCCESS. No actual HTTP POST was sent and no Edge deployment performed.
 
 
@@ -453,6 +462,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [x] Read-only reviewed existing authenticated-only comment and research owner RPC bodies (4 November).
+- [ ] Owner-action A/B runtime test passes GitHub CI; real JWT and Samsung acceptance still pending, no live writes allowed.
+
 
 - [x] Witness Edge deployed v2 verified by read-only function metadata; `verify_jwt=true`, live source exactly matches GitHub, `x-client-info` accepted in OPTIONS; no-deploy QA 41757257629 SUCCESS.
 - [ ] Witness registered-account browser POST + CORS response + city match + map visibility + owner remove verified using approved disposable report; historical OPTIONS-only result alone cannot prove success.
@@ -530,6 +543,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Disclosure Desk website priority:** verify A/B synthetic owner-action runtime test GitHub-only QA; fix test issues if any, then review controlled disposable browser acceptance with owner. Preserve 11-tab site and 12th Discussions feature flag; don't touch Finance/Netlify/production.
+
+
 **Disclosure Desk website remains the current owner priority; Finance is paused.** Live v2 witness Edge CORS header and code parity are confirmed, so focus on real-account acceptance of witness POST/delete, comment edit/delete, Research document trash/restore, unique public aliases and mobile menu before a consolidated beta. Read-only SQL privilege audit identified 10 tables with excess TRUNCATE/TRIGGER grants; only a rollback-only review candidate and GitHub contract tests exist—**nothing has been revoked**. Follow current Section 4A queue without redeploying Edge or publishing to Netlify.
 
 
@@ -590,6 +606,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-04 — Owner-action A/B synthetic runtime test prepared, approval for live tests pending
+- Source branch feature/sources-archives-next-batch-nov03, parent 6c038ea1d5abe643ed96727392b51da969af7d1b; production 9755fba9a5116c0cce6ac433ea022a6e5bfadd15 untouched. `assets/research-hub.js` was not changed. Added VM fake-DOM/Supabase runtime test for stale A->B witness delete, cancel guard, B-only report deletion predicates, comment editing RPC, document trash RPC; no external network or real identity.
+- Read-only inspected live definitions of comment/document owner-only SECURITY DEFINER RPCs and witness owner RLS. All human destructive tests are explicitly pending consent, per `docs/MEMBER_ACTION_ACCEPTANCE_2026-11-04.md`.
+- No Supabase writes, Netlify, production deployment, finance data or source changes to original W.NE/Cinema. Next check CI outcome and only then mark simulated controls green.
+
+
 
 ### 2026-11-04 — Witness Edge v2 CORS/JWT static parity verification and no-deploy test green
 - Inspected the actual Disclosure Desk Edge Function (project `omqxizswzcwgzqaczlhe`) through connected Supabase read-only metadata/content. `dd-witness-submit` status ACTIVE v2, `verify_jwt=true`, deployed source equal to unpublished GitHub `supabase/functions/dd-witness-submit/index.ts` byte-for-byte. Confirmed OPTIONS allows `authorization, x-client-info, apikey, content-type` and `POST, OPTIONS`; Origin allowlist and signed-in JWT body guard present.

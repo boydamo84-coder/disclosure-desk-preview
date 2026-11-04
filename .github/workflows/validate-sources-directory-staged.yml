@@ -27,6 +27,10 @@ jobs:
         run: |
           node --check scripts/test_community_privilege_review.cjs
           node scripts/test_community_privilege_review.cjs
+      - name: Simulate owner account changes and personal actions without network
+        run: |
+          node --check scripts/test_research_hub_owner_runtime.cjs
+          node scripts/test_research_hub_owner_runtime.cjs
       - name: Validate My Research Hub navigation and collapsible panels
         run: |
           node --check scripts/test_research_hub.cjs
