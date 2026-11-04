@@ -122,6 +122,10 @@ Samsung screenshot after two L2.1 unlock attempts showed a nearly blank local pa
 
 Owner reports Chrome still fails after the initial-navigation compatibility patch, but **Samsung Internet displays the BDS Finance Centre**. Screenshot shows the synthetic-only local branded shell, the warning notice, and the `Locked by owner` / `Finance Centre locked` state after manual Lock now action. This is **on-device visual confirmation of Samsung Internet rendering and manual lock UI**, not verification of unlocked-year/product-filter totals, automatic expiry, or server-side bearer revocation. Chrome failure remains unresolved, and no second browser fix is justified without the particular non-secret error details. Next, relaunch in Samsung Internet and check 2026/27 all £277.50, 2025/26 all £15.00, Disclosure Desk £147.00, Our Cinema £142.50, BDS shared −£12.00 BEFORE pressing Lock now. Never share the private `#token` address or passphrase. No vault/backup modifications, real finances, provider data, Netlify, Supabase, Play or live site changes.
 
+## L2.1 2025/26 tax-year filter actual Samsung acceptance — 2026-11-04 01:00 UK
+
+**VERIFIED BY OWNER SCREENSHOT on Samsung Internet:** Year `2025/26` with `All BDS products` recalculates fictional income £15.00, outgoings £0.00 and profit £15.00; Ko-fi is sole sample income source, as expected for the single 2026-04-05 transaction. Countdown visibly shows `Auto-lock in 09:29`. This establishes displayed countdown, **not ten-minute timeout completion**. Product-specific year 2026/27 filters still need owner test: Disclosure Desk £147.00, Our Cinema £142.50, BDS shared −£12.00. The switch-away privacy lock is owner-confirmed separately; the remaining 10-minute expiry/server-denial and Chrome bug are still open. No real data, Netlify, production or Supabase changes.
+
 ## Status and acceptance
 
 - [x] L1 final CI **GREEN** at source SHA `aac857e4800c2c0b3cb659c2b3d000af4c14e26b`: vault run `41727602097`, website checks `41727601922`.
