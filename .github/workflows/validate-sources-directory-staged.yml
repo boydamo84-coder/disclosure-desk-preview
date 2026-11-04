@@ -44,6 +44,11 @@ jobs:
           node scripts/test_live_chat_archive.cjs
           node --check scripts/test_live_chat_window_runtime.cjs
           node scripts/test_live_chat_window_runtime.cjs
+      - name: Test read-only archived LIVE chat lifecycle and pagination (fake approved messages)
+        run: |
+          node --check assets/live-chat.js
+          node --check scripts/test_live_chat_archive_runtime.cjs
+          node scripts/test_live_chat_archive_runtime.cjs
       - name: Validate My Research Hub navigation and collapsible panels
         run: |
           node --check scripts/test_research_hub.cjs

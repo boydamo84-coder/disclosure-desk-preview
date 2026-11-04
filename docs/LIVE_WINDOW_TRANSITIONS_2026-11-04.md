@@ -12,3 +12,7 @@ The staged `assets/live-schedule.js` fix uses the existing one-second countdown 
 - Existing LIVE archive test checks saved read-only replay, public-safe messages and no old hearing chat fabrication. Existing confirmed-hearing tests reject date-only timestamps, unsafe official URLs and a banner older than 48 hours.
 - **Still pending:** integrated preview and Samsung real-browser QA, a genuinely announced hearing with source verification, signed-in JWT chat send/flag tests and recorded replay after an actual event. No real event was added to `data/approved-live-events.json` or posted to Supabase.
 - Original 11-tab production website, private Finance Centre, canonical W.NE, Our Cinema, live Supabase and Netlify remain untouched.
+
+## Synthetic archived replay lifecycle validation — 4 November 2026
+
+A second runtime test (`scripts/test_live_chat_archive_runtime.cjs`) mounts a fictional *ended* hearing via the existing `assets/live-chat.js` public guest RPC (mocked, no external network). It verifies that 60 approved fake messages display read-only, a separate LIVE room can mount and be disposed when the schedule refreshes **without closing the archived transcript**, and the guest can load a 61st earlier message. The anonymous visitor sees no posting controls and writes nothing. The first L2/T−45 countdown test is already GitHub CI **41802115449 SUCCESS**. The replay runtime test has not yet been accepted until its own CI passes. These are synthetic lifecycle checks, not real hearings or proof of production backend RLS/consent.

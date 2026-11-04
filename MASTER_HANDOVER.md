@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-04 — LIVE SAVED HEARING CHAT REPLAY RUNTIME QA STAGED / CI PENDING:** Added a network-free fake DOM test that executes unchanged `assets/live-chat.js` with 60 fictional approved archived messages, anonymous/guest user, mock public `dd_public_hearing_chat` RPC, and a separate simulated LIVE room. Exercises read-only archive form and hidden sign-in button, pseudonymous text, 60-message first page and prior-page loading, scheduled LIVE-only cleanup leaving the archive intact, and explicit archive disposal. No real chat, moderation, Supabase calls or event publication. Coupled with previously passing **LIVE timer-window CI 41802115449 SUCCESS**, confirming synthetic T−45 opening/T+4h closing; real browser/official event acceptance remains pending. No Netlify/production/Supabase/original W.NE/Cinema/Finance changes.
+
+
 - **2026-11-04 — LIVE HEARING CHAT 45-MINUTE TRANSITION BUG FOUND; TIMER-DRIVEN FIX STAGED / CI PENDING:** Source review of `assets/live-schedule.js` found that even though clock updated each second, `ddLiveChatMount` was called only while rendering the hearing card. The schedule refresh preserves unchanged cards to avoid disturbing official video playback, so chat could stay closed beyond T−45 or remain visibly open beyond its permitted window. Updated existing per-card clock callback to synchronise chat state on T−45 and earlier of explicit event `endsAt`/start+4h, open once and dispose once, never replacing a playing video. Added **synthetic-time runtime test** of the actual schedule source (no real hearings, network or Supabase) plus existing LIVE countdown/replay tests in GitHub-only staging workflow. **CI pending for code commit**, real LIVE, chat posting, recording replay and mobile browser approval still pending. No real event announced; no Netlify, production branch, database, other product or Finance changes.
 
 
@@ -297,6 +300,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**LIVE hearing QA status:** time-bound chat transitions synthetic CI 41802115449 passed; read-only archived replay lifecycle/pagination fake guest test added. No verified future hearing scheduled or public message posted. Await CI and eventual owner-authorised mobile/browser acceptance.
+
+
 **LIVE countdown QA:** chat now opens/closes on the per-second approved hearing time boundary rather than only the initial page render. Synthetic runtime test and GitHub-only acceptance pending; no actual announced event or chat RLS change. Account real-JWT acceptance remains queued.
 
 
@@ -436,6 +442,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 6. Known source paths and supporting records
 
+- Runtime archived LIVE replay QA: `scripts/test_live_chat_archive_runtime.cjs` executes unchanged `assets/live-chat.js` with mocked public chat RPC, 60+1 fake messages, no network. `docs/LIVE_WINDOW_TRANSITIONS_2026-11-04.md` documents both timer window and transcript safety.
+
+
 - LIVE timing staged: `assets/live-schedule.js`, `scripts/test_live_chat_window_runtime.cjs`, existing `scripts/test_live_schedule.cjs`, `scripts/test_live_chat_archive.cjs`, and `docs/LIVE_WINDOW_TRANSITIONS_2026-11-04.md`. No database mutation.
 
 
@@ -486,6 +495,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [x] LIVE approved-event T−45 chat opens once and closes by T+4h in actual source under synthetic clock: CI 41802115449 SUCCESS.
+- [ ] Guest archived replay pagination/cleanup CI and actual Safari/Samsung/Chrome with real approved hearing data remain pending.
+
 
 - [ ] Synthetic CI verifies opening chat at T−45 and closing at earliest approved end/start+4h without re-rendering official video; real Samsung/JWT LIVE test separately required.
 
@@ -574,6 +587,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Now:** verify new `scripts/test_live_chat_archive_runtime.cjs` GitHub CI and fix mock/test issues if any. Source already preserves archive while cleaning LIVE room; real guest read-only/RLS, account chat posting, after-event replay and official hearing publishing remain deliberately untested. Preserve 11-tab live website, don't deploy or create fake hearings.
+
+
 **Current LIVE QA:** verify GitHub-only synthetic clock and archive tests for timing transitions; review any failures. Next review actual browser guest/replay and registered-user RLS with approval for disposable test accounts; never invent a Congress event. Do not deploy, change private project, or consume Netlify.
 
 
@@ -646,6 +662,12 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-04 — Synthetic saved LIVE chat replay runtime harness prepared
+- Following successful approved LIVE window timer test (CI 41802115449), staged runtime evaluation of unchanged actual LIVE chat UI with mock Supabase public transcript, 60 first-page + 1 earlier synthetic messages, guest read-only state and independent active LIVE room. The test checks five-minute LIVE-only cleanup does not dispose archived chat and older replay remains readable.
+- Code purely client test under GitHub-only workflow. No real approved hearing added, no chat rows inserted, no guest login, Netlify/production/Supabase/public website changes. Source parent a5dd5bc2ba2e3780b6d1552f2c99405cd9c2a637, production 9755fba9a5116c0cce6ac433ea022a6e5bfadd15 unchanged; CI pending at commit.
+
+
 
 ### 2026-11-04 — LIVE hearing-room opening/closing timeline defect patched in staged code
 - Existing per-second hearing clock did not update whether chat was mounted; static render and five-minute unchanged-card skip meant T−45 could pass without opening chat or an open room linger after end. Added chat sync to the already-running clock callback, no extra polling or event query costs; opens once and disposes once without replacing the verified-source hearing card/stream.
