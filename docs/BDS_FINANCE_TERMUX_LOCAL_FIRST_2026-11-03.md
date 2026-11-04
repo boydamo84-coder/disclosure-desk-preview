@@ -114,6 +114,8 @@ The owner confirms the new local, fictional-only Finance Centre browser dashboar
 
 ## L2.1 Android Chrome initial navigation 403: fixed candidate, Samsung retest pending (2026-11-03)
 
+**CI verification complete:** [Finance run 41743244163](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41743244163) SUCCESS on Python 3.12/3.14 with regression test and new dashboard-only Actions artifact; no-deploy Sources QA 41743244182 SUCCESS. Actual Samsung verification remains pending.
+
 Samsung screenshot after two L2.1 unlock attempts showed a nearly blank local page with tiny `Forbidden`. Reproduced from real HTTP GET `/` with `Sec-Fetch-Site: cross-site` (Termux-to-Chrome intent) which L2.1 had rejected. The new patch permits cross-site navigation metadata **only for GET `/` static shell**, still denying API requests to `/api/ledger` and `/api/lock` without same-origin metadata and bearer token. Existing no-cache, localhost, Host/Origin and 10-minute limits remain. Local 33 automated L1/L2 tests PASS. Source commit `3be703de52b368bd5cbd3ced03cb5fb0b0bc1bcf`, GitHub CI 41743244163 pending when written. Download sample-only `BDS_Finance_L2_1_Android_Browser_Fix.zip`, extracted with `unzip -o` in the pre-existing `$HOME/bds-finance-l1`; it cannot replace `vault.py` or any encrypted backup. Real Samsung confirmation still required. Never share browser `#token` or vault passphrase.
 
 ## Status and acceptance
