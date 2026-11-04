@@ -1,6 +1,6 @@
 # Disclosure Desk — live database privilege inventory and proposed safe hardening
 
-**Date:** 4 November 2026. **Status: LIVE READ-ONLY INSPECTION + REVIEW CANDIDATE; NO CHANGE APPLIED TO LIVE DATABASE.**
+**Date:** 4 November 2026. **Status: LIVE READ-ONLY INSPECTION + REVIEW CANDIDATE; NOT APPLIED TO LIVE DATABASE.**
 
 ## Why this is in the website roadmap
 The next batched release must verify registered-user, guest, moderator and owner permissions before publication. We inspected metadata for the **Disclosure Desk** Supabase project (`omqxizswzcwgzqaczlhe`) using read-only catalog queries. We did **not** inspect user-generated content, private records, Auth emails or passwords, or issue writes.
