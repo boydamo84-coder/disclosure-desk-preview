@@ -18,3 +18,7 @@ The source also avoids reopening the welcome prompt over another open dialog. Ex
 - GitHub-only tests cannot prove browser positioning, actual focus order, or zero horizontal overflow. Final one-batch preview requires owner's deliberate approval. The live site's tour and menu are unchanged.
 
 **Safety:** no live backend SQL, public witness records, Netlify deployment, production merge, Play release, original W.NE, Cinema or paused Finance edits.
+
+## CI verification after integration — 4 November 2026
+
+The actual-source tour test and legacy guided-tour checks passed **GitHub-only Actions [41809892108](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41809892108)** at test-fix commit `4aba1a7da3ec12a740faae3b048a46e4eb468624`. Earlier run 41809773679 failed solely because an old test asserted the previous non-modal welcome guard. It was updated, and the full no-deploy staging suite passed. This proves code/synthetic runtime behavior, **not actual Samsung visual QA, landscape safe areas, Android Back, TalkBack, or real browser focus order**. Original production website and Netlify remain unchanged.
