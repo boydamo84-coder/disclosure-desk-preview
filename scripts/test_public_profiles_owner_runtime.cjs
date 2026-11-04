@@ -9,7 +9,14 @@ function node(tag='div'){
  return {tag,children:[],style:{},dataset:{},textContent:'',value:'',checked:false,hidden:false,
   listeners:{},append(...x){this.children.push(...x)},setAttribute(k,v){this[k]=v},
   addEventListener(k,fn){this.listeners[k]=fn},querySelector(selector){
-    if(selector==='button[type="submit"]')return this.children.find(x=>x.tag==='button');
+    if(selector==='button[type="submit"]'){
+      const find=(el)=>{
+        if(el.tag==='button'&&el.type==='submit')return el;
+        for(const child of el.children||[]){const found=find(child);if(found)return found;}
+        return null;
+      };
+      return find(this);
+    }
     if(selector==='.card-body')return this;return null;
   }};
 }
