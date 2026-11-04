@@ -40,6 +40,10 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-04 — LIVE HEARING CHAT WINDOW + ARCHIVED REPLAY SYNTHETIC QA GREEN (NO LIVE DATA):** LIVE source fix opens the authenticated room at verified start−45min and closes it at approved end or start+4h without interrupting embedded hearing video; source commit `a5dd5bc2ba2e3780b6d1552f2c99405cd9c2a637` **GitHub-only Actions 41802115449 SUCCESS**. A separate test executes real `assets/live-chat.js` with mock approved 60+1 saved messages, unauthenticated visitor, live-room refresh and archived pagination; confirms guest cannot post, LIVE cleanup does **not** close saved transcript and older archived messages remain accessible. Test commit `4ae869d19b6b58146b13f4220699f02ce71fb7ef` **GitHub-only Actions 41802463605 SUCCESS**. These are code and synthetic runtime checks; **no real hearing, signed-in chat/RLS, recording replay or Samsung browser acceptance has occurred**. No live event published, Netlify/Supabase data/production/finance/cinema/W.NE changes. Next: real guest and signed-in chat tests only after explicit owner-approved disposable data and verified official event; finish full-site tour/mobile release checklist.
+
+
+
 - **2026-11-04 — LIVE SAVED HEARING CHAT REPLAY RUNTIME QA STAGED / CI PENDING:** Added a network-free fake DOM test that executes unchanged `assets/live-chat.js` with 60 fictional approved archived messages, anonymous/guest user, mock public `dd_public_hearing_chat` RPC, and a separate simulated LIVE room. Exercises read-only archive form and hidden sign-in button, pseudonymous text, 60-message first page and prior-page loading, scheduled LIVE-only cleanup leaving the archive intact, and explicit archive disposal. No real chat, moderation, Supabase calls or event publication. Coupled with previously passing **LIVE timer-window CI 41802115449 SUCCESS**, confirming synthetic T−45 opening/T+4h closing; real browser/official event acceptance remains pending. No Netlify/production/Supabase/original W.NE/Cinema/Finance changes.
 
 
@@ -300,6 +304,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**LIVE work now CI GREEN (4 Nov 2026):** verified official-event timer T−45 start and approved closure, plus guest-read-only saved chat replay/pagination/cleanup in synthetic runtime. Real-authorised hearing/chat/RLS and mobile preview still outstanding; no invented hearings.
+
+
 **LIVE hearing QA status:** time-bound chat transitions synthetic CI 41802115449 passed; read-only archived replay lifecycle/pagination fake guest test added. No verified future hearing scheduled or public message posted. Await CI and eventual owner-authorised mobile/browser acceptance.
 
 
@@ -496,6 +503,11 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 7. Invariant acceptance checklist — before any public/Play release
 
+- [x] No-network LIVE chat T−45 transition, 4-hour close and unchanged-video card test GitHub Actions 41802115449 SUCCESS.
+- [x] No-network archived replay guest privacy, no posting, older-message pagination and isolation from LIVE refresh GitHub Actions 41802463605 SUCCESS.
+- [ ] Real approved-event backend/public guest/signed-in browser, archived message deletion/flag abuse and Samsung/desktop preview still pending.
+
+
 - [x] LIVE approved-event T−45 chat opens once and closes by T+4h in actual source under synthetic clock: CI 41802115449 SUCCESS.
 - [ ] Guest archived replay pagination/cleanup CI and actual Safari/Samsung/Chrome with real approved hearing data remain pending.
 
@@ -587,6 +599,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Next Disclosure Desk QA:** both LIVE synthetic GitHub runs 41802115449 and 41802463605 GREEN; do NOT publish synthetic events. Continue tour, multi-tab navigation, mobile layout and moderation/pre-release QA without Netlify builds. For real LIVE hearing/chat end-to-end, require confirmed official event and owner-approved disposable test users; Supabase role privilege hardening remains review-only.
+
+
 **Now:** verify new `scripts/test_live_chat_archive_runtime.cjs` GitHub CI and fix mock/test issues if any. Source already preserves archive while cleaning LIVE room; real guest read-only/RLS, account chat posting, after-event replay and official hearing publishing remain deliberately untested. Preserve 11-tab live website, don't deploy or create fake hearings.
 
 
@@ -662,6 +677,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-04 — LIVE timing and guest archived replay synthetic QA both GREEN
+- `assets/live-schedule.js` timing update in source commit `a5dd5bc2ba2e3780b6d1552f2c99405cd9c2a637` passed GitHub-only run **41802115449** (including existing LIVE schedule and archive tests, no network). Opens T−45, disposes at approved end or T+4h, no video card replacement.
+- `scripts/test_live_chat_archive_runtime.cjs` synthetic fake DOM/Supabase guest transcript of 60+1 fictional approved messages passed GitHub-only run **41802463605** in code commit `4ae869d19b6b58146b13f4220699f02ce71fb7ef`: archived replay remains after LIVE-only cleanup; next-page load works; guests cannot post or see account identifiers. No live chat messages/real witness or account records touched.
+- Development `feature/sources-archives-next-batch-nov03`; production `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` remains unchanged. This is NOT SAMSUNG VERIFIED or LIVE RELEASED. Continue tour/UX preview and controlled account acceptance before one combined release.
+
+
 
 ### 2026-11-04 — Synthetic saved LIVE chat replay runtime harness prepared
 - Following successful approved LIVE window timer test (CI 41802115449), staged runtime evaluation of unchanged actual LIVE chat UI with mock Supabase public transcript, 60 first-page + 1 earlier synthetic messages, guest read-only state and independent active LIVE room. The test checks five-minute LIVE-only cleanup does not dispose archived chat and older replay remains readable.
