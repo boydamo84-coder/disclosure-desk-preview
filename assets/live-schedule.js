@@ -170,17 +170,43 @@ function render(){
   cols.append(video);
   const chat=el('div','dd-live-chat-panel');
   cols.append(chat);card.append(cols);
-  if(event.chatAvailable&&window.ddLiveChatMount){
-   const now=Date.now();
-   const starts=event.startsAt.getTime();
-   const until=event.endsAt?.getTime()||starts+4*60*60*1000;
-   if(now>=starts-45*60*1000&&now<Math.min(until,starts+4*60*60*1000)){
-    window.ddLiveChatMount(chat,event);
-   }else chat.append(el('p','muted small','Registered-user live chat opens 45 minutes before the confirmed start time.'));
-  }else chat.append(el('p','muted small','Hearing room awaiting official schedule approval. Discussion will open to signed-in users when confirmed.'));
+  // The approved chat window can begin/end while someone keeps LIVE open.
+  // A countdown-only update must mount/unmount the chat at those boundaries
+  // WITHOUT re-rendering the hearing card (which may be playing video).
+  const startTime=event.startsAt.getTime();
+  const expiry=event.endsAt?.getTime();
+  const closeTime=Math.min(Number.isFinite(expiry)?expiry:startTime+4*60*60*1000,
+                           startTime+4*60*60*1000);
+  let chatOpen=false,closeChat=null;
+  function syncChat(now){
+   const available=event.chatAvailable===true
+    &&typeof window.ddLiveChatMount==='function';
+   const within=available&&now>=startTime-45*60*1000&&now<closeTime;
+   if(within&&!chatOpen){
+    chat.replaceChildren();
+    try{
+     const dispose=window.ddLiveChatMount(chat,event);
+     closeChat=typeof dispose==='function'?dispose:null;
+     chatOpen=true;
+    }catch(_){
+     closeChat=null;
+     chat.append(el('p','muted small','LIVE chat could not open. The official hearing link remains available.'));
+    }
+   }else if(!within&&chatOpen){
+    closeChat?.();closeChat=null;chatOpen=false;
+    chat.replaceChildren();
+   }
+   if(!within&&!chatOpen&&!chat.childElementCount){
+    chat.append(el('p','muted small',
+     available?'Registered-user LIVE chat opens 45 minutes before the confirmed start and closes after its approved window.'
+              :'Hearing room awaiting official schedule approval. Chat opens only for a verified event.'));
+   }
+  }
   container.append(card);
   function update(){
-   const ms=event.startsAt-Date.now();
+   const now=Date.now();
+   syncChat(now);
+   const ms=event.startsAt.getTime()-now;
    if(ms>0){
     const units=remaining(ms);
     badge.textContent='Official hearing starts in';

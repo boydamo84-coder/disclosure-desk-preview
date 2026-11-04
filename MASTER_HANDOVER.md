@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-04 — LIVE HEARING CHAT 45-MINUTE TRANSITION BUG FOUND; TIMER-DRIVEN FIX STAGED / CI PENDING:** Source review of `assets/live-schedule.js` found that even though clock updated each second, `ddLiveChatMount` was called only while rendering the hearing card. The schedule refresh preserves unchanged cards to avoid disturbing official video playback, so chat could stay closed beyond T−45 or remain visibly open beyond its permitted window. Updated existing per-card clock callback to synchronise chat state on T−45 and earlier of explicit event `endsAt`/start+4h, open once and dispose once, never replacing a playing video. Added **synthetic-time runtime test** of the actual schedule source (no real hearings, network or Supabase) plus existing LIVE countdown/replay tests in GitHub-only staging workflow. **CI pending for code commit**, real LIVE, chat posting, recording replay and mobile browser approval still pending. No real event announced; no Netlify, production branch, database, other product or Finance changes.
+
+
 - **2026-11-04 — DISCLOSURE DESK OWNER-ACTION AND USERNAME A/B RUNTIME TESTS CI GREEN; NO LIVE USER WRITES:** Synthetic Hub owner-action test passed GitHub-only staging run **41800473669** at `330d0580344b77fafb8b553dadb799f8a31b5b35`: fake account A→B stale witness DELETE denied, confirmation guard, B-only owner-scoped report deletion, comment edit and document trash calls. Separate username-form account-switch race was fixed in `assets/public-profiles.js`: requires same owner and refresh generation before upserting, ignores stale responses, clears chat opt-in when signed out; fabricated A/B test checks stale save denied, duplicate alias error and B-only successful save. After correcting a fake-DOM test harness issue, full staging CI **41801094736 SUCCESS** at `3d5edcbf90c668d7a253be1fa03938569964df0c`. Source `assets/public-profiles.js` updated; read-only live Supabase owner RPC audit remains green. Neither test uses real database accounts or data. **Actual real-JWT/phone account acceptance still pending** before publishing. No Netlify build or public website, Supabase, original W.NE, Cinema or Finance changes.
 
 
@@ -294,6 +297,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**LIVE countdown QA:** chat now opens/closes on the per-second approved hearing time boundary rather than only the initial page render. Synthetic runtime test and GitHub-only acceptance pending; no actual announced event or chat RLS change. Account real-JWT acceptance remains queued.
+
+
 **Owner-account form safety:** prevent stale username settings form from mutating a newly signed-in account; synthetic A/B duplicate-name regression staged in GitHub. Real account and browser acceptance pending.
 
 
@@ -389,6 +395,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 5. Release plan: website first, then Android / Google Play
 
+**LIVE fix remains unpublished:** no fabricated hearing or source added and no Netlify build. Require official confirmation and genuine browser acceptance before enabling community LIVE.
+
+
 **Disclosure Desk scope resumed:** finance phone milestones remain documented but paused. Keep review SQL under `supabase/` outside `migrations`; no live database permission changes without separate approval; no opportunistic Netlify or production deploy.
 
 
@@ -426,6 +435,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 **Phase 4 — Play internal test and release preparation:** check Gradle/Android SDK, app ID, target API and Play policy requirements on actual release date; securely configure signed Android App Bundle (AAB) using existing manual `.github/workflows/android-play-internal-aab.yml`; check Play App Signing, release keys, version codes, app icon, screenshots, listing, privacy/data safety, consent/ads implementation, support URL, testing track eligibility, crash-free smoke and multi-device tests. Run internal/closed testing first; production publication requires explicit separate approval. Never publish a debug-signed APK as Play release.
 
 ## 6. Known source paths and supporting records
+
+- LIVE timing staged: `assets/live-schedule.js`, `scripts/test_live_chat_window_runtime.cjs`, existing `scripts/test_live_schedule.cjs`, `scripts/test_live_chat_archive.cjs`, and `docs/LIVE_WINDOW_TRANSITIONS_2026-11-04.md`. No database mutation.
+
 
 - `assets/public-profiles.js` guards stale account/revision on save; `scripts/test_public_profiles_owner_runtime.cjs` tests A/B account switch and duplicate-name warning without any backend access.
 
@@ -474,6 +486,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [ ] Synthetic CI verifies opening chat at T−45 and closing at earliest approved end/start+4h without re-rendering official video; real Samsung/JWT LIVE test separately required.
+
 
 - [x] Inspected public username database index uniqueness and UI source; proposed protection against account-switch stale form writes.
 - [ ] New synthetic username runtime and real-account alias conflict + cross-account save tests pass before live publishing.
@@ -559,6 +574,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Current LIVE QA:** verify GitHub-only synthetic clock and archive tests for timing transitions; review any failures. Next review actual browser guest/replay and registered-user RLS with approval for disposable test accounts; never invent a Congress event. Do not deploy, change private project, or consume Netlify.
+
+
 **Current Disclosure Desk owner acceptance gate (4 Nov):** two GitHub CI runtime tests now GREEN: Hub A/B stale action, username A/B stale save plus duplicate warning; staging source `3d5edcbf90c668d7a253be1fa03938569964df0c`, CI 41801094736 SUCCESS. Next user-facing work: real browser validation with two expressly approved disposable accounts and expendable records (see `docs/MEMBER_ACTION_ACCEPTANCE_2026-11-04.md`); never create public witness reports without separate approval and cleanup. After that, document/comment/name/RLS and LIVE/chat/tour/Research Studio checks for a single coordinated website release. Finance paused; no Netlify production deploy.
 
 
@@ -628,6 +646,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-04 — LIVE hearing-room opening/closing timeline defect patched in staged code
+- Existing per-second hearing clock did not update whether chat was mounted; static render and five-minute unchanged-card skip meant T−45 could pass without opening chat or an open room linger after end. Added chat sync to the already-running clock callback, no extra polling or event query costs; opens once and disposes once without replacing the verified-source hearing card/stream.
+- Synthetic fake DOM/time tests verify T−46, T−44, T−39 and T+4h, preserving card identity and no duplicate mounts; CI pending. Current source branch `feature/sources-archives-next-batch-nov03`, source previous head `b46e32435da796dcd6ec00d7cdf81b9ca6ccc64a` and production baseline `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` unchanged.
+- No real event publication, no backend/RLS/Netlify, live account data, original W.NE, Our Cinema or paused private Finance changes. Only code-staged/CI after checks; actual browser and hearing test remain unverified.
+
+
 
 ### 2026-11-04 — Hub and username synthetic account isolation runtime QA green
 - Repo `boydamo84-coder/disclosure-desk-preview`, development `feature/sources-archives-next-batch-nov03`, current tested head `3d5edcbf90c668d7a253be1fa03938569964df0c`, production `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` unchanged. Hub test code committed `330d0580344b77fafb8b553dadb799f8a31b5b35`; **Actions 41800473669 SUCCESS**.

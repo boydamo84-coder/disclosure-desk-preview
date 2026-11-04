@@ -35,6 +35,15 @@ jobs:
         run: |
           node --check scripts/test_public_profiles_owner_runtime.cjs
           node scripts/test_public_profiles_owner_runtime.cjs
+      - name: Exercise LIVE hearing chat opening and expiry on synthetic clock (no network)
+        run: |
+          node --check assets/live-schedule.js
+          node --check scripts/test_live_schedule.cjs
+          node scripts/test_live_schedule.cjs
+          node --check scripts/test_live_chat_archive.cjs
+          node scripts/test_live_chat_archive.cjs
+          node --check scripts/test_live_chat_window_runtime.cjs
+          node scripts/test_live_chat_window_runtime.cjs
       - name: Validate My Research Hub navigation and collapsible panels
         run: |
           node --check scripts/test_research_hub.cjs
