@@ -40,6 +40,10 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-04 ~01:50 UK — DISCLOSURE DESK ROADMAP RESUMED / LIVE PRIVILEGE AUDIT AND ROLLBACK-ONLY HARDENING CI GREEN:** Owner explicitly paused BDS Finance Centre L2.1 and asked to continue Disclosure Desk roadmap. Switched scope back to the existing unpublished 11-tab website batch. Read-only SQL metadata on **Disclosure Desk Supabase project `omqxizswzcwgzqaczlhe` only** confirmed RLS is enabled on all 22 current public base tables and identified **ten public-schema tables** retaining unnecessary `TRUNCATE`/`TRIGGER` privileges for `anon` and/or `authenticated` (four grant both roles; six grant authenticated only). Important: PostgreSQL does not apply RLS to `TRUNCATE`, **but the standard website Data API does not provide arbitrary SQL and this audit does NOT establish a visitor exploit**. Verified current `dd_witness_reports` `SELECT`/owner `DELETE` grants/policy, authenticated-only comment/research RPC execute permissions (no anonymous execute), and existing unique username index `dd_public_names_unique_key`; actual owner/guest HTTP tests remain pending. Staged **review-only, BEGIN/ROLLBACK, never-applied** `supabase/COMMUNITY_EXTRA_PRIVILEGES_REVIEW.sql`, inventory `docs/COMMUNITY_ROLE_PRIVILEGE_AUDIT_2026-11-04.md`, static contract tests and added one no-deploy CI step. Changes on development branch in commits `872083e5f1f2bd79fbb9f7874a913b701153c6fb` and `0597d6bc379dcbf7ae06ff3f200f6b84809994ae`; **Sources & Archives QA 41756880146 SUCCESS**. No SQL permission changes, database writes, real-user data inspections, Netlify, production deploy, Supabase migrations, W.NE or Cinema edits. **Next:** prepare/disposable-account HTTP acceptance for report deletion, comment edit/delete, document trash/restore, distinct username and CORS; seek explicit approval before any live privilege migration or destructive tests.
+
+
+
 - **2026-11-04 01:00 UK — L2.1 2025/26 YEAR FILTER DEVICE SCREENSHOT VERIFIED:** Owner's actual Samsung Internet screenshot shows `UK tax year: 2025/26`, `BDS product: All BDS products`, **£15.00 fictional gross income**, **£0.00 refunds/fees/expenses**, **£15.00 fictional trading profit**, and Ko-fi as the only sample income source. This matches the single 2025/26 demo entry dated 2026-04-05 and confirms phone-side date/year filter transition and UI recalculation for that view. The visible countdown reads **Auto-lock in 09:29**, proving the countdown is displayed, **NOT** that ten-minute expiry was actually exercised. 2026/27 default totals and user-reported tab-switch auto-lock were previously verified. Product-specific filter changes (Disclosure Desk £147.00, Our Cinema £142.50, BDS shared −£12.00), actual timeout/expired-server denial, and Chrome remain UNVERIFIED. Continue fictional-only; no real finance data, provider sync, Netlify, Supabase, production or original W.NE changes.
 
 
@@ -277,6 +281,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**CURRENT OWNER PRIORITY (2026-11-04): BDS Finance Centre is PAUSED. RESUME DISCLOSURE DESK ROADMAP.** Work on the unpublished website QA/polish batch only. First milestone completed: read-only Supabase privilege audit and rollback-only hardening review, static QA green. No actual grants were revoked. Next complete real-account/guest/owner testing of deletion/edit, witness CORS and public username before any feature release. Keep 11-tab production unchanged and save Netlify credits.
+
+
 **Finance L2.1 Samsung Internet unlocked UI:** actual screenshot confirms £337.00 sample income, £59.50 sample costs, £277.50 fictional profit and nine 2026/27 ledger rows. Dropdown changes and automatic timeout not yet tested; Chrome issue remains.
 
 
@@ -360,6 +367,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 5. Release plan: website first, then Android / Google Play
 
+**Disclosure Desk scope resumed:** finance phone milestones remain documented but paused. Keep review SQL under `supabase/` outside `migrations`; no live database permission changes without separate approval; no opportunistic Netlify or production deploy.
+
+
 **Finance Centre display acceptance does not authorise live financial records or public deployment.** Keep synthetic-only local Termux vault; no Netlify or backend actions.
 
 
@@ -394,6 +404,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 **Phase 4 — Play internal test and release preparation:** check Gradle/Android SDK, app ID, target API and Play policy requirements on actual release date; securely configure signed Android App Bundle (AAB) using existing manual `.github/workflows/android-play-internal-aab.yml`; check Play App Signing, release keys, version codes, app icon, screenshots, listing, privacy/data safety, consent/ads implementation, support URL, testing track eligibility, crash-free smoke and multi-device tests. Run internal/closed testing first; production publication requires explicit separate approval. Never publish a debug-signed APK as Play release.
 
 ## 6. Known source paths and supporting records
+
+- Disclosure Desk 2026-11-04 permission preflight: `docs/COMMUNITY_ROLE_PRIVILEGE_AUDIT_2026-11-04.md` (read-only live metadata findings, no user data), `supabase/COMMUNITY_EXTRA_PRIVILEGES_REVIEW.sql` (BEGIN/ROLLBACK proposal ONLY), `scripts/test_community_privilege_review.cjs` (static no-db regression), `.github/workflows/validate-sources-directory-staged.yml` (CI step); Actions run `41756880146` SUCCESS. Live DB project `omqxizswzcwgzqaczlhe` verified; no tables/rights altered.
+
 
 - 2026-11-04 00:50 UK real Samsung Internet unlocked dashboard screenshot in chat (not committed to repo): default 2026/27 All BDS products gross £337.00, costs £59.50, fictional profit £277.50, nine rows; `finance_local/dashboard.py`, Android browser patch `3be703de52b368bd5cbd3ced03cb5fb0b0bc1bcf`.
 
@@ -430,6 +443,12 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [x] 2026-11-04 live READ-ONLY Disclosure Desk schema audit: RLS on 22 public base tables; unexpected TRUNCATE/TRIGGER grants on ten, not yet revoked.
+- [x] Rollback-only, exact-table hardening review + static QA: GitHub run 41756880146 SUCCESS; normal witness owner DELETE/RLS and comment/research RPC availability confirmed from grants/catalog.
+- [ ] Review/approve the permission correction, test on isolated clone, seek explicit authorisation before any live database permission change; rerun privilege inventory.
+- [ ] Real Auth HTTP/phone checks for own witness report deletion, comment edit/delete, Research trash/restore, unique username and failed witness CORS; no live member content deleted for QA.
+
 
 - [x] On Samsung Internet switching UK year to 2025/26 shows £15 gross, £0 costs, £15 fictional profit, Ko-fi only, countdown visible at 09:29 (01:00 screenshot).
 - [ ] Check remaining 2026/27 product filters and actual 10-minute auto-expiry; Chrome remains unverified.
@@ -497,6 +516,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Immediate priority now Disclosure Desk, NOT Finance:** Owner paused Finance Centre and asked to continue website roadmap. Branch `feature/sources-archives-next-batch-nov03`; current docs/privilege review CI green 41756880146. Continue Section 4A in an unpublished batch. First check real JWT/HTTP test coverage and staging-only workflows for owner witness Delete, comment Edit/Delete and Research cloud trash/restore, plus duplicate-username message; DO NOT touch live reports or owner research without explicit confirmation. Witness Edge CORS `x-client-info` + OPTIONS-but-no-POST gap still requires phone test. Permission review candidate has NOT been applied to live Supabase. Then verify Sources & Archives, LIVE, mobile UX and planned Discussions/private Chat backend under existing feature flags. No Netlify builds or production merge.
+
+
 **Next owner phone QA:** L2.1 2025/26 ALL = £15.00 fictional profit screenshot verified. In a fresh Samsung Internet session select 2026/27 with Disclosure Desk (£147.00), Our Cinema (£142.50), BDS shared (−£12.00) and optionally W.NE (£0); do not switch to ChatGPT between tests if possible because tab-hide locks view. Report numbers in chat; do not share token/private URL. Then separately observe ten-minute expiry.
 
 
@@ -551,6 +573,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-04 ~01:50 UK — Disclosure Desk roadmap resumed; pre-release least-privilege read-only audit and staged review CI green
+- Owner explicitly requested pausing Finance and returning to Disclosure Desk. No further finance work performed; its unfinished year/product/expiry QA is parked.
+- Inspected actual Disclosure Desk Supabase project `omqxizswzcwgzqaczlhe` via read-only catalog queries only, no user records or DDL. All 22 public base tables report RLS enabled. Ten public tables have client-role TRUNCATE/TRIGGER grants; four `anon`+`authenticated`, six `authenticated`. Separate direct `service_role` and `postgres` ACLs verified. Postgres TRUNCATE bypasses RLS, though no website Data API SQL/TRUNCATE path demonstrated. Preserve nuanced severity.
+- Confirmed `dd_witness_reports` authenticated SELECT/DELETE owner RLS, comment edit/delete and research trash/restore/purge RPCs authenticated-only and referencing uid/owner checks; `dd_public_names_unique_key` unique index exists. Server JWT/phone end-to-end remains untested.
+- Staged `supabase/COMMUNITY_EXTRA_PRIVILEGES_REVIEW.sql` with explicit ten-table TRUNCATE/TRIGGER revoke in a lock/time-bounded BEGIN/ROLLBACK review; never applied anywhere. Static test `scripts/test_community_privilege_review.cjs` and audit document `docs/COMMUNITY_ROLE_PRIVILEGE_AUDIT_2026-11-04.md`; no-deploy GitHub Actions step added. Code milestone `872083e5f1f2bd79fbb9f7874a913b701153c6fb`, docs correction `0597d6bc379dcbf7ae06ff3f200f6b84809994ae`; staging QA run `41756880146` SUCCESS. Resulting handover SHA from this milestone needs to be checked; live production remained `9755fba9a5116c0cce6ac433ea022a6e5bfadd15`.
+- No Supabase writes, no Netlify, no published website changes and no original W.NE, Finance or Cinema data edits. Next: staged account-scoped HTTP acceptance/owner testing, batch UX and source provenance checks, then explicit launch approval.
+
 
 ### 2026-11-04 01:00 UK — L2.1 Samsung Internet 2025/26 filter success
 - Screenshot visually proves year selection `2025/26` and `All BDS products`; income £15, costs £0, fictional trading profit £15, income Ko-fi £15, all other accounting rows £0. This is correct for 2026-04-05 fictitious entry and confirms functional filtering on real Samsung.
