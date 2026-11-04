@@ -40,6 +40,10 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-04 ~00:50 UK — L2.1 SAMSUNG INTERNET SWITCH-AWAY PRIVACY LOCK OWNER-VERIFIED:** Owner clarified the dashboard automatically showed the locked state as soon as they switched from Samsung Internet to ChatGPT to send the screenshot. This confirms the **browser-side tab-visibility lock/scrub** behaves as designed on Samsung Internet; it is **NOT** a test of the independent ten-minute server-side expiry, the authenticated Lock now server revocation, or Chrome compatibility. Existing source `finance_local/dashboard.py` uses a `visibilitychange` listener that calls `showLocked(...)` and clears in-browser ledger/visible amounts. Important accuracy: this visibility lock changes the client page; the local server is still governed by its short lifetime until explicitly revoked or expired. Default 2026/27 fictional values and unlocked dashboard were previously screenshot-confirmed. Next: in a fresh uninterrupted Samsung Internet session, select other UK tax-year/BDS product filters and check fictitious amounts before navigating away; avoid any screenshots containing secret `#token`.
+
+
+
 - **2026-11-04 00:50 UK — L2.1 SAMSUNG INTERNET UNLOCKED DASHBOARD & 2026/27 TOTALS VERIFIED:** Owner supplied full Samsung Internet screenshot of unlocked private synthetic Finance Centre L2.1 at local 127.0.0.1. UK tax year dropdown selected `2026/27`, BDS product dropdown `All BDS products`; actual phone rendered **£337.00 fictional gross income**, **£59.50 refunds/fees/expenses**, **£277.50 fictional trading profit**, 9 fictional 2026/27 ledger entries, provider income-source bars, accounting treatment bars, countdown and Lock now button. This confirms initial dashboard UI and default filtered figures on Samsung Internet, complementing earlier user-confirmed manual lock state. **Changing year/product filters, automatic ten-minute expiry and Chrome browser remain NOT device verified**; prior browser issue unresolved. No private token visibly leaked in screenshot, user still must avoid screenshotting initial `#token=` URL. L2 remains fictional-only, not real-money-ready or security audited. No Netlify, Supabase, production, Play or W.NE changes.
 
 
@@ -423,6 +427,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 7. Invariant acceptance checklist — before any public/Play release
 
+- [x] Samsung Internet switch-away to ChatGPT auto-clears browser dashboard and shows locked state (owner confirmation). This is browser-side privacy protection, NOT independently proven server-side ten-minute termination.
+- [ ] Test filters in one uninterrupted browser session and verify server expiry/token invalidation separately.
+
+
 - [x] On Samsung Internet L2.1 private dashboard unlocked and displayed correct default 2026/27 all-products figures, charts and nine fictional ledger entries (owner screenshot 00:50 UK).
 - [ ] On phone change year to 2025/26 (£15.00), then 2026/27 product filters (Disclosure Desk £147.00, Our Cinema £142.50, BDS shared −£12.00), then test ten-minute timeout and manual lock; Chrome compatibility unresolved.
 
@@ -481,6 +489,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Finance current:** Android Samsung Internet tab-visibility auto-lock confirmed; to test dropdowns, remain in a fresh single browser session and check expected fictional totals before switching to chat. Browser-side lock does not establish server token revocation. Chrome remains unresolved; real money data not enabled.
+
+
 **Finance L2.1 next:** Owner's real Samsung Internet screenshot VERIFIED unlocked 2026/27 all £277.50 synthetic profit and charts. Next ask them to select **2025/26 All products = £15**, then 2026/27 **Disclosure Desk = £147**, **Our Cinema = £142.50**, **BDS shared = −£12**, and press Lock now last. Only take screenshots with `127.0.0.1` no private `#token=` URL; no passphrase ever. Test automatic expiry separately. Chrome still user-reported broken.
 
 
@@ -529,6 +540,12 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-04 ~00:50 UK — L2.1 Samsung Internet auto-lock on browser switch verified by owner
+- Owner reports dashboard locked immediately upon leaving Samsung Internet for ChatGPT after taking an unlocked screenshot. This matches source `visibilitychange` -> `showLocked` and local in-page DOM scrub. It does NOT prove network server was closed or its bearer revoked; that is a separate security acceptance. Ten-minute server expiry, cross-browser Chrome support, year/product dropdown changes remain unverified.
+- Prior image confirms fictional sample income £337, costs £59.50 and profit £277.50 for 2026/27 all products; synthetic-only on phone, no real data, Netlify/Supabase, source launch or W.NE changes. Next test using single uninterrupted Samsung Internet session.
+
+
 
 ### 2026-11-04 00:50 UK — L2.1 real Samsung Internet screenshot verifies unlocked fictional default totals
 - Screenshot displays authenticated local BDS navy/gold Finance Centre with dropdown selections `2026/27` and `All BDS products`, £337.00 simulated gross income, £59.50 combined refunds/fees/expenses, £277.50 fictional profit and transaction ledger of nine in-year rows. Provider income bars, accounting treatment bars and auto-lock countdown visibly rendered; no private URL token visible.
