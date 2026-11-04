@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-04 — USERNAME ACCOUNT-SWITCH RACE GUARD STAGED (CI PENDING):** Source review found stale Profile username form could save account A's input under a newly signed-in account B because save() fetched the new auth user without comparing against the user that opened the form. Added owner+refresh-revision checks before upsert, stale-response display guard, and reset of private-chat opt-in on guest state. No change to existing database index `dd_public_names_unique_key` or any existing account. Added fake DOM/runtime test of A→B race, B-only upsert, duplicate-name human-readable error and successful retry. No real Supabase write or production deployment; this is a QA candidate until GitHub check passes and real-device testing.
+
+
 - **2026-11-04 — DISCLOSURE DESK OWNER-ACTION RUNTIME SIMULATION STAGED (CI PENDING, NO LIVE USER WRITES):** Read-only live Disclosure Desk Supabase inspected definitions of owner-only comment edit/delete and research trash/restore/purge functions: authenticated-only EXECUTE, registered-auth.uid ownership, 30-minute unflagged approved comment edit, and media-purge refusal. Staged GitHub-only Node VM test of actual My Research Hub handlers with synthetic account A/B: stale A action rejected after signing into B, cancel blocks report delete, accepted B delete has ID+author filters, comment editing and research trash use expected RPCs. Explicit future owner-led disposable account checklist added. Prior witness Edge v2 config/source parity and 10-table least-privilege review remain valid. **No live records, migrations, Netlify, production branch, Finance Centre, W.NE or Cinema changed.** CI still pending for new runtime test; do not count it as SAMSUNG or HTTP acceptance.
 
 
@@ -288,6 +291,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**Owner-account form safety:** prevent stale username settings form from mutating a newly signed-in account; synthetic A/B duplicate-name regression staged in GitHub. Real account and browser acceptance pending.
+
+
 **Current scope:** Disclosure Desk member/moderation QA, not Finance. New no-network A/B owner-action runtime test staged; real-user public report/comment testing requires explicit owner approval.
 
 
@@ -418,6 +424,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 6. Known source paths and supporting records
 
+- `assets/public-profiles.js` guards stale account/revision on save; `scripts/test_public_profiles_owner_runtime.cjs` tests A/B account switch and duplicate-name warning without any backend access.
+
+
 - Owner-action account switch test `scripts/test_research_hub_owner_runtime.cjs` runs existing `assets/research-hub.js` against fake identities only. Safe human acceptance `docs/MEMBER_ACTION_ACCEPTANCE_2026-11-04.md`.
 
 
@@ -462,6 +471,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [x] Inspected public username database index uniqueness and UI source; proposed protection against account-switch stale form writes.
+- [ ] New synthetic username runtime and real-account alias conflict + cross-account save tests pass before live publishing.
+
 
 - [x] Read-only reviewed existing authenticated-only comment and research owner RPC bodies (4 November).
 - [ ] Owner-action A/B runtime test passes GitHub CI; real JWT and Samsung acceptance still pending, no live writes allowed.
@@ -543,6 +556,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Website QA latest:** confirm username cross-account race guard CI (synthetic A/B), then controlled disposable real-account alias test ONLY after owner agrees. Continue witness/comment/document acceptance and LIVE/chat roadmap, conserving Netlify builds.
+
+
 **Disclosure Desk website priority:** verify A/B synthetic owner-action runtime test GitHub-only QA; fix test issues if any, then review controlled disposable browser acceptance with owner. Preserve 11-tab site and 12th Discussions feature flag; don't touch Finance/Netlify/production.
 
 
@@ -606,6 +622,12 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-04 — Username stale-session safety fix staged
+- Code inspected on feature/sources-archives-next-batch-nov03 after first owner action simulation PASS (CI 41800473669). Old public-profiles save() might use newly authenticated account B after account A form remained open, accidentally saving stale A field into B's row. Database RLS would still limit updates to B, but not stop inappropriate cross-account input copy.
+- Added expected owner and revision checks before owner-only upsert, reject/ignore stale responses, clear chat opt-in on guest, and synthetic test of fake A→B form change/duplicate alias/retry. No user names or live database changed. Expected future CI and owner Samsung tests remain.
+
+
 
 ### 2026-11-04 — Owner-action A/B synthetic runtime test prepared, approval for live tests pending
 - Source branch feature/sources-archives-next-batch-nov03, parent 6c038ea1d5abe643ed96727392b51da969af7d1b; production 9755fba9a5116c0cce6ac433ea022a6e5bfadd15 untouched. `assets/research-hub.js` was not changed. Added VM fake-DOM/Supabase runtime test for stale A->B witness delete, cancel guard, B-only report deletion predicates, comment editing RPC, document trash RPC; no external network or real identity.

@@ -40,7 +40,7 @@ async function refresh(){
  const user=!error&&data?.user&&!data.user.is_anonymous?data.user:null;
  sessionId=user?.id||null;
  host.hidden=!user;
- if(!user){input.value='';optIn.checked=false;return;}
+ if(!user){input.value='';optIn.checked=false;if(chatOptIn)chatOptIn.checked=false;return;}
  say('Loading private username…');
  const {data:row,error:readError}=await c.from('dd_public_names')
   .select(chatEnabled?'display_name,is_public,chat_contact_opt_in':'display_name,is_public').eq('user_id',user.id).maybeSingle();
@@ -55,7 +55,9 @@ async function save(ev){
  ev.preventDefault();
  if(!enabled)return;
  const c=client(),name=input.value.trim(),publicName=optIn.checked;
- if(!c)return;
+ // A stale username form from account A must never save into account B.
+ const expectedOwner=sessionId,expectedRevision=revision;
+ if(!c||!expectedOwner||host.hidden){say('Sign in again before updating your username.',true);return;}
  if(!VALID.test(name)||RESERVED.test(name)){
   say('Use 3–24 characters: start with a letter, then letters, numbers or underscores. No official/staff impersonation.',true);return;
  }
@@ -65,14 +67,18 @@ async function save(ev){
   const {data,error}=await c.auth.getUser();
   if(error||!data?.user||data.user.is_anonymous)throw Error('Sign in with a registered account first.');
   const user=data.user;
+  if(user.id!==expectedOwner||sessionId!==expectedOwner||revision!==expectedRevision)
+   throw Error('Your sign-in changed. Reload username settings and try again.');
   // Existing table already enforces owner-only INSERT/UPDATE and unique name_key.
   const settings={user_id:user.id,display_name:name,is_public:publicName,updated_at:new Date().toISOString()};
   if(chatEnabled)settings.chat_contact_opt_in=publicName&&chatOptIn.checked;
   const {error:writeError}=await c.from('dd_public_names').upsert(settings,{onConflict:'user_id'});
   if(writeError)throw writeError;
+  if(sessionId!==expectedOwner||revision!==expectedRevision)return;
   say(publicName?'Saved. Your username can appear beside approved public comments and chat messages.'
     :'Saved privately. Your name will not appear publicly.');
  }catch(e){
+  if(sessionId!==expectedOwner||revision!==expectedRevision)return;
   say(/unique|duplicate/i.test(String(e.message||''))?'That username is already taken. Please choose another.'
    :'Username could not be saved. '+String(e.message||'Please try again.').slice(0,130),true);
  }finally{button.disabled=false;}
