@@ -40,6 +40,10 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-04 — 11-TAB FULL TOUR/MOBILE ACCESSIBILITY CI GREEN, SAMSUNG RETEST PENDING:** Upgraded existing tour to native modal dialog + accessible first-visit modal, Close/Escape returns to the visitor's original tab rather than always Explore, restores focus; labels/step-title focus, 44px touch controls, scrollable phone-sized tour. Horizontal dock auto-scrolls selected tab and updates `aria-current="page"`. Preserved all **11 production tabs and 30 existing tour targets**; network-free source-extracted runtime test verifies old Videos tab and Profile return on Esc. Source committed to unpublished branch at `757e054872b583fe225eb2f3146929bb0faa618d`; initial GitHub QA failed only because old guided-tour test expected earlier first-visit guard. Fixed outdated test in `4aba1a7da3ec12a740faae3b048a46e4eb468624` and **no-deploy CI 41809892108 SUCCESS**. Real Samsung/Chrome visual, Android Back and accessibility QA remain pending. No website production, Netlify, Supabase, original W.NE, Cinema or paused Finance changes.
+
+
+
 - **2026-11-04 — DISCLOSURE DESK 11-TAB TOUR ACCESSIBILITY & MOBILE NAVIGATION FIX STAGED (CI PENDING):** Inspected actual 384 KB site source and verified all 30 existing full/focused tour targets across 11 production tabs. Found two UX/accessibility issues: tour used nonmodal `dialog.show()` and always jumped to Explore on Close; first-visit overlay pretended to be modal without keyboard focus trapping. Staged native modal tour/welcome `showModal()`, Escape/Close origin-tab + focus restoration, mobile 44px touch controls and 60dvh scrollable tour, active bottom nav `aria-current="page"` and horizontal selected-tab reveal. Added source-extracted runtime synthetic test and existing guided-tour regression to GitHub-only staging suite; `docs/TOUR_MOBILE_ACCESSIBILITY_QA_2026-11-04.md` notes device QA pending. No LIVE schedule/Finance/Cinema/W.NE changes; no Netlify, Supabase or production deployment. Pending CI run must pass before CODE QA GREEN.
 
 
@@ -307,6 +311,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**Current mobile & tour checkpoint:** native accessible modal/first-visit tour, previous-tab/keyboard focus restoration, 44px controls and 11-tab selected ARIA/scroll passed fake-DOM CI. Samsung Internet/Chrome device/browser checks still pending; finance remains paused.
+
+
 **CURRENT (4 Nov): full-site tour/mobile navigation/accessibility QA on 11-tab unpublished branch.** Code staged for modal focus and origin-tab restore, accessible 44px controls, a dock ARIA/current-tab update and selected-tab scroll reveal; browser/Samsung actual acceptance pending. Earlier LIVE fake-clock/chat CI green; no published future hearing.
 
 
@@ -455,6 +462,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 6. Known source paths and supporting records
 
+- Tour/mobile: `index.html` changes, `scripts/test_mobile_tour_a11y.cjs` fake DOM, existing `scripts/test_guided_tour_2026.cjs` refreshed, `docs/TOUR_MOBILE_ACCESSIBILITY_QA_2026-11-04.md`; **GitHub 41809892108 SUCCESS**, 30 intact target selectors.
+
+
 - Tour/mobile accessibility: `index.html` guided-tour modal/welcome/nav changes, `scripts/test_mobile_tour_a11y.cjs` network-free source/runtime test, `scripts/test_guided_tour_2026.cjs`, `docs/TOUR_MOBILE_ACCESSIBILITY_QA_2026-11-04.md`; 11 tabs and 30 tour targets preserved.
 
 
@@ -511,6 +521,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [x] All 11 nav tabs and 30 full/focused tour targets validated in runtime/static CI, plus native modal Escape/tab and focus restore (GitHub 41809892108).
+- [ ] Real Samsung Internet/Chrome visual acceptance of portrait/landscape, Android Back, TalkBack, bottom dock scrolling and W.NE unsaved-work safety; do not claim SAMSUNG VERIFIED from VM tests.
+
 
 - [x] Source inventory: full/focused tour 30 steps target actual 11-tab site elements. Native modal/keyboard, nav ARIA/current focus fixes code-staged.
 - [ ] Run new GitHub-only tour runtime suite green; then Samsung/Chrome real visual keyboard/touch/landscape/Back/TalkBack acceptance and safe navigation from W.NE.
@@ -612,6 +626,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Latest Disclosure Desk:** tour/mobile code CI GREEN on branch `feature/sources-archives-next-batch-nov03` (41809892108); Samsung Internet/device still unverified. Test Explore full guided tour, 11 bottom tabs, Escape/Back/Close restoring originating screen and focus, small/landscape layouts, and not interrupting private W.NE before a coordinated owner-approved preview. Do not publish, merge to production, spend Netlify credits or generate fake LIVE events.
+
+
 **Latest tour QA checkpoint:** verify Node runtime test on actual `index.html` shows Close and native Escape return to original tab, first-visit modal/Escape, 30 targets, nav aria-current. Fix CI failures if necessary, then mark CI GREEN. Next user-only device tests: full tour on Samsung Internet, 11 dock tabs, keyboard/tap/Back and no overlapping bottom nav, preserve W.NE; no Netlify until owner approval.
 
 
@@ -693,6 +710,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-04 — Full-site tour and mobile dock accessibility tested on source, CI GREEN
+- Code on unpublished `feature/sources-archives-next-batch-nov03`, source commit `757e054872b583fe225eb2f3146929bb0faa618d`; updated assertion commit `4aba1a7da3ec12a740faae3b048a46e4eb468624`, **GitHub Actions 41809892108 SUCCESS**. Production head `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` untouched.
+- 11 tabs unchanged, 30 targeted tour steps verified; first-visit and tour native modal, Escape/back/close original-tab + keyboard focus restoration, current tab aria-current, auto-scroll dock and 44px tour buttons passed static and network-free VM tests. Old test initially expected nonmodal welcome branch, corrected it and reran all staging checks green.
+- Browser/Samsung acceptance is NOT yet done, nor comprehensive TalkBack/accessibility/landscape. No Netlify, Supabase migrations, user records, W.NE originals, Cinema or Finance touched.
+
+
 
 ### 2026-11-04 — Tour and mobile navigation accessibility correction staged, device QA pending
 - Repo `boydamo84-coder/disclosure-desk-preview`, correct dev `feature/sources-archives-next-batch-nov03` prior head `4d749bdf5df9edc9e8d475510745d168f7e3d360`, live `production` `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` untouched. Real index tour contains 10 full steps plus 7/4/4/5 focused = 30; target IDs/classes exist. Fixed nonmodal walk-through and origin page loss and first-visit keyboard trap, 44px tap controls, modal accessibility labels, nav selected aria-current and horizontal reveal. W.NE original and finance untouched.
