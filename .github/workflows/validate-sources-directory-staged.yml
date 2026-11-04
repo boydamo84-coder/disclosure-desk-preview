@@ -19,6 +19,10 @@ jobs:
         run: |
           node --check scripts/test_sources_directory.cjs
           node scripts/test_sources_directory.cjs
+      - name: Validate review-only database privilege inventory (no SQL execution)
+        run: |
+          node --check scripts/test_community_privilege_review.cjs
+          node scripts/test_community_privilege_review.cjs
       - name: Validate My Research Hub navigation and collapsible panels
         run: |
           node --check scripts/test_research_hub.cjs
