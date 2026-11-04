@@ -40,6 +40,10 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-04 — DISCLOSURE DESK LIVE WITNESS EDGE V2 CORS SOURCE PARITY VERIFIED; STATIC QA GREEN / REAL JWT POST STILL PENDING:** Read-only query against **Disclosure Desk Supabase project `omqxizswzcwgzqaczlhe`** confirms `dd-witness-submit` is ACTIVE at **version 2**, with **`verify_jwt=true`**; exact deployed `index.ts` text matched byte-for-byte to `supabase/functions/dd-witness-submit/index.ts` on development branch. Both have explicit OPTIONS 204 response with allowed methods `POST, OPTIONS`, allowed request headers `authorization, x-client-info, apikey, content-type`, strict origin allowlisting and a signed-in, non-anonymous user check before creating a report. Added CORS/regression assertions to existing `scripts/test_witness_community.cjs`, wired into GitHub no-deploy website QA, updated `docs/BETA_FEEDBACK_FIXES_2026-11-03.md`. Source commit **`3a7aba5048a32db25348257a892bef410741e377`**; **Actions run `41757257629` SUCCESS**. No Edge redeploy or website deploy. **This confirms deployed code/config, NOT an actual authenticated browser POST, geocoder acceptance, map marker or report deletion**. Next: user-approved disposable-account/browser acceptance, leave live data untouched during automated tests; continue earlier least-privilege candidate review before release.
+
+
+
 - **2026-11-04 ~01:50 UK — DISCLOSURE DESK ROADMAP RESUMED / LIVE PRIVILEGE AUDIT AND ROLLBACK-ONLY HARDENING CI GREEN:** Owner explicitly paused BDS Finance Centre L2.1 and asked to continue Disclosure Desk roadmap. Switched scope back to the existing unpublished 11-tab website batch. Read-only SQL metadata on **Disclosure Desk Supabase project `omqxizswzcwgzqaczlhe` only** confirmed RLS is enabled on all 22 current public base tables and identified **ten public-schema tables** retaining unnecessary `TRUNCATE`/`TRIGGER` privileges for `anon` and/or `authenticated` (four grant both roles; six grant authenticated only). Important: PostgreSQL does not apply RLS to `TRUNCATE`, **but the standard website Data API does not provide arbitrary SQL and this audit does NOT establish a visitor exploit**. Verified current `dd_witness_reports` `SELECT`/owner `DELETE` grants/policy, authenticated-only comment/research RPC execute permissions (no anonymous execute), and existing unique username index `dd_public_names_unique_key`; actual owner/guest HTTP tests remain pending. Staged **review-only, BEGIN/ROLLBACK, never-applied** `supabase/COMMUNITY_EXTRA_PRIVILEGES_REVIEW.sql`, inventory `docs/COMMUNITY_ROLE_PRIVILEGE_AUDIT_2026-11-04.md`, static contract tests and added one no-deploy CI step. Changes on development branch in commits `872083e5f1f2bd79fbb9f7874a913b701153c6fb` and `0597d6bc379dcbf7ae06ff3f200f6b84809994ae`; **Sources & Archives QA 41756880146 SUCCESS**. No SQL permission changes, database writes, real-user data inspections, Netlify, production deploy, Supabase migrations, W.NE or Cinema edits. **Next:** prepare/disposable-account HTTP acceptance for report deletion, comment edit/delete, document trash/restore, distinct username and CORS; seek explicit approval before any live privilege migration or destructive tests.
 
 
@@ -281,6 +285,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**Witness Edge CORS now verified live at code/config level:** Active `dd-witness-submit` v2 has `verify_jwt=true`, `x-client-info` preflight and exact Git source parity; GitHub no-deploy regression 41757257629 passed. Do not redeploy this Edge function just for the previously reported header bug. A real registered test-account POST and clean deletion are still needed.
+
+
 **CURRENT OWNER PRIORITY (2026-11-04): BDS Finance Centre is PAUSED. RESUME DISCLOSURE DESK ROADMAP.** Work on the unpublished website QA/polish batch only. First milestone completed: read-only Supabase privilege audit and rollback-only hardening review, static QA green. No actual grants were revoked. Next complete real-account/guest/owner testing of deletion/edit, witness CORS and public username before any feature release. Keep 11-tab production unchanged and save Netlify credits.
 
 
@@ -405,6 +412,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 6. Known source paths and supporting records
 
+- Witness v2 source parity and CORS 2026-11-04: `supabase/functions/dd-witness-submit/index.ts` (exact deployed version 2, JWT verified), `scripts/test_witness_community.cjs` (new CORS assertions), `.github/workflows/validate-sources-directory-staged.yml` (static QA step) and `docs/BETA_FEEDBACK_FIXES_2026-11-03.md`; GitHub Actions run 41757257629 SUCCESS. No actual HTTP POST was sent and no Edge deployment performed.
+
+
 - Disclosure Desk 2026-11-04 permission preflight: `docs/COMMUNITY_ROLE_PRIVILEGE_AUDIT_2026-11-04.md` (read-only live metadata findings, no user data), `supabase/COMMUNITY_EXTRA_PRIVILEGES_REVIEW.sql` (BEGIN/ROLLBACK proposal ONLY), `scripts/test_community_privilege_review.cjs` (static no-db regression), `.github/workflows/validate-sources-directory-staged.yml` (CI step); Actions run `41756880146` SUCCESS. Live DB project `omqxizswzcwgzqaczlhe` verified; no tables/rights altered.
 
 
@@ -443,6 +453,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- [x] Witness Edge deployed v2 verified by read-only function metadata; `verify_jwt=true`, live source exactly matches GitHub, `x-client-info` accepted in OPTIONS; no-deploy QA 41757257629 SUCCESS.
+- [ ] Witness registered-account browser POST + CORS response + city match + map visibility + owner remove verified using approved disposable report; historical OPTIONS-only result alone cannot prove success.
+
 
 - [x] 2026-11-04 live READ-ONLY Disclosure Desk schema audit: RLS on 22 public base tables; unexpected TRUNCATE/TRIGGER grants on ten, not yet revoked.
 - [x] Rollback-only, exact-table hardening review + static QA: GitHub run 41756880146 SUCCESS; normal witness owner DELETE/RLS and comment/research RPC availability confirmed from grants/catalog.
@@ -516,6 +530,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Disclosure Desk website remains the current owner priority; Finance is paused.** Live v2 witness Edge CORS header and code parity are confirmed, so focus on real-account acceptance of witness POST/delete, comment edit/delete, Research document trash/restore, unique public aliases and mobile menu before a consolidated beta. Read-only SQL privilege audit identified 10 tables with excess TRUNCATE/TRIGGER grants; only a rollback-only review candidate and GitHub contract tests exist—**nothing has been revoked**. Follow current Section 4A queue without redeploying Edge or publishing to Netlify.
+
+
 **Immediate priority now Disclosure Desk, NOT Finance:** Owner paused Finance Centre and asked to continue website roadmap. Branch `feature/sources-archives-next-batch-nov03`; current docs/privilege review CI green 41756880146. Continue Section 4A in an unpublished batch. First check real JWT/HTTP test coverage and staging-only workflows for owner witness Delete, comment Edit/Delete and Research cloud trash/restore, plus duplicate-username message; DO NOT touch live reports or owner research without explicit confirmation. Witness Edge CORS `x-client-info` + OPTIONS-but-no-POST gap still requires phone test. Permission review candidate has NOT been applied to live Supabase. Then verify Sources & Archives, LIVE, mobile UX and planned Discussions/private Chat backend under existing feature flags. No Netlify builds or production merge.
 
 
@@ -573,6 +590,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-04 — Witness Edge v2 CORS/JWT static parity verification and no-deploy test green
+- Inspected the actual Disclosure Desk Edge Function (project `omqxizswzcwgzqaczlhe`) through connected Supabase read-only metadata/content. `dd-witness-submit` status ACTIVE v2, `verify_jwt=true`, deployed source equal to unpublished GitHub `supabase/functions/dd-witness-submit/index.ts` byte-for-byte. Confirmed OPTIONS allows `authorization, x-client-info, apikey, content-type` and `POST, OPTIONS`; Origin allowlist and signed-in JWT body guard present.
+- Added static assertions to `scripts/test_witness_community.cjs` and enabled them in `.github/workflows/validate-sources-directory-staged.yml`; updated `docs/BETA_FEEDBACK_FIXES_2026-11-03.md` with precise status. Code commit `3a7aba5048a32db25348257a892bef410741e377`; GitHub no-deploy QA `41757257629` SUCCESS; documentation HEAD is this next commit. Live website `production` remained `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` at last check.
+- No Supabase writes, JWT credential request, witness submission, delete, Netlify publish or external provider operation was performed. CORS code parity != mobile end-to-end acceptance. Next: user-authorised disposable registered test report and owner deletion, comment/document CRUD testing and reviewed permission migration.
+
+
 
 ### 2026-11-04 ~01:50 UK — Disclosure Desk roadmap resumed; pre-release least-privilege read-only audit and staged review CI green
 - Owner explicitly requested pausing Finance and returning to Disclosure Desk. No further finance work performed; its unfinished year/product/expiry QA is parked.
