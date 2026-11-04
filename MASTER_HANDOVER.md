@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-04 — DISCLOSURE DESK OWNER-ACTION AND USERNAME A/B RUNTIME TESTS CI GREEN; NO LIVE USER WRITES:** Synthetic Hub owner-action test passed GitHub-only staging run **41800473669** at `330d0580344b77fafb8b553dadb799f8a31b5b35`: fake account A→B stale witness DELETE denied, confirmation guard, B-only owner-scoped report deletion, comment edit and document trash calls. Separate username-form account-switch race was fixed in `assets/public-profiles.js`: requires same owner and refresh generation before upserting, ignores stale responses, clears chat opt-in when signed out; fabricated A/B test checks stale save denied, duplicate alias error and B-only successful save. After correcting a fake-DOM test harness issue, full staging CI **41801094736 SUCCESS** at `3d5edcbf90c668d7a253be1fa03938569964df0c`. Source `assets/public-profiles.js` updated; read-only live Supabase owner RPC audit remains green. Neither test uses real database accounts or data. **Actual real-JWT/phone account acceptance still pending** before publishing. No Netlify build or public website, Supabase, original W.NE, Cinema or Finance changes.
+
+
 - **2026-11-04 — USERNAME ACCOUNT-SWITCH RACE GUARD STAGED (CI PENDING):** Source review found stale Profile username form could save account A's input under a newly signed-in account B because save() fetched the new auth user without comparing against the user that opened the form. Added owner+refresh-revision checks before upsert, stale-response display guard, and reset of private-chat opt-in on guest state. No change to existing database index `dd_public_names_unique_key` or any existing account. Added fake DOM/runtime test of A→B race, B-only upsert, duplicate-name human-readable error and successful retry. No real Supabase write or production deployment; this is a QA candidate until GitHub check passes and real-device testing.
 
 
@@ -556,6 +559,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Current Disclosure Desk owner acceptance gate (4 Nov):** two GitHub CI runtime tests now GREEN: Hub A/B stale action, username A/B stale save plus duplicate warning; staging source `3d5edcbf90c668d7a253be1fa03938569964df0c`, CI 41801094736 SUCCESS. Next user-facing work: real browser validation with two expressly approved disposable accounts and expendable records (see `docs/MEMBER_ACTION_ACCEPTANCE_2026-11-04.md`); never create public witness reports without separate approval and cleanup. After that, document/comment/name/RLS and LIVE/chat/tour/Research Studio checks for a single coordinated website release. Finance paused; no Netlify production deploy.
+
+
 **Website QA latest:** confirm username cross-account race guard CI (synthetic A/B), then controlled disposable real-account alias test ONLY after owner agrees. Continue witness/comment/document acceptance and LIVE/chat roadmap, conserving Netlify builds.
 
 
@@ -622,6 +628,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-04 — Hub and username synthetic account isolation runtime QA green
+- Repo `boydamo84-coder/disclosure-desk-preview`, development `feature/sources-archives-next-batch-nov03`, current tested head `3d5edcbf90c668d7a253be1fa03938569964df0c`, production `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` unchanged. Hub test code committed `330d0580344b77fafb8b553dadb799f8a31b5b35`; **Actions 41800473669 SUCCESS**.
+- Username form race fix committed `a935660ea9d21a1a088423093c5a0386ec9f6f61`: prevents account A's stale username form saving to B; privacy opt-in cleared when signed out; duplicate name user message retained. Initial Node test failed because its mock DOM did not search nested submit button; fixed test harness only in `3d5edcbf90c668d7a253be1fa03938569964df0c`. **Actions 41801094736 SUCCESS** with all staging checks. Live database unique-name index unchanged.
+- No actual registered-user HTTP, new/deleted witness reports, comments, private documents, Supabase migration, Netlify build, public 12th tab or Android release. Next on owner approval: account A/B fake disposable browser QA and cleanup, then LIVE/community/backend regression review.
+
+
 
 ### 2026-11-04 — Username stale-session safety fix staged
 - Code inspected on feature/sources-archives-next-batch-nov03 after first owner action simulation PASS (CI 41800473669). Old public-profiles save() might use newly authenticated account B after account A form remained open, accidentally saving stale A field into B's row. Database RLS would still limit updates to B, but not stop inappropriate cross-account input copy.
