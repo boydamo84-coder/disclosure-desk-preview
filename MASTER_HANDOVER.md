@@ -40,6 +40,10 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-04 01:00 UK — L2.1 2025/26 YEAR FILTER DEVICE SCREENSHOT VERIFIED:** Owner's actual Samsung Internet screenshot shows `UK tax year: 2025/26`, `BDS product: All BDS products`, **£15.00 fictional gross income**, **£0.00 refunds/fees/expenses**, **£15.00 fictional trading profit**, and Ko-fi as the only sample income source. This matches the single 2025/26 demo entry dated 2026-04-05 and confirms phone-side date/year filter transition and UI recalculation for that view. The visible countdown reads **Auto-lock in 09:29**, proving the countdown is displayed, **NOT** that ten-minute expiry was actually exercised. 2026/27 default totals and user-reported tab-switch auto-lock were previously verified. Product-specific filter changes (Disclosure Desk £147.00, Our Cinema £142.50, BDS shared −£12.00), actual timeout/expired-server denial, and Chrome remain UNVERIFIED. Continue fictional-only; no real finance data, provider sync, Netlify, Supabase, production or original W.NE changes.
+
+
+
 - **2026-11-04 ~00:50 UK — L2.1 SAMSUNG INTERNET SWITCH-AWAY PRIVACY LOCK OWNER-VERIFIED:** Owner clarified the dashboard automatically showed the locked state as soon as they switched from Samsung Internet to ChatGPT to send the screenshot. This confirms the **browser-side tab-visibility lock/scrub** behaves as designed on Samsung Internet; it is **NOT** a test of the independent ten-minute server-side expiry, the authenticated Lock now server revocation, or Chrome compatibility. Existing source `finance_local/dashboard.py` uses a `visibilitychange` listener that calls `showLocked(...)` and clears in-browser ledger/visible amounts. Important accuracy: this visibility lock changes the client page; the local server is still governed by its short lifetime until explicitly revoked or expired. Default 2026/27 fictional values and unlocked dashboard were previously screenshot-confirmed. Next: in a fresh uninterrupted Samsung Internet session, select other UK tax-year/BDS product filters and check fictitious amounts before navigating away; avoid any screenshots containing secret `#token`.
 
 
@@ -427,6 +431,10 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 7. Invariant acceptance checklist — before any public/Play release
 
+- [x] On Samsung Internet switching UK year to 2025/26 shows £15 gross, £0 costs, £15 fictional profit, Ko-fi only, countdown visible at 09:29 (01:00 screenshot).
+- [ ] Check remaining 2026/27 product filters and actual 10-minute auto-expiry; Chrome remains unverified.
+
+
 - [x] Samsung Internet switch-away to ChatGPT auto-clears browser dashboard and shows locked state (owner confirmation). This is browser-side privacy protection, NOT independently proven server-side ten-minute termination.
 - [ ] Test filters in one uninterrupted browser session and verify server expiry/token invalidation separately.
 
@@ -489,6 +497,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**Next owner phone QA:** L2.1 2025/26 ALL = £15.00 fictional profit screenshot verified. In a fresh Samsung Internet session select 2026/27 with Disclosure Desk (£147.00), Our Cinema (£142.50), BDS shared (−£12.00) and optionally W.NE (£0); do not switch to ChatGPT between tests if possible because tab-hide locks view. Report numbers in chat; do not share token/private URL. Then separately observe ten-minute expiry.
+
+
 **Finance current:** Android Samsung Internet tab-visibility auto-lock confirmed; to test dropdowns, remain in a fresh single browser session and check expected fictional totals before switching to chat. Browser-side lock does not establish server token revocation. Chrome remains unresolved; real money data not enabled.
 
 
@@ -540,6 +551,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-04 01:00 UK — L2.1 Samsung Internet 2025/26 filter success
+- Screenshot visually proves year selection `2025/26` and `All BDS products`; income £15, costs £0, fictional trading profit £15, income Ko-fi £15, all other accounting rows £0. This is correct for 2026-04-05 fictitious entry and confirms functional filtering on real Samsung.
+- Countdown shows `Auto-lock in 09:29`; this is visual countdown only, not a completed ten-minute timeout/invalidated-token drill. Switch-away browser privacy lock separately owner confirmed earlier.
+- Remaining in device QA: 2026/27 per-product filters (Disclosure Desk £147, Our Cinema £142.50, BDS shared −£12), server expiry and Chrome compatibility. No real income. Development `feature/sources-archives-next-batch-nov03`, `production` unchanged; no live deployment.
+
+
 
 ### 2026-11-04 ~00:50 UK — L2.1 Samsung Internet auto-lock on browser switch verified by owner
 - Owner reports dashboard locked immediately upon leaving Samsung Internet for ChatGPT after taking an unlocked screenshot. This matches source `visibilitychange` -> `showLocked` and local in-page DOM scrub. It does NOT prove network server was closed or its bearer revoked; that is a separate security acceptance. Ten-minute server expiry, cross-browser Chrome support, year/product dropdown changes remain unverified.
