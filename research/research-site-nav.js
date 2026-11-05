@@ -11,6 +11,12 @@ const TABS=[
  ['boards','▣','Boards'],['witness','◉','Witness'],
  ['watchRead','♫','Watch & Read'],['hub','☷','Explore'],['profilePage','👤','Profile']
 ];
+// The public site remains eleven tabs until the separately reviewed Discussions
+// backend is activated. Use the same explicit feature gate in the Research dock.
+if(window.DD_COMMUNITY_FEATURES?.discussions===true){
+ const afterWitness=TABS.findIndex(row=>row[0]==='witness')+1;
+ TABS.splice(afterWitness,0,['discussionsPage','☷','Discussions']);
+}
 const STORAGE_KEY='dd-research-nav-hidden-v1';
 const workspace=!!document.getElementById('writer');
 const editor=!!document.getElementById('editor')&&!!document.getElementById('save');

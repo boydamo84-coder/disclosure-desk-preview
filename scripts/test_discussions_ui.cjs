@@ -25,7 +25,10 @@ assert.match(forum,/data\.user\.is_anonymous/);
 const nav=html.match(/<nav\s+class="nav"[\s\S]*?<\/nav>/i)?.[0]||'';
 assert.equal((nav.match(/class="tab(?: active)?"/g)||[]).length,11,'No twelfth tab when disabled');
 assert.doesNotMatch(nav,/data-tab="discussionsPage"/,'No early public Discussions tab');
-assert.doesNotMatch(dock,/'discussionsPage'/,'Preserve current W.NE dock until enabled and 12-tab parity reviewed');
+assert.match(dock,/if\(window\.DD_COMMUNITY_FEATURES\?\.discussions===true\)/,
+ 'Research dock requires the same source-controlled Discussions approval');
+assert.match(dock,/TABS\.splice\(afterWitness,0,\['discussionsPage','☷','Discussions'\]\)/,
+ 'Only insert Discussions after Witness when feature enabled');
 console.log('PASS: staged Discussions layout/section/thread/replies; disabled gate; no premature 12th tab; safe URLs and limited steward actions.');
 
 /* Only owner actions on their own content, and limited steward organisation. */

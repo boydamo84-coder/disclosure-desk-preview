@@ -87,6 +87,10 @@ jobs:
           node scripts/test_discussions_ui.cjs
           node --check scripts/test_discussions_account_switch_runtime.cjs
           node scripts/test_discussions_account_switch_runtime.cjs
+      - name: Verify gated Discussions in W.NE dock and safe deep-link (synthetic only)
+        run: |
+          node --check scripts/test_wne_discussions_nav.cjs
+          node scripts/test_wne_discussions_nav.cjs
       - name: Validate review-only Discussions backend permissions (no SQL deploy)
         run: |
           node --check scripts/test_discussions_sql.cjs

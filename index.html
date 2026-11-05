@@ -1520,6 +1520,13 @@ const ddResearchReturnTab=new URLSearchParams(location.search).get('dd_tab');
 if(['discover','archivePage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','hub','profilePage'].includes(ddResearchReturnTab)){
  navigateTo(ddResearchReturnTab);
 }
+// This additional tab is deferred until the host's source-controlled feature flag
+// and forum module have loaded. An unapproved deep-link must do nothing.
+if(ddResearchReturnTab==='discussionsPage'){
+ document.addEventListener('DOMContentLoaded',()=>{
+  if(window.DD_COMMUNITY_FEATURES?.discussions===true)navigateTo('discussionsPage');
+ },{once:true});
+}
 news();renderCases();showDrafts();const requestedCase=new URLSearchParams(location.search).get('case');if(requestedCase&&mapData.some(r=>r.id===requestedCase)){navigateTo('mapPage');evidenceOpen(requestedCase)}
 // Historical primary-source archive, distinct from current reporting.
 // Save uses the same persistent Investigation Board workflow as News.
