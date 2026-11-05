@@ -53,4 +53,40 @@
  .dd-ticker-viewport{overflow-x:auto;scrollbar-width:thin}
  .dd-ticker-run[aria-hidden="true"]{display:none}
 }
+/* Video-reference broadcast treatment: clear fixed yellow label, static readable
+   lead headline, then a slower white-text continuous 48-hour crawl below it. */
+.dd-news-ticker-hub{border-radius:3px;background:#0a1119;border-color:#b9963e}
+.dd-news-ticker-top{min-height:24px;padding:2px 7px;background:#162635}
+.dd-news-ticker-top strong{font-size:9px;letter-spacing:.08em;color:#f5d675}
+.dd-news-ticker-top .dd-ticker-control{min-height:23px;padding:2px 6px;font-size:10px}
+.dd-news-ticker-breaking{min-height:39px;background:#080d13;color:#fff}
+.dd-news-ticker-breaking .dd-news-ticker-label{
+  min-width:112px;padding:6px 7px;background:#f4d129;color:#0b1118;
+  border-right:1px solid #a38618;font-size:11px;font-weight:900;letter-spacing:.01em
+}
+.dd-news-ticker-breaking .dd-ticker-track{
+  width:100%;min-width:0;animation:none!important;will-change:auto
+}
+.dd-news-ticker-breaking .dd-ticker-run{min-width:0;width:100%}
+.dd-news-ticker-breaking .dd-ticker-run[aria-hidden="true"]{display:none}
+.dd-news-ticker-breaking .dd-ticker-link{
+  display:block;min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;
+  color:#f8f9fa;font-size:13px;font-weight:520;padding:9px 12px;
+}
+.dd-news-ticker-breaking .dd-ticker-link::after{content:none}
+.dd-news-ticker-recent{min-height:25px;background:#1b2734;color:#fff}
+.dd-news-ticker-recent .dd-news-ticker-label{
+  min-width:112px;background:#2b3c4d;color:#f2f3f5;font-size:10px;
+  padding:4px 6px;border-right:1px solid #485766
+}
+.dd-news-ticker-recent .dd-ticker-link{
+  color:#fff;font-size:11px;font-weight:500;padding:4px 34px 4px 10px;
+}
+@media(max-width:520px){
+  .dd-news-ticker-breaking .dd-news-ticker-label,
+  .dd-news-ticker-recent .dd-news-ticker-label{min-width:92px}
+  .dd-news-ticker-breaking .dd-news-ticker-label{font-size:10px;padding:6px 4px}
+  .dd-news-ticker-breaking .dd-ticker-link{font-size:12px;padding:9px 9px}
+  .dd-news-ticker-recent .dd-news-ticker-link{font-size:10px}
+}
 @media print{.dd-news-ticker-alert,.dd-news-ticker-hub{display:none!important}}
