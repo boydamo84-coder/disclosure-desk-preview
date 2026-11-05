@@ -85,6 +85,8 @@ jobs:
           node --check assets/community-discussions.js
           node --check scripts/test_discussions_ui.cjs
           node scripts/test_discussions_ui.cjs
+          node --check scripts/test_discussions_account_switch_runtime.cjs
+          node scripts/test_discussions_account_switch_runtime.cjs
       - name: Validate review-only Discussions backend permissions (no SQL deploy)
         run: |
           node --check scripts/test_discussions_sql.cjs
