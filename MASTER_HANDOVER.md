@@ -40,6 +40,8 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-05 — PRIVATE BACKUP ACTIONS NODE24 UPGRADE GREEN:** Both GitHub workflows on private `boydamo84-coder/bds-private-backups` upgraded to `actions/checkout@v5` and `actions/setup-python@v6` to remove GitHub Node20-deprecation warnings. Private runner branch `main` now at `9047566693a3ca2a8afa33f261ff37968c9bb1bf`, new GitHub no-secrets CI [42122701995](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42122701995) **SUCCESS**. Both workflows remain offline tests or **manual-only**; no hourly trigger, no real backup/export or restore. Separate initial code commit `d1e9f110` remains valid history.
+
 - **2026-11-05 — NEW PRIVATE BDS BACKUP REPOSITORY INSTALLED AND GITHUB OFFLINE CI GREEN:** Verified `boydamo84-coder/bds-private-backups` is **PRIVATE**. Added shared `backup.py`, 9 offline tests, `.gitignore`, README and two workflows on its `main` branch at commit `d1e9f11078f1d9f04f8e42239b888027134a6944`. GitHub Actions [offline run 42122357915](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42122357915) **SUCCESS** after compilation, tests and two-project dry-run plan. Real backup workflow is **workflow_dispatch-only, NO schedule**. Two project-specific DB and legacy Storage JWT secrets, two private Drive root IDs, public age recipient, and unattended rclone OAuth config are still **unconfigured/unverified**. **No live database backup, Drive archive, restore, automated emails or hourly schedule yet.** Code improved so age encryption and pg_restore listing subprocesses do **not** receive PostgreSQL credentials. Full setup and safety checklist in that private repository README and `docs/BDS_MULTI_APP_BACKUP_HANDOVER_2026-11-05.md`.
 
 
@@ -763,6 +765,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-05 — CI runtime upgraded and reverified
+- Private repo current main `9047566693a3ca2a8afa33f261ff37968c9bb1bf`, checkout v5/setup-python v6, [offline job 42122701995](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42122701995) SUCCESS. Neither backup scheduler nor secrets activated. No DB/Storage backup created.
 
 ### 2026-11-05 — Private dual-project backup runner GitHub installation verified GREEN
 - User created and authorised private GitHub repo `boydamo84-coder/bds-private-backups`; verified metadata visibility **private** and root initially README-only.

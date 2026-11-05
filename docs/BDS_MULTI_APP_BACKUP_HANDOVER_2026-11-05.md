@@ -61,3 +61,6 @@ Links (folder names only, no access tokens):
 - Installed the source code and test workflows in `main` commit `d1e9f11078f1d9f04f8e42239b888027134a6944`; offline Actions run [42122357915](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42122357915) was **SUCCESS**. Credentials are never printed, and encryption subprocess is passed only allowlisted environment variables.
 - The manual backup workflow contains 8 secret **references**, not secret values; **hourly schedule is OFF**, no database connection or Google Drive upload attempted by this CI. See [private README](https://github.com/boydamo84-coder/bds-private-backups/blob/main/README.md) for operator setup.
 - Next is secure age key, rclone authorisation and GitHub repository secrets, followed by one *manual* authenticated backup plus disposable restore. No claim of actual backups until that passes.
+
+## CI runtime maintenance
+GitHub Actions upgraded to Node24-compatible `checkout@v5` and `setup-python@v6` in private runner main commit `9047566693a3ca2a8afa33f261ff37968c9bb1bf`; [latest offline test run 42122701995](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42122701995) **SUCCESS**. No schedule or live backup. 
