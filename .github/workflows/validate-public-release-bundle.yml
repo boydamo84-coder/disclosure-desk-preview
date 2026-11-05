@@ -1,0 +1,44 @@
+name: Disclosure Desk safe public release bundle (no publish)
+on:
+  push:
+    branches: [feature/sources-archives-next-batch-nov03]
+    paths:
+      - 'scripts/build-public-release.cjs'
+      - 'scripts/test-public-release-bundle.cjs'
+      - '.github/workflows/validate-public-release-bundle.yml'
+      - 'index.html'
+      - 'assets/**'
+      - 'research/**'
+      - 'data/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-bundle:
+    name: Validate website-only artifact; EXCLUDE internal repo files
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare strictly allowlisted public-only files
+        run: |
+          node --check scripts/build-public-release.cjs
+          node --check scripts/test-public-release-bundle.cjs
+          node scripts/build-public-release.cjs
+          node scripts/test-public-release-bundle.cjs
+      - name: Record checksum of public bundle (no deployment)
+        run: |
+          cd dist-public-site
+          find . -type f -print0 | sort -z | xargs -0 sha256sum > ../public-release-sha256.txt
+          wc -l ../public-release-sha256.txt
+      - name: Save expiring website-only QA artifact for release review
+        uses: actions/upload-artifact@v4
+        with:
+          name: disclosure-desk-public-site-not-deployed
+          path: |
+            dist-public-site/
+            public-release-sha256.txt
+          retention-days: 7
