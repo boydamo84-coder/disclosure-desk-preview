@@ -86,6 +86,9 @@
     if (!track) return;
     track.replaceChildren();
     const viewport = track.parentElement;
+    const signature = JSON.stringify(articles.map(x => [x.id, x.headline, x.source, x.date]));
+    if (track.dataset.signature === signature) return;
+    track.dataset.signature = signature;
     if (!articles.length) {
       const empty = doc.createElement('span');
       empty.className = 'dd-ticker-empty';
@@ -120,10 +123,13 @@
     function render() {
       const selected = selectHeadlines(root.ddNewsTickerRows || []);
       const isNewsTab = !newsSection.classList.contains('hidden');
+      hub.hidden = !isNewsTab;
+      doc.body.classList.toggle('dd-news-ticker-visible', isNewsTab);
+      doc.body.classList.toggle('dd-news-ticker-expanded', isNewsTab && prefs.hub);
       hubBody.hidden = !prefs.hub;
-      toggleHub.textContent = prefs.hub ? 'Hide news tickers' : 'Show news tickers';
+      toggleHub.textContent = prefs.hub ? 'Hide ticker' : 'Show ticker';
       toggleHub.setAttribute('aria-expanded', String(prefs.hub));
-      toggleAlerts.textContent = 'Other-tab alerts: ' + (prefs.alerts ? 'On' : 'Off');
+      toggleAlerts.textContent = 'Alerts: ' + (prefs.alerts ? 'On' : 'Off');
       toggleAlerts.setAttribute('aria-pressed', String(prefs.alerts));
       drawTrack(byId('ddNewsTickerBreakingTrack'), selected.breaking,
         'No sourced headlines published in the last 2 hours.');
@@ -148,6 +154,16 @@
     });
     off.addEventListener('click', () => { prefs.alerts = false; store(); render(); });
     root.addEventListener('dd-news-updated', render);
+    function measureDock(){
+      const nav = doc.querySelector('.nav');
+      if (nav) doc.documentElement.style.setProperty('--dd-news-nav-height', Math.ceil(nav.getBoundingClientRect().height) + 'px');
+    }
+    measureDock();
+    root.addEventListener('resize', measureDock);
+    if (root.ResizeObserver) {
+      const dock = doc.querySelector('.nav');
+      if (dock) new root.ResizeObserver(measureDock).observe(dock);
+    }
     // Navigation updates the .hidden class; observer avoids modifying the site-wide router.
     new MutationObserver(render).observe(newsSection, {attributes: true, attributeFilter: ['class']});
     root.setInterval(() => {
