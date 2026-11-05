@@ -38,7 +38,11 @@ function assetPath(file,target){
 let dependencyCount=0;
 for(const file of paths.filter(p=>p.endsWith('.html'))){
  const html=fs.readFileSync(path.join(out,file),'utf8');
- for(const m of html.matchAll(/(?:src|href)\s*=\s*["']([^"'<>]+)["']/gi)){
+ // Inline code may contain CSS selectors like a[href="./old-page.html"].
+ // Those are NOT navigational HTML references and must not fail publication.
+ const markup=html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,'')
+                  .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,'');
+ for(const m of markup.matchAll(/<(?:a|img|iframe|script|link|source)\b[^>]*?\b(?:src|href)\s*=\s*["']([^"'<>]+)["'][^>]*>/gi)){
   const rel=assetPath(file,m[1]);if(!rel)continue;
   assert.ok(names.has(rel),'Public page references omitted file '+file+' => '+m[1]+' => '+rel);
   dependencyCount++;
