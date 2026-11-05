@@ -1,0 +1,79 @@
+name: Combined Chat and Discussions signed HTTP QA (isolated NO deploy)
+on:
+  push:
+    branches: [feature/sources-archives-next-batch-nov03]
+    paths:
+      - 'scripts/test_community_combined_http_jwt.cjs'
+      - 'scripts/test_private_chat_http_jwt.cjs'
+      - 'scripts/test_discussions_http_jwt.cjs'
+      - 'scripts/private-chat-isolated-fixture.sql'
+      - 'scripts/community-http-jwt-fixture.sql'
+      - 'supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql'
+      - 'supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql'
+      - '.github/workflows/validate-community-combined-http-isolated.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  combined-community-http:
+    name: Both candidates in ONE disposable Postgres and PostgREST (NO LIVE)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: isolated-http-qa-only
+          POSTGRES_DB: combined_http_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres -d combined_http_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: isolated-http-qa-only
+      PGDATABASE: combined_http_test
+      DD_HTTP_TEST_ORIGIN: http://127.0.0.1:3000
+      DD_CI_JWT_SECRET: isolated-disclosure-desk-jwt-ci-test-only-not-a-real-auth-secret
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Create fictional accounts and public aliases in disposable PostgreSQL
+        run: psql -X -v ON_ERROR_STOP=1 -f scripts/private-chat-isolated-fixture.sql
+      - name: Apply both unapplied candidate schemas to disposable PostgreSQL only
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -f supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql
+          psql -X -v ON_ERROR_STOP=1 -f supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql
+      - name: Create local signed HTTP roles and fictional site owner
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -f scripts/community-http-jwt-fixture.sql
+          psql -X -v ON_ERROR_STOP=1 -c "insert into public.dd_forum_owner_admins(user_id) values('00000000-0000-0000-0000-000000000003');"
+      - name: Start disposable localhost PostgREST with throwaway JWT signing key
+        run: |
+          docker run -d --rm --name dd-combined-http-test --network host \
+            -e PGRST_DB_URI="postgres://dd_http_authenticator:isolated-http-qa-only@127.0.0.1:5432/combined_http_test" \
+            -e PGRST_DB_SCHEMAS=public \
+            -e PGRST_DB_ANON_ROLE=anon \
+            -e PGRST_JWT_SECRET="$DD_CI_JWT_SECRET" \
+            -e PGRST_SERVER_PORT=3000 \
+            postgrest/postgrest:v16.5
+          for i in $(seq 1 30); do
+            if curl -fsS --max-time 2 http://127.0.0.1:3000/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          docker logs dd-combined-http-test
+          exit 1
+      - name: Exercise real signed HTTP for Chat and Forums on the SAME backend
+        run: |
+          node --check scripts/test_community_combined_http_jwt.cjs
+          node scripts/test_private_chat_http_jwt.cjs
+          node scripts/test_discussions_http_jwt.cjs
+          node scripts/test_community_combined_http_jwt.cjs
+      - name: Remove local-only HTTP server
+        if: always()
+        run: docker rm -f dd-combined-http-test || true
