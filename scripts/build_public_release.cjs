@@ -22,6 +22,8 @@ function copy(rel){
 }
 function websiteDir(dir){
  for(const d of fs.readdirSync(path.join(root,dir),{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name))){
+  // The sole approved nested directory is copied by an explicit JSON allowlist below.
+  if(dir==='research'&&d.isDirectory()&&d.name==='data')continue;
   if(!d.isFile()||!webExt.has(path.extname(d.name).toLowerCase()))
    throw Error('Unexpected web directory entry: '+dir+'/'+d.name);
   copy(dir+'/'+d.name);
