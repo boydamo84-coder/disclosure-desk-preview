@@ -89,8 +89,9 @@ async function denied(label,path,opts={}){
   {as:A,data:{p_thread_id:tid,p_pinned:true}}),true);
  await denied('B cannot open site-owner moderation','/rpc/dd_discussions_owner_queue',
   {as:B,data:{p_limit:50}});
- await denied('B cannot edit A section as steward','/rpc/dd_discussions_update_section',
-  {as:B,data:{p_section_id:sid,p_description:'Improper takeover',p_topic:'UAP'}});
+ assert.equal(await ok('B section edit is explicitly refused','/rpc/dd_discussions_update_section',
+  {as:B,data:{p_section_id:sid,p_description:'Improper takeover',p_topic:'UAP'}}),false,
+  'Unauthorized edit must return false, never success');
  await denied('guest cannot read raw forum table','/dd_forum_threads?select=title',
   {as:guest,data:null,method:'GET'});
  await denied('B cannot read raw forum table','/dd_forum_threads?select=title',
