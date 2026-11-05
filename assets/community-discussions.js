@@ -10,6 +10,7 @@ if(!enabled)return; // No tab, requests, sign-in prompts or changed navigation u
 const $=id=>document.getElementById(id);
 const mk=(tag,text,cls)=>{const x=document.createElement(tag);if(text!==undefined)x.textContent=String(text);if(cls)x.className=cls;return x};
 let client=null,section=null,thread=null,sections=[],sort='recent',epoch=0,ready=false;
+let viewerId=undefined,identityRevision=0;
 const db=()=>client||(client=window.supabase?.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}));
 function say(s){const n=$('ddForumStatus');if(n)n.textContent=String(s).slice(0,220)}
 function nodeAction(parent,label,fn,cls='outline'){
@@ -34,7 +35,16 @@ async function registered(){
 }
 async function change(button,operation,ok){
  button.disabled=true;say('Checking your account…');
- try{await registered();const result=await operation();if(result===false)throw Error('Action not permitted or no change was made.');say(ok);await refresh()}catch(e){say(e?.message||'Unable to save.')}
+ const identityAtStart=identityRevision;
+ try{
+  const actor=await registered();
+  if(identityAtStart!==identityRevision||(viewerId!==undefined&&viewerId!==actor.id))
+   throw Error('Account changed. Please try again.');
+  const result=await operation();
+  if(identityAtStart!==identityRevision)throw Error('Account changed. Please refresh.');
+  if(result===false)throw Error('Action not permitted or no change was made.');
+  say(ok);await refresh();
+ }catch(e){say(e?.message||'Unable to save.')}
  finally{button.disabled=false}
 }
 function link(parent,url,label){
@@ -166,6 +176,19 @@ function drawSections(){
   card.append(meta);root.append(card);
  }
 }
+function onIdentityChange(session){
+ const next=session?.user?.id||null;
+ if(viewerId===next)return; // Token refresh should not discard an open public discussion.
+ viewerId=next;identityRevision++;epoch++;section=null;thread=null;sections=[];
+ const sectionsPane=$('ddForumSectionsPane'),threadPane=$('ddForumThreadPane');
+ if(sectionsPane)sectionsPane.hidden=false;
+ if(threadPane)threadPane.hidden=true;
+ for(const name of ['ddForumStewardPanel','ddForumReplyPane']){const el=$(name);if(el)el.hidden=true}
+ for(const name of ['ddForumSections','ddForumPostList','ddForumReplies'])$(name)?.replaceChildren();
+ const info=$('ddForumSectionInfo');if(info)info.textContent='';
+ say('Account changed. Reloading public discussions…');
+ if(ready)void refresh();
+}
 async function refresh(){
  if(!ready||!$('discussionsPage')||$('discussionsPage').classList.contains('hidden'))return;
  if(thread){await loadReplies();return}
@@ -226,6 +249,7 @@ function init(){
   if(body.length<2||body.length>2000){say('Replies must be 2–2000 characters.');return}
   void change(b,()=>rpc('dd_discussions_reply',{p_thread_id:thread.id,p_body:body,p_parent_id:null}),'Reply posted.');
  };
+ db()?.auth?.onAuthStateChange?.((_event,session)=>onIdentityChange(session));
 }
 window.DDDiscussions=Object.freeze({refresh});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
