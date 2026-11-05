@@ -1,0 +1,70 @@
+name: Discussions signed-JWT HTTP acceptance (isolated, no deploy)
+on:
+  push:
+    branches: [feature/sources-archives-next-batch-nov03]
+    paths:
+      - 'scripts/forum-http-jwt-fixture.sql'
+      - 'scripts/test_discussions_http_jwt.cjs'
+      - 'scripts/forum-isolated-fixture.sql'
+      - 'supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql'
+      - '.github/workflows/validate-discussions-http-isolated.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  signed-jwt-forum:
+    name: Disposable PostgreSQL/PostgREST signed HTTP forum QA (NO LIVE)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: isolated-http-qa-only
+          POSTGRES_DB: forum_http_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres -d forum_http_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: isolated-http-qa-only
+      PGDATABASE: forum_http_test
+      DD_HTTP_TEST_ORIGIN: http://127.0.0.1:3000
+      DD_CI_JWT_SECRET: isolated-disclosure-desk-jwt-ci-test-only-not-a-real-auth-secret
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Create synthetic verified accounts in disposable PostgreSQL
+        run: psql -X -v ON_ERROR_STOP=1 -f scripts/forum-isolated-fixture.sql
+      - name: Install UNAPPLIED forum schema on disposable runner only
+        run: psql -X -v ON_ERROR_STOP=1 -f supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql
+      - name: Install HTTP authenticator and fictional owner role
+        run: psql -X -v ON_ERROR_STOP=1 -f scripts/forum-http-jwt-fixture.sql
+      - name: Launch disposable PostgREST local gateway
+        run: |
+          docker run -d --rm --name dd-forum-http-test --network host \
+            -e PGRST_DB_URI="postgres://dd_http_authenticator:isolated-http-qa-only@127.0.0.1:5432/forum_http_test" \
+            -e PGRST_DB_SCHEMAS=public \
+            -e PGRST_DB_ANON_ROLE=anon \
+            -e PGRST_JWT_SECRET="$DD_CI_JWT_SECRET" \
+            -e PGRST_SERVER_PORT=3000 \
+            postgrest/postgrest:v16.5
+          for i in $(seq 1 30); do
+            if curl -fsS --max-time 2 http://127.0.0.1:3000/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          docker logs dd-forum-http-test
+          exit 1
+      - name: Verify signed JWT, guest, author, steward, flags and owner HTTP
+        run: |
+          node --check scripts/test_discussions_http_jwt.cjs
+          node scripts/test_discussions_http_jwt.cjs
+      - name: Stop disposable HTTP gateway
+        if: always()
+        run: docker rm -f dd-forum-http-test || true
