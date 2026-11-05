@@ -36,3 +36,13 @@ The runner plans one backup execution for **both** projects, independent results
 Links (folder names only, no access tokens):
 - [Disclosure Desk backup root](https://drive.google.com/drive/folders/1Zg5BO8z5gZAG1CrNJgiVmeiHa5LNjyrw)
 - [Our Cinema backup root](https://drive.google.com/drive/folders/1LxCBzH18ps64Rd8NYsFAoCP1ZFsOLXsl)
+
+## Confirmed private repository setup — 5 Nov 2026 18:36 UTC
+
+- **SUCCESS:** New repo [`boydamo84-coder/bds-private-backups`](https://github.com/boydamo84-coder/bds-private-backups) is confirmed **PRIVATE**. Linked GitHub connector permissions were granted by owner; default branch `main` verified.
+- Uploaded private-alpha package as text source (no secrets): `backup.py`, 9 offline tests, separate read-only CI workflow and manual-only live runner workflow. Commit `c5985cfaeabaa2b06e73a2977b0b83a2e391acc5`.
+- **PASS:** [GitHub Actions offline run 42085810822](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42085810822), `Ran 9 tests in 0.009s`, `OK`, correct independent UK folder targets for both projects.
+- Confirmed `.github/workflows/run-encrypted-backups.yml` uses **`workflow_dispatch` only, no `schedule:` event**. That privileged workflow has NOT been executed; no secrets configured through connector. No DB snapshot, Storage bytes, Drive encrypted archive or restore tested.
+- GitHub Actions warned old checkout/setup-python actions are being run under Node 24 (nonblocking; consider future update). This is not a blocker for the offline tests.
+
+**Next:** Owner sets secrets directly in private GitHub [Actions secrets settings](https://github.com/boydamo84-coder/bds-private-backups/settings/secrets/actions); obtain session-pooler DB connection strings for both Supabase projects, legacy service-role keys for actual Storage object download, age public recipient and **offline-held private identity**, and a dedicated rclone OAuth config for `boyddigitalstudios@gmail.com`. Never request/print secrets in chat. Run first manual backup only once ready, then restore tests. Hourly schedule, daily email and retention remain disabled until recovery acceptance.

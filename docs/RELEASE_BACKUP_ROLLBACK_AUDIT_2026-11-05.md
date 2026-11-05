@@ -60,3 +60,7 @@ User clarified that existing accounts/boards are test material and permitted bac
 ## 5 November cross-product backup setup note
 
 User extended backup scope to both apps, but their application code and Supabase projects remain separate. Two separate Google Drive private backup roots now have `Nov 2026 / 05 Nov 2026` folders. An independent private-alpha shared runner ZIP was generated in chat, with nine passing offline tests; it was **not published** to the public website repo, has no credentials and was not run against a live DB. Follow `docs/BDS_MULTI_APP_BACKUP_HANDOVER_2026-11-05.md` for onboarding to a private runner and mandatory decrypt/restore validation. **No actual backup is complete yet.**
+
+## 5 November private backup repository alpha green (no real backup)
+
+The dedicated repository `boydamo84-coder/bds-private-backups` was verified **PRIVATE** and its source setup committed at `c5985cfa`. [Offline GitHub CI run 42085810822](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42085810822) **SUCCESS 9/9 tests**. The live export workflow is *manual-only*, with no credentials or schedules. This improves backup readiness, but **actual live database and Storage backups/restorability remain UNVERIFIED**. Details `docs/BDS_MULTI_APP_BACKUP_HANDOVER_2026-11-05.md`.
