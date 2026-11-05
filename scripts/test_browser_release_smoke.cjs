@@ -49,6 +49,49 @@ async function selected(page,id){
   assert.equal(await selected(page,'discover'),'page');
   assert.equal(await hasVisibleSection(page,'discover'),true);
   pass('existing 11 bottom tabs and visible News');
+  // Synthetic-only broadcast feed. No requests to the real backend or publisher.
+  await page.waitForSelector('#ddNewsTickerHub:not([hidden])',{timeout:10000});
+  await page.evaluate(()=>{
+    window.ddNewsTickerRows=[
+      {id:'browser-major-1',headline:'Synthetic major UAP bulletin',source:'Fixture Publisher',
+        url:'https://example.org/uap-story',date:new Date(Date.now()-60000).toISOString(),priority:'major'},
+      {id:'browser-recent-1',headline:'Synthetic recent UAP update',source:'Fixture Publisher',
+        url:'https://example.org/uap-recent',date:new Date(Date.now()-3*3600000).toISOString(),priority:'standard'}
+    ];
+    window.dispatchEvent(new Event('dd-news-updated'));
+  });
+  assert.match(await page.locator('#ddNewsTickerBreakingTrack').innerText(),/Synthetic major UAP bulletin/);
+  assert.match(await page.locator('#ddNewsTickerRecentTrack').innerText(),/Synthetic recent UAP update/);
+  const tickerGeometry=await page.evaluate(()=>{
+    const ticker=document.getElementById('ddNewsTickerHub').getBoundingClientRect();
+    const nav=document.querySelector('nav.nav').getBoundingClientRect();
+    return {tickerBottom:ticker.bottom,tickerHeight:ticker.height,navTop:nav.top,viewport:innerHeight};
+  });
+  assert(tickerGeometry.tickerBottom<=tickerGeometry.navTop-2,'TV ticker must remain ABOVE bottom navigation');
+  assert(tickerGeometry.tickerHeight<140,'Ticker must be slim on 393px mobile');
+  pass('real Chromium 393px: two-colour crawl fixed above navigation with measured clearance');
+  await page.screenshot({path:path.join(OUTPUT,'mobile-news-ticker-393px.png'),fullPage:false});
+  await page.locator('.nav .tab[data-tab="witness"]').click();
+  assert.equal(await page.locator('#ddNewsTickerHub').isVisible(),false);
+  assert.equal(await page.locator('#ddNewsTickerAlert').isVisible(),true,'New major headline appears over other tabs');
+  await page.locator('#ddNewsTickerHide').click();
+  assert.equal(await page.locator('#ddNewsTickerAlert').isVisible(),false);
+  await page.evaluate(()=>{
+    window.ddNewsTickerRows.push({
+      id:'browser-major-2',headline:'Second synthetic breaking bulletin',source:'Fixture Publisher',
+      url:'https://example.org/second-story',date:new Date().toISOString(),priority:'major'
+    });
+    window.dispatchEvent(new Event('dd-news-updated'));
+  });
+  assert.equal(await page.locator('#ddNewsTickerAlert').isVisible(),true);
+  await page.locator('#ddNewsTickerOff').click();
+  assert.equal(await page.locator('#ddNewsTickerAlert').isVisible(),false);
+  pass('real Chromium 393px: alert only outside News, hide until next, Off stays respected');
+  await page.locator('.nav .tab[data-tab="discover"]').click();
+  assert.equal(await page.locator('#ddNewsTickerHub').isVisible(),true);
+  assert.equal(await page.locator('#ddNewsTickerAlert').isVisible(),false);
+  pass('real Chromium 393px: original News ticker restores on return');
+
   for(const target of ['witness','hub','profilePage','clips']){
    await page.locator('.nav .tab[data-tab="'+target+'"]').click({timeout:10000});
    assert.equal(await selected(page,target),'page','aria-current reflects '+target);
