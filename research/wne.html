@@ -2627,7 +2627,7 @@ menu.addEventListener('click',e=>{if(e.target.closest('summary'))return;const b=
  positionPanel();
 })();
 </script>
-<a id="wne-research-bible-launch" href="./wne_research_bible.html" target="_blank" rel="noopener" title="Open independent W.NE Research Bible" style="position:fixed;bottom:20px;right:20px;z-index:9000;background:#2b4351;color:#f7e1b4;padding:11px 14px;border:1px solid #a58c62;border-radius:12px;font:600 13px system-ui,sans-serif;text-decoration:none;box-shadow:0 4px 22px #0006">📚 Research Bible ↗</a><script>
+<a id="wne-research-bible-launch" href="./research-bible.html" target="_blank" rel="noopener" title="Open independent W.NE Research Bible" style="position:fixed;bottom:20px;right:20px;z-index:9000;background:#2b4351;color:#f7e1b4;padding:11px 14px;border:1px solid #a58c62;border-radius:12px;font:600 13px system-ui,sans-serif;text-decoration:none;box-shadow:0 4px 22px #0006">📚 Research Bible ↗</a><script>
 (function(){
   // Research Edition only. Local reference ledger; never modifies old chapters.
   const defaultRefKey='wne_research_references_v1';
@@ -2665,7 +2665,7 @@ a[href="/remote"],a[href="./wne_remote_v07.html"],#wne-research-bible-link{displ
 function clean(){document.querySelectorAll('button,[role="menuitem"]').forEach(el=>{if(el.closest('[contenteditable="true"]'))return;const label=(el.textContent||'').trim().replace(/^[✦✨⚙📱▣\s]+/u,'');if(forbidden.test(label))el.style.setProperty('display','none','important')});
 const b=document.getElementById('drawer');if(b&&/Chapters/i.test(b.textContent))b.textContent='☰ Sections';
 const manage=document.getElementById('wne-manage-current-chapter');if(manage)manage.textContent='↕ Organise current section';
-const sign=document.querySelector('a[href="./wne_research_bible.html"]');if(sign){sign.textContent='📚 Research Library ↗';sign.href='/research-bible';}}
+const sign=document.querySelector('a[href="./research-bible.html"]');if(sign){sign.textContent='📚 Research Library ↗';sign.href='./research-bible.html';}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',clean);else clean();
 document.addEventListener('click',()=>requestAnimationFrame(clean),true);
 })();
