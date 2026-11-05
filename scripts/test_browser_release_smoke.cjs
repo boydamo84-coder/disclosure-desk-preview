@@ -226,7 +226,7 @@ async function selected(page,id){
   assert(photoBounds&&photoBounds.width<=393,'Private avatar must fit portrait viewport');
   pass('profile photo real Chromium controls render inside 393px screen, offline');
   const png=Buffer.from(
-   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO5WbpUAAAAASUVORK5CYII=',
+   'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAGUlEQVR4nGM8Mc2GgRTARJLqUQ2jGoaUBgAZUwG6BUheJgAAAABJRU5ErkJggg==',
    'base64');
   await avatarPage.locator('#ddAvatarFile').setInputFiles({
    name:'synthetic-photo.png',mimeType:'image/png',buffer:png
