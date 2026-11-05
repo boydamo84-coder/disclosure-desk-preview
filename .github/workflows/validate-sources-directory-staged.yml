@@ -78,6 +78,8 @@ jobs:
           node --check assets/profile-private-chat.js
           node --check scripts/test_private_chat_ui.cjs
           node scripts/test_private_chat_ui.cjs
+          node --check scripts/test_private_chat_account_switch_runtime.cjs
+          node scripts/test_private_chat_account_switch_runtime.cjs
       - name: Validate disabled Discussions UI and community stewardship boundaries
         run: |
           node --check assets/community-discussions.js
