@@ -381,7 +381,9 @@
     "date": "2026-11-02T11:10:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://d.ibtimes.co.uk/en/full/1841116/international-space-station.png",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "e208ce6aec48ea2841ea",
