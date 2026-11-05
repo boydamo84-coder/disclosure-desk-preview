@@ -14,6 +14,8 @@
 | Private consent Chat isolated PostgreSQL 17 | [41711107391](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41711107391) | SUCCESS, 2026-11-03 | Tested detached candidate schema with fabricated accounts, invite cap 10/24h, accept/decline, intro-once, participant/block/read/unread logic, 30 messages/10min; **not** installed in live Supabase |
 | Discussions isolated PostgreSQL security | [41692441123](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41692441123) | SUCCESS, 2026-11-03 | Disposable PostgreSQL and simulated account/role boundaries, not live integration |
 | Usernames/owner action synthetic QA | [41801094736](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41801094736) | SUCCESS, 2026-11-04 | Account-switch and duplicate-alias code; not live JWT A/B or Samsung |
+| Private Chat A→B stale-history runtime | [42010786518](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42010786518) | SUCCESS, 2026-11-05 | New actual frontend fake-DOM test: pending invitation has no composer; delayed A history never appears under B; B messages are text-only; logout clears chat; no backend write |
+| Discussions A→B steward/queued-action runtime | [42011490087](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42011490087) | SUCCESS, 2026-11-05 | Fix and actual frontend fake-DOM test: switching accounts clears prior steward controls, invalidates stale topic result, preserves B section during token refresh and cancels a deferred vote after logout |
 
 ## Confirmed live backend inventory — read-only on 2026-11-05
 
@@ -25,6 +27,14 @@
 - **Absent from live project:** `dd_chat_*` private-pair/message/request backend and `dd_forum_*` Discussions section/thread/reply backend. Staged SQL in `supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql` and `supabase/DISCUSSIONS_STEWARDSHIP_REVIEW.sql` is intentionally **unapplied** and outside migrations.
 - Source flags in `assets/community-test-config.js`: `privateChat:false`, `discussions:false`, `researchPublishing:false`. Do **not** flip them based on CI alone.
 - Source files already exist: `assets/live-chat.js`, `assets/live-hearings.js`, `assets/live-schedule.js`, `assets/case-discussions.js`, `assets/community-discussions.js`, `assets/profile-private-chat.js`, `assets/discussions-admin.js`, and public profile/moderation modules. Do not generate another chat system or edit the older repo's stale site.
+
+## 5 November scoped QA repairs — without duplicate testing
+
+- **Existing coverage was inspected first:** `scripts/test_private_chat_sql.cjs`, `scripts/test_private_chat_ui.cjs`, isolated PostgreSQL Chat acceptance, `scripts/test_discussions_sql.cjs`, `scripts/test_discussions_ui.cjs`, isolated forum acceptance, LIVE chat replay/window harnesses and username A/B runtime. These already cover most contract, database and simulated role cases.
+- **New, nonduplicative Chat regression:** `scripts/test_private_chat_account_switch_runtime.cjs` tests the actual staged browser module's asynchronous A→B account transition and logout (new commits `2ffee36`, `e681211`, workflow `cb9cdfb`, CI `42010786518`). No Chat source code change or feature activation required.
+- **New Discussions UI correction:** `assets/community-discussions.js` now subscribes to actual identity changes, discards cached steward/section/thread state, increments the fetch epoch, ignores same-user token refreshes, and rejects in-flight UI mutations if identity changes. `scripts/test_discussions_account_switch_runtime.cjs` exercises these scenarios with fabricated identities (source `75371a2`, test `782fca7`, workflow `6b17aed`, CI `42011490087`).
+- Both tests use fake Supabase/DOM data and make **no** real server requests, create **no** accounts and provide **no** proof of actual browser JWT/RLS enforcement. This is deliberately separate from the existing detached PostgreSQL security success.
+- **Still disabled and not migrated:** `privateChat:false`, `discussions:false`; preserve this gate until owner-approved isolated real two-account HTTP and Samsung/browser acceptance. No Netlify deployment requested.
 
 ## Product contract — retained
 - **LIVE hearing chat:** one room per verified official hearing; guests may read approved saved messages; registered non-anonymous accounts may post during the validated LIVE window; 5 distinct reports temporarily hide abusive content; moderator review/restore; archived transcript remains readable after event.
