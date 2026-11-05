@@ -231,7 +231,19 @@ async function selected(page,id){
   await avatarPage.locator('#ddAvatarFile').setInputFiles({
    name:'synthetic-photo.png',mimeType:'image/png',buffer:png
   });
-  await avatarPage.locator('#ddAvatarSave:not([disabled])').waitFor({state:'attached',timeout:7500});
+  try{
+   await avatarPage.locator('#ddAvatarSave:not([disabled])').waitFor({state:'attached',timeout:7500});
+  }catch(error){
+   const details=await avatarPage.evaluate(()=>({
+    status:document.getElementById('ddAvatarStatus')?.textContent,
+    fileName:document.getElementById('ddAvatarFile')?.files?.[0]?.name,
+    fileType:document.getElementById('ddAvatarFile')?.files?.[0]?.type,
+    disabled:document.getElementById('ddAvatarSave')?.disabled,
+    secureContext:window.isSecureContext,
+    bitmapSupport:typeof window.createImageBitmap
+   }));
+   throw Error('Avatar image conversion test failed '+JSON.stringify(details)+'; '+error.message);
+  }
   assert.match(await avatarPage.locator('#ddAvatarStatus').innerText(),/Preview ready/);
   await avatarPage.locator('#ddAvatarSave').click();
   await avatarPage.waitForFunction(()=>window.__avatarQa?.writes?.some(x=>x.action==='upload'));
