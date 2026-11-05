@@ -52,3 +52,7 @@ The earlier 56-file package `build_public_release.cjs` remained the canonical bu
 **PASS:** production-versus-development compare, staged public allowlist and Pages-configuration hardening, 56-file package with hash manifest, safe GitHub-only CI, read-only schema/migration inventory.
 
 **BLOCKED:** verified Supabase backup and Storage-object recovery, Netlify live publish configuration, physically tested Samsung/authenticated UX and real Supabase Auth staging A/B acceptance. **No production/Netlify/Supabase write or user-data deletion occurred.**
+
+## 5 November addendum — real Supabase rollback-only rehearsal
+
+User clarified that existing accounts/boards are test material and permitted backend testing. An actual live-project **transaction-only compatibility rehearsal** is now **PASS**: Private Chat 5/5 new RLS tables and Discussions 8/8 new RLS tables inside separate transactions; post-ROLLBACK checks confirm **zero** new Chat/Forum tables or routines and the existing Auth/boards/documents/moderator/Storage counts preserved. The project is under a **Free** Supabase organisation and **no database or Storage backup has been created**. This is proof that SQL compiles against existing live schema, **not** real user JWT acceptance or deployed features. Record: [live SQL rehearsal](./LIVE_SUPABASE_TRANSACTION_REHEARSAL_2026-11-05.md).
