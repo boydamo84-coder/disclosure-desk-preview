@@ -393,7 +393,9 @@
     "date": "2026-11-02T06:30:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://www.themarysue.com/wp-content/uploads/2026/11/Glowing-UFO.jpg?fit=1280%2C720",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "670fb333eea05934e9e1",
@@ -403,7 +405,9 @@
     "date": "2026-11-02T02:00:39+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://townsquare.media/site/43/files/2026/10/attachment-bigfoot-ufo.jpg?w=1200&q=75&format=natural",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "b46205b1cd2540256359",
@@ -413,7 +417,9 @@
     "date": "2026-11-02T00:21:52+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://www.vice.com/wp-content/uploads/sites/2/2026/11/Kurt-Russell-Witnessed-One-of-the-Most-Famous-UFO-Sightings-in-History-and-Didnt-Even-Realize-It.jpg?w=2000",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "a742892752cdd5f8ef36",
@@ -435,7 +441,9 @@
     "date": "2026-11-01T18:07:54+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://news24cobalt.24.co.za/resources/02aa-21f4001838ff-32857f53307b-1000/format/inline/us_department_of_war_2_.jpeg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "bc07832cdd4f3dceffbb",
