@@ -5,6 +5,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const vm=require('node:vm');
 const source=fs.readFileSync('assets/profile-private-chat.js','utf8');
+const useVm=true;
 (async()=>{
 function element(tag){
   return {tag,children:[],listeners:{},attrs:{},style:{},textContent:'',value:'',className:'',
