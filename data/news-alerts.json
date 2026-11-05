@@ -602,8 +602,7 @@
     "date": "2026-05-22T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/07b3/live/d34ce420-55fb-11f1-8b8c-6d33e1d5abb6.jpg",
-    "publisherUrl": "https://www.bbc.co.uk/news/videos/cp3p2dkqxd0o"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/07b3/live/d34ce420-55fb-11f1-8b8c-6d33e1d5abb6.jpg"
   },
   {
     "id": "ab9fb402600a826d1736",
@@ -738,7 +737,8 @@
     "date": "2026-05-09T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/b3a3/live/8674db10-4b53-11f1-b55d-0f258dce1735.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/b3a3/live/8674db10-4b53-11f1-b55d-0f258dce1735.jpg",
+    "publisherUrl": "https://www.bbc.com/news/articles/c707zjg3p42o"
   },
   {
     "id": "2a0f4e3ccf620d4b6c0e",
