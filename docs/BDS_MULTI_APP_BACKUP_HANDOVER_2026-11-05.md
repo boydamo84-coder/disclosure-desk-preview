@@ -46,3 +46,11 @@ Links (folder names only, no access tokens):
 - GitHub Actions warned old checkout/setup-python actions are being run under Node 24 (nonblocking; consider future update). This is not a blocker for the offline tests.
 
 **Next:** Owner sets secrets directly in private GitHub [Actions secrets settings](https://github.com/boydamo84-coder/bds-private-backups/settings/secrets/actions); obtain session-pooler DB connection strings for both Supabase projects, legacy service-role keys for actual Storage object download, age public recipient and **offline-held private identity**, and a dedicated rclone OAuth config for `boyddigitalstudios@gmail.com`. Never request/print secrets in chat. Run first manual backup only once ready, then restore tests. Hourly schedule, daily email and retention remain disabled until recovery acceptance.
+
+## 5 November evening: the private repository is now online and CI verified
+
+- **GitHub**: `boydamo84-coder/bds-private-backups`, independently confirmed **PRIVATE**; `main` SHA `c5985cfaeabaa2b06e73a2977b0b83a2e391acc5`.
+- Real source files present: `backup.py`, `tests/test_backup.py`, `.github/workflows/test-backup-plan.yml`, `.github/workflows/run-encrypted-backups.yml` and `.gitignore`.
+- [Offline GitHub Actions run 42085810822](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42085810822) **SUCCESS**; no credentials or live database involved. No schedule event in backup workflow.
+- Independently listed both Drive `05 Nov 2026` folders and found **zero** files; no manual workflow backup runs observed. **Do not claim backup protection is active.**
+- Next: secure secret provisioning, Google OAuth for unattended `rclone` (different from ChatGPT Drive connection), privately generated age identity/public recipient, first manual end-to-end and isolated restore, then schedule and notifications.
