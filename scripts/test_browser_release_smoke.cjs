@@ -183,7 +183,7 @@ async function selected(page,id){
   });
   const avatarPage=await avatarContext.newPage();
   await avatarPage.goto(BASE+'/?dd_tab=profilePage',{waitUntil:'domcontentloaded',timeout:35000});
-  await avatarPage.waitForSelector('#ddAvatarPanel');
+  await avatarPage.waitForSelector('#ddAvatarPanel',{state:'attached'});
   assert.equal(await avatarPage.locator('#ddAvatarPanel').isVisible(),false,
    'Account photo must be hidden while Storage feature is disabled');
   pass('profile photo is disabled by default in actual mobile browser');
