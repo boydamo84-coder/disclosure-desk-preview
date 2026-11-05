@@ -1,0 +1,72 @@
+name: Private Chat signed-JWT HTTP acceptance (isolated, no deploy)
+on:
+  push:
+    branches: [feature/sources-archives-next-batch-nov03]
+    paths:
+      - 'scripts/community-http-jwt-fixture.sql'
+      - 'scripts/test_private_chat_http_jwt.cjs'
+      - 'scripts/private-chat-isolated-fixture.sql'
+      - 'supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql'
+      - '.github/workflows/validate-private-chat-http-isolated.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  signed-jwt-chat:
+    name: Disposable PostgreSQL/PostgREST, real signed HTTP JWT (NO LIVE)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: isolated-http-qa-only
+          POSTGRES_DB: chat_http_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d chat_http_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: isolated-http-qa-only
+      PGDATABASE: chat_http_test
+      DD_HTTP_TEST_ORIGIN: http://127.0.0.1:3000
+      # Only a throwaway key inside this short-lived GitHub runner. Not Supabase's signing key.
+      DD_CI_JWT_SECRET: isolated-disclosure-desk-jwt-ci-test-only-not-a-real-auth-secret
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install fictional user fixture into temporary PostgreSQL
+        run: psql -X -v ON_ERROR_STOP=1 -f scripts/private-chat-isolated-fixture.sql
+      - name: Install reviewed, unapplied private Chat candidate ONLY in temporary PostgreSQL
+        run: psql -X -v ON_ERROR_STOP=1 -f supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql
+      - name: Install local JWT gateway roles and opt-in fixture (NOT production)
+        run: psql -X -v ON_ERROR_STOP=1 -f scripts/community-http-jwt-fixture.sql
+      - name: Launch disposable local PostgREST container
+        run: |
+          docker run -d --rm --name dd-chat-http-test --network host \
+            -e PGRST_DB_URI="postgres://dd_http_authenticator:isolated-http-qa-only@127.0.0.1:5432/chat_http_test" \
+            -e PGRST_DB_SCHEMAS=public \
+            -e PGRST_DB_ANON_ROLE=anon \
+            -e PGRST_JWT_SECRET="$DD_CI_JWT_SECRET" \
+            -e PGRST_SERVER_PORT=3000 \
+            postgrest/postgrest:v16.5
+          for i in $(seq 1 30); do
+            if curl -fsS --max-time 2 http://127.0.0.1:3000/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          docker logs dd-chat-http-test
+          exit 1
+      - name: Signed JWT / guest / stranger / consent / block HTTP acceptance
+        run: |
+          node --check scripts/test_private_chat_http_jwt.cjs
+          node scripts/test_private_chat_http_jwt.cjs
+      - name: Stop isolated HTTP server
+        if: always()
+        run: docker rm -f dd-chat-http-test || true
