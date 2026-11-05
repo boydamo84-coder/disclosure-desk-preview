@@ -151,6 +151,8 @@ async function selected(page,id){
   assert.ok(tourBox&&tourBox.height<=393,
    'Landscape tour must fit a 393px-height screen: '+JSON.stringify(tourBox));
   await page.keyboard.press('Escape');
+  // Native dialog close event is asynchronous: wait for the restored tab before asserting.
+  await page.locator('.nav .tab[data-tab="hub"][aria-current="page"]').waitFor({state:'attached',timeout:3500});
   assert.equal(await selected(page,'hub'),'page');
   pass('landscape modal is bounded to viewport and Escape returns to Explore');
 
