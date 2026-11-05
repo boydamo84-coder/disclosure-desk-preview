@@ -11,6 +11,15 @@ on:
       - 'data/**'
       - 'research/**'
       - 'index.html'
+      - 'sources.html'
+      - 'community-rules.html'
+      - 'privacy.html'
+      - 'research-edition.html'
+      - 'cloud-boards.js'
+      - 'manifest.webmanifest'
+      - 'robots.txt'
+      - 'sitemap.xml'
+      - 'app-ads.txt'
   workflow_dispatch:
 permissions:
   contents: read
