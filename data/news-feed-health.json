@@ -1,23 +1,23 @@
 {
-  "checkedAt": "2026-11-05T07:24:55.904131+00:00",
+  "checkedAt": "2026-11-05T09:06:34.638922+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 16,
-      "latestArticleAt": "2026-11-04T21:03:09+00:00"
+      "items": 15,
+      "latestArticleAt": "2026-11-04T22:34:39+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 7,
+      "items": 6,
       "latestArticleAt": "2026-11-04T15:03:04+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 9,
-      "latestArticleAt": "2026-11-04T22:34:39+00:00"
+      "items": 20,
+      "latestArticleAt": "2026-11-05T05:22:26+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
@@ -183,9 +183,8 @@
     },
     {
       "source": "NASA",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "failed",
+      "items": 0
     },
     {
       "source": "BBC Science",
@@ -206,5 +205,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 293
+  "storiesPublished": 294
 }
