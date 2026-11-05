@@ -1,0 +1,35 @@
+name: Verify public-only release package (NO deploy)
+on:
+  push:
+    branches: [feature/sources-archives-next-batch-nov03]
+    paths:
+      - 'scripts/build_public_release.cjs'
+      - 'scripts/test_public_release_package.cjs'
+      - '.github/workflows/pages.yml'
+      - '.github/workflows/validate-public-release-package.yml'
+      - 'assets/**'
+      - 'data/**'
+      - 'research/**'
+      - 'index.html'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  safe-public-package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build and assert public allowlist with SHA-256 manifest
+        run: |
+          node --check scripts/build_public_release.cjs
+          node --check scripts/test_public_release_package.cjs
+          node scripts/test_public_release_package.cjs
+      - name: Preserve private release candidate for 3 days; DO NOT DEPLOY
+        uses: actions/upload-artifact@v4
+        with:
+          name: disclosure-desk-static-public-candidate
+          path: .release-staging/public-site/
+          retention-days: 3
