@@ -24,6 +24,11 @@ jobs:
           node --check assets/news-ticker.js
           node --check scripts/test_news_ticker.cjs
           node scripts/test_news_ticker.cjs
+      - name: Verify staged private profile photo owner isolation and Storage review contract
+        run: |
+          node --check assets/profile-avatars.js
+          node --check scripts/test_profile_avatars.cjs
+          node scripts/test_profile_avatars.cjs
       - name: Verify witness submit Edge CORS/JWT client-source and privacy (no HTTP POST)
         run: |
           node --check scripts/test_witness_community.cjs
