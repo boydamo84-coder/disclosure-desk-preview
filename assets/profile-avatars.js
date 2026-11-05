@@ -104,8 +104,10 @@ file.addEventListener('change',async()=>{
   say('Preview ready. Select Save photo to upload it to your private account.');
  }catch(e){
   if(stamp!==epoch)return;
-  pending=null;buttons();say(String(e.message||'Unable to read photo.'));
-  void refresh();
+  pending=null;buttons();
+  const cause=String(e.message||'Unable to read photo.').slice(0,150);
+  await refresh(); // restore the actual saved avatar after a rejected local selection
+  if(owner===expected)say('Photo not selected: '+cause);
  }
 });
 save.addEventListener('click',async()=>{
