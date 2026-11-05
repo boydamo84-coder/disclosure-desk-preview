@@ -35,6 +35,19 @@ Previously `.github/workflows/pages.yml` uploaded `path: .` — the **whole repo
 6. **Combined frontend release.** Only after the above, choose one deliberate Netlify beta with correct artifact, retaining ability to republish last-known-good deploy. Smoke test News/Archive/Map/Videos/LIVE/Boards/Witness/W.NE/Profile on Samsung, account A/B, tour, editor save/restore, and privacy. Don't invent hearings or public witness reports.
 7. **Abort and recovery.** If website/navigation breaks but database is sound, first disable gated social features and republish the last-known-good *website* deploy. Do **not** drop chat/forum tables or delete user messages to roll back UI; prefer a forward-compatible fix. Full DB restoration is last resort, can cause downtime and **overwrite newer data**, and must be deliberately approved by the owner only after confirming backup/restore point. Supabase docs: [Database backups](https://supabase.com/docs/guides/platform/backups).
 
+## 5 November post-audit hardening — verified at `ca45f60`
+
+The earlier 56-file package `build_public_release.cjs` remained the canonical builder. A short-lived duplicate builder/test/workflow was removed, not maintained alongside it.
+
+- **Exact filename allowlist:** all 19 `assets` and 18 `research` main-directory files are now individually approved; adding an unexpected public .js/.html file fails CI. Ten root, eight public JSON and one `research/data` JSON files remain on existing explicit lists.
+- **Dependency QA:** real `<script src>`, `<link href>`, `<a href>`, media and iframe references, plus literal public JSON fetch paths must point to packaged files. Strings inside JavaScript/CSS selectors are not counted as page hyperlinks.
+- **Source defects corrected:** `sources.html` pointed to nonexistent `/assets/icon-192.png`; it now uses the existing `/assets/disclosure-desk-mark.svg`. Hosted `research/wne.html` pointed the Research Library shortcut at a nonexistent HTML page; it now uses `./research-bible.html` (which is included). No separate W.NE product was touched.
+- **CI triggers:** safe public package checks now also run when `sources.html`, `community-rules.html`, `privacy.html`, `research-edition.html`, `cloud-boards.js`, `manifest.webmanifest`, `robots.txt`, `sitemap.xml`, `app-ads.txt` or `index.html` change.
+- **Final QA:** [public package run **42038409387**](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42038409387) **SUCCESS**: 56 files, **46 actual static dependency references**, SHA-256 checked, 13,294,515 bytes. Existing [full staging QA **42038407552**](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42038407552) **SUCCESS** at `ca45f60f44749f64351fc7a1a9c176b74f6a3cdd`.
+- The GitHub Pages **development-branch** uploader still uses the pre-existing `.release-staging/public-site`. This does **not** establish actual Netlify deploy configuration, which remains an explicit pre-release gate.
+
+**Nothing was deployed.** No Supabase backup, data/export, database migration, Storage write or user account mutation occurred. The release remains blocked pending independently verified database + object backups and actual host configuration.
+
 ## Decision
 **PASS:** production-versus-development compare, staged public allowlist and Pages-configuration hardening, 56-file package with hash manifest, safe GitHub-only CI, read-only schema/migration inventory.
 
