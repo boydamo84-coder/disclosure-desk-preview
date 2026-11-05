@@ -187,6 +187,16 @@
 @media(max-width:630px){.dd-forum-tools{display:block}.dd-forum-item,.dd-forum-form-card{padding:12px}}
 
 .dd-profile-card{border:1px solid #71674d;border-radius:12px;padding:16px;margin:13px 0;background:#112536;min-width:0}
+.dd-avatar-layout{display:flex;align-items:center;gap:15px;flex-wrap:wrap}
+.dd-avatar-circle{width:100px;height:100px;flex:none;border:2px solid #d4b369;border-radius:50%;background:#213345;display:grid;place-items:center;overflow:hidden}
+.dd-avatar-circle img{width:100%;height:100%;object-fit:cover}
+.dd-avatar-circle img[hidden],.dd-avatar-circle span[hidden]{display:none}
+.dd-avatar-circle span{font-size:42px}
+.dd-avatar-tools{flex:1;min-width:210px}
+.dd-avatar-tools input[type=file]{display:block;max-width:100%;padding:7px 0;color:#eef0f1}
+.dd-avatar-tools .dd-profile-actions{display:flex;gap:8px;flex-wrap:wrap}
+.dd-avatar-tools button{min-height:44px}
+
 .dd-profile-card h3{color:#e8c98d;margin:0 0 9px}
 /* Native keyboard-accessible Research Hub accordions. Main account status remains visible. */
 .dd-profile-fold>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;cursor:pointer;color:#e8c98d;font-weight:700;line-height:1.4;min-height:29px}
@@ -369,6 +379,22 @@
 <p class="muted small">Your research, Boards, community contributions and account settings together. Everything remains private unless you choose to publish it.</p>
 <div id="ddProfileGuest" class="dd-profile-card" hidden><h3>Sign in to your Research Hub</h3><p class="muted">You can browse Disclosure Desk as a guest. To view private files or post contributions, use your existing Disclosure Desk account.</p><div class="dd-profile-actions"><button class="action" id="ddProfileSignIn" type="button">Sign in</button><button class="outline" id="ddProfileRegister" type="button">Create account</button></div></div>
 <div id="ddProfilePrivate" hidden>
+ <section id="ddAvatarPanel" class="dd-profile-card" aria-labelledby="ddAvatarHeading" hidden>
+   <h3 id="ddAvatarHeading">👤 My profile photo</h3>
+   <div class="dd-avatar-layout"><div class="dd-avatar-circle">
+     <img id="ddAvatarImage" alt="Your private profile photo" hidden>
+     <span id="ddAvatarFallback" aria-hidden="true">👤</span>
+   </div><div class="dd-avatar-tools">
+     <p class="muted small">Only you can see this photo. Select a JPG, PNG or WebP up to 5 MB; it is cropped to a 512 px square and saved privately. Public avatars are not enabled.</p>
+     <label for="ddAvatarFile" class="muted small">Choose a new profile photo</label>
+     <input id="ddAvatarFile" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="ddAvatarStatus">
+     <div class="dd-profile-actions">
+       <button type="button" class="outline" id="ddAvatarSave" disabled>Save photo</button>
+       <button type="button" class="outline" id="ddAvatarRemove" hidden>Remove photo</button>
+     </div>
+     <p id="ddAvatarStatus" class="muted small" role="status" aria-live="polite"></p>
+   </div></div>
+ </section>
  <div class="dd-profile-card dd-profile-row"><div><div class="dd-studio-eyebrow">MY ACCOUNT</div><h3 id="ddProfileDisplayName">Researcher</h3><p id="ddProfileEmail" class="muted small"></p><p id="ddProfileVerification" class="muted small"></p></div><button class="outline" type="button" id="ddProfileRefresh">↻ Refresh</button></div>
  <div class="dd-profile-stats"><div class="dd-profile-stat"><strong id="ddProfileFilesCount">—</strong><small>Cloud documents</small></div><div class="dd-profile-stat"><strong id="ddProfileBoardsCount">—</strong><small>Cloud Boards</small></div><div class="dd-profile-stat"><strong id="ddProfileWitnessCount">—</strong><small>Witness reports</small></div></div>
  <p id="ddProfileStatus" role="status" class="muted small" aria-live="polite"></p>
@@ -1905,4 +1931,4 @@ window.ddTickerOpenStory=function(id){
 };
 window.ddTickerRefresh=function(){return loadLiveNews(false)};
 $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
-</script><script defer src="assets/news-ticker.js?v=nov05-beta1"></script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=video-sync-1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov3-username-stage"></script><script defer src="assets/research-hub.js?v=nov3-hub1"></script><script defer src="assets/profile-private-chat.js?v=nov3-private-staged"></script><script defer src="assets/community-discussions.js?v=nov3-forum-staged"></script><script defer src="assets/discussions-admin.js?v=nov3-forum-admin-staged"></script><script defer src="assets/historical-satellite.js?v=nov3-source-first"></script><script defer src="assets/support-site.js?v=ko-fi-disclosuredesk-20261103"></script><script defer src="assets/community-votes.js?v=nov3-community"></script><script defer src="assets/case-discussions.js?v=dev-1"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=dev-1"></script><script defer src="assets/live-hearings.js?v=dev-1"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=nov3-beta1"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/watch-read.js?v=dev-1"></script></body></html>
+</script><script defer src="assets/news-ticker.js?v=nov05-beta1"></script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=video-sync-1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov3-username-stage"></script><script defer src="assets/research-hub.js?v=nov3-hub1"></script><script defer src="assets/profile-avatars.js?v=nov05-private-stage"></script><script defer src="assets/profile-private-chat.js?v=nov3-private-staged"></script><script defer src="assets/community-discussions.js?v=nov3-forum-staged"></script><script defer src="assets/discussions-admin.js?v=nov3-forum-admin-staged"></script><script defer src="assets/historical-satellite.js?v=nov3-source-first"></script><script defer src="assets/support-site.js?v=ko-fi-disclosuredesk-20261103"></script><script defer src="assets/community-votes.js?v=nov3-community"></script><script defer src="assets/case-discussions.js?v=dev-1"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=dev-1"></script><script defer src="assets/live-hearings.js?v=dev-1"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=nov3-beta1"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/watch-read.js?v=dev-1"></script></body></html>
