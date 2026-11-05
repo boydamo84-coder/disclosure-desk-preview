@@ -25,15 +25,24 @@ Earlier guided-tour and navigation checks used static analysis or a fake DOM. Th
 8. W.NE Research entry presents the same eleven navigation choices.
 9. Research entry's document width stays inside the simulated 393px viewport.
 
-**Count: 12** (four tab destinations counted individually).
+**Original milestone count: 12** (four tab destinations counted individually).
+
+## Additional real-browser checks — 2026-11-05, extended 18/18 GREEN
+- Commit `3c1a9f79df3783b82715020bb94a265aec5d030a`.
+- [GitHub Actions run **42027694804**](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42027694804): **SUCCESS, 18/18**; existing full-source staging suite [42027694930](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42027694930) also SUCCESS.
+- New checks: (13) landscape Witness navigation at 852×393; (14) landscape guided tour fits available height and Escape returns to Explore; (15) fresh user's native welcome is modal; (16) Escape dismisses welcome without changing News; (17) actual W.NE editor page with *synthetic fake login* refuses to leave if the stubbed save hook returns false; (18) stubbed save-confirmed true permits return to the correct main-site tab.
+- A supplemental screenshot `landscape-witness-852x393.png` was added to the private 7-day GitHub artifact. Screenshot and JSON evidence stay in GitHub Actions; no photos or personal accounts.
+- The earlier `localStorage` security exception was caused by our own `page.addInitScript` setting a preference in a sandboxed/opaque-origin frame. The test now runs this preference assignment only in the top-level frame and wraps it in `try/catch`. The newer run did **not** log the exception. This corrects test noise, not a production app bug.
+- The reader/editor save test checks the actual editor's browser-level navigator with a **simulated** save response, not storage persistence, conflict resolution, recovery or Supabase Auth.
+
 
 ## Exact safety and remaining limits
 - Every web request outside the **local loopback** origin was blocked, except the Leaflet library loaded from a local version-pinned npm package. This prevented accidental requests to live Supabase, news or video providers.
-- Page exceptions were collected but not used as an automatic failure gate. The local browser logged one error, **`Failed to read the 'localStorage' property from 'Window': Access is denied for this document.`** This may originate in a sandboxed/embedded document. **It needs attribution before sign-off**; do not claim browser console clean.
+- The initial browser run recorded a sandboxed-frame `localStorage` exception from the **test's own injected setup**. This was fixed in the extended test, which logs no corresponding error. External services were intentionally blocked, so this is not a clean-console certificate for live integrations.
 - Mobile viewport emulation is **not** a physical Samsung Internet/Android WebView test, does not confirm all landscape layouts or touch keyboards, and does not check real video embeds or sign-in.
-- Full actual W.NE document save/recovery and navigation inside the real editor remain unverified in the browser; fake-DOM save-hook tests were previously green.
+- Actual W.NE editor DOM navigation now has real Chromium acceptance for **synthetic save denial/approval**. Cloud persistence, real editor-to-Supabase saves, revision conflicts and recovery remain untested.
 - Private Chat and the future Discussions feature remain OFF in `assets/community-test-config.js`. Their 55/55 signed-HTTP checks were separately green against disposable PostgREST, but not real Supabase Auth sessions.
 - No live website merge, Netlify build, public database schema migration, end-user content, original W.NE or Android build was altered.
 
 ## Next test that adds value
-Expand real Chromium coverage to **landscape viewport**, native first-visit welcome and **actual editor save-blocking** (without production Supabase), investigate the one page exception, then conduct manual physical Samsung Internet tests. The user conditionally authorised a single combined live beta for testing if simpler; do not prematurely deploy while loopback checks work. Create a rollback-approved website+schema release when real-auth and phone acceptance are ready.
+Now perform **physical Samsung Internet/Chrome tests**, including landscape safe areas, touch keyboard, native Android back, real videos and full W.NE save/recovery on disposable test material. Separately obtain actual Supabase Auth A/B credentials via a dedicated staging backend before enabling 1:1 Chat or Discussions, review backup/rollback and aim for one consolidated live beta. The owner conditionally authorised using the public site for HTTP testing if simpler, but disposable HTTP and real local browser checks have made that unnecessary so far.
