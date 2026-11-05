@@ -19,6 +19,11 @@ jobs:
         run: |
           node --check scripts/test_sources_directory.cjs
           node scripts/test_sources_directory.cjs
+      - name: Validate two-hour breaking and 48-hour TV news ticker (synthetic, no network)
+        run: |
+          node --check assets/news-ticker.js
+          node --check scripts/test_news_ticker.cjs
+          node scripts/test_news_ticker.cjs
       - name: Verify witness submit Edge CORS/JWT client-source and privacy (no HTTP POST)
         run: |
           node --check scripts/test_witness_community.cjs
