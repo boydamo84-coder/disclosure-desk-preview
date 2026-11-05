@@ -20,14 +20,37 @@ function copy(rel){
  const bytes=fs.readFileSync(dest);
  files.push({path:rel,bytes:bytes.length,sha256:crypto.createHash('sha256').update(bytes).digest('hex')});
 }
+// Explicit filename review: adding another .js/.html to assets or research
+// must never silently make it publicly accessible on a subsequent deploy.
+const approvedWeb=Object.freeze({
+ assets:[
+  'case-comment-moderation.js','case-discussions.js','community-discussions.js',
+  'community-test-config.js','community-votes.js','disclosure-desk-mark.svg',
+  'discussions-admin.js','historical-satellite.js','inline-news-comments.js',
+  'live-chat.js','live-hearings.js','live-schedule.css','live-schedule.js',
+  'profile-private-chat.js','public-profiles.js','research-hub.js',
+  'support-site.js','watch-read.js','witness-community.js'
+ ],
+ research:[
+  'docx-tools.js','guest-preview.html','import-cloud-bridge.js','import.html',
+  'index.html','research-auth-guard.js','research-bible.html','research-entry.js',
+  'research-library-cloud-bridge.js','research-site-nav.css',
+  'research-site-nav.js','research-workspace.html','restore-copy.html',
+  'restore-copy.js','wne-cloud-bridge.js','wne-export-integration.js',
+  'wne-research-live-spelling.js','wne.html'
+ ]
+});
 function websiteDir(dir){
+ const allowed=new Set(approvedWeb[dir]),found=new Set();
  for(const d of fs.readdirSync(path.join(root,dir),{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name))){
   // The sole approved nested directory is copied by an explicit JSON allowlist below.
   if(dir==='research'&&d.isDirectory()&&d.name==='data')continue;
-  if(!d.isFile()||!webExt.has(path.extname(d.name).toLowerCase()))
-   throw Error('Unexpected web directory entry: '+dir+'/'+d.name);
-  copy(dir+'/'+d.name);
+  if(!d.isFile()||!webExt.has(path.extname(d.name).toLowerCase())||!allowed.has(d.name))
+   throw Error('Unexpected or unapproved public web file: '+dir+'/'+d.name);
+  found.add(d.name);copy(dir+'/'+d.name);
  }
+ for(const required of allowed)if(!found.has(required))
+  throw Error('Approved website dependency missing: '+dir+'/'+required);
 }
 top.forEach(copy);websiteDir('assets');websiteDir('research');
 data.forEach(p=>copy('data/'+p));

@@ -24,4 +24,32 @@ assert.equal(m.totalBytes,m.files.reduce((n,f)=>n+f.bytes,0));
 const pages=fs.readFileSync(path.join(root,'.github/workflows/pages.yml'),'utf8');
 assert.match(pages,/path: \.release-staging\/public-site/);
 assert.doesNotMatch(pages,/path: \.\s*(?:\n|$)/);
+// Check actual HTML static paths and literal JSON dependencies. The previous
+// hash/allowlist test did not detect accidentally omitted relative scripts.
+function assetPath(file,target){
+ const url=target.split(/[?#]/)[0].trim();
+ if(!url||/^(?:https?:)?\/\//i.test(url)||url.startsWith('data:')||
+   url.startsWith('mailto:')||url.startsWith('#')||
+   !/\.(?:html?|js|css|svg|json|webmanifest|png|ico|txt|xml)$/i.test(url))
+  return null;
+ return url.startsWith('/')?url.slice(1):
+  path.posix.normalize(path.posix.join(path.posix.dirname(file),url));
+}
+let dependencyCount=0;
+for(const file of paths.filter(p=>p.endsWith('.html'))){
+ const html=fs.readFileSync(path.join(out,file),'utf8');
+ for(const m of html.matchAll(/(?:src|href)\s*=\s*["']([^"'<>]+)["']/gi)){
+  const rel=assetPath(file,m[1]);if(!rel)continue;
+  assert.ok(names.has(rel),'Public page references omitted file '+file+' => '+m[1]+' => '+rel);
+  dependencyCount++;
+ }
+}
+for(const file of ['index.html','assets/live-hearings.js','assets/live-schedule.js']){
+ const text=fs.readFileSync(path.join(out,file),'utf8');
+ for(const m of text.matchAll(/fetch\(\s*['"](data\/[^'"?]+\.json)['"]/g)){
+  assert.ok(names.has(m[1]),'Public JS fetch references omitted file '+file+' => '+m[1]);
+  dependencyCount++;
+ }
+}
+console.log('PASS '+dependencyCount+' actual HTML/static JSON references are in public-only bundle');
 console.log('PASS release packaging: '+m.files.length+' files; internal finance/SQL/QA excluded; root Pages upload disabled');
