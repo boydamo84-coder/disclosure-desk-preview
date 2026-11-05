@@ -1,6 +1,6 @@
 # Disclosure Desk — MASTER HANDOVER (authoritative)
 
-**Updated:** 2026-11-03 UTC  
+**Updated:** 2026-11-05 UTC  
 **Owner/product:** Boyd Digital Studios — Disclosure Desk  
 **Status:** Active development. The public 11-tab website and the unpublished next-batch branch are **different release states**. No deployment is authorised by this document.
 
@@ -39,6 +39,8 @@
 10. **Master-handover discipline:** after every verified milestone, update Sections 3–8 and append the exact entry in Section 9 in the SAME development batch, citing branch, SHA, test outcome and release status. If work is incomplete, record blocker and next step; never call it done. Keep historical detailed docs as evidence, not competing instructions.
 
 ## 3. Last verified milestone (most recent first)
+
+- **2026-11-05 — CANONICAL CHAT/DISCUSSIONS RECOVERY + READ-ONLY BACKEND/CI PRELAUNCH AUDIT:** Confirmed current website source is THIS repository's unpublished `feature/sources-archives-next-batch-nov03`, **not** legacy `disclosure-desk` or outdated `main`. Branch baseline `f4c5f0bb04102166f9e9b0117ca75029b0a98ef0`; full source/synthetic GitHub-only QA **41810147045 SUCCESS** (2026-11-04). LIVE clock and archived guest replay synthetic CI **41802115449 / 41802463605 SUCCESS**. Private Chat detached PostgreSQL consent/privacy/10-invite & 30-message cap QA **41711107391 SUCCESS**; Discussions detached PostgreSQL section/steward/RLS QA **41692441123 SUCCESS**. Connected Disclosure Desk Supabase read-only inspection (2026-11-05) verified existing RLS-enabled LIVE hearing messages/flags, public comments/votes, unique opted-in usernames, moderation RPCs; `dd_live_events` and LIVE chat message tables were **empty**; **no** private `dd_chat_*` or Discussions `dd_forum_*` tables exist in live backend. This is expected: source flags remain `privateChat:false` and `discussions:false`. **No live user chat, two-account HTTP, mobile Samsung, schema migration or deployment verified**. Supabase security adviser warnings require line-by-line review; do not blindly revoke public read RPCs. New detailed release gate: `docs/COMMUNITY_LAUNCH_READINESS_2026-11-05.md`, commit `737551c5a631dfd40997ed6daa446425ee4b612c`. No user content inspected or modified, no Netlify, public site, Android, Finance, W.NE or other projects touched. **Next**: real-account/disposable isolated staging/RLS tests and canonical site mobile QA before deliberate backend migration and combined release.
 
 - **2026-11-04 — 11-TAB FULL TOUR/MOBILE ACCESSIBILITY CI GREEN, SAMSUNG RETEST PENDING:** Upgraded existing tour to native modal dialog + accessible first-visit modal, Close/Escape returns to the visitor's original tab rather than always Explore, restores focus; labels/step-title focus, 44px touch controls, scrollable phone-sized tour. Horizontal dock auto-scrolls selected tab and updates `aria-current="page"`. Preserved all **11 production tabs and 30 existing tour targets**; network-free source-extracted runtime test verifies old Videos tab and Profile return on Esc. Source committed to unpublished branch at `757e054872b583fe225eb2f3146929bb0faa618d`; initial GitHub QA failed only because old guided-tour test expected earlier first-visit guard. Fixed outdated test in `4aba1a7da3ec12a740faae3b048a46e4eb468624` and **no-deploy CI 41809892108 SUCCESS**. Real Samsung/Chrome visual, Android Back and accessibility QA remain pending. No website production, Netlify, Supabase, original W.NE, Cinema or paused Finance changes.
 
@@ -626,6 +628,8 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**NEW 5 NOV CHAT/DISCUSSIONS GATE (override older action notes below):** Website staging source is `boydamo84-coder/disclosure-desk-preview` branch `feature/sources-archives-next-batch-nov03`, not legacy `disclosure-desk` or old `main`. Read `docs/COMMUNITY_LAUNCH_READINESS_2026-11-05.md` first. Existing LIVE chat is backend-applied, with synthetic tests green; private 1:1 Chat and public Discussions remain off with *detached* PostgreSQL QA green but live SQL candidates unapplied. Next make a separate disposable two-account database/browser acceptance plan, then verified Samsung/Chrome UI checks, RLS adversarial tests and deliberate schema/launch approvals. Keep the existing 11 live tabs, 12th Discussions still gated, private Chat inside Profile, hearings search/archive deferred, Finance paused and Netlify untouched. Do not claim these features live-ready based on green static CI.
+
 **Latest Disclosure Desk:** tour/mobile code CI GREEN on branch `feature/sources-archives-next-batch-nov03` (41809892108); Samsung Internet/device still unverified. Test Explore full guided tour, 11 bottom tabs, Escape/Back/Close restoring originating screen and focus, small/landscape layouts, and not interrupting private W.NE before a coordinated owner-approved preview. Do not publish, merge to production, spend Netlify credits or generate fake LIVE events.
 
 
@@ -710,6 +714,15 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-05 — Canonical source located; LIVE/chat/Discussions release gates reconciled
+- Repo/branch: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; baseline `f4c5f0bb04102166f9e9b0117ca75029b0a98ef0`.
+- GitHub source, 11-tab website UI, committed SQL candidates, latest workflow runs and Supabase live metadata/policies were read directly. Old archived website branches were not used for implementation.
+- New standalone audit `docs/COMMUNITY_LAUNCH_READINESS_2026-11-05.md` commit `737551c5a631dfd40997ed6daa446425ee4b612c`; this entry is the matching authoritative master update.
+- Verified CI: full site `41810147045` SUCCESS; private chat isolated `41711107391` SUCCESS; forum isolated `41692441123` SUCCESS; LIVE transitions/replay `41802115449` and `41802463605` SUCCESS.
+- Live Supabase: existing community/LIVE RLS functions present; no private `dd_chat_*` or `dd_forum_*` tables; no populated LIVE events/messages. Flags `privateChat:false` and `discussions:false` intentionally preserved.
+- No database writes, tests with actual customers, domain/Netlify staging build, public release, Android build or changes to other products. No Phone/browser acceptance claimed.
+- Next: synthetic account staging with strict RLS/per-person rights, then owner-approved consolidated beta/phone acceptance and separately authorised backend rollout. Keep source/test status distinct from production readiness.
 
 ### 2026-11-04 — Full-site tour and mobile dock accessibility tested on source, CI GREEN
 - Code on unpublished `feature/sources-archives-next-batch-nov03`, source commit `757e054872b583fe225eb2f3146929bb0faa618d`; updated assertion commit `4aba1a7da3ec12a740faae3b048a46e4eb468624`, **GitHub Actions 41809892108 SUCCESS**. Production head `9755fba9a5116c0cce6ac433ea022a6e5bfadd15` untouched.
