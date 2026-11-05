@@ -35,8 +35,8 @@ async function pass(label,path,{jwt=null,data={}}={},expect=200){
  assert.equal(r.status,expect,label+' should return '+expect+': '+JSON.stringify(r.payload).slice(0,300));
  checks++;console.log('PASS '+label+' HTTP '+r.status);return r.payload;
 }
-async function denied(label,path,{jwt=null,data={},allow=[400,401,403,404]}={}){
- const r=await http(path,{jwt,data});
+async function denied(label,path,{jwt=null,data={},method='POST',allow=[400,401,403,404]}={}){
+ const r=await http(path,{jwt,data,method});
  assert.ok(allow.includes(r.status),label+' expected denial, got HTTP '+r.status+
   ': '+JSON.stringify(r.payload).slice(0,300));
  checks++;console.log('PASS '+label+' denied HTTP '+r.status);
