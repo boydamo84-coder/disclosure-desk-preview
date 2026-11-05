@@ -56,3 +56,7 @@ The earlier 56-file package `build_public_release.cjs` remained the canonical bu
 ## 5 November addendum — real Supabase rollback-only rehearsal
 
 User clarified that existing accounts/boards are test material and permitted backend testing. An actual live-project **transaction-only compatibility rehearsal** is now **PASS**: Private Chat 5/5 new RLS tables and Discussions 8/8 new RLS tables inside separate transactions; post-ROLLBACK checks confirm **zero** new Chat/Forum tables or routines and the existing Auth/boards/documents/moderator/Storage counts preserved. The project is under a **Free** Supabase organisation and **no database or Storage backup has been created**. This is proof that SQL compiles against existing live schema, **not** real user JWT acceptance or deployed features. Record: [live SQL rehearsal](./LIVE_SUPABASE_TRANSACTION_REHEARSAL_2026-11-05.md).
+
+## 5 November cross-product backup setup note
+
+User extended backup scope to both apps, but their application code and Supabase projects remain separate. Two separate Google Drive private backup roots now have `Nov 2026 / 05 Nov 2026` folders. An independent private-alpha shared runner ZIP was generated in chat, with nine passing offline tests; it was **not published** to the public website repo, has no credentials and was not run against a live DB. Follow `docs/BDS_MULTI_APP_BACKUP_HANDOVER_2026-11-05.md` for onboarding to a private runner and mandatory decrypt/restore validation. **No actual backup is complete yet.**
