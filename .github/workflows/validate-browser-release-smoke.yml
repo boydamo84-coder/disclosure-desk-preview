@@ -1,0 +1,50 @@
+name: Disclosure Desk Chromium mobile browser smoke (NO deploy or user data)
+on:
+  push:
+    branches: [feature/sources-archives-next-batch-nov03]
+    paths:
+      - 'index.html'
+      - 'research/**'
+      - 'assets/community-test-config.js'
+      - 'scripts/test_browser_release_smoke.cjs'
+      - '.github/workflows/validate-browser-release-smoke.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  local-browser:
+    name: Real headless Chrome mobile viewport on loopback only
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare pinned minimal browser driver and Leaflet vendor file
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 leaflet@1.9.4
+          test -x /usr/bin/google-chrome
+          node --check scripts/test_browser_release_smoke.cjs
+      - name: Start local-only static server (never Netlify)
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-chromium-server.log 2>&1 &
+          echo $! > /tmp/dd-chromium-server.pid
+          for i in $(seq 1 20); do
+            if curl -fsS --max-time 2 http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/dd-chromium-server.log
+          exit 1
+      - name: Run mobile Chromium navigation, tour and gated Discussions checks
+        run: node scripts/test_browser_release_smoke.cjs
+      - name: Save synthetic screenshot and evidence as private workflow artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: disclosure-desk-chromium-smoke
+          path: browser-qa-artifacts/
+          retention-days: 7
+      - name: Stop local-only server
+        if: always()
+        run: kill "$(cat /tmp/dd-chromium-server.pid)" || true
