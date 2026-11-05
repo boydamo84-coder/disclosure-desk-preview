@@ -101,10 +101,28 @@ assert.equal(doc.documentElement.style.properties['--dd-news-nav-height'],'77px'
 assert.equal(elements.ddNewsTickerBreakingTrack.children.length,2);
 assert.equal(elements.ddNewsTickerRecentTrack.children.length,2);
 assert.equal(doc.body.classList.contains('dd-news-ticker-expanded'),true);
-assert.equal(intervals.length,2);
+assert.equal(intervals.length,3);
+assert(intervals.some(x=>x.ms===20000),'Readable lead rotates at the video-matched pace');
+assert.match(css,/\.dd-news-ticker-breaking \.dd-ticker-track\s*\{/);
+assert.match(css,/animation:none!important/);
+assert.match(html,/>BREAKING NEWS<\/span>/);
+const firstLeadNode = elements.ddNewsTickerBreakingTrack.children[0];
+events.get('dd-news-updated')();
+assert.strictEqual(elements.ddNewsTickerBreakingTrack.children[0],firstLeadNode,
+  'Unchanged feed refresh must never blank/reset the ticker');
+win.ddNewsTickerRows.push({
+  id:'newer-breaking',headline:'Latest source-verified UAP headline',
+  source:'Sample publisher',url:'https://news.example.org/newer',
+  priority:'standard',date:new Date(Date.now()-60*1000).toISOString()
+});
+events.get('dd-news-updated')();
+assert.match(elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent,/Latest source-verified/);
+intervals.find(x=>x.ms===20000).fn();
+assert.match(elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent,/Sourced major report/,
+  'Breaking lead must cycle without marquee-scrolling the current headline');
 const group=elements.ddNewsTickerBreakingTrack.children[0];
 assert.match(group.children[0].textContent,/Sourced major report/);
-console.log('PASS 3/5 — mock News tab ticker runs in actual source; two colours, real nav clearance.');
+console.log('PASS 3/5 — actual source runtime: fixed lead rotates at 20s, 48h crawl persists on refresh, real dock clearance.');
 
 elements.discover.classList.add('hidden');
 observerCallback();
