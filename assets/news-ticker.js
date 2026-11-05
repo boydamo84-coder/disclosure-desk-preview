@@ -84,10 +84,12 @@
 
   function drawTrack(track, articles, emptyText) {
     if (!track) return;
-    track.replaceChildren();
     const viewport = track.parentElement;
     const signature = JSON.stringify(articles.map(x => [x.id, x.headline, x.source, x.date]));
+    // Preserve existing DOM and CSS motion when the feed is unchanged.
+    // Clearing before this equality test used to blank both tickers on refresh.
     if (track.dataset.signature === signature) return;
+    track.replaceChildren();
     track.dataset.signature = signature;
     if (!articles.length) {
       const empty = doc.createElement('span');
@@ -106,8 +108,12 @@
       for (const article of articles) group.appendChild(makeLink(article, copy > 0));
       track.appendChild(group);
     }
-    const chars = articles.reduce((n, a) => n + a.headline.length + a.source.length, 0);
-    track.style.setProperty('--dd-news-scroll-seconds', Math.min(240, Math.max(22, chars / 9)) + 's');
+    // Crawl at a steady broadcast-reading pace, about 27 CSS pixels/second,
+    // regardless of how many sourced stories appear in the last 48 hours.
+    const estimatedWidth = articles.reduce((n, a) =>
+      n + (a.headline.length * 6.4) + (a.source.length * 5.5) + 60, 0);
+    track.style.setProperty('--dd-news-scroll-seconds',
+      Math.min(1800, Math.max(18, Math.round(estimatedWidth / 27))) + 's');
   }
 
   function init() {
@@ -119,9 +125,18 @@
     const toggleAlerts = byId('ddNewsTickerAlertsToggle');
     const hide = byId('ddNewsTickerHide');
     const off = byId('ddNewsTickerOff');
+    let featuredIndex = 0;
+    let featuredSignature = '';
 
     function render() {
       const selected = selectHeadlines(root.ddNewsTickerRows || []);
+      const nextSignature = selected.breaking.map(x => x.id).join('|');
+      if (nextSignature !== featuredSignature) {
+        featuredSignature = nextSignature;
+        featuredIndex = 0; // a newly published story takes the lead immediately
+      }
+      const featured = selected.breaking.length
+        ? [selected.breaking[featuredIndex % selected.breaking.length]] : [];
       const isNewsTab = !newsSection.classList.contains('hidden');
       hub.hidden = !isNewsTab;
       doc.body.classList.toggle('dd-news-ticker-visible', isNewsTab);
@@ -131,7 +146,7 @@
       toggleHub.setAttribute('aria-expanded', String(prefs.hub));
       toggleAlerts.textContent = 'Alerts: ' + (prefs.alerts ? 'On' : 'Off');
       toggleAlerts.setAttribute('aria-pressed', String(prefs.alerts));
-      drawTrack(byId('ddNewsTickerBreakingTrack'), selected.breaking,
+      drawTrack(byId('ddNewsTickerBreakingTrack'), featured,
         'No sourced headlines published in the last 2 hours.');
       drawTrack(byId('ddNewsTickerRecentTrack'), selected.recent,
         'No sourced headlines between 2 and 48 hours old.');
@@ -166,6 +181,14 @@
     }
     // Navigation updates the .hidden class; observer avoids modifying the site-wide router.
     new MutationObserver(render).observe(newsSection, {attributes: true, attributeFilter: ['class']});
+    root.setInterval(() => {
+      if (doc.visibilityState === 'hidden') return;
+      const breaking = selectHeadlines(root.ddNewsTickerRows || []).breaking;
+      if (breaking.length > 1) {
+        featuredIndex = (featuredIndex + 1) % breaking.length;
+        render(); // rotate the readable lead headline every 20 seconds
+      }
+    }, 20000);
     root.setInterval(() => {
       if (doc.visibilityState !== 'hidden') render();
     }, 60000);
