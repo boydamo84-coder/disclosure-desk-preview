@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-05T09:06:34.638922+00:00",
+  "checkedAt": "2026-11-05T11:10:40.234042+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
@@ -28,8 +28,8 @@
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 12,
-      "latestArticleAt": "2026-11-04T12:21:45+00:00"
+      "items": 14,
+      "latestArticleAt": "2026-11-05T10:04:29+00:00"
     },
     {
       "source": "Search: UAP congress hearing when:7d",
@@ -183,8 +183,9 @@
     },
     {
       "source": "NASA",
-      "status": "failed",
-      "items": 0
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "BBC Science",
@@ -205,5 +206,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 294
+  "storiesPublished": 295
 }
