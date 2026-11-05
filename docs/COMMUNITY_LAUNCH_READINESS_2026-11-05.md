@@ -16,6 +16,7 @@
 | Usernames/owner action synthetic QA | [41801094736](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/41801094736) | SUCCESS, 2026-11-04 | Account-switch and duplicate-alias code; not live JWT A/B or Samsung |
 | Private Chat A→B stale-history runtime | [42010786518](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42010786518) | SUCCESS, 2026-11-05 | New actual frontend fake-DOM test: pending invitation has no composer; delayed A history never appears under B; B messages are text-only; logout clears chat; no backend write |
 | Discussions A→B steward/queued-action runtime | [42011490087](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42011490087) | SUCCESS, 2026-11-05 | Fix and actual frontend fake-DOM test: switching accounts clears prior steward controls, invalidates stale topic result, preserves B section during token refresh and cancels a deferred vote after logout |
+| W.NE gated Discussions navigation and save-before-exit | [42013369188](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42013369188) | SUCCESS, 2026-11-05 | Added synthetic test of 11 live tabs vs 12 approved tabs, safe /?dd_tab return, and refusal to leave an unsaved report. Real Samsung still pending |
 
 ## Confirmed live backend inventory — read-only on 2026-11-05
 
@@ -37,6 +38,12 @@
 - **Still disabled and not migrated:** `privateChat:false`, `discussions:false`; preserve this gate until owner-approved isolated real two-account HTTP and Samsung/browser acceptance. No Netlify deployment requested.
 
 ## Product contract — retained
+## 5 November Research Edition navigation compatibility
+- Unpublished 12-tab capability is fully gated; feature flags remain OFF. The same official configuration is loaded on seven Research Edition screens before their dock script. A new main-site delayed deep-link prevents navigating to Discussions before the configuration has loaded.
+- Existing save-before-navigation hook remains mandatory. New fake-DOM test validates eleven tabs while OFF, twelve (after Witness) only when ON, unsaved W.NE refused exit, and saved W.NE safely returns. Commit `bbb6a921`, GitHub Actions **42013369188 SUCCESS**.
+- No actual smartphone browser, RLS, feature activation, public website or Supabase mutation. These remain separate release gates.
+
+
 - **LIVE hearing chat:** one room per verified official hearing; guests may read approved saved messages; registered non-anonymous accounts may post during the validated LIVE window; 5 distinct reports temporarily hide abusive content; moderator review/restore; archived transcript remains readable after event.
 - **Private Chat:** expandable Profile panel, opted-in unique usernames, exactly one introductory request message, recipient Accept/Decline, accepted-only 1:1 history, Pending received/sent, unread markers, block/report. Server limit **10 new requests/rolling 24h** and **30 messages/10min in accepted conversations**. Remain disabled until migration and two-user consent/privacy QA.
 - **Discussions:** approved future **12th main tab**, separate from case/news/video comments, guest read-only, registered topics/replies/votes/flags, creator as limited **steward** (organise/pin/escalate; no arbitrary bans/deletions), site-owner moderation, 5 distinct flags/temporary hide and appeals. Remain disabled until reviewed migration, role/RLS testing and mobile acceptance.
@@ -46,7 +53,7 @@
 1. Inspect latest site's real Samsung/Chrome and Android WebView layout/navigation, keyboard, chat input/send, history paging, notification/deep links and loss of network.
 2. Use two *disposable* consented test accounts on an **isolated staging backend**, testing direct HTTP/JWT against both social schema candidates: guest, anonymous, participant, third-party, blocked, moderator and section steward.
 3. Authorise controlled backend rollout separately after inspecting full SQL, table grants, RLS, trigger races, rollback/backup and privacy policies. Do not insert fake hearings/witness content in the production database.
-4. Confirm the staged new tab integrates with the existing W.NE save-before-navigation dock and full guided tour once consciously enabled; preserve the original 11 live tabs until bundled release.
+4. **W.NE conditional 12-tab dock and safe return deep-link are now source/synthetic CI green (42013369188)**. Maintain 11 tabs while disabled. Real Samsung/Chrome, authenticated W.NE unsaved-document protection and full 12-tab tour still require manual acceptance before publishing.
 5. Inspect Supabase security adviser warnings individually: six anon-callable `SECURITY DEFINER` functions may be deliberate public RPC projections, while password leaked-credential protection should be reviewed in Auth settings. Do not blindly revoke functional access or claim an exploit based solely on a lint.
 6. Obtain separate approval for actual Supabase migrations, one consolidated website/Netlify beta, public release and Android parity.
 
