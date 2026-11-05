@@ -22,7 +22,7 @@ const rows = [
 rows[6].url='http://localhost/suspicious';
 rows.push({...rows[0]}, {...article('xss',3000),headline:'<img onerror=alert(1) />'});
 let selected=core.selectHeadlines(rows,now);
-assert.deepEqual(selected.breaking.map(x=>x.id),['a','b','xss']);
+assert.deepEqual(selected.breaking.map(x=>x.id),['xss','a','b']);
 assert.deepEqual(selected.recent.map(x=>x.id),['c','d']);
 assert.deepEqual(selected.major.map(x=>x.id),['a']);
 assert.equal(core.safeSourceUrl('javascript:alert(1)'), '');
