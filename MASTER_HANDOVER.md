@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-06 18:30 UK — OWNER SAMSUNG EXACT-REVISION RESTORE CLASSIFIER INSTALLED, RETEST PENDING:** User shared Termux screenshot confirming the fresh PRIVATE `bds-private-backups` ZIP script `local_recovery_drill.py` matched exact GitHub blob SHA1 `ebbab3bd1ee1c9be2c15e4ba38c83abd8a2d1080`. The verification script atomically replaced only `$HOME/bds-recovery-tools/bds-private-backups-main/local_recovery_drill.py`, and printed `NEW DIAGNOSTIC SCRIPT VERIFIED` / `BACKUPS AND PRIVATE KEY UNTOUCHED`. This is **code verification/installation**, not a recovery result. Earlier actual DD encrypted archive and its one Storage object were checked successfully, but disposable PostgreSQL `pg_restore` reported `LOCAL_PG_RESTORE_FAILED`. **Immediate next:** owner reruns the SAME local-only DD `local_recovery_drill.py` command against existing encrypted archive and local age identity to obtain fixed safe category such as `LOCAL_PG_RESTORE_MISSING_ROLE_FAILED` / `LOCAL_PG_RESTORE_MISSING_EXTENSION_FAILED` / `LOCAL_PG_RESTORE_OTHER_FAILED`; report only fixed status, never raw stderr or plaintext. No live DD/Cinema/Supabase write, Netlify, Chat/Discussions migration or hourly schedule. No need to repeat preliminary archive audit.
+
+
 - **2026-11-06: AUTHENTIC DD LOCAL RESTORE PG_RESTORE BLOCKER CONFIRMED; REDACTED DIAGNOSTICS CI GREEN:** User's Samsung Termux authentic `local_recovery_drill.py` run verified encrypted Disclosure Desk PG custom-format dump, reconstituted 1 checked Storage object, then safely reported `DISPOSABLE RESTORE NOT VERIFIED [LOCAL_PG_RESTORE_FAILED]`; live databases untouched. User had installed exactly updated stage-diagnostic blob `833ef13c`. This is a **real local import failure**, NOT a failed archive check, successful database restore, or evidence of corruption. Cause unknown. PRIVATE `boydamo84-coder/bds-private-backups` `main` now has `local_recovery_drill.py` category classifier committed `ce543d7`, synthetic privacy/failure tests `0bc5437`, README checkpoint `892b42e`. No-secret GitHub Actions [run 42270872078](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42270872078) **SUCCESS**. The updated script classifies `pg_restore` stderr locally into fixed categories (missing roles/extensions/schema, permissions, etc.) without printing raw stderr, names, SQL, credentials or local paths. **Next owner action:** download updated code-only ZIP from private backup repo, verify exact script Git blob SHA, replace *only* `local_recovery_drill.py`, rerun same offline disposable DD restore, share ONLY fixed failure category/PASS; no production Supabase, Cinema, Netlify or automated scheduling touched.
 
 
@@ -836,6 +839,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**18:30 UK 6 Nov owner update:** newest private no-secret CI-tested recovery classifier installed on Samsung; exact `local_recovery_drill.py` Git blob `ebbab3bd1ee1c9be2c15e4ba38c83abd8a2d1080` verified from downloaded ZIP, and previous script replaced in private recovery-tools. No restore rerun on this revision yet. Next: `cd "$HOME/bds-recovery-tools/bds-private-backups-main" && python local_recovery_drill.py --archive "$HOME/.bds-audit/disclosure-desk.tar.age" --identity "$HOME/.bds-recovery/identity.txt" --project disclosure-desk`. Record fixed category only. Do not deploy or touch live database.
+
+
 **6 Nov latest override:** Screenshot confirms first genuine local DD restore reached `pg_restore` but failed (`LOCAL_PG_RESTORE_FAILED`), while real PG dump and Storage object bytes passed. A new privacy-safe, synthetic-CI-green error classifier is ready in private backup repository `main` (`ce543d7`; tests `0bc5437`; CI run `42270872078`). Owner has not yet run new classifier version. Next step is **code-only ZIP refresh + Git SHA verify + one local DD retry**, do NOT repeat full initial archive audits, expose raw logs, paste keys, point any restore at a production Supabase database, enable hourly backups or deploy site.
 
 
@@ -1015,6 +1021,12 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-06 18:30 UK — Safe pg_restore cause classifier exact-byte-installed on Samsung
+- Canonical `boydamo84-coder/disclosure-desk-preview` unpublished `feature/sources-archives-next-batch-nov03`; prior handover head `4d466835cd17f9c0d6a5f71b9ab2d796ce63230a`; this documentation commit is the resulting branch head.
+- Screenshot verifies downloaded updated code only: Git blob SHA `ebbab3bd1ee1c9be2c15e4ba38c83abd8a2d1080`, copied by atomic replacement into private recovery tools; terminal printed `NEW DIAGNOSTIC SCRIPT VERIFIED` and `BACKUPS AND PRIVATE KEY UNTOUCHED`. Private age identity, encrypted Drive archives and live Supabase projects unchanged. No new restore attempted yet.
+- Existing prior authentic DD restore failure `LOCAL_PG_RESTORE_FAILED` remains unresolved. Next owner runs new classifier locally and shares safe category, not PostgreSQL stderr/SQL/data. No Netlify, social DDL, schedule, or public release.
+
 
 ### 2026-11-06 — Authentic DD temporary restore blocked; fixed-category diagnostics CI GREEN
 - Canonical handover: `boydamo84-coder/disclosure-desk-preview` unpublished `feature/sources-archives-next-batch-nov03`, previous head `4a7158107bf41f96962391a659ee04862e5582e1`, resulting commit is this handover update.
