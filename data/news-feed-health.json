@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-11-06T13:10:14.803076+00:00",
+  "checkedAt": "2026-11-06T14:56:37.182834+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 17,
+      "items": 16,
       "latestArticleAt": "2026-11-06T12:46:59+00:00"
     },
     {
@@ -123,9 +123,9 @@
     },
     {
       "source": "Search: United Kingdom",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-10-31T09:34:00+00:00"
     },
     {
       "source": "Search: New Zealand",

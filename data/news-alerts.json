@@ -597,7 +597,9 @@
     "date": "2026-11-01T12:00:24+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://s.yimg.com/lo/mysterio/api/c453fb2dad448fb54be7f3672a3a9681a29c4d123d3d46ceae90fe7b612aa4fc/lightyear_networkapi/resizefill_w1200%3Bquality_80%3Bformat_jpg/https%3A%2F%2Fmedia.zenfs.com%2Fen%2Ffox_news_text_979%2F2a2c9983bb7510d15c4f5b64f39d4068.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "37f974c1b7c94ca68972",
