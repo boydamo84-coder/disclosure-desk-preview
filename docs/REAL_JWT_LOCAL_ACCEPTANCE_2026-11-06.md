@@ -1,6 +1,6 @@
 # Disclosure Desk — owner-run real JWT A/B acceptance tester (6 November 2026)
 
-**Status:** Offline source QA and mocked HTTP regression PASS. **Not yet run with actual Supabase Auth tokens on owner phone.**  
+**Status:** Offline/mock QA PASS; **OWNER-OPERATED REAL AUTH JWT/READ-ONLY HTTP A/B TEST: PASS reported 6 November 2026.** Account data and genuine HTTP response were tested locally on Samsung. The assistant received the tester's safe summary only, not credentials, JWTs or raw request logs.  
 **Scope:** existing Disclosure Desk project `omqxizswzcwgzqaczlhe`, read-only account isolation; new forum and private Chat are still disabled/unapplied.
 
 ## Deliverable
@@ -43,3 +43,27 @@ The exact HTML and ZIP are conversation attachments, not published to the websit
 - If the phone cannot load a local HTTP page or Auth rejects requests, inspect the local server and account status rather than deploying a public debug page.
 
 **No production site, Supabase schema/rows, private backup runner, Google Drive contents, Netlify credits, Android build or public Chat/Discussions flag were changed by preparing this tester.**
+
+## Owner-run real Auth HTTP/JWT result — 6 November 2026
+
+**Source of evidence:** owner opened the exact standalone tester in Samsung browser from Termux localhost, provided screenshot of its running interface and later pasted the tester-generated **safe summary** into the conversation. The assistant did not witness or independently replay the HTTP requests, inspect the tokens, or receive account secrets.
+
+| Read-only measurement | Account A | Account B |
+| --- | ---: | ---: |
+| Investigation Boards | 3 | 0 |
+| Research documents | 7 | 0 |
+| Research assets | 0 | 0 |
+| Private username settings rows | 1 | 0 |
+
+Other tester summary assertions:
+- `A cannot read B-owned rows: PASS`.
+- `B cannot read A-owned rows: PASS`.
+- `Guest private Boards: BLOCKED`.
+- `Real Auth JWT + read-only HTTP test: PASS`.
+- `Chat / Discussions migration and mobile UX: NOT TESTED`.
+
+**Release classification:** **SAMSUNG USER-RUN REAL JWT READ-ONLY ACCOUNT-ISOLATION TEST: PASS** within these existing Boards/documents/assets/private-username and guest-read checks. This closes the specific *existing-accounts read-only HTTP/JWT isolation* gate previously marked pending. It does **not** prove endpoint-by-endpoint mutation permissions (comments/flags/authoring), private Chat/Discussions tables or RLS (not installed), moderation/blocks/rate limits, Android app/WebView parity, live forum UX or complete production security. There is no independent server-side request trace; treat this as a credible **owner-reported tester PASS** rather than an independently rerun HTTP assertion.
+
+**Data handling:** Accounts' email addresses, passwords, access/refresh tokens, UUIDs, private document content, and exact URLs with credentials were neither requested nor included in the transmitted summary. No account writes or private payload disclosures were performed by this tester; Supabase may record ordinary login/logout authentication events.
+
+**Next gated work:** Prove a real encrypted PostgreSQL+Storage archive and independent disposable recovery for both Disclosure Desk and Our Cinema before newly applying social SQL. Then review candidate forum/Chat permissions with real signed-in test accounts, actual Samsung forum/chat interaction and owner moderation. Keep the current disabled feature flags until all required checks pass.
