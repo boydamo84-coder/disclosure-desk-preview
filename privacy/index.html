@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How Boyd Digital Studios' BDS Backup Drive uses Google Drive access, protects encrypted archives and handles backups.">
+  <meta name="theme-color" content="#0b1420">
+  <title>Privacy Policy | BDS Backup Drive</title>
+  <link rel="canonical" href="https://backups.uapdisclosuredesk.com/privacy/">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="wrap">
+    <a class="brand" href="../" aria-label="BDS Backup Drive home"><span class="brand-mark" aria-hidden="true">BDS</span><span>BOYD DIGITAL STUDIOS</span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="../">Overview</a>
+      <a href="./" aria-current="page">Privacy policy</a>
+      <a href="mailto:boyddigitalstudios@gmail.com">Contact</a>
+    </nav>
+  </div></header>
+  <main id="main" class="wrap paper">
+    <p class="eyebrow">BDS Backup Drive</p>
+    <h1>Privacy policy</h1>
+    <p class="date">Last updated: 6 November 2026</p>
+    <p class="status">This policy describes BDS Backup Drive, a private administrative utility. Its scope is separate from the public-facing privacy notices for Disclosure Desk and Our Cinema.</p>
+    <h2>1. Who operates this utility</h2>
+    <p>BDS Backup Drive is operated by <strong>Boyd Digital Studios</strong>. It is used to protect the company's own Disclosure Desk and Our Cinema data, and is not offered as a public cloud-storage service. Questions about this utility or its use of Google Drive data can be sent to <a href="mailto:boyddigitalstudios@gmail.com">boyddigitalstudios@gmail.com</a>.</p>
+    <h2>2. Google Drive access requested</h2>
+    <p>Authorised Boyd Digital Studios administrators connect a dedicated Google account through Google OAuth. The utility uses Google Drive to create and identify backup folders, upload encrypted archives, list stored backup files, read file metadata and verify uploads. It is intended to access only the backup destinations configured by its operator.</p>
+    <p>The present integration may request <strong>full Google Drive access</strong> because it must work with pre-existing folders. This permission is broader than those folders, even though our backup runner is designed to use its designated destinations only. We will review narrower permissions when technically feasible.</p>
+    <h2>3. How Google user data is used</h2>
+    <p>Information received from Google's APIs is used solely to establish and maintain the authorised backup connection, perform the backup operations described here, and check their integrity. We do not use Google Drive data for advertising, profiling, selling personal information, or training general-purpose AI models.</p>
+    <p>Our use of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+    <h2>4. What the archives contain</h2>
+    <p>Snapshots of the two BDS applications may include database records, account information, investigation Boards, research documents, cinema history and associated Storage files needed for disaster recovery. These records are exported from the relevant service, not from unrelated files elsewhere in the connected Google Drive.</p>
+    <p>The runner uses <strong>age encryption</strong> to encrypt each archive before Google Drive upload. Its private decryption identity is held separately from the upload service. Temporary readable export files may exist on the controlled backup runner during execution and are removed when the temporary workspace is deleted. An encrypted archive is not a substitute for a tested restoration process.</p>
+    <h2>5. Credentials, storage and service providers</h2>
+    <p>OAuth tokens used for unattended Drive access and the credentials needed for database exports are configured in private GitHub Actions repository secrets. The runner receives these credentials only for its authorised task. Encrypted archive files are kept in dedicated project folders in the BDS-controlled Google Drive account. Supabase, GitHub and Google are infrastructure providers involved in these workflows.</p>
+    <p>We do not intentionally disclose readable backup contents to unrelated third parties. The Google account owner controls the permissions granted to this app.</p>
+    <h2>6. Retention and deletion</h2>
+    <p>Encrypted backups are currently retained until an authorised operator removes them. <strong>An automatic deletion or retention schedule is not yet active.</strong> When we adopt an automated retention policy, this notice will be updated. OAuth tokens remain configured until revoked or rotated. Revoking Google access does not automatically delete archives already stored in Drive.</p>
+    <h2>7. Security and recovery limitations</h2>
+    <p>Our security measures include encryption before upload, separately held decryption keys, access-controlled credentials, integrity verification and isolated recovery testing. They reduce risk but cannot guarantee absolute security. The Google Drive authorisation scope is wider than the intended backup destinations and is a security consideration.</p>
+    <p>Database and Storage archives do not by themselves preserve every cloud platform setting, external integration or service credential. Additional steps may be needed in a real recovery.</p>
+    <h2>8. Revoking access, questions and requests</h2>
+    <p>The Google account owner may revoke this utility's access through <a href="https://myaccount.google.com/connections">Google Account → Third-party apps and services</a>. Revocation prevents future authorised operations but does not automatically delete existing encrypted files. Owners can delete retained archives separately through Google Drive.</p>
+    <p>For privacy questions, access requests or deletion enquiries relating to BDS Backup Drive, email <a href="mailto:boyddigitalstudios@gmail.com">boyddigitalstudios@gmail.com</a>. Requests concerning individual Disclosure Desk or Our Cinema accounts are handled in accordance with those products' own privacy notices and applicable law.</p>
+    <h2>9. Changes to this policy</h2>
+    <p>This page will be updated if the utility's Google permissions, processing practices or retention rules materially change. The revision date above identifies the version shown.</p>
+    <p><a href="../">Return to BDS Backup Drive homepage</a></p>
+  </main>
+  <footer class="site-footer"><div class="wrap">
+    <p>© 2026 Boyd Digital Studios · BDS Backup Drive</p>
+    <p><a href="../">Overview</a> · <a href="mailto:boyddigitalstudios@gmail.com">Contact</a></p>
+  </div></footer>
+</body>
+</html>
