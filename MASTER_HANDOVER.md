@@ -40,6 +40,10 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-06 18:12 UK — OWNER SAMSUNG POSTGRESQL VERSION GATE PASS:** User screenshot shows `pg_restore (PostgreSQL) 18.6` and `initdb (PostgreSQL) 18.6` in trusted Termux, following earlier 6/6 local recovery-tool presence and BOTH authentic BDS archive full-audit PASS. Version 18.6 meets the scripted >=17 prerequisite for restoring PG17 custom-format backups; actual archive restore is **NOT** yet attempted or confirmed. Distinct next action: download trusted source of private `bds-private-backups` repo to device (code only, not identities or snapshots), then execute `local_recovery_drill.py` against local encrypted Disclosure Desk archive in disposable LOCAL socket-only PG; capture safe PASS/BLOCKED result. A generic PostgreSQL server may lack managed Supabase roles/extensions: any failure is a staging compatibility blocker, NOT evidence of archive corruption. Do not connect to DD/Cinema production databases or claim recovery complete. No Netlify, schema migration, backup scheduler, Chat/Discussions activation.
+
+
+
 - **2026-11-06 18:10 UK — AUTHENTIC BOTH-APP ARCHIVE AUDITOR OWNER SCREENSHOT PASS + ANDROID RESTORE TOOL PRESENCE PASS:** Owner supplied Termux Samsung screenshot showing locally run `python "$HOME/storage/downloads/bds_backup_archive_audit.py"` returned `DISCLOSURE-DESK: FULL ARCHIVE AUDIT PASSED` (3 files, 1 Storage object, 642509 database bytes) and `OUR-CINEMA: FULL ARCHIVE AUDIT PASSED` (2 files, 0 Storage objects, 301957 database bytes), ending `BOTH ARCHIVES VERIFIED — RESTORE STILL REQUIRED`. Separate six-tool presence loop printed `age OK`, `pg_restore OK`, `initdb OK`, `pg_ctl OK`, `psql OK`, `createdb OK`. This supersedes previous 'auditor execution pending' text in older entry; do not ask to rerun the integrity audit. This proves CLI names are accessible, not PostgreSQL server/client version, real pg_restore, hosted Supabase roles/grants/Auth restore, Storage API recovery or successful application smoke tests. Latest local recovery code was independently staged with safe no-secret CI SUCCESS (42267882113); script has NOT been executed on real archives yet. **Next single phone action:** `pg_restore --version; initdb --version` to verify Postgres 17+ and compatible local cluster version before copying/running authentic local disposable recovery script; keep full archives and private age identity local, never send secrets. No online production DB writes, scheduler, GitHub public file, Netlify deploy, Chat/Discussions activation.
 
 
@@ -705,6 +709,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 7. Invariant acceptance checklist — before any public/Play release
 
+- **PG version gate 6 Nov 18:12 UK:** Samsung `pg_restore 18.6`, `initdb 18.6` confirmed by screenshot. Binary versions PASS; real temporary database recovery NOT TESTED, all managed Supabase recovery checks remain outstanding.
+
+
 - **Authentic recovery gate (6 Nov):** owner-reported initial archive decryption/checksums PASS and synthetic restore CI PASS; actual local disposable PostgreSQL restore and Supabase managed-role/grant/RLS/provider/Storage recovery NOT YET CONFIRMED. Scheduler and social backend migrations OFF.
 
 
@@ -813,6 +820,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - [ ] After website approval: Android native parity, signed AAB, notifications, ads/consent, Play internal track acceptance before Play production approval.
 
 ## 8. Exact next task for the next chat
+
+**6 Nov 18:12 UK owner version screenshot:** both `pg_restore` and `initdb` are PostgreSQL 18.6 in Termux. Version gate PASSED, no need to upgrade or repeat the original archive audit. **Next** obtain code-only trusted private `bds-private-backups` main checkout/ZIP on Samsung and run the existing `local_recovery_drill.py` on `$HOME/.bds-audit/disclosure-desk.tar.age` with `$HOME/.bds-recovery/identity.txt` remaining local. No other databases or Netlify touched. Warn Supabase-managed roles/extensions may block plain local PG restoration; don't claim end-to-end recovery until proven.
+
 
 **18:10 UK screenshot update (6 Nov):** Owner's authentic DD+Cinema standalone auditor finished FULL PASS on both projects; all 6 Termux recovery tool command checks say OK. Do NOT repeat archive auditor. Version check (`pg_restore --version; initdb --version`) is the immediate next phone step. Only after PostgreSQL version confirmation consider running real archive into safe disposable local-only Postgres; record managed Supabase dependency failures without touching live projects. Hourly schedule and Chat/Discussion migration OFF.
 
@@ -978,6 +988,12 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-06 18:12 UK — Real device PostgreSQL 18.6 restore prerequisites version PASS
+- Repo/branch: canonical `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; before-doc SHA `f9c2e528e5f346162297a37d00bc8beda6364c6f`, resulting branch commit is this handover update.
+- Owner screenshot shows `pg_restore (PostgreSQL) 18.6` and `initdb (PostgreSQL) 18.6`. Alongside 6/6 executable presence and both real archive FULL AUDIT PASS, ready to attempt local-only isolated restore. Version check is NOT a restore.
+- Backup private repo `local_recovery_drill.py` source and CI remain as previously staged; no run against genuine archives reported. Next: fetch reviewed code-only private repo ZIP to Samsung, execute DD local disposable PostgreSQL restore, report only PASS or managed-dependency BLOCKED category. No production changes, secrets handled remotely, auto schedule, or Netlify credits.
+
 
 ### 2026-11-06 18:10 UK — Real owner Samsung audit and recovery prerequisites confirmed
 - Canonical website repo `boydamo84-coder/disclosure-desk-preview` unpublished branch `feature/sources-archives-next-batch-nov03`, previous head `a231fda5fbc68f1fe90271c77716b8340f172320`. Documentation-only update; resulting commit is this handover update.
