@@ -1,0 +1,30 @@
+name: Build local-only Chat + Discussions Samsung beta ZIP (NO deploy)
+on:
+  push:
+    branches: [feature/sources-archives-next-batch-nov03]
+    paths:
+      - 'scripts/build_community_beta_local.cjs'
+      - '.github/workflows/build-community-beta-local.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  beta-package:
+    name: Strict allowlisted local phone beta only
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build exact site with localhost-only beta feature flags and verify manifest
+        run: |
+          node --check scripts/build_community_beta_local.cjs
+          node scripts/build_community_beta_local.cjs
+      - name: Downloadable Samsung beta ZIP only; DO NOT DEPLOY
+        uses: actions/upload-artifact@v4
+        with:
+          name: disclosure-desk-chat-discussions-samsung-beta
+          path: .release-staging/community-beta-local/
+          retention-days: 3
+          if-no-files-found: error
