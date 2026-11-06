@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-06 — AUTHENTIC BACKUP LOCAL-ONLY RESTORE TOOL STAGED; NO-SECRET CI GREEN (NEW):** The user correctly confirmed that BOTH real 17:33 UTC BDS archives' initial decrypt, manifest and SHA-256 checks already passed on Samsung; do NOT ask to repeat those preliminary checks. GitHub independently shows manual dual-project encrypted backup run [42262694077](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42262694077) SUCCESS, and earlier synthetic PG17 restore SUCCESS, not a real restore. Distinct next gate: actually restore authentic snapshots into isolated local PostgreSQL. Private `boydamo84-coder/bds-private-backups` `main` now has `local_recovery_drill.py` (commit `9e679e4`), `tests/test_local_recovery_drill.py` (`1243e7b`), no-secret offline workflow registration (`3cd57f`), updated README (`fff9f6`). [No-secret GitHub Actions run 42267882113](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42267882113) completed SUCCESS at source `3cd57f`; tests simulate execution and boundaries, NOT authentic decryption/restore. Script is for trusted non-root owner device with age/Postgres >=17; private temp folder, Unix socket only/TCP disabled, explicit project selection, ignores inherited PostgreSQL credentials, verifies archive through existing auditor, attempts one local disposable restore, rehashes recovered Storage bytes. Real Samsung run NOT performed or confirmed, and plain Postgres may fail on Supabase-managed roles/extensions. Even local success would NOT verify hosted Auth, grants, RLS or recovery settings. No live DB change, no Netlify build, no Chat/Discussions migration or hourly schedule. **Next:** owner-device environment preflight and one real local disposable restore, with no secrets or plaintext shared; document exact PASS/BLOCKED and then full provider-compatible recovery gap review.
+
+
 - **2026-11-06 BOTH REAL BDS BACKUPS INITIAL INTEGRITY PASSED:** Owner's Samsung Termux audits of **authentic 6 Nov 17:33 UTC age-encrypted Drive archives**: Disclosure Desk decrypt PASS, correct project and `public/auth/storage` manifest, database SHA256 PASS, its **one** Storage object's SHA256 PASS, tar contains **3** members. Our Cinema decrypt PASS, database SHA256 PASS, manifest matches `our-cinema`, schemas `public/auth/storage`, zero Storage objects, and exact tar-file list `database.dump`, `manifest.json` PASS. These are **owner-reported results** from local commands, not independently recovered data bytes by assistant. Both actual Google Drive archives were separately identified by authenticated Drive connector. The checks strongly support encrypted snapshot integrity but **do not prove an isolated production-like PostgreSQL restore, roles/grants/RLS, or app restoration**. Assistant prepared a **standalone local no-network archive auditor** at sandbox file `/mnt/data/bds_backup_archive_audit.py`, using age pipes, no plaintext saved, strict manifest/paths/hash/size audits for BOTH projects, and validated with synthetic positive, modified-checksum and extra-file regression cases. User execution of that file PENDING. Next: ask owner to download script to Samsung Downloads and run `python "$HOME/storage/downloads/bds_backup_archive_audit.py"` from Termux (age identity stays local), share only final PASS/FAIL categories, and then plan independent disposable restore. No automatic schedule, schema migration or production deploy. OAuth External/Testing expiry and exposed OAuth client secret rotation outstanding before unattended scheduling.
 
 - **2026-11-06 — 6 NOV DISCLOSURE DESK AGE DECRYPTION PASSED (OWNER):** After authenticated Google Drive listing verified both real BDS encrypted archives, owner confirmed original private recovery identity exists in Samsung Termux and reported successful encrypted DD archive download to `$HOME/.bds-audit/disclosure-desk.tar.age`. Owner then executed the local streaming `age -d -i "$HOME/.bds-recovery/identity.txt" "$HOME/.bds-audit/disclosure-desk.tar.age" > /dev/null` decryption test and responded **"Passed"**. Classification: **owner-reported cryptographic age decryption PASS** with matching local private identity. No key material or decrypted data shared; decrypted stream discarded. This confirms recovery identity can decrypt DD archive, BUT **does not** verify tar member names, manifest SHA256 checksums, full DB restore, RLS, grants, or Storage object recovery. Immediate next one-step local task: `age -d ... | tar -tf - | grep -E '^(database[.]dump|manifest[.]json)- **2026-11-06 — DISCLOSURE DESK ENCRYPTED ARCHIVE DOWNLOAD OWNER-REPORTED GREEN:** After authenticated Google Drive connector independently confirmed `disclosure-desk_2026-11-06T17-33-39Z.tar.age` (655704 bytes) and Cinema snapshot in their respective private backup folders, owner used trusted Samsung Termux, confirmed `RECOVERY KEY FOUND` at `$HOME/.bds-recovery/identity.txt` (screenshot, no key content disclosed), then executed private `rclone copyto` command to download **only encrypted Disclosure Desk archive** to `$HOME/.bds-audit/disclosure-desk.tar.age`. Owner reported **GREEN** after command instructed `BACKUP DOWNLOADED` (owner report; file bytes have not been independently inspected on phone). Next: verify private age identity can decrypt that archive with `age -d -i "$HOME/.bds-recovery/identity.txt" "$HOME/.bds-audit/disclosure-desk.tar.age" > /dev/null && echo "DECRYPTION PASSED" || echo "DECRYPTION FAILED"`. This writes no decrypted plaintext to disk. **Decryption result PENDING**; tar manifest/Storage SHA256 audit and disposable database restore still pending. Do not upload original identity to GitHub, cloud, or chat; no automatic schedule and no production DB changes.
@@ -438,6 +441,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**6 Nov backup gate update:** Initial DD/Cinema archive integrity already passed; offline local authentic restore tool has green no-secret CI but OWNER REAL RESTORE PENDING. Keep social SQL migration gated until actual recovery evidence. Do not redo passed initial checks or touch public release.
+
+
 **Current mobile & tour checkpoint:** native accessible modal/first-visit tour, previous-tab/keyboard focus restoration, 44px controls and 11-tab selected ARIA/scroll passed fake-DOM CI. Samsung Internet/Chrome device/browser checks still pending; finance remains paused.
 
 
@@ -589,6 +595,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 5. Release plan: website first, then Android / Google Play
 
+**Recovery release gate (6 Nov):** The new owner-local recovery drill is not a website/Android release and is not yet real-device accepted. No automatic backups or staged social activation are authorised from synthetic tests alone.
+
+
 **LIVE fix remains unpublished:** no fabricated hearing or source added and no Netlify build. Require official confirmation and genuine browser acceptance before enabling community LIVE.
 
 
@@ -629,6 +638,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 **Phase 4 — Play internal test and release preparation:** check Gradle/Android SDK, app ID, target API and Play policy requirements on actual release date; securely configure signed Android App Bundle (AAB) using existing manual `.github/workflows/android-play-internal-aab.yml`; check Play App Signing, release keys, version codes, app icon, screenshots, listing, privacy/data safety, consent/ads implementation, support URL, testing track eligibility, crash-free smoke and multi-device tests. Run internal/closed testing first; production publication requires explicit separate approval. Never publish a debug-signed APK as Play release.
 
 ## 6. Known source paths and supporting records
+
+**Recovery sources (6 Nov):** private `boydamo84-coder/bds-private-backups` / `local_recovery_drill.py`, `tests/test_local_recovery_drill.py`, `.github/workflows/test-backup-plan.yml`, `verify_archive.py`; hosted no-secret run `42267882113` SUCCESS. Never copy the private age identity or plaintext dump into Git/ChatGPT.
+
 
 - Tour/mobile: `index.html` changes, `scripts/test_mobile_tour_a11y.cjs` fake DOM, existing `scripts/test_guided_tour_2026.cjs` refreshed, `docs/TOUR_MOBILE_ACCESSIBILITY_QA_2026-11-04.md`; **GitHub 41809892108 SUCCESS**, 30 intact target selectors.
 
@@ -689,6 +701,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- **Authentic recovery gate (6 Nov):** owner-reported initial archive decryption/checksums PASS and synthetic restore CI PASS; actual local disposable PostgreSQL restore and Supabase managed-role/grant/RLS/provider/Storage recovery NOT YET CONFIRMED. Scheduler and social backend migrations OFF.
+
 
 - [ ] **Broadcast ticker device visual sign-off:** confirm yellow breaking (published within 2h), white 2–48h carousel, measured dock clearance in portrait/landscape on actual Samsung browser; never display stale news as breaking. Confirm Hide / Off stay saved per device and newly published major reports can reappear after Hide. **Synthetic QA green; Samsung pending.**
 
@@ -795,6 +810,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - [ ] After website approval: Android native parity, signed AAB, notifications, ads/consent, Play internal track acceptance before Play production approval.
 
 ## 8. Exact next task for the next chat
+
+**6 Nov CURRENT NEXT ACTION (supersedes earlier audit-script suggestions):** Do NOT redo already passed Android decrypt/database SHA256/Storage SHA256/manifest checks. Source-only manual authentic restore harness is prepared in private backup repo and its no-secret GitHub Actions test is GREEN (`42267882113`). On trusted Samsung Termux, first safely check whether `pg_restore` 17+, `initdb`, `pg_ctl`, `psql`, `createdb` and `age` exist WITHOUT printing secrets. If installed, guide a first actual local-only `local_recovery_drill.py` of the real DD encrypted archive, inspect only safe PASS/BLOCKED category; repeat Cinema separately. No current real restore result. If Supabase managed roles/extensions block generic PostgreSQL, record exact non-secret blocker and design a disposable Supabase-compatible restore, never use either production target. No production changes, no Netlify builds, no hourly schedule and no Chat/Discussions activation.
+
 
 **CURRENT STEP: BOTH real encrypted backups passed owner-run basic age/checksum/manifest checks; Cinema exact file list PASSED.** Standalone offline complete archive auditor prepared at `/mnt/data/bds_backup_archive_audit.py`, synthetic tests passed (positive, corrupted DB checksum, unexpected archive member). Give user download link from current session to save to Samsung Downloads and run single command `python "$HOME/storage/downloads/bds_backup_archive_audit.py"` in Termux. Script reads private identity `~/.bds-recovery/identity.txt`, local encrypted files `~/.bds-audit/disclosure-desk.tar.age` and `our-cinema.tar.age`; no network, plaintext persistence or production connection. Should report two full archive audits PASSED; then continue separate genuine disposable PostgreSQL/Storage restore drill. Do not claim it is already done. Scheduling stays OFF.
 
@@ -954,6 +972,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-06 — Real encrypted backup local restore preparation CI GREEN, owner recovery still pending
+- Canonical handover: `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`, previous head `b774f6a650042f1f1f7221caa5682ac750306cce`, documentation-only update on same unpublished branch; resulting head is this handover commit (look up next session).
+- Backup implementation (private independent `boydamo84-coder/bds-private-backups`, `main`): `local_recovery_drill.py` `9e679e4`, test suite `1243e7b`, workflow `3cd57f`, README `fff9f6`.
+- [GitHub no-secret offline tests 42267882113](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42267882113) SUCCESS. The script's local socket/credential stripping/failure redaction/project-mismatch behavior is covered using synthetic mocks; it has **NOT** yet run on the real Samsung archives. Earlier real dual-project encrypted backup [run 42262694077](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42262694077) SUCCESS. Authentic manual manifest/database/Storage SHA256 preliminary audits already owner-reported PASS, do not repeat.
+- No Supabase production changes, real restore, user-data exposure, Netlify deployment, Android/Play release, auto schedule, private Chat/Discussions schema migration. Next: owner-installed local PostgreSQL prerequisite check, first real isolated local restore on trusted device, then document managed Supabase dependency limits and separate recovery parity verification.
+
 
 ### 2026-11-06 — Owner reports both authentic BDS archive preliminary checks PASSED
 - Cinema: age decryption, manifest, SHA256 and exact 2-file tar list all PASS. Disclosure Desk: age decryption, DB + one Storage SHA256, schema manifest and 3-file count PASS. Standalone local archive auditor built and synthetic-tested; user run next. True isolated restore still pending; automation OFF.
