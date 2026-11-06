@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-06 — AUTHENTIC LOCAL DD RESTORE CONFLICT CLASSIFIED; SAFE CANDIDATE FIX SOURCE+CI GREEN, REAL RETEST PENDING:** Owner's 18:32 UK Termux screenshot confirmed full authentic encrypted DD PostgreSQL custom dump validated and one Storage object's bytes recovered, but disposable PostgreSQL import failed with `LOCAL_PG_RESTORE_CONFLICT_FAILED`. **NOT a successful database restoration**, and the conflict's exact object is unknown; a collision inside the temporary local DB is plausible. PostgreSQL 18 restore guidance recommends `template0` for clean recovery targets and documents `--clean --if-exists` for existing objects. Private `boydamo84-coder/bds-private-backups` `main` updates: `local_recovery_drill.py` commit `05a8eb2` uses `createdb --template=template0` and `pg_restore --clean --if-exists --single-transaction` **ONLY** against script-created `bds_disposable` in a fresh local PostgreSQL cluster bound to a private Unix socket, with no source database `--create`; mocked scope/security assertions added in `tests/test_local_recovery_drill.py` commit `cf9bcf4`; README `4ae4fc6`. Hosted no-secret [CI run 42272081133](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42272081133) **SUCCESS**, following green source-only run 42272042240. **Real backup retest with new code has NOT been performed.** Next: owner re-downloads code-only private ZIP; safely verifies exact new script Git blob SHA before atomically replacing only private recovery tool, runs the local-only DD restore once, reports PASS/safe error category. No authenticated live Supabase write, Cinema real restore, website/Netlify build, hourly schedule or social migration.
+
+
 - **2026-11-06 18:30 UK — OWNER SAMSUNG EXACT-REVISION RESTORE CLASSIFIER INSTALLED, RETEST PENDING:** User shared Termux screenshot confirming the fresh PRIVATE `bds-private-backups` ZIP script `local_recovery_drill.py` matched exact GitHub blob SHA1 `ebbab3bd1ee1c9be2c15e4ba38c83abd8a2d1080`. The verification script atomically replaced only `$HOME/bds-recovery-tools/bds-private-backups-main/local_recovery_drill.py`, and printed `NEW DIAGNOSTIC SCRIPT VERIFIED` / `BACKUPS AND PRIVATE KEY UNTOUCHED`. This is **code verification/installation**, not a recovery result. Earlier actual DD encrypted archive and its one Storage object were checked successfully, but disposable PostgreSQL `pg_restore` reported `LOCAL_PG_RESTORE_FAILED`. **Immediate next:** owner reruns the SAME local-only DD `local_recovery_drill.py` command against existing encrypted archive and local age identity to obtain fixed safe category such as `LOCAL_PG_RESTORE_MISSING_ROLE_FAILED` / `LOCAL_PG_RESTORE_MISSING_EXTENSION_FAILED` / `LOCAL_PG_RESTORE_OTHER_FAILED`; report only fixed status, never raw stderr or plaintext. No live DD/Cinema/Supabase write, Netlify, Chat/Discussions migration or hourly schedule. No need to repeat preliminary archive audit.
 
 
@@ -463,6 +466,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**6 Nov recovery gate:** Authentic encrypted DD file and Storage bytes pass, but generic local restore returned fixed `CONFLICT`. The candidate disposable-`template0` clean restore is code-staged/no-secret CI GREEN, not real-device tested. Continue local-only restore acceptance before community DB activation; do not confuse no-secret CI with complete recovery.
+
+
 **Recovery QA update:** code-only stage labels for the actual local restore failure are green in private no-secret CI; owner Samsung retest has NOT occurred. Backups already fully audited; continue one local isolated restore rather than repeating archive tests.
 
 
@@ -620,6 +626,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 5. Release plan: website first, then Android / Google Play
 
+**Backup/restore gate 6 Nov:** Source/CI for local-only conflict recovery is green, **real PostgreSQL restore pending**. No website/Android/Netlify staging build or production publishing, no hourly schedule, no Supabase migration. 
+
+
 **Recovery release gate (6 Nov):** The new owner-local recovery drill is not a website/Android release and is not yet real-device accepted. No automatic backups or staged social activation are authorised from synthetic tests alone.
 
 
@@ -663,6 +672,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 **Phase 4 — Play internal test and release preparation:** check Gradle/Android SDK, app ID, target API and Play policy requirements on actual release date; securely configure signed Android App Bundle (AAB) using existing manual `.github/workflows/android-play-internal-aab.yml`; check Play App Signing, release keys, version codes, app icon, screenshots, listing, privacy/data safety, consent/ads implementation, support URL, testing track eligibility, crash-free smoke and multi-device tests. Run internal/closed testing first; production publication requires explicit separate approval. Never publish a debug-signed APK as Play release.
 
 ## 6. Known source paths and supporting records
+
+**6 Nov restore conflict fix:** Private `boydamo84-coder/bds-private-backups`: `local_recovery_drill.py` Git commit `05a8eb2`, `tests/test_local_recovery_drill.py` `cf9bcf4`, README `4ae4fc6`; no-secret Actions [run 42272081133](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42272081133) SUCCESS. Owner phone still needs refreshed verified code and true disposable run.
+
 
 **Recovery sources (6 Nov):** private `boydamo84-coder/bds-private-backups` / `local_recovery_drill.py`, `tests/test_local_recovery_drill.py`, `.github/workflows/test-backup-plan.yml`, `verify_archive.py`; hosted no-secret run `42267882113` SUCCESS. Never copy the private age identity or plaintext dump into Git/ChatGPT.
 
@@ -726,6 +738,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - Existing original four continuity files on the old `main` branch contained rules, development handover, feature registry and memory, but were not copied into the active `production` baseline. This commit installs short same-name pointers to THIS master file on the current staged branch. Their prior detailed records are historical.
 
 ## 7. Invariant acceptance checklist — before any public/Play release
+
+- **Genuine recovery STATUS (6 Nov latest):** private user device classified DD real import failure `LOCAL_PG_RESTORE_CONFLICT_FAILED`; Storage object and PostgreSQL custom archive verified. Safe local-only `template0`/`--clean --if-exists` candidate source and mocked GitHub tests green, genuine retest NOT DONE. PostgreSQL/Auth/roles/grants/RLS/Storage service restore acceptance remains outstanding.
+
 
 - **PG version gate 6 Nov 18:12 UK:** Samsung `pg_restore 18.6`, `initdb 18.6` confirmed by screenshot. Binary versions PASS; real temporary database recovery NOT TESTED, all managed Supabase recovery checks remain outstanding.
 
@@ -838,6 +853,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 - [ ] After website approval: Android native parity, signed AAB, notifications, ads/consent, Play internal track acceptance before Play production approval.
 
 ## 8. Exact next task for the next chat
+
+**6 Nov latest recovery work:** Actual DD disposable restore failed fixed category `LOCAL_PG_RESTORE_CONFLICT_FAILED` after encrypted full audit and single Storage object recovery; no live DB touched. Candidate local-only fix confirmed GitHub no-secret CI green `42272081133`, code `05a8eb2`, tests `cf9bcf4`. NEXT ask owner to download refreshed PRIVATE `bds-private-backups-main.zip`, verify the script Git blob SHA from GitHub and replace only `local_recovery_drill.py` inside Termux private `$HOME/bds-recovery-tools`, then rerun **one** local DD restoration using existing encrypted archive and age identity. No extra initial integrity tests; never show raw SQL/logs/identity, don't restore to live Supabase. If still blocked, keep its safe failure category and plan dependency-specific disposable review.
+
 
 **18:30 UK 6 Nov owner update:** newest private no-secret CI-tested recovery classifier installed on Samsung; exact `local_recovery_drill.py` Git blob `ebbab3bd1ee1c9be2c15e4ba38c83abd8a2d1080` verified from downloaded ZIP, and previous script replaced in private recovery-tools. No restore rerun on this revision yet. Next: `cd "$HOME/bds-recovery-tools/bds-private-backups-main" && python local_recovery_drill.py --archive "$HOME/.bds-audit/disclosure-desk.tar.age" --identity "$HOME/.bds-recovery/identity.txt" --project disclosure-desk`. Record fixed category only. Do not deploy or touch live database.
 
@@ -1021,6 +1039,14 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-06 — Owner authentic DD restore conflict classified; disposable-only fix source and CI GREEN
+- Canonical `boydamo84-coder/disclosure-desk-preview` unpublished branch `feature/sources-archives-next-batch-nov03`; prior head `d19fc9c8352b7c6a385a8ec86cf5c0d51111bb44`. Documentation-only handover update; resulting head is this commit.
+- Owner's Android 18:32 UK screenshot: archived real DD PG dump/Storage object verified and recovered, but temporary DB import failed `LOCAL_PG_RESTORE_CONFLICT_FAILED`. Exact duplicate object not independently identified; no DB restore PASS and no Supabase data mutation.
+- Private backup repo `main`: `local_recovery_drill.py` `05a8eb2` (fresh `template0` DB, local `--clean --if-exists --single-transaction` import); synthetic-only guard tests `cf9bcf4`; README `4ae4fc6`. Workflow [42272081133](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42272081133) SUCCESS, but no real user-device rerun.
+- Scope: only new local ephemeral PG cluster/socket; no `--create`, no external credentials, no live DB/Supabase write, Netlify build, schedule, Chat/Discussions migration or Android/Play release.
+- Next: owner download newest private ZIP, verify exact current `local_recovery_drill.py` blob SHA before replacing only code, run one authentic local disposable DD restore, report fixed final result. Restore parity of grants/RLS/Auth/Storage services and Cinema remains separate and pending.
+
 
 ### 2026-11-06 18:30 UK — Safe pg_restore cause classifier exact-byte-installed on Samsung
 - Canonical `boydamo84-coder/disclosure-desk-preview` unpublished `feature/sources-archives-next-batch-nov03`; prior handover head `4d466835cd17f9c0d6a5f71b9ab2d796ce63230a`; this documentation commit is the resulting branch head.
