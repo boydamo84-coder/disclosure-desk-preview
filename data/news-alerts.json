@@ -477,7 +477,9 @@
     "date": "2026-11-01T18:07:54+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://news24cobalt.24.co.za/resources/02aa-21f4001838ff-32857f53307b-1000/format/inline/us_department_of_war_2_.jpeg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "bc07832cdd4f3dceffbb",
@@ -535,7 +537,9 @@
     "date": "2026-11-01T14:28:02+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/10/31/92cefc93-e8e5-43f1-bb77-8c7ff3044915/thumbnail/1200x630/1fecf9d18a0a263af523749271a445b1/uaps-top-secret-1280.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "91cf6d796b77ec8c8895",
@@ -587,9 +591,7 @@
     "date": "2026-11-01T12:00:24+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details.",
-    "imageUrl": "https://hermes.media.static.aol.com/media/2026/11/01/bad99ff8-7a65-3450-9bc7-be0aa73a4296/98a70ce3-3f20-448b-b15f-5502b33d248a.jpg",
-    "imageSource": "Publisher Open Graph image"
+    "desc": "Read the source article for details."
   },
   {
     "id": "f85141f68dd24d0ad4d7",
