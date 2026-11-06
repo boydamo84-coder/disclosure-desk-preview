@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-06 18:16 UK — OWNER SAMSUNG PRIVATE RECOVERY ZIP EXTRACTED AND SCRIPT EXISTS (not yet executed):** Owner screenshot of Termux confirms downloaded `bds-private-backups-main.zip` (~53 KB), extracted with `python -m zipfile -e` under private `$HOME/bds-recovery-tools/`, and `ls "$HOME/bds-recovery-tools/bds-private-backups-main/local_recovery_drill.py"` returned the exact script path. Earlier owner screenshot confirmed `pg_restore/initdb` PostgreSQL **18.6**; both authentic encrypted archives FULL AUDIT PASS. This verifies recovery code extraction/path only, NOT that real disposable `pg_restore` ran or all dependencies work. **Immediate next owner-only action:** `cd "$HOME/bds-recovery-tools/bds-private-backups-main" && python local_recovery_drill.py --archive "$HOME/.bds-audit/disclosure-desk.tar.age" --identity "$HOME/.bds-recovery/identity.txt" --project disclosure-desk` in Termux; review only safe PASS or BLOCKED terminal output; local PostgreSQL may lack Supabase managed roles/extensions. Never upload key, plaintext or logs; never point command at either production Supabase. Hourly backup automation, Netlify release, social DDL still OFF.
+
+
 - **2026-11-06 18:12 UK — OWNER SAMSUNG POSTGRESQL VERSION GATE PASS:** User screenshot shows `pg_restore (PostgreSQL) 18.6` and `initdb (PostgreSQL) 18.6` in trusted Termux, following earlier 6/6 local recovery-tool presence and BOTH authentic BDS archive full-audit PASS. Version 18.6 meets the scripted >=17 prerequisite for restoring PG17 custom-format backups; actual archive restore is **NOT** yet attempted or confirmed. Distinct next action: download trusted source of private `bds-private-backups` repo to device (code only, not identities or snapshots), then execute `local_recovery_drill.py` against local encrypted Disclosure Desk archive in disposable LOCAL socket-only PG; capture safe PASS/BLOCKED result. A generic PostgreSQL server may lack managed Supabase roles/extensions: any failure is a staging compatibility blocker, NOT evidence of archive corruption. Do not connect to DD/Cinema production databases or claim recovery complete. No Netlify, schema migration, backup scheduler, Chat/Discussions activation.
 
 
@@ -821,6 +824,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**6 Nov 18:16 UK continuation:** Owner downloaded code ZIP and verified extracted `local_recovery_drill.py` exists at `$HOME/bds-recovery-tools/bds-private-backups-main/local_recovery_drill.py`, with PG tools previously confirmed 18.6 and both archives audited. Next step is first *actual* owner-device Disclosure Desk disposable restore (command noted in Section 3), rather than another ZIP/audit check. Record terminal result; generic PG18 may reject Supabase-managed dependencies. Do not claim real restore PASS until observed.
+
+
 **6 Nov 18:12 UK owner version screenshot:** both `pg_restore` and `initdb` are PostgreSQL 18.6 in Termux. Version gate PASSED, no need to upgrade or repeat the original archive audit. **Next** obtain code-only trusted private `bds-private-backups` main checkout/ZIP on Samsung and run the existing `local_recovery_drill.py` on `$HOME/.bds-audit/disclosure-desk.tar.age` with `$HOME/.bds-recovery/identity.txt` remaining local. No other databases or Netlify touched. Warn Supabase-managed roles/extensions may block plain local PG restoration; don't claim end-to-end recovery until proven.
 
 
@@ -988,6 +994,12 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-06 18:16 UK — Genuine recovery code downloaded/extracted on Samsung
+- Canonical `boydamo84-coder/disclosure-desk-preview` unpublished branch `feature/sources-archives-next-batch-nov03`, previous head `73e41949f8a2152c8e6b0d7c5b373c0ce2b69868`; this handover commit is resulting head. Documentation-only; no new source/release build.
+- Owner's Termux screenshot verified existing trusted code ZIP `bds-private-backups-main.zip` in Downloads and successfully extracted script at `$HOME/bds-recovery-tools/bds-private-backups-main/local_recovery_drill.py`. Script source was previously committed/tested in private `bds-private-backups` repo. ZIP content beyond that path not independently inspected on device; actual restore not attempted.
+- Next owner action: `cd` into extracted directory and run local-only `local_recovery_drill.py` with genuine DD encrypted archive and local identity. Gather safe summary/error category only. Do not use real DB URLs, enable scheduler, migrate Chat/Discussions or consume Netlify credits.
+
 
 ### 2026-11-06 18:12 UK — Real device PostgreSQL 18.6 restore prerequisites version PASS
 - Repo/branch: canonical `boydamo84-coder/disclosure-desk-preview` / `feature/sources-archives-next-batch-nov03`; before-doc SHA `f9c2e528e5f346162297a37d00bc8beda6364c6f`, resulting branch commit is this handover update.
