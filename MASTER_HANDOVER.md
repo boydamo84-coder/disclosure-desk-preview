@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-06: AUTHENTIC DD LOCAL RESTORE PG_RESTORE BLOCKER CONFIRMED; REDACTED DIAGNOSTICS CI GREEN:** User's Samsung Termux authentic `local_recovery_drill.py` run verified encrypted Disclosure Desk PG custom-format dump, reconstituted 1 checked Storage object, then safely reported `DISPOSABLE RESTORE NOT VERIFIED [LOCAL_PG_RESTORE_FAILED]`; live databases untouched. User had installed exactly updated stage-diagnostic blob `833ef13c`. This is a **real local import failure**, NOT a failed archive check, successful database restore, or evidence of corruption. Cause unknown. PRIVATE `boydamo84-coder/bds-private-backups` `main` now has `local_recovery_drill.py` category classifier committed `ce543d7`, synthetic privacy/failure tests `0bc5437`, README checkpoint `892b42e`. No-secret GitHub Actions [run 42270872078](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42270872078) **SUCCESS**. The updated script classifies `pg_restore` stderr locally into fixed categories (missing roles/extensions/schema, permissions, etc.) without printing raw stderr, names, SQL, credentials or local paths. **Next owner action:** download updated code-only ZIP from private backup repo, verify exact script Git blob SHA, replace *only* `local_recovery_drill.py`, rerun same offline disposable DD restore, share ONLY fixed failure category/PASS; no production Supabase, Cinema, Netlify or automated scheduling touched.
+
+
 - **2026-11-06 — REAL RESTORE STAGE DIAGNOSTICS CODE/CI GREEN, ANDROID RETEST PENDING:** After owner screenshot of authentic DD archive/Storage verification followed by generic `DISPOSABLE RESTORE NOT VERIFIED`, private `boydamo84-coder/bds-private-backups` `main` had fixed-stage redaction added to `local_recovery_drill.py` (`12dc60137b54fac62318f2c7068dcaf5e67946ce`), synthetic-only tests updated/expanded (`4aea4a5c148b451f81790febdd46c7d7e522539a`), and README corrected (`64f74b8108476eebc311fd40839f56bf44e095b8`). GitHub [safe offline test run 42269846900](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42269846900) **SUCCESS**, matching test commit `4aea4a5`. An intermediate run `42269796670` at code-only commit `12dc601` was RED due to old test expecting obsolete error wording; **superseded** by corrected green run. New script emits only allowlisted `LOCAL_INITDB_FAILED`, `LOCAL_PG_START_FAILED`, `LOCAL_CREATEDB_FAILED`, `LOCAL_PG_RESTORE_FAILED`, `LOCAL_SCHEMA_CHECK_FAILED`, `LOCAL_PG_STOP_FAILED` or `UNCLASSIFIED`; subprocess stderr, SQL, source URLs/passwords and object paths are still never shown. **Next owner action:** re-download the updated code-only ZIP from private backup repo, replace extracted private recovery-tools code (preserve `$HOME/.bds-recovery/identity.txt` and `$HOME/.bds-audit`), repeat exact existing DD local-only command, send only safe final stage category. **No real DB restore yet**, no Supabase/Netlify/backup schedule/social DDL changes.
 
 
@@ -833,6 +836,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**6 Nov latest override:** Screenshot confirms first genuine local DD restore reached `pg_restore` but failed (`LOCAL_PG_RESTORE_FAILED`), while real PG dump and Storage object bytes passed. A new privacy-safe, synthetic-CI-green error classifier is ready in private backup repository `main` (`ce543d7`; tests `0bc5437`; CI run `42270872078`). Owner has not yet run new classifier version. Next step is **code-only ZIP refresh + Git SHA verify + one local DD retry**, do NOT repeat full initial archive audits, expose raw logs, paste keys, point any restore at a production Supabase database, enable hourly backups or deploy site.
+
+
 **6 Nov latest recovery milestone:** After authentic Disclosure Desk local partial PASS (PG custom backup + 1 Storage object) but no database restore, latest private backup tool reports only fixed failure category and passes no-secret GitHub CI `42269846900`. Owner still has the **older** extracted ZIP, so ask to download fresh `bds-private-backups-main.zip`, extract to `$HOME/bds-recovery-tools` and rerun prior local DD command; have owner send only safe category. Do not instruct them to repeat full archive audit or to upload private identity/restore logs; no Supabase, Netlify or schedule activity.
 
 
@@ -1009,6 +1015,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-06 — Authentic DD temporary restore blocked; fixed-category diagnostics CI GREEN
+- Canonical handover: `boydamo84-coder/disclosure-desk-preview` unpublished `feature/sources-archives-next-batch-nov03`, previous head `4a7158107bf41f96962391a659ee04862e5582e1`, resulting commit is this handover update.
+- Owner screenshot + repeated terminal result: DD encrypted archive/PG custom dump verified, one Storage object recovered with checksums; local PostgreSQL import returns `LOCAL_PG_RESTORE_FAILED`. **No actual database restored.** This does not affect the live DBs or archive integrity milestone.
+- Private backup repo `boydamo84-coder/bds-private-backups` main: `local_recovery_drill.py` category classifier commit `ce543d7`, fake-data regression tests `0bc5437`, README `892b42e`; hosted no-secret workflow `42270872078` SUCCESS. All errors remain privacy-redacted. Current Android device still has previous script.
+- NEXT: user re-downloads private code ZIP, verifies exact blob ID, updates only local script and retries disposable recovery to return a safe cause category. Supabase auth/GRANT/RLS parity, Cinema authentic restore, automatic backup scheduling and social migrations remain pending. No Netlify build/release.
+
 
 ### 2026-11-06 — Privacy-safe local restore failure stages implemented; hosted CI GREEN
 - Website handover: canonical `boydamo84-coder/disclosure-desk-preview`, unpublished `feature/sources-archives-next-batch-nov03`, prior SHA `4a7158107bf41f96962391a659ee04862e5582e1`; this documentation commit is resulting SHA. No website source touched.
