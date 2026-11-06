@@ -6,7 +6,7 @@ const config=window.DD_COMMUNITY_TEST_CONFIG||{},flags=window.DD_COMMUNITY_FEATU
 const enabled=flags.privateChat===true&&['production','test'].includes(config.environment);
 const $=id=>document.getElementById(id),mk=(tag,content,cls='')=>{
  const x=document.createElement(tag);if(cls)x.className=cls;if(content!==undefined)x.textContent=String(content);return x};
-let db,host,notice,received,accepted,conversation,currentId=null,ownerId=null,rows=[],epoch=0;
+let db,host,notice,received,accepted,conversation,currentId=null,ownerId=null,rows=[],epoch=0,identityRevision=0;
 const client=()=>window.supabase?(db||(db=window.supabase.createClient(config.url,config.publishableKey,
  {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}))):null;
 function say(message){if(notice)notice.textContent=String(message)}
@@ -26,12 +26,26 @@ async function auth(){
  return c;
 }
 async function mutate(control,fn,success){
+ const expectedOwner=ownerId,expectedRevision=identityRevision;
  control.disabled=true;
- try{const c=await auth();await fn(c);say(success);await refresh()}
- catch(e){say(String(e?.message||'Unable to complete request').slice(0,180))}
- finally{control.disabled=false}
+ try{
+  const c=await auth();
+  // A pending button press must not execute after logout or an A-to-B switch.
+  if(!expectedOwner||ownerId!==expectedOwner||identityRevision!==expectedRevision)
+   throw Error('Your sign-in changed. Please try again.');
+  await fn(c);
+  if(ownerId!==expectedOwner||identityRevision!==expectedRevision)return;
+  say(success);await refresh();
+ }catch(e){
+  if(ownerId===expectedOwner&&identityRevision===expectedRevision)
+   say(String(e?.message||'Unable to complete request').slice(0,180));
+ }finally{control.disabled=false}
 }
-function clear(){rows=[];currentId=null;ownerId=null;received?.replaceChildren();accepted?.replaceChildren();conversation?.replaceChildren()}
+function clear(){
+ ++epoch;++identityRevision;
+ rows=[];currentId=null;ownerId=null;
+ received?.replaceChildren();accepted?.replaceChildren();conversation?.replaceChildren()
+}
 function drawList(target,list){
  target.replaceChildren();if(!list.length){entry(target,'Nothing here yet.');return}
  for(const row of list){
@@ -43,12 +57,12 @@ function drawList(target,list){
 }
 async function refresh(){
  if(!enabled||!host?.closest('details')?.open)return;
- const stamp=++epoch,c=client();if(!c)return;
+ let stamp=++epoch;const c=client();if(!c)return;
  try{
   const {data,error}=await c.auth.getUser();
   if(stamp!==epoch)return;
   if(error||!data?.user||data.user.is_anonymous){clear();say('Sign in to use one-to-one Chat.');return}
-  if(ownerId!==data.user.id){clear();ownerId=data.user.id}
+  if(ownerId!==data.user.id){clear();ownerId=data.user.id;stamp=epoch}
   const response=await c.rpc('dd_chat_my_pairs');
   if(stamp!==epoch||ownerId!==data.user.id)return;
   if(response.error)throw response.error;
