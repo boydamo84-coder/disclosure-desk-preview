@@ -40,6 +40,9 @@
 
 ## 3. Last verified milestone (most recent first)
 
+- **2026-11-06 — REAL RESTORE STAGE DIAGNOSTICS CODE/CI GREEN, ANDROID RETEST PENDING:** After owner screenshot of authentic DD archive/Storage verification followed by generic `DISPOSABLE RESTORE NOT VERIFIED`, private `boydamo84-coder/bds-private-backups` `main` had fixed-stage redaction added to `local_recovery_drill.py` (`12dc60137b54fac62318f2c7068dcaf5e67946ce`), synthetic-only tests updated/expanded (`4aea4a5c148b451f81790febdd46c7d7e522539a`), and README corrected (`64f74b8108476eebc311fd40839f56bf44e095b8`). GitHub [safe offline test run 42269846900](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42269846900) **SUCCESS**, matching test commit `4aea4a5`. An intermediate run `42269796670` at code-only commit `12dc601` was RED due to old test expecting obsolete error wording; **superseded** by corrected green run. New script emits only allowlisted `LOCAL_INITDB_FAILED`, `LOCAL_PG_START_FAILED`, `LOCAL_CREATEDB_FAILED`, `LOCAL_PG_RESTORE_FAILED`, `LOCAL_SCHEMA_CHECK_FAILED`, `LOCAL_PG_STOP_FAILED` or `UNCLASSIFIED`; subprocess stderr, SQL, source URLs/passwords and object paths are still never shown. **Next owner action:** re-download the updated code-only ZIP from private backup repo, replace extracted private recovery-tools code (preserve `$HOME/.bds-recovery/identity.txt` and `$HOME/.bds-audit`), repeat exact existing DD local-only command, send only safe final stage category. **No real DB restore yet**, no Supabase/Netlify/backup schedule/social DDL changes.
+
+
 - **2026-11-06 18:17 UK — REAL DISCLOSURE DESK LOCAL RECOVERY ATTEMPT PARTIAL PASS, RESTORE NOT VERIFIED:** Owner ran private `local_recovery_drill.py` from extracted `bds-private-backups-main` code on Samsung Termux with authentic encrypted DD archive and privately held age identity. Owner screenshot proves output `DISCLOSURE-DESK: REAL BACKUP ARCHIVE AND PG CUSTOM FORMAT VERIFIED`, `Storage objects recovered privately: 1`, then `DISPOSABLE RESTORE NOT VERIFIED; LIVE DATABASES UNTOUCHED`. This means age decrypt, complete archive/hash verification, custom-format PostgreSQL dump listing and one recovered Storage object's SHA256/byte verification succeeded **in the recovery drill itself**. Actual temporary PostgreSQL cluster creation/start/DB import/schema verification **FAILED OR WAS NOT CONFIRMED**; current script intentionally masks exact subprocess failure stage, so root cause unknown. **Do not imply real database has been restored or that archive is corrupt.** Next safe task: add no-secret fixed stage labels (`INITDB`, `PG_START`, `CREATEDB`, `PG_RESTORE`, `SCHEMA_CHECK`, `PG_STOP`) with synthetic tests to the PRIVATE backup repo, CI green, have owner replace code ZIP and rerun first DD local-only recovery; never print stderr/SQL/secrets/filenames or connect to actual Supabase. Website, other app, automatic scheduler, backend and Netlify unchanged.
 
 
@@ -454,6 +457,9 @@
 
 ## 4. Current priority: complete the agreed website roadmap BEFORE the next update
 
+**Recovery QA update:** code-only stage labels for the actual local restore failure are green in private no-secret CI; owner Samsung retest has NOT occurred. Backups already fully audited; continue one local isolated restore rather than repeating archive tests.
+
+
 **6 Nov backup gate update:** Initial DD/Cinema archive integrity already passed; offline local authentic restore tool has green no-secret CI but OWNER REAL RESTORE PENDING. Keep social SQL migration gated until actual recovery evidence. Do not redo passed initial checks or touch public release.
 
 
@@ -827,6 +833,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 
 ## 8. Exact next task for the next chat
 
+**6 Nov latest recovery milestone:** After authentic Disclosure Desk local partial PASS (PG custom backup + 1 Storage object) but no database restore, latest private backup tool reports only fixed failure category and passes no-secret GitHub CI `42269846900`. Owner still has the **older** extracted ZIP, so ask to download fresh `bds-private-backups-main.zip`, extract to `$HOME/bds-recovery-tools` and rerun prior local DD command; have owner send only safe category. Do not instruct them to repeat full archive audit or to upload private identity/restore logs; no Supabase, Netlify or schedule activity.
+
+
 **6 Nov 18:17 UK owner screenshot latest:** First genuine DD `local_recovery_drill.py` recovered 1 real Storage object, verified PG custom backup and archive, but returned `DISPOSABLE RESTORE NOT VERIFIED`. Root failure stage UNKNOWN because recovery code is deliberately redacted. **Next is stage-coded failure diagnostics in PRIVATE backup source/tests/CI**, then owner fetches revised code and reruns local-only attempt; do not ask them to redo independent archive-integrity testing. Cinema genuine full archive audit already passed but no local database restore attempted. No live Supabase/Netlify changes.
 
 
@@ -1000,6 +1009,13 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+
+### 2026-11-06 — Privacy-safe local restore failure stages implemented; hosted CI GREEN
+- Website handover: canonical `boydamo84-coder/disclosure-desk-preview`, unpublished `feature/sources-archives-next-batch-nov03`, prior SHA `4a7158107bf41f96962391a659ee04862e5582e1`; this documentation commit is resulting SHA. No website source touched.
+- Independent private backup repo `boydamo84-coder/bds-private-backups` main: recovery tool `12dc601`, synthetic diagnostic regression suite `4aea4a5`, README `64f74b8`. Hosted workflow [42269846900](https://github.com/boydamo84-coder/bds-private-backups/actions/runs/42269846900) SUCCESS; old intermediate code-only run `42269796670` RED due to test expectation stale, superseded.
+- Fixed-stage labels protect privacy and identify initdb, startup, createdb, pg_restore, schema check, shutdown. No real phone rerun, no new archive audit, no authentic database restore PASS, no private credentials in code/CI. Production DD/Cinema DBs, Netlify, social DDL, schedule all unchanged.
+- Next: owner re-download code-only private ZIP, extract and run prior DD isolated restore on Samsung; record exact allowed safe failure category. Do not claim Supabase-managed-platform recovery proven.
+
 
 ### 2026-11-06 18:17 UK — First authentic DD isolated restore attempt, verified bytes only (DB restore blocked)
 - Canonical website repo `boydamo84-coder/disclosure-desk-preview`, unpublished `feature/sources-archives-next-batch-nov03`; prior handover SHA `47c1cd751325ac7343c09a6ad15555d2cbf228e0`, resulting SHA is this documentation commit.
