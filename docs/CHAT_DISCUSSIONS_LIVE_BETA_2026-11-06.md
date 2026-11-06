@@ -29,3 +29,12 @@ Live aggregate counts after both migrations: Auth rows 3, Boards 3, research doc
 6. Hourly Drive backups and full hosted Supabase disaster recovery remain separate work; their remaining configuration tests must not be confused with real database restore gate already passed.
 
 **Current user-facing status:** backend installed, Chat/Discussions frontend OFF, public 11-tab site unchanged.
+
+## 6 Nov 23:41 UK — Downloadable localhost-only real-DD beta artifact
+
+- GitHub Actions [Build local-only Chat + Discussions Samsung beta ZIP — SUCCESS](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42313558598), run 42313558598, implementation SHA `e60df82d`; separate full staging QA [42313558553 SUCCESS](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42313558553).
+- Artifact `disclosure-desk-chat-discussions-samsung-beta` id `13549881298` verified in GitHub Actions, 736012 bytes compressed, expires 2026-11-09 23:41 UTC.
+- It includes **only approved public site files**. Its copied feature config enables Chat + Discussions on `localhost`/`127.0.0.1` only, and disables them on public domain/Netlify. No Netlify deployment performed; no private SQL, Finance, keys, backups or credentials packed.
+- Owner Samsung execution after downloading ZIP (filename normally `disclosure-desk-chat-discussions-samsung-beta.zip`): `mkdir -p "$HOME/dd-community-beta"`; `python -m zipfile -e "$HOME/storage/downloads/disclosure-desk-chat-discussions-samsung-beta.zip" "$HOME/dd-community-beta"`; `cd "$HOME/dd-community-beta" && python -m http.server 8766 --bind 127.0.0.1`; open `http://127.0.0.1:8766/` in Samsung Internet/Chrome.
+- Test **new** human UI + live Supabase Auth/HTTP for Chat and Discussions. Username save with public alias and independent Chat-contact opt-in is required for both test accounts. Private passwords, tokens, email addresses and UUIDs stay off screenshots/chat.
+- Real phone result still **PENDING**, not passed by Actions.
