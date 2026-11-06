@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-05T22:53:33.046675+00:00",
+  "checkedAt": "2026-11-06T01:14:30.332954+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
@@ -28,7 +28,7 @@
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 15,
+      "items": 16,
       "latestArticleAt": "2026-11-05T20:32:17+00:00"
     },
     {
@@ -195,9 +195,8 @@
     },
     {
       "source": "CNES GEIPAN",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "failed",
+      "items": 0
     },
     {
       "source": "UK National Archives",
@@ -206,5 +205,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 301
+  "storiesPublished": 302
 }
