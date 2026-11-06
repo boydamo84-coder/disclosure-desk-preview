@@ -13,7 +13,7 @@ async function run(){
       addEventListener(kind,fn){this.listeners[kind]=fn},
       setAttribute(name,value){this.attrs[name]=value},
       scrollIntoView(){},reset(){this.value=''},
-      querySelector(){return el('button')},
+      querySelector(selector){this._queries??=Object.create(null);return this._queries[selector]??(this._queries[selector]=el('button'))},
       get textContent(){return this._text},
       set textContent(v){this._text=String(v);this.children=[]}
     };
