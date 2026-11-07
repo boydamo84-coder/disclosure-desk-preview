@@ -61,7 +61,7 @@ function init(){
  }
  page().removeAttribute('hidden');
  const tab=document.createElement('button');tab.className='tab';tab.type='button';tab.dataset.tab='chatPage';
- const ico=document.createElement('span');ico.className='ico';ico.textContent='✉';
+ const ico=document.createElement('span');ico.className='ico';ico.textContent='💬';
  const label=document.createElement('span');label.textContent='Chat';
  badge=document.createElement('span');badge.className='dd-chat-unread-badge';badge.hidden=true;
  badge.setAttribute('aria-live','polite');
