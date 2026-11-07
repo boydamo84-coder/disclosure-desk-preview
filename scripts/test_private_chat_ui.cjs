@@ -82,3 +82,19 @@ assert.match(html,/#chatPage \.dd-chat-person\{/);
 assert.match(html,/#chatPage \.dd-chat-compose-bar\{/);
 assert.match(html,/dd-chat-conversation-open \.dd-chat-side\{display:none\}/);
 assert.match(cfg,/privateChat:false/);
+
+/* One-instance Chat app navigation: inbox at rest, hamburger drawer in a conversation. */
+assert.match(html,/id="ddChatNew"/,'A distinct new-chat action on inbox');
+assert.match(html,/class="dd-chat-titlebar"/);
+assert.match(js,/function toggleDrawer\(\)/);
+assert.match(js,/function showInbox\(\)/);
+assert.match(js,/function newChat\(\)/);
+assert.match(js,/dd-chat-drawer-open/);
+assert.match(js,/ddChatListDrawer/);
+assert.match(js,/aria-expanded/);
+assert.match(js,/dd-chat-drawer-shade/);
+assert.match(js,/inviteSection\.hidden=true/,'Do not permanently show request form');
+assert.match(html,/prefers-reduced-motion:reduce/);
+assert.match(html,/dd-chat-drawer-open \.dd-chat-side/);
+assert.match(html,/z-index:10001/);
+assert.match(cfg,/privateChat:false/,'Production must remain gated');
