@@ -98,3 +98,9 @@ assert.match(html,/prefers-reduced-motion:reduce/);
 assert.match(html,/dd-chat-drawer-open \.dd-chat-side/);
 assert.match(html,/z-index:10001/);
 assert.match(cfg,/privateChat:false/,'Production must remain gated');
+
+assert.match(js,/lastPaintedPairId===row\.pair_id/);
+assert.match(js,/window\.requestAnimationFrame\?\.\(syncHistoryScroll\)/);
+assert.match(js,/history\.scrollTop=nearBottom\?history\.scrollHeight:scrollTop/);
+assert.match(js,/lastPaintedPairId=null/);
+console.log('PASS: latest chat content in new conversations and preserved scroll when reviewing older messages.');

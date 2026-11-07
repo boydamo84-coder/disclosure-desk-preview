@@ -10,7 +10,7 @@ if(!enabled)return; // No tab, requests, sign-in prompts or changed navigation u
 const $=id=>document.getElementById(id);
 const mk=(tag,text,cls)=>{const x=document.createElement(tag);if(text!==undefined)x.textContent=String(text);if(cls)x.className=cls;return x};
 let client=null,section=null,thread=null,sections=[],sort='recent',epoch=0,ready=false,feedPage=0,feedQuery='',feedTotal=0,feedModern=true,deepLinkHandled=false,searchTimer=null;
-let viewerId=undefined,identityRevision=0;
+let viewerId=undefined,identityRevision=0,ownerSectionIds=new Set();
 const db=()=>client||(client=window.supabase?.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}));
 function say(s){const n=$('ddForumStatus');if(n)n.textContent=String(s).slice(0,220)}
 function nodeAction(parent,label,fn,cls='outline'){
@@ -234,6 +234,15 @@ async function loadThreads(){
   if(next)next.disabled=(feedPage+1)*20>=feedTotal;
  }catch(e){say(e?.message||'Discussions temporarily unavailable.')}
 }
+async function loadOwnerSections(){
+ // The RPC is denied for non-admins by the database. A section steward is not a site owner.
+ try{
+  const {data,error}=await db().auth.getUser();
+  if(error||!data?.user||data.user.is_anonymous)return new Set();
+  const list=await rpc('dd_discussions_owner_sections',{p_limit:100});
+  return new Set((Array.isArray(list)?list:[]).map(x=>x.section_id).filter(isId));
+ }catch{return new Set()}
+}
 function drawSections(){
  const root=$('ddForumSections');root.replaceChildren();
  const query=$('ddForumSearch').value.trim().toLowerCase();
@@ -245,13 +254,39 @@ function drawSections(){
   open.setAttribute('aria-label','Browse section: '+String(s.title||'Untitled'));
   card.append(mk('p',String(s.description||'').slice(0,250),'dd-forum-body'));
   const meta=mk('small',(s.topic||'Research')+' · '+(s.thread_count||0)+' topics'+(s.is_steward?' · Your section':''),'muted');
-  card.append(meta,mk('span','Open section →','dd-forum-section-arrow'));root.append(card);
+  card.append(meta);
+  const jump=mk('a','Open section →','dd-forum-section-arrow dd-forum-section-open');
+  jump.href='?dd_tab=discussionsPage&dd_section='+encodeURIComponent(s.id);
+  jump.setAttribute('aria-label','Open section: '+String(s.title||'Untitled'));
+  jump.addEventListener('click',event=>{event.preventDefault();void openSection(s)});
+  card.append(jump);
+  if(ownerSectionIds.has(s.id)){
+   const adminActions=mk('div',undefined,'dd-forum-section-admin');
+   nodeAction(adminActions,'Delete section',async button=>{
+    if(!ownerSectionIds.has(s.id))return;
+    if(!confirm('SITE ADMIN ONLY: Remove this section and hide all its public posts and replies? Moderation history remains, and only an administrator can restore it.'))return;
+    const reason=prompt('Enter a reason for removing this section (at least 8 characters):');
+    if(!reason||reason.trim().length<8){say('An administrator reason of at least 8 characters is required.');return}
+    await change(button,()=>rpc('dd_discussions_owner_review',{
+     p_kind:'section',p_id:s.id,p_status:'removed',p_reason:reason.trim().slice(0,500)
+    }),'Section removed from public Discussions.');
+   },'outline dd-forum-danger-action');
+   card.append(adminActions);
+  }
+  root.append(card);
  }
 }
 async function openDeepLink(){
  if(deepLinkHandled||section||thread||typeof location==='undefined')return;
- const id=new URLSearchParams(location.search).get('dd_thread');if(!isId(id))return;
+ const params=new URLSearchParams(location.search);
+ const id=params.get('dd_thread'),sectionId=params.get('dd_section');
+ if(!isId(id)&&!isId(sectionId))return;
  deepLinkHandled=true;
+ if(!isId(id)){
+  const target=sections.find(s=>s.id===sectionId);
+  if(target)await openSection(target);else say('Discussion section not found.');
+  return;
+ }
  try{
   const row=(await rpc('dd_discussions_thread_v2',{p_thread_id:id}))?.[0];
   if(!row||!isId(row.section_id)){say('Discussion no longer available.');return}
@@ -262,7 +297,7 @@ async function openDeepLink(){
 function onIdentityChange(session){
  const next=session?.user?.id||null;
  if(viewerId===next)return; // Token refresh should not discard an open public discussion.
- viewerId=next;identityRevision++;epoch++;section=null;thread=null;setCreateButtons();sections=[];feedPage=0;feedQuery='';deepLinkHandled=false;
+ viewerId=next;identityRevision++;epoch++;section=null;thread=null;ownerSectionIds=new Set();setCreateButtons();sections=[];feedPage=0;feedQuery='';deepLinkHandled=false;
  for(const id of ['ddForumSectionDialog','ddForumPostDialog']){const dialog=$(id);if(dialog?.open)dialog.close()}
  const sectionsPane=$('ddForumSectionsPane'),threadPane=$('ddForumThreadPane');
  if(sectionsPane)sectionsPane.hidden=false;
@@ -281,6 +316,9 @@ async function refresh(){
  try{
   const rows=await rpc('dd_discussions_sections',{p_limit:100});
   if(stamp!==epoch)return;
+  const ownerIds=await loadOwnerSections();
+  if(stamp!==epoch)return;
+  ownerSectionIds=ownerIds;
   sections=Array.isArray(rows)?rows:[];drawSections();
   say(sections.length+' sections available.');await openDeepLink();
  }catch(e){say(e?.message||'Sections temporarily unavailable.')}

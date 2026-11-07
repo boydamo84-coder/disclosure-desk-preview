@@ -70,3 +70,13 @@ assert.match(forum,/Delete my /);
 assert.match(forum,/dd_discussions_withdraw_own/);
 assert.match(html,/\.dd-forum \.dd-forum-dialog::backdrop/);
 console.log('PASS: mobile modal section/post creation, owner-confirmed author deletion and button styling.');
+
+assert.match(forum,/loadOwnerSections\(\)/);
+assert.match(forum,/dd_discussions_owner_sections/);
+assert.match(forum,/ownerSectionIds\.has\(s\.id\)/);
+assert.match(forum,/jump\.href='\?dd_tab=discussionsPage&dd_section='/);
+assert.match(forum,/dd_discussions_owner_review/);
+assert.match(forum,/p_kind:'section',p_id:s\.id,p_status:'removed'/);
+assert.match(forum,/SITE ADMIN ONLY:/);
+assert.match(html,/dd-forum-section-open/);
+console.log('PASS: clickable deep-linked section action, owner-guarded inline soft removal.');

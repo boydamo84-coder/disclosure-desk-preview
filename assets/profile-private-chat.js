@@ -6,7 +6,7 @@ const config=window.DD_COMMUNITY_TEST_CONFIG||{},flags=window.DD_COMMUNITY_FEATU
 const enabled=flags.privateChat===true&&['production','test'].includes(config.environment);
 const $=id=>document.getElementById(id),mk=(tag,content,cls='')=>{
  const x=document.createElement(tag);if(cls)x.className=cls;if(content!==undefined)x.textContent=String(content);return x};
-let db,host,notice,received,accepted,conversation,currentId=null,ownerId=null,rows=[],epoch=0,identityRevision=0,myUsername='You',drafts=Object.create(null),inviteSection=null,drawerToggle=null,drawerOpen=false;
+let db,host,notice,received,accepted,conversation,currentId=null,lastPaintedPairId=null,ownerId=null,rows=[],epoch=0,identityRevision=0,myUsername='You',drafts=Object.create(null),inviteSection=null,drawerToggle=null,drawerOpen=false;
 const client=()=>window.supabase?(db||(db=window.supabase.createClient(config.url,config.publishableKey,
  {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}))):null;
 function say(message){if(notice)notice.textContent=String(message)}
@@ -57,7 +57,7 @@ function toggleDrawer(){
  drawerToggle?.setAttribute?.('aria-expanded',String(drawerOpen));
 }
 function showInbox(){
- currentId=null;conversation?.replaceChildren();
+ currentId=null;lastPaintedPairId=null;conversation?.replaceChildren();
  if(host&&typeof host.className==='string')host.className=host.className.replace(/\s*dd-chat-conversation-open\b/g,'');
  page()?.classList?.remove?.('dd-chat-is-conversation');
  closeDrawer();
@@ -136,8 +136,10 @@ async function refresh(){
  }catch(e){say('Chat unavailable. '+String(e?.message||'Please retry').slice(0,135))}
 }
 async function openConversation(row){
- const previous=conversation.querySelector?.('.dd-chat-history');
+ const sameConversation=lastPaintedPairId===row.pair_id;
+ const previous=sameConversation?conversation.querySelector?.('.dd-chat-history'):null;
  const scrollTop=previous?.scrollTop||0,nearBottom=!previous||previous.scrollHeight-previous.scrollTop-previous.clientHeight<80;
+ lastPaintedPairId=row.pair_id;
  conversation.replaceChildren();
  if(host&&typeof host.className==='string'&&!host.className.includes('dd-chat-conversation-open'))host.className+=' dd-chat-conversation-open';
  page()?.classList?.add?.('dd-chat-is-conversation');
@@ -193,8 +195,14 @@ async function openConversation(row){
     });
     history.append(item);
    }
-   if(typeof history.scrollTop==='number'&&typeof history.scrollHeight==='number')
-    history.scrollTop=nearBottom?history.scrollHeight:scrollTop;
+   const syncHistoryScroll=()=>{
+    if(currentId!==pairId||lastPaintedPairId!==pairId)return;
+    if(typeof history.scrollTop==='number'&&typeof history.scrollHeight==='number')
+     history.scrollTop=nearBottom?history.scrollHeight:scrollTop;
+   };
+   syncHistoryScroll();
+   // On Android the final layout height is measured after DOM paint.
+   window.requestAnimationFrame?.(syncHistoryScroll);
    const lastMessageId=(data||[])[0]?.message_id;
    if(lastMessageId&&currentId===pairId){
     const seen=await c.rpc('dd_chat_mark_read',{p_pair_id:pairId,p_last_message_id:lastMessageId});
