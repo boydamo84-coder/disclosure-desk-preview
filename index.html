@@ -243,6 +243,24 @@
 .dd-chat-compose label{display:block;font-size:12px;margin:10px 0;color:#e3c791}
 .dd-chat-compose input,.dd-chat-compose textarea{display:block;width:100%;box-sizing:border-box;margin:7px 0;padding:10px;border-radius:8px}
 @media(max-width:630px){.dd-chat-layout{grid-template-columns:1fr}.dd-chat-history{max-height:310px}}
+/* Standalone messaging view: one shared conversation UI, left/right bubbles, accessible badges. */
+#chatPage{padding-bottom:40px}#chatPage h2{color:#f0d49c}
+#chatPage .dd-chat-layout{grid-template-columns:minmax(0,1fr) minmax(0,1.5fr)}
+#chatPage .dd-chat-side,#chatPage .dd-chat-view{border-radius:14px}
+#chatPage .dd-chat-history{display:flex;flex-direction:column;gap:7px;max-height:52dvh;min-height:180px;padding:10px 5px}
+#chatPage .dd-chat-bubble{max-width:85%;min-width:min(170px,70%);width:fit-content;margin:3px 0;padding:9px 11px;border-radius:15px;box-shadow:0 2px 10px #0003}
+#chatPage .dd-chat-bubble-mine{align-self:flex-end;background:#2f594f;border-color:#52877b;border-bottom-right-radius:4px}
+#chatPage .dd-chat-bubble-other{align-self:flex-start;background:#1f364b;border-color:#435a70;border-bottom-left-radius:4px}
+#chatPage .dd-chat-bubble small{font-size:10px;color:#e8cd9e}
+#chatPage .dd-chat-bubble p{font-size:13px;line-height:1.45}
+#chatPage .dd-chat-message-time{display:block;text-align:right;opacity:.85}
+#chatPage .dd-chat-bubble>button{font-size:10px;padding:3px 6px;min-height:24px;margin:3px 0 0}
+#chatPage .dd-chat-person{position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:42px;border-radius:10px}
+.dd-chat-person-count,.dd-chat-unread-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:20px;padding:0 5px;background:#ef9238;color:#1b2025;font-size:11px;font-weight:800}
+.dd-chat-unread-badge[hidden]{display:none!important}
+.nav .tab[data-tab="chatPage"]{position:relative}
+.nav .tab[data-tab="chatPage"] .dd-chat-unread-badge{position:absolute;top:1px;right:4px;min-width:17px;height:17px;padding:0 3px;font-size:9px}
+@media(max-width:630px){#chatPage .dd-chat-layout{grid-template-columns:1fr}#chatPage .dd-chat-history{max-height:44dvh}}
 
 .dd-profile-actions{display:flex;gap:9px;flex-wrap:wrap;margin:10px 0}
 .dd-profile-empty{font-size:12px;color:#bdcbd4}
@@ -333,6 +351,7 @@
 </div></div>
 <div class="note">Independent research includes uncertainty. We distinguish reporting, source material, disputed claims and personal interpretation wherever possible. Public maps must not disclose precise witness locations.</div>
 </div></section>
+<section id="chatPage" class="hidden" hidden aria-label="Private Chat"><h2>Chat</h2><p class="muted small">Private one-to-one messages between registered members. Invitations require acceptance before further messages can be sent.</p><div id="ddChatPageMount"></div></section>
 <section id="discussionsPage" class="hidden" hidden aria-labelledby="ddForumHeading">
 <div class="section dd-forum">
  <div class="head"><h2 id="ddForumHeading">Community Discussions</h2><span class="pill">PUBLIC COMMUNITY</span></div>
@@ -1533,6 +1552,7 @@ function ddVideoModeSetup(){
 ddVideoModeSetup();
 function navigateTo(id){
 if(id==='discussionsPage'&&window.DD_COMMUNITY_FEATURES?.discussions!==true)return;
+if(id==='chatPage'&&window.DD_COMMUNITY_FEATURES?.privateChat!==true)return;
 const avatar=document.getElementById('ddProfileShortcut');if(avatar)avatar.hidden=(id==='researchStudio');
 if(id==='discover')ddMarkSeen('news');
 if(id==='clips')ddMarkSeen('videos');
@@ -1550,11 +1570,12 @@ if(navRail&&selectedNav&&navRail.scrollWidth>navRail.clientWidth){
  const offset=selectedNav.getBoundingClientRect().left-navRail.getBoundingClientRect().left+navRail.scrollLeft;
  navRail.scrollTo({left:Math.max(0,offset-(navRail.clientWidth-selectedNav.clientWidth)/2),behavior:'auto'});
 }
-['discover','archivePage','mapPage','cases','clips','rabbitHole','witness','about','resources','podcasts','hub','boards','watchRead','livePage','researchStudio','profilePage','discussionsPage'].forEach(k=>$(k).classList.toggle('hidden',k!==id));
+['discover','archivePage','mapPage','cases','clips','rabbitHole','witness','about','resources','podcasts','hub','boards','watchRead','livePage','researchStudio','profilePage','discussionsPage','chatPage'].forEach(k=>$(k).classList.toggle('hidden',k!==id));
 document.querySelectorAll('[data-rabbit-view]').forEach(t=>{const active=t.dataset.rabbitView===id;t.classList.toggle('active',active);t.setAttribute('aria-pressed',String(active))});
 window.scrollTo(0,0);
 if(id==='profilePage')window.DDResearchHub?.refresh();
 if(id==='discussionsPage')window.DDDiscussions?.refresh?.();
+if(id==='chatPage'){window.DDPrivateChat?.refresh?.();window.DDChatTab?.poll?.()}
 if(id==='archivePage'&&!historicalRecords.length)loadHistoricalArchive();
 if(id==='boards')renderBoards();
 if(id==='rabbitHole')renderRabbitHole();
@@ -1571,7 +1592,12 @@ if(['discover','archivePage','researchStudio','mapPage','livePage','clips','boar
 }
 // This additional tab is deferred until the host's source-controlled feature flag
 // and forum module have loaded. An unapproved deep-link must do nothing.
-if(ddResearchReturnTab==='discussionsPage'){
+if(ddResearchReturnTab==='chatPage'){
+  document.addEventListener('DOMContentLoaded',()=>{
+   if(window.DD_COMMUNITY_FEATURES?.privateChat===true)navigateTo('chatPage');
+  },{once:true});
+ }
+ if(ddResearchReturnTab==='discussionsPage'){
  document.addEventListener('DOMContentLoaded',()=>{
   if(window.DD_COMMUNITY_FEATURES?.discussions===true)navigateTo('discussionsPage');
  },{once:true});
@@ -1931,4 +1957,4 @@ window.ddTickerOpenStory=function(id){
 };
 window.ddTickerRefresh=function(){return loadLiveNews(false)};
 $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
-</script><script defer src="assets/news-ticker.js?v=nov05-beta1"></script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=video-sync-1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov3-username-stage"></script><script defer src="assets/research-hub.js?v=nov3-hub1"></script><script defer src="assets/profile-avatars.js?v=nov05-private-stage"></script><script defer src="assets/profile-private-chat.js?v=nov3-private-staged"></script><script defer src="assets/community-discussions.js?v=nov3-forum-staged"></script><script defer src="assets/discussions-admin.js?v=nov3-forum-admin-staged"></script><script defer src="assets/historical-satellite.js?v=nov3-source-first"></script><script defer src="assets/support-site.js?v=ko-fi-disclosuredesk-20261103"></script><script defer src="assets/community-votes.js?v=nov3-community"></script><script defer src="assets/case-discussions.js?v=dev-1"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=dev-1"></script><script defer src="assets/live-hearings.js?v=dev-1"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=nov3-beta1"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/watch-read.js?v=dev-1"></script></body></html>
+</script><script defer src="assets/news-ticker.js?v=nov05-beta1"></script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=video-sync-1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov3-username-stage"></script><script defer src="assets/research-hub.js?v=nov3-hub1"></script><script defer src="assets/profile-avatars.js?v=nov05-private-stage"></script><script defer src="assets/profile-private-chat.js?v=nov3-private-staged"></script><script defer src="assets/chat-tab-ui.js?v=nov6-chat-tab-stage"></script><script defer src="assets/community-discussions.js?v=nov3-forum-staged"></script><script defer src="assets/discussions-admin.js?v=nov3-forum-admin-staged"></script><script defer src="assets/historical-satellite.js?v=nov3-source-first"></script><script defer src="assets/support-site.js?v=ko-fi-disclosuredesk-20261103"></script><script defer src="assets/community-votes.js?v=nov3-community"></script><script defer src="assets/case-discussions.js?v=dev-1"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=dev-1"></script><script defer src="assets/live-hearings.js?v=dev-1"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=nov3-beta1"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/watch-read.js?v=dev-1"></script></body></html>

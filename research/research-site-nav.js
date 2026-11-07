@@ -17,6 +17,10 @@ if(window.DD_COMMUNITY_FEATURES?.discussions===true){
  const afterWitness=TABS.findIndex(row=>row[0]==='witness')+1;
  TABS.splice(afterWitness,0,['discussionsPage','☷','Discussions']);
 }
+if(window.DD_COMMUNITY_FEATURES?.privateChat===true){
+ const beforeProfile=TABS.findIndex(row=>row[0]==='profilePage');
+ TABS.splice(beforeProfile,0,['chatPage','✉','Chat']);
+}
 const STORAGE_KEY='dd-research-nav-hidden-v1';
 const workspace=!!document.getElementById('writer');
 const editor=!!document.getElementById('editor')&&!!document.getElementById('save');

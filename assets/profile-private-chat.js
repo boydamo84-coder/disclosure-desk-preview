@@ -6,7 +6,7 @@ const config=window.DD_COMMUNITY_TEST_CONFIG||{},flags=window.DD_COMMUNITY_FEATU
 const enabled=flags.privateChat===true&&['production','test'].includes(config.environment);
 const $=id=>document.getElementById(id),mk=(tag,content,cls='')=>{
  const x=document.createElement(tag);if(cls)x.className=cls;if(content!==undefined)x.textContent=String(content);return x};
-let db,host,notice,received,accepted,conversation,currentId=null,ownerId=null,rows=[],epoch=0,identityRevision=0;
+let db,host,notice,received,accepted,conversation,currentId=null,ownerId=null,rows=[],epoch=0,identityRevision=0,myUsername='You';
 const client=()=>window.supabase?(db||(db=window.supabase.createClient(config.url,config.publishableKey,
  {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}))):null;
 function say(message){if(notice)notice.textContent=String(message)}
@@ -43,7 +43,7 @@ async function mutate(control,fn,success){
 }
 function clear(){
  ++epoch;++identityRevision;
- rows=[];currentId=null;ownerId=null;
+ rows=[];currentId=null;ownerId=null;myUsername='You';
  received?.replaceChildren();accepted?.replaceChildren();conversation?.replaceChildren()
 }
 function drawList(target,list){
@@ -52,17 +52,26 @@ function drawList(target,list){
   const unread=Math.max(0,Number(row.unread_count)||0);
   const suffix=row.status==='accepted'&&!row.contact_unavailable&&unread>0?' · '+unread+' unread':'';
   const label=(row.other_username||'Researcher')+' · '+(row.status==='pending'?'Awaiting acceptance':row.status)+suffix;
-  button(target,label,()=>{currentId=row.pair_id;return openConversation(row)});
+  const item=button(target,label,()=>{currentId=row.pair_id;return openConversation(row)});
+  item.classList.add('dd-chat-person');
+  if(unread>0){const count=mk('span',String(unread),'dd-chat-person-count');item.append(count)}
  }
 }
 async function refresh(){
- if(!enabled||!host?.closest('details')?.open)return;
+ if(!enabled||!(host?.closest('details')?.open||window.DDChatTab?.isOpen?.()))return;
  let stamp=++epoch;const c=client();if(!c)return;
  try{
   const {data,error}=await c.auth.getUser();
   if(stamp!==epoch)return;
   if(error||!data?.user||data.user.is_anonymous){clear();say('Sign in to use one-to-one Chat.');return}
-  if(ownerId!==data.user.id){clear();ownerId=data.user.id;stamp=epoch}
+  if(ownerId!==data.user.id){
+   clear();ownerId=data.user.id;stamp=epoch;
+   if(typeof c.from==='function'){
+    try{const name=await c.from('dd_public_names').select('display_name').eq('user_id',ownerId).maybeSingle();
+     if(ownerId===data.user.id&&stamp===epoch)myUsername=String(name?.data?.display_name||'You').slice(0,24);
+    }catch(_){}
+   }
+  }
   const response=await c.rpc('dd_chat_my_pairs');
   if(stamp!==epoch||ownerId!==data.user.id)return;
   if(response.error)throw response.error;
@@ -112,8 +121,9 @@ async function openConversation(row){
    if(error)throw error;
    if(currentId!==pairId)return;
    for(const m of (data||[]).slice().reverse()){
-    const item=mk('article',undefined,'dd-chat-bubble');
-    item.append(mk('small',m.mine?'You':'Other person'),mk('p',m.body||''));
+    const item=mk('article',undefined,'dd-chat-bubble '+(m.mine?'dd-chat-bubble-mine':'dd-chat-bubble-other'));
+    item.append(mk('small',m.mine?(myUsername||'You'):(row.other_username||'Researcher')),mk('p',m.body||''));
+    if(m.sent_at){const time=mk('small',new Date(m.sent_at).toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'}),'dd-chat-message-time');item.append(time)}
     button(item,'Report message',b=>{
      const reason=reportReason();if(!reason)return;
      return mutate(b,async client=>{
@@ -202,5 +212,6 @@ function init(){
  client()?.auth.onAuthStateChange(()=>{clear();Promise.resolve().then(()=>{void refresh()})});
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')void refresh()});
 }
+window.DDPrivateChat=Object.freeze({refresh});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();

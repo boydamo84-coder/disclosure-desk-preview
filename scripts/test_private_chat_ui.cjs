@@ -47,3 +47,21 @@ assert.match(js,/lastMessageId=\(data\|\|\[\]\)\[0\]\?\.message_id/,
  'Only actually loaded latest message used for read marker');
 assert.match(js,/if\(row\.status==='pending'\)\{\s+const intro=/,
  'Only pending requests render introduction separately from accepted message history');
+
+/* Staged, gated standalone Chat tab, one app instance and unread polling. */
+const chatTab=fs.readFileSync('assets/chat-tab-ui.js','utf8');
+assert.doesNotThrow(()=>new Function(chatTab));
+assert.match(html,/id="chatPage"/);
+assert.match(html,/id="ddChatPageMount"/);
+assert.match(html,/assets\/chat-tab-ui\.js\?v=/);
+assert.match(html,/if\(id==='chatPage'&&window\.DD_COMMUNITY_FEATURES\?\.privateChat!==true\)return/);
+assert.match(js,/window\.DDPrivateChat=Object\.freeze\(\{refresh\}\)/);
+assert.match(chatTab,/mount\.append\(existing\)/,'Move existing UI, do not create another chat app');
+assert.match(chatTab,/window\.setInterval\(\(\)=>\{void poll\(\)\},15000\)/);
+assert.match(chatTab,/dd_chat_my_pairs/);
+assert.match(chatTab,/is_anonymous/);
+assert.match(chatTab,/dd-chat-unread-badge/);
+assert.match(js,/dd-chat-bubble-mine/);
+assert.match(js,/row\.other_username\|\|'Researcher'/);
+assert.match(html,/dd-chat-bubble-mine/);
+assert.match(html,/chatPage'\)\{window\.DDPrivateChat/);
