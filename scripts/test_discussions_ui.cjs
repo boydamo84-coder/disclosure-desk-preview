@@ -58,3 +58,15 @@ assert.match(forum,/safeImage/);
 assert.match(forum,/referrerPolicy='no-referrer'/);
 assert.match(forum,/window\.DDSaveForumToBoard/);
 assert.doesNotMatch(forum,/\.innerHTML\s*=/);
+
+assert.match(html,/id="ddForumNewSection"/);
+assert.match(html,/id="ddForumSectionDialog" class="dd-forum-dialog"/);
+assert.match(html,/id="ddForumPostDialog" class="dd-forum-dialog"/);
+assert.match(html,/id="ddForumNewPost"/);
+assert.match(forum,/dialog\.showModal\(\)/);
+assert.match(forum,/if\(saved\)\{form\.reset\(\);\$\('ddForumSectionDialog'\)\.close\(\)\}/);
+assert.match(forum,/if\(saved\)\{form\.reset\(\);\$\('ddForumPostDialog'\)\.close\(\)\}/);
+assert.match(forum,/Delete my /);
+assert.match(forum,/dd_discussions_withdraw_own/);
+assert.match(html,/\.dd-forum \.dd-forum-dialog::backdrop/);
+console.log('PASS: mobile modal section/post creation, owner-confirmed author deletion and button styling.');

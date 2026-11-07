@@ -44,7 +44,7 @@ assert.match(css,/\.dd-news-ticker-hub\{position:fixed/);
 assert.match(css,/bottom:calc\(var\(--dd-news-nav-height/);
 assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
 assert.match(css,/\.dd-news-ticker-row\[hidden\]\{display:none!important\}/);
-assert.match(css,/\.dd-news-ticker-expanded \.dd-nav-swipe-hint\{display:none!important\}/);
+assert.doesNotMatch(css,/\.dd-news-ticker-expanded \.dd-nav-swipe-hint\{display:none!important\}/);
 assert.match(css,/\.dd-ticker-user-paused \.dd-ticker-track\{animation-play-state:paused!important\}/);
 console.log('PASS 2/5 — actual site wiring, narrow fixed TV strip above measured dock, reduced motion.');
 
@@ -134,11 +134,16 @@ assert.match(elements.ddNewsTickerBreakingTrack.children[0].children[0].textCont
   'Breaking lead must cycle without marquee-scrolling the current headline');
 const group=elements.ddNewsTickerBreakingTrack.children[0];
 assert.match(group.children[0].textContent,/Sourced major report/);
-// Reading a linked article must keep its crawl position and readable lead still.
+// Opening a story must keep rotating. Only an explicit Pause holds the ticker.
 group.children[0].listeners.click({preventDefault(){}});
-assert.equal(pauseButton.textContent,'Resume headlines');
+assert.equal(pauseButton.textContent,'Pause headlines');
+assert.equal(pauseButton.attributes['aria-pressed'],'false');
+assert.equal(elements.ddNewsTickerRecentTrack.parentElement.classList.contains('dd-ticker-user-paused'),false);
+const leadBeforeTap=elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent;
+intervals.find(x=>x.ms===20000).fn();
+assert.notEqual(elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent,leadBeforeTap);
+pauseButton.listeners.click();
 assert.equal(pauseButton.attributes['aria-pressed'],'true');
-assert.equal(elements.ddNewsTickerRecentTrack.parentElement.classList.contains('dd-ticker-user-paused'),true);
 const heldLead=elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent;
 intervals.find(x=>x.ms===20000).fn();
 assert.equal(elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent,heldLead);

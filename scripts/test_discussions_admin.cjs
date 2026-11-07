@@ -29,3 +29,11 @@ assert.match(sql,/last_reason/,'Escalation reason available to owner only');
 assert.doesNotMatch(sql,/insert into public\.dd_forum_owner_admins/,'No owner accounts or keys in source');
 assert.doesNotMatch(ui,/dd_chat_|dd_live_chat_/,'Site owner forum tooling does not access private Chat/LIVE');
 console.log('PASS: disabled owner-only Discussions review, hidden/escalated post/reply previews, steward revocation, no private accounts leaked.');
+
+assert.match(ui,/Remove entire section/);
+assert.match(ui,/Restore section/);
+assert.match(ui,/p_kind:'section',p_id:s\.section_id,p_status:'removed'/);
+assert.match(ui,/p_kind:'section',p_id:s\.section_id,p_status:'published'/);
+assert.match(ui,/ADMIN ONLY: Remove this section/);
+assert.match(sql,/if p_kind='section' then/);
+console.log('PASS: owner-only section removal/restore through existing audited owner review RPC.');
