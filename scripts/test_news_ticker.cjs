@@ -43,6 +43,9 @@ assert.match(html,/assets\/news-ticker\.css/);
 assert.match(css,/\.dd-news-ticker-hub\{position:fixed/);
 assert.match(css,/bottom:calc\(var\(--dd-news-nav-height/);
 assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
+assert.match(css,/\.dd-news-ticker-row\[hidden\]\{display:none!important\}/);
+assert.match(css,/\.dd-news-ticker-expanded \.dd-nav-swipe-hint\{display:none!important\}/);
+assert.match(css,/\.dd-ticker-user-paused \.dd-ticker-track\{animation-play-state:paused!important\}/);
 console.log('PASS 2/5 — actual site wiring, narrow fixed TV strip above measured dock, reduced motion.');
 
 class FakeElement {
@@ -66,6 +69,10 @@ const elements=Object.fromEntries(required.concat(['discover']).map(id=>[id,new 
 for(const id of ['ddNewsTickerBreakingTrack','ddNewsTickerRecentTrack','ddNewsTickerAlertTrack']){
   elements[id].parentElement=new FakeElement('viewport-'+id);
 }
+elements.ddNewsTickerBreakingTrack.parentElement.parentElement=new FakeElement('breaking-row');
+elements.ddNewsTickerRecentTrack.parentElement.parentElement=new FakeElement('recent-row');
+const tickerControls=new FakeElement('ticker-controls');
+elements.ddNewsTickerHubToggle.parentElement=tickerControls;
 const nav={getBoundingClientRect:()=>({height:77})};
 const doc={
   readyState:'complete',visibilityState:'visible',body:new FakeElement('body'),
@@ -102,6 +109,11 @@ assert.equal(elements.ddNewsTickerBreakingTrack.children.length,2);
 assert.equal(elements.ddNewsTickerRecentTrack.children.length,2);
 assert.equal(doc.body.classList.contains('dd-news-ticker-expanded'),true);
 assert.equal(intervals.length,3);
+const pauseButton=tickerControls.children.find(x=>x.id==='ddNewsTickerPause');
+assert(pauseButton,'Accessible pause/resume button appended to existing ticker controls');
+assert.equal(pauseButton.textContent,'Pause headlines');
+assert.equal(pauseButton.attributes['aria-pressed'],'false');
+assert.equal(elements.ddNewsTickerBreakingTrack.parentElement.parentElement.hidden,false);
 assert(intervals.some(x=>x.ms===20000),'Readable lead rotates at the video-matched pace');
 assert.match(css,/\.dd-news-ticker-breaking \.dd-ticker-track\s*\{/);
 assert.match(css,/animation:none!important/);
@@ -122,6 +134,29 @@ assert.match(elements.ddNewsTickerBreakingTrack.children[0].children[0].textCont
   'Breaking lead must cycle without marquee-scrolling the current headline');
 const group=elements.ddNewsTickerBreakingTrack.children[0];
 assert.match(group.children[0].textContent,/Sourced major report/);
+// Reading a linked article must keep its crawl position and readable lead still.
+group.children[0].listeners.click({preventDefault(){}});
+assert.equal(pauseButton.textContent,'Resume headlines');
+assert.equal(pauseButton.attributes['aria-pressed'],'true');
+assert.equal(elements.ddNewsTickerRecentTrack.parentElement.classList.contains('dd-ticker-user-paused'),true);
+const heldLead=elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent;
+intervals.find(x=>x.ms===20000).fn();
+assert.equal(elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent,heldLead);
+pauseButton.listeners.click();
+assert.equal(pauseButton.attributes['aria-pressed'],'false');
+assert.equal(elements.ddNewsTickerRecentTrack.parentElement.classList.contains('dd-ticker-user-paused'),false);
+intervals.find(x=>x.ms===20000).fn();
+assert.notEqual(elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent,heldLead);
+// No Breaking rows should leave the still-relevant 48-hour crawl visible.
+const savedRows=win.ddNewsTickerRows;
+win.ddNewsTickerRows=[savedRows.find(x=>x.id==='recent')];
+events.get('dd-news-updated')();
+assert.equal(elements.ddNewsTickerBreakingTrack.parentElement.parentElement.hidden,true);
+assert.equal(elements.ddNewsTickerRecentTrack.parentElement.parentElement.hidden,false);
+assert.equal(doc.body.classList.contains('dd-news-ticker-has-breaking'),false);
+win.ddNewsTickerRows=savedRows;
+events.get('dd-news-updated')();
+assert.equal(elements.ddNewsTickerBreakingTrack.parentElement.parentElement.hidden,false);
 console.log('PASS 3/5 — actual source runtime: fixed lead rotates at 20s, 48h crawl persists on refresh, real dock clearance.');
 
 elements.discover.classList.add('hidden');

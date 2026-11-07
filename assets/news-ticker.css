@@ -89,4 +89,10 @@
   .dd-news-ticker-breaking .dd-ticker-link{font-size:12px;padding:9px 9px}
   .dd-news-ticker-recent .dd-news-ticker-link{font-size:10px}
 }
+/* Clicking a source holds the crawl and lead story until Resume headlines is selected. */
+.dd-ticker-user-paused .dd-ticker-track{animation-play-state:paused!important}
+.dd-news-ticker-row[hidden]{display:none!important}
+/* Leave the mobile dock swipe hint usable on other tabs, but never over a visible News ticker. */
+.dd-news-ticker-expanded .dd-nav-swipe-hint{display:none!important}
+.dd-news-ticker-expanded:not(.dd-news-ticker-has-breaking) .shell{padding-bottom:calc(var(--dd-news-nav-height,75px) + 82px)}
 @media print{.dd-news-ticker-alert,.dd-news-ticker-hub{display:none!important}}

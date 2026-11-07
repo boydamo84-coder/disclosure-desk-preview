@@ -63,6 +63,19 @@
     } catch { return {hub: true, alerts: true, dismissed: []}; }
   }
   let prefs = readPrefs();
+  let tickerPaused = false;
+  let pauseButton = null;
+  function setTickerPaused(value) {
+    tickerPaused = Boolean(value);
+    for (const id of ['ddNewsTickerBreakingTrack', 'ddNewsTickerRecentTrack']) {
+      const viewport = byId(id)?.parentElement;
+      if (viewport) viewport.classList.toggle('dd-ticker-user-paused', tickerPaused);
+    }
+    if (pauseButton) {
+      pauseButton.textContent = tickerPaused ? 'Resume headlines' : 'Pause headlines';
+      pauseButton.setAttribute('aria-pressed', String(tickerPaused));
+    }
+  }
   function store() {
     try { root.localStorage.setItem(KEY, JSON.stringify(prefs)); } catch {}
   }
@@ -76,6 +89,8 @@
     link.title = 'Read reporting from ' + article.source;
     if (isCopy) { link.setAttribute('aria-hidden', 'true'); link.tabIndex = -1; }
     link.addEventListener('click', event => {
+      // Keep the last-read story in place when returning from a source tab.
+      setTickerPaused(true);
       if (typeof root.ddTickerOpenStory === 'function' &&
           root.ddTickerOpenStory(article.id) === true) event.preventDefault();
     });
@@ -125,6 +140,13 @@
     const toggleAlerts = byId('ddNewsTickerAlertsToggle');
     const hide = byId('ddNewsTickerHide');
     const off = byId('ddNewsTickerOff');
+    pauseButton = doc.createElement('button');
+    pauseButton.id = 'ddNewsTickerPause';
+    pauseButton.type = 'button';
+    pauseButton.className = 'dd-ticker-control';
+    pauseButton.addEventListener('click', () => setTickerPaused(!tickerPaused));
+    toggleHub.parentElement?.appendChild(pauseButton);
+    setTickerPaused(false);
     let featuredIndex = 0;
     let featuredSignature = '';
 
@@ -142,6 +164,10 @@
       doc.body.classList.toggle('dd-news-ticker-visible', isNewsTab);
       doc.body.classList.toggle('dd-news-ticker-expanded', isNewsTab && prefs.hub);
       hubBody.hidden = !prefs.hub;
+      const breakingTrack = byId('ddNewsTickerBreakingTrack');
+      const breakingRow = breakingTrack?.parentElement?.parentElement;
+      if (breakingRow) breakingRow.hidden = selected.breaking.length === 0;
+      doc.body.classList.toggle('dd-news-ticker-has-breaking', isNewsTab && selected.breaking.length > 0);
       toggleHub.textContent = prefs.hub ? 'Hide ticker' : 'Show ticker';
       toggleHub.setAttribute('aria-expanded', String(prefs.hub));
       toggleAlerts.textContent = 'Alerts: ' + (prefs.alerts ? 'On' : 'Off');
@@ -184,7 +210,7 @@
     root.setInterval(() => {
       if (doc.visibilityState === 'hidden') return;
       const breaking = selectHeadlines(root.ddNewsTickerRows || []).breaking;
-      if (breaking.length > 1) {
+      if (!tickerPaused && breaking.length > 1) {
         featuredIndex = (featuredIndex + 1) % breaking.length;
         render(); // rotate the readable lead headline every 20 seconds
       }
