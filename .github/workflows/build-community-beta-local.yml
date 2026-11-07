@@ -5,6 +5,11 @@ on:
     paths:
       - 'scripts/build_community_beta_local.cjs'
       - '.github/workflows/build-community-beta-local.yml'
+      - 'assets/chat-tab-ui.js'
+      - 'assets/profile-private-chat.js'
+      - 'index.html'
+      - 'research/research-site-nav.js'
+      - 'scripts/build_public_release.cjs'
   workflow_dispatch:
 permissions:
   contents: read
