@@ -49,6 +49,17 @@ async function selected(page,id){
   assert.equal(await selected(page,'discover'),'page');
   assert.equal(await hasVisibleSection(page,'discover'),true);
   pass('existing 11 bottom tabs and visible News');
+  const navRail=page.locator('.nav-inner');
+  await page.locator('#ddNavNext').waitFor({state:'visible'});
+  const initialDockScroll=await navRail.evaluate(el=>el.scrollLeft);
+  await page.locator('#ddNavNext').click();
+  await page.waitForFunction(previous=>document.querySelector('.nav-inner').scrollLeft>previous+15,initialDockScroll);
+  const movedDockScroll=await navRail.evaluate(el=>el.scrollLeft);
+  assert(movedDockScroll>initialDockScroll+15,'Right arrow advances mobile navigation');
+  await page.locator('#ddNavPrev').click();
+  await page.waitForFunction(previous=>document.querySelector('.nav-inner').scrollLeft<previous-15,movedDockScroll);
+  assert.equal(await selected(page,'discover'),'page','Arrow movement must not change selected page');
+  pass('clickable dock arrows move the navigation without changing the active section');
   // Synthetic-only broadcast feed. No requests to the real backend or publisher.
   await page.waitForSelector('#ddNewsTickerHub:not([hidden])',{timeout:10000});
   await page.evaluate(()=>{
@@ -56,7 +67,7 @@ async function selected(page,id){
       {id:'browser-major-1',headline:'Synthetic major UAP bulletin',source:'Fixture Publisher',
         url:'https://example.org/uap-story',date:new Date(Date.now()-60000).toISOString(),priority:'major'},
       {id:'browser-recent-1',headline:'Synthetic recent UAP update',source:'Fixture Publisher',
-        url:'https://example.org/uap-recent',date:new Date(Date.now()-3*3600000).toISOString(),priority:'standard'}
+        url:'https://example.org/uap-recent',date:new Date(Date.now()-10*3600000).toISOString(),priority:'standard'}
     ];
     window.dispatchEvent(new Event('dd-news-updated'));
   });
@@ -91,6 +102,16 @@ async function selected(page,id){
   assert.equal(await page.locator('#ddNewsTickerHub').isVisible(),true);
   assert.equal(await page.locator('#ddNewsTickerAlert').isVisible(),false);
   pass('real Chromium 393px: original News ticker restores on return');
+  await page.evaluate(()=>{
+    window.ddNewsTickerRows=[{
+      id:'browser-recent-only',headline:'Synthetic nine-hour update',source:'Fixture Publisher',
+      url:'https://example.org/nine-hour',date:new Date(Date.now()-9*3600000).toISOString(),priority:'standard'
+    }];
+    window.dispatchEvent(new Event('dd-news-updated'));
+  });
+  assert.equal(await page.locator('.dd-news-ticker-breaking').isVisible(),false,'Breaking hidden without <=8h stories');
+  assert.match(await page.locator('#ddNewsTickerRecentTrack').innerText(),/Synthetic nine-hour update/);
+  pass('No Breaking headline leaves the 48-hour ticker visible');
 
   for(const target of ['witness','hub','profilePage','clips']){
    await page.locator('.nav .tab[data-tab="'+target+'"]').click({timeout:10000});
@@ -98,6 +119,12 @@ async function selected(page,id){
    assert.equal(await hasVisibleSection(page,target),true,'Section is visible: '+target);
    pass('navigate to '+target+' with touch/mobile viewport');
   }
+  await page.locator('.nav .tab[data-tab="hub"]').click();
+  await page.locator('.nav .tab[data-tab="profilePage"]').click();
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.locator('.nav .tab[data-tab="profilePage"][aria-current="page"]').waitFor({state:'attached'});
+  assert.equal(await hasVisibleSection(page,'profilePage'),true,'Reload must retain last tab in the browser session');
+  pass('Browser refresh retains last selected tab, without storing private messages');
   await page.locator('.nav .tab[data-tab="hub"]').click();
   await page.locator('#startAppTour').click({timeout:10000});
   assert.equal(await page.locator('#appTourDialog').evaluate(el=>el.open),true,'Tour is native modal');
