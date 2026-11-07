@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-07T16:46:04.758845+00:00",
+  "checkedAt": "2026-11-07T18:49:57.622400+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
@@ -28,7 +28,7 @@
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 14,
+      "items": 13,
       "latestArticleAt": "2026-11-07T10:31:15+00:00"
     },
     {
@@ -206,5 +206,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 313
+  "storiesPublished": 314
 }
