@@ -7,7 +7,8 @@
     "date": "2026-11-01T14:28:02+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/10/31/92cefc93-e8e5-43f1-bb77-8c7ff3044915/thumbnail/1200x630/1fecf9d18a0a263af523749271a445b1/uaps-top-secret-1280.jpg"
+    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/10/31/92cefc93-e8e5-43f1-bb77-8c7ff3044915/thumbnail/1200x630/1fecf9d18a0a263af523749271a445b1/uaps-top-secret-1280.jpg",
+    "publisherUrl": "https://www.cbsnews.com/news/is-the-truth-really-out-there-studying-uap-sightings/"
   },
   {
     "id": "63f7be4828e9ea82f3c3",
@@ -612,8 +613,7 @@
     "date": "2026-05-22T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/07b3/live/d34ce420-55fb-11f1-8b8c-6d33e1d5abb6.jpg",
-    "publisherUrl": "https://www.bbc.co.uk/news/videos/cp3p2dkqxd0o"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/07b3/live/d34ce420-55fb-11f1-8b8c-6d33e1d5abb6.jpg"
   },
   {
     "id": "ab9fb402600a826d1736",
@@ -748,8 +748,7 @@
     "date": "2026-05-09T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/b3a3/live/8674db10-4b53-11f1-b55d-0f258dce1735.jpg",
-    "publisherUrl": "https://www.bbc.com/news/articles/c707zjg3p42o"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/b3a3/live/8674db10-4b53-11f1-b55d-0f258dce1735.jpg"
   },
   {
     "id": "2a0f4e3ccf620d4b6c0e",
