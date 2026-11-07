@@ -39,7 +39,7 @@ async function run(){
  const flush=async()=>{for(let i=0;i<40;i++)await Promise.resolve()};
  const walk=(el)=>[el,...(el.children||[]).flatMap(walk)];
  const sendComposer=()=>walk(host).find(x=>x.tag==='form'&&
-  walk(x).some(y=>y.tag==='button'&&y.textContent==='Send message'));
+  walk(x).some(y=>y.tag==='button'&&y.textContent==='Send'));
  const choose=label=>{const btn=walk(host).find(x=>x.tag==='button'&&x.textContent.startsWith(label));
   assert.ok(btn,'Expected accepted conversation '+label);btn.onclick()};
  authCallback('SIGNED_IN',{user:{id:'A'}});await flush();
