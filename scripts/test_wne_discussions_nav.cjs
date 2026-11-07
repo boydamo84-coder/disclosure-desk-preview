@@ -73,3 +73,13 @@ function run(disabled,saveResult){
   'Unknown tab cannot bypass save/feature allowlist');
  console.log('PASS: 11 live tabs, feature-gated 12th after Witness, disabled deep-links, 7 Research pages, W.NE unsaved save gate and saved return');
 })().catch(e=>{console.error(e);process.exitCode=1});
+
+assert.match(main,/id="ddNavPrev"/);
+assert.match(main,/id="ddNavNext"/);
+assert.match(main,/Scroll navigation one tab right/);
+assert.match(main,/rail\.scrollTo\(\{left:target,behavior:'smooth'\}\)/);
+assert.match(main,/ddLastTabKey='dd_last_open_tab_v1'/);
+assert.match(main,/window\.sessionStorage\?\.setItem\(ddLastTabKey,id\)/);
+assert.match(main,/new URLSearchParams\(location\.search\)\.get\('dd_tab'\)\|\|ddRememberedTab/);
+assert.match(main,/ddResearchReturnTab==='chatPage'/);
+console.log('PASS: clickable one-tab mobile dock arrows and guarded session-only active-tab restore.');

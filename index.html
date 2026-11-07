@@ -402,7 +402,11 @@
 #chatPage .dd-chat-new-from-list,#chatPage .dd-chat-refresh{display:inline-flex;align-items:center;justify-content:center;min-width:42px;width:42px;min-height:42px;height:42px;box-sizing:border-box;margin:0;padding:0;line-height:1;font-size:22px;text-align:center}
 #chatPage .dd-chat-group-head h4{margin:0}
 .nav .dd-nav-swipe-hint{position:absolute;top:8px;bottom:auto;right:2px;width:22px;height:43px;display:flex;align-items:center;justify-content:center;box-sizing:border-box;padding:0;border:0;border-radius:0;background:linear-gradient(90deg,transparent,#101a27 55%);font-size:25px;color:#e8cb91;pointer-events:none;z-index:2}
-.nav .dd-nav-swipe-hint.is-hidden{display:none}
+.nav .dd-nav-swipe-hint{pointer-events:auto;cursor:pointer;width:27px;min-width:27px;outline-offset:2px;color:#e8cb91;border:1px solid #705e3c;border-radius:7px;background:#162739e8}
+.nav .dd-nav-swipe-prev{left:2px;right:auto;background:linear-gradient(90deg,#1a3043,#101a27)}
+.nav .dd-nav-swipe-next{right:2px;left:auto;background:linear-gradient(270deg,#1a3043,#101a27)}
+.nav .dd-nav-swipe-hint[hidden]{display:none!important}
+.nav .dd-nav-swipe-hint:focus-visible{outline:2px solid #e8c98d}
 @media(max-width:630px){.dd-forum .dd-forum-tools{display:flex;align-items:flex-end}.dd-forum .dd-forum-tool-actions{margin-bottom:14px}.dd-forum .dd-forum-dialog-actions button{flex:1 1 120px}}
 /* Mobile forum: linked section action and owner-only remove control. */
 .dd-forum .dd-forum-section-open{display:inline-flex;align-items:center;min-height:44px;margin-top:5px;font-weight:750;color:#ebc77b;text-decoration:underline;text-underline-offset:3px}
@@ -599,7 +603,7 @@
   <div class="dd-profile-card"><h3>Urgent safety &amp; requests</h3><p class="muted small">Ordinary comments and reports publish immediately. Only hidden items enter the normal review queue. Urgent abuse/privacy reports, appeals and correction requests need a dedicated inbox in a later phase.</p><a href="mailto:support@uapdisclosuredesk.com?subject=Disclosure%20Desk%20urgent%20community%20report">Open support email</a></div>
   <div class="dd-profile-card"><h3>Site traffic &amp; search</h3><p class="muted small">Google Search Console shows search clicks and impressions; Google Analytics 4 can provide visitors and sessions. Live figures aren't connected yet. Read-only Google access will be secured on the server, not exposed in the browser.</p><div class="dd-profile-actions"><a href="https://search.google.com/search-console" rel="noopener noreferrer" target="_blank">Search Console</a><a href="https://analytics.google.com/" rel="noopener noreferrer" target="_blank">Google Analytics</a></div></div>
  </div></section>
-</div></div></section><div class="footer">Disclosure Desk · Independent investigations · Not affiliated with government or research agencies<div class="dd-studio-footer-credit">Created by <strong>Boyd Digital Studios</strong> · W.NE Research Edition</div><div class="dd-site-footer-actions"><a href="/community-rules.html">Community Rules</a><a href="/privacy.html">Privacy Policy</a><a href="mailto:support@uapdisclosuredesk.com?subject=Disclosure%20Desk%20enquiry">Contact &amp; enquiries</a><button type="button" class="dd-site-footer-about" data-go="about">About</button></div></div></div><nav class="nav" aria-label="App navigation"><div class="dd-nav-swipe-hint" aria-hidden="true" title="Swipe sideways for more navigation tabs">»</div><div class="nav-inner"><button class="tab active" data-tab="discover" aria-current="page"><span class="ico">◈</span>News<span class="dd-new-dot" data-new-badge="news" hidden></span></button><button class="tab" data-tab="archivePage"><span class="ico">▥</span>Archive</button><button class="tab" data-tab="researchStudio"><span class="ico">✎</span>W.NE</button><button class="tab" data-tab="mapPage"><span class="ico">◎</span>Map</button><button class="tab" data-tab="clips"><span class="ico">▶</span>Videos<span class="dd-new-dot" data-new-badge="videos" hidden></span></button><button class="tab" data-tab="livePage"><span class="ico">●</span>LIVE</button><button class="tab" data-tab="boards"><span class="ico">▣</span>Boards</button><button class="tab" data-tab="witness"><span class="ico">◉</span>Witness</button><button class="tab" data-tab="watchRead"><span class="ico">♫</span>Watch &amp; Read</button><button class="tab" data-tab="hub"><span class="ico">☷</span>Explore</button><button class="tab" data-tab="profilePage"><span class="ico">👤</span>Profile</button></div></nav>
+</div></div></section><div class="footer">Disclosure Desk · Independent investigations · Not affiliated with government or research agencies<div class="dd-studio-footer-credit">Created by <strong>Boyd Digital Studios</strong> · W.NE Research Edition</div><div class="dd-site-footer-actions"><a href="/community-rules.html">Community Rules</a><a href="/privacy.html">Privacy Policy</a><a href="mailto:support@uapdisclosuredesk.com?subject=Disclosure%20Desk%20enquiry">Contact &amp; enquiries</a><button type="button" class="dd-site-footer-about" data-go="about">About</button></div></div></div><nav class="nav" aria-label="App navigation"><button id="ddNavPrev" type="button" class="dd-nav-swipe-hint dd-nav-swipe-prev" aria-label="Scroll navigation one tab left" hidden>‹</button><div class="nav-inner"><button class="tab active" data-tab="discover" aria-current="page"><span class="ico">◈</span>News<span class="dd-new-dot" data-new-badge="news" hidden></span></button><button class="tab" data-tab="archivePage"><span class="ico">▥</span>Archive</button><button class="tab" data-tab="researchStudio"><span class="ico">✎</span>W.NE</button><button class="tab" data-tab="mapPage"><span class="ico">◎</span>Map</button><button class="tab" data-tab="clips"><span class="ico">▶</span>Videos<span class="dd-new-dot" data-new-badge="videos" hidden></span></button><button class="tab" data-tab="livePage"><span class="ico">●</span>LIVE</button><button class="tab" data-tab="boards"><span class="ico">▣</span>Boards</button><button class="tab" data-tab="witness"><span class="ico">◉</span>Witness</button><button class="tab" data-tab="watchRead"><span class="ico">♫</span>Watch &amp; Read</button><button class="tab" data-tab="hub"><span class="ico">☷</span>Explore</button><button class="tab" data-tab="profilePage"><span class="ico">👤</span>Profile</button></div><button id="ddNavNext" type="button" class="dd-nav-swipe-hint dd-nav-swipe-next" aria-label="Scroll navigation one tab right" hidden>›</button></nav>
 <aside id="ddNewsTickerHub" class="dd-news-ticker-hub" aria-label="Disclosure Desk live UAP headline ticker" hidden>
   <div class="dd-news-ticker-top"><strong>● LIVE UAP NEWS DESK</strong>
     <div class="dd-ticker-controls">
@@ -1699,9 +1703,25 @@ window.ddGoToDiscussionOrigin=(ref)=>{
  else {navigateTo('cases');const card=[...$('caseList').querySelectorAll('[data-case-discussion]')].find(x=>x.dataset.caseDiscussion===ref);ddFocusCard(card);}
 };
 function ddInitNavSwipeHint(){
- const rail=document.querySelector('.nav-inner'),hint=document.querySelector('.dd-nav-swipe-hint');if(!rail||!hint)return;
- const update=()=>{const canScroll=rail.scrollWidth>rail.clientWidth+8;const atEnd=rail.scrollLeft+rail.clientWidth>=rail.scrollWidth-12;hint.classList.toggle('is-hidden',!canScroll||atEnd)};
- rail.addEventListener('scroll',update,{passive:true});window.addEventListener('resize',update);requestAnimationFrame(update);
+ const rail=document.querySelector('.nav-inner'),prev=document.getElementById('ddNavPrev'),next=document.getElementById('ddNavNext');
+ if(!rail||!prev||!next)return;
+ const update=()=>{
+  const maximum=Math.max(0,rail.scrollWidth-rail.clientWidth);
+  prev.hidden=maximum<8||rail.scrollLeft<=5;
+  next.hidden=maximum<8||rail.scrollLeft>=maximum-5;
+ };
+ const shift=direction=>{
+  const first=rail.querySelector('.tab');
+  const width=first?.getBoundingClientRect?.().width||72;
+  const target=Math.max(0,Math.min(rail.scrollWidth-rail.clientWidth,rail.scrollLeft+direction*width));
+  rail.scrollTo({left:target,behavior:'smooth'});
+ };
+ prev.addEventListener('click',()=>shift(-1));
+ next.addEventListener('click',()=>shift(1));
+ rail.addEventListener('scroll',update,{passive:true});
+ window.addEventListener('resize',update);
+ if(window.MutationObserver)new window.MutationObserver(update).observe(rail,{childList:true});
+ requestAnimationFrame(update);
 }
 ddInitNavSwipeHint();
 function ddVideoModeSetup(){
@@ -1712,9 +1732,13 @@ function ddVideoModeSetup(){
  document.getElementById('closeImmersive')?.addEventListener('click',()=>{browse.classList.add('dd-video-mode-active');swipe.classList.remove('dd-video-mode-active')});
 }
 ddVideoModeSetup();
+const ddLastTabKey='dd_last_open_tab_v1';
 function navigateTo(id){
 if(id==='discussionsPage'&&window.DD_COMMUNITY_FEATURES?.discussions!==true)return;
 if(id==='chatPage'&&window.DD_COMMUNITY_FEATURES?.privateChat!==true)return;
+if(['discover','archivePage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','hub','profilePage','discussionsPage','chatPage','cases','rabbitHole','resources','podcasts','about'].includes(id)){
+ try{window.sessionStorage?.setItem(ddLastTabKey,id)}catch{}
+}
 const avatar=document.getElementById('ddProfileShortcut');if(avatar)avatar.hidden=(id==='researchStudio');
 if(id==='discover')ddMarkSeen('news');
 if(id==='clips')ddMarkSeen('videos');
@@ -1750,7 +1774,9 @@ window.navigateTo=navigateTo;
 $('interestForm').addEventListener('submit',e=>{e.preventDefault();submitInterest()});renderInterests();loadInterestNews();loadDisclosureMapUpdates();$('boardCreate').addEventListener('submit',e=>{e.preventDefault();const name=$('boardName').value.trim();if(!name)return;investigationBoards.push({id:String(Date.now()),name:name.slice(0,60),links:[],notes:[]});$('boardName').value='';boardSave()});$('pickerClose').onclick=()=> $('collectionPicker').close();$('collectionPicker').addEventListener('close',()=>{pendingBookmark=null;pendingTimelineEvent=null});$('pickerCreate').addEventListener('submit',e=>{e.preventDefault();const name=$('pickerNewName').value.trim();if(!name)return;const b={id:String(Date.now()),name:name.slice(0,60),links:[],notes:[]};investigationBoards.push(b);if(pendingTimelineEvent)savePendingTimeline(b);else savePendingBookmark(b)});$('boardExportPDF').onclick=()=>{const b=investigationBoards[Number($('boardExportSelect').value)];if(b)exportBoardPrintable(b)};
 $('boardExportFile').onclick=()=>{const b=investigationBoards[Number($('boardExportSelect').value)];if(b)exportPortableBoard(b)};
 $('boardImportFile').onchange=e=>{const file=e.target.files?.[0];if(file)importPortableBoard(file).finally(()=>{e.target.value=''})};renderResources();$('podcastList').innerHTML=podcastItems.map(resourceCard).join('');document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>navigateTo(b.dataset.go));
-const ddResearchReturnTab=new URLSearchParams(location.search).get('dd_tab');
+let ddRememberedTab=null;
+try{ddRememberedTab=window.sessionStorage?.getItem(ddLastTabKey)||null}catch{}
+const ddResearchReturnTab=new URLSearchParams(location.search).get('dd_tab')||ddRememberedTab;
 if(['discover','archivePage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','hub','profilePage'].includes(ddResearchReturnTab)){
  navigateTo(ddResearchReturnTab);
 }
