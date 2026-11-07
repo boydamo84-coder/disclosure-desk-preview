@@ -270,15 +270,20 @@ function openPostAction(opener,kind,row,mode){
   reasonWrap=$('ddForumReasonWrap'),reason=$('ddForumFlagReason'),
   submit=$('ddForumActionSubmit');
  const type=kind==='thread'?'post':'reply';
- title.textContent=mode==='edit'?'Edit '+type:mode==='delete'?'Delete '+type:'Report '+type;
+ title.textContent=mode==='edit'?'Edit '+type:mode==='delete'?'Delete '+type:
+  mode==='escalate'?'Escalate to site owner':'Report '+type;
  description.textContent=mode==='edit'?'Edit the public text of your own '+type+'. Changes are limited to 30 minutes after publication.':
   mode==='delete'?'Remove your own '+type+' from public view? It cannot be restored by your account. Minimal moderation history may remain.':
+  mode==='escalate'?'Describe the serious issue for the overall site administrator. This does not give a section steward the power to delete other members’ work.':
   'Flag this content for independent moderation review. Reporting does not immediately delete another member’s post.';
- textWrap.hidden=mode!=='edit';reasonWrap.hidden=mode!=='flag';
- text.maxLength=kind==='thread'?5000:2000;
+ textWrap.hidden=mode!=='edit'&&mode!=='escalate';reasonWrap.hidden=mode!=='flag';
+ $('ddForumActionTextLabel').textContent=mode==='escalate'?'Reason for escalation':'Edit your text';
+ text.maxLength=mode==='escalate'?500:kind==='thread'?5000:2000;
+ text.minLength=mode==='escalate'?10:2;
  text.value=mode==='edit'?String(row.body||''):'';
  if(mode==='flag')reason.value='spam';
- submit.textContent=mode==='edit'?'Save changes':mode==='delete'?'Delete '+type:'Submit report';
+ submit.textContent=mode==='edit'?'Save changes':mode==='delete'?'Delete '+type:
+  mode==='escalate'?'Send to site owner':'Submit report';
  submit.className=mode==='delete'?'outline dd-forum-danger-action':'action';
  form.onsubmit=async event=>{
   event.preventDefault();
@@ -291,6 +296,11 @@ function openPostAction(opener,kind,row,mode){
   }else if(mode==='delete'){
    operation=()=>rpc('dd_discussions_withdraw_own',{p_kind:kind,p_id:row.id});
    feedback='Your '+type+' was removed from public view.';
+  }else if(mode==='escalate'){
+   const value=text.value.trim();
+   if(value.length<10||value.length>500){say('Explain the concern in 10–500 characters.');return}
+   operation=()=>rpc('dd_discussions_escalate',{p_kind:kind,p_id:row.id,p_reason:value});
+   feedback='Concern sent to the site owner.';
   }else{
    const selected=reason.value;
    if(!['spam','abuse','privacy','harassment','harmful','other'].includes(selected)){say('Select a valid report reason.');return}
@@ -314,7 +324,7 @@ function openPostAction(opener,kind,row,mode){
  if(!dialog.open){
   dialog.showModal();
   dialog.addEventListener('close',()=>opener?.focus?.(),{once:true});
-  if(mode==='edit')text.focus?.();
+  if(mode==='edit'||mode==='escalate')text.focus?.();
   else if(mode==='flag')reason.focus?.();
   else submit.focus?.();
  }
@@ -326,6 +336,7 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
  flag.setAttribute('aria-label',flagged?'Already reported this '+kind:'Report this '+kind);
  flag.setAttribute('title',flagged?'Reported this session':'Report this '+kind);
  flag.setAttribute('aria-pressed',String(flagged));
+ flag.disabled=flagged;
  setActionIcon(flag,'flag','⚑');
  if(flagged)flag.classList?.add('is-flagged');
  const like=nodeAction(parent,'👍 '+(row.likes||0),b=>vote(kind,row,1,b),'dd-forum-icon-button dd-forum-vote');
@@ -365,13 +376,7 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
   const menu=mk('div',undefined,'dd-forum-more-options');
   if(kind==='thread')nodeAction(menu,row.is_pinned?'Unpin post':'Pin post',
    b=>change(b,()=>rpc('dd_discussions_pin',{p_thread_id:row.id,p_pinned:!row.is_pinned}),'Pin updated.'));
-  nodeAction(menu,'Escalate to site owner',async b=>{
-   const message=prompt('Explain the serious concern to the site owner (at least 10 characters):');
-   if(!message||message.trim().length<10){say('Please give a reason of at least 10 characters.');return}
-   await change(b,()=>rpc('dd_discussions_escalate',{
-    p_kind:kind,p_id:row.id,p_reason:message.trim().slice(0,500)
-   }),'Concern sent to the site owner.');
-  });
+  nodeAction(menu,'Escalate to site owner',b=>openPostAction(b,kind,row,'escalate'));
   more.append(summary,menu);parent.append(more);
  }
 }

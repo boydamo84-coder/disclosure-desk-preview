@@ -80,3 +80,27 @@ assert.match(forum,/p_kind:'section',p_id:s\.id,p_status:'removed'/);
 assert.match(forum,/SITE ADMIN ONLY:/);
 assert.match(html,/dd-forum-section-open/);
 console.log('PASS: clickable deep-linked section action, owner-guarded inline soft removal.');
+
+/* v8 mobile forum editorial polish — no second reply store or new database grants. */
+for(const id of ['ddForumActionDialog','ddForumActionForm','ddForumActionTextLabel','ddForumFlagReason']){
+ assert.match(html,new RegExp('id="'+id+'"'),'Missing styled moderation dialog control '+id);
+}
+for(const text of ['function renderReplyPreview','dd-forum-reply-preview','dd-forum-comment-expand',
+ 'IntersectionObserver','fetchReplies(4)','dd-forum-post-head','dd-forum-more-options',
+ 'dd-forum-actions','flaggedThisSession','setActionIcon','dd-forum-image-fallback']){
+ assert.ok(forum.includes(text),'Missing polished forum treatment '+text);
+}
+assert.match(forum,/dd_discussions_withdraw_own/);
+assert.match(forum,/dd_discussions_edit_own/);
+assert.match(forum,/dd_discussions_flag/);
+assert.match(forum,/dd_discussions_escalate/);
+assert.match(forum,/flag\.disabled=flagged/);
+assert.match(forum,/dd_discussions_replies',\{p_thread_id:row\.id,p_limit:limit\}/);
+assert.match(forum,/if\(stamp!==epoch\|\|section\?\.id!==sectionId\|\|thread\)return/);
+assert.match(forum,/frame\.replaceChildren\(\)/);
+assert.doesNotMatch(forum,/frame\.hidden=true/,'Blocked external images must not vanish silently');
+assert.match(html,/\.dd-forum \.dd-forum-post-card/);
+assert.match(html,/\.dd-forum \.dd-forum-actions\{display:flex;flex-wrap:nowrap/);
+assert.match(html,/\.dd-forum \.dd-forum-reply-preview/);
+assert.match(config,/discussions:false/,'Never enable Discussions on public host');
+console.log('PASS: v8 compact cards, auto four-comment teaser, styled actions, failure-visible images and unchanged server authorisation.');
