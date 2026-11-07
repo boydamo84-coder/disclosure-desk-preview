@@ -791,8 +791,7 @@
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3d2f/live/55b14d10-4b17-11f1-be9e-ad2f8d891a76.png",
-    "publisherUrl": "https://www.bbc.com/news/articles/c1m2epkey44o"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3d2f/live/55b14d10-4b17-11f1-be9e-ad2f8d891a76.png"
   },
   {
     "id": "b978ae47550c8e369f4f",
@@ -802,7 +801,8 @@
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-05/260508-uap-ufo-mn-0945-3ba239.jpg"
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-05/260508-uap-ufo-mn-0945-3ba239.jpg",
+    "publisherUrl": "https://www.nbcnews.com/science/ufos-and-anomalous-phenomena/ufo-uap-files-pentagon-release-trump-rcna344204"
   },
   {
     "id": "91d80d6f4aeb9eaf02cb",
