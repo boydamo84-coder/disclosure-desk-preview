@@ -6,7 +6,7 @@ const config=window.DD_COMMUNITY_TEST_CONFIG||{},flags=window.DD_COMMUNITY_FEATU
 const enabled=flags.privateChat===true&&['production','test'].includes(config.environment);
 const $=id=>document.getElementById(id),mk=(tag,content,cls='')=>{
  const x=document.createElement(tag);if(cls)x.className=cls;if(content!==undefined)x.textContent=String(content);return x};
-let db,host,notice,received,accepted,conversation,currentId=null,ownerId=null,rows=[],epoch=0,identityRevision=0,myUsername='You',drafts=Object.create(null);
+let db,host,notice,received,accepted,conversation,currentId=null,ownerId=null,rows=[],epoch=0,identityRevision=0,myUsername='You',drafts=Object.create(null),inviteSection=null,drawerToggle=null,drawerOpen=false;
 const client=()=>window.supabase?(db||(db=window.supabase.createClient(config.url,config.publishableKey,
  {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}))):null;
 function say(message){if(notice)notice.textContent=String(message)}
@@ -41,10 +41,39 @@ async function mutate(control,fn,success){
    say(String(e?.message||'Unable to complete request').slice(0,180));
  }finally{control.disabled=false}
 }
+function page(){return $('chatPage')}
+function closeDrawer(){
+ drawerOpen=false;
+ if(host&&typeof host.className==='string')host.className=host.className.replace(/\s*dd-chat-drawer-open\b/g,'');
+ drawerToggle?.setAttribute?.('aria-expanded','false');
+}
+function toggleDrawer(){
+ if(!currentId)return;
+ drawerOpen=!drawerOpen;
+ if(host&&typeof host.className==='string'){
+  host.className=host.className.replace(/\s*dd-chat-drawer-open\b/g,'');
+  if(drawerOpen)host.className+=' dd-chat-drawer-open';
+ }
+ drawerToggle?.setAttribute?.('aria-expanded',String(drawerOpen));
+}
+function showInbox(){
+ currentId=null;conversation?.replaceChildren();
+ if(host&&typeof host.className==='string')host.className=host.className.replace(/\s*dd-chat-conversation-open\b/g,'');
+ page()?.classList?.remove?.('dd-chat-is-conversation');
+ closeDrawer();
+}
+function newChat(){
+ showInbox();
+ if(inviteSection){
+  inviteSection.hidden=false;
+  inviteSection.querySelector?.('input')?.focus?.();
+ }
+}
 function clear(){
  ++epoch;++identityRevision;
  rows=[];currentId=null;ownerId=null;myUsername='You';drafts=Object.create(null);
- if(host&&typeof host.className==='string')host.className=host.className.replace(/\s*dd-chat-conversation-open\b/g,'');
+ showInbox();
+ if(inviteSection)inviteSection.hidden=true;
  received?.replaceChildren();accepted?.replaceChildren();conversation?.replaceChildren()
 }
 function drawList(target,list){
@@ -60,7 +89,7 @@ function drawList(target,list){
     row.status==='accepted'?(unread?'New messages':'Open conversation'):
     row.status==='pending'?(row.direction==='received'?'Incoming request · tap to respond':'Request sent · awaiting acceptance'):
     'Request closed';
-  const item=button(target,name,()=>{currentId=row.pair_id;return openConversation(row)});
+  const item=button(target,name,()=>{closeDrawer();currentId=row.pair_id;if(inviteSection)inviteSection.hidden=true;return openConversation(row)});
   item.className+=' dd-chat-person'+(row.pair_id===currentId?' is-current':'');
   item.setAttribute('aria-label',name+' · '+status);
   item.append(mk('small',status,'dd-chat-person-detail'));
@@ -101,7 +130,7 @@ async function refresh(){
   drawList(received,rows.filter(x=>x.status!=='accepted'));
   const active=rows.find(x=>x.pair_id===currentId);
   if(active)await openConversation(active);
-  else if(currentId){currentId=null;conversation?.replaceChildren()}
+  else if(currentId)showInbox();
   if(stamp!==epoch)return;
   say('Private chat requests updated.');
  }catch(e){say('Chat unavailable. '+String(e?.message||'Please retry').slice(0,135))}
@@ -111,11 +140,13 @@ async function openConversation(row){
  const scrollTop=previous?.scrollTop||0,nearBottom=!previous||previous.scrollHeight-previous.scrollTop-previous.clientHeight<80;
  conversation.replaceChildren();
  if(host&&typeof host.className==='string'&&!host.className.includes('dd-chat-conversation-open'))host.className+=' dd-chat-conversation-open';
+ page()?.classList?.add?.('dd-chat-is-conversation');
  const heading=mk('div',undefined,'dd-chat-conversation-head');
- const back=button(heading,'← Chats',()=>{currentId=null;conversation.replaceChildren();
-  if(host&&typeof host.className==='string')host.className=host.className.replace(/\s*dd-chat-conversation-open\b/g,'');
- });
- back.className+=' dd-chat-back';
+ const back=button(heading,'☰',()=>toggleDrawer());
+ back.className+=' dd-chat-back';back.setAttribute('aria-label','Open conversation list');
+ back.setAttribute('aria-controls','ddChatListDrawer');
+ back.setAttribute('aria-expanded',String(drawerOpen));
+ drawerToggle=back;
  const title=mk('h4',row.other_username||'Private chat');heading.append(title);conversation.append(heading);
  if(row.status==='pending'){
   const intro=mk('article',undefined,'dd-chat-bubble');
@@ -247,27 +278,39 @@ function invite(target){
    if(error)throw error;name.value='';intro.value='';detail.hidden=true;
   },'Request sent. The recipient can accept or decline it.');
  };
- section.append(headline,form);target.append(section);
+ section.append(headline,form);target.append(section);inviteSection=section;inviteSection.hidden=true;
 }
 function init(){
  const panel=$('ddProfileChatPanel');host=$('ddProfileChatApp');if(!panel||!host)return;
  if(!enabled){entry(host,'Consent-first one-to-one messaging is being prepared. It is not active yet.');return}
- // Search first, then a compact status and an inbox. Only one actual Chat instance.
+ // Clean inbox at rest. Search/request controls appear only when New chat is selected.
  invite(host);
+ const externalNew=$('ddChatNew');if(externalNew)externalNew.onclick=()=>newChat();
  notice=mk('p','Sign in to view your chat requests.','muted small');
  notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');
  host.append(notice);
  const grid=mk('div',undefined,'dd-chat-layout');
  const list=mk('div',undefined,'dd-chat-side'),view=mk('div',undefined,'dd-chat-view');
  const acceptedHeader=mk('div',undefined,'dd-chat-group-head');
+ const allChats=button(acceptedHeader,'← Inbox',()=>showInbox());
+ allChats.className+=' dd-chat-show-inbox';allChats.setAttribute('aria-label','Return to all chats');
  acceptedHeader.append(mk('h4','Conversations'));
+ const create=button(acceptedHeader,'＋',()=>newChat());
+ create.className+=' dd-chat-new-from-list';create.setAttribute('aria-label','Start a new chat');
  const refreshButton=button(acceptedHeader,'↻',()=>refresh());refreshButton.className='dd-chat-refresh';refreshButton.setAttribute('aria-label','Refresh conversations');
  accepted=mk('div',undefined,'dd-chat-people');
  list.append(acceptedHeader,accepted);
+ list.setAttribute('id','ddChatListDrawer');
  list.append(mk('h4','Pending requests'));
  received=mk('div',undefined,'dd-chat-people');list.append(received);
  conversation=mk('div');view.append(conversation);grid.append(list,view);
+ const shade=mk('button',undefined,'dd-chat-drawer-shade');
+ shade.type='button';shade.setAttribute('aria-label','Close conversation list');
+ shade.onclick=()=>closeDrawer();grid.append(shade);
  host.append(grid);
+ document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&drawerOpen){closeDrawer();drawerToggle?.focus?.()}
+ });
  panel.addEventListener('toggle',()=>{if(panel.open)void refresh()});
  client()?.auth.onAuthStateChange(()=>{clear();Promise.resolve().then(()=>{void refresh()})});
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')void refresh()});
