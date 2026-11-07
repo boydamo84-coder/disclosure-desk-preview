@@ -14,7 +14,7 @@ assert.match(html,/if\(id==='discussionsPage'&&window\.DD_COMMUNITY_FEATURES\?\.
 assert.match(html,/if\(id==='discussionsPage'\)window\.DDDiscussions\?\.refresh\?\.\(\)/);
 assert.match(forum,/witness\?\.after\(tab\)/,'Proposed new tab follows Witness when enabled');
 for(const id of ['ddForumSections','ddForumSectionCreate','ddForumPostList','ddForumPostCreate','ddForumReplyPane','ddForumReplyCreate','ddForumStatus','ddForumSearch'])assert.match(html,new RegExp('id="'+id+'"'),'Forum control '+id);
-for(const fn of ['dd_discussions_sections','dd_discussions_threads','dd_discussions_replies','dd_discussions_create_section','dd_discussions_create_thread','dd_discussions_reply','dd_discussions_pin','dd_discussions_escalate','dd_discussions_vote','dd_discussions_flag'])assert.match(forum,new RegExp("'"+fn+"'"),'Missing guarded RPC '+fn);
+for(const fn of ['dd_discussions_sections','dd_discussions_threads','dd_discussions_replies','dd_discussions_create_section','dd_discussions_create_thread_v2','dd_discussions_reply','dd_discussions_pin','dd_discussions_escalate','dd_discussions_vote','dd_discussions_flag'])assert.match(forum,new RegExp("'"+fn+"'"),'Missing guarded RPC '+fn);
 assert.match(forum,/is_steward/,'Steward-specific organisation actions');
 assert.doesNotMatch(forum,/banUser|ban_member|kickUser|removeOtherPerson|\.innerHTML\s*=/,'No gatekeeper powers or HTML injection');
 assert.match(forum,/\.textContent=String\(text\)/,'Untrusted user content rendered as text');
@@ -43,3 +43,18 @@ assert.match(forum,/Number\(row\.my_vote\)===value\?0:value/,'Vote can be remove
 assert.match(forum,/aria-pressed/,'Accessible voting state');
 assert.match(forum,/result===false/,'Server rejection is never presented as successful');
 assert.match(forum,/ddForumPostList'\)\.hidden=true/,'Thread view hides background topic list');
+
+// Rich discussion features are feature-gated, with source-level input validation.
+for(const id of ['ddForumFeedSearch','ddForumPrev','ddForumNext','ddForumPageStatus'])assert.match(html,new RegExp('id="'+id+'"'));
+assert.match(html,/name="post_tone"/);
+assert.match(html,/name="image_url"/);
+assert.match(html,/DDSaveForumToBoard/);
+assert.match(forum,/dd_discussions_threads_v2/);
+assert.match(forum,/p_limit:20,p_offset:feedPage\*20/);
+assert.match(forum,/dd_discussions_thread_v2/);
+assert.match(forum,/dd_discussions_create_thread_v2/);
+assert.match(forum,/dd-forum-post-card/);
+assert.match(forum,/safeImage/);
+assert.match(forum,/referrerPolicy='no-referrer'/);
+assert.match(forum,/window\.DDSaveForumToBoard/);
+assert.doesNotMatch(forum,/\.innerHTML\s*=/);
