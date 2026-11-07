@@ -6,6 +6,7 @@ on:
       - 'scripts/build_community_beta_local.cjs'
       - '.github/workflows/build-community-beta-local.yml'
       - 'assets/chat-tab-ui.js'
+      - 'assets/community-discussions.js'
       - 'assets/profile-private-chat.js'
       - 'index.html'
       - 'research/research-site-nav.js'
