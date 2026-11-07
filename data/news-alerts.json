@@ -613,7 +613,8 @@
     "date": "2026-05-22T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/07b3/live/d34ce420-55fb-11f1-8b8c-6d33e1d5abb6.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/07b3/live/d34ce420-55fb-11f1-8b8c-6d33e1d5abb6.jpg",
+    "publisherUrl": "https://www.bbc.co.uk/news/videos/cp3p2dkqxd0o"
   },
   {
     "id": "ab9fb402600a826d1736",
@@ -748,7 +749,8 @@
     "date": "2026-05-09T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/b3a3/live/8674db10-4b53-11f1-b55d-0f258dce1735.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/b3a3/live/8674db10-4b53-11f1-b55d-0f258dce1735.jpg",
+    "publisherUrl": "https://www.bbc.com/news/articles/c707zjg3p42o"
   },
   {
     "id": "2a0f4e3ccf620d4b6c0e",
@@ -964,8 +966,7 @@
     "date": "2026-04-05T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8",
-    "publisherUrl": "https://www.theguardian.com/us-news/2026/apr/05/alien-life-nasa-jared-isaacman-artemis-ii"
+    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8"
   },
   {
     "id": "ef2cf6dd2b9e6f0cd58a",
