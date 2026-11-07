@@ -314,6 +314,49 @@
 .dd-profile-card [role=status]{overflow-wrap:anywhere}
 @media(max-width:630px){.dd-profile-grid{grid-template-columns:1fr}.dd-profile-card{padding:13px}.dd-profile-stat{padding:10px}.dd-profile-stat strong{font-size:21px}}
 
+
+/* Messenger-style Chat navigation — list-first inbox with one accessible off-canvas drawer. */
+#chatPage .dd-chat-titlebar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:1px 0 8px}
+#chatPage .dd-chat-titlebar h2{margin:0}
+#chatPage .dd-chat-start-button{min-height:40px;border:1px solid #c7a76f;color:#f4dfb0;border-radius:12px;background:#233748;font-size:12px;font-weight:750;padding:9px 12px}
+#chatPage .dd-chat-start[hidden]{display:none!important}
+#chatPage .dd-chat-group-head h4{flex:1}
+#chatPage .dd-chat-show-inbox{display:none}
+#chatPage .dd-chat-new-from-list{width:33px;min-width:33px;height:32px;padding:3px;margin:0;border-radius:10px;background:#203a4b;color:#eecb8d;border:1px solid #596f7c;font-size:20px}
+#chatPage .dd-chat-drawer-shade{display:none}
+#chatPage.dd-chat-is-conversation .dd-chat-titlebar,#chatPage.dd-chat-is-conversation .dd-chat-explainer{display:none}
+#chatPage .dd-chat-conversation-head{min-height:42px}
+#chatPage .dd-chat-conversation-head h4{font-size:16px;flex:1}
+@media(max-width:630px){
+ #chatPage #ddProfileChatApp.dd-chat-conversation-open>.dd-chat-start{display:none!important}
+ #chatPage #ddProfileChatApp.dd-chat-conversation-open .dd-chat-side{
+  display:flex!important;flex-direction:column;position:fixed;z-index:10001;
+  top:0;bottom:0;left:0;width:min(86vw,350px);max-width:100vw;
+  border-radius:0 18px 18px 0;padding:calc(env(safe-area-inset-top) + 18px) 14px 30px;
+  overflow-y:auto;overscroll-behavior:contain;box-shadow:14px 0 40px #0007;
+  transform:translateX(-108%);transition:transform .23s ease;visibility:hidden;
+ }
+ #chatPage #ddProfileChatApp.dd-chat-conversation-open.dd-chat-drawer-open .dd-chat-side{
+  transform:translateX(0);visibility:visible;
+ }
+ #chatPage #ddProfileChatApp.dd-chat-conversation-open.dd-chat-drawer-open .dd-chat-drawer-shade{
+  display:block;position:fixed;z-index:10000;inset:0;border:0;background:rgba(0,7,15,.67);
+  border-radius:0;cursor:pointer;
+ }
+ #chatPage #ddProfileChatApp.dd-chat-conversation-open .dd-chat-show-inbox{
+  display:inline-flex;width:auto;min-width:72px;min-height:32px;padding:5px 8px;
+  background:#23394b;color:#e4c996;border:1px solid #536979;border-radius:9px;font-size:12px
+ }
+ #chatPage .dd-chat-conversation-head .dd-chat-back{
+  display:inline-flex;width:42px;height:40px;align-items:center;justify-content:center;
+  font-size:23px;border-color:#637b87;background:#20384b;color:#f6d591
+ }
+ #chatPage #ddProfileChatApp.dd-chat-conversation-open .dd-chat-view{
+  display:block;min-height:calc(100dvh - 205px);padding:10px;
+ }
+}
+@media(prefers-reduced-motion:reduce){#chatPage .dd-chat-side{transition:none!important}}
+
 /* Reddit-inspired Discussions: subject cards, paged feeds and rich media posts. */
 .dd-forum .dd-forum-section-card{padding:17px;border:1px solid #456073;border-radius:16px;background:linear-gradient(120deg,#142c40,#102131);box-shadow:0 4px 16px #0003;min-height:112px}
 .dd-forum .dd-forum-section-card .dd-forum-title{font-size:17px;text-align:left;font-weight:800;color:#ebcf98}
@@ -423,7 +466,11 @@
 </div></div>
 <div class="note">Independent research includes uncertainty. We distinguish reporting, source material, disputed claims and personal interpretation wherever possible. Public maps must not disclose precise witness locations.</div>
 </div></section>
-<section id="chatPage" class="hidden" hidden aria-label="Private Chat"><h2>Chat</h2><p class="muted small">Private one-to-one messages between registered members. Invitations require acceptance before further messages can be sent.</p><div id="ddChatPageMount"></div></section>
+<section id="chatPage" class="hidden" hidden aria-label="Private Chat">
+ <div class="dd-chat-titlebar"><h2>Chats</h2><button type="button" id="ddChatNew" class="outline dd-chat-start-button">＋ New chat</button></div>
+ <p class="dd-chat-explainer muted small">Private one-to-one conversations. Requests require acceptance before messaging.</p>
+ <div id="ddChatPageMount"></div>
+</section>
 <section id="discussionsPage" class="hidden" hidden aria-labelledby="ddForumHeading">
 <div class="section dd-forum">
  <div class="head"><h2 id="ddForumHeading">Community Discussions</h2><span class="pill">PUBLIC COMMUNITY</span></div>
@@ -2045,4 +2092,4 @@ window.ddTickerOpenStory=function(id){
 };
 window.ddTickerRefresh=function(){return loadLiveNews(false)};
 $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
-</script><script defer src="assets/news-ticker.js?v=nov05-beta1"></script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=video-sync-1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov3-username-stage"></script><script defer src="assets/research-hub.js?v=nov3-hub1"></script><script defer src="assets/profile-avatars.js?v=nov05-private-stage"></script><script defer src="assets/profile-private-chat.js?v=nov3-private-staged"></script><script defer src="assets/chat-tab-ui.js?v=nov6-chat-tab-stage"></script><script defer src="assets/community-discussions.js?v=nov07-reddit-cards1"></script><script defer src="assets/discussions-admin.js?v=nov3-forum-admin-staged"></script><script defer src="assets/historical-satellite.js?v=nov3-source-first"></script><script defer src="assets/support-site.js?v=ko-fi-disclosuredesk-20261103"></script><script defer src="assets/community-votes.js?v=nov3-community"></script><script defer src="assets/case-discussions.js?v=dev-1"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=dev-1"></script><script defer src="assets/live-hearings.js?v=dev-1"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=nov3-beta1"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/watch-read.js?v=dev-1"></script></body></html>
+</script><script defer src="assets/news-ticker.js?v=nov05-beta1"></script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=video-sync-1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov3-username-stage"></script><script defer src="assets/research-hub.js?v=nov3-hub1"></script><script defer src="assets/profile-avatars.js?v=nov05-private-stage"></script><script defer src="assets/profile-private-chat.js?v=nov07-slide-drawer-beta"></script><script defer src="assets/chat-tab-ui.js?v=nov6-chat-tab-stage"></script><script defer src="assets/community-discussions.js?v=nov07-reddit-cards1"></script><script defer src="assets/discussions-admin.js?v=nov3-forum-admin-staged"></script><script defer src="assets/historical-satellite.js?v=nov3-source-first"></script><script defer src="assets/support-site.js?v=ko-fi-disclosuredesk-20261103"></script><script defer src="assets/community-votes.js?v=nov3-community"></script><script defer src="assets/case-discussions.js?v=dev-1"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=dev-1"></script><script defer src="assets/live-hearings.js?v=dev-1"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=nov3-beta1"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/watch-read.js?v=dev-1"></script></body></html>
