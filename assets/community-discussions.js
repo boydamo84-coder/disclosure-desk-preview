@@ -295,7 +295,7 @@ async function openComposer(id,opener){
 }
 function wireComposer(id){
  const dialog=$(id);if(!dialog)return;
- dialog.querySelectorAll('[data-dd-forum-close]').forEach(b=>b.addEventListener('click',()=>dialog.close()));
+ dialog.querySelectorAll?.('[data-dd-forum-close]')?.forEach(b=>b.addEventListener('click',()=>dialog.close()));
  dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
  dialog.addEventListener('close',()=>$(dialog.dataset.returnFocus||'')?.focus());
 }
