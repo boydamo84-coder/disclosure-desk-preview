@@ -249,7 +249,7 @@ function drawSections(){
  }
 }
 async function openDeepLink(){
- if(deepLinkHandled||section||thread)return;
+ if(deepLinkHandled||section||thread||typeof location==='undefined')return;
  const id=new URLSearchParams(location.search).get('dd_thread');if(!isId(id))return;
  deepLinkHandled=true;
  try{
@@ -345,6 +345,7 @@ function init(){
   void change(b,()=>rpc('dd_discussions_reply',{p_thread_id:thread.id,p_body:body,p_parent_id:null}),'Reply posted.');
  };
  db()?.auth?.onAuthStateChange?.((_event,session)=>onIdentityChange(session));
+ if(!$('discussionsPage').classList.contains('hidden'))void refresh();
 }
 window.DDDiscussions=Object.freeze({refresh});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
