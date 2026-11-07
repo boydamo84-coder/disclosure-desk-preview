@@ -261,6 +261,53 @@
 .nav .tab[data-tab="chatPage"]{position:relative}
 .nav .tab[data-tab="chatPage"] .dd-chat-unread-badge{position:absolute;top:1px;right:4px;min-width:17px;height:17px;padding:0 3px;font-size:9px}
 @media(max-width:630px){#chatPage .dd-chat-layout{grid-template-columns:1fr}#chatPage .dd-chat-history{max-height:44dvh}}
+/* Private Chat polish: mobile inbox, separate conversation cards, compact expanding message composer. */
+#chatPage #ddProfileChatApp{display:flex;flex-direction:column;gap:12px}
+#chatPage .dd-chat-start{padding:14px;border:1px solid #445c70;border-radius:15px;background:linear-gradient(145deg,#142c3e,#101f30);box-shadow:0 4px 20px #0002}
+#chatPage .dd-chat-start h3{font-size:14px;color:#e8cd95;margin:0 0 11px}
+#chatPage .dd-chat-search-row{display:flex;gap:8px;align-items:stretch}
+#chatPage .dd-chat-search-row input{min-width:0;flex:1;margin:0;border-radius:12px!important;background:#0a1926;color:#f4f1ec;border:1px solid #597080;padding:11px 12px}
+#chatPage .dd-chat-search-row input::placeholder,#chatPage .dd-chat-compose textarea::placeholder{color:#a7b5bd}
+#chatPage .dd-chat-search-action,#chatPage .dd-chat-send{flex:none;min-height:42px;border:1px solid #e4c68d;border-radius:12px;background:#d9b878;color:#142538;font-size:12px;font-weight:800;padding:9px 12px}
+#chatPage .dd-chat-invite-details{margin:11px 0 2px;padding:12px;border:1px solid #456072;background:#102331;border-radius:12px}
+#chatPage .dd-chat-invite-details[hidden]{display:none!important}
+#chatPage .dd-chat-invite-details label{font-size:12px;color:#e8ca91;display:block}
+#chatPage .dd-chat-invite-details textarea{width:100%;display:block;margin:8px 0;border-radius:10px;min-height:42px;max-height:88px;overflow-y:auto;resize:none;padding:10px 12px;line-height:21px;color:#fff;background:#0c1a26;border:1px solid #526779}
+#chatPage .dd-chat-invite-details .dd-chat-send{margin-top:8px}
+#chatPage .dd-chat-layout{margin:0}
+#chatPage .dd-chat-side{border-radius:14px;background:#102334}
+#chatPage .dd-chat-group-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#chatPage .dd-chat-group-head h4{margin:3px 0 10px}
+#chatPage .dd-chat-refresh{padding:3px 10px;min-height:31px;width:auto;font-size:17px;border:1px solid #4a6170;border-radius:9px;background:#1c3548;color:#e7d3aa}
+#chatPage .dd-chat-people{display:flex;flex-direction:column;gap:8px;margin:3px 0 15px}
+#chatPage .dd-chat-person{display:flex;position:relative;flex-direction:column;align-items:flex-start;justify-content:center;text-align:left;gap:3px;width:100%;min-height:68px;margin:0;padding:13px 55px 13px 17px;border:1px solid #375267;border-radius:13px;background:#152f43;color:#f0f2f3;font-weight:750;font-size:14px;transition:background .2s,border-color .2s}
+#chatPage .dd-chat-person:active,#chatPage .dd-chat-person:hover,#chatPage .dd-chat-person.is-current{background:#204056;border-color:#a78b5c}
+#chatPage .dd-chat-person:before{content:'◉';position:absolute;left:0;transform:translateX(-9000px)}
+#chatPage .dd-chat-person-detail{font-weight:450;font-size:11px;line-height:1.5;color:#b7c8d4}
+#chatPage .dd-chat-person-count{position:absolute;right:12px;top:50%;transform:translateY(-50%)}
+#chatPage .dd-chat-conversation-head{display:flex;align-items:center;gap:10px;border-bottom:1px solid #38556c;margin-bottom:12px;padding-bottom:8px}
+#chatPage .dd-chat-conversation-head h4{margin:0}
+#chatPage .dd-chat-back{display:none;padding:6px 9px;border:1px solid #4a6275;border-radius:9px;background:#253d50;color:#f3e5c8;font-size:12px}
+#chatPage .dd-chat-compose{position:sticky;bottom:calc(70px + env(safe-area-inset-bottom));z-index:3;margin:10px 0 0;padding:9px 0;background:#102536}
+#chatPage .dd-chat-compose-bar{display:flex;align-items:flex-end;gap:9px;padding:2px}
+#chatPage .dd-chat-compose-bar label{flex:1;min-width:0;margin:0}
+#chatPage .dd-chat-compose-bar textarea{width:100%;box-sizing:border-box;min-height:42px;height:42px;max-height:88px;margin:0;padding:10px 11px;border-radius:13px;background:#091d2d;color:#f4f4f5;border:1px solid #52687c;resize:none;overflow-y:auto;line-height:21px}
+#chatPage .dd-chat-compose-bar .dd-chat-send{height:42px}
+#chatPage .dd-chat-visually-hidden{font-size:0!important;color:transparent!important}
+#chatPage .dd-chat-visually-hidden textarea{font-size:14px;color:#f4f4f5}
+#chatPage .dd-chat-view{min-width:0}
+@media(max-width:630px){
+ #chatPage .dd-chat-layout{display:block}
+ #chatPage .dd-chat-view{display:none}
+ #chatPage #ddProfileChatApp.dd-chat-conversation-open>.dd-chat-start,
+ #chatPage #ddProfileChatApp.dd-chat-conversation-open>.dd-chat-side{display:none}
+ #chatPage #ddProfileChatApp.dd-chat-conversation-open .dd-chat-side{display:none}
+ #chatPage #ddProfileChatApp.dd-chat-conversation-open .dd-chat-view{display:block;padding:12px}
+ #chatPage .dd-chat-back{display:inline-flex}
+ #chatPage .dd-chat-history{max-height:52dvh}
+}
+@media(max-width:375px){#chatPage .dd-chat-search-row{flex-wrap:wrap}#chatPage .dd-chat-search-action{width:100%}}
+
 
 .dd-profile-actions{display:flex;gap:9px;flex-wrap:wrap;margin:10px 0}
 .dd-profile-empty{font-size:12px;color:#bdcbd4}

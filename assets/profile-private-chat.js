@@ -6,7 +6,7 @@ const config=window.DD_COMMUNITY_TEST_CONFIG||{},flags=window.DD_COMMUNITY_FEATU
 const enabled=flags.privateChat===true&&['production','test'].includes(config.environment);
 const $=id=>document.getElementById(id),mk=(tag,content,cls='')=>{
  const x=document.createElement(tag);if(cls)x.className=cls;if(content!==undefined)x.textContent=String(content);return x};
-let db,host,notice,received,accepted,conversation,currentId=null,ownerId=null,rows=[],epoch=0,identityRevision=0,myUsername='You';
+let db,host,notice,received,accepted,conversation,currentId=null,ownerId=null,rows=[],epoch=0,identityRevision=0,myUsername='You',drafts=Object.create(null);
 const client=()=>window.supabase?(db||(db=window.supabase.createClient(config.url,config.publishableKey,
  {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}))):null;
 function say(message){if(notice)notice.textContent=String(message)}
@@ -43,19 +43,40 @@ async function mutate(control,fn,success){
 }
 function clear(){
  ++epoch;++identityRevision;
- rows=[];currentId=null;ownerId=null;myUsername='You';
+ rows=[];currentId=null;ownerId=null;myUsername='You';drafts=Object.create(null);
+ if(host&&typeof host.className==='string')host.className=host.className.replace(/\s*dd-chat-conversation-open\b/g,'');
  received?.replaceChildren();accepted?.replaceChildren();conversation?.replaceChildren()
 }
 function drawList(target,list){
- target.replaceChildren();if(!list.length){entry(target,'Nothing here yet.');return}
+ target.replaceChildren();
+ if(!list.length){
+  entry(target,target===accepted?'No conversations yet. Search for a researcher above to start.':'No pending requests.');
+  return;
+ }
  for(const row of list){
   const unread=Math.max(0,Number(row.unread_count)||0);
-  const suffix=row.status==='accepted'&&!row.contact_unavailable&&unread>0?' · '+unread+' unread':'';
-  const label=(row.other_username||'Researcher')+' · '+(row.status==='pending'?'Awaiting acceptance':row.status)+suffix;
-  const item=button(target,label,()=>{currentId=row.pair_id;return openConversation(row)});
-  item.className+=' dd-chat-person'; // Also supports the existing fake-DOM account-switch regression.
-  if(unread>0){const count=mk('span',String(unread),'dd-chat-person-count');item.append(count)}
+  const name=row.other_username||'Researcher';
+  const status=row.contact_unavailable?'Unavailable':
+    row.status==='accepted'?(unread?'New messages':'Open conversation'):
+    row.status==='pending'?(row.direction==='received'?'Incoming request · tap to respond':'Request sent · awaiting acceptance'):
+    'Request closed';
+  const item=button(target,name,()=>{currentId=row.pair_id;return openConversation(row)});
+  item.className+=' dd-chat-person'+(row.pair_id===currentId?' is-current':'');
+  item.setAttribute('aria-label',name+' · '+status);
+  item.append(mk('small',status,'dd-chat-person-detail'));
+  if(unread&&row.status==='accepted'&&!row.contact_unavailable){
+   const badge=mk('span',String(unread),'dd-chat-person-count');
+   badge.setAttribute('aria-label',unread+' unread messages');item.append(badge);
+  }
  }
+}
+function autoGrow(field){
+ // One line at rest, then max three visible lines; beyond this, scroll within textarea.
+ if(!field.style||typeof field.scrollHeight!=='number')return;
+ field.style.height='auto';
+ const height=Math.min(88,Math.max(42,field.scrollHeight));
+ field.style.height=height+'px';
+ field.style.overflowY=field.scrollHeight>88?'auto':'hidden';
 }
 async function refresh(){
  if(!enabled||!(host?.closest('details')?.open||window.DDChatTab?.isOpen?.()))return;
@@ -86,8 +107,16 @@ async function refresh(){
  }catch(e){say('Chat unavailable. '+String(e?.message||'Please retry').slice(0,135))}
 }
 async function openConversation(row){
+ const previous=conversation.querySelector?.('.dd-chat-history');
+ const scrollTop=previous?.scrollTop||0,nearBottom=!previous||previous.scrollHeight-previous.scrollTop-previous.clientHeight<80;
  conversation.replaceChildren();
- const title=mk('h4',row.other_username||'Private chat');conversation.append(title);
+ if(host&&typeof host.className==='string'&&!host.className.includes('dd-chat-conversation-open'))host.className+=' dd-chat-conversation-open';
+ const heading=mk('div',undefined,'dd-chat-conversation-head');
+ const back=button(heading,'← Chats',()=>{currentId=null;conversation.replaceChildren();
+  if(host&&typeof host.className==='string')host.className=host.className.replace(/\s*dd-chat-conversation-open\b/g,'');
+ });
+ back.className+=' dd-chat-back';
+ const title=mk('h4',row.other_username||'Private chat');heading.append(title);conversation.append(heading);
  if(row.status==='pending'){
   const intro=mk('article',undefined,'dd-chat-bubble');
   intro.append(mk('small',row.direction==='sent'?'Your invitation':'Invitation preview'),mk('p',row.initial_preview||''));
@@ -133,6 +162,8 @@ async function openConversation(row){
     });
     history.append(item);
    }
+   if(typeof history.scrollTop==='number'&&typeof history.scrollHeight==='number')
+    history.scrollTop=nearBottom?history.scrollHeight:scrollTop;
    const lastMessageId=(data||[])[0]?.message_id;
    if(lastMessageId&&currentId===pairId){
     const seen=await c.rpc('dd_chat_mark_read',{p_pair_id:pairId,p_last_message_id:lastMessageId});
@@ -146,15 +177,21 @@ async function openConversation(row){
   if(row.contact_unavailable)entry(conversation,'This conversation is blocked. Messages and history are unavailable.');
   else {
    const form=mk('form',undefined,'dd-chat-compose');
-   const label=mk('label','Write a private message (max 2000 characters)');
-   const body=mk('textarea');body.maxLength=2000;body.rows=3;body.required=true;
-   label.append(body);const send=mk('button','Send message','outline');send.type='submit';
-   form.append(label,send);conversation.append(form);
+   const label=mk('label','Message (max 2000 characters)');
+   label.className='dd-chat-visually-hidden';
+   const bar=mk('div',undefined,'dd-chat-compose-bar');
+   const body=mk('textarea');body.maxLength=2000;body.rows=1;body.required=true;
+   body.placeholder='Write a message…';body.setAttribute('aria-label','Write a private message');
+   body.value=drafts[pairId]||'';body.addEventListener('input',()=>{drafts[pairId]=body.value;autoGrow(body)});
+   label.append(body);const send=mk('button','Send','dd-chat-send');send.type='submit';
+   send.setAttribute('aria-label','Send private message');
+   bar.append(label,send);form.append(bar);conversation.append(form);
+   autoGrow(body);
    form.onsubmit=event=>{event.preventDefault();
     const message=body.value.trim();if(!message||message.length>2000)return;
     void mutate(send,async c=>{
      const {error}=await c.rpc('dd_chat_send_message',{p_pair_id:pairId,p_body:message});
-     if(error)throw error;body.value='';
+     if(error)throw error;delete drafts[pairId];body.value='';
     },'Message sent.');
    };
   }
@@ -177,37 +214,60 @@ async function openConversation(row){
  }
 }
 function invite(target){
- const form=mk('form',undefined,'dd-chat-compose');
- form.append(mk('h4','Start a new chat'),mk('p','Enter their exact public username. Up to 10 new chat requests per rolling 24 hours. Only one preview message is sent until they accept.','muted small'));
- const label=mk('label','Username');
- const name=mk('input');name.required=true;name.maxLength=24;name.autocomplete='off';label.append(name);
- const caption=mk('label','Your introductory message (5–1000 characters)');
- const intro=mk('textarea');intro.required=true;intro.minLength=5;intro.maxLength=1000;intro.rows=3;caption.append(intro);
- const send=mk('button','Request chat','outline');send.type='submit';
- form.append(label,caption,send);
+ const section=mk('section',undefined,'dd-chat-start');
+ const headline=mk('h3','Find a researcher');
+ const form=mk('form',undefined,'dd-chat-search-form');
+ const search=mk('div',undefined,'dd-chat-search-row');
+ const name=mk('input');name.required=true;name.maxLength=24;name.autocomplete='off';
+ name.placeholder='Search user';name.setAttribute('aria-label','Search user by exact public username');
+ const reveal=mk('button','Request chat','dd-chat-search-action');reveal.type='button';
+ search.append(name,reveal);
+ const detail=mk('div',undefined,'dd-chat-invite-details');detail.hidden=true;
+ const caption=mk('label','Introductory message');
+ const intro=mk('textarea');intro.required=true;intro.minLength=5;intro.maxLength=1000;intro.rows=1;
+ intro.placeholder='Write a short introduction…';intro.setAttribute('aria-label','Invitation preview message');
+ intro.addEventListener('input',()=>autoGrow(intro));caption.append(intro);
+ const helper=mk('p','The recipient must accept before further messages. Up to 10 new requests per 24 hours.','muted small');
+ const send=mk('button','Send request','dd-chat-send');send.type='submit';
+ detail.append(caption,helper,send);
+ reveal.onclick=()=>{
+  const username=name.value.trim();
+  if(!/^[A-Za-z][A-Za-z0-9_]{2,23}$/.test(username)){say('Enter an exact public username to request a chat.');return}
+  detail.hidden=false;intro.focus?.();
+ };
+ form.append(search,detail);
  form.onsubmit=event=>{
   event.preventDefault();const username=name.value.trim(),preview=intro.value.trim();
-  if(!/^[A-Za-z][A-Za-z0-9_]{2,23}$/.test(username)||preview.length<5||preview.length>1000)
-   {say('Use a valid username and introductory message.');return}
+  if(detail.hidden){reveal.onclick();return}
+  if(!/^[A-Za-z][A-Za-z0-9_]{2,23}$/.test(username)||preview.length<5||preview.length>1000){
+   say('Use a valid username and an introduction of 5–1000 characters.');return
+  }
   void mutate(send,async c=>{
    const {error}=await c.rpc('dd_chat_request',{p_username:username,p_preview:preview});
-   if(error)throw error;name.value='';intro.value='';
-  },'Request sent. Further messages are disabled until accepted.');
+   if(error)throw error;name.value='';intro.value='';detail.hidden=true;
+  },'Request sent. The recipient can accept or decline it.');
  };
- target.append(form);
+ section.append(headline,form);target.append(section);
 }
 function init(){
  const panel=$('ddProfileChatPanel');host=$('ddProfileChatApp');if(!panel||!host)return;
  if(!enabled){entry(host,'Consent-first one-to-one messaging is being prepared. It is not active yet.');return}
- notice=mk('p','Sign in to view your chat requests.','muted small');notice.setAttribute('role','status');
+ // Search first, then a compact status and an inbox. Only one actual Chat instance.
+ invite(host);
+ notice=mk('p','Sign in to view your chat requests.','muted small');
+ notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');
+ host.append(notice);
  const grid=mk('div',undefined,'dd-chat-layout');
  const list=mk('div',undefined,'dd-chat-side'),view=mk('div',undefined,'dd-chat-view');
- list.append(mk('h4','Accepted Chats'));accepted=mk('div');list.append(accepted);
- list.append(mk('h4','Pending Requests (received and sent)'));received=mk('div');list.append(received);
+ const acceptedHeader=mk('div',undefined,'dd-chat-group-head');
+ acceptedHeader.append(mk('h4','Conversations'));
+ const refreshButton=button(acceptedHeader,'↻',()=>refresh());refreshButton.className='dd-chat-refresh';refreshButton.setAttribute('aria-label','Refresh conversations');
+ accepted=mk('div',undefined,'dd-chat-people');
+ list.append(acceptedHeader,accepted);
+ list.append(mk('h4','Pending requests'));
+ received=mk('div',undefined,'dd-chat-people');list.append(received);
  conversation=mk('div');view.append(conversation);grid.append(list,view);
- host.append(notice);
- button(host,'Refresh chats',()=>refresh());
- host.append(grid);invite(host);
+ host.append(grid);
  panel.addEventListener('toggle',()=>{if(panel.open)void refresh()});
  client()?.auth.onAuthStateChange(()=>{clear();Promise.resolve().then(()=>{void refresh()})});
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')void refresh()});

@@ -67,3 +67,18 @@ assert.match(html,/dd-chat-bubble-mine/);
 assert.match(html,/chatPage'\)\{window\.DDPrivateChat/);
 
 assert.match(html,/window\.navigateTo=navigateTo;/,'Main-site nav must expose guarded router to Chat tab');
+
+/* Mobile inbox polish and expandable composer regression constraints. */
+assert.match(js,/placeholder='Search user'/);
+assert.match(js,/dd-chat-search-row/);
+assert.match(js,/dd-chat-invite-details/);
+assert.match(js,/dd-chat-person-detail/);
+assert.match(js,/dd-chat-conversation-open/);
+assert.match(js,/body\.rows=1/);
+assert.match(js,/Math\.min\(88,Math\.max\(42,field\.scrollHeight\)\)/);
+assert.match(js,/field\.style\.overflowY=field\.scrollHeight>88\?'auto':'hidden'/);
+assert.match(js,/drafts\[pairId\]/);
+assert.match(html,/#chatPage \.dd-chat-person\{/);
+assert.match(html,/#chatPage \.dd-chat-compose-bar\{/);
+assert.match(html,/dd-chat-conversation-open \.dd-chat-side\{display:none\}/);
+assert.match(cfg,/privateChat:false/);
