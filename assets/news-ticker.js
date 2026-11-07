@@ -2,7 +2,7 @@
 (function (root) {
   'use strict';
   const HOUR = 3600000;
-  const BREAKING_WINDOW = 2 * HOUR;
+  const BREAKING_WINDOW = 8 * HOUR;
   const RECENT_WINDOW = 48 * HOUR;
   const KEY = 'dd_live_news_ticker_preferences_v1';
 
@@ -65,8 +65,10 @@
   let prefs = readPrefs();
   let tickerPaused = false;
   let pauseButton = null;
+  let stopHeadlineTransition = null;
   function setTickerPaused(value) {
     tickerPaused = Boolean(value);
+    if (tickerPaused) stopHeadlineTransition?.();
     for (const id of ['ddNewsTickerBreakingTrack', 'ddNewsTickerRecentTrack']) {
       const viewport = byId(id)?.parentElement;
       if (viewport) viewport.classList.toggle('dd-ticker-user-paused', tickerPaused);
@@ -148,17 +150,62 @@
     setTickerPaused(false);
     let featuredIndex = 0;
     let featuredSignature = '';
+    let transitionSerial = 0, transitioning = false, transitionTimers = [];
+    function cancelTransition() {
+      transitionSerial++;
+      transitioning = false;
+      for (const id of transitionTimers) root.clearTimeout?.(id);
+      transitionTimers = [];
+      const visibleLink = byId('ddNewsTickerBreakingTrack')?.children?.[0]?.children?.[0];
+      visibleLink?.classList?.remove('dd-break-erasing');
+      visibleLink?.classList?.remove('dd-break-typing');
+    }
+    stopHeadlineTransition = cancelTransition;
+    function rotateBreaking() {
+      if (tickerPaused || transitioning || doc.visibilityState === 'hidden') return;
+      const breaking = selectHeadlines(root.ddNewsTickerRows || []).breaking;
+      if (breaking.length < 2) return;
+      const nextIndex = (featuredIndex + 1) % breaking.length;
+      const newsActive = !newsSection.classList.contains('hidden') && prefs.hub;
+      const reducedMotion = root.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches === true;
+      const originalLink = byId('ddNewsTickerBreakingTrack')?.children?.[0]?.children?.[0];
+      if (!newsActive || reducedMotion || !originalLink ||
+          typeof root.setTimeout !== 'function' || typeof root.clearTimeout !== 'function') {
+        featuredIndex = nextIndex;
+        render();
+        return;
+      }
+      const token = ++transitionSerial;
+      transitioning = true;
+      originalLink.classList.add('dd-break-erasing');
+      transitionTimers.push(root.setTimeout(() => {
+        if (token !== transitionSerial) return;
+        if (tickerPaused || doc.visibilityState === 'hidden') {cancelTransition(); return}
+        featuredIndex = nextIndex;
+        render();
+        const nextLink = byId('ddNewsTickerBreakingTrack')?.children?.[0]?.children?.[0];
+        nextLink?.classList?.add('dd-break-typing');
+        transitionTimers.push(root.setTimeout(() => {
+          if (token !== transitionSerial) return;
+          nextLink?.classList?.remove('dd-break-typing');
+          transitioning = false;
+          transitionTimers = [];
+        }, 850));
+      }, 650));
+    }
 
     function render() {
       const selected = selectHeadlines(root.ddNewsTickerRows || []);
       const nextSignature = selected.breaking.map(x => x.id).join('|');
       if (nextSignature !== featuredSignature) {
+        cancelTransition();
         featuredSignature = nextSignature;
         featuredIndex = 0; // a newly published story takes the lead immediately
       }
       const featured = selected.breaking.length
         ? [selected.breaking[featuredIndex % selected.breaking.length]] : [];
       const isNewsTab = !newsSection.classList.contains('hidden');
+      if (!isNewsTab || !prefs.hub || !selected.breaking.length) cancelTransition();
       hub.hidden = !isNewsTab;
       doc.body.classList.toggle('dd-news-ticker-visible', isNewsTab);
       doc.body.classList.toggle('dd-news-ticker-expanded', isNewsTab && prefs.hub);
@@ -172,9 +219,9 @@
       toggleAlerts.textContent = 'Alerts: ' + (prefs.alerts ? 'On' : 'Off');
       toggleAlerts.setAttribute('aria-pressed', String(prefs.alerts));
       drawTrack(byId('ddNewsTickerBreakingTrack'), featured,
-        'No sourced headlines published in the last 2 hours.');
+        'No sourced headlines published in the last 8 hours.');
       drawTrack(byId('ddNewsTickerRecentTrack'), selected.recent,
-        'No sourced headlines between 2 and 48 hours old.');
+        'No sourced headlines between 8 and 48 hours old.');
       const newMajor = selected.major.filter(x => !prefs.dismissed.includes(x.id));
       floating.hidden = isNewsTab || !prefs.alerts || !newMajor.length;
       if (!floating.hidden) {
@@ -206,14 +253,7 @@
     }
     // Navigation updates the .hidden class; observer avoids modifying the site-wide router.
     new MutationObserver(render).observe(newsSection, {attributes: true, attributeFilter: ['class']});
-    root.setInterval(() => {
-      if (doc.visibilityState === 'hidden') return;
-      const breaking = selectHeadlines(root.ddNewsTickerRows || []).breaking;
-      if (!tickerPaused && breaking.length > 1) {
-        featuredIndex = (featuredIndex + 1) % breaking.length;
-        render(); // rotate the readable lead headline every 20 seconds
-      }
-    }, 20000);
+    root.setInterval(rotateBreaking, 20000); // Hold headline 20s, then erase-and-type the next sourced story.
     root.setInterval(() => {
       if (doc.visibilityState !== 'hidden') render();
     }, 60000);

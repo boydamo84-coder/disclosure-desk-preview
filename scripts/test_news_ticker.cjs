@@ -15,8 +15,8 @@ function article(id, age, priority='standard') {
     date:new Date(now-age).toISOString(), priority};
 }
 const rows = [
-  article('a',5000,'major'),article('b',2*hour,'standard'),
-  article('c',2*hour+1,'major'),article('d',48*hour,'standard'),
+  article('a',5000,'major'),article('b',8*hour,'standard'),
+  article('c',8*hour+1,'major'),article('d',48*hour,'standard'),
   article('e',48*hour+1),article('future',-5),article('bad',6000)
 ];
 rows[6].url='http://localhost/suspicious';
@@ -30,7 +30,8 @@ assert.equal(core.safeSourceUrl('https://example.com@127.0.0.1/a'), '');
 assert.equal(core.safeSourceUrl('http://example.com'), '');
 assert.equal(core.safeSourceUrl('https://news.example.org/a'), 'https://news.example.org/a');
 assert.deepEqual(core.selectHeadlines([],now).recent,[]);
-console.log('PASS 1/5 — exact 2h/48h clock boundaries; major vs ordinary; URL and duplicate gating.');
+assert.equal(core.BREAKING_WINDOW,8*hour,'Breaking window must be eight hours');
+console.log('PASS 1/5 — exact 8h/48h clock boundaries; major vs ordinary; URL and duplicate gating.');
 
 const required = ['ddNewsTickerHub','ddNewsTickerRows','ddNewsTickerBreakingTrack',
  'ddNewsTickerRecentTrack','ddNewsTickerHubToggle','ddNewsTickerAlertsToggle',
@@ -83,13 +84,24 @@ const doc={
 };
 let observerCallback;
 class FakeObserver {constructor(callback){observerCallback=callback;} observe(){}}
-const storage=new Map(), events=new Map(), intervals=[];
+const storage=new Map(), events=new Map(), intervals=[], transitions=[];
+const advanceTransitions=()=>{
+ for(let i=0;i<8;i++){
+  const pending=transitions.find(x=>!x.ran&&!x.cancelled);
+  if(!pending)return;
+  pending.ran=true;pending.fn();
+ }
+ throw Error('Too many pending headline-animation timers');
+};
 const win={
   document:doc,localStorage:{
     getItem:key=>storage.get(key)||null,setItem:(key,value)=>storage.set(key,value)
   },
   addEventListener:(key,callback)=>events.set(key,callback),
   setInterval:(fn,ms)=>intervals.push({fn,ms}),
+  setTimeout:(fn,ms)=>{const item={id:transitions.length+1,fn,ms,ran:false,cancelled:false};transitions.push(item);return item.id},
+  clearTimeout:id=>{const item=transitions.find(x=>x.id===id);if(item)item.cancelled=true},
+  matchMedia:()=>({matches:false}),
   ResizeObserver:class{observe(){}},
   ddNewsTickerRows:[
     {id:'current-major',headline:'Sourced major report',source:'Sample outlet',
@@ -97,7 +109,7 @@ const win={
       date:new Date(Date.now()-3*60000).toISOString()},
     {id:'recent',headline:'Sourced recent report',source:'Sample outlet',
       url:'https://news.example.org/recent',priority:'standard',
-      date:new Date(Date.now()-4*hour).toISOString()}
+      date:new Date(Date.now()-10*hour).toISOString()}
   ]
 };
 vm.runInNewContext(source,{window:win,document:doc,globalThis:win,
@@ -117,6 +129,9 @@ assert.equal(elements.ddNewsTickerBreakingTrack.parentElement.parentElement.hidd
 assert(intervals.some(x=>x.ms===20000),'Readable lead rotates at the video-matched pace');
 assert.match(css,/\.dd-news-ticker-breaking \.dd-ticker-track\s*\{/);
 assert.match(css,/animation:none!important/);
+assert.match(css,/@keyframes ddBreakErase/);
+assert.match(css,/@keyframes ddBreakType/);
+assert.match(css,/prefers-reduced-motion:reduce/);
 assert.match(html,/>BREAKING NEWS<\/span>/);
 const firstLeadNode = elements.ddNewsTickerBreakingTrack.children[0];
 events.get('dd-news-updated')();
@@ -130,6 +145,8 @@ win.ddNewsTickerRows.push({
 events.get('dd-news-updated')();
 assert.match(elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent,/Latest source-verified/);
 intervals.find(x=>x.ms===20000).fn();
+assert.equal(elements.ddNewsTickerBreakingTrack.children[0].children[0].classList.contains('dd-break-erasing'),true);
+advanceTransitions();
 assert.match(elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent,/Sourced major report/,
   'Breaking lead must cycle without marquee-scrolling the current headline');
 const group=elements.ddNewsTickerBreakingTrack.children[0];
@@ -141,6 +158,7 @@ assert.equal(pauseButton.attributes['aria-pressed'],'false');
 assert.equal(elements.ddNewsTickerRecentTrack.parentElement.classList.contains('dd-ticker-user-paused'),false);
 const leadBeforeTap=elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent;
 intervals.find(x=>x.ms===20000).fn();
+advanceTransitions();
 assert.notEqual(elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent,leadBeforeTap);
 pauseButton.listeners.click();
 assert.equal(pauseButton.attributes['aria-pressed'],'true');
@@ -151,6 +169,7 @@ pauseButton.listeners.click();
 assert.equal(pauseButton.attributes['aria-pressed'],'false');
 assert.equal(elements.ddNewsTickerRecentTrack.parentElement.classList.contains('dd-ticker-user-paused'),false);
 intervals.find(x=>x.ms===20000).fn();
+advanceTransitions();
 assert.notEqual(elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent,heldLead);
 // No Breaking rows should leave the still-relevant 48-hour crawl visible.
 const savedRows=win.ddNewsTickerRows;

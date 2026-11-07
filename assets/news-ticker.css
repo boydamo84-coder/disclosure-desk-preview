@@ -89,7 +89,17 @@
   .dd-news-ticker-breaking .dd-ticker-link{font-size:12px;padding:9px 9px}
   .dd-news-ticker-recent .dd-news-ticker-link{font-size:10px}
 }
-/* Clicking a source holds the crawl and lead story until Resume headlines is selected. */
+/* A gentle terminal-news effect: stepwise erase, then type the next lead.
+   The actual headline/source link remains real text and is rebuilt by JS.
+   Respect reduced-motion preference and avoid flashing or forced scroll. */
+.dd-news-ticker-breaking .dd-ticker-link.dd-break-erasing{animation:ddBreakErase .65s steps(28,end) both;pointer-events:none}
+.dd-news-ticker-breaking .dd-ticker-link.dd-break-typing{animation:ddBreakType .85s steps(32,end) both;pointer-events:none}
+@keyframes ddBreakErase{from{clip-path:inset(0 0 0 0)}to{clip-path:inset(0 100% 0 0)}}
+@keyframes ddBreakType{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@media(prefers-reduced-motion:reduce){
+ .dd-news-ticker-breaking .dd-ticker-link.dd-break-erasing,.dd-news-ticker-breaking .dd-ticker-link.dd-break-typing{animation:none!important;clip-path:none!important}
+}
+/* Only the explicit Pause control freezes the crawl; opening a story never does. */
 .dd-ticker-user-paused .dd-ticker-track{animation-play-state:paused!important}
 .dd-news-ticker-row[hidden]{display:none!important}
 /* Leave the mobile dock swipe hint usable on other tabs, but never over a visible News ticker. */
