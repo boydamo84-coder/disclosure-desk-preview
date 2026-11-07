@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-07T10:48:06.103383+00:00",
+  "checkedAt": "2026-11-07T12:55:19.445730+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
@@ -10,14 +10,14 @@
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 8,
+      "items": 7,
       "latestArticleAt": "2026-11-06T23:01:26+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
       "items": 17,
-      "latestArticleAt": "2026-11-07T07:56:00+00:00"
+      "latestArticleAt": "2026-11-07T12:16:52+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
@@ -205,5 +205,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 310
+  "storiesPublished": 311
 }
