@@ -449,7 +449,9 @@
     "date": "2026-11-03T13:05:17+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://herald.wales/wp-content/uploads/2026/02/8959b678-53a5-46a2-b4db-44d68651406e.jpeg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "d490112384712ca587c2",
