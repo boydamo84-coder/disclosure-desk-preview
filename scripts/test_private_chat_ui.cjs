@@ -65,3 +65,5 @@ assert.match(js,/dd-chat-bubble-mine/);
 assert.match(js,/row\.other_username\|\|'Researcher'/);
 assert.match(html,/dd-chat-bubble-mine/);
 assert.match(html,/chatPage'\)\{window\.DDPrivateChat/);
+
+assert.match(html,/window\.navigateTo=navigateTo;/,'Main-site nav must expose guarded router to Chat tab');
