@@ -89,7 +89,7 @@ async function registered(){
  if(error||!data?.user||data.user.is_anonymous)throw Error('Sign in to your registered account first.');
  return data.user;
 }
-async function change(button,operation,ok){
+async function change(button,operation,ok,onSuccess){
  button.disabled=true;say('Checking your account…');
  const identityAtStart=identityRevision;
  try{
@@ -99,6 +99,7 @@ async function change(button,operation,ok){
   const result=await operation();
   if(identityAtStart!==identityRevision)throw Error('Account changed. Please refresh.');
   if(result===false)throw Error('Action not permitted or no change was made.');
+  if(typeof onSuccess==='function')onSuccess(result);
   say(ok);await refresh();return true;
  }catch(e){say(e?.message||'Unable to save.');return false}
  finally{button.disabled=false}
@@ -222,6 +223,31 @@ async function vote(kind,row,value,button){
  const next=Number(row.my_vote)===value?0:value;
  await change(button,()=>rpc('dd_discussions_vote',{p_kind:kind,p_id:row.id,p_value:next}), 'Vote saved.');
 }
+function setActionIcon(button,name,fallback){
+ const shapes={
+  flag:['path','M4 22V5 M4 5c4-3 7 3 11 0s5-2 5-2v12c-4-3-6 3-10 0s-6-1-6-1'],
+  star:['path','m12 2 3.1 6.3 7 1-5 4.9 1.2 7-6.3-3.3-6.3 3.3 1.2-7-5-4.9 7-1z'],
+  share:['circle','18,5,3','circle','6,12,3','circle','18,19,3','path','m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8'],
+  trash:['path','M3 6h18 M8 6V4h8v2 M6 6l1 15h10l1-15 M10 10v7 M14 10v7'],
+  comment:['path','M21 11a8 8 0 0 1-8 8H6l-4 3V11a9.5 9.5 0 0 1 19 0z']
+ };
+ const parts=shapes[name];
+ if(!parts||typeof document.createElementNS!=='function'){button.textContent=fallback;return}
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+ svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');
+ svg.setAttribute('class','dd-forum-action-svg');
+ for(let i=0;i<parts.length;){
+  const tag=parts[i++],value=parts[i++];
+  const el=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  if(tag==='path')el.setAttribute('d',value);
+  else if(tag==='circle'){
+   const [cx,cy,r]=value.split(',');
+   el.setAttribute('cx',cx);el.setAttribute('cy',cy);el.setAttribute('r',r);
+  }
+  svg.append(el);
+ }
+ button.replaceChildren(svg);
+}
 function makePostHead(row,kind,actions){
  const head=mk('div',undefined,'dd-forum-post-head');
  const author=mk('div',undefined,'dd-forum-post-author');
@@ -271,10 +297,11 @@ function openPostAction(opener,kind,row,mode){
    operation=()=>rpc('dd_discussions_flag',{p_kind:kind,p_id:row.id,p_reason:selected});
    feedback='Your report was sent for moderation.';
   }
-  const saved=await change(submit,operation,feedback);
+  const saved=await change(submit,operation,feedback,()=>{
+   if(mode==='flag')flaggedThisSession.add(kind+':'+row.id);
+  });
   if(!saved)return;
   if(mode==='flag'){
-   flaggedThisSession.add(kind+':'+row.id);
    opener.setAttribute('aria-pressed','true');
    opener.classList?.add('is-flagged');
   }
@@ -299,6 +326,7 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
  flag.setAttribute('aria-label',flagged?'Already reported this '+kind:'Report this '+kind);
  flag.setAttribute('title',flagged?'Reported this session':'Report this '+kind);
  flag.setAttribute('aria-pressed',String(flagged));
+ setActionIcon(flag,'flag','⚑');
  if(flagged)flag.classList?.add('is-flagged');
  const like=nodeAction(parent,'👍 '+(row.likes||0),b=>vote(kind,row,1,b),'dd-forum-icon-button dd-forum-vote');
  const dislike=nodeAction(parent,'👎 '+(row.dislikes||0),b=>vote(kind,row,-1,b),'dd-forum-icon-button dd-forum-vote');
@@ -311,9 +339,11 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
   const comments=nodeAction(parent,'💬 '+commentCount,()=>openThread(row),'dd-forum-icon-button');
   comments.setAttribute('aria-label','Read '+commentCount+' comments');
   const star=nodeAction(parent,'☆',()=>saveThread(row),'dd-forum-icon-button');
+  setActionIcon(star,'star','☆');
   star.setAttribute('aria-label','Save post to an Investigation Board');
   star.setAttribute('title','Add to Board');
   const share=nodeAction(parent,'⤴',()=>shareThread(row),'dd-forum-icon-button');
+  setActionIcon(share,'share','⤴');
   share.setAttribute('aria-label','Share this post');
   share.setAttribute('title','Share');
  }
@@ -325,6 +355,7 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
    edit.setAttribute('aria-label','Edit my '+kind);
   }
   const remove=nodeAction(parent,'🗑',b=>openPostAction(b,kind,row,'delete'),'dd-forum-icon-button dd-forum-danger');
+  setActionIcon(remove,'trash','🗑');
   remove.setAttribute('aria-label','Delete my '+kind);
   remove.setAttribute('title','Delete');
  }
