@@ -53,7 +53,7 @@ function drawList(target,list){
   const suffix=row.status==='accepted'&&!row.contact_unavailable&&unread>0?' · '+unread+' unread':'';
   const label=(row.other_username||'Researcher')+' · '+(row.status==='pending'?'Awaiting acceptance':row.status)+suffix;
   const item=button(target,label,()=>{currentId=row.pair_id;return openConversation(row)});
-  item.classList.add('dd-chat-person');
+  item.className+=' dd-chat-person'; // Also supports the existing fake-DOM account-switch regression.
   if(unread>0){const count=mk('span',String(unread),'dd-chat-person-count');item.append(count)}
  }
 }
