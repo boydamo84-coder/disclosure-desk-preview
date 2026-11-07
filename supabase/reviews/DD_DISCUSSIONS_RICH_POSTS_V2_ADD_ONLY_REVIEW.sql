@@ -14,7 +14,7 @@ begin
   alter table public.dd_forum_threads add constraint dd_forum_thread_image_url_v2
    check(image_url is null or (
     char_length(image_url)<=1000
-    and image_url ~* '^https://[a-z0-9][a-z0-9-]*(\\.[a-z0-9][a-z0-9-]*)*\\.[a-z]{2,}(:443)?([/?#][^[:space:]]*)?$'
+    and image_url ~* '^https://[a-z0-9][a-z0-9-]*(\.[a-z0-9][a-z0-9-]*)*\.[a-z]{2,}(:443)?([/?#][^[:space:]]*)?$'
     and image_url !~* '(^|[./])(?:localhost|internal|local)([./:]|$)'
    ));
  end if;
@@ -108,7 +108,7 @@ begin
   url !~* '^https?://[a-z0-9][-a-z0-9.]*(:[0-9]{1,5})?([/?#][^[:space:]]*)?$')
  then raise exception 'Invalid source URL';end if;
  if picture is not null and (char_length(picture)>1000 or
-  picture !~* '^https://[a-z0-9][a-z0-9-]*(\\.[a-z0-9][a-z0-9-]*)*\\.[a-z]{2,}(:443)?([/?#][^[:space:]]*)?$'
+  picture !~* '^https://[a-z0-9][a-z0-9-]*(\.[a-z0-9][a-z0-9-]*)*\.[a-z]{2,}(:443)?([/?#][^[:space:]]*)?$'
   or picture ~* '(^|[./])(?:localhost|internal|local)([./:]|$)')
  then raise exception 'Invalid public image URL';end if;
  if not exists(select 1 from public.dd_forum_sections s
