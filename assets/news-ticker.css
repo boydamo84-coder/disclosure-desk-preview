@@ -22,7 +22,7 @@
 .dd-news-ticker-recent .dd-ticker-link{color:#f7f8fa}
 .dd-ticker-empty{padding:8px 13px;font-size:11px;opacity:.85}
 .dd-ticker-still .dd-ticker-track{animation:none}
-.dd-ticker-viewport:hover .dd-ticker-track,.dd-ticker-viewport:focus-within .dd-ticker-track{animation-play-state:paused}
+/* Pointer tapping / focus must not freeze news crawl; explicit Pause only. */
 @keyframes ddTickerCrawl{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .dd-news-ticker-alert{position:fixed;z-index:840;left:max(12px,calc((100vw - 820px)/2));right:max(12px,calc((100vw - 820px)/2));bottom:calc(var(--dd-news-nav-height,75px) + 5px);border:1px solid #caa34b;border-radius:12px;background:#e4be45;color:#13202c;box-shadow:0 6px 30px #000b;overflow:hidden}
 .dd-news-ticker-alert .dd-news-ticker-row{min-height:42px}
@@ -93,6 +93,6 @@
 .dd-ticker-user-paused .dd-ticker-track{animation-play-state:paused!important}
 .dd-news-ticker-row[hidden]{display:none!important}
 /* Leave the mobile dock swipe hint usable on other tabs, but never over a visible News ticker. */
-.dd-news-ticker-expanded .dd-nav-swipe-hint{display:none!important}
+/* Swipe chevron is now inside the dock and doesn't overlap the ticker. */
 .dd-news-ticker-expanded:not(.dd-news-ticker-has-breaking) .shell{padding-bottom:calc(var(--dd-news-nav-height,75px) + 82px)}
 @media print{.dd-news-ticker-alert,.dd-news-ticker-hub{display:none!important}}

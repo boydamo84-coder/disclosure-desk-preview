@@ -89,8 +89,7 @@
     link.title = 'Read reporting from ' + article.source;
     if (isCopy) { link.setAttribute('aria-hidden', 'true'); link.tabIndex = -1; }
     link.addEventListener('click', event => {
-      // Keep the last-read story in place when returning from a source tab.
-      setTickerPaused(true);
+      // Reading a headline never pauses the crawl; optional Pause control remains user-initiated.
       if (typeof root.ddTickerOpenStory === 'function' &&
           root.ddTickerOpenStory(article.id) === true) event.preventDefault();
     });

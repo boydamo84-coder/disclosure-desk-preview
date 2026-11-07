@@ -72,6 +72,21 @@ async function load(){
    const card=node('article',undefined,'dd-forum-item');
    card.append(node('strong',s.title||'Untitled section'));
    card.append(node('p',s.has_steward?'Steward appointed: '+(s.steward_name||'Name private'):'No current steward','muted small'));
+   action(card,'Remove entire section',async button=>{
+    const explanation=prompt('Site owner: reason for removing this section (minimum 8 characters):');
+    if(!explanation||explanation.trim().length<8)return;
+    if(!confirm('ADMIN ONLY: Remove this section and hide all its public posts and replies? This is reversible through owner review, not physical data deletion.'))return;
+    await moderated(button,c=>rpc(c,'dd_discussions_owner_review',{
+     p_kind:'section',p_id:s.section_id,p_status:'removed',p_reason:explanation.trim().slice(0,500)
+    }));
+   });
+   action(card,'Restore section',async button=>{
+    const explanation=prompt('Site owner: reason for restoring this section (minimum 8 characters):');
+    if(!explanation||explanation.trim().length<8)return;
+    await moderated(button,c=>rpc(c,'dd_discussions_owner_review',{
+     p_kind:'section',p_id:s.section_id,p_status:'published',p_reason:explanation.trim().slice(0,500)
+    }));
+   });
    if(s.has_steward)action(card,'Revoke steward role',async button=>{
     const explanation=prompt('Reason for removing this section steward (minimum 8 characters):');
     if(!explanation||explanation.trim().length<8)return;
