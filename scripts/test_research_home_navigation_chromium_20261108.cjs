@@ -94,7 +94,7 @@ const iframeHtml='<html><body><a id="legacyHome" data-dd-research-home-link href
 
    await page.evaluate(()=>{window.__fixture.saved=false});
    await page.frameLocator('#writer').locator('#legacyHome').click();
-   await page.waitForFunction(()=>window.__fixture.calls.some(x=>x.action==='save'&&x.reason==='Research Studio navigation to Research Studio Home'));
+   await page.waitForFunction(()=>window.__fixture.calls.some(x=>x.action==='save'&&x.reason==='Disclosure Desk navigation to Research Studio Home'));
    assert.equal(await page.locator('#dd-documents-dialog').evaluate(el=>el.open),false);
    assert.match(page.url(),/guest-preview.html/);
    pass(width+'px iframe Home link stays put when save fails');
