@@ -1197,6 +1197,9 @@ Retain these in existing sections/tools, not five new navigation tabs. Before bu
 4. Only after the website roadmap and cohesive QA/release are approved, reconcile and prepare Android for Play internal testing; never skip website-to-Android parity verification.
 
 ## 9. Milestone log — REQUIRED after *every* milestone
+### 2026-11-08 — Quoting hotfix before migration
+- Corrected the newly added PL/pgSQL dollar delimiters using a literal replacement function, after the first string-based replacement silently treated `$` as a replacement escape. The preceding documentation-only commit did not change SQL. This commit changes SQL and master only. **No database DDL run yet.**
+
 ### 2026-11-08 ~03:25 UTC — Manual owner-history SQL preflight correction (SOURCE STAGED)
 - Existing UI + source test GitHub-only QA `42442160408` SUCCESS, public package `42442160372` SUCCESS, local-only builder `42442160351` SUCCESS at application SHA `5e66df04`.
 - Manual reading of newly staged SQL detected single `# Disclosure Desk — MASTER HANDOVER (authoritative)

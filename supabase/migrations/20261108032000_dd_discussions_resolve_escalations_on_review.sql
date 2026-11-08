@@ -82,7 +82,7 @@ returns table(
  flag_count bigint,escalation_count bigint,content_preview text,
  latest_escalation_reason text,review_state text,decision text,
  decided_at timestamptz,activity_at timestamptz,decision_reason text)
-language plpgsql stable security definer set search_path=pg_catalog,public as $
+language plpgsql stable security definer set search_path=pg_catalog,public as $$
 begin
  if not public.dd_discussions_is_owner() then raise exception 'Overall site owner required';end if;
  if coalesce(p_limit,0) not between 1 and 100
@@ -146,7 +146,7 @@ begin
   case when p_sort='newest' then c.activity_at end desc nulls last,
   c.target_id
  limit p_limit;
-end $;
+end $$;
 revoke all on function public.dd_discussions_owner_review_items(integer,text,text)
  from PUBLIC,anon,authenticated;
 grant execute on function public.dd_discussions_owner_review_items(integer,text,text)
