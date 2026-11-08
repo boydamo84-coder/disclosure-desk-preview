@@ -31,6 +31,14 @@ function say(message,error=false){
  else if(error)window.alert(message);
 }
 async function verifySaved(tab){
+ if(workspace){
+  // A new account without a selected document must be able to open Home
+  // or leave Research. There is no editor revision to save yet.
+  const current=document.getElementById('writer')?.getAttribute('src')||'';
+  const selected=new URL(current||'./wne.html',location.href).searchParams.get('id')
+    ||new URL(location.href).searchParams.get('id');
+  if(!selected)return true;
+ }
  if(workspace||editor){
   let save;
   try{
