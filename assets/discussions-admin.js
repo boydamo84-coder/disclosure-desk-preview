@@ -7,7 +7,7 @@ const enabled=flags.discussions===true&&['test','production'].includes(cfg.envir
 if(!enabled)return; // Cannot call owner-only RPCs or reveal Admin tools while disabled.
 const $=id=>document.getElementById(id),node=(tag,text,cls)=>{
  const el=document.createElement(tag);if(text!==undefined)el.textContent=String(text);if(cls)el.className=cls;return el};
-let db=null,active=false;
+let db=null,active=false,rerun=false,reviewFilter='all',reviewSort='newest';
 const client=()=>db||(db=window.supabase?.createClient(cfg.url,cfg.publishableKey,{
  auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}));
 function say(message){const n=$('ddAdminForumStatus');if(n)n.textContent=String(message).slice(0,240)}
@@ -35,7 +35,7 @@ async function moderated(button,fn,confirmation='Review action completed.'){
  finally{button.disabled=false}
 }
 async function load(){
- if(active)return;
+ if(active){rerun=true;return false;}
  const root=$('ddAdminDiscussions');if(!root||!root.open)return;
  active=true;say('Checking owner-only review queue…');
  const queue=$('ddAdminForumQueue'),sections=$('ddAdminForumSections');
@@ -43,18 +43,27 @@ async function load(){
   const c=await registered();
   // These RPCs separately verify dd_forum_owner_admins, not public or section steward status.
   const [items,groups]=await Promise.all([
-   rpc(c,'dd_discussions_owner_queue',{p_limit:50}),
+   rpc(c,'dd_discussions_owner_review_items',{p_limit:100,p_filter:reviewFilter,p_sort:reviewSort}),
    rpc(c,'dd_discussions_owner_sections',{p_limit:100})
   ]);
   queue.replaceChildren();sections.replaceChildren();
-  if(!items?.length)queue.append(node('p','No hidden or escalated topics awaiting review.','muted small'));
+  if(!items?.length)queue.append(node('p',reviewFilter==='completed'?'No completed reviews yet.':reviewFilter==='pending'?'No pending reports. All caught up.':'No reported discussion cases yet.','muted small'));
   for(const item of items||[]){
    const card=node('article',undefined,'dd-forum-item');
    const heading=node('strong',(item.section_title||'Section')+' · '+item.target_kind,'');
-   const summary=node('p',(item.flag_count||0)+' flags · '+(item.escalation_count||0)+' steward escalations','muted small');
+   const done=item.review_state==='completed';
+   const decision=item.decision==='removed'?'Removed':item.decision==='published'?'Kept visible':'Reviewed';
+   const badge=node('span',done?'✓ Completed · '+decision:'● Pending review','dd-admin-review-badge');
+   badge.style.cssText='display:inline-block;margin:7px 0;padding:5px 10px;border:1px solid #8a754d;border-radius:100px;background:#203442;color:#eed39a;font-size:12px;font-weight:700';
+   const summary=node('p',(item.flag_count||0)+' flags · '+(item.escalation_count||0)+' open steward escalations','muted small');
    const excerpt=node('p',String(item.content_preview||'').slice(0,600),'dd-forum-body');
-   card.append(heading,summary,excerpt);
+   card.append(heading,badge,summary,excerpt);
    if(item.latest_escalation_reason)card.append(node('p','Escalated concern: '+String(item.latest_escalation_reason).slice(0,500),'muted small'));
+   if(done&&item.decided_at){
+    const when=new Date(item.decided_at);
+    card.append(node('p','Completed: '+(Number.isNaN(when.getTime())?'Date unavailable':when.toLocaleString())+
+      (item.decision_reason?' · Reason: '+String(item.decision_reason).slice(0,180):''),'muted small'));
+   }
    const actions=node('div',undefined,'dd-forum-actions');
    for(const [label,status,feedback] of [
    ['Keep visible · resolve','published','Review completed. The post stays visible and its escalation is resolved.'],
@@ -70,7 +79,13 @@ async function load(){
      }),feedback);
     });
    }
-   card.append(actions);queue.append(card);
+   if(done){
+    const corrections=node('details',undefined,'dd-admin-correct-decision');
+    const title=node('summary','Change completed decision');
+    title.style.cssText='margin:8px 0;padding:8px 0;color:#e8c98d;cursor:pointer';
+    corrections.append(title,actions);card.append(corrections);
+   }else card.append(actions);
+   queue.append(card);
   }
   if(!groups?.length)sections.append(node('p','No sections have been created.','muted small'));
   for(const s of groups||[]){
@@ -102,17 +117,35 @@ async function load(){
    });
    sections.append(card);
   }
-  say('Overall-administrator queue loaded. '+(items?.length||0)+' item(s) awaiting a decision. Stewardship never grants access here.');
+  say('Review list loaded · '+(items?.length||0)+' '+reviewFilter+' case(s) · '+reviewSort+' first. Decisions remain in history.');
   return true;
  }catch(e){
   queue.replaceChildren();sections.replaceChildren();
   say(e?.message||'Only the authorised site owner can open this queue.');
   return false;
- }finally{active=false}
+ }finally{active=false;if(rerun){rerun=false;void load()}}
 }
 function init(){
  const root=$('ddAdminDiscussions');if(!root)return;
  root.hidden=false;
+ const queue=$('ddAdminForumQueue');
+ if(queue){
+  const controls=node('div',undefined,'dd-admin-review-controls');
+  controls.style.cssText='display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 16px';
+  function picker(labelText,values,current,onPick){
+   const label=node('label',labelText,'muted small');label.style.cssText='display:grid;gap:5px;flex:1 1 155px';
+   const select=node('select');select.style.cssText='width:100%;min-height:42px;background:#101f2c;color:#f2e5cd;border:1px solid #516575;border-radius:9px;padding:8px';
+   for(const [value,title] of values){
+    const option=node('option',title);option.value=value;select.append(option);
+   }
+   select.value=current;select.setAttribute('aria-label',labelText);
+   select.onchange=()=>{onPick(select.value);void load()};
+   label.append(select);controls.append(label);
+  }
+  picker('Show issues',[['all','All issues'],['pending','Pending'],['completed','Completed']],reviewFilter,value=>{reviewFilter=value});
+  picker('Sort by',[['newest','Newest first'],['oldest','Oldest first']],reviewSort,value=>{reviewSort=value});
+  queue.before(controls);
+ }
  root.addEventListener('toggle',()=>{if(root.open)void load()});
  $('ddAdminForumRefresh').onclick=()=>{void load()};
 }
