@@ -143,6 +143,16 @@ async function selected(page,id){
   assert.equal(await page.locator('.nav .tab[data-tab="discussionsPage"]').count(),0,
     'Discussions opens through Community and must not duplicate the bottom dock');
   pass('approved Discussions deep link opens community without adding a phantom bottom tab');
+  await page.goto(BASE+'/?dd_tab=chatPage',{waitUntil:'domcontentloaded',timeout:35000});
+  await page.waitForSelector('.nav .tab[data-tab="chatPage"]');
+  await page.waitForFunction(()=>!document.getElementById('chatPage').hidden &&
+     !document.getElementById('chatPage').classList.contains('hidden'),null,{timeout:10000});
+  assert.equal(await hasVisibleSection(page,'chatPage'),true,'Approved private Chat deep link must open');
+  assert.equal(await selected(page,'chatPage'),'page');
+  await page.locator('.nav .tab[data-tab="hub"]').click();
+  assert.equal(await page.locator('#chatPage').evaluate(el=>el.hidden),true,
+    'Private Chat panel must be hidden again on navigation away');
+  pass('approved Chat link opens and closes without exposing hidden content elsewhere');
   await page.goto(BASE+'/?dd_tab=profilePage',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.nav .tab[data-tab="profilePage"]');
   assert.equal(await selected(page,'profilePage'),'page');
