@@ -1873,7 +1873,7 @@ function openTour(section='basics'){
  // Restore the screen where the visitor originally opened the tour, not
  // always Explore. This also works for native Esc/cancel closures.
  tourReturnPage=document.querySelector('.nav .tab.active')?.dataset.tab||'discover';
- tourReturnArchiveSatellite=$('ddArchiveSatelliteTab')?.getAttribute('aria-selected')==='true';
+ tourReturnArchiveSatellite=$('ddArchiveSatelliteTab')?.getAttribute?.('aria-selected')==='true';
  tourReturnFocus=document.activeElement?.isConnected?document.activeElement:document.querySelector('.nav .tab.active');
  tourSection=Math.max(0,tourSections.findIndex(x=>x.id===section));
  tourSteps=tourSections[tourSection].steps;tourStep=0;
