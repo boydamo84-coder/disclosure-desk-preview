@@ -4,8 +4,8 @@
 -- Private DBA-managed recovery approvals are never writable through the Data API.
 BEGIN;
 
-CREATE SCHEMA IF NOT EXISTS dd_internal;
-REVOKE ALL ON SCHEMA dd_internal FROM PUBLIC, anon, authenticated, service_role;
+CREATE SCHEMA IF NOT EXISTS dd_deletion_private;
+REVOKE ALL ON SCHEMA dd_deletion_private FROM PUBLIC, anon, authenticated, service_role;
 
 CREATE TABLE IF NOT EXISTS public.dd_account_deletion_jobs (
   account_id uuid PRIMARY KEY, -- deliberately not an Auth FK; receipt survives Auth removal
@@ -30,7 +30,7 @@ REVOKE ALL ON public.dd_account_deletion_jobs FROM PUBLIC, anon, authenticated;
 GRANT SELECT, INSERT, UPDATE ON public.dd_account_deletion_jobs TO service_role;
 
 -- Only a trusted DBA can INSERT an approval; this table is not a service-role API.
-CREATE TABLE IF NOT EXISTS dd_internal.dd_deletion_recovery_approvals (
+CREATE TABLE IF NOT EXISTS dd_deletion_private.dd_deletion_recovery_approvals (
   ticket_id uuid PRIMARY KEY,
   account_id uuid NOT NULL, -- no FK; recovery must work after Auth removal
   expected_phase text NOT NULL CHECK (expected_phase IN
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS dd_internal.dd_deletion_recovery_approvals (
   expires_at timestamptz NOT NULL,
   consumed_at timestamptz
 );
-REVOKE ALL ON dd_internal.dd_deletion_recovery_approvals
+REVOKE ALL ON dd_deletion_private.dd_deletion_recovery_approvals
   FROM PUBLIC, anon, authenticated, service_role;
 
 CREATE OR REPLACE FUNCTION public.dd_deletion_active_session(
@@ -236,20 +236,20 @@ REVOKE ALL ON FUNCTION public.dd_deletion_advance(uuid,uuid,text,text)
 GRANT EXECUTE ON FUNCTION public.dd_deletion_advance(uuid,uuid,text,text) TO service_role;
 
 -- This RPC NEVER creates an approval ticket. A DBA manually inserts one in
--- dd_internal after independently verifying two distinct reviewers and a case.
+-- dd_deletion_private after independently verifying two distinct reviewers and a case.
 -- A service_role token CANNOT insert into the private approvals table.
 CREATE OR REPLACE FUNCTION public.dd_deletion_operator_reclaim(
   p_target uuid,p_ticket uuid,p_new_lease uuid
 ) RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path=''
 AS $$
-DECLARE v_ticket dd_internal.dd_deletion_recovery_approvals%ROWTYPE;
+DECLARE v_ticket dd_deletion_private.dd_deletion_recovery_approvals%ROWTYPE;
 DECLARE v_count integer;
 BEGIN
   IF current_setting('request.jwt.claim.role',true) IS DISTINCT FROM 'service_role'
   THEN RAISE EXCEPTION 'not permitted' USING ERRCODE='42501'; END IF;
   IF p_target IS NULL OR p_ticket IS NULL OR p_new_lease IS NULL
   THEN RETURN false; END IF;
-  SELECT * INTO v_ticket FROM dd_internal.dd_deletion_recovery_approvals
+  SELECT * INTO v_ticket FROM dd_deletion_private.dd_deletion_recovery_approvals
     WHERE ticket_id=p_ticket FOR UPDATE;
   IF NOT FOUND OR v_ticket.account_id IS DISTINCT FROM p_target
     OR v_ticket.consumed_at IS NOT NULL OR v_ticket.expires_at<=now()
@@ -266,7 +266,7 @@ BEGIN
       AND reauthenticated_at IS NOT NULL;
   GET DIAGNOSTICS v_count=ROW_COUNT;
   IF v_count<>1 THEN RETURN false; END IF;
-  UPDATE dd_internal.dd_deletion_recovery_approvals
+  UPDATE dd_deletion_private.dd_deletion_recovery_approvals
     SET consumed_at=now() WHERE ticket_id=p_ticket AND consumed_at IS NULL;
   RETURN true;
 END $$;
