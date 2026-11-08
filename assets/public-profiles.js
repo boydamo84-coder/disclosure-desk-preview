@@ -48,7 +48,9 @@ async function refresh(){
  if(readError){input.value='';optIn.checked=false;say('Username settings are not active in this beta yet. No account data changed.',true);return;}
  input.value=row?.display_name||String(user.user_metadata?.dd_requested_username||'').slice(0,24);
  optIn.checked=row?.is_public===true;
- if(chatOptIn)chatOptIn.checked=row?.chat_contact_opt_in===true;
+ // A new public username may receive CHAT REQUESTS by default. An existing saved
+ // preference (especially explicit OFF) is never changed on a later login.
+ if(chatOptIn)chatOptIn.checked=row ? row.chat_contact_opt_in===true : true;
  say(row?'Username loaded. You can update it or change public visibility.':'Choose a username. Public display is off until you opt in.');
 }
 async function save(ev){
@@ -104,7 +106,7 @@ function init(){
   const chatLine=mk('label','muted small');
   chatLine.style.cssText='display:flex;gap:8px;align-items:flex-start;margin:9px 0';
   chatOptIn=mk('input');chatOptIn.type='checkbox';chatOptIn.id='ddChatContactOptIn';
-  chatLine.append(chatOptIn,mk('span','','Allow other registered users to request a one-to-one private chat. This is separate from showing your username publicly; both choices must be on.'));
+  chatLine.append(chatOptIn,mk('span','','Allow registered members to request a one-to-one private chat when your username is public. On by default for new profiles; you can turn requests off at any time. No conversation opens until you accept a request.'));
   form.append(chatLine);
  }
  form.append(submit,status);form.addEventListener('submit',save);
