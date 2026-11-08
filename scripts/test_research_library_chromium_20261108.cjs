@@ -46,7 +46,15 @@ const ORIGIN='http://127.0.0.1:4173';
    const page=await context.newPage(),errors=[];
    page.on('pageerror',err=>errors.push(String(err)));
    await page.goto(ORIGIN+'/research/research-bible.html',{waitUntil:'domcontentloaded',timeout:30000});
-   await page.locator('#easyBoardList option[value^="cloud:"]').waitFor({timeout:10000});
+   try{await page.locator('#easyBoardList option[value^="cloud:"]').waitFor({timeout:10000})}
+   catch(error){
+    console.log('LIBRARY DIAGNOSTIC '+JSON.stringify({url:page.url(),errors,
+      summary:await page.evaluate(()=>({access:document.documentElement.dataset.researchAccess,
+       ready:document.readyState,boards:document.getElementById('easyBoardList')?.innerHTML,
+       easyStatus:document.getElementById('easyStatus')?.textContent,
+       body:document.body?.innerText?.slice(0,350)}))}));
+    throw error;
+   }
    await pass(viewport.width+'px clear storage labels and separate read-only cloud Board',async()=>{
     assert.match(await page.locator('.notice').innerText(),/browser profile/);
     assert.match(await page.locator('#my-boards .small').first().innerText(),/not synced/);
