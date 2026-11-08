@@ -155,6 +155,45 @@ async function archiveSearch(search){
  const matched=data.filter(c=>[c.id,c.title,c.year,c.source,c.category,c.description].some(x=>String(x||'').toLocaleLowerCase().includes(q)));
  return {cases:matched.slice(0,80),total:matched.length,archiveCount:data.length,source:'Disclosure Desk curated public case index'};
 }
+async function recovery(path,method,body){
+ await ensureLoaded(); // Includes signed-in user and current owner/RLS checks.
+ if(path==='/api/snapshots'){
+  if(method!=='GET')throw Error('Recovery history is read-only');
+  const {data,error}=await db.from('research_document_revisions')
+    .select('id,revision,saved_at').eq('document_id',state.id)
+    .order('saved_at',{ascending:false}).limit(40);
+  if(error)throw error;
+  return {items:(data||[]).map(row=>({
+    id:row.id,revision:row.revision,saved:row.saved_at,
+    reason:'Automatic cloud checkpoint'
+  }))};
+ }
+ if(path.startsWith('/api/snapshot/')){
+  if(method!=='GET')throw Error('Recovery preview is read-only');
+  const id=path.slice('/api/snapshot/'.length);
+  if(!/^[0-9a-f-]{36}$/i.test(id))throw Error('Invalid checkpoint');
+  const {data,error}=await db.from('research_document_revisions')
+   .select('content').eq('id',id).eq('document_id',state.id).single();
+  if(error)throw error;
+  if(!valid(data?.content))throw Error('Checkpoint content could not be read safely');
+  return {manuscript:data.content};
+ }
+ if(path==='/api/recovery/copy'){
+  if(method!=='POST'||!/^[0-9a-f-]{36}$/i.test(String(body?.id||'')))throw Error('Choose a valid checkpoint first');
+  const {data,error}=await db.from('research_document_revisions')
+   .select('title,content').eq('id',body.id).eq('document_id',state.id).single();
+  if(error)throw error;
+  if(!valid(data?.content))throw Error('Checkpoint is unavailable or invalid');
+  const title=(String(data.title||'Recovered research').slice(0,175)+' (Recovered)').slice(0,200);
+  const {data:created,error:writeError}=await db.from('research_documents')
+   .insert({user_id:state.owner,title,content:data.content})
+   .select('id,title').single();
+  if(writeError)throw writeError;
+  if(!created?.id)throw Error('Recovery copy creation was not confirmed');
+  return {id:created.id,title:created.title,created_copy:true};
+ }
+ throw Error('Unsupported recovery operation');
+}
 async function route(input,init){
  const requested=new URL(input instanceof Request?input.url:String(input),location.href);
  const path=requested.pathname;
@@ -184,6 +223,16 @@ async function route(input,init){
  if(path==='/api/research/archive-search'){
   if(method!=='GET')return fail('Archive search is read only',405);
   try{return json(await archiveSearch(requested))}catch(e){return fail(e.message||'Archive search unavailable',400)}
+ }
+ if(path==='/api/snapshots'||path==='/api/recovery/copy'||path.startsWith('/api/snapshot/')){
+  try{
+   let body={};
+   if(method!=='GET'){
+    const raw=init?.body||(input instanceof Request?await input.clone().text():null);
+    body=typeof raw==='string'?JSON.parse(raw):raw||{};
+   }
+   return json(await recovery(path,method,body));
+  }catch(e){return fail(e.message||'Recovery history unavailable',400)}
  }
  if(path==='/api/backup'){
   if(method!=='GET')return fail('Backup is read only',405);
