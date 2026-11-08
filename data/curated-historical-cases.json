@@ -52,7 +52,8 @@
     "lat": 52.0844,
     "lon": 1.4302,
     "locationPrecision": "Approximate public forest visitor area (Forestry England); not the reported sighting point",
-    "locationSource": "https://www.forestryengland.uk/rendlesham-forest"
+    "locationSource": "https://www.forestryengland.uk/rendlesham-forest",
+    "eventMonth": 12
   },
   {
     "id": "featured-nimitz-2004",

@@ -126,13 +126,34 @@ function caseSelection(r){
   Math.abs(lat)<=90&&Math.abs(lon)<=180&&r.lat!==null&&r.lon!==null&&
   r.lat!==undefined&&r.lon!==undefined;
  const date=isoDate(r.eventDate); // Do NOT reuse a published/document date.
- const year=Number(r.year);
- return {date,year:Number.isInteger(year)&&year>=1&&year<=9999?year:null,
+ const year=Number(r.year),month=Number(r.eventMonth);
+ const knownYear=Number.isInteger(year)&&year>=1&&year<=9999?year:(date?Number(date.slice(0,4)):null);
+ const knownMonth=date?Number(date.slice(5,7)):(r.eventMonth!=null&&Number.isInteger(month)&&month>=1&&month<=12?month:null);
+ return {date,year:knownYear,month:knownMonth,
   coordinatesKnown,lat:coordinatesKnown?Math.round(lat*10)/10:null,
   lon:coordinatesKnown?Math.round(lon*10)/10:null,
   city:String(r.city||r.location||'Location not verified').slice(0,120),
   provenance:String(r.locationPrecision||'Approximate case region').slice(0,100)};
 }
+// Calendar range for a documented MONTH or YEAR, never a fabricated incident day.
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function periodRange(year,month){
+ const y=Number(year),m=month==null||month===''?null:Number(month);
+ if(!Number.isInteger(y)||y<1972||y>new Date().getUTCFullYear())return null;
+ if(m!==null&&(!Number.isInteger(m)||m<1||m>12))return null;
+ const ystr=String(y).padStart(4,'0');
+ if(m===null)return {from:ystr+'-01-01',to:ystr+'-12-31',precision:'year'};
+ const mm=String(m).padStart(2,'0'),last=new Date(Date.UTC(y,m,0)).getUTCDate();
+ return {from:ystr+'-'+mm+'-01',to:ystr+'-'+mm+'-'+String(last).padStart(2,'0'),precision:'month'};
+}
+function periodLabel(info){
+ return info?.year?(info.month?MONTHS[info.month-1]+' ':'')+info.year:'not established';
+}
+function researcherDate(year,month,day){
+ if(!/^\d{4}$/.test(String(year||''))||!/^\d{1,2}$/.test(String(month||''))||!/^\d{1,2}$/.test(String(day||'')))return null;
+ return isoDate(String(year)+'-'+String(month).padStart(2,'0')+'-'+String(day).padStart(2,'0'));
+}
+
 // Official USGS EarthExplorer predefined criteria: dataset + APPROXIMATE public area.
 // The USGS URL contract does not document date-range/time prefill. Those remain manual.
 function usgsExplorerUrl(r){
@@ -142,21 +163,26 @@ function usgsExplorerUrl(r){
   aoiFilter:'[['+info.lat.toFixed(1)+','+info.lon.toFixed(1)+']]'});
  return USGS_LANDSAT.replace(/\/$/,'')+'/criteria?'+query.toString();
 }
-function caseSearchDetails(r,chosenDate,chosenTime){
+function caseSearchDetails(r,chosenDate,chosenTime,chosenYear,chosenMonth){
  const info=caseSelection(r);if(!info)return null;
  const date=isoDate(chosenDate),utc=utcTime(chosenTime);
  const window=landsatWindow(date);
+ const activeYear=chosenYear===undefined?info.year:chosenYear;
+ const activeMonth=chosenMonth===undefined?info.month:chosenMonth;
+ const period=periodRange(activeYear,activeMonth);
  return [
   'Disclosure Desk · historical satellite research handoff',
   'Public case area: '+info.city+' ('+info.provenance+')',
   'Approximate public map point: '+(info.coordinatesKnown?info.lat.toFixed(1)+'° latitude, '+info.lon.toFixed(1)+'° longitude':'not verified; choose location manually'),
+  'Recorded case period: '+periodLabel(info)+(info.date?' (exact date recorded)':' (exact sighting day not established)'),
   'Event date: '+(date||'not established')+(date?(date===info.date?' (recorded in case)':' (researcher-selected; not verified against case)'):''),
   'Event time UTC: '+(utc?utc+' (researcher-entered, not verified)':'not verified / not recorded'),
   'USGS dataset: Landsat Collection 2 Level-1 → Landsat 1–5 MSS C2 L1',
-  'Manual EarthExplorer acquisition dates: '+(window?window.from+' to '+window.to+' (±18-day exploratory window only)':'choose only after confirming event date'),
+  'Manual EarthExplorer acquisition dates: '+(window?window.from+' to '+window.to+' (±18-day exploratory window only)':period?period.from+' to '+period.to+' (research period only; no verified event day)':'choose only after confirming event date or period'),
   'Check actual satellite acquisition timestamp, footprint, cloud cover and resolution; no matching frame has been verified.'
  ].join('\n');
 }
+
 function validatedViewerUrl(r,chosenDate,chosenTime){
  const info=caseSelection(r);
  if(!info||!info.coordinatesKnown||!isoDate(chosenDate))return null;
@@ -181,10 +207,28 @@ function openSatelliteCase(r){
   externalLink(origin,'Forestry England · public forest location ↗',r.locationSource);
   content.append(origin);
  }
- const label=$('label','Sighting date (YYYY-MM-DD)');label.htmlFor='ddSatDateInput';
- const date=$('input');date.type='date';date.id='ddSatDateInput';date.className='field';date.value=state.date||'';
- date.max=new Date().toISOString().slice(0,10);date.setAttribute('aria-describedby','ddSatDateSource');
- const dateOrigin=$('p',state.date?'Recorded event date from this case.':'Date not verified in this case. Enter a researcher-supplied date only if you have supporting evidence.','muted small');dateOrigin.id='ddSatDateSource';
+ // Keep a known year and month without pretending the source supplies an exact day.
+ const periodIntro=$('p','Recorded case period: '+periodLabel(state)+(state.date?' · exact event date recorded.':' · day not confirmed; leave Day blank unless a source supports your search.'),'muted small');
+ const periodGrid=$('div',undefined,'dd-sat-period-grid');
+ periodGrid.style.cssText='display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:end;margin:8px 0 12px';
+ const yearWrap=$('div'),yearLabel=$('label','Year'),yearInput=$('input');
+ yearLabel.htmlFor='ddSatYearInput';yearInput.id='ddSatYearInput';yearInput.type='number';yearInput.min='1';
+ yearInput.max=String(new Date().getUTCFullYear());yearInput.placeholder='YYYY';yearInput.className='field';
+ yearInput.value=state.year||'';yearWrap.append(yearLabel,yearInput);
+ const monthWrap=$('div'),monthLabel=$('label','Month'),monthInput=$('select');
+ monthLabel.htmlFor='ddSatMonthInput';monthInput.id='ddSatMonthInput';monthInput.className='field';
+ const unknownMonth=$('option','Unknown');unknownMonth.value='';monthInput.append(unknownMonth);
+ MONTHS.forEach((name,i)=>{const opt=$('option',name);opt.value=String(i+1);monthInput.append(opt)});
+ monthInput.value=state.month?String(state.month):'';monthWrap.append(monthLabel,monthInput);
+ const dayWrap=$('div'),dayLabel=$('label','Day (optional)'),dayInput=$('input');
+ dayLabel.htmlFor='ddSatDayInput';dayInput.id='ddSatDayInput';dayInput.className='field';
+ dayInput.type='number';dayInput.min='1';dayInput.max='31';dayInput.placeholder='—';
+ dayInput.value=state.date?String(Number(state.date.slice(8,10))):'';
+ dayInput.setAttribute('aria-describedby','ddSatDateSource');dayWrap.append(dayLabel,dayInput);
+ periodGrid.append(yearWrap,monthWrap,dayWrap);
+ const date=$('input');date.type='hidden';date.id='ddSatDateInput';date.value=state.date||'';
+ const dateOrigin=$('p',state.date?'Recorded exact event date from this case.':'A documented month and year are not an exact incident date. Choose a day only for a researcher-led search.','muted small');
+ dateOrigin.id='ddSatDateSource';
  const timeLabel=$('label','Reported time (UTC, optional)');timeLabel.htmlFor='ddSatUtcInput';
  const time=$('input');time.type='time';time.id='ddSatUtcInput';time.className='field';
  const timeNote=$('p','No verified time is included in this case record. Leave blank to browse at 12:00 UTC (a navigation default, NOT the event time).','muted small');
@@ -201,7 +245,7 @@ function openSatelliteCase(r){
  handoff.className='field dd-satellite-handoff-details';handoff.hidden=true;
  handoff.setAttribute('aria-label','Case search details to copy manually');
  copy.addEventListener('click',async()=>{
-  const value=caseSearchDetails(r,date.value,time.value);
+  const value=caseSearchDetails(r,date.value,time.value,yearInput.value,monthInput.value);
   if(!value)return;
   try{
    if(!navigator.clipboard?.writeText)throw Error('clipboard unavailable');
@@ -216,38 +260,52 @@ function openSatelliteCase(r){
  const landsatAdvice=$('p','','muted small');
  const caution=$('p','NASA Worldview can show daily MODIS imagery where available after 2000. The EUMETSAT historical gallery starts in 1981; the first Meteosat launched in November 1977. USGS Landsat MSS imagery starts in 1972 but provides occasional daylight ground scenes, not continuous weather video. These links start a source search only; no nearest acquisition frame, geographic coverage or event-time match has been verified in Disclosure Desk. Never infer an unexplained object from a missing or unclear scene.','muted small');
  const update=()=>{
-  const requested=isoDate(date.value),hasCoords=state.coordinatesKnown;
-  const utc=utcTime(time.value);
+  const requested=isoDate(date.value),hasCoords=state.coordinatesKnown,utc=utcTime(time.value);
+  const changedPeriod=String(yearInput.value)!==String(state.year||'')||
+   String(monthInput.value)!==String(state.month||'');
+  const searchPeriod=periodRange(yearInput.value,monthInput.value);
   const world=validatedViewerUrl(r,requested,utc);
-  primary.hidden=!world;
-  if(world)primary.href=world;
+  primary.hidden=!world;if(world)primary.href=world;
   eumet.hidden=!requested||requested<DAILY_START;
-  landsat.hidden=!requested||requested<LANDSAT_START;
+  landsat.hidden=!(requested&&requested>=LANDSAT_START)&&!(searchPeriod&&searchPeriod.to>=LANDSAT_START);
   const landsatRange=landsatWindow(requested);
-  landsatAdvice.hidden=!landsatRange;
+  landsatAdvice.hidden=!landsatRange&&!searchPeriod;
   if(landsatRange)landsatAdvice.textContent=
    'USGS EarthExplorer: dataset and approximate public mapped point are preselected where available; manually enter acquisition dates '+
    landsatRange.from+' to '+landsatRange.to+'. This ±18-day window is only a starting search range. Select a genuine scene and compare its published acquisition timestamp and geographic footprint with the report. Landsat has ~80 m historic resolution and does not record continuous video or night-time UFO sightings.';
-  copy.hidden=!requested;
-  if(!handoff.hidden)handoff.value=caseSearchDetails(r,date.value,time.value)||'';
+  else if(searchPeriod)landsatAdvice.textContent=
+   'USGS EarthExplorer: dataset and approximate public point are preselected. Manually enter '+
+   searchPeriod.from+' to '+searchPeriod.to+' for this '+searchPeriod.precision+'-precision search. '+
+   (changedPeriod?'The period was changed by the researcher, not verified against the case. ':'The case gives this period, not a precise sighting day. ')+
+   'No matching scene or sighting-time image has been verified.';
+  copy.hidden=!requested&&!searchPeriod;
+  if(!handoff.hidden)handoff.value=caseSearchDetails(r,date.value,time.value,yearInput.value,monthInput.value)||'';
   modern.hidden=false;
-  if(!requested)status.textContent='Choose a valid day from the original report; no exact event date has been confirmed.';
+  if(!requested)status.textContent=searchPeriod
+    ?'Recorded case period: '+periodLabel(state)+'; exact day unknown. '+(changedPeriod?'Researcher-edited search period. ':'')+
+     'Use the USGS period search, or add a sourced Day to open date-specific viewers.'
+    :'Select a known year and month or a verified day. No exact event date has been confirmed.';
   else if(!hasCoords)status.textContent='The date is selected, but this archive lacks a verified town-level map position. Check the original source before a location-specific search.';
   else if(world)status.textContent='Date selected: '+requested+' · '+(utc?'manually entered '+utc+' UTC (unverified)':'12:00 UTC date-browsing default (not sighting time)')+' · approximate '+state.city+'. The image acquisition time is NOT checked.';
   else if(requested>=DAILY_START)status.textContent='For '+requested+', the Meteosat daily gallery offers a historical date search; USGS Landsat also provides a separate acquisition-date search. Neither gives a verified event-time image here.';
   else if(requested>=LANDSAT_START)status.textContent='For '+requested+', use the USGS Landsat 1–5 MSS archive for scenes near the date. Meteosat had not launched yet and NASA MODIS begins in 2000. We have NOT retrieved or confirmed a matching frame.';
   else status.textContent='No verified source viewer coverage established for this date. Do not substitute modern imagery as historical.';
-  if(!state.date&&requested)dateOrigin.textContent='Researcher-supplied date · not verified against the archive. Confirm the exact event date in the original document.';
+  dateOrigin.textContent=!requested
+   ?'Day not verified. Month/year shown from the case when available; changes are researcher supplied.'
+   :requested===state.date?'Exact date recorded in this case.'
+    :'Researcher-selected day · NOT verified against the case. Confirm it in the original evidence.';
   if(time.value&&!utc)timeNote.textContent='Enter a valid 24-hour UTC time. This will not be saved as a documented sighting time.';
   else if(utc)timeNote.textContent='Researcher-supplied '+utc+' UTC, not a confirmed sighting time or actual image timestamp. Verify the time zone and provider frame.';
   else timeNote.textContent='No verified sighting time. The 12:00 UTC timeline position is a browsing default only, not the event time.';
  };
- date.addEventListener('input',update);time.addEventListener('input',update);
- content.append(label,date,dateOrigin,timeLabel,time,timeNote,status,actions,copyStatus,handoff,landsatAdvice,caution);
+ const syncDate=()=>{date.value=researcherDate(yearInput.value,monthInput.value,dayInput.value)||'';update()};
+ yearInput.addEventListener('input',syncDate);monthInput.addEventListener('change',syncDate);
+ dayInput.addEventListener('input',syncDate);time.addEventListener('input',update);
+ content.append(periodIntro,periodGrid,date,dateOrigin,timeLabel,time,timeNote,status,actions,copyStatus,handoff,landsatAdvice,caution);
  if(!dialog.open)dialog.showModal();
- update();date.focus();
+ syncDate();yearInput.focus();
  return true;
 }
 
-window.DDHistoricalSatellite=Object.freeze({details,isoDate,worldViewUrl,mountCaseCard,caseSelection,validatedViewerUrl,landsatWindow,usgsExplorerUrl,caseSearchDetails,openSatelliteCase});
+window.DDHistoricalSatellite=Object.freeze({details,isoDate,worldViewUrl,mountCaseCard,caseSelection,periodRange,periodLabel,researcherDate,validatedViewerUrl,landsatWindow,usgsExplorerUrl,caseSearchDetails,openSatelliteCase});
 })();

@@ -97,6 +97,23 @@ assert.match(html,/"id":"c2","title":"Rendlesham Forest"[^}]*"archiveRecordId":"
 assert.match(html,/String\(x\.archiveRecordId\|\|''\)===String\(archive\.id\)/,
  'Archive link to forest must use explicit curated ID, not a fuzzy match');
 assert.match(html,/"id":"c2"[^}]*"locationPrecision":"Approximate public forest visitor area/);
+
+// Documented partial period stays honest: prefill December 1980, not a guessed exact sighting day.
+assert.equal(api.caseSelection(rendlesham).year,1980);
+assert.equal(api.caseSelection(rendlesham).month,12);
+assert.equal(api.caseSelection(rendlesham).date,null);
+assert.equal(api.periodLabel(api.caseSelection(rendlesham)),'December 1980');
+assert.equal(api.researcherDate(1980,12,''),null,'Unknown day remains blank');
+assert.equal(api.researcherDate(1980,12,26),'1980-12-26','Only a researcher-chosen day makes a precise date');
+assert.equal(api.researcherDate(1980,2,30),null,'Impossible dates rejected');
+assert.equal(api.periodRange(1980,12).from,'1980-12-01');
+assert.equal(api.periodRange(1980,12).to,'1980-12-31');
+assert.equal(api.periodRange(1947,null),null,'Pre-Landsat cases have no bogus period range');
+assert.match(api.caseSearchDetails(rendlesham,null,null),/Recorded case period: December 1980 \(exact sighting day not established\)/);
+assert.match(api.caseSearchDetails(rendlesham,null,null),/1980-12-01 to 1980-12-31/);
+for(const id of ['ddSatYearInput','ddSatMonthInput','ddSatDayInput'])assert.match(js,new RegExp(id));
+assert.match(html,/"id":"c2"[^}]*"eventMonth":12/);
+
 console.log('PASS: Rendlesham archive-to-map-to-satellite uses approximate Forestry England forest coordinates, no invented date or exact sighting site.');
 
 /* Archive Satellite secondary view & USGS Landsat 1970s (source handoff, not a fetched frame). */
