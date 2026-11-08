@@ -65,7 +65,7 @@ jobs:
           node-version: '22'
       - name: Prepare pinned Chromium QA package
         run: |
-          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 leaflet@1.9.4
           test -x /usr/bin/google-chrome
           node --check scripts/test_research_editor_real_chromium_20261108.cjs
       - name: Start strictly local-only test origin
@@ -85,6 +85,7 @@ jobs:
           node scripts/test_research_library_chromium_20261108.cjs
           node scripts/test_analytics_consent_chromium_20261108.cjs
           node scripts/audit_public_pages_chromium_20261108.cjs
+          node scripts/test_browser_release_smoke.cjs
       - name: Stop loopback-only test origin
         if: always()
         run: kill "$(cat /tmp/dd-research-chrome.pid)" || true
