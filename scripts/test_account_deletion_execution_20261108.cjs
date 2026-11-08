@@ -35,6 +35,8 @@ const LEASE="33333333-3333-4333-8333-333333333333";
       phase:"approved",history:[],failOnRemoval:false,failOnCheckpoint:null,redactionCalls:0,authDeletes:0
     };
     const adapter={
+      assertLeaseActive:async(id,lease,phase)=>
+        id===ACCOUNT_A && lease===LEASE && phase===state.phase && state.leaseActive!==false,
       assertNotPrivilegedOwner:async id=>{
         if(state.roles.has(id))throw Error("protected_owner");
       },
