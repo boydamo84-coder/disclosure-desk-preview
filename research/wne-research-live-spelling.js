@@ -17,31 +17,37 @@ const supportsHighlight=Boolean(window.CSS&&CSS.highlights&&window.Highlight&&wi
 const status=document.createElement('span');status.id='wne-spell-status';status.setAttribute('role','status');
 const retry=document.createElement('button');retry.type='button';retry.textContent='↻ Recheck writing';
 retry.title='Retry LanguageTool writing checks';retry.style.cssText='padding:5px 8px;border-radius:7px;border:1px solid #a9926d;background:transparent;color:inherit;font-size:12px';
-const review=document.createElement('div');
-review.id='wne-spell-review';review.setAttribute('role','group');
-review.setAttribute('aria-label','Writing findings navigation');
+// Keep navigation inside the existing word suggestion popup, not in a tall
+// permanent strip above the manuscript. Identical layout on mobile/desktop.
+const review=document.createElement('nav');
+review.id='wne-spell-review';review.setAttribute('aria-label','Writing findings navigation');
 const reviewPosition=document.createElement('span');reviewPosition.id='wne-spell-review-position';
-reviewPosition.textContent='No findings yet';
+reviewPosition.setAttribute('aria-live','polite');
+reviewPosition.textContent='No findings';
+const settingsToggle=document.getElementById('wne-spell-toggle');
+const count=document.createElement('span');count.id='wne-spell-count';count.setAttribute('aria-live','polite');
+if(settingsToggle)settingsToggle.insertBefore(count,settingsToggle.lastElementChild);
 function reviewButton(id,label,title){
  const button=document.createElement('button');button.id=id;button.type='button';
  button.textContent=label;button.title=title;button.setAttribute('aria-label',title);button.disabled=true;return button;
 }
-const previous=reviewButton('wne-spell-review-prev','← Previous','Previous writing finding');
-const next=reviewButton('wne-spell-review-next','Next →','Next writing finding');
+const previous=reviewButton('wne-spell-review-prev','‹','Previous writing finding');
+const next=reviewButton('wne-spell-review-next','›','Next writing finding');
 retry.id='wne-spell-review-retry';retry.textContent='↻ Recheck';
-review.append(status,reviewPosition,previous,next,retry);
-bar.insertAdjacentElement('afterend',review);
+review.append(previous,reviewPosition,next);
+panel.insertBefore(review,options);
+bar.append(status,retry);
 let matches=[],timer=0,generation=0,selected=null,requestActive=false,serviceUnavailable=false,activeReviewIndex=-1;
 function statusMessage(message){status.textContent=message;}
 function enabled(){return toggle.checked && ['en-GB','en-US'].includes(select.value) && editor.getAttribute('contenteditable')==='true';}
 function updateReview(){
  const ready=matches.length>0&&enabled()&&supportsHighlight;
  previous.disabled=!ready;next.disabled=!ready;
- review.dataset.hasFindings=ready?'true':'false';
  const active=activeReviewIndex>=0&&activeReviewIndex<matches.length;
  reviewPosition.textContent=!ready?'No findings'
-  :active?(activeReviewIndex+1)+' of '+matches.length+' · '+matches[activeReviewIndex].category
-  :matches.length+' finding'+(matches.length===1?'':'s');
+  :active?(activeReviewIndex+1)+' / '+matches.length
+  :matches.length+' findings';
+ count.textContent=ready?'· '+matches.length+' finding'+(matches.length===1?'':'s'):'';
 }
 function clearHighlights(){
  if(supportsHighlight){
