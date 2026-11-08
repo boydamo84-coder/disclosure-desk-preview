@@ -6,10 +6,14 @@ android {
         applicationId = "com.boyddigitalstudios.disclosuredesk"
         minSdk = 26
         targetSdk = 36
-        buildConfigField("String", "DD_FIREBASE_APP_ID", "\"\${System.getenv("DD_FIREBASE_APP_ID") ?: ""}\"")
-        buildConfigField("String", "DD_FIREBASE_API_KEY", "\"\${System.getenv("DD_FIREBASE_API_KEY") ?: ""}\"")
-        buildConfigField("String", "DD_FIREBASE_PROJECT_ID", "\"\${System.getenv("DD_FIREBASE_PROJECT_ID") ?: ""}\"")
-        buildConfigField("String", "DD_FIREBASE_SENDER_ID", "\"\${System.getenv("DD_FIREBASE_SENDER_ID") ?: ""}\"")
+
+        buildConfigField("String", "DD_FIREBASE_APP_ID", "\"${System.getenv("DD_FIREBASE_APP_ID") ?: ""}\"")
+
+        buildConfigField("String", "DD_FIREBASE_API_KEY", "\"${System.getenv("DD_FIREBASE_API_KEY") ?: ""}\"")
+
+        buildConfigField("String", "DD_FIREBASE_PROJECT_ID", "\"${System.getenv("DD_FIREBASE_PROJECT_ID") ?: ""}\"")
+
+        buildConfigField("String", "DD_FIREBASE_SENDER_ID", "\"${System.getenv("DD_FIREBASE_SENDER_ID") ?: ""}\"")
         versionCode = 13
         versionName = "0.10.0-community-beta"
     }
