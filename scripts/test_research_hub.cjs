@@ -3,8 +3,9 @@ const assert=require('node:assert/strict'),fs=require('node:fs');
 const html=fs.readFileSync('index.html','utf8'),hub=fs.readFileSync('assets/research-hub.js','utf8');
 const names=fs.readFileSync('assets/public-profiles.js','utf8'),mod=fs.readFileSync('assets/case-comment-moderation.js','utf8');
 assert.doesNotThrow(()=>new Function(hub));
-assert.match(html,/data-tab="profilePage"/,'Profile is last nav tab');
-assert.match(html,/data-tab="hub"[\s\S]{0,110}data-tab="profilePage"/);
+assert.match(html,/data-tab="profilePage"/,'Profile remains in bottom navigation');
+assert.match(html,/data-tab="profilePage"[\s\S]{0,110}data-tab="hub"/,
+ 'Explore is intentionally last in the approved twelve-tab navigation');
 assert.match(html,/id="ddProfileShortcut"/);
 assert.match(html,/avatar\.hidden=\(id==='researchStudio'\)/,'W.NE hides top right shortcut');
 const dock=fs.readFileSync('research/research-site-nav.js','utf8');
