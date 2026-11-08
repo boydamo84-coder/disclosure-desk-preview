@@ -1651,7 +1651,27 @@ function wneInitChapterManager(){
 async function switchChapter(id){if(id===data.active)return;if(!await beforeSwitch())return;data.active=id;render();window.scrollTo(0,0);document.querySelector('.workarea')?.scrollTo(0,0);$('editor').scrollTop=0;dirty();closeDrawer();await saveNow();wneSavePosition()}
 async function addChapter(){if(!await beforeSwitch())return;let n=data.chapters.length+1;const c={id:uid(),title:`${wneStructure()==='sections'?'Section':'Chapter'} ${n}`,html:''};data.chapters.push(c);data.active=c.id;render();dirty();closeDrawer();await saveNow('manual');$('editor').focus()}
 async function deleteChapter(){if(blocked)return;if(data.chapters.length===1){toast('Keep at least one chapter');return}if(!confirm(`Delete "${active().title}"? A recovery checkpoint is created before the deletion.`))return;if(!await beforeSwitch())return;const idx=data.chapters.findIndex(c=>c.id===data.active);data.chapters.splice(idx,1);data.active=data.chapters[Math.max(0,idx-1)].id;render();dirty();await saveNow('delete');closeMore();toast('Chapter removed · recovery available')}
-function downloadRaw(obj,prefix='WNE-emergency'){const stamp=new Date().toISOString().replace(/[:.]/g,'-');const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`${prefix}-${stamp}.json`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000)}
+async function downloadRaw(obj,prefix='WNE-emergency'){
+ const stamp=new Date().toISOString().replace(/[:.]/g,'-');
+ const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});
+ const filename=prefix+'-'+stamp+'.json';
+ const file=new File([blob],filename,{type:'application/json'});
+ if(navigator.canShare?.({files:[file]})&&typeof navigator.share==='function'){
+  try{await navigator.share({files:[file],title:'W.NE Emergency Copy'});return 'shared'}
+  catch(e){if(e?.name==='AbortError')throw Error('Emergency copy sharing cancelled. Your writing is still open.')}
+ }
+ const url=URL.createObjectURL(blob);
+ try{const a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove()}
+ finally{setTimeout(()=>URL.revokeObjectURL(url),60000)}
+ return 'download';
+}
+window.wneEmergencyCopy=async function(){
+ syncEditor(); // Include the CURRENT editable HTML, even when cloud saving fails.
+ if(!data||!Array.isArray(data.chapters))throw Error('Editor has not loaded; no content to export.');
+ const result=await downloadRaw(structuredClone(data),'Disclosure-Desk-WNE-Emergency');
+ toast(result==='shared'?'Emergency copy shared':'Emergency copy prepared · check Downloads');
+ return true;
+};
 async function backup(){if(!await saveNow())return toast('Save failed. Use Emergency copy instead.');try{const response=await fetch('/api/backup',{cache:'no-store'});if(!response.ok){const detail=await response.json().catch(()=>({}));throw Error(detail.error||'Backup failed')}const blob=await response.blob();const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='WNE-research-backup.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);toast('Backup copy downloaded')}catch(e){alert('Backup was not downloaded: '+e.message+'\nUse Emergency copy before leaving.')}}
 async function replaceDoc(raw,reason){let next;try{next=normalise(raw)}catch(e){return alert('Cannot import: '+e.message)}if(!confirm(`Replace current W.NE v0.7 test manuscript with "${next.bookTitle}"? A recovery checkpoint will preserve the previous version. Save a backup first if needed.`))return;if(!await beforeSwitch())return;const previous=data;data=next;render();dirty();if(!await saveNow(reason)){data=previous;render();return}toast('Manuscript imported into W.NE v0.7')}
 async function recover(){
@@ -1960,7 +1980,7 @@ $('lifeboat-file').onchange=async e=>{
   alert(`Restored ${result.restored} document(s) as new library copies. Open Home to view them.`);
  }catch(err){alert('Lifeboat restore failed: '+err.message)}finally{e.target.value=''}
 };
-$('lifeboat').onclick=async()=>{closeMore();if(!await saveNow('manual'))return alert('Save failed. Download an emergency copy first.');const a=document.createElement('a');a.href='/api/lifeboat';a.download='WNE-Lifeboat.zip';document.body.append(a);a.click();a.remove();toast('Full library backup requested — check Downloads')};$('save').onclick=async()=>{const b=$('save');b.disabled=true;try{if(!await saveNow('manual'))toast('Save not confirmed — use Emergency Copy if needed')}finally{b.disabled=false}};$('backup').onclick=backup;$('recover').onclick=recover;$('more-recover').onclick=recover;$('import').onclick=importBackup;$('more-import').onclick=importBackup;$('copy-prev').onclick=copyPrev;$('emergency').onclick=()=>{syncEditor();downloadRaw(data);toast('Emergency copy requested')};
+$('lifeboat').onclick=async()=>{closeMore();if(!await saveNow('manual'))return alert('Save failed. Download an emergency copy first.');const a=document.createElement('a');a.href='/api/lifeboat';a.download='WNE-Lifeboat.zip';document.body.append(a);a.click();a.remove();toast('Full library backup requested — check Downloads')};$('save').onclick=async()=>{const b=$('save');b.disabled=true;try{if(!await saveNow('manual'))toast('Save not confirmed — use Emergency Copy if needed')}finally{b.disabled=false}};$('backup').onclick=backup;$('recover').onclick=recover;$('more-recover').onclick=recover;$('import').onclick=importBackup;$('more-import').onclick=importBackup;$('copy-prev').onclick=copyPrev;$('emergency').onclick=()=>{window.wneEmergencyCopy().catch(e=>alert('Emergency export not completed: '+e.message))};
 $('restore-file').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>8*1024*1024)throw Error('File over 8MB');await replaceDoc(JSON.parse(await f.text()),'replace')}catch(err){alert('Backup could not be read: '+err.message)}finally{e.target.value=''}};
 $('theme').onclick=toggleTheme;$('tv-theme').onclick=toggleTheme;$('tvmode').onclick=tvOn;$('tv-exit').onclick=tvOff;$('tv-big').onclick=()=>tvSize(2);$('tv-small').onclick=()=>tvSize(-2);$('tv-layout').onchange=e=>changeTvLayout(e.target.value);$('tv-width').oninput=e=>changeTvWidth(e.target.value);$('tv-fit').onclick=()=>changeTvWidth(96);
 /* Research Edition: W.NE logo is branding only; no home navigation. */
@@ -2228,7 +2248,7 @@ html body #wne-bible-open,html body #wne-idea-open,html body #wne-companion-laun
       alert('Research library backup prepared: '+pack.documentCount+' document(s). Check your Downloads or sharing destination. Keep the ZIP private.');
      }
      else if(action==='history'){performClick('recover');}
-     else if(action==='emergency'){performClick('emergency');}
+     else if(action==='emergency'){await window.wneEmergencyCopy();}
      else if(action==='kindle'){performClick('wne-kindle-toolbar');}
      else{
        await ensureSaved('before File menu navigation');
