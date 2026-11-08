@@ -24,6 +24,7 @@ jobs:
         run: |
           node scripts/test_signup_auto_public_20261108.cjs
           node scripts/test_avatar_auto_upload_20261108.cjs
+          node scripts/test_chat_stability_and_invite.cjs
       - name: Preserve existing cross-account safety
         run: |
           node scripts/test_private_chat_account_switch_runtime.cjs
