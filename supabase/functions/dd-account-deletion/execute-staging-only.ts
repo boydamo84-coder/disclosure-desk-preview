@@ -126,6 +126,13 @@ Deno.serve(async request => {
          !/^[A-Za-z0-9_-]{43}$/.test(input.intent)) {
         return result(400,{error:"Confirmation failed"},origin);
       }
+      // This RPC is intentionally NOT deployed/implemented yet. Real destructive
+      // staging execution must fail closed until server-side RLS/Storage write
+      // fencing has been implemented, independently audited and verified.
+      const writeFence=await call("dd_deletion_write_fence_active",{p_target:user.id});
+      if(writeFence!==true)return result(503,{
+        error:"Account deletion requires a verified server-side write freeze"
+      },origin);
       const lease=crypto.randomUUID();
       const claimed=await call("dd_deletion_claim",{
         p_target:user.id,p_session:sessionId,p_digest:await digest(input.intent),p_lease:lease
