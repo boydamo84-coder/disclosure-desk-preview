@@ -57,6 +57,9 @@ jobs:
           node --check scripts/audit_full_site_chromium_20261108.cjs
           node --check scripts/test_m28_public_workflows_chromium_20261108.cjs
           node --check scripts/test_research_home_navigation_chromium_20261108.cjs
+          node --check scripts/test_research_json_restore_chromium_20261108.cjs
+          node --check research/restore-library-core.js
+          node --check research/restore-copy.js
       - name: Preserve existing avatar and community behavior
         run: |
           node scripts/test_avatar_auto_upload_20261108.cjs
@@ -140,6 +143,7 @@ jobs:
           node scripts/audit_full_site_chromium_20261108.cjs
           node scripts/test_m28_public_workflows_chromium_20261108.cjs
           node scripts/test_research_home_navigation_chromium_20261108.cjs
+          node scripts/test_research_json_restore_chromium_20261108.cjs
       - name: Stop loopback-only test origin
         if: always()
         run: kill "$(cat /tmp/dd-research-chrome.pid)" || true
