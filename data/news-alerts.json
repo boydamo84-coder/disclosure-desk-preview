@@ -485,7 +485,9 @@
     "date": "2026-11-03T13:05:17+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://herald.wales/wp-content/uploads/2026/02/8959b678-53a5-46a2-b4db-44d68651406e.jpeg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "d490112384712ca587c2",
@@ -495,7 +497,9 @@
     "date": "2026-11-03T12:59:18+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://multibagg.blob.core.windows.net/company-details/articles/cmw0p2mya004p2ft8f5be1qg2-1793710765075.png",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "b03e842689c50715134d",
@@ -601,6 +605,16 @@
     "source": "International Business Times UK",
     "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9feE82WEV4RWVYbDU0SmdZZ1dFZDlWSklXT1lrVEl4VjFucFZjQ3FWRDJRaXo0dnhpNC1Ob3VEY0lDeEh5VTg0TkMzTHFMV296WFJ3TVNrQU55cmZNOW9uRDFERmJMUWZWZnk2MmNGLVZPNGNpb0pvaTl2Yw?oc=5",
     "date": "2026-11-02T11:10:00+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details."
+  },
+  {
+    "id": "56e8e4d2792e065b2164",
+    "headline": "Trump will order the Pentagon to disclose data on UFOs and extraterrestrial life",
+    "source": "Turkmenportal.com",
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxORTBiWjRtbTRDaGl1ejZvNktERTFPRGk3OTlvN0FpTlhKbVljZWtTRlJFYm1hd0N3YkhqZWxsdUFRS3VvRkh0U0pWTzR4Q0RabmRkZG5hRGNqU25ibFJ6QmNJd2JUNjF0dGg2ZHB5UjBIU1dhTEZUd0ViQmlQakFHRGxLakRzZzFZLU1LbVQtVzNvdk5fV0pCeHA5ckZPRjYxUlFNeXh4eGdiNDE0UWczSlNfbw?oc=5",
+    "date": "2026-11-02T09:28:52+00:00",
     "category": "UAP",
     "priority": "standard",
     "desc": "Read the source article for details."
