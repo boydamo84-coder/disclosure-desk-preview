@@ -7,7 +7,7 @@ const enabled=flags.discussions===true&&['test','production'].includes(cfg.envir
 if(!enabled)return; // Cannot call owner-only RPCs or reveal Admin tools while disabled.
 const $=id=>document.getElementById(id),node=(tag,text,cls)=>{
  const el=document.createElement(tag);if(text!==undefined)el.textContent=String(text);if(cls)el.className=cls;return el};
-let db=null,active=false,rerun=false,reviewFilter='all',reviewSort='newest';
+let db=null,active=false,rerun=false,reviewFilter='all',reviewSort='newest',sessionRevision=0;
 const client=()=>db||(db=window.supabase?.createClient(cfg.url,cfg.publishableKey,{
  auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}));
 function say(message){const n=$('ddAdminForumStatus');if(n)n.textContent=String(message).slice(0,240)}
@@ -25,27 +25,38 @@ function action(parent,label,fn){
  button.onclick=()=>{void fn(button)};parent.append(button);return button;
 }
 async function moderated(button,fn,confirmation='Review action completed.'){
+ const initialRevision=sessionRevision;
  button.disabled=true;say('Checking site-owner authorisation…');
  try{
-  const c=await registered();const ok=await fn(c);
+  const c=await registered();
+  if(initialRevision!==sessionRevision)throw Error('Account changed. Review action cancelled.');
+  const ok=await fn(c);
+  if(initialRevision!==sessionRevision)return; // No success message or old queue after logout.
   if(ok!==true)throw Error('The item was not changed. Please reload the moderation queue.');
   const loaded=await load();
-  if(loaded)say(confirmation);
+  if(loaded&&initialRevision===sessionRevision)say(confirmation);
  }catch(e){say(e?.message||'Review action denied.')}
  finally{button.disabled=false}
 }
 async function load(){
  if(active){rerun=true;return false;}
- const root=$('ddAdminDiscussions');if(!root||!root.open)return;
+ const root=$('ddAdminDiscussions');if(!root||!root.open)return false;
+ const revisionAtStart=sessionRevision;
  active=true;say('Checking owner-only review queue…');
  const queue=$('ddAdminForumQueue'),sections=$('ddAdminForumSections');
  try{
   const c=await registered();
+  const before=await c.auth.getUser(),expectedOwner=before.data?.user?.id;
+  if(revisionAtStart!==sessionRevision||before.error||!expectedOwner||before.data?.user?.is_anonymous)return false;
   // These RPCs separately verify dd_forum_owner_admins, not public or section steward status.
   const [items,groups]=await Promise.all([
    rpc(c,'dd_discussions_owner_review_items',{p_limit:100,p_filter:reviewFilter,p_sort:reviewSort}),
    rpc(c,'dd_discussions_owner_sections',{p_limit:100})
   ]);
+  const after=await c.auth.getUser();
+  // A delayed response MUST NOT paint private owner data for another browser user.
+  if(revisionAtStart!==sessionRevision||after.error||after.data?.user?.id!==expectedOwner
+   ||after.data?.user?.is_anonymous||!root.open)return false;
   queue.replaceChildren();sections.replaceChildren();
   if(!items?.length)queue.append(node('p',reviewFilter==='completed'?'No completed reviews yet.':reviewFilter==='pending'?'No pending reports. All caught up.':'No reported discussion cases yet.','muted small'));
   for(const item of items||[]){
@@ -120,6 +131,7 @@ async function load(){
   say('Review list loaded · '+(items?.length||0)+' '+reviewFilter+' case(s) · '+reviewSort+' first. Decisions remain in history.');
   return true;
  }catch(e){
+  if(revisionAtStart!==sessionRevision)return false;
   queue.replaceChildren();sections.replaceChildren();
   say(e?.message||'Only the authorised site owner can open this queue.');
   return false;
@@ -148,6 +160,16 @@ function init(){
  }
  root.addEventListener('toggle',()=>{if(root.open)void load()});
  $('ddAdminForumRefresh').onclick=()=>{void load()};
+ // The Profile module handles parent visibility, but we also clear the nested
+ // owner-only DOM immediately when the Supabase identity changes.
+ const c=client();
+ c?.auth?.onAuthStateChange?.((event)=>{
+  if(event==='TOKEN_REFRESHED'||event==='INITIAL_SESSION')return;
+  sessionRevision++;root.open=false;
+  $('ddAdminForumQueue')?.replaceChildren();
+  $('ddAdminForumSections')?.replaceChildren();
+  say('Account changed. Reopen owner review after signing in.');
+ });
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
