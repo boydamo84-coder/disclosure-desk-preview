@@ -142,6 +142,27 @@ window.addEventListener('message',ev=>{if(ev.origin!==location.origin||ev.source
 (function(){
 const dlg=document.getElementById('dd-documents-dialog'),list=document.getElementById('dd-documents-list'),msg=document.getElementById('dd-documents-status'),writer=document.getElementById('writer');
 if(!dlg||!list||!writer)return;
+let switching=false;
+async function requireCurrentSaved(reason){
+ // An account with no opened report can create its first document. If an
+ // existing editor/document is selected, NEVER replace its iframe on an
+ // unconfirmed save (including in-flight edits, network outage or sign-out).
+ const frameId=new URL(writer.getAttribute('src')||'',location.href).searchParams.get('id');
+ const pageId=new URL(location.href).searchParams.get('id');
+ const active=frameId||pageId;
+ if(!active)return true;
+ let save;
+ try{save=writer.contentWindow?.wneSaveBeforeNavigation}catch(_){}
+ if(typeof save!=='function')
+  throw Error('The current editor has not finished loading. Keep this document open and use Save or Emergency Copy.');
+ let saved=false;
+ try{saved=await save(reason)}catch(e){
+  throw Error('Could not confirm your current document was saved. Stay in the editor. '+(e?.message||''));
+ }
+ if(saved!==true)
+  throw Error('Current document is not confirmed saved. Stay in the editor; use Save or Emergency Copy before opening another report.');
+ return true;
+}
 async function api(body){const r=await fetch('/api/library',{cache:'no-store',...(body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{})});const j=await r.json();if(!r.ok)throw Error(j.error||'Request failed');return j}
 async function refresh(){
  const d=await api();list.replaceChildren();
@@ -149,7 +170,7 @@ async function refresh(){
  if(!items.length){const n=document.createElement('p');n.textContent='No documents saved yet.';list.append(n)}
  for(const item of items){
  const btn=document.createElement('button');btn.type='button';btn.textContent=(item.active?'✓ ':'📄 ')+(item.title||'Untitled document');btn.setAttribute('aria-current',String(!!item.active));
- btn.onclick=async()=>{try{btn.disabled=true;msg.textContent='Opening…';await api({action:'open',id:item.id});dlg.close();document.getElementById('writerBtn')?.click();sessionStorage.setItem('wne-research-active-document',item.id);history.replaceState(null,'',location.pathname+'?id='+encodeURIComponent(item.id));writer.src='./wne.html?id='+encodeURIComponent(item.id);}catch(e){msg.textContent=e.message}finally{btn.disabled=false}};
+ btn.onclick=async()=>{if(switching)return;switching=true;try{btn.disabled=true;msg.textContent='Confirming current document is saved…';await requireCurrentSaved('before switching Research documents');msg.textContent='Opening…';await api({action:'open',id:item.id});dlg.close();document.getElementById('writerBtn')?.click();sessionStorage.setItem('wne-research-active-document',item.id);history.replaceState(null,'',location.pathname+'?id='+encodeURIComponent(item.id));writer.src='./wne.html?id='+encodeURIComponent(item.id);}catch(e){msg.textContent=e.message}finally{btn.disabled=false;switching=false}};
  list.append(btn);
  }
 }
@@ -157,9 +178,18 @@ document.addEventListener('dd-research-library-updated',async()=>{try{await refr
 document.getElementById('dd-documents-btn').onclick=async()=>{dlg.showModal();msg.textContent='';try{await refresh()}catch(e){msg.textContent=e.message}};
 document.getElementById('dd-close-documents').onclick=()=>dlg.close();
 document.getElementById('dd-create-document').onclick=async()=>{
+ if(switching)return;
  const input=document.getElementById('dd-new-document-name'),name=input.value.trim();if(!name){msg.textContent='Enter a document name first.';return}
- try{msg.textContent='Creating…';const created=await api({action:'create',title:name,mode:'study',structure:'sections'});if(!created.id)throw Error('Created document ID unavailable');await api({action:'open',id:created.id});input.value='';dlg.close();document.getElementById('writerBtn')?.click();sessionStorage.setItem('wne-research-active-document',created.id);history.replaceState(null,'',location.pathname+'?id='+encodeURIComponent(created.id));writer.src='./wne.html?id='+encodeURIComponent(created.id);}catch(e){msg.textContent=e.message}
+ switching=true;const button=document.getElementById('dd-create-document');button.disabled=true;
+ try{msg.textContent='Confirming current document is saved…';await requireCurrentSaved('before creating a new Research document');msg.textContent='Creating…';const created=await api({action:'create',title:name,mode:'study',structure:'sections'});if(!created.id)throw Error('Created document ID unavailable');await api({action:'open',id:created.id});input.value='';dlg.close();document.getElementById('writerBtn')?.click();sessionStorage.setItem('wne-research-active-document',created.id);history.replaceState(null,'',location.pathname+'?id='+encodeURIComponent(created.id));writer.src='./wne.html?id='+encodeURIComponent(created.id);}catch(e){msg.textContent=e.message}finally{button.disabled=false;switching=false}
 };
+// A standalone editor may reach this workspace only AFTER confirming its own
+// save. Open the actual in-page Research Home; never bounce to legacy /home.
+if(new URLSearchParams(location.search).get('dd_home')==='1'){
+ const url=new URL(location.href);url.searchParams.delete('dd_home');
+ history.replaceState(null,'',url.pathname+url.search+url.hash);
+ window.addEventListener('load',()=>document.getElementById('dd-documents-btn')?.click(),{once:true});
+}
 })();
 </script><script id="dd-cloud-manual-copy">
 (()=>{
