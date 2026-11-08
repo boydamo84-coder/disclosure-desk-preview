@@ -1,7 +1,7 @@
 name: Verify Research Studio resume and existing community (NO deploy)
 on:
   push:
-    branches: [fix/research-mobile-profile-polish-nov08]
+    branches: [fix/research-mobile-profile-polish-nov08, staging/research-samsung-m16-20261108]
   workflow_dispatch:
 permissions:
   contents: read
