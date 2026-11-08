@@ -1208,7 +1208,7 @@ body.tv .tv-controls #tv-exit:focus-visible {
 </div>
 <section id="wne-spell-panel" hidden role="dialog" aria-label="Writing suggestions">
 <h3 id="wne-spell-word">Writing suggestion</h3>
-<p>Suggestions from LanguageTool, running locally. Nothing changes without your approval.</p>
+<p>Suggestions are checked through the secure writing service. Nothing changes without your approval.</p>
 <div id="wne-spell-choices" class="wne-spell-actions"></div>
 <div class="wne-spell-actions"><button id="wne-spell-add" type="button">＋ Add to dictionary</button><button id="wne-spell-dismiss" type="button">Close</button></div>
 </section>
@@ -3733,4 +3733,27 @@ html[data-theme] .sidebar .chapters .wne-chapter-row .wne-chapter-options{backgr
 #editor [data-wne-font-size="24"]{font-size:24px}
 </style>
 <script src="./research-text-size.js" defer></script>
+<style id="dd-research-review-navigation-v1">
+/* Reviewer stays visible when Writing checks settings are folded away. */
+#wne-spell-review{display:flex;gap:7px;align-items:center;flex-wrap:wrap;
+ box-sizing:border-box;padding:6px 12px;background:#142737;color:#e9ddca;
+ border-bottom:1px solid #657184;font:12px system-ui,sans-serif}
+#wne-spell-review #wne-spell-status{flex:1 1 180px;line-height:1.4;
+ color:#e9ddca!important;overflow-wrap:anywhere;min-width:0}
+#wne-spell-review-position{white-space:nowrap;color:#dfc18b;font-weight:700;
+ font-variant-numeric:tabular-nums}
+#wne-spell-review button{min-height:40px;white-space:nowrap;padding:8px 11px;
+ border:1px solid #657b8e;border-radius:9px;background:#233b4d;
+ color:#f1e1c4;font:600 12px system-ui;cursor:pointer}
+#wne-spell-review button:disabled{opacity:.38;cursor:not-allowed}
+#wne-spell-review button:focus-visible{outline:3px solid #e6c58c;outline-offset:2px}
+#wne-spell-review[data-has-findings="true"]{border-bottom-color:#c4a575}
+::highlight(wne-review-active){background:rgba(221,164,67,.46);color:inherit}
+@media(max-width:600px){
+ #wne-spell-review{gap:6px;padding:7px 9px;justify-content:flex-start}
+ #wne-spell-review #wne-spell-status{flex:1 1 100%;font-size:12px}
+ #wne-spell-review-position{flex:1;min-width:96px}
+ #wne-spell-review button{min-height:44px;padding:9px 10px;font-size:12px}
+}
+</style>
 <script src="./wne-research-live-spelling.js" defer></script>
