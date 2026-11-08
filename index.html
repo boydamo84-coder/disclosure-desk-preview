@@ -196,6 +196,10 @@
 .dd-avatar-tools input[type=file]{display:block;max-width:100%;padding:7px 0;color:#eef0f1}
 .dd-avatar-tools .dd-profile-actions{display:flex;gap:8px;flex-wrap:wrap}
 .dd-avatar-tools button{min-height:44px}
+.dd-avatar-visible-toggle{display:flex;align-items:center;gap:9px;margin:12px 0}
+.dd-avatar-visible-toggle input{width:18px;height:18px;accent-color:#e8c98d}
+.dd-forum-avatar{display:inline-flex;align-items:center;justify-content:center;width:29px;height:29px;min-width:29px;flex-shrink:0;border-radius:50%;border:1px solid #718894;background:#1f4054;color:#f2dcaa;font-weight:bold;font-size:13px;vertical-align:middle;margin-right:7px;overflow:hidden}
+.dd-forum-avatar img,.dd-chat-avatar img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
 
 .dd-profile-card h3{color:#e8c98d;margin:0 0 9px}
 /* Native keyboard-accessible Research Hub accordions. Main account status remains visible. */
@@ -782,9 +786,10 @@
      <img id="ddAvatarImage" alt="Your private profile photo" hidden>
      <span id="ddAvatarFallback" aria-hidden="true">👤</span>
    </div><div class="dd-avatar-tools">
-     <p class="muted small">Only you can see this photo. Select a JPG, PNG or WebP up to 5 MB; it is cropped to a 512 px square and saved privately. Public avatars are not enabled.</p>
+     <p class="muted small">Your photo appears automatically beside your public username in Chat and Discussions. You can hide it below or remove it whenever you want. Pictures are resized to a 512 px square WebP (max input 5 MB); original metadata is not kept. Hidden photos are protected from new downloads, though previously saved copies cannot be recalled.</p>
      <label for="ddAvatarFile" class="muted small">Choose a new profile photo</label>
      <input id="ddAvatarFile" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="ddAvatarStatus">
+     <label class="muted small dd-avatar-visible-toggle"><input type="checkbox" id="ddAvatarVisible" checked disabled> Show my profile picture to others (default on)</label>
      <div class="dd-profile-actions">
        <button type="button" class="outline" id="ddAvatarSave" disabled>Save photo</button>
        <button type="button" class="outline" id="ddAvatarRemove" hidden>Remove photo</button>

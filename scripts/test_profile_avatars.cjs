@@ -6,13 +6,13 @@ const html=fs.readFileSync('index.html','utf8');
 const config=fs.readFileSync('assets/community-test-config.js','utf8');
 const policy=fs.readFileSync('supabase/PROFILE_AVATARS_PRIVATE_REVIEW.sql','utf8');
 for(const id of ['ddAvatarPanel','ddAvatarImage','ddAvatarFallback','ddAvatarFile',
- 'ddAvatarSave','ddAvatarRemove','ddAvatarStatus'])
+ 'ddAvatarSave','ddAvatarRemove','ddAvatarStatus','ddAvatarVisible'])
  assert.match(html,new RegExp('id="'+id+'"'),'Missing '+id);
 assert.match(config,/profileAvatars:false/,'Default photo activation must remain disabled');
 assert.match(source,/storage\.from\(BUCKET\)\.download/);
 assert.match(source,/storage\.from\(BUCKET\)\.upload/);
 assert.match(source,/storage\.from\(BUCKET\)\.remove/);
-assert.match(source,/canvas\.toBlob\(resolve,'image\/webp'/);
+assert.match(source,/canvas\\.toBlob\\(resolve,'image\\/webp'/);
 assert.doesNotMatch(source,/getPublicUrl|createSignedUrl/);
 assert.match(policy,/public,file_size_limit,allowed_mime_types/);
 assert.match(policy,/false,1048576,ARRAY\['image\/webp'\]/);
@@ -28,14 +28,18 @@ const doc={getElementById:id=>ids[id]||null};
 let who='11111111-1111-4111-8111-111111111111';
 let authCb,oldResolve,downloadCalls=[],revokeCalls=[];
 const blobA={id:'A'},blobB={id:'B'};
-const client={auth:{
+const keyA='aaaa1111-aaaa-4111-8aaa-aaaaaaaaaaaa',keyB='bbbb2222-bbbb-4222-8bbb-bbbbbbbbbbbb';
+const client={rpc:async name=>{
+ assert.equal(name,'dd_avatar_my_settings');
+ return {data:[{public_key:who?.startsWith('11111111')?keyA:keyB,visible:true}],error:null};
+},auth:{
  getUser:async()=>({data:{user:who?{id:who,is_anonymous:false}:null},error:null}),
  onAuthStateChange:cb=>{authCb=cb;}
 },storage:{from:bucket=>{
  assert.equal(bucket,'dd-profile-avatars');
  return {download:path=>{
   downloadCalls.push(path);
-  if(path.startsWith('11111111'))return new Promise(resolve=>{oldResolve=resolve;});
+  if(path.startsWith(keyA))return new Promise(resolve=>{oldResolve=resolve;});
   return Promise.resolve({data:blobB,error:null});
  },upload:async()=>{throw Error('No live uploads in test')},
  remove:async()=>{throw Error('No live deletes in test')}};
@@ -55,7 +59,7 @@ async function flush(){for(let i=0;i<30;i++)await Promise.resolve();}
  assert.equal(ids.ddAvatarImage.src,'blob:synthetic-B',
    'Account A pending photo must NOT reappear in B');
  assert.equal(ids.ddAvatarPanel.hidden,false);
- assert.equal(downloadCalls[downloadCalls.length-1],'22222222-2222-4222-8222-222222222222/avatar.webp');
+ assert.equal(downloadCalls[downloadCalls.length-1],keyB+'/avatar.webp');
  who=null;authCb();await flush();
  assert.equal(ids.ddAvatarPanel.hidden,true,'Guest may not access profile photo settings');
  assert.equal(ids.ddAvatarImage.src,'','Signout must remove private photo URL');
