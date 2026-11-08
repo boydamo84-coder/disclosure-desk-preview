@@ -1930,6 +1930,44 @@ news();renderCases();showDrafts();const requestedCase=new URLSearchParams(locati
 // Save uses the same persistent Investigation Board workflow as News.
 function ddSyncStickyHeaderHeight(){const h=document.querySelector('header.top');if(h)document.documentElement.style.setProperty('--dd-header-height',Math.ceil(h.getBoundingClientRect().height)+'px')}ddSyncStickyHeaderHeight();window.addEventListener('resize',ddSyncStickyHeaderHeight);
 let historicalRecords=[];
+function setArchiveView(mode){
+ const satellite=mode==='satellite';
+ const cases=$('ddArchiveCasesPanel'),research=$('ddArchiveSatellitePanel');
+ if(!cases||!research)return;
+ cases.hidden=satellite;research.hidden=!satellite;
+ for(const [name,selected] of [['ddArchiveCasesTab',!satellite],['ddArchiveSatelliteTab',satellite]]){
+  const button=$(name);if(!button)continue;
+  button.setAttribute('aria-selected',String(selected));
+  button.tabIndex=selected?0:-1;
+ }
+ if(satellite)renderArchiveSatelliteCases();
+}
+function renderArchiveSatelliteCases(){
+ const host=$('ddArchiveSatelliteResults'),status=$('ddArchiveSatelliteStatus');
+ if(!host||!status)return;
+ const words=String($('ddArchiveSatelliteSearch')?.value||'').trim().toLowerCase().split(/\s+/).filter(Boolean);
+ if(!historicalRecords.length){
+  status.textContent='Loading public archive records…';host.replaceChildren();return
+ }
+ const matching=historicalRecords.filter(r=>{
+  const haystack=[r.title,r.year,r.eventDate,r.city,r.country,r.location,r.eventName,r.category,r.description]
+   .filter(Boolean).join(' ').toLowerCase();
+  return words.every(w=>haystack.includes(w));
+ });
+ const displayed=matching.slice(0,24);
+ status.textContent=matching.length+' source-linked records match; showing '+displayed.length+
+  '. A catalogue year is not a confirmed exact event date.';
+ host.innerHTML=displayed.map(r=>{
+  const date=window.DDHistoricalSatellite?.caseSelection?.(r)?.date||null;
+  const location=String(r.city||r.location||r.country||'Location not verified');
+  const dateLabel=date?'Recorded event date: '+esc(date):
+   'Record year: '+esc(String(r.year||'unknown'))+' · exact day not verified';
+  return '<article class="dd-archive-satellite-case"><div><strong>'+esc(r.title)+
+   '</strong><p class="muted small">'+esc(location)+' · '+dateLabel+
+   '</p></div><button type="button" class="outline" data-dd-sat-archive="'+esc(String(r.id))+
+   '">🛰 Research imagery</button></article>';
+ }).join('')||'<p class="muted small">No matching public source records. Try a shorter case name, city, or year. Provider links below remain available.</p>';
+}
 let newsArchiveMode=false;
 let archiveDisplayCount=60;
 const archiveStopWords=new Set(['project','blue','book','case','file','files','uap','ufo','reported','report','reports','unknown','incident','investigation','government','the','and','from','with','of','at','on','in','for','an','a','to','near','unidentified','flying','object','objects','sighting','sightings']);
@@ -2209,7 +2247,7 @@ async function loadHistoricalArchive(){
  $('archiveCategory').innerHTML='<option value="all">All subjects</option>'+categories.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
  const kinds=[...new Set(historicalRecords.map(x=>x.kind))].sort();
  $('archiveType').innerHTML='<option value="all">All types</option>'+kinds.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
- ddRecordCaseUpdates();renderHistoricalArchive();ddSetupCompareCases();renderResearchDashboard();
+ ddRecordCaseUpdates();renderHistoricalArchive();renderArchiveSatelliteCases();ddSetupCompareCases();renderResearchDashboard();
  if($('mapViewMode').value==='archive'){refreshArchiveMapYears();renderMarkers()}
  }catch(e){$('archiveStatus').textContent='Archive unavailable; try again later.';}
 }
@@ -2274,6 +2312,20 @@ $('newsTopTab').onclick=()=>switchNewsView('top');
 $('newsReadTab').onclick=()=>switchNewsView('read');
 $('readSearch').addEventListener('input',renderReadHistory);
 for(const id of ['archiveSearch','archiveYear','archiveType','archiveCategory'])$(id).addEventListener(id==='archiveSearch'?'input':'change',()=>{archiveDisplayCount=60;renderHistoricalArchive()});
+$('ddArchiveCasesTab').addEventListener('click',()=>setArchiveView('cases'));
+$('ddArchiveSatelliteTab').addEventListener('click',()=>setArchiveView('satellite'));
+$('ddArchiveSatelliteSearch').addEventListener('input',renderArchiveSatelliteCases);
+document.querySelector('.dd-archive-view-switch')?.addEventListener('keydown',event=>{
+ if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+ const buttons=[$('ddArchiveCasesTab'),$('ddArchiveSatelliteTab')];
+ let next=buttons.findIndex(b=>b.getAttribute('aria-selected')==='true');
+ if(event.key==='Home')next=0;
+ else if(event.key==='End')next=1;
+ else next=(next+(event.key==='ArrowRight'?1:-1)+2)%2;
+ event.preventDefault();
+ setArchiveView(next?'satellite':'cases');
+ buttons[next].focus();
+});
 window.ddTickerOpenStory=function(id){
   if(!feedLive||!stories.some(x=>String(x.id)===String(id)))return false;
   ddPendingNews=String(id);ddOpenNewsTarget();return true;
