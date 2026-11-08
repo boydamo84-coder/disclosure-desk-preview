@@ -86,6 +86,8 @@ jobs:
           node --check supabase/functions/dd-account-deletion/operator-recovery-core.mjs
           node --check scripts/test_account_deletion_recovery_20261108.cjs
           node scripts/test_account_deletion_recovery_20261108.cjs
+          node --check scripts/test_account_deletion_live_audit_contract_20261108.cjs
+          node scripts/test_account_deletion_live_audit_contract_20261108.cjs
       - name: Verify restricted static bundle (no deploy)
         run: node scripts/test_public_release_package.cjs
   real-browser:
