@@ -27,7 +27,21 @@ function buttons(){
  remove.disabled=operation||!owner||!avatarKey||!hasSavedPhoto;
  visible.disabled=operation||!owner||!avatarKey;
 }
-function revoke(){if(objectUrl){try{URL.revokeObjectURL(objectUrl)}catch(_){}}objectUrl=null;}
+function updateOwnNavigation(src){
+ // The account owner sees their own photo even when public visibility is off.
+ // Never embed a Storage public URL or the user's private identifier.
+ const targets=[document.getElementById('ddProfileShortcut'),
+  document.querySelector('.tab[data-tab="profilePage"] .ico')].filter(Boolean);
+ for(const target of targets){
+  target.replaceChildren();
+  if(src){
+   const picture=document.createElement('img');
+   picture.alt='';picture.setAttribute('aria-hidden','true');
+   picture.src=src;target.appendChild(picture);
+  }else target.textContent='👤';
+ }
+}
+function revoke(){if(objectUrl){updateOwnNavigation(null);try{URL.revokeObjectURL(objectUrl)}catch(_){}}objectUrl=null;}
 function reset(clearKey=true){
  if(clearKey){avatarKey=null;visible.checked=false;}
  pending=null;hasSavedPhoto=false;file.value='';revoke();image.removeAttribute('src');
@@ -37,6 +51,7 @@ function show(blob,saved=false){
  if(saved)hasSavedPhoto=true;
  const next=URL.createObjectURL(blob);revoke();objectUrl=next;
  image.src=next;image.hidden=false;fallback.hidden=true;
+ updateOwnNavigation(next);
  remove.hidden=!hasSavedPhoto;buttons();
 }
 function pathFor(key){return key+'/avatar.webp';}
