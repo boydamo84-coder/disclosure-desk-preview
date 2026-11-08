@@ -24,6 +24,9 @@ jobs:
         run: |
           node --check research/wne-cloud-bridge.js
           node scripts/test_research_backup_recovery_20261108.cjs
+          node --check research/restore-library-core.js
+          node --check research/restore-library.js
+          node scripts/test_research_library_zip_restore_20261108.cjs
       - name: Preserve existing avatar and community behavior
         run: |
           node scripts/test_avatar_auto_upload_20261108.cjs
