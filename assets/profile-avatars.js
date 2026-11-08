@@ -31,7 +31,7 @@ function updateOwnNavigation(src){
  // The account owner sees their own photo even when public visibility is off.
  // Never embed a Storage public URL or the user's private identifier.
  const targets=[document.getElementById('ddProfileShortcut'),
-  document.querySelector('.tab[data-tab="profilePage"] .ico')].filter(Boolean);
+  document.querySelector?.('.tab[data-tab="profilePage"] .ico')].filter(Boolean);
  for(const target of targets){
   target.replaceChildren();
   if(src){
