@@ -1840,7 +1840,7 @@ const tourSections=[
 ];
 let tourSection=0;
 let tourSteps=tourSections[0].steps;
-let tourStep=0,tourHighlight=null,tourReturnPage=null,tourReturnFocus=null;
+let tourStep=0,tourHighlight=null,tourReturnPage=null,tourReturnFocus=null,tourReturnArchiveSatellite=false;
 function clearTourHighlight(){
  if(tourHighlight){tourHighlight.style.outline='';tourHighlight.style.outlineOffset='';tourHighlight=null}
 }
@@ -1848,6 +1848,9 @@ function renderTour(){
  const item=tourSteps[tourStep];
  clearTourHighlight();
  navigateTo(item.page);
+ // Show the actual Archive subview used by this tour step, not a hidden demo.
+ if(item.page==='archivePage'&&typeof setArchiveView==='function')
+  setArchiveView(item.target==='#ddArchiveSatelliteTab'?'satellite':'cases');
  $('tourHeading').textContent=item.title;$('tourContent').textContent=item.body;
  $('tourProgress').textContent=tourSections[tourSection].label+' · Step '+(tourStep+1)+' of '+tourSteps.length;
  $('tourPrevious').disabled=tourStep===0;
@@ -1870,6 +1873,7 @@ function openTour(section='basics'){
  // Restore the screen where the visitor originally opened the tour, not
  // always Explore. This also works for native Esc/cancel closures.
  tourReturnPage=document.querySelector('.nav .tab.active')?.dataset.tab||'discover';
+ tourReturnArchiveSatellite=$('ddArchiveSatelliteTab')?.getAttribute('aria-selected')==='true';
  tourReturnFocus=document.activeElement?.isConnected?document.activeElement:document.querySelector('.nav .tab.active');
  tourSection=Math.max(0,tourSections.findIndex(x=>x.id===section));
  tourSteps=tourSections[tourSection].steps;tourStep=0;
@@ -1882,7 +1886,9 @@ $('tourPrevious').onclick=()=>{if(tourStep>0){tourStep--;renderTour()}};
 $('tourNext').onclick=()=>{if(tourStep===tourSteps.length-1)closeTour();else{tourStep++;renderTour()}};
 $('appTourDialog').addEventListener('close',()=>{
  clearTourHighlight();
- if(tourReturnPage){const back=tourReturnPage;tourReturnPage=null;navigateTo(back);}
+ if(tourReturnPage){const back=tourReturnPage;tourReturnPage=null;navigateTo(back);
+  if(back==='archivePage'&&typeof setArchiveView==='function')
+   setArchiveView(tourReturnArchiveSatellite?'satellite':'cases');}
  if(tourReturnFocus?.isConnected)tourReturnFocus.focus({preventScroll:true});
  tourReturnFocus=null;
 });
