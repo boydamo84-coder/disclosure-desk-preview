@@ -1,4 +1,4 @@
-/* Disclosure Desk Research Edition: one familiar swipeable eleven-tab dock.
+/* Disclosure Desk Research Edition: mirror the public swipeable navigation dock.
  * Never navigate away from an open W.NE document unless its existing
  * cloud-save function confirms the current revision has been saved.
  * The independent original W.NE product is not changed by this shell.
@@ -11,12 +11,8 @@ const TABS=[
  ['boards','▣','Boards'],['witness','◉','Witness'],
  ['watchRead','♫','Watch & Read'],['profilePage','👤','Profile'],['hub','☷','Explore']
 ];
-// The public site remains eleven tabs until the separately reviewed Discussions
-// backend is activated. Use the same explicit feature gate in the Research dock.
-if(window.DD_COMMUNITY_FEATURES?.discussions===true){
- const afterWitness=TABS.findIndex(row=>row[0]==='witness')+1;
- TABS.splice(afterWitness,0,['discussionsPage','☷','Discussions']);
-}
+// Discussions are available through Explore on the public site, not as a
+// duplicate bottom tab. Keep this dock identical across Research and website.
 if(window.DD_COMMUNITY_FEATURES?.privateChat===true){
  const beforeProfile=TABS.findIndex(row=>row[0]==='profilePage');
  TABS.splice(beforeProfile,0,['chatPage','☏','Chat']);
