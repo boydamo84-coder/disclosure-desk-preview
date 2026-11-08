@@ -89,8 +89,22 @@ async function registered(){
  if(error||!data?.user||data.user.is_anonymous)throw Error('Sign in to your registered account first.');
  return data.user;
 }
+function dialogFeedback(button,message,isError=false){
+ say(message);
+ const dialog=button?.closest?.('dialog');
+ const status=dialog?.querySelector?.('[data-dd-form-status]');
+ if(status){
+  status.textContent=String(message||'').slice(0,350);
+  status.dataset.error=String(Boolean(isError));
+  status.hidden=false;
+ }
+}
+function clearDialogFeedback(dialog){
+ const status=dialog?.querySelector?.('[data-dd-form-status]');
+ if(status){status.textContent='';status.dataset.error='false';status.hidden=true}
+}
 async function change(button,operation,ok,onSuccess){
- button.disabled=true;say('Checking your account…');
+ button.disabled=true;dialogFeedback(button,'Checking your account…');
  const identityAtStart=identityRevision;
  try{
   const actor=await registered();
@@ -100,8 +114,8 @@ async function change(button,operation,ok,onSuccess){
   if(identityAtStart!==identityRevision)throw Error('Account changed. Please refresh.');
   if(result===false)throw Error('Action not permitted or no change was made.');
   if(typeof onSuccess==='function')onSuccess(result);
-  say(ok);await refresh();return true;
- }catch(e){say(e?.message||'Unable to save.');return false}
+  dialogFeedback(button,ok);await refresh();return true;
+ }catch(e){dialogFeedback(button,String(e?.message||'Unable to save.').slice(0,320),true);return false}
  finally{button.disabled=false}
 }
 function link(parent,url,label){
@@ -275,8 +289,13 @@ function openPostAction(opener,kind,row,mode){
  description.textContent=mode==='edit'?'Edit the public text of your own '+type+'. Changes are limited to 30 minutes after publication.':
   mode==='delete'?'Remove your own '+type+' from public view? It cannot be restored by your account. Minimal moderation history may remain.':
   mode==='escalate'?'Describe the serious issue for the overall site administrator. This does not give a section steward the power to delete other members’ work.':
+  row.is_mine?'You cannot flag your own post. Use Edit or Delete to manage your own content. Reports are for other members’ content.':
   'Flag this content for independent moderation review. Reporting does not immediately delete another member’s post.';
- textWrap.hidden=mode!=='edit'&&mode!=='escalate';reasonWrap.hidden=mode!=='flag';
+ textWrap.hidden=mode!=='edit'&&mode!=='escalate';
+ const ownFlag=mode==='flag'&&row.is_mine;
+ reasonWrap.hidden=mode!=='flag'||ownFlag;
+ submit.hidden=ownFlag;
+ clearDialogFeedback(dialog);
  $('ddForumActionTextLabel').textContent=mode==='escalate'?'Reason for escalation':'Edit your text';
  text.maxLength=mode==='escalate'?500:kind==='thread'?5000:2000;
  text.minLength=mode==='escalate'?10:2;
@@ -287,10 +306,11 @@ function openPostAction(opener,kind,row,mode){
  submit.className=mode==='delete'?'outline dd-forum-danger-action':'action';
  form.onsubmit=async event=>{
   event.preventDefault();
+  if(ownFlag){dialogFeedback(submit,'You cannot report your own post. This is a moderation safeguard.',true);return}
   let operation,feedback;
   if(mode==='edit'){
    const value=text.value.trim();
-   if(value.length<2||value.length>text.maxLength){say('Check your edited text length.');return}
+   if(value.length<2||value.length>text.maxLength){dialogFeedback(submit,'Check your edited text length.',true);return}
    operation=()=>rpc('dd_discussions_edit_own',{p_kind:kind,p_id:row.id,p_body:value});
    feedback='Your '+type+' was updated.';
   }else if(mode==='delete'){
@@ -298,12 +318,12 @@ function openPostAction(opener,kind,row,mode){
    feedback='Your '+type+' was removed from public view.';
   }else if(mode==='escalate'){
    const value=text.value.trim();
-   if(value.length<10||value.length>500){say('Explain the concern in 10–500 characters.');return}
+   if(value.length<10||value.length>500){dialogFeedback(submit,'Explain the concern in 10–500 characters.',true);return}
    operation=()=>rpc('dd_discussions_escalate',{p_kind:kind,p_id:row.id,p_reason:value});
    feedback='Concern sent to the site owner.';
   }else{
    const selected=reason.value;
-   if(!['spam','abuse','privacy','harassment','harmful','other'].includes(selected)){say('Select a valid report reason.');return}
+   if(!['spam','abuse','privacy','harassment','harmful','other'].includes(selected)){dialogFeedback(submit,'Select a valid report reason.',true);return}
    operation=()=>rpc('dd_discussions_flag',{p_kind:kind,p_id:row.id,p_reason:selected});
    feedback='Your report was sent for moderation.';
   }
@@ -325,8 +345,9 @@ function openPostAction(opener,kind,row,mode){
   dialog.showModal();
   dialog.addEventListener('close',()=>opener?.focus?.(),{once:true});
   if(mode==='edit'||mode==='escalate')text.focus?.();
-  else if(mode==='flag')reason.focus?.();
-  else submit.focus?.();
+  else if(mode==='flag'&&!ownFlag)reason.focus?.();
+  else if(!ownFlag)submit.focus?.();
+  else dialog.querySelector?.('[data-dd-forum-close]')?.focus?.();
  }
 }
 function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
@@ -371,14 +392,53 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
   remove.setAttribute('title','Delete');
  }
  if(section?.is_steward){
-  const more=mk('details',undefined,'dd-forum-more');
-  const summary=mk('summary','⋯');summary.setAttribute('aria-label','More moderation actions');
-  const menu=mk('div',undefined,'dd-forum-more-options');
-  if(kind==='thread')nodeAction(menu,row.is_pinned?'Unpin post':'Pin post',
-   b=>change(b,()=>rpc('dd_discussions_pin',{p_thread_id:row.id,p_pinned:!row.is_pinned}),'Pin updated.'));
-  nodeAction(menu,'Escalate to site owner',b=>openPostAction(b,kind,row,'escalate'));
-  more.append(summary,menu);parent.append(more);
+  const more=nodeAction(parent,'⋯',b=>openStewardTools(b,kind,row),'dd-forum-icon-button dd-forum-more-trigger');
+  more.setAttribute('aria-label','More post tools');
+  more.setAttribute('aria-haspopup','dialog');
+  more.setAttribute('aria-controls','ddForumMoreDialog');
  }
+}
+function openStewardTools(opener,kind,row){
+ if(!section?.is_steward)return;
+ const dialog=$('ddForumMoreDialog'),list=$('ddForumMoreActions');
+ if(!dialog?.showModal||!list)return;
+ clearDialogFeedback(dialog);
+ list.replaceChildren();
+ if(kind==='thread'){
+  const pin=nodeAction(list,row.is_pinned?'Unpin post':'Pin post',async button=>{
+   const saved=await change(button,()=>rpc('dd_discussions_pin',{
+    p_thread_id:row.id,p_pinned:!row.is_pinned
+   }),'Post pin updated.');
+   if(saved)dialog.close();
+  });
+  pin.setAttribute('aria-label',row.is_pinned?'Unpin this discussion':'Pin this discussion');
+ }
+ nodeAction(list,'Escalate to site owner',()=>{
+  dialog.close();
+  openPostAction(opener,kind,row,'escalate');
+ });
+ if(!dialog.open)dialog.showModal();
+}
+function openSectionAdminDialog(sectionRow,opener){
+ if(!ownerSectionIds.has(sectionRow.id))return;
+ const dialog=$('ddForumAdminDialog'),form=$('ddForumAdminForm');
+ if(!dialog?.showModal||!form)return;
+ clearDialogFeedback(dialog);
+ $('ddForumAdminDescription').textContent='Remove “'+sectionRow.title+'” and hide all its public posts and replies. A site administrator can later restore it; moderation history is retained.';
+ const reason=$('ddForumAdminReason'),submit=$('ddForumAdminSubmit');
+ reason.value='';
+ form.onsubmit=async event=>{
+  event.preventDefault();
+  if(!ownerSectionIds.has(sectionRow.id)){dialogFeedback(submit,'Site administrator permission required.',true);return}
+  const value=reason.value.trim();
+  if(value.length<8||value.length>500){dialogFeedback(submit,'Enter a reason of 8–500 characters.',true);return}
+  const saved=await change(submit,()=>rpc('dd_discussions_owner_review',{
+   p_kind:'section',p_id:sectionRow.id,p_status:'removed',p_reason:value
+  }),'Section removed from public Discussions.');
+  if(saved)dialog.close();
+ };
+ dialog.dataset.returnFocus=opener?.id||'';
+ if(!dialog.open){dialog.showModal();reason.focus?.()}
 }
 async function loadThreads(){
  if(!section)return;
@@ -450,15 +510,7 @@ function drawSections(){
   card.append(jump);
   if(ownerSectionIds.has(s.id)){
    const adminActions=mk('div',undefined,'dd-forum-section-admin');
-   nodeAction(adminActions,'Delete section',async button=>{
-    if(!ownerSectionIds.has(s.id))return;
-    if(!confirm('SITE ADMIN ONLY: Remove this section and hide all its public posts and replies? Moderation history remains, and only an administrator can restore it.'))return;
-    const reason=prompt('Enter a reason for removing this section (at least 8 characters):');
-    if(!reason||reason.trim().length<8){say('An administrator reason of at least 8 characters is required.');return}
-    await change(button,()=>rpc('dd_discussions_owner_review',{
-     p_kind:'section',p_id:s.id,p_status:'removed',p_reason:reason.trim().slice(0,500)
-    }),'Section removed from public Discussions.');
-   },'outline dd-forum-danger-action');
+   nodeAction(adminActions,'Delete section',button=>openSectionAdminDialog(s,button),'outline dd-forum-danger-action');
    card.append(adminActions);
   }
   root.append(card);
@@ -486,7 +538,7 @@ function onIdentityChange(session){
  const next=session?.user?.id||null;
  if(viewerId===next)return; // Token refresh should not discard an open public discussion.
  viewerId=next;identityRevision++;epoch++;section=null;thread=null;ownerSectionIds=new Set();flaggedThisSession=new Set();setCreateButtons();sections=[];feedPage=0;feedQuery='';deepLinkHandled=false;
- for(const id of ['ddForumSectionDialog','ddForumPostDialog','ddForumActionDialog']){const dialog=$(id);if(dialog?.open)dialog.close()}
+ for(const id of ['ddForumSectionDialog','ddForumPostDialog','ddForumActionDialog','ddForumMoreDialog','ddForumAdminDialog']){const dialog=$(id);if(dialog?.open)dialog.close()}
  const sectionsPane=$('ddForumSectionsPane'),threadPane=$('ddForumThreadPane');
  if(sectionsPane)sectionsPane.hidden=false;
  if(threadPane)threadPane.hidden=true;
@@ -516,6 +568,7 @@ async function openComposer(id,opener){
  try{await registered()}catch(e){say(e?.message||'Sign in to publish.');return}
  const dialog=$(id);if(!dialog||dialog.open)return;
  if(!dialog.showModal){say('Your browser does not support this form window.');return}
+ clearDialogFeedback(dialog);
  dialog.dataset.returnFocus=opener?.id||'';dialog.showModal();
  dialog.querySelector('input,textarea')?.focus();
 }
@@ -535,6 +588,7 @@ function init(){
  tab.onclick=()=>window.navigateTo?.('discussionsPage');
  witness?.after(tab);
  wireComposer('ddForumSectionDialog');wireComposer('ddForumPostDialog');wireComposer('ddForumActionDialog');
+ wireComposer('ddForumMoreDialog');wireComposer('ddForumAdminDialog');
  $('ddForumNewSection').onclick=e=>{void openComposer('ddForumSectionDialog',e.currentTarget)};
  $('ddForumNewPost').onclick=e=>{void openComposer('ddForumPostDialog',e.currentTarget)};
  setCreateButtons();
@@ -568,9 +622,26 @@ function init(){
   const form=event.currentTarget;
   const title=form.elements.namedItem('title').value.trim(),description=form.elements.namedItem('description').value.trim(),topic=form.elements.namedItem('topic').value.trim();
   const b=form.querySelector('button[type="submit"]');
-  if(title.length<4||title.length>60||description.length>400){say('Section names must be 4–60 characters and descriptions under 400.');return}
-  const saved=await change(b,()=>rpc('dd_discussions_create_section',{p_title:title,p_description:description,p_topic:topic}),'Section created. You can organise it, but cannot ban or censor other members.');
-  if(saved){form.reset();$('ddForumSectionDialog').close()}
+  if(title.length<4||title.length>60||description.length>400||topic.length>40){
+   dialogFeedback(b,'Section names must be 4–60 characters; descriptions 400 characters and categories 40 characters maximum.',true);return
+  }
+  if(!/^[A-Za-z][A-Za-z0-9 _-]*$/.test(title)){
+   dialogFeedback(b,'Use letters, numbers, spaces, hyphens or underscores only in the section title. For example, “UAP UFO sightings” (without /).',true);return
+  }
+  let createdId=null;
+  const saved=await change(b,()=>rpc('dd_discussions_create_section',{
+   p_title:title,p_description:description,p_topic:topic
+  }),'Section created.',result=>{
+   if(!isId(result))throw Error('The server did not confirm a new section ID.');
+   createdId=result;
+  });
+  if(saved){
+   form.reset();$('ddForumSectionDialog').close();
+   const newSection=sections.find(x=>x.id===createdId)||{
+    id:createdId,title,description,topic,is_steward:true,thread_count:0
+   };
+   await openSection(newSection);
+  }
  };
  $('ddForumPostCreate').onsubmit=async event=>{
   event.preventDefault();
@@ -579,7 +650,9 @@ function init(){
   const title=form.elements.namedItem('title').value.trim(),body=form.elements.namedItem('body').value.trim(),url=form.elements.namedItem('link_url').value.trim();
   const tone=form.elements.namedItem('post_tone').value,image=form.elements.namedItem('image_url').value.trim();
   if(title.length<4||title.length>150||body.length<2||body.length>5000||!['serious','fun'].includes(tone)
-   ||(url&&!safeLink(url))||(image&&!safeImage(image))){say('Check title, post, Serious/Fun tag and optional HTTPS image.');return}
+   ||(url&&!safeLink(url))||(image&&!safeImage(image))){
+   dialogFeedback(b,'Check title, post, Serious/Fun tag and optional direct HTTPS image URL.',true);return
+  }
   const saved=await change(b,()=>rpc('dd_discussions_create_thread_v2',{
    p_section_id:section.id,p_title:title,p_body:body,p_url:url||null,p_tone:tone,p_image_url:image||null
   }),'Your discussion was published.');
