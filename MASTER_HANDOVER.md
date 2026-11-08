@@ -94,3 +94,11 @@ _Last updated: 8 November 2026 (Europe/London)_
 - QA [42461200439](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42461200439) PASSED, including simulated iPhone PNG-to-JPEG fallback, full restricted release package, and Chat/member account-safety regression checks.
 - **UNVERIFIED LIVE NETLIFY PUBLISH**: public-domain network checks failed due hostname resolution / site fetch not supported from current environment. A GitHub source fast-forward is NOT a Netlify deploy; if Netlify builds are still stopped, owner must resume builds and trigger `production` branch build using `node scripts/build_public_release.cjs` and `.release-staging/public-site` publish directory. Verify live Home/Profile displays updated “WebP or JPEG” copy before asking friend for real iPhone acceptance.
 - **UNVERIFIED REAL USER RESULT**: friend must close/reopen the website and select their same PNG after the live deploy, confirm auto-save status and a persistent profile image after refresh, and that visible profile picture appears in Chat/Discussions. Do not call bug completely fixed until verified.
+
+## Milestone 8 — iPhone AND Android profile photos accepted (OWNER VERIFIED 8 Nov 2026)
+
+- User reports following the `nov08-iphone-jpeg-fallback-v3` hotfix and production site update: **"Apple fix worked profile pics are now working for android and iphone woop woop"**.
+- Mark the preceding iPhone WebP conversion issue and Android/iPhone profile-image saving flow **accepted on real devices based on owner / friend testing**. The photo UI no longer requires further duplicate compatibility tests unless a new regression is reported.
+- Prior CI and backend checks: [42461200439](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42461200439) passed; private Supabase avatar bucket remains 1 MiB and accepts `image/webp` + `image/jpeg`; owner and public visibility rules were not relaxed.
+- Scope of confirmation is **working profile photos on Android and iPhone**. This does not independently verify every browser, every possible file format, or unrelated private Chat push/Play Billing features.
+- Next priorities remain separate: GA4 production integration/consent + Realtime verification, and Android native Chat notifications / Play Store release gates. No need to revisit the resolved photo fix without new evidence.
