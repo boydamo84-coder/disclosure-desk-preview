@@ -871,7 +871,42 @@ function verifyNewsPhoto(img){if(!img||img.dataset.fallback==='1')return;if(img.
 let myInterests=[];try{const v=JSON.parse(localStorage.getItem('unknown_news_interests_v07')||'[]');if(Array.isArray(v))myInterests=v.filter(x=>typeof x==='string'&&x.length<=45).slice(0,5)}catch{}let interestStories=[];let interestLoading=false;
 function renderInterests(){const el=$('interestChips');if(!el)return;el.innerHTML=myInterests.map((v,i)=>`<button class="interest-chip" type="button" data-drop-interest="${i}" title="Remove ${esc(v)}">${esc(v)} ×</button>`).join('')||'<span class="muted small">No extra interests added yet.</span>';el.querySelectorAll('[data-drop-interest]').forEach(b=>b.onclick=()=>{myInterests.splice(Number(b.dataset.dropInterest),1);saveInterests()})}
 function saveInterests(){localStorage.setItem('unknown_news_interests_v07',JSON.stringify(myInterests));renderInterests();renderClipInterestSuggestions();if(!$('clips').classList.contains('hidden'))renderClips();renderMapOfficialVideos();ddOpenVideoTarget();loadInterestNews()}
-async function loadInterestNews(){if(interestLoading)return;interestLoading=true;const status=$('interestStatus');if(!myInterests.length){interestStories=[];status.textContent='';news();interestLoading=false;return}status.textContent='Loading your extra interests…';try{const res=await fetch('/.netlify/functions/interests?topics='+encodeURIComponent(myInterests.join('|')),{signal:AbortSignal.timeout(14000)});if(!res.ok)throw Error('Unavailable');const payload=await res.json();interestStories=Array.isArray(payload.stories)?payload.stories:[];status.textContent=interestStories.length+' additional topic stories found';}catch{interestStories=[];status.textContent='Extra interest feed unavailable right now; normal news is unaffected.'}finally{interestLoading=false;news()}}
+// Source-only fallback: prioritise already attributed reports, never invent new stories.
+// Local Termux/Python servers do not execute Netlify Functions.
+function localInterestMatches(rows,terms){
+ const clean=(Array.isArray(terms)?terms:[]).filter(x=>typeof x==='string').map(x=>x.trim().toLocaleLowerCase()).filter(Boolean);
+ return (Array.isArray(rows)?rows:[]).filter(s=>{
+  const haystack=[s.headline,s.summary,s.publisher,s.source,s.category].filter(Boolean).join(' ').toLocaleLowerCase();
+  return clean.some(term=>haystack.includes(term));
+ });
+}
+function localInterestsLabel(count,local){
+ if(!feedLive)return 'Topic saved on this device. Waiting for sourced news headlines. The local test server cannot search extra topic feeds.';
+ return (local?'Local beta · ':'Additional-topic service unavailable · ')+count+' matching sourced '+(count===1?'headline':'headlines')+' prioritised from the existing News feed. '+(local?'Netlify extra-topic search does not run on 127.0.0.1.':'No additional stories were retrieved.');
+}
+async function loadInterestNews(){
+ if(interestLoading)return;
+ interestLoading=true;
+ const status=$('interestStatus');
+ if(!myInterests.length){interestStories=[];status.textContent='';news();interestLoading=false;return;}
+ const localHost=['localhost','127.0.0.1'].includes(location.hostname);
+ if(localHost){
+  interestStories=feedLive?localInterestMatches(stories,myInterests):[];
+  status.textContent=localInterestsLabel(interestStories.length,true);
+  interestLoading=false;news();return;
+ }
+ status.textContent='Loading your extra interests…';
+ try{
+  const res=await fetch('/.netlify/functions/interests?topics='+encodeURIComponent(myInterests.join('|')),{signal:AbortSignal.timeout(14000)});
+  if(!res.ok)throw Error('Unavailable');
+  const payload=await res.json();
+  interestStories=Array.isArray(payload.stories)?payload.stories:[];
+  status.textContent=interestStories.length+' additional topic stories found';
+ }catch{
+  interestStories=feedLive?localInterestMatches(stories,myInterests):[];
+  status.textContent=localInterestsLabel(interestStories.length,false);
+ }finally{interestLoading=false;news();}
+}
 function submitInterest(){const input=$('interestInput');const val=input.value.trim().replace(/\s+/g,' ');if(!/^[\p{L}\p{N}][\p{L}\p{N} .,\-]{1,44}$/u.test(val)){ $('interestStatus').textContent='Use a short topic (2–45 letters/numbers).';return}if(myInterests.some(x=>x.toLowerCase()===val.toLowerCase()))return;if(myInterests.length>=5){$('interestStatus').textContent='Maximum five interests. Remove one first.';return}myInterests.push(val);input.value='';saveInterests()}
 const thematicResearch={
  militaryDrones:[
@@ -1053,6 +1088,11 @@ function ddNewsRows(rows,origin){
  ddUpdateBadge('news',valid.filter(x=>x.priority==='major'&&Date.now()-Date.parse(x.date)<48*3600000).map(x=>x.id||x.url));
  stories=valid.filter(x=>{const age=Date.now()-Date.parse(x.date);return age>=0&&age<=365*86400000}).sort((a,b)=>Date.parse(b.date)-Date.parse(a.date)).map(x=>({headline:x.headline,source:x.source,publisher:x.source,country:x.country||'',sourceType:x.sourceType||'',originalLanguage:x.originalLanguage||'',summary:'Reported by '+x.source+' · Open the original reporting for full context.',url:x.url,date:x.date,id:x.id,category:x.category||'UAP',imageUrl:typeof x.imageUrl==='string'&&safePublicUrl(x.imageUrl)?x.imageUrl:'',imageSource:x.imageSource||'',publisherUrl:typeof x.publisherUrl==='string'&&safePublicUrl(x.publisherUrl)?x.publisherUrl:''}));
  feedLive=true;updatedAt=valid.reduce((a,x)=>x.date>a?x.date:a,valid[0].date);
+ // When a local beta receives a fresher sourced feed, refresh saved-interest matches.
+ if(['localhost','127.0.0.1'].includes(location.hostname)&&myInterests.length){
+  interestStories=localInterestMatches(stories,myInterests);
+  $('interestStatus').textContent=localInterestsLabel(interestStories.length,true);
+ }
  const old=Date.now()-Date.parse(updatedAt)>3*86400000;
  $('feedStatus').classList.toggle('feed-error',old);
  $('feedStatus').textContent=(old?'⚠ NEWS UPDATE DELAYED · ':'WORLD MEDIA · ')+stories.length+' sourced stories · Latest '+new Date(updatedAt).toLocaleDateString('en-GB')+' · '+origin+(old?' · Freshness requires attention':'');
