@@ -107,3 +107,14 @@ _Last updated: 8 November 2026 (Europe/London)_
 - **Pending acceptance:** GitHub build and actual Samsung Android testing. No Android APK, AAB or Play Console rollout is declared installed or published by these commits.
 - **Unchanged:** optional separate Chat Firebase push remains a different release gate; lifetime AdMob Remove Ads and policy checks remain required. No live Supabase DDL/secrets were changed.
 
+
+## Milestone 9 — Android-only two-line BREAKING NEWS (8 November 2026)
+
+**Owner request:** Allow the APK's fixed Breaking News headline to occupy up to two lines **only if the section does not become taller**; otherwise leave current design.
+
+- The existing website stylesheet sets the main News breaking row to `min-height:39px`; the one-line headline and rotating lead are rendered by `assets/news-ticker.css` / `assets/news-ticker.js`.
+- Added an **Android WebView-only** style injected from `android-test/app/src/main/java/com/disclosuredesk/preview/MainActivity.java` after first-party homepage load. No changes to production website styles, shared JS, floating breaking alert or the LAST 48H crawl.
+- The primary `.dd-news-ticker-breaking` row and viewport are explicitly fixed to **39px**. Its link is clamped to **2 lines** at 15px line-height and 4px top/bottom padding (total 38px); longer titles are visually truncated rather than expanding or overlapping navigation. Existing erase/type rotation and source attribution/link remain unchanged.
+- **Browser layout verification** with a local Chromium viewport simulation at 320, 360, 390, 520 and 820 CSS pixels: original breaking band 39px; after 2-line change band exactly 39px, link height 38px, `webkitLineClamp=2`. This is a static layout test, **not** a real Android WebView screenshot or complete device acceptance.
+- Android code commit: `488c6849034a3f1994badbc6f4f48f3db76c691d`. Latest GitHub Actions debug APK run [42460162962](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42460162962) was **in progress** at handover edit; check final result before declaring release build verified.
+- No Netlify publish, production branch update or Supabase change. Android Chat push and paid Remove Ads still require their own end-to-end release gates.
