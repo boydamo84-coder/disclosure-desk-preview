@@ -1,7 +1,6 @@
 'use strict';
-// Source/privacy contract checks for unpublished display-name feature.
-// Real Supabase owner RLS, unique names and public alias filtering still need
-// authenticated acceptance testing after a reviewed additive migration.
+// Signup public-name defaults are explicitly disclosed; existing Hide/Off stays respected.
+// Source checks only: real database RLS + two-account acceptance remain a separate gate.
 const assert=require('node:assert/strict'),fs=require('node:fs');
 const read=p=>fs.readFileSync(p,'utf8');
 const sql=read('supabase/PUBLIC_USERNAMES_REVIEW.sql');
@@ -29,7 +28,12 @@ assert.doesNotMatch(js,/name_key:name\.toLowerCase\(\)/,'name_key is GENERATED A
 assert.match(js,/is_public:publicName/,'Opt-in owner-controlled');
 assert.match(js,/\.rpc\('dd_public_aliases'/,'Only explicit approved alias RPC for public reads');
 assert.match(js,/auth\.getUser\(\)/,'Verified account on name save');
-assert.match(js,/optIn\.checked=row\?\.is_public===true/,'Load opt-in explicitly');
+assert.match(js,/optIn\.checked=row \? row\.is_public===true : !!requested/,
+ 'Use saved visibility for existing accounts; public by default for disclosed new signup');
+assert.match(js,/if\(!row&&VALID\.test\(requested\)&&!RESERVED\.test\(requested\)\)/,
+ 'Only create a missing username row and never overwrite existing privacy choices');
+assert.match(js,/is_public:true/, 'New signup default is visible as disclosed');
+assert.match(js,/chat_contact_opt_in:chatEnabled/, 'New signup Chat opt-in matches enabled feature');
 assert.match(boards,/dd_requested_username:requestedName/,'Signup preference is just metadata for prefill');
 assert.match(site,/id="ddSignupUsername"/);
 assert.match(site,/assets\/public-profiles\.js/);
@@ -37,4 +41,4 @@ assert.match(cases,/DDPublicProfiles\?\.namesFor\('comment'/);
 assert.match(news,/DDPublicProfiles\?\.namesFor\('comment'/);
 assert.match(chat,/DDPublicProfiles\?\.namesFor\('chat'/);
 assert.doesNotMatch(chat,/replaceAll\('-',''\)\.slice\(0,6\)/,'Never expose a UUID fragment as alias');
-console.log('PASS: staged public usernames are owner-only with opt-in and approval-gated alias lookup; backend acceptance still required');
+console.log('PASS: public names respect disclosed signup defaults, saved Hide/Chat-off, owner RLS source and approved-alias lookup');
