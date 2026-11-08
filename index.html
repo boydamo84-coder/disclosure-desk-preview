@@ -490,6 +490,70 @@
 .dd-archive-satellite-links{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0}
 .dd-archive-satellite-links a{border:1px solid #796947;border-radius:9px;padding:10px 12px;min-height:42px;display:inline-flex;align-items:center;text-decoration:none;color:#edd3a1}
 @media(max-width:530px){.dd-archive-satellite-case{align-items:flex-start}.dd-archive-satellite-case button{width:100%}.dd-archive-satellite-links{flex-direction:column}.dd-archive-satellite-links a{justify-content:center}}
+
+/* Chat immersion beta: mobile app surface, same consent-gated RPCs and Disclosure Desk identity. */
+#chatPage .dd-chat-screen-heading{display:flex;flex-direction:column;gap:2px}
+#chatPage .dd-chat-eyebrow{font-size:9px;letter-spacing:1.4px;font-weight:800;color:#a8b9c8}
+#chatPage .dd-chat-inbox-filter{padding:0 1px 5px}
+#chatPage .dd-chat-inbox-filter label{display:block;font-size:11px;color:#c5cbca;margin:0 0 6px}
+#chatPage .dd-chat-inbox-filter input{width:100%;min-height:42px;border:1px solid #3f5c70;border-radius:24px;padding:9px 16px;background:#142b3c;color:#f6f4ee;outline-offset:2px}
+#chatPage .dd-chat-inbox-filter input::placeholder{color:#a8b7c4}
+#chatPage .dd-chat-avatar{width:42px;height:42px;min-width:42px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(145deg,#4b6f81,#294558);border:1px solid #76909b;color:#fff0d0;font-size:17px;font-weight:800;line-height:1}
+#chatPage .dd-chat-peer-title{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+#chatPage .dd-chat-peer-title h4{overflow-wrap:anywhere;margin:0}
+#chatPage .dd-chat-peer-title small{font-size:11px;color:#a8b9c8}
+#chatPage .dd-chat-conversation-head{position:relative}
+#chatPage .dd-chat-safety-menu{position:relative;margin-left:auto}
+#chatPage .dd-chat-safety-menu summary{display:flex;justify-content:center;align-items:center;list-style:none;cursor:pointer;border-radius:50%;border:1px solid #425d6d;background:#1b3547;color:#ecd197;width:38px;height:38px;font-size:24px}
+#chatPage .dd-chat-safety-menu summary::-webkit-details-marker{display:none}
+#chatPage .dd-chat-safety-menu summary:focus-visible{outline:2px solid #ecd197;outline-offset:3px}
+#chatPage .dd-chat-safety-menu .dd-chat-safety-actions{position:absolute;z-index:12;right:0;top:44px;display:flex;flex-direction:column;width:min(230px,78vw);margin:0;padding:10px;background:#142a3a;border:1px solid #506576;border-radius:12px;box-shadow:0 14px 30px #0009}
+#chatPage .dd-chat-safety-menu .dd-chat-safety-actions button{width:100%;margin:3px 0;min-height:38px;text-align:left}
+#chatPage .dd-chat-new-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#chatPage .dd-chat-new-head button{width:40px;min-height:40px;flex:none;border-radius:50%;background:#1f394d;color:#f4d9a4}
+@media(max-width:630px){
+ #chatPage:not(.hidden){position:fixed;z-index:800;inset:0 0 calc(70px + env(safe-area-inset-bottom)) 0;display:flex;flex-direction:column;overflow:hidden;margin:0;padding:calc(10px + env(safe-area-inset-top)) 0 0;background:#0b1b29;isolation:isolate}
+ #chatPage .dd-chat-titlebar{flex:none;min-height:64px;padding:9px 17px 8px;background:#102638;border-bottom:1px solid #314c60}
+ #chatPage .dd-chat-titlebar h2{font-size:25px;letter-spacing:-.6px;line-height:1.1}
+ #chatPage .dd-chat-start-button{border-color:#6d7066;background:#213f4e;min-height:40px;border-radius:22px;font-weight:800}
+ #chatPage .dd-chat-inbox-filter{flex:none;padding:12px 15px 3px;background:#0d2231}
+ #chatPage .dd-chat-inbox-filter label{position:absolute;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden}
+ #chatPage .dd-chat-inbox-filter input{min-height:46px;background:#182f41;border:1px solid #355368;border-radius:24px;font-size:14px}
+ #chatPage .dd-chat-explainer{flex:none;font-size:11px;line-height:1.4;margin:0;padding:8px 18px 10px;background:#0d2231;color:#a9bbc9}
+ #chatPage #ddChatPageMount{display:flex;flex:1;min-height:0;overflow:hidden}
+ #chatPage #ddProfileChatApp{position:relative;display:flex;flex:1;min-height:0;flex-direction:column;gap:0;background:#0d2231}
+ #chatPage #ddProfileChatApp>[role=status]{flex:none;margin:0;padding:6px 15px;font-size:11px;line-height:1.35}
+ #chatPage #ddProfileChatApp .dd-chat-layout{display:flex;flex:1;min-height:0;flex-direction:column;margin:0}
+ #chatPage #ddProfileChatApp .dd-chat-side{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;border:0;border-radius:0;padding:8px 0 22px;background:#0d2231}
+ #chatPage .dd-chat-group-head{padding:10px 16px 4px;gap:8px}
+ #chatPage .dd-chat-group-head h4{font-size:13px;letter-spacing:.35px;text-transform:uppercase;margin:0;color:#c7a977}
+ #chatPage .dd-chat-refresh,#chatPage .dd-chat-new-from-list{width:38px;min-width:38px;height:38px;min-height:38px;border-radius:50%;text-align:center}
+ #chatPage .dd-chat-people{gap:0;margin:0 0 10px;padding:0}
+ #chatPage .dd-chat-person{display:flex;align-items:flex-start;justify-content:center;min-height:76px;padding:16px 55px 14px 73px;margin:0;border:0;border-bottom:1px solid #244053;border-radius:0;background:transparent;font-size:15px}
+ #chatPage .dd-chat-person:hover,#chatPage .dd-chat-person:active,#chatPage .dd-chat-person.is-current{background:#183647;border-color:#244053}
+ #chatPage .dd-chat-person .dd-chat-avatar{position:absolute;left:16px;top:50%;transform:translateY(-50%)}
+ #chatPage .dd-chat-person-detail{font-size:12px;line-height:1.35;color:#a6b9c7}
+ #chatPage .dd-chat-person-count{right:18px}
+ #chatPage .dd-chat-side>.dd-chat-people>p{margin:14px 18px 20px}
+ #chatPage #ddProfileChatApp.dd-chat-conversation-open .dd-chat-view{display:flex;flex:1;min-height:0;border:0;border-radius:0;padding:0;background:#0b1b29}
+ #chatPage .dd-chat-view>div{display:flex;flex:1;min-height:0;flex-direction:column}
+ #chatPage .dd-chat-conversation-head{flex:none;min-height:65px;margin:0;padding:10px 12px;background:#142d3d;border-bottom:1px solid #365166;gap:9px}
+ #chatPage .dd-chat-conversation-head .dd-chat-back{flex:none;width:39px;height:39px;border:0;background:transparent;font-size:25px}
+ #chatPage .dd-chat-conversation-head .dd-chat-avatar-peer{width:39px;height:39px;min-width:39px;font-size:15px}
+ #chatPage .dd-chat-conversation-head h4{font-size:16px}
+ #chatPage .dd-chat-history{display:flex;flex:1;min-height:0;max-height:none;overflow-y:auto;overscroll-behavior:contain;padding:15px 13px 20px;background:radial-gradient(ellipse at 15% 30%,#17303f88,transparent 52%),#0b1b29;scrollbar-width:thin}
+ #chatPage .dd-chat-bubble{margin:3px 0;padding:10px 12px;border-radius:16px;max-width:84%;box-shadow:0 2px 7px #0002}
+ #chatPage .dd-chat-bubble p{font-size:14px;line-height:1.4}
+ #chatPage .dd-chat-compose{position:relative;bottom:auto;flex:none;z-index:2;margin:0;padding:10px 12px 11px;border-top:1px solid #2f4a5d;background:#112a3b}
+ #chatPage .dd-chat-compose-bar{padding:0;gap:8px}
+ #chatPage .dd-chat-compose-bar textarea{background:#20394a;border-color:#526b7d;border-radius:21px;padding:10px 14px;font-size:14px}
+ #chatPage .dd-chat-compose-bar .dd-chat-send{min-width:57px;border-radius:22px}
+ #chatPage.dd-chat-is-conversation .dd-chat-inbox-filter{display:none}
+ #chatPage .dd-chat-start:not([hidden]){position:absolute;z-index:5;inset:0;overflow-y:auto;border-radius:0;border:0;margin:0;padding:18px;background:linear-gradient(165deg,#162f41,#0c202e 80%)}
+ #chatPage .dd-chat-start:not([hidden]) .dd-chat-search-form{padding-top:14px}
+ #chatPage #ddProfileChatApp.dd-chat-conversation-open .dd-chat-side{top:0;bottom:0}
+}
+@media(max-width:630px) and (prefers-reduced-motion:reduce){#chatPage .dd-chat-person{transition:none}}
 </style><link rel="stylesheet" href="assets/news-ticker.css?v=nov08-v9"></head><body><div class="shell"><header class="top"><div><div class="brand-line"><img src="assets/disclosure-desk-mark.svg" alt="Investigation archive placeholder icon" class="brand-icon"><div><div class="logo">DISCLOSURE DESK</div><div class="micro">INDEPENDENT INVESTIGATIONS · EVIDENCE ARCHIVE</div></div></div></div><button type="button" class="dd-profile-shortcut" id="ddProfileShortcut" aria-label="Open My Profile" title="My Profile">👤</button></header>
 <section id="discover"><div id="ddLiveNewsNotice" class="dd-live-news-notice" hidden></div><div class="hero"><div class="hero-inner"><div class="eyebrow">EXPLORE THE UNEXPLAINED</div><h1>Explore the unexplained.<br>Follow the evidence.</h1><p>Investigate real research topics, reported encounters and questions that remain unanswered.</p><span class="pill">Beyond the headlines</span></div></div><div class="section"><button type="button" class="board-home-shortcut" data-go="boards"><span class="board-shortcut-icon" aria-hidden="true">▦</span><span class="board-shortcut-text"><strong>My Investigation Boards</strong><small>Saved stories, research links and private notes</small></span><span aria-hidden="true">›</span></button><div class="news-quick-links" aria-label="More to explore"><button type="button" data-go="resources"><span aria-hidden="true">▤</span><small>Documents</small></button><button type="button" data-go="podcasts"><span aria-hidden="true">♫</span><small>Podcasts</small></button><button type="button" data-go="witness"><span aria-hidden="true">◇</span><small>Witness Reports</small></button><button type="button" data-go="about"><span aria-hidden="true">ⓘ</span><small>About</small></button></div></div><div class="section"><div class="head"><h2>Latest reports</h2><span class="floatcount">Source-linked news</span></div><div class="news-sticky-controls" id="newsStickyControls"><input id="newsSearch" class="field" type="search" placeholder="Search current news headlines, sources, subjects…" aria-label="Search news stories"><div class="chips" id="topicChips"></div><select id="newsCountry" class="field" aria-label="Filter news by country" style="margin-top:10px;max-width:240px"><option value="All">🌍 Worldwide</option><option>Ireland</option><option>France</option><option>Germany</option><option>Brazil</option><option>Mexico</option><option>Japan</option><option>Canada</option><option>Australia</option><option>United Kingdom</option></select></div><div class="feed-controls"><span class="small muted" id="feedStatus" role="status">Connecting to live sources…</span><button class="outline" id="feedRefresh" type="button">↻ Refresh</button></div><div class="chips" style="margin-top:12px" role="group" aria-label="News views"><button class="chip active" type="button" id="newsLatestTab">Latest News</button><button class="chip" type="button" id="newsArchiveTab">Full Archive ↗</button><button class="chip" type="button" id="newsTopTab">Top 100</button><button class="chip" type="button" id="newsReadTab">Read</button></div><div id="newsReadPanel" class="hidden" style="margin:15px 0"><p class="muted small">Stories you opened on this device remain here even after they leave the current news feed. Original publisher links may eventually expire.</p><input id="readSearch" class="field" type="search" placeholder="Search previously read articles…" aria-label="Search reading history"><p id="readStatus" class="muted small"></p><div id="readList"></div></div><div id="newsTopPanel" class="hidden" style="margin:15px 0"><p class="muted small">Most widely reported topics in our collected news catalogue. Ranked by distinct publishers, not article views. This is NOT a global popularity ranking or evidence that claims are true.</p><p id="topNewsStatus" class="muted small"></p><div id="topNewsList"></div></div><div class="interest-panel"><strong>My news interests</strong><p class="muted small">Add up to five topics. Your choices stay on this device and appear alongside our usual news categories.</p><form id="interestForm" class="interest-form"><input id="interestInput" class="field" maxlength="45" placeholder="e.g. crop circles" aria-label="Add news interest"><button class="outline" type="submit">Add</button></form><div id="interestChips" class="interest-chips"></div><div class="small muted" id="interestStatus"></div></div><div id="newsGrid" class="news-grid"></div></div></section>
 <section id="archivePage" class="hidden"><div class="section"><div class="head"><h2>Evidence Archive</h2><span class="pill">10,000+ SOURCE-LINKED RECORDS</span></div><p class="muted small">Explore original historical and modern UAP investigations, government case files, and research collections. Filter by year, subject or document type; source links and dates are provided where available. A recorded investigation is not proof of an extraordinary explanation.</p>
@@ -600,8 +664,9 @@
 <div class="note">Independent research includes uncertainty. We distinguish reporting, source material, disputed claims and personal interpretation wherever possible. Public maps must not disclose precise witness locations.</div>
 </div></section>
 <section id="chatPage" class="hidden" hidden aria-label="Private Chat">
- <div class="dd-chat-titlebar"><h2>Chats</h2><button type="button" id="ddChatNew" class="outline dd-chat-start-button">＋ New chat</button></div>
- <p class="dd-chat-explainer muted small">Private one-to-one conversations. Requests require acceptance before messaging.</p>
+ <div class="dd-chat-titlebar"><div class="dd-chat-screen-heading"><span class="dd-chat-eyebrow">DISCLOSURE DESK · PRIVATE</span><h2>Chats</h2></div><button type="button" id="ddChatNew" class="outline dd-chat-start-button">＋ New chat</button></div>
+ <div class="dd-chat-inbox-filter"><label for="ddChatInboxSearch">Search conversations</label><input id="ddChatInboxSearch" type="search" placeholder="Search chats" maxlength="60" autocomplete="off" aria-label="Search existing conversations"></div>
+ <p class="dd-chat-explainer muted small">One-to-one messaging · New requests require acceptance.</p>
  <div id="ddChatPageMount"></div>
 </section>
 <section id="discussionsPage" class="hidden" hidden aria-labelledby="ddForumHeading">
