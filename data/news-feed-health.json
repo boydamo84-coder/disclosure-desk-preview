@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-11-08T17:42:16.474713+00:00",
+  "checkedAt": "2026-11-08T18:13:50.134388+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 10,
+      "items": 9,
       "latestArticleAt": "2026-11-08T04:55:59+00:00"
     },
     {
@@ -195,8 +195,9 @@
     },
     {
       "source": "CNES GEIPAN",
-      "status": "failed",
-      "items": 0
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "UK National Archives",

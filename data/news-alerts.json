@@ -24,6 +24,18 @@
     "imageSource": "Publisher Open Graph image"
   },
   {
+    "id": "59ade385cb1194e98373",
+    "headline": "Pentagon releases declassified UFO files from various federal agencies - ABC News",
+    "source": "Breaking News, Latest News and Videos",
+    "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQbHVBS3VqSGpNSmgxTWtIa2c3aDI2WE5vS2pfVXRFNjNZd3BlWUdILWh6b245RDMtOXk3Yk91UXktV3k4ckR1dTh1R1lVbFR4MFpLRnhXVmFMMGNsaWs3SXpaTHdzekxQNmRUQkktTHMwTjU3d3V2Z2R4akdIeEM4VGlnNFFzTVVzTXprS1AyT2l3MWdGaDJxUEFiWjBMc3BwMVHSAacBQVVfeXFMUGJvM2xwYk1mVU9OYW1haDlYZlhfaF83ekszcWZrbXRWTzMtZXNOOXNYR1loRThfWElkd3NiVllpX1ZuOGV1eDQ2NHQ5aDR2M1FKZDJmb0Y5TDYzTE53T0lNQ0FvUXQ3QmtYb09QVlRRRGV2eWFjOVJFcUVCVkF1YUlkSkRGclM0eUJVV0VLSl9UZmtBb1ZKUVRtTFhoUUFXWnFiQ1hqSzQ?oc=5",
+    "date": "2026-11-07T17:04:52+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://i.abcnewsfe.com/a/11b63f52-a6b0-4af7-9434-d1bb04437dec/ufo-gty-jt-260508_1778266575401_hpMain_16x9.jpg?w=1600",
+    "imageSource": "Publisher Open Graph image"
+  },
+  {
     "id": "f4318cc6115dd7fa2b75",
     "headline": "UFO Expert Actually Thinks Donald Trump Will Reveal Live Aliens and 4K Spacecraft After Midterm Loss",
     "source": "International Business Times UK",
@@ -103,18 +115,6 @@
     "priority": "standard",
     "desc": "Read the source article for details.",
     "imageUrl": "https://i.abcnewsfe.com/a/a394cc49-ef64-49ff-8a87-b83c5fffcc8b/pentagon-ap-er-241114_1731622708336_hpMain_16x9.jpg?w=1600",
-    "imageSource": "Publisher Open Graph image"
-  },
-  {
-    "id": "59ade385cb1194e98373",
-    "headline": "Pentagon releases declassified UFO files from various federal agencies - ABC News",
-    "source": "Breaking News, Latest News and Videos",
-    "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQbHVBS3VqSGpNSmgxTWtIa2c3aDI2WE5vS2pfVXRFNjNZd3BlWUdILWh6b245RDMtOXk3Yk91UXktV3k4ckR1dTh1R1lVbFR4MFpLRnhXVmFMMGNsaWs3SXpaTHdzekxQNmRUQkktTHMwTjU3d3V2Z2R4akdIeEM4VGlnNFFzTVVzTXprS1AyT2l3MWdGaDJxUEFiWjBMc3BwMVHSAacBQVVfeXFMUGJvM2xwYk1mVU9OYW1haDlYZlhfaF83ekszcWZrbXRWTzMtZXNOOXNYR1loRThfWElkd3NiVllpX1ZuOGV1eDQ2NHQ5aDR2M1FKZDJmb0Y5TDYzTE53T0lNQ0FvUXQ3QmtYb09QVlRRRGV2eWFjOVJFcUVCVkF1YUlkSkRGclM0eUJVV0VLSl9UZmtBb1ZKUVRtTFhoUUFXWnFiQ1hqSzQ?oc=5",
-    "date": "2026-11-07T00:45:28+00:00",
-    "category": "UAP",
-    "priority": "standard",
-    "desc": "Read the source article for details.",
-    "imageUrl": "https://i.abcnewsfe.com/a/11b63f52-a6b0-4af7-9434-d1bb04437dec/ufo-gty-jt-260508_1778266575401_hpMain_16x9.jpg?w=1600",
     "imageSource": "Publisher Open Graph image"
   },
   {
@@ -531,7 +531,9 @@
     "date": "2026-11-02T22:15:12+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://s.yimg.com/lo/mysterio/api/1c1ea38e9e355356e104f0b8b44919970a7193e1aef316e4a0e44da2f68dd787/lightyear_networkapi/resizefill_w1200%3Bquality_80%3Bformat_jpg/https%3A%2F%2Fmedia.zenfs.com%2Fen%2Fgeekspin_390%2F1bde9d1b8fb259d7cfaea2ae33b8651a.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "e5ee6e107abfd547dc94",
