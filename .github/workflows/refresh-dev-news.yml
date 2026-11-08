@@ -1,8 +1,8 @@
-name: Refresh DEV news snapshot (no Netlify)
+name: Refresh DEV news snapshot every 30min (no Netlify)
 on:
   workflow_dispatch:
   schedule:
-    - cron: '17 */2 * * *'
+    - cron: '17,47 * * * *'
 permissions:
   contents: write
 concurrency:
