@@ -101,8 +101,8 @@ function mountCaseCard(record,host){
  }
  if(info.date>=LANDSAT_START){
   const range=landsatWindow(info.date);
-  externalLink(links,'Search USGS Landsat 1–5 MSS scenes (1972+)',USGS_LANDSAT);
-  card.append($('p','For Landsat, manually search the town and acquisition dates '+range.from+' to '+range.to+' in EarthExplorer (Landsat Collection 2 Level-1 → Landsat 1–5 MSS C2 L1). Its 18-day revisit is an approximate search guide, not a verified image of this sighting.','muted small'));
+  externalLink(links,'Search USGS Landsat 1–5 MSS scenes (1972+)',usgsExplorerUrl(record));
+  card.append($('p','EarthExplorer link preselects the Landsat MSS dataset and approximate public mapped point when available; enter the acquisition dates '+range.from+' to '+range.to+' manually. This ±18-day window is an exploratory guide, not a verified image of this sighting.','muted small'));
  }
  if(info.dailyArchive){
   externalLink(links,'Open Meteosat historical gallery · choose '+info.date,EUMET_DAILY);
@@ -132,6 +132,30 @@ function caseSelection(r){
   lon:coordinatesKnown?Math.round(lon*10)/10:null,
   city:String(r.city||r.location||'Location not verified').slice(0,120),
   provenance:String(r.locationPrecision||'Approximate case region').slice(0,100)};
+}
+// Official USGS EarthExplorer predefined criteria: dataset + APPROXIMATE public area.
+// The USGS URL contract does not document date-range/time prefill. Those remain manual.
+function usgsExplorerUrl(r){
+ const info=caseSelection(r);
+ if(!info||!info.coordinatesKnown)return USGS_LANDSAT;
+ const query=new URLSearchParams({node:'EE',dataset_name:'landsat_mss_c2_l1',
+  aoiFilter:'[['+info.lat.toFixed(1)+','+info.lon.toFixed(1)+']]'});
+ return USGS_LANDSAT.replace(/\/$/,'')+'/criteria?'+query.toString();
+}
+function caseSearchDetails(r,chosenDate,chosenTime){
+ const info=caseSelection(r);if(!info)return null;
+ const date=isoDate(chosenDate),utc=utcTime(chosenTime);
+ const window=landsatWindow(date);
+ return [
+  'Disclosure Desk · historical satellite research handoff',
+  'Public case area: '+info.city+' ('+info.provenance+')',
+  'Approximate public map point: '+(info.coordinatesKnown?info.lat.toFixed(1)+'° N/S latitude, '+info.lon.toFixed(1)+'° E/W longitude':'not verified; choose location manually'),
+  'Event date: '+(date||'not established')+(date?(date===info.date?' (recorded in case)':' (researcher-selected; not verified against case)'):''),
+  'Event time UTC: '+(utc?utc+' (researcher-entered, not verified)':'not verified / not recorded'),
+  'USGS dataset: Landsat Collection 2 Level-1 → Landsat 1–5 MSS C2 L1',
+  'Manual EarthExplorer acquisition dates: '+(window?window.from+' to '+window.to+' (±18-day exploratory window only)':'choose only after confirming event date'),
+  'Check actual satellite acquisition timestamp, footprint, cloud cover and resolution; no matching frame has been verified.'
+ ].join('\n');
 }
 function validatedViewerUrl(r,chosenDate,chosenTime){
  const info=caseSelection(r);
@@ -163,8 +187,27 @@ function openSatelliteCase(r){
  const actions=$('div',undefined,'dd-satellite-actions');
  const primary=externalLink(actions,'Open NASA daily satellite imagery · selected date and area',NASA);
  const eumet=externalLink(actions,'Open Meteosat historic imagery',EUMET_DAILY);
- const landsat=externalLink(actions,'Search USGS Landsat 1–5 MSS archive (1972+)',USGS_LANDSAT);
+ const landsat=externalLink(actions,'Search USGS Landsat 1–5 MSS archive (1972+)',usgsExplorerUrl(r));
  const modern=externalLink(actions,'EUMETSAT weather layers',EUMET_VIEW);
+ const copy= $('button','Copy case search details','outline dd-satellite-link');
+ copy.type='button';actions.append(copy);
+ const copyStatus=$('p','','muted small');copyStatus.setAttribute('role','status');
+ const handoff=$('textarea');handoff.readOnly=true;handoff.rows=5;
+ handoff.className='field dd-satellite-handoff-details';handoff.hidden=true;
+ handoff.setAttribute('aria-label','Case search details to copy manually');
+ copy.addEventListener('click',async()=>{
+  const value=caseSearchDetails(r,date.value,time.value);
+  if(!value)return;
+  try{
+   if(!navigator.clipboard?.writeText)throw Error('clipboard unavailable');
+   await navigator.clipboard.writeText(value);
+   copyStatus.textContent='Case date, approximate location and search range copied. Paste into your research notes or an external search form.';
+   handoff.hidden=true;
+  }catch(_){
+   handoff.value=value;handoff.hidden=false;handoff.focus?.();handoff.select?.();
+   copyStatus.textContent='Browser blocked automatic copying. Select and copy the prepared details below.';
+  }
+ });
  const landsatAdvice=$('p','','muted small');
  const caution=$('p','NASA Worldview can show daily MODIS imagery where available after 2000. The EUMETSAT historical gallery starts in 1981; the first Meteosat launched in November 1977. USGS Landsat MSS imagery starts in 1972 but provides occasional daylight ground scenes, not continuous weather video. These links start a source search only; no nearest acquisition frame, geographic coverage or event-time match has been verified in Disclosure Desk. Never infer an unexplained object from a missing or unclear scene.','muted small');
  const update=()=>{
@@ -178,8 +221,10 @@ function openSatelliteCase(r){
   const landsatRange=landsatWindow(requested);
   landsatAdvice.hidden=!landsatRange;
   if(landsatRange)landsatAdvice.textContent=
-   'USGS EarthExplorer: choose the Landsat Collection 2 Level-1 → Landsat 1–5 MSS C2 L1 dataset, enter the case area manually and start with acquisition dates '+
+   'USGS EarthExplorer: dataset and approximate public mapped point are preselected where available; manually enter acquisition dates '+
    landsatRange.from+' to '+landsatRange.to+'. This ±18-day window is only a starting search range. Select a genuine scene and compare its published acquisition timestamp and geographic footprint with the report. Landsat has ~80 m historic resolution and does not record continuous video or night-time UFO sightings.';
+  copy.hidden=!requested;
+  if(!handoff.hidden)handoff.value=caseSearchDetails(r,date.value,time.value)||'';
   modern.hidden=false;
   if(!requested)status.textContent='Choose a valid day from the original report; no exact event date has been confirmed.';
   else if(!hasCoords)status.textContent='The date is selected, but this archive lacks a verified town-level map position. Check the original source before a location-specific search.';
@@ -193,11 +238,11 @@ function openSatelliteCase(r){
   else timeNote.textContent='No verified sighting time. The 12:00 UTC timeline position is a browsing default only, not the event time.';
  };
  date.addEventListener('input',update);time.addEventListener('input',update);
- content.append(label,date,dateOrigin,timeLabel,time,timeNote,status,actions,landsatAdvice,caution);
+ content.append(label,date,dateOrigin,timeLabel,time,timeNote,status,actions,copyStatus,handoff,landsatAdvice,caution);
  if(!dialog.open)dialog.showModal();
  update();date.focus();
  return true;
 }
 
-window.DDHistoricalSatellite=Object.freeze({details,isoDate,worldViewUrl,mountCaseCard,caseSelection,validatedViewerUrl,landsatWindow,openSatelliteCase});
+window.DDHistoricalSatellite=Object.freeze({details,isoDate,worldViewUrl,mountCaseCard,caseSelection,validatedViewerUrl,landsatWindow,usgsExplorerUrl,caseSearchDetails,openSatelliteCase});
 })();
