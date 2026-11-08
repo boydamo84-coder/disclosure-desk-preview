@@ -136,9 +136,13 @@ async function selected(page,id){
   await page.goto(BASE+'/?dd_tab=discussionsPage',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.nav .tab[data-tab="discover"]');
   assert.equal(await page.locator('nav.nav .tab').count(),12);
-  assert.equal(await hasVisibleSection(page,'discussionsPage'),false);
-  assert.equal(await selected(page,'discover'),'page');
-  pass('unsupported Discussions deep link does not create a phantom navigation tab');
+  await page.waitForFunction(()=>!document.getElementById('discussionsPage').classList.contains('hidden'),
+    null,{timeout:10000});
+  assert.equal(await hasVisibleSection(page,'discussionsPage'),true,
+    'Approved public Discussions deep link must open the community area');
+  assert.equal(await page.locator('.nav .tab[data-tab="discussionsPage"]').count(),0,
+    'Discussions opens through Community and must not duplicate the bottom dock');
+  pass('approved Discussions deep link opens community without adding a phantom bottom tab');
   await page.goto(BASE+'/?dd_tab=profilePage',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.nav .tab[data-tab="profilePage"]');
   assert.equal(await selected(page,'profilePage'),'page');
