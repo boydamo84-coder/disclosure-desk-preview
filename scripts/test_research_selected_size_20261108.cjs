@@ -22,6 +22,8 @@ class Node{
  }
  contains(n){for(let x=n;x;x=x.parentNode){if(x===this)return true;}return false}
  addEventListener(name,fn){(this.listeners[name]||=[]).push(fn)}
+ removeEventListener(name,fn){this.listeners[name]=(this.listeners[name]||[]).filter(x=>x!==fn)}
+ focus(){}
  dispatchEvent(e){for(const fn of this.listeners[e.type]||[])fn(e)}
  dispatch(name){this.dispatchEvent({type:name})}
  matches(selector){return false}
@@ -33,7 +35,7 @@ const t={nodeType:3,nodeValue:'Selected words',parentNode:p};p.append(t);
 let inserts=0,selected=null,currentRange=null;
 const textRange={
  startContainer:t,endContainer:t,collapsed:false,toString:()=>t.nodeValue,
- cloneContents:()=>({querySelector:()=>null}),cloneRange(){return this},
+ cloneContents:()=>({nodeType:11,childNodes:[{nodeType:3,nodeValue:'Selected words'}],querySelector:()=>null}),cloneRange(){return this},
  extractContents:()=>({nodeType:11,childNodes:[{nodeType:3,nodeValue:t.nodeValue}]}),
  insertNode(span){p.append(span);inserts++;},
 };
@@ -48,6 +50,12 @@ const doc={
  createElement(tag){return new Node(tag.toUpperCase())},
  createRange(){return {selectNodeContents(span){this.startContainer=span;this.endContainer=span;this.collapsed=false},
   cloneRange(){return this}}},
+ execCommand(command,showUi,markup){
+  assert.equal(command,'insertHTML');assert.equal(showUi,false);
+  assert.match(markup,/^<span data-wne-font-size="16">Selected words<\/span>$/);
+  const span=new Node('SPAN');span.setAttribute('data-wne-font-size','16');
+  p.append(span);inserts++;editor.dispatchEvent({type:'input',bubbles:true});return true;
+ },
  addEventListener(name,fn){(this.listeners[name]||=[]).push(fn)}
 };
 const win={getSelection:()=>selection};
