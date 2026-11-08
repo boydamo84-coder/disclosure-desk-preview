@@ -86,3 +86,24 @@ _Last updated: 8 November 2026 (Europe/London)_
 - No production website deployment, Supabase schema write, new Firebase secrets, paid charge or Play Store submission occurred.
 
 **Release gates:** Complete confidential registered-token backend + safe logout/account swap; Firebase project for this Play package + FCM v1 credentials in server secrets; test Chat send/receive closed app, tap-to-correct-conversation, mute/permission, no content leakage and blocked contacts; verify Play Billing purchase, restore, pending, refund, server validation; test native AdMob (UMP, nonoverlap, no banner after paid); preserve proper signing and package ID; real device QA and policy. Update handover every verified milestone.
+
+## Milestone 8 — 30-minute NEWS for BOTH website and Android (8 November 2026)
+
+**Owner expressly approved:** “Ok 30mins fine” and clarified “For app and site yh.” This is about news-feed freshness, not changing private Chat push delivery or making videos check four times more frequently.
+
+### WEBSITE NEWS COLLECTOR — committed to default branch `main` (SOURCE VERIFIED)
+- Existing working `.github/workflows/refresh-dev-news.yml` collects and validates the independently hosted DEV news catalogue consumed live by `index.html` from `dev/mobile-video-performance-oct31/data/news-alerts.json`.
+- Updated schedule from `17 */2 * * *` (every two hours) to **`17,47 * * * *`**, running nominally **every 30 minutes**. **GitHub main commit `d7e4dfdd3ecbc7e0f032935417cd1f4c0d3e060e`**. It updates the JSON only when changed, includes freshness checks and does **not** deploy Netlify.
+- The existing visible website ticker checks for new sourced feed rows every 10 minutes; no need to rebuild or republish the website at every collector cycle. Leave its existing source URL untouched. Do not confuse this working DEV collector with the separate older main-branch legacy media feed which remains on a two-hour schedule.
+- Site news is **not guaranteed exactly every 30 minutes**: GitHub scheduled workflows can be delayed, and source RSS publishing itself varies. Website open page may notice next scheduled refresh.
+- Repository is public: standard GitHub-hosted runners are free in public repositories (GitHub 2026 docs). RSS/API publisher limits, networking and run reliability still warrant monitoring. No Netlify build or new hosting charge is incurred per source refresh.
+- **Pending real-world check:** observe next completed scheduled `Refresh DEV news snapshot every 30min (no Netlify)` Action, verify latest JSON health and website browser loading. A workflow edit alone is not evidence the first 30-min run completed.
+
+### ANDROID BETA — committed to `android/playstore-community-20261108` (SOURCE VERIFIED)
+- `DiscoveryWorker.java` news worker now reads the **same** live raw-GitHub DEV catalogue already used by the website, not the frozen older Netlify-packaged `data/news-alerts.json`. Videos still read the larger website video catalogue.
+- `MainActivity.java` schedules **News every 30 minutes**, keeps **Videos every 2 hours** to save data/battery, and automatically retires the previous combined 2-hour WorkManager job on app startup. Existing opt-in values are preserved. Individual news/video jobs use distinct names, `dd_scope` data and `ExistingPeriodicWorkPolicy.UPDATE`; manual Check Now still checks both.
+- Updated bell settings text and `android-test/NOTIFICATIONS.md` to explain best-effort timing (Android battery optimisations / Doze can delay), baseline alert behaviour, and unchanged privacy.
+- Added `scripts/test_android_news_cadence_20261108.cjs` and wired it into the Android APK workflow to assert Android's news source exactly matches the website source, new cadence, migration and 2-hour video schedule.
+- **Pending acceptance:** GitHub build and actual Samsung Android testing. No Android APK, AAB or Play Console rollout is declared installed or published by these commits.
+- **Unchanged:** optional separate Chat Firebase push remains a different release gate; lifetime AdMob Remove Ads and policy checks remain required. No live Supabase DDL/secrets were changed.
+
