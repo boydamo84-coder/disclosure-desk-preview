@@ -10,6 +10,7 @@ on:
       - 'assets/profile-private-chat.js'
       - 'assets/public-profiles.js'
       - 'assets/profile-avatars.js'
+      - 'assets/member-avatars.js'
       - 'assets/news-ticker.js'
       - 'assets/news-ticker.css'
       - 'assets/discussions-admin.js'
