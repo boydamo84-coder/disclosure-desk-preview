@@ -58,9 +58,13 @@ public final class MainActivity extends Activity {
     private AdView adView;
     private ConsentInformation consentInformation;
     private boolean adStarted=false;
+    private boolean adFree=false;
+    private boolean adConsentReady=false;
+    private LifetimeAdsManager premium;
     // Real unit configured in AdMob: ca-app-pub-6712657097464071/7357709206
     // All test builds MUST use Google test inventory; never use the real unit in this debug APK.
     private static final String TEST_BANNER_UNIT = "ca-app-pub-3940256099942544/6300978111";
+    private static final String LIVE_BANNER_UNIT = "ca-app-pub-6712657097464071/7357709206";
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         root = new FrameLayout(this);
@@ -158,6 +162,7 @@ public final class MainActivity extends Activity {
                 if(fullCallback!=null){fullCallback.onCustomViewHidden();fullCallback=null;}
             }
         });
+        premium=new LifetimeAdsManager(this,this::setAdFree);
         web.loadUrl(notificationUrl(getIntent()));
         prepareTestBanner();
     }
@@ -220,23 +225,33 @@ public final class MainActivity extends Activity {
             if(offlinePanel!=null)offlinePanel.setVisibility(View.GONE);
         });
     }
+    private void setAdFree(boolean active){
+        adFree=active;
+        runOnUiThread(()->{
+            if(active){
+                if(adView!=null){adView.destroy();root.removeView(adView);adView=null;}
+                adStarted=false;
+                FrameLayout.LayoutParams lp=(FrameLayout.LayoutParams)web.getLayoutParams();lp.bottomMargin=0;web.setLayoutParams(lp);
+            }else if(adConsentReady && !adStarted)showTestBanner();
+        });
+    }
     private void prepareTestBanner(){
         consentInformation=UserMessagingPlatform.getConsentInformation(this);
         ConsentRequestParameters params=new ConsentRequestParameters.Builder().build();
         consentInformation.requestConsentInfoUpdate(this,params,
             ()->UserMessagingPlatform.loadAndShowConsentFormIfRequired(this,error->{
-                if(consentInformation.canRequestAds())showTestBanner();
+                adConsentReady=consentInformation.canRequestAds();if(adConsentReady&&!adFree)showTestBanner();
             }),
-            error->{if(consentInformation.canRequestAds())showTestBanner();}
+            error->{adConsentReady=consentInformation.canRequestAds();if(adConsentReady&&!adFree)showTestBanner();}
         );
     }
     private void showTestBanner(){
-        if(adStarted || isFinishing() || isDestroyed())return;
+        if(adFree || adStarted || isFinishing() || isDestroyed())return;
         adStarted=true;
         MobileAds.initialize(this, status->runOnUiThread(()->{
-            if(isFinishing() || isDestroyed())return;
+            if(isFinishing() || isDestroyed() || adFree){adStarted=false;return;}
             adView=new AdView(this);
-            adView.setAdUnitId(TEST_BANNER_UNIT);
+            adView.setAdUnitId((getApplicationInfo().flags & android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE)!=0 ? TEST_BANNER_UNIT : LIVE_BANNER_UNIT);
             adView.setAdSize(AdSize.BANNER);
             FrameLayout.LayoutParams layout=new FrameLayout.LayoutParams(-2,dp(50),Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL);
             root.addView(adView,layout);
@@ -251,6 +266,8 @@ public final class MainActivity extends Activity {
         if(intent!=null){
             String kind=intent.getStringExtra("dd_type");
             String record=intent.getStringExtra("dd_record_id");
+            if("chat".equals(kind) && record!=null && record.matches("(?i)[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}"))
+                return HOME+"?dd_tab=chatPage&dd_chat="+Uri.encode(record);
             if(("news".equals(kind)||"videos".equals(kind)) && record!=null && record.matches("[A-Za-z0-9_-]{1,150}"))
                 return HOME+"?dd_"+kind+"="+Uri.encode(record);
         }
@@ -279,10 +296,19 @@ public final class MainActivity extends Activity {
         CheckBox footage=new CheckBox(this);
         footage.setText("Fresh video discoveries");
         footage.setChecked(prefs.getBoolean("videos",false));
+        CheckBox chats=new CheckBox(this);
+        chats.setText("Private Chat messages");
+        chats.setChecked(prefs.getBoolean("chats",true));
+        choices.addView(chats);
         CheckBox news=new CheckBox(this);
         news.setText("Major-media UAP news");
         news.setChecked(prefs.getBoolean("news",false));
         choices.addView(footage);choices.addView(news);
+        Button removeAds=new Button(this);
+        removeAds.setText("Remove Ads · lifetime / restore purchase");
+        removeAds.setAllCaps(false);
+        choices.addView(removeAds);
+        removeAds.setOnClickListener(v->{if(premium!=null)premium.showOptions();});
         Button test=new Button(this);
         test.setText("Schedule TEST alert (about 1 minute)");
         test.setAllCaps(false);
@@ -330,14 +356,16 @@ public final class MainActivity extends Activity {
           .setMessage("Optional alerts. Checks run approximately every 2 hours. You will not get an alert for the existing library. News comes from attributed mainstream media reporting, not verified proof of extraordinary claims.")
           .setView(choices).setNegativeButton("Cancel",null)
           .setPositiveButton("Save",(dialog,which)->{
-              boolean vids=footage.isChecked(),stories=news.isChecked();
-              prefs.edit().putBoolean("videos",vids).putBoolean("news",stories).apply();
+              boolean vids=footage.isChecked(),stories=news.isChecked(),chatAlerts=chats.isChecked();
+              prefs.edit().putBoolean("videos",vids).putBoolean("news",stories).putBoolean("chats",chatAlerts).apply();
               if(vids||stories){
                   PeriodicWorkRequest req=new PeriodicWorkRequest.Builder(DiscoveryWorker.class,2,TimeUnit.HOURS).build();
                   WorkManager.getInstance(this).enqueueUniquePeriodicWork(DiscoveryWorker.JOB,ExistingPeriodicWorkPolicy.KEEP,req);
                   if(Build.VERSION.SDK_INT>=33&&checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED)
                     requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS},712);
               }else WorkManager.getInstance(this).cancelUniqueWork(DiscoveryWorker.JOB);
+              if(chatAlerts && Build.VERSION.SDK_INT>=33 && checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED)
+                  requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS},712);
           }).show();
     }
     private int dp(int pixels){return (int)(pixels*getResources().getDisplayMetrics().density+0.5f);}
@@ -350,6 +378,6 @@ public final class MainActivity extends Activity {
         });
     }
     @Override protected void onPause(){if(adView!=null)adView.pause();super.onPause();}
-    @Override protected void onResume(){super.onResume();if(adView!=null)adView.resume();}
-    @Override protected void onDestroy(){if(pendingFiles!=null){pendingFiles.onReceiveValue(null);pendingFiles=null;}if(adView!=null)adView.destroy();web.destroy();super.onDestroy();}
+    @Override protected void onResume(){super.onResume();if(adView!=null)adView.resume();if(premium!=null)premium.restore();}
+    @Override protected void onDestroy(){if(pendingFiles!=null){pendingFiles.onReceiveValue(null);pendingFiles=null;}if(premium!=null)premium.close();if(adView!=null)adView.destroy();web.destroy();super.onDestroy();}
 }
