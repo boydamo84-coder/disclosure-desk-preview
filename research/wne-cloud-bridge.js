@@ -30,6 +30,9 @@ async function load(id){
  if(error)throw error;
  if(!valid(data.content))throw Error('Document incompatible with original W.NE manuscript structure. No data was changed.');
  state.id=data.id;state.document=structuredClone(data.content);state.revision=data.revision;state.saved=data.updated_at;
+ // Preserve the last *actually opened and owner-verified* document.
+ // Research entry checks RLS again before resuming; no account data leaves this device.
+ try{localStorage.setItem('wne-research-last-document:'+state.owner,state.id)}catch(_){}
  return data;
 }
 async function ensureLoaded(){
