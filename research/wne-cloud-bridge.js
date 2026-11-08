@@ -60,6 +60,53 @@ async function manuscript(method,input){
  state.revision=Number(data[0].saved_revision);state.document=structuredClone(input.manuscript);state.saved=new Date().toISOString();
  return {ok:true,revision:state.revision,saved:state.saved,remote_seq:0};
 }
+// Explicit, non-destructive export of the user's own PRIVATE cloud library.
+// The file is generated in this browser; no Google Drive permissions are used.
+async function makeLibraryZip(){
+ const account=await user();
+ if(typeof window.JSZip!=='function')throw Error('ZIP library unavailable. Check your connection and try again; your research has not changed.');
+ const rows=[],pageSize=100;
+ for(let offset=0;offset<1000;offset+=pageSize){
+  const {data,error}=await db.from('research_documents')
+   .select('id,user_id,title,content,revision,created_at,updated_at')
+   .order('created_at',{ascending:true}).range(offset,offset+pageSize-1);
+  if(error)throw error;
+  for(const row of data||[]){
+   if(row.user_id!==account.id)throw Error('Account mismatch while preparing backup. No file was created.');
+   if(!valid(row.content))throw Error('One saved document has invalid content. Nothing has been overwritten.');
+   rows.push(row);
+  }
+  if((data||[]).length<pageSize)break;
+  if(offset+pageSize>=1000)throw Error('Library exceeds 1,000 documents. Contact support for a larger export.');
+ }
+ if(!rows.length)throw Error('No saved cloud research documents to back up yet.');
+ const zip=new window.JSZip();
+ const exported=new Date().toISOString(),manifest={
+  format:'disclosure-desk-wne-research-backup-v1',
+  exported_at:exported,document_count:rows.length,
+  documents:rows.map(({id,title,revision,updated_at})=>({id,title,revision,updated_at}))
+ };
+ zip.file('README.txt','Disclosure Desk W.NE Research Edition backup\\n'
+ +'Includes only the research documents belonging to the signed-in account.\\n'
+ +'Original document IDs are included for reference; restoring should create NEW copies.\\n'
+ +'Private browser-only Boards, image files outside the manuscript, and Google Drive are not included.\\n'
+ +'Store this ZIP privately. It may include sensitive, unpublished work.\\n');
+ zip.file('manifest.json',JSON.stringify(manifest,null,2));
+ let characters=0;
+ for(const row of rows){
+  const data=JSON.stringify({
+   id:row.id,title:row.title,revision:row.revision,created_at:row.created_at,
+   updated_at:row.updated_at,document:row.content
+  });
+  characters+=data.length;
+  if(characters>60*1024*1024)throw Error('The research library is too large for one browser ZIP (60 MB limit). No file created.');
+  zip.file('documents/'+row.id+'.json',data);
+ }
+ const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:4}});
+ if(!blob?.size)throw Error('The ZIP archive could not be generated.');
+ const stamp=exported.slice(0,10);
+ return {blob,filename:'Disclosure-Desk-WNE-Research-'+stamp+'.zip',documentCount:rows.length};
+}
 async function libraryAction(input){
  await user();
  if(input?.action==='open'){
@@ -165,6 +212,6 @@ db.auth.onAuthStateChange((event)=>{
   document.documentElement.dataset.wneBridge='signed-out';
  }
 });
-window.WNECloudIntegration=Object.freeze({getStatus:()=>({authenticated:!!state.owner,activeDocument:state.id,revision:state.revision}),readSavedDocument:async()=>{await ensureLoaded();return structuredClone(state.document)}});
+window.WNECloudIntegration=Object.freeze({getStatus:()=>({authenticated:!!state.owner,activeDocument:state.id,revision:state.revision}),readSavedDocument:async()=>{await ensureLoaded();return structuredClone(state.document)},makeLibraryZip});
 document.documentElement.dataset.wneBridge='limited';
 })();
