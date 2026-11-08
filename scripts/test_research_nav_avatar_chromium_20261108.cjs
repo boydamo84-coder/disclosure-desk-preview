@@ -62,7 +62,7 @@ const BASE='http://127.0.0.1:4173';
     for(const fn of window.__avatarFixture.callbacks)fn('SIGNED_OUT',null);
    });
    assert.equal(await page.locator('[data-dd-tab="profilePage"] img').count(),0);
-   assert.match(await page.locator('[data-dd-tab="profilePage"]').innerText(),/👤/);
+   assert((await page.locator('[data-dd-tab="profilePage"] .dd-site-dock-icon').textContent()).length>0,'Generic profile fallback shown');
    pass(width+'px signed out removes private photo immediately');
 
    await page.evaluate(()=>{
@@ -87,7 +87,7 @@ const BASE='http://127.0.0.1:4173';
    });
    await page.waitForTimeout(100);
    assert.equal(await page.locator('[data-dd-tab="profilePage"] img').count(),0);
-   assert.match(await page.locator('[data-dd-tab="profilePage"]').innerText(),/👤/);
+   assert((await page.locator('[data-dd-tab="profilePage"] .dd-site-dock-icon').textContent()).length>0,'Generic profile fallback shown');
    assert.deepEqual(errors,[]);
    pass(width+'px stale after-signout photo response cannot restore prior avatar');
 
