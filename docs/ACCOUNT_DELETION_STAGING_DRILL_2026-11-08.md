@@ -1,4 +1,6 @@
 # Disclosure Desk — Milestone 24 isolated account-deletion staging drill
+
+> **Milestone 25 change (8 Nov 2026):** The owner authorised using existing **live-site test accounts**, so a separate Supabase project is no longer the default requirement. This historical isolated-staging plan remains as a safety reference only. See [ACCOUNT_DELETION_LIVE_TEST_ACCOUNTS_2026-11-08.md](ACCOUNT_DELETION_LIVE_TEST_ACCOUNTS_2026-11-08.md) for the actual read-only live audit, approved live-test approach, and strict pre-deletion backup, RLS, owner-protection and write-fence gates. No real deletion has been run and the still-unvalidated SQL draft has **not** been applied to the live project.
 _8 November 2026 · UNEXECUTED against real Auth/Storage · NO production deployment_
 
 ## Safety boundary
