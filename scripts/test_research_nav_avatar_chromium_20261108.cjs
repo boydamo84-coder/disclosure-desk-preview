@@ -19,7 +19,7 @@ const BASE='http://127.0.0.1:4173';
    const page=await ctx.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(e.message));
    await page.goto(BASE+'/robots.txt',{waitUntil:'domcontentloaded'});
-   await page.setContent('<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><main><h1>Research profile mock</h1></main></body></html>');
+   await page.setContent('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><main><h1>Research profile mock</h1></main></body></html>');
    await page.evaluate(()=>{
     const first='11111111-1111-4111-8111-111111111111';
     const second='22222222-2222-4222-8222-222222222222';
