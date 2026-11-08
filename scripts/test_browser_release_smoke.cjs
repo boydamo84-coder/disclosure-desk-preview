@@ -130,6 +130,9 @@ async function selected(page,id){
   assert.equal(await page.locator('#appTourDialog').evaluate(el=>el.open),true,'Tour is native modal');
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('#appTourDialog').evaluate(el=>el.open),false);
+  // The tour's close handler restores navigation asynchronously after Escape.
+  // Wait for the real state rather than sampling aria-current mid-update.
+  await page.locator('.nav .tab[data-tab="hub"][aria-current="page"]').waitFor({state:'attached',timeout:5000});
   assert.equal(await selected(page,'hub'),'page','Escape returns to Explore');
   pass('tour opens native modal; Escape restores Explore');
   await page.screenshot({path:path.join(OUTPUT,'mobile-explore-393px.png'),fullPage:false});
