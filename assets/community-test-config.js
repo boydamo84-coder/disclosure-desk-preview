@@ -18,9 +18,9 @@ window.DD_COMMUNITY_TEST_CONFIG=Object.freeze({
 window.DD_COMMUNITY_FEATURES=Object.freeze({
  witnessPublic:enabled,
  voting:enabled,
- privateChat:false, // Keep off until SQL/RLS, opted-in identity and phone QA are approved
- discussions:false, // Future Discussions tab is not live
- profileAvatars:false, // Private photo Storage is NOT applied yet; keep avatar controls off
+ privateChat:enabled, // Approved public social release: only known hostnames; server enforces identity and consent
+ discussions:enabled, // Approved public social release: guest reads, members post through controlled RPCs
+ profileAvatars:enabled, // Approved public visible-by-default photo with server-enforced Hide
  researchPublishing:false
 });
 })();

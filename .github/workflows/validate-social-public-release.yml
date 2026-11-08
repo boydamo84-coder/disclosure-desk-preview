@@ -1,0 +1,53 @@
+name: Disclosure Desk social public candidate safety QA (NO DEPLOY)
+on:
+  push:
+    branches: [release/social-chat-discussions-avatar-20261108]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    name: Review static public package and cross-account regressions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: JS source syntax gates
+        run: |
+          node --check scripts/build_public_release.cjs
+          node --check scripts/test_public_release_package.cjs
+          node --check scripts/test_adsense_source_readiness.cjs
+          node --check assets/community-test-config.js
+          node --check assets/member-avatars.js
+          node --check assets/profile-avatars.js
+          node --check assets/profile-private-chat.js
+          node --check assets/community-discussions.js
+          node --check assets/discussions-admin.js
+      - name: Build exact allowlisted public website and verify hashes without publishing
+        run: |
+          node scripts/test_public_release_package.cjs
+          node scripts/test_adsense_source_readiness.cjs
+      - name: Validate account switching, profile-photo Hide and safe public avatars (fake data only)
+        run: |
+          node scripts/test_member_avatar_display.cjs
+          node scripts/test_member_avatar_race.cjs
+          node scripts/test_public_comment_avatars.cjs
+          node scripts/test_private_chat_account_switch_runtime.cjs
+          node scripts/test_private_chat_switch_mutations.cjs
+          node scripts/test_discussions_account_switch_runtime.cjs
+      - name: Check exact public activation and no private material in package
+        run: |
+          node --input-type=commonjs - <<'NODE'
+          const fs=require('fs'),assert=require('node:assert/strict');
+          const c=fs.readFileSync('.release-staging/public-site/assets/community-test-config.js','utf8');
+          const m=JSON.parse(fs.readFileSync('.release-staging/public-site/release-manifest.json','utf8'));
+          for(const feature of ['privateChat','discussions','profileAvatars'])assert.ok(c.includes(feature+':enabled'));
+          assert.ok(c.includes('researchPublishing:false'));
+          assert.ok(c.includes('const enabled=preview||local||production'));
+          assert.ok(!m.files.some(x=>['docs/','scripts/','finance_local/','finance-review/','supabase/','.github/'].some(prefix=>x.path.startsWith(prefix))));
+          assert.ok(m.files.some(x=>x.path==='ads.txt'));
+          assert.ok(m.files.some(x=>x.path==='assets/member-avatars.js'));
+          console.log('PASS: public triad only on known hosts; production package excludes internal project files.');
+          NODE

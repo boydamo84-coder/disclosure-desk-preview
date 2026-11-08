@@ -29,7 +29,7 @@ const approvedWeb=Object.freeze({
   'discussions-admin.js','historical-satellite.js','inline-news-comments.js',
   'live-chat.js','live-hearings.js','live-schedule.css','live-schedule.js',
   'news-ticker.css','news-ticker.js',
-  'profile-avatars.js','profile-private-chat.js','public-profiles.js','research-hub.js',
+  'profile-avatars.js','member-avatars.js','profile-private-chat.js','public-profiles.js','research-hub.js',
   'support-site.js','watch-read.js','witness-community.js'
  ],
  research:[
@@ -57,7 +57,7 @@ top.forEach(copy);websiteDir('assets');websiteDir('research');
 data.forEach(p=>copy('data/'+p));
 copy('research/data/curated-public-cases.json');
 const cfg=fs.readFileSync(path.join(out,'assets/community-test-config.js'),'utf8');
-for(const flag of ['privateChat:false','discussions:false','profileAvatars:false','researchPublishing:false'])
+for(const flag of ['privateChat:enabled','discussions:enabled','profileAvatars:enabled','researchPublishing:false'])
  if(!cfg.includes(flag))throw Error('Unapproved feature activation detected: '+flag);
 const manifest={type:'Disclosure Desk candidate static site - NOT DEPLOYED',files:files.sort((a,b)=>a.path.localeCompare(b.path)),
  totalBytes:files.reduce((n,f)=>n+f.bytes,0)};
