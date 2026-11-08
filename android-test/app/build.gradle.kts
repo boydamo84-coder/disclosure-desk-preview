@@ -6,8 +6,8 @@ android {
         applicationId = "com.boyddigitalstudios.disclosuredesk"
         minSdk = 26
         targetSdk = 36
-        versionCode = 12
-        versionName = "0.9.2-play-internal-candidate"
+        versionCode = 13
+        versionName = "0.10.0-community-beta"
     }
     signingConfigs {
         create("upload") {
@@ -29,4 +29,4 @@ android {
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
 }
 
-dependencies { implementation("androidx.work:work-runtime:2.9.1"); implementation("com.google.guava:guava:31.1-android"); implementation("com.google.android.gms:play-services-ads:25.5.0"); implementation("com.google.android.ump:user-messaging-platform:3.2.0") }
+dependencies { implementation("androidx.work:work-runtime:2.9.1"); implementation("com.google.guava:guava:31.1-android"); implementation("com.google.android.gms:play-services-ads:25.5.0"); implementation("com.google.android.ump:user-messaging-platform:3.2.0"); implementation("com.android.billingclient:billing:9.1.0"); implementation("com.google.firebase:firebase-messaging:26.0.1") }
