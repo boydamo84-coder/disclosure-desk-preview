@@ -45,3 +45,33 @@ jobs:
           node scripts/test_member_avatar_display.cjs
       - name: Verify restricted static bundle (no deploy)
         run: node scripts/test_public_release_package.cjs
+  real-browser:
+    name: Offline real Chromium editor acceptance gate (NO deploy)
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare pinned Chromium QA package
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+          node --check scripts/test_research_editor_real_chromium_20261108.cjs
+      - name: Start strictly local-only test origin
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-research-chrome.log 2>&1 &
+          echo $! >/tmp/dd-research-chrome.pid
+          for i in $(seq 1 20); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/research/research-text-size.js >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/dd-research-chrome.log
+          exit 1
+      - name: Run actual Chromium mobile editor tests without cloud access
+        run: node scripts/test_research_editor_real_chromium_20261108.cjs
+      - name: Stop loopback-only test origin
+        if: always()
+        run: kill "$(cat /tmp/dd-research-chrome.pid)" || true
