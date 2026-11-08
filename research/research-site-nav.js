@@ -9,7 +9,7 @@ const TABS=[
  ['discover','◈','News'],['archivePage','▥','Archive'],['researchStudio','✎','W.NE'],
  ['mapPage','◎','Map'],['clips','▶','Videos'],['livePage','●','LIVE'],
  ['boards','▣','Boards'],['witness','◉','Witness'],
- ['watchRead','♫','Watch & Read'],['hub','☷','Explore'],['profilePage','👤','Profile']
+ ['watchRead','♫','Watch & Read'],['profilePage','👤','Profile'],['hub','☷','Explore']
 ];
 // The public site remains eleven tabs until the separately reviewed Discussions
 // backend is activated. Use the same explicit feature gate in the Research dock.
@@ -19,7 +19,7 @@ if(window.DD_COMMUNITY_FEATURES?.discussions===true){
 }
 if(window.DD_COMMUNITY_FEATURES?.privateChat===true){
  const beforeProfile=TABS.findIndex(row=>row[0]==='profilePage');
- TABS.splice(beforeProfile,0,['chatPage','✉','Chat']);
+ TABS.splice(beforeProfile,0,['chatPage','💬','Chat']);
 }
 const STORAGE_KEY='dd-research-nav-hidden-v1';
 const workspace=!!document.getElementById('writer');
