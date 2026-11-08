@@ -50,3 +50,17 @@ _Last updated: 8 November 2026 (Europe/London)_
 - Don't fabricate LIVE event dates or research evidence; keep witness public locations approximate.
 - Preserve source citations and owner moderation, and do not expose private research files in public feeds.
 - Do not claim CI proves a live backend, and do not claim a GitHub commit deployed to Netlify.
+
+## Milestone 4 — real backend inspection and final candidate QA (VERIFIED 8 Nov)
+
+- The owner reports the friend also reproduced the photo problem in Chrome. On iOS, Safari and Chrome share WebKit; this does not rule out the decoding problem, but rules out Safari-specific UI assumptions. **No account/photo diagnosis is final until the friend's next live attempt.**
+- Read-only check of the actual Disclosure Desk Supabase project: private `dd-profile-avatars` bucket exists, limited to 1 MiB converted WebP, with authenticated owner-scoped SELECT/INSERT/UPDATE/DELETE policies. There were 4 registered accounts, 3 avatar profile preference rows and 2 avatar objects at inspection. A missing preference row is not itself a defect because `dd_avatar_my_settings()` creates one on first access.
+- Recent Storage logs show successful 200 upload entries for existing test photos and repeated 400 missing-photo GETs for another public avatar key; **no matched recent POST upload was visible for that key**. This suggests some attempts did not reach the upload stage, but isn't definitive without linking a user-provided attempt time. Keep real user identifiers/paths out of public handover and support responses.
+- Updated `index.html` file input to offer iPhone HEIC/HEIF, and cache-busted `assets/profile-avatars.js` to `nov08-safari-auto-save-v2`.
+- Final candidate no-deploy QA [42456366672](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42456366672) **SUCCESS** for this branch after the index change.
+- Owner explicitly requested production deployment to test with the friend; proceed as one production branch update. Afterward, check live Netlify publishing separately. The old Beta 14 mobile release gate assumes the now-outdated flag-off 11-tab UI (current social site has additional tabs), and its package gate expects `privateChat:false`/`discussions:false` even though production intentionally enables these features; those failures are **stale test expectations**, not proof the avatar code is broken. Repair these QA assertions separately, without silently disabling approved social features.
+
+## Milestone 5 — production deployment (PENDING verification)
+
+- Production branch must be fast-forwarded from the verified source without replacing independent site changes. Even after source push, verify Netlify release and actual public `assets/profile-avatars.js` text; GitHub success alone is not proof of the website update.
+- Ask friend to fully close/reopen the site, open Profile, select the exact known-good picture, and capture only the small status message if not saved. Verify after reload and across Chat/comment displays. No credential screenshot.
