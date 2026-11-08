@@ -3681,4 +3681,35 @@ html[data-theme] .sidebar .chapters .wne-chapter-row .wne-chapter-options{backgr
 })();
 </script>
 
+<style id="dd-research-insert-menu-v1">
+/* Visible Insert control is first on the narrow, horizontally scrolling format bar. */
+#dd-research-insert-trigger{
+ flex:0 0 auto;min-width:104px;min-height:40px;
+ background:#213949!important;color:#f1d39d!important;
+ border:1px solid #a58a5a!important;border-radius:9px!important;
+ font:700 13px system-ui!important;white-space:nowrap
+}
+#dd-research-insert-trigger[aria-expanded=true]{background:#d9bc87!important;color:#122637!important}
+#dd-research-insert-menu{
+ position:fixed;z-index:2147483000;box-sizing:border-box;width:218px;
+ max-width:calc(100vw - 20px);display:grid;gap:7px;
+ padding:10px;border-radius:12px;background:#142838;
+ border:1px solid #ae9060;box-shadow:0 14px 40px #000a;
+}
+#dd-research-insert-menu[hidden]{display:none!important}
+#dd-research-insert-menu .dd-research-insert-action{
+ box-sizing:border-box;display:block;width:100%;min-height:46px;
+ text-align:left;font:600 14px system-ui!important;
+ background:#253e51!important;color:#f2e5cd!important;
+ border:1px solid #728497!important;border-radius:9px!important;
+ padding:12px 14px!important;cursor:pointer
+}
+#dd-research-insert-menu button:focus-visible,
+#dd-research-insert-trigger:focus-visible{outline:3px solid #e9ca92!important;outline-offset:2px}
+@media(max-width:600px){
+ #dd-research-insert-menu{width:auto;max-height:min(42dvh,260px);overflow-y:auto}
+ #dd-research-insert-trigger{min-width:103px;min-height:44px}
+}
+</style>
+<script src="./research-insert-menu.js" defer></script>
 <script src="./wne-research-live-spelling.js" defer></script>
