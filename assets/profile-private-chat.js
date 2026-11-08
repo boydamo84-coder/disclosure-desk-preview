@@ -9,7 +9,11 @@ const $=id=>document.getElementById(id),mk=(tag,content,cls='')=>{
 let db,host,notice,received,accepted,conversation,currentId=null,lastPaintedPairId=null,ownerId=null,rows=[],epoch=0,identityRevision=0,myUsername='You',drafts=Object.create(null),inviteSection=null,drawerToggle=null,drawerOpen=false;
 const client=()=>window.supabase?(db||(db=window.supabase.createClient(config.url,config.publishableKey,
  {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}))):null;
-function say(message){if(notice)notice.textContent=String(message)}
+function say(message){
+ if(!notice)return;
+ notice.textContent=String(message);
+ notice.hidden=message==='Private chat requests updated.';
+}
 function button(target,label,fn){
  const b=mk('button',label,'outline');b.type='button';
  b.onclick=()=>{void fn(b)};target.append(b);return b;
@@ -201,14 +205,18 @@ async function openConversation(row){
     const item=mk('article',undefined,'dd-chat-bubble '+(m.mine?'dd-chat-bubble-mine':'dd-chat-bubble-other'));
     item.append(mk('small',m.mine?(myUsername||'You'):(row.other_username||'Researcher')),mk('p',m.body||''));
     if(m.sent_at){const time=mk('small',new Date(m.sent_at).toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'}),'dd-chat-message-time');item.append(time)}
-    button(item,'Report message',b=>{
+    const msgTools=mk('details',undefined,'dd-chat-message-menu');
+    const msgMenuLabel=mk('summary','⋯');
+    msgMenuLabel.setAttribute('aria-label','Message options');
+    msgTools.append(msgMenuLabel);
+    button(msgTools,'Report message',b=>{
      const reason=reportReason();if(!reason)return;
      return mutate(b,async client=>{
       const {error}=await client.rpc('dd_chat_report',{p_pair_id:pairId,p_reason:reason,p_message_id:m.message_id});
       if(error)throw error;
      },'Selected message reported for owner review.');
     });
-    history.append(item);
+    item.append(msgTools);history.append(item);
    }
    const syncHistoryScroll=()=>{
     if(currentId!==pairId||lastPaintedPairId!==pairId)return;
