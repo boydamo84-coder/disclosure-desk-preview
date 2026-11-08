@@ -11,6 +11,7 @@ on:
       - 'data/**'
       - 'research/**'
       - 'index.html'
+      - 'guide.html'
       - 'sources.html'
       - 'community-rules.html'
       - 'privacy.html'
