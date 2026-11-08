@@ -111,4 +111,32 @@ assert.match(html,/https:\/\/earthexplorer\.usgs\.gov\//);
 assert.match(html,/https:\/\/worldview\.earthdata\.nasa\.gov\//);
 assert.match(html,/https:\/\/pics\.eumetsat\.int\//);
 assert.match(js,/not a verified image of this sighting|not a verified picture of the event/i);
+/* Source-documented case handoff: USGS predefined criteria supports AOI and dataset, not search dates. */
+const usgs=new URL(api.usgsExplorerUrl(oldArizona));
+assert.equal(usgs.origin,'https://earthexplorer.usgs.gov');
+assert.equal(usgs.pathname,'/criteria');
+assert.equal(usgs.searchParams.get('node'),'EE');
+assert.equal(usgs.searchParams.get('dataset_name'),'landsat_mss_c2_l1');
+assert.equal(usgs.searchParams.get('aoiFilter'),'[[33.4,-111.9]]','USGS AOI is rounded, public town map point');
+assert.equal(usgs.searchParams.has('startDate'),false,'Never invent an unsupported EarthExplorer temporal URL parameter');
+assert.equal(usgs.searchParams.has('endDate'),false,'Never invent an unsupported EarthExplorer temporal URL parameter');
+assert.equal(api.usgsExplorerUrl({...oldArizona,lat:null,lon:null}),'https://earthexplorer.usgs.gov/',
+ 'No coordinates from unsupported case locations');
+assert.equal(api.usgsExplorerUrl({...oldArizona,isWitness:true}),'https://earthexplorer.usgs.gov/',
+ 'No witness data forwarded by external USGS links');
+const usgsSummary=api.caseSearchDetails(oldArizona,oldArizona.eventDate,null);
+assert.match(usgsSummary,/1976-06-03 \(recorded in case\)/);
+assert.match(usgsSummary,/1976-05-16 to 1976-06-21/);
+assert.match(usgsSummary,/33\.4° latitude, -111\.9° longitude/);
+assert.match(usgsSummary,/not verified \/ not recorded/);
+assert.match(api.caseSearchDetails(oldArizona,'1976-06-04','09:20'),/researcher-entered, not verified/);
+assert.match(api.caseSearchDetails(oldArizona,'1976-06-04','09:20'),/researcher-selected; not verified against case/);
+assert.equal(api.caseSearchDetails({...oldArizona,isWitness:true},oldArizona.eventDate,null),null);
+assert.match(js,/navigator\.clipboard\?\.writeText/);
+assert.match(js,/Browser blocked automatic copying/);
+assert.match(js,/Copy case search details/);
+assert.match(js,/dataset and approximate public mapped point are preselected/);
+assert.match(html,/assets\/historical-satellite\.js\?v=nov08-landsat-handoff-prefill/);
+console.log('PASS: official USGS AOI and MSS dataset prefill, copied date range, verified/unverified time provenance, witness privacy and safe fallback.');
+
 console.log('PASS: Arizona 1976 Landsat date window, Archive Satellite subtab, 11-bottom-tab boundary and official source caveats.');
