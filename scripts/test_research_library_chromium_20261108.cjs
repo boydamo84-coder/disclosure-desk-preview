@@ -2,7 +2,7 @@
 // Offline real Chromium smoke against the STAGED full Research Library HTML.
 // All Supabase operations are synthetic and blocked from the network.
 // No live cloud writes, no original user data, no deploy.
-const assert=require('node:assert/strict'),{chromium}=require('playwright-core');
+const assert=require('node:assert/strict'),fs=require('node:fs'),{chromium}=require('playwright-core');
 const ORIGIN='http://127.0.0.1:4173';
 (async()=>{
  const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
@@ -74,6 +74,17 @@ const ORIGIN='http://127.0.0.1:4173';
     assert.equal(await page.evaluate(()=>window.__libraryCloudWrites),0);
     const saved=await page.evaluate(()=>localStorage.getItem('wne_research_saved_boards_v1'));
     assert(saved&&saved.includes('Synthetic Field Board'));
+   });
+   const downloadPromise=page.waitForEvent('download',{timeout:10000});
+   await page.locator('#easyBackupBoards').click();
+   const download=await downloadPromise;
+   await pass(viewport.width+'px device Board backup contains local copy only',async()=>{
+    assert.equal(download.suggestedFilename(),'wne-research-saved-boards-backup.json');
+    const exported=JSON.parse(fs.readFileSync(await download.path(),'utf8'));
+    assert.equal(exported.format,'wne-research-saved-boards-v1');
+    assert.equal(exported.items.length,1);
+    assert.equal(exported.items[0].board.name,'Synthetic Field Board');
+    assert.equal(await page.evaluate(()=>window.__libraryCloudWrites),0);
    });
    await page.locator('#easyBoardList').selectOption({label:'On this device · Synthetic Field Board'});
    await page.locator('#easyOpenBoard').click();
