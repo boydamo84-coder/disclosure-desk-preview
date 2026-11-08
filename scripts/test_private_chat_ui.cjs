@@ -104,3 +104,10 @@ assert.match(js,/window\.requestAnimationFrame\?\.\(syncHistoryScroll\)/);
 assert.match(js,/history\.scrollTop=nearBottom\?history\.scrollHeight:scrollTop/);
 assert.match(js,/lastPaintedPairId=null/);
 console.log('PASS: latest chat content in new conversations and preserved scroll when reviewing older messages.');
+
+assert.match(chatTab,/function createChatNavIcon\(\)/);
+assert.match(chatTab,/svg\.setAttribute\('stroke','currentColor'\)/);
+assert.match(chatTab,/ico\.appendChild\(symbol\)/);
+assert.doesNotMatch(chatTab,/ico\.textContent='💬'/);
+assert.match(html,/dd-chat-nav-symbol/);
+console.log('PASS: Chat navigation uses a single-colour outline speech bubble that inherits tab colours.');

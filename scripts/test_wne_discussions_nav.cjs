@@ -87,3 +87,8 @@ console.log('PASS: clickable one-tab mobile dock arrows and guarded session-only
 assert.match(source,/\['watchRead','♫','Watch & Read'\],\['profilePage','👤','Profile'\],\['hub','☷','Explore'\]/);
 assert.match(main,/<button class="tab" data-tab="profilePage"[\s\S]*?<button class="tab" data-tab="hub"/);
 console.log('PASS: Explore positioned last in main and Research Edition navigation.');
+
+assert.match(source,/document\.createElementNS\(ns,'svg'\)/);
+assert.match(source,/svg\.setAttribute\('stroke','currentColor'\)/);
+assert.match(source,/\['chatPage','☏','Chat'\]/);
+console.log('PASS: Research Chat outline icon inherits the same tab colours.');

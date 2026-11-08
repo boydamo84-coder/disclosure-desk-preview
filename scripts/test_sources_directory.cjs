@@ -32,6 +32,6 @@ assert((homepage.match(/href="\/sources\.html"/g)||[]).length>=3,'Directory must
 const nav=homepage.match(/<nav\s+class="nav"[\s\S]*?<\/nav>/i);
 assert(nav,'Site bottom navigation missing');
 const tabs=[...nav[0].matchAll(/data-tab="([^"]+)"/g)].map(m=>m[1]);
-assert.deepEqual(tabs,['discover','archivePage','researchStudio','mapPage','clips','livePage','boards','witness','watchRead','hub','profilePage'],'11-tab release navigation must remain unchanged');
+assert.deepEqual(tabs,['discover','archivePage','researchStudio','mapPage','clips','livePage','boards','witness','watchRead','profilePage','hub'],'11-tab release retains its tab count with Explore last');
 assert(sitemap.includes('https://uapdisclosuredesk.com/sources.html'),'Sitemap missing new public directory');
 console.log('PASS — 13 searchable sources, safe origin links, Brazilian citation, attribution, 3 internal links, 11 original tabs and sitemap.');
