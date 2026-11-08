@@ -1,7 +1,7 @@
 /* Disclosure Desk profile avatars: 512px WebP, one opaque private Storage path.
  * User photos show beside PUBLIC aliases by default, with a server-enforced
  * Hide switch in Profile. No Auth UUID, email or raw file reaches other users.
- * Feature remains gated OFF on the public website until owner/Samsung QA.
+ * Upload commits automatically on selection; no misleading unsaved preview.
  */
 (()=>{'use strict';
 const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
@@ -12,26 +12,27 @@ const $=id=>document.getElementById(id),panel=$('ddAvatarPanel');
 if(!panel)return;
 panel.hidden=!enabled;if(!enabled)return;
 const image=$('ddAvatarImage'),fallback=$('ddAvatarFallback'),file=$('ddAvatarFile'),
- save=$('ddAvatarSave'),remove=$('ddAvatarRemove'),status=$('ddAvatarStatus'),visible=$('ddAvatarVisible');
-if(!image||!fallback||!file||!save||!remove||!status||!visible)return;
-let db=null,owner=null,avatarKey=null,epoch=0,objectUrl=null,pending=null,operation=false;
+ change=$('ddAvatarChange'),remove=$('ddAvatarRemove'),status=$('ddAvatarStatus'),visible=$('ddAvatarVisible');
+if(!image||!fallback||!file||!change||!remove||!status||!visible)return;
+let db=null,owner=null,avatarKey=null,epoch=0,objectUrl=null,operation=false;
 const client=()=>window.supabase?(db||(db=window.supabase.createClient(
  cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}
 ))):null;
 const validId=id=>/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(id||''));
 function say(msg){status.textContent=msg;}
-function buttons(){save.disabled=operation||!pending||!owner||!avatarKey;
+function buttons(){change.disabled=operation||!owner||!avatarKey;
+ file.disabled=change.disabled;
  remove.disabled=operation||!owner||!avatarKey;
  visible.disabled=operation||!owner||!avatarKey;}
 function revoke(){if(objectUrl){try{URL.revokeObjectURL(objectUrl)}catch(_){}}objectUrl=null;}
 function reset(clearKey=true){
  if(clearKey){avatarKey=null;visible.checked=false;}
- pending=null;file.value='';revoke();image.removeAttribute('src');
+ file.value='';change.textContent='Add photo';revoke();image.removeAttribute('src');
  image.hidden=true;fallback.hidden=false;remove.hidden=true;buttons();
 }
 function show(blob){
  const next=URL.createObjectURL(blob);revoke();objectUrl=next;
- image.src=next;image.hidden=false;fallback.hidden=true;remove.hidden=false;buttons();
+ image.src=next;image.hidden=false;fallback.hidden=true;remove.hidden=false;change.textContent='Change photo';buttons();
 }
 function pathFor(key){return key+'/avatar.webp';}
 async function identity(){
@@ -82,58 +83,74 @@ async function refresh(){
   'Photo saved privately; it is hidden from other members.');
 }
 async function convert(fileBlob){
- if(!fileBlob||!['image/jpeg','image/png','image/webp'].includes(fileBlob.type))
-  throw Error('Choose a JPG, PNG or WebP image.');
- if(fileBlob.size<=0||fileBlob.size>MAX_INPUT)
-  throw Error('Choose an image smaller than 5 MB.');
- if(typeof createImageBitmap!=='function')throw Error('Image processing is unavailable in this browser.');
- const decoded=await createImageBitmap(fileBlob);
+ const types=['image/jpeg','image/png','image/webp','image/heic','image/heif'];
+ const ext=/\\.(?:jpe?g|png|webp|heic|heif)$/i.test(String(fileBlob?.name||''));
+ if(!fileBlob||(fileBlob.type&&!types.includes(fileBlob.type))||(!fileBlob.type&&!ext))
+  throw Error('Choose a JPG, PNG, WebP or supported phone HEIC image.');
+ if(fileBlob.size<=0||fileBlob.size>MAX_INPUT)throw Error('Choose an image smaller than 5 MB.');
+ let decoded=null,imageUrl=null;
  try{
+  // Some Android/Safari WebViews cannot use createImageBitmap on file inputs.
+  if(typeof createImageBitmap==='function'){
+   try{decoded=await createImageBitmap(fileBlob);}catch(_){/* Use the native image decoder below. */}
+  }
+  if(!decoded){
+   if(typeof Image!=='function'||typeof URL?.createObjectURL!=='function')
+    throw Error('This browser cannot process that image. Try a JPG or PNG.');
+   imageUrl=URL.createObjectURL(fileBlob);
+   const photo=new Image();
+   const loaded=new Promise((resolve,reject)=>{
+    photo.onload=resolve;photo.onerror=()=>reject(Error('Phone cannot open this photo. Try a JPG or PNG.'));
+   });
+   photo.src=imageUrl;
+   if(typeof photo.decode==='function')await photo.decode().catch(()=>loaded);
+   else await loaded;
+   decoded=photo;
+  }
+  const width=decoded.width||decoded.naturalWidth,height=decoded.height||decoded.naturalHeight;
+  if(!width||!height)throw Error('The selected image has no readable dimensions.');
   const canvas=document.createElement('canvas');canvas.width=512;canvas.height=512;
-  const ctx=canvas.getContext('2d',{alpha:false});if(!ctx)throw Error('Unable to process this photo.');
+  const ctx=canvas.getContext('2d',{alpha:false});
+  if(!ctx)throw Error('Unable to process the picture on this phone.');
   ctx.fillStyle='#172635';ctx.fillRect(0,0,512,512);
-  const scale=Math.max(512/decoded.width,512/decoded.height);
-  const w=decoded.width*scale,h=decoded.height*scale;
+  const scale=Math.max(512/width,512/height),w=width*scale,h=height*scale;
   ctx.drawImage(decoded,(512-w)/2,(512-h)/2,w,h);
   const webp=await new Promise(resolve=>canvas.toBlob(resolve,'image/webp',0.83));
   if(!webp||webp.type!=='image/webp'||webp.size>MAX_WEBP)
-   throw Error('This photo could not be safely reduced to 1 MB WebP.');
+   throw Error('This browser could not reduce the photo to a WebP below 1 MB.');
   return webp;
- }finally{decoded.close?.();}
+ }finally{
+  decoded?.close?.();
+  if(imageUrl)URL.revokeObjectURL(imageUrl);
+ }
 }
+change.addEventListener('click',()=>{
+ if(!operation&&owner&&avatarKey)file.click();
+});
 file.addEventListener('change',async()=>{
- const chosen=file.files?.[0];if(!chosen)return;
- const expected=owner,stamp=++epoch;pending=null;buttons();say('Checking and cropping your photo…');
+ const chosen=file.files?.[0];if(!chosen||operation)return;
+ const expected=owner,key=avatarKey,stamp=++epoch;
+ if(!expected||!key){say('Sign in and reopen Profile before adding a photo.');return;}
+ operation=true;buttons();say('Processing and automatically saving your profile photo…');
  try{
   const blob=await convert(chosen);
-  if(stamp!==epoch||owner!==expected)return;
-  pending=blob;show(blob);
-  say('Preview ready. Save to display your photo to others (unless Hidden is selected).');
- }catch(e){
-  if(stamp!==epoch)return;
-  pending=null;buttons();const cause=String(e.message||'Unable to read photo.').slice(0,150);
-  await refresh();if(owner===expected)say('Photo not selected: '+cause);
- }
-});
-save.addEventListener('click',async()=>{
- if(operation||!pending||!owner||!avatarKey)return;
- const candidate=pending,expected=owner,key=avatarKey,stamp=epoch;
- operation=true;buttons();say('Saving profile photo…');
- try{
+  if(stamp!==epoch||owner!==expected||avatarKey!==key)return;
   const {c,id}=await identity();
-  if(id!==expected||stamp!==epoch||key!==avatarKey)
-   throw Error('Account changed. Reopen Profile and retry.');
-  const result=await c.storage.from(BUCKET).upload(pathFor(key),candidate,{
+  if(stamp!==epoch||owner!==expected||id!==expected||avatarKey!==key)
+   throw Error('Account changed. Select the photo again.');
+  const result=await c.storage.from(BUCKET).upload(pathFor(key),blob,{
    upsert:true,contentType:'image/webp',cacheControl:'60'
   });
   if(result.error)throw result.error;
-  if(stamp===epoch&&owner===id){
-   pending=null;file.value='';window.DDMemberAvatars?.clearCache?.();
-   say(visible.checked?'Photo saved. It is visible beside your public username.':
-    'Photo saved. It remains hidden from other members.');
-  }
+  if(stamp!==epoch||owner!==expected||avatarKey!==key)return;
+  show(blob);file.value='';window.DDMemberAvatars?.clearCache?.();
+  say(visible.checked?'Photo saved automatically and shown beside your public username.':
+   'Photo saved automatically but hidden from other members.');
  }catch(e){
-  if(stamp===epoch)say('Photo not saved: '+String(e.message||'Try again.').slice(0,130));
+  if(stamp===epoch&&owner===expected){
+   file.value='';
+   say('Photo could not be saved: '+String(e?.message||'Please try again.').slice(0,155));
+  }
  }finally{operation=false;buttons();}
 });
 remove.addEventListener('click',async()=>{
