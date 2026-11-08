@@ -141,6 +141,15 @@ Deno.serve(async request => {
         confirmation_verified:!!job.confirmed_at
       };
       const adapter={
+        assertLeaseActive:async(id,token,phase)=>{
+          const {data,error}=await admin.from("dd_account_deletion_jobs")
+            .select("phase,lease_token,lease_expires_at")
+            .eq("account_id",id).single();
+          if(error||!data)throw Error("lease_unverified");
+          return data.phase===phase && data.lease_token===token &&
+            typeof data.lease_expires_at==="string" &&
+            Date.parse(data.lease_expires_at)>Date.now();
+        },
         assertNotPrivilegedOwner:async id=>{
           if(await call("dd_deletion_guard_role",{p_target:id})!==false)
             throw Error("protected_role");
