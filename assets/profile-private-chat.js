@@ -148,6 +148,16 @@ async function refresh(forceConversation=false){
   if(stamp!==epoch||ownerId!==data.user.id)return;
   if(response.error)throw response.error;
   rows=Array.isArray(response.data)?response.data:[];
+  // Android chat notifications only open an accepted conversation returned by the
+  // current user's authenticated RPC. A guessed/stale UUID never grants access.
+  const requestedPair=new URLSearchParams(window.location.search).get('dd_chat')||'';
+  if(/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(requestedPair)){
+   const verified=rows.find(x=>x.pair_id===requestedPair&&x.status==='accepted'&&!x.contact_unavailable);
+   if(verified){
+    currentId=verified.pair_id;lastConversationSignature='';
+    try{const url=new URL(window.location.href);url.searchParams.delete('dd_chat');window.history.replaceState(null,'',url.pathname+url.search+url.hash)}catch(_e){}
+   }
+  }
   drawList(accepted,rows.filter(x=>x.status==='accepted'));
   drawList(received,rows.filter(x=>x.status!=='accepted'));
   const active=rows.find(x=>x.pair_id===currentId);
