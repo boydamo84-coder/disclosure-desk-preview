@@ -190,6 +190,10 @@ BEGIN
       WHERE account_id=p_target AND phase='approved'
         AND lease_token=p_lease AND lease_expires_at>now()
   ) THEN RAISE EXCEPTION 'unapproved deletion lease' USING ERRCODE='42501'; END IF;
+  -- Only this service-role claim transaction may bypass the write fence to
+  -- redact the departing author's text. Ordinary user JWTs cannot set a
+  -- privileged cleanup context because the guard verifies the role + lease.
+  PERFORM set_config('dd.cleanup_lease',p_lease::text,true);
   UPDATE public.dd_forum_threads
     SET title='Account deleted',body='This post was removed by its author.',
         link_url=NULL,image_url=NULL
