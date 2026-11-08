@@ -19,6 +19,6 @@ assert.match(forum,/DDMemberAvatars\?\.decorate\?\.\(avatar,authorName\)/,
  'Full Discussion replies already use the common avatar decorator');
 assert.match(forum,/DDMemberAvatars\?\.decorate\?\.\(avatar,replyName\)/,
  'Collapsed comment previews already use the common avatar decorator');
-assert.match(html,/assets\/case-discussions\.js\?v=nov08-comment-avatars/);
-assert.match(html,/assets\/inline-news-comments\.js\?v=nov08-comment-avatars/);
+assert.match(html,/assets\/case-discussions\.js\?v=nov08-comment-action-rail/);
+assert.match(html,/assets\/inline-news-comments\.js\?v=nov08-comment-action-rail/);
 console.log('PASS: Discussions replies, News previews and case comments share RLS-gated public-name avatars with initial fallback.');
