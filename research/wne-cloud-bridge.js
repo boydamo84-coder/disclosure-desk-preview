@@ -261,6 +261,6 @@ db.auth.onAuthStateChange((event)=>{
   document.documentElement.dataset.wneBridge='signed-out';
  }
 });
-window.WNECloudIntegration=Object.freeze({getStatus:()=>({authenticated:!!state.owner,activeDocument:state.id,revision:state.revision}),readSavedDocument:async()=>{await ensureLoaded();return structuredClone(state.document)},makeLibraryZip});
+window.WNECloudIntegration=Object.freeze({getStatus:()=>({authenticated:!!state.owner,activeDocument:state.id,revision:state.revision}),readSavedDocument:async()=>{await ensureLoaded();return structuredClone(state.document)},makeLibraryZip,recoveryList:async()=>recovery('/api/snapshots','GET'),recoveryPreview:async id=>recovery('/api/snapshot/'+encodeURIComponent(id),'GET'),recoveryCopy:async id=>recovery('/api/recovery/copy','POST',{id})});
 document.documentElement.dataset.wneBridge='limited';
 })();
