@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-11-07T22:43:05.790279+00:00",
+  "checkedAt": "2026-11-08T01:09:52.884577+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 12,
+      "items": 13,
       "latestArticleAt": "2026-11-07T08:32:17+00:00"
     },
     {
@@ -34,8 +34,8 @@
     {
       "source": "Search: UAP congress hearing when:7d",
       "status": "ok",
-      "items": 4,
-      "latestArticleAt": "2026-11-03T13:34:11+00:00"
+      "items": 5,
+      "latestArticleAt": "2026-11-05T08:00:00+00:00"
     },
     {
       "source": "Search: UFO UAP Brazil Peru Mexico Argentina when:7d",
@@ -206,5 +206,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 315
+  "storiesPublished": 316
 }
