@@ -1,0 +1,30 @@
+name: Verify Research Studio resume and existing community (NO deploy)
+on:
+  push:
+    branches: [fix/research-mobile-profile-polish-nov08]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax checks for modified modules
+        run: |
+          node --check research/wne-cloud-bridge.js
+          node --check assets/profile-avatars.js
+          node --check scripts/test_research_resume_20261108.cjs
+      - name: Research Studio resume and Home QA (mock account)
+        run: node scripts/test_research_resume_20261108.cjs
+      - name: Preserve existing avatar and community behavior
+        run: |
+          node scripts/test_avatar_auto_upload_20261108.cjs
+          node scripts/test_safari_profile_avatars_20261108.cjs
+          node scripts/test_chat_stability_and_invite.cjs
+          node scripts/test_member_avatar_display.cjs
+      - name: Verify restricted static bundle (no deploy)
+        run: node scripts/test_public_release_package.cjs
