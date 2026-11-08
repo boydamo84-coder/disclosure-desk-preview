@@ -18,7 +18,7 @@ const BASE='http://127.0.0.1:4173';
    });
    const page=await ctx.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(e.message));
-   await page.goto(BASE+'/research/guest-preview.html',{waitUntil:'domcontentloaded'});
+   await page.goto(BASE+'/robots.txt',{waitUntil:'domcontentloaded'});
    await page.setContent('<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><main><h1>Research profile mock</h1></main></body></html>');
    await page.evaluate(()=>{
     const first='11111111-1111-4111-8111-111111111111';
@@ -42,9 +42,9 @@ const BASE='http://127.0.0.1:4173';
       return {download:async path=>{
        window.__avatarFixture.calls.push('download:'+path);
        if(window.__avatarFixture.hold){
-        return new Promise(resolve=>{window.__avatarFixture.release=()=>resolve({data:new Blob(['image'],'image/png'),error:null})});
+        return new Promise(resolve=>{window.__avatarFixture.release=()=>resolve({data:new Blob([Uint8Array.from(atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/RfMAAAAASUVORK5CYII='),c=>c.charCodeAt(0))],{type:'image/png'}),error:null})});
        }
-       return {data:new Blob(['image'],'image/png'),error:null};
+       return {data:new Blob([Uint8Array.from(atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/RfMAAAAASUVORK5CYII='),c=>c.charCodeAt(0))],{type:'image/png'}),error:null};
       }};
      }}
     };
