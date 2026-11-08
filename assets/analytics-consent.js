@@ -33,7 +33,9 @@ function bootTag(){
 function current(){
  if(path!=='/'&&path!=='/index.html')return path;
  const tab=document.querySelector('.nav .tab.active')?.dataset.tab;
- return '/site/'+(sections[tab]||'News').toLowerCase().replace(/[^a-z0-9]+/g,'-');
+ // A private tab must NEVER be mislabelled as public News.
+ const section=tab?sections[tab]:'News';
+ return section?'/site/'+section.toLowerCase().replace(/[^a-z0-9]+/g,'-'):null;
 }
 function measure(p){
  if(state!=='accepted')return;
