@@ -1655,11 +1655,8 @@ async function downloadRaw(obj,prefix='WNE-emergency'){
  const stamp=new Date().toISOString().replace(/[:.]/g,'-');
  const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});
  const filename=prefix+'-'+stamp+'.json';
- const file=new File([blob],filename,{type:'application/json'});
- if(navigator.canShare?.({files:[file]})&&typeof navigator.share==='function'){
-  try{await navigator.share({files:[file],title:'W.NE Emergency Copy'});return 'shared'}
-  catch(e){if(e?.name==='AbortError')throw Error('Emergency copy sharing cancelled. Your writing is still open.')}
- }
+ // Chrome and Samsung often show a share sheet instead of saving. Emergency
+ // recovery must always initiate a clearly named local JSON download first.
  const url=URL.createObjectURL(blob);
  try{const a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove()}
  finally{setTimeout(()=>URL.revokeObjectURL(url),60000)}
@@ -1676,7 +1673,10 @@ async function backup(){if(!await saveNow())return toast('Save failed. Use Emerg
 async function replaceDoc(raw,reason){let next;try{next=normalise(raw)}catch(e){return alert('Cannot import: '+e.message)}if(!confirm(`Replace current W.NE v0.7 test manuscript with "${next.bookTitle}"? A recovery checkpoint will preserve the previous version. Save a backup first if needed.`))return;if(!await beforeSwitch())return;const previous=data;data=next;render();dirty();if(!await saveNow(reason)){data=previous;render();return}toast('Manuscript imported into W.NE v0.7')}
 async function recover(){
  closeMore();if(!await beforeSwitch())return;
- let items;try{items=(await api('/api/snapshots')).items}catch(e){return alert(e.message)}
+ let items;try{
+   const bridge=window.WNECloudIntegration;
+   items=bridge?.recoveryList?(await bridge.recoveryList()).items:(await api('/api/snapshots')).items;
+  }catch(e){return alert('Recovery history unavailable: '+e.message+'\nYour current research remains unchanged.')}
  if(!items.length)return alert('No recovery versions yet. Keep Lifeboat backups too.');
  const shade=document.createElement('div');shade.className='recovery-shade';
  const panel=document.createElement('section');panel.className='recovery-panel';panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label','Recovery Centre');
@@ -1687,9 +1687,13 @@ async function recover(){
  shade.addEventListener('click',e=>{if(e.target===shade)close()});
  const plain=html=>{const d=document.createElement('div');d.innerHTML=html||'';return d.textContent||''};
  for(const item of items){const b=document.createElement('button');b.className='recovery-item';b.type='button';b.textContent=new Date(item.saved).toLocaleString()+' · '+item.reason+' · Revision '+item.revision;
- b.onclick=async()=>{selected=null;restore.disabled=true;for(const x of list.children)x.classList.remove('selected');b.classList.add('selected');preview.textContent='Loading checkpoint…';try{const result=await api('/api/snapshot/'+item.id);const doc=result.manuscript;const parts=(doc.chapters||[]).map(c=>(c.title||'Chapter')+'\n'+plain(c.html));preview.textContent=(doc.bookTitle||'Untitled')+'\n\n'+parts.join('\n\n──────────\n\n');selected=item.id;restore.disabled=false}catch(e){preview.textContent='Unable to load: '+e.message}};
+ b.onclick=async()=>{selected=null;restore.disabled=true;for(const x of list.children)x.classList.remove('selected');b.classList.add('selected');preview.textContent='Loading checkpoint…';try{const result=window.WNECloudIntegration?.recoveryPreview?
+     await window.WNECloudIntegration.recoveryPreview(item.id):
+     await api('/api/snapshot/'+item.id);const doc=result.manuscript;const parts=(doc.chapters||[]).map(c=>(c.title||'Chapter')+'\n'+plain(c.html));preview.textContent=(doc.bookTitle||'Untitled')+'\n\n'+parts.join('\n\n──────────\n\n');selected=item.id;restore.disabled=false}catch(e){preview.textContent='Unable to load: '+e.message}};
  list.append(b)}
- restore.onclick=async()=>{if(selected===null)return;restore.disabled=true;try{const result=await api('/api/recovery/copy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:selected})});close();alert('Recovered copy created: '+result.title+'\n\nOpen Home to find it. Your current manuscript is unchanged.')}catch(e){alert('Recovery failed: '+e.message);restore.disabled=false}};
+ restore.onclick=async()=>{if(selected===null)return;restore.disabled=true;try{const result=window.WNECloudIntegration?.recoveryCopy?
+     await window.WNECloudIntegration.recoveryCopy(selected):
+     await api('/api/recovery/copy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:selected})});close();alert('Recovered copy created: '+result.title+'\n\nOpen Home to find it. Your current manuscript is unchanged.')}catch(e){alert('Recovery failed: '+e.message);restore.disabled=false}};
 }
 
 function importBackup(){closeMore();$('restore-file').click()}
@@ -2223,10 +2227,8 @@ html body #wne-bible-open,html body #wne-idea-open,html body #wne-companion-laun
  document.getElementById('more-button')?.addEventListener('click',hide);
  async function saveResearchFile(blob,filename){
    const file=new File([blob],filename,{type:blob.type||'application/zip'});
-   if(navigator.canShare?.({files:[file]})&&typeof navigator.share==='function'){
-     try{await navigator.share({files:[file],title:'W.NE Research backup'});return}
-     catch(e){if(e?.name==='AbortError')throw Error('Backup share cancelled; your research is unchanged.')}
-   }
+   // Always download a private local ZIP instead of silently opening a share sheet.
+   // Sharing can be done later from the device Downloads app.
    const url=URL.createObjectURL(blob);
    try{const a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove()}
    finally{setTimeout(()=>URL.revokeObjectURL(url),60000)}
