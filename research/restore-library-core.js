@@ -104,5 +104,8 @@ async function restore(db,documents,selectedIds,onProgress){
  }
  return results;
 }
-window.DDResearchZipRestore=Object.freeze({inspect,restore,valid});
+function validateDocument(doc){
+ return valid(doc)&&doc.chapters.every(chapter=>safeMarkup(chapter.html));
+}
+window.DDResearchZipRestore=Object.freeze({inspect,restore,valid,validateDocument});
 })();
