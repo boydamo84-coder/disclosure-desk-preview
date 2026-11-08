@@ -66,6 +66,20 @@ const browserOptions={executablePath:'/usr/bin/google-chrome',headless:true,
     assert.equal(await page.evaluate(()=>window.fixtureActions.inputs),1);
     assert.equal(await page.locator('#editor span[data-wne-font-size="16"]').evaluate(el=>getComputedStyle(el).fontSize),'16px');
    });
+   // Range-only DOM insertion bypassed native undo; verify the actual editor
+   // command now supports both Undo and Redo at each tested viewport.
+   await page.locator('#editor').click();
+   await page.keyboard.press('Control+z');
+   await check(viewport.width+'px native Undo restores original words',async()=>{
+    assert.equal(await page.locator('#editor span[data-wne-font-size]').count(),0,
+     'Selection size change must be undoable (not merely a DOM mutation)');
+    assert.equal(await page.locator('#editor p:first-child').innerText(),'Alpha bravo charlie');
+   });
+   await page.keyboard.press('Control+Shift+z');
+   await check(viewport.width+'px native Redo reapplies the selected size',async()=>{
+    assert.equal(await page.locator('#editor span[data-wne-font-size="16"]').textContent(),'bravo');
+    assert.equal(await page.locator('#editor p:first-child').innerText(),'Alpha bravo charlie');
+   });
    await page.locator('#dd-research-insert-trigger').click();
    await check(viewport.width+'px Insert menu opens above overflow',async()=>{
     assert.equal(await page.locator('#dd-research-insert-trigger').getAttribute('aria-expanded'),'true');
