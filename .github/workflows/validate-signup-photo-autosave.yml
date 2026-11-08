@@ -1,7 +1,7 @@
 name: Verify signup public-name and avatar auto-save hotfix (NO deploy)
 on:
   push:
-    branches: [fix/signup-public-username-auto-avatar-save-nov08]
+    branches: [fix/signup-public-username-auto-avatar-save-nov08, fix/safari-avatar-fallback-20261108]
   workflow_dispatch:
 permissions:
   contents: read
@@ -20,10 +20,12 @@ jobs:
           node --check cloud-boards.js
           node --check scripts/test_signup_auto_public_20261108.cjs
           node --check scripts/test_avatar_auto_upload_20261108.cjs
+          node --check scripts/test_safari_profile_avatars_20261108.cjs
       - name: Exercise actual modules with synthetic users and uploads
         run: |
           node scripts/test_signup_auto_public_20261108.cjs
           node scripts/test_avatar_auto_upload_20261108.cjs
+          node scripts/test_safari_profile_avatars_20261108.cjs
           node scripts/test_chat_stability_and_invite.cjs
       - name: Preserve existing cross-account safety
         run: |
