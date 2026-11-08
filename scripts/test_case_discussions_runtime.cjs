@@ -24,7 +24,7 @@ async function run(){
   const document={readyState:'complete',body,createElement:el,
     getElementById:()=>null,querySelector:sel=>sel==='h2'?header:node(sel),
     addEventListener(){}};
-  const pending=[],inserted=[];
+  const pending=[],inserted=[],decorated=[];
   let auth=async()=>({data:{user:{id:'member-A',is_anonymous:false}},error:null});
   const api={
     auth:{getUser:()=>auth()},
@@ -35,7 +35,8 @@ async function run(){
     from(name){assert.equal(name,'dd_case_comments');return {insert:async row=>{inserted.push(row);return {error:null}}}}
   };
   const window={DD_COMMUNITY_TEST_CONFIG:{url:'https://mock.invalid',publishableKey:'test',environment:'test'},
-    supabase:{createClient:()=>api},DDPublicProfiles:{namesFor:async()=>({})},
+    supabase:{createClient:()=>api},DDPublicProfiles:{namesFor:async()=>({'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa':'SkyResearcher'})},
+    DDMemberAvatars:{decorate:(avatar,name)=>{decorated.push(name);avatar.avatarName=name}},
     DDCommunityVotes:{mount(){}}};
   new Function('window','document',source)(window,document);
   const tick=async()=>{for(let i=0;i<25;i++)await Promise.resolve()};
@@ -49,6 +50,7 @@ async function run(){
   window.ddOpenCaseDiscussion('case-A');window.ddOpenCaseDiscussion('case-B');
   response('case-B','B recent conversation');await tick();
   assert.match(contents(),/B recent conversation/);
+  assert.ok(decorated.includes('SkyResearcher'),'Named case commenter should receive the existing avatar decoration');
   response('case-A','A OLD conversation');await tick();
   assert.doesNotMatch(contents(),/A OLD conversation/);
   // Closing a conversation invalidates requests still in progress.

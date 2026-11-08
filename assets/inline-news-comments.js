@@ -31,7 +31,13 @@ function mount(container){
   if(!shown.length){const note=el('p','No comments yet.');note.className='muted small';entries.append(note);}
   for(const item of shown){
    const card=el('div');card.className='card';card.style.cssText='padding:10px;margin:8px 0';
-   const header=el('small',(item.publicAlias||'Community member')+' · '+new Date(item.created_at).toLocaleDateString());header.className='muted';
+   const alias=item.publicAlias||'Community member';
+   const header=el('div');header.className='muted small';header.style.cssText='display:flex;align-items:center;min-width:0';
+   const avatar=el('span',item.publicAlias?alias.charAt(0).toUpperCase():'?');
+   avatar.className='dd-forum-avatar';avatar.setAttribute('aria-hidden','true');
+   const byline=el('span',alias+' · '+new Date(item.created_at).toLocaleDateString());
+   header.append(avatar,byline);
+   if(item.publicAlias)window.DDMemberAvatars?.decorate?.(avatar,item.publicAlias);
    const text=el('p',item.body);text.style.whiteSpace='pre-wrap';
    const flag=el('button','⚑ Flag');flag.type='button';flag.className='outline';
    if(item.is_mine){flag.disabled=true;flag.title='You cannot flag your own comment';}

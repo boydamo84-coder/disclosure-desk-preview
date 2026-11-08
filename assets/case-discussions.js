@@ -40,7 +40,15 @@ function renderComments(){
  const visible=expanded?loadedComments:loadedComments.slice(-2);
  for(const item of visible){
    const card=document.createElement('article');card.className='card';card.id='discussion-comment-'+item.id;card.style.cssText='padding:12px;margin:8px 0';
-   const header=document.createElement('div');header.className='muted small';header.textContent=(item.publicAlias||'Community member')+' · '+displayDate(item.created_at);
+   const alias=item.publicAlias||'Community member';
+   const header=document.createElement('div');header.className='muted small';
+   header.style.cssText='display:flex;align-items:center;min-width:0';
+   const avatar=document.createElement('span');avatar.className='dd-forum-avatar';
+   avatar.textContent=item.publicAlias?alias.charAt(0).toUpperCase():'?';
+   avatar.setAttribute('aria-hidden','true');
+   const byline=document.createElement('span');byline.textContent=alias+' · '+displayDate(item.created_at);
+   header.append(avatar,byline);
+   if(item.publicAlias)window.DDMemberAvatars?.decorate?.(avatar,item.publicAlias);
    const body=document.createElement('p');body.textContent=item.body;body.style.whiteSpace='pre-wrap';
    const flag=document.createElement('button');flag.className='outline';flag.type='button';flag.textContent='⚑ Flag';flag.style.fontSize='12px';
    flag.onclick=async()=>{
