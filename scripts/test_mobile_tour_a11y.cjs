@@ -28,6 +28,7 @@ let where='clips',focused=0,headingFocused=0;const handlers={};
 function element(id){return {id,open:false,disabled:false,textContent:'',listeners:{},isConnected:true,
   focus(){if(id==='tourHeading')headingFocused++;else focused++},
   showModal(){this.open=true},close(){this.open=false;this.listeners.close?.()},
+  getAttribute(name){return this.attributes?.[name]??null},
   addEventListener(name,cb){this.listeners[name]=cb}}}
 const els=new Map();
 const get=id=>{if(!els.has(id))els.set(id,element(id));return els.get(id)};
