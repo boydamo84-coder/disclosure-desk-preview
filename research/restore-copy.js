@@ -1,9 +1,78 @@
+/* Single-JSON Research recovery. Reuse the vetted ZIP document HTML rules.
+ * Never overwrite the original; INSERT only under the confirmed current owner.
+ * A possibly interrupted insert must not invite an automatic duplicate retry.
+ */
 (()=>{
 'use strict';
-const $=id=>document.getElementById(id),message=t=>{$('status').textContent=t};
-const db=window.supabase?.createClient('https://omqxizswzcwgzqaczlhe.supabase.co','sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
-let candidate=null;
-function valid(d){if(!d||d.version!==2||typeof d.bookTitle!=='string'||!d.bookTitle.trim()||!Array.isArray(d.chapters)||d.chapters.length<1||d.chapters.length>500)return false;const ids=new Set();for(const c of d.chapters){if(!c||typeof c.id!=='string'||!c.id||ids.has(c.id)||typeof c.title!=='string'||typeof c.html!=='string')return false;ids.add(c.id)}return ids.has(d.active)&&['Georgia','Arial','Times New Roman','Courier New'].includes(d.font)&&Number.isInteger(d.size)&&[10,11,12,13,14,15,16,18,20,22,24].includes(d.size)}
-$('backup').onchange=async()=>{candidate=null;$('restore').disabled=true;try{const f=$('backup').files?.[0];if(!f)return;if(f.size>8*1024*1024)throw Error('Backup exceeds 8MB document limit');const d=JSON.parse(await f.text());if(!valid(d))throw Error('This is not a complete compatible W.NE research document backup');candidate=d;$('preview').textContent='Document: '+d.bookTitle+' · '+d.chapters.length+' sections. Existing documents will not change.';message('Ready to restore a separate test copy.')}catch(e){$('preview').textContent='No valid backup selected.';message(e.message)}$('restore').disabled=!candidate};
-$('restore').onclick=async()=>{if(!candidate||!db)return message('Cloud service unavailable.');$('restore').disabled=true;try{const {data,error}=await db.auth.getUser();if(error||!data?.user?.id)throw Error('Sign in from Cloud library first.');const title=(candidate.bookTitle.slice(0,135)+' (Recovered Copy)').slice(0,150);const content=structuredClone(candidate);content.bookTitle=title;const {data:inserted,error:saveError}=await db.from('research_documents').insert({user_id:data.user.id,title,content}).select('id,title').single();if(saveError)throw saveError;message('Recovered as NEW cloud document: '+inserted.title+'. Original backup and existing documents remain unchanged. Return to Cloud library and refresh.');candidate=null;}catch(e){message('Restore failed: '+e.message+' No existing cloud document was intentionally modified.')}finally{$('restore').disabled=!candidate}};
+const $=id=>document.getElementById(id);
+const message=text=>{$('status').textContent=text};
+const db=window.supabase?.createClient('https://omqxizswzcwgzqaczlhe.supabase.co',
+ 'sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X',
+ {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+let candidate=null,busy=false;
+function compatible(doc){
+ const validator=window.DDResearchZipRestore?.validateDocument;
+ if(typeof validator!=='function')throw Error('Secure document inspection is unavailable. No data was submitted.');
+ return validator(doc);
+}
+$('backup').onchange=async()=>{
+ if(busy)return;
+ candidate=null;$('restore').disabled=true;
+ try{
+  const file=$('backup').files?.[0];
+  if(!file)return;
+  if(file.size<=0||file.size>8*1024*1024)throw Error('Backup exceeds the 8MB document limit.');
+  const doc=JSON.parse(await file.text());
+  if(!compatible(doc))throw Error('This backup contains invalid or unsafe Research document HTML. No changes were made.');
+  candidate=doc;
+  $('preview').textContent='Document: '+doc.bookTitle+' · '+doc.chapters.length+
+   ' sections. Existing documents will not change.';
+  message('Backup checked. Ready to create a NEW cloud copy.');
+ }catch(e){
+  candidate=null;$('preview').textContent='No valid backup selected.';
+  message(e?.message||'Could not read or validate this document.');
+ }
+ $('restore').disabled=!candidate;
+};
+$('restore').onclick=async()=>{
+ if(!candidate||busy)return;
+ if(!db)return message('Account service unavailable. Nothing was restored.');
+ busy=true;
+ $('restore').disabled=true;
+ const doc=candidate;
+ // Force the user to reselect after any uncertain operation; it might have
+ // been inserted even if a network timeout obscured the confirmation.
+ candidate=null;$('backup').value='';
+ let insertStarted=false;
+ try{
+  const first=await db.auth.getUser();
+  if(first.error||!uuid.test(String(first.data?.user?.id||'')))
+   throw Error('Sign in to Research Studio before restoring.');
+  const owner=first.data.user.id;
+  if(!compatible(doc))throw Error('Backup failed a final safety check.');
+  const second=await db.auth.getUser();
+  if(second.error||second.data?.user?.id!==owner)
+   throw Error('Account changed during validation. No document was submitted.');
+  const title=(doc.bookTitle.trim().slice(0,132)+' (Recovered Copy)').slice(0,150);
+  const content=structuredClone(doc);content.bookTitle=title;
+  insertStarted=true;
+  const {data:created,error}=await db.from('research_documents')
+   .insert({user_id:owner,title,content}).select('id,title').single();
+  if(error||!uuid.test(String(created?.id||'')))
+   throw Error(error?.message||'Cloud did not confirm the newly created copy.');
+  const latest=await db.auth.getUser();
+  if(latest.error||latest.data?.user?.id!==owner)
+   throw Error('Account changed after saving. The new copy may exist; check your library.');
+  message('Recovered as a NEW private cloud document: '+(created.title||title)+
+   '. Existing documents and the original backup were not overwritten.');
+ }catch(e){
+  message('Restore could not be confirmed: '+(e?.message||'Unknown cloud error')+
+   (insertStarted?' Check Research Studio Home before retrying; a new copy may already exist.':
+    ' No cloud document was submitted.')+
+   ' Your existing documents were not intentionally changed.');
+ }finally{
+  busy=false;$('restore').disabled=true;
+ }
+};
 })();
