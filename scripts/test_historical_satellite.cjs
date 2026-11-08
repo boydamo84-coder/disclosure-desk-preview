@@ -79,7 +79,7 @@ assert.match(html,/data-dd-sat-case/);
 assert.match(html,/data-dd-sat-archive/);
 
 assert.match(js,/NASA Worldview can show daily MODIS imagery where available after 2000/);
-assert.match(js,/not a guaranteed image at the selected UTC minute/);
+assert.match(js,/no nearest acquisition frame, geographic coverage or event-time match has been verified/);
 
 /* Archive Satellite secondary view & USGS Landsat 1970s (source handoff, not a fetched frame). */
 const oldArizona={id:'arizona-1976',title:'Arizona sighting',city:'Arizona',eventDate:'1976-06-03',lat:33.4,lon:-111.9};
