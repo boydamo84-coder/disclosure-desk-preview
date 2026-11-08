@@ -106,3 +106,8 @@ Approved `docs/POST_LAUNCH_RESEARCH_ROADMAP_2026-11-03.md` Phase A `Investigate 
 - Automated previous website beta14 gate asserts 11 tabs and `privateChat:false`/`discussions:false` though production code enables Chat and Discussions; these stale QA expectations should be corrected before a release gate is trusted, without disabling approved features.
 - The friend's profile photo on Safari/Chrome remains **pending real live acceptance**. User said they will report back after friend retests.
 - Real Netlify publishing of previous production site update was not verified; don't claim published merely because GitHub branch advanced.
+
+### App advertising boundary (added to readiness audit, 8 Nov)
+- AdSense approval for the public website is separate from preparing an Android app; do not assume Google Play publication automatically confers AdMob approval.
+- For AdSense/Ad Manager ads rendered **inside Android WebView**, Google requires a supported viewing-frame integration such as WebView API for Ads with Google Mobile Ads SDK, or another approved viewing frame; for native AdMob outside WebView use compliant SDK integration. Do not simply place unregistered AdSense tags in an APK WebView. Official 4 Aug 2026 policy: https://support.google.com/adsense/answer/48182
+- To avoid postponing the core free app, releasing an initially ad-free Android build is an option, provided the Play ads declaration and Data safety answers accurately reflect the actual app. If ads are introduced later, implement suitable consent and update declarations.
