@@ -71,6 +71,10 @@ jobs:
           node scripts/test_member_avatar_race.cjs
           node scripts/test_public_profiles.cjs
           node scripts/test_comment_security.cjs
+          node --check scripts/test_comment_action_rail_chromium_20261108.cjs
+          node --check assets/community-votes.js
+          node --check assets/case-discussions.js
+          node --check assets/inline-news-comments.js
           node scripts/test_comment_self_moderation.cjs
           node scripts/test_witness_moderation.cjs
           node scripts/test_research_hub.cjs
@@ -127,6 +131,7 @@ jobs:
           node scripts/test_analytics_consent_chromium_20261108.cjs
           node scripts/audit_public_pages_chromium_20261108.cjs
           node scripts/test_browser_release_smoke.cjs
+          node scripts/test_comment_action_rail_chromium_20261108.cjs
       - name: Stop loopback-only test origin
         if: always()
         run: kill "$(cat /tmp/dd-research-chrome.pid)" || true
