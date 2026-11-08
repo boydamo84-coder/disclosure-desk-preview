@@ -42,3 +42,30 @@ Preflight explicitly blocks forum owners, Chat owners and comment moderators pen
 No-deploy mock test: `scripts/test_account_deletion_preflight_20261108.cjs` (13 assertion groups, two separate synthetic account counts, owner isolation, email/content and destructive-code guard). [GitHub Actions 42525947517](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42525947517) **SUCCESS** in both existing jobs. First intermediate test-only assertion was too broad (matched ordinary word “email”); corrected to detect email address patterns. No production GitHub push, Netlify deployment, new Supabase tables, Storage changes, or test-account deletion occurred.
 
 **Unresolved and mandatory before real self-deletion:** fresh identity proof independent of a mere refreshed JWT; durable one-time intent and idempotent progress ledger; protected-admin transfer; verified deletion of all Storage objects, not only indexed metadata; selective forum text redaction without deleting other users' replies; backup retention policy; safe pause/recovery; two disposable accounts tested under actual authenticated staging; complete ownership review; explicit final consent. The existing Profile support-email request must stay labelled as such until the full destructive backend is accepted.
+
+
+## Milestone 23 — staged execution implementation, not released (8 November 2026)
+
+**Development source only.** No Supabase SQL, Edge Function, Storage mutation, Auth Admin operation, Netlify preview/deployment or production GitHub branch change was made. This staged feature must not be used on current accounts.
+
+### Code staged
+- **execution-core.mjs**: strict, adapter-driven coordinator; verifies exact account owner, restricted Storage buckets and paths, one-use intent, independent reauthentication, explicit confirmation, owner protection and durable ordered checkpoints. It fails closed rather than interpreting an incomplete backend response as success.
+- **execute-staging-only.ts**: a separate UNWIRED/UNDEPLOYED backend draft. The active folder index.ts remains the read-only preflight. Execution requires two deliberate server flags: DD_ACCOUNT_DELETION_EXECUTION_ENABLED=true and DD_ACCOUNT_DELETION_STAGING_PROJECT_REF matching an exact *separate staging* Supabase project URL. The current production URL is not an acceptable target for this draft. It rejects unknown actions, client-supplied account IDs, stale Auth sessions, unconfirmed accounts, protected roles, and missing password proof. A freshly verified temporary password sign-in is required; OAuth/SSO is unsupported pending a separately audited reauth flow. No password is logged or stored.
+- **supabase/ACCOUNT_DELETION_BACKEND_DRAFT_NOT_APPLIED.sql**: draft SQL outside automatic migrations. Private RLS-protected ledger survives deletion, restricts access to service_role, and stores only in-progress Storage manifest and the hash of a short-lived one-use challenge. Service-role RPCs cover active-session checks, protection of owners/moderators/section stewards, Storage object discovery (including orphan objects based on actual owner_id), atomic same-session challenge claim, and *updates* to departing authors' forum posts and replies using CHECK-compliant neutral markers, without deleting parent threads or another member's reply. It is NOT applied.
+- **scripts/test_account_deletion_execution_20261108.cjs**: offline mock suite with two separate user identities, another user's reply under A's parent thread, private image preservation, protected-owner denial, invalid Storage keys, interrupted Storage cleanup, an object created after prepare, and a checkpoint failure after Auth removal. Added to existing no-deploy GitHub Actions suite.
+
+### Processing order (as designed)
+1. Verify active current session and email-confirmed account and protected-owner status. Verify password again, build an owner-scoped Storage manifest and issue a ten-minute one-use secret (store its SHA-256 digest only).
+2. Require an exact typed DELETE MY ACCOUNT confirmation on the same active session. Claim the job atomically and refuse a consumed/expired challenge.
+3. Redact only that author's public forum text; preserve IDs, threads and all other members' contributions. Checkpoint.
+4. Remove owned private Storage files via the server API, verify object removal and check for orphan or new files. Checkpoint.
+5. Reconfirm not an owner and verify zero owned Storage objects. Delete Auth through a server-only Admin call and verify Auth absence. Checkpoint.
+6. Check Auth absence and Storage emptiness again, then mark complete and clear the private file manifest. Errors never claim success; they require operator assessment and safe resumption.
+
+### Must finish BEFORE enabling
+- **No genuine staging Auth/Storage execution has been done.** First provision and explicitly approve a disposable separate staging environment, deploy/review the SQL privately, and test two disposable accounts plus protected owner. Do not deploy this source to production yet.
+- Implement and verify *operator-only resume* after an interrupted job. Current one-use client intent deliberately cannot restart a partial destructive operation; the server lease is limited to 15 minutes.
+- Implement a secure write freeze or stronger race controls. Current coordinator detects newly created Storage files and stops, but a partial job may need operator recovery.
+- Review and document moderation/audit retention, public section authorship, encrypted GitHub BDS backups, emailed/downloaded copies and device-only local data.
+- Add OAuth provider reauthentication, export-all data, deletion UI, rate limiting and consent/privacy FAQ changes; account role transfer needs a separate owner workflow.
+- Run authenticated Samsung/iPhone and two-account acceptance, and independent final permissions/Storage/Chat/Research security review. Until then Profile stays a clearly labelled **support-email request**, not a working self-delete button.
