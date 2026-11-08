@@ -81,6 +81,24 @@ assert.match(html,/data-dd-sat-archive/);
 assert.match(js,/NASA Worldview can show daily MODIS imagery where available after 2000/);
 assert.match(js,/no nearest acquisition frame, geographic coverage or event-time match has been verified/);
 
+/* Rendlesham Forest must use source-backed approximate forest coordinates, never RAF base coordinates or a fabricated day. */
+const curated=JSON.parse(fs.readFileSync('data/curated-historical-cases.json','utf8'));
+const rendlesham=curated.find(x=>x.id==='featured-rendlesham-1980');
+assert.ok(rendlesham,'The featured Rendlesham record exists');
+assert.equal(rendlesham.locationSource,'https://www.forestryengland.uk/rendlesham-forest');
+assert.match(rendlesham.locationPrecision,/not the reported sighting point/i);
+assert.equal(rendlesham.eventDate,undefined,'Multiple nights are documented; no invented single day');
+assert.equal(api.caseSelection(rendlesham).coordinatesKnown,true,'Verified public forest area is map-ready');
+assert.equal(api.caseSelection(rendlesham).lat,52.1);
+assert.equal(api.caseSelection(rendlesham).lon,1.4);
+assert.equal(api.caseSelection(rendlesham).date,null,'Calendar day is still unknown');
+assert.match(html,/"id":"c2","title":"Rendlesham Forest"[^}]*"archiveRecordId":"featured-rendlesham-1980"/,
+ 'Archive must resolve the exact corresponding public map record');
+assert.match(html,/String\(x\.archiveRecordId\|\|''\)===String\(archive\.id\)/,
+ 'Archive link to forest must use explicit curated ID, not a fuzzy match');
+assert.match(html,/"id":"c2"[^}]*"locationPrecision":"Approximate public forest visitor area/);
+console.log('PASS: Rendlesham archive-to-map-to-satellite uses approximate Forestry England forest coordinates, no invented date or exact sighting site.');
+
 /* Archive Satellite secondary view & USGS Landsat 1970s (source handoff, not a fetched frame). */
 const oldArizona={id:'arizona-1976',title:'Arizona sighting',city:'Arizona',eventDate:'1976-06-03',lat:33.4,lon:-111.9};
 const range=api.landsatWindow(oldArizona.eventDate);
