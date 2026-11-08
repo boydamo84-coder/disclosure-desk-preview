@@ -18,10 +18,71 @@ function entry(target,title,caption,fn){
  b.append(heading,small);if(fn)b.onclick=fn;else {b.disabled=true;b.setAttribute('aria-disabled','true')}
  container.append(b);
 }
+
+/* Managed rows use the same authenticated Supabase account; all writes have
+ * independent owner checks in existing DB policies/RPCs. No private IDs displayed. */
+let actionNotice='';
+function managedEntry(target,title,caption){
+ const list=$(target);if(!list)return null;
+ const root=document.createElement('div');root.className='dd-profile-entry dd-profile-managed-entry';
+ const heading=document.createElement('strong');heading.textContent=String(title||'Untitled').slice(0,180);
+ const small=document.createElement('small');small.textContent=String(caption||'').slice(0,240);
+ const actions=document.createElement('div');actions.className='dd-profile-actions';
+ const status=document.createElement('p');status.className='muted small dd-profile-entry-status';
+ status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+ root.append(heading,small,actions,status);list.append(root);
+ return {root,actions,status};
+}
+function addAction(row,title,callback){
+ const button=document.createElement('button');button.type='button';button.className='outline';
+ button.textContent=title;
+ button.onclick=()=>{void callback(button,row.status)};
+ row.actions.append(button);return button;
+}
+async function runOwned(ownerId,button,status,operation,message){
+ const c=client();
+ if(!c||userId!==ownerId){status.textContent='Please sign in again before changing private content.';return}
+ button.disabled=true;status.textContent='Checking your account…';
+ try{
+  const {data,error}=await c.auth.getUser();
+  if(error||!data?.user||data.user.is_anonymous||data.user.id!==ownerId||userId!==ownerId)
+   throw Error('Your sign-in changed. Please sign in again.');
+  const success=await operation(c);
+  if(success!==true)throw Error('No change was made. Refresh this section and try again.');
+  if(userId!==ownerId)return;
+  actionNotice=message;
+  await refresh();
+ }catch(e){
+  if(userId===ownerId)status.textContent=String(e?.message||'Could not save the change. Please retry.').slice(0,220);
+ }finally{button.disabled=false}
+}
+function commentEdit(row,item,ownerId){
+ if(row.root.querySelector('.dd-profile-edit'))return;
+ const form=document.createElement('form');form.className='dd-profile-edit';
+ const label=document.createElement('label');label.textContent='Edit your comment (3–2000 characters)';
+ const textarea=document.createElement('textarea');textarea.className='field';textarea.rows=4;textarea.maxLength=2000;
+ textarea.value=String(item.body||'');label.append(textarea);
+ const controls=document.createElement('div');controls.className='dd-profile-actions';
+ const save=document.createElement('button');save.className='outline';save.type='submit';save.textContent='Save edit';
+ const cancel=document.createElement('button');cancel.className='outline';cancel.type='button';cancel.textContent='Cancel';
+ cancel.onclick=()=>form.remove();
+ controls.append(save,cancel);form.append(label,controls);row.root.append(form);textarea.focus();
+ form.addEventListener('submit',event=>{
+  event.preventDefault();const body=textarea.value.trim();
+  if(body.length<3||body.length>2000){row.status.textContent='Comments must be 3–2000 characters.';return}
+  void runOwned(ownerId,save,row.status,async c=>{
+   const {data,error}=await c.rpc('dd_edit_my_comment',{p_id:item.id,p_body:body});
+   if(error)throw error;
+   if(data!==true)throw Error('This comment may be older than 30 minutes, flagged or unavailable for editing.');
+   return true;
+  },'Comment updated.');
+ });
+}
 function guest(){
  userId=null; $('ddProfileGuest').hidden=false;$('ddProfilePrivate').hidden=true;
  $('ddProfileEmail').textContent='';
- for(const id of ['ddProfileFilesList','ddProfileBoardsList','ddProfileCommentsList','ddProfileWitnessList'])$(id).replaceChildren();
+ for(const id of ['ddProfileFilesList','ddProfileTrashList','ddProfileBoardsList','ddProfileCommentsList','ddProfileWitnessList'])$(id).replaceChildren();
+ actionNotice='';
  for(const id of ['ddProfileFilesCount','ddProfileBoardsCount','ddProfileWitnessCount'])$(id).textContent='—';
  $('ddProfileAdmin').hidden=true;
  $('ddProfileNewPassword').value='';$('ddProfileConfirmPassword').value='';
@@ -51,19 +112,50 @@ async function refresh(){
   c.rpc('dd_my_comments',{p_limit:25}),
   c.from('dd_witness_reports').select('id,category,event_date,city,country,status,created_at',{count:'exact'}).order('created_at',{ascending:false}).limit(10),
   c.from('dd_public_names').select('display_name').eq('user_id',user.id).maybeSingle(),
-  c.rpc('dd_is_comment_moderator')
+  c.rpc('dd_is_comment_moderator'),
+  c.from('research_document_trash').select('id,title,trashed_at',{count:'exact'}).order('trashed_at',{ascending:false}).limit(15)
  ]);
  if(n!==nonce||userId!==user.id)return;
  let failed=0;
  const success=i=>results[i].status==='fulfilled'&&!results[i].value.error?results[i].value:null;
- const docs=success(0),boards=success(1),comments=success(2),reports=success(3),alias=success(4),moderator=success(5);
+ const docs=success(0),boards=success(1),comments=success(2),reports=success(3),alias=success(4),moderator=success(5),trash=success(6);
  $('ddProfileDisplayName').textContent=alias?.data?.display_name||initialName||'Researcher';
  if(docs){
   $('ddProfileFilesCount').textContent=String(docs.count??docs.data?.length??0);
   $('ddProfileFilesList').replaceChildren();
   if(!docs.data?.length)empty('ddProfileFilesList','No cloud-saved documents yet.');
-  for(const d of docs.data||[])entry('ddProfileFilesList',d.title||'Untitled research','Saved '+formattedDate(d.updated_at)+' · Browse in W.NE',()=>visit('researchStudio'));
+  for(const d of docs.data||[]){
+   const row=managedEntry('ddProfileFilesList',d.title||'Untitled research','Saved '+formattedDate(d.updated_at)+' · Cloud copy');
+   if(!row)continue;
+   addAction(row,'Open Studio',()=>visit('researchStudio'));
+   addAction(row,'Move to trash',(button,status)=>{
+    if(!confirm('Move this cloud document to Recently deleted? You can restore it later. Downloaded and device-only copies are not affected.'))return;
+    void runOwned(user.id,button,status,async c=>{
+     const {data,error}=await c.rpc('research_trash_document',{p_id:d.id});
+     if(error)throw error;return data===true;
+    },'Document moved to Recently deleted.');
+   });
+  }
  }else{failed++;empty('ddProfileFilesList','Private document list unavailable. Local files are unchanged.')}
+ if(trash){
+  $('ddProfileTrashList').replaceChildren();
+  if(!trash.data?.length)empty('ddProfileTrashList','No recently deleted cloud documents.');
+  for(const d of trash.data||[]){
+   const row=managedEntry('ddProfileTrashList',d.title||'Untitled research','Trashed '+formattedDate(d.trashed_at));
+   if(!row)continue;
+   addAction(row,'Restore',(button,status)=>void runOwned(user.id,button,status,async c=>{
+    const {data,error}=await c.rpc('research_restore_document',{p_id:d.id});
+    if(error)throw error;return data===true;
+   },'Cloud document restored.'));
+   addAction(row,'Delete forever',(button,status)=>{
+    if(prompt('This permanently removes the trashed cloud document and cannot be undone. Type DELETE to confirm:')!=='DELETE')return;
+    void runOwned(user.id,button,status,async c=>{
+     const {data,error}=await c.rpc('research_purge_trashed_document',{p_id:d.id});
+     if(error)throw error;return data===true;
+    },'Trashed cloud document permanently deleted.');
+   });
+  }
+ }else{failed++;empty('ddProfileTrashList','Recently deleted cloud documents are temporarily unavailable. No copies were changed.')}
  if(boards){
   $('ddProfileBoardsCount').textContent=String(boards.count??boards.data?.length??0);
   $('ddProfileBoardsList').replaceChildren();
@@ -74,20 +166,49 @@ async function refresh(){
   $('ddProfileCommentsList').replaceChildren();
   if(!comments.data?.length)empty('ddProfileCommentsList','No comments yet.');
   for(const item of comments.data||[]){
-   const label=item.case_id.startsWith('video:')?'Video':item.case_id.startsWith('archive:')?'Archive':item.case_id.startsWith('news:')?'News':item.case_id.startsWith('media:')?'Watch & Read':'Case';
-   const where=item.case_id;
-   entry('ddProfileCommentsList',item.body.slice(0,125),label+' · '+item.status+' · '+formattedDate(item.created_at),
-    item.status==='approved'?()=>{window.ddGoToDiscussionOrigin?.(where);window.ddOpenCaseDiscussion?.(where,label+' comments',item.id)}:null);
+   const where=String(item.case_id||'');
+   const label=where.startsWith('video:')?'Video':where.startsWith('archive:')?'Archive':where.startsWith('news:')?'News':where.startsWith('media:')?'Watch & Read':'Case';
+   const row=managedEntry('ddProfileCommentsList',String(item.body||'').slice(0,125),label+' · '+item.status+' · '+formattedDate(item.created_at));
+   if(!row)continue;
+   if(item.status==='approved'){
+    addAction(row,'View',()=>{window.ddGoToDiscussionOrigin?.(where);window.ddOpenCaseDiscussion?.(where,label+' comments',item.id)});
+    const postTime=Date.parse(item.created_at);
+    if(Number.isFinite(postTime)&&Date.now()-postTime<30*60*1000&&Date.now()>=postTime)
+     addAction(row,'Edit',()=>commentEdit(row,item,user.id));
+   }
+   addAction(row,'Delete',(button,status)=>{
+    if(!confirm('Permanently delete this comment? This cannot be undone and may remove its votes.'))return;
+    void runOwned(user.id,button,status,async c=>{
+     const {data,error}=await c.rpc('dd_delete_my_comment',{p_id:item.id});
+     if(error)throw error;return data===true;
+    },'Your comment was deleted.');
+   });
   }
  }else{failed++;empty('ddProfileCommentsList','Private comment history unavailable.')}
  if(reports){
   $('ddProfileWitnessCount').textContent=String(reports.count??reports.data?.length??0);
   $('ddProfileWitnessList').replaceChildren();
   if(!reports.data?.length)empty('ddProfileWitnessList','No witness reports submitted yet.');
-  for(const r of reports.data||[])entry('ddProfileWitnessList',r.category+' · '+r.city+', '+r.country,
-   r.status+' · Event '+formattedDate(r.event_date),()=>visit('witness'));
+  for(const r of reports.data||[]){
+   const row=managedEntry('ddProfileWitnessList',r.category+' · '+r.city+', '+r.country,
+    r.status+' · Event '+formattedDate(r.event_date));
+   if(!row)continue;
+   addAction(row,'Witness section',()=>visit('witness'));
+   addAction(row,'Delete report',(button,status)=>{
+    if(!confirm('Permanently remove this witness report from Disclosure Desk, including its public map marker? This cannot be undone and does NOT reset the three-per-day report limit.'))return;
+    void runOwned(user.id,button,status,async c=>{
+     const {data,error}=await c.from('dd_witness_reports').delete().eq('id',r.id).eq('author_id',user.id).select('id');
+     if(error)throw error;
+     if(!Array.isArray(data)||data.length!==1)return false;
+     try{await window.DDWitnessReports?.refresh?.()}catch(_e){/* Public map will refresh on its next poll. */}
+     return true;
+    },'Your witness report was removed from the public map.');
+   });
+  }
  }else{failed++;empty('ddProfileWitnessList','Your witness report history is unavailable.')}
- $('ddProfileStatus').textContent=failed?failed+' private section(s) temporarily unavailable. No data was modified.':'Research Hub updated from your private account.';
+ $('ddProfileStatus').textContent=(actionNotice?actionNotice+' ':'')+
+  (failed?failed+' private section(s) temporarily unavailable. No data was modified.':'Research Hub updated from your private account.');
+ actionNotice='';
  const isAdmin=moderator?.data===true;
  $('ddProfileAdmin').hidden=!isAdmin;
  if(isAdmin)void adminStats(c,n,user.id);

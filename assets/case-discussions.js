@@ -3,7 +3,7 @@
 'use strict';
 const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
 const URL=cfg.url||'',KEY=cfg.publishableKey||'';
-let db=null, current=null, expanded=false,loadedComments=[];
+let db=null, current=null, expanded=false,loadedComments=[],loadRevision=0,dialogRevision=0;
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function client(){if(db)return db;if(!window.supabase||!URL||!KEY||!['test','production'].includes(cfg.environment))return null;db=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});return db;}
 function announce(t){const el=document.querySelector('#ddCaseDiscussionStatus');if(el)el.textContent=t;}
@@ -14,16 +14,20 @@ function ownProfileButton(){
 }
 function displayDate(s){try{return new Date(s).toLocaleDateString()}catch{return ''}}
 async function load(){
- const c=client();if(!c||!current)return;
+ const c=client();if(!c||!current)return false;
+ const chosen=current,revision=++loadRevision;
  const list=document.querySelector('#ddCaseDiscussionList');
+ if(!list)return false;
  list.textContent='Loading comments…';
- const {data,error}=await c.rpc('dd_public_comments',{p_case_id:current,p_limit:100});
- if(error){list.textContent='Comments unavailable. The database migration may not have been applied.';return}
- const chosen=current;
+ const {data,error}=await c.rpc('dd_public_comments',{p_case_id:chosen,p_limit:100});
+ // Never show a response for a case that has since been switched, closed or refreshed.
+ if(revision!==loadRevision||chosen!==current||!list.isConnected)return false;
+ if(error){list.textContent='Comments unavailable. Please try again.';return false}
  const aliases=await window.DDPublicProfiles?.namesFor('comment',data||[])||{};
- if(chosen!==current||!list.isConnected)return;
+ if(revision!==loadRevision||chosen!==current||!list.isConnected)return false;
  loadedComments=(data||[]).map(x=>({...x,publicAlias:aliases[x.id]||null}));
  renderComments();
+ return true;
 }
 function renderComments(){
  const c=client();
@@ -95,14 +99,16 @@ function init(){
  };
 
  document.querySelector('#ddCommentsToggle').onclick=()=>{expanded=!expanded;renderComments()};
- document.querySelector('#ddCaseDiscussionClose').onclick=()=>{root.hidden=true;document.body.style.overflow='';current=null};
+ document.querySelector('#ddCaseDiscussionClose').onclick=()=>{++dialogRevision;++loadRevision;root.hidden=true;document.body.style.overflow='';current=null;loadedComments=[]};
  root.addEventListener('click',e=>{if(e.target===root)document.querySelector('#ddCaseDiscussionClose').click()});
  window.ddOpenCaseDiscussion=(id,title='Case Discussion',focusComment=null)=>{
    if(!id)return;
-   current=String(id).slice(0,180);expanded=false;loadedComments=[];
+   ++dialogRevision;current=String(id).slice(0,180);expanded=false;loadedComments=[];
+   const opened=dialogRevision,chosen=current;
    const heading=root.querySelector('h2');if(heading)heading.textContent=title;
    root.hidden=false;document.body.style.overflow='hidden';
-   announce('');load().then(()=>{if(focusComment){expanded=true;renderComments();const item=document.getElementById('discussion-comment-'+focusComment);item?.scrollIntoView({block:'center',behavior:'smooth'});if(item)item.style.outline='2px solid #e2bc74';}});
+   announce('');void load().then(success=>{if(!success||opened!==dialogRevision||chosen!==current||root.hidden)return;
+     if(focusComment){expanded=true;renderComments();const item=document.getElementById('discussion-comment-'+focusComment);item?.scrollIntoView({block:'center',behavior:'smooth'});if(item)item.style.outline='2px solid #e2bc74';}});
  };
  document.addEventListener('click',e=>{
    const button=e.target.closest('[data-case-discussion]');
@@ -110,19 +116,25 @@ function init(){
  });
  document.querySelector('#ddCaseDiscussionForm').onsubmit=async e=>{
    e.preventDefault();const c=client();if(!c){announce('Sign-in service unavailable.');return}
-   const {data:{user},error:authError}=await c.auth.getUser();
-   if(authError||!user||user.is_anonymous){announce('Please sign in with a registered Disclosure Desk account first.');return}
+   const chosen=current,revision=dialogRevision;
+   if(!chosen||root.hidden)return;
    const body=document.querySelector('#ddCaseDiscussionBody').value.trim();
    if(body.length<3||body.length>2000){announce('Comments must contain 3–2000 characters.');return}
    const button=e.target.querySelector('button[type=submit]');button.disabled=true;
-   const {error}=await c.from('dd_case_comments').insert({case_id:current,author_id:user.id,body,status:'approved'});
-   const issue=String(error?.message||'');
-   announce(!error?'Comment posted.'
-    :/duplicate comment/i.test(issue)?'You have already posted this comment.'
-    :/limit reached/i.test(issue)?'Posting limit reached. Please try again later.'
-    :'Unable to submit comment. Please try again.');
-   if(!error){e.target.reset();await load();}
-   button.disabled=false;
+   try{
+     const {data,error:authError}=await c.auth.getUser();
+     if(revision!==dialogRevision||chosen!==current||root.hidden)return;
+     const user=data?.user;
+     if(authError||!user||user.is_anonymous){announce('Please sign in with a registered Disclosure Desk account first.');return}
+     const {error}=await c.from('dd_case_comments').insert({case_id:chosen,author_id:user.id,body,status:'approved'});
+     if(revision!==dialogRevision||chosen!==current||root.hidden)return;
+     const issue=String(error?.message||'');
+     announce(!error?'Comment posted.'
+      :/duplicate comment/i.test(issue)?'You have already posted this comment.'
+      :/limit reached/i.test(issue)?'Posting limit reached. Please try again later.'
+      :'Unable to submit comment. Please try again.');
+     if(!error){e.target.reset();await load();}
+   }finally{button.disabled=false}
  };
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();

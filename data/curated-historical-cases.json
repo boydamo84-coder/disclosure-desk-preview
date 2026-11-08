@@ -47,7 +47,13 @@
         "url": "https://cdn.nationalarchives.gov.uk/documents/aug-2011-research-guide.pdf",
         "type": "Archive research guide"
       }
-    ]
+    ],
+    "city": "Rendlesham Forest, Suffolk, England",
+    "lat": 52.0844,
+    "lon": 1.4302,
+    "locationPrecision": "Approximate public forest visitor area (Forestry England); not the reported sighting point",
+    "locationSource": "https://www.forestryengland.uk/rendlesham-forest",
+    "eventMonth": 12
   },
   {
     "id": "featured-nimitz-2004",

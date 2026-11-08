@@ -48,9 +48,13 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Test mobile and desktop app interactions
         run: node scripts/smoke_preview.mjs
+      - name: Build verified public-only static package
+        run: |
+          node --check scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: .release-staging/public-site
       - id: deployment
         uses: actions/deploy-pages@v4

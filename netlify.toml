@@ -1,0 +1,5 @@
+# Disclosure Desk controlled public deployment
+# Never publish the Git repository root: it contains non-website scripts and internal docs.
+[build]
+  command = "node scripts/build_public_release.cjs"
+  publish = ".release-staging/public-site"

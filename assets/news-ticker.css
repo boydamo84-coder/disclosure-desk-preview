@@ -1,0 +1,107 @@
+/* Disclosure Desk broadcast-style source headline bands. Never overlaps the fixed bottom tab dock. */
+.dd-news-ticker-hub{position:fixed;z-index:840;left:max(8px,calc((100vw - 820px)/2));right:max(8px,calc((100vw - 820px)/2));bottom:calc(var(--dd-news-nav-height,75px) + 5px);margin:0;border:1px solid #aa8a49;border-radius:8px;overflow:hidden;background:#0c1a29;box-shadow:0 4px 22px #0007}
+.dd-news-ticker-top{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;padding:5px 9px;background:linear-gradient(100deg,#1e3444,#132231);color:#eed49d}
+.dd-news-ticker-top strong{font-size:10px;letter-spacing:.06em;white-space:nowrap}
+.dd-news-ticker-top .dd-ticker-controls{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.dd-ticker-control{min-height:28px;padding:4px 7px;color:#f1dfb9;border:1px solid #8d7855;border-radius:8px;background:#223449;font:inherit;font-size:11px;cursor:pointer}
+.dd-ticker-control:hover,.dd-ticker-control:focus-visible{outline:2px solid #e4c67c;outline-offset:1px}
+.dd-news-ticker-row{display:flex;align-items:stretch;min-height:33px;width:100%}
+.dd-news-ticker-row + .dd-news-ticker-row{border-top:1px solid #36465a}
+.dd-news-ticker-label{flex:none;display:flex;align-items:center;justify-content:center;min-width:80px;padding:7px 6px;font-size:10px;font-weight:900;letter-spacing:.05em;text-align:center}
+.dd-news-ticker-breaking{background:#e4be45;color:#101d29}
+.dd-news-ticker-breaking .dd-news-ticker-label{background:#cba42d;border-right:1px solid #967724;color:#121c26}
+.dd-news-ticker-recent{background:#1b2937;color:#f6f6f6}
+.dd-news-ticker-recent .dd-news-ticker-label{background:#f3f3f3;border-right:1px solid #d4d4d4;color:#172434}
+.dd-ticker-viewport{min-width:0;flex:1;display:flex;align-items:center;overflow:hidden;position:relative}
+.dd-ticker-track{display:flex;align-items:center;flex:none;width:max-content;animation:ddTickerCrawl var(--dd-news-scroll-seconds,45s) linear infinite;will-change:transform}
+.dd-ticker-run{display:inline-flex;align-items:center;flex:none}
+.dd-ticker-link{display:inline-block;position:relative;flex:none;white-space:nowrap;padding:8px 39px 8px 13px;font-weight:650;font-size:12px;text-decoration:none;color:inherit}
+.dd-ticker-link::after{content:"◆";position:absolute;right:12px;opacity:.5}
+.dd-ticker-link:hover,.dd-ticker-link:focus-visible{text-decoration:underline;outline-offset:-3px}
+.dd-news-ticker-breaking .dd-ticker-link{color:#121c27}
+.dd-news-ticker-recent .dd-ticker-link{color:#f7f8fa}
+.dd-ticker-empty{padding:8px 13px;font-size:11px;opacity:.85}
+.dd-ticker-still .dd-ticker-track{animation:none}
+/* Pointer taps and keyboard focus never stop the continuous crawl. */
+@keyframes ddTickerCrawl{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.dd-news-ticker-alert{position:fixed;z-index:840;left:max(12px,calc((100vw - 820px)/2));right:max(12px,calc((100vw - 820px)/2));bottom:calc(var(--dd-news-nav-height,75px) + 5px);border:1px solid #caa34b;border-radius:12px;background:#e4be45;color:#13202c;box-shadow:0 6px 30px #000b;overflow:hidden}
+.dd-news-ticker-alert .dd-news-ticker-row{min-height:42px}
+.dd-news-ticker-alert-head{display:flex;align-items:center;gap:8px;padding:6px 9px;background:#cda634;color:#142131}
+.dd-news-ticker-alert-head strong{font-weight:900;letter-spacing:.04em;font-size:11px}
+.dd-news-ticker-alert-head span{font-size:11px;opacity:.86}
+.dd-news-ticker-alert-head .dd-ticker-controls{margin-left:auto;display:flex;gap:6px}
+.dd-news-ticker-alert .dd-ticker-control{background:#f7df9a;color:#15222c;border-color:#957128;min-height:29px;padding:4px 8px}
+.dd-news-ticker-alert .dd-ticker-viewport{min-height:33px}
+.dd-news-ticker-alert[hidden],.dd-news-ticker-hub[hidden],#ddNewsTickerRows[hidden]{display:none!important}
+.dd-news-ticker-visible .shell{padding-bottom:calc(var(--dd-news-nav-height,75px) + 60px)}
+.dd-news-ticker-expanded .shell{padding-bottom:calc(var(--dd-news-nav-height,75px) + 118px)}
+@media(max-width:520px){
+ .dd-news-ticker-top{gap:5px;padding:4px 6px}
+ .dd-news-ticker-top strong{font-size:9px}
+ .dd-news-ticker-top .dd-ticker-controls{width:auto;margin-left:auto;gap:4px}
+ .dd-news-ticker-label{min-width:69px;padding:5px 3px;font-size:9px}
+ .dd-ticker-link{font-size:11px;padding:8px 33px 8px 10px}
+ .dd-news-ticker-alert{bottom:calc(var(--dd-news-nav-height,75px) + 5px);left:8px;right:8px}
+ .dd-news-ticker-alert-head{flex-wrap:wrap;padding:5px 8px}
+ .dd-news-ticker-alert-head span{font-size:10px}
+ .dd-news-ticker-alert-head .dd-ticker-controls{margin-left:auto}
+ .dd-news-ticker-alert .dd-ticker-viewport{min-height:33px}
+}
+@media(max-width:370px){.dd-news-ticker-top strong{font-size:8px}.dd-news-ticker-top .dd-ticker-control{font-size:10px;padding:3px 5px}}
+@media(prefers-reduced-motion:reduce){
+ .dd-ticker-track{animation:none!important}
+ .dd-ticker-viewport{overflow-x:auto;scrollbar-width:thin}
+ .dd-ticker-run[aria-hidden="true"]{display:none}
+}
+/* Video-reference broadcast treatment: clear fixed yellow label, static readable
+   lead headline, then a slower white-text continuous 48-hour crawl below it. */
+.dd-news-ticker-hub{border-radius:3px;background:#0a1119;border-color:#b9963e}
+.dd-news-ticker-top{min-height:24px;padding:2px 7px;background:#162635}
+.dd-news-ticker-top strong{font-size:9px;letter-spacing:.08em;color:#f5d675}
+.dd-news-ticker-top .dd-ticker-control{min-height:23px;padding:2px 6px;font-size:10px}
+.dd-news-ticker-breaking{min-height:39px;background:#080d13;color:#fff}
+.dd-news-ticker-breaking .dd-news-ticker-label{
+  min-width:112px;padding:6px 7px;background:#f4d129;color:#0b1118;
+  border-right:1px solid #a38618;font-size:11px;font-weight:900;letter-spacing:.01em
+}
+.dd-news-ticker-breaking .dd-ticker-track{
+  width:100%;min-width:0;animation:none!important;will-change:auto
+}
+.dd-news-ticker-breaking .dd-ticker-run{min-width:0;width:100%}
+.dd-news-ticker-breaking .dd-ticker-run[aria-hidden="true"]{display:none}
+.dd-news-ticker-breaking .dd-ticker-link{
+  display:block;min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;
+  color:#f8f9fa;font-size:13px;font-weight:520;padding:9px 12px;
+}
+.dd-news-ticker-breaking .dd-ticker-link::after{content:none}
+.dd-news-ticker-recent{min-height:25px;background:#1b2734;color:#fff}
+.dd-news-ticker-recent .dd-news-ticker-label{
+  min-width:112px;background:#2b3c4d;color:#f2f3f5;font-size:10px;
+  padding:4px 6px;border-right:1px solid #485766
+}
+.dd-news-ticker-recent .dd-ticker-link{
+  color:#fff;font-size:11px;font-weight:500;padding:4px 34px 4px 10px;
+}
+@media(max-width:520px){
+  .dd-news-ticker-breaking .dd-news-ticker-label,
+  .dd-news-ticker-recent .dd-news-ticker-label{min-width:92px}
+  .dd-news-ticker-breaking .dd-news-ticker-label{font-size:10px;padding:6px 4px}
+  .dd-news-ticker-breaking .dd-ticker-link{font-size:12px;padding:9px 9px}
+  .dd-news-ticker-recent .dd-news-ticker-link{font-size:10px}
+}
+/* A gentle terminal-news effect: stepwise erase, then type the next lead.
+   The actual headline/source link remains real text and is rebuilt by JS.
+   Respect reduced-motion preference and avoid flashing or forced scroll. */
+.dd-news-ticker-breaking .dd-ticker-link.dd-break-erasing{animation:ddBreakErase .65s steps(28,end) both;pointer-events:none}
+.dd-news-ticker-breaking .dd-ticker-link.dd-break-typing{animation:ddBreakType .85s steps(32,end) both;pointer-events:none}
+@keyframes ddBreakErase{from{clip-path:inset(0 0 0 0)}to{clip-path:inset(0 100% 0 0)}}
+@keyframes ddBreakType{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@media(prefers-reduced-motion:reduce){
+ .dd-news-ticker-breaking .dd-ticker-link.dd-break-erasing,.dd-news-ticker-breaking .dd-ticker-link.dd-break-typing{animation:none!important;clip-path:none!important}
+}
+/* No manual Pause button: opening a story never freezes either ticker. */
+.dd-news-ticker-row[hidden]{display:none!important}
+/* Leave the mobile dock swipe hint usable on other tabs, but never over a visible News ticker. */
+/* Swipe chevron is now inside the dock and doesn't overlap the ticker. */
+.dd-news-ticker-expanded:not(.dd-news-ticker-has-breaking) .shell{padding-bottom:calc(var(--dd-news-nav-height,75px) + 82px)}
+@media print{.dd-news-ticker-alert,.dd-news-ticker-hub{display:none!important}}

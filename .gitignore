@@ -1,0 +1,2 @@
+# Local release candidates are generated in CI, never source-controlled
+.release-staging/
