@@ -46,6 +46,8 @@ jobs:
           node --check assets/inline-news-comments.js
           node --check scripts/test_member_avatar_display.cjs
           node scripts/test_member_avatar_display.cjs
+          node --check scripts/test_member_avatar_race.cjs
+          node scripts/test_member_avatar_race.cjs
           node --check scripts/test_public_comment_avatars.cjs
           node scripts/test_public_comment_avatars.cjs
       - name: Verify proposed public-display avatars and Hide server authorization (source only)
