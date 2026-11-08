@@ -26,14 +26,23 @@ import java.time.Instant;
 import java.util.Set;
 
 public final class DiscoveryWorker extends Worker {
-    public static final String JOB="dd-alert-checks";
+    public static final String JOB="dd-alert-checks"; // Legacy 2h mixed schedule, cancelled on app upgrade.
+    public static final String JOB_NEWS="dd-news-alert-checks";
+    public static final String JOB_VIDEOS="dd-video-alert-checks";
     public static final String PREFS="dd-notifications";
     private static final String BASE="https://uapdisclosuredesk.com/data/";
+    // The website already uses the independently refreshed, publisher-sourced DEV news feed.
+    // Fetching it directly avoids a costly whole-site Netlify deployment per refresh.
+    private static final String NEWS_FEED="https://raw.githubusercontent.com/boydamo84-coder/disclosure-desk-preview/dev/mobile-video-performance-oct31/data/news-alerts.json";
     public DiscoveryWorker(@NonNull Context ctx,@NonNull WorkerParameters params){super(ctx,params);}
     private JSONArray fetch(String name) throws Exception {
-        HttpURLConnection conn=(HttpURLConnection)new URL(BASE+name).openConnection();
+        if(!"news-alerts.json".equals(name) && !"disclosure-clips.json".equals(name))throw new IllegalArgumentException("Unsupported catalogue");
+        String source="news-alerts.json".equals(name)?NEWS_FEED:BASE+name;
+        HttpURLConnection conn=(HttpURLConnection)new URL(source).openConnection();
         try {
             conn.setConnectTimeout(10000);conn.setReadTimeout(12000);
+            conn.setUseCaches(false);
+            conn.setRequestProperty("Cache-Control","no-cache");
             if(conn.getResponseCode()!=200)throw new Exception("HTTP "+conn.getResponseCode());
             byte[] data;
             try(InputStream stream=conn.getInputStream()){data=stream.readNBytes(2500000);}
@@ -94,8 +103,11 @@ public final class DiscoveryWorker extends Worker {
             return Result.success();
         }
         SharedPreferences p=getApplicationContext().getSharedPreferences(PREFS,Context.MODE_PRIVATE);
-        check("videos","disclosure-clips.json",true,p);
-        check("news","news-alerts.json",false,p);
+        String scope=getInputData().getString("dd_scope");
+        // Separate schedules: News every ~30 minutes, larger video feed every ~2 hours.
+        // Manual checks (no scope) continue to check both, without raising old alerts.
+        if(scope==null || "videos".equals(scope))check("videos","disclosure-clips.json",true,p);
+        if(scope==null || "news".equals(scope))check("news","news-alerts.json",false,p);
         String summary="Videos: "+p.getString("check-videos","Off or not checked")+"; News: "+p.getString("check-news","Off or not checked");
         p.edit().putLong("last-check-time",System.currentTimeMillis()).putString("last-check-summary",summary).apply();
         return Result.success();
