@@ -163,8 +163,8 @@ const LEASE="33333333-3333-4333-8333-333333333333";
   await test("SQL draft has private RLS ledger and server-only RPC grants",async()=>{
     const sql=fs.readFileSync(path.resolve(__dirname,"../supabase/ACCOUNT_DELETION_BACKEND_DRAFT_NOT_APPLIED.sql"),"utf8");
     assert.match(sql,/ENABLE ROW LEVEL SECURITY/);
-    assert.match(sql,/REVOKE ALL ON TABLE public\.dd_account_deletion_jobs FROM PUBLIC, anon, authenticated/);
-    assert.match(sql,/GRANT SELECT, INSERT, UPDATE ON TABLE public\.dd_account_deletion_jobs TO service_role/);
+    assert.match(sql,/REVOKE ALL ON (?:TABLE )?public\.dd_account_deletion_jobs FROM PUBLIC, anon, authenticated/);
+    assert.match(sql,/GRANT SELECT, INSERT, UPDATE ON (?:TABLE )?public\.dd_account_deletion_jobs TO service_role/);
     assert.match(sql,/dd_deletion_active_session/);
     assert.match(sql,/dd_deletion_claim/);
     assert.match(sql,/prepared_session_id=p_session/);
