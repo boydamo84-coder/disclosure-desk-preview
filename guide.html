@@ -309,7 +309,7 @@ footer a{margin:0 7px}
 <script>
 (()=>{'use strict';
 // These two extra sections exist only in the local Chat/Discussions beta, not the public 11-tab site.
-if(['localhost','127.0.0.1'].includes(location.hostname)){
+if(typeof location!=='undefined'&&['localhost','127.0.0.1'].includes(location.hostname)){
  document.querySelectorAll('[data-guide-beta]').forEach(link=>{link.hidden=false;});
 }
 const search=document.getElementById('helpSearch'),count=document.getElementById('helpCount'),empty=document.getElementById('noMatches');

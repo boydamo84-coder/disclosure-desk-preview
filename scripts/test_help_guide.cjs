@@ -45,13 +45,15 @@ assert.match(guide,/search\.addEventListener\('input',update\)/);
 assert.match(guide,/item\.hidden=!found/);
 assert.match(guide,/prefers-reduced-motion:reduce/);
 
-const persistentNav=guide.match(/<nav class="dd-guide-bottom-nav"[\\s\\S]*?<\\/nav>/)?.[0]||'';
+const dockStart=guide.indexOf('<nav class="dd-guide-bottom-nav"');
+const dockEnd=guide.indexOf('</nav>',dockStart);
+const persistentNav=dockStart>=0&&dockEnd>dockStart?guide.slice(dockStart,dockEnd+6):'';
 assert.match(persistentNav,/Disclosure Desk main site navigation/);
 for(const tab of ['discover','archivePage','researchStudio','mapPage','clips','livePage','boards','witness','watchRead','hub','profilePage'])
  assert.ok(persistentNav.includes('href="/?dd_tab='+tab+'"'),'Guide dock must navigate to existing tab '+tab);
 assert.equal((persistentNav.match(/class="dd-guide-tab"/g)||[]).length,13,'11 public tabs plus two local-only beta links');
 assert.equal((persistentNav.match(/data-guide-beta hidden/g)||[]).length,2,'Chat and Discussions hidden on public guide');
-assert.match(guide,/location\\.hostname/);
+assert.ok(guide.includes("location.hostname"));
 assert.match(guide,/position:fixed;bottom:0;left:0;right:0/,'Guide dock remains on-screen during mobile FAQ scrolling');
 
 const script=[...guide.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(m=>m[1]);
