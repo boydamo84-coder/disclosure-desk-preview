@@ -47,6 +47,31 @@ assert.match(guide,/prefers-reduced-motion:reduce/);
 const script=[...guide.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(m=>m[1]);
 assert.equal(script.length,1,'A single dependency-free accessible search script');
 assert.doesNotThrow(()=>new vm.Script(script[0],{filename:'guide.html inline'}));
+assert.ok(guide.indexOf('id="helpSearch"')<guide.indexOf('<div class="layout" id="main">'),
+ 'Search must be visible at top before the long guide, not hidden deep inside FAQ');
+const searchInput={value:'',handlers:{},addEventListener(event,cb){this.handlers[event]=cb}};
+const searchCount={textContent:''},notFound={hidden:true};
+const mockRows=[
+ {textContent:'UAP News and current sources',hidden:false},
+ {textContent:'Satellite archive 1976 Landsat imagery',hidden:false},
+ {textContent:'Private witness drafts and privacy',hidden:false}
+];
+const fakeDocument={
+ getElementById(id){return ({helpSearch:searchInput,helpCount:searchCount,noMatches:notFound})[id]||null},
+ querySelectorAll(selector){assert.equal(selector,'[data-help-search]');return mockRows}
+};
+vm.runInNewContext(script[0],{document:fakeDocument,console},{timeout:1000});
+assert.match(searchCount.textContent,/All 3 help topics/);
+searchInput.value='satellite';searchInput.handlers.input();
+assert.deepEqual(mockRows.map(x=>x.hidden),[true,false,true]);
+assert.equal(notFound.hidden,true);
+assert.match(searchCount.textContent,/1 matching topic/);
+searchInput.value='no_such_case_987';searchInput.handlers.input();
+assert.deepEqual(mockRows.map(x=>x.hidden),[true,true,true]);
+assert.equal(notFound.hidden,false);
+searchInput.value='';searchInput.handlers.input();
+assert.deepEqual(mockRows.map(x=>x.hidden),[false,false,false]);
+assert.equal(notFound.hidden,true);
 const guideLinks=(home.match(/href="\/guide\.html"/g)||[]).length;
 assert.ok(guideLinks>=3,'How-to reachable from Explore, About and footer');
 assert.match(home,/id="startAppTour"/,'Existing 30-step guided tour preserved');
