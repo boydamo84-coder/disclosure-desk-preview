@@ -48,9 +48,12 @@ Deno.serve(async request => {
   const publicKey=Deno.env.get("SUPABASE_ANON_KEY")||"";
   const serviceKey=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";
   const stagingRef=Deno.env.get("DD_ACCOUNT_DELETION_STAGING_PROJECT_REF")||"";
+  // The real Disclosure Desk project is an immutable explicit DENY, even with both flags.
+  const LIVE_DISCLOSURE_DESK_PROJECT="omqxizswzcwgzqaczlhe";
   // Two-factor server configuration gate, permitting a separate staging project ONLY.
   if(Deno.env.get("DD_ACCOUNT_DELETION_EXECUTION_ENABLED")!=="true" ||
      !/^[a-z0-9]{20}$/.test(stagingRef) ||
+     stagingRef===LIVE_DISCLOSURE_DESK_PROJECT ||
      url!==("https://"+stagingRef+".supabase.co")) {
     return result(503,{error:"Account deletion is not enabled"},origin);
   }
@@ -107,7 +110,7 @@ Deno.serve(async request => {
       const manifest=await enumerateOwnedObjects(user.id);
       const intent=newToken();
       const saved=await call("dd_deletion_prepare",{
-        p_target:user.id,p_session:sessionId,p_digest:await digest(intent),p_manifest:manifest
+        p_target:user.id,p_session:sessionId,p_digest:await digest(intent)
       });
       if(saved!==true)return result(409,{error:"An account deletion operation is already in progress"},origin);
       return result(200,{
@@ -143,7 +146,7 @@ Deno.serve(async request => {
             throw Error("protected_role");
         },
         redactOwnForumText:async id=>{
-          await call("dd_deletion_redact_forum",{p_target:id});
+          await call("dd_deletion_redact_forum",{p_target:id,p_lease:lease});
         },
         enumerateOwnedObjects,
         removeOwnedObject:async(id,bucket,name)=>{
