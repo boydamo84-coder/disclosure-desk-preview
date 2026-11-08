@@ -12,6 +12,7 @@ on:
       - 'assets/news-ticker.css'
       - 'assets/discussions-admin.js'
       - 'index.html'
+      - 'guide.html'
       - 'research/research-site-nav.js'
       - 'scripts/build_public_release.cjs'
   workflow_dispatch:
