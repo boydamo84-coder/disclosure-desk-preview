@@ -1,4 +1,4 @@
-/* Disclosure Desk profile avatars: 512px WebP, one opaque private Storage path.
+/* Disclosure Desk profile avatars: 512px WebP/JPEG, one opaque private Storage path.
  * User photos show beside PUBLIC aliases by default, with a server-enforced
  * Hide switch in Profile. No Auth UUID, email or raw file reaches other users.
  * Selecting a photo auto-saves it; Retry is shown only after failed upload.
@@ -7,7 +7,7 @@
 const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
 const enabled=window.DD_COMMUNITY_FEATURES?.profileAvatars===true &&
  ['test','production'].includes(cfg.environment)&&!!cfg.url&&!!cfg.publishableKey;
-const BUCKET='dd-profile-avatars',MAX_INPUT=5*1024*1024,MAX_WEBP=1024*1024;
+const BUCKET='dd-profile-avatars',MAX_INPUT=5*1024*1024,MAX_OUTPUT=1024*1024;
 const $=id=>document.getElementById(id),panel=$('ddAvatarPanel');
 if(!panel)return;
 panel.hidden=!enabled;if(!enabled)return;
@@ -89,7 +89,7 @@ async function refresh(){
 }
 // Safari may lack createImageBitmap(), or reject individual iPhone photo files.
 // HTMLImageElement is a safe alternative: both paths still rasterise to a
-// 512px WebP canvas, so original photo bytes never reach Storage.
+// 512px re-encoded canvas, so original photo bytes never reach Storage.
 async function decodePhoto(fileBlob){
  if(typeof createImageBitmap==='function'){
   try{
@@ -113,6 +113,32 @@ async function decodePhoto(fileBlob){
   return {source:img,width,height,close:()=>URL.revokeObjectURL(url)};
  }catch(e){URL.revokeObjectURL(url);throw e;}
 }
+// iOS WebKit can decode a PNG or HEIC but refuse WebP export, or silently
+// return a PNG when asked for WebP. Check the *actual* MIME, not the request.
+// Canvas output never contains the original photo's metadata.
+async function encodeCanvas(canvas,mime,quality){
+ if(typeof canvas.toBlob==='function'){
+  try{
+   const blob=await new Promise((resolve,reject)=>{
+    try{canvas.toBlob(resolve,mime,quality)}catch(error){reject(error)}
+   });
+   if(blob?.type===mime&&blob.size>0)return blob;
+  }catch(_){/* Some iOS browsers reject toBlob for this format. */}
+ }
+ if(typeof canvas.toDataURL==='function'&&typeof atob==='function'&&typeof Blob==='function'){
+  try{
+   const encoded=canvas.toDataURL(mime,quality);
+   const prefix='data:'+mime+';base64,';
+   if(typeof encoded==='string'&&encoded.startsWith(prefix)){
+    const raw=atob(encoded.slice(prefix.length));
+    const bytes=new Uint8Array(raw.length);
+    for(let i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);
+    return new Blob([bytes],{type:mime});
+   }
+  }catch(_){/* Try the next supported output format. */}
+ }
+ return null;
+}
 async function convert(fileBlob){
  const mime=String(fileBlob?.type||'').toLowerCase();
  const name=String(fileBlob?.name||'').toLowerCase();
@@ -132,11 +158,14 @@ async function convert(fileBlob){
   const scale=Math.max(512/decoded.width,512/decoded.height);
   const w=decoded.width*scale,h=decoded.height*scale;
   ctx.drawImage(decoded.source,(512-w)/2,(512-h)/2,w,h);
-  if(typeof canvas.toBlob!=='function')throw Error('This Safari version cannot export a WebP picture.');
-  const webp=await new Promise(resolve=>canvas.toBlob(resolve,'image/webp',0.83));
-  if(!webp||webp.type!=='image/webp'||webp.size>MAX_WEBP)
-   throw Error('This browser could not convert the photo to a small WebP. Try a JPG or PNG.');
-  return webp;
+  // Prefer WebP, but JPEG must work on WebKit variants without WebP encoding.
+  // The private Storage key stays /avatar.webp for compatibility; its actual
+  // MIME is stored correctly as image/webp or image/jpeg.
+  for(const [mime,quality] of [['image/webp',0.83],['image/jpeg',0.84],['image/jpeg',0.68]]){
+   const encoded=await encodeCanvas(canvas,mime,quality);
+   if(encoded&&encoded.size<=MAX_OUTPUT)return encoded;
+  }
+  throw Error('This browser could not prepare a small JPG or WebP photo. Try another picture.');
  }finally{decoded.close();}
 }
 file.addEventListener('change',async()=>{
@@ -163,7 +192,7 @@ async function uploadPending(){
   if(id!==expected||stamp!==epoch||key!==avatarKey)
    throw Error('Account changed. Reopen Profile and retry.');
   const result=await c.storage.from(BUCKET).upload(pathFor(key),candidate,{
-   upsert:true,contentType:'image/webp',cacheControl:'60'
+   upsert:true,contentType:candidate.type,cacheControl:'60'
   });
   if(result.error)throw result.error;
   if(stamp===epoch&&owner===id){
