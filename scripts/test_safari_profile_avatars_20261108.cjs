@@ -1,0 +1,11 @@
+'use strict';
+const fs=require('node:fs'),assert=require('node:assert/strict'),vm=require('node:vm');
+const src=fs.readFileSync('assets/profile-avatars.js','utf8');
+assert.match(src,/async function decodePhoto\(fileBlob\)/);
+assert.match(src,/typeof createImageBitmap==='function'/);
+assert.match(src,/typeof Image!=='function'/);
+assert.match(src,/node.onload=\(\)=>resolve\(node\)/);
+assert.match(src,/file.disabled=operation\|\|!owner\|\|!avatarKey/);
+assert.match(src,/image\/heic/);
+assert.match(src,/canvas.toBlob\(resolve,'image\/webp',0.83\)/);
+console.log('PASS: Safari image fallback, account-ready picker guard, WebP conversion retained');
