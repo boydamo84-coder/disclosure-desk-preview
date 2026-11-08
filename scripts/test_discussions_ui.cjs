@@ -64,7 +64,8 @@ assert.match(html,/id="ddForumSectionDialog" class="dd-forum-dialog"/);
 assert.match(html,/id="ddForumPostDialog" class="dd-forum-dialog"/);
 assert.match(html,/id="ddForumNewPost"/);
 assert.match(forum,/dialog\.showModal\(\)/);
-assert.match(forum,/if\(saved\)\{form\.reset\(\);\$\('ddForumSectionDialog'\)\.close\(\)\}/);
+assert.match(forum,/form\.reset\(\);\$\('ddForumSectionDialog'\)\.close\(\)/);
+assert.match(forum,/await openSection\(newSection\)/);
 assert.match(forum,/if\(saved\)\{form\.reset\(\);\$\('ddForumPostDialog'\)\.close\(\)\}/);
 assert.match(forum,/Delete my /);
 assert.match(forum,/dd_discussions_withdraw_own/);
@@ -76,8 +77,9 @@ assert.match(forum,/dd_discussions_owner_sections/);
 assert.match(forum,/ownerSectionIds\.has\(s\.id\)/);
 assert.match(forum,/jump\.href='\?dd_tab=discussionsPage&dd_section='/);
 assert.match(forum,/dd_discussions_owner_review/);
-assert.match(forum,/p_kind:'section',p_id:s\.id,p_status:'removed'/);
-assert.match(forum,/SITE ADMIN ONLY:/);
+assert.match(forum,/p_kind:'section',p_id:sectionRow\.id,p_status:'removed'/);
+assert.match(forum,/if\(!ownerSectionIds\.has\(sectionRow\.id\)\)return/);
+assert.match(forum,/openSectionAdminDialog\(s,button\)/);
 assert.match(html,/dd-forum-section-open/);
 console.log('PASS: clickable deep-linked section action, owner-guarded inline soft removal.');
 
@@ -86,7 +88,7 @@ for(const id of ['ddForumActionDialog','ddForumActionForm','ddForumActionTextLab
  assert.match(html,new RegExp('id="'+id+'"'),'Missing styled moderation dialog control '+id);
 }
 for(const text of ['function renderReplyPreview','dd-forum-reply-preview','dd-forum-comment-expand',
- 'IntersectionObserver','fetchReplies(4)','dd-forum-post-head','dd-forum-more-options',
+ 'IntersectionObserver','fetchReplies(4)','dd-forum-post-head','ddForumMoreDialog',
  'dd-forum-actions','flaggedThisSession','setActionIcon','dd-forum-image-fallback']){
  assert.ok(forum.includes(text),'Missing polished forum treatment '+text);
 }
@@ -104,3 +106,24 @@ assert.match(html,/\.dd-forum \.dd-forum-actions\{display:flex;flex-wrap:nowrap/
 assert.match(html,/\.dd-forum \.dd-forum-reply-preview/);
 assert.match(config,/discussions:false/,'Never enable Discussions on public host');
 console.log('PASS: v8 compact cards, auto four-comment teaser, styled actions, failure-visible images and unchanged server authorisation.');
+
+/* v9: visible failure feedback; no moderation policy bypass; nav Explore final. */
+for(const id of ['ddForumSectionDialog','ddForumActionDialog','ddForumMoreDialog','ddForumAdminDialog',
+ 'ddForumAdminForm','ddForumAdminReason']){
+ assert.match(html,new RegExp('id="'+id+'"'),'Missing moderation UI '+id);
+}
+assert.match(forum,/function dialogFeedback\(button,message,isError=false\)/);
+assert.match(forum,/button\?\.closest\?\.\('dialog'\)/);
+assert.match(forum,/status\.dataset\.error=String\(Boolean\(isError\)\)/);
+assert.match(forum,/function openStewardTools\(/);
+assert.doesNotMatch(forum,/const more=mk\('details',undefined,'dd-forum-more'\)/,
+ 'No clipped details menu in an overflow-x:auto rail');
+assert.match(forum,/row\.is_mine\?'You cannot flag your own post/);
+assert.match(forum,/if\(ownFlag\)\{dialogFeedback/);
+assert.match(forum,/\^\[A-Za-z\]/,'Section titles validated before RPC');
+assert.match(forum,/await openSection\(newSection\)/);
+assert.match(forum,/dd_discussions_create_section/);
+assert.match(html,/data-dd-form-status/);
+assert.match(html,/dd-forum-form-hint/);
+assert.match(html,/<button class="tab" data-tab="profilePage"[\s\S]*?<button class="tab" data-tab="hub"/);
+console.log('PASS: v9 inline dialog errors, owner-only removal, server-safe post reporting and Explore final.');

@@ -53,7 +53,7 @@ function run(disabled,saveResult){
 }
 (async()=>{
  const base=['discover','archivePage','researchStudio','mapPage','clips','livePage',
-  'boards','witness','watchRead','hub','profilePage'];
+  'boards','witness','watchRead','profilePage','hub'];
  const off=run(true,true),offTabs=off.nav.children.map(b=>b.dataset.ddTab);
  assert.deepEqual(offTabs,base,'OFF must preserve published eleven-tab Research dock');
  assert.equal(await off.win.ddResearchNavigateTo('discussionsPage'),false,'OFF must reject Discussions navigation');
@@ -61,7 +61,7 @@ function run(disabled,saveResult){
  const unsaved=run(false,false),activeTabs=unsaved.nav.children.map(b=>b.dataset.ddTab);
  assert.equal(activeTabs.length,12);
  assert.deepEqual(activeTabs,[...base.slice(0,8),'discussionsPage',...base.slice(8)],
-  'Discussions follows Witness, leaves Profile last');
+  'Discussions follows Witness; Explore is final');
  assert.equal(await unsaved.win.ddResearchNavigateTo('discussionsPage'),false,
   'Unsaved editor must NOT navigate, even when future Discussions is on');
  assert.deepEqual(unsaved.visited,[]);
@@ -83,3 +83,7 @@ assert.match(main,/window\.sessionStorage\?\.setItem\(ddLastTabKey,id\)/);
 assert.match(main,/new URLSearchParams\(location\.search\)\.get\('dd_tab'\)\|\|ddRememberedTab/);
 assert.match(main,/ddResearchReturnTab==='chatPage'/);
 console.log('PASS: clickable one-tab mobile dock arrows and guarded session-only active-tab restore.');
+
+assert.match(source,/\['watchRead','♫','Watch & Read'\],\['profilePage','👤','Profile'\],\['hub','☷','Explore'\]/);
+assert.match(main,/<button class="tab" data-tab="profilePage"[\s\S]*?<button class="tab" data-tab="hub"/);
+console.log('PASS: Explore positioned last in main and Research Edition navigation.');

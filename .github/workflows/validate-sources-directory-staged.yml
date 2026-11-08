@@ -19,7 +19,7 @@ jobs:
         run: |
           node --check scripts/test_sources_directory.cjs
           node scripts/test_sources_directory.cjs
-      - name: Validate two-hour breaking and 48-hour TV news ticker (synthetic, no network)
+      - name: Validate eight-hour breaking and 48-hour TV news ticker (synthetic, no network)
         run: |
           node --check assets/news-ticker.js
           node --check scripts/test_news_ticker.cjs
