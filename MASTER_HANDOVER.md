@@ -64,3 +64,11 @@ _Last updated: 8 November 2026 (Europe/London)_
 
 - Production branch must be fast-forwarded from the verified source without replacing independent site changes. Even after source push, verify Netlify release and actual public `assets/profile-avatars.js` text; GitHub success alone is not proof of the website update.
 - Ask friend to fully close/reopen the site, open Profile, select the exact known-good picture, and capture only the small status message if not saved. Verify after reload and across Chat/comment displays. No credential screenshot.
+
+## Milestone 5 — approved production source update (VERIFIED 8 Nov)
+
+- User explicitly approved deployment and then reported both Safari and Chrome failing on friend's device before patch release; proceed with targeted photo compatibility fix only.
+- Verified fresh GitHub Actions no-deploy test run [42456366672](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42456366672): SUCCESS. Working Chat and Discussions code unchanged.
+- Production branch successfully fast-forwarded with lease from `b9fe74e0094599e9677b8b363d8b4f0c4389575e` to **`3b01cdf0e34c93a7cdd831f2c82b6aef798f5127`**, source update confirmed by reading branch head.
+- **PUBLIC NETLIFY DEPLOYMENT UNVERIFIED**: neither the website nor deployed asset could be retrieved by available external probes (network/website access errors). GitHub branch update by itself does **not** mean the new bundle is live. The owner's earlier Netlify settings had builds stopped. Check Netlify's Deploys screen, make sure production branch build is active and trigger a deploy if needed, using existing build command `node scripts/build_public_release.cjs` and publish directory `.release-staging/public-site` rather than repository root. This may require owner UI action; don't misreport as live.
+- Next: on a published live version with `nov08-safari-auto-save-v2`, friend tests Profile with same known-good image, confirms 'saved automatically', reloads and checks visibility; on failure capture exact Profile photo status text, not passwords or raw user identifiers.
