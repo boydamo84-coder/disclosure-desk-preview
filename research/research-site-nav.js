@@ -75,6 +75,48 @@ async function go(tab){
  }
 }
 window.ddResearchNavigateTo=go;
+// Research-only in-app Home. An editor iframe delegates to its same-origin
+// workspace; this is never a raw /home navigation or unsaved page unload.
+let homeBusy=false;
+async function openResearchHome(){
+ if(homeBusy||busy)return false;
+ homeBusy=true;
+ try{
+  if(isFrame){
+   try{
+    if(window.parent!==window&&typeof window.parent.ddResearchOpenHome==='function')
+     return await window.parent.ddResearchOpenHome();
+   }catch(_){}
+   // Fail closed when the parent workspace is unavailable. Never navigate a
+   // frame away from unsaved research to a legacy Writer-only /home path.
+   return false;
+  }
+  if(workspace){
+   if(!await verifySaved('Research Studio Home'))return false;
+   const button=document.getElementById('dd-documents-btn');
+   if(!button){say('Research Studio Home is unavailable. Your document remains open.',true);return false}
+   button.click();
+   return true;
+  }
+  if(editor){
+   if(!await verifySaved('Research Studio Home'))return false;
+   const current=new URL(location.href).searchParams.get('id');
+   const safe=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(current||'');
+   const route='/research/research-workspace.html?dd_home=1'+(safe?'&id='+encodeURIComponent(current):'');
+   location.assign(route);
+   return true;
+  }
+  return false;
+ }finally{homeBusy=false}
+}
+window.ddResearchOpenHome=openResearchHome;
+document.addEventListener('click',event=>{
+ const anchor=event.target?.closest?.('a[data-dd-research-home-link],a[href="/home"]');
+ if(!anchor)return;
+ event.preventDefault();
+ event.stopPropagation();
+ void openResearchHome();
+},true);
 function interceptReturn(e){
  const a=e.target?.closest?.('a.dd-return-to-site, a.dd-workspace-site-return');
  if(!a)return;
