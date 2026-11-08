@@ -270,6 +270,9 @@ async function openConversation(row){
 function invite(target){
  const section=mk('section',undefined,'dd-chat-start');
  const headline=mk('h3','Find a researcher');
+ const newHead=mk('div',undefined,'dd-chat-new-head');newHead.append(headline);
+ const closeNew=button(newHead,'✕',()=>{if(inviteSection)inviteSection.hidden=true});
+ closeNew.setAttribute('aria-label','Close new chat request');
  const form=mk('form',undefined,'dd-chat-search-form');
  const search=mk('div',undefined,'dd-chat-search-row');
  const name=mk('input');name.required=true;name.maxLength=24;name.autocomplete='off';
@@ -301,7 +304,7 @@ function invite(target){
    if(error)throw error;name.value='';intro.value='';detail.hidden=true;
   },'Request sent. The recipient can accept or decline it.');
  };
- section.append(headline,form);target.append(section);inviteSection=section;inviteSection.hidden=true;
+ section.append(newHead,form);target.append(section);inviteSection=section;inviteSection.hidden=true;
 }
 function init(){
  const panel=$('ddProfileChatPanel');host=$('ddProfileChatApp');if(!panel||!host)return;
