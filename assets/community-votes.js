@@ -88,5 +88,33 @@ function mount(host,kind,id){
  host.append(widget);
  fetchSummary(widget,kind,id);
 }
-window.DDCommunityVotes=Object.freeze({mount});
+// Shared presentation for ALL public comment cards (News, Cases, Videos, Hearings).
+// The actual report handler stays with its host; voting stays in mount()/RPC.
+// Like the Discussions cards: flag in the header, votes in a dark bottom rail.
+function mountCommentCard(card,header,body,flag,id){
+ if(!card||!header||!body||!flag)return false;
+ const content=make('div','dd-comment-main');
+ const rail=make('div','dd-comment-action-rail');
+ card.classList.add('dd-comment-card');
+ header.classList.add('dd-comment-head');
+ body.classList.add('dd-comment-body');
+ flag.classList.remove('outline');
+ flag.classList.add('dd-comment-flag');
+ flag.setAttribute('aria-label',flag.disabled?'You cannot report your own comment':'Report this comment');
+ flag.setAttribute('title',flag.disabled?'You cannot report your own comment':'Report this comment');
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+ svg.setAttribute('viewBox','0 0 24 24');
+ svg.setAttribute('aria-hidden','true');
+ svg.setAttribute('class','dd-comment-flag-icon');
+ const shape=document.createElementNS('http://www.w3.org/2000/svg','path');
+ shape.setAttribute('d','M4 22V5 M4 5c4-3 7 3 11 0s5-2 5-2v12c-4-3-6 3-10 0s-6-1-6-1');
+ svg.append(shape);
+ flag.replaceChildren(svg);
+ header.append(flag);
+ content.append(header,body);
+ card.replaceChildren(content,rail);
+ mount(rail,'comment',id);
+ return true;
+}
+window.DDCommunityVotes=Object.freeze({mount,mountCommentCard});
 })();
