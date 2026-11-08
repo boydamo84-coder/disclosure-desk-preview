@@ -101,7 +101,7 @@ dock=document.createElement('div');
 dock.className='dd-site-dock';
 dock.setAttribute('role','region');
 dock.setAttribute('aria-label','Disclosure Desk navigation');
-dock.innerHTML='<div class="dd-site-dock-head"><span class="dd-site-dock-label">DISCLOSURE DESK</span><span class="dd-site-dock-status" role="status" aria-live="polite"></span><button class="dd-site-dock-toggle" type="button" aria-expanded="true">Hide menu</button></div><nav class="dd-site-dock-track" aria-label="Disclosure Desk sections"></nav>';
+dock.innerHTML='<div class="dd-site-dock-head"><span class="dd-site-dock-status" role="status" aria-live="polite"></span><button class="dd-site-dock-toggle" type="button" aria-expanded="true">Hide menu</button></div><nav class="dd-site-dock-track" aria-label="Disclosure Desk sections"></nav>';
 document.body.appendChild(dock);
 nav=dock.querySelector('nav');
 status=dock.querySelector('.dd-site-dock-status');
@@ -126,11 +126,12 @@ for(const [id,icon,label] of TABS){
  nav.appendChild(button);
 }
 function measure(){
- if(!workspace)return;
- const height=document.querySelector('body>header')?.getBoundingClientRect().height||95;
  const menu=dock.classList.contains('is-hidden')?0:dock.getBoundingClientRect().height;
- document.body.style.setProperty('--dd-research-shell-header-height',height+'px');
  document.body.style.setProperty('--dd-research-dock-height',menu+'px');
+ if(workspace){
+  const height=document.querySelector('body>header')?.getBoundingClientRect().height||95;
+  document.body.style.setProperty('--dd-research-shell-header-height',height+'px');
+ }
 }
 function setHidden(hidden){
  dock.classList.toggle('is-hidden',hidden);
@@ -151,10 +152,13 @@ const previouslyHidden=(()=>{try{return localStorage.getItem(STORAGE_KEY)==='1'}
 setHidden(previouslyHidden);
 window.addEventListener('resize',measure,{passive:true});
 window.addEventListener('orientationchange',()=>requestAnimationFrame(measure));
-if(typeof ResizeObserver!=='undefined'&&workspace){
+if(typeof ResizeObserver!=='undefined'){
  const observer=new ResizeObserver(measure);
- const header=document.querySelector('body>header');
- if(header)observer.observe(header);
+ observer.observe(dock);
+ if(workspace){
+  const header=document.querySelector('body>header');
+  if(header)observer.observe(header);
+ }
 }
 requestAnimationFrame(measure);
 })();
