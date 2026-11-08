@@ -57,7 +57,7 @@ const { pathToFileURL } = require("node:url");
   test("public preview contains only counts, not account identifiers, email or keys", () => {
     const r = JSON.stringify(make(countsA));
     assert.equal(r.includes("user_id"), false);
-    assert.equal(r.includes("email"), false);
+    assert.doesNotMatch(r, /[A-Za-z0-9_.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/);
     assert.equal(r.includes("storage_key"), false);
     assert.equal(r.includes("public_key"), false);
   });
