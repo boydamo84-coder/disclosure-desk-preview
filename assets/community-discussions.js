@@ -200,7 +200,11 @@ function renderReplyPreview(card,row,stamp,sectionId){
   body.replaceChildren();
   for(const reply of expanded?loadedRows:loadedRows.slice(0,4)){
    const line=mk('p',undefined,'dd-forum-preview-line');
-   line.append(mk('strong',reply.author_name||'Community member'),mk('span','  '+String(reply.body||'').slice(0,expanded?2000:240)));
+   const replyName=reply.author_name||'Community member';
+    const avatar=mk('span',replyName.charAt(0).toUpperCase(),'dd-forum-avatar');
+    avatar.setAttribute('aria-hidden','true');
+    line.append(avatar,mk('strong',replyName),mk('span','  '+String(reply.body||'').slice(0,expanded?2000:240)));
+    window.DDMemberAvatars?.decorate?.(avatar,replyName);
    body.append(line);
   }
   if(total>4){
@@ -268,7 +272,11 @@ function makePostHead(row,kind,actions){
  if(kind==='thread'){
   const tone=toneBadge(row);if(tone)author.append(tone);
  }
- author.append(mk('small',(row.author_name||'Community member')+' · '+new Date(row.created_at).toLocaleDateString()+
+ const authorName=row.author_name||'Community member';
+  const avatar=mk('span',authorName.charAt(0).toUpperCase(),'dd-forum-avatar');
+  avatar.setAttribute('aria-hidden','true');author.append(avatar);
+  window.DDMemberAvatars?.decorate?.(avatar,authorName);
+  author.append(mk('small',authorName+' · '+new Date(row.created_at).toLocaleDateString()+
   (row.is_pinned?' · Pinned':''),'muted'));
  head.append(author);
  const flag=mk('div',undefined,'dd-forum-head-flag');

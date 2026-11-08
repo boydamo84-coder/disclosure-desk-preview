@@ -36,6 +36,11 @@ jobs:
         run: |
           node --check scripts/test_chat_default_contact.cjs
           node scripts/test_chat_default_contact.cjs
+      - name: Check member avatar display in Chat/Discussions (no live requests)
+        run: |
+          node --check assets/member-avatars.js
+          node --check scripts/test_member_avatar_display.cjs
+          node scripts/test_member_avatar_display.cjs
       - name: Verify proposed public-display avatars and Hide server authorization (source only)
         run: |
           node --check scripts/test_avatar_visibility_contract.cjs

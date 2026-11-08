@@ -102,6 +102,7 @@ function drawList(target,list){
   item.append(mk('small',status,'dd-chat-person-detail'));
   const avatar=mk('span',String(name).trim().charAt(0).toUpperCase()||'R','dd-chat-avatar');
   avatar.setAttribute('aria-hidden','true');item.append(avatar);
+   window.DDMemberAvatars?.decorate?.(avatar,name);
   if(unread&&row.status==='accepted'&&!row.contact_unavailable){
    const badge=mk('span',String(unread),'dd-chat-person-count');
    badge.setAttribute('aria-label',unread+' unread messages');item.append(badge);
@@ -161,6 +162,7 @@ async function openConversation(row){
  const peerName=row.other_username||'Private chat';
  const avatar=mk('span',String(peerName).trim().charAt(0).toUpperCase()||'R','dd-chat-avatar dd-chat-avatar-peer');
  avatar.setAttribute('aria-hidden','true');
+ window.DDMemberAvatars?.decorate?.(avatar,peerName);
  const peer=mk('div',undefined,'dd-chat-peer-title');
  peer.append(mk('h4',peerName),mk('small',row.status==='accepted'?'Private conversation':'Chat request'));
  heading.append(avatar,peer);conversation.append(heading);
