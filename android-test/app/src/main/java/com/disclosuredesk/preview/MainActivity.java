@@ -125,7 +125,10 @@ public final class MainActivity extends Activity {
             }
             @Override public void onPageFinished(WebView view,String url){
                 if(!mainPageFailed && HOME.equals(url))showOnline();
-                if(url!=null && url.startsWith(HOME))deliverChatToken();
+                if(url!=null && url.startsWith(HOME)){
+                    useTwoLineBreakingNews();
+                    deliverChatToken();
+                }
             }
             @Override public void onReceivedError(WebView view,WebResourceRequest request,WebResourceError error){
                 if(request.isForMainFrame() && request.getUrl()!=null &&
@@ -366,6 +369,26 @@ public final class MainActivity extends Activity {
                 DiscoveryWorker.class,2,TimeUnit.HOURS).setInputData(data).build();
             work.enqueueUniquePeriodicWork(DiscoveryWorker.JOB_VIDEOS,ExistingPeriodicWorkPolicy.UPDATE,videoCheck);
         }else work.cancelUniqueWork(DiscoveryWorker.JOB_VIDEOS);
+    }
+    private void useTwoLineBreakingNews(){
+        // Android app ONLY: make the lead headline easier to read without growing
+        // the 39px breaking-news band or changing the public website.
+        // At 15px line-height, two lines + 8px padding fit within 38px.
+        if(web==null)return;
+        String script="(function(){"
+          +"if(document.getElementById('dd-android-breaking-2line'))return;"
+          +"var style=document.createElement('style');"
+          +"style.id='dd-android-breaking-2line';"
+          +"style.textContent='"
+          +".dd-news-ticker-breaking{height:39px;min-height:39px;max-height:39px;}"
+          +".dd-news-ticker-breaking .dd-ticker-viewport{height:39px;min-height:0;max-height:39px;}"
+          +".dd-news-ticker-breaking .dd-ticker-link{display:-webkit-box;"
+          +"-webkit-box-orient:vertical;-webkit-line-clamp:2;white-space:normal;"
+          +"line-height:15px;padding:4px 9px;max-height:38px;box-sizing:border-box;"
+          +"overflow:hidden;text-overflow:ellipsis;}"
+          +"';document.head.appendChild(style);"
+          +"})()";
+        web.evaluateJavascript(script,null);
     }
     private void notificationSettings(){
         SharedPreferences prefs=getSharedPreferences(DiscoveryWorker.PREFS,MODE_PRIVATE);
