@@ -21,3 +21,6 @@ body.dd-site-nav-visible:not(.dd-site-nav-workspace){padding-bottom:calc(111px +
 body.dd-site-nav-workspace>main{min-height:0!important;height:calc(100dvh - var(--dd-research-shell-header-height, 95px) - var(--dd-research-dock-height, 95px))!important}
 body.dd-site-nav-workspace.dd-site-nav-hidden>main{height:calc(100dvh - var(--dd-research-shell-header-height, 95px))!important}
 @media(max-width:390px){.dd-site-dock-tab{min-width:68px;flex-basis:68px}.dd-site-dock-head{gap:5px}}
+
+/* Monochrome speech bubble inherits selected antique gold or inactive slate. */
+.dd-site-dock-tab .dd-site-dock-icon .dd-chat-nav-symbol{display:block;width:21px;height:21px;margin:0 auto 3px;fill:none;stroke:currentColor}

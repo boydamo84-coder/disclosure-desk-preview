@@ -44,6 +44,19 @@ async function poll(){
  }catch(e){/* Retain last rendered state during transient network loss. */}
  finally{inFlight=false}
 }
+function createChatNavIcon(){
+ const ns='http://www.w3.org/2000/svg';
+ if(typeof document.createElementNS!=='function')return null;
+ const svg=document.createElementNS(ns,'svg');
+ svg.setAttribute('viewBox','0 0 24 24');
+ svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');
+ svg.setAttribute('stroke-width','1.85');svg.setAttribute('stroke-linejoin','round');
+ svg.setAttribute('stroke-linecap','round');svg.setAttribute('aria-hidden','true');
+ svg.setAttribute('class','dd-chat-nav-symbol');
+ const path=document.createElementNS(ns,'path');
+ path.setAttribute('d','M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4.2-1L3 21l2-5a8.5 8.5 0 1 1 16-4.5Z');
+ svg.appendChild(path);return svg;
+}
 function init(){
  const mount=document.getElementById('ddChatPageMount');
  const existing=document.getElementById('ddProfileChatApp');
@@ -61,7 +74,9 @@ function init(){
  }
  page().removeAttribute('hidden');
  const tab=document.createElement('button');tab.className='tab';tab.type='button';tab.dataset.tab='chatPage';
- const ico=document.createElement('span');ico.className='ico';ico.textContent='💬';
+ const ico=document.createElement('span');ico.className='ico';
+ const symbol=createChatNavIcon();
+ if(symbol)ico.appendChild(symbol);else ico.textContent='☏';
  const label=document.createElement('span');label.textContent='Chat';
  badge=document.createElement('span');badge.className='dd-chat-unread-badge';badge.hidden=true;
  badge.setAttribute('aria-live','polite');
