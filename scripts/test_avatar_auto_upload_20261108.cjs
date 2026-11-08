@@ -11,6 +11,7 @@ function el(id){return {id,hidden:['ddAvatarPanel','ddAvatarImage','ddAvatarRemo
  addEventListener(name,fn){this.listeners[name]=fn},removeAttribute(name){this[name]=null}};}
 const nodes=Object.fromEntries(names.map(id=>[id,el(id)]));
 let stored=null,uploads=0,removals=0,cacheClears=0,visibility=true,failNext=false,objectCounter=0,fallbackLoads=0,revokes=0;
+let webpSupported=true,noToBlob=false,lastContentType=null;
 const owner='9d27f101-75c2-4c33-946b-af653833613a',key='2a3180f8-2af4-4d90-bca1-5e503b871497';
 const api={
  auth:{getUser:async()=>({data:{user:{id:owner,is_anonymous:false}},error:null}),onAuthStateChange(){}},
@@ -24,7 +25,7 @@ const api={
    async download(path){assert.equal(path,key+'/avatar.webp');return stored?{data:stored,error:null}:{data:null,error:{message:'not found'}}},
    async upload(path,blob,opts){
     assert.equal(path,key+'/avatar.webp');assert.equal(opts.upsert,true);
-    assert.equal(opts.contentType,'image/webp');uploads++;
+    assert.equal(opts.contentType,blob.type,'Upload must declare encoded MIME');lastContentType=opts.contentType;uploads++;
     if(failNext){failNext=false;return {error:{message:'Synthetic upload failure'}}}
     stored=blob;return {error:null};
    },
@@ -36,13 +37,15 @@ const win={DD_COMMUNITY_TEST_CONFIG:{environment:'production',url:'https://fake.
  DD_COMMUNITY_FEATURES:{profileAvatars:true},supabase:{createClient:()=>api},
  DDMemberAvatars:{clearCache(){cacheClears++}}};
 const document={getElementById:id=>nodes[id],
- createElement(tag){assert.equal(tag,'canvas');return {width:512,height:512,getContext(){return {fillRect(){},drawImage(){},fillStyle:''}},
- toBlob(cb){cb({type:'image/webp',size:333})}}}};
+ createElement(tag){assert.equal(tag,'canvas');const canvas={width:512,height:512,getContext(){return {fillRect(){},drawImage(){},fillStyle:''}},
+ toBlob(cb,mime){cb({type:mime==='image/webp'&&!webpSupported?'image/png':mime,size:333})},
+ toDataURL(mime){const actual=mime==='image/webp'&&!webpSupported?'image/png':mime;
+  return 'data:'+actual+';base64,'+Buffer.from('rasterised-avatar').toString('base64')}};if(noToBlob)delete canvas.toBlob;return canvas}};
 const ctx={window:win,document,
  URL:{createObjectURL:()=>('blob:mock-'+(++objectCounter)),revokeObjectURL(){revokes++}},
  Image:class {constructor(){this.naturalWidth=800;this.naturalHeight=600}
   set src(_value){fallbackLoads++;Promise.resolve().then(()=>this.onload?.())}},
- createImageBitmap:async()=>({width:400,height:200,close(){}}),confirm:()=>true,console,Promise};
+ createImageBitmap:async()=>({width:400,height:200,close(){}}),confirm:()=>true,console,Promise,Blob,atob,Uint8Array};
 vm.runInNewContext(src,ctx,{timeout:2000});
 const file=nodes.ddAvatarFile,save=nodes.ddAvatarSave,remove=nodes.ddAvatarRemove,visible=nodes.ddAvatarVisible,status=nodes.ddAvatarStatus;
 async function flush(){for(let i=0;i<50;i++)await Promise.resolve()}
@@ -72,5 +75,21 @@ async function choose(photo={type:'image/png',name:'photo.png',size:3000}){file.
  await remove.listeners.click();assert.equal(removals,1);assert.equal(stored,null);
  assert.equal(remove.hidden,true);
  assert.ok(cacheClears>=4,'Member cache invalidated after successful operations');
- console.log('PASS: profile photo auto-saves, Safari fallback, HEIC, first-load readiness, Retry, Hide and Remove');
+ // Screenshot regression: iPhone correctly decodes a PNG but answers image/png
+ // to a WebP canvas export. The app must transparently upload small JPEG.
+ webpSupported=false;
+ await choose({type:'image/png',name:'selected-iphone.png',size:46000});
+ assert.equal(uploads,5,'iPhone PNG must auto-save even when WebP encoding is unsupported');
+ assert.equal(lastContentType,'image/jpeg','JPEG fallback uses truthful Storage content-type');
+ assert.equal(stored.type,'image/jpeg','JPEG fallback is not mislabeled as WebP');
+ assert.equal(save.hidden,true,'Photo still saves without an extra click');
+ assert.match(status.textContent,/saved automatically/i);
+ // Older WebKit may also lack canvas.toBlob: the rasterized data URL path is
+ // still safe (original image bytes and metadata are never uploaded).
+ noToBlob=true;
+ await choose({type:'image/png',name:'old-webkit.png',size:46000});
+ assert.equal(uploads,6,'toDataURL fallback also auto-saves');
+ assert.equal(lastContentType,'image/jpeg');
+ assert.ok(stored instanceof Blob);
+ console.log('PASS: profile photo auto-saves, iPhone PNG->JPEG fallback, missing toBlob, HEIC, Retry, Hide and Remove');
 })().catch(e=>{console.error(e);process.exitCode=1});
