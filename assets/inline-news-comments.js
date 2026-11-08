@@ -30,7 +30,7 @@ function mount(container){
   const shown=state.expanded?state.items:state.items.slice(-2);
   if(!shown.length){const note=el('p','No comments yet.');note.className='muted small';entries.append(note);}
   for(const item of shown){
-   const card=el('div');card.className='card';card.style.cssText='padding:10px;margin:8px 0';
+   const card=el('div');card.className='card';card.style.cssText='margin:8px 0';
    const alias=item.publicAlias||'Community member';
    const header=el('div');header.className='muted small';header.style.cssText='display:flex;align-items:center;min-width:0';
    const avatar=el('span',item.publicAlias?alias.charAt(0).toUpperCase():'?');
@@ -54,7 +54,10 @@ function mount(container){
       :'Flag could not be submitted. Please try again.';
     if(!error)void refresh();
    };
-   card.append(header,text,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);entries.append(card);
+   if(!window.DDCommunityVotes?.mountCommentCard?.(card,header,text,flag,item.id)){
+    card.append(header,text,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);
+   }
+   entries.append(card);
   }
  }
  async function refresh(){
