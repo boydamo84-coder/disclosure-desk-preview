@@ -3,7 +3,7 @@
 const fs=require('fs'),path=require('path'),crypto=require('crypto');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'.release-staging','public-site');
 if(fs.existsSync(out))throw Error('Refusing to overwrite existing release staging folder');
-const top=['index.html','sources.html','community-rules.html','privacy.html','research-edition.html',
+const top=['index.html','guide.html','sources.html','community-rules.html','privacy.html','research-edition.html',
  'cloud-boards.js','manifest.webmanifest','robots.txt','sitemap.xml','ads.txt','app-ads.txt'];
 const data=['approved-live-events.json','curated-historical-cases.json','curated-official-videos.json',
  'disclosure-clips.json','disclosure-map.json','historical-news-archive.json',
