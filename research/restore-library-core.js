@@ -27,14 +27,17 @@ function safeMarkup(html){
  if(/\b(javascript|vbscript|file)\s*:/i.test(html)||/@import\b|expression\s*\(|url\s*\(/i.test(html))return false;
  if(typeof DOMParser!=='function')throw Error('Safe HTML verification is unavailable in this browser.');
  const parsed=new DOMParser().parseFromString(html,'text/html');
- const allowed=new Set(['P','DIV','SPAN','B','STRONG','I','EM','U','S','STRIKE','SUB','SUP','BR','HR','H1','H2','H3','H4','H5','H6','UL','OL','LI','PRE','CODE','BLOCKQUOTE','TABLE','THEAD','TBODY','TFOOT','TR','TD','TH','A','IMG','MARK','SMALL','FONT']);
+ const allowed=new Set(['P','DIV','SPAN','B','STRONG','I','EM','U','S','STRIKE','SUB','SUP','BR','HR','H1','H2','H3','H4','H5','H6','UL','OL','LI','PRE','CODE','BLOCKQUOTE','TABLE','THEAD','TBODY','TFOOT','TR','TD','TH','A','IMG','FIGURE','FIGCAPTION','MARK','SMALL','FONT']);
  for(const node of parsed.body.querySelectorAll('*')){
   if(!allowed.has(node.tagName))return false;
   for(const attribute of node.attributes){
    const key=attribute.name.toLowerCase(),value=attribute.value.trim();
    if(key.startsWith('on')||key.includes(':'))return false;
    if(key==='href'||key==='src'){
-    if(!/^https:\/\//i.test(value)&&!(key==='href'&&value.startsWith('#')))return false;
+    const embedded=key==='src'&&/^data:image\/(?:png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/i.test(value)&&value.length<=450000;
+    if(!embedded&&!/^https:\/\//i.test(value)&&!(key==='href'&&value.startsWith('#')))return false;
+   }else if(key==='data-wne-font-size'){
+    if(node.tagName!=='SPAN'||!/^(10|11|12|13|14|15|16|18|20|22|24)$/.test(value))return false;
    }else if(key==='style'){
     if(/url\s*\(|expression\s*\(|@import|behavior\s*:|position\s*:|z-index\s*:|--/.test(value.toLowerCase()))return false;
    }else if(!['class','id','title','alt','width','height','colspan','rowspan','align','color','face','size','start'].includes(key)){
