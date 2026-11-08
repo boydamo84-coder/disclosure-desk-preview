@@ -43,8 +43,15 @@ vm.runInNewContext(vmSource,{window,document,$:get,navigateTo:id=>{where=id},
  requestAnimationFrame:()=>{},setTimeout:()=>{},map:null,
  URLSearchParams,location:{search:''},localStorage:{getItem:()=>null},console},{timeout:2000});
 const t=window.__T;
-assert.deepEqual(Array.from(t.tourSections,x=>x.steps.length),[10,7,4,4,5],
- 'Full and focused tours retain 30 real steps');
+assert.deepEqual(Array.from(t.tourSections,x=>x.steps.length),[12,9,5,4,5],
+ 'Full and focused tours include 35 real steps, including satellite research and the guide');
+for(const id of ['basics','research']){
+ const tour=t.tourSections.find(x=>x.id===id);
+ assert.ok(tour.steps.some(x=>x.target==='#ddArchiveSatelliteTab'&&x.page==='archivePage'),id+' shows the Archive satellite tab');
+ assert.ok(tour.steps.some(x=>x.target==='.dd-explore-guide-link'&&x.page==='hub'),id+' directs visitors to the guide in Explore');
+}
+assert.ok(t.tourSections.find(x=>x.id==='community').steps.some(x=>/local phone beta/i.test(x.body)&&x.target==='#ddExploreCommunityRules'),
+ 'Community tour must clearly distinguish localhost beta Chat and Discussions from public features');
 for(const group of t.tourSections){for(const step of group.steps){
  assert.ok(step.target&&(step.target[0]==='.'||step.target[0]==='#'),step.title+' target');
  assert.ok(step.target[0]==='#'?source.includes('id="'+step.target.slice(1)+'"'):
@@ -63,4 +70,4 @@ where='profilePage';t.openTour('safety');
 assert.equal(get('appTourDialog').open,true);
 get('appTourDialog').close(); // Native Escape closes without Close button callback.
 assert.equal(where,'profilePage','Escape returns to originating Profile tab');
-console.log('PASS: all 11 tabs, 30 tour targets, native modal focus, Escape/restoration, mobile dock accessibility');
+console.log('PASS: all 11 tabs, 35 tour targets, guide/satellite paths, native modal focus, Escape/restoration and mobile dock accessibility');
