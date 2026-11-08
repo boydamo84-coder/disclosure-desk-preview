@@ -157,7 +157,10 @@ Deno.serve(async request => {
         },
         accountExists:async id=>{
           const {data,error}=await admin.auth.admin.getUserById(id);
-          if(!error)return Boolean(data?.user);
+          if(!error){
+            if(!data?.user)throw Error("auth_state_unverified");
+            return true;
+          }
           if(error.status===404||error.code==="user_not_found")return false;
           throw Error("auth_state_unverified");
         },
