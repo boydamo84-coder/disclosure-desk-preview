@@ -1,29 +1,29 @@
 {
-  "checkedAt": "2026-11-08T04:58:08.830233+00:00",
+  "checkedAt": "2026-11-08T07:04:50.470725+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 12,
-      "latestArticleAt": "2026-11-07T08:32:17+00:00"
+      "items": 14,
+      "latestArticleAt": "2026-11-08T04:55:59+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 8,
-      "latestArticleAt": "2026-11-07T00:45:28+00:00"
+      "items": 7,
+      "latestArticleAt": "2026-11-07T03:44:33+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 18,
+      "items": 17,
       "latestArticleAt": "2026-11-07T13:57:00+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
       "status": "ok",
-      "items": 1,
-      "latestArticleAt": "2026-11-01T12:00:24+00:00"
+      "items": 2,
+      "latestArticleAt": "2026-11-07T03:44:33+00:00"
     },
     {
       "source": "Search: UFO sightings when:7d",
@@ -34,8 +34,8 @@
     {
       "source": "Search: UAP congress hearing when:7d",
       "status": "ok",
-      "items": 4,
-      "latestArticleAt": "2026-11-05T08:00:00+00:00"
+      "items": 3,
+      "latestArticleAt": "2026-11-03T13:34:11+00:00"
     },
     {
       "source": "Search: UFO UAP Brazil Peru Mexico Argentina when:7d",
@@ -111,9 +111,9 @@
     },
     {
       "source": "Search: Canada",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-11-08T04:55:59+00:00"
     },
     {
       "source": "Search: Australia",
@@ -206,5 +206,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 316
+  "storiesPublished": 318
 }
