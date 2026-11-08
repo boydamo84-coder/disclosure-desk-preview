@@ -1136,16 +1136,16 @@ body.tv .tv-controls #tv-exit:focus-visible {
    <p class="wne-file-section">DOCUMENT</p>
    <button type="button" data-file-action="new" role="menuitem">📄 New Document<small>Create a research document</small></button>
    
-   <button type="button" data-file-action="import" role="menuitem">📥 Import Document<small>Import a Word DOCX research document</small></button>
+   <button type="button" data-file-action="import" role="menuitem">📥 Import Word DOCX<small>Create a separate report; your current document stays safe</small></button>
    <div class="wne-file-rule"></div><p class="wne-file-section">SAVE &amp; EXPORT</p>
-   <button type="button" data-file-action="save" role="menuitem">💾 Save<small>Save research report locally · Ctrl+S</small></button>
+   <button type="button" data-file-action="save" role="menuitem">💾 Save<small>Save this report to your private cloud · Ctrl+S</small></button>
    <button type="button" data-file-action="save-to" role="menuitem">📁 Save To…<small>Choose a folder and format</small></button>
    <button type="button" data-file-action="copy" role="menuitem">📑 Save a Copy…<small>Export a copy without replacing this report</small></button>
    <button type="button" data-file-action="export" role="menuitem">📤 Export &amp; Share<small>Open Export Studio</small></button>
    <button type="button" data-file-action="kindle" role="menuitem">📨 Send to Kindle<small>Send your manuscript using your connected account</small></button>
    <button type="button" data-file-action="cloud" role="menuitem">☁️ Cloud Save Options<small>Google Drive and connected backup options</small></button>
    <div class="wne-file-rule"></div><p class="wne-file-section">PROTECT YOUR RESEARCH</p>
-   <button type="button" data-file-action="lifeboat" role="menuitem">🛟 Backup Library<small>Download research reports and local data as a ZIP</small></button>
+   <button type="button" data-file-action="lifeboat" role="menuitem">🛟 Backup Library<small>Download your private cloud research documents as a ZIP</small></button>
    
    <button type="button" data-file-action="history" role="menuitem">🕘 Recovery History<small>Review earlier saved versions</small></button>
    <button type="button" data-file-action="emergency" role="menuitem">🚨 Emergency Copy<small>Download unsaved text if saving fails</small></button>
@@ -3716,6 +3716,26 @@ html[data-theme] .sidebar .chapters .wne-chapter-row .wne-chapter-options{backgr
 @media(max-width:600px){
  #dd-research-insert-menu{width:auto;max-height:min(42dvh,260px);overflow-y:auto}
  #dd-research-insert-trigger{min-width:103px;min-height:44px}
+}
+</style>
+<style id="dd-research-unclutter-v19">
+/* Keep compatibility hooks mounted, but never display unfinished novel/TV/tools
+ * controls in the Research Edition. The real Insert menu remains available. */
+html body #wne-0988-tools-button,
+html body #wne-quick-setting,
+html body #wne-quick-tools,
+html body #wne-quick,
+html body #wne-proofread-toolbar,
+html body #wne-writer-reader,
+html body #wne-companion-toolbar,
+html body #tvmode,
+html body [data-file-action="kindle"],
+html body [data-file-action="cloud"],
+html body .wne-nav-feature{display:none!important}
+html body #dd-research-insert-trigger{display:inline-flex!important;align-items:center;justify-content:center}
+@media(max-width:820px){
+ html body .topbar .actions{gap:6px}
+ html body .topbar .actions>.dd-return-to-site{display:none!important}
 }
 </style>
 <script src="./research-insert-menu.js" defer></script>
