@@ -81,7 +81,9 @@ assert.match(forum,/p_kind:'section',p_id:sectionRow\.id,p_status:'removed'/);
 assert.match(forum,/if\(!ownerSectionIds\.has\(sectionRow\.id\)\)return/);
 assert.match(forum,/openSectionAdminDialog\(s,button\)/);
 assert.match(html,/dd-forum-section-open/);
-console.log('PASS: clickable deep-linked section action, owner-guarded inline soft removal.');
+assert.match(html,/\.dd-forum \.dd-forum-section-open\{[^}]*margin-left:12px;/,
+ 'Mobile section owner label and Open section link must have visible horizontal separation.');
+console.log('PASS: clickable deep-linked section action, owner-guarded inline soft removal and mobile metadata spacing.');
 
 /* v8 mobile forum editorial polish — no second reply store or new database grants. */
 for(const id of ['ddForumActionDialog','ddForumActionForm','ddForumActionTextLabel','ddForumFlagReason']){
