@@ -46,7 +46,7 @@ const ORIGIN='http://127.0.0.1:4173';
    const page=await context.newPage(),errors=[];
    page.on('pageerror',err=>errors.push(String(err)));
    await page.goto(ORIGIN+'/research/research-bible.html',{waitUntil:'domcontentloaded',timeout:30000});
-   try{await page.locator('#easyBoardList option[value^="cloud:"]').waitFor({timeout:10000})}
+   try{await page.locator('#easyBoardList option[value^="cloud:"]').waitFor({state:"attached",timeout:10000})}
    catch(error){
     console.log('LIBRARY DIAGNOSTIC '+JSON.stringify({url:page.url(),errors,
       summary:await page.evaluate(()=>({access:document.documentElement.dataset.researchAccess,
@@ -67,7 +67,7 @@ const ORIGIN='http://127.0.0.1:4173';
    await page.locator('#easyBoardFile').setInputFiles({
     name:'synthetic-board.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(board))
    });
-   await page.locator('#easyBoardList option[value^="device:"]').waitFor({timeout:10000});
+   await page.locator('#easyBoardList option[value^="device:"]').waitFor({state:"attached",timeout:10000});
    await pass(viewport.width+'px device import succeeds without cloud writes',async()=>{
     assert.equal(await page.locator('#easyBoardList option[value^="device:"]').count(),1);
     assert.match(await page.locator('#easyStatus').innerText(),/this browser only/);
@@ -89,7 +89,7 @@ const ORIGIN='http://127.0.0.1:4173';
     assert.match(await page.locator('#easyStatus').innerText(),/read-only account cloud Board/);
    });
    await page.reload({waitUntil:'domcontentloaded'});
-   await page.locator('#easyBoardList option[value^="device:"]').waitFor({timeout:10000});
+   await page.locator('#easyBoardList option[value^="device:"]').waitFor({state:"attached",timeout:10000});
    await pass(viewport.width+'px imported copy persists after browser reload',async()=>{
     assert.equal(await page.locator('#easyBoardList option[value^="device:"]').count(),1);
     assert.equal(await page.locator('#easyBoardList option[value^="cloud:"]').count(),1);
