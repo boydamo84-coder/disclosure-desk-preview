@@ -146,7 +146,9 @@ BEGIN
       confirmed_at=now(), updated_at=now()
   WHERE account_id=p_target AND phase='prepared'
     AND intent_digest=p_digest AND intent_expires_at>now()
-    AND reauthenticated_at > now()-interval '10 minutes'\n    AND prepared_session_id=p_session\n    AND public.dd_deletion_active_session(p_target,p_session);
+    AND reauthenticated_at > now()-interval '10 minutes'
+    AND prepared_session_id=p_session
+    AND public.dd_deletion_active_session(p_target,p_session);
   GET DIAGNOSTICS v_count=ROW_COUNT;
   RETURN v_count=1;
 END $$;
