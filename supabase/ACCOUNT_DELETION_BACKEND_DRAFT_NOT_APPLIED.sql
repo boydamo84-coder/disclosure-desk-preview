@@ -243,7 +243,7 @@ CREATE OR REPLACE FUNCTION public.dd_deletion_operator_reclaim(
 ) RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path=''
 AS $$
 DECLARE v_ticket dd_deletion_private.dd_deletion_recovery_approvals%ROWTYPE;
-DECLARE v_count integer;
+        v_count integer;
 BEGIN
   IF current_setting('request.jwt.claim.role',true) IS DISTINCT FROM 'service_role'
   THEN RAISE EXCEPTION 'not permitted' USING ERRCODE='42501'; END IF;
