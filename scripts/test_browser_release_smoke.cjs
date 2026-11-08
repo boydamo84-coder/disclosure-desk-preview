@@ -217,9 +217,14 @@ async function selected(page,id){
   await avatarPage.evaluate(async()=>{
    document.getElementById('ddProfilePrivate').hidden=false;
    document.getElementById('ddProfileGuest').hidden=true;
-   window.__avatarQa={writes:[],user:'11111111-1111-4111-8111-111111111111'};
+   window.__avatarQa={writes:[],user:'11111111-1111-4111-8111-111111111111',key:'33333333-3333-4333-8333-333333333333'};
    window.DD_COMMUNITY_FEATURES={...window.DD_COMMUNITY_FEATURES,profileAvatars:true};
    window.supabase={createClient:()=>({
+     rpc:async name=>{
+      if(name==='dd_avatar_my_settings')return {data:[{public_key:window.__avatarQa.key,visible:true}],error:null};
+      if(name==='dd_avatar_set_visibility')return {data:true,error:null};
+      throw Error('Unexpected avatar RPC: '+name);
+     },
     auth:{
      getUser:async()=>({data:{user:{id:window.__avatarQa.user,is_anonymous:false}},error:null}),
      onAuthStateChange:()=>{}
@@ -275,7 +280,7 @@ async function selected(page,id){
   await avatarPage.locator('#ddAvatarSave').click();
   await avatarPage.waitForFunction(()=>window.__avatarQa?.writes?.some(x=>x.action==='upload'));
   const upload=await avatarPage.evaluate(()=>window.__avatarQa.writes.find(x=>x.action==='upload'));
-  assert.equal(upload.path,'11111111-1111-4111-8111-111111111111/avatar.webp');
+  assert.equal(upload.path,'33333333-3333-4333-8333-333333333333/avatar.webp');
   assert.equal(upload.contentType,'image/webp');
   assert(upload.bytes>0&&upload.bytes<=1048576,'Photo is re-encoded under 1 MiB');
   pass('real browser JPEG/PNG selection re-encodes to private WebP, owner-only key');
@@ -283,7 +288,7 @@ async function selected(page,id){
   await avatarPage.locator('#ddAvatarRemove').click();
   await avatarPage.waitForFunction(()=>window.__avatarQa?.writes?.some(x=>x.action==='remove'));
   const removal=await avatarPage.evaluate(()=>window.__avatarQa.writes.find(x=>x.action==='remove'));
-  assert.deepEqual(removal.paths,['11111111-1111-4111-8111-111111111111/avatar.webp']);
+  assert.deepEqual(removal.paths,['33333333-3333-4333-8333-333333333333/avatar.webp']);
   pass('real browser photo removal uses only current-account private key');
   await avatarPage.screenshot({path:path.join(OUTPUT,'private-profile-photo-393px.png'),
    fullPage:false});

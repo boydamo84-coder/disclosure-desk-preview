@@ -12,7 +12,7 @@ assert.match(config,/profileAvatars:false/,'Default photo activation must remain
 assert.match(source,/storage\.from\(BUCKET\)\.download/);
 assert.match(source,/storage\.from\(BUCKET\)\.upload/);
 assert.match(source,/storage\.from\(BUCKET\)\.remove/);
-assert.match(source,/canvas\\.toBlob\\(resolve,'image\\/webp'/);
+assert.match(source,/canvas\.toBlob\(resolve,'image\/webp'/);
 assert.doesNotMatch(source,/getPublicUrl|createSignedUrl/);
 assert.match(policy,/public,file_size_limit,allowed_mime_types/);
 assert.match(policy,/false,1048576,ARRAY\['image\/webp'\]/);
@@ -23,7 +23,7 @@ function node(){const listeners={};return {hidden:false,disabled:false,value:'',
  listeners,addEventListener(k,fn){listeners[k]=fn},
  removeAttribute(k){if(k==='src')this.src='';},setAttribute(){}};}
 const ids=Object.fromEntries(['ddAvatarPanel','ddAvatarImage','ddAvatarFallback','ddAvatarFile',
- 'ddAvatarSave','ddAvatarRemove','ddAvatarStatus'].map(x=>[x,node()]));
+ 'ddAvatarSave','ddAvatarRemove','ddAvatarStatus','ddAvatarVisible'].map(x=>[x,node()]));
 const doc={getElementById:id=>ids[id]||null};
 let who='11111111-1111-4111-8111-111111111111';
 let authCb,oldResolve,downloadCalls=[],revokeCalls=[];
