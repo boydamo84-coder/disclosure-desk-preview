@@ -31,6 +31,12 @@ jobs:
         run: |
           node --check research/research-insert-menu.js
           node scripts/test_research_insert_menu_20261108.cjs
+      - name: Research selected-text size, save sanitization and export
+        run: |
+          node --check research/research-text-size.js
+          node --check research/docx-tools.js
+          node --check research/wne-export-integration.js
+          node scripts/test_research_selected_size_20261108.cjs
       - name: Preserve existing avatar and community behavior
         run: |
           node scripts/test_avatar_auto_upload_20261108.cjs
