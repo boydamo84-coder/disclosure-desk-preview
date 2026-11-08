@@ -223,6 +223,16 @@ async function selected(page,id){
    try{localStorage.setItem('dd-welcome-tour-choice-v2','dismissed')}catch(_){}
   });
   const avatarPage=await avatarContext.newPage();
+  // The public page already includes the avatar controller. Keep that initial
+  // guest copy inert, then load the *single* real controller after installing
+  // synthetic Auth/Storage. Two simultaneous controllers mutate one DOM and
+  // cause false hidden/disabled button states during async uploads.
+  await avatarPage.route('**/assets/profile-avatars.js*',route=>{
+   const requested=new URL(route.request().url());
+   if(requested.searchParams.has('offline-qa'))return route.continue();
+   return route.fulfill({status:200,contentType:'application/javascript',
+    body:'/* guest avatar script deferred to the signed-in test harness */'});
+  });
   await avatarPage.goto(BASE+'/?dd_tab=profilePage',{waitUntil:'domcontentloaded',timeout:35000});
   await avatarPage.waitForSelector('#ddAvatarPanel',{state:'attached'});
   assert.equal(await avatarPage.locator('#ddAvatarPanel').isVisible(),false,
