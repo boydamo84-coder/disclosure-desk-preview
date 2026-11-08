@@ -9,6 +9,13 @@ import java.text.DateFormat;
 import java.util.Date;
 import android.view.View;
 import android.webkit.WebChromeClient;
+import androidx.webkit.WebViewCompat;
+import androidx.webkit.WebViewFeature;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.messaging.FirebaseMessaging;
+import org.json.JSONObject;
+import java.util.Collections;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -116,6 +123,7 @@ public final class MainActivity extends Activity {
             }
             @Override public void onPageFinished(WebView view,String url){
                 if(!mainPageFailed && HOME.equals(url))showOnline();
+                if(url!=null && url.startsWith(HOME))deliverChatToken();
             }
             @Override public void onReceivedError(WebView view,WebResourceRequest request,WebResourceError error){
                 if(request.isForMainFrame() && request.getUrl()!=null &&
@@ -162,6 +170,7 @@ public final class MainActivity extends Activity {
                 if(fullCallback!=null){fullCallback.onCustomViewHidden();fullCallback=null;}
             }
         });
+        setupChatPushBridge();
         premium=new LifetimeAdsManager(this,this::setAdFree);
         web.loadUrl(notificationUrl(getIntent()));
         prepareTestBanner();
@@ -287,6 +296,56 @@ public final class MainActivity extends Activity {
         setIntent(intent);
         String target=notificationUrl(intent);
         if(!HOME.equals(target)&&web!=null)web.loadUrl(target);
+    }
+    private void setupChatPushBridge(){
+        // Never use addJavascriptInterface: that API exposes privileged handlers to
+        // untrusted third-party iframes. This bridge is main-frame + origin restricted.
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            WebViewCompat.addWebMessageListener(web,"DDAndroid",
+              Collections.singleton("https://uapdisclosuredesk.com"),
+              (view,message,origin,isMainFrame,reply)->{
+                if(!isMainFrame || origin==null || !"https".equals(origin.getScheme()) ||
+                   !"uapdisclosuredesk.com".equals(origin.getHost()))return;
+                try{
+                    JSONObject data=new JSONObject(message.getData());
+                    if(!"account".equals(data.optString("type")))return;
+                    String id=data.optString("user_id","");
+                    boolean signedIn=id.matches("(?i)[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}");
+                    String previous=getSharedPreferences("dd-chat-push",MODE_PRIVATE).getString("active-user","");
+                    if(!signedIn){
+                        getSharedPreferences("dd-chat-push",MODE_PRIVATE).edit().remove("active-user").apply();
+                        if(!FirebaseApp.getApps(this).isEmpty())FirebaseMessaging.getInstance().deleteToken();
+                    }else{
+                        getSharedPreferences("dd-chat-push",MODE_PRIVATE).edit().putString("active-user",id).apply();
+                        if(!id.equals(previous))deliverChatToken();
+                    }
+                }catch(Exception ignored){/* Never allow malformed web messages to crash the activity. */}
+              });
+        }
+        if(BuildConfig.DD_FIREBASE_APP_ID.isEmpty() || BuildConfig.DD_FIREBASE_PROJECT_ID.isEmpty() ||
+           BuildConfig.DD_FIREBASE_API_KEY.isEmpty() || BuildConfig.DD_FIREBASE_SENDER_ID.isEmpty())return;
+        try{
+            if(FirebaseApp.getApps(this).isEmpty()){
+                FirebaseOptions options=new FirebaseOptions.Builder()
+                  .setApplicationId(BuildConfig.DD_FIREBASE_APP_ID)
+                  .setApiKey(BuildConfig.DD_FIREBASE_API_KEY)
+                  .setProjectId(BuildConfig.DD_FIREBASE_PROJECT_ID)
+                  .setGcmSenderId(BuildConfig.DD_FIREBASE_SENDER_ID).build();
+                FirebaseApp.initializeApp(this,options);
+            }
+        }catch(Exception problem){android.util.Log.w("DisclosureDesk","FCM unavailable for this build.");}
+    }
+    private void deliverChatToken(){
+        if(FirebaseApp.getApps(this).isEmpty() || web==null)return;
+        String url=web.getUrl();
+        if(url==null || !url.startsWith(HOME))return;
+        String owner=getSharedPreferences("dd-chat-push",MODE_PRIVATE).getString("active-user","");
+        if(owner==null || owner.isEmpty())return;
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token->{
+            String address=web.getUrl();
+            if(address!=null && address.startsWith(HOME) && !token.isEmpty())
+              web.evaluateJavascript("window.dispatchEvent(new CustomEvent('dd-android-token',{detail:"+JSONObject.quote(token)+"}))",null);
+        });
     }
     private void notificationSettings(){
         SharedPreferences prefs=getSharedPreferences(DiscoveryWorker.PREFS,MODE_PRIVATE);
