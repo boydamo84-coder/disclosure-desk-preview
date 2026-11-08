@@ -51,7 +51,7 @@ const doc={
  addEventListener(name,fn){(this.listeners[name]||=[]).push(fn)}
 };
 const win={getSelection:()=>selection};
-vm.runInNewContext(source,{document:doc,window:win,Option:(text,value)=>({text,value}),Event:class{constructor(type,opts){this.type=type;this.bubbles=!!opts?.bubbles}}},{timeout:3000});
+vm.runInNewContext(source,{document:doc,window:win,Option:class {constructor(text,value){this.text=text;this.value=value}},Event:class{constructor(type,opts){this.type=type;this.bubbles=!!opts?.bubbles}}},{timeout:3000});
 const label=parent.children[1],control=label.children[0],status=parent.children[2];
 assert.equal(control.id,'dd-research-selected-size');
 assert.equal(control.attributes['aria-label'],'Selected text font size');
