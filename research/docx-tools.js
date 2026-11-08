@@ -12,7 +12,7 @@ async function importFile(file){
    return {src:'data:'+image.contentType+';base64,'+base64,alt:'Imported research image'};
   })
  });
- const sanitised=window.DOMPurify.sanitize(result.value,{ALLOWED_TAGS:['p','br','b','strong','i','em','u','h1','h2','h3','ul','ol','li','table','tbody','thead','tr','td','th','a','blockquote','div','span','figure','figcaption','img'],ALLOWED_ATTR:['href','colspan','rowspan','title','src','alt','width','height']});
+ const sanitised=window.DOMPurify.sanitize(result.value,{ALLOWED_TAGS:['p','br','b','strong','i','em','u','h1','h2','h3','ul','ol','li','table','tbody','thead','tr','td','th','a','blockquote','div','span','figure','figcaption','img'],ALLOWED_ATTR:['href','colspan','rowspan','title','src','alt','width','height','data-wne-font-size']});
  const temp=document.createElement('div');temp.innerHTML=sanitised;
  const segments=[],headings=[...temp.querySelectorAll('h1,h2,h3')];
  if(!headings.length)segments.push({id:'docx-1',title:'Section 1',html:sanitised});
@@ -41,6 +41,13 @@ function inlineRuns(node){
   if(['b','strong'].includes(tag))next.bold=true;
   if(['i','em'].includes(tag))next.italics=true;
   if(tag==='u')next.underline={};
+  if(tag==='span'){
+   const selectedSize=n.getAttribute('data-wne-font-size')||'';
+   if(/^(10|11|12|13|14|15|16|18|20|22|24)$/.test(selectedSize)){
+    // Stored value is CSS px; Word TextRun.size uses half-points.
+    next.size=Math.round(Number(selectedSize)*1.5);
+   }
+  }
   if(['s','del','strike'].includes(tag))next.strike=true;
   if(tag==='a'&&/^https?:\/\//i.test(n.getAttribute('href')||'')){
    const children=[new d.TextRun({text:n.textContent||n.getAttribute('href'),color:'16658A',underline:{}})];
@@ -74,7 +81,7 @@ function tableBlock(node){
 function blocks(html){
  const root=document.createElement('div');
  if(String(html||'').includes('<img') && !String(html||'').includes('data:image/'))throw Error('Unsupported image source. Embed a PNG or JPEG image before Word export.');
- root.innerHTML=window.DOMPurify.sanitize(html||'',{ALLOWED_TAGS:['p','br','b','strong','i','em','u','s','h1','h2','h3','ul','ol','li','table','thead','tbody','tfoot','tr','td','th','a','blockquote','div','span','figure','figcaption','img'],ALLOWED_ATTR:['href','colspan','rowspan','title','src','alt','width','height']});
+ root.innerHTML=window.DOMPurify.sanitize(html||'',{ALLOWED_TAGS:['p','br','b','strong','i','em','u','s','h1','h2','h3','ul','ol','li','table','thead','tbody','tfoot','tr','td','th','a','blockquote','div','span','figure','figcaption','img'],ALLOWED_ATTR:['href','colspan','rowspan','title','src','alt','width','height','data-wne-font-size']});
  const d=window.docx,items=[];
  function visit(node){
   if(node.nodeType===3){if(node.textContent.trim())items.push(new d.Paragraph({text:node.textContent}));return}
