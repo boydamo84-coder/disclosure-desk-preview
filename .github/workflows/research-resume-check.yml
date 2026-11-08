@@ -51,6 +51,20 @@ jobs:
           node scripts/test_safari_profile_avatars_20261108.cjs
           node scripts/test_chat_stability_and_invite.cjs
           node scripts/test_member_avatar_display.cjs
+      - name: Signed-in account switch, Chat, Discussions and privacy contracts (mock only)
+        run: |
+          node --check assets/discussions-admin.js
+          node --check scripts/test_discussions_admin_account_switch_20261108.cjs
+          node scripts/test_discussions_admin_account_switch_20261108.cjs
+          node scripts/test_discussions_account_switch_runtime.cjs
+          node scripts/test_private_chat_account_switch_runtime.cjs
+          node scripts/test_private_chat_switch_mutations.cjs
+          node scripts/test_member_avatar_race.cjs
+          node scripts/test_public_profiles.cjs
+          node scripts/test_comment_security.cjs
+          node scripts/test_comment_self_moderation.cjs
+          node scripts/test_witness_moderation.cjs
+          node scripts/test_research_hub.cjs
       - name: Verify restricted static bundle (no deploy)
         run: node scripts/test_public_release_package.cjs
   real-browser:
