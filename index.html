@@ -2042,6 +2042,12 @@ if(navRail&&selectedNav&&navRail.scrollWidth>navRail.clientWidth){
  navRail.scrollTo({left:Math.max(0,offset-(navRail.clientWidth-selectedNav.clientWidth)/2),behavior:'auto'});
 }
 ['discover','archivePage','mapPage','cases','clips','rabbitHole','witness','about','resources','podcasts','hub','boards','watchRead','livePage','researchStudio','profilePage','discussionsPage','chatPage'].forEach(k=>$(k).classList.toggle('hidden',k!==id));
+// Chat and Discussions originally have an HTML hidden attribute as well as a
+// hidden CSS class. Clear both when selected or these approved pages stay invisible.
+for(const communityPage of ['chatPage','discussionsPage']){
+ const node=$(communityPage);
+ if(node)node.hidden=communityPage!==id;
+}
 document.querySelectorAll('[data-rabbit-view]').forEach(t=>{const active=t.dataset.rabbitView===id;t.classList.toggle('active',active);t.setAttribute('aria-pressed',String(active))});
 window.scrollTo(0,0);
 if(id==='profilePage')window.DDResearchHub?.refresh();
