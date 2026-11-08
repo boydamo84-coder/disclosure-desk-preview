@@ -46,7 +46,7 @@ jobs:
           for(const feature of ['privateChat','discussions','profileAvatars'])assert.ok(c.includes(feature+':enabled'));
           assert.ok(c.includes('researchPublishing:false'));
           assert.ok(c.includes('const enabled=preview||local||production'));
-          assert.ok(!m.files.some(x=>/^(?:docs|scripts|finance_local|finance-review|supabase|\\.github)\\//.test(x.path)));
+          assert.ok(!m.files.some(x=>['docs/','scripts/','finance_local/','finance-review/','supabase/','.github/'].some(prefix=>x.path.startsWith(prefix))));
           assert.ok(m.files.some(x=>x.path==='ads.txt'));
           assert.ok(m.files.some(x=>x.path==='assets/member-avatars.js'));
           console.log('PASS: public triad only on known hosts; production package excludes internal project files.');
