@@ -2225,10 +2225,13 @@ html body #wne-bible-open,html body #wne-idea-open,html body #wne-companion-laun
          if(!create.ok||!created.id)throw Error(created.error||'Could not create document');
          const opened=await fetch('/api/library',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'open',id:created.id})});
          if(!opened.ok){const err=await opened.json();throw Error(err.error||'Created document but could not open it')}
-         location.assign('/');
+         window.top.location.assign('/research/research-workspace.html?id='+encodeURIComponent(created.id));
        }
-       else if(action==='open')location.assign('/home?wne_action=open');
-       else if(action==='import')window.top.location.assign('/import');
+       else if(action==='open'){
+         const home=window.parent!==window?window.parent.document.getElementById('dd-documents-btn'):null;
+         if(home)home.click();else window.top.location.assign('/research/index.html');
+       }
+       else if(action==='import')window.top.location.assign('/research/import.html');
        else if(action==='export')location.assign('/home?wne_action=export');
        else if(action==='storage')location.assign('/storage');
        else if(action==='safety')location.assign('/safety');
