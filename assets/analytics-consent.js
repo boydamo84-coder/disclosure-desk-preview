@@ -38,10 +38,10 @@ function current(){
  return section?'/site/'+section.toLowerCase().replace(/[^a-z0-9]+/g,'-'):null;
 }
 function measure(p){
- if(state!=='accepted')return;
- bootTag();
- if(!started||p===lastPage)return;
+ if(state!=='accepted'||!p||p===lastPage)return;
  if(!/^\/(?:site\/[a-z0-9-]+|(?:guide|sources|community-rules|privacy|research-edition)\.html)$/.test(p))return;
+ bootTag();
+ if(!started)return;
  lastPage=p;
  window.gtag('event','page_view',{page_title:'Disclosure Desk · '+p.slice(1),
   page_location:location.origin+p,page_path:p,page_referrer:''});
@@ -56,7 +56,7 @@ function deleteAnalyticsCookies(){
 }
 function choose(yes){
  store(yes?'accepted':'declined');show(false);
- if(yes){bootTag();measure(current())}
+ if(yes){measure(current())}
  else{lastPage='';if(started&&window.gtag)
   window.gtag('consent','update',{analytics_storage:'denied'});
   deleteAnalyticsCookies()}
