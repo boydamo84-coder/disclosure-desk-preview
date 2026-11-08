@@ -71,3 +71,10 @@ Use **one** production Netlify deployment when all agreed fixes have passed sour
 - **Final reviewed source commit `68cd0bd1321f2e40616c638a27a74872d2582c57`**: [GitHub Actions run 42516950668](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42516950668), both jobs SUCCESS. Offline browser results: **16 editor**, **18 compact spelling**, **18 Research Library**, **12 Analytics consent**, **112 link/layout**, **29 site/navigation** checks; no real Google, Supabase or Netlify calls. Earlier intermediate failed runs exposed outdated test assumptions or a synthetic avatar-storage stub, not a production incident.
 
 **Next:** complete owner-reviewed account deletion design, inspect remaining live external source links and modernise dated user-facing help text, plus site admin action test under synthetic account. Later, one user-approved deploy followed by disposable real Samsung authentication and recovery acceptance; don't confuse localhost fixtures with signed-in acceptance.
+
+## Milestone 21 — Research navigation photo, source-link verification and account-deletion feasibility
+
+- Real signed-in Research bottom navigation now has staged owner-only photo support, with immediate sign-out clearing and late-response isolation. Main-site account-avatar uploader remains unchanged.
+- Verified current original source URLs in public web results; NARA's canonical research URL and GEP dataset v2026.10 (3 Nov 2026) now linked. GEP reuse still blocked pending licence, source schema and privacy review. Other sites may block bots; a failed fetch is not proof of a broken source.
+- Read-only live database FK and bucket inventory confirmed the planned deletion route must redact authored Forum text rather than merely null `author_id`, and must remove two private Storage bucket assets separately. Design is documented in `docs/ACCOUNT_DELETION_SECURITY_DESIGN_2026-11-08.md`. **Self-service Delete account remains NOT implemented.**
+- No production site or Supabase mutation; no Netlify deployment/preview generated. Signed-in Samsung acceptance and real two-account deletion acceptance remain outstanding.
