@@ -77,6 +77,11 @@ ol{padding-left:23px}
 #noMatches[hidden]{display:none!important}
 footer{padding:25px 20px 55px;border-top:1px solid #354c5c;text-align:center;font-size:11px;color:#a4b8c5}
 footer a{margin:0 7px}
+.hero-search{max-width:1120px;margin:0 auto 22px;padding:17px 20px;border:1px solid #415d70;border-radius:15px;background:#0f2637}
+.hero-search .tools{margin:7px 0 8px}
+.hero-search .tools label{font-weight:700;color:#e3d4ae}
+.hero-search .search-count{margin:3px 0}
+@media(max-width:790px){.hero-search{margin:0 12px 16px}}
 @media(max-width:790px){.layout{grid-template-columns:1fr}.sidebar{position:relative;top:auto;display:flex;flex-wrap:wrap;gap:4px}.sidebar h2{width:100%;margin-bottom:4px}.sidebar a{padding:6px 9px;border:1px solid #354f63}.card{padding:18px}.hero{padding-top:28px}}
 @media(max-width:530px){.quickgrid{grid-template-columns:1fr}.top{gap:10px}.brand strong{letter-spacing:2px}.hero{padding-bottom:12px}.layout{padding:0 12px 26px;gap:15px}.card{padding:16px}.legend{gap:7px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
@@ -94,6 +99,12 @@ footer a{margin:0 7px}
 <p class="lead">Start with a report, follow the original evidence, compare the historical record, build your own investigation and keep track of what is confirmed, uncertain or simply alleged. This guide explains the tools, the steps and the limits — without assuming every claim is true.</p>
 <p class="updated">Guide edition: 8 November 2026. Features marked "Phone beta" are not yet available on the public website. Availability can vary by account and release.</p>
 <div class="legend"><span class="tag">Public site</span> Available visitor tools <span class="tag beta">Phone beta</span> Testing only <span class="tag limited">Conditional</span> Requires a login, permission or enabled feature</div>
+</div>
+<div class="hero-search" aria-label="Find help"><div class="kicker">Find what you need</div>
+<div class="tools"><label for="helpSearch">Search the guide and FAQ</label><input type="search" id="helpSearch" placeholder="Search help topics and questions" autocomplete="off" aria-describedby="helpCount"></div>
+<p class="search-count" id="helpCount" role="status" aria-live="polite">All help topics and questions shown.</p>
+<p class="note" id="noMatches" hidden>No matching questions or topics. Try a broader word, such as "case", "privacy", "satellite" or "research".</p>
+<noscript><p class="note">Searching requires JavaScript, but all guide sections and FAQs remain available to read below.</p></noscript>
 </div>
 <div class="layout" id="main">
 <aside class="sidebar" aria-label="Guide contents">
@@ -232,9 +243,7 @@ footer a{margin:0 7px}
 
 <section class="card" id="faq">
 <div class="kicker">Frequently asked questions</div><h2>Find an answer quickly</h2>
-<p class="section-intro">Search a word such as "account", "satellite", "privacy", "report", "video", "sources", "offline" or "export". Matching questions and guide topics remain visible.</p>
-<div class="tools"><label for="helpSearch">Search the guide and FAQ</label><input type="search" id="helpSearch" placeholder="Search help topics and questions" autocomplete="off" aria-describedby="helpCount"></div>
-<p class="search-count" id="helpCount" role="status" aria-live="polite">All help topics and questions shown.</p>
+<p class="section-intro">The search near the top of this page filters these questions and the how-to topics. You can also browse every question below.</p>
 <details class="faq-item" data-help-search><summary>Is Disclosure Desk a government or official UAP agency website?</summary><div class="answer"><p>No. Disclosure Desk is an independent research project by Boyd Digital Studios. It links to original government, academic and independent materials without claiming affiliation or endorsement.</p></div></details>
 <details class="faq-item" data-help-search><summary>Does being in an official archive prove a UFO or non-human craft existed?</summary><div class="answer"><p>No. An authentic document can prove that a record, investigation or allegation existed. Whether the reported observation is accurate, adequately explained or extraordinary requires separate evidence.</p></div></details>
 <details class="faq-item" data-help-search><summary>Do I need an account to research cases?</summary><div class="answer"><p>No account is required for ordinary public browsing such as News, Archive, Map, Videos and the source directory. Private saved documents, public posting and some account settings require sign-in or an enabled feature.</p></div></details>
@@ -266,7 +275,7 @@ footer a{margin:0 7px}
 <details class="faq-item" data-help-search><summary>Does the website charge for reading research?</summary><div class="answer"><p>Public browsing of the ordinary research sections does not require payment. External websites may have their own registration, access or licensing restrictions. This guide does not promise that all off-site source material is free.</p></div></details>
 <details class="faq-item" data-help-search><summary>May I reuse or publish an archive image in my project?</summary><div class="answer"><p>Check the original item and collection's rights statement. Access to a government archive or public website is not blanket reproduction permission. Contact the holding archive or rights holder if necessary.</p></div></details>
 <details class="faq-item" data-help-search><summary>How can I correct an error or suggest a source?</summary><div class="answer"><p>Email <a href="mailto:support@uapdisclosuredesk.com?subject=Source%20or%20correction%20-%20Disclosure%20Desk">support@uapdisclosuredesk.com</a> with the case title, relevant source link and a concise explanation. Do not include passwords or identifying witness details.</p></div></details>
-<p class="note" id="noMatches" hidden>No matching questions or topics. Try a broader word, such as "case", "privacy", "satellite" or "research".</p>
+
 </section>
 
 <section class="card" id="glossary">
