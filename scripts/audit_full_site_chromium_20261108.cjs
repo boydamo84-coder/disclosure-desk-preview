@@ -129,12 +129,16 @@ function normalizeIssue(x){return [x.viewport,x.target,x.kind,x.label||''].join(
           return !label;
         }).slice(0,14).map(el=>({tag:el.tagName,id:el.id||'',type:el.getAttribute('type')||'',
           cls:el.className?.toString().slice(0,45)||''}));
-       return {title:document.title.trim(),viewport:root.clientWidth,
+       return {title:document.title.trim(),finalPath:location.pathname,viewport:root.clientWidth,
         documentWidth:root.scrollWidth,unlabeled,
         h1:!!document.querySelector('h1'),buttons:document.querySelectorAll('button').length,
         links:document.querySelectorAll('a[href]').length};
      });
      report.pages.push({viewport:viewport.width,path:pathname,...audit});
+     // Auth-gated Research URLs may redirect before content renders; do not
+     // describe that as validating private editing, restore or login actions.
+     if(audit.finalPath!==pathname && !(pathname==='/'&&audit.finalPath==='/'))
+       report.issues.push({viewport:viewport.width,target:pathname,kind:'auth_gate_or_redirect',label:audit.finalPath});
      if(audit.documentWidth>audit.viewport+14)
        report.issues.push({viewport:viewport.width,target:pathname,kind:'page_overflow',
          label:audit.documentWidth+'/'+audit.viewport});
