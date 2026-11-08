@@ -38,7 +38,7 @@ const context={window,localStorage:{setItem:(k,v)=>store.set(k,v),getItem:k=>sto
 vm.runInNewContext(bridge,context,{filename:'wne-cloud-bridge.js',timeout:4000});
 (async()=>{
  const r=await window.fetch('/api/manuscript');
- assert.equal(r.status,200,'owner can open cloud document');
+ assert.equal(r.status,200,'owner can open cloud document: '+JSON.stringify(await r.clone().json()));
  assert.equal(store.get('wne-research-last-document:'+user1),doc1,'last verified document is remembered under owner');
  // Session change cannot let new user read previous owner's document.
  owner=user2;
