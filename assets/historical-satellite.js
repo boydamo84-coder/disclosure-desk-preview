@@ -9,6 +9,8 @@
 const NASA='https://worldview.earthdata.nasa.gov/';
 const EUMET_DAILY='https://pics.eumetsat.int/';
 const EUMET_VIEW='https://view.eumetsat.int/';
+const USGS_LANDSAT='https://earthexplorer.usgs.gov/';
+const LANDSAT_START='1972-07-23';
 const DAILY_START='1981-08-17';
 const NASA_DAILY_START='2000-03-01';
 const $=(tag,text,className)=>{
@@ -35,6 +37,14 @@ function details(r){
  return {date,lat:townLat,lon:townLon,city:String(r.city||'Approximate region').slice(0,120),
   precision:'approximate town/region',dailyArchive:date>=DAILY_START,
   nasaDaily:date>=NASA_DAILY_START};
+}
+function landsatWindow(raw){
+ const date=isoDate(raw);
+ if(!date||date<LANDSAT_START)return null;
+ // A first exploratory search only: acquisition cadence is not a promise of availability.
+ const midday=Date.parse(date+'T12:00:00Z'),shift=18*86400000;
+ return {from:new Date(midday-shift).toISOString().slice(0,10),
+  to:new Date(midday+shift).toISOString().slice(0,10)};
 }
 function utcTime(raw){
  if(typeof raw!=='string'||!/^([01]\d|2[0-3]):[0-5]\d$/.test(raw))return null;
@@ -88,6 +98,11 @@ function mountCaseCard(record,host){
   card.append(timeLabel,input,caveat);
  }else{
   card.append($('p','NASA Worldview daily imagery for this case date is not available from our verified starting window. Older Meteosat records may offer a daily historical view instead.','muted small'));
+ }
+ if(info.date>=LANDSAT_START){
+  const range=landsatWindow(info.date);
+  externalLink(links,'Search USGS Landsat 1–5 MSS scenes (1972+)',USGS_LANDSAT);
+  card.append($('p','For Landsat, manually search the town and acquisition dates '+range.from+' to '+range.to+' in EarthExplorer (Landsat Collection 2 Level-1 → Landsat 1–5 MSS C2 L1). Its 18-day revisit is an approximate search guide, not a verified image of this sighting.','muted small'));
  }
  if(info.dailyArchive){
   externalLink(links,'Open Meteosat historical gallery · choose '+info.date,EUMET_DAILY);
@@ -148,8 +163,10 @@ function openSatelliteCase(r){
  const actions=$('div',undefined,'dd-satellite-actions');
  const primary=externalLink(actions,'Open NASA daily satellite imagery · selected date and area',NASA);
  const eumet=externalLink(actions,'Open Meteosat historic imagery',EUMET_DAILY);
+ const landsat=externalLink(actions,'Search USGS Landsat 1–5 MSS archive (1972+)',USGS_LANDSAT);
  const modern=externalLink(actions,'EUMETSAT weather layers',EUMET_VIEW);
- const caution=$('p','NASA opens with the MODIS Terra daily true-colour imagery layer where that date has coverage. This is a daily satellite composite, not a guaranteed image at the selected UTC minute. EUMETSAT historic gallery usually offers one image per day and requires manual date selection. Neither viewer automatically verifies the nearest captured frame to the reported sighting; check original image timestamps and availability. These are NOT street-level or individual-object photographs.','muted small');
+ const landsatAdvice=$('p','','muted small');
+ const caution=$('p','NASA Worldview can show daily MODIS imagery where available after 2000. The EUMETSAT historical gallery starts in 1981; the first Meteosat launched in November 1977. USGS Landsat MSS imagery starts in 1972 but provides occasional daylight ground scenes, not continuous weather video. These links start a source search only; no nearest acquisition frame, geographic coverage or event-time match has been verified in Disclosure Desk. Never infer an unexplained object from a missing or unclear scene.','muted small');
  const update=()=>{
   const requested=isoDate(date.value),hasCoords=state.coordinatesKnown;
   const utc=utcTime(time.value);
@@ -157,11 +174,18 @@ function openSatelliteCase(r){
   primary.hidden=!world;
   if(world)primary.href=world;
   eumet.hidden=!requested||requested<DAILY_START;
+  landsat.hidden=!requested||requested<LANDSAT_START;
+  const landsatRange=landsatWindow(requested);
+  landsatAdvice.hidden=!landsatRange;
+  if(landsatRange)landsatAdvice.textContent=
+   'USGS EarthExplorer: choose the Landsat Collection 2 Level-1 → Landsat 1–5 MSS C2 L1 dataset, enter the case area manually and start with acquisition dates '+
+   landsatRange.from+' to '+landsatRange.to+'. This ±18-day window is only a starting search range. Select a genuine scene and compare its published acquisition timestamp and geographic footprint with the report. Landsat has ~80 m historic resolution and does not record continuous video or night-time UFO sightings.';
   modern.hidden=false;
   if(!requested)status.textContent='Choose a valid day from the original report; no exact event date has been confirmed.';
   else if(!hasCoords)status.textContent='The date is selected, but this archive lacks a verified town-level map position. Check the original source before a location-specific search.';
   else if(world)status.textContent='Date selected: '+requested+' · '+(utc?'manually entered '+utc+' UTC (unverified)':'12:00 UTC date-browsing default (not sighting time)')+' · approximate '+state.city+'. The image acquisition time is NOT checked.';
-  else if(requested>=DAILY_START)status.textContent='For this older date, use the Meteosat daily gallery and choose '+requested+' manually. Location and exact acquisition time must be checked in the source.';
+  else if(requested>=DAILY_START)status.textContent='For '+requested+', the Meteosat daily gallery offers a historical date search; USGS Landsat also provides a separate acquisition-date search. Neither gives a verified event-time image here.';
+  else if(requested>=LANDSAT_START)status.textContent='For '+requested+', use the USGS Landsat 1–5 MSS archive for scenes near the date. Meteosat had not launched yet and NASA MODIS begins in 2000. We have NOT retrieved or confirmed a matching frame.';
   else status.textContent='No verified source viewer coverage established for this date. Do not substitute modern imagery as historical.';
   if(!state.date&&requested)dateOrigin.textContent='Researcher-supplied date · not verified against the archive. Confirm the exact event date in the original document.';
   if(time.value&&!utc)timeNote.textContent='Enter a valid 24-hour UTC time. This will not be saved as a documented sighting time.';
@@ -169,11 +193,11 @@ function openSatelliteCase(r){
   else timeNote.textContent='No verified sighting time. The 12:00 UTC timeline position is a browsing default only, not the event time.';
  };
  date.addEventListener('input',update);time.addEventListener('input',update);
- content.append(label,date,dateOrigin,timeLabel,time,timeNote,status,actions,caution);
+ content.append(label,date,dateOrigin,timeLabel,time,timeNote,status,actions,landsatAdvice,caution);
  if(!dialog.open)dialog.showModal();
  update();date.focus();
  return true;
 }
 
-window.DDHistoricalSatellite=Object.freeze({details,isoDate,worldViewUrl,mountCaseCard,caseSelection,validatedViewerUrl,openSatelliteCase});
+window.DDHistoricalSatellite=Object.freeze({details,isoDate,worldViewUrl,mountCaseCard,caseSelection,validatedViewerUrl,landsatWindow,openSatelliteCase});
 })();
