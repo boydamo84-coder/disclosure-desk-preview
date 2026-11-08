@@ -40,7 +40,8 @@ for(const file of htmls){
   let local;
   try{local=decodeURIComponent(target.pathname).replace(/^\/+/,'')}catch{notes.push('Malformed local href '+raw.slice(0,80));continue}
   if(!local||local.endsWith('/'))local+='index.html';
-  if(allowVirtual.has(local)||local.startsWith('api/'))continue;
+  if(allowVirtual.has(local)){notes.push('Legacy or server-side route not verified in static release '+raw);continue}
+  if(local.startsWith('api/'))continue;
   const checked=path.resolve(ROOT,local);
   if(!checked.startsWith(path.resolve(ROOT)+path.sep)){problems.push('Escaping href '+raw.slice(0,80));continue}
   if(!fs.existsSync(checked)){problems.push('Missing local target '+raw.slice(0,100));continue}
