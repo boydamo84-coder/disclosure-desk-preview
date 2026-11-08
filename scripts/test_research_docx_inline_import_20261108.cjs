@@ -27,7 +27,7 @@ async function runScenario(options={}){
    DDResearchDocx:{importFile:async file=>{log.parser++;return {document:options.doc||doc,warnings:[]}}},
    confirm(){log.confirm++;return options.confirm!==false},
    alert(message){log.alerts.push(message)},
-   top:{location:{assign(url){log.navigation.push(url)}}}},
+   top:{location:{assign(url){log.navigation.push(url)}}},
   },
   document,crypto:{randomUUID:()=>UUIDS[(log.parser-1)%UUIDS.length]},
   fetch:async(path,opts)=>{
