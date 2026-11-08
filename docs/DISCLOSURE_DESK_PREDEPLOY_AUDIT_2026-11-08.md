@@ -38,3 +38,36 @@
 ## Current release policy
 
 Use **one** production Netlify deployment when all agreed fixes have passed source/browser tests and owner approves. A green GitHub check is **not** the same as physical Samsung acceptance or a live Netlify publication. The current public site remains on the previously verified Milestone 17 deployment until then.
+
+## Milestone 19 — Signed-in / owner-security audit (8 November 2026)
+
+**Scope:** Source and local synthetic account flows, plus strictly read-only Supabase catalog/advisor queries. No live database mutations, no real account login, no Netlify build.
+
+### New remediation staged
+
+- `assets/discussions-admin.js`: **fixes stale owner-only moderation data after account switching**. When the Supabase identity changes, the admin details close and the queue/section stewardship DOM clears immediately. The loading function records session revision and initial user ID, and rejects delayed RPC results once the user has switched or signed out. A completed action never falsely reports success for a different account. Database owner allowlist enforcement is unchanged.
+- New `scripts/test_discussions_admin_account_switch_20261108.cjs` executes the actual admin module under a synthetic browser with intentionally delayed owner A RPC, then signs out/signs in owner B. Verifies the first user's report never displays, the second user's completed moderation marker remains, and logout clears queue and stewardship. All **3 runtime assertions passed**.
+- Extended the existing no-Netlify GitHub Actions unit gate to run synthetic account-switch tests for Chat, queued private message cancellation, Discussions roles/feeds, avatar element races, public usernames, case comments, witness moderator restrictions and Research account Profile.
+- Corrected **two obsolete test contracts**, without changing the production-approved behavior: new signup usernames are public and Chat-discoverable **after explicit signup disclosure**, while pre-existing Hide/Chat-off choices remain untouched; and the approved twelve-tab navigation places **Explore after Profile**, not before.
+- Fixed the offline Chromium avatar test stub to retain synthetic uploaded image bytes during a follow-up read, matching actual Storage persistence; the test waits for its async auto-save before selecting Remove. This is test-only; no live photos touched.
+
+### Read-only database checks (live project)
+
+- The identified connected project has owner-scoped row-level policies for `dd_public_names`, `investigation_boards`, `research_documents`, `research_document_revisions`, `research_document_trash`, `research_assets`, and `research_reference_backups`. Query inspected policy predicates **without fetching user rows or content**.
+- Private Chat and Discussions base tables have RLS enabled and **no direct client-access RLS policies**, with reads/mutations mediated by dedicated server RPCs. Metadata confirmed Chat mutations require authenticated role and check `auth.uid()`; Discussions mutations invoke the registered-account helper; owner review endpoints independently check `dd_chat_owner_admins` or `dd_discussions_is_owner`. This is consistent with the intended design but **does not replace a signed-in two-account penetration test**.
+- Supabase security advisor raised: **19 INFO** for RLS tables without policies (mostly intentionally RPC-only), **13 WARN** for anon-accessible `SECURITY DEFINER` functions (mostly intentionally public curated reads, plus the `rls_auto_enable` event-trigger helper), **60 WARN** for authenticated-executable definer functions that must be individually scoped, and **1 WARN** that **leaked-password protection is not enabled**. These are linter findings, not claims that data was exposed. Do not indiscriminately revoke public reads; audit individual function bodies and API clients first.
+- The `rls_auto_enable` function is an event-trigger helper with restricted `search_path` and currently retains anon EXECUTE. Its actual direct invocation risk has not been established and should be reviewed before any privilege change.
+- Relevant Supabase references: [RPC definer warnings](https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable), [RLS-no-policy explanation](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy), [leaked-password protection](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection).
+
+### Product-level open items
+
+- **Delete my account:** Profile currently opens a disclosure and a support-email request; it **does not perform self-service Auth account deletion**. It is honest in the UI but doesn't yet meet the owner's requested complete delete-account capability. That requires server-only identity verification, orderly cleanup of signed-in Research and Boards, moderation/audit retention policy, idempotency, confirmation and backup/rollback precautions. No unreviewed destructive Edge Function was deployed.
+- **Real auth/permissions:** Existing synthetic browser fixtures and read-only SQL metadata cannot prove two actual distinct logins, per-account live private Chat/Discussions moderation, saved Cloud ZIP restore, mobile Gboard, or iOS Safari. These remain release gate items.
+- **Unchanged release policy:** All changes stay on `fix/compact-writing-popover-mobile-desktop-nov08` until the owner's one combined production deploy approval. Site owner reported **198 Netlify credits** left until 29 Nov; **zero builds initiated here**.
+
+### Exact CI evidence
+
+- Signed-in mock/unit tests: `scripts/test_discussions_admin_account_switch_20261108.cjs`, `test_discussions_account_switch_runtime.cjs`, `test_private_chat_account_switch_runtime.cjs`, `test_private_chat_switch_mutations.cjs`, `test_member_avatar_race.cjs`, `test_public_profiles.cjs`, `test_comment_security.cjs`, `test_comment_self_moderation.cjs`, `test_witness_moderation.cjs`, `test_research_hub.cjs`.
+- **Final reviewed source commit `68cd0bd1321f2e40616c638a27a74872d2582c57`**: [GitHub Actions run 42516950668](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42516950668), both jobs SUCCESS. Offline browser results: **16 editor**, **18 compact spelling**, **18 Research Library**, **12 Analytics consent**, **112 link/layout**, **29 site/navigation** checks; no real Google, Supabase or Netlify calls. Earlier intermediate failed runs exposed outdated test assumptions or a synthetic avatar-storage stub, not a production incident.
+
+**Next:** complete owner-reviewed account deletion design, inspect remaining live external source links and modernise dated user-facing help text, plus site admin action test under synthetic account. Later, one user-approved deploy followed by disposable real Samsung authentication and recovery acceptance; don't confuse localhost fixtures with signed-in acceptance.
