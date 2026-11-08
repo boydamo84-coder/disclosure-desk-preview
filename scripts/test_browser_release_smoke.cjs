@@ -248,13 +248,15 @@ async function selected(page,id){
     storage:{from:bucket=>{
      if(bucket!=='dd-profile-avatars')throw Error('Unexpected avatar bucket');
      return {
-      download:async()=>({data:null,error:{message:'Object not found'}}),
+      download:async()=>window.__avatarQa.savedPhoto?{data:window.__avatarQa.savedPhoto,error:null}:{data:null,error:{message:'Object not found'}},
       upload:async(path,blob,options)=>{
+       window.__avatarQa.savedPhoto=blob;
        window.__avatarQa.writes.push({action:'upload',path,contentType:blob.type,
         bytes:blob.size,options});
        return {data:{path},error:null};
       },
       remove:async(paths)=>{
+       window.__avatarQa.savedPhoto=null;
        window.__avatarQa.writes.push({action:'remove',paths});
        return {data:paths,error:null};
       }
