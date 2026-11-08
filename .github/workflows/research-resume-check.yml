@@ -79,6 +79,9 @@ jobs:
           node --check supabase/functions/dd-account-deletion/preflight-core.mjs
           node --check scripts/test_account_deletion_preflight_20261108.cjs
           node scripts/test_account_deletion_preflight_20261108.cjs
+          node --check supabase/functions/dd-account-deletion/execution-core.mjs
+          node --check scripts/test_account_deletion_execution_20261108.cjs
+          node scripts/test_account_deletion_execution_20261108.cjs
       - name: Verify restricted static bundle (no deploy)
         run: node scripts/test_public_release_package.cjs
   real-browser:
