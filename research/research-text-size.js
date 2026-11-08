@@ -83,21 +83,50 @@ function apply(){
   return false;
  }
  try{
-  const span=document.createElement('span');
-  span.setAttribute('data-wne-font-size',String(size));
-  // All changes are confined to the selected inline fragment.
-  span.append(range.extractContents());
-  range.insertNode(span);
-  const next=document.createRange();
-  next.selectNodeContents(span);
+  // Native insertHTML participates in the browser's Undo/Redo history, unlike
+  // Range.extractContents()+Range.insertNode() which silently bypasses Undo.
+  // Serialize only a minimal safe inline subset; never inject untrusted raw HTML.
+  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+   .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  const inlineTags=new Set(['b','strong','i','em','u','s','strike','sub','sup','code','mark','small']);
+  function inlineHtml(node){
+   if(node.nodeType===3)return esc(node.nodeValue||'');
+   if(node.nodeType!==1&&node.nodeType!==11)return '';
+   const tag=node.nodeType===1?node.tagName.toLowerCase():'';
+   if(tag==='br')return '<br>';
+   const content=Array.from(node.childNodes||[]).map(inlineHtml).join('');
+   if(inlineTags.has(tag))return '<'+tag+'>'+content+'</'+tag+'>';
+   if(tag==='span'){
+    const existing=node.getAttribute('data-wne-font-size')||'';
+    return allowed.has(Number(existing))&&existing.trim()!==''
+     ?'<span data-wne-font-size="'+esc(existing)+'">'+content+'</span>':content;
+   }
+   if(tag==='a'){
+    const href=node.getAttribute('href')||'';
+    return /^https:\/\/[^<>"']+$/i.test(href)&&href.length<=1000
+     ?'<a href="'+esc(href)+'">'+content+'</a>':content;
+   }
+   return content;
+  }
+  const markup='<span data-wne-font-size="'+size+'">'+inlineHtml(range.cloneContents())+'</span>';
+  if(markup.length>250000)throw Error('Selected text is too large to format at once.');
+  editor.focus({preventScroll:true});
   const current=window.getSelection();
-  current.removeAllRanges();current.addRange(next);
-  remembered=next.cloneRange();
-  editor.dispatchEvent(new Event('input',{bubbles:true}));
-  status.textContent='Selected text set to '+size+' px · saving with your research document.';
+  current.removeAllRanges();current.addRange(range);
+  let inputFired=false;
+  const onInput=()=>{inputFired=true};
+  editor.addEventListener('input',onInput,{once:true});
+  const applied=typeof document.execCommand==='function'&&document.execCommand('insertHTML',false,markup);
+  editor.removeEventListener('input',onInput);
+  if(!applied)throw Error('Undoable inline formatting is unavailable in this browser.');
+  // Browser-native commands normally dispatch input, but keep W.NE autosave
+  // wired in engines where insertion succeeds without an input notification.
+  if(!inputFired)editor.dispatchEvent(new Event('input',{bubbles:true}));
+  remembered=null;
+  status.textContent='Selected text set to '+size+' px · Undo is available · saving.';
   return true;
  }catch(_){
-  status.textContent='Text formatting was not applied. Your document was not deliberately replaced.';
+  status.textContent='Font size could not be applied safely in this browser.';
   remembered=null;return false;
  }
 }
