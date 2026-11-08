@@ -45,10 +45,10 @@ async function selected(page,id){
   await page.goto(BASE+'/',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.nav .tab[data-tab="profilePage"]');
   const tabs=await page.locator('nav.nav .tab').count();
-  assert.equal(tabs,11,'Public/staged flag OFF retains exactly eleven tabs');
+  assert.equal(tabs,12,'Current public release keeps all twelve approved navigation tabs');
   assert.equal(await selected(page,'discover'),'page');
   assert.equal(await hasVisibleSection(page,'discover'),true);
-  pass('existing 11 bottom tabs and visible News');
+  pass('all twelve approved bottom tabs and visible News');
   const navRail=page.locator('.nav-inner');
   await page.locator('#ddNavNext').waitFor({state:'visible'});
   const initialDockScroll=await navRail.evaluate(el=>el.scrollLeft);
@@ -135,19 +135,19 @@ async function selected(page,id){
   await page.screenshot({path:path.join(OUTPUT,'mobile-explore-393px.png'),fullPage:false});
   await page.goto(BASE+'/?dd_tab=discussionsPage',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.nav .tab[data-tab="discover"]');
-  assert.equal(await page.locator('nav.nav .tab').count(),11);
+  assert.equal(await page.locator('nav.nav .tab').count(),12);
   assert.equal(await hasVisibleSection(page,'discussionsPage'),false);
   assert.equal(await selected(page,'discover'),'page');
-  pass('disabled Discussions deep link cannot reveal 12th tab');
+  pass('unsupported Discussions deep link does not create a phantom navigation tab');
   await page.goto(BASE+'/?dd_tab=profilePage',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.nav .tab[data-tab="profilePage"]');
   assert.equal(await selected(page,'profilePage'),'page');
   pass('valid W.NE return deep link restores Profile');
   await page.goto(BASE+'/research/guest-preview.html',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.dd-site-dock-tab');
-  assert.equal(await page.locator('.dd-site-dock-tab').count(),11);
+  assert.equal(await page.locator('.dd-site-dock-tab').count(),12);
   assert.equal(await page.locator('.dd-site-dock-tab[data-dd-tab="discussionsPage"]').count(),0);
-  pass('Research guest preview contains same 11-tab dock, Discussions OFF');
+  pass('Research guest preview retains all twelve navigation links');
   const back=page.locator('.dd-site-dock-tab[data-dd-tab="hub"]');
   await back.click({timeout:10000});
   await page.waitForURL('**/?dd_tab=hub',{timeout:10000});
@@ -155,8 +155,8 @@ async function selected(page,id){
   pass('Research dock returns through main site to Explore');
   await page.goto(BASE+'/research/index.html',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.dd-site-dock-tab[data-dd-tab="profilePage"]');
-  assert.equal(await page.locator('.dd-site-dock-tab').count(),11);
-  pass('Research entry preserves eleven shared nav destinations');
+  assert.equal(await page.locator('.dd-site-dock-tab').count(),12);
+  pass('Research entry preserves twelve shared nav destinations');
   await page.screenshot({path:path.join(OUTPUT,'mobile-research-entry-393px.png'),fullPage:false});
   // The responsive check catches horizontal content that breaks phone navigation.
   const widths=await page.evaluate(()=>({viewport:document.documentElement.clientWidth,
