@@ -58,19 +58,28 @@ export async function executeApprovedDeletion(job, adapter) {
   const manifest = validateApprovedJob(job);
   const id = job.account_id;
   let phase = job.phase;
+  assert(adapter && typeof adapter.assertLeaseActive === "function", "lease_check_unavailable");
+  const verifyLease = async () => {
+    const current = await adapter.assertLeaseActive(id, job.lease_token, phase);
+    assert(current === true, "lease_not_current");
+  };
   const advance = async next => {
+    await verifyLease();
     await adapter.advancePhase(id, job.lease_token, phase, next);
     phase = next;
   };
   if (phase === "approved") {
+    await verifyLease();
     await adapter.assertNotPrivilegedOwner(id);
     await adapter.redactOwnForumText(id, REDACTED_THREAD, REDACTED_REPLY);
     await advance("forum_redacted");
   }
   if (phase === "forum_redacted") {
+    await verifyLease();
     await adapter.assertNotPrivilegedOwner(id);
     for (const {bucket_id, name, owner_id} of manifest) {
       assert(owner_id === id, "foreign_storage_owner");
+      await verifyLease();
       await adapter.removeOwnedObject(id, bucket_id, name);
     }
     // Catch both untracked orphan objects and objects uploaded since PREPARE.
@@ -79,17 +88,22 @@ export async function executeApprovedDeletion(job, adapter) {
     await advance("storage_cleared");
   }
   if (phase === "storage_cleared") {
+    await verifyLease();
     await adapter.assertNotPrivilegedOwner(id);
     const remaining = validateManifest(await adapter.enumerateOwnedObjects(id), id);
     assert(remaining.length === 0, "storage_objects_remaining");
     const existsBefore = await adapter.accountExists(id);
     assert(typeof existsBefore === "boolean", "auth_state_unverified");
-    if (existsBefore) await adapter.deleteAuthAccount(id);
+    if (existsBefore) {
+      await verifyLease();
+      await adapter.deleteAuthAccount(id);
+    }
     const existsAfter = await adapter.accountExists(id);
     assert(existsAfter === false, "auth_deletion_unverified");
     await advance("auth_removed");
   }
   if (phase === "auth_removed") {
+    await verifyLease();
     const stillExists = await adapter.accountExists(id);
     assert(stillExists === false, "auth_deletion_unverified");
     const remaining = validateManifest(await adapter.enumerateOwnedObjects(id), id);
