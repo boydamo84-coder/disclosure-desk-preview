@@ -135,7 +135,7 @@ function signupNotice(){
  panel.style.cssText='width:min(100%,430px);box-sizing:border-box;background:#102131;border:1px solid #E0C48E;border-radius:16px;padding:30px 22px;text-align:center;color:#E8EDF1;box-shadow:0 20px 65px rgba(0,0,0,.55);font-family:Arial,Helvetica,sans-serif;';
  const logo=document.createElement('div');logo.textContent='DISCLOSURE DESK';logo.style.cssText='color:#E0C48E;font-size:19px;font-weight:800;letter-spacing:2px;margin-bottom:20px;';
  const heading=document.createElement('h2');heading.id='ddSignupHeading';heading.textContent='Check your email';heading.style.cssText='color:#F5F0E6;font-size:25px;margin:0 0 15px;';
- const p=document.createElement('p');p.textContent='Your signup request was received. We have sent a confirmation link if this email address can be registered. Open the email and tap “Confirm my email” to activate your account.';p.style.cssText='font-size:15px;line-height:1.65;color:#D5E0E8;';
+ const p=document.createElement('p');p.textContent='Your signup request was received. Open the confirmation email and tap “Confirm my email”, then sign in. Your chosen username will automatically be public and searchable for Chat. You can change this in Profile.';p.style.cssText='font-size:15px;line-height:1.65;color:#D5E0E8;';
  const tip=document.createElement('p');tip.textContent='No email? Check Spam or Junk, then try again if needed.';tip.style.cssText='font-size:13px;line-height:1.5;color:#B5C1CE;margin:16px 0 25px;';
  const btn=document.createElement('button');btn.type='button';btn.textContent='Got it';btn.style.cssText='background:#E0C48E;color:#0E1D2B;border:0;border-radius:9px;padding:13px 29px;font-size:15px;font-weight:700;cursor:pointer;min-height:44px;';
  const close=()=>{overlay.remove();document.removeEventListener('keydown',esc);};
@@ -179,8 +179,8 @@ async function handleConfirmationReturn(){
 async function auth(mode){
  const e=email.value.trim(),p=pass.value;
  if(!e||!p){say('Enter an email and password.');return}
- // The requested name is only a sign-up PREFILL. It confers no permissions.
- // A verified signed-in owner saves it separately with explicit public opt-in.
+ // Signup explicitly discloses public default username and Chat discoverability.
+ // The signed-in Profile module creates the owner-scoped public alias on login.
  const requestedName=String(document.getElementById('ddSignupUsername')?.value||'').trim();
  if(mode==='signup'&&(!/^[A-Za-z][A-Za-z0-9_]{2,23}$/.test(requestedName)
    ||/(admin|moderator|support|official|verified|staff|disclosuredesk|boyddigitalstudios|uapdisclosuredesk)/i.test(requestedName))){
@@ -192,7 +192,7 @@ async function auth(mode){
   if(out.error)throw out.error;
   pass.value='';
   await refresh();
-  if(mode==='signup'&&!out.data.session){say('Signup request received. Check your inbox for a confirmation link (and check spam).');signupNotice()}else if(mode==='signup'){say('Account created and signed in. Your device boards have not been changed.');}else{say('Signed in successfully. Your existing device boards have not been changed.')}
+  if(mode==='signup'&&!out.data.session){say('Check your confirmation email, then sign in. Your chosen username will become public and searchable for Chat by default.');signupNotice()}else if(mode==='signup'){say('Account created. Your chosen username will be public and Chat-discoverable by default. Your device boards are unchanged.');}else{say('Signed in successfully. Your existing device boards have not been changed.')}
  }catch(ex){const msg=String(ex.message||'Unknown error');say(mode==='signup'&&/already registered|already exists|user already registered/i.test(msg)?'This email is already registered. Tap Sign in instead, or Reset password if needed.':'Account action failed: '+msg)}
 }
 const quantity=(n,singular,plural=singular+'s')=>n+' '+(n===1?singular:plural);
