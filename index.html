@@ -2052,7 +2052,7 @@ $('boardImportFile').onchange=e=>{const file=e.target.files?.[0];if(file)importP
 let ddRememberedTab=null;
 try{ddRememberedTab=window.sessionStorage?.getItem(ddLastTabKey)||null}catch{}
 const ddResearchReturnTab=new URLSearchParams(location.search).get('dd_tab')||ddRememberedTab;
-if(['discover','archivePage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','hub','profilePage'].includes(ddResearchReturnTab)){
+if(['discover','archivePage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','hub','profilePage','chatPage','discussionsPage'].includes(ddResearchReturnTab)){
  navigateTo(ddResearchReturnTab);
 }
 // This additional tab is deferred until the host's source-controlled feature flag
