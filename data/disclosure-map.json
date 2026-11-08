@@ -1,33 +1,5 @@
 [
   {
-    "id": "dd-featured-rendlesham-1980",
-    "title": "Rendlesham Forest sightings (December 1980)",
-    "category": "UAP",
-    "city": "Rendlesham Forest, Suffolk, England",
-    "lat": 52.0844,
-    "lon": 1.4302,
-    "year": 1980,
-    "desc": "USAF personnel stationed at RAF Woodbridge reported unexplained lights in December 1980 and investigated areas of Rendlesham Forest. The map marker is an approximate, publicly documented forest visitor area, not the exact point of any reported observation; interpretations remain disputed.",
-    "source": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/",
-    "documents": [
-      {
-        "title": "National Archives — correspondence on Rendlesham Forest",
-        "publisher": "The National Archives (UK)",
-        "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/",
-        "kind": "Official record overview"
-      },
-      {
-        "title": "Forestry England — Rendlesham Forest location and UFO trail",
-        "publisher": "Forestry England",
-        "url": "https://www.forestryengland.uk/rendlesham-forest",
-        "kind": "Official public location"
-      }
-    ],
-    "archiveRecordId": "featured-rendlesham-1980",
-    "locationPrecision": "Approximate public forest visitor area; not the incident location",
-    "locationSource": "https://www.forestryengland.uk/rendlesham-forest"
-  },
-  {
     "id": "dd-uk-mod-ufo-1997-p1-t0-r16",
     "title": "MoD UFO report · Bradford · 20 Jan 1997",
     "category": "UAP",
