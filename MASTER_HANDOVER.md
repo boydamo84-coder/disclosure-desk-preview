@@ -72,3 +72,37 @@ _Last updated: 8 November 2026 (Europe/London)_
 - Production branch successfully fast-forwarded with lease from `b9fe74e0094599e9677b8b363d8b4f0c4389575e` to **`3b01cdf0e34c93a7cdd831f2c82b6aef798f5127`**, source update confirmed by reading branch head.
 - **PUBLIC NETLIFY DEPLOYMENT UNVERIFIED**: neither the website nor deployed asset could be retrieved by available external probes (network/website access errors). GitHub branch update by itself does **not** mean the new bundle is live. The owner's earlier Netlify settings had builds stopped. Check Netlify's Deploys screen, make sure production branch build is active and trigger a deploy if needed, using existing build command `node scripts/build_public_release.cjs` and publish directory `.release-staging/public-site` rather than repository root. This may require owner UI action; don't misreport as live.
 - Next: on a published live version with `nov08-safari-auto-save-v2`, friend tests Profile with same known-good image, confirms 'saved automatically', reloads and checks visibility; on failure capture exact Profile photo status text, not passwords or raw user identifiers.
+
+## Milestone 6 — Android / Google Play readiness audit (8 November 2026; SOURCE VERIFIED, NOT BUILD TESTED)
+
+**Planning-only branch:** `planning/play-store-readiness-20261108` based on production commit `b147f9c6942a686a22dea72c2b1fa884eafa1dbd`. This documentation review MUST NOT trigger a Netlify deploy or modify Android source/live Supabase. User asked whether today's website is sufficient for an updated APK / Play Store publication; recommendation is **start Android release preparation now**, not public Play submission until the blockers below are tested.
+
+### Current Android shell — code inspection
+- `android-test/app/build.gradle.kts` currently has `applicationId="com.disclosuredesk.preview"`, `targetSdk=35`, `compileSdk=35`, `versionCode=8`, `versionName="0.7-test"`.
+- `android-test/app/src/main/AndroidManifest.xml` still labels the app **Disclosure Desk TEST**.
+- `MainActivity.java` `HOME` and `DiscoveryWorker.java` `BASE` both target old `https://boydamo84-coder.github.io/disclosure-desk-preview/` instead of the production `https://uapdisclosuredesk.com/`. The notification deep links and origin whitelist also reference the old hostname.
+- Existing `WebChromeClient` implements fullscreen callbacks but **does not implement `onShowFileChooser`**; native WebView profile photo uploads and attachment picking must be implemented and tested.
+- No signed production **AAB**, Play Console release, or real end-to-end Android 16 (API 36) compatibility validation was verified in this session. Do not claim one exists. Keep original Play signing ID/keystore if an app listing has already been created; never blindly rename an existing published package.
+
+### Google Play requirements verified against current official policies (8 Nov)
+- Standard new Android phone apps and updates must target **Android 16/API 36** from **31 August 2026**. Existing shell API 35 is below new submission requirement. Source: https://support.google.com/googleplay/android-developer/answer/11926878
+- New apps are normally submitted as **Android App Bundle (.aab)** rather than APK. APK is still suitable for local/sideload testing. Source: https://developer.android.com/guide/app-bundle
+- **If** Play Console is a newly created personal developer account (after 13 Nov 2023), a closed test needs at least **12 opted-in testers for 14 consecutive days** before requesting production access. Check actual account status. Source: https://support.google.com/googleplay/android-developer/answer/14151465
+- UGC/DM app must require terms acceptance before posting, in-app reporting for users/content and in-app blocking for DM or public UGC. Existing chat `dd_chat_block` and `dd_chat_report` are present in code; do not assume every public user/post flow is complete. Source: https://support.google.com/googleplay/android-developer/answer/9876937
+- Account-creating apps need a discoverable in-app account deletion request path **and** an external web resource, with a correct user-data deletion procedure; current privacy page advertises support email, but no dedicated deletion path was source-verified. Source: https://support.google.com/googleplay/android-developer/answer/10144311
+- Complete privacy policy, Data safety form, ads declaration, age/content ratings, Play store listing assets/screenshots and reviewer access. Source: https://support.google.com/googleplay/android-developer/answer/9859455
+
+### Recommended release gates (in order)
+1. **Android native shell update:** production site URL, allowed origins, notification JSON URLs/deeplinks, release branding, API 36/Android 16 handling, WebChromeClient file chooser, saved WebView sessions and navigation. Build debug APK, release-signed AAB with secure Play App Signing, review app identity with owner.
+2. **QA on Android:** Profile photo upload (including the friend's outstanding Safari/Chrome web bug when available), login/logout, Chat invitation/accept/message/block/report, Discussions posts/flag, witness drafts/submission, research save & export, Maps, embedded Video fullscreen/back button, notifications and browser handoffs. Check permissions and security. Record actual user-device evidence.
+3. **Trust/policy:** correct stale community-rules copy saying Chat/Discussions are “future” when now active; make account deletion prominently requestable in Profile + on website; explicit UGC terms acceptance, data-safety audit, reports/blocking for all supported relevant paths, support/appeals response operations, privacy/consent and ad declarations.
+4. **Google Play package & distribution:** publishable icon, screenshots, feature graphic, concise listing description, content rating/target audience, privacy/deletion URLs, reviewer test account, API 36 AAB/signing, internal then required closed testing. Avoid ads launch dependencies if AdSense/AdMob not approved; declare accurately for distributed app.
+5. **Launch:** resolve blockers from test, Play production access/review, staged rollout, monitor crashes and feedback. No premature announcement of Play approval.
+
+### Post-launch feature roadmap — stays optional for first Play release
+Approved `docs/POST_LAUNCH_RESEARCH_ROADMAP_2026-11-03.md` Phase A `Investigate any case`; Phase B `What was in the sky?` (aircraft/satellites/weather/astronomy data, with limitations); Phase C `Independent witness matching` (city-level, user opt-in); Phase D `Evidence quality & case status`; Phase E `Publish an Investigation` (explicit opt-in private-to-public W.NE report publishing). **Planning only**; none is needed to ship the core UAP app.
+
+### Other current caveats
+- Automated previous website beta14 gate asserts 11 tabs and `privateChat:false`/`discussions:false` though production code enables Chat and Discussions; these stale QA expectations should be corrected before a release gate is trusted, without disabling approved features.
+- The friend's profile photo on Safari/Chrome remains **pending real live acceptance**. User said they will report back after friend retests.
+- Real Netlify publishing of previous production site update was not verified; don't claim published merely because GitHub branch advanced.
