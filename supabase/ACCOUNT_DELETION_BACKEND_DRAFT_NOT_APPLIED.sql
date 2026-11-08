@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS public.dd_account_deletion_jobs (
   lease_token uuid,
   lease_expires_at timestamptz,
   reauthenticated_at timestamptz,
+  prepared_session_id uuid,
   confirmed_at timestamptz,
   last_error_code text,
   created_at timestamptz NOT NULL DEFAULT now(),
@@ -117,7 +118,98 @@ END $$;
 REVOKE ALL ON FUNCTION public.dd_deletion_redact_forum(uuid) FROM PUBLIC, anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.dd_deletion_redact_forum(uuid) TO service_role;
 
-CREATE OR REPLACE FUNCTION public.dd_deletion_claim(p_target uuid,p_digest text,p_lease uuid)
+CREATE OR REPLACE FUNCTION public.dd_deletion_prepare(
+  p_target uuid,p_session uuid,p_digest text,p_manifest jsonb
+) RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path = ''
+AS $
+DECLARE v_count integer;
+BEGIN
+  IF current_setting('request.jwt.claim.role',true) IS DISTINCT FROM 'service_role' THEN
+    RAISE EXCEPTION 'not permitted' USING ERRCODE='42501';
+  END IF;
+  IF NOT public.dd_deletion_active_session(p_target,p_session) OR
+    public.dd_deletion_guard_role(p_target) OR
+    p_digest !~ '^[a-f0-9]{64}
+RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path = ''
+AS $$
+DECLARE v_count integer;
+BEGIN
+  IF current_setting('request.jwt.claim.role',true) IS DISTINCT FROM 'service_role' THEN
+    RAISE EXCEPTION 'not permitted' USING ERRCODE='42501';
+  END IF;
+  IF public.dd_deletion_guard_role(p_target) THEN
+    RETURN false;
+  END IF;
+  UPDATE public.dd_account_deletion_jobs
+  SET phase='approved', intent_digest=NULL, intent_expires_at=NULL,
+      lease_token=p_lease, lease_expires_at=now()+interval '15 minutes',
+      confirmed_at=now(), updated_at=now()
+  WHERE account_id=p_target AND phase='prepared'
+    AND intent_digest=p_digest AND intent_expires_at>now()
+    AND reauthenticated_at > now()-interval '10 minutes'\n    AND prepared_session_id=p_session\n    AND public.dd_deletion_active_session(p_target,p_session);
+  GET DIAGNOSTICS v_count=ROW_COUNT;
+  RETURN v_count=1;
+END $$;
+REVOKE ALL ON FUNCTION public.dd_deletion_claim(uuid,uuid,text,uuid) FROM PUBLIC,anon,authenticated;
+GRANT EXECUTE ON FUNCTION public.dd_deletion_claim(uuid,uuid,text,uuid) TO service_role;
+
+CREATE OR REPLACE FUNCTION public.dd_deletion_advance(
+  p_target uuid,p_lease uuid,p_before text,p_after text
+) RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path = ''
+AS $$
+DECLARE v_count integer;
+BEGIN
+  IF current_setting('request.jwt.claim.role',true) IS DISTINCT FROM 'service_role' THEN
+    RAISE EXCEPTION 'not permitted' USING ERRCODE='42501';
+  END IF;
+  IF NOT (
+    (p_before='approved' AND p_after='forum_redacted') OR
+    (p_before='forum_redacted' AND p_after='storage_cleared') OR
+    (p_before='storage_cleared' AND p_after='auth_removed') OR
+    (p_before='auth_removed' AND p_after='complete')
+  ) THEN
+    RAISE EXCEPTION 'invalid stage transition';
+  END IF;
+  UPDATE public.dd_account_deletion_jobs
+    SET phase=p_after, updated_at=now(),
+      manifest=CASE WHEN p_after='complete' THEN '[]'::jsonb ELSE manifest END,
+      completed_at=CASE WHEN p_after='complete' THEN now() ELSE completed_at END,
+      lease_token=CASE WHEN p_after='complete' THEN NULL ELSE lease_token END,
+      lease_expires_at=CASE WHEN p_after='complete' THEN NULL ELSE lease_expires_at END
+  WHERE account_id=p_target AND phase=p_before
+    AND lease_token=p_lease AND lease_expires_at>now();
+  GET DIAGNOSTICS v_count=ROW_COUNT;
+  RETURN v_count=1;
+END $$;
+REVOKE ALL ON FUNCTION public.dd_deletion_advance(uuid,uuid,text,text) FROM PUBLIC,anon,authenticated;
+GRANT EXECUTE ON FUNCTION public.dd_deletion_advance(uuid,uuid,text,text) TO service_role;
+
+COMMIT;
+ OR
+    jsonb_typeof(p_manifest) IS DISTINCT FROM 'array' OR
+    jsonb_array_length(p_manifest)>2000 THEN RETURN false;
+  END IF;
+  -- Re-preparation is allowed only in PREPARED state, never mid-cleanup.
+  INSERT INTO public.dd_account_deletion_jobs
+  (account_id,phase,intent_digest,intent_expires_at,manifest,
+   reauthenticated_at,prepared_session_id,updated_at)
+  VALUES (p_target,'prepared',p_digest,now()+interval '10 minutes',p_manifest,
+    now(),p_session,now())
+  ON CONFLICT(account_id) DO UPDATE
+    SET intent_digest=EXCLUDED.intent_digest,
+      intent_expires_at=EXCLUDED.intent_expires_at,
+      manifest=EXCLUDED.manifest,
+      reauthenticated_at=EXCLUDED.reauthenticated_at,
+      prepared_session_id=EXCLUDED.prepared_session_id,
+      updated_at=now()
+    WHERE public.dd_account_deletion_jobs.phase='prepared';
+  GET DIAGNOSTICS v_count=ROW_COUNT;
+  RETURN v_count=1;
+END $;
+REVOKE ALL ON FUNCTION public.dd_deletion_prepare(uuid,uuid,text,jsonb) FROM PUBLIC,anon,authenticated;
+GRANT EXECUTE ON FUNCTION public.dd_deletion_prepare(uuid,uuid,text,jsonb) TO service_role;
+
+CREATE OR REPLACE FUNCTION public.dd_deletion_claim(p_target uuid,p_session uuid,p_digest text,p_lease uuid)
 RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path = ''
 AS $$
 DECLARE v_count integer;
@@ -138,8 +230,8 @@ BEGIN
   GET DIAGNOSTICS v_count=ROW_COUNT;
   RETURN v_count=1;
 END $$;
-REVOKE ALL ON FUNCTION public.dd_deletion_claim(uuid,text,uuid) FROM PUBLIC,anon,authenticated;
-GRANT EXECUTE ON FUNCTION public.dd_deletion_claim(uuid,text,uuid) TO service_role;
+REVOKE ALL ON FUNCTION public.dd_deletion_claim(uuid,uuid,text,uuid) FROM PUBLIC,anon,authenticated;
+GRANT EXECUTE ON FUNCTION public.dd_deletion_claim(uuid,uuid,text,uuid) TO service_role;
 
 CREATE OR REPLACE FUNCTION public.dd_deletion_advance(
   p_target uuid,p_lease uuid,p_before text,p_after text
