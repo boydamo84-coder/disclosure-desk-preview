@@ -304,7 +304,21 @@ async function selected(page,id){
   pass('real browser photo auto-saves WebP to separate opaque private key');
   avatarPage.on('dialog',d=>d.accept());
   // Avatar auto-upload is asynchronous: wait for its UI confirmation, not only the mock write call.
-  await avatarPage.locator('#ddAvatarRemove:not([hidden]):not([disabled])').waitFor({state:'visible',timeout:10000});
+  try{
+   await avatarPage.locator('#ddAvatarRemove:not([hidden]):not([disabled])').waitFor({state:'visible',timeout:10000});
+  }catch(error){
+   const snapshot=await avatarPage.evaluate(()=>({
+    status:document.getElementById('ddAvatarStatus')?.textContent,
+    panelHidden:document.getElementById('ddAvatarPanel')?.hidden,
+    removeHidden:document.getElementById('ddAvatarRemove')?.hidden,
+    removeDisabled:document.getElementById('ddAvatarRemove')?.disabled,
+    key:window.__avatarQa?.privateKey,
+    savedBytes:window.__avatarQa?.savedPhoto?.size,
+    writes:window.__avatarQa?.writes?.map(x=>x.action),
+    url:location.pathname
+   }));
+   throw Error('Avatar removal readiness diagnostic '+JSON.stringify(snapshot)+'; '+error.message);
+  }
   await avatarPage.locator('#ddAvatarRemove').click();
   await avatarPage.waitForFunction(()=>window.__avatarQa?.writes?.some(x=>x.action==='remove'));
   const removal=await avatarPage.evaluate(()=>window.__avatarQa.writes.find(x=>x.action==='remove'));
