@@ -13,12 +13,24 @@ let errors=0,warnings=0,links=0;
 const report=[];
 for(const file of htmls){
  const contents=fs.readFileSync(path.join(ROOT,file),'utf8');
- const problems=[],notes=[],found=[...contents.matchAll(/<a\b[^>]*\bhref\s*=\s*(["'])(.*?)\1/gi)];
+ // Inline JS can contain example / template <a href="'+escape(value)+'"> HTML.
+ // Scan actual markup only; dynamic destinations are covered by browser tests.
+ const markup=contents.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,'')
+                      .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,'');
+ const problems=[],notes=[],found=[...markup.matchAll(/<a\b[^>]*\bhref\s*=\s*(["'])(.*?)\1/gi)];
  for(const match of found){
   const raw=match[2].replace(/&amp;/gi,'&').trim();
   if(!raw||raw.includes('$'+'{')||raw.includes('{{'))continue;
   links++;
   if(raw==='#'){notes.push('Placeholder href="#"');continue}
+  // Writer-only links are explicitly CSS-hidden in Research Edition; retain
+  // their DOM IDs for backward-compatible handlers, but never claim routes work.
+  if(file==='research/wne.html'&&(raw==='/reader'||raw==='/remote')){
+   const marker=raw==='/reader'?'#wne-writer-reader':'a[href="/remote"]';
+   if(!contents.includes(marker))problems.push('Legacy link not demonstrably hidden '+raw);
+   else notes.push('Hidden legacy Writer-only link remains in source '+raw);
+   continue;
+  }
   if(/^javascript:/i.test(raw)){problems.push('JavaScript link '+raw.slice(0,80));continue}
   if(/^(?:mailto:|tel:|blob:|data:)/i.test(raw))continue;
   let target;
