@@ -37,6 +37,14 @@ export async function resumeDeletionWithOperatorApproval(
     eligiblePhases.includes(before.phase), "not_recoverable");
   requireCondition(before.intent_digest===null && !!before.confirmed_at &&
     !!before.reauthenticated_at, "unapproved_original_deletion");
+  // Reject malformed/foreign-object manifests BEFORE consuming a DBA ticket.
+  validateApprovedJob({
+    account_id:before.account_id, phase:before.phase,
+    lease_token:before.lease_token,manifest:before.manifest,
+    one_time_intent_consumed:before.intent_digest===null,
+    reauthentication_verified:!!before.reauthenticated_at,
+    confirmation_verified:!!before.confirmed_at
+  });
   const expires=Date.parse(before.lease_expires_at || "");
   requireCondition(Number.isFinite(expires) && expires<Date.now(), "existing_lease_not_expired");
   // This must be verified by an actual server-enforced write freeze, not a UI
