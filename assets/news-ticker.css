@@ -22,7 +22,7 @@
 .dd-news-ticker-recent .dd-ticker-link{color:#f7f8fa}
 .dd-ticker-empty{padding:8px 13px;font-size:11px;opacity:.85}
 .dd-ticker-still .dd-ticker-track{animation:none}
-/* Pointer tapping / focus must not freeze news crawl; explicit Pause only. */
+/* Pointer taps and keyboard focus never stop the continuous crawl. */
 @keyframes ddTickerCrawl{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .dd-news-ticker-alert{position:fixed;z-index:840;left:max(12px,calc((100vw - 820px)/2));right:max(12px,calc((100vw - 820px)/2));bottom:calc(var(--dd-news-nav-height,75px) + 5px);border:1px solid #caa34b;border-radius:12px;background:#e4be45;color:#13202c;box-shadow:0 6px 30px #000b;overflow:hidden}
 .dd-news-ticker-alert .dd-news-ticker-row{min-height:42px}
@@ -99,8 +99,7 @@
 @media(prefers-reduced-motion:reduce){
  .dd-news-ticker-breaking .dd-ticker-link.dd-break-erasing,.dd-news-ticker-breaking .dd-ticker-link.dd-break-typing{animation:none!important;clip-path:none!important}
 }
-/* Only the explicit Pause control freezes the crawl; opening a story never does. */
-.dd-ticker-user-paused .dd-ticker-track{animation-play-state:paused!important}
+/* No manual Pause button: opening a story never freezes either ticker. */
 .dd-news-ticker-row[hidden]{display:none!important}
 /* Leave the mobile dock swipe hint usable on other tabs, but never over a visible News ticker. */
 /* Swipe chevron is now inside the dock and doesn't overlap the ticker. */

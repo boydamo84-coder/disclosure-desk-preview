@@ -63,21 +63,6 @@
     } catch { return {hub: true, alerts: true, dismissed: []}; }
   }
   let prefs = readPrefs();
-  let tickerPaused = false;
-  let pauseButton = null;
-  let stopHeadlineTransition = null;
-  function setTickerPaused(value) {
-    tickerPaused = Boolean(value);
-    if (tickerPaused) stopHeadlineTransition?.();
-    for (const id of ['ddNewsTickerBreakingTrack', 'ddNewsTickerRecentTrack']) {
-      const viewport = byId(id)?.parentElement;
-      if (viewport) viewport.classList.toggle('dd-ticker-user-paused', tickerPaused);
-    }
-    if (pauseButton) {
-      pauseButton.textContent = tickerPaused ? 'Resume headlines' : 'Pause headlines';
-      pauseButton.setAttribute('aria-pressed', String(tickerPaused));
-    }
-  }
   function store() {
     try { root.localStorage.setItem(KEY, JSON.stringify(prefs)); } catch {}
   }
@@ -91,7 +76,7 @@
     link.title = 'Read reporting from ' + article.source;
     if (isCopy) { link.setAttribute('aria-hidden', 'true'); link.tabIndex = -1; }
     link.addEventListener('click', event => {
-      // Reading a headline never pauses the crawl; optional Pause control remains user-initiated.
+      // Headlines open without interrupting the news crawl or Breaking transitions.
       if (typeof root.ddTickerOpenStory === 'function' &&
           root.ddTickerOpenStory(article.id) === true) event.preventDefault();
     });
@@ -141,13 +126,6 @@
     const toggleAlerts = byId('ddNewsTickerAlertsToggle');
     const hide = byId('ddNewsTickerHide');
     const off = byId('ddNewsTickerOff');
-    pauseButton = doc.createElement('button');
-    pauseButton.id = 'ddNewsTickerPause';
-    pauseButton.type = 'button';
-    pauseButton.className = 'dd-ticker-control';
-    pauseButton.addEventListener('click', () => setTickerPaused(!tickerPaused));
-    toggleHub.parentElement?.appendChild(pauseButton);
-    setTickerPaused(false);
     let featuredIndex = 0;
     let featuredSignature = '';
     let transitionSerial = 0, transitioning = false, transitionTimers = [];
@@ -160,9 +138,8 @@
       visibleLink?.classList?.remove('dd-break-erasing');
       visibleLink?.classList?.remove('dd-break-typing');
     }
-    stopHeadlineTransition = cancelTransition;
     function rotateBreaking() {
-      if (tickerPaused || transitioning || doc.visibilityState === 'hidden') return;
+      if (transitioning || doc.visibilityState === 'hidden') return;
       const breaking = selectHeadlines(root.ddNewsTickerRows || []).breaking;
       if (breaking.length < 2) return;
       const nextIndex = (featuredIndex + 1) % breaking.length;
@@ -180,7 +157,7 @@
       originalLink.classList.add('dd-break-erasing');
       transitionTimers.push(root.setTimeout(() => {
         if (token !== transitionSerial) return;
-        if (tickerPaused || doc.visibilityState === 'hidden') {cancelTransition(); return}
+        if (doc.visibilityState === 'hidden') {cancelTransition(); return}
         featuredIndex = nextIndex;
         render();
         const nextLink = byId('ddNewsTickerBreakingTrack')?.children?.[0]?.children?.[0];

@@ -46,7 +46,8 @@ assert.match(css,/bottom:calc\(var\(--dd-news-nav-height/);
 assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
 assert.match(css,/\.dd-news-ticker-row\[hidden\]\{display:none!important\}/);
 assert.doesNotMatch(css,/\.dd-news-ticker-expanded \.dd-nav-swipe-hint\{display:none!important\}/);
-assert.match(css,/\.dd-ticker-user-paused \.dd-ticker-track\{animation-play-state:paused!important\}/);
+assert.doesNotMatch(css,/dd-ticker-user-paused|Pause headlines/);
+assert.doesNotMatch(source,/ddNewsTickerPause|setTickerPaused|tickerPaused/);
 console.log('PASS 2/5 — actual site wiring, narrow fixed TV strip above measured dock, reduced motion.');
 
 class FakeElement {
@@ -121,10 +122,7 @@ assert.equal(elements.ddNewsTickerBreakingTrack.children.length,2);
 assert.equal(elements.ddNewsTickerRecentTrack.children.length,2);
 assert.equal(doc.body.classList.contains('dd-news-ticker-expanded'),true);
 assert.equal(intervals.length,3);
-const pauseButton=tickerControls.children.find(x=>x.id==='ddNewsTickerPause');
-assert(pauseButton,'Accessible pause/resume button appended to existing ticker controls');
-assert.equal(pauseButton.textContent,'Pause headlines');
-assert.equal(pauseButton.attributes['aria-pressed'],'false');
+assert.equal(tickerControls.children.length,0,'Pause headlines button is no longer added');
 assert.equal(elements.ddNewsTickerBreakingTrack.parentElement.parentElement.hidden,false);
 assert(intervals.some(x=>x.ms===20000),'Readable lead rotates at the video-matched pace');
 assert.match(css,/\.dd-news-ticker-breaking \.dd-ticker-track\s*\{/);
@@ -151,26 +149,17 @@ assert.match(elements.ddNewsTickerBreakingTrack.children[0].children[0].textCont
   'Breaking lead must cycle without marquee-scrolling the current headline');
 const group=elements.ddNewsTickerBreakingTrack.children[0];
 assert.match(group.children[0].textContent,/Sourced major report/);
-// Opening a story must keep rotating. Only an explicit Pause holds the ticker.
+// Clicking a lead never pauses the crawl or next Breaking transition.
 group.children[0].listeners.click({preventDefault(){}});
-assert.equal(pauseButton.textContent,'Pause headlines');
-assert.equal(pauseButton.attributes['aria-pressed'],'false');
-assert.equal(elements.ddNewsTickerRecentTrack.parentElement.classList.contains('dd-ticker-user-paused'),false);
+assert.equal(tickerControls.children.length,0);
 const leadBeforeTap=elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent;
 intervals.find(x=>x.ms===20000).fn();
 advanceTransitions();
 assert.notEqual(elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent,leadBeforeTap);
-pauseButton.listeners.click();
-assert.equal(pauseButton.attributes['aria-pressed'],'true');
-const heldLead=elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent;
-intervals.find(x=>x.ms===20000).fn();
-assert.equal(elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent,heldLead);
-pauseButton.listeners.click();
-assert.equal(pauseButton.attributes['aria-pressed'],'false');
-assert.equal(elements.ddNewsTickerRecentTrack.parentElement.classList.contains('dd-ticker-user-paused'),false);
+const nextLead=elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent;
 intervals.find(x=>x.ms===20000).fn();
 advanceTransitions();
-assert.notEqual(elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent,heldLead);
+assert.notEqual(elements.ddNewsTickerBreakingTrack.children[0].children[0].textContent,nextLead);
 // No Breaking rows should leave the still-relevant 48-hour crawl visible.
 const savedRows=win.ddNewsTickerRows;
 win.ddNewsTickerRows=[savedRows.find(x=>x.id==='recent')];
