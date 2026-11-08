@@ -99,6 +99,8 @@ public final class MainActivity extends Activity {
         offlinePanel.setVisibility(View.GONE);
         notifications.setOnClickListener(v->notificationSettings());
         setContentView(root);
+        // Upgrade existing 2h subscriptions automatically without resetting the user's choices.
+        syncDiscoverySchedules();
         // Android 15+ enforces edge-to-edge for target SDK 35. Keep web content below the status bar.
         if(Build.VERSION.SDK_INT >= 35){
             root.setOnApplyWindowInsetsListener((view,insets)->{
@@ -347,6 +349,24 @@ public final class MainActivity extends Activity {
               web.evaluateJavascript("window.dispatchEvent(new CustomEvent('dd-android-token',{detail:"+JSONObject.quote(token)+"}))",null);
         });
     }
+    private void syncDiscoverySchedules(){
+        SharedPreferences saved=getSharedPreferences(DiscoveryWorker.PREFS,MODE_PRIVATE);
+        WorkManager work=WorkManager.getInstance(this);
+        // Retire the original mixed news/video job so it cannot duplicate alerts.
+        work.cancelUniqueWork(DiscoveryWorker.JOB);
+        if(saved.getBoolean("news",false)){
+            Data data=new Data.Builder().putString("dd_scope","news").build();
+            PeriodicWorkRequest newsCheck=new PeriodicWorkRequest.Builder(
+                DiscoveryWorker.class,30,TimeUnit.MINUTES).setInputData(data).build();
+            work.enqueueUniquePeriodicWork(DiscoveryWorker.JOB_NEWS,ExistingPeriodicWorkPolicy.UPDATE,newsCheck);
+        }else work.cancelUniqueWork(DiscoveryWorker.JOB_NEWS);
+        if(saved.getBoolean("videos",false)){
+            Data data=new Data.Builder().putString("dd_scope","videos").build();
+            PeriodicWorkRequest videoCheck=new PeriodicWorkRequest.Builder(
+                DiscoveryWorker.class,2,TimeUnit.HOURS).setInputData(data).build();
+            work.enqueueUniquePeriodicWork(DiscoveryWorker.JOB_VIDEOS,ExistingPeriodicWorkPolicy.UPDATE,videoCheck);
+        }else work.cancelUniqueWork(DiscoveryWorker.JOB_VIDEOS);
+    }
     private void notificationSettings(){
         SharedPreferences prefs=getSharedPreferences(DiscoveryWorker.PREFS,MODE_PRIVATE);
         LinearLayout choices=new LinearLayout(this);
@@ -412,18 +432,14 @@ public final class MainActivity extends Activity {
              }).show()
         );
         new AlertDialog.Builder(this).setTitle("Discovery alerts")
-          .setMessage("Optional alerts. Checks run approximately every 2 hours. You will not get an alert for the existing library. News comes from attributed mainstream media reporting, not verified proof of extraordinary claims.")
+          .setMessage("Optional alerts. News checks run approximately every 30 minutes; video discoveries every 2 hours. Android may delay background work to save battery. Your existing library never triggers an initial alert. News reports are attributed to publishers, not proof of extraordinary claims.")
           .setView(choices).setNegativeButton("Cancel",null)
           .setPositiveButton("Save",(dialog,which)->{
               boolean vids=footage.isChecked(),stories=news.isChecked(),chatAlerts=chats.isChecked();
               prefs.edit().putBoolean("videos",vids).putBoolean("news",stories).putBoolean("chats",chatAlerts).apply();
-              if(vids||stories){
-                  PeriodicWorkRequest req=new PeriodicWorkRequest.Builder(DiscoveryWorker.class,2,TimeUnit.HOURS).build();
-                  WorkManager.getInstance(this).enqueueUniquePeriodicWork(DiscoveryWorker.JOB,ExistingPeriodicWorkPolicy.KEEP,req);
-                  if(Build.VERSION.SDK_INT>=33&&checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED)
-                    requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS},712);
-              }else WorkManager.getInstance(this).cancelUniqueWork(DiscoveryWorker.JOB);
-              if(chatAlerts && Build.VERSION.SDK_INT>=33 && checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED)
+              syncDiscoverySchedules();
+              if((stories||vids||chatAlerts) && Build.VERSION.SDK_INT>=33 &&
+                 checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED)
                   requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS},712);
           }).show();
     }
