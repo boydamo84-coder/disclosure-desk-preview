@@ -10,7 +10,7 @@ function el(id){return {id,hidden:['ddAvatarPanel','ddAvatarImage','ddAvatarRemo
  checked:id==='ddAvatarVisible',disabled:id==='ddAvatarSave',value:'',files:[],textContent:'',listeners:{},
  addEventListener(name,fn){this.listeners[name]=fn},removeAttribute(name){this[name]=null}};}
 const nodes=Object.fromEntries(names.map(id=>[id,el(id)]));
-let stored=null,uploads=0,removals=0,cacheClears=0,visibility=true,failNext=false,objectCounter=0;
+let stored=null,uploads=0,removals=0,cacheClears=0,visibility=true,failNext=false,objectCounter=0,fallbackLoads=0,revokes=0;
 const owner='9d27f101-75c2-4c33-946b-af653833613a',key='2a3180f8-2af4-4d90-bca1-5e503b871497';
 const api={
  auth:{getUser:async()=>({data:{user:{id:owner,is_anonymous:false}},error:null}),onAuthStateChange(){}},
@@ -39,21 +39,31 @@ const document={getElementById:id=>nodes[id],
  createElement(tag){assert.equal(tag,'canvas');return {width:512,height:512,getContext(){return {fillRect(){},drawImage(){},fillStyle:''}},
  toBlob(cb){cb({type:'image/webp',size:333})}}}};
 const ctx={window:win,document,
- URL:{createObjectURL:()=>('blob:mock-'+(++objectCounter)),revokeObjectURL(){}},
+ URL:{createObjectURL:()=>('blob:mock-'+(++objectCounter)),revokeObjectURL(){revokes++}},
+ Image:class {constructor(){this.naturalWidth=800;this.naturalHeight=600}
+  set src(_value){fallbackLoads++;Promise.resolve().then(()=>this.onload?.())}},
  createImageBitmap:async()=>({width:400,height:200,close(){}}),confirm:()=>true,console,Promise};
 vm.runInNewContext(src,ctx,{timeout:2000});
 const file=nodes.ddAvatarFile,save=nodes.ddAvatarSave,remove=nodes.ddAvatarRemove,visible=nodes.ddAvatarVisible,status=nodes.ddAvatarStatus;
 async function flush(){for(let i=0;i<50;i++)await Promise.resolve()}
-async function choose(){file.files=[{type:'image/png',size:3000}];await file.listeners.change();await flush()}
+async function choose(photo={type:'image/png',name:'photo.png',size:3000}){file.files=[photo];await file.listeners.change();await flush()}
 (async()=>{
+ assert.equal(file.disabled,true,'Photo picker cannot run before account key loads');
  await flush();assert.equal(nodes.ddAvatarPanel.hidden,false);
+ assert.equal(file.disabled,false,'Photo picker enabled when owner key loaded');
  assert.equal(save.hidden,true,'Retry hidden before selection');
  await choose();assert.equal(uploads,1,'File selection uploads automatically');
  assert.ok(stored);assert.equal(save.hidden,true,'No extra Save click');
  assert.equal(remove.hidden,false,'Remove available');
  assert.match(status.textContent,/saved automatically/i);
- await choose();assert.equal(uploads,2,'Change photo automatically overwrites previous');
- failNext=true;await choose();
+ ctx.createImageBitmap=undefined;
+ await choose({type:'image/heic',name:'iphone.heic',size:3000});
+ assert.equal(uploads,2,'Safari without createImageBitmap automatically saves an HEIC photo');
+ assert.equal(fallbackLoads,1,'Safari decodes via HTMLImageElement');
+ assert.ok(revokes>=1,'Safari temporary photo URL released');
+ ctx.createImageBitmap=async()=>{throw Error('Safari createImageBitmap failed')};
+ failNext=true;await choose({type:'image/jpeg',name:'works.jpg',size:3000});
+ assert.equal(fallbackLoads,2,'Safari rejection falls back to HTMLImageElement');
  assert.equal(uploads,3);assert.equal(save.hidden,false,'Upload failure shows Retry');
  assert.equal(save.disabled,false);
  save.listeners.click();await flush();assert.equal(uploads,4);
@@ -62,5 +72,5 @@ async function choose(){file.files=[{type:'image/png',size:3000}];await file.lis
  await remove.listeners.click();assert.equal(removals,1);assert.equal(stored,null);
  assert.equal(remove.hidden,true);
  assert.ok(cacheClears>=4,'Member cache invalidated after successful operations');
- console.log('PASS: profile photo pick auto-saves, Change, failure Retry, Hide and Remove');
+ console.log('PASS: profile photo auto-saves, Safari fallback, HEIC, first-load readiness, Retry, Hide and Remove');
 })().catch(e=>{console.error(e);process.exitCode=1});
