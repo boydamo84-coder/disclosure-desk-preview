@@ -149,7 +149,7 @@ function caseSearchDetails(r,chosenDate,chosenTime){
  return [
   'Disclosure Desk · historical satellite research handoff',
   'Public case area: '+info.city+' ('+info.provenance+')',
-  'Approximate public map point: '+(info.coordinatesKnown?info.lat.toFixed(1)+'° N/S latitude, '+info.lon.toFixed(1)+'° E/W longitude':'not verified; choose location manually'),
+  'Approximate public map point: '+(info.coordinatesKnown?info.lat.toFixed(1)+'° latitude, '+info.lon.toFixed(1)+'° longitude':'not verified; choose location manually'),
   'Event date: '+(date||'not established')+(date?(date===info.date?' (recorded in case)':' (researcher-selected; not verified against case)'):''),
   'Event time UTC: '+(utc?utc+' (researcher-entered, not verified)':'not verified / not recorded'),
   'USGS dataset: Landsat Collection 2 Level-1 → Landsat 1–5 MSS C2 L1',
