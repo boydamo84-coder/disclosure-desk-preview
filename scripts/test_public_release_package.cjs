@@ -13,7 +13,7 @@ for(const f of m.files){
  assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),f.sha256,f.path);
  assert.doesNotMatch(f.path,/(^|\/)(?:scripts|supabase|finance_local|finance-review|finance|android-test|docs|\.github)(\/|$)|\.(?:zip|sql|py|md|env)$/i);
 }
-for(const f of ['index.html','sources.html','research/wne.html','research/index.html',
+for(const f of ['index.html','guide.html','sources.html','research/wne.html','research/index.html',
  'research/research-site-nav.js','assets/community-test-config.js','assets/profile-private-chat.js',
  'assets/community-discussions.js','data/approved-live-events.json','data/historical-news-archive.json'])
  assert.ok(names.has(f),'Required site dependency missing: '+f);
