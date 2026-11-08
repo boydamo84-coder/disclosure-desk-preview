@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b131c">
+<title>How to Use Disclosure Desk | UAP Research Guide & FAQ</title>
+<meta name="description" content="A practical guide to researching UAP cases with Disclosure Desk: news, source archives, mapping, W.NE Research Studio, private Boards, witness reports, satellite research and frequently asked questions.">
+<link rel="canonical" href="https://uapdisclosuredesk.com/guide.html">
+<link rel="icon" type="image/svg+xml" href="/assets/disclosure-desk-mark.svg">
+<style>
+:root{color-scheme:dark;--bg:#09131e;--panel:#102536;--panel2:#152f43;--gold:#e5c58b;--text:#f1f3f3;--muted:#b9c8d4;--line:#3b5668;--focus:#f9d9a0}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:18px}
+body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:radial-gradient(ellipse at 80% -12%,#234052,var(--bg) 42%);line-height:1.6}
+a{color:var(--gold);text-underline-offset:3px}
+a:hover{color:#ffe5b5}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.skip{position:absolute;top:-100px;left:12px;z-index:99;padding:9px 13px;color:#09131e;background:#ffe3b3}
+.skip:focus{top:12px}
+header{border-bottom:1px solid var(--line);background:#091824ef}
+.top{max-width:1160px;margin:auto;padding:17px 19px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--gold)}
+.brand img{width:40px;height:40px;border-radius:9px}
+.brand strong{font-size:12px;letter-spacing:3px;display:block;line-height:1.4}
+.brand small{display:block;color:#a3b5c5;font-size:9px;letter-spacing:1px}
+nav{display:flex;gap:9px;align-items:center;flex-wrap:wrap;font-size:12px}
+nav a,.actionlink{display:inline-flex;min-height:40px;align-items:center;justify-content:center;border:1px solid #647484;border-radius:10px;padding:7px 12px;text-decoration:none;color:#f3dca9;background:#193144;font-size:12px;font-weight:700}
+nav a:hover,.actionlink:hover{background:#294558}
+.hero{max-width:1160px;margin:auto;padding:36px 20px 23px}
+.kicker{color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:800}
+h1{font-size:clamp(30px,5vw,49px);line-height:1.12;letter-spacing:-.6px;max-width:760px;margin:12px 0}
+h2{font-size:clamp(21px,3vw,29px);line-height:1.25;margin:0 0 12px}
+h3{font-size:17px;color:#ffe0a6;line-height:1.3;margin:0 0 8px}
+p{margin:8px 0 12px}
+.lead{max-width:850px;color:#cfdae3;font-size:15px}
+.updated{font-size:11px;color:#afc1ce}
+.legend{display:flex;align-items:center;flex-wrap:wrap;gap:11px;margin-top:21px;color:#c3d1d8;font-size:12px}
+.tag{display:inline-block;border-radius:8px;border:1px solid #627887;background:#18364a;padding:3px 9px;letter-spacing:.3px;font-size:10px;font-weight:800;text-transform:uppercase;color:#dee9ed}
+.tag.beta{border-color:#a78a4c;background:#362f20;color:#f1d59c}
+.tag.limited{border-color:#6b7890;background:#263244;color:#d0dff3}
+.layout{max-width:1160px;margin:0 auto;padding:0 20px 38px;display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);gap:24px;align-items:start}
+.sidebar{position:sticky;top:14px;background:#0c2130;border:1px solid var(--line);border-radius:17px;padding:17px}
+.sidebar h2{font-size:13px;color:var(--gold);margin:0 0 10px}
+.sidebar a{display:block;text-decoration:none;color:#d6e0e8;padding:8px 9px;font-size:12px;border-radius:8px}
+.sidebar a:hover,.sidebar a:focus-visible{background:#203c50;color:#ffe0a6}
+.content{min-width:0}
+.card{border:1px solid var(--line);background:linear-gradient(155deg,#152c3e,#102130);border-radius:16px;padding:23px;margin-bottom:17px;box-shadow:0 6px 23px #0002}
+.card p,.card li{font-size:13px;color:#d3dce5}
+.card .muted,.muted{color:var(--muted)}
+.section-intro{font-size:13px;color:#c3d2db}
+.quickgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.quick{display:block;padding:14px;background:#162e41;border:1px solid #3b586e;border-radius:11px;text-decoration:none;color:#f8e3b7}
+.quick strong{display:block;font-size:14px}
+.quick small{display:block;color:#c5d1db;font-size:11px;margin-top:4px}
+.steps{padding-left:25px}
+.steps li{margin:9px 0;padding-left:3px}
+.linkrow{display:flex;flex-wrap:wrap;gap:8px;margin:13px 0 2px}
+.note{background:#102536;border:1px solid #567088;border-left:3px solid var(--gold);padding:12px 14px;border-radius:9px;font-size:12px;color:#d7e2e8;margin:15px 0}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0}
+.tools label{width:100%;font-size:12px;color:#d3dce5}
+.tools input{width:100%;min-height:46px;padding:11px 14px;background:#091b29;color:#f6f7fa;border:1px solid #60798d;border-radius:11px;font-size:15px}
+.tools input::placeholder{color:#a9b9c6}
+.search-count{font-size:12px;color:#b4c6d2}
+details{border:1px solid #3c586d;background:#11283a;border-radius:11px;margin:9px 0;overflow:hidden}
+summary{cursor:pointer;padding:13px 15px;color:#f2e2bc;font-size:13px;font-weight:750;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"＋";font-size:19px;color:var(--gold);flex:none}
+details[open] summary:after{content:"−"}
+details[open] summary{border-bottom:1px solid #344d60;background:#183549}
+details .answer{padding:11px 16px 16px;font-size:13px;color:#d2dee7}
+details .answer p,details .answer li{font-size:13px}
+details .answer p:last-child{margin-bottom:0}
+ul{padding-left:21px}
+ol{padding-left:23px}
+.guide-topic[hidden],.faq-item[hidden],.pathway[hidden]{display:none!important}
+#noMatches[hidden]{display:none!important}
+footer{padding:25px 20px 55px;border-top:1px solid #354c5c;text-align:center;font-size:11px;color:#a4b8c5}
+footer a{margin:0 7px}
+@media(max-width:790px){.layout{grid-template-columns:1fr}.sidebar{position:relative;top:auto;display:flex;flex-wrap:wrap;gap:4px}.sidebar h2{width:100%;margin-bottom:4px}.sidebar a{padding:6px 9px;border:1px solid #354f63}.card{padding:18px}.hero{padding-top:28px}}
+@media(max-width:530px){.quickgrid{grid-template-columns:1fr}.top{gap:10px}.brand strong{letter-spacing:2px}.hero{padding-bottom:12px}.layout{padding:0 12px 26px;gap:15px}.card{padding:16px}.legend{gap:7px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the guide</a>
+<header><div class="top">
+<a class="brand" href="/" aria-label="Disclosure Desk homepage"><img src="/assets/disclosure-desk-mark.svg" alt=""><span><strong>DISCLOSURE DESK</strong><small>INDEPENDENT INVESTIGATIONS · EVIDENCE ARCHIVE</small></span></a>
+<nav aria-label="Guide links"><a href="/?dd_tab=hub">Explore</a><a href="/sources.html">Sources</a><a href="/community-rules.html">Community Rules</a><a href="/">Open site</a></nav>
+</div></header>
+<div class="hero">
+<div class="kicker">Your field guide to the unexplained</div>
+<h1>How to research with Disclosure Desk</h1>
+<p class="lead">Start with a report, follow the original evidence, compare the historical record, build your own investigation and keep track of what is confirmed, uncertain or simply alleged. This guide explains the tools, the steps and the limits — without assuming every claim is true.</p>
+<p class="updated">Guide edition: 8 November 2026. Features marked "Phone beta" are not yet available on the public website. Availability can vary by account and release.</p>
+<div class="legend"><span class="tag">Public site</span> Available visitor tools <span class="tag beta">Phone beta</span> Testing only <span class="tag limited">Conditional</span> Requires a login, permission or enabled feature</div>
+</div>
+<div class="layout" id="main">
+<aside class="sidebar" aria-label="Guide contents">
+<h2>Browse the guide</h2>
+<a href="#start">Start here</a>
+<a href="#workflows">Research workflows</a>
+<a href="#news">News &amp; sources</a>
+<a href="#archive">Evidence Archive</a>
+<a href="#map">Map &amp; case files</a>
+<a href="#videos">Video, LIVE &amp; Watch &amp; Read</a>
+<a href="#studio">W.NE Research Studio</a>
+<a href="#boards">Investigation Boards</a>
+<a href="#witness">Witness reports</a>
+<a href="#profile">Accounts &amp; privacy</a>
+<a href="#community">Community beta</a>
+<a href="#satellite">Satellite Research beta</a>
+<a href="#faq">Frequently asked questions</a>
+<a href="#glossary">Research glossary</a>
+</aside>
+<main class="content">
+<section class="card" id="start">
+<div class="kicker">First steps</div><h2>One research platform, several ways to explore</h2>
+<p>Disclosure Desk brings source-linked reports and case material together with tools for organising your own questions. You can browse without an account. Some features need sign-in, while newer community and satellite tools are being tested separately.</p>
+<div class="quickgrid">
+<a class="quick" href="/?dd_tab=discover"><strong>1. Discover a report</strong><small>Start with News, topic searches and original publisher links.</small></a>
+<a class="quick" href="/?dd_tab=archivePage"><strong>2. Search the historical record</strong><small>Filter source-linked archival cases and documents.</small></a>
+<a class="quick" href="/?dd_tab=mapPage"><strong>3. Investigate a place</strong><small>Explore mapped cases and nearby reports without assuming exact pin precision.</small></a>
+<a class="quick" href="/?dd_tab=boards"><strong>4. Build your own file</strong><small>Collect leads and notes in private investigation Boards.</small></a>
+</div>
+<div class="note"><strong>New visitor?</strong> Open <a href="/?dd_tab=hub">Explore</a> and choose <strong>Take the full site tour</strong>. There are also focused tours of W.NE, investigation tools, community features and privacy.</div>
+</section>
+
+<section class="card" id="workflows">
+<div class="kicker">Practical walkthroughs</div><h2>Four ways to investigate</h2>
+<article class="pathway" data-help-search>
+<h3>Workflow A · Investigate a UAP sighting from start to finish</h3>
+<ol class="steps"><li>Use <strong>News</strong> or <strong>Evidence Archive</strong> to locate the report. Record its exact title, publisher and URL.</li>
+<li>Identify the <strong>event date</strong>. Check that it is not merely the article publication date or the date of a later interview.</li>
+<li>Open the <strong>Map</strong> or case details for approximate geography and other reports. A map marker is not proof of an exact sighting position.</li>
+<li>Find the earliest original record using <strong>Sources &amp; Archives</strong>; note which statements are firsthand and which are repeated by later publications.</li>
+<li>Check alternatives: aircraft, launches, weather, stars, imaging artefacts, mistaken dates and incomplete testimony, as appropriate.</li>
+<li>Keep citations, uncertainties and follow-up questions in a private <strong>Board</strong> or <strong>W.NE Research Studio</strong> report.</li>
+<li>Revisit the source if corrections, evidence or better explanations emerge. An unresolved report is not automatically evidence of non-human technology.</li></ol>
+</article>
+<article class="pathway" data-help-search>
+<h3>Workflow B · Trace a historical document</h3>
+<ol class="steps"><li>Open <strong>Archive</strong> and filter by year, subject, country or type where available.</li><li>Follow the original source link rather than relying on a headline summary.</li><li>Record the archive organisation, collection, reference number, document date and access link.</li><li>Distinguish the document's description of a claim from official confirmation that the claim happened.</li><li>Check whether the work can be reused or republished; public viewing does not automatically grant copyright permission.</li></ol>
+</article>
+<article class="pathway" data-help-search>
+<h3>Workflow C · Build a research dossier</h3>
+<ol class="steps"><li>Choose a case or question and create or open a private investigation Board.</li><li>Save distinct source links with notes on credibility and missing context; avoid placing personal information into public reports.</li><li>Open W.NE Research Studio to structure a longer report, sections, references or comparisons.</li><li>Save deliberately, confirm where the material is stored and export a tested backup before clearing a browser or switching devices.</li><li>Conclude with findings, alternative explanations, outstanding questions and a source list.</li></ol>
+</article>
+<article class="pathway" data-help-search>
+<h3>Workflow D · Record your own experience safely</h3>
+<ol class="steps"><li>Open <strong>Witness</strong>. Write down what happened, the event date, approximate time if known and town/city.</li><li>Leave out names, precise addresses, identifiable people and other private details.</li><li>Save a <strong>private draft</strong> first, then read it again for mistakes or identifying details.</li><li>Only if public publishing is enabled and you choose to do so, sign in, review the visibility choice and explicitly consent to sharing. Saving a draft never publishes it automatically.</li><li>Remember that other users may challenge, comment on or report public material; stick to what you personally observed.</li></ol>
+</article>
+</section>
+
+<section class="card guide-topic" id="news" data-help-search>
+<span class="tag">Public site</span><h2>News: find a story and follow its source</h2>
+<ol class="steps"><li>Open the <a href="/?dd_tab=discover">News</a> tab and browse the current feed.</li><li>Use the search box and country/topic filters to narrow what you see.</li><li>Choose <strong>Latest News</strong>, <strong>Top 100</strong>, or <strong>Read</strong> where displayed. Read helps find articles previously opened on that device.</li><li>Open the linked publication and check its date, reporting and underlying sources.</li><li>Use <strong>Archive</strong> or a Board to continue a longer investigation.</li></ol>
+<p class="muted">Headlines, rankings, summaries and a live ticker are discovery aids, not Disclosure Desk's verification of the underlying claim. Some links may change or expire.</p>
+<div class="linkrow"><a class="actionlink" href="/?dd_tab=discover">Open News</a></div>
+</section>
+
+<section class="card guide-topic" id="archive" data-help-search>
+<span class="tag">Public site</span><h2>Archive: go beyond the headline</h2>
+<p>The Evidence Archive collects source-linked records and case references. Search terms, year and category filters help narrow the material; the depth and source completeness vary by record.</p>
+<ol class="steps"><li>Open <a href="/?dd_tab=archivePage">Archive</a>.</li><li>Filter for a specific year, location, document type or incident description.</li><li>Open a case or source entry and follow its original archive reference.</li><li>Write down the <em>event date</em>, <em>record date</em> and <em>publication date</em> separately, if known.</li><li>If you want to reuse an image or document, check the record's usage terms and any necessary permission.</li></ol>
+<p class="muted">A mention in a government archive is evidence that the report or document exists, not proof that every interpretation within it is correct.</p>
+<div class="linkrow"><a class="actionlink" href="/?dd_tab=archivePage">Open Evidence Archive</a><a class="actionlink" href="/sources.html">Original source directory</a></div>
+</section>
+
+<section class="card guide-topic" id="map" data-help-search>
+<span class="tag">Public site</span><h2>Map and Case Files: investigate where something happened</h2>
+<ol class="steps"><li>Open the <a href="/?dd_tab=mapPage">Map</a> and search for a town, region or area.</li><li>Use the available categories and controls to compare listed cases.</li><li>Open a case card for its description and linked evidence.</li><li>Look for similar reports while remembering that multiple reports can share the same original story or source.</li><li>Use <strong>Boards</strong> to save relevant links and your own analysis.</li></ol>
+<p class="muted">Mapped positions are not always verified event coordinates. Witness locations are deliberately limited to town/city level, and a cluster on a map does not by itself establish a pattern or cause.</p>
+<div class="linkrow"><a class="actionlink" href="/?dd_tab=mapPage">Open Map</a><a class="actionlink" href="/?dd_tab=boards">Case Files &amp; Boards</a></div>
+</section>
+
+<section class="card guide-topic" id="videos" data-help-search>
+<span class="tag">Public site</span><h2>Videos, LIVE and Watch &amp; Read</h2>
+<h3>Videos</h3><p>Use the Videos tab to browse credited footage and video links. Switch between browsing and swipe mode when available. Check who first released the footage, whether its date is established and whether clips have been edited.</p>
+<h3>LIVE</h3><p>LIVE is for verified scheduled hearings and their associated official recordings or moderated chat where available. If nothing is scheduled, there may be no active countdown or conversation. Archived hearing chat, where published, is read-only and must not be mistaken for a live event.</p>
+<h3>Watch &amp; Read</h3><p>Explore documentaries, books and other community-oriented recommendations as leads for further research. Inclusion is not an endorsement of the views expressed by creators or authors.</p>
+<div class="linkrow"><a class="actionlink" href="/?dd_tab=clips">Videos</a><a class="actionlink" href="/?dd_tab=livePage">LIVE</a><a class="actionlink" href="/?dd_tab=watchRead">Watch &amp; Read</a></div>
+</section>
+
+<section class="card guide-topic" id="studio" data-help-search>
+<span class="tag">Public site</span> <span class="tag limited">Beta workspace</span><h2>W.NE Research Studio: turn sources into a report</h2>
+<p><strong>W.NE Research Edition</strong> is Disclosure Desk's investigation-oriented writing workspace. It is related to, but distinct from, the original W.NE writing product by Boyd Digital Studios.</p>
+<ol class="steps"><li>Open the <a href="/?dd_tab=researchStudio">W.NE</a> tab.</li><li>If signed in, work with your own documents and available private research tools. Guests may see a read-only demonstration; they cannot open other users' research.</li><li>Structure sections around what happened, chronology, evidence, citations, alternative explanations and findings.</li><li>Use existing note, comparison, citation and export tools only where offered by your account/workspace.</li><li>Check save confirmation, export results and backups before trusting the system with irreplaceable records.</li></ol>
+<div class="note"><strong>Privacy caution:</strong> Some writing assistance sends text to a secured LanguageTool service. Read the <a href="/privacy.html">Privacy Policy</a> before submitting sensitive material. Research Edition is in beta and should not be the sole copy of essential research.</div>
+<div class="linkrow"><a class="actionlink" href="/?dd_tab=researchStudio">Open W.NE</a><a class="actionlink" href="/research-edition.html">About Research Edition</a></div>
+</section>
+
+<section class="card guide-topic" id="boards" data-help-search>
+<span class="tag">Public site</span><h2>Investigation Boards: keep your leads organised</h2>
+<ol class="steps"><li>Open <a href="/?dd_tab=boards">Boards</a> and select My Boards or the case-related tools.</li><li>Create a Board for a specific investigation or question.</li><li>Save articles, source links and private notes as you research.</li><li>Mark what the source actually establishes and what remains unconfirmed.</li><li>Make a separate backup of important material before deleting app data, clearing browser storage or switching phones.</li></ol>
+<p class="muted"><strong>Important:</strong> Some Board material is stored in your current browser. Do not assume that every Board or local note automatically synchronises across devices or is recoverable after browser data is cleared.</p>
+<div class="linkrow"><a class="actionlink" href="/?dd_tab=boards">Open Boards</a></div>
+</section>
+
+<section class="card guide-topic" id="witness" data-help-search>
+<span class="tag">Public site</span> <span class="tag limited">Public posting conditional</span><h2>Witness: record an observation without exposing your identity</h2>
+<p>Witness lets you save an account of your experience privately. Public submission requires the appropriate enabled feature, a registered account and your explicit consent.</p>
+<ol class="steps"><li>Provide the event category, date and approximate time if you know it.</li><li>Enter <strong>town/city and broad region</strong> rather than a home address, street or GPS coordinate.</li><li>Describe what you saw without identifying another witness or including contact information.</li><li>Save a private draft, check it, then make a separate decision about publishing if that option is enabled.</li><li>Read the Community Rules before sharing. Public witness reports are subject to limits and moderation.</li></ol>
+<div class="note">The public witness-submission function is feature-controlled. A button being visible does not guarantee that your account can publish right now. Private drafts should be backed up where important.</div>
+<div class="linkrow"><a class="actionlink" href="/?dd_tab=witness">Open Witness</a><a class="actionlink" href="/community-rules.html#witness">Witness rules</a></div>
+</section>
+
+<section class="card guide-topic" id="profile" data-help-search>
+<span class="tag">Public site</span> <span class="tag limited">Sign-in for private features</span><h2>Profile and Research Hub: your personal area</h2>
+<p>Use the Profile tab to sign in, manage your public username and available account/privacy settings, and access sections relating to your research, Boards and community contributions. The information shown depends on enabled features and permissions.</p>
+<ul><li>Do not post email addresses, authentication codes, real-world addresses or witness identity details in public content.</li><li>Private items remain private unless you deliberately share or publish them through a feature that supports it.</li><li>Sign-out, device changes and browser cleanup are different from cloud deletion. Read the privacy guidance before removing stored work.</li><li>Use the built-in private research tools and export/backup options available to you; confirm each operation completed.</li></ul>
+<div class="linkrow"><a class="actionlink" href="/?dd_tab=profilePage">Open My Research Hub</a><a class="actionlink" href="/privacy.html">Privacy Policy</a></div>
+</section>
+
+<section class="card guide-topic" id="community" data-help-search>
+<span class="tag beta">Phone beta — not public</span><h2>Chat and Discussions: community tools being tested</h2>
+<h3>Private one-to-one Chat</h3>
+<ol class="steps"><li>In the permitted local phone beta, open the Chat tab and use New chat to search an exact opted-in public username.</li><li>Send an introductory request; the recipient must accept before you can exchange messages.</li><li>Use the conversation list, private message view and conversation drawer. Unread counts appear where supported.</li><li>Use the safety menu for reporting or blocking. Chat is for text, including phone-keyboard emoji; it is not currently an image/GIF upload platform.</li></ol>
+<h3>Community Discussions</h3>
+<ol class="steps"><li>In the permitted local beta, open Discussions and search existing sections.</li><li>Registered eligible accounts can request a new section, subject to account-age and rate limits.</li><li>Open a section, choose New post, add a title and mark it Serious or Fun. Add an image URL or source reference where supported; external image hosts may block previews.</li><li>Reply, vote or save threads to a Board as permitted. Report harmful content, rather than using dislikes as reports.</li><li>Section stewards organise and escalate; they do not get blanket powers to suppress disagreement. Site-wide moderation remains separately authorised.</li></ol>
+<div class="note"><strong>Availability:</strong> These features are in a local Samsung testing package with the existing guarded backend. They are <em>not</em> enabled on the public website simply because this guide describes them. Do not share sensitive information in test conversations.</div>
+<div class="linkrow"><a class="actionlink" href="/community-rules.html">Read Community Rules</a></div>
+</section>
+
+<section class="card guide-topic" id="satellite" data-help-search>
+<span class="tag beta">Phone beta — not public</span><h2>Satellite Research: compare the case date with real historical imagery</h2>
+<p>Satellite Research is being tested inside the <strong>Archive</strong> rather than as another main navigation tab. It links public, dated cases to official satellite research tools. It does not claim a UFO appears in any returned image.</p>
+<ol class="steps"><li>In the current phone beta, open <strong>Archive → Satellite Research</strong> and choose a public historical case.</li><li>Review the case's <strong>recorded event date</strong> and approximate mapped area. If the original only supplies a year, no arbitrary day should be assumed.</li><li>Enter a UTC time only if you have it from a reliable record; otherwise leave it unknown. Noon is sometimes used as a browsing anchor, not a sighting time.</li><li>For compatible modern dates, <strong>NASA Worldview</strong> can open with the approximate region and selected calendar date. Imagery availability depends on the actual dataset and acquisition.</li><li>For older dates, <strong>USGS EarthExplorer</strong> can open with an approximate public location and Landsat MSS dataset; manually set the suggested acquisition date range and inspect actual scene metadata.</li><li><strong>EUMETSAT</strong> historical viewers may require you to select the calendar date manually. The app does not promise their public links accept arbitrary event-date prefills.</li><li>Use <strong>Copy case search details</strong> for the prepared date, coordinates and suggested USGS range. Keep the actual satellite acquisition timestamp separate from the event's reported time.</li></ol>
+<div class="note"><strong>Coverage matters:</strong> Landsat MSS ground imagery starts in 1972 but is occasional daylight imagery, not continuous video; the EUMETSAT historic gallery begins in 1981; many NASA Worldview daily layers date from about 2000 onward. The beta has <strong>not</strong> verified that a matching nearest historical frame exists for any particular report. An image with nothing visible does not rule out the sighting.</div>
+<p class="muted">Only rounded coordinates from public, mapped cases should go to external providers. Witness drafts, precise witness addresses and your current device location are not passed.</p>
+</section>
+
+<section class="card" id="faq">
+<div class="kicker">Frequently asked questions</div><h2>Find an answer quickly</h2>
+<p class="section-intro">Search a word such as "account", "satellite", "privacy", "report", "video", "sources", "offline" or "export". Matching questions and guide topics remain visible.</p>
+<div class="tools"><label for="helpSearch">Search the guide and FAQ</label><input type="search" id="helpSearch" placeholder="Search help topics and questions" autocomplete="off" aria-describedby="helpCount"></div>
+<p class="search-count" id="helpCount" role="status" aria-live="polite">All help topics and questions shown.</p>
+<details class="faq-item" data-help-search><summary>Is Disclosure Desk a government or official UAP agency website?</summary><div class="answer"><p>No. Disclosure Desk is an independent research project by Boyd Digital Studios. It links to original government, academic and independent materials without claiming affiliation or endorsement.</p></div></details>
+<details class="faq-item" data-help-search><summary>Does being in an official archive prove a UFO or non-human craft existed?</summary><div class="answer"><p>No. An authentic document can prove that a record, investigation or allegation existed. Whether the reported observation is accurate, adequately explained or extraordinary requires separate evidence.</p></div></details>
+<details class="faq-item" data-help-search><summary>Do I need an account to research cases?</summary><div class="answer"><p>No account is required for ordinary public browsing such as News, Archive, Map, Videos and the source directory. Private saved documents, public posting and some account settings require sign-in or an enabled feature.</p></div></details>
+<details class="faq-item" data-help-search><summary>Where do I start if I am completely new?</summary><div class="answer"><p>Open <a href="/?dd_tab=hub">Explore</a> and run the full site tour, then use News, Archive and Map to investigate one report. Work through <a href="#workflows">Workflow A</a> before drawing conclusions.</p></div></details>
+<details class="faq-item" data-help-search><summary>Can I search by a person's name, year, place or case title?</summary><div class="answer"><p>Use the filters and search boxes in the appropriate page. Available search fields differ between News, Archive, Map and the source directory; a missing search hit does not prove no record exists elsewhere.</p></div></details>
+<details class="faq-item" data-help-search><summary>How do I find the original source rather than another summary?</summary><div class="answer"><p>Follow the article's publisher link or the archived case's cited reference. The <a href="/sources.html">Sources &amp; Archives directory</a> links to primary collections. Record the reference number, organisation, date and page when possible.</p></div></details>
+<details class="faq-item" data-help-search><summary>Why do two reports sometimes look like separate sightings?</summary><div class="answer"><p>Different websites may repeat the same primary document, report or footage. Compare first publication, location, event date and cited witnesses before treating two entries as independent evidence.</p></div></details>
+<details class="faq-item" data-help-search><summary>Why is an older article or video link broken?</summary><div class="answer"><p>External publishers sometimes remove, rename or restrict their pages. Search the cited publisher or archive using the title and reference number. A broken link is not evidence that its content was suppressed.</p></div></details>
+<details class="faq-item" data-help-search><summary>Can I save my research and come back later?</summary><div class="answer"><p>Use Boards for saved sources and notes; W.NE Research Edition offers additional document tools. Some material is local to your browser. Save deliberately, test an export or backup, and do not assume every item syncs across devices.</p></div></details>
+<details class="faq-item" data-help-search><summary>Are Boards shared publicly?</summary><div class="answer"><p>Investigation Boards and private research start private. Do not assume a Board is public or automatically synced. If a future feature offers sharing, check its specific visibility and confirmation settings first.</p></div></details>
+<details class="faq-item" data-help-search><summary>Can I recover Boards after clearing my browser or changing phone?</summary><div class="answer"><p>Not necessarily. Some Boards and notes are stored in the current browser. Clearing site data can permanently erase local content, so make separate copies of important material before a device change.</p></div></details>
+<details class="faq-item" data-help-search><summary>Can I export a W.NE report as a document?</summary><div class="answer"><p>Research Edition provides save and export tools where enabled, but supported output types depend on the active workspace and release. Check the offered menu and open the exported file before relying on it; don't assume every format is available.</p></div></details>
+<details class="faq-item" data-help-search><summary>Is my work private in W.NE Research Studio?</summary><div class="answer"><p>Research items are private by default. Check the privacy and storage controls for each tool. Some writing-assistance requests may send selected text through the secured LanguageTool service; see the <a href="/privacy.html">Privacy Policy</a>.</p></div></details>
+<details class="faq-item" data-help-search><summary>Can I report a sighting anonymously?</summary><div class="answer"><p>You can save a private draft without public exposure. Public publishing, when enabled, requires sign-in and an explicit choice; the form offers an Anonymous display option. Never include exact addresses or identity clues in the report body.</p></div></details>
+<details class="faq-item" data-help-search><summary>Will Disclosure Desk show my actual GPS location?</summary><div class="answer"><p>Public witness reporting is designed around town/city-level information. You should not provide precise coordinates or addresses in public descriptions. Beta satellite links use approximate public case coordinates, not your device geolocation.</p></div></details>
+<details class="faq-item" data-help-search><summary>How many witness reports can I publish?</summary><div class="answer"><p>When public submissions are enabled, the published rules specify three new reports per rolling 24 hours for an eligible registered account. Private drafts are separate and are never auto-published.</p></div></details>
+<details class="faq-item" data-help-search><summary>What is the difference between a dislike and reporting a problem?</summary><div class="answer"><p>Likes and dislikes express an opinion. Formal flags or reports are moderation signals for rule violations. The rules describe the thresholds and review process; disagreement alone is not grounds to silence someone.</p></div></details>
+<details class="faq-item" data-help-search><summary>Can anyone post in Community Discussions today?</summary><div class="answer"><p>No. The dedicated Discussions feature is still in a separate local phone beta, not enabled for the general public website. Eligible registered accounts in that beta can create subjects and posts under rate limits and moderation rules.</p></div></details>
+<details class="faq-item" data-help-search><summary>How does private Chat work, and is it public?</summary><div class="answer"><p>Chat is a separate beta feature. A user requests a private one-to-one conversation using an opted-in public username; the other person must accept first. Chat is not a public discussion board, and the public website feature is currently gated off.</p></div></details>
+<details class="faq-item" data-help-search><summary>Can I send photos, GIFs or videos in Chat?</summary><div class="answer"><p>The current beta Chat supports text, including standard Unicode emoji from your keyboard. Native attachments, GIF/sticker uploads and voice notes are not currently supported.</p></div></details>
+<details class="faq-item" data-help-search><summary>Are reports and community posts moderated?</summary><div class="answer"><p>Enabled public submissions and community content are subject to account eligibility, rate limits, reporting and server-side moderation. Section stewards have limited organising powers; they are not unrestricted site administrators.</p></div></details>
+<details class="faq-item" data-help-search><summary>Why do my case and a satellite image show different times?</summary><div class="answer"><p>The event time is what a witness reported; the acquisition time is when a satellite recorded an image. They are different observations and may not coincide. Never interpret a date-selected viewer as a verified picture of the incident.</p></div></details>
+<details class="faq-item" data-help-search><summary>Can Satellite Research show Arizona on 3 June 1976 automatically?</summary><div class="answer"><p>In the beta, the case can provide the approximate area, event date and USGS Landsat MSS dataset selection where supported. EarthExplorer still requires a manual acquisition-date range. You must inspect actual scene coverage and times. No matching satellite photograph is guaranteed.</p></div></details>
+<details class="faq-item" data-help-search><summary>Why doesn't NASA Worldview show imagery for an older 1970s case?</summary><div class="answer"><p>The beta's NASA MODIS daily layer starts around 2000. For a 1970s case, use the separate USGS Landsat MSS archive search beginning in 1972; it is not continuous weather video or a guaranteed observation of the event.</p></div></details>
+<details class="faq-item" data-help-search><summary>Why doesn't the EUMETSAT link open on the exact historical day?</summary><div class="answer"><p>Its historical gallery has no verified automatic case-date link for this workflow. Choose a date manually and check whether the archive has a frame, its actual timestamp and geographic coverage.</p></div></details>
+<details class="faq-item" data-help-search><summary>Does a blank satellite image disprove a witness account?</summary><div class="answer"><p>No. Coverage, clouds, image resolution, daylight, acquisition time and the satellite's viewing angle all matter. A feature may not be resolvable or may have occurred between acquisitions.</p></div></details>
+<details class="faq-item" data-help-search><summary>Can I install Disclosure Desk on my phone?</summary><div class="answer"><p>On browsers that support it, use the browser menu's Add to Home screen or Install app option. This creates an app-like shortcut; it is not the same as a native Play Store or App Store release.</p></div></details>
+<details class="faq-item" data-help-search><summary>Does the entire website work offline?</summary><div class="answer"><p>No. Current news, external archives, video and authenticated functions generally need a network connection. Some local notes may remain in browser storage, but do not assume full offline availability or automatic cloud backups.</p></div></details>
+<details class="faq-item" data-help-search><summary>Does the website charge for reading research?</summary><div class="answer"><p>Public browsing of the ordinary research sections does not require payment. External websites may have their own registration, access or licensing restrictions. This guide does not promise that all off-site source material is free.</p></div></details>
+<details class="faq-item" data-help-search><summary>May I reuse or publish an archive image in my project?</summary><div class="answer"><p>Check the original item and collection's rights statement. Access to a government archive or public website is not blanket reproduction permission. Contact the holding archive or rights holder if necessary.</p></div></details>
+<details class="faq-item" data-help-search><summary>How can I correct an error or suggest a source?</summary><div class="answer"><p>Email <a href="mailto:support@uapdisclosuredesk.com?subject=Source%20or%20correction%20-%20Disclosure%20Desk">support@uapdisclosuredesk.com</a> with the case title, relevant source link and a concise explanation. Do not include passwords or identifying witness details.</p></div></details>
+<p class="note" id="noMatches" hidden>No matching questions or topics. Try a broader word, such as "case", "privacy", "satellite" or "research".</p>
+</section>
+
+<section class="card" id="glossary">
+<div class="kicker">Interpret evidence carefully</div><h2>Research glossary</h2>
+<dl>
+<dt><strong>UAP</strong></dt><dd class="muted">Unidentified Anomalous Phenomena. An observational classification, not an established explanation or origin.</dd>
+<dt><strong>Primary source</strong></dt><dd class="muted">The original witness account, document, recording or dataset rather than a later summary.</dd>
+<dt><strong>Provenance</strong></dt><dd class="muted">Where a claim, image or document came from, when it was produced and how it was handled.</dd>
+<dt><strong>Event date vs publication date</strong></dt><dd class="muted">The day the reported event occurred versus when a record or article was created. These must not be silently interchanged.</dd>
+<dt><strong>Acquisition timestamp</strong></dt><dd class="muted">When a satellite or sensor collected data. It may be very different from a reported sighting time.</dd>
+<dt><strong>Hypothesis</strong></dt><dd class="muted">A possible explanation to test against the evidence, not a statement already proved.</dd>
+<dt><strong>Unresolved</strong></dt><dd class="muted">Insufficient reliable evidence to make a confident classification, not proof of something extraordinary.</dd>
+</dl>
+<p class="note"><strong>Our guiding principle:</strong> Keep an open mind, check the original evidence and say clearly what you do not yet know.</p>
+<div class="linkrow"><a class="actionlink" href="/?dd_tab=hub">Explore the site</a><a class="actionlink" href="/sources.html">Check original sources</a><a class="actionlink" href="/privacy.html">Read privacy guidance</a></div>
+</section>
+</main></div>
+<footer>Disclosure Desk · Independent investigations · Created by Boyd Digital Studios
+<div><a href="/">Main site</a><a href="/sources.html">Sources &amp; Archives</a><a href="/community-rules.html">Community Rules</a><a href="/privacy.html">Privacy Policy</a><a href="mailto:support@uapdisclosuredesk.com">Contact</a></div>
+</footer>
+<script>
+(()=>{'use strict';
+const search=document.getElementById('helpSearch'),count=document.getElementById('helpCount'),empty=document.getElementById('noMatches');
+const searchable=[...document.querySelectorAll('[data-help-search]')];
+if(!search||!count||!empty)return;
+const normalize=s=>String(s||'').toLocaleLowerCase().normalize('NFKD');
+const update=()=>{
+ const q=normalize(search.value.trim());
+ let visible=0;
+ for(const item of searchable){
+  const found=!q||normalize(item.textContent).includes(q);
+  item.hidden=!found;if(found)visible++;
+ }
+ empty.hidden=visible!==0;
+ count.textContent=q?(visible+' matching '+(visible===1?'topic or question':'topics and questions')+'.'):'All '+searchable.length+' help topics and questions shown.';
+};
+search.addEventListener('input',update);
+update();
+})();
+</script>
+</body>
+</html>
