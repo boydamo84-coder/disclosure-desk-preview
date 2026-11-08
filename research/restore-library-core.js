@@ -79,7 +79,9 @@ async function inspect(file,zipLibrary){
 async function restore(db,documents,selectedIds,onProgress){
  if(!Array.isArray(documents)||!documents.length||!Array.isArray(selectedIds)||!selectedIds.length
  ||selectedIds.length>25)throw Error('Select 1–25 documents per restore batch.');
- const selected=new Set(selectedIds),chosen=documents.filter(d=>selected.has(d.sourceId));
+ const selected=new Set(selectedIds);
+ if(selected.size!==selectedIds.length)throw Error('Selected documents changed. Reopen the backup.');
+ const chosen=documents.filter(d=>selected.has(d.sourceId));
  if(chosen.length!==selected.size)throw Error('Selected documents changed. Reopen the backup.');
  const first=await db.auth.getUser();
  if(first.error||!first.data?.user?.id)throw Error('Sign in to Research Studio before restoring.');
