@@ -22,6 +22,10 @@ public final class ChatPushService extends FirebaseMessagingService {
     private static final String CHANNEL="dd-private-chat";
     @Override public void onMessageReceived(@NonNull RemoteMessage message){
         if(!"chat".equals(message.getData().get("type")))return;
+        // Never display the previous account's private notifications after logout.
+        String activeUser=getSharedPreferences("dd-chat-push",Context.MODE_PRIVATE).getString("active-user","");
+        if(activeUser==null || activeUser.isEmpty() ||
+           !activeUser.equals(message.getData().get("recipient_id")))return;
         String pair=message.getData().get("pair_id");
         if(pair==null || !pair.matches("(?i)[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}"))return;
         if(!getSharedPreferences(DiscoveryWorker.PREFS,Context.MODE_PRIVATE).getBoolean("chats",true))return;
