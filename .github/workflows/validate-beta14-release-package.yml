@@ -24,8 +24,13 @@ jobs:
         run: |
           grep -F 'publish = ".release-staging/public-site"' netlify.toml
           grep -F 'command = "node scripts/build_public_release.cjs"' netlify.toml
-          grep -F 'privateChat:false' assets/community-test-config.js
-          grep -F 'discussions:false' assets/community-test-config.js
+          # Public Chat, Discussions and profile avatars are intentionally enabled
+          # only on the three explicitly recognised host categories.
+          grep -F 'const enabled=preview||local||production' assets/community-test-config.js
+          grep -F 'privateChat:enabled' assets/community-test-config.js
+          grep -F 'discussions:enabled' assets/community-test-config.js
+          grep -F 'profileAvatars:enabled' assets/community-test-config.js
+          grep -F 'researchPublishing:false' assets/community-test-config.js
       - name: Preserve release candidate (short retention only)
         uses: actions/upload-artifact@v4
         with:
