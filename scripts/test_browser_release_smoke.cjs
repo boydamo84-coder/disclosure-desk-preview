@@ -214,7 +214,7 @@ async function selected(page,id){
   pass('first-visit Escape dismisses welcome without leaving News');
   await fresh.close();
 
-  // Fully offline browser integration of the real disabled-by-default avatar component.
+  // Fully offline browser integration of profile avatars: guest hidden, owner auto-save.
   // Synthetic Supabase Auth + Storage responses, NEVER user uploads or real network.
   const avatarContext=await browser.newContext({viewport:{width:393,height:852},
    deviceScaleFactor:2,isMobile:true,hasTouch:true,locale:'en-GB'});
@@ -226,17 +226,24 @@ async function selected(page,id){
   await avatarPage.goto(BASE+'/?dd_tab=profilePage',{waitUntil:'domcontentloaded',timeout:35000});
   await avatarPage.waitForSelector('#ddAvatarPanel',{state:'attached'});
   assert.equal(await avatarPage.locator('#ddAvatarPanel').isVisible(),false,
-   'Account photo must be hidden while Storage feature is disabled');
-  pass('profile photo is disabled by default in actual mobile browser');
+   'Account photo panel must be hidden for signed-out guests');
+  pass('profile photo controls stay hidden for guests in real mobile browser');
   await avatarPage.evaluate(async()=>{
    document.getElementById('ddProfilePrivate').hidden=false;
    document.getElementById('ddProfileGuest').hidden=true;
-   window.__avatarQa={writes:[],user:'11111111-1111-4111-8111-111111111111'};
+   window.__avatarQa={writes:[],user:'11111111-1111-4111-8111-111111111111',
+    privateKey:'22222222-2222-4222-8222-222222222222'};
    window.DD_COMMUNITY_FEATURES={...window.DD_COMMUNITY_FEATURES,profileAvatars:true};
    window.supabase={createClient:()=>({
     auth:{
      getUser:async()=>({data:{user:{id:window.__avatarQa.user,is_anonymous:false}},error:null}),
      onAuthStateChange:()=>{}
+    },
+    rpc:async(name,args)=>{
+     if(name==='dd_avatar_my_settings')
+      return {data:[{public_key:window.__avatarQa.privateKey,visible:true}],error:null};
+     if(name==='dd_avatar_set_visibility')return {data:true,error:null};
+     throw Error('Unexpected public avatar RPC');
     },
     storage:{from:bucket=>{
      if(bucket!=='dd-profile-avatars')throw Error('Unexpected avatar bucket');
@@ -263,6 +270,7 @@ async function selected(page,id){
    });
   });
   await avatarPage.locator('#ddAvatarPanel:not([hidden])').waitFor({state:'attached'});
+  await avatarPage.locator('#ddAvatarFile:not([disabled])').waitFor({state:'attached',timeout:7500});
   const photoBounds=await avatarPage.locator('#ddAvatarPanel').boundingBox();
   assert(photoBounds&&photoBounds.width<=393,'Private avatar must fit portrait viewport');
   pass('profile photo real Chromium controls render inside 393px screen, offline');
@@ -273,32 +281,31 @@ async function selected(page,id){
    name:'synthetic-photo.png',mimeType:'image/png',buffer:png
   });
   try{
-   await avatarPage.locator('#ddAvatarSave:not([disabled])').waitFor({state:'attached',timeout:7500});
+   await avatarPage.waitForFunction(()=>window.__avatarQa?.writes?.some(x=>x.action==='upload'),
+    null,{timeout:10000});
   }catch(error){
    const details=await avatarPage.evaluate(()=>({
     status:document.getElementById('ddAvatarStatus')?.textContent,
     fileName:document.getElementById('ddAvatarFile')?.files?.[0]?.name,
     fileType:document.getElementById('ddAvatarFile')?.files?.[0]?.type,
-    disabled:document.getElementById('ddAvatarSave')?.disabled,
-    secureContext:window.isSecureContext,
-    bitmapSupport:typeof window.createImageBitmap
+    fileDisabled:document.getElementById('ddAvatarFile')?.disabled,
+    pendingRetry:!document.getElementById('ddAvatarSave')?.hidden,
+    secureContext:window.isSecureContext
    }));
-   throw Error('Avatar image conversion test failed '+JSON.stringify(details)+'; '+error.message);
+   throw Error('Auto-save avatar test failed '+JSON.stringify(details)+'; '+error.message);
   }
-  assert.match(await avatarPage.locator('#ddAvatarStatus').innerText(),/Preview ready/);
-  await avatarPage.locator('#ddAvatarSave').click();
-  await avatarPage.waitForFunction(()=>window.__avatarQa?.writes?.some(x=>x.action==='upload'));
+  assert.match(await avatarPage.locator('#ddAvatarStatus').innerText(),/saved automatically/);
   const upload=await avatarPage.evaluate(()=>window.__avatarQa.writes.find(x=>x.action==='upload'));
-  assert.equal(upload.path,'11111111-1111-4111-8111-111111111111/avatar.webp');
+  assert.equal(upload.path,'22222222-2222-4222-8222-222222222222/avatar.webp');
   assert.equal(upload.contentType,'image/webp');
   assert(upload.bytes>0&&upload.bytes<=1048576,'Photo is re-encoded under 1 MiB');
-  pass('real browser JPEG/PNG selection re-encodes to private WebP, owner-only key');
+  pass('real browser photo auto-saves WebP to separate opaque private key');
   avatarPage.on('dialog',d=>d.accept());
   await avatarPage.locator('#ddAvatarRemove').click();
   await avatarPage.waitForFunction(()=>window.__avatarQa?.writes?.some(x=>x.action==='remove'));
   const removal=await avatarPage.evaluate(()=>window.__avatarQa.writes.find(x=>x.action==='remove'));
-  assert.deepEqual(removal.paths,['11111111-1111-4111-8111-111111111111/avatar.webp']);
-  pass('real browser photo removal uses only current-account private key');
+  assert.deepEqual(removal.paths,['22222222-2222-4222-8222-222222222222/avatar.webp']);
+  pass('real browser photo removal uses only current-account opaque private key');
   await avatarPage.screenshot({path:path.join(OUTPUT,'private-profile-photo-393px.png'),
    fullPage:false});
   await avatarContext.close();
