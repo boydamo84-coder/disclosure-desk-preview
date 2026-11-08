@@ -301,6 +301,8 @@ async function selected(page,id){
   assert(upload.bytes>0&&upload.bytes<=1048576,'Photo is re-encoded under 1 MiB');
   pass('real browser photo auto-saves WebP to separate opaque private key');
   avatarPage.on('dialog',d=>d.accept());
+  // Avatar auto-upload is asynchronous: wait for its UI confirmation, not only the mock write call.
+  await avatarPage.locator('#ddAvatarRemove:not([hidden]):not([disabled])').waitFor({state:'visible',timeout:10000});
   await avatarPage.locator('#ddAvatarRemove').click();
   await avatarPage.waitForFunction(()=>window.__avatarQa?.writes?.some(x=>x.action==='remove'));
   const removal=await avatarPage.evaluate(()=>window.__avatarQa.writes.find(x=>x.action==='remove'));
