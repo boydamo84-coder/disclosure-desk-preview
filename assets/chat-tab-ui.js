@@ -85,8 +85,11 @@ function init(){
  tab.onclick=()=>{window.navigateTo?.('chatPage');void poll()};
  rail.insertBefore(tab,rail.querySelector('[data-tab="profilePage"]'));
  const c=getClient();
- c?.auth.onAuthStateChange(()=>{owner=null;previousFingerprint='';setBadge(0);
-  Promise.resolve().then(()=>{void poll()})});
+ c?.auth.onAuthStateChange((event,session)=>{
+  if(event==='TOKEN_REFRESHED'||(event==='SIGNED_IN'&&session?.user?.id===owner))return;
+  owner=null;previousFingerprint='';setBadge(0);
+  Promise.resolve().then(()=>{void poll()});
+ });
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')void poll()});
  window.setInterval(()=>{void poll()},15000);
  void poll();

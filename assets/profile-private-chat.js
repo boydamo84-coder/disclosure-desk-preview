@@ -6,7 +6,7 @@ const config=window.DD_COMMUNITY_TEST_CONFIG||{},flags=window.DD_COMMUNITY_FEATU
 const enabled=flags.privateChat===true&&['production','test'].includes(config.environment);
 const $=id=>document.getElementById(id),mk=(tag,content,cls='')=>{
  const x=document.createElement(tag);if(cls)x.className=cls;if(content!==undefined)x.textContent=String(content);return x};
-let db,host,notice,received,accepted,conversation,currentId=null,lastPaintedPairId=null,ownerId=null,rows=[],epoch=0,identityRevision=0,myUsername='You',drafts=Object.create(null),inviteSection=null,drawerToggle=null,drawerOpen=false;
+let db,host,notice,received,accepted,conversation,currentId=null,lastPaintedPairId=null,lastConversationSignature='',ownerId=null,rows=[],epoch=0,identityRevision=0,myUsername='You',drafts=Object.create(null),inviteSection=null,drawerToggle=null,drawerOpen=false;
 const client=()=>window.supabase?(db||(db=window.supabase.createClient(config.url,config.publishableKey,
  {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}))):null;
 function say(message){
@@ -29,9 +29,10 @@ async function auth(){
  throw Error('Please sign in again.');
  return c;
 }
-async function mutate(control,fn,success){
+async function mutate(control,fn,success,feedback){
  const expectedOwner=ownerId,expectedRevision=identityRevision;
  control.disabled=true;
+ if(feedback){feedback.textContent='Sending request…';feedback.dataset.state='pending'}
  try{
   const c=await auth();
   // A pending button press must not execute after logout or an A-to-B switch.
@@ -39,10 +40,18 @@ async function mutate(control,fn,success){
    throw Error('Your sign-in changed. Please try again.');
   await fn(c);
   if(ownerId!==expectedOwner||identityRevision!==expectedRevision)return;
-  say(success);await refresh();
+  await refresh(true);
+  if(feedback){feedback.textContent=success;feedback.dataset.state='success'}
+  say(success);
  }catch(e){
-  if(ownerId===expectedOwner&&identityRevision===expectedRevision)
-   say(String(e?.message||'Unable to complete request').slice(0,180));
+  if(ownerId===expectedOwner&&identityRevision===expectedRevision){
+   const raw=String(e?.message||'Unable to complete request');
+   const message=feedback&&/username unavailable/i.test(raw)
+    ?'Username unavailable. Ask the member to save a public username and allow Chat requests in Profile.'
+    :raw.slice(0,180);
+   if(feedback){feedback.textContent=message;feedback.dataset.state='error'}
+   say(message);
+  }
  }finally{control.disabled=false}
 }
 function page(){return $('chatPage')}
@@ -61,7 +70,7 @@ function toggleDrawer(){
  drawerToggle?.setAttribute?.('aria-expanded',String(drawerOpen));
 }
 function showInbox(){
- currentId=null;lastPaintedPairId=null;conversation?.replaceChildren();
+ currentId=null;lastPaintedPairId=null;lastConversationSignature='';conversation?.replaceChildren();
  if(host&&typeof host.className==='string')host.className=host.className.replace(/\s*dd-chat-conversation-open\b/g,'');
  page()?.classList?.remove?.('dd-chat-is-conversation');
  closeDrawer();
@@ -117,7 +126,10 @@ function autoGrow(field){
  field.style.height=height+'px';
  field.style.overflowY=field.scrollHeight>88?'auto':'hidden';
 }
-async function refresh(){
+function conversationSignature(row){
+ return [row.pair_id,row.status,row.direction,row.contact_unavailable,row.unread_count].join(':');
+}
+async function refresh(forceConversation=false){
  if(!enabled||!(host?.closest('details')?.open||window.DDChatTab?.isOpen?.()))return;
  let stamp=++epoch;const c=client();if(!c)return;
  try{
@@ -139,13 +151,16 @@ async function refresh(){
   drawList(accepted,rows.filter(x=>x.status==='accepted'));
   drawList(received,rows.filter(x=>x.status!=='accepted'));
   const active=rows.find(x=>x.pair_id===currentId);
-  if(active)await openConversation(active);
-  else if(currentId)showInbox();
+  // Polling must never rebuild the message editor and keyboard when nothing changed.
+  // A send/accept action explicitly requests a forced redraw; unread changes redraw as needed.
+  if(active&&(forceConversation||conversationSignature(active)!==lastConversationSignature))await openConversation(active);
+  else if(currentId&&!active)showInbox();
   if(stamp!==epoch)return;
   say('Private chat requests updated.');
  }catch(e){say('Chat unavailable. '+String(e?.message||'Please retry').slice(0,135))}
 }
 async function openConversation(row){
+ lastConversationSignature=conversationSignature(row);
  const sameConversation=lastPaintedPairId===row.pair_id;
  const previous=sameConversation?conversation.querySelector?.('.dd-chat-history'):null;
  const scrollTop=previous?.scrollTop||0,nearBottom=!previous||previous.scrollHeight-previous.scrollTop-previous.clientHeight<80;
@@ -229,10 +244,11 @@ async function openConversation(row){
    // On Android the final layout height is measured after DOM paint.
    window.requestAnimationFrame?.(syncHistoryScroll);
    const lastMessageId=(data||[])[0]?.message_id;
-   if(lastMessageId&&currentId===pairId){
+   if(lastMessageId&&currentId===pairId&&Number(row.unread_count)>0){
     const seen=await c.rpc('dd_chat_mark_read',{p_pair_id:pairId,p_last_message_id:lastMessageId});
     if(!seen.error&&seen.data===true&&currentId===pairId){
      row.unread_count=0;
+     lastConversationSignature=conversationSignature(row);
      drawList(accepted,rows.filter(x=>x.status==='accepted'));
      drawList(received,rows.filter(x=>x.status!=='accepted'));
     }
@@ -296,23 +312,31 @@ function invite(target){
  intro.addEventListener('input',()=>autoGrow(intro));caption.append(intro);
  const helper=mk('p','The recipient must accept before further messages. Up to 10 new requests per 24 hours.','muted small');
  const send=mk('button','Send request','dd-chat-send');send.type='submit';
+ const feedback=mk('p','','muted small dd-chat-request-feedback');
+ feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');
  detail.append(caption,helper,send);
  reveal.onclick=()=>{
   const username=name.value.trim();
-  if(!/^[A-Za-z][A-Za-z0-9_]{2,23}$/.test(username)){say('Enter an exact public username to request a chat.');return}
-  detail.hidden=false;intro.focus?.();
+  if(!/^[A-Za-z][A-Za-z0-9_]{2,23}$/.test(username)){
+   feedback.textContent='Enter an exact public username to request a chat.';feedback.dataset.state='error';return
+  }
+  feedback.textContent='';detail.hidden=false;intro.focus?.();
  };
- form.append(search,detail);
+ form.append(search,detail,feedback);
  form.onsubmit=event=>{
   event.preventDefault();const username=name.value.trim(),preview=intro.value.trim();
   if(detail.hidden){reveal.onclick();return}
   if(!/^[A-Za-z][A-Za-z0-9_]{2,23}$/.test(username)||preview.length<5||preview.length>1000){
-   say('Use a valid username and an introduction of 5–1000 characters.');return
+   feedback.textContent='Use a valid username and an introduction of 5–1000 characters.';
+   feedback.dataset.state='error';return
   }
   void mutate(send,async c=>{
-   const {error}=await c.rpc('dd_chat_request',{p_username:username,p_preview:preview});
-   if(error)throw error;name.value='';intro.value='';detail.hidden=true;
-  },'Request sent. The recipient can accept or decline it.');
+   const {data,error}=await c.rpc('dd_chat_request',{p_username:username,p_preview:preview});
+   if(error)throw error;
+   if(typeof data!=='string'||!/^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(data))
+    throw Error('Request was not confirmed by the server. Please retry.');
+   name.value='';intro.value='';detail.hidden=true;
+  },'Request sent. The recipient can accept or decline it.',feedback);
  };
  section.append(newHead,form);target.append(section);inviteSection=section;inviteSection.hidden=true;
 }
@@ -353,7 +377,12 @@ function init(){
   if(event.key==='Escape'&&drawerOpen){closeDrawer();drawerToggle?.focus?.()}
  });
  panel.addEventListener('toggle',()=>{if(panel.open)void refresh()});
- client()?.auth.onAuthStateChange(()=>{clear();Promise.resolve().then(()=>{void refresh()})});
+ client()?.auth.onAuthStateChange((event,session)=>{
+  // Token refreshes and duplicate same-identity sign-in events must not tear down
+  // the Chat UI or dismiss the Android keyboard.
+  if(event==='TOKEN_REFRESHED'||(event==='SIGNED_IN'&&session?.user?.id===ownerId))return;
+  clear();Promise.resolve().then(()=>{void refresh()});
+ });
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')void refresh()});
 }
 window.DDPrivateChat=Object.freeze({refresh});

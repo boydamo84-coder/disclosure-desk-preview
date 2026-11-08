@@ -1,0 +1,28 @@
+name: Chat mobile freeze + request feedback hotfix QA (NO DEPLOY)
+on:
+  push:
+    branches: [hotfix/chat-stability-request-feedback-20261108]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify source syntax and preserved public package boundaries
+        run: |
+          node --check assets/profile-private-chat.js
+          node --check assets/chat-tab-ui.js
+          node --check scripts/test_chat_stability_and_invite.cjs
+          node scripts/test_public_release_package.cjs
+          node scripts/test_adsense_source_readiness.cjs
+      - name: Authenticated Chat request and stable mobile typing tests (fake backend only)
+        run: |
+          node scripts/test_chat_stability_and_invite.cjs
+          node scripts/test_private_chat_account_switch_runtime.cjs
+          node scripts/test_private_chat_switch_mutations.cjs
+          node scripts/test_member_avatar_race.cjs
