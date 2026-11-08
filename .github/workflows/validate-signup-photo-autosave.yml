@@ -1,0 +1,37 @@
+name: Verify signup public-name and avatar auto-save hotfix (NO deploy)
+on:
+  push:
+    branches: [fix/signup-public-username-auto-avatar-save-nov08]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Parse updated frontend and tests
+        run: |
+          node --check assets/public-profiles.js
+          node --check assets/profile-avatars.js
+          node --check cloud-boards.js
+          node --check scripts/test_signup_auto_public_20261108.cjs
+          node --check scripts/test_avatar_auto_upload_20261108.cjs
+      - name: Exercise actual modules with synthetic users and uploads
+        run: |
+          node scripts/test_signup_auto_public_20261108.cjs
+          node scripts/test_avatar_auto_upload_20261108.cjs
+          node scripts/test_chat_stability_and_invite.cjs
+      - name: Preserve existing cross-account safety
+        run: |
+          node scripts/test_private_chat_account_switch_runtime.cjs
+          node scripts/test_private_chat_switch_mutations.cjs
+          node scripts/test_member_avatar_race.cjs
+          node scripts/test_member_avatar_display.cjs
+      - name: Package restricted website and verify AdSense meta and seller file (NO DEPLOY)
+        run: |
+          node scripts/test_public_release_package.cjs
+          node scripts/test_adsense_source_readiness.cjs

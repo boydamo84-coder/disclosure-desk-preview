@@ -1,7 +1,7 @@
 /* Disclosure Desk profile avatars: 512px WebP, one opaque private Storage path.
  * User photos show beside PUBLIC aliases by default, with a server-enforced
  * Hide switch in Profile. No Auth UUID, email or raw file reaches other users.
- * Feature remains gated OFF on the public website until owner/Samsung QA.
+ * Selecting a photo auto-saves it; Retry is shown only after failed upload.
  */
 (()=>{'use strict';
 const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
@@ -14,24 +14,30 @@ panel.hidden=!enabled;if(!enabled)return;
 const image=$('ddAvatarImage'),fallback=$('ddAvatarFallback'),file=$('ddAvatarFile'),
  save=$('ddAvatarSave'),remove=$('ddAvatarRemove'),status=$('ddAvatarStatus'),visible=$('ddAvatarVisible');
 if(!image||!fallback||!file||!save||!remove||!status||!visible)return;
-let db=null,owner=null,avatarKey=null,epoch=0,objectUrl=null,pending=null,operation=false;
+let db=null,owner=null,avatarKey=null,epoch=0,objectUrl=null,pending=null,operation=false,hasSavedPhoto=false;
 const client=()=>window.supabase?(db||(db=window.supabase.createClient(
  cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}
 ))):null;
 const validId=id=>/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(id||''));
 function say(msg){status.textContent=msg;}
-function buttons(){save.disabled=operation||!pending||!owner||!avatarKey;
- remove.disabled=operation||!owner||!avatarKey;
- visible.disabled=operation||!owner||!avatarKey;}
+function buttons(){
+ save.hidden=!pending;
+ save.disabled=operation||!pending||!owner||!avatarKey;
+ file.disabled=operation;
+ remove.disabled=operation||!owner||!avatarKey||!hasSavedPhoto;
+ visible.disabled=operation||!owner||!avatarKey;
+}
 function revoke(){if(objectUrl){try{URL.revokeObjectURL(objectUrl)}catch(_){}}objectUrl=null;}
 function reset(clearKey=true){
  if(clearKey){avatarKey=null;visible.checked=false;}
- pending=null;file.value='';revoke();image.removeAttribute('src');
+ pending=null;hasSavedPhoto=false;file.value='';revoke();image.removeAttribute('src');
  image.hidden=true;fallback.hidden=false;remove.hidden=true;buttons();
 }
-function show(blob){
+function show(blob,saved=false){
+ if(saved)hasSavedPhoto=true;
  const next=URL.createObjectURL(blob);revoke();objectUrl=next;
- image.src=next;image.hidden=false;fallback.hidden=true;remove.hidden=false;buttons();
+ image.src=next;image.hidden=false;fallback.hidden=true;
+ remove.hidden=!hasSavedPhoto;buttons();
 }
 function pathFor(key){return key+'/avatar.webp';}
 async function identity(){
@@ -75,9 +81,9 @@ async function refresh(){
  if(generation!==epoch||owner!==user.id)return;
  if(response.error||!response.data){
   revoke();image.removeAttribute('src');image.hidden=true;fallback.hidden=false;
-  remove.hidden=true;buttons();say('No profile photo saved yet.');return;
+  hasSavedPhoto=false;remove.hidden=true;buttons();say('No profile photo saved yet.');return;
  }
- show(response.data);
+ show(response.data,true);
  say(visible.checked?'Photo saved and shown beside your public username.':
   'Photo saved privately; it is hidden from other members.');
 }
@@ -102,20 +108,21 @@ async function convert(fileBlob){
  }finally{decoded.close?.();}
 }
 file.addEventListener('change',async()=>{
- const chosen=file.files?.[0];if(!chosen)return;
- const expected=owner,stamp=++epoch;pending=null;buttons();say('Checking and cropping your photo…');
+ const chosen=file.files?.[0];if(!chosen||operation)return;
+ const expected=owner,stamp=++epoch;pending=null;buttons();say('Preparing and saving your photo…');
  try{
   const blob=await convert(chosen);
   if(stamp!==epoch||owner!==expected)return;
   pending=blob;show(blob);
-  say('Preview ready. Save to display your photo to others (unless Hidden is selected).');
+  // Choosing the image triggers the upload; only failures need a Retry.
+  await uploadPending();
  }catch(e){
   if(stamp!==epoch)return;
   pending=null;buttons();const cause=String(e.message||'Unable to read photo.').slice(0,150);
   await refresh();if(owner===expected)say('Photo not selected: '+cause);
  }
 });
-save.addEventListener('click',async()=>{
+async function uploadPending(){
  if(operation||!pending||!owner||!avatarKey)return;
  const candidate=pending,expected=owner,key=avatarKey,stamp=epoch;
  operation=true;buttons();say('Saving profile photo…');
@@ -128,16 +135,18 @@ save.addEventListener('click',async()=>{
   });
   if(result.error)throw result.error;
   if(stamp===epoch&&owner===id){
-   pending=null;file.value='';window.DDMemberAvatars?.clearCache?.();
-   say(visible.checked?'Photo saved. It is visible beside your public username.':
-    'Photo saved. It remains hidden from other members.');
+   pending=null;hasSavedPhoto=true;file.value='';remove.hidden=false;
+   window.DDMemberAvatars?.clearCache?.();
+   say(visible.checked?'Profile picture saved automatically and visible beside your public username.':
+    'Profile picture saved automatically and hidden from other members.');
   }
  }catch(e){
   if(stamp===epoch)say('Photo not saved: '+String(e.message||'Try again.').slice(0,130));
  }finally{operation=false;buttons();}
-});
+}
+save.addEventListener('click',()=>{void uploadPending()});
 remove.addEventListener('click',async()=>{
- if(operation||!owner||!avatarKey)return;
+ if(operation||!owner||!avatarKey||!hasSavedPhoto)return;
  if(!confirm('Remove your account profile photo? You can upload another later.'))return;
  const expected=owner,key=avatarKey,stamp=epoch;
  operation=true;buttons();say('Removing profile photo…');

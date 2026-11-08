@@ -1,6 +1,6 @@
-/* Disclosure Desk pseudonymous community names: private until explicit opt-in.
- * Uses the existing owner-only dd_public_names table. No public direct SELECT.
- * Trusted official hosts are enabled; private names remain opt-in.
+/* Disclosure Desk public signup usernames. New signup names activate on first
+ * signed-in visit, public and contactable for Chat, as clearly disclosed.
+ * Existing owner profile privacy and Chat off switches are never overwritten.
  */
 (()=>{'use strict';
 const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
@@ -42,16 +42,43 @@ async function refresh(){
  host.hidden=!user;
  if(!user){input.value='';optIn.checked=false;if(chatOptIn)chatOptIn.checked=false;return;}
  say('Loading private username…');
- const {data:row,error:readError}=await c.from('dd_public_names')
+ let {data:row,error:readError}=await c.from('dd_public_names')
   .select(chatEnabled?'display_name,is_public,chat_contact_opt_in':'display_name,is_public').eq('user_id',user.id).maybeSingle();
  if(marker!==revision||sessionId!==user.id)return;
- if(readError){input.value='';optIn.checked=false;say('Username settings are not active in this beta yet. No account data changed.',true);return;}
- input.value=row?.display_name||String(user.user_metadata?.dd_requested_username||'').slice(0,24);
- optIn.checked=row?.is_public===true;
- // A new public username may receive CHAT REQUESTS by default. An existing saved
- // preference (especially explicit OFF) is never changed on a later login.
+ if(readError){input.value='';optIn.checked=false;say('Username settings are unavailable. No account data changed.',true);return;}
+ const requested=String(user.user_metadata?.dd_requested_username||'').trim();
+ let onboardingError=null;
+ // Signup explicitly discloses public usernames and incoming requests as
+ // defaults. Create ONLY a missing owner row; never overwrite saved Hide/Off.
+ if(!row&&VALID.test(requested)&&!RESERVED.test(requested)){
+  say('Activating your public username for Chat…');
+  try{
+   const identity=await c.auth.getUser();
+   if(identity.error||identity.data?.user?.id!==user.id||marker!==revision)return;
+   const {error:insertError}=await c.from('dd_public_names').upsert({
+    user_id:user.id,display_name:requested,is_public:true,
+    chat_contact_opt_in:chatEnabled,updated_at:new Date().toISOString()
+   },{onConflict:'user_id',ignoreDuplicates:true});
+   if(insertError)throw insertError;
+   const found=await c.from('dd_public_names')
+    .select(chatEnabled?'display_name,is_public,chat_contact_opt_in':'display_name,is_public')
+    .eq('user_id',user.id).maybeSingle();
+   if(found.error||!found.data)throw (found.error||Error('Username was not saved.'));
+   row=found.data;
+  }catch(error){onboardingError=error;}
+ }
+ if(marker!==revision||sessionId!==user.id)return;
+ input.value=row?.display_name||requested.slice(0,24);
+ optIn.checked=row ? row.is_public===true : !!requested;
+ // Preserve existing explicit Chat off and hidden username preferences.
  if(chatOptIn)chatOptIn.checked=row ? row.chat_contact_opt_in===true : true;
- say(row?'Username loaded. You can update it or change public visibility.':'Choose a username. Public display is off until you opt in.');
+ if(onboardingError){
+  say(/unique|duplicate/i.test(String(onboardingError.message||''))?
+   'That username is already taken. Choose another below and press Save.':
+   'Could not activate your username automatically. Review the name below and press Save. '+String(onboardingError.message||'').slice(0,90),true);
+ }else say(row?
+  'Username ready. You can change public visibility or Chat requests at any time.':
+  'Choose a username and press Save to make it public.');
 }
 async function save(ev){
  ev.preventDefault();
@@ -91,7 +118,7 @@ function init(){
  host.hidden=true;host.style.cssText='margin:13px 0;padding:13px;border:1px solid #685d49;background:#132838;border-radius:11px';
  const title=mk('h4','', 'Public username · Community');
  title.style.cssText='margin:0 0 6px;color:#e5c890';
- const help=mk('p','muted small','Your account email stays private. Your username appears on approved comments and LIVE chat only if you choose to make it public.');
+ const help=mk('p','muted small','Your signup username is public and discoverable for Chat by default after sign-in. Your email stays private. To hide your username or disable incoming requests, change the switches below and Save.');
  const form=mk('form');form.id='ddPublicProfileForm';
  const label=mk('label','muted small','My username (3–24 characters)');label.htmlFor='ddPublicProfileName';
  input=mk('input','field');input.id='ddPublicProfileName';input.maxLength=24;input.minLength=3;
