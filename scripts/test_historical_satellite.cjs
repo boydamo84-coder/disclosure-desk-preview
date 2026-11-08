@@ -80,3 +80,35 @@ assert.match(html,/data-dd-sat-archive/);
 
 assert.match(js,/NASA opens with the MODIS Terra daily true-colour imagery layer/);
 assert.match(js,/not a guaranteed image at the selected UTC minute/);
+
+/* Archive Satellite secondary view & USGS Landsat 1970s (source handoff, not a fetched frame). */
+const oldArizona={id:'arizona-1976',title:'Arizona sighting',city:'Arizona',eventDate:'1976-06-03',lat:33.4,lon:-111.9};
+const range=api.landsatWindow(oldArizona.eventDate);
+assert.ok(range,'Landsat search range is available in 1976');
+assert.equal(range.from,'1976-05-16');
+assert.equal(range.to,'1976-06-21');
+assert.equal(api.landsatWindow('1972-07-24'),null,'Do not claim Landsat scene coverage before official first data');
+assert.equal(api.landsatWindow('2019-02-29'),null,'Invalid dates cannot produce archival range');
+assert.equal(api.worldViewUrl(oldArizona),null,'NASA MODIS 2000+ cannot be used as imagery for 1976');
+assert.equal(api.details(oldArizona).dailyArchive,false,'EUMETSAT historic daily imagery does not cover 1976');
+assert.match(js,/Landsat 1–5 MSS C2 L1/);
+assert.match(js,/https:\/\/earthexplorer\.usgs\.gov\//);
+assert.match(js,/NOT retrieved or confirmed a matching frame/);
+assert.doesNotMatch(js,/dd_discussions_owner_review|supabase\.rpc|navigator\.geolocation/,'No private location or database mutations in satellite viewer');
+for(const id of ['ddArchiveCasesTab','ddArchiveSatelliteTab','ddArchiveCasesPanel','ddArchiveSatellitePanel',
+ 'ddArchiveSatelliteSearch','ddArchiveSatelliteStatus','ddArchiveSatelliteResults']){
+ assert.match(html,new RegExp('id="'+id+'"'),'Missing satellite archive subview '+id);
+}
+assert.match(html,/function setArchiveView\(mode\)/);
+assert.match(html,/function renderArchiveSatelliteCases\(\)/);
+assert.match(html,/data-dd-sat-archive/);
+assert.match(html,/setArchiveView\('satellite'\)/);
+assert.match(html,/renderArchiveSatelliteCases\(\);ddSetupCompareCases/);
+assert.match(html,/data-dd-sat-archive="'\+esc\(String\(r\.id\)\)\+'/);
+assert.match(html,/new URLSearchParams/);
+assert.equal((nav.match(/class="tab(?: active)?"/g)||[]).length,11,'Archive satellite view must not create a bottom tab');
+assert.match(html,/https:\/\/earthexplorer\.usgs\.gov\//);
+assert.match(html,/https:\/\/worldview\.earthdata\.nasa\.gov\//);
+assert.match(html,/https:\/\/pics\.eumetsat\.int\//);
+assert.match(js,/not a verified image of this sighting|not a verified picture of the event/i);
+console.log('PASS: Arizona 1976 Landsat date window, Archive Satellite subtab, 11-bottom-tab boundary and official source caveats.');

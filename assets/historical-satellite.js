@@ -10,7 +10,7 @@ const NASA='https://worldview.earthdata.nasa.gov/';
 const EUMET_DAILY='https://pics.eumetsat.int/';
 const EUMET_VIEW='https://view.eumetsat.int/';
 const USGS_LANDSAT='https://earthexplorer.usgs.gov/';
-const LANDSAT_START='1972-07-23';
+const LANDSAT_START='1972-07-25';
 const DAILY_START='1981-08-17';
 const NASA_DAILY_START='2000-03-01';
 const $=(tag,text,className)=>{
