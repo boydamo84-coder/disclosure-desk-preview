@@ -150,9 +150,10 @@ const LEASE="33333333-3333-4333-8333-333333333333";
     assert.equal(x.state.redactionCalls,0);
   });
   await test("auth_removed checkpoint requires proven absent Auth and Storage",async()=>{
-    const x=sandbox(),j=x.job();j.phase="auth_removed";
+    const x=sandbox(),j=x.job();
+    x.state.phase="auth_removed";j.phase="auth_removed";
     await assert.rejects(executeApprovedDeletion(j,x.adapter),/auth_deletion_unverified/);
-    assert.equal(x.state.phase,"approved");
+    assert.equal(x.state.phase,"auth_removed");
     assert.equal(x.state.users.has(ACCOUNT_A),true);
   });
   await test("already-complete job is not an executable job",async()=>{
