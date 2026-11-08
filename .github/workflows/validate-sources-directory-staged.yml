@@ -32,6 +32,10 @@ jobs:
           node --check assets/news-ticker.js
           node --check scripts/test_news_ticker.cjs
           node scripts/test_news_ticker.cjs
+      - name: Verify default Chat contact requests and saved user opt-outs (synthetic)
+        run: |
+          node --check scripts/test_chat_default_contact.cjs
+          node scripts/test_chat_default_contact.cjs
       - name: Verify staged private profile photo owner isolation and Storage review contract
         run: |
           node --check assets/profile-avatars.js

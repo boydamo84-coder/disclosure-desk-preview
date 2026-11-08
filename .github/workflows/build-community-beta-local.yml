@@ -1,4 +1,4 @@
-name: Build local-only Chat + Discussions Samsung beta ZIP (NO deploy)
+name: Build local-only Chat, Discussions + Private Photos Samsung beta ZIP (NO deploy)
 on:
   push:
     branches: [feature/sources-archives-next-batch-nov03]
@@ -8,6 +8,8 @@ on:
       - 'assets/chat-tab-ui.js'
       - 'assets/community-discussions.js'
       - 'assets/profile-private-chat.js'
+      - 'assets/public-profiles.js'
+      - 'assets/profile-avatars.js'
       - 'assets/news-ticker.js'
       - 'assets/news-ticker.css'
       - 'assets/discussions-admin.js'

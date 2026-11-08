@@ -16,14 +16,15 @@ fs.cpSync(staging,beta,{recursive:true,errorOnExist:true,force:false});
 const file=path.join(beta,'assets','community-test-config.js');
 let cfg=fs.readFileSync(file,'utf8');
 assert.match(cfg,/const local=\['localhost','127\.0\.0\.1'\]\.includes\(location\.hostname\)/);
-for(const [from,to] of [['privateChat:false,','privateChat:local,'],['discussions:false,','discussions:local,']]){
+for(const [from,to] of [['privateChat:false,','privateChat:local,'],['discussions:false,','discussions:local,'],['profileAvatars:false,','profileAvatars:local,']]){
  assert.equal(cfg.split(from).length,2,'Unexpected original flag: '+from);
  cfg=cfg.replace(from,to);
 }
 assert.match(cfg,/privateChat:local/);
 assert.match(cfg,/discussions:local/);
 assert.doesNotMatch(cfg,/privateChat:true|discussions:true/,'No globally enabled community feature allowed');
-assert.match(cfg,/profileAvatars:false/);
+assert.match(cfg,/profileAvatars:local/);
+assert.doesNotMatch(cfg,/profileAvatars:true/,'Never enable private photos globally');
 assert.match(cfg,/researchPublishing:false/);
 fs.writeFileSync(file,cfg);
 const html=fs.readFileSync(path.join(beta,'index.html'),'utf8');
@@ -37,7 +38,7 @@ const bytes=fs.readFileSync(file);
 row.bytes=bytes.length;row.sha256=crypto.createHash('sha256').update(bytes).digest('hex');
 manifest.totalBytes=manifest.files.reduce((n,x)=>n+x.bytes,0);
 manifest.type='Disclosure Desk LOCAL-ONLY beta; NOT deployed; public host flags OFF';
-manifest.betaRestrictions='Chat and Discussions enabled only on localhost / 127.0.0.1, using genuine existing Supabase backend. External hostnames disabled.';
+manifest.betaRestrictions='Chat, Discussions and PRIVATE profile-photo controls enabled only on localhost / 127.0.0.1. No public-host activation or public avatar URLs.';
 fs.writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n');
 for(const f of manifest.files){
  const content=fs.readFileSync(path.join(beta,f.path));
