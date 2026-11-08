@@ -23,13 +23,13 @@ const {pathToFileURL}=require("node:url");
   "CREATE TABLE storage.objects (bucket_id text NOT NULL, name text NOT NULL, owner_id text);",
   "ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;",
   "CREATE POLICY disposable_allow_storage ON storage.objects FOR ALL TO authenticated USING (true) WITH CHECK (true);",
-  "GRANT SELECT,INSERT,UPDATE,DELETE ON storage.objects TO authenticated;",
+  "GRANT SELECT,INSERT,UPDATE,DELETE ON storage.objects TO authenticated,service_role;",
  ];
  for(const [table,columns] of Object.entries(AUDITED_OWNER_TABLES)){
    lines.push("CREATE TABLE public."+table+" (id uuid PRIMARY KEY, "+columns.map(c=>c+" uuid").join(", ")+");");
    lines.push("ALTER TABLE public."+table+" ENABLE ROW LEVEL SECURITY;");
    lines.push("CREATE POLICY disposable_allow ON public."+table+" FOR ALL TO authenticated USING (true) WITH CHECK (true);");
-   lines.push("GRANT SELECT,INSERT,UPDATE,DELETE ON public."+table+" TO authenticated;");
+   lines.push("GRANT SELECT,INSERT,UPDATE,DELETE ON public."+table+" TO authenticated,service_role;");
  }
  lines.push("INSERT INTO public.dd_forum_threads (id,author_id) VALUES ('88888888-8888-4888-8888-888888888888','"+A+"');");
  lines.push("INSERT INTO public.dd_forum_threads (id,author_id) VALUES ('99999999-9999-4999-8999-999999999999','"+B+"');");
