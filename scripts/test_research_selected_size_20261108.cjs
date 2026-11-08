@@ -108,6 +108,32 @@ for(const size of sizes){
   'print/PDF style missing '+size);
 }
 assert.match(zip,/key==='data-wne-font-size'/);
+// Check the actual restore validator, not merely the presence of the attribute name.
+const startZip=zip.indexOf('function safeMarkup(html){');
+const stopZip=zip.indexOf('async function inspect(file,zipLibrary){',startZip);
+assert.ok(startZip>0&&stopZip>startZip);
+class ZipParser{
+ parseFromString(raw){
+  const nodes=[];
+  for(const match of raw.matchAll(/<([a-z][a-z0-9]*)([^>]*)>/gi)){
+   const attributes=[];
+   for(const att of match[2].matchAll(/([a-z][a-z0-9-]*)="([^"]*)"/gi))
+    attributes.push({name:att[1],value:att[2]});
+   nodes.push({tagName:match[1].toUpperCase(),attributes});
+  }
+  return {body:{querySelectorAll:()=>nodes}};
+ }
+}
+const safeMarkup=new Function('DOMParser',zip.slice(startZip,stopZip)+'return safeMarkup;')(ZipParser);
+assert.equal(safeMarkup('<p><span data-wne-font-size="16">Words</span></p>'),true,
+ 'formatted manuscript can pass ZIP restore validation');
+assert.equal(safeMarkup('<p><span data-wne-font-size="999">Words</span></p>'),false,
+ 'ZIP restore blocks unsupported font-size markers');
+assert.equal(safeMarkup('<figure width="100"><img src="data:image/jpeg;base64,QUJD" alt="Evidence"></figure>'),true,
+ 'existing resized W.NE evidence figures can pass ZIP restore');
+assert.equal(safeMarkup('<img src="data:image/svg+xml;base64,QUJD">'),false,
+ 'untrusted executable image types stay blocked');
+
 assert.match(zip,/data:image\\\/\(\?:png\|jpeg\|webp\)/);
 assert.match(html,/src="\.\/research-text-size\.js" defer/);
 assert.match(pack,/'research-text-size\.js'/);
