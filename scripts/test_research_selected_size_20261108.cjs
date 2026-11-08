@@ -124,7 +124,7 @@ class ZipParser{
   return {body:{querySelectorAll:()=>nodes}};
  }
 }
-const safeMarkup=new Function('DOMParser',zip.slice(startZip,stopZip)+'return safeMarkup;')(ZipParser);
+const safeMarkup=new Function('DOMParser','MAX_DOC',zip.slice(startZip,stopZip)+'return safeMarkup;')(ZipParser,8*1024*1024);
 assert.equal(safeMarkup('<p><span data-wne-font-size="16">Words</span></p>'),true,
  'formatted manuscript can pass ZIP restore validation');
 assert.equal(safeMarkup('<p><span data-wne-font-size="999">Words</span></p>'),false,
