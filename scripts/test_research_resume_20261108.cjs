@@ -34,7 +34,7 @@ const db={
  }
 };
 const window={supabase:{createClient:()=>db},fetch:async()=>{throw Error('Unexpected external fetch')}};
-const context={window,localStorage:{setItem:(k,v)=>store.set(k,v),getItem:k=>store.get(k)||null},location:{href:'https://uapdisclosuredesk.com/research/wne.html?id='+doc1,search:'?id='+doc1},URL,Request,Response,structuredClone,crypto:globalThis.crypto||require('node:crypto').webcrypto,document:{documentElement:{dataset:{}}},console};
+const context={window,localStorage:{setItem:(k,v)=>store.set(k,v),getItem:k=>store.get(k)||null},location:{href:'https://uapdisclosuredesk.com/research/wne.html?id='+doc1,search:'?id='+doc1},URL,URLSearchParams,Request,Response,structuredClone,crypto:globalThis.crypto||require('node:crypto').webcrypto,document:{documentElement:{dataset:{}}},console};
 vm.runInNewContext(bridge,context,{filename:'wne-cloud-bridge.js',timeout:4000});
 (async()=>{
  const r=await window.fetch('/api/manuscript');
