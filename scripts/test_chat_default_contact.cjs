@@ -9,7 +9,7 @@ let user='NEW',authCb;const writes=[];
 const rows={NEW:null,OFF:{display_name:'ResearcherOff',is_public:true,chat_contact_opt_in:false},
  ON:{display_name:'ResearcherOn',is_public:true,chat_contact_opt_in:true}};
 function el(tag='div'){return {tag,children:[],style:{},dataset:{},textContent:'',value:'',checked:false,hidden:false,
- append(...xs){this.children.push(...xs)},setAttribute(k,v){this[k]=v},addEventListener(k,v){this[k]=v},
+ append(...xs){this.children.push(...xs)},setAttribute(k,v){this[k]=v},addEventListener(k,v){this[k==='submit'?'submitHandler':k]=v},
  querySelector(q){if(q==='.card-body')return this;if(q==='button[type="submit"]'){
  const find=e=>e.tag==='button'&&e.type==='submit'?e:(e.children||[]).map(find).find(Boolean);
  return find(this)}return null}}}
@@ -30,7 +30,7 @@ const input=form.children.find(c=>c.id==='ddPublicProfileName');
 const boxes=form.children.filter(c=>c.tag==='label').map(c=>c.children?.[0]).filter(c=>c?.type==='checkbox');
 const [publicBox,chatBox]=boxes;
 async function flush(){for(let i=0;i<25;i++)await Promise.resolve()}
-async function save(){form.onsubmit({preventDefault(){}});await flush()}
+async function save(){form.submitHandler({preventDefault(){}});await flush()}
 (async()=>{
  await flush();assert.equal(host.hidden,false);
  assert.equal(publicBox.checked,false,'Public alias remains opt-in');
