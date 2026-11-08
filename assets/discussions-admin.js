@@ -24,12 +24,13 @@ function action(parent,label,fn){
  const button=node('button',label,'outline');button.type='button';
  button.onclick=()=>{void fn(button)};parent.append(button);return button;
 }
-async function moderated(button,fn){
+async function moderated(button,fn,confirmation='Review action completed.'){
  button.disabled=true;say('Checking site-owner authorisation…');
  try{
   const c=await registered();const ok=await fn(c);
   if(ok!==true)throw Error('The item was not changed. Please reload the moderation queue.');
-  await load();
+  const loaded=await load();
+  if(loaded)say(confirmation);
  }catch(e){say(e?.message||'Review action denied.')}
  finally{button.disabled=false}
 }
@@ -55,14 +56,18 @@ async function load(){
    card.append(heading,summary,excerpt);
    if(item.latest_escalation_reason)card.append(node('p','Escalated concern: '+String(item.latest_escalation_reason).slice(0,500),'muted small'));
    const actions=node('div',undefined,'dd-forum-actions');
-   for(const [label,status] of [['Restore','published'],['Hide pending review','hidden'],['Remove','removed']]){
+   for(const [label,status,feedback] of [
+   ['Keep visible · resolve','published','Review completed. The post stays visible and its escalation is resolved.'],
+   ['Hide pending review','hidden','Post hidden. This review remains open until you resolve it.'],
+   ['Remove · resolve','removed','Review completed. Post removed from public view; escalation resolved.']
+  ]){
     action(actions,label,async button=>{
      const explanation=prompt('Enter the reason for this overall-admin decision (minimum 8 characters):');
      if(!explanation||explanation.trim().length<8)return;
-     if(status==='removed'&&!confirm('Permanently remove this item from public discussions? The moderation audit remains.'))return;
+     if(status==='removed'&&!confirm('Remove this item from public view and resolve its escalation? The moderation audit remains.'))return;
      await moderated(button,c=>rpc(c,'dd_discussions_owner_review',{
       p_kind:item.target_kind,p_id:item.target_id,p_status:status,p_reason:explanation.trim().slice(0,500)
-     }));
+     }),feedback);
     });
    }
    card.append(actions);queue.append(card);
@@ -97,10 +102,12 @@ async function load(){
    });
    sections.append(card);
   }
-  say('Overall-administrator queue loaded. Stewardship never grants access here.');
+  say('Overall-administrator queue loaded. '+(items?.length||0)+' item(s) awaiting a decision. Stewardship never grants access here.');
+  return true;
  }catch(e){
   queue.replaceChildren();sections.replaceChildren();
   say(e?.message||'Only the authorised site owner can open this queue.');
+  return false;
  }finally{active=false}
 }
 function init(){
