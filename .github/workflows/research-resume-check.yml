@@ -29,6 +29,8 @@ jobs:
           node scripts/test_research_docx_inline_import_20261108.cjs
           node --check scripts/test_research_original_request_audit_20261108.cjs
           node scripts/test_research_original_request_audit_20261108.cjs
+          node --check scripts/test_external_sources_audit_20261108.cjs
+          node scripts/test_external_sources_audit_20261108.cjs
           node --check research/restore-library-core.js
           node --check research/restore-library.js
           node scripts/test_research_library_zip_restore_20261108.cjs
