@@ -1101,7 +1101,7 @@ body.tv .tv-controls #tv-exit:focus-visible {
 }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="./wne-cloud-bridge.js"></script><script src="./research-auth-guard.js"></script><script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.7/dist/purify.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx@9.5.1/dist/index.iife.js"></script><script src="./docx-tools.js"></script><script src="./wne-export-integration.js"></script><style id="dd-research-spell-contrast">.wne-spell-wrap .wne-language-bar{background:#172c3e!important;color:#f1e5ce!important;border:1px solid #7c765f!important;border-radius:8px!important}.wne-spell-wrap .wne-language-bar label,.wne-spell-wrap .wne-language-bar small{color:#f1e5ce!important;opacity:1!important}.wne-spell-wrap .wne-language-bar select{background:#253b4e!important;color:#fff3dd!important;border:1px solid #8e896c!important}.wne-spell-wrap .wne-language-bar input{accent-color:#daba80}</style><style id="dd-research-site-return-v1">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="./wne-cloud-bridge.js"></script><script src="./research-auth-guard.js"></script><script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.7/dist/purify.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx@9.5.1/dist/index.iife.js"></script><script src="./docx-tools.js"></script><script src="./wne-export-integration.js"></script><style id="dd-research-spell-contrast">.wne-spell-wrap .wne-language-bar{background:#172c3e!important;color:#f1e5ce!important;border:1px solid #7c765f!important;border-radius:8px!important}.wne-spell-wrap .wne-language-bar label,.wne-spell-wrap .wne-language-bar small{color:#f1e5ce!important;opacity:1!important}.wne-spell-wrap .wne-language-bar select{background:#253b4e!important;color:#fff3dd!important;border:1px solid #8e896c!important}.wne-spell-wrap .wne-language-bar input{accent-color:#daba80}</style><style id="dd-research-site-return-v1">
 /* Always provide an obvious way out of the standalone Research editor, including in an iframe. */
 .dd-return-to-site{display:inline-flex;align-items:center;justify-content:center;gap:5px;box-sizing:border-box;border:1px solid #957d55!important;border-radius:9px;background:#243747!important;color:#eed4a0!important;text-decoration:none!important;font:600 12px/1.3 system-ui,sans-serif;white-space:nowrap;padding:9px 11px}
 .dd-return-to-site:focus-visible{outline:3px solid #e9ca8c;outline-offset:3px}
@@ -1208,7 +1208,7 @@ body.tv .tv-controls #tv-exit:focus-visible {
 </div>
 <section id="wne-spell-panel" hidden role="dialog" aria-label="Writing suggestions">
 <h3 id="wne-spell-word">Writing suggestion</h3>
-<p>Suggestions from LanguageTool, running locally. Nothing changes without your approval.</p>
+<p>Suggestions are checked through the secure writing service. Nothing changes without your approval.</p>
 <div id="wne-spell-choices" class="wne-spell-actions"></div>
 <div class="wne-spell-actions"><button id="wne-spell-add" type="button">＋ Add to dictionary</button><button id="wne-spell-dismiss" type="button">Close</button></div>
 </section>
@@ -1353,7 +1353,7 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 const uid=()=>Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);
 let phoneLocked=false,livePolling=false;let data=null,revision=0,remoteSeq=0,remoteBusy=false,pointerBusy=false,remotePointer={x:0,y:0},gen=0,savedGen=0,saveTimer=null,saving=null,blocked=true,theme='dark',tvBoost=4,savedSelection=null,savedSelectionChapter=null,toastTimer=null;
 try{theme=localStorage.getItem(THEME_KEY)||localStorage.getItem('wne_proto_v03_theme')||'dark';const t=Number(localStorage.getItem(TV_KEY));if(Number.isFinite(t)&&t>=0&&t<=16)tvBoost=t;}catch(e){}
-function sanitizeHtml(raw){const doc=new DOMParser().parseFromString(String(raw),'text/html');function walk(n){if(n.nodeType===3)return esc(n.nodeValue);if(n.nodeType!==1)return '';const tag=n.tagName.toLowerCase();if(tag==='img'){const src=n.getAttribute('src')||'';if(!/^data:image\/(?:png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/i.test(src)||src.length>450000)return '';const width=Math.max(20,Math.min(100,Number(n.getAttribute('width'))||100));return '<img src="'+src+'" width="'+width+'%" alt="'+esc(n.getAttribute('alt')||'Research image')+'">';}if(['script','style','iframe','svg','math','object','input','form','video','audio','template'].includes(tag))return '';if(tag==='br')return '<br>';let inside=Array.from(n.childNodes).map(walk).join('');if(tag==='figure'){const a=n.getAttribute('align'),w=Math.max(20,Math.min(100,Number(n.getAttribute('width'))||100));return `<figure width="${w}" style="width:${w}%"${['left','right','center'].includes(a)?' align="'+a+'"':''}>${inside}</figure>`;}if(tag==='figcaption')return `<figcaption>${inside}</figcaption>`;if(tag==='a'){const href=n.getAttribute('href')||'';return /^https:\/\//i.test(href)&&href.length<1000?'<a href="'+esc(href)+'">'+inside+'</a>':inside;}if(['table','thead','tbody','tr','th','td'].includes(tag))return '<'+tag+'>'+inside+'</'+tag+'>';if(tag==='div'&&n.classList.contains('dd-comparison-block'))return '<div class="dd-comparison-block">'+inside+'</div>';if(['b','strong','i','em','u','p','div'].includes(tag))return `<${tag}>${inside}</${tag}>`;if(tag==='span'){const st=n.getAttribute('style')||'';if(/text-decoration(?:-line)?\s*:\s*underline/i.test(st))inside=`<u>${inside}</u>`;if(/font-style\s*:\s*italic/i.test(st))inside=`<i>${inside}</i>`;if(/font-weight\s*:\s*(bold|[6-9]00)/i.test(st))inside=`<b>${inside}</b>`}return inside;}return Array.from(doc.body.childNodes).map(walk).join('');}
+function sanitizeHtml(raw){const doc=new DOMParser().parseFromString(String(raw),'text/html');function walk(n){if(n.nodeType===3)return esc(n.nodeValue);if(n.nodeType!==1)return '';const tag=n.tagName.toLowerCase();if(tag==='img'){const src=n.getAttribute('src')||'';if(!/^data:image\/(?:png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/i.test(src)||src.length>450000)return '';const width=Math.max(20,Math.min(100,Number(n.getAttribute('width'))||100));return '<img src="'+src+'" width="'+width+'%" alt="'+esc(n.getAttribute('alt')||'Research image')+'">';}if(['script','style','iframe','svg','math','object','input','form','video','audio','template'].includes(tag))return '';if(tag==='br')return '<br>';let inside=Array.from(n.childNodes).map(walk).join('');if(tag==='figure'){const a=n.getAttribute('align'),w=Math.max(20,Math.min(100,Number(n.getAttribute('width'))||100));return `<figure width="${w}" style="width:${w}%"${['left','right','center'].includes(a)?' align="'+a+'"':''}>${inside}</figure>`;}if(tag==='figcaption')return `<figcaption>${inside}</figcaption>`;if(tag==='a'){const href=n.getAttribute('href')||'';return /^https:\/\//i.test(href)&&href.length<1000?'<a href="'+esc(href)+'">'+inside+'</a>':inside;}if(['table','thead','tbody','tr','th','td'].includes(tag))return '<'+tag+'>'+inside+'</'+tag+'>';if(tag==='div'&&n.classList.contains('dd-comparison-block'))return '<div class="dd-comparison-block">'+inside+'</div>';if(['b','strong','i','em','u','p','div'].includes(tag))return `<${tag}>${inside}</${tag}>`;if(tag==='span'){const selectedSize=n.getAttribute('data-wne-font-size')||'';if(/^(10|11|12|13|14|15|16|18|20|22|24)$/.test(selectedSize))inside='<span data-wne-font-size="'+selectedSize+'">'+inside+'</span>';const st=n.getAttribute('style')||'';if(/text-decoration(?:-line)?\s*:\s*underline/i.test(st))inside=`<u>${inside}</u>`;if(/font-style\s*:\s*italic/i.test(st))inside=`<i>${inside}</i>`;if(/font-weight\s*:\s*(bold|[6-9]00)/i.test(st))inside=`<b>${inside}</b>`}return inside;}return Array.from(doc.body.childNodes).map(walk).join('');}
 function normalise(x){if(!x||!Array.isArray(x.chapters)||x.chapters.length===0||x.chapters.length>500)throw Error('Invalid backup');let ch;if(x.version===1){ch=x.chapters.map(c=>({id:String(c.id),title:String(c.title),html:esc(String(c.text)).replace(/\r\n?/g,'\n').replace(/\n/g,'<br>')}));}else if(x.version===2){ch=x.chapters.map(c=>({id:String(c.id),title:String(c.title),html:sanitizeHtml(c.html)}));}else throw Error('Unsupported backup version');if(!ch.some(c=>c.id===String(x.active))||new Set(ch.map(c=>c.id)).size!==ch.length)throw Error('Invalid chapter IDs');return {version:2,bookTitle:String(x.bookTitle||'Untitled manuscript'),active:String(x.active),chapters:ch,font:allowedFonts.includes(x.font)?x.font:'Georgia',size:[10,11,12,13,14,15,16,18,20,22,24].includes(Number(x.size))?Number(x.size):12,modified:new Date().toISOString(),uiTheme:x.uiTheme==='dark'?'dark':'light',...( ['chapters','sections','single'].includes(x.wne_structure)?{wne_structure:x.wne_structure}:{} )};}
 const active=()=>data.chapters.find(c=>c.id===data.active);
 function readText(html){const el=document.createElement('div');el.innerHTML=html.replace(/<\/?(?:p|div|br)\b[^>]*>/gi,' ');return(el.textContent||'').trim()}
@@ -1404,7 +1404,12 @@ function wneSavePosition(){
   if(sel&&sel.rangeCount&&ed.contains(sel.anchorNode)){
    const r=sel.getRangeAt(0).cloneRange();r.selectNodeContents(ed);r.setEnd(sel.anchorNode,sel.anchorOffset);offset=r.toString().length;
   }
-  localStorage.setItem(wnePositionKey(),JSON.stringify({chapter:data.active,scroll:window.scrollY,caret:offset,timestamp:Date.now()}));
+  const work=document.querySelector('.workarea');
+  localStorage.setItem(wnePositionKey(),JSON.stringify({
+   chapter:data.active,scroll:window.scrollY,
+   workareaScroll:work?.scrollTop||0,editorScroll:ed.scrollTop||0,
+   caret:offset,timestamp:Date.now()
+  }));
  }catch(e){}
 }
 function wneSchedulePosition(){clearTimeout(wnePositionTimer);wnePositionTimer=setTimeout(wneSavePosition,250)}
@@ -1416,6 +1421,11 @@ function wneRestorePosition(){
   if(pos.chapter!==data.active){data.active=pos.chapter;render();dirty();saveNow()}
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
    window.scrollTo(0,Math.max(0,Number(pos.scroll)||0));
+   const work=document.querySelector('.workarea');
+   if(work)work.scrollTop=Math.max(0,Number(pos.workareaScroll)||0);
+   $('editor').scrollTop=Math.max(0,Number(pos.editorScroll)||0);
+   // Never focus the contenteditable during automatic restore: on mobile
+   // that would unexpectedly raise the keyboard when opening Research Studio.
    if(pos.caret!==null&&Number.isFinite(pos.caret)){
     const walker=document.createTreeWalker($('editor'),NodeFilter.SHOW_TEXT);
     let n,remain=pos.caret;while((n=walker.nextNode())){if(remain<=n.textContent.length){const r=document.createRange();r.setStart(n,remain);r.collapse(true);const sel=window.getSelection();sel.removeAllRanges();sel.addRange(r);break;}remain-=n.textContent.length;}
@@ -1641,7 +1651,27 @@ function wneInitChapterManager(){
 async function switchChapter(id){if(id===data.active)return;if(!await beforeSwitch())return;data.active=id;render();window.scrollTo(0,0);document.querySelector('.workarea')?.scrollTo(0,0);$('editor').scrollTop=0;dirty();closeDrawer();await saveNow();wneSavePosition()}
 async function addChapter(){if(!await beforeSwitch())return;let n=data.chapters.length+1;const c={id:uid(),title:`${wneStructure()==='sections'?'Section':'Chapter'} ${n}`,html:''};data.chapters.push(c);data.active=c.id;render();dirty();closeDrawer();await saveNow('manual');$('editor').focus()}
 async function deleteChapter(){if(blocked)return;if(data.chapters.length===1){toast('Keep at least one chapter');return}if(!confirm(`Delete "${active().title}"? A recovery checkpoint is created before the deletion.`))return;if(!await beforeSwitch())return;const idx=data.chapters.findIndex(c=>c.id===data.active);data.chapters.splice(idx,1);data.active=data.chapters[Math.max(0,idx-1)].id;render();dirty();await saveNow('delete');closeMore();toast('Chapter removed · recovery available')}
-function downloadRaw(obj,prefix='WNE-emergency'){const stamp=new Date().toISOString().replace(/[:.]/g,'-');const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`${prefix}-${stamp}.json`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000)}
+async function downloadRaw(obj,prefix='WNE-emergency'){
+ const stamp=new Date().toISOString().replace(/[:.]/g,'-');
+ const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});
+ const filename=prefix+'-'+stamp+'.json';
+ const file=new File([blob],filename,{type:'application/json'});
+ if(navigator.canShare?.({files:[file]})&&typeof navigator.share==='function'){
+  try{await navigator.share({files:[file],title:'W.NE Emergency Copy'});return 'shared'}
+  catch(e){if(e?.name==='AbortError')throw Error('Emergency copy sharing cancelled. Your writing is still open.')}
+ }
+ const url=URL.createObjectURL(blob);
+ try{const a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove()}
+ finally{setTimeout(()=>URL.revokeObjectURL(url),60000)}
+ return 'download';
+}
+window.wneEmergencyCopy=async function(){
+ syncEditor(); // Include the CURRENT editable HTML, even when cloud saving fails.
+ if(!data||!Array.isArray(data.chapters))throw Error('Editor has not loaded; no content to export.');
+ const result=await downloadRaw(structuredClone(data),'Disclosure-Desk-WNE-Emergency');
+ toast(result==='shared'?'Emergency copy shared':'Emergency copy prepared · check Downloads');
+ return true;
+};
 async function backup(){if(!await saveNow())return toast('Save failed. Use Emergency copy instead.');try{const response=await fetch('/api/backup',{cache:'no-store'});if(!response.ok){const detail=await response.json().catch(()=>({}));throw Error(detail.error||'Backup failed')}const blob=await response.blob();const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='WNE-research-backup.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);toast('Backup copy downloaded')}catch(e){alert('Backup was not downloaded: '+e.message+'\nUse Emergency copy before leaving.')}}
 async function replaceDoc(raw,reason){let next;try{next=normalise(raw)}catch(e){return alert('Cannot import: '+e.message)}if(!confirm(`Replace current W.NE v0.7 test manuscript with "${next.bookTitle}"? A recovery checkpoint will preserve the previous version. Save a backup first if needed.`))return;if(!await beforeSwitch())return;const previous=data;data=next;render();dirty();if(!await saveNow(reason)){data=previous;render();return}toast('Manuscript imported into W.NE v0.7')}
 async function recover(){
@@ -1950,7 +1980,7 @@ $('lifeboat-file').onchange=async e=>{
   alert(`Restored ${result.restored} document(s) as new library copies. Open Home to view them.`);
  }catch(err){alert('Lifeboat restore failed: '+err.message)}finally{e.target.value=''}
 };
-$('lifeboat').onclick=async()=>{closeMore();if(!await saveNow('manual'))return alert('Save failed. Download an emergency copy first.');const a=document.createElement('a');a.href='/api/lifeboat';a.download='WNE-Lifeboat.zip';document.body.append(a);a.click();a.remove();toast('Full library backup requested — check Downloads')};$('save').onclick=async()=>{const b=$('save');b.disabled=true;try{if(!await saveNow('manual'))toast('Save not confirmed — use Emergency Copy if needed')}finally{b.disabled=false}};$('backup').onclick=backup;$('recover').onclick=recover;$('more-recover').onclick=recover;$('import').onclick=importBackup;$('more-import').onclick=importBackup;$('copy-prev').onclick=copyPrev;$('emergency').onclick=()=>{syncEditor();downloadRaw(data);toast('Emergency copy requested')};
+$('lifeboat').onclick=async()=>{closeMore();if(!await saveNow('manual'))return alert('Save failed. Download an emergency copy first.');const a=document.createElement('a');a.href='/api/lifeboat';a.download='WNE-Lifeboat.zip';document.body.append(a);a.click();a.remove();toast('Full library backup requested — check Downloads')};$('save').onclick=async()=>{const b=$('save');b.disabled=true;try{if(!await saveNow('manual'))toast('Save not confirmed — use Emergency Copy if needed')}finally{b.disabled=false}};$('backup').onclick=backup;$('recover').onclick=recover;$('more-recover').onclick=recover;$('import').onclick=importBackup;$('more-import').onclick=importBackup;$('copy-prev').onclick=copyPrev;$('emergency').onclick=()=>{window.wneEmergencyCopy().catch(e=>alert('Emergency export not completed: '+e.message))};
 $('restore-file').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>8*1024*1024)throw Error('File over 8MB');await replaceDoc(JSON.parse(await f.text()),'replace')}catch(err){alert('Backup could not be read: '+err.message)}finally{e.target.value=''}};
 $('theme').onclick=toggleTheme;$('tv-theme').onclick=toggleTheme;$('tvmode').onclick=tvOn;$('tv-exit').onclick=tvOff;$('tv-big').onclick=()=>tvSize(2);$('tv-small').onclick=()=>tvSize(-2);$('tv-layout').onchange=e=>changeTvLayout(e.target.value);$('tv-width').oninput=e=>changeTvWidth(e.target.value);$('tv-fit').onclick=()=>changeTvWidth(96);
 /* Research Edition: W.NE logo is branding only; no home navigation. */
@@ -2191,7 +2221,17 @@ html body #wne-bible-open,html body #wne-idea-open,html body #wne-companion-laun
  document.addEventListener('keydown',e=>{if(e.key==='Escape')hide()});
  window.addEventListener('resize',hide);
  document.getElementById('more-button')?.addEventListener('click',hide);
- function performClick(id){const el=document.getElementById(id);if(!el)throw Error('This action is unavailable.');el.click()}
+ async function saveResearchFile(blob,filename){
+   const file=new File([blob],filename,{type:blob.type||'application/zip'});
+   if(navigator.canShare?.({files:[file]})&&typeof navigator.share==='function'){
+     try{await navigator.share({files:[file],title:'W.NE Research backup'});return}
+     catch(e){if(e?.name==='AbortError')throw Error('Backup share cancelled; your research is unchanged.')}
+   }
+   const url=URL.createObjectURL(blob);
+   try{const a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove()}
+   finally{setTimeout(()=>URL.revokeObjectURL(url),60000)}
+  }
+  function performClick(id){const el=document.getElementById(id);if(!el)throw Error('This action is unavailable.');el.click()}
  async function ensureSaved(reason){if(typeof window.wneSaveBeforeNavigation!=='function'||!(await window.wneSaveBeforeNavigation(reason)))throw Error('Your latest writing is not confirmed saved. Stay in Writer and use Save or Emergency Copy.');}
  m.addEventListener('click',async e=>{
    const target=e.target.closest('[data-file-action]');if(!target)return;
@@ -2200,9 +2240,15 @@ html body #wne-bible-open,html body #wne-idea-open,html body #wne-companion-laun
      if(action==='save'){await ensureSaved('File menu Save');}
      else if(action==='save-to'||action==='copy'){performClick('wne-save-to');}
      else if(action==='cloud'){const d=document.getElementById('wne-save-dialog');if(d&&!d.open){document.getElementById('wne-save-feedback').textContent='';d.showModal()}}
-     else if(action==='lifeboat'){performClick('lifeboat');}
+     else if(action==='lifeboat'){
+      await ensureSaved('before ZIP library backup');
+      const pack=await window.WNECloudIntegration?.makeLibraryZip?.();
+      if(!pack?.blob||!pack.filename)throw Error('Could not create the library ZIP. Your documents are unchanged.');
+      await saveResearchFile(pack.blob,pack.filename);
+      alert('Research library backup prepared: '+pack.documentCount+' document(s). Check your Downloads or sharing destination. Keep the ZIP private.');
+     }
      else if(action==='history'){performClick('recover');}
-     else if(action==='emergency'){performClick('emergency');}
+     else if(action==='emergency'){await window.wneEmergencyCopy();}
      else if(action==='kindle'){performClick('wne-kindle-toolbar');}
      else{
        await ensureSaved('before File menu navigation');
@@ -2215,10 +2261,13 @@ html body #wne-bible-open,html body #wne-idea-open,html body #wne-companion-laun
          if(!create.ok||!created.id)throw Error(created.error||'Could not create document');
          const opened=await fetch('/api/library',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'open',id:created.id})});
          if(!opened.ok){const err=await opened.json();throw Error(err.error||'Created document but could not open it')}
-         location.assign('/');
+         window.top.location.assign('/research/research-workspace.html?id='+encodeURIComponent(created.id));
        }
-       else if(action==='open')location.assign('/home?wne_action=open');
-       else if(action==='import')window.top.location.assign('/import');
+       else if(action==='open'){
+         const home=window.parent!==window?window.parent.document.getElementById('dd-documents-btn'):null;
+         if(home)home.click();else window.top.location.assign('/research/index.html');
+       }
+       else if(action==='import')window.top.location.assign('/research/import.html');
        else if(action==='export')location.assign('/home?wne_action=export');
        else if(action==='storage')location.assign('/storage');
        else if(action==='safety')location.assign('/safety');
@@ -3632,4 +3681,79 @@ html[data-theme] .sidebar .chapters .wne-chapter-row .wne-chapter-options{backgr
 })();
 </script>
 
+<style id="dd-research-insert-menu-v1">
+/* Visible Insert control is first on the narrow, horizontally scrolling format bar. */
+#dd-research-insert-trigger{
+ flex:0 0 auto;min-width:104px;min-height:40px;
+ background:#213949!important;color:#f1d39d!important;
+ border:1px solid #a58a5a!important;border-radius:9px!important;
+ font:700 13px system-ui!important;white-space:nowrap
+}
+#dd-research-insert-trigger[aria-expanded=true]{background:#d9bc87!important;color:#122637!important}
+#dd-research-insert-menu{
+ position:fixed;z-index:2147483000;box-sizing:border-box;width:218px;
+ max-width:calc(100vw - 20px);display:grid;gap:7px;
+ padding:10px;border-radius:12px;background:#142838;
+ border:1px solid #ae9060;box-shadow:0 14px 40px #000a;
+}
+#dd-research-insert-menu[hidden]{display:none!important}
+#dd-research-insert-menu .dd-research-insert-action{
+ box-sizing:border-box;display:block;width:100%;min-height:46px;
+ text-align:left;font:600 14px system-ui!important;
+ background:#253e51!important;color:#f2e5cd!important;
+ border:1px solid #728497!important;border-radius:9px!important;
+ padding:12px 14px!important;cursor:pointer
+}
+#dd-research-insert-menu button:focus-visible,
+#dd-research-insert-trigger:focus-visible{outline:3px solid #e9ca92!important;outline-offset:2px}
+@media(max-width:600px){
+ #dd-research-insert-menu{width:auto;max-height:min(42dvh,260px);overflow-y:auto}
+ #dd-research-insert-trigger{min-width:103px;min-height:44px}
+}
+</style>
+<script src="./research-insert-menu.js" defer></script>
+<style id="dd-research-selection-size-v1">
+/* Restricted values only. Persisted HTML contains a data marker, not free-form CSS. */
+#dd-research-selected-size-label{display:inline-flex;gap:6px;align-items:center;white-space:nowrap;
+ font:600 12px system-ui;color:var(--sub);flex:0 0 auto}
+#dd-research-selected-size{min-height:40px;max-width:112px}
+#dd-research-selected-size-status{font:11px system-ui;color:var(--sub);white-space:normal;min-width:120px}
+@media(max-width:650px){#dd-research-selected-size-label{font-size:11px}
+ #dd-research-selected-size{min-height:44px}#dd-research-selected-size-status{max-width:210px}}
+#editor [data-wne-font-size="10"]{font-size:10px}
+#editor [data-wne-font-size="11"]{font-size:11px}
+#editor [data-wne-font-size="12"]{font-size:12px}
+#editor [data-wne-font-size="13"]{font-size:13px}
+#editor [data-wne-font-size="14"]{font-size:14px}
+#editor [data-wne-font-size="15"]{font-size:15px}
+#editor [data-wne-font-size="16"]{font-size:16px}
+#editor [data-wne-font-size="18"]{font-size:18px}
+#editor [data-wne-font-size="20"]{font-size:20px}
+#editor [data-wne-font-size="22"]{font-size:22px}
+#editor [data-wne-font-size="24"]{font-size:24px}
+</style>
+<script src="./research-text-size.js" defer></script>
+<style id="dd-research-review-navigation-v1">
+/* Reviewer stays visible when Writing checks settings are folded away. */
+#wne-spell-review{display:flex;gap:7px;align-items:center;flex-wrap:wrap;
+ box-sizing:border-box;padding:6px 12px;background:#142737;color:#e9ddca;
+ border-bottom:1px solid #657184;font:12px system-ui,sans-serif}
+#wne-spell-review #wne-spell-status{flex:1 1 180px;line-height:1.4;
+ color:#e9ddca!important;overflow-wrap:anywhere;min-width:0}
+#wne-spell-review-position{white-space:nowrap;color:#dfc18b;font-weight:700;
+ font-variant-numeric:tabular-nums}
+#wne-spell-review button{min-height:40px;white-space:nowrap;padding:8px 11px;
+ border:1px solid #657b8e;border-radius:9px;background:#233b4d;
+ color:#f1e1c4;font:600 12px system-ui;cursor:pointer}
+#wne-spell-review button:disabled{opacity:.38;cursor:not-allowed}
+#wne-spell-review button:focus-visible{outline:3px solid #e6c58c;outline-offset:2px}
+#wne-spell-review[data-has-findings="true"]{border-bottom-color:#c4a575}
+::highlight(wne-review-active){background:rgba(221,164,67,.46);color:inherit}
+@media(max-width:600px){
+ #wne-spell-review{gap:6px;padding:7px 9px;justify-content:flex-start}
+ #wne-spell-review #wne-spell-status{flex:1 1 100%;font-size:12px}
+ #wne-spell-review-position{flex:1;min-width:96px}
+ #wne-spell-review button{min-height:44px;padding:9px 10px;font-size:12px}
+}
+</style>
 <script src="./wne-research-live-spelling.js" defer></script>

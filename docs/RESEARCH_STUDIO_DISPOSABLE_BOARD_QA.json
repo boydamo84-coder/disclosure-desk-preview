@@ -1,0 +1,24 @@
+{
+  "format": "disclosure-desk-board",
+  "version": 1,
+  "board": {
+    "name": "SAMSUNG QA – Sample Investigation (Disposable)",
+    "links": [
+      {
+        "title": "Public example reference – synthetic",
+        "url": "https://example.org/research-source",
+        "source": "QA only"
+      }
+    ],
+    "notes": [
+      {
+        "title": "Test note",
+        "text": "No personal or live investigation material. Safe to delete after testing."
+      }
+    ],
+    "timeline": [],
+    "comparisons": [],
+    "connections": [],
+    "videos": []
+  }
+}

@@ -30,6 +30,9 @@ async function load(id){
  if(error)throw error;
  if(!valid(data.content))throw Error('Document incompatible with original W.NE manuscript structure. No data was changed.');
  state.id=data.id;state.document=structuredClone(data.content);state.revision=data.revision;state.saved=data.updated_at;
+ // Preserve the last *actually opened and owner-verified* document.
+ // Research entry checks RLS again before resuming; no account data leaves this device.
+ try{localStorage.setItem('wne-research-last-document:'+state.owner,state.id)}catch(_){}
  return data;
 }
 async function ensureLoaded(){
@@ -56,6 +59,53 @@ async function manuscript(method,input){
  if(!Array.isArray(data)||data.length!==1||!Number.isInteger(Number(data[0].saved_revision))||Number(data[0].saved_revision)!==state.revision+1)throw Error('Unconfirmed cloud revision. Keep the editor open and export a copy.');
  state.revision=Number(data[0].saved_revision);state.document=structuredClone(input.manuscript);state.saved=new Date().toISOString();
  return {ok:true,revision:state.revision,saved:state.saved,remote_seq:0};
+}
+// Explicit, non-destructive export of the user's own PRIVATE cloud library.
+// The file is generated in this browser; no Google Drive permissions are used.
+async function makeLibraryZip(){
+ const account=await user();
+ if(typeof window.JSZip!=='function')throw Error('ZIP library unavailable. Check your connection and try again; your research has not changed.');
+ const rows=[],pageSize=100;
+ for(let offset=0;offset<1000;offset+=pageSize){
+  const {data,error}=await db.from('research_documents')
+   .select('id,user_id,title,content,revision,created_at,updated_at')
+   .order('created_at',{ascending:true}).range(offset,offset+pageSize-1);
+  if(error)throw error;
+  for(const row of data||[]){
+   if(row.user_id!==account.id)throw Error('Account mismatch while preparing backup. No file was created.');
+   if(!valid(row.content))throw Error('One saved document has invalid content. Nothing has been overwritten.');
+   rows.push(row);
+  }
+  if((data||[]).length<pageSize)break;
+  if(offset+pageSize>=1000)throw Error('Library exceeds 1,000 documents. Contact support for a larger export.');
+ }
+ if(!rows.length)throw Error('No saved cloud research documents to back up yet.');
+ const zip=new window.JSZip();
+ const exported=new Date().toISOString(),manifest={
+  format:'disclosure-desk-wne-research-backup-v1',
+  exported_at:exported,document_count:rows.length,
+  documents:rows.map(({id,title,revision,updated_at})=>({id,title,revision,updated_at}))
+ };
+ zip.file('README.txt','Disclosure Desk W.NE Research Edition backup\\n'
+ +'Includes only the research documents belonging to the signed-in account.\\n'
+ +'Original document IDs are included for reference; restoring should create NEW copies.\\n'
+ +'Private browser-only Boards, image files outside the manuscript, and Google Drive are not included.\\n'
+ +'Store this ZIP privately. It may include sensitive, unpublished work.\\n');
+ zip.file('manifest.json',JSON.stringify(manifest,null,2));
+ let characters=0;
+ for(const row of rows){
+  const data=JSON.stringify({
+   id:row.id,title:row.title,revision:row.revision,created_at:row.created_at,
+   updated_at:row.updated_at,document:row.content
+  });
+  characters+=data.length;
+  if(characters>60*1024*1024)throw Error('The research library is too large for one browser ZIP (60 MB limit). No file created.');
+  zip.file('documents/'+row.id+'.json',data);
+ }
+ const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:4}});
+ if(!blob?.size)throw Error('The ZIP archive could not be generated.');
+ const stamp=exported.slice(0,10);
+ return {blob,filename:'Disclosure-Desk-WNE-Research-'+stamp+'.zip',documentCount:rows.length};
 }
 async function libraryAction(input){
  await user();
@@ -105,6 +155,45 @@ async function archiveSearch(search){
  const matched=data.filter(c=>[c.id,c.title,c.year,c.source,c.category,c.description].some(x=>String(x||'').toLocaleLowerCase().includes(q)));
  return {cases:matched.slice(0,80),total:matched.length,archiveCount:data.length,source:'Disclosure Desk curated public case index'};
 }
+async function recovery(path,method,body){
+ await ensureLoaded(); // Includes signed-in user and current owner/RLS checks.
+ if(path==='/api/snapshots'){
+  if(method!=='GET')throw Error('Recovery history is read-only');
+  const {data,error}=await db.from('research_document_revisions')
+    .select('id,revision,saved_at').eq('document_id',state.id)
+    .order('saved_at',{ascending:false}).limit(40);
+  if(error)throw error;
+  return {items:(data||[]).map(row=>({
+    id:row.id,revision:row.revision,saved:row.saved_at,
+    reason:'Automatic cloud checkpoint'
+  }))};
+ }
+ if(path.startsWith('/api/snapshot/')){
+  if(method!=='GET')throw Error('Recovery preview is read-only');
+  const id=path.slice('/api/snapshot/'.length);
+  if(!/^[0-9a-f-]{36}$/i.test(id))throw Error('Invalid checkpoint');
+  const {data,error}=await db.from('research_document_revisions')
+   .select('content').eq('id',id).eq('document_id',state.id).single();
+  if(error)throw error;
+  if(!valid(data?.content))throw Error('Checkpoint content could not be read safely');
+  return {manuscript:data.content};
+ }
+ if(path==='/api/recovery/copy'){
+  if(method!=='POST'||!/^[0-9a-f-]{36}$/i.test(String(body?.id||'')))throw Error('Choose a valid checkpoint first');
+  const {data,error}=await db.from('research_document_revisions')
+   .select('title,content').eq('id',body.id).eq('document_id',state.id).single();
+  if(error)throw error;
+  if(!valid(data?.content))throw Error('Checkpoint is unavailable or invalid');
+  const title=(String(data.title||'Recovered research').slice(0,175)+' (Recovered)').slice(0,200);
+  const {data:created,error:writeError}=await db.from('research_documents')
+   .insert({user_id:state.owner,title,content:data.content})
+   .select('id,title').single();
+  if(writeError)throw writeError;
+  if(!created?.id)throw Error('Recovery copy creation was not confirmed');
+  return {id:created.id,title:created.title,created_copy:true};
+ }
+ throw Error('Unsupported recovery operation');
+}
 async function route(input,init){
  const requested=new URL(input instanceof Request?input.url:String(input),location.href);
  const path=requested.pathname;
@@ -135,6 +224,16 @@ async function route(input,init){
   if(method!=='GET')return fail('Archive search is read only',405);
   try{return json(await archiveSearch(requested))}catch(e){return fail(e.message||'Archive search unavailable',400)}
  }
+ if(path==='/api/snapshots'||path==='/api/recovery/copy'||path.startsWith('/api/snapshot/')){
+  try{
+   let body={};
+   if(method!=='GET'){
+    const raw=init?.body||(input instanceof Request?await input.clone().text():null);
+    body=typeof raw==='string'?JSON.parse(raw):raw||{};
+   }
+   return json(await recovery(path,method,body));
+  }catch(e){return fail(e.message||'Recovery history unavailable',400)}
+ }
  if(path==='/api/backup'){
   if(method!=='GET')return fail('Backup is read only',405);
   try{
@@ -162,6 +261,6 @@ db.auth.onAuthStateChange((event)=>{
   document.documentElement.dataset.wneBridge='signed-out';
  }
 });
-window.WNECloudIntegration=Object.freeze({getStatus:()=>({authenticated:!!state.owner,activeDocument:state.id,revision:state.revision}),readSavedDocument:async()=>{await ensureLoaded();return structuredClone(state.document)}});
+window.WNECloudIntegration=Object.freeze({getStatus:()=>({authenticated:!!state.owner,activeDocument:state.id,revision:state.revision}),readSavedDocument:async()=>{await ensureLoaded();return structuredClone(state.document)},makeLibraryZip});
 document.documentElement.dataset.wneBridge='limited';
 })();

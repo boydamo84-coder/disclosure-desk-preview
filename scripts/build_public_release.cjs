@@ -36,7 +36,8 @@ const approvedWeb=Object.freeze({
   'docx-tools.js','guest-preview.html','import-cloud-bridge.js','import.html',
   'index.html','research-auth-guard.js','research-bible.html','research-entry.js',
   'research-library-cloud-bridge.js','research-site-nav.css',
-  'research-site-nav.js','research-workspace.html','restore-copy.html',
+  'research-insert-menu.js','research-site-nav.js','research-text-size.js','research-workspace.html','restore-copy.html',
+  'restore-library.html','restore-library-core.js','restore-library.js',
   'restore-copy.js','wne-cloud-bridge.js','wne-export-integration.js',
   'wne-research-live-spelling.js','wne.html'
  ]
