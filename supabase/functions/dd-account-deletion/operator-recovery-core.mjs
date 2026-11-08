@@ -21,7 +21,7 @@ const requiredMethods = Object.freeze([
 
 // Operator-only. An API user, an expired intent, or merely knowing an account
 // UUID cannot authorise a resume; the SQL RPC atomically consumes an approval
-// inserted into dd_internal by a separate DBA after two-person review.
+// inserted into dd_deletion_private by a separate DBA after two-person review.
 export async function resumeDeletionWithOperatorApproval(
   { accountId, approvalTicketId, leaseId }, backend
 ) {
