@@ -24,6 +24,9 @@ jobs:
         run: |
           node --check research/wne-cloud-bridge.js
           node scripts/test_research_backup_recovery_20261108.cjs
+          node --check research/research-docx-import.js
+          node --check scripts/test_research_docx_inline_import_20261108.cjs
+          node scripts/test_research_docx_inline_import_20261108.cjs
           node --check research/restore-library-core.js
           node --check research/restore-library.js
           node scripts/test_research_library_zip_restore_20261108.cjs
