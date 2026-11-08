@@ -173,9 +173,14 @@ function openSatelliteCase(r){
  content.replaceChildren();
  const summary=$('p',state.city+' · '+(state.date||state.year&&'Year '+state.year||'Date not recorded'),'muted small');
  const geo=$('p',state.coordinatesKnown
-  ?'Approximate mapped area only · location rounded to 0.1° · not the exact sighting point.'
+  ?'Approximate mapped area only · location rounded to 0.1° · '+state.provenance+' · not the exact sighting point.'
   :'No verified mappable town position is linked to this case. Map centring is unavailable until the location is researched.','muted small');
  content.append(summary,geo);
+ if(state.coordinatesKnown&&r.locationSource==='https://www.forestryengland.uk/rendlesham-forest'){
+  const origin=$('p',undefined,'muted small');
+  externalLink(origin,'Forestry England · public forest location ↗',r.locationSource);
+  content.append(origin);
+ }
  const label=$('label','Sighting date (YYYY-MM-DD)');label.htmlFor='ddSatDateInput';
  const date=$('input');date.type='date';date.id='ddSatDateInput';date.className='field';date.value=state.date||'';
  date.max=new Date().toISOString().slice(0,10);date.setAttribute('aria-describedby','ddSatDateSource');
