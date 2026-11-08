@@ -80,6 +80,7 @@ jobs:
           node --check scripts/test_account_deletion_preflight_20261108.cjs
           node scripts/test_account_deletion_preflight_20261108.cjs
           node --check supabase/functions/dd-account-deletion/execution-core.mjs
+          node --input-type=module --check < supabase/functions/dd-account-deletion/execute-staging-only.ts
           node --check scripts/test_account_deletion_execution_20261108.cjs
           node scripts/test_account_deletion_execution_20261108.cjs
       - name: Verify restricted static bundle (no deploy)
