@@ -28,7 +28,7 @@ import java.util.Set;
 public final class DiscoveryWorker extends Worker {
     public static final String JOB="dd-alert-checks";
     public static final String PREFS="dd-notifications";
-    private static final String BASE="https://boydamo84-coder.github.io/disclosure-desk-preview/data/";
+    private static final String BASE="https://uapdisclosuredesk.com/data/";
     public DiscoveryWorker(@NonNull Context ctx,@NonNull WorkerParameters params){super(ctx,params);}
     private JSONArray fetch(String name) throws Exception {
         HttpURLConnection conn=(HttpURLConnection)new URL(BASE+name).openConnection();
@@ -112,7 +112,7 @@ public final class DiscoveryWorker extends Worker {
         if(!recordId.isEmpty() && !type.equals("test")){
             open.putExtra("dd_type",type);
             open.putExtra("dd_record_id",recordId);
-            open.setData(android.net.Uri.parse("https://boydamo84-coder.github.io/disclosure-desk-preview/?dd_"+type+"="+android.net.Uri.encode(recordId)));
+            open.setData(android.net.Uri.parse("https://uapdisclosuredesk.com/?dd_"+type+"="+android.net.Uri.encode(recordId)));
         }
         PendingIntent intent=PendingIntent.getActivity(ctx,notificationId,open,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
         Notification notice=new Notification.Builder(ctx,channel)
