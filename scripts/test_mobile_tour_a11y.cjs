@@ -10,7 +10,7 @@ const script=source.slice(start,end);
 const selectors=source.slice(source.indexOf('<nav class="nav"'),source.indexOf('</nav>',source.indexOf('<nav class="nav"'))+6);
 const tabs=[...selectors.matchAll(/<button class="tab(?: active)?" data-tab="([^"]+)"/g)].map(x=>x[1]);
 assert.deepEqual(tabs,['discover','archivePage','researchStudio','mapPage','clips','livePage',
- 'boards','witness','watchRead','hub','profilePage'],'All 11 real tabs remain in order');
+ 'boards','witness','watchRead','profilePage','hub'],'All 11 real tabs preserved with Explore last');
 assert.match(selectors,/data-tab="discover" aria-current="page"/);
 assert.match(source,/if\(selected\)t\.setAttribute\('aria-current','page'\);else t\.removeAttribute\('aria-current'\)/,
  'Screen-reader current tab updates when navigating');
