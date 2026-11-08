@@ -78,7 +78,7 @@ assert.doesNotMatch(html,/<\/button>\+<button/,
 assert.match(html,/data-dd-sat-case/);
 assert.match(html,/data-dd-sat-archive/);
 
-assert.match(js,/NASA opens with the MODIS Terra daily true-colour imagery layer/);
+assert.match(js,/NASA Worldview can show daily MODIS imagery where available after 2000/);
 assert.match(js,/not a guaranteed image at the selected UTC minute/);
 
 /* Archive Satellite secondary view & USGS Landsat 1970s (source handoff, not a fetched frame). */
