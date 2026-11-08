@@ -39,7 +39,7 @@ function renderComments(){
  if(!loadedComments.length){list.textContent='No comments yet. Be the first to contribute.';return}
  const visible=expanded?loadedComments:loadedComments.slice(-2);
  for(const item of visible){
-   const card=document.createElement('article');card.className='card';card.id='discussion-comment-'+item.id;card.style.cssText='padding:12px;margin:8px 0';
+   const card=document.createElement('article');card.className='card';card.id='discussion-comment-'+item.id;card.style.cssText='margin:8px 0';
    const alias=item.publicAlias||'Community member';
    const header=document.createElement('div');header.className='muted small';
    header.style.cssText='display:flex;align-items:center;min-width:0';
@@ -67,7 +67,10 @@ function renderComments(){
        :'Flag could not be submitted. Please try again.');
      if(!error)void load();
    };
-   card.append(header,body,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);list.append(card);
+   if(!window.DDCommunityVotes?.mountCommentCard?.(card,header,body,flag,item.id)){
+    card.append(header,body,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);
+   }
+   list.append(card);
  }
 }
 function init(){
