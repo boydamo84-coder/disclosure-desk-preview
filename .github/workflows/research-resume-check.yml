@@ -27,6 +27,10 @@ jobs:
           node --check research/restore-library-core.js
           node --check research/restore-library.js
           node scripts/test_research_library_zip_restore_20261108.cjs
+      - name: Research editor Insert menu and selection retention
+        run: |
+          node --check research/research-insert-menu.js
+          node scripts/test_research_insert_menu_20261108.cjs
       - name: Preserve existing avatar and community behavior
         run: |
           node scripts/test_avatar_auto_upload_20261108.cjs
