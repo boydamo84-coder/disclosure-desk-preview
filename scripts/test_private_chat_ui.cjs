@@ -111,3 +111,24 @@ assert.match(chatTab,/ico\.appendChild\(symbol\)/);
 assert.doesNotMatch(chatTab,/ico\.textContent='💬'/);
 assert.match(html,/dd-chat-nav-symbol/);
 console.log('PASS: Chat navigation uses a single-colour outline speech bubble that inherits tab colours.');
+
+
+/* Immersive mobile Chat polish: one existing RPC app, native-feeling shell, accessible safety affordances. */
+assert.match(html,/id="ddChatInboxSearch" type="search"/);
+assert.match(html,/#chatPage:not\(\.hidden\)\{position:fixed;z-index:800;inset:0 0 calc\(70px \+ env\(safe-area-inset-bottom\)\) 0/);
+assert.match(html,/#chatPage #ddProfileChatApp \.dd-chat-layout\{display:flex;flex:1;min-height:0/);
+assert.match(html,/#chatPage \.dd-chat-history\{display:flex;flex:1;min-height:0;max-height:none;overflow-y:auto/);
+assert.match(html,/#chatPage \.dd-chat-compose\{position:relative;bottom:auto;flex:none/);
+assert.match(html,/#chatPage \.dd-chat-avatar/);
+assert.match(js,/String\(\$\('ddChatInboxSearch'\)\?\.value\|\|''\)\.trim\(\)\.toLowerCase\(\)/);
+assert.match(js,/list\.filter\(row=>String\(row\.other_username\|\|'Researcher'\)\.toLowerCase\(\)\.includes\(query\)\)/);
+assert.match(js,/aria-hidden','true'\);item\.append\(avatar\)/);
+assert.match(js,/dd-chat-avatar dd-chat-avatar-peer/);
+assert.match(js,/dd-chat-safety-menu/);
+assert.match(js,/dd-chat-message-menu/);
+assert.match(js,/Close new chat request/);
+assert.match(js,/notice\.hidden=message==='Private chat requests updated\.'/);
+assert.match(js,/dd_chat_report/,'Reporting remains available from the tucked-away message menu');
+assert.match(js,/dd_chat_block/,'Block action must remain server-gated');
+assert.match(cfg,/privateChat:false/,'Real website Chat feature flag remains off');
+console.log('PASS: immersive mobile Chat shell, filtered username inbox, avatars, accessible safety menus, unchanged gated RPCs.');
