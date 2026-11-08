@@ -1,0 +1,35 @@
+name: Beta 14 public mobile Chromium release gate (NO deployment)
+on:
+  push:
+    branches: [release/public-website-beta14-2026-11-08]
+  pull_request:
+    branches: [production]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  local-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare pinned offline test tools
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 leaflet@1.9.4
+          test -x /usr/bin/google-chrome
+          node --check scripts/test_browser_release_smoke.cjs
+      - name: Run local-only browser server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-release-browser.log 2>&1 &
+          echo $! >/tmp/dd-release-browser.pid
+          for i in $(seq 1 20); do curl -fsS --max-time 2 http://127.0.0.1:4173/ >/dev/null && exit 0; sleep 1; done
+          cat /tmp/dd-release-browser.log
+          exit 1
+      - name: Run mobile Chromium navigation, tour and privacy gates
+        run: node scripts/test_browser_release_smoke.cjs
+      - name: Stop local server
+        if: always()
+        run: kill "$(cat /tmp/dd-release-browser.pid)" || true

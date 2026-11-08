@@ -9,8 +9,18 @@ const TABS=[
  ['discover','◈','News'],['archivePage','▥','Archive'],['researchStudio','✎','W.NE'],
  ['mapPage','◎','Map'],['clips','▶','Videos'],['livePage','●','LIVE'],
  ['boards','▣','Boards'],['witness','◉','Witness'],
- ['watchRead','♫','Watch & Read'],['hub','☷','Explore'],['profilePage','👤','Profile']
+ ['watchRead','♫','Watch & Read'],['profilePage','👤','Profile'],['hub','☷','Explore']
 ];
+// The public site remains eleven tabs until the separately reviewed Discussions
+// backend is activated. Use the same explicit feature gate in the Research dock.
+if(window.DD_COMMUNITY_FEATURES?.discussions===true){
+ const afterWitness=TABS.findIndex(row=>row[0]==='witness')+1;
+ TABS.splice(afterWitness,0,['discussionsPage','☷','Discussions']);
+}
+if(window.DD_COMMUNITY_FEATURES?.privateChat===true){
+ const beforeProfile=TABS.findIndex(row=>row[0]==='profilePage');
+ TABS.splice(beforeProfile,0,['chatPage','☏','Chat']);
+}
 const STORAGE_KEY='dd-research-nav-hidden-v1';
 const workspace=!!document.getElementById('writer');
 const editor=!!document.getElementById('editor')&&!!document.getElementById('save');
@@ -101,7 +111,16 @@ for(const [id,icon,label] of TABS){
  button.type='button';button.className='dd-site-dock-tab';button.dataset.ddTab=id;
  button.setAttribute('aria-label',label);
  if(id==='researchStudio')button.setAttribute('aria-current','page');
- const ico=document.createElement('span');ico.className='dd-site-dock-icon';ico.setAttribute('aria-hidden','true');ico.textContent=icon;
+ const ico=document.createElement('span');ico.className='dd-site-dock-icon';ico.setAttribute('aria-hidden','true');
+ if(id==='chatPage'&&typeof document.createElementNS==='function'){
+  const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');
+  svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('fill','none');
+  svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.85');
+  svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');
+  svg.setAttribute('aria-hidden','true');svg.setAttribute('class','dd-chat-nav-symbol');
+  const path=document.createElementNS(ns,'path');path.setAttribute('d','M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4.2-1L3 21l2-5a8.5 8.5 0 1 1 16-4.5Z');
+  svg.appendChild(path);ico.appendChild(svg);
+ }else ico.textContent=icon;
  button.append(ico,document.createTextNode(label));
  button.addEventListener('click',()=>{void go(id)});
  nav.appendChild(button);

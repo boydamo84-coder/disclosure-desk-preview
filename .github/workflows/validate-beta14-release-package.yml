@@ -1,0 +1,34 @@
+name: Safe beta 14 public website candidate (NO deployment)
+on:
+  push:
+    branches: [release/public-website-beta14-2026-11-08]
+  pull_request:
+    branches: [production]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build strict public-only artifact and verify every hash/dependency
+        run: |
+          node --check scripts/build_public_release.cjs
+          node --check scripts/test_public_release_package.cjs
+          node scripts/test_public_release_package.cjs
+      - name: Confirm Netlify publishes the validated bundle, never repository root
+        run: |
+          grep -F 'publish = ".release-staging/public-site"' netlify.toml
+          grep -F 'command = "node scripts/build_public_release.cjs"' netlify.toml
+          grep -F 'privateChat:false' assets/community-test-config.js
+          grep -F 'discussions:false' assets/community-test-config.js
+      - name: Preserve release candidate (short retention only)
+        uses: actions/upload-artifact@v4
+        with:
+          name: disclosure-desk-beta14-public-release-candidate
+          path: .release-staging/public-site/
+          retention-days: 3
