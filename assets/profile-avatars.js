@@ -23,7 +23,7 @@ function say(msg){status.textContent=msg;}
 function buttons(){
  save.hidden=!pending;
  save.disabled=operation||!pending||!owner||!avatarKey;
- file.disabled=operation;
+ file.disabled=operation||!owner||!avatarKey;
  remove.disabled=operation||!owner||!avatarKey||!hasSavedPhoto;
  visible.disabled=operation||!owner||!avatarKey;
 }
@@ -87,25 +87,57 @@ async function refresh(){
  say(visible.checked?'Photo saved and shown beside your public username.':
   'Photo saved privately; it is hidden from other members.');
 }
+// Safari may lack createImageBitmap(), or reject individual iPhone photo files.
+// HTMLImageElement is a safe alternative: both paths still rasterise to a
+// 512px WebP canvas, so original photo bytes never reach Storage.
+async function decodePhoto(fileBlob){
+ if(typeof createImageBitmap==='function'){
+  try{
+   const bitmap=await createImageBitmap(fileBlob);
+   if(bitmap.width>0&&bitmap.height>0)
+    return {source:bitmap,width:bitmap.width,height:bitmap.height,close:()=>bitmap.close?.()};
+   bitmap.close?.();
+  }catch(_){/* Some Safari versions support the API but reject this encoding. */}
+ }
+ if(typeof Image!=='function')throw Error('Image decoding is unavailable in this browser.');
+ const url=URL.createObjectURL(fileBlob);
+ try{
+  const img=await new Promise((resolve,reject)=>{
+   const node=new Image();
+   node.onload=()=>resolve(node);
+   node.onerror=()=>reject(Error('Safari could not open this picture. Try a JPG or PNG.'));
+   node.src=url;
+  });
+  const width=img.naturalWidth||img.width,height=img.naturalHeight||img.height;
+  if(!width||!height)throw Error('This picture has no readable dimensions.');
+  return {source:img,width,height,close:()=>URL.revokeObjectURL(url)};
+ }catch(e){URL.revokeObjectURL(url);throw e;}
+}
 async function convert(fileBlob){
- if(!fileBlob||!['image/jpeg','image/png','image/webp'].includes(fileBlob.type))
-  throw Error('Choose a JPG, PNG or WebP image.');
+ const mime=String(fileBlob?.type||'').toLowerCase();
+ const name=String(fileBlob?.name||'').toLowerCase();
+ const known=['image/jpeg','image/png','image/webp','image/heic','image/heif'].includes(mime);
+ // Safari's Files picker may omit the MIME type. Decoding/rasterising still
+ // rejects unsuitable content; never accept SVG or upload original bytes.
+ const named=!mime&&/\\.(jpe?g|png|webp|heic|heif)$/.test(name);
+ if(!fileBlob||(!known&&!named))
+  throw Error('Choose a JPG, PNG, WebP or iPhone HEIC photo.');
  if(fileBlob.size<=0||fileBlob.size>MAX_INPUT)
   throw Error('Choose an image smaller than 5 MB.');
- if(typeof createImageBitmap!=='function')throw Error('Image processing is unavailable in this browser.');
- const decoded=await createImageBitmap(fileBlob);
+ const decoded=await decodePhoto(fileBlob);
  try{
   const canvas=document.createElement('canvas');canvas.width=512;canvas.height=512;
   const ctx=canvas.getContext('2d',{alpha:false});if(!ctx)throw Error('Unable to process this photo.');
   ctx.fillStyle='#172635';ctx.fillRect(0,0,512,512);
   const scale=Math.max(512/decoded.width,512/decoded.height);
   const w=decoded.width*scale,h=decoded.height*scale;
-  ctx.drawImage(decoded,(512-w)/2,(512-h)/2,w,h);
+  ctx.drawImage(decoded.source,(512-w)/2,(512-h)/2,w,h);
+  if(typeof canvas.toBlob!=='function')throw Error('This Safari version cannot export a WebP picture.');
   const webp=await new Promise(resolve=>canvas.toBlob(resolve,'image/webp',0.83));
   if(!webp||webp.type!=='image/webp'||webp.size>MAX_WEBP)
-   throw Error('This photo could not be safely reduced to 1 MB WebP.');
+   throw Error('This browser could not convert the photo to a small WebP. Try a JPG or PNG.');
   return webp;
- }finally{decoded.close?.();}
+ }finally{decoded.close();}
 }
 file.addEventListener('change',async()=>{
  const chosen=file.files?.[0];if(!chosen||operation)return;
@@ -179,6 +211,7 @@ visible.addEventListener('change',async()=>{
  }finally{operation=false;buttons();}
 });
 const c=client();
+buttons(); // Do not offer upload while the account's private Storage key is loading.
 c?.auth.onAuthStateChange(()=>{++epoch;owner=null;reset();Promise.resolve().then(refresh)});
 window.DDProfileAvatars=Object.freeze({refresh});
 void refresh();
