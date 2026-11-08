@@ -1,7 +1,7 @@
 name: Verify Research Studio resume and existing community (NO deploy)
 on:
   push:
-    branches: [fix/research-mobile-profile-polish-nov08, staging/research-samsung-m16-20261108]
+    branches: [fix/research-mobile-profile-polish-nov08, staging/research-samsung-m16-20261108, fix/compact-writing-popover-mobile-desktop-nov08]
   workflow_dispatch:
 permissions:
   contents: read
@@ -42,6 +42,9 @@ jobs:
           node --check research/wne-research-live-spelling.js
           node --check scripts/test_research_review_chromium_20261108.cjs
           node --check scripts/test_research_library_chromium_20261108.cjs
+          node --check assets/analytics-consent.js
+          node --check scripts/test_analytics_consent_chromium_20261108.cjs
+          node --check scripts/audit_public_pages_chromium_20261108.cjs
       - name: Preserve existing avatar and community behavior
         run: |
           node scripts/test_avatar_auto_upload_20261108.cjs
@@ -80,6 +83,8 @@ jobs:
           node scripts/test_research_editor_real_chromium_20261108.cjs
           node scripts/test_research_review_chromium_20261108.cjs
           node scripts/test_research_library_chromium_20261108.cjs
+          node scripts/test_analytics_consent_chromium_20261108.cjs
+          node scripts/audit_public_pages_chromium_20261108.cjs
       - name: Stop loopback-only test origin
         if: always()
         run: kill "$(cat /tmp/dd-research-chrome.pid)" || true
