@@ -121,6 +121,64 @@ for(const [id,icon,label] of TABS){
  button.addEventListener('click',()=>{void go(id)});
  nav.appendChild(button);
 }
+// Owner-only profile photo in the Research dock, using the same opaque
+// private Storage key as the main website. Never derive a URL from a username.
+const profileIcon=nav.querySelector('[data-dd-tab="profilePage"] .dd-site-dock-icon');
+let avatarClient=null,avatarEpoch=0,avatarOwner=null,avatarUrl=null,avatarBusy=false;
+const avatarUUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+function resetResearchAvatar(){
+ if(avatarUrl){try{URL.revokeObjectURL(avatarUrl)}catch(_){}avatarUrl=null}
+ avatarOwner=null;
+ if(profileIcon)profileIcon.textContent='👤';
+}
+async function refreshResearchAvatar(){
+ const gen=++avatarEpoch;
+ resetResearchAvatar();
+ if(!profileIcon||!window.DD_COMMUNITY_FEATURES?.profileAvatars)return;
+ const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
+ if(!cfg.url||!cfg.publishableKey||!window.supabase?.createClient)return;
+ try{
+  avatarClient=avatarClient||window.supabase.createClient(cfg.url,cfg.publishableKey,{
+   auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}
+  });
+  const auth=await avatarClient.auth.getUser();
+  if(gen!==avatarEpoch)return;
+  const user=auth.data?.user;
+  if(auth.error||!user||user.is_anonymous||!avatarUUID.test(String(user.id||'')))return;
+  avatarOwner=user.id;
+  const setting=await avatarClient.rpc('dd_avatar_my_settings');
+  if(gen!==avatarEpoch||avatarOwner!==user.id||setting.error)return;
+  const row=Array.isArray(setting.data)?setting.data[0]:null;
+  if(!avatarUUID.test(String(row?.public_key||'')))return;
+  const file=await avatarClient.storage.from('dd-profile-avatars').download(row.public_key+'/avatar.webp');
+  if(gen!==avatarEpoch||avatarOwner!==user.id||file.error||!file.data)return;
+  const url=URL.createObjectURL(file.data);
+  if(gen!==avatarEpoch||avatarOwner!==user.id){URL.revokeObjectURL(url);return}
+  const img=document.createElement('img');
+  img.alt='';img.setAttribute('aria-hidden','true');img.src=url;
+  img.onerror=()=>{if(avatarUrl===url){resetResearchAvatar()}};
+  profileIcon.replaceChildren(img);
+  avatarUrl=url;
+ }catch(_){if(gen===avatarEpoch)resetResearchAvatar()}
+}
+if(profileIcon&&window.DD_COMMUNITY_FEATURES?.profileAvatars&&window.supabase?.createClient){
+ void refreshResearchAvatar();
+ // Auth updates can arrive while private Storage downloads are still pending.
+ // Clear immediately and discard all stale, previous-account responses.
+ try{
+  const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
+  avatarClient=avatarClient||window.supabase.createClient(cfg.url,cfg.publishableKey,{
+   auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}
+  });
+  avatarClient.auth.onAuthStateChange((event)=>{
+   if(event==='TOKEN_REFRESHED'||event==='INITIAL_SESSION')return;
+   ++avatarEpoch;resetResearchAvatar();
+   if(event!=='SIGNED_OUT')Promise.resolve().then(refreshResearchAvatar);
+  });
+ }catch(_){resetResearchAvatar()}
+ window.addEventListener('pagehide',()=>{++avatarEpoch;resetResearchAvatar()},{once:true});
+}
+
 function measure(){
  const menu=dock.classList.contains('is-hidden')?0:dock.getBoundingClientRect().height;
  document.body.style.setProperty('--dd-research-dock-height',menu+'px');
