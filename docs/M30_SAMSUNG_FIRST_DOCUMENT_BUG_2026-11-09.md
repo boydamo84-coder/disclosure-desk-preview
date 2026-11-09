@@ -36,4 +36,4 @@ The user's first-account screenshot is consistent with this exact path; it does 
 
 ## Verification
 
-GitHub no-deploy workflow `research-resume-check.yml` runs real local-only Chromium checks and existing verification. Record the exact **final verified commit SHA and CI run** once it completes; until then do not claim green.
+**Verified:** [GitHub Actions run 42541310412](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42541310412) on development SHA `633091532bb8ff323f22487a6932f0c586d1213b`: **SUCCESS in all three jobs** (`verify`, offline real Chromium, and isolated PostgreSQL). The new first-document Chromium test passed **6/6** checks (3 each at 393px phone and 1280px desktop). It exercised the **actual hosted cloud bridge** against a fictional in-browser Supabase client, verified no Writer network request before document creation, the Home dialog, the first create/open sequence, and direct open of an existing ID. No live user credentials, cloud writes, Netlify deployment or live-site changes were involved. This is a local browser simulation, **not** evidence that the owner has passed first-document creation on production.
