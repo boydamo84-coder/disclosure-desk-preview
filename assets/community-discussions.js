@@ -420,23 +420,25 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
  dislike.setAttribute('aria-pressed',String(Number(row.my_vote)===-1));
  if(kind==='thread'){
   const commentCount=Number.isFinite(Number(row.reply_count))?Number(row.reply_count):0;
-  const comments=nodeAction(parent,'Comments ('+commentCount+')',async()=>{
+  const comments=nodeAction(parent,'💬 '+commentCount,async()=>{
    if(inDetail&&thread?.id===row.id){chooseReply(null,true);return}
    await openThread(row);
    if(thread?.id===row.id)chooseReply(null,true);
   },'dd-forum-icon-button dd-forum-comments-action');
-  comments.setAttribute('aria-label','Read '+commentCount+' comments');
+  comments.setAttribute('aria-label','Read or add comments · '+commentCount+' comments');
+  comments.setAttribute('title','Comments');
   const star=nodeAction(parent,'☆',()=>saveThread(row),'dd-forum-icon-button dd-forum-star-action');
   star.dataset.bookmarkUrl=permalink(row)||'';star.dataset.bookmarkLabel=String(row.title||'Discussion');
   const starIcon=mk('span','☆');starIcon.dataset.starIcon='';star.replaceChildren(starIcon);
-  setActionIcon(star,'star','☆');
+  // Keep [data-star-icon] intact for the shared saved ☆/★ feedback.
   star.setAttribute('aria-label','Save post to an Investigation Board');
   star.setAttribute('title','Add to Board');
   const share=nodeAction(parent,'↗ Share',()=>shareThread(row),'dd-forum-icon-button dd-forum-share-action');
   share.setAttribute('aria-label','Share this post');
   share.setAttribute('title','Share');
-  // Same action order as News: adjacent votes, Board, Share, Comments.
-  parent.append(comments);
+  setActionIcon(share,'share','⤴');
+  // Owner screenshot contract: adjacent votes, 💬 count, ☆ Board, Share.
+  parent.insertBefore(comments,star);
  }
  if(kind==='reply'&&thread){
   // A reply's source is its parent discussion; Board and Share never
@@ -449,6 +451,7 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
   const shared=nodeAction(parent,'↗ Share',()=>shareThread(thread),'dd-forum-icon-button dd-forum-share-action');
   shared.setAttribute('aria-label','Share parent discussion');
   shared.setAttribute('title','Share discussion');
+  setActionIcon(shared,'share','⤴');
  }
  parent.append(mk('span',undefined,'dd-forum-spacer'));
  if(row.is_mine){
