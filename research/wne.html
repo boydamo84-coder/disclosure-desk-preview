@@ -1111,7 +1111,7 @@ body.tv .tv-controls #tv-exit:focus-visible {
 .mobilebar #mobile-status{max-width:70px;flex:0 1 auto}
 .topbar .actions>.dd-return-desktop{display:none!important}}
 @media(max-width:380px){.mobilebar .mobilebrand{font-size:19px}.mobilebar .dd-return-mobile{padding:6px 8px}}
-</style></head><body><div id="wne-splash" class="wne-gone" role="presentation" aria-label="W.NE starting"><div class="wne-mark"><div class="wne-word">W.NE</div><div class="wne-line"></div><div class="wne-tag">WRITE. NOTHING ELSE.</div></div><button class="wne-skip" type="button" aria-label="Skip W.NE intro" onpointerdown="this.closest('#wne-splash').remove()" onclick="this.closest('#wne-splash')?.remove()">Skip Intro →</button></div><span class="home-logo" id="home-link" title="Powered by W.NE" aria-label="W.NE Research Edition branding">W.NE</span><div id="remote-pointer" aria-hidden="true"></div>
+</style><script src="./wne-dialogs-m34.js"></script></head><body><div id="wne-splash" class="wne-gone" role="presentation" aria-label="W.NE starting"><div class="wne-mark"><div class="wne-word">W.NE</div><div class="wne-line"></div><div class="wne-tag">WRITE. NOTHING ELSE.</div></div><button class="wne-skip" type="button" aria-label="Skip W.NE intro" onpointerdown="this.closest('#wne-splash').remove()" onclick="this.closest('#wne-splash')?.remove()">Skip Intro →</button></div><span class="home-logo" id="home-link" title="Powered by W.NE" aria-label="W.NE Research Edition branding">W.NE</span><div id="remote-pointer" aria-hidden="true"></div>
 <div class="overlay" id="overlay"></div><div class="shell">
  <aside class="sidebar" id="sidebar"><div class="logo">W.NE<small>Research Edition</small></div><div class="nav-title"><span>Sections</span><button class="add" id="add">+ Section</button></div><nav id="chapters" class="chapters" aria-label="Sections"></nav><div class="side-note"><strong>Research Edition</strong><br>Your research is saved locally with recovery history. <a href="#research-studio-home" data-dd-research-home-link style="color:#d9bb8b">Research Studio Home &amp; backups ↗</a></div></aside>
  <main class="main">
@@ -1303,12 +1303,12 @@ function wneFindOpen(){
  $('wne-findbar').hidden=false;wneFindScan();$('wne-find-query').focus();$('wne-find-query').select();
 }
 function wneFindClose(){$('wne-findbar').hidden=true;window.getSelection()?.removeAllRanges();}
-function wneFindReplace(all){
+async function wneFindReplace(all){
  if(blocked||phoneLocked)return toast('Writing is currently locked');
  if($('wne-find-scope').value==='all')return toast('Switch to Current chapter to replace');
  wneFindScan(true);if(!wneFindMatches.length)return;
  const replacement=$('wne-find-replace').value;
- if(all&&!confirm(`Replace all ${wneFindMatches.length} matches in "${active().title}"? This changes the current chapter only.`))return;
+ if(all&&!await window.WNEDialogs.confirm(`Replace all ${wneFindMatches.length} matches in "${active().title}"? This changes the current chapter only.`))return;
  const chosen=all?wneFindMatches:[wneFindMatches[wneFindIndex]];
  // Reverse offsets per text node, retaining existing formatting.
  for(const m of chosen.slice().reverse()){
@@ -1385,7 +1385,7 @@ function syncEditor(){if(!blocked&&!phoneLocked&&data)active().html=sanitizeHtml
 function draftStore(){try{localStorage.setItem(DRAFTKEY,JSON.stringify({revision,manuscript:data,updated:new Date().toISOString()}))}catch(e){}}
 function clearDraft(){try{localStorage.removeItem(DRAFTKEY)}catch(e){}}
 function dirty(){if(blocked||phoneLocked){if(phoneLocked)toast('Phone is editing · controls are on your phone');return;}gen++;data.modified=new Date().toISOString();draftStore();status('Unsaved…');clearTimeout(saveTimer);saveTimer=setTimeout(()=>saveNow(),750)}
-async function saveNow(reason='autosave'){if(blocked)return false;clearTimeout(saveTimer);syncEditor();if(saving){await saving;return gen===savedGen?true:saveNow(reason)}if(gen===savedGen){status('Saved to cloud',false,true);return true}const submittedGen=gen;const snapshot=structuredClone(data);const oldRev=revision;status('Saving…');saving=(async()=>{try{const x=await api('/api/manuscript',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({expected_revision:oldRev,remote_seq:remoteSeq,reason,manuscript:snapshot})});revision=x.revision;remoteSeq=x.remote_seq;savedGen=submittedGen;if(gen===savedGen){clearDraft();status('Saved to cloud',false,true)}else{draftStore();status('Unsaved…')}return true}catch(e){blocked=true;$('editor').contentEditable='false';status('SAVE FAILED — EXPORT!',true);alert(e.message+'\nYour current text remains in this tab. Use More → Emergency copy. Do not close W.NE yet.');return false}finally{saving=null}})();const ok=await saving;if(ok&&gen>savedGen)setTimeout(()=>saveNow(),100);return ok}
+async function saveNow(reason='autosave'){if(blocked)return false;clearTimeout(saveTimer);syncEditor();if(saving){await saving;return gen===savedGen?true:saveNow(reason)}if(gen===savedGen){status('Saved to cloud',false,true);return true}const submittedGen=gen;const snapshot=structuredClone(data);const oldRev=revision;status('Saving…');saving=(async()=>{try{const x=await api('/api/manuscript',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({expected_revision:oldRev,remote_seq:remoteSeq,reason,manuscript:snapshot})});revision=x.revision;remoteSeq=x.remote_seq;savedGen=submittedGen;if(gen===savedGen){clearDraft();status('Saved to cloud',false,true)}else{draftStore();status('Unsaved…')}return true}catch(e){blocked=true;$('editor').contentEditable='false';status('SAVE FAILED — EXPORT!',true);window.WNEDialogs.notice(e.message+'\nYour current text remains in this tab. Use More → Emergency copy. Do not close W.NE yet.');return false}finally{saving=null}})();const ok=await saving;if(ok&&gen>savedGen)setTimeout(()=>saveNow(),100);return ok}
 // v0.9.64: guarded save bridge for controls declared outside this editor closure.
 // Only allow navigation after the editor confirms it has persisted the current revision.
 window.wneSaveBeforeNavigation = async function(reason='before navigation'){
@@ -1505,9 +1505,9 @@ function wnePrepareManagedInsert(side){
 async function wneCommitManagedInsert(){
  if(wneManagerBusy||!wneManagingChapterId||!wnePendingInsertSide)return;
  const title=$('wne-manager-new-title').value.trim();
- if(!title||title.length>150)return alert('Give the new chapter or section a title (up to 150 characters).');
+ if(!title||title.length>150)return window.WNEDialogs.notice('Give the new chapter or section a title (up to 150 characters).');
  const idx=data.chapters.findIndex(c=>c.id===wneManagingChapterId);
- if(idx<0||data.chapters.length>=500)return alert('Cannot insert here.');
+ if(idx<0||data.chapters.length>=500)return window.WNEDialogs.notice('Cannot insert here.');
  wneManagerBusy=true;
  try{
   if(!await beforeSwitch())return;
@@ -1582,8 +1582,8 @@ async function wneCommitInsertAtPosition(){
  if(wneManagerBusy||!data||data.chapters.length>=500)return;
  const target=Number($('wne-manager-place-position').value);
  const title=$('wne-manager-place-title').value.trim();
- if(!Number.isInteger(target)||target<0||target>data.chapters.length)return alert('Choose a valid insert position.');
- if(!title||title.length>150)return alert('Enter a title of up to 150 characters.');
+ if(!Number.isInteger(target)||target<0||target>data.chapters.length)return window.WNEDialogs.notice('Choose a valid insert position.');
+ if(!title||title.length>150)return window.WNEDialogs.notice('Enter a title of up to 150 characters.');
  wneManagerBusy=true;
  try{
   if(!await beforeSwitch())return;
@@ -1613,9 +1613,9 @@ function wneRenumberProposal(){
 async function wneRenumberNumericHeadings(){
  if(wneManagerBusy||!data||wneStructure()==='single')return;
  const changes=wneRenumberProposal();
- if(!changes.length)return alert('No numeric heading prefixes need renumbering. Custom and nonnumeric titles are unchanged.');
+ if(!changes.length)return window.WNEDialogs.notice('No numeric heading prefixes need renumbering. Custom and nonnumeric titles are unchanged.');
  const sample=changes.slice(0,3).map(x=>'“'+x.from+'” → “'+x.to+'”').join('\n');
- if(!confirm('Rename numeric '+(wneStructure()==='sections'?'Section':'Chapter')+' headings to follow their current order?\n\n'+sample+(changes.length>3?'\n… and '+(changes.length-3)+' more':'')+'\n\nOnly the numeric prefixes change. Custom titles stay untouched. A recovery checkpoint will be saved.'))return;
+ if(!await window.WNEDialogs.confirm('Rename numeric '+(wneStructure()==='sections'?'Section':'Chapter')+' headings to follow their current order?\n\n'+sample+(changes.length>3?'\n… and '+(changes.length-3)+' more':'')+'\n\nOnly the numeric prefixes change. Custom titles stay untouched. A recovery checkpoint will be saved.'))return;
  wneManagerBusy=true;
  try{
   if(!await beforeSwitch())return;
@@ -1653,7 +1653,7 @@ function wneInitChapterManager(){
 }
 async function switchChapter(id){if(id===data.active)return;if(!await beforeSwitch())return;data.active=id;render();window.scrollTo(0,0);document.querySelector('.workarea')?.scrollTo(0,0);$('editor').scrollTop=0;dirty();closeDrawer();await saveNow();wneSavePosition()}
 async function addChapter(){if(!await beforeSwitch())return;let n=data.chapters.length+1;const c={id:uid(),title:`${wneStructure()==='sections'?'Section':'Chapter'} ${n}`,html:''};data.chapters.push(c);data.active=c.id;render();dirty();closeDrawer();await saveNow('manual');$('editor').focus()}
-async function deleteChapter(){if(blocked)return;if(data.chapters.length===1){toast('Keep at least one chapter');return}if(!confirm(`Delete "${active().title}"? A recovery checkpoint is created before the deletion.`))return;if(!await beforeSwitch())return;const idx=data.chapters.findIndex(c=>c.id===data.active);data.chapters.splice(idx,1);data.active=data.chapters[Math.max(0,idx-1)].id;render();dirty();await saveNow('delete');closeMore();toast('Chapter removed · recovery available')}
+async function deleteChapter(){if(blocked)return;if(data.chapters.length===1){toast('Keep at least one chapter');return}if(!await window.WNEDialogs.confirm(`Delete "${active().title}"? A recovery checkpoint is created before the deletion.`))return;if(!await beforeSwitch())return;const idx=data.chapters.findIndex(c=>c.id===data.active);data.chapters.splice(idx,1);data.active=data.chapters[Math.max(0,idx-1)].id;render();dirty();await saveNow('delete');closeMore();toast('Chapter removed · recovery available')}
 async function downloadRaw(obj,prefix='WNE-emergency'){
  const stamp=new Date().toISOString().replace(/[:.]/g,'-');
  const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});
@@ -1672,15 +1672,15 @@ window.wneEmergencyCopy=async function(){
  toast(result==='shared'?'Emergency copy shared':'Emergency copy prepared · check Downloads');
  return true;
 };
-async function backup(){if(!await saveNow())return toast('Save failed. Use Emergency copy instead.');try{const response=await fetch('/api/backup',{cache:'no-store'});if(!response.ok){const detail=await response.json().catch(()=>({}));throw Error(detail.error||'Backup failed')}const blob=await response.blob();const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='WNE-research-backup.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);toast('Backup copy downloaded')}catch(e){alert('Backup was not downloaded: '+e.message+'\nUse Emergency copy before leaving.')}}
-async function replaceDoc(raw,reason){let next;try{next=normalise(raw)}catch(e){return alert('Cannot import: '+e.message)}if(!confirm(`Replace current W.NE v0.7 test manuscript with "${next.bookTitle}"? A recovery checkpoint will preserve the previous version. Save a backup first if needed.`))return;if(!await beforeSwitch())return;const previous=data;data=next;render();dirty();if(!await saveNow(reason)){data=previous;render();return}toast('Manuscript imported into W.NE v0.7')}
+async function backup(){if(!await saveNow())return toast('Save failed. Use Emergency copy instead.');try{const response=await fetch('/api/backup',{cache:'no-store'});if(!response.ok){const detail=await response.json().catch(()=>({}));throw Error(detail.error||'Backup failed')}const blob=await response.blob();const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='WNE-research-backup.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);toast('Backup copy downloaded')}catch(e){window.WNEDialogs.notice('Backup was not downloaded: '+e.message+'\nUse Emergency copy before leaving.')}}
+async function replaceDoc(raw,reason){let next;try{next=normalise(raw)}catch(e){return window.WNEDialogs.notice('Cannot import: '+e.message)}if(!await window.WNEDialogs.confirm(`Replace current W.NE v0.7 test manuscript with "${next.bookTitle}"? A recovery checkpoint will preserve the previous version. Save a backup first if needed.`))return;if(!await beforeSwitch())return;const previous=data;data=next;render();dirty();if(!await saveNow(reason)){data=previous;render();return}toast('Manuscript imported into W.NE v0.7')}
 async function recover(){
  closeMore();if(!await beforeSwitch())return;
  let items;try{
    const bridge=window.WNECloudIntegration;
    items=bridge?.recoveryList?(await bridge.recoveryList()).items:(await api('/api/snapshots')).items;
-  }catch(e){return alert('Recovery history unavailable: '+e.message+'\nYour current research remains unchanged.')}
- if(!items.length)return alert('No recovery versions yet. Keep Lifeboat backups too.');
+  }catch(e){return window.WNEDialogs.notice('Recovery history unavailable: '+e.message+'\nYour current research remains unchanged.')}
+ if(!items.length)return window.WNEDialogs.notice('No recovery versions yet. Keep Lifeboat backups too.');
  const shade=document.createElement('div');shade.className='recovery-shade';
  const panel=document.createElement('section');panel.className='recovery-panel';panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label','Recovery Centre');
  panel.innerHTML='<h2>🛟 Recovery Centre</h2><p>Browse earlier versions and rescue one as a separate document. Your current writing will not be replaced.</p><div class="recovery-grid"><div class="recovery-items"></div><div class="recovery-preview" aria-live="polite">Select a checkpoint to preview.</div></div><div class="recovery-actions"><button type="button" data-close>Close</button><button type="button" class="recovery-primary" data-restore disabled>Restore as new document</button></div>';
@@ -1696,11 +1696,11 @@ async function recover(){
  list.append(b)}
  restore.onclick=async()=>{if(selected===null)return;restore.disabled=true;try{const result=window.WNECloudIntegration?.recoveryCopy?
      await window.WNECloudIntegration.recoveryCopy(selected):
-     await api('/api/recovery/copy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:selected})});if(!result?.verified_copy)throw Error('Recovered copy content was not verified. Original unchanged. Do not retry automatically.');close();if(typeof window.DDRecoveryCopyNotice==='function')window.DDRecoveryCopyNotice(result);else alert('Verified recovered copy created: '+result.title+'\n\nOpen Home to find it. Your current manuscript is unchanged.')}catch(e){alert('Recovery failed: '+e.message);restore.disabled=false}};
+     await api('/api/recovery/copy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:selected})});if(!result?.verified_copy)throw Error('Recovered copy content was not verified. Original unchanged. Do not retry automatically.');close();if(typeof window.DDRecoveryCopyNotice==='function')window.DDRecoveryCopyNotice(result);else window.WNEDialogs.notice('Verified recovered copy created: '+result.title+'\n\nOpen Home to find it. Your current manuscript is unchanged.')}catch(e){window.WNEDialogs.notice('Recovery failed: '+e.message);restore.disabled=false}};
 }
 
 function importBackup(){closeMore();$('restore-file').click()}
-function copyPrev(){closeMore();let key=OLDKEYS.find(k=>{try{return !!localStorage.getItem(k)}catch(e){return false}});if(!key){return alert('No previous browser manuscript found. You can still restore a JSON backup.')}try{const old=JSON.parse(localStorage.getItem(key));replaceDoc(old,'replace')}catch(e){alert('Import failed: '+e.message)}}
+function copyPrev(){closeMore();let key=OLDKEYS.find(k=>{try{return !!localStorage.getItem(k)}catch(e){return false}});if(!key){return window.WNEDialogs.notice('No previous browser manuscript found. You can still restore a JSON backup.')}try{const old=JSON.parse(localStorage.getItem(key));replaceDoc(old,'replace')}catch(e){window.WNEDialogs.notice('Import failed: '+e.message)}}
 function rememberSelection(){
  const sel=window.getSelection();if(!sel||!sel.rangeCount)return;
  const r=sel.getRangeAt(0),ed=$('editor');
@@ -1981,14 +1981,14 @@ $('lifeboat-file').onchange=async e=>{
   const zip_base64=btoa(binary);
   const preview=await api('/api/lifeboat/restore',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'preview',zip_base64})});
   const titles=preview.titles.slice(0,12).join('\n• ');
-  if(!confirm(`Verified ${preview.count} document(s) in this Lifeboat backup.\n\n• ${titles}${preview.count>12?'\n…':''}\n\nRestore as NEW documents labelled (Recovered)? Existing documents will NOT be overwritten.`))return;
+  if(!await window.WNEDialogs.confirm(`Verified ${preview.count} document(s) in this Lifeboat backup.\n\n• ${titles}${preview.count>12?'\n…':''}\n\nRestore as NEW documents labelled (Recovered)? Existing documents will NOT be overwritten.`))return;
   if(!await beforeSwitch())throw Error('Save current writing before restoring.');
   const result=await api('/api/lifeboat/restore',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'restore',zip_base64})});
-  alert(`Restored ${result.restored} document(s) as new library copies. Open Home to view them.`);
- }catch(err){alert('Lifeboat restore failed: '+err.message)}finally{e.target.value=''}
+  window.WNEDialogs.notice(`Restored ${result.restored} document(s) as new library copies. Open Home to view them.`);
+ }catch(err){window.WNEDialogs.notice('Lifeboat restore failed: '+err.message)}finally{e.target.value=''}
 };
-$('lifeboat').onclick=async()=>{closeMore();if(!await saveNow('manual'))return alert('Save failed. Download an emergency copy first.');const a=document.createElement('a');a.href='/api/lifeboat';a.download='WNE-Lifeboat.zip';document.body.append(a);a.click();a.remove();toast('Full library backup requested — check Downloads')};$('save').onclick=async()=>{const b=$('save');b.disabled=true;try{if(!await saveNow('manual'))toast('Save not confirmed — use Emergency Copy if needed')}finally{b.disabled=false}};$('backup').onclick=backup;$('recover').onclick=recover;$('more-recover').onclick=recover;$('import').onclick=importBackup;$('more-import').onclick=importBackup;$('copy-prev').onclick=copyPrev;$('emergency').onclick=()=>{window.wneEmergencyCopy().catch(e=>alert('Emergency export not completed: '+e.message))};
-$('restore-file').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>8*1024*1024)throw Error('File over 8MB');await replaceDoc(JSON.parse(await f.text()),'replace')}catch(err){alert('Backup could not be read: '+err.message)}finally{e.target.value=''}};
+$('lifeboat').onclick=async()=>{closeMore();if(!await saveNow('manual'))return window.WNEDialogs.notice('Save failed. Download an emergency copy first.');const a=document.createElement('a');a.href='/api/lifeboat';a.download='WNE-Lifeboat.zip';document.body.append(a);a.click();a.remove();toast('Full library backup requested — check Downloads')};$('save').onclick=async()=>{const b=$('save');b.disabled=true;try{if(!await saveNow('manual'))toast('Save not confirmed — use Emergency Copy if needed')}finally{b.disabled=false}};$('backup').onclick=backup;$('recover').onclick=recover;$('more-recover').onclick=recover;$('import').onclick=importBackup;$('more-import').onclick=importBackup;$('copy-prev').onclick=copyPrev;$('emergency').onclick=()=>{window.wneEmergencyCopy().catch(e=>window.WNEDialogs.notice('Emergency export not completed: '+e.message))};
+$('restore-file').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>8*1024*1024)throw Error('File over 8MB');await replaceDoc(JSON.parse(await f.text()),'replace')}catch(err){window.WNEDialogs.notice('Backup could not be read: '+err.message)}finally{e.target.value=''}};
 $('theme').onclick=toggleTheme;$('tv-theme').onclick=toggleTheme;$('tvmode').onclick=tvOn;$('tv-exit').onclick=tvOff;$('tv-big').onclick=()=>tvSize(2);$('tv-small').onclick=()=>tvSize(-2);$('tv-layout').onchange=e=>changeTvLayout(e.target.value);$('tv-width').oninput=e=>changeTvWidth(e.target.value);$('tv-fit').onclick=()=>changeTvWidth(96);
 /* Research Edition: W.NE logo is branding only; no home navigation. */
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDrawer();closeMore();if(document.body.classList.contains('tv'))tvOff();return}if(!(e.ctrlKey||e.metaKey))return;const k=e.key.toLowerCase();if(k==='s'){e.preventDefault();saveNow('manual')}else if(e.altKey&&k==='d'){e.preventDefault();toggleTheme()}else if(e.altKey&&k==='t'){e.preventDefault();document.body.classList.contains('tv')?tvOff():tvOn()}else if(e.target===$('editor')&&(k==='arrowup'||k==='arrowdown')){e.preventDefault();const idx=data.chapters.findIndex(c=>c.id===data.active)+(k==='arrowdown'?1:-1);if(idx>=0&&idx<data.chapters.length)switchChapter(data.chapters[idx].id)}});
@@ -2023,10 +2023,10 @@ async function wneManualCloudSave(){
  try{
   const response=await fetch('/api/cloud/status',{cache:'no-store'}),drive=await response.json();
   if(!response.ok||!drive.connected)throw Error('Google Drive is not connected. Open W.NE Home and connect it first.');
-  const pass=prompt('TEST DOCUMENTS ONLY\n\nEnter your encrypted Google Drive backup recovery password (12+ characters).\n\nThis creates a new encrypted backup of your ENTIRE W.NE test library, not just this manuscript. Your existing Drive backups remain unchanged.');
+  const pass=await window.WNEDialogs.input('TEST DOCUMENTS ONLY\n\nEnter your encrypted Google Drive backup recovery password (12+ characters).\n\nThis creates a new encrypted backup of your ENTIRE W.NE test library, not just this manuscript. Your existing Drive backups remain unchanged.',{title:'Encrypted Drive backup',label:'Recovery password',secret:true,maxLength:256});
   if(pass===null){feedback.textContent='Cloud backup cancelled; local save complete.';return}
   if(pass.length<12||pass.length>256)throw Error('Recovery password must be 12–256 characters.');
-  if(!confirm('Create a NEW encrypted Google Drive backup of the entire TEST library?\n\nKeep your recovery password safe. W.NE cannot recover it.')){feedback.textContent='Cloud backup cancelled; local save complete.';return}
+  if(!await window.WNEDialogs.confirm('Create a NEW encrypted Google Drive backup of the entire TEST library?\n\nKeep your recovery password safe. W.NE cannot recover it.')){feedback.textContent='Cloud backup cancelled; local save complete.';return}
   feedback.textContent='Encrypting, uploading and verifying backup…';
   const r=await fetch('/api/cloud/backup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pass,confirmation:'BACKUP TEST LIBRARY'})});
   const result=await r.json();if(!r.ok||!result.verified)throw Error(result.error||'Backup could not be verified.');
@@ -2048,7 +2048,7 @@ async function boot(){
  wneFindInit();applyTheme();initEvents();refreshWorkspace();await wneInitLanguage();$('wne-language').addEventListener('change',wneApplyLanguage);$('wne-spellcheck').addEventListener('change',wneApplyLanguage);try{const response=await api('/api/manuscript');revision=response.revision;remoteSeq=response.remote_seq||0;data=normalise(response.manuscript);if(data.uiTheme!==theme){theme=data.uiTheme;applyTheme();}blocked=false;$('editor').contentEditable='true';render();savedGen=gen;status('Saved to cloud',false,true);await wneInitPosition();
 /* Hosted Research Edition: legacy phone/TV polling routes are unavailable.\n   Supabase /api/manuscript saves continue through the cloud bridge;\n   never display a misleading cloud outage from unsupported /api/live/state. */
 try{const raw=localStorage.getItem(DRAFTKEY);if(raw){const draft=JSON.parse(raw);if(draft.manuscript&&JSON.stringify(draft.manuscript)!==JSON.stringify(response.manuscript)){
- if(confirm('W.NE found an unfinished browser draft from an earlier session. Recover that draft into v0.7? (The current saved document will be kept as a recovery checkpoint.)')){data=normalise(draft.manuscript);render();dirty();await saveNow('restore')}else clearDraft();
+ if(await window.WNEDialogs.confirm('W.NE found an unfinished browser draft from an earlier session. Recover that draft into v0.7? (The current saved document will be kept as a recovery checkpoint.)')){data=normalise(draft.manuscript);render();dirty();await saveNow('restore')}else clearDraft();
 }else clearDraft();}}catch(e){console.warn('Draft recovery check:',e)}
 let key=OLDKEYS.find(k=>{try{return !!localStorage.getItem(k)}catch(e){return false}});$('copy-prev').textContent=key?'Copy '+(key.endsWith('03')?'v0.3':key.endsWith('02')?'v0.2':'v0.1')+' manuscript':'No earlier version found';$('copy-prev').disabled=!key;
 }catch(e){
@@ -2060,7 +2060,7 @@ let key=OLDKEYS.find(k=>{try{return !!localStorage.getItem(k)}catch(e){return fa
   $('editor').textContent='No Research document selected. Open Research Studio Home to create your first report.';
  }else{
   status('Could not open your Research cloud document',true);
-  alert('W.NE Research could not open its cloud document. Your existing files have not been overwritten. Return to Research Studio Home and check your account or connection before retrying.\n\n'+detail);
+  window.WNEDialogs.notice('W.NE Research could not open its cloud document. Your existing files have not been overwritten. Return to Research Studio Home and check your account or connection before retrying.\n\n'+detail);
  }
 }
 }
@@ -2154,7 +2154,7 @@ async function load(){
  for(const idea of data.ideas){const item=document.createElement('article'),meta=document.createElement('small'),body=document.createElement('div'),actions=document.createElement('div'),edit=document.createElement('button'),del=document.createElement('button');
  const ch=chapters.find(c=>String(c.id)===String(idea.chapter_id));meta.textContent=(ch?(ch.title||'Linked chapter'):'General idea')+' · '+new Date(idea.created).toLocaleString();body.className='idea-body';body.textContent=idea.note;actions.className='idea-actions';edit.textContent='✎ Edit';del.textContent='Delete';
  edit.onclick=()=>{editing=idea.id;el('wne-idea-note').value=idea.note;el('wne-idea-link').value=idea.chapter_id||'';el('wne-idea-save').textContent='✓ Save changes';message('Editing an idea — save to update it.');el('wne-idea-note').focus();el('wne-idea-note').scrollIntoView({block:'nearest'})};
- del.onclick=async()=>{if(!confirm('Delete this parked idea?'))return;try{await send('delete',{id:idea.id});if(editing===idea.id)resetEdit();message('Idea deleted.');await load()}catch(e){message(e.message)}};
+ del.onclick=async()=>{if(!await window.WNEDialogs.confirm('Delete this parked idea?'))return;try{await send('delete',{id:idea.id});if(editing===idea.id)resetEdit();message('Idea deleted.');await load()}catch(e){message(e.message)}};
  actions.append(edit,del);item.append(meta,body,actions);list.append(item)}
 }
 el('wne-idea-open').onclick=async()=>{dialog.hidden=false;resetEdit();message('');try{await load()}catch(e){message('Could not load ideas: '+e.message)}};
@@ -2189,7 +2189,7 @@ async function request(url,opts){const r=await fetch(url,{cache:'no-store',...op
 function status(t){el('wne-bible-status').textContent=t}
 function reset(){editing=null;el('wne-bible-title').value='';el('wne-bible-details').value='';el('wne-bible-category').value='Character';el('wne-bible-save').textContent='💾 Save entry';el('wne-bible-cancel').hidden=true}
 function render(){const list=el('wne-bible-list');list.replaceChildren();const selected=el('wne-bible-filter').value;const shown=entries.filter(e=>!selected||e.category===selected);el('wne-bible-count').textContent='('+entries.length+')';if(!shown.length){list.textContent='No entries yet in this category.';return}
-for(const entry of shown){const card=document.createElement('article'),meta=document.createElement('small'),heading=document.createElement('h3'),body=document.createElement('p'),edit=document.createElement('button'),del=document.createElement('button');meta.textContent=entry.category;heading.textContent=entry.title;body.textContent=entry.details||'No details yet.';edit.textContent='✎ Edit';del.textContent='Delete';edit.onclick=()=>{editing=entry.id;el('wne-bible-category').value=entry.category;el('wne-bible-title').value=entry.title;el('wne-bible-details').value=entry.details;el('wne-bible-save').textContent='✓ Save changes';el('wne-bible-cancel').hidden=false;status('Editing '+entry.title);el('wne-bible-title').focus();el('wne-bible-title').scrollIntoView({block:'nearest'})};del.onclick=async()=>{if(!confirm('Delete this Story Bible entry?'))return;try{await send('delete',{id:entry.id});if(editing===entry.id)reset();await load();status('Entry deleted.')}catch(e){status(e.message)}};card.append(meta,heading,body,edit,del);list.append(card)}}
+for(const entry of shown){const card=document.createElement('article'),meta=document.createElement('small'),heading=document.createElement('h3'),body=document.createElement('p'),edit=document.createElement('button'),del=document.createElement('button');meta.textContent=entry.category;heading.textContent=entry.title;body.textContent=entry.details||'No details yet.';edit.textContent='✎ Edit';del.textContent='Delete';edit.onclick=()=>{editing=entry.id;el('wne-bible-category').value=entry.category;el('wne-bible-title').value=entry.title;el('wne-bible-details').value=entry.details;el('wne-bible-save').textContent='✓ Save changes';el('wne-bible-cancel').hidden=false;status('Editing '+entry.title);el('wne-bible-title').focus();el('wne-bible-title').scrollIntoView({block:'nearest'})};del.onclick=async()=>{if(!await window.WNEDialogs.confirm('Delete this Story Bible entry?'))return;try{await send('delete',{id:entry.id});if(editing===entry.id)reset();await load();status('Entry deleted.')}catch(e){status(e.message)}};card.append(meta,heading,body,edit,del);list.append(card)}}
 async function load(){const lib=await request('/api/library');docId=lib.active_id;const result=await request('/api/story-bible?doc_id='+encodeURIComponent(docId));entries=result.entries;render()}
 function send(action,rest){return request('/api/story-bible',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,doc_id:docId,...rest})})}
 el('wne-bible-open').onclick=async()=>{dlg.hidden=false;reset();status('');try{await load()}catch(e){status('Could not load: '+e.message)}};
@@ -2273,7 +2273,7 @@ html body #wne-bible-open,html body #wne-idea-open,html body #wne-companion-laun
       const pack=await window.WNECloudIntegration?.makeLibraryZip?.();
       if(!pack?.blob||!pack.filename)throw Error('Could not create the library ZIP. Your documents are unchanged.');
       await saveResearchFile(pack.blob,pack.filename);
-      alert('Research library backup prepared: '+pack.documentCount+' document(s). Check Downloads and keep the ZIP private.'+(pack.needsManualReview?'\n\nAttention: '+pack.needsManualReview+' older or incompatible document(s) are included as raw JSON for manual review only. They were NOT automatically restored. See WARNING-MANUAL-REVIEW.txt in the ZIP.':''));
+      window.WNEDialogs.notice('Research library backup prepared: '+pack.documentCount+' document(s). Check Downloads and keep the ZIP private.'+(pack.needsManualReview?'\n\nAttention: '+pack.needsManualReview+' older or incompatible document(s) are included as raw JSON for manual review only. They were NOT automatically restored. See WARNING-MANUAL-REVIEW.txt in the ZIP.':''));
      }
      else if(action==='history'){performClick('recover');}
      else if(action==='emergency'){await window.wneEmergencyCopy();}
@@ -2285,9 +2285,9 @@ html body #wne-bible-open,html body #wne-idea-open,html body #wne-companion-laun
      else{
        await ensureSaved('before File menu navigation');
        if(action==='new'){
-         const title=prompt('Name your new research document:', 'New Research Document');
+         const title=await window.WNEDialogs.input('Name your new research document:',{title:'New research document',label:'Document name',defaultValue:'New Research Document',maxLength:150});
          if(title===null)return;
-         if(!title.trim()){alert('Enter a document name.');return}
+         if(!title.trim()){window.WNEDialogs.notice('Enter a document name.');return}
          const create=await fetch('/api/library',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'create',title:title.trim(),mode:'study',structure:'sections'})});
          const created=await create.json();
          if(!create.ok||!created.id)throw Error(created.error||'Could not create document');
@@ -2304,14 +2304,14 @@ html body #wne-bible-open,html body #wne-idea-open,html body #wne-companion-laun
        else if(action==='storage')location.assign('/storage');
        else if(action==='safety')location.assign('/safety');
      }
-   }catch(err){alert(err.message||String(err))}
+   }catch(err){window.WNEDialogs.notice(err.message||String(err))}
    finally{target.disabled=false}
  });
  for(const [proxy,legacy] of [['wne-more-tv','tvmode'],['wne-more-theme','theme'],['wne-more-typewriter','wne-typewriter']]){
    document.getElementById(proxy)?.addEventListener('click',()=>{if(typeof closeMore==='function')closeMore();performClick(legacy)})
  }
  const reader=document.getElementById('wne-writer-reader');
- reader?.addEventListener('click',async e=>{e.preventDefault();try{await ensureSaved('before Reader');location.assign(reader.getAttribute('href'))}catch(err){alert(err.message||String(err))}});
+ reader?.addEventListener('click',async e=>{e.preventDefault();try{await ensureSaved('before Reader');location.assign(reader.getAttribute('href'))}catch(err){window.WNEDialogs.notice(err.message||String(err))}});
 })();
 </script><style id="wne-0965-kindle-style">
 #wne-writer-kindle{width:min(490px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow-y:auto;border:1px solid #b9a17b;border-radius:17px;padding:22px;background:#fffaf2;color:#30271e;box-shadow:0 12px 60px #0008;font:15px system-ui;line-height:1.5}
@@ -2437,7 +2437,7 @@ body.dark #wne-writer-kindle,body.tv #wne-writer-kindle{color:#30271e}
      const saved=await window.wneSaveBeforeNavigation('before offline proofreading');
      if(!saved)throw Error('Unable to verify that your latest writing has been saved. Stay in Writer and check Save status.');
      window.location.assign('/proofread');
-   }catch(error){alert('Proofreading did not start. '+error.message);going=false;if(btn)btn.disabled=false;if(fileBtn)fileBtn.disabled=false;}
+   }catch(error){window.WNEDialogs.notice('Proofreading did not start. '+error.message);going=false;if(btn)btn.disabled=false;if(fileBtn)fileBtn.disabled=false;}
  }
  if(btn)btn.addEventListener('click',openProof);
  if(fileBtn)fileBtn.addEventListener('click',openProof);
@@ -2585,7 +2585,7 @@ audioButton.addEventListener('click',async()=>{
   if(!response.ok)throw new Error(result.error||'Unable to start Audio Lab');
   window.location.href=result.url;
  }catch(error){
-  alert('Audio Lab: '+error.message);
+  window.WNEDialogs.notice('Audio Lab: '+error.message);
  }finally{
   audioButton.disabled=false;
  }
@@ -3052,20 +3052,20 @@ setInterval(async()=>{if(panel.hidden)return;try{const lib=await get('/api/libra
 <script>
 async function wneGoToProofreadingMark(mark){
  try{
-  if(typeof data==='undefined'||!data||!Array.isArray(data.chapters)){alert('Manuscript is still loading. Try again.');return}
+  if(typeof data==='undefined'||!data||!Array.isArray(data.chapters)){window.WNEDialogs.notice('Manuscript is still loading. Try again.');return}
   const chapter=data.chapters.find(c=>c.id===mark.chapter_id);
-  if(!chapter){alert('This chapter is no longer present. The proofreading note is still saved.');return}
+  if(!chapter){window.WNEDialogs.notice('This chapter is no longer present. The proofreading note is still saved.');return}
   if(data.active!==chapter.id)await switchChapter(chapter.id);
-  if(data.active!==chapter.id){alert('Could not open the flagged chapter.');return}
+  if(data.active!==chapter.id){window.WNEDialogs.notice('Could not open the flagged chapter.');return}
   const editor=document.getElementById('editor'),quote=mark.quote||'';
   const walker=document.createTreeWalker(editor,NodeFilter.SHOW_TEXT),nodes=[];
   let node,full='';
   while((node=walker.nextNode())){nodes.push({node,start:full.length,end:full.length+node.textContent.length});full+=node.textContent}
   let start=full.indexOf(quote);
-  if(start<0){alert('Opened the correct chapter, but the highlighted wording has changed or spans formatting boundaries. Your note is preserved in Companion.');editor.scrollIntoView({block:'start'});return}
+  if(start<0){window.WNEDialogs.notice('Opened the correct chapter, but the highlighted wording has changed or spans formatting boundaries. Your note is preserved in Companion.');editor.scrollIntoView({block:'start'});return}
   const end=start+quote.length;
   const first=nodes.find(n=>n.end>start),last=nodes.find(n=>n.end>=end);
-  if(!first||!last){alert('Found the wording, but could not locate it visually.');return}
+  if(!first||!last){window.WNEDialogs.notice('Found the wording, but could not locate it visually.');return}
   const range=document.createRange();range.setStart(first.node,start-first.start);range.setEnd(last.node,end-last.start);
   const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);
   const rect=range.getBoundingClientRect();
@@ -3073,7 +3073,7 @@ async function wneGoToProofreadingMark(mark){
   else first.node.parentElement.scrollIntoView({block:'center',behavior:'smooth'});
   // Native selection is intentionally used instead of modifying editor HTML.
   // It remains editable and no extra markup enters autosaved manuscript content.
- }catch(e){alert('Could not jump to passage: '+e.message)}
+ }catch(e){window.WNEDialogs.notice('Could not jump to passage: '+e.message)}
 }
 </script>
 <style id="wne-1001-mobile-menu-fix">
@@ -3336,7 +3336,7 @@ const button=document.createElement('button');button.id='dd-insert-image';button
 const file=document.getElementById('dd-image-file'),caption=document.getElementById('dd-image-caption'),source=document.getElementById('dd-image-source'),msg=document.getElementById('dd-image-error');
 let insertion=null;
 button.addEventListener('click',()=>{
- if(editor.contentEditable!=='true'){alert('Open an editable research document first.');return}
+ if(editor.contentEditable!=='true'){window.WNEDialogs.notice('Open an editable research document first.');return}
  const sel=getSelection();insertion=sel&&sel.rangeCount&&editor.contains(sel.anchorNode)?sel.getRangeAt(0).cloneRange():null;
  file.value='';caption.value='';source.value='';msg.textContent='';dialog.showModal();
 });
@@ -3609,7 +3609,7 @@ document.getElementById('dd-load-saved-compare').onclick=()=>{
  availability.textContent='Loaded '+cases.length+' cases from '+(selectedBoard.name||'Board')+'.';
  msg.textContent='Saved comparison loaded. Choose Table, Summary or Both, then insert.';
 };
-button.onclick=()=>{if(editor.contentEditable!=='true'){alert('Open an editable document first.');return;}dlg.showModal();showBoards()};
+button.onclick=()=>{if(editor.contentEditable!=='true'){window.WNEDialogs.notice('Open an editable document first.');return;}dlg.showModal();showBoards()};
 document.getElementById('dd-comparison-cancel').onclick=()=>dlg.close();
 picker.onchange=async()=>{try{const f=picker.files[0];if(!f)return;if(f.size>300000)throw Error('JSON file too large');area.value=await f.text();msg.textContent='Loaded file'}catch(e){msg.textContent=e.message}};
 const element=(tag,value)=>{const n=document.createElement(tag);if(value!==undefined)n.textContent=String(value);return n};
