@@ -113,10 +113,10 @@ function threadedComments(items){
  for(const item of source)if(!seen.has(String(item.id||'')))visit(item,0);
  return out;
 }
-function mountCommentCard(card,header,body,flag,id,onReply){
+function mountCommentCard(card,header,body,flag,id,onReply,context={}){
  if(!card||!header||!body||!flag)return false;
  const content=make('div','dd-comment-main');
- const rail=make('div','dd-comment-action-rail');
+ const rail=make('div','dd-comment-action-rail dd-action-rail');
  card.classList.add('dd-comment-card');
  header.classList.add('dd-comment-head');
  body.classList.add('dd-comment-body');
@@ -136,6 +136,24 @@ function mountCommentCard(card,header,body,flag,id,onReply){
  content.append(header,body);
  card.replaceChildren(content,rail);
  mount(rail,'comment',id);
+ // Every public comment has the same star/share controls and a real
+ // permalink to its parent discussion, not an invented external source.
+ const caseId=String(context?.discussionKey||'');
+ if(caseId.length>=6&&caseId.length<=180&&/^(news|video|archive|case|hearing):/.test(caseId)){
+  const link=new URL('/',location.origin);
+  link.searchParams.set('dd_tab',caseId.startsWith('news:')?'discover':caseId.startsWith('video:')?'clips':'archivePage');
+  link.searchParams.set('dd_discussion',caseId);
+  link.searchParams.set('dd_comment',String(id));
+  const label=String(context?.title||'Community discussion').slice(0,100);
+  const star=make('button','dd-action-board','☆');
+  star.type='button';star.title='Add this comment to an Investigation Board';
+  star.setAttribute('aria-label','Add comment to Board');
+  star.addEventListener('click',()=>window.DDSavePublicLinkToBoard?.(label,link.href));
+  const share=make('button','dd-action-share','↗ Share');
+  share.type='button';share.title='Share direct public comment link';
+  share.addEventListener('click',()=>void window.DDSharePublicLink?.(label,link.href));
+  rail.append(star,share);
+ }
  if(typeof onReply==='function'){
   const reply=make('button','dd-comment-reply-button','↳ Reply');
   reply.type='button';reply.setAttribute('aria-label','Reply to this comment');
