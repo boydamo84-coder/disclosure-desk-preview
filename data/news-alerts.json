@@ -468,8 +468,7 @@
     "date": "2026-06-12T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-06/260612-ufo-files-ch-0912-4d1dae.jpg",
-    "publisherUrl": "https://www.nbcnews.com/politics/national-security/third-batch-declassified-ufo-files-reveals-sightings-world-investigate-rcna349775"
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-06/260612-ufo-files-ch-0912-4d1dae.jpg"
   },
   {
     "id": "cff61608291853c6b56f",
@@ -591,7 +590,8 @@
     "date": "2026-05-22T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/e06b/live/6ec4a980-56a9-11f1-89a3-d1f559421220.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/e06b/live/6ec4a980-56a9-11f1-89a3-d1f559421220.jpg",
+    "publisherUrl": "https://www.bbc.com/news/articles/cn8pzzlyy66o"
   },
   {
     "id": "4c065819660f60cbe9b5",
