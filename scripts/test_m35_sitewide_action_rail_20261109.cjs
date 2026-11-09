@@ -28,7 +28,7 @@ assert.match(page,/id="dd-m35-one-action-rail"/);
 assert.match(page,/#newsGrid article>\.dd-news-actions>\.dd-news-main-actions\.dd-action-rail/);
 assert.match(page,/\.dd-comment-card \.dd-comment-action-rail\.dd-action-rail/);
 assert.match(page,/#discussionsPage \.dd-forum-actions\.dd-action-rail/);
-assert.match(page,/dd-action-share[^\n]*\{margin-left:auto!important/);
+assert.match(page,/dd-action-share,[\s\S]*?\{margin-left:auto!important/);
 // The SAME set of controls is consistently available where backed by existing RPCs.
 assert.match(forum,/dd-forum-actions dd-action-rail/);
 assert.match(forum,/dd-forum-star-action/);
