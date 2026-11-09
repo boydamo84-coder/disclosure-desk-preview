@@ -28,6 +28,10 @@ jobs:
           node scripts/test_m35_sitewide_action_rail_20261109.cjs
           node --check scripts/test_m37_approved_rails_github_news_20261109.cjs
           node scripts/test_m37_approved_rails_github_news_20261109.cjs
+          node --check scripts/test_m38_hearing_inline_and_wide_rails_20261109.cjs
+          node scripts/test_m38_hearing_inline_and_wide_rails_20261109.cjs
+          node --check assets/live-hearings.js
+          node --check assets/live-schedule.js
           node --check scripts/test_search_indexing.cjs
           node scripts/test_search_indexing.cjs
           node --check assets/news-article-votes.js
@@ -165,6 +169,8 @@ jobs:
           node scripts/test_comment_action_rail_chromium_20261108.cjs
           node --check scripts/test_m35_action_rail_chromium_20261109.cjs
           node scripts/test_m35_action_rail_chromium_20261109.cjs
+          node --check scripts/test_m38_hearing_inline_and_wide_rails_chromium_20261109.cjs
+          node scripts/test_m38_hearing_inline_and_wide_rails_chromium_20261109.cjs
           node scripts/audit_full_site_chromium_20261108.cjs
           node scripts/test_m28_public_workflows_chromium_20261108.cjs
           node scripts/test_research_home_navigation_chromium_20261108.cjs
