@@ -419,7 +419,7 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
  dislike.setAttribute('aria-pressed',String(Number(row.my_vote)===-1));
  if(kind==='thread'){
   const commentCount=Number.isFinite(Number(row.reply_count))?Number(row.reply_count):0;
-  const comments=nodeAction(parent,'💬 '+commentCount,async()=>{
+  const comments=nodeAction(parent,'Comments ('+commentCount+')',async()=>{
    if(inDetail&&thread?.id===row.id){chooseReply(null,true);return}
    await openThread(row);
    if(thread?.id===row.id)chooseReply(null,true);
@@ -429,8 +429,7 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
   setActionIcon(star,'star','☆');
   star.setAttribute('aria-label','Save post to an Investigation Board');
   star.setAttribute('title','Add to Board');
-  const share=nodeAction(parent,'⤴',()=>shareThread(row),'dd-forum-icon-button dd-forum-share-action');
-  setActionIcon(share,'share','⤴');
+  const share=nodeAction(parent,'↗ Share',()=>shareThread(row),'dd-forum-icon-button dd-forum-share-action');
   share.setAttribute('aria-label','Share this post');
   share.setAttribute('title','Share');
   // Same action order as News: adjacent votes, Board, Share, Comments.
@@ -442,8 +441,7 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
   const board=nodeAction(parent,'☆',()=>saveThread(thread),'dd-forum-icon-button dd-forum-star-action');
   board.setAttribute('aria-label','Save parent discussion to Investigation Board');
   board.setAttribute('title','Add discussion to Board');
-  const shared=nodeAction(parent,'⤴',()=>shareThread(thread),'dd-forum-icon-button dd-forum-share-action');
-  setActionIcon(shared,'share','⤴');
+  const shared=nodeAction(parent,'↗ Share',()=>shareThread(thread),'dd-forum-icon-button dd-forum-share-action');
   shared.setAttribute('aria-label','Share parent discussion');
   shared.setAttribute('title','Share discussion');
  }
