@@ -3033,5 +3033,76 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
 .dd-witness-report .dd-witness-action-rail .dd-action-board{font-size:22px!important;color:#eac78c!important}
 .dd-witness-report .dd-witness-action-rail .dd-action-share svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .dd-witness-report .dd-witness-action-rail button:focus-visible{outline:2px solid #eac78c!important;outline-offset:-2px!important}
+
+/* M38 final audit: responsive compact rails and inline hearing comments. */
+#ddCaseDiscussionDialog .dd-case-discussion-actions{
+ display:flex!important;flex-flow:row nowrap!important;align-items:center!important;
+ justify-content:flex-start!important;gap:4px!important;width:100%!important;
+ box-sizing:border-box!important;min-width:0!important;min-height:48px!important;
+ padding:4px 6px!important;margin:8px 0!important;
+ background:#081722!important;border-top:1px solid #42566b!important;
+ overflow-x:auto;scrollbar-width:thin
+}
+#ddCaseDiscussionDialog .dd-case-discussion-actions button{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ flex:0 0 auto!important;width:auto!important;min-width:40px!important;
+ min-height:40px!important;height:40px!important;padding:5px 7px!important;
+ margin:0!important;font:650 15px/1.2 system-ui!important;
+ background:transparent!important;border:1px solid transparent!important;
+ color:#e9d7b4!important;border-radius:7px!important
+}
+#ddCaseDiscussionDialog .dd-case-discussion-actions #ddCommentsToggle{
+ display:inline-flex!important;width:auto!important;min-width:40px!important;
+ min-height:40px!important;height:40px!important;
+ text-align:center!important;padding:5px 7px!important;margin:0!important;
+ font:650 15px/1.2 system-ui!important;border:1px solid transparent!important;
+ border-radius:7px!important
+}
+#ddCaseDiscussionDialog .dd-case-discussion-actions .dd-action-board{font-size:22px!important;color:#eac78c!important}
+#ddCaseDiscussionDialog .dd-case-discussion-actions .dd-action-share svg{
+ width:21px;height:21px;fill:none;stroke:currentColor;
+ stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round
+}
+.dd-hearing-comments-toggle{
+ display:inline-flex;align-items:center;justify-content:center;
+ min-width:100px;min-height:42px;margin:10px 0 6px;padding:8px 12px;
+ color:#e9d7b4;background:#081722;border:1px solid #42566b;
+ border-radius:8px;font:650 13px/1.2 system-ui;cursor:pointer
+}
+.dd-hearing-comments-host[hidden]{display:none!important}
+.dd-hearing-comments-host{width:100%;min-width:0;box-sizing:border-box;margin:3px 0 12px}
+#ddCaseDiscussionDialog.dd-case-discussion-inline{
+ display:block;position:relative!important;inset:auto!important;
+ z-index:auto!important;width:100%!important;max-width:100%!important;
+ overflow:visible!important;background:transparent!important;padding:0!important
+}
+#ddCaseDiscussionDialog.dd-case-discussion-inline[hidden]{display:none!important}
+@media(min-width:760px){
+ /* On wide cards all supported actions form ONE right-aligned compact group,
+    never full-width buttons or spaced-out separate clusters. */
+ #newsGrid article>.dd-news-actions>.dd-news-main-actions.dd-action-rail,
+ #discussionsPage .dd-forum-actions.dd-action-rail,
+ .dd-comment-card .dd-comment-action-rail.dd-action-rail,
+ .dd-witness-report .dd-witness-action-rail,
+ #ddCaseDiscussionDialog .dd-case-discussion-actions{
+  justify-content:flex-end!important;gap:6px!important
+ }
+ #newsGrid article>.dd-news-actions>.dd-news-main-actions.dd-action-rail>*,
+ #discussionsPage .dd-forum-actions.dd-action-rail>*,
+ .dd-comment-card .dd-comment-action-rail.dd-action-rail>*,
+ .dd-witness-report .dd-witness-action-rail>*,
+ #ddCaseDiscussionDialog .dd-case-discussion-actions>*{
+  flex:0 0 auto!important;width:auto!important;max-width:none!important
+ }
+ #discussionsPage .dd-action-rail .dd-forum-reply-action,
+ #discussionsPage .dd-action-rail .dd-forum-danger,
+ .dd-comment-card .dd-action-rail .dd-comment-reply-button,
+ #newsGrid .dd-action-rail .dd-action-share,
+ #discussionsPage .dd-action-rail .dd-forum-share-action,
+ .dd-comment-card .dd-action-rail .dd-action-share{
+  margin-left:0!important
+ }
+ .dd-hearing-comments-toggle{display:flex;width:max-content;margin-left:auto}
+}
 </style>
 </body></html>
