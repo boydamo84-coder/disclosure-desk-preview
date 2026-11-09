@@ -436,6 +436,17 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
   // Same action order as News: adjacent votes, Board, Share, Comments.
   parent.append(comments);
  }
+ if(kind==='reply'&&thread){
+  // A reply's source is its parent discussion; Board and Share never
+  // fabricate a link to a separate, non-existent public comment page.
+  const board=nodeAction(parent,'☆',()=>saveThread(thread),'dd-forum-icon-button dd-forum-star-action');
+  board.setAttribute('aria-label','Save parent discussion to Investigation Board');
+  board.setAttribute('title','Add discussion to Board');
+  const shared=nodeAction(parent,'⤴',()=>shareThread(thread),'dd-forum-icon-button dd-forum-share-action');
+  setActionIcon(shared,'share','⤴');
+  shared.setAttribute('aria-label','Share parent discussion');
+  shared.setAttribute('title','Share discussion');
+ }
  parent.append(mk('span',undefined,'dd-forum-spacer'));
  if(row.is_mine){
   const posted=Date.parse(row.created_at);
