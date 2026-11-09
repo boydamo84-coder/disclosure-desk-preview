@@ -164,7 +164,7 @@ function appendReplyCard(list,row,replyLookup){
 }
 async function openThread(item){
  if(!isId(item?.id))return;thread=item;replyParent=null;setCreateButtons();
- $('ddForumThreadPane').classList.add('dd-forum-detail-open');
+ $('ddForumThreadPane').classList?.add?.('dd-forum-detail-open');
  $('ddForumThreadTitle').textContent=item.title||'Discussion';
  $('ddForumPostCreate').hidden=true;
  $('ddForumPostList').hidden=true;
@@ -471,7 +471,7 @@ async function loadThreads(){
  if(!section)return;
  const id=section.id,stamp=++epoch,list=$('ddForumPostList');empty(list,'Loading discussions…');
  $('ddForumReplyPane').hidden=true;
- $('ddForumThreadPane').classList.remove('dd-forum-detail-open');
+ $('ddForumThreadPane').classList?.remove?.('dd-forum-detail-open');
  const count=$('ddForumPageStatus'),prev=$('ddForumPrev'),next=$('ddForumNext');
  if(count)count.textContent='Loading…';
  try{
@@ -622,7 +622,7 @@ function init(){
  setCreateButtons();
  $('ddForumSearch').addEventListener('input',drawSections);
  $('ddForumBackSections').onclick=()=>{thread=null;section=null;setCreateButtons();++epoch;$('ddForumSectionsPane').hidden=false;$('ddForumThreadPane').hidden=true;void refresh()};
- $('ddForumBackThreads').onclick=()=>{thread=null;replyParent=null;$('ddForumThreadPane').classList.remove('dd-forum-detail-open');setCreateButtons();++epoch;$('ddForumPostCreate').hidden=false;$('ddForumPostList').hidden=false;$('ddForumSortLabel').hidden=false;$('ddForumStewardPanel').hidden=!section?.is_steward;$('ddForumReplyPane').hidden=true;$('ddForumThreadTitle').textContent=section?.title||'Section';void loadThreads()};
+ $('ddForumBackThreads').onclick=()=>{thread=null;replyParent=null;$('ddForumThreadPane').classList?.remove?.('dd-forum-detail-open');setCreateButtons();++epoch;$('ddForumPostCreate').hidden=false;$('ddForumPostList').hidden=false;$('ddForumSortLabel').hidden=false;$('ddForumStewardPanel').hidden=!section?.is_steward;$('ddForumReplyPane').hidden=true;$('ddForumThreadTitle').textContent=section?.title||'Section';void loadThreads()};
  $('ddForumSort').onchange=event=>{sort=event.target.value;feedPage=0;void loadThreads()};
  const feedSearch=$('ddForumFeedSearch');
  if(feedSearch)feedSearch.oninput=event=>{
