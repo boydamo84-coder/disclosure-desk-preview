@@ -197,7 +197,11 @@ async function openThread(item){
 }
 async function loadReplies(){
  if(!thread)return;
- const id=thread.id,stamp=++epoch,list=$('ddForumReplies');empty(list,'Loading replies…');
+ const id=thread.id,stamp=++epoch,list=$('ddForumReplies');
+ // A refresh must not destroy an in-progress inline reply draft.
+ const activeForm=$('ddForumReplyCreate');
+ if(activeForm&&list.contains(activeForm))$('ddForumReplyContent')?.after(activeForm);
+ empty(list,'Loading replies…');
  try{
   const rows=await rpc('dd_discussions_replies',{p_thread_id:id,p_limit:100});
   if(stamp!==epoch||thread?.id!==id)return;
