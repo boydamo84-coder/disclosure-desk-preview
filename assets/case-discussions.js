@@ -32,6 +32,8 @@ async function load(){
 function chooseReply(item){
  replyTo=item&&item.id?{id:item.id,alias:item.publicAlias||'this commenter'}:null;
  const form=document.getElementById('ddCaseDiscussionForm'),input=document.getElementById('ddCaseDiscussionBody');
+ if(form)form.hidden=false;
+ const submit=form?.querySelector('button[type="submit"]');if(submit)submit.textContent=replyTo?'Post reply':'Post comment';
  let context=document.getElementById('ddCaseReplyContext');
  if(!context&&form){context=document.createElement('p');context.id='ddCaseReplyContext';context.className='dd-comment-reply-context';form.prepend(context)}
  if(context)context.textContent=replyTo?'Replying to '+replyTo.alias+' · your reply will appear beneath this comment.':'Commenting on '+String(document.querySelector('#ddCaseDiscussionDialog h2')?.textContent||'this discussion');
@@ -94,6 +96,9 @@ function init(){
  root.style.cssText='position:fixed;inset:0;z-index:100100;background:#050b13ed;overflow-y:auto;padding:14px';
  root.innerHTML='<section role="dialog" aria-modal="true" aria-label="Case discussion" style="max-width:700px;margin:auto;background:#112131;border:1px solid #9e875d;border-radius:14px;padding:18px;color:#f4ead9"><button type="button" id="ddCaseDiscussionClose" class="outline" style="float:right">✕ Close</button><h2>Case Discussion</h2><p class="muted small">Comments are community contributions, not verified evidence. Comments appear immediately. Flag inappropriate content for moderation.</p><button id="ddCommentsToggle" type="button" class="outline" aria-expanded="false" aria-controls="ddCaseDiscussionList" style="display:block;margin:12px 0">Comments ▼</button><div id="ddCaseDiscussionList" aria-live="polite"></div><form id="ddCaseDiscussionForm"><label for="ddCaseDiscussionBody">Add a comment (registered users)</label><textarea id="ddCaseDiscussionBody" minlength="3" maxlength="2000" required rows="4" style="width:100%;margin:10px 0" placeholder="Ask a question or share a source reference. Never post personal details."></textarea><button type="submit">Post comment</button></form><p id="ddCaseDiscussionStatus" role="status" class="muted small"></p></section>';
  document.body.append(root);
+ const composer=document.getElementById('ddCaseDiscussionForm');
+ const toggleNode=document.getElementById('ddCommentsToggle');
+ if(composer&&toggleNode){toggleNode.after(composer);composer.hidden=true;}
  const profile=document.createElement('section');profile.hidden=true;profile.style.cssText='position:fixed;inset:0;z-index:100110;background:#06101bee;overflow:auto;padding:16px;color:#f5ead9';
  const profileBox=document.createElement('div');profileBox.style.cssText='max-width:680px;margin:auto;background:#102331;border:1px solid #99805b;border-radius:14px;padding:18px';
  const profileClose=document.createElement('button');profileClose.type='button';profileClose.textContent='✕ Close';profileClose.onclick=()=>profile.hidden=true;
@@ -122,12 +127,19 @@ function init(){
    }
  };
 
- document.querySelector('#ddCommentsToggle').onclick=()=>{expanded=!expanded;renderComments()};
+ document.querySelector('#ddCommentsToggle').onclick=()=>{
+  replyTo=null;expanded=!expanded;
+  const composer=document.getElementById('ddCaseDiscussionForm');
+  if(composer)composer.hidden=!expanded;
+  renderComments();
+  if(expanded){const input=document.getElementById('ddCaseDiscussionBody');if(input){input.focus();input.scrollIntoView({block:'nearest',behavior:'smooth'})}}
+ };
  document.querySelector('#ddCaseDiscussionClose').onclick=()=>{++dialogRevision;++loadRevision;root.hidden=true;document.body.style.overflow='';current=null;loadedComments=[];replyTo=null};
  root.addEventListener('click',e=>{if(e.target===root)document.querySelector('#ddCaseDiscussionClose').click()});
  window.ddOpenCaseDiscussion=(id,title='Case Discussion',focusComment=null)=>{
    if(!id)return;
    ++dialogRevision;current=String(id).slice(0,180);expanded=false;loadedComments=[];replyTo=null;
+   const composer=document.getElementById('ddCaseDiscussionForm');if(composer)composer.hidden=true;
    const opened=dialogRevision,chosen=current;
    const heading=root.querySelector('h2');if(heading)heading.textContent=title;
    root.hidden=false;document.body.style.overflow='hidden';
