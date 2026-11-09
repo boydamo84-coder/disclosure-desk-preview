@@ -25,6 +25,8 @@ jobs:
         run: |
           node --check scripts/build_public_release.cjs
           node --check scripts/prepare_wne_android_beta_assets.cjs
+          node --check scripts/validate_wne_writer_html.cjs
+          node scripts/validate_wne_writer_html.cjs
           node scripts/build_public_release.cjs
           node scripts/prepare_wne_android_beta_assets.cjs
           test -f android-wne-beta/app/src/main/assets/research/index.html
