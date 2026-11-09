@@ -48,7 +48,7 @@ body.layout-horizontal.mode-both main::-webkit-scrollbar-thumb{background:#bfa77
 .dd-workspace-site-return:focus-visible{outline:3px solid #f4d490;outline-offset:3px}
 #dd-studio-heading{display:flex;align-items:center;flex-wrap:wrap;gap:9px}
 @media(max-width:440px){.dd-workspace-site-return{font-size:11px;padding:7px 8px}}
-</style></head><body class="mode-both"><header><div id="dd-studio-heading"><strong>Disclosure Desk · Research Studio</strong><button id="dd-documents-btn" type="button" title="Open Research Studio Home">⌂ Home</button></div><div role="group" aria-label="Workspace layout"><button type="button" id="writerBtn" aria-pressed="false">✍ Editor</button><button type="button" id="bibleBtn" aria-pressed="false">📚 Research Library</button><button type="button" id="bothBtn" aria-pressed="true">◫ Side by side</button></div><label id="librarySizeControl" title="Adjust Research Library text size">Library text <input id="librarySize" type="range" min="70" max="120" step="5" value="85" aria-label="Research Library text size"><output id="librarySizeValue">85%</output></label><button id="editorHeaderTools" type="button" aria-expanded="true">⌃ Hide tools</button><span class="note">Research Edition · Powered by W.NE</span></header><dialog id="dd-documents-dialog" aria-labelledby="dd-documents-title">
+<style id="dd-first-document-v1">#writer[hidden],#dd-first-document[hidden]{display:none!important}#editorPanel{position:relative;min-width:0;min-height:0}#dd-first-document{display:flex;align-items:center;justify-content:center;min-height:100%;padding:clamp(14px,3vw,28px);box-sizing:border-box;background:#0b1d2b}.dd-first-document-card{width:min(420px,100%);padding:clamp(16px,4vw,28px);border:1px solid #54697a;border-radius:16px;background:#142a3b;text-align:center;overflow-wrap:anywhere}.dd-first-document-card h2{font-size:clamp(20px,5vw,25px);color:#e4c58b;margin:0 0 12px}.dd-first-document-card p{line-height:1.5}.dd-first-document-card button{min-height:44px;margin:10px auto;background:#d9c18e;border-color:#d9c18e;color:#122333;font-weight:700}.dd-first-document-card button:focus-visible{outline:3px solid #efcd7d;outline-offset:2px}</style></style></head><body class="mode-both"><header><div id="dd-studio-heading"><strong>Disclosure Desk · Research Studio</strong><button id="dd-documents-btn" type="button" title="Open Research Studio Home">⌂ Home</button></div><div role="group" aria-label="Workspace layout"><button type="button" id="writerBtn" aria-pressed="false">✍ Editor</button><button type="button" id="bibleBtn" aria-pressed="false">📚 Research Library</button><button type="button" id="bothBtn" aria-pressed="true">◫ Side by side</button></div><label id="librarySizeControl" title="Adjust Research Library text size">Library text <input id="librarySize" type="range" min="70" max="120" step="5" value="85" aria-label="Research Library text size"><output id="librarySizeValue">85%</output></label><button id="editorHeaderTools" type="button" aria-expanded="true">⌃ Hide tools</button><span class="note">Research Edition · Powered by W.NE</span></header><dialog id="dd-documents-dialog" aria-labelledby="dd-documents-title">
 <h2 id="dd-documents-title">Research Studio Home</h2><p>Welcome back. Open an investigation document or start a new report. Your existing research stays untouched.</p><div id="dd-home-status" aria-live="polite">Research Studio beta · check the saved status before leaving</div><div id="dd-live-readiness"><strong>Research Studio beta · cloud integration</strong><div>Signed-in research documents use the existing Disclosure Desk cloud account. Some older Research Library references, local Board copies and backups may still be device-only.</div><div>Before public launch: verify account isolation, cross-device reopening, protected storage and restore. Keep an independent backup of important reports.</div></div><details id="dd-cloud-staging" style="margin:12px 0;padding:12px;border:1px solid #627487;border-radius:10px">
 <summary style="cursor:pointer;color:#e3c18d;font-weight:700">☁️ Cloud documents · staging preview</summary>
 <p style="font-size:12px">Manual cloud copies for testing only. Your existing local files and Boards are never deleted or overwritten.</p>
@@ -67,7 +67,7 @@ body.layout-horizontal.mode-both main::-webkit-scrollbar-thumb{background:#bfa77
 <p style="display:flex;gap:13px;flex-wrap:wrap;font-size:13px"><a href="./restore-library.html" title="Restore a private library ZIP as new cloud copies">↻ Restore library ZIP</a><a href="./restore-copy.html" title="Restore one W.NE JSON backup as a new cloud copy">Restore single JSON</a></p>
 <div id="dd-documents-list" role="group" aria-label="Saved documents"></div>
 <div class="dd-doc-actions"><input id="dd-new-document-name" maxlength="150" placeholder="New document name"><button id="dd-create-document" type="button">＋ New research document</button><button id="dd-close-documents" type="button">Continue to editor</button></div>
-<p id="dd-documents-status" role="status"></p></dialog><main><div id="editorPanel"><iframe id="writer" title="Research Studio report editor" src="./wne.html" loading="eager"></iframe></div><div id="splitter" role="separator" aria-label="Resize research panels" aria-orientation="vertical" tabindex="0" title="Drag to resize panels"></div><iframe id="bible" title="Research Library and investigation boards" src="./research-bible.html" loading="eager"></iframe></main><script>
+<p id="dd-documents-status" role="status"></p></dialog><main><div id="editorPanel"><div id="dd-first-document" role="status" aria-live="polite"><div class="dd-first-document-card"><h2>Your Research Studio is ready</h2><p>No cloud document is open yet. Create your first research report or open an existing report from Home.</p><button id="dd-first-document-button" type="button">＋ Create or open a document</button><p class="note">Your research is saved to your signed-in Disclosure Desk account, not to a local Python server.</p></div></div><iframe id="writer" title="Research Studio report editor" src="about:blank" loading="eager" hidden></iframe></div><div id="splitter" role="separator" aria-label="Resize research panels" aria-orientation="vertical" tabindex="0" title="Drag to resize panels"></div><iframe id="bible" title="Research Library and investigation boards" src="./research-bible.html" loading="eager"></iframe></main><script>
 /* Pass the selected cloud document to the canonical W.NE iframe. */
 (()=>{
  const query=new URLSearchParams(location.search);
@@ -75,10 +75,22 @@ body.layout-horizontal.mode-both main::-webkit-scrollbar-thumb{background:#bfa77
  const remembered=sessionStorage.getItem('wne-research-active-document');
  const id=/^[0-9a-f-]{36}$/i.test(raw||'')?raw:/^[0-9a-f-]{36}$/i.test(remembered||'')?remembered:null;
  const writer=document.getElementById('writer');
+ const empty=document.getElementById('dd-first-document');
+ window.ddResearchShowEditor=function(){
+  if(!writer)return;
+  writer.hidden=false;
+  if(empty)empty.hidden=true;
+  document.body.dataset.researchFirstDocument='false';
+ };
  if(id&&writer){
   sessionStorage.setItem('wne-research-active-document',id);
   if(raw!==id)history.replaceState(null,'',location.pathname+'?id='+encodeURIComponent(id));
+  window.ddResearchShowEditor();
   writer.src='./wne.html?id='+encodeURIComponent(id);
+ }else{
+  // A new account must not load the original Writer with no document ID.
+  // The old editor boot previously showed an unrelated Python-server alert.
+  document.body.dataset.researchFirstDocument='true';
  }
 })();
 </script>
@@ -170,12 +182,21 @@ async function refresh(){
  if(!items.length){const n=document.createElement('p');n.textContent='No documents saved yet.';list.append(n)}
  for(const item of items){
  const btn=document.createElement('button');btn.type='button';btn.textContent=(item.active?'✓ ':'📄 ')+(item.title||'Untitled document');btn.setAttribute('aria-current',String(!!item.active));
- btn.onclick=async()=>{if(switching)return;switching=true;try{btn.disabled=true;msg.textContent='Confirming current document is saved…';await requireCurrentSaved('before switching Research documents');msg.textContent='Opening…';await api({action:'open',id:item.id});dlg.close();document.getElementById('writerBtn')?.click();sessionStorage.setItem('wne-research-active-document',item.id);history.replaceState(null,'',location.pathname+'?id='+encodeURIComponent(item.id));writer.src='./wne.html?id='+encodeURIComponent(item.id);}catch(e){msg.textContent=e.message}finally{btn.disabled=false;switching=false}};
+ btn.onclick=async()=>{if(switching)return;switching=true;try{btn.disabled=true;msg.textContent='Confirming current document is saved…';await requireCurrentSaved('before switching Research documents');msg.textContent='Opening…';await api({action:'open',id:item.id});dlg.close();document.getElementById('writerBtn')?.click();sessionStorage.setItem('wne-research-active-document',item.id);history.replaceState(null,'',location.pathname+'?id='+encodeURIComponent(item.id));window.ddResearchShowEditor?.();writer.src='./wne.html?id='+encodeURIComponent(item.id);}catch(e){msg.textContent=e.message}finally{btn.disabled=false;switching=false}};
  list.append(btn);
  }
 }
 document.addEventListener('dd-research-library-updated',async()=>{try{await refresh()}catch(e){msg.textContent='Could not refresh document list: '+e.message}});
 document.getElementById('dd-documents-btn').onclick=async()=>{dlg.showModal();msg.textContent='';try{await refresh()}catch(e){msg.textContent=e.message}};
+document.getElementById('dd-first-document-button')?.addEventListener('click',()=>document.getElementById('dd-documents-btn')?.click());
+// On an account with no selected document, show Home instead of attempting to
+// boot W.NE. Auth gating still controls visibility and all writes use RLS.
+if(document.body.dataset.researchFirstDocument==='true'){
+ setTimeout(()=>{
+  if(document.body.dataset.researchFirstDocument!=='true')return;
+  document.getElementById('dd-documents-btn')?.click();
+ },0);
+}
 document.getElementById('dd-close-documents').onclick=()=>dlg.close();
 // Restoring a backup opens a separate page; never leave this editor until
 // the active document is confirmed saved. Keyboard and touch clicks both use
@@ -198,7 +219,7 @@ document.getElementById('dd-create-document').onclick=async()=>{
  if(switching)return;
  const input=document.getElementById('dd-new-document-name'),name=input.value.trim();if(!name){msg.textContent='Enter a document name first.';return}
  switching=true;const button=document.getElementById('dd-create-document');button.disabled=true;
- try{msg.textContent='Confirming current document is saved…';await requireCurrentSaved('before creating a new Research document');msg.textContent='Creating…';const created=await api({action:'create',title:name,mode:'study',structure:'sections'});if(!created.id)throw Error('Created document ID unavailable');await api({action:'open',id:created.id});input.value='';dlg.close();document.getElementById('writerBtn')?.click();sessionStorage.setItem('wne-research-active-document',created.id);history.replaceState(null,'',location.pathname+'?id='+encodeURIComponent(created.id));writer.src='./wne.html?id='+encodeURIComponent(created.id);}catch(e){msg.textContent=e.message}finally{button.disabled=false;switching=false}
+ try{msg.textContent='Confirming current document is saved…';await requireCurrentSaved('before creating a new Research document');msg.textContent='Creating…';const created=await api({action:'create',title:name,mode:'study',structure:'sections'});if(!created.id)throw Error('Created document ID unavailable');await api({action:'open',id:created.id});input.value='';dlg.close();document.getElementById('writerBtn')?.click();sessionStorage.setItem('wne-research-active-document',created.id);history.replaceState(null,'',location.pathname+'?id='+encodeURIComponent(created.id));window.ddResearchShowEditor?.();writer.src='./wne.html?id='+encodeURIComponent(created.id);}catch(e){msg.textContent=e.message}finally{button.disabled=false;switching=false}
 };
 // A standalone editor may reach this workspace only AFTER confirming its own
 // save. Open the actual in-page Research Home; never bounce to legacy /home.
