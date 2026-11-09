@@ -73,7 +73,7 @@ function mount(container){
     state.replyTo={id:target.id,alias:target.publicAlias||'this commenter'};
     state.expanded=true;drafts.set(id,{expanded:true,draft:body.value});render();
     body.focus({preventScroll:true});
-   })){
+   },{discussionKey:id,title:'News comment: '+String(container.closest('article')?.querySelector('.news-headline-link')?.textContent||'News article').slice(0,75)})){
     card.append(header,text,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);
    }
    entries.append(card);
