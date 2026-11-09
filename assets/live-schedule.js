@@ -122,6 +122,8 @@ function renderNewsNotice(items){
  updateNoticeClock();
 }
 function render(){
+ const active=document.getElementById('ddCaseDiscussionDialog');
+ if(active&&container?.contains(active))window.ddCloseInlineCaseDiscussion?.();
  if(!container)return;
  clearTimer();window.ddLiveChatClose?.();container.replaceChildren();
  const head=el('div','dd-hearing-summary');
@@ -167,6 +169,28 @@ function render(){
   }
   video.append(link('Official hearing details ↗',event.source));
   if(stream)video.append(link('Open publisher stream ↗',stream));
+  // Discussion is attached directly under this event's player, not another
+  // modal. Existing live chat remains beside the player and keeps its own rules.
+  const discussionButton=el('button','dd-hearing-comments-toggle outline','💬 Comments');
+  discussionButton.type='button';discussionButton.setAttribute('aria-expanded','false');
+  discussionButton.setAttribute('aria-label','Show hearing comments beneath the video');
+  const discussionHost=el('div','dd-hearing-comments-host');discussionHost.hidden=true;
+  discussionHost.id='dd-live-inline-comments-'+String(event.id).replace(/[^a-zA-Z0-9_-]/g,'-');
+  discussionButton.setAttribute('aria-controls',discussionHost.id);
+  discussionButton.onclick=()=>{
+   if(!discussionHost.hidden){
+    window.ddCloseInlineCaseDiscussion?.(discussionHost);
+    discussionHost.hidden=true;discussionButton.textContent='💬 Comments';
+    discussionButton.setAttribute('aria-expanded','false');return;
+   }
+   const opened=window.ddOpenInlineCaseDiscussion?.('hearing:'+event.id,'Hearing Discussion · '+event.title,discussionHost);
+   if(opened){discussionButton.textContent='💬 Hide comments';discussionButton.setAttribute('aria-expanded','true')}
+  };
+  discussionHost.addEventListener('dd-inline-discussion-closed',()=>{
+   discussionHost.hidden=true;discussionButton.textContent='💬 Comments';
+   discussionButton.setAttribute('aria-expanded','false');
+  });
+  video.append(discussionButton,discussionHost);
   cols.append(video);
   const chat=el('div','dd-live-chat-panel');
   cols.append(chat);card.append(cols);
