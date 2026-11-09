@@ -23,10 +23,10 @@ assert(migration.includes('enable row level security'));
 assert(migration.includes('grant execute on function public.dd_news_article_vote_set'));
 const applied=cp.spawnSync('psql',['-X','-v','ON_ERROR_STOP=1','-f','supabase/NEWS_ARTICLE_VOTING_REVIEW_NOT_APPLIED.sql'],{encoding:'utf8',env:process.env});
 if(applied.status!==0)throw Error('M34 migration SQL failed to compile: '+applied.stderr);
-assert.equal(psql(`select relrowsecurity::text from pg_class where oid='public.dd_news_article_votes'::regclass;`),'t');
-assert.equal(psql(`select has_table_privilege('authenticated','public.dd_news_article_votes','INSERT')::text;`),'f');
-assert.equal(psql(`select has_function_privilege('anon','public.dd_news_article_vote_set(text,smallint)','EXECUTE')::text;`),'f');
-assert.equal(psql(`select has_function_privilege('authenticated','public.dd_news_article_vote_set(text,smallint)','EXECUTE')::text;`),'t');
+assert.equal(psql(`select relrowsecurity::text from pg_class where oid='public.dd_news_article_votes'::regclass;`),'true');
+assert.equal(psql(`select has_table_privilege('authenticated','public.dd_news_article_votes','INSERT')::text;`),'false');
+assert.equal(psql(`select has_function_privilege('anon','public.dd_news_article_vote_set(text,smallint)','EXECUTE')::text;`),'false');
+assert.equal(psql(`select has_function_privilege('authenticated','public.dd_news_article_vote_set(text,smallint)','EXECUTE')::text;`),'true');
 function vote(actor,value,story=key,anonymous=false,shouldFail=false){
  const script=`BEGIN;
 SET LOCAL ROLE authenticated;
