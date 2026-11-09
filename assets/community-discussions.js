@@ -143,6 +143,8 @@ function chooseReply(target,focusComposer=false){
  if(!thread)return;
  replyParent=target&&isId(target.id)?target.id:null;
  const form=$('ddForumReplyCreate'),input=form?.elements?.namedItem('body');
+ if(form&&(target||focusComposer))form.hidden=false;
+ const submit=form?.querySelector?.('button[type="submit"]');if(submit)submit.textContent=replyParent?'Post reply':'Post comment';
  let note=$('ddForumReplyContext');
  if(!note&&form){note=mk('p','','dd-forum-reply-context');note.id='ddForumReplyContext';form.prepend(note)}
  if(note)note.textContent=replyParent?'Replying to '+String(target.author_name||'this comment')+' in “'+String(thread.title||'Discussion')+'”':'Commenting on “'+String(thread.title||'Discussion')+'”';
@@ -179,7 +181,11 @@ async function openThread(item){
  link(main,item.link_url,'Original source · '+(safeLink(item.link_url)?new URL(safeLink(item.link_url)).hostname:''));
  actionsFor(tools,'thread',item,true,tools.flagHost);
  pane.append(main,tools);
- $('ddForumReplyCreate').reset();
+ const replyForm=$('ddForumReplyCreate');
+ replyForm.hidden=true;
+ // Expand directly under the full post bar, not at the end of a long reply list.
+ pane.after?.(replyForm);
+ replyForm.reset();
  chooseReply(null);
  await loadReplies();
 }
@@ -395,7 +401,11 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
  dislike.setAttribute('aria-pressed',String(Number(row.my_vote)===-1));
  if(kind==='thread'){
   const commentCount=Number.isFinite(Number(row.reply_count))?Number(row.reply_count):0;
-  const comments=nodeAction(parent,'💬 '+commentCount,()=>inDetail&&thread?.id===row.id?chooseReply(null,true):openThread(row),'dd-forum-icon-button');
+  const comments=nodeAction(parent,'💬 '+commentCount,async()=>{
+   if(inDetail&&thread?.id===row.id){chooseReply(null,true);return}
+   await openThread(row);
+   if(thread?.id===row.id)chooseReply(null,true);
+  },'dd-forum-icon-button');
   comments.setAttribute('aria-label','Read '+commentCount+' comments');
   const star=nodeAction(parent,'☆',()=>saveThread(row),'dd-forum-icon-button');
   setActionIcon(star,'star','☆');
@@ -622,7 +632,7 @@ function init(){
  setCreateButtons();
  $('ddForumSearch').addEventListener('input',drawSections);
  $('ddForumBackSections').onclick=()=>{thread=null;section=null;setCreateButtons();++epoch;$('ddForumSectionsPane').hidden=false;$('ddForumThreadPane').hidden=true;void refresh()};
- $('ddForumBackThreads').onclick=()=>{thread=null;replyParent=null;$('ddForumThreadPane').classList?.remove?.('dd-forum-detail-open');setCreateButtons();++epoch;$('ddForumPostCreate').hidden=false;$('ddForumPostList').hidden=false;$('ddForumSortLabel').hidden=false;$('ddForumStewardPanel').hidden=!section?.is_steward;$('ddForumReplyPane').hidden=true;$('ddForumThreadTitle').textContent=section?.title||'Section';void loadThreads()};
+ $('ddForumBackThreads').onclick=()=>{thread=null;replyParent=null;$('ddForumReplyCreate').hidden=true;$('ddForumThreadPane').classList?.remove?.('dd-forum-detail-open');setCreateButtons();++epoch;$('ddForumPostCreate').hidden=false;$('ddForumPostList').hidden=false;$('ddForumSortLabel').hidden=false;$('ddForumStewardPanel').hidden=!section?.is_steward;$('ddForumReplyPane').hidden=true;$('ddForumThreadTitle').textContent=section?.title||'Section';void loadThreads()};
  $('ddForumSort').onchange=event=>{sort=event.target.value;feedPage=0;void loadThreads()};
  const feedSearch=$('ddForumFeedSearch');
  if(feedSearch)feedSearch.oninput=event=>{
