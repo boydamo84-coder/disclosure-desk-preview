@@ -2035,13 +2035,31 @@ $('wne-save-local').onclick=async()=>{const ok=await saveNow('manual');if(ok){$(
 $('wne-save-drive').onclick=wneManualCloudSave;
 $('wne-open-drive').onclick=async()=>{const ok=await saveNow('manual');if(!ok){$('wne-save-feedback').textContent='⚠ Save failed; cannot leave the editor.';return;}location.href='/home?open_drive=1'};
 $('wne-save-cancel').onclick=()=>$('wne-save-dialog').close();
-async function boot(){wneFindInit();applyTheme();initEvents();refreshWorkspace();await wneInitLanguage();$('wne-language').addEventListener('change',wneApplyLanguage);$('wne-spellcheck').addEventListener('change',wneApplyLanguage);try{const response=await api('/api/manuscript');revision=response.revision;remoteSeq=response.remote_seq||0;data=normalise(response.manuscript);if(data.uiTheme!==theme){theme=data.uiTheme;applyTheme();}blocked=false;$('editor').contentEditable='true';render();savedGen=gen;status('Saved to cloud',false,true);await wneInitPosition();
+async function boot(){
+ // This hosted editor never requires a Python server. A standalone first
+ // visit with no cloud document belongs in Research Studio Home.
+ if(!new URLSearchParams(location.search).get('id') && window.top===window){
+  location.replace('./research-workspace.html?dd_home=1');
+  return;
+ }
+ wneFindInit();applyTheme();initEvents();refreshWorkspace();await wneInitLanguage();$('wne-language').addEventListener('change',wneApplyLanguage);$('wne-spellcheck').addEventListener('change',wneApplyLanguage);try{const response=await api('/api/manuscript');revision=response.revision;remoteSeq=response.remote_seq||0;data=normalise(response.manuscript);if(data.uiTheme!==theme){theme=data.uiTheme;applyTheme();}blocked=false;$('editor').contentEditable='true';render();savedGen=gen;status('Saved to cloud',false,true);await wneInitPosition();
 /* Hosted Research Edition: legacy phone/TV polling routes are unavailable.\n   Supabase /api/manuscript saves continue through the cloud bridge;\n   never display a misleading cloud outage from unsupported /api/live/state. */
 try{const raw=localStorage.getItem(DRAFTKEY);if(raw){const draft=JSON.parse(raw);if(draft.manuscript&&JSON.stringify(draft.manuscript)!==JSON.stringify(response.manuscript)){
  if(confirm('W.NE found an unfinished browser draft from an earlier session. Recover that draft into v0.7? (The current saved document will be kept as a recovery checkpoint.)')){data=normalise(draft.manuscript);render();dirty();await saveNow('restore')}else clearDraft();
 }else clearDraft();}}catch(e){console.warn('Draft recovery check:',e)}
 let key=OLDKEYS.find(k=>{try{return !!localStorage.getItem(k)}catch(e){return false}});$('copy-prev').textContent=key?'Copy '+(key.endsWith('03')?'v0.3':key.endsWith('02')?'v0.2':'v0.1')+' manuscript':'No earlier version found';$('copy-prev').disabled=!key;
-}catch(e){blocked=true;status('Cannot connect to Python server',true);$('editor').contentEditable='false';alert('W.NE could not connect to its local Python server. Make sure you started wne_server_v07.py, not python -m http.server.\n\n'+e.message)}}
+}catch(e){
+ blocked=true;
+ $('editor').contentEditable='false';
+ const detail=String(e?.message||'Unknown cloud error').slice(0,360);
+ if(/Open a research document from your cloud library first/i.test(detail)){
+  status('Choose or create a cloud document in Research Studio Home',true);
+  $('editor').textContent='No Research document selected. Open Research Studio Home to create your first report.';
+ }else{
+  status('Could not open your Research cloud document',true);
+  alert('W.NE Research could not open its cloud document. Your existing files have not been overwritten. Return to Research Studio Home and check your account or connection before retrying.\n\n'+detail);
+ }
+}
 boot();
 })();
 </script><script>
