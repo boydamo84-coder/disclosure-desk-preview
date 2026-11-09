@@ -28,7 +28,7 @@ function destination(tab){
 }
 function say(message,error=false){
  if(status){status.textContent=message;status.dataset.error=error?'yes':'no'}
- else if(error)window.alert(message);
+ else if(error){if(window.WNEDialogs?.notice)void window.WNEDialogs.notice(message,{title:'Navigation unavailable'});else window.alert(message)}
 }
 async function verifySaved(tab){
  if(workspace){
