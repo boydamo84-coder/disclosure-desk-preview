@@ -34,10 +34,29 @@ assert.doesNotMatch(HTML.slice(endBodyAt),/<style\b|<script\b/i,'No style/script
     return r.continue();
    });
    const page=await context.newPage();
+   const pageErrors=[];page.on('pageerror',e=>pageErrors.push(String(e.message||e).slice(0,300)));
    const alerts=[];
    page.on('dialog',d=>{alerts.push(d.message());return d.dismiss()});
    await page.goto(BASE+'/research/wne.html?id='+DOC,{waitUntil:'domcontentloaded',timeout:40000});
-   await page.locator('#dd-word-ribbon-v1[role="tablist"]').waitFor({timeout:12000});
+   try {await page.locator('#dd-word-ribbon-v1[role="tablist"]').waitFor({timeout:5500})}
+   catch(error){
+     const debug=await page.evaluate(()=>({
+       title:document.title,ready:document.readyState,
+       status:document.querySelector('#status')?.textContent,
+       isEditorPresent:!!document.querySelector('#editor'),
+       hasFormatBar:!!document.querySelector('.formatbar'),
+       hasTablist:!!document.querySelector('#dd-word-ribbon-v1'),
+       ribbonScript:!!document.querySelector('script#dd-word-ribbon-v1'),
+       ribbonScriptInDom:document.querySelector('script#dd-word-ribbon-v1')?.textContent.length,
+       writerTail:document.body?.innerText.slice(-350),
+       headCount:document.head?.children.length,
+       scriptCount:document.scripts.length,
+       bodyMarkupEnds:document.body?.outerHTML.slice(-350)
+     }));
+     console.log('M32 FULL PAGE BROWSER DEBUG',JSON.stringify(debug));
+     console.log('M32 BROWSER ERRORS',JSON.stringify(pageErrors));
+     throw error;
+   }
    const dom=await page.evaluate(()=>({
     htmlEnds:document.documentElement.outerHTML.slice(-230),
     bodyText:document.body.innerText,
