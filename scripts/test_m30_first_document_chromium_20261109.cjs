@@ -33,6 +33,8 @@ assert.match(workspace,/id="writer"[^>]*src="about:blank"[^>]*hidden/);
     return route.continue();
    });
    await ctx.addInitScript(args=>{
+    // Let the real hosted wne-cloud-bridge.js handle /api/library. Mock only
+    // the Supabase client it calls, with a fictional owner and transient rows.
     const state={rows:[],calls:[],user:args.user,doc:args.doc,failCreate:false};
     window.__m30Fixture=state;
     window.supabase={createClient:()=>({
@@ -41,36 +43,34 @@ assert.match(workspace,/id="writer"[^>]*src="about:blank"[^>]*hidden/);
        onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}})},
      from(name){
       if(name!=='research_documents'&&name!=='investigation_boards')throw Error('unexpected table '+name);
-      const q={
-       select(){return this},eq(){return this},maybeSingle:async()=>({data:null,error:null}),
-       order(){return this},limit(){return this},
-       single:async()=>({data:null,error:{message:'No real cloud document'}})
-      };return q;
+      const query={
+       filter:null,max:100,
+       select(){return this},
+       eq(column,value){this.filter={column,value};return this},
+       order(){return this},
+       limit(n){this.max=n;return this},
+       values(){
+        const items=state.rows.filter(row=>!this.filter||row[this.filter.column]===this.filter.value);
+        return items.slice(0,this.max);
+       },
+       then(resolve,reject){return Promise.resolve({data:this.values(),error:null}).then(resolve,reject)},
+       maybeSingle:async function(){return {data:this.values()[0]||null,error:null}},
+       single:async function(){
+        state.calls.push('open');
+        const row=this.values()[0];
+        return row?{data:row,error:null}:{data:null,error:{message:'No owner document'}};
+       },
+       insert(data){
+        state.calls.push('create');
+        if(state.failCreate)return {select:()=>({single:async()=>({data:null,error:{message:'Simulated cloud failure'}})})};
+        const row={id:state.doc,...data,revision:1,updated_at:'2026-11-09T00:00:00Z'};
+        state.rows.push(row);
+        return {select:()=>({single:async()=>({data:{id:row.id,title:row.title},error:null})})};
+       }
+      };
+      return query;
      }
     })};
-    const fetchNative=window.fetch.bind(window);
-    window.fetch=async(input,opts)=>{
-     const path=new URL(typeof input==='string'?input:input.url,location.href).pathname;
-     if(path!=='/api/library')return fetchNative(input,opts);
-     let payload=null;
-     if(opts?.body)payload=JSON.parse(opts.body);
-     state.calls.push(payload?.action||'list');
-     if(!payload)return new Response(JSON.stringify({active_id:null,items:state.rows}),
-       {status:200,headers:{'Content-Type':'application/json'}});
-     if(payload.action==='create'){
-      if(state.failCreate)return new Response(JSON.stringify({error:'Simulated cloud unavailable'}),
-       {status:503,headers:{'Content-Type':'application/json'}});
-      const row={id:state.doc,title:payload.title};
-      state.rows.push(row);return new Response(JSON.stringify(row),
-       {status:200,headers:{'Content-Type':'application/json'}});
-     }
-     if(payload.action==='open'){
-      const row=state.rows.find(r=>r.id===payload.id);
-      return new Response(JSON.stringify(row?{ok:true,id:row.id}:{error:'Not found'}),
-       {status:row?200:404,headers:{'Content-Type':'application/json'}});
-     }
-     return new Response(JSON.stringify({error:'Not available'}),{status:400});
-    };
    },{user:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',doc:uuid});
    const page=await ctx.newPage();
    const alerts=[];page.on('dialog',d=>{alerts.push(d.message());return d.dismiss()});
