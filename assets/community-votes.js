@@ -91,7 +91,29 @@ function mount(host,kind,id){
 // Shared presentation for ALL public comment cards (News, Cases, Videos, Hearings).
 // The actual report handler stays with its host; voting stays in mount()/RPC.
 // Like the Discussions cards: flag in the header, votes in a dark bottom rail.
-function mountCommentCard(card,header,body,flag,id){
+function threadedComments(items){
+ const source=Array.isArray(items)?items:[];
+ const lookup=new Map(source.filter(x=>key.test(String(x?.id||''))).map(x=>[String(x.id),x]));
+ const children=new Map(),roots=[];
+ for(const item of source){
+  const parent=lookup.get(String(item?.parent_id||''));
+  if(parent&&parent!==item){
+   if(!children.has(String(parent.id)))children.set(String(parent.id),[]);
+   children.get(String(parent.id)).push(item);
+  }else roots.push(item);
+ }
+ const out=[],seen=new Set();
+ const visit=(item,depth)=>{
+  const id=String(item.id||'');if(seen.has(id))return;seen.add(id);
+  const parent=lookup.get(String(item.parent_id||''));
+  out.push({...item,replyDepth:Math.min(depth,4),replyParentName:parent?.publicAlias||null});
+  for(const child of children.get(id)||[])visit(child,depth+1);
+ };
+ for(const item of roots)visit(item,0);
+ for(const item of source)if(!seen.has(String(item.id||'')))visit(item,0);
+ return out;
+}
+function mountCommentCard(card,header,body,flag,id,onReply){
  if(!card||!header||!body||!flag)return false;
  const content=make('div','dd-comment-main');
  const rail=make('div','dd-comment-action-rail');
@@ -114,7 +136,13 @@ function mountCommentCard(card,header,body,flag,id){
  content.append(header,body);
  card.replaceChildren(content,rail);
  mount(rail,'comment',id);
+ if(typeof onReply==='function'){
+  const reply=make('button','dd-comment-reply-button','↳ Reply');
+  reply.type='button';reply.setAttribute('aria-label','Reply to this comment');
+  reply.addEventListener('click',()=>onReply(id));
+  rail.append(reply);
+ }
  return true;
 }
-window.DDCommunityVotes=Object.freeze({mount,mountCommentCard});
+window.DDCommunityVotes=Object.freeze({mount,mountCommentCard,threadedComments});
 })();
