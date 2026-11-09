@@ -19,6 +19,29 @@ function valid(doc){
  for(const c of doc.chapters){if(!c||typeof c.id!=='string'||typeof c.title!=='string'||typeof c.html!=='string'||!c.id||ids.has(c.id))return false;ids.add(c.id)}
  return ids.has(doc.active)&&['Georgia','Arial','Times New Roman','Courier New'].includes(doc.font)&&Number.isInteger(doc.size);
 }
+// Recovery is a separate-copy operation. Verify that the checkpoint can be
+// represented by W.NE without changing any original section HTML or images.
+function recoveryValid(doc){
+ if(!valid(doc)||typeof doc.bookTitle!=='string'||!doc.bookTitle.trim()||doc.bookTitle.length>200
+  ||doc.size<8||doc.size>72)return false;
+ let bytes=0;
+ for(const chapter of doc.chapters){
+  if(!chapter.title.trim()||chapter.title.length>250||chapter.html.length>8*1024*1024)return false;
+  bytes+=chapter.html.length;
+  if(bytes>24*1024*1024)return false;
+  // Where the vetted ZIP inspector is available, apply its read-only HTML
+  // safety rules. A rejected historical snapshot stays untouched for review.
+ }
+ const inspect=window.DDResearchZipRestore?.validateDocument;
+ return typeof inspect==='function'?inspect(doc):true;
+}
+function recoveryMatches(actual,original,expectedTitle){
+ if(!recoveryValid(actual)||actual.bookTitle!==expectedTitle
+   ||actual.active!==original.active||actual.font!==original.font
+   ||actual.size!==original.size||actual.chapters.length!==original.chapters.length)return false;
+ return actual.chapters.every((c,i)=>c.id===original.chapters[i].id
+   &&c.title===original.chapters[i].title&&c.html===original.chapters[i].html);
+}
 async function user(){
  const {data,error}=await db.auth.getUser();if(error||!data?.user)throw Error('Please sign in through the Research Edition cloud library');
  if(state.owner&&data.user.id!==state.owner){state.id=null;state.document=null;state.revision=null;throw Error('Account changed. Reload Research Edition.')}
@@ -192,14 +215,33 @@ async function recovery(path,method,body){
   const {data,error}=await db.from('research_document_revisions')
    .select('title,content').eq('id',body.id).eq('document_id',state.id).single();
   if(error)throw error;
-  if(!valid(data?.content))throw Error('Checkpoint is unavailable or invalid');
-  const title=(String(data.title||'Recovered research').slice(0,175)+' (Recovered)').slice(0,200);
+  if(!recoveryValid(data?.content))throw Error('Checkpoint contains incompatible or unsafe document content. The original and saved history were not changed. Export a private backup for manual review.');
+  const original=structuredClone(data.content);
+  const title=(String(data.title||original.bookTitle||'Recovered research').slice(0,136)+' (Recovered)').slice(0,150);
+  const content=structuredClone(original);
+  content.bookTitle=title; // Match the NEW copy's own document title; keep section content exact.
+  if(!recoveryMatches(content,original,title))throw Error('Checkpoint could not be prepared safely. No copy was submitted.');
+  // Only INSERT; never UPDATE the source document or a checkpoint.
   const {data:created,error:writeError}=await db.from('research_documents')
-   .insert({user_id:state.owner,title,content:data.content})
+   .insert({user_id:state.owner,title,content})
    .select('id,title').single();
   if(writeError)throw writeError;
-  if(!created?.id)throw Error('Recovery copy creation was not confirmed');
-  return {id:created.id,title:created.title,created_copy:true};
+  if(!/^[0-9a-f-]{36}$/i.test(String(created?.id||'')))
+   throw Error('A recovered copy may exist but its ID was not confirmed. Check My Documents before retrying.');
+  // A successful INSERT alone is not evidence that the *reopened document*
+  // contains intact chapters, images and formatting. Read it back under RLS.
+  const viewer=await user();
+  if(viewer.id!==state.owner)throw Error('Account changed after recovery; check My Documents before retrying.');
+  const {data:readback,error:checkError}=await db.from('research_documents')
+   .select('id,user_id,title,content').eq('id',created.id).single();
+  if(checkError||!readback||readback.user_id!==state.owner||
+    readback.id!==created.id||readback.title!==title||
+    !recoveryMatches(readback.content,original,title)){
+   // Do not delete, auto-repair or repeat the INSERT. The new copy may exist,
+   // but the original is untouched; manual investigation is required.
+   throw Error('A new recovered copy may exist, but its full text and images did not pass read-back verification. Keep the original document and check My Documents; do not retry automatically.');
+  }
+  return {id:created.id,title:readback.title,created_copy:true,verified_copy:true,sections:readback.content.chapters.length};
  }
  throw Error('Unsupported recovery operation');
 }
