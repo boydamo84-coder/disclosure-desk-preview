@@ -1139,6 +1139,8 @@ body.tv .tv-controls #tv-exit:focus-visible {
    <button type="button" data-file-action="import" role="menuitem">📥 Import Word DOCX<small>Create a separate report; your current document stays safe</small></button>
    <div class="wne-file-rule"></div><p class="wne-file-section">SAVE &amp; EXPORT</p>
    <button type="button" data-file-action="save" role="menuitem">💾 Save<small>Save this report to your private cloud · Ctrl+S</small></button>
+    <button type="button" data-file-action="open" role="menuitem">📂 Open document<small>Choose from My documents</small></button>
+    <button type="button" data-file-action="download-word" role="menuitem">📄 Download Word copy<small>Save a DOCX copy to this device</small></button>
    <button type="button" data-file-action="save-to" role="menuitem">📁 Save To…<small>Choose a folder and format</small></button>
    <button type="button" data-file-action="copy" role="menuitem">📑 Save a Copy…<small>Export a copy without replacing this report</small></button>
    <button type="button" data-file-action="export" role="menuitem">📤 Export &amp; Share<small>Open Export Studio</small></button>
@@ -2259,7 +2261,12 @@ html body #wne-bible-open,html body #wne-idea-open,html body #wne-companion-laun
      if(action==='save'){await ensureSaved('File menu Save');}
      else if(action==='save-to'||action==='copy'){performClick('wne-save-to');}
      else if(action==='cloud'){const d=document.getElementById('wne-save-dialog');if(d&&!d.open){document.getElementById('wne-save-feedback').textContent='';d.showModal()}}
-     else if(action==='lifeboat'){
+     else if(action==='download-word'){
+       await ensureSaved('before downloading a Word copy');
+       if(typeof window.WNEHostedExport!=='function')throw Error('Word export tools are unavailable. Retry when connected.');
+       await window.WNEHostedExport('/api/research/export-docx');
+      }
+      else if(action==='lifeboat'){
       await ensureSaved('before ZIP library backup');
       const pack=await window.WNECloudIntegration?.makeLibraryZip?.();
       if(!pack?.blob||!pack.filename)throw Error('Could not create the library ZIP. Your documents are unchanged.');
