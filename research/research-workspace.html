@@ -48,8 +48,61 @@ body.layout-horizontal.mode-both main::-webkit-scrollbar-thumb{background:#bfa77
 .dd-workspace-site-return:focus-visible{outline:3px solid #f4d490;outline-offset:3px}
 #dd-studio-heading{display:flex;align-items:center;flex-wrap:wrap;gap:9px}
 @media(max-width:440px){.dd-workspace-site-return{font-size:11px;padding:7px 8px}}
-</style><style id="dd-first-document-v1">#writer[hidden],#dd-first-document[hidden]{display:none!important}#editorPanel{position:relative;min-width:0;min-height:0}#dd-first-document{display:flex;align-items:center;justify-content:center;min-height:100%;padding:clamp(14px,3vw,28px);box-sizing:border-box;background:#0b1d2b}.dd-first-document-card{width:min(420px,100%);padding:clamp(16px,4vw,28px);border:1px solid #54697a;border-radius:16px;background:#142a3b;text-align:center;overflow-wrap:anywhere}.dd-first-document-card h2{font-size:clamp(20px,5vw,25px);color:#e4c58b;margin:0 0 12px}.dd-first-document-card p{line-height:1.5}.dd-first-document-card button{min-height:44px;margin:10px auto;background:#d9c18e;border-color:#d9c18e;color:#122333;font-weight:700}.dd-first-document-card button:focus-visible{outline:3px solid #efcd7d;outline-offset:2px}</style></head><body class="mode-both"><header><div id="dd-studio-heading"><strong>Disclosure Desk · Research Studio</strong><button id="dd-documents-btn" type="button" title="Open Research Studio Home">⌂ Home</button></div><div role="group" aria-label="Workspace layout"><button type="button" id="writerBtn" aria-pressed="false">✍ Editor</button><button type="button" id="bibleBtn" aria-pressed="false">📚 Research Library</button><button type="button" id="bothBtn" aria-pressed="true">◫ Side by side</button></div><label id="librarySizeControl" title="Adjust Research Library text size">Library text <input id="librarySize" type="range" min="70" max="120" step="5" value="85" aria-label="Research Library text size"><output id="librarySizeValue">85%</output></label><button id="editorHeaderTools" type="button" aria-expanded="true">⌃ Hide tools</button><span class="note">Research Edition · Powered by W.NE</span></header><dialog id="dd-documents-dialog" aria-labelledby="dd-documents-title">
-<h2 id="dd-documents-title">Research Studio Home</h2><p>Welcome back. Open an investigation document or start a new report. Your existing research stays untouched.</p><div id="dd-home-status" aria-live="polite">Research Studio beta · check the saved status before leaving</div><div id="dd-live-readiness"><strong>Research Studio beta · cloud integration</strong><div>Signed-in research documents use the existing Disclosure Desk cloud account. Some older Research Library references, local Board copies and backups may still be device-only.</div><div>Before public launch: verify account isolation, cross-device reopening, protected storage and restore. Keep an independent backup of important reports.</div></div><details id="dd-cloud-staging" style="margin:12px 0;padding:12px;border:1px solid #627487;border-radius:10px">
+</style><style id="dd-first-document-v1">#writer[hidden],#dd-first-document[hidden]{display:none!important}#editorPanel{position:relative;min-width:0;min-height:0}#dd-first-document{display:flex;align-items:center;justify-content:center;min-height:100%;padding:clamp(14px,3vw,28px);box-sizing:border-box;background:#0b1d2b}.dd-first-document-card{width:min(420px,100%);padding:clamp(16px,4vw,28px);border:1px solid #54697a;border-radius:16px;background:#142a3b;text-align:center;overflow-wrap:anywhere}.dd-first-document-card h2{font-size:clamp(20px,5vw,25px);color:#e4c58b;margin:0 0 12px}.dd-first-document-card p{line-height:1.5}.dd-first-document-card button{min-height:44px;margin:10px auto;background:#d9c18e;border-color:#d9c18e;color:#122333;font-weight:700}.dd-first-document-card button:focus-visible{outline:3px solid #efcd7d;outline-offset:2px}</style><style id="dd-home-simple-v1">
+#dd-documents-dialog.dd-home-simple{width:min(680px,calc(100vw - 20px))!important;max-height:min(88dvh,840px)!important;max-width:100%;padding:clamp(13px,3vw,24px);color:#f0e6d6;overflow-y:auto}
+#dd-documents-dialog.dd-home-simple *{box-sizing:border-box}
+.dd-home-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-bottom:10px}
+.dd-home-heading small{font-size:10px;font-weight:700;color:#bdc9d5;letter-spacing:.12em}
+#dd-documents-dialog .dd-home-heading h2{font-size:clamp(24px,6vw,31px);margin:3px 0 6px}
+.dd-home-heading p{margin:0;color:#c1ced8;font-size:13px;line-height:1.5}
+#dd-documents-dialog .dd-home-heading>button{width:44px;min-width:44px;height:44px;padding:0;border-radius:10px;font-size:18px;text-align:center}
+.dd-home-simple section{border-top:1px solid #405666;padding-top:12px;margin-top:13px}
+.dd-home-primary label{display:block;font-size:14px;font-weight:700;margin-bottom:8px}
+.dd-home-create{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+#dd-documents-dialog .dd-home-create input{width:100%;min-width:0;min-height:46px}
+#dd-documents-dialog .dd-home-create button{background:#d7ba84;color:#172736;border:0;font-weight:700;min-height:46px;min-width:95px;text-align:center}
+#dd-documents-dialog .dd-home-simple h3,#dd-documents-dialog.dd-home-simple h3{margin:4px 0 10px;font-size:15px;color:#e4c38b}
+#dd-documents-dialog .dd-home-saved #dd-documents-list{margin:0;max-height:220px;overflow:auto}
+#dd-documents-dialog .dd-home-saved #dd-documents-list button{background:#1e3547;text-align:left}
+#dd-documents-dialog .dd-home-saved #dd-documents-list button:hover,#dd-documents-dialog .dd-home-saved #dd-documents-list button:focus-visible{border-color:#e0c185}
+.dd-home-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.dd-home-actions h3{grid-column:1/-1}
+#dd-documents-dialog .dd-home-actions>a,#dd-documents-dialog .dd-home-actions>button,.dd-home-recovery-links a{display:block;text-align:left;padding:12px;border:1px solid #5a7181;background:#20394a;color:#efdcbd;border-radius:11px;text-decoration:none;min-height:56px;line-height:1.4;font-weight:650;font-size:13px;cursor:pointer;width:100%}
+#dd-documents-dialog .dd-home-actions small,.dd-home-recovery-links small{display:block;color:#b6c5d0;font-size:11px;font-weight:400;margin-top:4px}
+#dd-documents-dialog .dd-home-actions>a:hover,#dd-documents-dialog .dd-home-actions>button:hover,.dd-home-recovery-links a:hover{border-color:#e1c48e}
+#dd-home-backup-details{margin-top:15px;border:1px solid #4b6576;border-radius:11px;overflow:hidden}
+#dd-home-backup-details>summary{cursor:pointer;list-style:none;min-height:47px;padding:13px;color:#eed5a3;font-weight:650}
+#dd-home-backup-details>summary::-webkit-details-marker{display:none}
+#dd-home-backup-details>summary:after{content:'⌄';float:right}
+#dd-home-backup-details[open]>summary:after{content:'⌃'}
+#dd-home-backup-details>p,#dd-home-backup-details>#dd-live-readiness,#dd-home-backup-details>details{margin:11px;padding:10px;font-size:12px}
+.dd-home-explain{color:#c3ced8;line-height:1.5}
+.dd-home-recovery-links{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0 11px}
+#dd-home-backup-details #dd-cloud-staging{margin-top:14px!important}
+#dd-home-backup-details #dd-cloud-staging>summary{font-size:12px;color:#bfccd7;cursor:pointer}
+#dd-documents-dialog .dd-home-status{font-size:11px;line-height:1.4;padding:8px 0;margin-top:12px;color:#afc3cc}
+#dd-documents-status{overflow-wrap:anywhere;font-size:13px;line-height:1.5}
+@media(max-width:520px){.dd-home-create,.dd-home-actions,.dd-home-recovery-links{grid-template-columns:1fr}.dd-home-simple section{margin-top:11px}#dd-documents-dialog .dd-home-saved #dd-documents-list{max-height:175px}#dd-documents-dialog.dd-home-simple{padding:13px!important}}
+</style></head><body class="mode-both"><header><div id="dd-studio-heading"><strong>Disclosure Desk · Research Studio</strong><button id="dd-documents-btn" type="button" title="Open Research Studio Home">⌂ Home</button></div><div role="group" aria-label="Workspace layout"><button type="button" id="writerBtn" aria-pressed="false">✍ Editor</button><button type="button" id="bibleBtn" aria-pressed="false">📚 Research Library</button><button type="button" id="bothBtn" aria-pressed="true">◫ Side by side</button></div><label id="librarySizeControl" title="Adjust Research Library text size">Library text <input id="librarySize" type="range" min="70" max="120" step="5" value="85" aria-label="Research Library text size"><output id="librarySizeValue">85%</output></label><button id="editorHeaderTools" type="button" aria-expanded="true">⌃ Hide tools</button><span class="note">Research Edition · Powered by W.NE</span></header><dialog id="dd-documents-dialog" aria-labelledby="dd-documents-title" class="dd-home-simple">
+ <div class="dd-home-heading"><div><small>W.NE RESEARCH EDITION</small><h2 id="dd-documents-title">My documents</h2><p>Open your work or start something new. Your documents are private to your signed-in account.</p></div><button id="dd-close-documents" type="button" aria-label="Close My documents">✕</button></div>
+ <section class="dd-home-primary">
+  <label for="dd-new-document-name">Create a document</label>
+  <div class="dd-home-create"><input id="dd-new-document-name" maxlength="150" placeholder="New document name" autocomplete="off"><button id="dd-create-document" type="button">＋ Create</button></div>
+ </section>
+ <section class="dd-home-saved">
+  <h3>Open a document</h3>
+  <div id="dd-documents-list" role="group" aria-label="Your saved cloud documents"></div>
+ </section>
+ <section class="dd-home-actions" aria-label="Import and Word copies">
+  <h3>Work with Word files</h3>
+  <a id="dd-home-import-word" href="./import.html">📥 Import Word document <small>Create a new report from a DOCX file</small></a>
+  <button id="dd-home-download-word" type="button">📄 Download Word copy <small>Save a DOCX copy of the current report</small></button>
+ </section>
+ <details id="dd-home-backup-details"><summary>Advanced backup &amp; recovery</summary>
+  <p class="dd-home-explain">Use these when recovering a full W.NE backup. For everyday copies, use Word above. Recovery makes new documents — it never overwrites existing ones.</p>
+  <div class="dd-home-recovery-links"><a href="./restore-library.html">Restore full library ZIP <small>For a complete W.NE library backup</small></a><a href="./restore-copy.html">Restore older JSON backup <small>Recover one W.NE-format document</small></a></div>
+  <div id="dd-live-readiness"><strong>About backups</strong><p>Cloud reports use your signed-in Disclosure Desk account. Some legacy references, device-only Boards and snapshots may need separate copies. Keep an independent backup of important research.</p></div>
+  <details id="dd-cloud-staging" style="margin:12px 0;padding:12px;border:1px solid #627487;border-radius:10px">
 <summary style="cursor:pointer;color:#e3c18d;font-weight:700">☁️ Cloud documents · staging preview</summary>
 <p style="font-size:12px">Manual cloud copies for testing only. Your existing local files and Boards are never deleted or overwritten.</p>
 <label style="display:block;margin:8px 0">Disclosure Desk email<input id="dd-cloud-email" type="email" autocomplete="username" placeholder="Email"></label>
@@ -63,11 +116,11 @@ body.layout-horizontal.mode-both main::-webkit-scrollbar-thumb{background:#bfa77
 <div id="dd-cloud-boards-list" style="display:grid;gap:8px;margin-top:8px"></div>
 </div>
 <p id="dd-cloud-staging-status" role="status">Not signed in. Manual cloud testing only.</p>
-</details><h3>My documents</h3>
-<p style="display:flex;gap:13px;flex-wrap:wrap;font-size:13px"><a href="./restore-library.html" title="Restore a private library ZIP as new cloud copies">↻ Restore library ZIP</a><a href="./restore-copy.html" title="Restore one W.NE JSON backup as a new cloud copy">Restore single JSON</a></p>
-<div id="dd-documents-list" role="group" aria-label="Saved documents"></div>
-<div class="dd-doc-actions"><input id="dd-new-document-name" maxlength="150" placeholder="New document name"><button id="dd-create-document" type="button">＋ New research document</button><button id="dd-close-documents" type="button">Continue to editor</button></div>
-<p id="dd-documents-status" role="status"></p></dialog><main><div id="editorPanel"><div id="dd-first-document" role="status" aria-live="polite"><div class="dd-first-document-card"><h2>Your Research Studio is ready</h2><p>No cloud document is open yet. Create your first research report or open an existing report from Home.</p><button id="dd-first-document-button" type="button">＋ Create or open a document</button><p class="note">Your research is saved to your signed-in Disclosure Desk account, not to a local Python server.</p></div></div><iframe id="writer" title="Research Studio report editor" src="about:blank" loading="eager" hidden></iframe></div><div id="splitter" role="separator" aria-label="Resize research panels" aria-orientation="vertical" tabindex="0" title="Drag to resize panels"></div><iframe id="bible" title="Research Library and investigation boards" src="./research-bible.html" loading="eager"></iframe></main><script>
+</details>
+ </details>
+ <div id="dd-home-status" class="dd-home-status" aria-live="polite">Your research documents stay in your account. Download Word for a convenient personal copy.</div>
+ <p id="dd-documents-status" role="status" aria-live="polite"></p>
+</dialog><main><div id="editorPanel"><div id="dd-first-document" role="status" aria-live="polite"><div class="dd-first-document-card"><h2>Your Research Studio is ready</h2><p>No cloud document is open yet. Create your first research report or open an existing report from Home.</p><button id="dd-first-document-button" type="button">＋ Create or open a document</button><p class="note">Your research is saved to your signed-in Disclosure Desk account, not to a local Python server.</p></div></div><iframe id="writer" title="Research Studio report editor" src="about:blank" loading="eager" hidden></iframe></div><div id="splitter" role="separator" aria-label="Resize research panels" aria-orientation="vertical" tabindex="0" title="Drag to resize panels"></div><iframe id="bible" title="Research Library and investigation boards" src="./research-bible.html" loading="eager"></iframe></main><script>
 /* Pass the selected cloud document to the canonical W.NE iframe. */
 (()=>{
  const query=new URLSearchParams(location.search);
