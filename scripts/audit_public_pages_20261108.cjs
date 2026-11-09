@@ -9,6 +9,9 @@ const manifest=JSON.parse(fs.readFileSync(path.join(ROOT,'release-manifest.json'
 const htmls=manifest.files.filter(x=>x.path.endsWith('.html')).map(x=>x.path);
 const primary=new Set(['index.html','guide.html','sources.html','community-rules.html','privacy.html','research-edition.html']);
 const allowVirtual=new Set(['home','login','logout','signup','account','profile']);
+// Netlify serves these five public .html files at clean canonical URLs.
+// Do not generalise: unknown pretty URLs must still be flagged as 404 risks.
+const cleanPublicRoutes=new Set(['research-edition','sources','guide','community-rules','privacy']);
 let errors=0,warnings=0,links=0;
 const report=[];
 for(const file of htmls){
@@ -40,6 +43,7 @@ for(const file of htmls){
   let local;
   try{local=decodeURIComponent(target.pathname).replace(/^\/+/,'')}catch{notes.push('Malformed local href '+raw.slice(0,80));continue}
   if(!local||local.endsWith('/'))local+='index.html';
+  if(cleanPublicRoutes.has(local))local+='.html';
   if(allowVirtual.has(local)){notes.push('Legacy or server-side route not verified in static release '+raw);continue}
   if(local.startsWith('api/'))continue;
   const checked=path.resolve(ROOT,local);
