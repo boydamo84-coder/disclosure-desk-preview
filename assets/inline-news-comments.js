@@ -78,6 +78,7 @@ function mount(container){
    }
    entries.append(card);
   }
+  window.DDRefreshBoardStars?.();
   if(state.replyTo){
    const target=entries.querySelector('[data-dd-news-comment-id="'+state.replyTo.id+'"]');
    if(target)target.after(form);
