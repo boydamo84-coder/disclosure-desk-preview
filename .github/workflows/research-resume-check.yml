@@ -160,6 +160,9 @@ jobs:
           node scripts/test_m32_actual_writer_ribbon_chromium_20261109.cjs
           node scripts/test_m34_writer_image_recovery_chromium_20261109.cjs
           node scripts/test_m34_writer_dialogs_chromium_20261109.cjs
+          node --check research/wne-view-m39.js
+          node --check scripts/test_m39_sticky_toolbar_fit_page_chromium_20261109.cjs
+          node scripts/test_m39_sticky_toolbar_fit_page_chromium_20261109.cjs
           node scripts/test_research_review_chromium_20261108.cjs
           node scripts/test_research_library_chromium_20261108.cjs
           node scripts/test_research_nav_avatar_chromium_20261108.cjs
