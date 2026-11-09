@@ -86,7 +86,17 @@ assert.match(workspace,/id="writer"[^>]*src="about:blank"[^>]*hidden/);
 
    await page.locator('#dd-new-document-name').fill('M30 Synthetic first report');
    await page.locator('#dd-create-document').click();
-   await page.waitForFunction(id=>document.getElementById('writer').getAttribute('src').includes(id),uuid);
+   try{await page.waitForFunction(id=>document.getElementById('writer').getAttribute('src').includes(id),uuid,{timeout:9000})}
+   catch(e){
+    const debug=await page.evaluate(()=>({
+     status:document.getElementById('dd-documents-status')?.textContent,
+     calls:window.__m30Fixture?.calls,
+     rowCount:window.__m30Fixture?.rows?.length,
+     location:location.pathname,
+     writer:document.getElementById('writer')?.getAttribute('src')
+    }));
+    throw Error('New document did not open: '+JSON.stringify(debug)+' / '+e.message);
+   }
    assert.equal(iframeRequests,1,'Writer only loads AFTER new document exists');
    assert.equal(await page.locator('#dd-first-document').isHidden(),true);
    assert.equal(await page.locator('#writer').isVisible(),true);
