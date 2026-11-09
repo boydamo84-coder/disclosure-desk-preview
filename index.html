@@ -1681,7 +1681,7 @@ function governmentVideoMatch(c,selected){
 }
 let clipRenderLimit=24;
 function renderClips(){renderClipInterestSuggestions();if($('clipFreshCount'))$('clipFreshCount').textContent=disclosureClips.filter(c=>c.videoAvailable!==false&&clipFresh(c)&&(c.youtubeId||c.dvidsId||c.media)).length+' recently uploaded clips';if($('clipWatchStatus'))$('clipWatchStatus').textContent=Object.keys(clipWatched).length+' viewed · '+Object.keys(ddClipSkipped).length+' skipped · progress saved in this browser (not synced to your account).';enableClipAutoCenter();pauseClips();const group=$('clipFilter').value,trust=$('clipTrustFilter').value,gov=$('clipGovernment').value;const clipQuery=($('clipSearch')?.value||'').trim().toLowerCase();const items=orderDiscovery(disclosureClips.filter(c=>c.videoAvailable!==false&&(!$('clipInterestOnly').checked||videoInterestMatches(c))&&(!clipQuery||[c.title,c.publisher,c.description,c.status,c.group].filter(Boolean).join(' ').toLowerCase().includes(clipQuery))&&(!$('clipFavoritesOnly').checked||clipIsFavourite(c))&&(clipMode==='all'||(clipMode==='verified'?['official','traceable'].includes(c.evidenceStatus):c.evidenceStatus==='unverified'))&&(group==='All'||c.group===group)&&governmentVideoMatch(c,gov)&&(trust==='all'||(trust==='traceable'?['official','traceable'].includes(c.evidenceStatus):c.evidenceStatus===trust))));
-$('clipsCounter').textContent=items.length+' source records · '+items.filter(c=>c.media||c.youtubeId||c.dvidsId).length+' playable embeds';$('clipsFeed').innerHTML=items.slice(0,clipRenderLimit).map(c=>'<article class="clip-card" data-video-id="'+esc(c.id)+'"><div class="clip-placeholder" aria-hidden="true"><strong>◉</strong><span>'+esc(c.status||'Video from original source')+'</span></div>'+(c.media?'<video controls playsinline muted preload="none" src="'+esc(c.media)+'"></video>':c.youtubeId?'<iframe loading="lazy" title="'+esc(c.title)+'" data-src="https://www.youtube-nocookie.com/embed/'+esc(c.youtubeId)+'?playsinline=1&amp;enablejsapi=1" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>':c.dvidsId?'<iframe loading="lazy" title="'+esc(c.title)+'" data-src="https://www.dvidshub.net/video/embed/'+esc(c.dvidsId)+'" allow="fullscreen; picture-in-picture" allowfullscreen></iframe>':'')+'<div class="clip-gradient"></div><div class="clip-info"><span class="tag">'+esc(c.evidenceStatus==='official'?'OFFICIAL RELEASE':c.evidenceStatus==='traceable'?'TRACEABLE SOURCE':'UNVERIFIED CLAIM')+'</span><div class="meta">'+esc(c.group)+' · '+esc(c.publisher)+'</div><h3>'+esc(c.title)+'</h3><p>'+esc(c.description||'Open original records for context.')+'</p><div class="clip-actions"><a href="'+esc(c.source)+'" target="_blank" rel="noopener noreferrer">'+(c.media||c.youtubeId||c.dvidsId?'Learn more · Original source ↗':'Watch at publisher · Original source ↗')+'</a>'+(c.youtubeId?'<a class="secondary" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v='+esc(c.youtubeId)+'">YouTube ↗</a>':'')+'<div class="clip-utility-actions"><button type="button" data-clip-action="favourite" data-clip-id="'+esc(c.id)+'" aria-label="Toggle favourite">'+(clipIsFavourite(c)?'★ Fav':'☆ Fav')+'</button><button type="button" data-clip-action="board" data-clip-id="'+esc(c.id)+'">☆ Board</button><button type="button" data-clip-action="discuss" data-clip-id="'+esc(c.id)+'">💬 Discuss</button><button data-clip-action="share" data-clip-id="'+esc(c.id)+'">↗ Share</button></div>'+'</div></div></article>').join('')||'<div class="card empty">No source-linked clips in this category yet.</div>';// Only initialize third-party players near the viewport. Stops dozens of
+$('clipsCounter').textContent=items.length+' source records · '+items.filter(c=>c.media||c.youtubeId||c.dvidsId).length+' playable embeds';$('clipsFeed').innerHTML=items.slice(0,clipRenderLimit).map(c=>'<article class="clip-card" data-video-id="'+esc(c.id)+'"><div class="clip-placeholder" aria-hidden="true"><strong>◉</strong><span>'+esc(c.status||'Video from original source')+'</span></div>'+(c.media?'<video controls playsinline muted preload="none" src="'+esc(c.media)+'"></video>':c.youtubeId?'<iframe loading="lazy" title="'+esc(c.title)+'" data-src="https://www.youtube-nocookie.com/embed/'+esc(c.youtubeId)+'?playsinline=1&amp;enablejsapi=1" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>':c.dvidsId?'<iframe loading="lazy" title="'+esc(c.title)+'" data-src="https://www.dvidshub.net/video/embed/'+esc(c.dvidsId)+'" allow="fullscreen; picture-in-picture" allowfullscreen></iframe>':'')+'<div class="clip-gradient"></div><div class="clip-info"><span class="tag">'+esc(c.evidenceStatus==='official'?'OFFICIAL RELEASE':c.evidenceStatus==='traceable'?'TRACEABLE SOURCE':'UNVERIFIED CLAIM')+'</span><div class="meta">'+esc(c.group)+' · '+esc(c.publisher)+'</div><h3>'+esc(c.title)+'</h3><p>'+esc(c.description||'Open original records for context.')+'</p><div class="clip-actions"><a href="'+esc(c.source)+'" target="_blank" rel="noopener noreferrer">'+(c.media||c.youtubeId||c.dvidsId?'Learn more · Original source ↗':'Watch at publisher · Original source ↗')+'</a>'+(c.youtubeId?'<a class="secondary" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v='+esc(c.youtubeId)+'">YouTube ↗</a>':'')+'<div class="clip-utility-actions dd-action-rail"><button type="button" data-clip-action="favourite" data-clip-id="'+esc(c.id)+'" aria-label="Toggle favourite">'+(clipIsFavourite(c)?'★ Fav':'☆ Fav')+'</button><button type="button" data-clip-action="discuss" data-clip-id="'+esc(c.id)+'" aria-label="Open video discussion">💬</button><button type="button" class="dd-action-board" data-clip-action="board" data-clip-id="'+esc(c.id)+'" data-bookmark-url="'+esc(c.source||'')+'" data-bookmark-label="'+esc(c.title||'Video')+'" aria-label="Add video to Investigation Board" title="Add to Board"><span data-star-icon>☆</span></button><button type="button" class="dd-action-share" data-clip-action="share" data-clip-id="'+esc(c.id)+'" aria-label="Share video" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8"/></svg></button></div>'+'</div></div></article>').join('')||'<div class="card empty">No source-linked clips in this category yet.</div>';// Only initialize third-party players near the viewport. Stops dozens of
 // YouTube/DVIDS network requests when opening a long video catalogue.
 const lazyFrames=[...$('clipsFeed').querySelectorAll('iframe[data-src]')];
 if('IntersectionObserver' in window){
@@ -3103,6 +3103,36 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
   margin-left:0!important
  }
  .dd-hearing-comments-toggle{display:flex;width:max-content;margin-left:auto}
+}
+
+/* Video catalogue actions use the exact compact rail too, not equal grid slices. */
+#clips .clip-utility-actions.dd-action-rail,
+#clips .immersive-tools.dd-action-rail{
+ display:flex!important;flex-flow:row nowrap!important;align-items:center!important;
+ justify-content:flex-start!important;gap:4px!important;width:100%!important;
+ min-width:0!important;box-sizing:border-box!important;overflow-x:auto!important;
+ padding:4px 6px!important;margin:10px 0 0!important;
+ background:#081722!important;border-top:1px solid #42566b!important
+}
+#clips .clip-utility-actions.dd-action-rail button,
+#clips .immersive-tools.dd-action-rail button{
+ display:inline-flex!important;flex:0 0 auto!important;align-items:center!important;
+ justify-content:center!important;width:auto!important;min-width:38px!important;
+ min-height:40px!important;height:40px!important;padding:5px 7px!important;
+ margin:0!important;background:transparent!important;color:#e9d7b4!important;
+ border:1px solid transparent!important;border-radius:7px!important;
+ font:650 12px/1.2 system-ui!important;white-space:nowrap!important
+}
+#clips .clip-utility-actions.dd-action-rail .dd-action-board,
+#clips .immersive-tools.dd-action-rail .dd-action-board{font-size:22px!important;color:#eac78c!important}
+#clips .clip-utility-actions.dd-action-rail .dd-action-share svg,
+#clips .immersive-tools.dd-action-rail .dd-action-share svg{
+ width:21px;height:21px;fill:none;stroke:currentColor;
+ stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round
+}
+@media(min-width:760px){
+ #clips .clip-utility-actions.dd-action-rail,
+ #clips .immersive-tools.dd-action-rail{justify-content:flex-end!important;gap:6px!important}
 }
 </style>
 </body></html>
