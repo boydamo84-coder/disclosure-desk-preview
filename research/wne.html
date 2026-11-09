@@ -1372,7 +1372,7 @@ function renderNav(){
  for(const c of data.chapters){
   const row=document.createElement('div');row.className='wne-chapter-row';
   const b=document.createElement('button');b.type='button';b.className='chapter'+(c.id===data.active?' current':'');
-  b.textContent=c.title||'Untitled chapter';b.onclick=()=>switchChapter(c.id);
+  b.textContent=c.title||'Untitled section';b.onclick=()=>switchChapter(c.id);
   const options=document.createElement('button');options.type='button';options.className='wne-chapter-options';
   options.textContent='⋯';options.title='Organise '+(c.title||'this section');options.setAttribute('aria-label','Organise '+(c.title||'this section'));
   options.onclick=()=>wneOpenChapterManager(c.id);
@@ -1498,7 +1498,7 @@ function wnePrepareManagedInsert(side){
  if(!wneManagingChapterId||!['before','after'].includes(side)||data.chapters.length>=500)return;
  wnePendingInsertSide=side;
  const at=data.chapters.findIndex(c=>c.id===wneManagingChapterId)+(side==='after'?2:1);
- $('wne-manager-new-title').value=(wneStructure()==='sections'?'Section ':'Chapter ')+at+' (new)';
+ $('wne-manager-new-title').value='Section '+at+' (new)';
  $('wne-manager-insert').hidden=false;
  $('wne-manager-new-title').focus();$('wne-manager-new-title').select();
 }
@@ -1652,7 +1652,7 @@ function wneInitChapterManager(){
  $('wne-manage-current-chapter').onclick=()=>wneOpenChapterManager(data?.active);
 }
 async function switchChapter(id){if(id===data.active)return;if(!await beforeSwitch())return;data.active=id;render();window.scrollTo(0,0);document.querySelector('.workarea')?.scrollTo(0,0);$('editor').scrollTop=0;dirty();closeDrawer();await saveNow();wneSavePosition()}
-async function addChapter(){if(!await beforeSwitch())return;let n=data.chapters.length+1;const c={id:uid(),title:`${wneStructure()==='sections'?'Section':'Chapter'} ${n}`,html:''};data.chapters.push(c);data.active=c.id;render();dirty();closeDrawer();await saveNow('manual');$('editor').focus()}
+async function addChapter(){if(!await beforeSwitch())return;let n=data.chapters.length+1;const c={id:uid(),title:'Section '+n,html:''};data.chapters.push(c);data.active=c.id;render();dirty();closeDrawer();await saveNow('manual');$('editor').focus()}
 async function deleteChapter(){if(blocked)return;if(data.chapters.length===1){toast('Keep at least one chapter');return}if(!await window.WNEDialogs.confirm(`Delete "${active().title}"? A recovery checkpoint is created before the deletion.`))return;if(!await beforeSwitch())return;const idx=data.chapters.findIndex(c=>c.id===data.active);data.chapters.splice(idx,1);data.active=data.chapters[Math.max(0,idx-1)].id;render();dirty();await saveNow('delete');closeMore();toast('Chapter removed · recovery available')}
 async function downloadRaw(obj,prefix='WNE-emergency'){
  const stamp=new Date().toISOString().replace(/[:.]/g,'-');
@@ -1829,7 +1829,7 @@ async function applyRemote(c){
   if(data.chapters.some(x=>x.id===c.value)){data.active=c.value;render();closeDrawer()}
  }
  else if(c.kind==='add'){
-  const n=data.chapters.length+1,chapter={id:uid(),title:(typeof c.value==='string'&&c.value.trim()?c.value.trim():'Chapter '+n),html:''};
+  const n=data.chapters.length+1,chapter={id:uid(),title:(typeof c.value==='string'&&c.value.trim()?c.value.trim():'Section '+n),html:''};
   data.chapters.push(chapter);data.active=chapter.id;render();
  }
  else if(c.kind==='rename'){
@@ -3611,7 +3611,7 @@ document.getElementById('dd-load-saved-compare').onclick=()=>{
 };
 button.onclick=()=>{if(editor.contentEditable!=='true'){window.WNEDialogs.notice('Open an editable document first.');return;}dlg.showModal();showBoards()};
 document.getElementById('dd-comparison-cancel').onclick=()=>dlg.close();
-picker.onchange=async()=>{try{const f=picker.files[0];if(!f)return;if(f.size>300000)throw Error('JSON file too large');area.value=await f.text();msg.textContent='Loaded file'}catch(e){msg.textContent=e.message}};
+picker.onchange=async()=>{try{const f=picker.files[0];if(!f)return;if(f.size>300000)throw Error('JSON file too large');area.value=await f.text();area.dispatchEvent(new Event('input',{bubbles:true}));msg.textContent='Loaded file'}catch(e){msg.textContent=e.message}};
 const element=(tag,value)=>{const n=document.createElement(tag);if(value!==undefined)n.textContent=String(value);return n};
 document.getElementById('dd-comparison-confirm').onclick=()=>{
 try{
@@ -3683,7 +3683,12 @@ new MutationObserver(()=>{if(dlg.open)render()}).observe(document.getElementById
 const pane=document.getElementById('dd-compare-archive-pane'),results=document.getElementById('dd-archive-results'),status=document.getElementById('dd-archive-status'),area=document.getElementById('dd-comparison-json');
 if(!pane||!results||!area)return;
 const selected=new Map();
-const count=()=>document.getElementById('dd-archive-selected').textContent=selected.size+' cases selected';
+const count=()=>{
+ document.getElementById('dd-archive-selected').textContent=selected.size+' cases selected';
+ // Update the preview on every case selection, but never insert automatically.
+ area.value=selected.size>=2?JSON.stringify({cases:[...selected.values()]}):'';
+ area.dispatchEvent(new Event('input',{bubbles:true}));
+};
 document.getElementById('dd-archive-search').onclick=async()=>{
 const q=document.getElementById('dd-archive-query').value.trim();if(q.length<2){status.textContent='Enter at least two characters';return}
 status.textContent='Searching…';results.replaceChildren();
@@ -3937,5 +3942,7 @@ html body #dd-research-insert-trigger{display:inline-flex!important;align-items:
 <script src="./wne-polish-m34.js"></script>
 <link rel="stylesheet" href="./wne-view-m39.css">
 <script src="./wne-view-m39.js"></script>
+<link rel="stylesheet" href="./wne-ui-m40.css">
+<script src="./wne-ui-m40.js" defer></script>
 </body>
 </html>
