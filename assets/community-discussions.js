@@ -368,10 +368,10 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
  flag.disabled=flagged;
  setActionIcon(flag,'flag','⚑');
  if(flagged)flag.classList?.add('is-flagged');
- const like=nodeAction(parent,'👍 '+(row.likes||0),b=>vote(kind,row,1,b),'dd-forum-icon-button dd-forum-vote');
- const dislike=nodeAction(parent,'👎 '+(row.dislikes||0),b=>vote(kind,row,-1,b),'dd-forum-icon-button dd-forum-vote');
- like.setAttribute('aria-label','Like this '+kind+' · '+(row.likes||0)+' likes');
- dislike.setAttribute('aria-label','Dislike this '+kind+' · '+(row.dislikes||0)+' dislikes');
+ const like=nodeAction(parent,'▲ '+(row.likes||0),b=>vote(kind,row,1,b),'dd-forum-icon-button dd-forum-vote');
+ const dislike=nodeAction(parent,'▼ '+(row.dislikes||0),b=>vote(kind,row,-1,b),'dd-forum-icon-button dd-forum-vote');
+ like.setAttribute('aria-label','Upvote this '+kind+' · '+(row.likes||0)+' votes');
+ dislike.setAttribute('aria-label','Downvote this '+kind+' · '+(row.dislikes||0)+' votes');
  like.setAttribute('aria-pressed',String(Number(row.my_vote)===1));
  dislike.setAttribute('aria-pressed',String(Number(row.my_vote)===-1));
  if(kind==='thread'){
