@@ -638,3 +638,16 @@ Owner interrupted release-preparation check to confirm toolbar duplication, colo
 
 
 **M34 release check correction:** The newly added Map regression-test regular expressions had over-escaped braces/slashes. Corrected the test file in commit `4cde466ceee46bf017e5d7f1b4bac02ff4d3f12f` before promotion. No website runtime change from this correction. Latest CI run remains unverified; do not label final head green until confirmed. Production untouched.
+
+
+### Milestone 34 — production source promotion (9 Nov 2026)
+
+**VERIFIED GitHub production branch source promotion; NETLIFY PUBLICATION AND LATEST CI UNVERIFIED.**
+- User explicitly approved the bundled release in chat. Fast-forwarded canonical website repository `boydamo84-coder/disclosure-desk-preview` branch `production` from `5de12991f59c9c910133be467eb1209f877f2499` to `c898735f3e5e6f17f2fd49252d67381fed269c37` using a non-forced, expected-SHA guarded `update_ref`. GitHub returned `success:true`.
+- Independent `compare_commits(production, c898735f...)` returned **identical / ahead 0 / behind 0**; the promoted source includes M34 Find/Replace theme, branded legacy dialogs, Map duplicate-card hiding, forum/news voting and comments, and the public-bundle allowlist.
+- Production `ads.txt` read independently: `google.com, pub-6712657097464071, DIRECT, f08c47fec0942fa0`. `scripts/build_public_release.cjs` explicitly packages the file in the Netlify publish root. No claim of actual live HTTP 200 or AdSense approval; direct URL verification was unavailable.
+- GitHub status checks endpoint returned no statuses, and the available workflow-run API returned no latest push run (it only includes PR workflows). **Do not claim latest HEAD CI green.** Prior dev CI was successful before the final cosmetic/map test-only patches, but not proof of final commit.
+- Public web search crawl after source promotion still showed older below-map Roswell/Rendlesham cards. The crawl may be cached and cannot establish current deployed JS/CSS. Verify **Netlify Published** release SHA and actual browser after Netlify build, then perform owner Samsung acceptance with a disposable research document.
+- To avoid a second production Netlify deploy just for documenting the release, this post-promotion handover entry is committed to the development branch only. Production at the verified release commit remains unchanged. No Supabase/Auth/Storage changes or destructive operations were performed in this chat.
+
+**Remaining release acceptance:** (1) Netlify latest production deploy Published and correct SHA, (2) live /ads.txt exact content HTTP readable, (3) live Map no duplicate case cards with map pins preserved, (4) W.NE Find/Replace and save/reopen, (5) news vote and thread comment/reply/flag on owner-controlled test account, (6) inspect CI run for promoted source and fix any failures without exposing visitor data. Previous green M30 Samsung Save/Reopen, DOCX import, JSON recovery tests need not be repeated unless changed behavior requires it.
