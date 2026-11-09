@@ -2817,4 +2817,86 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
  gap:0;padding:3px 2px
 }#newsGrid article>.dd-news-actions>.dd-news-main-actions button{font-size:11px!important}}
 </style>
+<style id="dd-m34-adjacent-votes">
+/* Owner-approved action rail: ▲ ▼ together at left, Reply far right.
+   Use one consistent layout for News, Case, Video and Discussion replies. */
+.dd-comment-card .dd-comment-action-rail{
+ display:flex!important;flex-flow:row nowrap!important;
+ align-items:center!important;justify-content:flex-start!important;
+ gap:4px!important;min-width:0!important
+}
+.dd-comment-card .dd-comment-action-rail .dd-community-votes{
+ display:inline-flex!important;flex:0 0 auto!important;
+ width:auto!important;max-width:calc(100% - 90px)!important;
+ justify-content:flex-start!important;align-items:center!important;
+ flex-flow:row nowrap!important;gap:3px!important;margin:0!important
+}
+.dd-comment-card .dd-comment-action-rail .dd-community-vote-button{
+ flex:0 0 auto!important;min-width:44px!important;
+ padding:6px 8px!important;margin:0!important
+}
+.dd-comment-card .dd-comment-action-rail .dd-vote-status:empty{
+ display:none!important
+}
+.dd-comment-card .dd-comment-action-rail .dd-vote-status:not(:empty){
+ position:absolute;left:8px;bottom:100%;max-width:min(280px,90%);
+ padding:5px 8px;background:#243e50;border:1px solid #74899b;
+ border-radius:8px;z-index:5
+}
+.dd-comment-card .dd-comment-action-rail .dd-comment-reply-button{
+ flex:0 0 auto!important;margin-left:auto!important;
+ margin-right:0!important;white-space:nowrap!important;
+ min-width:72px!important;justify-content:flex-end!important
+}
+/* Discussion post and reply rails use the identical left-grouped votes. */
+#discussionsPage .dd-forum-actions{
+ display:flex!important;justify-content:flex-start!important;
+ align-items:center!important;gap:3px!important
+}
+#discussionsPage .dd-forum-actions>.dd-forum-vote{
+ flex:0 0 auto!important;min-width:44px!important;margin:0!important
+}
+#discussionsPage .dd-forum-reply-card .dd-forum-actions>.dd-forum-reply-action{
+ flex:0 0 auto!important;margin-left:auto!important;
+ white-space:nowrap!important;min-width:72px!important
+}
+/* News article rail: adjacent ▲ ▼ left; Share and Comments to the right. */
+#newsGrid article>.dd-news-actions>.dd-news-main-actions{
+ display:flex!important;align-items:center!important;
+ justify-content:flex-start!important;gap:3px!important
+}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions>[data-news-article-votes]{
+ display:inline-flex!important;flex:0 0 auto!important;
+ width:auto!important;min-width:0!important
+}
+#newsGrid article .dd-news-article-vote-controls{
+ display:inline-flex!important;flex:0 0 auto!important;
+ justify-content:flex-start!important;align-items:center!important;
+ gap:3px!important;min-width:0!important
+}
+#newsGrid article .dd-news-article-vote-controls button{
+ flex:0 0 auto!important;min-width:44px!important;
+ padding:6px 7px!important
+}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions>[data-share-news]{
+ flex:0 0 auto!important;margin-left:auto!important;
+ min-width:49px!important
+}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions>.dd-inline-comments-toggle{
+ flex:0 0 auto!important;margin-left:0!important;
+ min-width:81px!important
+}
+@media(max-width:360px){
+ .dd-comment-card .dd-comment-action-rail{padding:3px 4px!important}
+ .dd-comment-card .dd-comment-action-rail .dd-community-vote-button{
+  min-width:40px!important;padding:5px 6px!important
+ }
+ #newsGrid article .dd-news-article-vote-controls button{
+  min-width:39px!important;padding:5px 4px!important
+ }
+ #newsGrid article>.dd-news-actions>.dd-news-main-actions>.dd-inline-comments-toggle{
+  min-width:75px!important
+ }
+}
+</style>
 </body></html>
