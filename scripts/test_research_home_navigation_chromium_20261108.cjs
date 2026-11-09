@@ -42,6 +42,8 @@ const iframeHtml='<html><body><a id="legacyHome" data-dd-research-home-link href
     '<button id="dd-documents-btn">Research Home</button>'+
     '<dialog id="dd-documents-dialog"><p id="dd-documents-status"></p>'+
     '<div id="dd-documents-list"></div><input id="dd-new-document-name">'+
+    '<a id="restoreSingleLink" href="./restore-copy.html">Restore JSON</a>'+ 
+    '<a id="restoreZipLink" href="./restore-library.html">Restore ZIP</a>'+ 
     '<button id="dd-create-document">New</button><button id="dd-close-documents">Close</button></dialog>'+
     '<button id="writerBtn">Editor</button><iframe id="writer" src="./wne.html?id='+A+'"></iframe></body></html>';
    await page.setContent(fixture);
@@ -120,6 +122,21 @@ const iframeHtml='<html><body><a id="legacyHome" data-dd-research-home-link href
    await page.waitForFunction(()=>window.__fixture.calls.some(x=>x.action==='create'));
    assert.equal(await page.evaluate(()=>window.__fixture.calls.some(x=>x.action==='save')),false);
    pass(width+'px first ever document creation is not blocked by empty editor');
+   await page.locator('#dd-documents-btn').click();
+   await page.evaluate(()=>{window.__fixture.saved=false});
+   await page.locator('#restoreSingleLink').click();
+   await page.waitForFunction(()=>document.querySelector('#dd-documents-status').textContent.includes('not confirmed saved'));
+   assert.match(page.url(),/guest-preview.html/);
+   assert.equal(await page.locator('#dd-documents-dialog').evaluate(el=>el.open),true);
+   pass(width+'px JSON recovery link blocked until current report saved');
+   await page.locator('#restoreZipLink').click();
+   await page.waitForFunction(()=>document.querySelector('#dd-documents-status').textContent.includes('not confirmed saved'));
+   assert.match(page.url(),/guest-preview.html/);
+   pass(width+'px ZIP recovery link blocked until current report saved');
+   await page.evaluate(()=>{window.__fixture.saved=true});
+   await page.locator('#restoreSingleLink').click();
+   await page.waitForURL('**/research/restore-copy.html',{timeout:10000});
+   pass(width+'px confirmed save permits navigation to actual JSON recovery route');
    assert.deepEqual(errors,[],'Unhandled JS errors in Research fixture');
    await ctx.close();
   }
