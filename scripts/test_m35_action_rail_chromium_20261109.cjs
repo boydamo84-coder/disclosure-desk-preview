@@ -31,7 +31,7 @@ article{margin:10px 0;width:100%;border:1px solid #54687b}.dd-news-actions{width
     const up=rect('[data-up]'),down=rect('[data-down]'),
      board=rect('.dd-action-board,.dd-forum-star-action'),
      share=rect('.dd-action-share,.dd-forum-share-action'),
-     comments=rect('.dd-inline-comments-toggle,.dd-forum-comments-action,.dd-forum-reply-action');
+     comments=rect('.dd-inline-comments-toggle,.dd-forum-comments-action,.dd-forum-reply-action,.dd-comment-reply-button');
     const rail=el.getBoundingClientRect();
     return {gap:Math.round(down.left-up.right),upX:up.left,downX:down.left,
      boardX:board.left,shareX:share.left,shareWidth:share.width,
