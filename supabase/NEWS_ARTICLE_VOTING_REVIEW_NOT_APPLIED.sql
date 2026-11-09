@@ -32,6 +32,14 @@ begin
    raise exception 'Invalid news article vote';
  end if;
  perform pg_advisory_xact_lock(hashtext('dd-news-vote:'||v_actor::text||':'||p_story_key));
+ -- Limit new distinct story votes to 120 currently-held votes created per day;
+ -- repeat votes on an existing article are allowed. Prevent arbitrary-key floods.
+ if p_value<>0 and not exists(select 1 from public.dd_news_article_votes v
+      where v.story_key=p_story_key and v.voter_id=v_actor)
+   and (select count(*) from public.dd_news_article_votes v
+      where v.voter_id=v_actor and v.created_at>now()-interval '24 hours')>=120 then
+   raise exception 'Daily article voting limit reached';
+ end if;
  if p_value=0 then
   delete from public.dd_news_article_votes v
    where v.story_key=p_story_key and v.voter_id=v_actor;
