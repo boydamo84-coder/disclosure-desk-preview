@@ -24,9 +24,10 @@ function mount(container){
  const replyContext=el('p');replyContext.className='dd-comment-reply-context muted small';replyContext.hidden=true;
  form.append(replyContext,body,post);
  // Mount Comments in the same full-width action rail as Board / Compare / Share.
- const rail=container.closest('article')?.querySelector('.dd-news-actions');
+ const rail=container.closest('article')?.querySelector('.dd-news-main-actions');
  if(rail)rail.append(toggle);else container.append(toggle);
- container.append(entries,form,message);
+ toggle.classList.add('dd-inline-comments-toggle');
+ container.append(form,entries,message);
  function render(){
   toggle.textContent='Comments ('+state.items.length+') '+(state.expanded?'▲':'▼');
   toggle.setAttribute('aria-expanded',String(state.expanded));
@@ -85,7 +86,12 @@ function mount(container){
   if(!container.isConnected)return;
   state.items=(data||[]).map(x=>({...x,publicAlias:aliases[x.id]||null}));render();
  }
- toggle.onclick=()=>{state.expanded=!state.expanded;drafts.set(id,{expanded:state.expanded,draft:body.value});render()};
+ toggle.onclick=()=>{
+  if(state.replyTo){state.replyTo=null;state.expanded=true;}
+  else state.expanded=!state.expanded;
+  drafts.set(id,{expanded:state.expanded,draft:body.value});render();
+  if(state.expanded){body.focus();body.scrollIntoView({block:'nearest',behavior:'smooth'})}
+ };
  form.onsubmit=async ev=>{ev.preventDefault();if(state.busy)return;const c=client();if(!c)return;
    const {data:{user}}=await c.auth.getUser();if(!user||user.is_anonymous){message.textContent='Sign in with a registered account to comment.';return}
    state.busy=true;post.disabled=true;
