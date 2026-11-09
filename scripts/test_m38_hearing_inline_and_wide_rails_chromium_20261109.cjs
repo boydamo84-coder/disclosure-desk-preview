@@ -20,6 +20,10 @@ article{width:100%;margin:8px 0;border:1px solid #54687b}.dd-news-actions{width:
 </div>
 <article class="dd-comment-card"><div class="dd-comment-action-rail dd-action-rail" data-rail="comment"><div class="dd-community-votes"><button>▲ 6</button><button>▼ 1</button></div><button class="dd-action-board">☆</button><button class="dd-action-share">⤴</button><button class="dd-comment-reply-button">↳ Reply</button></div></article>
 <article class="dd-witness-report"><div class="dd-witness-action-rail" data-rail="witness"><div class="dd-community-votes"><button>▲ 2</button><button>▼ 0</button></div><button class="dd-action-board">☆</button><button class="dd-action-share">⤴</button></div></article>
+<div id="clips">
+<article><div class="clip-utility-actions dd-action-rail" data-rail="clip"><button>★ Fav</button><button>💬</button><button class="dd-action-board">☆</button><button class="dd-action-share">⤴</button></div></article>
+<article><div class="immersive-tools dd-action-rail" data-rail="immersive"><button>★ Fav</button><button>💬</button><button class="dd-action-board">☆</button><button class="dd-action-share">⤴</button><button>Skip ↓</button></div></article>
+</div>
 <article id="hearingCard"><div id="recording" style="height:220px">Official video fixture</div><div id="inlineHost" class="dd-hearing-comments-host"></div></article>
 </body></html>`;
 (async()=>{
