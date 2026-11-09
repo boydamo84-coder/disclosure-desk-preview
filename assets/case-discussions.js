@@ -88,7 +88,7 @@ function renderComments(){
    };
    if(!window.DDCommunityVotes?.mountCommentCard?.(card,header,body,flag,item.id,()=>{
      expanded=true;renderComments();chooseReply(item);
-   })){
+   },{discussionKey:current,title:'Comment on '+String(document.querySelector('#ddCaseDiscussionDialog h2')?.textContent||'Case discussion').slice(0,80)})){
     card.append(header,body,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);
    }
    list.append(card);
