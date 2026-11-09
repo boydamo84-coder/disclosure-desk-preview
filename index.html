@@ -2590,6 +2590,39 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
 /* Hidden author-state panels must never leak into the visible thread list. */
 #discussionsPage [hidden]{display:none!important}
 #discussionsPage #ddForumReplyContext{padding:10px 12px;margin:0 0 12px;color:#e8c88e;background:#20394b;border:1px solid #718198;border-radius:9px}
+#ddForumThreadPane.dd-forum-detail-open .dd-forum-pagination,
+#ddForumThreadPane.dd-forum-detail-open .dd-forum-feed-toolbar,
+#ddForumThreadPane.dd-forum-detail-open .dd-forum-create-post-row,
+#ddForumThreadPane.dd-forum-detail-open #ddForumPostList{
+ display:none!important
+}
+#ddForumThreadPane.dd-forum-detail-open #ddForumReplyPane{display:block!important}
+#ddForumThreadPane.dd-forum-detail-open #ddForumReplyContent{margin-bottom:16px}
+#ddForumThreadPane.dd-forum-detail-open #ddForumReplies{
+ display:grid;gap:10px;padding:0 0 12px
+}
+#newsGrid article>.dd-news-actions .dd-inline-comments-toggle{
+ flex:1 1 auto!important
+}
+.dd-comment-nested{margin-left:clamp(12px,6vw,44px)!important;
+ border-left:3px solid #b49a70!important
+}
+.dd-comment-parent-label{display:block;flex-basis:100%;margin-left:34px;
+ color:#d5bb88;font:600 11px system-ui
+}
+.dd-comment-reply-context{border-radius:8px;padding:8px 11px;
+ border:1px solid #6c7e8c;background:#203749;color:#f1d29b!important
+}
+.dd-comment-action-rail .dd-comment-reply-button{margin-left:auto!important;
+ display:inline-flex;align-items:center;gap:5px;padding:6px 10px!important;
+ background:transparent!important;color:#e6c58e!important;
+ border:0!important;border-radius:9px!important;min-height:39px!important;
+ font:650 12px system-ui!important;white-space:nowrap!important
+}
+.dd-comment-action-rail .dd-comment-reply-button:hover,
+.dd-comment-action-rail .dd-comment-reply-button:focus-visible{
+ background:#264458!important;outline:2px solid #c9ad7a!important
+}
 #discussionsPage .dd-forum-nested-reply{margin-left:clamp(12px,5vw,42px)!important;border-left:3px solid #bc9d66!important}
 #discussionsPage .dd-forum-reply-target{display:block;color:#dbc79e;margin:4px 0;font-size:11px}
 #discussionsPage .dd-forum-reply-action{font:650 12px system-ui!important;color:#e2c78d!important}
