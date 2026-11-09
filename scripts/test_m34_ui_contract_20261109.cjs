@@ -60,6 +60,11 @@ assert.match(polish,/id='dd-m34-new-document'/);
 assert.match(polish,/DDRecoveryCopyNotice/);
 assert.match(css,/\.dd-m34-dialog/);
 assert.match(css,/#dd-word-ribbon-v1/);
+assert.match(css,/#wne-findbar #wne-replace-all/,'Replace All must have branded action');
+assert.match(css,/#wne-findbar #wne-find-close/,'Find must have a visible close control');
+assert.match(css,/max-height:calc\(100dvh - 18px\)/,'Find panel must fit narrow phone viewport');
+assert.match(css,/\.wne-m34-prompt menu button:last-child/,'Legacy branded dialogs must emphasise primary action');
+
 assert.match(css,/#dd-image-edit #dd-crop-preview/);
 assert.match(studio,/#dd-word-ribbon-v1,#dd-word-context-v1/);
 assert.match(build,/'wne-polish-m34\.css','wne-polish-m34\.js'/);
