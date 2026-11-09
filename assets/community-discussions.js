@@ -390,7 +390,8 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
  flag.setAttribute('aria-label',flagged?'Already reported this '+kind:'Report this '+kind);
  flag.setAttribute('title',flagged?'Reported this session':'Report this '+kind);
  flag.setAttribute('aria-pressed',String(flagged));
- flag.disabled=flagged;
+ flag.disabled=flagged||row.is_mine===true;
+  if(row.is_mine)flag.title='You cannot flag your own content';
  setActionIcon(flag,'flag','⚑');
  if(flagged)flag.classList?.add('is-flagged');
  const like=nodeAction(parent,'▲ '+(row.likes||0),b=>vote(kind,row,1,b),'dd-forum-icon-button dd-forum-vote');
