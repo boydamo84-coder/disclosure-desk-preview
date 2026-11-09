@@ -15,7 +15,7 @@ assert.equal(count(/<style\b/gi),count(/<\/style>/gi),'All stylesheet tags must 
 assert.equal(count(/<script\b/gi),count(/<\/script>/gi),'All script tags must be closed');
 assert.equal(count(/<\/body>/gi),1,'Writer must close its body exactly once');
 assert.equal(count(/<\/html>/gi),1,'Writer must close its HTML exactly once');
-const ribbonAt=HTML.indexOf('<script id="dd-word-ribbon-v1">');
+const ribbonAt=HTML.indexOf('<script id="dd-word-ribbon-bootstrap-v1">');
 const endBodyAt=HTML.indexOf('</body>');
 assert(ribbonAt>0&&endBodyAt>ribbonAt,'The editor must NOT close before installing the Word ribbon');
 assert(HTML.lastIndexOf('<script',endBodyAt)>ribbonAt,'All late Research scripts must remain inside HTML body');
@@ -67,8 +67,8 @@ assert.doesNotMatch(HTML.slice(endBodyAt),/<style\b|<script\b/i,'No style/script
        isEditorPresent:!!document.querySelector('#editor'),
        hasFormatBar:!!document.querySelector('.formatbar'),
        hasTablist:!!document.querySelector('#dd-word-ribbon-v1'),
-       ribbonScript:!!document.querySelector('script#dd-word-ribbon-v1'),
-       ribbonScriptInDom:document.querySelector('script#dd-word-ribbon-v1')?.textContent.length,
+       ribbonScript:!!document.querySelector('script#dd-word-ribbon-bootstrap-v1'),
+       ribbonScriptInDom:document.querySelector('script#dd-word-ribbon-bootstrap-v1')?.textContent.length,
        writerTail:document.body?.innerText.slice(-350),
        headCount:document.head?.children.length,
        scriptCount:document.scripts.length,
