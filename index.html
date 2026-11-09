@@ -1101,7 +1101,7 @@ function news(){
   const link=s.url&&/^https:\/\//.test(s.url)?`<a class="news-open" data-read-story="${i}" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">Read original story ↗</a>`:'';
   const when=s.date?new Date(s.date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'';
   const imageLabel=realImage?'Publisher/feed image':'Editorial illustration';
-  return `<article data-news-id="${esc(s.id||'')}" class="card ${i===0?'hero-news':'news-row'}"><div class="news-image-wrap ${realImage?'':'pillar-fallback'}">${realImage?`<img loading="lazy" alt="Publisher article image" src="${esc(pic)}" onload="verifyNewsPhoto(this)" onerror="usePillarFallback(this)">`:newsEditorialArt(s)}<span class="image-credit">${realImage?'Publisher article image':'Editorial illustration · not event evidence'}</span></div><div class="card-body"><span class="tag">${esc(s.category)}${s.country?' · '+esc(s.country):''}${s.sourceType==='official'?' · Official source':''}</span><h3>${safePublicUrl(s.url||'')?`<a class="news-headline-link" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.headline)}</a>`:esc(s.headline)}</h3><p>${esc(s.desc||'Open the original publisher for the full report.')}</p><div class="news-story-source"><span class="source-chip">${esc(s.source||'Publisher')}</span>${when?`<span class="meta">${esc(when)}</span>`:''}</div>${newsRabbitHole(s,i)}</div><div class="dd-news-actions"><div class="dd-news-tools">${safePublicUrl(s.url||'')?`<button type="button" class="outline" data-save-news="${i}" data-bookmark-url="${esc(s.url)}" data-bookmark-label="${esc(s.headline)}" aria-label="Save to Investigation Board"><span data-star-icon>☆</span> Board</button>`:'' }${safePublicUrl(s.url||"")?`<button class="outline" data-compare-news="${i}" type="button">⚖ Compare</button>`:""}</div><div class="dd-news-main-actions"><span data-news-article-votes="${esc('news:'+String(s.id||s.url||'').slice(0,175))}"></span>${safePublicUrl(s.url||"")?`<button class="outline" data-share-news="${i}" type="button">↗ Share</button>`:""}</div></div><div class="dd-news-inline-comments" data-news-comments="${esc('news:'+String(s.id||s.url||'').slice(0,175))}"></div></article>`;
+  return `<article data-news-id="${esc(s.id||'')}" class="card ${i===0?'hero-news':'news-row'}"><div class="news-image-wrap ${realImage?'':'pillar-fallback'}">${realImage?`<img loading="lazy" alt="Publisher article image" src="${esc(pic)}" onload="verifyNewsPhoto(this)" onerror="usePillarFallback(this)">`:newsEditorialArt(s)}<span class="image-credit">${realImage?'Publisher article image':'Editorial illustration · not event evidence'}</span></div><div class="card-body"><span class="tag">${esc(s.category)}${s.country?' · '+esc(s.country):''}${s.sourceType==='official'?' · Official source':''}</span><h3>${safePublicUrl(s.url||'')?`<a class="news-headline-link" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.headline)}</a>`:esc(s.headline)}</h3><p>${esc(s.desc||'Open the original publisher for the full report.')}</p><div class="news-story-source"><span class="source-chip">${esc(s.source||'Publisher')}</span>${when?`<span class="meta">${esc(when)}</span>`:''}</div>${newsRabbitHole(s,i)}</div><div class="dd-news-actions"><div class="dd-news-tools">${safePublicUrl(s.url||"")?`<button class="outline" data-compare-news="${i}" type="button">⚖ Compare</button>`:""}</div><div class="dd-news-main-actions dd-action-rail"><span data-news-article-votes="${esc('news:'+String(s.id||s.url||'').slice(0,175))}"></span>${safePublicUrl(s.url||'')?`<button type="button" class="outline dd-action-board" data-save-news="${i}" data-bookmark-url="${esc(s.url)}" data-bookmark-label="${esc(s.headline)}" aria-label="Save to Investigation Board" title="Add to Board"><span data-star-icon>☆</span></button>`:'' }${safePublicUrl(s.url||"")?`<button class="outline dd-action-share" data-share-news="${i}" type="button">↗ Share</button>`:""}</div></div><div class="dd-news-inline-comments" data-news-comments="${esc('news:'+String(s.id||s.url||'').slice(0,175))}"></div></article>`;
  }).join('')||'<div class="card empty">No stories in this category right now. Try All or Refresh.</div>';
  document.querySelectorAll('.news-headline-link').forEach(a=>a.addEventListener('click',()=>{const card=a.closest('[data-news-id]');const item=results.find(x=>String(x.id||'')===card?.dataset.newsId);if(item)rememberReadStory(item)}));
  document.querySelectorAll('[data-share-news]').forEach(btn=>btn.onclick=async()=>{const story=results[Number(btn.dataset.shareNews)];const url=safePublicUrl(story?.url||'');if(!url)return;try{if(navigator.share)await navigator.share({title:story.headline,url});else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url);btn.textContent='✓ Copied';}else window.prompt('Copy story link',url)}catch(e){if(e.name!=='AbortError')window.prompt('Copy story link',url)}});
@@ -2904,6 +2904,63 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
  #newsGrid article>.dd-news-actions>.dd-news-main-actions>.dd-inline-comments-toggle{
   min-width:75px!important
  }
+}
+</style>
+<style id="dd-m35-one-action-rail">
+/* Shared visual contract for News, Forums, and public comment rows. */
+#newsGrid article>.dd-news-actions>.dd-news-main-actions.dd-action-rail,
+#discussionsPage .dd-forum-actions.dd-action-rail,
+.dd-comment-card .dd-comment-action-rail.dd-action-rail{
+ display:flex!important;flex-flow:row nowrap!important;align-items:center!important;
+ justify-content:flex-start!important;gap:4px!important;
+ background:#081722!important;border-top:1px solid #42566b!important;
+ padding:4px 6px!important;margin:0!important;min-width:0!important;
+ width:100%!important;box-sizing:border-box!important;overflow-x:auto;
+ scrollbar-width:thin;-webkit-overflow-scrolling:touch
+}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions.dd-action-rail>*,
+#discussionsPage .dd-forum-actions.dd-action-rail>*,
+.dd-comment-card .dd-comment-action-rail.dd-action-rail>*{flex:0 0 auto!important;min-width:0!important}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions.dd-action-rail button,
+#discussionsPage .dd-forum-actions.dd-action-rail button,
+.dd-comment-card .dd-comment-action-rail.dd-action-rail button{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ height:40px!important;min-height:40px!important;max-height:42px!important;
+ width:auto!important;min-width:38px!important;max-width:none!important;
+ flex:0 0 auto!important;padding:5px 7px!important;margin:0!important;
+ background:transparent!important;color:#e9d7b4!important;
+ border:1px solid transparent!important;border-radius:7px!important;
+ font:650 12px/1.2 system-ui!important;white-space:nowrap!important
+}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions.dd-action-rail button:focus-visible,
+#discussionsPage .dd-forum-actions.dd-action-rail button:focus-visible,
+.dd-comment-card .dd-comment-action-rail.dd-action-rail button:focus-visible{outline:2px solid #eac78c!important;outline-offset:-2px!important}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions.dd-action-rail button[aria-pressed=true],
+#discussionsPage .dd-forum-actions.dd-action-rail button[aria-pressed=true],
+.dd-comment-card .dd-comment-action-rail.dd-action-rail button[aria-pressed=true]{color:#edc985!important;border-color:#aa9068!important;background:#283f50!important}
+#newsGrid .dd-action-rail [data-news-article-votes],
+#newsGrid .dd-action-rail .dd-news-article-vote-controls,
+.dd-comment-card .dd-action-rail .dd-community-votes{
+ display:inline-flex!important;flex:0 0 auto!important;width:auto!important;
+ max-width:none!important;align-items:center!important;gap:3px!important;margin:0!important
+}
+#newsGrid .dd-action-rail button.dd-action-board,
+#discussionsPage .dd-action-rail button.dd-forum-star-action{font-size:18px!important;color:#eac78c!important}
+#newsGrid .dd-action-rail .dd-action-share,
+#discussionsPage .dd-action-rail .dd-forum-share-action{margin-left:auto!important}
+#newsGrid .dd-action-rail .dd-inline-comments-toggle,
+#discussionsPage .dd-action-rail .dd-forum-comments-action{min-width:82px!important}
+#discussionsPage .dd-action-rail .dd-forum-spacer{display:none!important}
+#discussionsPage .dd-action-rail .dd-forum-reply-action,
+.dd-comment-card .dd-action-rail .dd-comment-reply-button{margin-left:auto!important;min-width:65px!important}
+#newsGrid article .dd-news-inline-comments form:not([hidden]),
+#ddCaseDiscussionDialog #ddCaseDiscussionForm:not([hidden]){display:block!important}
+#newsGrid article .dd-news-inline-comments form[hidden]{display:none!important}
+#newsGrid article .dd-news-inline-comments textarea{display:block!important;visibility:visible!important}
+@media(max-width:360px){
+ #newsGrid article>.dd-news-actions>.dd-news-main-actions.dd-action-rail,
+ #discussionsPage .dd-forum-actions.dd-action-rail,
+ .dd-comment-card .dd-comment-action-rail.dd-action-rail{gap:2px!important;padding:3px!important}
 }
 </style>
 </body></html>
