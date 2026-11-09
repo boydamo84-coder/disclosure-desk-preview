@@ -138,6 +138,10 @@ assert.doesNotMatch(HTML.slice(endBodyAt),/<style\b|<script\b/i,'No style/script
 
    // Write only fictional test text to the in-browser synthetic Supabase
    // account. Require a confirmed revision through the real W.NE bridge.
+   // File is a dropdown overlay, not a persistent tab: dismiss it before
+   // switching menus. This models normal keyboard/touch dismissal.
+   await page.keyboard.press('Escape');
+   await page.locator('#wne-file-menu').waitFor({state:'hidden'});
    await page.locator('#dd-word-ribbon-v1 [data-ribbon="home"]').click();
    await page.locator('#editor').fill('WNE M32 synthetic save confirmation');
    assert.equal(await page.evaluate(()=>window.wneSaveBeforeNavigation('M32 fake account save')),true);
