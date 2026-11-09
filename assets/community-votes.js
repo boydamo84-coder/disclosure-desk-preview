@@ -18,8 +18,8 @@ function apply(w,result){
  const like=w.querySelector('[data-vote-value="1"]');
  const dislike=w.querySelector('[data-vote-value="-1"]');
  const n1=Number(result?.likes||0),n2=Number(result?.dislikes||0);
- like.textContent='👍 '+Math.max(0,n1);
- dislike.textContent='👎 '+Math.max(0,n2);
+ like.textContent='▲ '+Math.max(0,n1);
+ dislike.textContent='▼ '+Math.max(0,n2);
  like.setAttribute('aria-pressed',String(w.dataset.myVote==='1'));
  dislike.setAttribute('aria-pressed',String(w.dataset.myVote==='-1'));
  w.querySelector('.dd-vote-status').textContent='';
@@ -56,12 +56,12 @@ function mount(host,kind,id){
  widget.dataset.voteItem=id;
  widget.dataset.myVote='0';
  widget.setAttribute('role','group');
- widget.setAttribute('aria-label','Community like and dislike buttons');
+ widget.setAttribute('aria-label','Community upvote and downvote buttons');
  const buttons=[1,-1].map(value=>{
-  const btn=make('button','dd-community-vote-button',value===1?'👍 …':'👎 …');
+  const btn=make('button','dd-community-vote-button',value===1?'▲ …':'▼ …');
   btn.type='button';
   btn.dataset.voteValue=String(value);
-  btn.setAttribute('aria-label',value===1?'Like this '+kind:'Dislike this '+kind);
+  btn.setAttribute('aria-label',value===1?'Upvote this '+kind:'Downvote this '+kind);
   btn.setAttribute('aria-pressed','false');
   btn.addEventListener('click',async()=>{
    const c=client();if(!c)return;
