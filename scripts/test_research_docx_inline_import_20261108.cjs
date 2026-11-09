@@ -19,8 +19,22 @@ async function runScenario(options={}){
   click(){log.picker++},addEventListener(event,cb){this.listeners[event]=cb},
   setAttribute(key,value){this[key]=value}};
  const toast={textContent:'',classList:{remove(){}}};
- const document={createElement(name){assert.equal(name,'input');return input},
-  body:{appendChild(){}},
+ // The branded, copy-safe HTML dialog replaces the previous window.confirm.
+ // Exercise its real Confirm/Cancel callbacks; no fake automatic upload.
+ function element(tag){
+  const item={tagName:tag.toUpperCase(),children:[],listeners:{},textContent:'',
+   append(...items){this.children.push(...items)},
+   setAttribute(k,v){this[k]=v},addEventListener(k,fn){this.listeners[k]=fn},
+   close(){this.open=false},remove(){},showModal(){
+    this.open=true;log.confirm++;
+    const menu=this.children.find(c=>c.tagName==='MENU');
+    const selected=menu?.children.find(b=>b.textContent===(options.confirm===false?'Cancel':'Create imported copy'));
+    queueMicrotask(()=>selected?.listeners.click?.());
+   }};
+  return item;
+ }
+ const document={createElement(name){return name==='input'?input:element(name)},
+  body:{appendChild(){},append(){}},
   getElementById(id){return id==='toast'?toast:null}};
  const env={
   window:{wneSaveBeforeNavigation:async()=>{log.saves++;return options.save!==false},
@@ -35,7 +49,7 @@ async function runScenario(options={}){
    return {ok:options.cloud!==false,json:async()=>options.cloud===false?
     {error:'Synthetic cloud rejection'}:{id:UUIDS[1]}};
   },
-  setTimeout,Promise,console
+  setTimeout,queueMicrotask,Promise,console
  };
  env.window.top.location.assign=env.window.top.location.assign.bind(env.window.top.location);
  vm.runInNewContext(src,env,{filename:'research/research-docx-import.js'});
@@ -58,6 +72,7 @@ async function runScenario(options={}){
  assert.equal(ok.log.picker,1,'Native input picker is clicked directly');
  await ok.select();
  assert.equal(ok.log.saves,1);
+ assert.equal(ok.log.confirm,1,'branded import confirmation presented before writing');
  assert.equal(ok.log.uploads.length,1);
  assert.equal(ok.log.uploads[0].path,'/api/library');
  assert.equal(ok.log.uploads[0].body.action,'import-cloud-copy');
