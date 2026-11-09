@@ -109,7 +109,7 @@ assert.doesNotMatch(HTML.slice(endBodyAt),/<style\b|<script\b/i,'No style/script
        saveHook:typeof window.wneSaveBeforeNavigation
      }));
      throw Error('Writer did not initialise cloud save: '+JSON.stringify(state)+
-       ' JS errors: '+JSON.stringify(pageErrors.slice(0,7))+' / '+error.message);
+       ' Dialogs: '+JSON.stringify(alerts.slice(0,5))+' JS errors: '+JSON.stringify(pageErrors.slice(0,7))+' / '+error.message);
    }
    pass(viewport.width+'px: real Writer initialises document and save guard');
 
