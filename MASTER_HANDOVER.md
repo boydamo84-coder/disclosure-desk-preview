@@ -669,3 +669,8 @@ Owner interrupted release-preparation check to confirm toolbar duplication, colo
 - Forum original composer now moves next to the chosen comment, preserves drafts across list refresh, and uses focus preventScroll instead of jumping down. Case/Video/Hearing comment composer uses the same inline anchor and public deep links. Commits 02b2cb0, bd1bc12, 09bd036, cf07d54, 67f5eac, 9de7e74.
 - Map: audit re-added explicit CSS hide for both legacy duplicate lists (#mapItems and #mapArchiveResults), leaving pins, year filters and archive shortcut intact. Commit b953a5c. No moderation SQL or user data changed.
 - **Not yet verified:** real Chromium geometry; signed-in Samsung Board/Share/Comments/Reply/Flag flows; visual parity of all screen types. No production promotion or Netlify deploy.
+
+
+### Milestone 35C — W.NE explicit viewing-mode memory and direct navigation (9 Nov 2026)
+
+**Development branch only.** research/research-workspace.html now saves a separate persistent dd-research-studio-view-choice-v1 preference when the user selects Editor, Research Library or Side by side and restores it when opening another document. Previous width and save safeguards remain unchanged (commit fe14b60). Public index.html now prevents the wrong default page flashing before the requested dd_tab is activated on return from the research dock, while revealing normally if target selection fails (commit f96e4d0). No W.NE original product repository changed and no document content overwritten. **Samsung open-next-document, orientation and failed-save navigation tests outstanding.**
