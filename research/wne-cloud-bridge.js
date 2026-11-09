@@ -81,12 +81,15 @@ async function makeLibraryZip(){
   if(offset+pageSize>=1000)throw Error('Library exceeds 1,000 documents. Contact support for a larger export.');
  }
  if(!rows.length)throw Error('No saved cloud research documents to back up yet.');
+ // Keep a fully usable backup for supported documents. Incompatible content
+ // goes in a separate manual-review folder and is NEVER offered for automatic restore.
+ const restorable=rows.filter(row=>valid(row.content));
  const zip=new window.JSZip();
  const exported=new Date().toISOString(),manifest={
   format:'disclosure-desk-wne-research-backup-v1',
-  exported_at:exported,document_count:rows.length,
-  documents:rows.map(({id,title,revision,updated_at,content})=>({id,title,revision,updated_at,needs_manual_review:!valid(content)})),
-  needs_manual_review_count:needsReview.length
+  exported_at:exported,document_count:restorable.length,
+  documents:restorable.map(({id,title,revision,updated_at})=>({id,title,revision,updated_at})),
+  manual_review_count:needsReview.length
  };
  zip.file('README.txt','Disclosure Desk W.NE Research Edition backup\\n'
  +'Includes only the research documents belonging to the signed-in account.\\n'
@@ -102,10 +105,10 @@ async function makeLibraryZip(){
   });
   characters+=data.length;
   if(characters>60*1024*1024)throw Error('The research library is too large for one browser ZIP (60 MB limit). No file created.');
-  zip.file('documents/'+row.id+'.json',data);
+  zip.file((valid(row.content)?'documents/':'manual-review/')+row.id+'.json',data);
  }
  if(needsReview.length)zip.file('WARNING-MANUAL-REVIEW.txt',
-  'Older or incompatible documents were preserved exactly in documents/. Do not automatically restore them without validating their structure.\n'
+  'Older or incompatible documents were preserved as raw JSON in manual-review/. Only documents/ are valid for automatic restore.\n'
   +'No account data has been migrated, deleted or overwritten.\n\n'
   +needsReview.map(row=>row.id+' - '+String(row.title||'Untitled')).join('\n'));
  const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:4}});
