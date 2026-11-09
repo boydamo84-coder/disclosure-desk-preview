@@ -2273,7 +2273,7 @@ html body #wne-bible-open,html body #wne-idea-open,html body #wne-companion-laun
       const pack=await window.WNECloudIntegration?.makeLibraryZip?.();
       if(!pack?.blob||!pack.filename)throw Error('Could not create the library ZIP. Your documents are unchanged.');
       await saveResearchFile(pack.blob,pack.filename);
-      alert('Research library backup prepared: '+pack.documentCount+' document(s). Check your Downloads or sharing destination. Keep the ZIP private.');
+      alert('Research library backup prepared: '+pack.documentCount+' document(s). Check Downloads and keep the ZIP private.'+(pack.needsManualReview?'\n\nAttention: '+pack.needsManualReview+' older or incompatible document(s) are included as raw JSON for manual review only. They were NOT automatically restored. See WARNING-MANUAL-REVIEW.txt in the ZIP.':''));
      }
      else if(action==='history'){performClick('recover');}
      else if(action==='emergency'){await window.wneEmergencyCopy();}
