@@ -10,7 +10,7 @@ assert.match(wne,/wne-ui-m40\.js/);assert.match(wne,/wne-ui-m40\.css/);
 assert.match(bundle,/'wne-ui-m40\.css','wne-ui-m40\.js'/);
 assert.match(wne,/title:'Section '\+n/);
 assert.match(wne,/area\.dispatchEvent\(new Event\('input',\{bubbles:true\}\)\)/);
-assert.match(ui,/data\.ddRibbonView='citations'/);
+assert.match(ui,/dataset\.ddRibbonView='citations'/);
 assert.match(ui,/dd-m40-cite-insert/);
 assert.match(ui,/select\.value===''[?]null:list/);
 assert.match(ui,/d\.close\(\);\s*editor\.focus\(\)/);
