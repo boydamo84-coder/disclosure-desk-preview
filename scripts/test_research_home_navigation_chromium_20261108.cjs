@@ -129,6 +129,7 @@ const iframeHtml='<html><body><a id="legacyHome" data-dd-research-home-link href
    assert.match(page.url(),/guest-preview.html/);
    assert.equal(await page.locator('#dd-documents-dialog').evaluate(el=>el.open),true);
    pass(width+'px JSON recovery link blocked until current report saved');
+   await page.evaluate(()=>{document.querySelector('#dd-documents-status').textContent=''});
    await page.locator('#restoreZipLink').click();
    await page.waitForFunction(()=>document.querySelector('#dd-documents-status').textContent.includes('not confirmed saved'));
    assert.match(page.url(),/guest-preview.html/);
