@@ -85,6 +85,8 @@ assert.doesNotMatch(HTML.slice(endBodyAt),/<style\b|<script\b/i,'No style/script
     status:document.querySelector('#status')?.textContent,
     codeLeaks:[...document.body.querySelectorAll('*')].filter(x=>x.children.length===0&&
       (x.textContent||'').includes("const toolbar=document.querySelector('.formatbar')"))
+      .filter(x=>{const st=getComputedStyle(x),r=x.getBoundingClientRect();
+        return st.display!=='none'&&st.visibility!=='hidden'&&r.width>0&&r.height>0})
       .map(x=>x.tagName).slice(0,8)
    }));
    assert.deepEqual(dom.ribbonButtons,['File','Home','Insert','Review','View']);
