@@ -1255,6 +1255,20 @@ window.DDSaveForumToBoard=(title,id)=>{
  addInvestigationLink(String(title||'Discussion').slice(0,120),
   'https://uapdisclosuredesk.com/?dd_tab=discussionsPage&dd_thread='+encodeURIComponent(id));
 };
+// M35 reusable Board/Share actions for actual public comment permalinks.
+// Reuses the original private Board picker; does not expose private notes.
+window.DDSavePublicLinkToBoard=(title,url)=>{
+ const clean=safePublicUrl(url);
+ if(clean)addInvestigationLink(String(title||'Community discussion').slice(0,120),clean);
+};
+window.DDSharePublicLink=async(title,url)=>{
+ const clean=safePublicUrl(url);if(!clean)return;
+ try{
+  if(navigator.share){await navigator.share({title:String(title||'Disclosure Desk discussion').slice(0,120),url:clean});return;}
+  if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(clean);
+  else window.prompt('Copy public link:',clean);
+ }catch(error){if(error?.name!=='AbortError')window.prompt('Copy public link:',clean)}
+};
 function savePendingBookmark(board){
  if(!board||!pendingBookmark)return;
  if(board.links.some(l=>l.url===pendingBookmark.url)){$('pickerMessage').textContent='This source is already saved in '+board.name+'.';return}
