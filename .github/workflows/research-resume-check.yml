@@ -111,9 +111,11 @@ jobs:
           node scripts/test_account_deletion_write_fence_20261108.cjs
           node --check scripts/test_account_deletion_live_audit_contract_20261108.cjs
           node scripts/test_account_deletion_live_audit_contract_20261108.cjs
-      - name: Verify restricted static bundle and every published link (NO deploy)
+      - name: Verify restricted static bundle, canonical search URLs and published links (NO deploy)
         run: |
           node scripts/test_public_release_package.cjs
+          node --check scripts/test_search_indexing.cjs
+          node scripts/test_search_indexing.cjs
           node scripts/audit_public_pages_20261108.cjs
   real-browser:
     name: Offline real Chromium editor acceptance gate (NO deploy)
