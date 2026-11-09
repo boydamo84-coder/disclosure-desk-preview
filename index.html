@@ -2752,6 +2752,30 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
 #newsGrid article .dd-news-inline-comments .dd-comment-action-rail button{
  min-height:42px;color:#e9d2ac
 }
+/* Archive, video and hearing follow-up comments share the News styling. */
+#ddCaseDiscussionDialog #ddCommentsToggle{
+ display:block!important;width:100%!important;min-height:45px!important;
+ background:#081722!important;color:#f0d49e!important;
+ border:1px solid #50667a!important;border-radius:10px!important;
+ text-align:left!important;padding:10px 14px!important;margin:10px 0 0!important;
+ font:650 13px system-ui!important
+}
+#ddCaseDiscussionDialog #ddCaseDiscussionForm{
+ padding:12px;margin:10px 0;background:#182f41!important;
+ border:1px solid #5b7284;border-radius:10px
+}
+#ddCaseDiscussionDialog #ddCaseDiscussionForm[hidden]{display:none!important}
+#ddCaseDiscussionDialog #ddCaseDiscussionForm button[type=submit]{
+ min-height:43px;padding:8px 15px;background:#dabb82!important;
+ color:#122738!important;border:0;border-radius:9px;font-weight:700
+}
+#ddCaseDiscussionDialog .dd-comment-action-rail{
+ display:flex;align-items:center;gap:7px;min-height:45px;
+ padding:4px 8px;background:#081722!important;border-top:1px solid #42576b!important
+}
+#ddCaseDiscussionDialog .dd-comment-action-rail button{
+ min-height:42px;color:#f0d9b2!important
+}
 .dd-comment-card{position:relative!important}
 .dd-comment-card .dd-comment-main{position:relative;padding-top:6px}
 .dd-comment-card .dd-comment-head{padding-right:47px!important;min-height:38px!important}
