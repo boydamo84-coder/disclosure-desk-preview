@@ -11,14 +11,14 @@ const page=read('index.html'),news=read('assets/inline-news-comments.js'),
  harden=read('supabase/COMMENT_SECURITY_HARDENING_REVIEW.sql');
 assert.match(page,/assets\/news-article-votes\.js/);
 assert.match(build,/'news-article-votes\.js'/);
-assert.match(page,/class="dd-news-main-actions"/);
+assert.match(page,/class="dd-news-main-actions dd-action-rail"/);
 assert.match(page,/data-news-article-votes=/);
 assert.match(page,/class="dd-news-tools"/);
 assert.match(page,/#newsGrid article>\.dd-news-actions>\.dd-news-main-actions/);
 assert.match(news,/querySelector\('\.dd-news-main-actions'\)/);
 assert.match(news,/container\.append\(form,entries,message\)/);
 assert.match(news,/toggle\.onclick=\(\)=>/);
-assert.match(news,/body\.focus\(\)/);
+assert.match(news,/body\.focus\(\{preventScroll:true\}\)/);
 assert.match(news,/parent_id:replyingTo\?\.id\|\|null/);
 assert.match(forum,/function chooseReply\(target,focusComposer=false\)/);
 assert.match(forum,/pane\.after\?\.\(replyForm\)/);
