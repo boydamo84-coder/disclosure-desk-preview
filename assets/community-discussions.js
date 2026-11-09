@@ -143,15 +143,21 @@ function chooseReply(target,focusComposer=false){
  if(!thread)return;
  replyParent=target&&isId(target.id)?target.id:null;
  const form=$('ddForumReplyCreate'),input=form?.elements?.namedItem('body');
- if(form&&(target||focusComposer))form.hidden=false;
+ // Place the *one* original composer directly after the selected comment.
+ // Never scroll the page to a shared box at the end of the thread.
+ const anchor=replyParent
+  ? $('ddForumReplies')?.querySelector('[data-dd-forum-reply-id="'+replyParent+'"]')
+  : $('ddForumReplyContent');
+ if(form){(anchor||$('ddForumReplyContent'))?.after(form);if(target||focusComposer)form.hidden=false;}
  const submit=form?.querySelector?.('button[type="submit"]');if(submit)submit.textContent=replyParent?'Post reply':'Post comment';
  let note=$('ddForumReplyContext');
  if(!note&&form){note=mk('p','','dd-forum-reply-context');note.id='ddForumReplyContext';form.prepend(note)}
  if(note)note.textContent=replyParent?'Replying to '+String(target.author_name||'this comment')+' in “'+String(thread.title||'Discussion')+'”':'Commenting on “'+String(thread.title||'Discussion')+'”';
- if(input){input.placeholder=replyParent?'Write a reply to '+String(target.author_name||'this comment')+'…':'Add a comment to this post…';if(target||focusComposer){input.focus();input.scrollIntoView({block:'center',behavior:'smooth'})}}
+ if(input){input.placeholder=replyParent?'Write a reply to '+String(target.author_name||'this comment')+'…':'Add a comment to this post…';if(target||focusComposer)input.focus({preventScroll:true})}
 }
 function appendReplyCard(list,row,replyLookup){
  const card=mk('article',undefined,'dd-forum-item dd-forum-reply-card');
+ card.dataset.ddForumReplyId=String(row.id||'');
  const main=mk('div',undefined,'dd-forum-post-main'),tools=mk('div',undefined,'dd-forum-actions');
  main.append(makePostHead(row,'reply',tools));
  const parentId=String(row.parent_id||row.parent_reply_id||'');
@@ -198,11 +204,18 @@ async function loadReplies(){
   let expanded=false;
   const all=Array.isArray(rows)?rows:[];
   function display(){
+   // Keep the composer connected while replacing comment cards on refresh.
+   const activeForm=$('ddForumReplyCreate');
+   if(activeForm&&list.contains(activeForm))$('ddForumReplyContent')?.after(activeForm);
    list.replaceChildren();
    if(!all.length){empty(list,'No replies yet. Start the discussion.');return}
    const visible=expanded?all:all.slice(0,4);
    const lookup=new Map(all.filter(r=>isId(r.id)).map(r=>[r.id,r]));
    for(const row of visible)appendReplyCard(list,row,lookup);
+   if(replyParent&&activeForm&&!activeForm.hidden){
+    const anchor=list.querySelector('[data-dd-forum-reply-id="'+replyParent+'"]');
+    if(anchor)anchor.after(activeForm);
+   }
    if(all.length>4){
     const toggle=nodeAction(list,expanded?'⌃ Show fewer replies':'⌄ Read '+(all.length-4)+' more replies',()=>{
      expanded=!expanded;display();
@@ -406,13 +419,13 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
    if(inDetail&&thread?.id===row.id){chooseReply(null,true);return}
    await openThread(row);
    if(thread?.id===row.id)chooseReply(null,true);
-  },'dd-forum-icon-button');
+  },'dd-forum-icon-button dd-forum-comments-action');
   comments.setAttribute('aria-label','Read '+commentCount+' comments');
   const star=nodeAction(parent,'☆',()=>saveThread(row),'dd-forum-icon-button');
   setActionIcon(star,'star','☆');
   star.setAttribute('aria-label','Save post to an Investigation Board');
   star.setAttribute('title','Add to Board');
-  const share=nodeAction(parent,'⤴',()=>shareThread(row),'dd-forum-icon-button');
+  const share=nodeAction(parent,'⤴',()=>shareThread(row),'dd-forum-icon-button dd-forum-share-action');
   setActionIcon(share,'share','⤴');
   share.setAttribute('aria-label','Share this post');
   share.setAttribute('title','Share');
