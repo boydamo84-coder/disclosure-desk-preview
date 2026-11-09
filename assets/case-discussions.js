@@ -64,6 +64,7 @@ function renderComments(){
    if(item.publicAlias)window.DDMemberAvatars?.decorate?.(avatar,item.publicAlias);
    const body=document.createElement('p');body.textContent=item.body;body.style.whiteSpace='pre-wrap';
    const flag=document.createElement('button');flag.className='outline';flag.type='button';flag.textContent='⚑ Flag';flag.style.fontSize='12px';
+   if(item.is_mine){flag.disabled=true;flag.title='You cannot flag your own comment'}
    flag.onclick=async()=>{
      const {data:{user}}=await c.auth.getUser();
      if(!user||user.is_anonymous){announce('Sign in with a registered account to flag comments.');return}
