@@ -68,7 +68,7 @@ const lib={loadAsync:async()=>zip(row)};
  assert.match(html,/restore-library\.js/);
  assert.match(home,/href="\.\/restore-library\.html"/);
  assert.match(home,/href="\.\/restore-copy\.html"/);
- assert.match(script,/window\.confirm\(/,'explicit user action');
+ assert.match(script,/if\(!await window\.WNEDialogs\.confirm\(/,'explicit user approval through branded recovery dialog');
  assert.match(script,/Check your Research Studio documents before retrying/,'no silent batch retry');
  assert.match(core,/new DOMParser/,'real browser HTML parser checks');
  assert.match(core,/Account changed\. Restore stopped/,'account swapping protection');
