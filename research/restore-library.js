@@ -38,7 +38,7 @@ $('restore').addEventListener('click',async()=>{
  if(!loaded||busy)return;const ids=selected();
  if(!ids.length||ids.length>25)return status('Select between 1 and 25 documents.');
  if(!client)return status('Account service unavailable. Nothing restored.');
- if(!window.confirm('Create '+ids.length+' NEW cloud document copies? Existing documents will stay unchanged.'))return;
+ if(!await window.WNEDialogs.confirm('Create '+ids.length+' NEW cloud document copies? Existing documents will stay unchanged.',{title:'Recover selected documents',confirmLabel:'Create separate copies'}))return;
  busy=true;updateButton();status('Checking account and saving new copies…');
  let count=0;
  try{
