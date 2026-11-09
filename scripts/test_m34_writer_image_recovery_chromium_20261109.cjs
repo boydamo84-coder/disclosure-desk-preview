@@ -82,10 +82,8 @@ const fakeJs='(()=>{'+
    assert(dialogInfo.top>=-1&&dialogInfo.bottom<=dialogInfo.viewport+1,'Image editor must fit the visible viewport');
    assert.equal(dialogInfo.scroll,'auto','Image controls must be scrollable');
    await page.locator('#dd-image-edit details summary').click();
-   await page.locator('#dd-crop-left').fill('12');
-   await page.locator('#dd-crop-left').dispatchEvent('input');
-   await page.locator('#dd-crop-top').fill('8');
-   await page.locator('#dd-crop-top').dispatchEvent('input');
+   await page.locator('#dd-crop-left').evaluate(el=>{el.value='12';el.dispatchEvent(new Event('input',{bubbles:true}))});
+   await page.locator('#dd-crop-top').evaluate(el=>{el.value='8';el.dispatchEvent(new Event('input',{bubbles:true}))});
    assert.match(await page.locator('#dd-crop-readout').textContent(),/Keeping 88% width/);
    const cropArea=await page.locator('#dd-crop-preview').evaluate(img=>({complete:img.complete,width:img.naturalWidth,height:img.naturalHeight}));
    assert(cropArea.complete&&cropArea.width===120&&cropArea.height===90,'Crop preview contains original image');
