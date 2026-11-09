@@ -15,7 +15,7 @@ const rows=[
 const revisions=[
  {id:sid,document_id:id,user_id:owner,revision:1,saved_at:'2026-11-08T11:00:00Z',title:'Test report',content}
 ];
-let active=owner,inserted=null,lastZip=null;
+let active=owner,inserted=null,lastZip=null,corruptReadback=false;
 class JSZip {
  constructor(){this.files={};lastZip=this}
  file(name,text){this.files[name]=text;return this}
@@ -35,7 +35,8 @@ function table(name){
     limit(n){return Promise.resolve({data:source.filter(r=>r.user_id===active).filter(r=>Object.entries(filters).every(([k,v])=>r[k]===v)).slice(0,n),error:null})},
     single:async()=>{
      const r=source.filter(r=>r.user_id===active).find(r=>Object.entries(filters).every(([k,v])=>r[k]===v));
-     return r?{data:r,error:null}:{data:null,error:new Error('Access denied')};
+     const body=corruptReadback&&isDocs&&r?.id===inserted?.id?{...r,content:{...r.content,chapters:[{...r.content.chapters[0],html:'<p>TRUNCATED RECOVERY</p>'}]}}:r;
+     return body?{data:body,error:null}:{data:null,error:new Error('Access denied')};
     }
    };
    return q;
@@ -72,6 +73,17 @@ vm.runInNewContext(source,ctx,{timeout:4000,filename:'wne-cloud-bridge.js'});
  assert.equal(zip.blob.type,'application/zip');
  assert.ok(lastZip.files['documents/'+id+'.json']);
  assert.ok(!lastZip.files['documents/'+other+'.json']);
+ // A legacy row must be backed up unchanged, but never enter the automatic
+ // ZIP restore manifest as a valid, restorable document.
+ const oldId='eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee';
+ rows.push({id:oldId,user_id:owner,title:'Older incompatible report',content:{version:1,chapters:[]},revision:1});
+ const safeMixed=await win.WNECloudIntegration.makeLibraryZip();
+ assert.equal(safeMixed.needsManualReview,1,'one legacy report requires manual review');
+ assert.ok(lastZip.files['manual-review/'+oldId+'.json'],'raw incompatible content preserved');
+ assert.ok(lastZip.files['WARNING-MANUAL-REVIEW.txt'],'user receives actionable warning');
+ const manifest=JSON.parse(lastZip.files['manifest.json']);
+ assert.equal(manifest.document_count,1,'only safe reports enter automatic restore manifest');
+ rows.pop();
  const file=JSON.parse(lastZip.files['documents/'+id+'.json']);
  assert.equal(file.document.chapters[0].html,'<p>Previous real writing</p>');
  const listed=await (await win.fetch('/api/snapshots')).json();
@@ -105,6 +117,12 @@ vm.runInNewContext(source,ctx,{timeout:4000,filename:'wne-cloud-bridge.js'});
  assert.match(writer,/syncEditor\(\); \/\/ Include the CURRENT editable HTML/,'Emergency includes unsaved editor contents');
  assert.match(writer,/jszip@3\.10\.1/,'Pinned ZIP dependency');
  assert.match(writer,/restore-library-core\.js/,'recovery HTML validation loaded before bridge');
+ // Simulate a cloud success ACK followed by an independently fetched row whose
+ // section HTML differs. The UI MUST reject it instead of claiming recovery.
+ corruptReadback=true;
+ await assert.rejects(win.WNECloudIntegration.recoveryCopy(sid),/read-back verification/);
+ corruptReadback=false;
+ assert.equal(content.chapters[0].html,'<p>Previous real writing</p>','even failed readback leaves source unchanged');
  active=foreign;
  const rejected=await win.fetch('/api/snapshots');
  assert.notEqual(rejected.status,200,'a changed account must not see prior recovery history');
