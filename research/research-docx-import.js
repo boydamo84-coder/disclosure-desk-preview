@@ -15,7 +15,7 @@ function fail(message){
   '\nYour existing document and original Word file were not replaced.';
  const notice=document.getElementById('toast');
  if(notice){notice.textContent=messageText;notice.classList.remove('hidden')}
- window.alert(messageText);
+ if(window.WNEDialogs?.notice)void window.WNEDialogs.notice(messageText,{title:'Word import'});else window.alert(messageText);
 }
 function valid(documentData){
  if(documentData?.version!==2||!Array.isArray(documentData.chapters)||!documentData.chapters.length
