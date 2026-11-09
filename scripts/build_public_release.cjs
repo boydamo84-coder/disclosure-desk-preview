@@ -40,7 +40,7 @@ const approvedWeb=Object.freeze({
   'restore-library.html','restore-library-core.js','restore-library.js',
   'restore-copy.js','wne-cloud-bridge.js','wne-export-integration.js',
   'wne-research-live-spelling.js','wne-dialogs-m34.js','wne-polish-m34.css','wne-polish-m34.js',
-  'wne-view-m39.css','wne-view-m39.js','wne.html'
+  'wne-view-m39.css','wne-view-m39.js','wne-ui-m40.css','wne-ui-m40.js','wne.html'
  ]
 });
 function websiteDir(dir){
