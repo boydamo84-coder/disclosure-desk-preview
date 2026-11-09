@@ -56,7 +56,7 @@ article{width:100%;margin:8px 0;border:1px solid #54687b}.dd-news-actions{width:
    assert.equal(metrics.panelRole,'region','Accessible inline region');
    assert.equal(metrics.ariaModal,null,'Not announced as a modal');
    assert.equal(metrics.bodyOverflow,'','Inline hearing comments do not lock the page');
-   for(const kind of ['news','forum','forumReply','comment','witness']){
+   for(const kind of ['news','forum','forumReply','comment','witness','clip','immersive']){
     const box=await page.locator('[data-rail="'+kind+'"]').evaluate(node=>{
      const rail=node.getBoundingClientRect(),btn=node.querySelectorAll('button'),
       first=btn[0].getBoundingClientRect(),last=btn[btn.length-1].getBoundingClientRect();
