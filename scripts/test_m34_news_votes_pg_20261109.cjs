@@ -32,7 +32,7 @@ function vote(actor,value,story=key,anonymous=false,shouldFail=false){
 SET LOCAL ROLE authenticated;
 SET LOCAL request.jwt.claim.sub = '${actor}';
 SET LOCAL request.jwt.claim.is_anonymous = '${anonymous}';
-SELECT upvotes,downvotes,my_vote FROM public.dd_news_article_vote_set('${story}',${value});
+SELECT upvotes,downvotes,my_vote FROM public.dd_news_article_vote_set('${story}',${value}::smallint);
 COMMIT;`;
  const output=psql(script,shouldFail);
  return shouldFail?output:output.split('\n').find(line=>/^\d+\|\d+\|-?[01]$/.test(line));
