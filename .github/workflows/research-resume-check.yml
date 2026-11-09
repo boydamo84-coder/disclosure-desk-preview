@@ -18,6 +18,10 @@ jobs:
           node --check research/wne-cloud-bridge.js
           node --check assets/profile-avatars.js
           node --check scripts/test_research_resume_20261108.cjs
+      - name: M34 community and W.NE design contracts (NO deploy)
+        run: |
+          node --check scripts/test_m34_ui_contract_20261109.cjs
+          node scripts/test_m34_ui_contract_20261109.cjs
       - name: Research Studio resume and Home QA (mock account)
         run: node scripts/test_research_resume_20261108.cjs
       - name: Research ZIP, recovery and import route regression
