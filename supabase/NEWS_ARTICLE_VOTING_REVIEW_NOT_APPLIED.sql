@@ -20,7 +20,7 @@ revoke all on table public.dd_news_article_votes from public,anon,authenticated;
 
 create or replace function public.dd_news_article_vote_set(p_story_key text,p_value smallint)
 returns table(upvotes bigint,downvotes bigint,my_vote smallint)
-language plpgsql security definer set search_path = pg_catalog,public
+language plpgsql security definer set search_path = ''
 as $$
 declare v_actor uuid := auth.uid();
 begin
@@ -58,7 +58,7 @@ end $$;
 
 create or replace function public.dd_news_article_vote_summary(p_story_keys text[])
 returns table(story_key text,upvotes bigint,downvotes bigint,my_vote smallint)
-language plpgsql stable security definer set search_path = pg_catalog,public
+language plpgsql stable security definer set search_path = ''
 as $$
 begin
  if p_story_keys is null or cardinality(p_story_keys)>50 or
