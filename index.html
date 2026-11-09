@@ -1239,6 +1239,7 @@ function safePublicUrl(value){try{const u=new URL(value);return (u.protocol==='h
 let pendingBookmark=null;
 function isBookmarked(url){const clean=safePublicUrl(url);return !!clean&&investigationBoards.some(b=>b.links.some(l=>l.url===clean))}
 function refreshBookmarkStars(){document.querySelectorAll('[data-bookmark-url]').forEach(el=>{const saved=isBookmarked(el.dataset.bookmarkUrl);const icon=el.querySelector('[data-star-icon]');if(icon)icon.textContent=saved?'★':'☆';el.classList.toggle('bookmark-saved',saved);el.setAttribute('aria-label',(saved?'Saved: ':'Save: ')+(el.dataset.bookmarkLabel||'research link'));el.title=saved?'Already saved in an investigation':'Save to Investigation Board'})}
+window.DDRefreshBoardStars=refreshBookmarkStars;
 function addInvestigationLink(label,url,discussionId=null){
  pendingTimelineEvent=null;
  $('pickerTitle').textContent='Save discovery';
