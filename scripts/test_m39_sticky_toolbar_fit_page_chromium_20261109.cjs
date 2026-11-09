@@ -80,6 +80,9 @@ const fakeSupabase='(()=>{const doc='+JSON.stringify({version:2,bookTitle:'QA on
     bodyClass:document.body.className,
     barDisplay:getComputedStyle(bar).display,barHeight:bar.getBoundingClientRect().height,
     buttonDisplay:getComputedStyle(button).display,buttonHeight:button.getBoundingClientRect().height,
+    barBox:bar.getBoundingClientRect().toJSON(),buttonBox:button.getBoundingClientRect().toJSON(),
+    barScrollLeft:bar.scrollLeft,barScrollWidth:bar.scrollWidth,barClientWidth:bar.clientWidth,
+    stickyBox:parent.getBoundingClientRect().toJSON(),
     stickyParent:parent?.id,scroll:scrollY};
   });
   console.log('M39 HOME BAR DIAGNOSTICS '+width+'px',JSON.stringify(homeVisibility));
