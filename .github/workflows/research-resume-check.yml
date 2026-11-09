@@ -26,6 +26,8 @@ jobs:
           node scripts/test_m34_community_consistency_20261109.cjs
           node --check scripts/test_m35_sitewide_action_rail_20261109.cjs
           node scripts/test_m35_sitewide_action_rail_20261109.cjs
+          node --check scripts/test_search_indexing.cjs
+          node scripts/test_search_indexing.cjs
           node --check assets/news-article-votes.js
       - name: Research Studio resume and Home QA (mock account)
         run: node scripts/test_research_resume_20261108.cjs
