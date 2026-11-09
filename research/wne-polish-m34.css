@@ -96,7 +96,9 @@ html[data-theme] #wne-findbar button{
 #dd-image-edit{max-height:calc(100dvh - 24px)!important;overflow-y:auto!important;
  overscroll-behavior:contain!important;background:#142b3b!important;opacity:1!important}
 #dd-image-edit #dd-crop-stage{display:block!important;width:fit-content!important;
- height:auto!important;max-width:100%!important;margin:12px auto!important;overflow:visible!important}
+ height:auto!important;max-width:100%!important;margin:12px auto!important;
+ overflow:hidden!important;position:sticky!important;top:4px!important;z-index:4!important;
+ background:#102334!important;border:1px solid #7c8a97!important;border-radius:8px!important}
 #dd-image-edit #dd-crop-preview{display:block!important;width:auto!important;
  height:auto!important;max-width:100%!important;max-height:min(36dvh,310px)!important;
  object-fit:contain!important;margin:0 auto!important}
