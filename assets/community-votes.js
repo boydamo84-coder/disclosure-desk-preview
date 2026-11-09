@@ -145,7 +145,9 @@ function mountCommentCard(card,header,body,flag,id,onReply,context={}){
   link.searchParams.set('dd_discussion',caseId);
   link.searchParams.set('dd_comment',String(id));
   const label=String(context?.title||'Community discussion').slice(0,100);
-  const star=make('button','dd-action-board','☆');
+  const star=make('button','dd-action-board');
+  const icon=make('span','', '☆');icon.dataset.starIcon='';star.append(icon);
+  star.dataset.bookmarkUrl=link.href;star.dataset.bookmarkLabel=label;
   star.type='button';star.title='Add this comment to an Investigation Board';
   star.setAttribute('aria-label','Add comment to Board');
   star.addEventListener('click',()=>window.DDSavePublicLinkToBoard?.(label,link.href));
