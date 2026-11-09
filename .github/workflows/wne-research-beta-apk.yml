@@ -1,16 +1,8 @@
 name: Build W.NE Research BETA APK (no website deploy)
+# APK work is paused while the owner finishes the one-batch website release.
+# Manual dispatch stays available if the owner elects to resume APK testing.
 on:
   workflow_dispatch:
-  push:
-    branches: [fix/compact-writing-popover-mobile-desktop-nov08]
-    paths:
-      - 'android-wne-beta/**'
-      - 'scripts/prepare_wne_android_beta_assets.cjs'
-      - 'scripts/validate_wne_writer_html.cjs'
-      - 'scripts/test_m32_actual_writer_ribbon_chromium_20261109.cjs'
-      - 'research/**'
-      - 'assets/community-test-config.js'
-      - '.github/workflows/wne-research-beta-apk.yml'
 permissions:
   contents: read
 jobs:
