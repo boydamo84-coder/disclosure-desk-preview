@@ -28,8 +28,29 @@ assert.doesNotMatch(HTML.slice(endBodyAt),/<style\b|<script\b/i,'No style/script
   for(const viewport of [{width:393,height:852},{width:1280,height:800}]){
    const context=await browser.newContext({viewport,hasTouch:viewport.width===393,
     isMobile:viewport.width===393,serviceWorkers:'block'});
+   // The actual hosted cloud bridge and Auth guard execute. Only their
+   // Supabase client is replaced by a fictional isolated fixture: NO network
+   // to production accounts, no credentials and no real cloud writes.
+   const fakeSupabase = '(()=>{'+
+    'const doc='+JSON.stringify({version:2,bookTitle:'Synthetic W.NE QA',active:'qa-1',
+       chapters:[{id:'qa-1',title:'Test section',html:'<p>Safe test text</p>'}],
+       font:'Georgia',size:12})+';'+
+    'const state={rev:1,saves:0};window.__m32Cloud=state;'+
+    'window.supabase={createClient:()=>({'+
+    'auth:{getUser:async()=>({data:{user:{id:"aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"}},error:null}),'+
+    'getSession:async()=>({data:{session:null},error:null}),'+
+    'onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}})},'+
+    'from:(name)=>({select(){return this},eq(){return this},'+
+    'single:async()=>({data:{id:"'+DOC+'",title:"Synthetic W.NE QA",'+
+    'content:doc,revision:state.rev,updated_at:"2026-11-09T01:00:00Z"},error:null})}),'+
+    'rpc:async(name,args)=>{if(name!=="research_save_document")throw Error("Wrong RPC");'+
+    'if(args.p_expected_revision!==state.rev)throw Error("Revision mismatch");'+
+    'state.rev++;state.saves++;return {data:[{saved_revision:state.rev}],error:null};}'+
+    '})};})();';
    await context.route('**/*',r=>{
     const u=new URL(r.request().url());
+    if(u.hostname==='cdn.jsdelivr.net'&&u.pathname.includes('/@supabase/'))
+      return r.fulfill({status:200,contentType:'application/javascript',body:fakeSupabase});
     if(u.origin!==BASE)return r.abort('blockedbyclient');
     return r.continue();
    });
