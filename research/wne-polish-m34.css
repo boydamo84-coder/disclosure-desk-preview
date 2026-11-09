@@ -135,3 +135,75 @@ html[data-theme] #wne-findbar button{
  .wne-m34-prompt{padding:17px}
  .wne-m34-prompt menu button{flex:1 1 120px}
 }
+
+
+/* M34 finishing pass: Find & Replace matches the W.NE ribbon and dialogs.
+   Scope deliberately stays in CSS; original text-node editing/save safety is untouched. */
+html[data-theme] body:not(.tv) #wne-findbar{
+ top:clamp(76px,12dvh,125px)!important;right:12px!important;
+ width:min(480px,calc(100vw - 24px))!important;
+ max-height:calc(100dvh - 100px)!important;overflow-y:auto!important;
+ overscroll-behavior:contain!important;padding:17px!important;border-radius:16px!important;
+ background:#142a3b!important;border:1px solid #bc9b65!important;
+ color:#f2e5ce!important;box-shadow:0 20px 55px #000b!important
+}
+html[data-theme] #wne-findbar>strong{
+ display:block;color:#e6c78f!important;font:700 21px/1.35 Georgia,serif!important;
+ margin:0 43px 13px 0
+}
+html[data-theme] #wne-findbar .find-row{gap:8px!important;margin-top:12px!important}
+html[data-theme] #wne-findbar .find-row>label{
+ color:#e6d7bf!important;font-size:12px!important;font-weight:650!important
+}
+html[data-theme] #wne-findbar .find-small{
+ color:#c8c3b7!important;font-size:12px!important;line-height:1.45!important
+}
+html[data-theme] #wne-findbar input[type=text],
+html[data-theme] #wne-findbar select{
+ min-height:44px!important;border-radius:9px!important;
+ background:#243d50!important;color:#fff4df!important;
+ border:1px solid #8393a0!important;padding:10px 12px!important
+}
+html[data-theme] #wne-findbar input::placeholder{color:#c5c3bd!important;opacity:1!important}
+html[data-theme] #wne-findbar button{
+ min-height:43px!important;border-radius:9px!important;
+ color:#f5e9d4!important;background:#294356!important;border:1px solid #7a8d99!important;
+ font-weight:650!important
+}
+html[data-theme] #wne-findbar #wne-replace-one,
+html[data-theme] #wne-findbar #wne-replace-all{
+ background:#dabb82!important;color:#11293b!important;border-color:#e6c78f!important
+}
+html[data-theme] #wne-findbar #wne-find-close{
+ position:absolute!important;right:14px!important;top:13px!important;float:none!important;
+ min-width:43px!important;background:#233b4e!important
+}
+html[data-theme] #wne-findbar #wne-find-count{color:#ead5ae!important}
+html[data-theme] #wne-findbar #wne-find-results{
+ border-radius:9px!important;color:#dcd8cc!important;overflow-wrap:anywhere
+}
+html[data-theme] #wne-findbar :is(button,input,select):focus-visible{
+ outline:2px solid #e7c68d!important;outline-offset:2px!important
+}
+html[data-theme] #wne-findbar input[type=checkbox]{accent-color:#dabb82}
+html[data-theme] #wne-findbar button:disabled{opacity:.45!important}
+html[data-theme] .wne-m34-prompt menu button:last-child{
+ background:#dabb82!important;color:#132839!important;border-color:#e6c78f!important
+}
+html[data-theme] .wne-m34-prompt menu button:last-child:focus-visible{
+ outline:2px solid #f1dba9!important
+}
+@media(max-width:600px){
+ html[data-theme] body:not(.tv) #wne-findbar{
+  top:9px!important;left:9px!important;right:9px!important;
+  width:calc(100vw - 18px)!important;max-height:calc(100dvh - 18px)!important;
+  padding:16px!important
+ }
+ html[data-theme] #wne-findbar #wne-find-query,
+ html[data-theme] #wne-findbar #wne-find-replace{flex-basis:100%!important}
+ html[data-theme] #wne-findbar #wne-replace-one,
+ html[data-theme] #wne-findbar #wne-replace-all{flex:1 1 110px!important}
+ html[data-theme] #wne-findbar #wne-find-prev,
+ html[data-theme] #wne-findbar #wne-find-next{flex:0 0 48px!important}
+ html[data-theme] #wne-findbar #wne-find-count{flex:1 1 auto!important;text-align:right}
+}
