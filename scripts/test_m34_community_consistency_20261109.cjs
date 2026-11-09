@@ -7,7 +7,7 @@ const page=read('index.html'),news=read('assets/inline-news-comments.js'),
  forum=read('assets/community-discussions.js'),votes=read('assets/community-votes.js'),
  article=read('assets/news-article-votes.js'),live=read('assets/live-chat.js'),
  build=read('scripts/build_public_release.cjs'),
- sql=read('supabase/NEWS_ARTICLE_VOTING_REVIEW_NOT_APPLIED.sql'),
+ sql=read('supabase/migrations/20261109044411_dd_news_article_voting_m34_20261109.sql'),
  harden=read('supabase/COMMENT_SECURITY_HARDENING_REVIEW.sql');
 assert.match(page,/assets\/news-article-votes\.js/);
 assert.match(build,/'news-article-votes\.js'/);
