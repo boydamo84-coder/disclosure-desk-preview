@@ -1101,7 +1101,7 @@ function news(){
   const link=s.url&&/^https:\/\//.test(s.url)?`<a class="news-open" data-read-story="${i}" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">Read original story ↗</a>`:'';
   const when=s.date?new Date(s.date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'';
   const imageLabel=realImage?'Publisher/feed image':'Editorial illustration';
-  return `<article data-news-id="${esc(s.id||'')}" class="card ${i===0?'hero-news':'news-row'}"><div class="news-image-wrap ${realImage?'':'pillar-fallback'}">${realImage?`<img loading="lazy" alt="Publisher article image" src="${esc(pic)}" onload="verifyNewsPhoto(this)" onerror="usePillarFallback(this)">`:newsEditorialArt(s)}<span class="image-credit">${realImage?'Publisher article image':'Editorial illustration · not event evidence'}</span></div><div class="card-body"><span class="tag">${esc(s.category)}${s.country?' · '+esc(s.country):''}${s.sourceType==='official'?' · Official source':''}</span><h3>${safePublicUrl(s.url||'')?`<a class="news-headline-link" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.headline)}</a>`:esc(s.headline)}</h3><p>${esc(s.desc||'Open the original publisher for the full report.')}</p><div class="news-story-source"><span class="source-chip">${esc(s.source||'Publisher')}</span>${when?`<span class="meta">${esc(when)}</span>`:''}</div>${newsRabbitHole(s,i)}</div><div class="dd-news-actions">${safePublicUrl(s.url||'')?`<button type="button" class="outline" data-save-news="${i}" data-bookmark-url="${esc(s.url)}" data-bookmark-label="${esc(s.headline)}" aria-label="Save to Investigation Board"><span data-star-icon>☆</span> Board</button>`:'' }${safePublicUrl(s.url||"")?`<button class="outline" data-compare-news="${i}" type="button">⚖ Compare</button>`:""}${safePublicUrl(s.url||"")?`<button class="outline" data-share-news="${i}" type="button">↗ Share</button>`:""}</div><div class="dd-news-inline-comments" data-news-comments="${esc('news:'+String(s.id||s.url||'').slice(0,175))}"></div></article>`;
+  return `<article data-news-id="${esc(s.id||'')}" class="card ${i===0?'hero-news':'news-row'}"><div class="news-image-wrap ${realImage?'':'pillar-fallback'}">${realImage?`<img loading="lazy" alt="Publisher article image" src="${esc(pic)}" onload="verifyNewsPhoto(this)" onerror="usePillarFallback(this)">`:newsEditorialArt(s)}<span class="image-credit">${realImage?'Publisher article image':'Editorial illustration · not event evidence'}</span></div><div class="card-body"><span class="tag">${esc(s.category)}${s.country?' · '+esc(s.country):''}${s.sourceType==='official'?' · Official source':''}</span><h3>${safePublicUrl(s.url||'')?`<a class="news-headline-link" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.headline)}</a>`:esc(s.headline)}</h3><p>${esc(s.desc||'Open the original publisher for the full report.')}</p><div class="news-story-source"><span class="source-chip">${esc(s.source||'Publisher')}</span>${when?`<span class="meta">${esc(when)}</span>`:''}</div>${newsRabbitHole(s,i)}</div><div class="dd-news-actions"><div class="dd-news-tools">${safePublicUrl(s.url||'')?`<button type="button" class="outline" data-save-news="${i}" data-bookmark-url="${esc(s.url)}" data-bookmark-label="${esc(s.headline)}" aria-label="Save to Investigation Board"><span data-star-icon>☆</span> Board</button>`:'' }${safePublicUrl(s.url||"")?`<button class="outline" data-compare-news="${i}" type="button">⚖ Compare</button>`:""}</div><div class="dd-news-main-actions"><span data-news-article-votes="${esc('news:'+String(s.id||s.url||'').slice(0,175))}"></span>${safePublicUrl(s.url||"")?`<button class="outline" data-share-news="${i}" type="button">↗ Share</button>`:""}</div></div><div class="dd-news-inline-comments" data-news-comments="${esc('news:'+String(s.id||s.url||'').slice(0,175))}"></div></article>`;
  }).join('')||'<div class="card empty">No stories in this category right now. Try All or Refresh.</div>';
  document.querySelectorAll('.news-headline-link').forEach(a=>a.addEventListener('click',()=>{const card=a.closest('[data-news-id]');const item=results.find(x=>String(x.id||'')===card?.dataset.newsId);if(item)rememberReadStory(item)}));
  document.querySelectorAll('[data-share-news]').forEach(btn=>btn.onclick=async()=>{const story=results[Number(btn.dataset.shareNews)];const url=safePublicUrl(story?.url||'');if(!url)return;try{if(navigator.share)await navigator.share({title:story.headline,url});else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url);btn.textContent='✓ Copied';}else window.prompt('Copy story link',url)}catch(e){if(e.name!=='AbortError')window.prompt('Copy story link',url)}});
@@ -2513,7 +2513,7 @@ window.ddTickerOpenStory=function(id){
 };
 window.ddTickerRefresh=function(){return loadLiveNews(false)};
 $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
-</script><script defer src="assets/news-ticker.js?v=nov08-v9"></script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/research-hub.js?v=nov3-hub1"></script><script defer src="assets/profile-avatars.js?v=nov08-iphone-jpeg-fallback-v3"></script><script defer src="assets/member-avatars.js?v=nov08-visible-by-default"></script><script defer src="assets/profile-private-chat.js?v=nov08-stability-v1"></script><script defer src="assets/chat-tab-ui.js?v=nov08-stability-v1"></script><script defer src="assets/community-discussions.js?v=nov08-v9"></script><script defer src="assets/discussions-admin.js?v=nov3-forum-admin-staged"></script><script defer src="assets/historical-satellite.js?v=nov08-landsat-handoff-prefill"></script><script defer src="assets/support-site.js?v=ko-fi-disclosuredesk-20261103"></script><script defer src="assets/community-votes.js?v=nov08-comment-action-rail"></script><script defer src="assets/case-discussions.js?v=nov08-comment-action-rail"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=nov08-comment-action-rail"></script><script defer src="assets/live-hearings.js?v=dev-1"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=nov3-beta1"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/watch-read.js?v=dev-1"></script><style id="dd-m34-profile-news-sticky-polish">
+</script><script defer src="assets/news-ticker.js?v=nov08-v9"></script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/research-hub.js?v=nov3-hub1"></script><script defer src="assets/profile-avatars.js?v=nov08-iphone-jpeg-fallback-v3"></script><script defer src="assets/member-avatars.js?v=nov08-visible-by-default"></script><script defer src="assets/profile-private-chat.js?v=nov08-stability-v1"></script><script defer src="assets/chat-tab-ui.js?v=nov08-stability-v1"></script><script defer src="assets/community-discussions.js?v=nov08-v9"></script><script defer src="assets/discussions-admin.js?v=nov3-forum-admin-staged"></script><script defer src="assets/historical-satellite.js?v=nov08-landsat-handoff-prefill"></script><script defer src="assets/support-site.js?v=ko-fi-disclosuredesk-20261103"></script><script defer src="assets/community-votes.js?v=nov08-comment-action-rail"></script><script defer src="assets/news-article-votes.js?v=m34-news-article-votes"></script><script defer src="assets/case-discussions.js?v=nov08-comment-action-rail"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=nov08-comment-action-rail"></script><script defer src="assets/live-hearings.js?v=dev-1"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=nov3-beta1"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/watch-read.js?v=dev-1"></script><style id="dd-m34-profile-news-sticky-polish">
 /* M34: group the avatar control with its visible photo rather than leaving
    the thumbnail stranded at the bottom of a tall settings card. */
 #ddAvatarPanel .dd-avatar-layout{
@@ -2689,5 +2689,104 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
 #ddMapArchiveShortcut{display:block;margin:13px 0;padding:11px 13px;
  background:#172c3c;border:1px solid #6f7f8d;border-radius:10px;
  color:#edc98b;text-decoration:none;text-align:center;font-weight:650;font-size:13px}
+</style>
+<style id="dd-m34-universal-post-rail">
+/* One dark interaction bar per post. Research shortcuts are secondary. */
+#newsGrid article>.dd-news-actions{
+ display:flex!important;flex-direction:column!important;gap:0!important;
+ padding:0!important;background:transparent!important;border:0!important;
+ overflow:visible!important
+}
+#newsGrid article>.dd-news-actions>.dd-news-tools{
+ display:flex;flex-wrap:wrap;gap:6px;padding:7px 10px;
+ background:#172e3f;border-top:1px solid #4e5c67
+}
+#newsGrid article>.dd-news-actions>.dd-news-tools button{
+ flex:0 1 auto!important;min-height:39px!important;padding:7px 10px!important;
+ background:#263f51!important;color:#e9d1a8!important;
+ border:1px solid #667889!important;border-radius:9px!important;
+ font:650 12px system-ui!important;width:auto!important
+}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions{
+ display:flex;align-items:stretch;justify-content:space-between;
+ gap:2px;padding:3px 5px;min-height:47px;box-sizing:border-box;
+ background:#081722!important;border-top:1px solid #506375!important
+}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions>*{flex:1 1 0;min-width:0}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions button{
+ display:inline-flex;justify-content:center;align-items:center;gap:3px;
+ min-width:0!important;min-height:44px!important;padding:6px 3px!important;
+ background:transparent!important;border:1px solid transparent!important;
+ color:#efdfc3!important;border-radius:8px!important;
+ white-space:nowrap!important;font:650 12px/1.2 system-ui!important
+}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions button[aria-pressed=true]{
+ color:#f3d399!important;background:#263d4b!important;border-color:#a98b59!important
+}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions button:focus-visible{
+ outline:2px solid #e7bf79!important;outline-offset:-2px!important
+}
+#newsGrid article .dd-news-article-vote-controls{
+ display:flex;flex:2 1 0;align-items:stretch;justify-content:space-around;
+ min-width:0;gap:2px
+}
+#newsGrid article .dd-news-article-vote-controls button{flex:1 1 0}
+#newsGrid article [data-news-article-votes]{display:flex;min-width:0;flex:2 1 0}
+#newsGrid article .dd-news-vote-status:empty{display:none}
+#newsGrid article .dd-news-vote-status:not(:empty){
+ position:absolute;z-index:5;margin-top:45px;max-width:180px;
+ border-radius:7px;background:#233b4c;color:#f7dfb0;
+ padding:5px;font:11px system-ui
+}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions>.dd-inline-comments-toggle{flex:1.4 1 0}
+#newsGrid article .dd-inline-comments-preview[hidden],
+#newsGrid article .dd-news-inline-comments form[hidden]{display:none!important}
+#newsGrid article .dd-news-inline-comments .dd-comment-card{
+ border:1px solid #536576;border-radius:10px;overflow:hidden;
+ background:#152c3d;margin:10px 0
+}
+#newsGrid article .dd-news-inline-comments .dd-comment-action-rail{
+ display:flex;align-items:center;min-height:42px;padding:3px 7px;
+ border-top:1px solid #3c5063;background:#081722
+}
+#newsGrid article .dd-news-inline-comments .dd-comment-action-rail button{
+ min-height:42px;color:#e9d2ac
+}
+.dd-comment-flag{margin-left:auto!important;min-width:35px;min-height:35px;
+ background:transparent!important;border:0!important;color:#ead4ac!important}
+.dd-comment-head{display:flex;align-items:center;gap:6px}
+#newsGrid article>.dd-news-inline-comments form{
+ background:#172e3f;border:1px solid #556a7b;border-radius:10px;
+ padding:12px;margin:10px 0
+}
+#newsGrid article>.dd-news-inline-comments form button[type=submit]{
+ background:#dabb82;color:#13293a;border:0;border-radius:9px;
+ min-height:43px;padding:8px 15px;font-weight:700
+}
+/* LIVE chat is a chronological room, not a collapsible forum thread. */
+.dd-live-chat-room{
+ display:flex;flex-direction:column;background:#102535;
+ border:1px solid #6a7d8c;border-radius:13px;overflow:hidden
+}
+.dd-live-chat-room>h4{margin:0;padding:12px 14px;background:#1f394b;color:#ebc993}
+.dd-live-chat-help{padding:0 14px}
+.dd-live-chat-messages{display:flex;flex-direction:column;gap:9px;
+ overflow-y:auto;max-height:min(55dvh,490px);padding:12px}
+.dd-live-chat-message{background:#1c3648;border:1px solid #50687c;
+ border-radius:12px;padding:9px 12px;max-width:96%;min-width:0}
+.dd-live-chat-meta{display:flex;justify-content:space-between;gap:9px;
+ align-items:center;font-size:11px;color:#e7c78f}
+.dd-live-chat-report{margin-left:auto!important;min-height:32px;
+ padding:4px 8px;border:1px solid #6b8192;border-radius:8px;
+ color:#e6c58f;background:#233e51}
+.dd-live-chat-message p{margin:7px 0 2px;white-space:pre-wrap;overflow-wrap:anywhere}
+.dd-live-chat-form{display:flex;gap:7px;padding:10px;border-top:1px solid #587084;
+ background:#1c3648;align-items:flex-end}
+.dd-live-chat-form textarea{flex:1 1 auto;resize:vertical;max-height:120px;
+ min-height:45px;padding:9px;border-radius:9px}
+.dd-live-chat-form button{min-height:45px;border-radius:9px;background:#d8b987;color:#142b3d}
+@media(max-width:420px){#newsGrid article>.dd-news-actions>.dd-news-main-actions{
+ gap:0;padding:3px 2px
+}#newsGrid article>.dd-news-actions>.dd-news-main-actions button{font-size:11px!important}}
 </style>
 </body></html>
