@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-11-09T04:43:05.598425+00:00",
+  "checkedAt": "2026-11-09T05:40:25.181297+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 25,
+      "items": 28,
       "latestArticleAt": "2026-11-09T02:39:03+00:00"
     },
     {
@@ -16,7 +16,7 @@
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 21,
+      "items": 22,
       "latestArticleAt": "2026-11-09T00:10:00+00:00"
     },
     {
@@ -28,8 +28,8 @@
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 26,
-      "latestArticleAt": "2026-11-09T02:39:03+00:00"
+      "items": 12,
+      "latestArticleAt": "2026-11-09T02:12:40+00:00"
     },
     {
       "source": "Search: UAP congress hearing when:7d",
@@ -206,5 +206,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 333
+  "storiesPublished": 336
 }
