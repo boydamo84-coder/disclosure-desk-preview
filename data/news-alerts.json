@@ -823,8 +823,7 @@
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://i.cbc.ca/ais/50c4115a-a1a3-41bf-ba00-cea4bb157870,1778274584549/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C145%2C3420%2C1923%29%3BResize%3D620",
-    "publisherUrl": "https://www.cbc.ca/news/world/ufo-files-released-unidentified-aerial-phenomena-nasa-9.7192864"
+    "imageUrl": "https://i.cbc.ca/ais/50c4115a-a1a3-41bf-ba00-cea4bb157870,1778274584549/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C145%2C3420%2C1923%29%3BResize%3D620"
   },
   {
     "id": "720fbcb4e4a90e156846",
@@ -845,8 +844,7 @@
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://assets2.cbsnewsstatic.com/hub/i/r/2026/05/08/be16d4fa-f081-483e-8d16-7978fd6be40f/thumbnail/1200x630/7783e5382eb495fed6fd82904fd4ff98/dow-uap-pr46-unresolved-uap-report-indopacom-2024.jpg",
-    "publisherUrl": "https://www.cbsnews.com/news/pentagon-begins-release-ufo-files/"
+    "imageUrl": "https://assets2.cbsnewsstatic.com/hub/i/r/2026/05/08/be16d4fa-f081-483e-8d16-7978fd6be40f/thumbnail/1200x630/7783e5382eb495fed6fd82904fd4ff98/dow-uap-pr46-unresolved-uap-report-indopacom-2024.jpg"
   },
   {
     "id": "1eb50a2fdcb6bb40ebd3",
@@ -966,7 +964,8 @@
     "date": "2026-04-05T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8"
+    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8",
+    "publisherUrl": "https://www.theguardian.com/us-news/2026/apr/05/alien-life-nasa-jared-isaacman-artemis-ii"
   },
   {
     "id": "ef2cf6dd2b9e6f0cd58a",
@@ -988,7 +987,8 @@
     "date": "2026-04-03T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg",
+    "publisherUrl": "https://www.bbc.com/news/articles/cvg58ydn4jpo"
   },
   {
     "id": "8d06dd474e5f2e6f3926",
