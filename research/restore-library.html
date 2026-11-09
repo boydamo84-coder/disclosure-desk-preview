@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive">
-<title>Restore Research ZIP · Disclosure Desk</title>
+<title>Recover a W.NE library · Disclosure Desk</title>
 <style>
 :root{color-scheme:dark;font:16px/1.5 system-ui}*{box-sizing:border-box}body{margin:0;background:#091522;color:#ecf0f2}
 nav{padding:13px 20px;background:#122a3b;border-bottom:1px solid #79684d}a{color:#ecc98b}
@@ -14,17 +14,17 @@ button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,input:focus-
 #results a{display:block;margin:8px 0}#status{white-space:pre-wrap;min-height:25px}strong{color:#f0d39f}
 </style></head><body>
 <nav aria-label="Return to Research Studio"><a href="./research-workspace.html">← Research Studio</a></nav>
-<main><h1>Restore your Research Library</h1>
-<p>Select a ZIP created by <strong>W.NE Research Edition → Backup Library</strong>. We check the backup on your device first. You then choose which documents to create as separate cloud copies.</p>
-<section class="panel"><h2>1. Check a backup</h2>
+<main><h1>Recover your documents</h1>
+<p>This advanced option restores a full W.NE backup (.zip). Want to open an ordinary Word file instead? <a href="./import.html">Import Word (.docx)</a>.</p><p class="muted">We check the W.NE backup first, then let you choose which documents to recover. Every recovered document is a new cloud copy; existing work stays unchanged.</p>
+<section class="panel"><h2>1. Choose your W.NE backup</h2>
 <label for="archive">Private library ZIP file</label><input id="archive" type="file" accept=".zip,application/zip,application/x-zip-compressed">
 <p class="muted">Up to 25 MB ZIP / 60 MB expanded. This will not include private Investigation Boards, device-only files or Google Drive backups.</p>
 <p id="preview">No backup selected.</p>
 </section>
-<section class="panel" id="restorePanel" hidden><h2>2. Choose documents</h2>
+<section class="panel" id="restorePanel" hidden><h2>2. Choose documents to recover</h2>
 <p class="muted">Select up to 25 at once. Each selection creates a new copy; nothing existing is replaced. You may repeat for the rest.</p>
 <div id="documents" role="group" aria-label="Backup documents"></div>
-<p><button id="restore" type="button" disabled>Restore selected as NEW copies</button></p>
+<p><button id="restore" type="button" disabled>Recover selected documents</button></p>
 <p class="muted">Only restore ZIPs you trust. This feature requires your signed-in Disclosure Desk account and an internet connection.</p>
 </section>
 <p id="status" role="status" aria-live="polite"></p><div id="results" aria-live="polite"></div>
