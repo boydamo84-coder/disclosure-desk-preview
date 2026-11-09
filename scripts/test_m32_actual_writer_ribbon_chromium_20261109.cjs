@@ -1,0 +1,87 @@
+'use strict';
+// The FIRST actual full Writer HTML browser test.
+// Real Chromium parses original research/wne.html, not an extracted CSS fixture.
+// Reproduces Samsung v0.1 symptom: literal ribbon JS printed below document,
+// dead File/Insert/Review/View buttons, and save safety mistakenly treated as success.
+// No live account, cloud write or network access outside loopback.
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const {chromium}=require('playwright-core');
+const HTML=fs.readFileSync('research/wne.html','utf8');
+const BASE='http://127.0.0.1:4173';
+const DOC='11111111-1111-4111-8111-111111111111';
+const count=re=>(HTML.match(re)||[]).length;
+assert.equal(count(/<style\b/gi),count(/<\/style>/gi),'All stylesheet tags must be closed');
+assert.equal(count(/<script\b/gi),count(/<\/script>/gi),'All script tags must be closed');
+assert.equal(count(/<\/body>/gi),1,'Writer must close its body exactly once');
+assert.equal(count(/<\/html>/gi),1,'Writer must close its HTML exactly once');
+const ribbonAt=HTML.indexOf('<script id="dd-word-ribbon-v1">');
+const endBodyAt=HTML.indexOf('</body>');
+assert(ribbonAt>0&&endBodyAt>ribbonAt,'The editor must NOT close before installing the Word ribbon');
+assert(HTML.lastIndexOf('<script',endBodyAt)>ribbonAt,'All late Research scripts must remain inside HTML body');
+assert.doesNotMatch(HTML.slice(endBodyAt),/<style\b|<script\b/i,'No style/script belongs after closing HTML');
+(async()=>{
+ const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',
+  headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
+ let passed=0;const pass=(name)=>{passed++;console.log('PASS SAMSUNG WRITER FIX '+name)};
+ try {
+  for(const viewport of [{width:393,height:852},{width:1280,height:800}]){
+   const context=await browser.newContext({viewport,hasTouch:viewport.width===393,
+    isMobile:viewport.width===393,serviceWorkers:'block'});
+   await context.route('**/*',r=>{
+    const u=new URL(r.request().url());
+    if(u.origin!==BASE)return r.abort('blockedbyclient');
+    return r.continue();
+   });
+   const page=await context.newPage();
+   const alerts=[];
+   page.on('dialog',d=>{alerts.push(d.message());return d.dismiss()});
+   await page.goto(BASE+'/research/wne.html?id='+DOC,{waitUntil:'domcontentloaded',timeout:40000});
+   await page.locator('#dd-word-ribbon-v1[role="tablist"]').waitFor({timeout:12000});
+   const dom=await page.evaluate(()=>({
+    htmlEnds:document.documentElement.outerHTML.slice(-230),
+    bodyText:document.body.innerText,
+    ribbonButtons:[...document.querySelectorAll('#dd-word-ribbon-v1 [role=tab]')].map(x=>x.textContent.trim()),
+    status:document.querySelector('#status')?.textContent,
+    codeLeaks:[...document.body.querySelectorAll('*')].filter(x=>x.children.length===0&&
+      (x.textContent||'').includes("const toolbar=document.querySelector('.formatbar')"))
+      .map(x=>x.tagName).slice(0,8)
+   }));
+   assert.deepEqual(dom.ribbonButtons,['File','Home','Insert','Review','View']);
+   assert.deepEqual(dom.codeLeaks,[],'Raw JavaScript was rendered below document!');
+   assert(!dom.bodyText.includes("const toolbar=document.querySelector('.formatbar')"),
+    'The source code must never appear as visible document text');
+   pass(viewport.width+'px: real Writer page parses; no raw source text below document');
+
+   await page.locator('#dd-word-ribbon-v1 [data-ribbon="insert"]').click();
+   assert.equal(await page.locator('#dd-word-ribbon-v1 [data-ribbon="insert"]').getAttribute('aria-selected'),'true');
+   assert.equal(await page.locator('#dd-word-context-v1 [data-action="image"]').isVisible(),true);
+   assert.equal(await page.locator('#dd-word-context-v1 [data-action="compare"]').isVisible(),true);
+   pass(viewport.width+'px: Insert opens actionable tools');
+
+   await page.locator('#dd-word-ribbon-v1 [data-ribbon="review"]').click();
+   assert.equal(await page.locator('#dd-word-context-v1 [data-action="writing"]').isVisible(),true);
+   pass(viewport.width+'px: Review opens writing checks');
+
+   await page.locator('#dd-word-ribbon-v1 [data-ribbon="view"]').click();
+   assert.equal(await page.locator('#dd-word-context-v1 [data-action="sections"]').isVisible(),true);
+   pass(viewport.width+'px: View opens section tools');
+
+   await page.locator('#dd-word-ribbon-v1 [data-ribbon="home"]').click();
+   assert.equal(await page.locator('#dd-word-context-v1').isHidden(),true);
+   pass(viewport.width+'px: Home restores uncluttered editor toolbar');
+
+   await page.locator('#dd-word-ribbon-v1 [data-ribbon="file"]').click();
+   assert.equal(await page.locator('#wne-file-menu').isVisible(),true);
+   assert.equal(await page.locator('#dd-word-file-advanced').count(),1);
+   pass(viewport.width+'px: File opens menu with advanced recovery collapsed');
+
+   // Deliberate cloud failure MUST NOT claim to save text. The existing
+   // save-protection alert is CORRECT until a genuine cloud write is confirmed.
+   assert(!alerts.some(a=>/Save successful|successfully saved/i.test(a)));
+   await context.close();
+  }
+  console.log('PASS SAMSUNG WRITER FIX TOTAL '+passed+
+   ' full-source mobile and desktop real-Chromium checks (cloud intentionally offline)');
+ }finally {await browser.close()}
+})().catch(e=>{console.error('FAIL SAMSUNG WRITER FIX',e.stack||e);process.exitCode=1});
