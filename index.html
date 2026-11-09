@@ -2752,7 +2752,11 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
 #newsGrid article .dd-news-inline-comments .dd-comment-action-rail button{
  min-height:42px;color:#e9d2ac
 }
-.dd-comment-flag{margin-left:auto!important;min-width:35px;min-height:35px;
+.dd-comment-card{position:relative!important}
+.dd-comment-card .dd-comment-main{position:relative;padding-top:6px}
+.dd-comment-card .dd-comment-head{padding-right:47px!important;min-height:38px!important}
+.dd-comment-card .dd-comment-flag{position:absolute!important;top:5px!important;right:7px!important;
+ margin:0!important;z-index:3;min-width:35px;min-height:35px;
  background:transparent!important;border:0!important;color:#ead4ac!important}
 .dd-comment-head{display:flex;align-items:center;gap:6px}
 #newsGrid article>.dd-news-inline-comments form{
