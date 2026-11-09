@@ -59,4 +59,11 @@ for(const id of ['accounts','witness','voting','flagging','comments','research',
  assert.ok(rules.includes('id="'+id+'"'),'Community rules retain '+id);
 assert.match(rules,/5 flags from distinct registered accounts/);
 assert.match(rules,/one active vote per item/);
+// Search Console 404: do not attempt a function absent from the public
+// Netlify package. News Interests still matches genuine feed headlines.
+const main=read('index.html');
+assert.doesNotMatch(main,/fetch\(\s*['"]\/\.netlify\/functions\/interests\b/i,
+ 'Do not request the never-deployed /interests Netlify function');
+assert.match(main,/interestStories=feedLive\?localInterestMatches\(stories,myInterests\):\[\]/,
+ 'Keep sourced News Interests matching instead of disabling the feature');
 console.log('PASS M36 Search: 6 clean sitemap URLs, consistent canonicals and schema, direct internal links, protected W.NE noindex, no search privacy regressions');
