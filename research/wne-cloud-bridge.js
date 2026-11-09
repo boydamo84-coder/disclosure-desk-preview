@@ -65,7 +65,7 @@ async function manuscript(method,input){
 async function makeLibraryZip(){
  const account=await user();
  if(typeof window.JSZip!=='function')throw Error('ZIP library unavailable. Check your connection and try again; your research has not changed.');
- const rows=[],pageSize=100;
+ const rows=[],pageSize=100,needsReview=[];
  for(let offset=0;offset<1000;offset+=pageSize){
   const {data,error}=await db.from('research_documents')
    .select('id,user_id,title,content,revision,created_at,updated_at')
@@ -73,7 +73,8 @@ async function makeLibraryZip(){
   if(error)throw error;
   for(const row of data||[]){
    if(row.user_id!==account.id)throw Error('Account mismatch while preparing backup. No file was created.');
-   if(!valid(row.content))throw Error('One saved document has invalid content. Nothing has been overwritten.');
+   // Preserve incompatible/old saved data in the backup, without auto-restoring it.
+   if(!valid(row.content))needsReview.push({id:row.id,title:row.title});
    rows.push(row);
   }
   if((data||[]).length<pageSize)break;
@@ -84,7 +85,8 @@ async function makeLibraryZip(){
  const exported=new Date().toISOString(),manifest={
   format:'disclosure-desk-wne-research-backup-v1',
   exported_at:exported,document_count:rows.length,
-  documents:rows.map(({id,title,revision,updated_at})=>({id,title,revision,updated_at}))
+  documents:rows.map(({id,title,revision,updated_at,content})=>({id,title,revision,updated_at,needs_manual_review:!valid(content)})),
+  needs_manual_review_count:needsReview.length
  };
  zip.file('README.txt','Disclosure Desk W.NE Research Edition backup\\n'
  +'Includes only the research documents belonging to the signed-in account.\\n'
@@ -102,10 +104,14 @@ async function makeLibraryZip(){
   if(characters>60*1024*1024)throw Error('The research library is too large for one browser ZIP (60 MB limit). No file created.');
   zip.file('documents/'+row.id+'.json',data);
  }
+ if(needsReview.length)zip.file('WARNING-MANUAL-REVIEW.txt',
+  'Older or incompatible documents were preserved exactly in documents/. Do not automatically restore them without validating their structure.\n'
+  +'No account data has been migrated, deleted or overwritten.\n\n'
+  +needsReview.map(row=>row.id+' - '+String(row.title||'Untitled')).join('\n'));
  const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:4}});
  if(!blob?.size)throw Error('The ZIP archive could not be generated.');
  const stamp=exported.slice(0,10);
- return {blob,filename:'Disclosure-Desk-WNE-Research-'+stamp+'.zip',documentCount:rows.length};
+ return {blob,filename:'Disclosure-Desk-WNE-Research-'+stamp+'.zip',documentCount:rows.length,needsManualReview:needsReview.length};
 }
 async function libraryAction(input){
  await user();
