@@ -39,7 +39,8 @@ const approvedWeb=Object.freeze({
   'research-docx-import.js','research-insert-menu.js','research-site-nav.js','research-text-size.js','research-workspace.html','restore-copy.html',
   'restore-library.html','restore-library-core.js','restore-library.js',
   'restore-copy.js','wne-cloud-bridge.js','wne-export-integration.js',
-  'wne-research-live-spelling.js','wne-dialogs-m34.js','wne-polish-m34.css','wne-polish-m34.js','wne.html'
+  'wne-research-live-spelling.js','wne-dialogs-m34.js','wne-polish-m34.css','wne-polish-m34.js',
+  'wne-view-m39.css','wne-view-m39.js','wne.html'
  ]
 });
 function websiteDir(dir){
