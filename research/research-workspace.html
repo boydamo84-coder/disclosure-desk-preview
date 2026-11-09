@@ -251,11 +251,29 @@ if(document.body.dataset.researchFirstDocument==='true'){
  },0);
 }
 document.getElementById('dd-close-documents').onclick=()=>dlg.close();
+document.getElementById('dd-home-download-word')?.addEventListener('click',async()=>{
+ if(switching)return;
+ switching=true;
+ const button=document.getElementById('dd-home-download-word');
+ button.disabled=true;
+ try{
+  const current=new URL(writer.getAttribute('src')||'',location.href).searchParams.get('id');
+  if(!current)throw Error('Open or create a document first, then download its Word copy.');
+  msg.textContent='Confirming the current report is saved…';
+  await requireCurrentSaved('before downloading Word copy');
+  const exporter=writer.contentWindow?.WNEHostedExport;
+  if(typeof exporter!=='function')throw Error('Word export is still loading. Keep the report open and retry.');
+  await exporter('/api/research/export-docx');
+  msg.textContent='Word copy prepared. Check your Downloads. Your cloud report has not been replaced.';
+ }catch(e){msg.textContent=e?.message||'Word copy could not be downloaded. Your report remains open.'}
+ finally{button.disabled=false;switching=false}
+});
+
 // Restoring a backup opens a separate page; never leave this editor until
 // the active document is confirmed saved. Keyboard and touch clicks both use
 // the same guarded navigation. No async action can bypass preventDefault.
 dlg.addEventListener('click',async event=>{
- const link=event.target?.closest?.('a[href="./restore-library.html"],a[href="./restore-copy.html"]');
+ const link=event.target?.closest?.('a[href="./restore-library.html"],a[href="./restore-copy.html"],a[href="./import.html"]');
  if(!link)return;
  event.preventDefault();
  if(switching)return;
