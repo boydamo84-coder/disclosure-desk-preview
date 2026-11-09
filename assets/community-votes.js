@@ -151,8 +151,16 @@ function mountCommentCard(card,header,body,flag,id,onReply,context={}){
   star.type='button';star.title='Add this comment to an Investigation Board';
   star.setAttribute('aria-label','Add comment to Board');
   star.addEventListener('click',()=>window.DDSavePublicLinkToBoard?.(label,link.href));
-  const share=make('button','dd-action-share','↗ Share');
-  share.type='button';share.title='Share direct public comment link';
+  const share=make('button','dd-action-share');
+  const shareSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  shareSvg.setAttribute('viewBox','0 0 24 24');shareSvg.setAttribute('aria-hidden','true');
+  for(const [tag,attrs] of [
+   ['circle',{cx:'18',cy:'5',r:'3'}],['circle',{cx:'6',cy:'12',r:'3'}],
+   ['circle',{cx:'18',cy:'19',r:'3'}],['path',{d:'m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8'}]
+  ]){const el=document.createElementNS('http://www.w3.org/2000/svg',tag);
+   for(const [name,value] of Object.entries(attrs))el.setAttribute(name,value);shareSvg.append(el)}
+  share.append(shareSvg);share.type='button';share.title='Share direct public comment link';
+  share.setAttribute('aria-label','Share this public comment');
   share.addEventListener('click',()=>void window.DDSharePublicLink?.(label,link.href));
   rail.append(star,share);
  }
