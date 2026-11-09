@@ -73,6 +73,18 @@ const fakeSupabase='(()=>{const doc='+JSON.stringify({version:2,bookTitle:'QA on
   assert.ok(insertMenu&&insertMenu.y>=0&&insertMenu.y+insertMenu.height<=850,
    'Insert submenu should remain in viewport '+JSON.stringify(insertMenu));
   await page.locator('#dd-word-ribbon-v1 [data-ribbon="home"]').click();
+  const homeVisibility=await page.evaluate(()=>{
+   const bar=document.querySelector('.formatbar'),button=document.getElementById('wne-m39-fit-toggle');
+   const parent=bar?.parentElement;
+   return {mode:document.body.dataset.ddRibbonView,
+    bodyClass:document.body.className,
+    barDisplay:getComputedStyle(bar).display,barHeight:bar.getBoundingClientRect().height,
+    buttonDisplay:getComputedStyle(button).display,buttonHeight:button.getBoundingClientRect().height,
+    stickyParent:parent?.id,scroll:scrollY};
+  });
+  console.log('M39 HOME BAR DIAGNOSTICS '+width+'px',JSON.stringify(homeVisibility));
+  assert.equal(homeVisibility.mode,'home','Home tab must restore formatting controls');
+  assert.notEqual(homeVisibility.barDisplay,'none','Home formatting bar must be visible mid-document');
   const initial=await page.locator('#editor').evaluate(el=>el.innerHTML);
   const horizontalBefore=await page.locator('.dd-comparison-block').evaluate(el=>el.scrollWidth-el.clientWidth);
   await page.locator('#wne-m39-fit-toggle').click();
