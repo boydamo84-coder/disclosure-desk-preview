@@ -123,3 +123,15 @@ html[data-theme] #wne-findbar button{
  padding:9px 15px;background:#284155;color:#f4e4c9;font-weight:650}
 .dd-m34-dialog button[type=submit]{background:#dabb82;color:#132839;border-color:#dabb82}
 .dd-m34-dialog [role=status]{min-height:1em;color:#f2bd9d!important;overflow-wrap:anywhere}
+
+/* Unified safe prompt UI for older Writer actions (no native OS alerts). */
+.wne-m34-prompt{overscroll-behavior:contain;max-width:min(450px,calc(100vw - 22px));}
+.wne-m34-prompt-message{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55}
+.wne-m34-prompt label{display:block;color:#eadbbf;font-weight:650;margin-top:10px}
+.wne-m34-prompt input[type=password]{font-family:system-ui, sans-serif;letter-spacing:1px}
+.wne-m34-prompt menu{flex-wrap:wrap;justify-content:flex-end}
+.wne-m34-prompt button:focus-visible{outline:2px solid #e7c68d!important;outline-offset:2px}
+@media(max-width:390px){
+ .wne-m34-prompt{padding:17px}
+ .wne-m34-prompt menu button{flex:1 1 120px}
+}
