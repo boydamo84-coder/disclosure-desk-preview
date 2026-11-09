@@ -177,6 +177,23 @@ async function refresh(){
 document.addEventListener('dd-research-library-updated',async()=>{try{await refresh()}catch(e){msg.textContent='Could not refresh document list: '+e.message}});
 document.getElementById('dd-documents-btn').onclick=async()=>{dlg.showModal();msg.textContent='';try{await refresh()}catch(e){msg.textContent=e.message}};
 document.getElementById('dd-close-documents').onclick=()=>dlg.close();
+// Restoring a backup opens a separate page; never leave this editor until
+// the active document is confirmed saved. Keyboard and touch clicks both use
+// the same guarded navigation. No async action can bypass preventDefault.
+dlg.addEventListener('click',async event=>{
+ const link=event.target?.closest?.('a[href="./restore-library.html"],a[href="./restore-copy.html"]');
+ if(!link)return;
+ event.preventDefault();
+ if(switching)return;
+ switching=true;
+ try{
+  msg.textContent='Confirming current document is saved before opening recovery…';
+  await requireCurrentSaved('before opening Research recovery');
+  window.top.location.assign(new URL(link.getAttribute('href'),location.href).pathname);
+ }catch(e){msg.textContent=e?.message||'Save not confirmed. Stay in Research Studio.'}
+ finally{switching=false}
+});
+
 document.getElementById('dd-create-document').onclick=async()=>{
  if(switching)return;
  const input=document.getElementById('dd-new-document-name'),name=input.value.trim();if(!name){msg.textContent='Enter a document name first.';return}
