@@ -86,7 +86,12 @@ if(preview){
 if(previewMessage)previewMessage.textContent='Choose two cases or a saved comparison to see your preview.';
 // Do not let a stale preview from the other source be inserted by mistake.
 choices?.addEventListener('click',event=>{
- if(!event.target.closest('#dd-compare-archive-tab,#dd-compare-boards-tab'))return;
+ const button=event.target.closest('#dd-compare-archive-tab,#dd-compare-boards-tab');
+ if(!button)return;
+ if(button.id==='dd-compare-archive-tab'&&Number.parseInt(selectedLabel?.textContent||'0',10)>=2){
+  useArchive?.click();return;
+ }
+ if(button.id==='dd-compare-boards-tab'&&item?.value!==''){load?.click();return}
  area.value='';area.dispatchEvent(new Event('input',{bubbles:true}));
 },true);
 dialog.addEventListener('close',()=>{const s=$('dd-comparison-status');if(s)s.textContent=''});
@@ -139,7 +144,7 @@ function citationPreview(){
  const url=citationsDialog.querySelector('#dd-m40-cite-url').value.trim();
  const picker=citationsDialog.querySelector('#dd-m40-cite-project');
  const list=entries(picker.value);
- const chosen=list[Number(select.value)];
+ const chosen=select.value===''?null:list[Number(select.value)];
  const obj=mode==='saved'?chosen:{title,url,publisher:''};
  pane.replaceChildren();
  const valid=!!obj?.title&&!!safeUrl(obj?.url);
@@ -206,7 +211,7 @@ function insertCitation(){
  const select=d.querySelector('#dd-m40-cite-select');
  const p=d.querySelector('#dd-m40-cite-project').value;
  const list=entries(p);
- const source=mode==='saved'?list[Number(select.value)]:{
+ const source=mode==='saved'?(select.value===''?null:list[Number(select.value)]):{
   title:d.querySelector('#dd-m40-cite-title').value.trim(),
   url:d.querySelector('#dd-m40-cite-url').value.trim(),
   publisher:''
@@ -214,6 +219,10 @@ function insertCitation(){
  const valid=safeUrl(source?.url);
  if(!source?.title||!valid){output.textContent='Choose a valid source first.';return}
  const url=valid;
+ if(p!==currentProject()){
+  output.textContent='This document is linked to a different reference collection. Open Research Library to change the document link first.';
+  return;
+ }
  const existing=list.findIndex(x=>x.url===url);
  if(existing<0&&list.length>=499){output.textContent='This collection is full. Export it from Research Library.';return}
  const next=existing<0?[...list,{title:source.title.slice(0,160),url,publisher:source.publisher||new URL(url).hostname,addedAt:new Date().toISOString()}]:list;
@@ -226,13 +235,13 @@ function insertCitation(){
   // Maintain the reference ledger before modifying the editor, like the
   // existing Research Library citation path. Cancel is always non-destructive.
   localStorage.setItem(sourceKey(p),JSON.stringify(next));
+  d.close();
   editor.focus();
   const range=document.createRange();range.selectNodeContents(editor);range.collapse(false);
   const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);
   if(!document.execCommand('insertText',false,'\n'+insertion))throw Error('Editor did not accept this citation.');
   editor.dispatchEvent(new Event('input',{bubbles:true}));
-  d.close();
- }catch(e){output.textContent=e.message||'Citation not inserted';button.disabled=false}
+ }catch(e){if(!d.open)d.showModal();output.textContent=e.message||'Citation not inserted';button.disabled=false}
 }
 function showCitationsTab(){
  document.body.dataset.ddRibbonView='citations';
