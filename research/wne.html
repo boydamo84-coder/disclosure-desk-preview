@@ -1696,7 +1696,7 @@ async function recover(){
  list.append(b)}
  restore.onclick=async()=>{if(selected===null)return;restore.disabled=true;try{const result=window.WNECloudIntegration?.recoveryCopy?
      await window.WNECloudIntegration.recoveryCopy(selected):
-     await api('/api/recovery/copy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:selected})});close();alert('Recovered copy created: '+result.title+'\n\nOpen Home to find it. Your current manuscript is unchanged.')}catch(e){alert('Recovery failed: '+e.message);restore.disabled=false}};
+     await api('/api/recovery/copy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:selected})});close();if(typeof window.DDRecoveryCopyNotice==='function')window.DDRecoveryCopyNotice(result);else alert('Recovered copy created: '+result.title+'\n\nOpen Home to find it. Your current manuscript is unchanged.')}catch(e){alert('Recovery failed: '+e.message);restore.disabled=false}};
 }
 
 function importBackup(){closeMore();$('restore-file').click()}
@@ -3933,5 +3933,7 @@ html body #dd-research-insert-trigger{display:inline-flex!important;align-items:
 }
 </style>
 <script src="./wne-research-live-spelling.js" defer></script>
+<link rel="stylesheet" href="./wne-polish-m34.css">
+<script src="./wne-polish-m34.js"></script>
 </body>
 </html>
