@@ -27,11 +27,11 @@ assert(html.indexOf('const toolbar=document.querySelector(\'.formatbar\')',ribbo
 // A real mobile HTML page can contain scripts never covered by isolated tests.
 // Compile every inline executable block before any APK is published.
 let inlineCount=0;
-for(const match of html.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script>/gi)){
+for(const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)){
  const attrs=match[1],source=match[2];
- if(/\\bsrc\\s*=|\\btype\\s*=\\s*["'](?:application\\/json|text\\/plain)/i.test(attrs)||!source.trim())continue;
+ if(/\bsrc\s*=|\btype\s*=\s*["'](?:application\/json|text\/plain)/i.test(attrs)||!source.trim())continue;
  inlineCount++;
- const label=(/\\bid=["']([^"']+)["']/i.exec(attrs)||[])[1]||'inline-'+inlineCount;
+ const label=(/\bid=["']([^"']+)["']/i.exec(attrs)||[])[1]||'inline-'+inlineCount;
  try{new vm.Script(source,{filename:'research/wne.html#'+label})}
  catch(err){throw Error('Invalid W.NE inline script '+label+': '+err.message)}
 }
