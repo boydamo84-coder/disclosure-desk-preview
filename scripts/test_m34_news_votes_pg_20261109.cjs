@@ -18,10 +18,10 @@ INSERT INTO auth.users(id) VALUES ('${owner}'),('${other}') ON CONFLICT DO NOTHI
 CREATE OR REPLACE FUNCTION auth.jwt() returns jsonb language sql stable as
 $$ SELECT jsonb_build_object('is_anonymous',coalesce(nullif(current_setting('request.jwt.claim.is_anonymous',true),''),'false')::boolean) $$;
 GRANT EXECUTE ON FUNCTION auth.jwt() TO anon,authenticated;`);
-const migration=fs.readFileSync('supabase/NEWS_ARTICLE_VOTING_REVIEW_NOT_APPLIED.sql','utf8');
+const migration=fs.readFileSync('supabase/migrations/20261109044411_dd_news_article_voting_m34_20261109.sql','utf8');
 assert(migration.includes('enable row level security'));
 assert(migration.includes('grant execute on function public.dd_news_article_vote_set'));
-const applied=cp.spawnSync('psql',['-X','-v','ON_ERROR_STOP=1','-f','supabase/NEWS_ARTICLE_VOTING_REVIEW_NOT_APPLIED.sql'],{encoding:'utf8',env:process.env});
+const applied=cp.spawnSync('psql',['-X','-v','ON_ERROR_STOP=1','-f','supabase/migrations/20261109044411_dd_news_article_voting_m34_20261109.sql'],{encoding:'utf8',env:process.env});
 if(applied.status!==0)throw Error('M34 migration SQL failed to compile: '+applied.stderr);
 assert.equal(psql(`select relrowsecurity::text from pg_class where oid='public.dd_news_article_votes'::regclass;`),'true');
 assert.equal(psql(`select has_table_privilege('authenticated','public.dd_news_article_votes','INSERT')::text;`),'false');
