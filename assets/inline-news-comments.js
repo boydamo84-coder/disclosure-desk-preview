@@ -13,7 +13,7 @@ function mount(container){
  const previous=drafts.get(id)||{expanded:false,draft:''};
  const state={expanded:previous.expanded,items:[],busy:false,loaded:false,replyTo:null};
  states.set(container,state);
- const toggle=el('button','Comments ▼');toggle.type='button';toggle.className='outline';toggle.setAttribute('aria-expanded','false');
+ const toggle=el('button','💬 0');toggle.type='button';toggle.className='outline';toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Read or add comments');toggle.title='Comments';
  const entries=el('div');entries.className='dd-inline-comments-preview';
  const form=el('form');form.hidden=true;
  const body=el('textarea');body.placeholder='Add a comment or source reference…';body.rows=3;body.maxLength=2000;body.minLength=3;body.required=true;body.style.cssText='display:block;width:100%;box-sizing:border-box;margin:8px 0';
@@ -25,11 +25,12 @@ function mount(container){
  form.append(replyContext,body,post);
  // Mount Comments in the same full-width action rail as Board / Compare / Share.
  const rail=container.closest('article')?.querySelector('.dd-news-main-actions');
- if(rail)rail.append(toggle);else container.append(toggle);
+ if(rail){const star=rail.querySelector('.dd-action-board');if(star)rail.insertBefore(toggle,star);else rail.append(toggle)}else container.append(toggle);
  toggle.classList.add('dd-inline-comments-toggle');toggle.setAttribute('aria-controls','dd-news-comments-'+id.replace(/[^a-z0-9-]/gi,'-'));container.id=toggle.getAttribute('aria-controls');
  container.append(form,entries,message);
  function render(){
-  toggle.textContent='Comments'+(state.loaded?' ('+state.items.length+')':'')+' '+(state.expanded?'▲':'▼');
+  toggle.textContent='💬 '+(state.loaded?state.items.length:'…');
+  toggle.setAttribute('aria-label',(state.expanded?'Hide':'Read or add')+' comments'+(state.loaded?' ('+state.items.length+')':''));
   // Never lose a typed draft when refreshing the visible comment list.
   if(entries.contains(form))container.insertBefore(form,entries);
   toggle.setAttribute('aria-expanded',String(state.expanded));
