@@ -32,16 +32,21 @@ async function load(){
 function chooseReply(item){
  replyTo=item&&item.id?{id:item.id,alias:item.publicAlias||'this commenter'}:null;
  const form=document.getElementById('ddCaseDiscussionForm'),input=document.getElementById('ddCaseDiscussionBody');
- if(form)form.hidden=false;
+ if(form){
+  const anchor=replyTo&&item?.id?document.getElementById('discussion-comment-'+item.id):document.getElementById('ddCommentsToggle');
+  anchor?.after(form);form.hidden=false;
+ }
  const submit=form?.querySelector('button[type="submit"]');if(submit)submit.textContent=replyTo?'Post reply':'Post comment';
  let context=document.getElementById('ddCaseReplyContext');
  if(!context&&form){context=document.createElement('p');context.id='ddCaseReplyContext';context.className='dd-comment-reply-context';form.prepend(context)}
  if(context)context.textContent=replyTo?'Replying to '+replyTo.alias+' · your reply will appear beneath this comment.':'Commenting on '+String(document.querySelector('#ddCaseDiscussionDialog h2')?.textContent||'this discussion');
- if(input){input.placeholder=replyTo?'Write your reply…':'Ask a question or share a source reference.';input.focus();input.scrollIntoView({block:'center',behavior:'smooth'})}
+ if(input){input.placeholder=replyTo?'Write your reply…':'Ask a question or share a source reference.';input.focus({preventScroll:true})}
 }
 function renderComments(){
  const c=client();
  const list=document.querySelector('#ddCaseDiscussionList');
+ const form=document.getElementById('ddCaseDiscussionForm');
+ if(form&&list.contains(form))document.getElementById('ddCommentsToggle')?.after(form);
  list.textContent='';
  const toggle=document.querySelector('#ddCommentsToggle');
  toggle.textContent='Comments ('+loadedComments.length+') '+(expanded?'▲':'▼');
@@ -88,6 +93,7 @@ function renderComments(){
    }
    list.append(card);
  }
+ if(replyTo&&form&&!form.hidden){const target=document.getElementById('discussion-comment-'+replyTo.id);if(target)target.after(form)}
 }
 function init(){
  const profileButton=ownProfileButton();
