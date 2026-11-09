@@ -10,8 +10,8 @@ const demo=String.raw`<!doctype html><html><head><meta name="viewport" content="
 article{margin:10px 0;width:100%;border:1px solid #54687b}.dd-news-actions{width:100%}
 .dd-news-main-actions,.dd-forum-actions,.dd-comment-action-rail{min-height:48px}</style></head><body>
 <div id="newsGrid"><article><div class="dd-news-actions">
-<div class="dd-news-main-actions dd-action-rail" data-check="news"><span data-news-article-votes><div class="dd-news-article-vote-controls"><button data-up>▲ 12</button><button data-down>▼ 3</button></div></span><button class="dd-action-board">☆</button><button class="dd-action-share">↗ Share</button><button class="dd-inline-comments-toggle">Comments (5)</button></div></div></article></div>
-<div id="discussionsPage"><article><div class="dd-forum-actions dd-action-rail" data-check="forum"><button class="dd-forum-vote" data-up>▲ 12</button><button class="dd-forum-vote" data-down>▼ 3</button><button class="dd-forum-star-action">☆</button><button class="dd-forum-share-action">↗ Share</button><button class="dd-forum-comments-action">Comments (5)</button></div></article>
+<div class="dd-news-main-actions dd-action-rail" data-check="news"><span data-news-article-votes><div class="dd-news-article-vote-controls"><button data-up>▲ 12</button><button data-down>▼ 3</button></div></span><button class="dd-inline-comments-toggle">💬 5</button><button class="dd-action-board">☆</button><button class="dd-action-share">⤴</button></div></div></article></div>
+<div id="discussionsPage"><article><div class="dd-forum-actions dd-action-rail" data-check="forum"><button class="dd-forum-vote" data-up>▲ 12</button><button class="dd-forum-vote" data-down>▼ 3</button><button class="dd-forum-comments-action">💬 5</button><button class="dd-forum-star-action">☆</button><button class="dd-forum-share-action">⤴</button></div></article>
 <article class="dd-forum-reply-card"><div class="dd-forum-actions dd-action-rail" data-check="forum-reply"><button class="dd-forum-vote" data-up>▲ 2</button><button class="dd-forum-vote" data-down>▼ 1</button><button class="dd-forum-star-action">☆</button><button class="dd-forum-share-action">↗ Share</button><button class="dd-forum-reply-action">↳ Reply</button></div></article></div>
 <article class="dd-comment-card"><div class="dd-comment-action-rail dd-action-rail" data-check="comment"><div class="dd-community-votes"><button class="dd-community-vote-button" data-up>▲ 12</button><button class="dd-community-vote-button" data-down>▼ 3</button></div><button class="dd-action-board">☆</button><button class="dd-action-share">↗ Share</button><button class="dd-comment-reply-button">↳ Reply</button></div></article>
 </body></html>`;
@@ -42,7 +42,10 @@ article{margin:10px 0;width:100%;border:1px solid #54687b}.dd-news-actions{width
    assert.ok(actual.gap>=0&&actual.gap<=8,kind+' arrows must be adjacent: '+JSON.stringify(actual));
    assert.ok(actual.downX<actual.boardX,kind+' star must follow vote pair');
    assert.ok(actual.boardX<actual.shareX,kind+' Share must follow star');
-   assert.ok(actual.shareX<actual.commentsX,kind+' Comments/Reply must follow Share');
+   if(kind==='news'||kind==='forum'){
+    assert.ok(actual.downX<actual.commentsX&&actual.commentsX<actual.boardX,
+     kind+' comments bubble must follow adjacent votes and precede Board');
+   }else assert.ok(actual.shareX<actual.commentsX,kind+' Reply belongs after Share');
    assert.ok(actual.shareWidth<=125,kind+' Share must be compact');
    assert.ok(actual.boardWidth>=35,kind+' Board star must be tappable');
    assert.ok(actual.railRight<=actual.viewport+1,kind+' rail must fit device width');
