@@ -100,7 +100,7 @@
     cloud API; only the resulting navigation choice is styled. */
  window.DDRecoveryCopyNotice=function(result){
   if(!result?.id||!/^[0-9a-f-]{36}$/i.test(result.id))
-   return alert('The cloud did not confirm a valid recovered document. Stay in your current report.');
+   return window.WNEDialogs?.notice('The cloud did not confirm a valid recovered document. Stay in your current report.',{title:'Recovery not confirmed'});
   const dialog=document.createElement('dialog');dialog.className='dd-m34-dialog';
   const title=document.createElement('h2');title.textContent='Recovered copy saved';
   const p=document.createElement('p');p.textContent='A separate copy, '+String(result.title||'Recovered document')+', was created. Your original research is unchanged.';
