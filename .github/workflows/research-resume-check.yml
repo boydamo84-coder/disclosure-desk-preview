@@ -198,3 +198,7 @@ jobs:
           psql -X -v ON_ERROR_STOP=1 -f /tmp/dd-disposable-fixture.sql >/tmp/dd-fixture-setup.log
           psql -X -v ON_ERROR_STOP=1 -f supabase/ACCOUNT_DELETION_WRITE_FENCE_DRAFT_NOT_APPLIED.sql >/tmp/dd-fence-compile.log
           node scripts/test_account_deletion_postgres_20261108.cjs
+      - name: M34 isolated news article vote RPC and RLS acceptance (NO LIVE DB)
+        run: |
+          node --check scripts/test_m34_news_votes_pg_20261109.cjs
+          node scripts/test_m34_news_votes_pg_20261109.cjs
