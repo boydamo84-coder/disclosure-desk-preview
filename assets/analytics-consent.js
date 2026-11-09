@@ -53,8 +53,11 @@ function bootTag(){
 }
 function current(){
  if(path!=='/'&&path!=='/index.html')return path;
- const tab=document.querySelector('.nav .tab.active')?.dataset.tab;
- // A private tab must NEVER be mislabelled as public News.
+ // Direct links must be classified BEFORE the SPA navigates. Never report a
+ // deep link to a private page as News merely because News is the initial tab.
+ const requested=new URLSearchParams(location.search).get('dd_tab');
+ if(requested&&!sections[requested])return null;
+ const tab=requested||document.querySelector('.nav .tab.active')?.dataset.tab;
  const section=tab?sections[tab]:'News';
  return section?'/site/'+section.toLowerCase().replace(/[^a-z0-9]+/g,'-'):null;
 }
