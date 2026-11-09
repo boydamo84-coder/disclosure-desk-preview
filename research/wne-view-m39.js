@@ -30,7 +30,9 @@
  formatButton.type='button';
  formatButton.title='Fit the complete A4-width document onto this screen (view only)';
  formatButton.setAttribute('aria-label','Fit full document page width to screen');
- bar.append(formatButton);
+ // Keep Fit Page visible at the START of the horizontally scrolling Home bar.
+ // Appending it would bury it behind all formatting tools on mobile.
+ bar.prepend(formatButton);
  const pageWidth=794;
  function updateFit(){
   if(!fit||document.body.classList.contains('tv'))return;
