@@ -3,7 +3,7 @@
 'use strict';
 const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
 const URL=cfg.url||'',KEY=cfg.publishableKey||'';
-let db=null, current=null, expanded=false,loadedComments=[],loadRevision=0,dialogRevision=0;
+let db=null, current=null, expanded=false,loadedComments=[],loadRevision=0,dialogRevision=0,replyTo=null;
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function client(){if(db)return db;if(!window.supabase||!URL||!KEY||!['test','production'].includes(cfg.environment))return null;db=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});return db;}
 function announce(t){const el=document.querySelector('#ddCaseDiscussionStatus');if(el)el.textContent=t;}
@@ -29,6 +29,14 @@ async function load(){
  renderComments();
  return true;
 }
+function chooseReply(item){
+ replyTo=item&&item.id?{id:item.id,alias:item.publicAlias||'this commenter'}:null;
+ const form=document.getElementById('ddCaseDiscussionForm'),input=document.getElementById('ddCaseDiscussionBody');
+ let context=document.getElementById('ddCaseReplyContext');
+ if(!context&&form){context=document.createElement('p');context.id='ddCaseReplyContext';context.className='dd-comment-reply-context';form.prepend(context)}
+ if(context)context.textContent=replyTo?'Replying to '+replyTo.alias+' · your reply will appear beneath this comment.':'Commenting on '+String(document.querySelector('#ddCaseDiscussionDialog h2')?.textContent||'this discussion');
+ if(input){input.placeholder=replyTo?'Write your reply…':'Ask a question or share a source reference.';input.focus();input.scrollIntoView({block:'center',behavior:'smooth'})}
+}
 function renderComments(){
  const c=client();
  const list=document.querySelector('#ddCaseDiscussionList');
@@ -37,9 +45,11 @@ function renderComments(){
  toggle.textContent='Comments ('+loadedComments.length+') '+(expanded?'▲':'▼');
  toggle.setAttribute('aria-expanded',String(expanded));
  if(!loadedComments.length){list.textContent='No comments yet. Be the first to contribute.';return}
- const visible=expanded?loadedComments:loadedComments.slice(-2);
+ const all=window.DDCommunityVotes?.threadedComments?.(loadedComments)||loadedComments;
+ const visible=expanded?all:all.slice(-2);
  for(const item of visible){
    const card=document.createElement('article');card.className='card';card.id='discussion-comment-'+item.id;card.style.cssText='margin:8px 0';
+   if(item.replyDepth>0)card.classList.add('dd-comment-nested');
    const alias=item.publicAlias||'Community member';
    const header=document.createElement('div');header.className='muted small';
    header.style.cssText='display:flex;align-items:center;min-width:0';
@@ -48,6 +58,7 @@ function renderComments(){
    avatar.setAttribute('aria-hidden','true');
    const byline=document.createElement('span');byline.textContent=alias+' · '+displayDate(item.created_at);
    header.append(avatar,byline);
+   if(item.replyParentName){const parent=document.createElement('small');parent.className='dd-comment-parent-label';parent.textContent='↳ to '+item.replyParentName;header.append(parent)}
    if(item.publicAlias)window.DDMemberAvatars?.decorate?.(avatar,item.publicAlias);
    const body=document.createElement('p');body.textContent=item.body;body.style.whiteSpace='pre-wrap';
    const flag=document.createElement('button');flag.className='outline';flag.type='button';flag.textContent='⚑ Flag';flag.style.fontSize='12px';
@@ -67,7 +78,9 @@ function renderComments(){
        :'Flag could not be submitted. Please try again.');
      if(!error)void load();
    };
-   if(!window.DDCommunityVotes?.mountCommentCard?.(card,header,body,flag,item.id)){
+   if(!window.DDCommunityVotes?.mountCommentCard?.(card,header,body,flag,item.id,()=>{
+     expanded=true;renderComments();chooseReply(item);
+   })){
     card.append(header,body,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);
    }
    list.append(card);
@@ -110,11 +123,11 @@ function init(){
  };
 
  document.querySelector('#ddCommentsToggle').onclick=()=>{expanded=!expanded;renderComments()};
- document.querySelector('#ddCaseDiscussionClose').onclick=()=>{++dialogRevision;++loadRevision;root.hidden=true;document.body.style.overflow='';current=null;loadedComments=[]};
+ document.querySelector('#ddCaseDiscussionClose').onclick=()=>{++dialogRevision;++loadRevision;root.hidden=true;document.body.style.overflow='';current=null;loadedComments=[];replyTo=null};
  root.addEventListener('click',e=>{if(e.target===root)document.querySelector('#ddCaseDiscussionClose').click()});
  window.ddOpenCaseDiscussion=(id,title='Case Discussion',focusComment=null)=>{
    if(!id)return;
-   ++dialogRevision;current=String(id).slice(0,180);expanded=false;loadedComments=[];
+   ++dialogRevision;current=String(id).slice(0,180);expanded=false;loadedComments=[];replyTo=null;
    const opened=dialogRevision,chosen=current;
    const heading=root.querySelector('h2');if(heading)heading.textContent=title;
    root.hidden=false;document.body.style.overflow='hidden';
@@ -137,14 +150,15 @@ function init(){
      if(revision!==dialogRevision||chosen!==current||root.hidden)return;
      const user=data?.user;
      if(authError||!user||user.is_anonymous){announce('Please sign in with a registered Disclosure Desk account first.');return}
-     const {error}=await c.from('dd_case_comments').insert({case_id:chosen,author_id:user.id,body,status:'approved'});
+     const parent=replyTo;
+     const {error}=await c.from('dd_case_comments').insert({case_id:chosen,author_id:user.id,parent_id:parent?.id||null,body,status:'approved'});
      if(revision!==dialogRevision||chosen!==current||root.hidden)return;
      const issue=String(error?.message||'');
-     announce(!error?'Comment posted.'
+     announce(!error?(parent?'Reply posted.':'Comment posted.')
       :/duplicate comment/i.test(issue)?'You have already posted this comment.'
       :/limit reached/i.test(issue)?'Posting limit reached. Please try again later.'
       :'Unable to submit comment. Please try again.');
-     if(!error){e.target.reset();await load();}
+     if(!error){e.target.reset();replyTo=null;await load();}
    }finally{button.disabled=false}
  };
 }
