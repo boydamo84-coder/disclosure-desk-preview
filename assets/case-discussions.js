@@ -131,7 +131,7 @@ function init(){
  if(composer&&actionRail){actionRail.after(composer);composer.hidden=true;}
  const publicDiscussionLink=()=>{
   if(!current)return null;
-  const url=new URL('/',location.origin);
+  const url=new window.URL('/',location.origin);
   const section=current.startsWith('news:')?'discover':current.startsWith('video:')?'clips':current.startsWith('hearing:')?'livePage':'cases';
   url.searchParams.set('dd_tab',section);url.searchParams.set('dd_discussion',current);
   return url.href;
