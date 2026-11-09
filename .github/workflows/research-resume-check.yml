@@ -121,6 +121,7 @@ jobs:
           npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 leaflet@1.9.4
           test -x /usr/bin/google-chrome
           node --check scripts/test_research_editor_real_chromium_20261108.cjs
+          node --check scripts/test_m32_actual_writer_ribbon_chromium_20261109.cjs
       - name: Start strictly local-only test origin
         run: |
           python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-research-chrome.log 2>&1 &
@@ -134,6 +135,7 @@ jobs:
       - name: Run actual Chromium mobile editor tests without cloud access
         run: |
           node scripts/test_research_editor_real_chromium_20261108.cjs
+          node scripts/test_m32_actual_writer_ribbon_chromium_20261109.cjs
           node scripts/test_research_review_chromium_20261108.cjs
           node scripts/test_research_library_chromium_20261108.cjs
           node scripts/test_research_nav_avatar_chromium_20261108.cjs
