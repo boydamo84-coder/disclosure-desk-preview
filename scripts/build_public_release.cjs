@@ -28,7 +28,7 @@ const approvedWeb=Object.freeze({
   'community-test-config.js','community-votes.js','disclosure-desk-mark.svg',
   'discussions-admin.js','historical-satellite.js','inline-news-comments.js',
   'live-chat.js','live-hearings.js','live-schedule.css','live-schedule.js',
-  'news-ticker.css','news-ticker.js',
+  'news-ticker.css','news-ticker.js','news-article-votes.js',
   'profile-avatars.js','member-avatars.js','profile-private-chat.js','public-profiles.js','research-hub.js',
   'support-site.js','watch-read.js','witness-community.js'
  ],
