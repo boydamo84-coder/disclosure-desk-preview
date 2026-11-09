@@ -71,7 +71,7 @@ const fakeJs='(()=>{'+
    pass(width+'px: original report renders full text + single image without duplication');
    const nav=await page.locator('#dd-word-ribbon-v1').boundingBox();
    assert(nav&&nav.y>=0&&nav.y+nav.height<=Math.max(width===393?852:800,nav.y+nav.height));
-   assert.equal(await page.locator('#dd-word-ribbon-v1 [role=tab]').count(),5);
+   assert.deepEqual(await page.locator('#dd-word-ribbon-v1 [role=tab]').allTextContents(),['File','Home','Insert','Citations','Review','View']);
    const image=page.locator('#editor figure img').first();
    await image.click();
    await page.locator('#dd-image-edit[open]').waitFor();
