@@ -95,6 +95,24 @@ assert.doesNotMatch(HTML.slice(endBodyAt),/<style\b|<script\b/i,'No style/script
     'The source code must never appear as visible document text');
    pass(viewport.width+'px: real Writer page parses; no raw source text below document');
 
+   // A correctly parsed ribbon is not enough. The actual full Writer must
+   // finish its cloud-document boot and expose the guarded save function.
+   try{
+     await page.waitForFunction(()=>document.querySelector('#status')?.textContent?.includes('Saved to cloud')
+       &&document.getElementById('editor')?.getAttribute('contenteditable')==='true'
+       &&typeof window.wneSaveBeforeNavigation==='function',null,{timeout:7000});
+   }catch(error){
+     const state=await page.evaluate(()=>({
+       status:document.querySelector('#status')?.textContent,
+       editability:document.querySelector('#editor')?.getAttribute('contenteditable'),
+       bridge:document.documentElement.dataset.wneBridge,
+       saveHook:typeof window.wneSaveBeforeNavigation
+     }));
+     throw Error('Writer did not initialise cloud save: '+JSON.stringify(state)+
+       ' JS errors: '+JSON.stringify(pageErrors.slice(0,7))+' / '+error.message);
+   }
+   pass(viewport.width+'px: real Writer initialises document and save guard');
+
    await page.locator('#dd-word-ribbon-v1 [data-ribbon="insert"]').click();
    assert.equal(await page.locator('#dd-word-ribbon-v1 [data-ribbon="insert"]').getAttribute('aria-selected'),'true');
    assert.equal(await page.locator('#dd-word-context-v1 [data-action="image"]').isVisible(),true);
@@ -118,8 +136,16 @@ assert.doesNotMatch(HTML.slice(endBodyAt),/<style\b|<script\b/i,'No style/script
    assert.equal(await page.locator('#dd-word-file-advanced').count(),1);
    pass(viewport.width+'px: File opens menu with advanced recovery collapsed');
 
-   // Deliberate cloud failure MUST NOT claim to save text. The existing
-   // save-protection alert is CORRECT until a genuine cloud write is confirmed.
+   // Write only fictional test text to the in-browser synthetic Supabase
+   // account. Require a confirmed revision through the real W.NE bridge.
+   await page.locator('#dd-word-ribbon-v1 [data-ribbon="home"]').click();
+   await page.locator('#editor').fill('WNE M32 synthetic save confirmation');
+   assert.equal(await page.evaluate(()=>window.wneSaveBeforeNavigation('M32 fake account save')),true);
+   const saved=await page.evaluate(()=>({writes:window.__m32Cloud?.saves,
+     status:document.querySelector('#status')?.textContent}));
+   assert(saved.writes>=1,'No synthetic cloud revision was acknowledged');
+   assert.match(saved.status,/Saved to cloud/);
+   pass(viewport.width+'px: typed synthetic text saves with confirmed revision');
    assert(!alerts.some(a=>/Save successful|successfully saved/i.test(a)));
    await context.close();
   }
