@@ -6,6 +6,8 @@ on:
     paths:
       - 'android-wne-beta/**'
       - 'scripts/prepare_wne_android_beta_assets.cjs'
+      - 'scripts/validate_wne_writer_html.cjs'
+      - 'scripts/test_m32_actual_writer_ribbon_chromium_20261109.cjs'
       - 'research/**'
       - 'assets/community-test-config.js'
       - '.github/workflows/wne-research-beta-apk.yml'
@@ -33,6 +35,18 @@ jobs:
           test -f android-wne-beta/app/src/main/assets/research/wne.html
           test ! -f android-wne-beta/app/src/main/assets/.env
           test ! -f android-wne-beta/app/src/main/assets/index.html
+      - name: Acceptance-test full Writer HTML and all five menu tabs BEFORE packaging APK
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/wne-beta-qa.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          for i in $(seq 1 25); do
+            if curl -fsS --max-time 2 http://127.0.0.1:4173/research/wne.html >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/test_m32_actual_writer_ribbon_chromium_20261109.cjs
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
