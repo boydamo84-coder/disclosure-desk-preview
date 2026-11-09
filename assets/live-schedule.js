@@ -129,7 +129,7 @@ function render(){
  const msg=el('p','muted small',upcoming.length?'Officially scheduled events; times displayed in UK and US Eastern local time.':'No upcoming UAP hearing has been confirmed by an official source yet. The next countdown will appear here after a dated hearing is verified.');
  head.append(msg);
  const links=el('div','dd-live-sources');
- links.append(link('Congress committee calendar ↗','https://www.congress.gov/committee-meetings'),
+ links.append(link('Official House committee calendar ↗','https://docs.house.gov/Committee/Calendar/ByWeek.aspx'),
               link('House Oversight hearings ↗','https://oversight.house.gov/hearing/'));
  head.append(links);container.append(head);
  if(!upcoming.length)return;
