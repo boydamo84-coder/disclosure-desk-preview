@@ -8,8 +8,7 @@ const page=read('index.html'),news=read('assets/inline-news-comments.js'),
  article=read('assets/news-article-votes.js'),live=read('assets/live-chat.js'),
  build=read('scripts/build_public_release.cjs'),
  sql=read('supabase/NEWS_ARTICLE_VOTING_REVIEW_NOT_APPLIED.sql'),
- harden=read('supabase/COMMENT_SECURITY_HARDENING_REVIEW.sql'),
- discussionFlag=read('supabase/DISCUSSION_BOARDS_REDDIT_STYLE_REVIEW.sql');
+ harden=read('supabase/COMMENT_SECURITY_HARDENING_REVIEW.sql');
 assert.match(page,/assets\/news-article-votes\.js/);
 assert.match(build,/'news-article-votes\.js'/);
 assert.match(page,/class="dd-news-main-actions"/);
@@ -44,7 +43,7 @@ assert.match(sql,/revoke all on table public\.dd_news_article_votes from public,
 assert.match(sql,/p_value not in \(-1,0,1\)/);
 assert.match(sql,/Daily article voting limit reached/);
 assert.match(harden,/dd_guard_comment_flag/);
-assert.match(discussionFlag,/dd_discussions_flag/);
+assert.match(forum,/dd_discussions_flag/);
 assert.doesNotMatch(news,/👍|👎/);
 assert.doesNotMatch(forum,/👍|👎/);
 assert.doesNotMatch(article,/👍|👎/);
