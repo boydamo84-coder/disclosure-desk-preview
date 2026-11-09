@@ -79,7 +79,7 @@ const before=byId('ddForumPostList').children.length;
 authListener('TOKEN_REFRESHED',{user:{id:'B'}});await flush();
 assert.equal(byId('ddForumPostList').children.length,before,'Same-account token refresh preserves browsing state');
 delayAuth=true;
-const like=walk(byId('ddForumPostList')).find(n=>n.tag==='button'&&n.textContent.startsWith('👍'));
+const like=walk(byId('ddForumPostList')).find(n=>n.tag==='button'&&n.textContent.startsWith('▲'));
 assert.equal(!!like,true,'B sees public voting control');
 like.onclick();await flush();
 assert.equal(typeof resolveDelayedUser,'function','Hold account verification across sign-out');
