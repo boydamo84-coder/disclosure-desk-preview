@@ -124,6 +124,10 @@ const fakeSupabase='(()=>{const doc='+JSON.stringify({version:2,bookTitle:'QA on
   assert.equal(await fit.getAttribute('aria-pressed'),'true');
   await fit.click();
   assert.equal(await page.evaluate(()=>window.DDWNEPageView.mode),'readable');
+  // Home owns the formatting bar; View intentionally hides it while showing
+  // the submenu. Return to Home before testing the Home-only control again.
+  await page.locator('#dd-word-ribbon-v1 [data-ribbon="home"]').click();
+  assert.equal(await page.locator('.formatbar').isVisible(),true);
   const refit=await page.locator('#wne-m39-fit-toggle').evaluate(el=>{
    const rect=el.getBoundingClientRect();return {x:rect.left+rect.width/2,y:rect.top+rect.height/2};
   });await page.mouse.click(refit.x,refit.y);
