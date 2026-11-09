@@ -111,10 +111,15 @@ function mount(container){
    }
    state.busy=false;post.disabled=false;
  };
- render();if(state.expanded)void refresh();
+ render();
+ if(state.expanded)void refresh();
+ else if(typeof IntersectionObserver==='function'){
+  const visible=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){visible.disconnect();if(!state.loaded)void refresh()}},{rootMargin:'250px'});
+  visible.observe(container);
+ }else void refresh();
 }
-function scan(){document.querySelectorAll('#newsGrid [data-news-comments]').forEach(n=>{if(!states.has(n))mount(n)})}
+function scan(){document.querySelectorAll('[data-news-comments]').forEach(n=>{if(!states.has(n))mount(n)})}
 const mo=new MutationObserver(scan);
-function init(){scan();const root=document.getElementById('newsGrid');if(root)mo.observe(root,{childList:true,subtree:true});}
+function init(){scan();const root=document.getElementById('newsGrid');mo.observe(root||document.body,{childList:true,subtree:true});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
