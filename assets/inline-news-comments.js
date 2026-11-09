@@ -21,7 +21,11 @@ function mount(container){
  body.addEventListener('input',()=>drafts.set(id,{expanded:state.expanded,draft:body.value}));
  const post=el('button','Post comment');post.type='submit';post.className='outline';
  const message=el('p');message.className='muted small';message.setAttribute('role','status');
- form.append(body,post);container.append(toggle,entries,form,message);
+ form.append(body,post);
+ // Mount Comments in the same full-width action rail as Board / Compare / Share.
+ const rail=container.closest('article')?.querySelector('.dd-news-actions');
+ if(rail)rail.append(toggle);else container.append(toggle);
+ container.append(entries,form,message);
  function render(){
   toggle.textContent='Comments ('+state.items.length+') '+(state.expanded?'▲':'▼');
   toggle.setAttribute('aria-expanded',String(state.expanded));
