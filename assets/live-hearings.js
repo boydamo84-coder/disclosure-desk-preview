@@ -38,11 +38,36 @@ function init(){
  const list=h('div');host.append(list);
  const root=document.getElementById('ddLiveMount');
  if(!root)return;root.append(host);
+ // Comments use the shared case-discussion backend, but render directly below
+ // the specific hearing video. No separate discussion menu or modal.
+ function addInlineComments(target,event){
+  const button=h('button','💬 Comments');
+  button.type='button';button.className='outline dd-hearing-comments-toggle';
+  button.setAttribute('aria-expanded','false');button.setAttribute('aria-label','Show comments beneath '+event.title);
+  const container=h('div');container.className='dd-hearing-comments-host';container.hidden=true;
+  container.id='dd-hearing-comments-'+String(event.id).replace(/[^a-zA-Z0-9_-]/g,'-');
+  button.setAttribute('aria-controls',container.id);
+  button.onclick=()=>{
+   if(!container.hidden){
+    window.ddCloseInlineCaseDiscussion?.(container);
+    container.hidden=true;button.setAttribute('aria-expanded','false');button.textContent='💬 Comments';
+    return;
+   }
+   const opened=window.ddOpenInlineCaseDiscussion?.('hearing:'+event.id,'Hearing Discussion · '+event.title,container);
+   if(!opened)return;
+   button.textContent='💬 Hide comments';button.setAttribute('aria-expanded','true');
+  };
+  container.addEventListener('dd-inline-discussion-closed',()=>{
+   container.hidden=true;button.textContent='💬 Comments';button.setAttribute('aria-expanded','false');
+  });
+  target.append(button,container);
+  return container;
+ }
  function openEvent(event){
    const overlay=h('div');overlay.style.cssText='position:fixed;inset:0;z-index:100050;background:#08111bf5;overflow:auto;padding:max(58px,env(safe-area-inset-top,0px)) 12px max(20px,env(safe-area-inset-bottom,0px))';
    const box=h('section');box.style.cssText='max-width:750px;margin:auto;background:#142536;border:1px solid #b39a70;border-radius:12px;padding:16px';
-   let disposeChat=null;
-   const close=h('button','✕ Close');close.onclick=()=>{disposeChat?.();overlay.remove();if(activePlayback){const player=activePlayback;activePlayback=null;if(player.isConnected&&player._preview)player.replaceChildren(player._preview)}};close.style.cssText='margin-bottom:12px;padding:10px 14px';box.append(close,h('h2',event.title));
+   let disposeChat=null,commentsHost=null;
+   const close=h('button','✕ Close');close.onclick=()=>{window.ddCloseInlineCaseDiscussion?.(commentsHost);disposeChat?.();overlay.remove();if(activePlayback){const player=activePlayback;activePlayback=null;if(player.isConnected&&player._preview)player.replaceChildren(player._preview)}};close.style.cssText='margin-bottom:12px;padding:10px 14px';box.append(close,h('h2',event.title));
    const p=h('p',event.status==='live'?'Official livestream · Discussion':event.status==='ended'?'Recording and discussion archive':'Confirmed event · Awaiting broadcast');p.className='muted small';box.append(p);
    // Resolve the recording from the trusted bundled catalogue by hearing ID,
    // regardless of whether an external event feed omitted or replaced embedUrl.
@@ -52,6 +77,7 @@ function init(){
      const videoBox=h('div');videoBox.style.cssText='margin:14px 0;background:#000;border-radius:10px;overflow:hidden;aspect-ratio:16/9';
      const frame=h('iframe');frame.title='Official hearing recording';frame.src=embed+'?playsinline=1&rel=0';frame.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';frame.allowFullscreen=true;frame.loading='eager';frame.style.cssText='width:100%;height:100%;border:0;display:block';videoBox.append(frame);box.append(videoBox);
    }
+   commentsHost=addInlineComments(box,event);
    const links=h('div');links.style.cssText='display:flex;flex-wrap:wrap;gap:10px;margin:12px 0';
    if(embed&&safeVideo(embed)){
      const yt=h('a','▶ Watch on YouTube ↗');yt.href='https://www.youtube.com/watch?v='+embed.split('/').pop();yt.target='_blank';yt.rel='noopener noreferrer';yt.className='outline';yt.style.cssText='display:inline-flex;padding:10px;color:#e7cc9a';links.append(yt);
@@ -69,9 +95,7 @@ function init(){
      const msg=h('p','This recording predates the Disclosure Desk LIVE chat archive, or no verified saved chat is available.');
      msg.className='muted small';box.append(msg);
    }
-   const discuss=h('button','💬 Discuss the hearing');discuss.type='button';discuss.className='outline';discuss.style.margin='12px 0';
-   discuss.onclick=()=>{disposeChat?.();overlay.remove();window.ddOpenCaseDiscussion?.('hearing:'+event.id,'Hearing Discussion')};box.append(discuss);
-   const note=h('p','Saved live chat is read-only. The separate hearing discussion stays open for later questions.');note.className='muted small';box.append(note);
+   const note=h('p','Saved LIVE chat is read-only. Hearing comments and replies expand beneath the video, separately from the original broadcast.');note.className='muted small';box.append(note);
    overlay.append(box);document.body.append(overlay);
  }
  // Add a navigation entry before playing in Android WebView so Back returns to LIVE
@@ -83,6 +107,8 @@ function init(){
   }
  });
  function render(){
+  const active=document.getElementById('ddCaseDiscussionDialog');
+  if(active&&list.contains(active))window.ddCloseInlineCaseDiscussion?.();
   list.replaceChildren();
   if(!events.length){const msg=h('p','No archived hearing recordings listed yet. We publish only verified sources.');msg.className='muted small';list.append(msg);return}
   for(const [sectionTitle,filtered] of [['▶ Past Hearings · Official Recordings',events.filter(e=>e.status==='ended')]]){
@@ -111,8 +137,9 @@ function init(){
       };
       player._preview=preview;player.append(preview);card.append(player);
     }
+    addInlineComments(card,event);
     const actions=h('div');actions.className='dd-live-card-actions';actions.style.cssText='display:flex;flex-wrap:wrap;gap:8px;margin-top:10px';
-    const details=h('button','💬 Discussion / Details');details.type='button';details.className='outline';details.onclick=()=>openEvent(event);actions.append(details);
+    const details=h('button','▶ Recording details / saved LIVE chat');details.type='button';details.className='outline';details.onclick=()=>openEvent(event);actions.append(details);
     if(event.recordingUrl&&safeVideo(event.recordingUrl)&&!embed){const record=h('a','Official recording ↗');record.href=event.recordingUrl;record.target='_blank';record.rel='noopener noreferrer';record.className='outline';record.style.cssText='display:inline-flex;align-items:center;padding:10px;text-decoration:none';actions.append(record)}
     if(embed&&safeVideo(embed)){const y=h('a','YouTube ↗');y.href='https://www.youtube.com/watch?v='+embed.split('/').pop();y.target='_blank';y.rel='noopener noreferrer';y.className='outline';y.style.cssText='display:inline-flex;align-items:center;padding:10px;text-decoration:none';actions.append(y)}
     const official=h('a','Official source ↗');official.href=event.sourceUrl;official.target='_blank';official.rel='noopener noreferrer';official.className='outline';official.style.cssText='display:inline-flex;align-items:center;padding:10px;text-decoration:none';actions.append(official);
