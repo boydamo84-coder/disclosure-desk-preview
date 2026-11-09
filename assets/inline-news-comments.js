@@ -11,7 +11,7 @@ function mount(container){
  const id=container.dataset.newsComments;
  if(!id)return;
  const previous=drafts.get(id)||{expanded:false,draft:''};
- const state={expanded:previous.expanded,items:[],busy:false};
+ const state={expanded:previous.expanded,items:[],busy:false,replyTo:null};
  states.set(container,state);
  const toggle=el('button','Comments ▼');toggle.type='button';toggle.className='outline';toggle.setAttribute('aria-expanded','false');
  const entries=el('div');entries.className='dd-inline-comments-preview';
@@ -21,7 +21,8 @@ function mount(container){
  body.addEventListener('input',()=>drafts.set(id,{expanded:state.expanded,draft:body.value}));
  const post=el('button','Post comment');post.type='submit';post.className='outline';
  const message=el('p');message.className='muted small';message.setAttribute('role','status');
- form.append(body,post);
+ const replyContext=el('p');replyContext.className='dd-comment-reply-context muted small';replyContext.hidden=true;
+ form.append(replyContext,body,post);
  // Mount Comments in the same full-width action rail as Board / Compare / Share.
  const rail=container.closest('article')?.querySelector('.dd-news-actions');
  if(rail)rail.append(toggle);else container.append(toggle);
@@ -31,16 +32,22 @@ function mount(container){
   toggle.setAttribute('aria-expanded',String(state.expanded));
   form.hidden=!state.expanded;
   entries.replaceChildren();
-  const shown=state.expanded?state.items:state.items.slice(-2);
+  const ordered=window.DDCommunityVotes?.threadedComments?.(state.items)||state.items;
+  const shown=state.expanded?ordered:ordered.slice(-2);
+  replyContext.hidden=!state.replyTo;
+  replyContext.textContent=state.replyTo?'Replying to '+state.replyTo.alias+' · this will appear beneath that comment.':'';
+  post.textContent=state.replyTo?'Post reply':'Post comment';
   if(!shown.length){const note=el('p','No comments yet.');note.className='muted small';entries.append(note);}
   for(const item of shown){
    const card=el('div');card.className='card';card.style.cssText='margin:8px 0';
+   if(item.replyDepth>0)card.classList.add('dd-comment-nested');
    const alias=item.publicAlias||'Community member';
    const header=el('div');header.className='muted small';header.style.cssText='display:flex;align-items:center;min-width:0';
    const avatar=el('span',item.publicAlias?alias.charAt(0).toUpperCase():'?');
    avatar.className='dd-forum-avatar';avatar.setAttribute('aria-hidden','true');
    const byline=el('span',alias+' · '+new Date(item.created_at).toLocaleDateString());
    header.append(avatar,byline);
+   if(item.replyParentName){const context=el('small','↳ to '+item.replyParentName);context.className='dd-comment-parent-label';header.append(context)}
    if(item.publicAlias)window.DDMemberAvatars?.decorate?.(avatar,item.publicAlias);
    const text=el('p',item.body);text.style.whiteSpace='pre-wrap';
    const flag=el('button','⚑ Flag');flag.type='button';flag.className='outline';
@@ -58,7 +65,12 @@ function mount(container){
       :'Flag could not be submitted. Please try again.';
     if(!error)void refresh();
    };
-   if(!window.DDCommunityVotes?.mountCommentCard?.(card,header,text,flag,item.id)){
+   if(!window.DDCommunityVotes?.mountCommentCard?.(card,header,text,flag,item.id,(parentId)=>{
+    const target=state.items.find(x=>x.id===parentId);if(!target)return;
+    state.replyTo={id:target.id,alias:target.publicAlias||'this commenter'};
+    state.expanded=true;drafts.set(id,{expanded:true,draft:body.value});render();
+    body.focus();body.scrollIntoView({block:'center',behavior:'smooth'});
+   })){
     card.append(header,text,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);
    }
    entries.append(card);
@@ -77,8 +89,9 @@ function mount(container){
  form.onsubmit=async ev=>{ev.preventDefault();if(state.busy)return;const c=client();if(!c)return;
    const {data:{user}}=await c.auth.getUser();if(!user||user.is_anonymous){message.textContent='Sign in with a registered account to comment.';return}
    state.busy=true;post.disabled=true;
-   const {error}=await c.from('dd_case_comments').insert({case_id:id,author_id:user.id,body:body.value.trim(),status:'approved'});
-   if(!error){body.value='';drafts.set(id,{expanded:true,draft:''});message.textContent='Comment posted.';await refresh()}else{
+   const replyingTo=state.replyTo;
+   const {error}=await c.from('dd_case_comments').insert({case_id:id,author_id:user.id,parent_id:replyingTo?.id||null,body:body.value.trim(),status:'approved'});
+   if(!error){body.value='';state.replyTo=null;drafts.set(id,{expanded:true,draft:''});message.textContent=replyingTo?'Reply posted.':'Comment posted.';await refresh()}else{
      const issue=String(error.message||'');
      message.textContent=/duplicate comment/i.test(issue)?'You have already posted this comment.'
         :/limit reached/i.test(issue)?'Posting limit reached. Please try again later.'
