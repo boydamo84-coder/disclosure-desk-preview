@@ -216,6 +216,7 @@ async function loadReplies(){
    const visible=expanded?all:all.slice(0,4);
    const lookup=new Map(all.filter(r=>isId(r.id)).map(r=>[r.id,r]));
    for(const row of visible)appendReplyCard(list,row,lookup);
+   window.DDRefreshBoardStars?.();
    if(replyParent&&activeForm&&!activeForm.hidden){
     const anchor=list.querySelector('[data-dd-forum-reply-id="'+replyParent+'"]');
     if(anchor)anchor.after(activeForm);
@@ -426,6 +427,8 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
   },'dd-forum-icon-button dd-forum-comments-action');
   comments.setAttribute('aria-label','Read '+commentCount+' comments');
   const star=nodeAction(parent,'☆',()=>saveThread(row),'dd-forum-icon-button dd-forum-star-action');
+  star.dataset.bookmarkUrl=permalink(row)||'';star.dataset.bookmarkLabel=String(row.title||'Discussion');
+  const starIcon=mk('span','☆');starIcon.dataset.starIcon='';star.replaceChildren(starIcon);
   setActionIcon(star,'star','☆');
   star.setAttribute('aria-label','Save post to an Investigation Board');
   star.setAttribute('title','Add to Board');
@@ -439,6 +442,8 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
   // A reply's source is its parent discussion; Board and Share never
   // fabricate a link to a separate, non-existent public comment page.
   const board=nodeAction(parent,'☆',()=>saveThread(thread),'dd-forum-icon-button dd-forum-star-action');
+  board.dataset.bookmarkUrl=permalink(thread)||'';board.dataset.bookmarkLabel=String(thread.title||'Discussion');
+  const boardIcon=mk('span','☆');boardIcon.dataset.starIcon='';board.replaceChildren(boardIcon);
   board.setAttribute('aria-label','Save parent discussion to Investigation Board');
   board.setAttribute('title','Add discussion to Board');
   const shared=nodeAction(parent,'↗ Share',()=>shareThread(thread),'dd-forum-icon-button dd-forum-share-action');
@@ -544,6 +549,7 @@ async function loadThreads(){
    actionsFor(actions,'thread',row,false,actions.flagHost);
    card.append(actions);list.append(card);
   }
+  window.DDRefreshBoardStars?.();
   if(count)count.textContent='Page '+(feedPage+1)+' · '+feedTotal+' topics'+(!feedModern?' · first 100 while upgrade is pending':'');
   if(prev)prev.disabled=feedPage===0;
   if(next)next.disabled=(feedPage+1)*20>=feedTotal;
