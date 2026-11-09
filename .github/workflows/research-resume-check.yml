@@ -24,6 +24,8 @@ jobs:
           node scripts/test_m34_ui_contract_20261109.cjs
           node --check scripts/test_m34_community_consistency_20261109.cjs
           node scripts/test_m34_community_consistency_20261109.cjs
+          node --check scripts/test_m35_sitewide_action_rail_20261109.cjs
+          node scripts/test_m35_sitewide_action_rail_20261109.cjs
           node --check assets/news-article-votes.js
       - name: Research Studio resume and Home QA (mock account)
         run: node scripts/test_research_resume_20261108.cjs
@@ -155,6 +157,8 @@ jobs:
           node scripts/audit_public_pages_chromium_20261108.cjs
           node scripts/test_browser_release_smoke.cjs
           node scripts/test_comment_action_rail_chromium_20261108.cjs
+          node --check scripts/test_m35_action_rail_chromium_20261109.cjs
+          node scripts/test_m35_action_rail_chromium_20261109.cjs
           node scripts/audit_full_site_chromium_20261108.cjs
           node scripts/test_m28_public_workflows_chromium_20261108.cjs
           node scripts/test_research_home_navigation_chromium_20261108.cjs
