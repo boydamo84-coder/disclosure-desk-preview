@@ -53,7 +53,7 @@
     a position using its hidden toolbar button. */
  const styleMenu=()=>{if(!fileMenu.hidden){fileMenu.style.setProperty('top','116px','important');fileMenu.style.setProperty('left','8px','important')}};
  const observer=new MutationObserver(styleMenu);
- observer.observe(fileMenu,{attributes:true,attributeFilter:['hidden','style']});
+ observer.observe(fileMenu,{attributes:true,attributeFilter:['hidden']});
  /* Modal New Document dialog: no destructive action or cloud write until
     user confirms; never silently replace the original active document. */
  const newBtn=fileMenu.querySelector('[data-file-action=new]');
