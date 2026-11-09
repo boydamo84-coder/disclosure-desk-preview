@@ -44,7 +44,10 @@ function table(name){
    assert.equal(name,'research_documents');
    return {select(){return {single:async()=>{
     if(row.user_id!==active)return {data:null,error:new Error('Forbidden')};
-    inserted={...row,id:'dddddddd-dddd-4ddd-8ddd-dddddddddddd'};
+    inserted={...row,id:'dddddddd-dddd-4ddd-8ddd-dddddddddddd',revision:1,created_at:'2026-11-09T00:00:00Z'};
+    // Newly inserted copy must be independently readable under the same
+    // owner credentials. A mock that only ACKs insert misses data loss.
+    rows.push(inserted);
     return {data:inserted,error:null};
    }}}};
   }
@@ -79,7 +82,10 @@ vm.runInNewContext(source,ctx,{timeout:4000,filename:'wne-cloud-bridge.js'});
  assert.equal((await recovered.json()).manuscript.chapters.length,1);
  const copied=await win.fetch('/api/recovery/copy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:sid})});
  assert.equal(copied.status,200,'can restore as a NEW document');
- assert.equal((await copied.json()).created_copy,true);
+ const firstCopy=await copied.json();
+ assert.equal(firstCopy.created_copy,true);
+ assert.equal(firstCopy.verified_copy,true,'full independent cloud readback must verify');
+ assert.equal(firstCopy.sections,1);
  assert.match(inserted.title,/Recovered/);
  assert.notEqual(inserted.id,id,'original document must not be replaced');
  assert.doesNotMatch(writer,/window\.top\.location\.assign\('\/research\/import\.html'\)/,'DOCX import must not navigate away to a potentially missing page');
@@ -90,10 +96,15 @@ vm.runInNewContext(source,ctx,{timeout:4000,filename:'wne-cloud-bridge.js'});
  assert.equal(preview.manuscript.bookTitle,'Test report','direct owner-scoped checkpoint preview works');
  const copy=await win.WNECloudIntegration.recoveryCopy(sid);
  assert.equal(copy.created_copy,true,'direct recovery creates a new owner-scoped document');
+ assert.equal(copy.verified_copy,true,'direct recovery also reads back exact cloud document');
+ assert.equal(inserted.content.chapters[0].html,'<p>Previous real writing</p>','sections are preserved');
+ assert.equal(inserted.content.bookTitle,'Test report (Recovered)','new copy title matches manuscript');
+ assert.equal(content.bookTitle,'Test report','source checkpoint unchanged');
  assert.notEqual(copy.id,id,'direct recovery never overwrites the original');
  assert.match(writer,/window\.wneEmergencyCopy=async function\(/,'Emergency Copy direct save exists');
  assert.match(writer,/syncEditor\(\); \/\/ Include the CURRENT editable HTML/,'Emergency includes unsaved editor contents');
  assert.match(writer,/jszip@3\.10\.1/,'Pinned ZIP dependency');
+ assert.match(writer,/restore-library-core\.js/,'recovery HTML validation loaded before bridge');
  active=foreign;
  const rejected=await win.fetch('/api/snapshots');
  assert.notEqual(rejected.status,200,'a changed account must not see prior recovery history');
