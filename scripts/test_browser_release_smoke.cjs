@@ -360,7 +360,8 @@ async function selected(page,id){
    window.supabase={createClient:()=>db};
   });
   const editorPage=await writer.newPage();
-  await editorPage.goto(BASE+'/research/wne.html',{waitUntil:'domcontentloaded',timeout:35000});
+  // No-ID Writer now correctly opens Research Home; exercise the guard with a synthetic ID.
+  await editorPage.goto(BASE+'/research/wne.html?id=11111111-1111-4111-8111-111111111111',{waitUntil:'domcontentloaded',timeout:35000});
   await editorPage.waitForFunction(()=>typeof window.ddResearchNavigateTo==='function',
    {timeout:7500});
   assert.equal(new URL(editorPage.url()).pathname,'/research/wne.html',
