@@ -65,8 +65,8 @@ const fakeJs='(()=>{'+
    await page.waitForFunction(()=>document.getElementById('editor')?.contentEditable==='true'&&
      document.querySelector('#status')?.textContent?.includes('Saved to cloud'),null,{timeout:12000});
    assert.equal(await page.locator('#editor img').count(),1,'source photo must be visible once');
-   assert.match(await page.locator('#editor').innerText,/BEGIN KEEP EXACTLY ONE/);
-   assert.match(await page.locator('#editor').innerText,/END KEEP EXACTLY ONE/);
+   assert.match(await page.locator('#editor').innerText(),/BEGIN KEEP EXACTLY ONE/);
+   assert.match(await page.locator('#editor').innerText(),/END KEEP EXACTLY ONE/);
    assert.equal(await page.locator('#editor').evaluate(el=>(el.innerText.match(/BEGIN KEEP EXACTLY ONE/g)||[]).length),1);
    pass(width+'px: original report renders full text + single image without duplication');
    const nav=await page.locator('#dd-word-ribbon-v1').boundingBox();
@@ -92,8 +92,8 @@ const fakeJs='(()=>{'+
    const cropSize=await page.locator('#editor figure img').evaluate(img=>({w:img.naturalWidth,h:img.naturalHeight,src:img.src}));
    assert(cropSize.w<120&&cropSize.h<90,'Crop changed real image dimensions');
    await page.locator('#dd-close-img').click();
-   assert.match(await page.locator('#editor').innerText,/BEGIN KEEP EXACTLY ONE/);
-   assert.match(await page.locator('#editor').innerText,/END KEEP EXACTLY ONE/);
+   assert.match(await page.locator('#editor').innerText(),/BEGIN KEEP EXACTLY ONE/);
+   assert.match(await page.locator('#editor').innerText(),/END KEEP EXACTLY ONE/);
    assert.equal(await page.locator('#editor img').count(),1);
    pass(width+'px: crop applies without losing text or multiplying images');
    assert.equal(await page.evaluate(()=>window.wneSaveBeforeNavigation('synthetic crop regression')),true);
@@ -104,8 +104,8 @@ const fakeJs='(()=>{'+
    await page.reload({waitUntil:'domcontentloaded'});
    await page.waitForFunction(()=>document.getElementById('editor')?.contentEditable==='true',null,{timeout:12000});
    assert.equal(await page.locator('#editor img').count(),1);
-   assert.match(await page.locator('#editor').innerText,/BEGIN KEEP EXACTLY ONE/);
-   assert.match(await page.locator('#editor').innerText,/END KEEP EXACTLY ONE/);
+   assert.match(await page.locator('#editor').innerText(),/BEGIN KEEP EXACTLY ONE/);
+   assert.match(await page.locator('#editor').innerText(),/END KEEP EXACTLY ONE/);
    pass(width+'px: cropped photograph, caption and full text survive cloud save and reopen');
 
    // Existing source checkpoint predates the crop. Its recovered copy must
@@ -123,8 +123,8 @@ const fakeJs='(()=>{'+
    await page.goto(BASE+'/research/wne.html?id='+COPY,{waitUntil:'domcontentloaded'});
    await page.waitForFunction(()=>document.getElementById('editor')?.contentEditable==='true',null,{timeout:12000});
    assert.equal(await page.locator('#editor img').count(),1);
-   assert.match(await page.locator('#editor').innerText,/BEGIN KEEP EXACTLY ONE/);
-   assert.match(await page.locator('#editor').innerText,/END KEEP EXACTLY ONE/);
+   assert.match(await page.locator('#editor').innerText(),/BEGIN KEEP EXACTLY ONE/);
+   assert.match(await page.locator('#editor').innerText(),/END KEEP EXACTLY ONE/);
    const sec=await page.evaluate(()=>window.WNECloudIntegration.readSavedDocument());
    assert.equal(sec.chapters.length,2);
    assert.equal(sec.chapters[1].html,documentData.chapters[1].html);
