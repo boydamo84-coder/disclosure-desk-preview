@@ -929,31 +929,22 @@ function localInterestMatches(rows,terms){
   return clean.some(term=>haystack.includes(term));
  });
 }
-function localInterestsLabel(count,local){
- if(!feedLive)return 'Topic saved on this device. Waiting for sourced news headlines. The local test server cannot search extra topic feeds.';
- return (local?'Local beta · ':'Additional-topic service unavailable · ')+count+' matching sourced '+(count===1?'headline':'headlines')+' prioritised from the existing News feed. '+(local?'Netlify extra-topic search does not run on 127.0.0.1.':'No additional stories were retrieved.');
+function localInterestsLabel(count){
+ if(!feedLive)return 'Topic saved on this device. Matching sourced headlines will appear when the News feed loads.';
+ return count+' matching sourced '+(count===1?'headline':'headlines')+
+  ' in the existing News feed. This does not search or invent additional articles.';
 }
 async function loadInterestNews(){
  if(interestLoading)return;
  interestLoading=true;
- const status=$('interestStatus');
- if(!myInterests.length){interestStories=[];status.textContent='';news();interestLoading=false;return;}
- const localHost=['localhost','127.0.0.1'].includes(location.hostname);
- if(localHost){
-  interestStories=feedLive?localInterestMatches(stories,myInterests):[];
-  status.textContent=localInterestsLabel(interestStories.length,true);
-  interestLoading=false;news();return;
- }
- status.textContent='Loading your extra interests…';
  try{
-  const res=await fetch('/.netlify/functions/interests?topics='+encodeURIComponent(myInterests.join('|')),{signal:AbortSignal.timeout(14000)});
-  if(!res.ok)throw Error('Unavailable');
-  const payload=await res.json();
-  interestStories=Array.isArray(payload.stories)?payload.stories:[];
-  status.textContent=interestStories.length+' additional topic stories found';
- }catch{
+  const status=$('interestStatus');
+  if(!myInterests.length){interestStories=[];status.textContent='';return}
+  // The old Netlify /interests endpoint was never deployed. Do not make
+  // requests to a missing function (Google Search Console reported its 404).
+  // Keep the established evidence-backed, local News topic matching instead.
   interestStories=feedLive?localInterestMatches(stories,myInterests):[];
-  status.textContent=localInterestsLabel(interestStories.length,false);
+  status.textContent=localInterestsLabel(interestStories.length);
  }finally{interestLoading=false;news();}
 }
 function submitInterest(){const input=$('interestInput');const val=input.value.trim().replace(/\s+/g,' ');if(!/^[\p{L}\p{N}][\p{L}\p{N} .,\-]{1,44}$/u.test(val)){ $('interestStatus').textContent='Use a short topic (2–45 letters/numbers).';return}if(myInterests.some(x=>x.toLowerCase()===val.toLowerCase()))return;if(myInterests.length>=5){$('interestStatus').textContent='Maximum five interests. Remove one first.';return}myInterests.push(val);input.value='';saveInterests()}
