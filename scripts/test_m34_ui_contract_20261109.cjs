@@ -45,6 +45,10 @@ console.log('PASS M34: consistent full-width News actions, arrow voting and pare
 
 assert.match(home,/id="mapItems" hidden aria-hidden="true"/);
 assert.match(home,/id="ddMapArchiveShortcut"/);
+assert.match(home,/id="mapArchiveResults" hidden aria-hidden="true"/);
+assert.match(home,/#mapItems,#mapArchiveResults\\{display:none!important\\}/);
+assert.match(home,/function renderArchiveMapResults\\(\\)\\{[\\s\\S]*?panel\\.hidden=true;/);
+
 assert.match(live,/https:\/\/docs\.house\.gov\/Committee\/Calendar\/ByWeek\.aspx/);
 console.log('PASS M34: Map pins retained, duplicate card list hidden, official House link');
 
