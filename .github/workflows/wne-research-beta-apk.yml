@@ -1,0 +1,75 @@
+name: Build W.NE Research BETA APK (no website deploy)
+on:
+  workflow_dispatch:
+  push:
+    branches: [fix/compact-writing-popover-mobile-desktop-nov08]
+    paths:
+      - 'android-wne-beta/**'
+      - 'scripts/prepare_wne_android_beta_assets.cjs'
+      - 'research/**'
+      - 'assets/community-test-config.js'
+      - '.github/workflows/wne-research-beta-apk.yml'
+permissions:
+  contents: read
+jobs:
+  beta-apk:
+    name: Compile installable W.NE Research Beta from current development code
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Stage vetted public files only — never publish
+        run: |
+          node --check scripts/build_public_release.cjs
+          node --check scripts/prepare_wne_android_beta_assets.cjs
+          node scripts/build_public_release.cjs
+          node scripts/prepare_wne_android_beta_assets.cjs
+          test -f android-wne-beta/app/src/main/assets/research/index.html
+          test -f android-wne-beta/app/src/main/assets/research/wne.html
+          test ! -f android-wne-beta/app/src/main/assets/.env
+          test ! -f android-wne-beta/app/src/main/assets/index.html
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Ensure Android SDK tools are present
+        run: |
+          SDKMANAGER="${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$SDKMANAGER" ]; then
+            SDKMANAGER=$(find "${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools" -type f -name sdkmanager | head -n 1)
+          fi
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platforms;android-35" "build-tools;35.0.0"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Build separately installable Android debug APK
+        working-directory: android-wne-beta
+        run: gradle --no-daemon --stacktrace :app:assembleDebug
+      - name: Verify output and embedded Research bundle
+        run: |
+          test -s android-wne-beta/app/build/outputs/apk/debug/app-debug.apk
+          python3 - <<'PY'
+          import zipfile
+          path='android-wne-beta/app/build/outputs/apk/debug/app-debug.apk'
+          with zipfile.ZipFile(path) as z:
+              names=set(z.namelist())
+              for name in ('assets/research/index.html','assets/research/wne.html',
+                           'assets/research/research-workspace.html',
+                           'assets/wne-beta-build.json'):
+                  assert name in names, f'APK missing {name}'
+              assert 'assets/index.html' not in names, 'Full site unintentionally bundled'
+          print('PASS Android APK includes current vetted W.NE Research assets')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: WNE-Research-Beta-APK
+          path: |
+            android-wne-beta/app/build/outputs/apk/debug/app-debug.apk
+            android-wne-beta/app/src/main/assets/wne-beta-build.json
+          if-no-files-found: error
+          retention-days: 14
