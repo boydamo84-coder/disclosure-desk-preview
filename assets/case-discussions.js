@@ -95,6 +95,7 @@ function renderComments(){
    }
    list.append(card);
  }
+ window.DDRefreshBoardStars?.();
  if(replyTo&&form&&!form.hidden){const target=document.getElementById('discussion-comment-'+replyTo.id);if(target)target.after(form)}
 }
 function init(){
