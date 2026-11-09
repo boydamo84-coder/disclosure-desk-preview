@@ -82,6 +82,11 @@ const fakeSupabase='(()=>{const doc='+JSON.stringify({version:2,bookTitle:'QA on
     buttonDisplay:getComputedStyle(button).display,buttonHeight:button.getBoundingClientRect().height,
     barBox:bar.getBoundingClientRect().toJSON(),buttonBox:button.getBoundingClientRect().toJSON(),
     barScrollLeft:bar.scrollLeft,barScrollWidth:bar.scrollWidth,barClientWidth:bar.clientWidth,
+    buttonVisibility:getComputedStyle(button).visibility,
+    barVisibility:getComputedStyle(bar).visibility,
+    hitTest:document.elementFromPoint(button.getBoundingClientRect().left+15,
+      button.getBoundingClientRect().top+15)?.outerHTML?.slice(0,200),
+    innerHeight:window.innerHeight,
     stickyBox:parent.getBoundingClientRect().toJSON(),
     stickyParent:parent?.id,scroll:scrollY};
   });
@@ -90,7 +95,14 @@ const fakeSupabase='(()=>{const doc='+JSON.stringify({version:2,bookTitle:'QA on
   assert.notEqual(homeVisibility.barDisplay,'none','Home formatting bar must be visible mid-document');
   const initial=await page.locator('#editor').evaluate(el=>el.innerHTML);
   const horizontalBefore=await page.locator('.dd-comparison-block').evaluate(el=>el.scrollWidth-el.clientWidth);
-  await page.locator('#wne-m39-fit-toggle').click();
+  const fitCenter=await page.locator('#wne-m39-fit-toggle').evaluate(el=>{
+   const r=el.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;
+   return {x,y,visible:getComputedStyle(el).visibility,
+    hit:document.elementFromPoint(x,y)?.closest('button')?.id||'NO_BUTTON'};
+  });
+  assert.equal(fitCenter.hit,'wne-m39-fit-toggle',
+   'Fit Page must be pointer-reachable, not clipped under header '+JSON.stringify(fitCenter));
+  await page.mouse.click(fitCenter.x,fitCenter.y);
   const result=await page.evaluate(()=>{
    const work=document.querySelector('.workarea'),page=document.querySelector('.paper'),
     table=document.querySelector('.dd-comparison-block'),
@@ -112,7 +124,9 @@ const fakeSupabase='(()=>{const doc='+JSON.stringify({version:2,bookTitle:'QA on
   assert.equal(await fit.getAttribute('aria-pressed'),'true');
   await fit.click();
   assert.equal(await page.evaluate(()=>window.DDWNEPageView.mode),'readable');
-  await page.locator('#wne-m39-fit-toggle').click();
+  const refit=await page.locator('#wne-m39-fit-toggle').evaluate(el=>{
+   const rect=el.getBoundingClientRect();return {x:rect.left+rect.width/2,y:rect.top+rect.height/2};
+  });await page.mouse.click(refit.x,refit.y);
   assert.equal(await page.evaluate(()=>window.DDWNEPageView.mode),'fit');
   await page.reload({waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>window.DDWNEPageView?.mode==='fit');
