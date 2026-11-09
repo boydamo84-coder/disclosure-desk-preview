@@ -168,8 +168,18 @@ function updateLibraryScale(){sizeSlider.value=String(libraryScale);sizeValue.te
 sizeSlider.addEventListener('input',()=>{libraryScale=Number(sizeSlider.value);updateLibraryScale();try{localStorage.setItem(sizeKey,String(libraryScale))}catch{}});
 bible.addEventListener('load',updateLibraryScale);
 const key='dd-research-studio-layout-v2', widthKey='dd-research-studio-panel-width-v2';
+const preferredViewKey='dd-research-studio-view-choice-v1';
 let mode='both', manual=false, editorPct=55, drag=null;
-try{const saved=JSON.parse(localStorage.getItem(key)||'null');if(saved&&allowed.includes(saved.mode)){mode=saved.mode;manual=!!saved.manual;}const p=Number(localStorage.getItem(widthKey));if(p>=20&&p<=80)editorPct=p}catch{}
+try{
+ const explicit=localStorage.getItem(preferredViewKey);
+ const saved=JSON.parse(localStorage.getItem(key)||'null');
+ // An explicitly chosen Editor/Library/Split view always wins over device
+ // orientation and any old auto-layout snapshot when another document opens.
+ if(allowed.includes(explicit)){mode=explicit;manual=true;}
+ else if(saved&&allowed.includes(saved.mode)){mode=saved.mode;manual=!!saved.manual;
+  if(manual)localStorage.setItem(preferredViewKey,mode);}
+ const p=Number(localStorage.getItem(widthKey));if(p>=20&&p<=80)editorPct=p;
+}catch{}
 function horizontal(){return window.matchMedia('(orientation: landscape)').matches || window.innerWidth>=900 || (screen.orientation && Math.abs(screen.orientation.angle)===90)}
 function phoneLandscape(){return horizontal() && window.innerHeight<650}
 function applyWidth(){
@@ -189,7 +199,7 @@ function applyWidth(){
  }
  splitter.setAttribute('aria-valuenow',String(editorPct));
 }
-function select(next,user=false){if(!allowed.includes(next))return;mode=next;if(user)manual=true;document.body.classList.remove('mode-writer','mode-bible','mode-both');document.body.classList.add('mode-'+mode);syncQuickTool();for(const [name,btn] of Object.entries(buttons))btn.setAttribute('aria-pressed',String(name===mode));applyWidth();try{localStorage.setItem(key,JSON.stringify({mode,manual}))}catch{}}
+function select(next,user=false){if(!allowed.includes(next))return;mode=next;if(user)manual=true;document.body.classList.remove('mode-writer','mode-bible','mode-both');document.body.classList.add('mode-'+mode);syncQuickTool();for(const [name,btn] of Object.entries(buttons))btn.setAttribute('aria-pressed',String(name===mode));applyWidth();try{localStorage.setItem(key,JSON.stringify({mode,manual}));if(user)localStorage.setItem(preferredViewKey,mode)}catch{}}
 for(const [name,btn] of Object.entries(buttons))btn.addEventListener('click',()=>select(name,true));
 function resize(p){editorPct=Math.max(20,Math.min(80,Math.round(p)));applyWidth();try{localStorage.setItem(widthKey,String(editorPct))}catch{}}
 splitter.addEventListener('pointerdown',ev=>{if(mode!=='both')return;ev.preventDefault();drag=ev.pointerId;document.body.classList.add('dd-resizing');splitter.setPointerCapture(ev.pointerId)});
