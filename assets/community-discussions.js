@@ -139,14 +139,14 @@ async function openSection(item){
  $('ddForumPostList').replaceChildren();
  await loadThreads();
 }
-function chooseReply(target){
+function chooseReply(target,focusComposer=false){
  if(!thread)return;
  replyParent=target&&isId(target.id)?target.id:null;
  const form=$('ddForumReplyCreate'),input=form?.elements?.namedItem('body');
  let note=$('ddForumReplyContext');
  if(!note&&form){note=mk('p','','dd-forum-reply-context');note.id='ddForumReplyContext';form.prepend(note)}
  if(note)note.textContent=replyParent?'Replying to '+String(target.author_name||'this comment')+' in “'+String(thread.title||'Discussion')+'”':'Commenting on “'+String(thread.title||'Discussion')+'”';
- if(input){input.placeholder=replyParent?'Write a reply to '+String(target.author_name||'this comment')+'…':'Add a comment to this post…';input.focus();input.scrollIntoView({block:'center',behavior:'smooth'})}
+ if(input){input.placeholder=replyParent?'Write a reply to '+String(target.author_name||'this comment')+'…':'Add a comment to this post…';if(target||focusComposer){input.focus();input.scrollIntoView({block:'center',behavior:'smooth'})}}
 }
 function appendReplyCard(list,row,replyLookup){
  const card=mk('article',undefined,'dd-forum-item dd-forum-reply-card');
@@ -164,6 +164,7 @@ function appendReplyCard(list,row,replyLookup){
 }
 async function openThread(item){
  if(!isId(item?.id))return;thread=item;replyParent=null;setCreateButtons();
+ $('ddForumThreadPane').classList.add('dd-forum-detail-open');
  $('ddForumThreadTitle').textContent=item.title||'Discussion';
  $('ddForumPostCreate').hidden=true;
  $('ddForumPostList').hidden=true;
@@ -394,7 +395,7 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
  dislike.setAttribute('aria-pressed',String(Number(row.my_vote)===-1));
  if(kind==='thread'){
   const commentCount=Number.isFinite(Number(row.reply_count))?Number(row.reply_count):0;
-  const comments=nodeAction(parent,'💬 '+commentCount,()=>inDetail&&thread?.id===row.id?chooseReply(null):openThread(row),'dd-forum-icon-button');
+  const comments=nodeAction(parent,'💬 '+commentCount,()=>inDetail&&thread?.id===row.id?chooseReply(null,true):openThread(row),'dd-forum-icon-button');
   comments.setAttribute('aria-label','Read '+commentCount+' comments');
   const star=nodeAction(parent,'☆',()=>saveThread(row),'dd-forum-icon-button');
   setActionIcon(star,'star','☆');
@@ -470,6 +471,7 @@ async function loadThreads(){
  if(!section)return;
  const id=section.id,stamp=++epoch,list=$('ddForumPostList');empty(list,'Loading discussions…');
  $('ddForumReplyPane').hidden=true;
+ $('ddForumThreadPane').classList.remove('dd-forum-detail-open');
  const count=$('ddForumPageStatus'),prev=$('ddForumPrev'),next=$('ddForumNext');
  if(count)count.textContent='Loading…';
  try{
@@ -620,7 +622,7 @@ function init(){
  setCreateButtons();
  $('ddForumSearch').addEventListener('input',drawSections);
  $('ddForumBackSections').onclick=()=>{thread=null;section=null;setCreateButtons();++epoch;$('ddForumSectionsPane').hidden=false;$('ddForumThreadPane').hidden=true;void refresh()};
- $('ddForumBackThreads').onclick=()=>{thread=null;replyParent=null;setCreateButtons();++epoch;$('ddForumPostCreate').hidden=false;$('ddForumPostList').hidden=false;$('ddForumSortLabel').hidden=false;$('ddForumStewardPanel').hidden=!section?.is_steward;$('ddForumReplyPane').hidden=true;$('ddForumThreadTitle').textContent=section?.title||'Section';void loadThreads()};
+ $('ddForumBackThreads').onclick=()=>{thread=null;replyParent=null;$('ddForumThreadPane').classList.remove('dd-forum-detail-open');setCreateButtons();++epoch;$('ddForumPostCreate').hidden=false;$('ddForumPostList').hidden=false;$('ddForumSortLabel').hidden=false;$('ddForumStewardPanel').hidden=!section?.is_steward;$('ddForumReplyPane').hidden=true;$('ddForumThreadTitle').textContent=section?.title||'Section';void loadThreads()};
  $('ddForumSort').onchange=event=>{sort=event.target.value;feedPage=0;void loadThreads()};
  const feedSearch=$('ddForumFeedSearch');
  if(feedSearch)feedSearch.oninput=event=>{
