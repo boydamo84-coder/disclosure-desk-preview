@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Disclosure Desk · Research Studio</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Disclosure Desk · Research Studio</title><link rel="stylesheet" href="./wne-polish-m34.css"><script src="./wne-dialogs-m34.js"></script><style>
 *{box-sizing:border-box}html,body{margin:0;height:100%;background:#091522;color:#e7e9e9;font:14px system-ui,sans-serif}header{display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding:9px 14px;border-bottom:1px solid #526171;background:#152638;min-height:60px}header strong{color:#e6c287;font-size:17px}a{color:#efcc91}button{background:#263e50;color:#f5f4ee;border:1px solid #8799a8;border-radius:9px;padding:8px 13px;font:inherit;cursor:pointer}button[aria-pressed=true]{background:#dbc08e;color:#17212a;font-weight:700}main{height:calc(100% - 60px);display:grid;grid-template-columns:minmax(300px,1.15fr) minmax(300px,1fr);gap:5px;padding:5px}iframe{width:100%;height:100%;border:1px solid #637689;border-radius:9px;background:white}body.mode-writer main{grid-template-columns:1fr}body.mode-writer #bible{display:none}body.mode-bible main{grid-template-columns:1fr}body.mode-bible #writer{display:none}.note{font-size:12px;color:#b7c6d5}@media(max-width:850px){main{grid-template-columns:1fr}#bible{display:none}body.mode-both #bible{display:none}body.mode-bible #bible{display:block}body.mode-bible #writer{display:none}header{min-height:0}main{height:calc(100% - 102px);min-height:300px}}
 @media(max-width:850px){header{display:grid;grid-template-columns:1fr;gap:7px;padding:10px}header strong{font-size:15px}header [role=group]{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;width:100%}header button{padding:9px 3px;font-size:12px;white-space:nowrap}header .note{font-size:11px}main{height:calc(100dvh - 145px);min-height:350px;padding:4px}body.mode-both main{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) minmax(0,1fr)}body.mode-both #bible{display:block}body.mode-both #writer{display:block}body.mode-writer main,body.mode-bible main{grid-template-rows:minmax(0,1fr)}iframe{min-height:0}}@media(min-width:851px){header [role=group]{display:flex;gap:6px}}</style><style id="dd-adaptive-layout">
 html,body{height:100%;height:100dvh;overflow:hidden}
@@ -326,7 +326,7 @@ $('dd-cloud-signin').onclick=()=>run($('dd-cloud-signin'),async()=>{
 $('dd-cloud-signout').onclick=()=>{token=null;user=null;$('dd-cloud-list').replaceChildren();$('dd-cloud-boards-list').replaceChildren();$('dd-cloud-password').value='';say('Signed out. Local research unchanged.')};
 $('dd-cloud-upload').onclick=()=>run($('dd-cloud-upload'),async()=>{
  if(!user||!token)throw Error('Sign in first');
- if(!confirm('Upload a NEW cloud copy of your CURRENT research document? Local work will not be replaced.'))return;
+ if(!await window.WNEDialogs.confirm('Upload a NEW cloud copy of your CURRENT research document? Local work will not be replaced.'))return;
  const response=await fetch('/api/manuscript',{cache:'no-store'});if(!response.ok)throw Error('Cannot read local document');
  const state=await response.json(),doc=state.manuscript;
  if(!doc||typeof doc!=='object')throw Error('Local manuscript is unavailable');
@@ -352,7 +352,7 @@ $('dd-cloud-boards-refresh').onclick=()=>run($('dd-cloud-boards-refresh'),async(
       comparisons:Array.isArray(content.comparisons)?content.comparisons:[],
       connections:Array.isArray(content.connections)?content.connections:[],
       videos:Array.isArray(content.videos)?content.videos:[]};
-   if(!confirm('Copy "'+board.name+'" into the private local Research Library? The cloud Board will not change.'))return;
+   if(!await window.WNEDialogs.confirm('Copy "'+board.name+'" into the private local Research Library? The cloud Board will not change.'))return;
    const response=await fetch('/api/research/boards/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({board})});
    const saved=await response.json();
    if(!response.ok)throw Error(saved.error||'Local Board copy failed');
@@ -388,7 +388,7 @@ $('dd-cloud-refresh').onclick=()=>run($('dd-cloud-refresh'),async()=>{
    if(imported?.version!==2||!Array.isArray(imported.chapters)||!imported.chapters.length){
     throw Error('This is an older test report, not a complete editor document. Download JSON copy instead.');
    }
-   if(!confirm('Create a NEW local copy of '+d.title+'? Existing local documents will not be replaced.'))return;
+   if(!await window.WNEDialogs.confirm('Create a NEW local copy of '+d.title+'? Existing local documents will not be replaced.'))return;
    const response=await fetch('/api/library',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'import-cloud-copy',document:imported})});
    const result=await response.json();if(!response.ok)throw Error(result.error||'Local import failed');
    say('Created new local document: '+result.title+'. It will appear below under My documents. Your current editor remains unchanged.');
