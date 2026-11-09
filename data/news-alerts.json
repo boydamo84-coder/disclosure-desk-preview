@@ -455,7 +455,9 @@
     "date": "2026-11-05T06:41:49+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://turkmenportal.com/images/uploads/blogs/2026-02-20T12-04-41_969034fe-1e73-44b5-aa13-c4523e22ce34.webp",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "6eeea0a61f3a7d319b6b",
@@ -465,7 +467,9 @@
     "date": "2026-11-05T05:22:26+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://i.dailymail.com/1s/2026/11/04/21/112306853-0-image-a-25_1793827154929.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "c026a23a2d3329fd27fe",
