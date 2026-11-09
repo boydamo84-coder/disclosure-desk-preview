@@ -28,12 +28,12 @@ assert.match(page,/id="dd-m35-one-action-rail"/);
 assert.match(page,/#newsGrid article>\.dd-news-actions>\.dd-news-main-actions\.dd-action-rail/);
 assert.match(page,/\.dd-comment-card \.dd-comment-action-rail\.dd-action-rail/);
 assert.match(page,/#discussionsPage \.dd-forum-actions\.dd-action-rail/);
-assert.match(page,/dd-action-share,[\s\S]*?\{margin-left:auto!important/);
+assert.match(page,/#newsGrid \.dd-action-rail \.dd-action-share,[\s\S]*?\{margin-left:0!important/);
 // The SAME set of controls is consistently available where backed by existing RPCs.
 assert.match(forum,/dd-forum-actions dd-action-rail/);
 assert.match(forum,/dd-forum-star-action/);
 assert.match(forum,/dd-forum-share-action/);
-assert.match(forum,/parent\.append\(comments\)/);
+assert.match(forum,/parent\.insertBefore\(comments,star\)/);
 assert.match(votes,/dd-comment-action-rail dd-action-rail/);
 assert.match(votes,/dd-action-board/);
 assert.match(votes,/dd-action-share/);
@@ -43,6 +43,8 @@ assert.match(page,/window\.DDSharePublicLink=/);
 // Comment open and replies: reachable immediately, single movable draft form near target.
 assert.match(news,/function scan\(\)\{document\.querySelectorAll\('\[data-news-comments\]'\)/);
 assert.match(news,/toggle\.onclick=\(\)=>/);
+assert.match(news,/rail\.insertBefore\(toggle,star\)/);
+assert.match(news,/toggle\.textContent='💬 '/);
 assert.match(news,/form\.hidden=!state\.expanded/);
 assert.match(news,/target\.after\(form\)/);
 assert.match(news,/body\.focus\(\{preventScroll:true\}\)/);
