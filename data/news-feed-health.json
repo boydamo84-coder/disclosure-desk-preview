@@ -1,22 +1,22 @@
 {
-  "checkedAt": "2026-11-09T11:33:30.502452+00:00",
+  "checkedAt": "2026-11-09T12:38:16.692949+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 26,
-      "latestArticleAt": "2026-11-09T11:20:00+00:00"
+      "items": 23,
+      "latestArticleAt": "2026-11-09T12:11:00+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
       "items": 6,
-      "latestArticleAt": "2026-11-09T02:39:03+00:00"
+      "latestArticleAt": "2026-11-09T12:11:00+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 20,
+      "items": 19,
       "latestArticleAt": "2026-11-09T00:10:00+00:00"
     },
     {
@@ -34,7 +34,7 @@
     {
       "source": "Search: UAP congress hearing when:7d",
       "status": "ok",
-      "items": 2,
+      "items": 1,
       "latestArticleAt": "2026-11-03T13:34:11+00:00"
     },
     {
@@ -195,8 +195,9 @@
     },
     {
       "source": "CNES GEIPAN",
-      "status": "failed",
-      "items": 0
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "UK National Archives",
@@ -205,5 +206,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 339
+  "storiesPublished": 340
 }
