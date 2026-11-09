@@ -158,7 +158,7 @@ function chooseReply(target,focusComposer=false){
 function appendReplyCard(list,row,replyLookup){
  const card=mk('article',undefined,'dd-forum-item dd-forum-reply-card');
  card.dataset.ddForumReplyId=String(row.id||'');
- const main=mk('div',undefined,'dd-forum-post-main'),tools=mk('div',undefined,'dd-forum-actions');
+ const main=mk('div',undefined,'dd-forum-post-main'),tools=mk('div',undefined,'dd-forum-actions dd-action-rail');
  main.append(makePostHead(row,'reply',tools));
  const parentId=String(row.parent_id||row.parent_reply_id||'');
  if(isId(parentId)&&replyLookup?.has(parentId)){
@@ -180,7 +180,7 @@ async function openThread(item){
  $('ddForumStewardPanel').hidden=true;
  $('ddForumReplyPane').hidden=false;
  const pane=$('ddForumReplyContent');pane.replaceChildren();
- const main=mk('div',undefined,'dd-forum-post-main'),tools=mk('div',undefined,'dd-forum-actions');
+ const main=mk('div',undefined,'dd-forum-post-main'),tools=mk('div',undefined,'dd-forum-actions dd-action-rail');
  main.append(makePostHead(item,'thread',tools),mk('h3',item.title||'Discussion'));
  photo(main,item);
  main.append(mk('p',item.body||'','dd-forum-body'));
@@ -425,7 +425,7 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
    if(thread?.id===row.id)chooseReply(null,true);
   },'dd-forum-icon-button dd-forum-comments-action');
   comments.setAttribute('aria-label','Read '+commentCount+' comments');
-  const star=nodeAction(parent,'☆',()=>saveThread(row),'dd-forum-icon-button');
+  const star=nodeAction(parent,'☆',()=>saveThread(row),'dd-forum-icon-button dd-forum-star-action');
   setActionIcon(star,'star','☆');
   star.setAttribute('aria-label','Save post to an Investigation Board');
   star.setAttribute('title','Add to Board');
@@ -433,6 +433,8 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
   setActionIcon(share,'share','⤴');
   share.setAttribute('aria-label','Share this post');
   share.setAttribute('title','Share');
+  // Same action order as News: adjacent votes, Board, Share, Comments.
+  parent.append(comments);
  }
  parent.append(mk('span',undefined,'dd-forum-spacer'));
  if(row.is_mine){
@@ -521,7 +523,7 @@ async function loadThreads(){
   if(!rows?.length)empty(list,'No matching topics. Try a different search or start the conversation.');
   for(const row of rows||[]){
    const card=mk('article',undefined,'dd-forum-item dd-forum-post-card');
-   const main=mk('div',undefined,'dd-forum-post-main'),actions=mk('div',undefined,'dd-forum-actions');
+   const main=mk('div',undefined,'dd-forum-post-main'),actions=mk('div',undefined,'dd-forum-actions dd-action-rail');
    main.append(makePostHead(row,'thread',actions));
    const title=nodeAction(main,row.title||'Untitled topic',()=>openThread(row),'dd-forum-title');
    title.setAttribute('aria-label','Read discussion: '+String(row.title||'Untitled topic'));
