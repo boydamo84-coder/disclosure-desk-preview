@@ -18,6 +18,8 @@ async function load(){
  const chosen=current,revision=++loadRevision;
  const list=document.querySelector('#ddCaseDiscussionList');
  if(!list)return false;
+ const composer=document.getElementById('ddCaseDiscussionForm');
+ if(composer&&list.contains(composer))document.getElementById('ddCommentsToggle')?.after(composer);
  list.textContent='Loading comments…';
  const {data,error}=await c.rpc('dd_public_comments',{p_case_id:chosen,p_limit:100});
  // Never show a response for a case that has since been switched, closed or refreshed.
@@ -139,7 +141,7 @@ function init(){
   const composer=document.getElementById('ddCaseDiscussionForm');
   if(composer)composer.hidden=!expanded;
   renderComments();
-  if(expanded){const input=document.getElementById('ddCaseDiscussionBody');if(input){input.focus();input.scrollIntoView({block:'nearest',behavior:'smooth'})}}
+  if(expanded){const input=document.getElementById('ddCaseDiscussionBody');if(input){input.focus({preventScroll:true})}}
  };
  document.querySelector('#ddCaseDiscussionClose').onclick=()=>{++dialogRevision;++loadRevision;root.hidden=true;document.body.style.overflow='';current=null;loadedComments=[];replyTo=null};
  root.addEventListener('click',e=>{if(e.target===root)document.querySelector('#ddCaseDiscussionClose').click()});
@@ -153,6 +155,16 @@ function init(){
    announce('');void load().then(success=>{if(!success||opened!==dialogRevision||chosen!==current||root.hidden)return;
      if(focusComment){expanded=true;renderComments();const item=document.getElementById('discussion-comment-'+focusComment);item?.scrollIntoView({block:'center',behavior:'smooth'});if(item)item.style.outline='2px solid #e2bc74';}});
  };
+ // Public deep links produced by the shared Board/Share bar open the exact
+ // parent discussion and optionally highlight the selected approved comment.
+ try{
+  const params=new URLSearchParams(location.search),deep=params.get('dd_discussion');
+  const focus=params.get('dd_comment');
+  if(deep&&deep.length<=180&&/^(news|video|archive|case|hearing):/.test(deep)
+   &&(!focus||/^[0-9a-f-]{36}$/i.test(focus))){
+   window.ddOpenCaseDiscussion(deep,'Community discussion',focus);
+  }
+ }catch(_){}
  document.addEventListener('click',e=>{
    const button=e.target.closest('[data-case-discussion]');
    if(button)window.ddOpenCaseDiscussion(button.dataset.caseDiscussion);
