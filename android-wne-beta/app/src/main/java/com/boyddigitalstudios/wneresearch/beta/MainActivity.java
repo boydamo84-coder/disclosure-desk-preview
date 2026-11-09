@@ -84,7 +84,18 @@ public final class MainActivity extends Activity {
             @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Uri url = request.getUrl();
                 if ("https".equals(url.getScheme()) &&
-                    "appassets.androidplatform.net".equals(url.getHost())) return false;
+                    "appassets.androidplatform.net".equals(url.getHost())) {
+                    String path = url.getPath();
+                    // The packaged APK contains Research only. Site navigation
+                    // must open the real public site, never a missing local root.
+                    if ("/".equals(path) || "/index.html".equals(path)) {
+                        Uri website = Uri.parse("https://uapdisclosuredesk.com/")
+                            .buildUpon().encodedQuery(url.getEncodedQuery()).build();
+                        openExternal(website);
+                        return true;
+                    }
+                    return false;
+                }
                 openExternal(url);
                 return true;
             }
@@ -143,7 +154,7 @@ public final class MainActivity extends Activity {
             toast("Update Android System WebView to save Word files.");
             return;
         }
-        String filename = URLUtil.guessFileName("https://appassets.androidplatform.net/export.docx",
+        String filename = URLUtil.guessFileName("https://appassets.androidplatform.net/WNE-Research-Report.docx",
             disposition, mime);
         // The script is only run inside trusted bundled HTML at the asset origin.
         String script = "(async()=>{try{"
