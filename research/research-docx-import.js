@@ -29,6 +29,28 @@ function valid(documentData){
  }
  return ids.has(documentData.active);
 }
+async function confirmImport(title,chapters,warnings){
+ const dialog=document.createElement('dialog');dialog.className='dd-m34-dialog';
+ dialog.setAttribute('aria-label','Review Word import');
+ const h=document.createElement('h2');h.textContent='Import Word document';
+ const body=document.createElement('p');body.textContent='Create a separate private research document: '+title;
+ const detail=document.createElement('p');detail.textContent=chapters+' section(s) will be imported. Your open report and original DOCX will stay unchanged.';
+ const warn=document.createElement('p');warn.textContent=warnings
+  ?warnings+' Word formatting warning(s). Please review the new copy after import.'
+  :'The original Word document remains on your device.';
+ const feedback=document.createElement('p');feedback.textContent='The import will be saved to your cloud library only after you confirm.';
+ const menu=document.createElement('menu');
+ const cancel=document.createElement('button');cancel.type='button';cancel.textContent='Cancel';
+ const ok=document.createElement('button');ok.type='submit';ok.textContent='Create imported copy';
+ menu.append(cancel,ok);dialog.append(h,body,detail,warn,feedback,menu);document.body.append(dialog);
+ return new Promise(resolve=>{
+  let complete=false;
+  const done=value=>{if(complete)return;complete=true;dialog.close();dialog.remove();resolve(value)};
+  cancel.addEventListener('click',()=>done(false));ok.addEventListener('click',()=>done(true));
+  dialog.addEventListener('cancel',e=>{e.preventDefault();done(false)});
+  dialog.showModal();
+ });
+}
 async function importFile(file){
  if(busy)return;
  busy=true;
@@ -51,9 +73,7 @@ async function importFile(file){
   const documentData={version:2,bookTitle:title,chapters,active:chapters[0]?.id,font:'Georgia',size:12};
   if(!valid(documentData))throw Error('The Word file could not be turned into safe report sections.');
   const warnings=Array.isArray(parsed?.warnings)?parsed.warnings.length:0;
-  const accepted=window.confirm('Import "'+title+'" as a NEW cloud research document with '+
-   chapters.length+' section(s)?\n\nYour existing report and original DOCX will not be overwritten.'+
-   (warnings?'\n\nWord conversion reported '+warnings+' formatting warning(s); review the new copy.':''));
+  const accepted=await confirmImport(title,chapters.length,warnings);
   if(!accepted)return;
   const response=await fetch('/api/library',{
    method:'POST',headers:{'Content-Type':'application/json'},
