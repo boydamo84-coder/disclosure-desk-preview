@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs');
 const read=path=>fs.readFileSync(path,'utf8');
 const html=read('index.html'),shared=read('assets/unified-action-rails.js'),css=read('assets/community-polish.css');
-const inline=read('assets/inline-news-comments.js'),votes=read('assets/community-votes.js'),forum=read('assets/community-discussions.js'),watch=read('assets/watch-read.js');
+const inline=read('assets/inline-news-comments.js'),caseComments=read('assets/case-discussions.js'),votes=read('assets/community-votes.js'),forum=read('assets/community-discussions.js'),watch=read('assets/watch-read.js');
 assert.match(html,/unified-action-rails\.js\?v=m70-shared-order/);
 assert.match(html,/inline-news-comments\.js\?v=m70-composer/);
 assert.match(html,/community-polish\.css\?v=m70/);
@@ -24,6 +24,10 @@ assert.match(css,/transparent!important/,'Forum/comment replies remain transpare
 assert.match(inline,/body\.rows=1/,'Every news/media comment starts in single-line mode');
 assert.match(inline,/Math\.min\(94,Math\.max\(44,body\.scrollHeight\)\)/,'Expands up to three lines');
 assert.match(inline,/state\.replyTo/,'Existing target-specific nested Reply preserved');
+assert.match(caseComments,/id="ddCaseDiscussionBody"[^>]*rows="1"/,'Case/Hearing dialog uses the same single-line composer');
+assert.match(caseComments,/function fitCaseComposer/,'Case replies expand to three lines');
+assert.match(css,/#ddCaseDiscussionDialog #ddCaseDiscussionBody/,'Case composer uses shared Reply styling');
+assert.match(html,/case-discussions\\.js\\?v=m70-reply-parity/);
 assert.match(votes,/dd_vote_set/,'Only existing real comment votes');
 assert.match(forum,/dd_discussions_vote/,'Discussions continues to use its real voting backend');
 assert.match(watch,/dd-media-recommend/,'Title recommendation remains separate from comment/post vote');
