@@ -13,7 +13,7 @@ function mount(container){
  const previous=drafts.get(id)||{expanded:false,draft:''};
  const collapsible=container.dataset.commentsCollapsed==='true';
  const discussionTitle=String(container.dataset.commentsTitle||container.closest('article')?.querySelector('h3,.news-headline-link')?.textContent||'Community discussion').trim().slice(0,100);
- const state={expanded:previous.expanded,items:[],busy:false,loaded:false,replyTo:null};
+ const state={expanded:previous.expanded,items:[],busy:false,loaded:false,replyTo:null,replyComposerDismissed:false};
  states.set(container,state);
  const toggle=el('button','💬 0');toggle.type='button';toggle.className='outline';toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Read or add comments');toggle.title='Comments';
  const entries=el('div');entries.className='dd-inline-comments-preview';
@@ -23,9 +23,16 @@ function mount(container){
  const fitBody=()=>{body.style.height='auto';body.style.height=Math.min(94,Math.max(44,body.scrollHeight))+'px'};
  body.addEventListener('input',()=>{drafts.set(id,{expanded:state.expanded,draft:body.value});fitBody()});
  const post=el('button','Post comment');post.type='submit';post.className='outline';
+ const cancel=el('button','Cancel');cancel.type='button';cancel.className='outline dd-reply-cancel';cancel.hidden=true;
  const message=el('p');message.className='muted small';message.setAttribute('role','status');
  const replyContext=el('p');replyContext.className='dd-comment-reply-context muted small';replyContext.hidden=true;
- form.append(replyContext,body,post);
+ const composerActions=el('div');composerActions.className='dd-reply-compose-actions';
+ composerActions.append(post,cancel);form.append(replyContext,body,composerActions);
+ cancel.addEventListener('click',()=>{
+  state.replyTo=null;state.replyComposerDismissed=true;
+  body.value='';drafts.set(id,{expanded:state.expanded,draft:''});
+  render();toggle.focus({preventScroll:true});
+ });
  // Mount Comments in the same full-width action rail as Board / Compare / Share.
  const rail=container.closest('article')?.querySelector('.dd-news-main-actions, .dd-media-actions, .dd-archive-action-rail, .clip-utility-actions, .immersive-tools, .dd-research-action-rail')||
   (container.previousElementSibling?.matches('.dd-action-rail')?container.previousElementSibling:null);
@@ -39,7 +46,7 @@ function mount(container){
   // Never lose a typed draft when refreshing the visible comment list.
   if(entries.contains(form))container.insertBefore(form,entries);
   toggle.setAttribute('aria-expanded',String(state.expanded));
-  form.hidden=!state.expanded;
+  form.hidden=!state.expanded||state.replyComposerDismissed;
   if(state.expanded)fitBody();
   entries.replaceChildren();
   const ordered=window.DDCommunityVotes?.threadedComments?.(state.items)||state.items;
@@ -47,6 +54,7 @@ function mount(container){
   replyContext.hidden=!state.replyTo;
   replyContext.textContent=state.replyTo?'Replying to '+state.replyTo.alias+' · this will appear beneath that comment.':'';
   post.textContent=state.replyTo?'Post reply':'Post comment';
+  cancel.hidden=!state.replyTo;
   if(!shown.length&&(!collapsible||state.expanded)){const note=el('p','No comments yet.');note.className='muted small';entries.append(note);}
   for(const item of shown){
    const card=el('div');card.className='card';card.style.cssText='margin:8px 0';card.dataset.ddNewsCommentId=String(item.id||'');
@@ -78,7 +86,7 @@ function mount(container){
    if(!window.DDCommunityVotes?.mountCommentCard?.(card,header,text,flag,item.id,(parentId)=>{
     const target=state.items.find(x=>x.id===parentId);if(!target)return;
     state.replyTo={id:target.id,alias:target.publicAlias||'this commenter'};
-    state.expanded=true;drafts.set(id,{expanded:true,draft:body.value});render();
+    state.replyComposerDismissed=false;state.expanded=true;drafts.set(id,{expanded:true,draft:body.value});render();
     body.focus({preventScroll:true});
    },{discussionKey:id,title:discussionTitle,isMine:item.is_mine===true,
     createdAt:item.created_at,body:item.body,onChanged:()=>refresh()})){
@@ -105,6 +113,7 @@ function mount(container){
   if(collapsible){state.expanded=!state.expanded;if(!state.expanded)state.replyTo=null;}
   else if(state.replyTo){state.replyTo=null;state.expanded=true;}
   else state.expanded=!state.expanded;
+  if(state.expanded)state.replyComposerDismissed=false;
   drafts.set(id,{expanded:state.expanded,draft:body.value});render();
   if(state.expanded){body.focus({preventScroll:true});if(!state.loaded)void refresh()}
  };
@@ -113,7 +122,12 @@ function mount(container){
    state.busy=true;post.disabled=true;
    const replyingTo=state.replyTo;
    const {error}=await c.from('dd_case_comments').insert({case_id:id,author_id:user.id,parent_id:replyingTo?.id||null,body:body.value.trim(),status:'approved'});
-   if(!error){body.value='';state.replyTo=null;drafts.set(id,{expanded:true,draft:''});message.textContent=replyingTo?'Reply posted.':'Comment posted.';await refresh()}else{
+   if(!error){
+     body.value='';state.replyTo=null;state.replyComposerDismissed=!!replyingTo;
+     drafts.set(id,{expanded:state.expanded,draft:''});
+     message.textContent=replyingTo?'Reply posted.':'Comment posted.';
+     await refresh(); // Keep thread visible; close the reply popup after posting.
+   }else{
      const issue=String(error.message||'');
      message.textContent=/duplicate comment/i.test(issue)?'You have already posted this comment.'
         :/limit reached/i.test(issue)?'Posting limit reached. Please try again later.'
