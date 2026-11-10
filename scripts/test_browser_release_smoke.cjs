@@ -282,7 +282,8 @@ async function selected(page,id){
   await m57.locator('.nav .tab[data-tab="researchStudio"]').click();
   await m57.waitForURL(url=>new URL(url).pathname==='/research/research-workspace.html'
     &&new URL(url).searchParams.get('id')===m57Doc,{timeout:16000});
-  assert.match(await m57.locator('#writer').getAttribute('src'),/wne.html\\?id=aaaaaaaa-/,
+  await m57.locator('#writer[src*="wne.html?id="]').waitFor({state:'attached',timeout:10000});
+  assert.equal((await m57.locator('#writer').getAttribute('src')).includes('wne.html?id='+m57Doc),true,
    'Returning W.NE tab must reopen the selected private report');
   assert.equal(await m57.evaluate(()=>localStorage.getItem('dd-wne-resume-entry-v1')),'1');
   pass('M57 returning W.NE tab reopens last RLS-verified document, never public intro');
