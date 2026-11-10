@@ -1,8 +1,30 @@
 # W.NE Research — optional Google Drive Word copies
 
-M52: Public Google Web OAuth client ID was configured on the M51 development branch on 10 November 2026. **Not deployed.** Real Google OAuth consent, Drive API enablement and a live upload/restore have **not** been verified; do not advertise the website as connected until owner acceptance.
+**Current state, 10 November 2026 (M58 development):** The owner confirmed Google Cloud's Web OAuth client, Drive API, scope, authorised site origin and testing-user account, and subsequently confirmed a real website Google sign-in and successful test Word copy upload to their Drive. That user report verifies a manual upload, **not** an independent Google-console review, restored document, unattended backup, published Google OAuth status or approval for all visitors. M54 then fixed the shared local/Drive DOCX comparison-table exporter with offline real-browser tests. The M58 reconnect convenience is staged in development and **not live on Netlify**.
 
 The previous implementation in `boydamo84-coder/WNE-Research-Edition`, `wne_source_v1_0_1/wne_google_drive_connect_v0910.py`, uses a Google **Desktop** OAuth credential and a local Python callback. Its credential file, tokens and encrypted-library server code cannot be published inside the static website. The Research browser integration retains the limited `drive.file` scope and new-copy workflow.
+
+
+
+## M58 — remember Google Drive connection preference, not Google credentials
+
+- Once a signed-in W.NE Research user authorises Google Drive successfully, the website remembers only a non-sensitive Boolean reconnect preference scoped to a SHA-256 hash of the verified Research owner. **No Google access token, refresh token, password, account email or Google account identifier is placed in localStorage/sessionStorage**, or in a public URL.
+- The short-lived Google access token remains **in memory only** during the currently open editor page. A subsequent page load or expired token shows **Reconnect Google Drive**. A user click requests a fresh Google token without unnecessarily forcing the account selector when Google still remembers the prior consent. Google can still require user interaction, confirmation, account selection or sign-in. If that convenience attempt fails, the next click offers **Choose Google account**.
+- The explicit Disconnect button forgets that device's reconnect preference; when an active token exists, it also requests Google permission revocation. It does not remove or overwrite Word backups. If Google permission expired before disconnect, users may separately review revocation in their Google Account's third-party connections.
+- Reconnect is never triggered invisibly on page load, while signed out, or for a different Research owner. Google token handling and strict owner validation remain unchanged. The product must not claim **permanent Google login**, **background backup** or **automatic reauthorisation** with this client-side token flow. This is a one-click opt-in reconnect, not an unattended Google backup service.
+- Keep **Google Drive backups manual in Research Edition** for now; the separately installed original W.NE Writer may use its independent planned/working automatic Drive full-library backup capability. Research's Supabase document autosave is separate from supplementary Drive Word backups.
+- M58 stays on `fix/m58-drive-reconnect-ux-nov10` with `[skip netlify]` commits. Test in GitHub no-deploy CI and combine into one later owner-approved website release, preserving the owner's Netlify credit budget.
+
+## Moving the OAuth website application out of Testing
+
+This change is **in Google Cloud, not in a GitHub commit or Netlify publish**. The owner must open [Google Cloud Console](https://console.cloud.google.com/) using the **BDS Secure Backups** project, then:
+
+1. Google Auth Platform → **Audience**: verify that user type is **External** and status is **Testing**, then select **Publish app** / move to **In production** when the actual Publishing UI permits it. Do not infer its status from a previous screenshot; review the live state. Testing can allow only listed test users (up to 100), and test-user authorisations generally expire after seven days.
+2. Google Auth Platform → **Branding**: verify app display name, contact/support email, website home, privacy policy and required verified domain ownership (`uapdisclosuredesk.com`). Google Auth Platform → **Data access**: keep only the existing limited `https://www.googleapis.com/auth/drive.file` scope; do not request blanket `drive` permissions for basic Word copies.
+3. Check Google's **Verification Centre** or the publishing prompts for any required brand/consent verification. The Drive API currently describes `drive.file` as **non-sensitive**, normally a simpler/basic verification path, but Google may still require branding/domain review. **Publishing to In production does not itself prove Google verification is complete or remove all warnings**; report any actual Google review requirements.
+4. Re-test on a Google account **not listed as a test user**, after Google confirms Production/public access. Use a disposable Research report and test Connect → Drive upload → hash/readback → open generated DOCX outside W.NE → import as **new** private document → failed/revoked token and sign-out; leave the original unchanged.
+
+Google's official sources: [Audience and Testing/Production](https://support.google.com/cloud/answer/15549945?hl=en), [Google browser token model](https://developers.google.com/identity/oauth2/web/guides/use-token-model), [Drive `drive.file` scope classification](https://developers.google.com/workspace/drive/api/guides/api-specific-auth). A Google Drive plugin connected to ChatGPT cannot publish the website's OAuth project on the owner's behalf.
 
 ## 10 November 2026 — M52 website client registered
 
