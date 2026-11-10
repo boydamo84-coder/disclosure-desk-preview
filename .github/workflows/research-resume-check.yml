@@ -1,7 +1,7 @@
 name: Verify Research Studio resume and existing community (NO deploy)
 on:
   push:
-    branches: [fix/research-mobile-profile-polish-nov08, staging/research-samsung-m16-20261108, fix/compact-writing-popover-mobile-desktop-nov08, fix/post-m50-action-rails-citations-nov10]
+    branches: [fix/research-mobile-profile-polish-nov08, staging/research-samsung-m16-20261108, fix/compact-writing-popover-mobile-desktop-nov08, fix/post-m50-action-rails-citations-nov10, fix/m54-docx-comparison-table-layout-nov10]
   workflow_dispatch:
 permissions:
   contents: read
@@ -189,6 +189,8 @@ jobs:
           node scripts/test_comment_action_rail_chromium_20261108.cjs
           node --check scripts/test_m35_action_rail_chromium_20261109.cjs
           node scripts/test_m35_action_rail_chromium_20261109.cjs
+          node --check scripts/test_m54_docx_table_export_chromium.cjs
+          node scripts/test_m54_docx_table_export_chromium.cjs
           node --check scripts/test_m51_rail_profile_chromium.cjs
           node scripts/test_m51_rail_profile_chromium.cjs
           node --check scripts/test_m38_hearing_inline_and_wide_rails_chromium_20261109.cjs
