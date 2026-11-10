@@ -215,6 +215,26 @@ async function selected(page,id){
   assert.equal(await wneDockPage.locator('#researchStudio').evaluate(el=>el.classList.contains('hidden')),true,'Must not show intermediate W.NE landing page');
   pass('M56 W.NE confirmed autosave routes to selected Videos tab in ONE tap, not W.NE landing');
   await wneDockPage.close();
+  const wneNews=await context.newPage();
+  await wneNews.goto(BASE+'/robots.txt',{waitUntil:'domcontentloaded',timeout:10000});
+  await wneNews.setContent('<!doctype html><html lang="en"><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><div id="editor" contenteditable="true">News return fixture</div><button id="save">Save</button></body></html>');
+  await wneNews.evaluate(()=>{
+    sessionStorage.setItem('dd_last_open_tab_v1','researchStudio');
+    window.wneSaveBeforeNavigation=async reason=>{
+      sessionStorage.setItem('m56-news-save-reason',reason);
+      return true;
+    };
+  });
+  await wneNews.addScriptTag({url:BASE+'/research/research-site-nav.js'});
+  await wneNews.locator('[data-dd-tab="discover"]').click();
+  await wneNews.waitForURL(url=>new URL(url).pathname==='/'&&new URL(url).searchParams.get('dd_tab')==='discover',{timeout:15000});
+  await wneNews.locator('.nav .tab[data-tab="discover"][aria-current="page"]').waitFor({state:'attached',timeout:15000});
+  assert.equal(await wneNews.locator('#discover').evaluate(el=>!el.classList.contains('hidden')),true);
+  assert.equal(await wneNews.locator('#researchStudio').evaluate(el=>el.classList.contains('hidden')),true,'News return cannot open W.NE landing');
+  assert.match(await wneNews.evaluate(()=>sessionStorage.getItem('m56-news-save-reason')||''),/Disclosure Desk navigation to discover/);
+  assert.equal(await wneNews.evaluate(()=>sessionStorage.getItem('dd_last_open_tab_v1')),'discover');
+  pass('M56 W.NE auto-save and single tap to News bypasses old W.NE landing even with stale prior tab');
+  await wneNews.close();
   await page.goto(BASE+'/research/guest-preview.html',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.dd-site-dock-tab');
   assert.equal(await page.locator('.dd-site-dock-tab').count(),13);
