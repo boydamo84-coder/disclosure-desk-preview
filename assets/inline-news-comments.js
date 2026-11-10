@@ -24,7 +24,7 @@ function mount(container){
  const replyContext=el('p');replyContext.className='dd-comment-reply-context muted small';replyContext.hidden=true;
  form.append(replyContext,body,post);
  // Mount Comments in the same full-width action rail as Board / Compare / Share.
- const rail=container.closest('article')?.querySelector('.dd-news-main-actions');
+ const rail=container.closest('article')?.querySelector('.dd-news-main-actions, .dd-media-actions');
  if(rail){const star=rail.querySelector('.dd-action-board');if(star)rail.insertBefore(toggle,star);else rail.append(toggle)}else container.append(toggle);
  toggle.classList.add('dd-inline-comments-toggle');toggle.setAttribute('aria-controls','dd-news-comments-'+id.replace(/[^a-z0-9-]/gi,'-'));container.id=toggle.getAttribute('aria-controls');
  container.append(form,entries,message);
