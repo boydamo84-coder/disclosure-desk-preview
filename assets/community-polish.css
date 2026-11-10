@@ -465,3 +465,49 @@
 #profilePage .dd-profile-reaction-info summary:focus-visible{outline:2px solid #e5c58b;outline-offset:2px}
 #profilePage .dd-profile-reaction-info[open]{flex-basis:100%}
 #profilePage #ddProfileReactionBreakdown{margin:4px 0 0;max-width:65ch;line-height:1.5;overflow-wrap:anywhere}
+
+/* M66: Profile-first identity layout. Photo management stays in settings. */
+#profilePage .dd-profile-heading{margin-bottom:8px}
+#profilePage .dd-profile-identity{padding:15px 17px;margin:8px 0 12px}
+#profilePage .dd-profile-identity-main{display:flex;align-items:center;gap:16px;min-width:0}
+#profilePage .dd-profile-identity-avatar{flex:0 0 82px;min-width:0}
+#profilePage .dd-profile-identity-avatar[hidden]{display:none!important}
+#profilePage .dd-profile-identity-avatar .dd-avatar-circle{width:80px;height:80px;border-width:2px;box-shadow:0 0 0 2px #142a37;max-width:100%}
+#profilePage .dd-profile-identity-avatar .dd-avatar-circle span{font-size:32px}
+#profilePage .dd-profile-identity-content{flex:1;min-width:0}
+#profilePage .dd-profile-identity-content .dd-studio-eyebrow{font-size:10px;margin-bottom:4px}
+#profilePage .dd-profile-name-line{display:flex;align-items:center;gap:8px;justify-content:space-between;min-width:0}
+#profilePage #ddProfileDisplayName{margin:0;font-size:clamp(18px,2.2vw,23px);line-height:1.25;overflow-wrap:anywhere;min-width:0}
+#profilePage #ddProfileRefresh{display:grid;place-items:center;min-width:36px;width:36px;height:36px;min-height:36px;padding:0;font-size:20px;flex:none;border-radius:10px}
+#profilePage .dd-profile-identity .dd-profile-reactions{margin-top:7px;gap:2px 12px;font-size:11px;line-height:1.45}
+#profilePage .dd-profile-identity .dd-profile-reaction-item strong{font-size:13px}
+#profilePage .dd-profile-identity .dd-profile-reaction-info summary{width:28px;min-width:28px;height:28px;min-height:28px}
+#profilePage .dd-profile-stats{margin-bottom:8px}
+#profilePage .dd-profile-stat{min-width:0}
+#profilePage .dd-profile-stat small{display:block;overflow-wrap:anywhere;line-height:1.4}
+#profilePage #ddProfileStatus{margin:4px 0 12px}
+#profilePage #ddProfileSettings{grid-column:1/-1}
+#profilePage .dd-profile-settings-meta{display:flex;gap:6px 16px;flex-wrap:wrap;padding:0 0 12px;border-bottom:1px solid #355062}
+#profilePage .dd-profile-settings-meta p{margin:0}
+#profilePage .dd-profile-settings>.dd-profile-card{margin:12px 0 0;border-color:#365064;background:#122c3b}
+#profilePage .dd-profile-settings-photo .dd-avatar-tools{width:100%;min-width:0}
+#profilePage .dd-profile-photo-actions{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:6px 0 12px}
+#profilePage .dd-avatar-file-trigger{position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:125px;cursor:pointer;overflow:hidden;text-decoration:none}
+#profilePage .dd-avatar-file-trigger input[type=file]{position:absolute;inset:0;display:block;opacity:0;width:100%;height:100%;padding:0;margin:0;cursor:pointer;z-index:1}
+#profilePage .dd-avatar-file-trigger:focus-within{outline:2px solid #e8c98d;outline-offset:3px}
+#profilePage .dd-avatar-file-trigger:has(input:disabled){opacity:.6;cursor:not-allowed}
+#profilePage #ddAvatarSettings .dd-avatar-information{margin:8px 0}
+#profilePage #ddAvatarSettings .dd-avatar-information>summary{display:inline-flex;align-items:center;gap:6px;width:auto;height:auto;min-height:36px;padding:7px 10px;font-size:12px;border-radius:9px}
+#profilePage #ddAvatarSettings .dd-avatar-visible-toggle{margin:12px 0 8px}
+#profilePage #ddAvatarStatus{margin:7px 0 2px}
+@media(max-width:360px){
+ #profilePage .dd-profile-identity{padding:12px}
+ #profilePage .dd-profile-identity-main{gap:11px}
+ #profilePage .dd-profile-identity-avatar{flex-basis:70px}
+ #profilePage .dd-profile-identity-avatar .dd-avatar-circle{width:68px;height:68px}
+ #profilePage .dd-profile-identity .dd-profile-reactions{gap:0 7px;font-size:10px}
+ #profilePage .dd-profile-stats{gap:6px}
+ #profilePage .dd-profile-stat{padding:8px 6px}
+ #profilePage .dd-profile-stat strong{font-size:19px}
+ #profilePage .dd-profile-stat small{font-size:10px}
+}
