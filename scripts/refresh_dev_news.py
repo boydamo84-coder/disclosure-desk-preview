@@ -158,6 +158,72 @@ def deduplicate_headlines(items):
         kept.append(item)
     return kept
 
+# M60: present variants of one reported event as alternative cited coverage.
+# Preserve every publisher URL and existing ID; different official case IDs,
+# release numbers and independent developments must never be merged.
+EVENT_STOP=set("a an and are as at be been by from for has have had in is its it of on or over says said say report reports about after before new latest how what why where with this that these those their the to into than more now ufo uap ufos uaps unidentified alien aliens footage video news watch reveals reveal revealed claims claim".split())
+ORDINALS=set("first second third fourth fifth sixth seventh eighth ninth tenth eleventh twelfth thirteenth fourteenth fifteenth".split())
+def event_tokens(headline):
+    return {word for word in normalized_headline(headline).split() if len(word)>2 and word not in EVENT_STOP}
+def event_reference_ids(headline):
+    title=str(headline or "").lower()
+    ids=set(re.findall(r"\bdow[\s-]*uap[\s-]*pr[\s-]*\d+\b",title,re.I))
+    ids.update(re.findall(r"\b(?:case|document|report)[- #]+(?:no[. ]*)?\d{2,}\b",title,re.I))
+    numbers=set(re.findall(r"\b(?:19|20)\d{2}\b",title))
+    ordinals=event_tokens(headline)&ORDINALS
+    return ids,numbers,ordinals
+def same_report_event(a,b):
+    try:
+        difference=abs((dt.datetime.fromisoformat(a["date"].replace("Z","+00:00"))-
+                        dt.datetime.fromisoformat(b["date"].replace("Z","+00:00"))).total_seconds())
+    except (KeyError,ValueError,TypeError):
+        return False
+    if difference>14*86400:return False
+    aid,anums,aord=event_reference_ids(a.get("headline"))
+    bid,bnums,bord=event_reference_ids(b.get("headline"))
+    # Never confuse different Pentagon files, numbered releases or years.
+    if (aid and bid and aid!=bid) or (anums and bnums and anums!=bnums) or (aord and bord and aord!=bord):
+        return False
+    if normalized_headline(a.get("headline"))==normalized_headline(b.get("headline")):
+        return True
+    if difference>5*86400:return False
+    al=str(a.get("headline","")).lower();bl=str(b.get("headline","")).lower()
+    def trump_airforce(t):
+        return (bool(re.search(r"\btrump\b",t)) and
+                bool(re.search(r"\b(?:pilots?|air\s*force|f[\s-]*22|fighter\s*jets?)\b",t)) and
+                bool(re.search(r"\b(?:ufos?|uaps?|aliens?|strange|round\s*object|revelations?)\b",t)))
+    if trump_airforce(al) and trump_airforce(bl):
+        return True
+    if difference>3*86400:return False
+    ta,tb=event_tokens(a.get("headline")),event_tokens(b.get("headline"))
+    common=len(ta&tb)
+    return common>=4 and common/max(1,min(len(ta),len(tb)))>=0.80 and common/max(1,len(ta|tb))>=0.53
+
+def group_event_coverage(items):
+    # A previously grouped feed can be loaded again: safely expand nested links
+    # first to avoid dropping alternate publishers on the next scheduled run.
+    flat=[]
+    for raw in items:
+        if not isinstance(raw,dict):continue
+        primary={key:value for key,value in raw.items() if key!="relatedCoverage"}
+        flat.append(primary)
+        for alt in raw.get("relatedCoverage",[]):
+            if isinstance(alt,dict) and alt.get("headline") and alt.get("url") and alt.get("date"):
+                flat.append({key:value for key,value in alt.items() if key!="relatedCoverage"})
+    flat.sort(key=lambda entry:entry.get("date",""),reverse=True)
+    groups=[];seen_urls=set()
+    for story in flat:
+        url=story.get("url","")
+        if not isinstance(url,str) or not url.startswith("https://") or url.lower() in seen_urls:continue
+        seen_urls.add(url.lower())
+        primary=next((entry for entry in groups if same_report_event(entry,story)),None)
+        if primary is None:
+            groups.append(dict(story))
+        else:
+            # Keep original alternate source metadata, article link and ID.
+            primary.setdefault("relatedCoverage",[]).append(dict(story))
+    return groups
+
 def publisher_image(article_url):
     """Best-effort Open Graph image from an actual publisher page, never a search preview."""
     from html.parser import HTMLParser
@@ -230,9 +296,10 @@ def main():
         except Exception:continue
         if not dt.timedelta(0)<=age<=dt.timedelta(days=MAX_AGE):continue
         seen.add(key);out.append(item)
-    before_dedup=len(out)
-    out=deduplicate_headlines(out)
-    print('Removed',before_dedup-len(out),'syndicated/repeated headline entries, preserving original source links')
+    before_group=len(out)
+    out=group_event_coverage(out)
+    grouped_count=sum(len(row.get('relatedCoverage',[])) for row in out)
+    print('Grouped',grouped_count,'alternate article links into',len(out),'main stories; verified article links preserved')
     if not out:raise RuntimeError('Result empty; refusing to overwrite current catalogue')
     # Sanity checks: do not overwrite an existing useful feed with zero fresh articles.
     recent=sum(1 for x in gathered if (NOW-dt.datetime.fromisoformat(x['date']))<dt.timedelta(days=7))
