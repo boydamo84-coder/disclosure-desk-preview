@@ -9,7 +9,7 @@ const ranks=Object.freeze({vote:0,comments:1,board:2,share:3,extra:4,reply:5,spa
 function role(node){
  if(!node?.matches)return 'extra';
  if(node.matches('.dd-forum-spacer'))return 'spacer';
- if(node.matches('.dd-community-votes,.dd-forum-votes,[data-news-article-votes],.dd-news-article-vote-controls,.dd-forum-vote,.dd-community-vote-button,.dd-news-article-vote-button'))return 'vote';
+ if(node.matches('.dd-community-votes,.dd-forum-votes,[data-news-article-votes],[data-dd-witness-vote],.dd-news-article-vote-controls,.dd-forum-vote,.dd-community-vote-button,.dd-news-article-vote-button'))return 'vote';
  if(node.matches('.dd-inline-comments-toggle,.dd-forum-comments-action,.dd-hearing-comments-toggle,[data-clip-action="discuss"],[data-discuss-archive],[data-news-discussion],#ddCommentsToggle'))return 'comments';
  if(node.matches('.dd-action-board,.dd-forum-star-action,.dd-case-bookmark,[data-save-archive],[data-save-news]'))return 'board';
  if(node.matches('.dd-action-share,.dd-forum-share-action,[data-share-news],[data-share-archive]'))return 'share';
