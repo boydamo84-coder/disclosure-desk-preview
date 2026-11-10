@@ -2101,6 +2101,8 @@ function ddVideoModeSetup(){
  document.getElementById('closeImmersive')?.addEventListener('click',()=>{browse.classList.add('dd-video-mode-active');swipe.classList.remove('dd-video-mode-active')});
 }
 ddVideoModeSetup();
+let historicalRecords=[];
+let ddArchiveLoading=null,ddArchiveTried=false,ddArchiveFullReady=false;
 const ddLastTabKey='dd_last_open_tab_v1';
 // A W.NE return link or shared link may contain ?dd_tab=archivePage.
 // Keep that URL in sync when visitors change tabs so refresh cannot restore
@@ -2188,8 +2190,6 @@ news();renderCases();showDrafts();const requestedCase=new URLSearchParams(locati
 // Historical primary-source archive, distinct from current reporting.
 // Save uses the same persistent Investigation Board workflow as News.
 function ddSyncStickyHeaderHeight(){const h=document.querySelector('header.top');if(h)document.documentElement.style.setProperty('--dd-header-height',Math.ceil(h.getBoundingClientRect().height)+'px')}ddSyncStickyHeaderHeight();window.addEventListener('resize',ddSyncStickyHeaderHeight);
-let historicalRecords=[];
-let ddArchiveLoading=null,ddArchiveTried=false,ddArchiveFullReady=false;
 function ddArchiveRetryButton(){
  let button=$('ddArchiveRetry');
  if(button)return button;
