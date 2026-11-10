@@ -243,6 +243,7 @@ function render(){
    }
   }
   container.append(card);
+  window.DDRefreshBoardStars?.();
   function update(){
    const now=Date.now();
    syncChat(now);
