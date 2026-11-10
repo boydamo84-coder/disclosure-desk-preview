@@ -602,8 +602,7 @@
     "date": "2026-05-22T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://i.guim.co.uk/img/media/a747d52d9f3626f44bdedd8110aa60b5e6fb1027/186_0_2146_1718/master/2146.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=6c333389ccc41365bf1ce40796ad11d8",
-    "publisherUrl": "https://www.theguardian.com/world/2026/may/22/pentagon-ufo-videos-testimony-documents"
+    "imageUrl": "https://i.guim.co.uk/img/media/a747d52d9f3626f44bdedd8110aa60b5e6fb1027/186_0_2146_1718/master/2146.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=6c333389ccc41365bf1ce40796ad11d8"
   },
   {
     "id": "68b7897a04a646ef7cd6",
@@ -613,7 +612,8 @@
     "date": "2026-05-22T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/07b3/live/d34ce420-55fb-11f1-8b8c-6d33e1d5abb6.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/07b3/live/d34ce420-55fb-11f1-8b8c-6d33e1d5abb6.jpg",
+    "publisherUrl": "https://www.bbc.co.uk/news/videos/cp3p2dkqxd0o"
   },
   {
     "id": "ab9fb402600a826d1736",
