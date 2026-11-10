@@ -11,6 +11,76 @@ const $=id=>document.getElementById(id);
 const mk=(tag,text,cls)=>{const x=document.createElement(tag);if(text!==undefined)x.textContent=String(text);if(cls)x.className=cls;return x};
 let client=null,section=null,thread=null,sections=[],sort='recent',epoch=0,ready=false,feedPage=0,feedQuery='',feedTotal=0,feedModern=true,deepLinkHandled=false,searchTimer=null;
 let viewerId=undefined,identityRevision=0,ownerSectionIds=new Set(),flaggedThisSession=new Set(),replyParent=null;
+
+const DD_FORUM_FAV_KEY='dd-forum-favourite-sections-v1:';
+const DD_FORUM_ORDER_KEY='dd-forum-subject-order-v1';
+function favouriteKey(){return DD_FORUM_FAV_KEY+(isId(viewerId)?viewerId:'guest')}
+function favouriteIds(){
+ try{
+  const ids=JSON.parse(localStorage.getItem(favouriteKey())||'[]');
+  return new Set(Array.isArray(ids)?ids.filter(isId).slice(0,100):[]);
+ }catch{return new Set()}
+}
+function toggleFavourite(item){
+ if(!isId(item?.id))return;
+ const ids=favouriteIds();
+ if(ids.has(item.id))ids.delete(item.id);else ids.add(item.id);
+ try{localStorage.setItem(favouriteKey(),JSON.stringify([...ids]))}catch(e){say('Favourite saved for this visit; device storage unavailable.')}
+ drawSections();
+}
+function favouriteButton(parent,item,selected,compact=false){
+ const star=nodeAction(parent,selected?'★':'☆',()=>toggleFavourite(item),
+  'dd-forum-subject-star'+(selected?' is-favourite':'')+(compact?' dd-forum-subject-star-compact':''));
+ star.dataset.sectionFavourite=item.id;
+ star.setAttribute('aria-pressed',String(selected));
+ star.setAttribute('aria-label',(selected?'Remove ':'Add ')+String(item.title||'Subject')+(selected?' from favourites':' to favourites'));
+ star.setAttribute('title',selected?'Remove from favourites':'Add subject to favourites');
+ return star;
+}
+function orderSections(rows){
+ // Existing subject order is stable; newly discovered subjects append to the
+ // bottom, even if the server happens to return them newest-first. Whenever
+ // creation time is available, honour chronological order for the first view.
+ const eligible=(Array.isArray(rows)?rows:[]).filter(row=>isId(row?.id));
+ const when=row=>Date.parse(row.created_at||row.createdAt||row.created_on||'');
+ let saved=[];
+ try{
+  const parsed=JSON.parse(localStorage.getItem(DD_FORUM_ORDER_KEY)||'[]');
+  if(Array.isArray(parsed))saved=parsed.filter(isId).slice(0,200);
+ }catch{}
+ if(!saved.length){
+  eligible.sort((a,b)=>{
+   const at=when(a),bt=when(b);
+   return Number.isFinite(at)&&Number.isFinite(bt)?at-bt:0;
+  });
+  saved=eligible.map(row=>row.id);
+ }else{
+  const known=new Set(saved);
+  const newcomers=eligible.filter(row=>!known.has(row.id)).sort((a,b)=>{
+   const at=when(a),bt=when(b);
+   return Number.isFinite(at)&&Number.isFinite(bt)?at-bt:0;
+  });
+  saved.push(...newcomers.map(row=>row.id));
+ }
+ const present=new Set(eligible.map(x=>x.id));
+ saved=saved.filter(id=>present.has(id));
+ try{localStorage.setItem(DD_FORUM_ORDER_KEY,JSON.stringify(saved.slice(-200)))}catch{}
+ const rank=new Map(saved.map((id,index)=>[id,index]));
+ return eligible.sort((a,b)=>(rank.get(a.id)??1e6)-(rank.get(b.id)??1e6));
+}
+function resizeReplyComposer(input){
+ if(!input?.style||!Number.isFinite(Number(input.scrollHeight)))return;
+ input.style.height='auto';
+ const style=typeof window.getComputedStyle==='function'?window.getComputedStyle(input):null;
+ const line=parseFloat(style?.lineHeight)||21;
+ const padding=(parseFloat(style?.paddingTop)||10)+(parseFloat(style?.paddingBottom)||10)+
+               (parseFloat(style?.borderTopWidth)||1)+(parseFloat(style?.borderBottomWidth)||1);
+ const max=3*line+padding,min=line+padding;
+ const natural=Number(input.scrollHeight);
+ input.style.height=Math.max(min,Math.min(natural,max))+'px';
+ input.style.overflowY=natural>max?'auto':'hidden';
+}
+
 const db=()=>client||(client=window.supabase?.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}));
 function say(s){const n=$('ddForumStatus');if(n)n.textContent=String(s).slice(0,220)}
 function nodeAction(parent,label,fn,cls='outline'){
@@ -124,8 +194,30 @@ function link(parent,url,label){
  a.target='_blank';a.rel='noopener noreferrer nofollow ugc';parent.append(a);
 }
 function updateCommunityContext(){
+ const favourites=favouriteIds();
  const nav=$('ddForumSubjectNav');
- if(nav){nav.replaceChildren();for(const item of sections){const b=nodeAction(nav,item.title||'Untitled subject',()=>openSection(item),'dd-community-subject-link');b.setAttribute('aria-current',section?.id===item.id?'page':'false');const count=mk('span',String(item.thread_count||0),'dd-community-subject-count');count.setAttribute('aria-label',(item.thread_count||0)+' posts');b.append(count)}}
+ if(nav){
+  nav.replaceChildren();
+  for(const item of sections){
+   const row=mk('div',undefined,'dd-community-subject-row');
+   const b=nodeAction(row,item.title||'Untitled subject',()=>openSection(item),'dd-community-subject-link');
+   b.setAttribute('aria-current',section?.id===item.id?'page':'false');
+   const count=mk('span',String(item.thread_count||0),'dd-community-subject-count');
+   count.setAttribute('aria-label',(item.thread_count||0)+' posts');b.append(count);
+   favouriteButton(row,item,favourites.has(item.id),true);nav.append(row);
+  }
+ }
+ const saved=sections.filter(item=>favourites.has(item.id));
+ const group=$('ddForumFavouriteGroup'),savedNav=$('ddForumFavouritesNav');
+ if(group)group.hidden=!saved.length;
+ if(savedNav){
+  savedNav.replaceChildren();
+  for(const item of saved){
+   const link=nodeAction(savedNav,'★ '+(item.title||'Subject'),()=>openSection(item),'dd-community-favourite-link');
+   link.setAttribute('aria-label','Open favourite subject '+String(item.title||'Subject'));
+   link.setAttribute('aria-current',section?.id===item.id?'page':'false');
+  }
+ }
  const all=$('ddForumBrowseAll');if(all)all.setAttribute('aria-current',section?'false':'page');
  const title=$('ddForumContextTitle'),description=$('ddForumContextDescription'),count=$('ddForumContextCount');
  if(title)title.textContent=section?.title||'A place for curious minds';
