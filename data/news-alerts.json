@@ -230,12 +230,12 @@
     "id": "b2fcbe81b93c328747b6",
     "headline": "Watch: Pentagon releases fresh UFO videos in new document dump",
     "source": "BBC",
-    "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBYREVGSVMweGZIQTM1YXpYQ0ZjNkkwTjloMVB4M0NkN092d28yQnBCdHR2MlpfMVExZm5EYnd6cGxpWktjM28ySXRudnFjTTlhUjlnY2dOWQ?oc=5",
+    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1fWXVQN0tFN2Z4Q2ZrbUlGWUZ1RXljeWdETjFWVWtmb2o5WktJUDRLcWw2WmVHUGt0eUN5NlhyWDVYa0wwNUN4ano4SnNiSDg4TkRTcUI3ZC1MQQ?oc=5",
     "date": "2026-08-07T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
     "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/9a0f/live/8bd5ec80-9549-11f1-870d-5d08c49babb2.jpg",
-    "publisherUrl": "https://www.bbc.com/news/videos/ce34k5ypwygo"
+    "publisherUrl": "https://www.bbc.co.uk/news/videos/ce34k5ypwygo"
   },
   {
     "id": "cb465369dc516c0cfaae",
@@ -613,8 +613,7 @@
     "date": "2026-05-22T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/07b3/live/d34ce420-55fb-11f1-8b8c-6d33e1d5abb6.jpg",
-    "publisherUrl": "https://www.bbc.co.uk/news/videos/cp3p2dkqxd0o"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/07b3/live/d34ce420-55fb-11f1-8b8c-6d33e1d5abb6.jpg"
   },
   {
     "id": "ab9fb402600a826d1736",
@@ -966,7 +965,8 @@
     "date": "2026-04-05T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8"
+    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8",
+    "publisherUrl": "https://www.theguardian.com/us-news/2026/apr/05/alien-life-nasa-jared-isaacman-artemis-ii"
   },
   {
     "id": "ef2cf6dd2b9e6f0cd58a",
@@ -988,7 +988,8 @@
     "date": "2026-04-03T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg",
+    "publisherUrl": "https://www.bbc.com/news/articles/cvg58ydn4jpo"
   },
   {
     "id": "8d06dd474e5f2e6f3926",
