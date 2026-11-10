@@ -1712,10 +1712,12 @@ function immersiveTile(c,index){
  return '<article class="immersive-item" data-index="'+index+'"><div class="immersive-media" data-media="'+esc(c.id)+'"><span>▶ Tap to watch</span></div>'+
  '<div class="immersive-details"><b>'+(source?'<a href="'+esc(source)+'" rel="noopener noreferrer" target="_blank">'+title+'</a>':title)+'</b><div>'+publisher+' · '+status+'</div></div>'+
  '<div class="immersive-tools dd-action-rail"><button data-clip-action="favourite" data-clip-id="'+esc(c.id)+'">'+(clipIsFavourite(c)?'★ Fav':'☆ Fav')+'</button>'+
- '<button data-clip-action="discuss" data-clip-id="'+esc(c.id)+'" aria-label="Open video discussion">💬</button>'+
+ /* Comments are inserted into this rail by the shared inline host below. */
+ 
  '<button class="dd-action-board" data-clip-action="board" data-clip-id="'+esc(c.id)+'" data-bookmark-url="'+esc(source||'')+'" data-bookmark-label="'+esc(c.title||'Video')+'" aria-label="Add video to Investigation Board" title="Add to Board"><span data-star-icon>☆</span></button>'+
  '<button class="dd-action-share" data-clip-action="share" data-clip-id="'+esc(c.id)+'" aria-label="Share video" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8"/></svg></button>'+
  '<button data-clip-action="skip" data-clip-id="'+esc(c.id)+'">Skip ↓</button></div>'+
+ '<div class="dd-news-inline-comments dd-immersive-inline-comments" data-news-comments="video:'+esc(String(c.id))+'" data-comments-title="'+esc(c.title)+'" data-comments-collapsed="true"></div>'+
  '<details class="immersive-more"><summary>More ▾</summary><p>'+esc(c.description||'Publisher-supplied claims or commentary; authenticity and interpretations not established.')+'</p>'+(source?'<a href="'+esc(source)+'" rel="noopener noreferrer" target="_blank">Original source ↗</a>':'')+'</details></article>';
 }
 const IMMERSIVE_AUTOPLAY_KEY='dd_clips_autoplay_v1';
