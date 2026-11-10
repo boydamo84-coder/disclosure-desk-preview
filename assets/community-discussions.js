@@ -14,7 +14,7 @@ let viewerId=undefined,identityRevision=0,ownerSectionIds=new Set(),flaggedThisS
 
 const DD_FORUM_FAV_KEY='dd-forum-favourite-sections-v1:';
 const DD_FORUM_ORDER_KEY='dd-forum-subject-order-v1';
-function favouriteKey(){return DD_FORUM_FAV_KEY+(isId(viewerId)?viewerId:'guest')}
+function favouriteKey(){return DD_FORUM_FAV_KEY+(typeof viewerId==='string'&&viewerId.trim()?viewerId.slice(0,64):'guest')}
 function favouriteIds(){
  try{
   const ids=JSON.parse(localStorage.getItem(favouriteKey())||'[]');
