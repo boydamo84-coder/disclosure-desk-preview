@@ -15,7 +15,7 @@ assert.match(page,/class="dd-news-main-actions dd-action-rail"/);
 assert.match(page,/data-news-article-votes=/);
 assert.match(page,/class="dd-news-tools"/);
 assert.match(page,/#newsGrid article>\.dd-news-actions>\.dd-news-main-actions/);
-assert.match(news,/querySelector\('\.dd-news-main-actions'\)/);
+assert.match(news,/querySelector\('\.dd-news-main-actions, \.dd-media-actions'\)/);
 assert.match(news,/container\.append\(form,entries,message\)/);
 assert.match(news,/toggle\.onclick=\(\)=>/);
 assert.match(news,/body\.focus\(\{preventScroll:true\}\)/);
