@@ -27,8 +27,9 @@ const editor=!!document.getElementById('editor')&&!!document.getElementById('sav
 const isFrame=window.parent!==window;
 let busy=false,status=null,nav=null,toggle=null,dock=null;
 function destination(tab){
- return tab==='researchStudio'?'/research/index.html':
-        tab==='discover'?'/':'/?dd_tab='+encodeURIComponent(tab);
+ // Use an explicit website tab for News too. The bare '/' previously let an
+ // older session's remembered W.NE landing page win after leaving the editor.
+ return tab==='researchStudio'?'/research/index.html':'/?dd_tab='+encodeURIComponent(tab);
 }
 function say(message,error=false){
  if(status){status.textContent=message;status.dataset.error=error?'yes':'no'}
@@ -79,6 +80,9 @@ async function go(tab){
  dock?.setAttribute('aria-busy','true');
  try{
   if(!await verifySaved(tab))return false;
+  // Only remember the new page AFTER successful save. Otherwise a rejected
+  // save must leave the current W.NE document and navigation state unchanged.
+  try{window.top.sessionStorage?.setItem('dd_last_open_tab_v1',tab)}catch(_){}
   window.top.location.assign(destination(tab));
   return true;
  }finally{
