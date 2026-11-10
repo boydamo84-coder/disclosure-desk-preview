@@ -3,10 +3,12 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const src=fs.readFileSync('assets/profile-avatars.js','utf8');
 const html=fs.readFileSync('index.html','utf8');
-assert.match(html,/Choose or change your profile picture — saves automatically/);
-assert.match(html,/id="ddAvatarSave" hidden disabled>Retry photo upload/);
-const names=['ddAvatarPanel','ddAvatarImage','ddAvatarFallback','ddAvatarFile','ddAvatarSave','ddAvatarRemove','ddAvatarStatus','ddAvatarVisible'];
-function el(id){return {id,hidden:['ddAvatarPanel','ddAvatarImage','ddAvatarRemove'].includes(id),
+assert.match(html,/<details id="ddProfileSettings"/,'Photo settings must be under collapsed Profile settings');
+assert.match(html,/Change photo<input id="ddAvatarFile"/,'Existing auto-upload input has a compact Change photo control');
+assert.match(html,/Photo requirements ⓘ/,'Photo requirements remain available on demand');
+assert.match(html,/id="ddAvatarSave" hidden disabled>Retry upload/);
+const names=['ddAvatarSettings','ddAvatarPanel','ddAvatarImage','ddAvatarFallback','ddAvatarFile','ddAvatarSave','ddAvatarRemove','ddAvatarStatus','ddAvatarVisible'];
+function el(id){return {id,hidden:['ddAvatarSettings','ddAvatarPanel','ddAvatarImage','ddAvatarRemove'].includes(id),
  checked:id==='ddAvatarVisible',disabled:id==='ddAvatarSave',value:'',files:[],textContent:'',listeners:{},
  addEventListener(name,fn){this.listeners[name]=fn},removeAttribute(name){this[name]=null}};}
 const nodes=Object.fromEntries(names.map(id=>[id,el(id)]));
@@ -53,6 +55,7 @@ async function choose(photo={type:'image/png',name:'photo.png',size:3000}){file.
 (async()=>{
  assert.equal(file.disabled,true,'Photo picker cannot run before account key loads');
  await flush();assert.equal(nodes.ddAvatarPanel.hidden,false);
+ assert.equal(nodes.ddAvatarSettings.hidden,false,'Authenticated member can manage photo within Settings');
  assert.equal(file.disabled,false,'Photo picker enabled when owner key loaded');
  assert.equal(save.hidden,true,'Retry hidden before selection');
  await choose();assert.equal(uploads,1,'File selection uploads automatically');
