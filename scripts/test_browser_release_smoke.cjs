@@ -298,6 +298,33 @@ async function selected(page,id){
   pass('M57 remembered signed-in workspace returns through auth gate after page switch');
   await m57.close();
 
+  // M59 real browser: duplicate syndicated RSS links must yield one News card,
+  // and the ticker must not repeat the same headline. Keep distinct reports.
+  const m59NewsPage=await context.newPage();
+  await m59NewsPage.goto(BASE+'/?dd_tab=discover',{waitUntil:'domcontentloaded',timeout:35000});
+  await m59NewsPage.waitForFunction(()=>!document.getElementById('feedRefresh')?.disabled,null,{timeout:16000});
+  await m59NewsPage.evaluate(()=>{
+   const recent=new Date().toISOString();
+   const old=new Date(Date.now()-21*86400000).toISOString();
+   const item=(id,headline,source,date)=>({id,headline,source,date,url:'https://news.google.com/rss/articles/'+id,category:'UAP',priority:'standard'});
+   ddNewsRows([
+    item('m59-a','Navy admiral warns of UAP cover-up','Publisher A',recent),
+    item('m59-b','Navy admiral warns of UAP “cover-up”','Publisher B',recent),
+    item('m59-c','NASA publishes new UAP study','NASA',recent),
+    item('m59-d','Navy admiral warns of UAP cover-up','Publisher A',old)
+   ],'M59 synthetic duplicate test');
+  });
+  assert.equal(await m59NewsPage.locator('#newsGrid article[data-news-id]').count(),3,
+   'Same syndicated story shown once, but distinct and later reports retained');
+  assert.equal(await m59NewsPage.locator('#newsGrid article[data-news-id="m59-a"]').count(),1,
+   'Retained story keeps original source ID');
+  assert.equal(await m59NewsPage.locator('#newsGrid article[data-news-id="m59-b"]').count(),0,
+   'Rewritten RSS link must not create another card');
+  assert.equal(await m59NewsPage.evaluate(()=>window.ddNewsTickerRows?.length),3,
+   'Live ticker must not repeat syndicated article');
+  pass('M59 News cards and ticker collapse duplicate Google RSS URLs without hiding separate reports');
+  await m59NewsPage.close();
+
   await page.goto(BASE+'/research/guest-preview.html',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.dd-site-dock-tab');
   assert.equal(await page.locator('.dd-site-dock-tab').count(),13);
