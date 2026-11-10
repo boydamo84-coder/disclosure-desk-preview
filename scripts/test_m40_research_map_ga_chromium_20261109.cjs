@@ -4,15 +4,23 @@
 const assert=require('node:assert/strict');
 const {chromium}=require('playwright-core');
 const BASE='http://127.0.0.1:4173',DOC='11111111-1111-4111-8111-111111111111';
+const BOARD='22222222-2222-4222-8222-222222222222';
+const boardFixture={id:BOARD,name:'Sample Board',content:{comparisons:[{title:'Saved pair',cases:[
+ {title:'Board Alpha',location:'UK'},{title:'Board Beta',location:'USA'}]}]}};
+const archiveFixture=[
+ {id:'m40-a',title:'Alpha record',year:1976,location:'Belfast',source:'https://example.org/a',description:'Synthetic alpha comparison'},
+ {id:'m40-b',title:'Beta record',year:1980,location:'London',source:'https://example.org/b',description:'Synthetic alpha comparison'},
+ {id:'m40-c',title:'Unrelated record',year:1990,location:'Paris',source:'https://example.org/c',description:'Must be filtered out'}
+];
 const documentFixture={version:2,bookTitle:'M40 disposable document',active:'m40-one',
  chapters:[{id:'m40-one',title:'Section 1',html:'<p>Synthetic report</p>'}],
  font:'Georgia',size:12,wne_structure:'sections'};
-const fakeSupabase='(()=>{const doc='+JSON.stringify(documentFixture)+';const state={rev:1,saves:0};'+
+const fakeSupabase='(()=>{const doc='+JSON.stringify(documentFixture)+';const board='+JSON.stringify(boardFixture)+';const state={rev:1,saves:0};'+
  'window.supabase={createClient:()=>({'+
  'auth:{getUser:async()=>({data:{user:{id:"aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"}},error:null}),'+
  'getSession:async()=>({data:{session:null},error:null}),'+
  'onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}})},'+
- 'from:()=>({select(){return this},eq(){return this},single:async()=>({data:{'+
+ 'from:table=>({select(){return this},eq(){return this},order(){return this},limit:async()=>({data:table==="investigation_boards"?[board]:[],error:null}),single:async()=>({data:table==="investigation_boards"?board:{'+
  'id:"'+DOC+'",title:"M40 disposable document",content:doc,revision:state.rev},error:null})}),'+
  'rpc:async(name)=>{if(name!=="research_save_document")throw Error("Unexpected RPC");'+
  'state.rev++;state.saves++;return {data:[{saved_revision:state.rev}],error:null}}'+
@@ -30,18 +38,10 @@ async function main(){
     const url=new URL(route.request().url());
     if(url.hostname==='cdn.jsdelivr.net'&&url.pathname.includes('/@supabase/'))
      return route.fulfill({status:200,contentType:'application/javascript',body:fakeSupabase});
-    if(url.origin===BASE&&url.pathname==='/api/research/archive-search')
-     return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
-      total:2,archiveCount:2,cases:[
-       {id:'m40-a',title:'Alpha record',year:1976,location:'Belfast',source:'https://example.org/a'},
-       {id:'m40-b',title:'Beta record',year:1980,location:'London',source:'https://example.org/b'}]})});
-    if(url.origin===BASE&&url.pathname==='/api/research/boards')
-     return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
-      boards:[{name:'Sample Board',id:'qa-board'}]})});
-    if(url.origin===BASE&&url.pathname==='/api/research/boards/qa-board')
-     return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
-      board:{name:'Sample Board',comparisons:[{title:'Saved pair',cases:[
-       {title:'Board Alpha',location:'UK'},{title:'Board Beta',location:'USA'}]}]}})});
+    // The real cloud bridge handles /api routes inside the page. Stub its
+    // underlying data sources, so this exercises filtering and Board loading.
+    if(url.origin===BASE&&url.pathname==='/research/data/curated-public-cases.json')
+     return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(archiveFixture)});
     return url.origin===BASE?route.continue():route.abort('blockedbyclient');
    });
    const page=await ctx.newPage();const errors=[];
@@ -60,6 +60,8 @@ async function main(){
    await page.locator('#dd-compare-archive-tab').click();
    await page.locator('#dd-archive-query').fill('alpha');
    await page.locator('#dd-archive-results input[type=checkbox]').nth(1).waitFor({timeout:9000});
+   assert.equal(await page.locator('#dd-archive-results input[type=checkbox]').count(),2);
+   assert.match(await page.locator('#dd-archive-status').innerText(),/2 matches in 3 mapped cases/);
    await page.locator('#dd-archive-results input[type=checkbox]').nth(0).check();
    await page.locator('#dd-archive-results input[type=checkbox]').nth(1).check();
    await page.waitForFunction(()=>document.getElementById('dd-preview-message')?.textContent?.includes('Alpha record')&&
@@ -69,7 +71,7 @@ async function main(){
    assert.equal(await page.locator('#editor .dd-comparison-block').count(),1);
    passed++;console.log('PASS M40 '+width+'px Archive comparison auto-previews and inserts only on confirmation');
    await page.locator('#dd-word-context-v1 [data-action=compare]').click();
-   await page.locator('#dd-compare-board').selectOption('qa-board');
+   await page.locator('#dd-compare-board').selectOption(BOARD);
    await page.locator('#dd-compare-item option[value="0"]').waitFor();
    await page.locator('#dd-compare-item').selectOption('0');
    await page.waitForFunction(()=>document.getElementById('dd-preview-message')?.textContent?.includes('Board Alpha'));
