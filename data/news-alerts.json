@@ -32,6 +32,8 @@
     "category": "UAP",
     "priority": "standard",
     "desc": "Read the source article for details.",
+    "imageUrl": "https://img.etimg.com/thumb/msid-135717748,width-1200,height-900,overlay-economictimes/news/international/world-news/3-times-faster-than-an-f-22-trump-reveals-air-force-pilots-bizarre-ufo-encounter.jpg",
+    "imageSource": "Publisher Open Graph image",
     "relatedCoverage": [
       {
         "id": "1a6f96e77c037f199375",
@@ -213,9 +215,7 @@
         "priority": "standard",
         "desc": "Read the source article for details."
       }
-    ],
-    "imageUrl": "https://img.etimg.com/thumb/msid-135717748,width-1200,height-900,overlay-economictimes/news/international/world-news/3-times-faster-than-an-f-22-trump-reveals-air-force-pilots-bizarre-ufo-encounter.jpg",
-    "imageSource": "Publisher Open Graph image"
+    ]
   },
   {
     "id": "982a6f7a83d252d9133f",
@@ -691,7 +691,9 @@
     "date": "2026-11-06T03:57:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://www.youtube.com/watch?is=9UAS1R7MVckTsLqL&v=Cz2XTZKPMi0&feature=youtu.be",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "1abce03374423a199fa6",
@@ -701,7 +703,9 @@
     "date": "2026-11-05T22:34:12+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://media.pubninja.com/galleries/brand-7/how-a-1947-ufo-sighting-near-mt-rainier-popularized-the-term-flying-saucer-mw43apac/thumbnail/poster.webp?v=1793916049013",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "dfcd50ddd2d7d90dd3d1",
