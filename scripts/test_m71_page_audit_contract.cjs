@@ -34,6 +34,10 @@ for(const phrase of ['window.DDSavePublicLinkToBoard','window.DDSharePublicLink'
  assert(live.includes(phrase),'Working hearing Board/Share/Comments controls remain: '+phrase);
 assert.match(rail,/const ranks=Object\.freeze\(\{vote:0,comments:1,board:2,share:3,extra:4,reply:5,spacer:6\}\)/);
 assert.match(rail,/appendChild\(item\.el\)/,'Existing node handlers preserved');
+assert.match(rail,/\[data-dd-witness-vote\]/,'Witness vote host is ordered before Board/Share');
+assert.match(html,/kind==='archive'[\s\S]*?dataset\.newsComments===ref/,'Profile Archive replies still link to correct inline source');
+assert.match(html,/else \{navigateTo\('cases'\);const mount=\[/,'Profile case replies focus the new inline case source');
+
 assert.doesNotMatch(rail,/dd_vote_set|\.rpc\(/,'Presentation cannot fabricate vote numbers or writes');
 for(const name of ['dd-news-inline-comments','dd-immersive-inline-comments','dd-live-hearing-action-rail',
  'dd-comment-action-rail','dd-forum-actions','dd-media-actions','dd-archive-action-rail']){
