@@ -71,6 +71,7 @@ async function main(){
    assert.equal(await page.locator('#editor .dd-comparison-block').count(),1);
    passed++;console.log('PASS M40 '+width+'px Archive comparison auto-previews and inserts only on confirmation');
    await page.locator('#dd-word-context-v1 [data-action=compare]').click();
+   await page.locator('#dd-compare-boards-tab').click();
    await page.locator('#dd-compare-board').selectOption(BOARD);
    await page.locator('#dd-compare-item option[value="0"]').waitFor();
    await page.locator('#dd-compare-item').selectOption('0');
