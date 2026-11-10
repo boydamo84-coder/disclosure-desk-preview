@@ -19,6 +19,7 @@ function role(node){
 function normalise(rail){
  if(!rail?.isConnected||!rail.matches(selector))return;
  rail.classList.add('dd-unified-rail');
+ if(rail.matches('.dd-witness-action-rail'))rail.classList.add('dd-action-rail');
  rail.dataset.ddRailType=rail.closest('.dd-comment-card,.dd-forum-reply-card')?'comment':'post';
  if(!rail.hasAttribute('role'))rail.setAttribute('role','group');
  if(!rail.hasAttribute('aria-label'))rail.setAttribute('aria-label',
