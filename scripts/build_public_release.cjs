@@ -24,7 +24,7 @@ function copy(rel){
 // must never silently make it publicly accessible on a subsequent deploy.
 const approvedWeb=Object.freeze({
  assets:[
-  'analytics-consent.js','case-comment-moderation.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
+  'media-submissions.js','community-polish.css','analytics-consent.js','case-comment-moderation.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
   'community-test-config.js','community-votes.js','disclosure-desk-mark.svg',
   'discussions-admin.js','historical-satellite.js','inline-news-comments.js',
   'live-chat.js','live-hearings.js','live-schedule.css','live-schedule.js',
@@ -33,7 +33,7 @@ const approvedWeb=Object.freeze({
   'support-site.js','watch-read.js','witness-community.js'
  ],
  research:[
-  'docx-tools.js','guest-preview.html','import-cloud-bridge.js','import.html',
+  'google-drive-config.js','google-drive.js','vendor-jszip-3.10.1.js','vendor-dompurify-3.4.17.js','vendor-docx-9.5.1.js','vendor-mammoth-1.12.3.js','docx-tools.js','docx-import-worker.js','guest-preview.html','import-cloud-bridge.js','import.html',
   'index.html','research-auth-guard.js','research-bible.html','research-entry.js',
   'research-library-cloud-bridge.js','research-site-nav.css',
   'research-docx-import.js','research-insert-menu.js','research-site-nav.js','research-text-size.js','research-workspace.html','restore-copy.html',
