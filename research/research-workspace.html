@@ -97,12 +97,13 @@ body.layout-horizontal.mode-both main::-webkit-scrollbar-thumb{background:#bfa77
   <h3>Work with Word files</h3>
   <a id="dd-home-import-word" href="./import.html">📥 Import Word document <small>Create a new report from a DOCX file</small></a>
   <button id="dd-home-download-word" type="button">📄 Download Word copy <small>Save a DOCX copy of the current report</small></button>
+  <button id="dd-home-google-drive" type="button">☁ Google Drive <small>Back up and open Word copies</small></button>
  </section>
- <details id="dd-home-backup-details"><summary>Advanced backup &amp; recovery</summary>
+ <details id="dd-home-backup-details"><summary>Backups &amp; earlier versions</summary>
   <p class="dd-home-explain">Use these when recovering a full W.NE backup. For everyday copies, use Word above. Recovery makes new documents — it never overwrites existing ones.</p>
-  <div class="dd-home-recovery-links"><a href="./restore-library.html">Restore full library ZIP <small>For a complete W.NE library backup</small></a><a href="./restore-copy.html">Restore older JSON backup <small>Recover one W.NE-format document</small></a></div>
+  <div class="dd-home-recovery-links"><a href="./restore-library.html">Restore full library ZIP <small>For a complete W.NE library backup</small></a><a href="./restore-copy.html">Restore an older backup <small>For an older W.NE recovery file</small></a></div>
   <div id="dd-live-readiness"><strong>About backups</strong><p>Cloud reports use your signed-in Disclosure Desk account. Some legacy references, device-only Boards and snapshots may need separate copies. Keep an independent backup of important research.</p></div>
-  <details id="dd-cloud-staging" style="margin:12px 0;padding:12px;border:1px solid #627487;border-radius:10px">
+  <details id="dd-cloud-staging" hidden style="margin:12px 0;padding:12px;border:1px solid #627487;border-radius:10px">
 <summary style="cursor:pointer;color:#e3c18d;font-weight:700">☁️ Cloud documents · staging preview</summary>
 <p style="font-size:12px">Manual cloud copies for testing only. Your existing local files and Boards are never deleted or overwritten.</p>
 <label style="display:block;margin:8px 0">Disclosure Desk email<input id="dd-cloud-email" type="email" autocomplete="username" placeholder="Email"></label>
@@ -261,6 +262,7 @@ if(document.body.dataset.researchFirstDocument==='true'){
  },0);
 }
 document.getElementById('dd-close-documents').onclick=()=>dlg.close();
+document.getElementById('dd-home-google-drive')?.addEventListener('click',()=>{const drive=writer.contentWindow?.DDResearchDrive;if(!drive?.open){msg.textContent='Open a document first, then choose Google Drive.';return}dlg.close();void drive.open()});
 document.getElementById('dd-home-download-word')?.addEventListener('click',async()=>{
  if(switching)return;
  switching=true;
@@ -269,7 +271,9 @@ document.getElementById('dd-home-download-word')?.addEventListener('click',async
  try{
   const current=new URL(writer.getAttribute('src')||'',location.href).searchParams.get('id');
   if(!current)throw Error('Open or create a document first, then download its Word copy.');
-  msg.textContent='Confirming the current report is saved…';
+  msg.textContent='Preparing a Word copy of your current writing…';
+  const liveWordCopy=writer.contentWindow?.wneDownloadWordCopy;
+  if(typeof liveWordCopy==='function'){await liveWordCopy();msg.textContent='Word copy prepared. Check Downloads.';return}
   await requireCurrentSaved('before downloading Word copy');
   const exporter=writer.contentWindow?.WNEHostedExport;
   if(typeof exporter!=='function')throw Error('Word export is still loading. Keep the report open and retry.');
@@ -383,11 +387,12 @@ $('dd-cloud-refresh').onclick=()=>run($('dd-cloud-refresh'),async()=>{
   b.onclick=()=>run(b,async()=>{
    const docs=await request('/rest/v1/research_documents?select=content,title&id=eq.'+encodeURIComponent(d.id)+'&limit=1');
    if(!Array.isArray(docs)||!docs.length)throw Error('Document is unavailable for this account');
-   const data=JSON.stringify(docs[0].content,null,2);
-   const blob=new Blob([data],{type:'application/json'}),url=URL.createObjectURL(blob);
-   try{const a=document.createElement('a');a.href=url;a.download='research-cloud-copy-'+d.id+'.json';a.click()}
+   const parser=writer.contentWindow?.DDResearchDocx;
+   if(!parser?.exportFile)throw Error('Open a report first so the Word tools can load.');
+   const blob=await parser.exportFile(docs[0].content),url=URL.createObjectURL(blob);
+   try{const a=document.createElement('a');a.href=url;a.download='research-cloud-copy-'+d.id+'.docx';a.click()}
    finally{setTimeout(()=>URL.revokeObjectURL(url),60000)}
-   say('Downloaded separate JSON copy. Local research unchanged.');
+   say('Word copy prepared. Check Downloads.');
   });
   const open=document.createElement('button');open.type='button';
   open.textContent='＋ Save as new local document · '+d.title;
@@ -396,7 +401,7 @@ $('dd-cloud-refresh').onclick=()=>run($('dd-cloud-refresh'),async()=>{
    if(!Array.isArray(docs)||!docs.length)throw Error('Cloud document unavailable');
    const imported=docs[0].content;
    if(imported?.version!==2||!Array.isArray(imported.chapters)||!imported.chapters.length){
-    throw Error('This is an older test report, not a complete editor document. Download JSON copy instead.');
+    throw Error('This is an older test report, not a complete editor document. Keep your original recovery file for support.');
    }
    if(!await window.WNEDialogs.confirm('Create a NEW local copy of '+d.title+'? Existing local documents will not be replaced.'))return;
    const response=await fetch('/api/library',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'import-cloud-copy',document:imported})});
