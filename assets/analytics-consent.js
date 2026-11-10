@@ -80,7 +80,11 @@ function deleteAnalyticsCookies(){
 }
 function choose(yes){
  store(yes?'accepted':'declined');show(false);
- if(yes){measure(current())}
+ if(yes){
+  bootTag();
+  if(started&&window.gtag)window.gtag('consent','update',{analytics_storage:'granted'});
+  lastPage='';measure(current());
+ }
  else{lastPage='';if(started&&window.gtag)
   window.gtag('consent','update',{analytics_storage:'denied'});
   deleteAnalyticsCookies()}
@@ -116,11 +120,13 @@ window.addEventListener('dd-public-section-change',event=>{
 });
 window.addEventListener('storage',event=>{
  if(event.key!==KEY)return;
- if(event.newValue==='accepted'){state='accepted';show(false);measure(current());}
+ if(event.newValue==='accepted'){choose(true);}
  else if(event.newValue==='declined'){state='declined';show(false);
   if(started&&window.gtag)window.gtag('consent','update',{analytics_storage:'denied'});
   deleteAnalyticsCookies();
- }else{state=null;show(true)}
+ }else{state=null;lastPage='';
+  if(started&&window.gtag)window.gtag('consent','update',{analytics_storage:'denied'});
+  deleteAnalyticsCookies();show(true)}
  refreshStatus();
 });
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',create,{once:true});
