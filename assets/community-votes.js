@@ -164,6 +164,82 @@ function mountCommentCard(card,header,body,flag,id,onReply,context={}){
   share.addEventListener('click',()=>void window.DDSharePublicLink?.(label,link.href));
   rail.append(star,share);
  }
+ // M73: public News, Archive, Video, Watch & Read and Case/Hearing comments
+ // share the same own-comment controls as Discussions. dd_public_comments()
+ // supplies is_mine from auth.uid(), but server-side RPC checks ownership again.
+ if(context?.isMine===true){
+  const notice=make('span','dd-comment-action-notice');
+  notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');
+  const callOwner=async(name,args)=>{
+   const c=client();
+   if(!c)throw new Error('Sign-in service unavailable.');
+   const {data,error}=await c.auth.getUser();
+   if(error||!data?.user||data.user.is_anonymous)throw new Error('Sign in with a registered account.');
+   const result=await c.rpc(name,args);
+   if(result.error)throw result.error;
+   if(result.data!==true&&!(Array.isArray(result.data)&&result.data[0]===true))
+    throw new Error('This comment could not be changed. Refresh and check your account.');
+   return true;
+  };
+  const changed=async()=>{
+   if(typeof context.onChanged==='function')await context.onChanged();
+   else if(card.isConnected)card.remove();
+  };
+  const deletion=make('button','dd-comment-delete-button','🗑');
+  deletion.type='button';deletion.title='Delete my comment';
+  deletion.setAttribute('aria-label','Delete my comment');
+  deletion.addEventListener('click',async()=>{
+   if(!window.confirm('Delete your comment? This cannot be undone. Existing replies by other members will remain visible.'))return;
+   deletion.disabled=true;notice.textContent='Deleting…';
+   try{
+    await callOwner('dd_delete_my_comment',{p_id:id});
+    notice.textContent='Comment deleted.';
+    await changed();
+   }catch(err){notice.textContent='Could not delete comment. '+String(err?.message||'Try again.')}
+   finally{deletion.disabled=false}
+  });
+  rail.append(deletion);
+  const posted=Date.parse(String(context.createdAt||''));
+  const editable=Number.isFinite(posted)&&Date.now()>=posted&&Date.now()-posted<30*60*1000;
+  if(editable){
+   const more=make('details','dd-comment-more');
+   const summary=make('summary','dd-comment-more-trigger','⋯');
+   summary.setAttribute('aria-label','More actions for my comment');
+   summary.setAttribute('title','More actions');
+   const menu=make('div','dd-comment-more-panel');
+   const edit=make('button','dd-comment-edit-button','Edit comment');
+   edit.type='button';
+   menu.append(edit);more.append(summary,menu);rail.append(more);
+   edit.addEventListener('click',()=>{
+    more.open=false;
+    if(card.querySelector('.dd-comment-edit-form'))return;
+    const form=make('form','dd-comment-edit-form');
+    const label=make('label','','Edit my comment');
+    const input=make('textarea','dd-comment-edit-input');
+    input.value=String(context.body||body.textContent||'');
+    input.minLength=3;input.maxLength=2000;input.required=true;input.rows=3;
+    const controls=make('div','dd-comment-edit-actions');
+    const save=make('button','dd-comment-edit-save','Save changes');save.type='submit';
+    const cancel=make('button','dd-comment-edit-cancel','Cancel');cancel.type='button';
+    cancel.onclick=()=>form.remove();
+    controls.append(cancel,save);label.append(input);
+    form.append(label,controls);card.append(form);input.focus({preventScroll:true});
+    form.onsubmit=async event=>{
+     event.preventDefault();
+     const value=input.value.trim();
+     if(value.length<3||value.length>2000)return;
+     save.disabled=true;notice.textContent='Saving edit…';
+     try{
+      await callOwner('dd_edit_my_comment',{p_id:id,p_body:value});
+      notice.textContent='Comment updated.';
+      await changed();
+     }catch(err){notice.textContent='Edit unavailable. '+String(err?.message||'Try again.')}
+     finally{save.disabled=false}
+    };
+   });
+  }
+  rail.append(notice);
+ }
  if(typeof onReply==='function'){
   const reply=make('button','dd-comment-reply-button','↳ Reply');
   reply.type='button';reply.setAttribute('aria-label','Reply to this comment');
