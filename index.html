@@ -1122,8 +1122,9 @@ function news(){
  document.querySelectorAll('[data-news-rabbit-panel]').forEach(el=>el.addEventListener('click',e=>{const btn=e.target.closest('[data-live-rabbit]');if(!btn)return;const data=el._rabbitData;if(!data)return;const item=btn.hasAttribute('data-live-search')?(data.searches||[])[Number(btn.dataset.liveSearch)]:(data.stories||[]).filter(x=>safePublicUrl(x.url))[Number(btn.dataset.liveIndex)];if(item)addInvestigationLink(item.title,item.url)}));
 }
 const DD_NEWS_CACHE_KEY='dd_online_news_cache_v1';
-// GitHub Actions publishes the continually refreshed news catalogue to main.
-// Never use a development branch or require a Netlify deploy for each refresh.
+// GitHub-hosted news refreshes independently of Netlify. The active upstream
+// currently updates the development-feed branch; main is a fallback mirror.
+// Select the latest valid sourced article date, not a presumed branch freshness.
 const DD_NEWS_REMOTES=[
  {url:'https://raw.githubusercontent.com/boydamo84-coder/disclosure-desk-preview/dev/mobile-video-performance-oct31/data/news-alerts.json',label:'GitHub active feed'},
  {url:'https://raw.githubusercontent.com/boydamo84-coder/disclosure-desk-preview/main/data/news-alerts.json',label:'GitHub main mirror'}
