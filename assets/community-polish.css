@@ -454,3 +454,13 @@
   padding:8px 10px;font-size:12px
  }
 }
+
+/* M63: member-owned, server-calculated received reactions. No voter details. */
+#profilePage .dd-profile-reactions{border:1px solid #3d5867;border-radius:15px;background:#102737;padding:15px 17px;margin:14px 0}
+#profilePage .dd-profile-reactions h3{font-size:15px;color:#e5c58b;margin:0 0 10px}
+#profilePage .dd-profile-reaction-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#profilePage .dd-profile-reaction-item{display:flex;flex-direction:column;gap:5px;padding:14px;border:1px solid #40596b;border-radius:12px;background:#0b1e2d;min-width:0}
+#profilePage .dd-profile-reaction-item strong{font-size:clamp(25px,4vw,35px);line-height:1.2;color:#f1d9a7;font-variant-numeric:tabular-nums}
+#profilePage .dd-profile-reaction-item small{color:#c2d1db;line-height:1.4}
+#profilePage #ddProfileReactionBreakdown{margin:10px 0 0;line-height:1.5}
+@media(max-width:360px){#profilePage .dd-profile-reactions{padding:12px}#profilePage .dd-profile-reaction-item{padding:10px}}
