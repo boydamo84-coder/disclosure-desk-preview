@@ -7,7 +7,8 @@
     "date": "2026-11-01T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/10/31/92cefc93-e8e5-43f1-bb77-8c7ff3044915/thumbnail/1200x630/1fecf9d18a0a263af523749271a445b1/uaps-top-secret-1280.jpg"
+    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/10/31/92cefc93-e8e5-43f1-bb77-8c7ff3044915/thumbnail/1200x630/1fecf9d18a0a263af523749271a445b1/uaps-top-secret-1280.jpg",
+    "publisherUrl": "https://www.cbsnews.com/news/is-the-truth-really-out-there-studying-uap-sightings/"
   },
   {
     "id": "63f7be4828e9ea82f3c3",
@@ -50,7 +51,8 @@
     "date": "2026-10-23T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://i.guim.co.uk/img/media/88c4a85fbc23a00f87395cdc6dff14db1ee7f624/0_0_1379_1104/master/1379.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=f32b1954d1997027fc2e2cd0f3ec4ca1"
+    "imageUrl": "https://i.guim.co.uk/img/media/88c4a85fbc23a00f87395cdc6dff14db1ee7f624/0_0_1379_1104/master/1379.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=f32b1954d1997027fc2e2cd0f3ec4ca1",
+    "publisherUrl": "https://www.theguardian.com/world/2026/oct/23/ufo-pentagon-files"
   },
   {
     "id": "5945b4c646b3c3b11ddb",
@@ -964,8 +966,7 @@
     "date": "2026-04-05T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8",
-    "publisherUrl": "https://www.theguardian.com/us-news/2026/apr/05/alien-life-nasa-jared-isaacman-artemis-ii"
+    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8"
   },
   {
     "id": "ef2cf6dd2b9e6f0cd58a",
@@ -987,8 +988,7 @@
     "date": "2026-04-03T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg",
-    "publisherUrl": "https://www.bbc.com/news/articles/cvg58ydn4jpo"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg"
   },
   {
     "id": "8d06dd474e5f2e6f3926",
