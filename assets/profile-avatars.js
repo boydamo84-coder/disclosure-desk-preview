@@ -8,9 +8,9 @@ const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
 const enabled=window.DD_COMMUNITY_FEATURES?.profileAvatars===true &&
  ['test','production'].includes(cfg.environment)&&!!cfg.url&&!!cfg.publishableKey;
 const BUCKET='dd-profile-avatars',MAX_INPUT=5*1024*1024,MAX_OUTPUT=1024*1024;
-const $=id=>document.getElementById(id),panel=$('ddAvatarPanel');
-if(!panel)return;
-panel.hidden=!enabled;if(!enabled)return;
+const $=id=>document.getElementById(id),panel=$('ddAvatarPanel'),settingsPanel=$('ddAvatarSettings');
+if(!panel||!settingsPanel)return;
+panel.hidden=!enabled;settingsPanel.hidden=!enabled;if(!enabled)return;
 const image=$('ddAvatarImage'),fallback=$('ddAvatarFallback'),file=$('ddAvatarFile'),
  save=$('ddAvatarSave'),remove=$('ddAvatarRemove'),status=$('ddAvatarStatus'),visible=$('ddAvatarVisible');
 if(!image||!fallback||!file||!save||!remove||!status||!visible)return;
@@ -71,7 +71,7 @@ async function settings(c){
 }
 async function refresh(){
  const generation=++epoch,c=client();
- if(!c){owner=null;reset();panel.hidden=true;return}
+ if(!c){owner=null;reset();panel.hidden=true;settingsPanel.hidden=true;return}
  let user;
  try{const auth=await c.auth.getUser();
   if(generation!==epoch)return;
@@ -79,10 +79,10 @@ async function refresh(){
  }catch(_){user=null}
  if(generation!==epoch)return;
  if(!user||!validId(user.id)){
-  owner=null;reset();panel.hidden=true;say('Sign in to manage your profile photo.');return;
+  owner=null;reset();panel.hidden=true;settingsPanel.hidden=true;say('Sign in to manage your profile photo.');return;
  }
  if(owner!==user.id){owner=user.id;reset();}
- panel.hidden=false;if(operation)return;
+ panel.hidden=false;settingsPanel.hidden=false;if(operation)return;
  say('Loading profile-photo preferences…');
  let prefs;
  try{prefs=await settings(c);}catch(e){

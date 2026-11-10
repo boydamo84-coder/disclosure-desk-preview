@@ -465,3 +465,175 @@
 #profilePage .dd-profile-reaction-info summary:focus-visible{outline:2px solid #e5c58b;outline-offset:2px}
 #profilePage .dd-profile-reaction-info[open]{flex-basis:100%}
 #profilePage #ddProfileReactionBreakdown{margin:4px 0 0;max-width:65ch;line-height:1.5;overflow-wrap:anywhere}
+
+/* M66: Profile-first identity layout. Photo management stays in settings. */
+#profilePage .dd-profile-heading{margin-bottom:8px}
+#profilePage .dd-profile-identity{padding:15px 17px;margin:8px 0 12px}
+#profilePage .dd-profile-identity-main{display:flex;align-items:center;gap:16px;min-width:0}
+#profilePage .dd-profile-identity-avatar{flex:0 0 82px;min-width:0}
+#profilePage .dd-profile-identity-avatar[hidden]{display:none!important}
+#profilePage .dd-profile-identity-avatar .dd-avatar-circle{width:80px;height:80px;border-width:2px;box-shadow:0 0 0 2px #142a37;max-width:100%}
+#profilePage .dd-profile-identity-avatar .dd-avatar-circle span{font-size:32px}
+#profilePage .dd-profile-identity-content{flex:1;min-width:0}
+#profilePage .dd-profile-identity-content .dd-studio-eyebrow{font-size:10px;margin-bottom:4px}
+#profilePage .dd-profile-name-line{display:flex;align-items:center;gap:8px;justify-content:space-between;min-width:0}
+#profilePage #ddProfileDisplayName{margin:0;font-size:clamp(18px,2.2vw,23px);line-height:1.25;overflow-wrap:anywhere;min-width:0}
+#profilePage #ddProfileRefresh{display:grid;place-items:center;min-width:36px;width:36px;height:36px;min-height:36px;padding:0;font-size:20px;flex:none;border-radius:10px}
+#profilePage .dd-profile-identity .dd-profile-reactions{margin-top:7px;gap:2px 12px;font-size:11px;line-height:1.45}
+#profilePage .dd-profile-identity .dd-profile-reaction-item strong{font-size:13px}
+#profilePage .dd-profile-identity .dd-profile-reaction-info summary{width:28px;min-width:28px;height:28px;min-height:28px}
+#profilePage .dd-profile-stats{margin-bottom:8px}
+#profilePage .dd-profile-stat{min-width:0}
+#profilePage .dd-profile-stat small{display:block;overflow-wrap:anywhere;line-height:1.4}
+#profilePage #ddProfileStatus{margin:4px 0 12px}
+#profilePage #ddProfileSettings{grid-column:1/-1}
+#profilePage .dd-profile-settings-meta{display:flex;gap:6px 16px;flex-wrap:wrap;padding:0 0 12px;border-bottom:1px solid #355062}
+#profilePage .dd-profile-settings-meta p{margin:0}
+#profilePage .dd-profile-settings>.dd-profile-card{margin:12px 0 0;border-color:#365064;background:#122c3b}
+#profilePage .dd-profile-settings-photo .dd-avatar-tools{width:100%;min-width:0}
+#profilePage .dd-profile-photo-actions{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:6px 0 12px}
+#profilePage .dd-avatar-file-trigger{position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:125px;cursor:pointer;overflow:hidden;text-decoration:none}
+#profilePage .dd-avatar-file-trigger input[type=file]{position:absolute;inset:0;display:block;opacity:0;width:100%;height:100%;padding:0;margin:0;cursor:pointer;z-index:1}
+#profilePage .dd-avatar-file-trigger:focus-within{outline:2px solid #e8c98d;outline-offset:3px}
+#profilePage .dd-avatar-file-trigger:has(input:disabled){opacity:.6;cursor:not-allowed}
+#profilePage #ddAvatarSettings .dd-avatar-information{margin:8px 0}
+#profilePage #ddAvatarSettings .dd-avatar-information>summary{display:inline-flex;align-items:center;gap:6px;width:auto;height:auto;min-height:36px;padding:7px 10px;font-size:12px;border-radius:9px}
+#profilePage #ddAvatarSettings .dd-avatar-visible-toggle{margin:12px 0 8px}
+#profilePage #ddAvatarStatus{margin:7px 0 2px}
+@media(max-width:360px){
+ #profilePage .dd-profile-identity{padding:12px}
+ #profilePage .dd-profile-identity-main{gap:11px}
+ #profilePage .dd-profile-identity-avatar{flex-basis:70px}
+ #profilePage .dd-profile-identity-avatar .dd-avatar-circle{width:68px;height:68px}
+ #profilePage .dd-profile-identity .dd-profile-reactions{gap:0 7px;font-size:10px}
+ #profilePage .dd-profile-stats{gap:6px}
+ #profilePage .dd-profile-stat{padding:8px 6px}
+ #profilePage .dd-profile-stat strong{font-size:19px}
+ #profilePage .dd-profile-stat small{font-size:10px}
+}
+
+/* M67 — one News-style action strip on research/media cards. */
+.dd-archive-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;min-width:0}
+.dd-archive-card-head>h2{margin:0;min-width:0;overflow-wrap:anywhere}
+.dd-archive-card-head>.tag{min-width:0;white-space:normal;line-height:1.5}
+.dd-archive-follow{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:6px 10px;border:1px solid #657265;border-radius:20px;background:#18313d;color:#ead09b;font:650 12px/1.3 system-ui;white-space:nowrap}
+.dd-archive-follow[aria-pressed=true]{background:#29444c;color:#ffe2a7}
+.dd-archive-action-rail,.dd-research-action-rail,#ddWatchRead .dd-media-actions,#clips .clip-utility-actions{display:flex!important;justify-content:flex-end!important;flex-flow:row wrap!important;gap:2px!important;min-width:0;max-width:100%;margin:0!important}
+.dd-archive-action-rail button,.dd-research-action-rail button,#ddWatchRead .dd-media-actions button,#clips .clip-utility-actions button{background:transparent!important;border:0!important;box-shadow:none!important;flex:0 0 auto!important;max-width:100%;min-width:36px!important;min-height:44px!important;padding:6px 7px!important}
+.dd-archive-action-rail .dd-card-compare-action{font-size:11px!important;color:#e8c58c!important}
+.dd-archive-action-rail .dd-card-citation-action{font-size:19px!important;margin:0!important;min-width:36px!important}
+.dd-research-action-rail .map-save-case{width:auto!important;height:auto!important}
+.dd-archive-card>.dd-news-inline-comments:not([hidden]),.dd-video-feed-card>.dd-news-inline-comments:not([hidden]),.dd-media-card>.dd-news-inline-comments:not([hidden]){padding:8px 12px 12px;border-top:1px solid var(--dd-social-line);background:#102635}
+.dd-news-inline-comments[hidden],.dd-media-ratings[hidden]{display:none!important}
+.dd-comments-dropdown{font-size:13px!important}
+#ddWatchRead .dd-media-ratings{padding:10px 14px;border-top:1px solid var(--dd-social-line);margin:0;min-width:0}
+#ddWatchRead .dd-media-ratings select{max-width:100%;min-height:40px}
+#ddWatchRead .dd-media-actions .dd-media-rate{font-size:11px!important}
+#clips .dd-video-feed-card{display:flex;flex-direction:column;justify-content:flex-start;min-height:0!important;height:auto!important;overflow:hidden;border-radius:14px;scroll-snap-align:start}
+#clips .dd-video-card-player{position:relative;flex:none;width:100%;aspect-ratio:16/9;overflow:hidden;background:#05080e}
+#clips .dd-video-card-player video,#clips .dd-video-card-player iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+#clips .dd-video-card-player .clip-placeholder{position:absolute;inset:0;min-height:0;height:100%}
+#clips .dd-video-feed-card>.clip-info{position:static;flex:none;padding:15px 14px;min-width:0;z-index:auto}
+#clips .dd-video-feed-card>.clip-info h3{overflow-wrap:anywhere}
+#clips .dd-video-feed-card>.clip-utility-actions{position:static;width:100%;flex:none;z-index:auto}
+#clips .dd-video-feed-card>.dd-news-inline-comments{position:static;flex:none;width:100%;min-width:0}
+
+.dd-news-inline-comments[data-comments-collapsed=true]{box-sizing:border-box;width:100%;max-width:none;margin:0}
+.dd-news-inline-comments[data-comments-collapsed=true] .dd-inline-comments-preview{display:block;width:100%;min-width:0;max-width:none}
+.dd-news-inline-comments[data-comments-collapsed=true] .dd-inline-comments-preview>.card{width:auto;max-width:100%;min-width:0}
+.dd-news-inline-comments[data-comments-collapsed=true] textarea{min-height:44px!important;max-height:94px!important;height:44px;resize:none;overflow-y:auto;line-height:1.5;padding:10px 11px;background:#172f3f;color:#edf2f5;border:1px solid #456073;border-radius:9px;font-size:14px}
+
+/* M68 — continuous comment threads, with compact rows and quiet reply guides.
+   Post/card action strips stay unchanged. Public and forum reply APIs stay unchanged. */
+:root{--dd-thread-step:14px;--dd-thread-guide:#365361}
+.dd-news-inline-comments .dd-inline-comments-preview,
+#ddCaseDiscussionList,
+#discussionsPage #ddForumThreadPane.dd-forum-detail-open #ddForumReplies{
+ display:block!important;grid-template-columns:none!important;gap:0!important
+}
+.dd-comment-card.card,
+#newsGrid article .dd-news-inline-comments .dd-comment-card,
+#discussionsPage #ddForumReplies .dd-forum-reply-card{
+ position:relative!important;box-sizing:border-box!important;min-width:0!important;
+ width:100%;max-width:100%;margin:0!important;padding:3px 0 1px!important;
+ background:transparent!important;border:0!important;border-radius:0!important;
+ box-shadow:none!important;overflow:visible!important
+}
+.dd-comment-card .dd-comment-main,
+#discussionsPage #ddForumReplies .dd-forum-reply-card .dd-forum-post-main{
+ padding:0!important;min-width:0
+}
+.dd-comment-card .dd-comment-head,
+#discussionsPage #ddForumReplies .dd-forum-post-head{
+ position:relative;display:flex;align-items:center;gap:6px;
+ padding:0 42px 0 0!important;min-height:36px!important;margin:0!important
+}
+.dd-comment-card .dd-comment-head .dd-forum-avatar,
+#discussionsPage #ddForumReplies .dd-forum-avatar{
+ flex:0 0 24px!important;width:24px!important;height:24px!important;min-width:24px!important;
+ margin:0!important;font-size:10px!important
+}
+.dd-comment-card .dd-comment-head>span:not(.dd-forum-avatar),
+#discussionsPage #ddForumReplies .dd-forum-post-author>small{
+ color:#abc0cb;font-size:11px;line-height:1.4;overflow-wrap:anywhere
+}
+.dd-comment-card .dd-comment-flag,
+#discussionsPage #ddForumReplies .dd-forum-head-flag{
+ position:absolute!important;right:0!important;top:0!important;margin:0!important
+}
+.dd-comment-card .dd-comment-flag,
+#discussionsPage #ddForumReplies .dd-forum-head-flag button{
+ width:40px!important;min-width:40px!important;height:36px!important;min-height:36px!important;
+ padding:5px!important;border:0!important;border-radius:7px!important;background:transparent!important
+}
+.dd-comment-card .dd-comment-body,
+#discussionsPage #ddForumReplies .dd-forum-body{
+ display:block!important;margin:0 0 2px 30px!important;font-size:14px!important;
+ line-height:1.55!important;color:#dbe5ea!important;white-space:pre-wrap!important;
+ overflow-wrap:anywhere!important;-webkit-line-clamp:unset!important
+}
+.dd-comment-card .dd-comment-action-rail.dd-action-rail,
+#newsGrid article .dd-news-inline-comments .dd-comment-card .dd-comment-action-rail.dd-action-rail,
+#ddCaseDiscussionDialog .dd-comment-card .dd-comment-action-rail.dd-action-rail,
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-action-rail{
+ display:flex!important;flex-flow:row wrap!important;justify-content:flex-end!important;
+ min-height:40px!important;padding:0!important;margin:0!important;gap:1px!important;
+ background:transparent!important;border:0!important;box-shadow:none!important
+}
+.dd-comment-card .dd-comment-action-rail.dd-action-rail button,
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-action-rail button{
+ flex:0 0 auto!important;min-height:40px!important;min-width:32px!important;
+ padding:4px 5px!important;background:transparent!important;border:0!important;
+ border-radius:7px!important;font-size:11px!important
+}
+.dd-comment-card .dd-comment-action-rail.dd-action-rail .dd-action-board,
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-action-rail .dd-forum-star-action{font-size:18px!important}
+.dd-comment-card .dd-comment-action-rail.dd-action-rail .dd-action-share svg,
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-action-rail .dd-forum-share-action svg{width:18px!important;height:18px!important}
+.dd-comment-card .dd-comment-action-rail.dd-action-rail button:hover,
+.dd-comment-card .dd-comment-action-rail.dd-action-rail button:focus-visible,
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-action-rail button:hover,
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-action-rail button:focus-visible{background:#213b4b!important}
+.dd-comment-card .dd-comment-action-rail.dd-action-rail button[aria-pressed=true],
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-action-rail button[aria-pressed=true]{background:#29444c!important;color:#ffe2a7!important}
+.dd-comment-card.dd-comment-nested,
+#discussionsPage #ddForumReplies .dd-forum-reply-card.dd-forum-nested-reply{
+ margin-left:calc(var(--dd-comment-depth,1) * var(--dd-thread-step))!important;
+ width:calc(100% - var(--dd-comment-depth,1) * var(--dd-thread-step));
+ padding-left:9px!important;border-left:1px solid var(--dd-thread-guide)!important
+}
+.dd-comment-card.dd-comment-nested::before,
+#discussionsPage #ddForumReplies .dd-forum-nested-reply::before{
+ content:"";position:absolute;left:0;top:21px;width:8px;border-top:1px solid var(--dd-thread-guide)
+}
+/* Parent context stays available to assistive readers without a second byline. */
+.dd-comment-card .dd-comment-parent-label,
+#discussionsPage #ddForumReplies .dd-forum-reply-target{
+ position:absolute!important;width:1px!important;height:1px!important;padding:0!important;
+ margin:-1px!important;overflow:hidden!important;clip-path:inset(50%);white-space:nowrap!important
+}
+@media(max-width:500px){
+ :root{--dd-thread-step:8px}
+ .dd-comment-card .dd-comment-body,
+ #discussionsPage #ddForumReplies .dd-forum-body{font-size:14px!important;line-height:1.55!important}
+}

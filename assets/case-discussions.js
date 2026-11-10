@@ -60,7 +60,7 @@ function renderComments(){
  const visible=expanded?all:all.slice(-2);
  for(const item of visible){
    const card=document.createElement('article');card.className='card';card.id='discussion-comment-'+item.id;card.style.cssText='margin:8px 0';
-   if(item.replyDepth>0)card.classList.add('dd-comment-nested');
+   if(item.replyDepth>0){card.classList.add('dd-comment-nested');card.style.setProperty('--dd-comment-depth',String(item.replyDepth))}
    const alias=item.publicAlias||'Community member';
    const header=document.createElement('div');header.className='muted small';
    header.style.cssText='display:flex;align-items:center;min-width:0';
