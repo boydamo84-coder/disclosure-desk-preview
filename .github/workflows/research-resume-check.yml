@@ -15,7 +15,11 @@ jobs:
           node-version: '22'
       - name: Syntax checks for modified modules
         run: |
+          node scripts/test_published_html_syntax.cjs
           node --check research/wne-cloud-bridge.js
+          node --check research/google-drive.js
+          node --check assets/media-submissions.js
+          node --check assets/watch-read.js
           node --check assets/profile-avatars.js
           node --check scripts/test_research_resume_20261108.cjs
       - name: M34 community and W.NE design contracts (NO deploy)
@@ -44,6 +48,8 @@ jobs:
         run: |
           node --check research/wne-cloud-bridge.js
           node scripts/test_research_backup_recovery_20261108.cjs
+          node scripts/test_research_drive_runtime.cjs
+          node scripts/test_docx_import_security.cjs
           node --check research/research-docx-import.js
           node --check scripts/test_research_docx_inline_import_20261108.cjs
           node scripts/test_research_docx_inline_import_20261108.cjs
@@ -234,3 +240,6 @@ jobs:
         run: |
           node --check scripts/test_m34_news_votes_pg_20261109.cjs
           node scripts/test_m34_news_votes_pg_20261109.cjs
+
+      - name: M42 private media nominations (disposable PostgreSQL only)
+        run: node scripts/test_media_submissions_pg.cjs
