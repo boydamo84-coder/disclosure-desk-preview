@@ -364,3 +364,93 @@
 .dd-comment-card .dd-comment-action-rail.dd-action-rail .dd-comment-reply-button{
  margin-left:0!important
 }
+
+
+/* M61 — Discussion subjects: per-account starred favourites, chronological
+   append-only subjects and a compact expanding composer. */
+#discussionsPage .dd-community-favourites{
+ padding:10px 9px;margin:6px 0 11px;border:1px solid #3c5866;
+ border-radius:12px;background:#152d3a;min-width:0
+}
+#discussionsPage .dd-community-favourites h4{
+ font:700 11px/1.3 system-ui;color:#e5c68e;margin:0 0 7px;
+ text-transform:uppercase;letter-spacing:.4px
+}
+#discussionsPage .dd-community-favourites-nav{display:grid;gap:3px;max-height:150px;overflow:auto}
+#discussionsPage .dd-community-favourite-link{
+ border:1px solid transparent;border-radius:8px;padding:8px 9px;min-height:36px;
+ background:transparent;color:#e6d2aa;text-align:left;cursor:pointer;
+ font:650 12px/1.4 system-ui;overflow-wrap:anywhere
+}
+#discussionsPage .dd-community-favourite-link:hover,
+#discussionsPage .dd-community-favourite-link[aria-current=page]{
+ border-color:#5b6c69;background:#243a45
+}
+#discussionsPage .dd-community-subject-row{
+ display:flex;align-items:center;gap:2px;width:100%;min-width:0
+}
+#discussionsPage .dd-community-subject-row>.dd-community-subject-link{
+ flex:1 1 auto;width:auto;min-width:0
+}
+#discussionsPage .dd-forum-subject-star{
+ border:1px solid transparent;border-radius:10px;background:transparent;
+ color:#afc1c6;cursor:pointer;flex:0 0 34px;min-height:38px;
+ font:800 20px/1 system-ui;display:grid;place-items:center
+}
+#discussionsPage .dd-forum-subject-star:hover,
+#discussionsPage .dd-forum-subject-star:focus-visible{
+ border-color:#ae936c;background:#263f4e
+}
+#discussionsPage .dd-forum-subject-star.is-favourite{
+ color:#edca83
+}
+#discussionsPage .dd-forum-section-card>.dd-forum-subject-star{
+ position:absolute;top:10px;right:10px;z-index:1
+}
+#discussionsPage .dd-forum-section-card>.dd-forum-title{
+ padding-right:37px
+}
+#discussionsPage #ddForumReplyCreate{
+ display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;
+ gap:8px;padding:10px 12px;margin:12px 0 18px
+}
+#discussionsPage #ddForumReplyCreate>label{
+ grid-column:1/-1;color:#d9c99f;font-size:12px;font-weight:650
+}
+#discussionsPage #ddForumReplyCreate>#ddForumReplyContext{
+ grid-column:1/-1;margin:0
+}
+#discussionsPage #ddForumReplyCreate textarea{
+ grid-column:1;box-sizing:border-box;width:100%;height:44px;
+ min-height:44px!important;max-height:calc(3 * 1.5em + 24px)!important;
+ line-height:1.5!important;overflow-y:auto;resize:none;padding:10px 11px;
+ font-size:14px!important;border-radius:9px
+}
+#discussionsPage #ddForumReplyCreate button[type=submit]{
+ grid-column:2;min-height:44px;white-space:nowrap;align-self:end
+}
+@media(max-width:759px){
+ #discussionsPage .dd-community-subjects{
+  flex-wrap:wrap!important;overflow:visible!important;align-items:center
+ }
+ #discussionsPage .dd-community-favourites{
+  order:-1;flex:0 0 100%;width:100%;margin:0 0 6px
+ }
+ #discussionsPage .dd-community-favourites-nav{
+  display:flex;overflow-x:auto;overflow-y:hidden;max-height:none;gap:4px
+ }
+ #discussionsPage .dd-community-favourite-link{
+  flex:0 0 auto;max-width:220px;min-height:38px;white-space:normal
+ }
+ #discussionsPage .dd-community-subject-row{flex:0 0 auto;width:auto;gap:0}
+ #discussionsPage .dd-community-subject-row>.dd-community-subject-link{
+  flex:0 0 auto;min-height:38px;border-radius:20px
+ }
+ #discussionsPage .dd-forum-subject-star-compact{
+  flex-basis:32px;min-height:38px
+ }
+ #discussionsPage #ddForumReplyCreate{gap:6px;padding:9px}
+ #discussionsPage #ddForumReplyCreate button[type=submit]{
+  padding:8px 10px;font-size:12px
+ }
+}
