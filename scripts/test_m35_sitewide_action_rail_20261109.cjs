@@ -21,8 +21,9 @@ assert.ok(tpl.indexOf('data-save-news=',bar)>bar,'News Board star is inside the 
 assert.ok(tpl.indexOf('data-news-article-votes=',bar)>bar,'News voting begins the action bar');
 assert.ok(tpl.indexOf('data-news-article-votes=',bar)<tpl.indexOf('data-save-news=',bar));
 assert.ok(tpl.indexOf('data-save-news=',bar)<tpl.indexOf('data-share-news=',bar));
-assert.doesNotMatch(tpl.slice(tpl.indexOf('dd-news-tools'),bar),/data-save-news=/,
- 'No duplicate News Board button above the bar');
+assert.ok(!tpl.includes('class="dd-news-tools"'),'No redundant standalone Compare/Board row');
+assert.ok(tpl.indexOf('data-compare-news=',bar)>tpl.indexOf('data-share-news=',bar),
+ 'Compare now follows the other News actions inside the single rail');
 assert.match(tpl,/data-star-icon/);
 assert.match(page,/id="dd-m35-one-action-rail"/);
 assert.match(page,/#newsGrid article>\.dd-news-actions>\.dd-news-main-actions\.dd-action-rail/);
