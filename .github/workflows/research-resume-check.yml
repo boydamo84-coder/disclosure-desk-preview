@@ -38,6 +38,8 @@ jobs:
           node scripts/test_m55_live_news_archive.cjs
           node --check scripts/test_m59_news_dedup.cjs
           node scripts/test_m59_news_dedup.cjs
+          python3 -m py_compile scripts/refresh_dev_news.py
+          python3 -m unittest discover -s tests -p 'test_news_relevance.py' -v
           node --check scripts/test_m38_hearing_inline_and_wide_rails_20261109.cjs
           node scripts/test_m38_hearing_inline_and_wide_rails_20261109.cjs
           node --check research/wne-ui-m40.js
