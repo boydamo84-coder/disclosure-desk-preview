@@ -52,5 +52,5 @@ assert.match(style,/#profilePage \.dd-profile-identity-main\{display:flex/);
 assert.match(style,/@media\(max-width:360px\)/);
 assert.match(style,/#profilePage \.dd-avatar-file-trigger input\[type=file\]/);
 assert.match(html,/assets\/profile-avatars\.js\?v=m66-profile-identity/);
-assert.match(html,/assets\/community-polish\.css\?v=m70/);
+assert.match(html,/assets\/community-polish\.css\?v=m71/);
 console.log('PASS M66 profile: photo+name+received stats first, cloud/Boards/witness order, controls in collapsed Settings, secured photo auto-save/remove, mobile styles');
