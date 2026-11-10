@@ -1,7 +1,7 @@
 name: Verify Research Studio resume and existing community (NO deploy)
 on:
   push:
-    branches: [fix/research-mobile-profile-polish-nov08, staging/research-samsung-m16-20261108, fix/compact-writing-popover-mobile-desktop-nov08, fix/post-m50-action-rails-citations-nov10, fix/m55-live-news-archive-loading-nov10, fix/m56-refresh-keeps-active-page-nov10, fix/m57-wne-return-directly-to-document-nov10]
+    branches: [fix/research-mobile-profile-polish-nov08, staging/research-samsung-m16-20261108, fix/compact-writing-popover-mobile-desktop-nov08, fix/post-m50-action-rails-citations-nov10, fix/m55-live-news-archive-loading-nov10, fix/m56-refresh-keeps-active-page-nov10, fix/m57-wne-return-directly-to-document-nov10, fix/m58-drive-reconnect-ux-nov10]
   workflow_dispatch:
 permissions:
   contents: read
