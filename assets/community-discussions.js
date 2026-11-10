@@ -128,7 +128,7 @@ async function openSection(item){
  if($('ddForumFeedSearch'))$('ddForumFeedSearch').value='';
  $('ddForumSectionsPane').hidden=true;$('ddForumThreadPane').hidden=false;
  $('ddForumThreadTitle').textContent=item.title||'Discussions';
- $('ddForumSectionInfo').textContent=(item.description||'')+(item.is_steward?' · You steward this section.':'');
+ $('ddForumSectionInfo').textContent=(item.description||'')+(item.is_steward?' · You organise this subject.':'');
  $('ddForumStewardPanel').hidden=!item.is_steward;
  $('ddForumStewardForm').elements.namedItem('description').value=item.description||'';
  $('ddForumStewardForm').elements.namedItem('topic').value=item.topic||'';
@@ -537,7 +537,7 @@ async function loadThreads(){
   }
   if(stamp!==epoch||section?.id!==id||thread)return;
   list.replaceChildren();
-  if(!rows?.length)empty(list,'No matching topics. Try a different search or start the conversation.');
+  if(!rows?.length)empty(list,'No posts found. Try another search or start the conversation.');
   for(const row of rows||[]){
    const card=mk('article',undefined,'dd-forum-item dd-forum-post-card');
    const main=mk('div',undefined,'dd-forum-post-main'),actions=mk('div',undefined,'dd-forum-actions dd-action-rail');
@@ -553,7 +553,7 @@ async function loadThreads(){
    card.append(actions);list.append(card);
   }
   window.DDRefreshBoardStars?.();
-  if(count)count.textContent='Page '+(feedPage+1)+' · '+feedTotal+' topics'+(!feedModern?' · first 100 while upgrade is pending':'');
+  if(count)count.textContent='Page '+(feedPage+1)+' · '+feedTotal+' posts'+(!feedModern?' · first 100 while upgrade is pending':'');
   if(prev)prev.disabled=feedPage===0;
   if(next)next.disabled=(feedPage+1)*20>=feedTotal;
  }catch(e){say(e?.message||'Discussions temporarily unavailable.')}
@@ -575,13 +575,13 @@ function drawSections(){
  for(const s of shown){
   const card=mk('article',undefined,'dd-forum-item dd-forum-section-card');
   const open=nodeAction(card,s.title||'Untitled',()=>openSection(s),'dd-forum-title');
-  open.setAttribute('aria-label','Browse section: '+String(s.title||'Untitled'));
+  open.setAttribute('aria-label','Browse subject: '+String(s.title||'Untitled'));
   card.append(mk('p',String(s.description||'').slice(0,250),'dd-forum-body'));
-  const meta=mk('small',(s.topic||'Research')+' · '+(s.thread_count||0)+' topics'+(s.is_steward?' · Your section':''),'muted');
+  const meta=mk('small',(s.topic||'Research')+' · '+(s.thread_count||0)+' posts'+(s.is_steward?' · Your section':''),'muted');
   card.append(meta);
-  const jump=mk('a','Open section →','dd-forum-section-arrow dd-forum-section-open');
+  const jump=mk('a','Open subject →','dd-forum-section-arrow dd-forum-section-open');
   jump.href='?dd_tab=discussionsPage&dd_section='+encodeURIComponent(s.id);
-  jump.setAttribute('aria-label','Open section: '+String(s.title||'Untitled'));
+  jump.setAttribute('aria-label','Open subject: '+String(s.title||'Untitled'));
   jump.addEventListener('click',event=>{event.preventDefault();void openSection(s)});
   card.append(jump);
   if(ownerSectionIds.has(s.id)){
@@ -636,7 +636,7 @@ async function refresh(){
   if(stamp!==epoch)return;
   ownerSectionIds=ownerIds;
   sections=Array.isArray(rows)?rows:[];drawSections();
-  say(sections.length+' sections available.');await openDeepLink();
+  say(sections.length+' subjects available.');await openDeepLink();
  }catch(e){say(e?.message||'Sections temporarily unavailable.')}
 }
 function setCreateButtons(){const button=$('ddForumNewPost');if(button)button.hidden=!section||!!thread}
@@ -688,7 +688,7 @@ function init(){
   if(desc.length>400||topic.length>40){say('Section description and category are too long.');return}
   void change(b,async()=>{
    const ok=await rpc('dd_discussions_update_section',{p_section_id:section.id,p_description:desc,p_topic:topic});
-   if(ok===true){section.description=desc;section.topic=topic;$('ddForumSectionInfo').textContent=desc+' · You steward this section.'}
+   if(ok===true){section.description=desc;section.topic=topic;$('ddForumSectionInfo').textContent=desc+' · You organise this subject.'}
    return ok;
   },'Your section details were updated.');
  };
