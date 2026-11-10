@@ -132,7 +132,7 @@ function init(){
  const publicDiscussionLink=()=>{
   if(!current)return null;
   const url=new window.URL('/',location.origin);
-  const section=current.startsWith('news:')?'discover':current.startsWith('video:')?'clips':current.startsWith('hearing:')?'livePage':'cases';
+  const section=current.startsWith('news:')?'discover':current.startsWith('video:')?'clips':current.startsWith('hearing:')?'livePage':current.startsWith('media:')?'watchRead':current.startsWith('archive:')?'archivePage':'mapPage';
   url.searchParams.set('dd_tab',section);url.searchParams.set('dd_discussion',current);
   return url.href;
  };
@@ -229,7 +229,7 @@ function init(){
  try{
   const params=new URLSearchParams(location.search),deep=params.get('dd_discussion');
   const focus=params.get('dd_comment');
-  if(deep&&deep.length<=180&&/^(news|video|archive|case|hearing):/.test(deep)
+  if(deep&&deep.length<=180&&(/^(news|media|video|archive|case|hearing):/.test(deep)||/^[a-z0-9][a-z0-9_-]{0,120}$/i.test(deep))
    &&(!focus||/^[0-9a-f-]{36}$/i.test(focus))){
    window.ddOpenCaseDiscussion(deep,'Community discussion',focus);
   }
