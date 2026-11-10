@@ -169,7 +169,7 @@ function init(){
     if(event.recordingUrl&&safeVideo(event.recordingUrl)&&!embed){const record=h('a','Official recording ↗');record.href=event.recordingUrl;record.target='_blank';record.rel='noopener noreferrer';record.className='outline';record.style.cssText='display:inline-flex;align-items:center;padding:10px;text-decoration:none';actions.append(record)}
     if(embed&&safeVideo(embed)){const y=h('a','YouTube ↗');y.href='https://www.youtube.com/watch?v='+embed.split('/').pop();y.target='_blank';y.rel='noopener noreferrer';y.className='outline';y.style.cssText='display:inline-flex;align-items:center;padding:10px;text-decoration:none';actions.append(y)}
     const official=h('a','Official source ↗');official.href=event.sourceUrl;official.target='_blank';official.rel='noopener noreferrer';official.className='outline';official.style.cssText='display:inline-flex;align-items:center;padding:10px;text-decoration:none';actions.append(official);
-    card.append(actions);list.append(card);
+    card.append(actions);list.append(card);window.DDRefreshBoardStars?.();
    }
   }
  }
