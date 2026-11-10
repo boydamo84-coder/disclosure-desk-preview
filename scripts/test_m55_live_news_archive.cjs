@@ -39,9 +39,10 @@ const ctx={
 };
 vm.createContext(ctx);
 vm.runInContext(source+'\n'+loader,ctx,{timeout:2000});
-assert.equal(ctx.DD_NEWS_REMOTES.length,2);
-assert.match(ctx.DD_NEWS_REMOTES[0].url,/dev\/mobile-video-performance-oct31\/data\/news-alerts\.json$/);
-assert.match(ctx.DD_NEWS_REMOTES[1].url,/main\/data\/news-alerts\.json$/);
+const origins=vm.runInContext('DD_NEWS_REMOTES.map(x=>x.url)',ctx);
+assert.equal(origins.length,2);
+assert.match(origins[0],/dev\/mobile-video-performance-oct31\/data\/news-alerts\.json$/);
+assert.match(origins[1],/main\/data\/news-alerts\.json$/);
 const item=(day,label)=>({headline:label,source:'Fixture news source',url:'https://example.com/'+day,date:day+'T12:00:00Z'});
 async function check(){
  await vm.runInContext('loadLiveNews()',ctx,{timeout:2000});
