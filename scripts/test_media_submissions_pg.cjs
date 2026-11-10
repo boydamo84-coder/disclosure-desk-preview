@@ -1,7 +1,9 @@
 'use strict';
 // Disposable PostgreSQL only. Also exports scenarios for a local PGlite run.
 const fs=require('node:fs'),cp=require('node:child_process'),assert=require('node:assert/strict');
-const migration=fs.readFileSync('supabase/migrations/20261109234548_media_link_submissions.sql','utf8');
+const migrationFiles=fs.readdirSync('supabase/migrations').filter(name=>/_(?:media_link_submissions|media_suggestions_owner_status_access|media_suggestions_policy_performance)\.sql$/.test(name)).sort();
+assert.equal(migrationFiles.length,3,'All reviewed nomination migrations are required');
+const migration=migrationFiles.map(name=>fs.readFileSync('supabase/migrations/'+name,'utf8')).join('\n');
 const A='11111111-1111-4111-8111-111111111111',B='22222222-2222-4222-8222-222222222222',ADMIN='99999999-9999-4999-8999-999999999999';
 const setup=`do $$begin if not exists(select 1 from pg_roles where rolname='anon') then create role anon nologin;end if;
  if not exists(select 1 from pg_roles where rolname='authenticated') then create role authenticated nologin;end if;end$$;
@@ -10,9 +12,12 @@ insert into auth.users(id) values('${A}'),('${B}'),('${ADMIN}') on conflict do n
 create or replace function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
 create or replace function auth.jwt() returns jsonb language sql stable as $$select coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')::jsonb$$;
 grant usage on schema auth to anon,authenticated;grant execute on function auth.uid(),auth.jwt() to anon,authenticated;
-create or replace function public.dd_discussions_is_owner() returns boolean language sql stable as $$select coalesce(auth.uid()='${ADMIN}'::uuid,false)$$;`;
+create or replace function public.dd_discussions_is_owner() returns boolean language sql stable as $$select coalesce(auth.uid()='${ADMIN}'::uuid,false)$$;
+revoke all on function public.dd_discussions_is_owner() from public,anon,authenticated;`;
 const as=(id,sql,anonymous=false)=>`reset role;set role authenticated;select set_config('request.jwt.claim.sub','${id}',false);select set_config('request.jwt.claims','{"is_anonymous":${anonymous}}',false);${sql}`;
 const steps=[
+ ['owner-status helper remains self-only',as(A,'select public.dd_discussions_is_owner();'),/f|false/],
+ ['anonymous role cannot call owner status',"reset role;set role anon;select public.dd_discussions_is_owner();",null,/permission denied/],
  ['member sends a private nomination',as(A,"select public.dd_media_suggest('books','https://example.org/book','A title','Private note');"),null],
  ['another member cannot read it',as(B,'select count(*) as visible from public.dd_media_suggestions;'),/\b0\b/],
  ['anonymous role cannot read nominations',"reset role;set role anon;select * from public.dd_media_suggestions;",null,/permission denied/],

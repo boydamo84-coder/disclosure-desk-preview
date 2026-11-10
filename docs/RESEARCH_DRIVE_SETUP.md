@@ -6,6 +6,23 @@ The previous implementation in `boydamo84-coder/WNE-Research-Edition`, `wne_sour
 
 ## Configuration needed before activation
 
+### Owner setup values
+
+Use the existing Google Cloud project for W.NE if appropriate, retaining its Desktop client. The website needs a separate Web application client. Only send the **Client ID** back for website configuration; it ends in `.apps.googleusercontent.com`. Do not send the Client secret or download/share a credentials JSON file.
+
+| Google Cloud field | Website value |
+| --- | --- |
+| Application type | Web application |
+| Client name | Disclosure Desk W.NE Research Web |
+| Authorised JavaScript origins | `https://uapdisclosuredesk.com` |
+| Authorised redirect URIs | None for this popup token integration |
+| Enabled API | Google Drive API |
+| Requested scope | `https://www.googleapis.com/auth/drive.file` |
+| Privacy policy | `https://uapdisclosuredesk.com/privacy` |
+| Testing audience | Add the Google accounts performing acceptance tests |
+
+Google's current setup instructions: [create a Web application client and configure origins](https://developers.google.com/identity/oauth2/web/guides/get-google-api-clientid). The client ID alone does not prove the API, audience and origin are configured correctly; complete the actual acceptance steps below. A Google Drive connection inside ChatGPT does not configure this website's Google OAuth client.
+
 1. In the existing Google Cloud project, enable the Drive API and create an OAuth client of type **Web application**. Keep the existing Desktop client for the standalone Writer.
 2. Add `https://uapdisclosuredesk.com` as an authorised JavaScript origin. Add `https://www.uapdisclosuredesk.com` only if that origin is actually used. For local QA, add the actual localhost origin separately; do not allow arbitrary preview origins.
 3. Configure the consent screen for the `https://www.googleapis.com/auth/drive.file` scope and the site's real privacy/support pages. If the Google app is in Testing, add the test accounts; complete Google's publishing requirements before offering the connection publicly.
