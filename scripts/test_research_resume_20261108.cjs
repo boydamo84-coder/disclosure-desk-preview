@@ -55,11 +55,11 @@ vm.runInNewContext(bridge,context,{filename:'wne-cloud-bridge.js',timeout:4000})
  assert.match(writer,/\$\('editor'\)\.scrollTop=Math\.max/);
  assert.match(writer,/if\(pos\.caret!==null&&Number\.isFinite\(pos\.caret\)\)/);
  const publicSite=fs.readFileSync('index.html','utf8');
- assert.match(publicSite,/function ddOnPublicTabClick\\(tab\\)/,'W.NE public tab has distinct returning-user behaviour');
- assert.match(publicSite,/location\\.assign\\('\/research\/index\\.html'\\)/,'direct return uses the authenticated entry only');
- assert.match(entry,/dd-wne-resume-entry-v1/,'auth entry records a non-sensitive resume hint');
- assert.match(workspace,/sessionStorage\\.removeItem\\('dd-wne-resume-entry-v1'\\)/,'sign-out clears session resume hint');
- assert.match(workspace,/localStorage\\.removeItem\\('dd-wne-resume-entry-v1'\\)/,'sign-out clears persistent resume hint');
+ assert.ok(publicSite.includes('function ddOnPublicTabClick(tab)'), 'W.NE tab distinguishes returning users');
+ assert.ok(publicSite.includes("window.location.assign('/research/index.html')"), 'return goes through authenticated entry');
+ assert.ok(entry.includes('dd-wne-resume-entry-v1'), 'auth entry stores non-sensitive resume hint');
+ assert.ok(workspace.includes("sessionStorage.removeItem('dd-wne-resume-entry-v1')"), 'sign-out clears session hint');
+ assert.ok(workspace.includes("localStorage.removeItem('dd-wne-resume-entry-v1')"), 'sign-out clears persistent hint');
  assert.match(entry,/wne-research-last-document:/);
  assert.match(entry,/\.eq\('id',remembered\)\.maybeSingle\(\)/,'RLS verification before auto-resume');
  assert.match(workspace,/id="dd-documents-btn"/,'Home remains accessible');
