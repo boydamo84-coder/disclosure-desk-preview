@@ -16,8 +16,9 @@ assert.match(sql,/review_flag_floor=case when p_status='approved'/,'Restore star
 assert.match(sql,/where c\.status='hidden'/,'Only hidden comments in routine review queue');
 assert.match(sql,/public\.dd_is_comment_moderator\(\)/,'Moderation is allowlist-controlled');
 assert.match(idx,/data-news-comments=/,'Latest news comments');
-assert.match(idx,/data-discuss-archive=/,'Archive comments');
-assert.match(idx,/data-clip-action="discuss"/,'Video discussions');
+assert.match(idx,/data-news-comments="archive:/,'Archive comments use the shared inline moderation backend');
+assert.match(idx,/data-news-comments="video:/,'Video feed comments use the shared inline moderation backend');
+assert.match(idx,/dd-immersive-inline-comments/,'Immersive video comments share the same backend');
 assert.match(idx,/data-news-discussion/,'News overlay discussion');
 assert.match(watch,/comments\.dataset\.newsComments='media:'\+item\.id/,'Watch and Read movies, books, podcasts, documentaries');
 assert.match(idx,/kind==='archive'/,'Profile comments navigate to archive');
