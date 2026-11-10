@@ -207,7 +207,6 @@ function render(){
   share.onclick=()=>void window.DDSharePublicLink?.(event.title,deeplink.href);
   rail.append(discussionButton,board,share);
   video.append(rail,discussionHost);
-  window.DDRefreshBoardStars?.();
   cols.append(video);
   const chat=el('div','dd-live-chat-panel');
   cols.append(chat);card.append(cols);
