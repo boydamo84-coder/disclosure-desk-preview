@@ -30,13 +30,57 @@ try{for(const width of [320,393,820,1280]){
  await page.getByRole('button',{name:'Start a new chat',exact:true}).click();assert.equal(await page.getByRole('textbox',{name:'Search user by exact public username'}).inputValue(),'');assert.equal(await page.getByRole('textbox',{name:'Invitation preview message',exact:true}).isVisible(),false);assert.equal(await page.locator('.dd-chat-request-feedback').innerText(),'');checks++;
  await page.getByRole('button',{name:'Close new chat request',exact:true}).click();
  await page.evaluate(()=>window.navigateTo('discussionsPage'));await page.getByRole('button',{name:'Browse subject: UAP evidence',exact:true}).waitFor();await noOverflow(page,'Subjects '+width);checks++;
+ const originalSubject=page.locator('#ddForumSections .dd-forum-section-card').first();
+ await originalSubject.locator('button[data-section-favourite]').click();
+ await page.locator('#ddForumFavouriteGroup').getByRole('button',{name:/Open favourite subject UAP evidence/}).waitFor();
+ assert.equal(await page.locator('#ddForumSubjectNav button[aria-pressed=true]').count(),1,
+  'Favourited subject shows a selected star beside the sidebar subject');checks++;
+ await page.evaluate(()=>window.__SocialQA.switchAccount('11111111-1111-4111-8111-111111111111'));
+ await page.waitForFunction(()=>document.getElementById('ddForumFavouriteGroup').hidden);
+ await page.evaluate(()=>window.__SocialQA.switchAccount('22222222-2222-4222-8222-222222222222'));
+ await page.locator('#ddForumFavouriteGroup').getByRole('button',{name:/Open favourite subject UAP evidence/}).waitFor();
+ checks++;
+ await page.evaluate(()=>{
+  window.__SocialQA.sections.unshift({id:'99999999-9999-4999-8999-999999999999',
+   title:'Recently created subject',description:'A newly added fictional subject',
+   topic:'Evidence',thread_count:0,is_steward:false,created_at:new Date().toISOString()});
+  window.DDDiscussions.refresh();
+ });
+ await page.getByRole('button',{name:'Browse subject: Recently created subject'}).waitFor();
+ const subjectLabels=await page.locator('#ddForumSections .dd-forum-section-card>.dd-forum-title').allInnerTexts();
+ assert.equal(subjectLabels.at(-1),'Recently created subject','Newly added subjects must appear at bottom, even when API returns newest first');
+ await noOverflow(page,'Starred subjects '+width);checks++;
  await page.getByRole('button',{name:'Browse subject: UAP evidence',exact:true}).click();await page.getByRole('button',{name:'Read discussion: '+firstTitle,exact:true}).waitFor();assert.equal(await page.locator('#ddForumPostList .dd-forum-post-card').count(),3);assert.equal(await page.locator('#ddForumPostList .dd-forum-reply-card').count(),0);assert.equal(await page.locator('#ddForumPostList .dd-forum-avatar').first().getAttribute('data-social-avatar'),'NovaAtlas');checks++;
  await page.getByRole('searchbox',{name:'Search this subject',exact:true}).fill('rainy');await page.waitForFunction(()=>document.querySelectorAll('#ddForumPostList .dd-forum-post-card').length===1);await page.getByRole('searchbox',{name:'Search this subject',exact:true}).fill('');await page.waitForFunction(()=>document.querySelectorAll('#ddForumPostList .dd-forum-post-card').length===3);checks++;
  // Deliberately place a sibling between a parent and its child in RPC order.
- await page.evaluate(()=>window.__SocialQA.replies.push(window.__SocialQA.replies.splice(1,1)[0]));
+ await page.evaluate(()=>{
+  window.__SocialQA.replies.push(window.__SocialQA.replies.splice(1,1)[0]);
+  for(let i=1;i<=3;i++)window.__SocialQA.replies.push({
+   id:'88888888-8888-4888-8888-'+String(i).padStart(12,'0'),
+   author_name:'SyntheticCommenter',body:'Extra comment auto-visible '+i,
+   created_at:new Date().toISOString(),likes:0,dislikes:0,my_vote:0
+  });
+ });
  await page.getByRole('button',{name:'Read discussion: '+firstTitle,exact:true}).click();await page.locator('#ddForumReplies .dd-forum-reply-card').first().waitFor();
  const order=await page.locator('#ddForumReplies .dd-forum-reply-card').evaluateAll(es=>es.map(e=>e.dataset.ddForumReplyId));assert.equal(order[0],parentId);assert.equal(order[1],childId);assert.equal(await page.locator('#ddForumReplies .dd-forum-avatar').first().getAttribute('data-social-avatar'),'SignalSeeker');assert.equal(await page.locator('#ddForumThreadTitle').isVisible(),false);checks++;
  const nested=page.locator('[data-dd-forum-reply-id="'+childId+'"]');assert(await nested.evaluate(e=>parseFloat(getComputedStyle(e).marginLeft)>0));
+ assert.equal(await page.locator('#ddForumReplies .dd-forum-reply-card').count(),6,
+  'Opening any post automatically displays all six comments without pressing Show more');
+ assert.equal(await page.locator('#ddForumReplyCreate').isVisible(),true,'Comment field immediately visible');
+ const commentInput=page.getByRole('textbox',{name:'Write a comment or reply'});
+ assert.equal(await commentInput.getAttribute('rows'),'1','Comment editor begins at one line');
+ const oneLine=await commentInput.evaluate(e=>e.getBoundingClientRect().height);
+ assert(oneLine<=62,'One-line editor should not occupy the old tall reply box: '+oneLine);
+ await commentInput.fill(Array.from({length:12},()=> 'An original source review').join(String.fromCharCode(10)));
+ const expandedEditor=await commentInput.evaluate(e=>({
+  visual:e.getBoundingClientRect().height,scroll:e.scrollHeight,
+  overflow:getComputedStyle(e).overflowY
+ }));
+ assert(expandedEditor.visual>oneLine&&expandedEditor.visual<=100,
+  'Comment editor grows to no more than three lines: '+JSON.stringify(expandedEditor));
+ assert(expandedEditor.scroll>expandedEditor.visual&&expandedEditor.overflow==='auto',
+  'Further comment lines must be scrollable before submitting');
+ await commentInput.fill('');checks++;
  await page.locator('[data-dd-forum-reply-id="'+parentId+'"]').getByRole('button',{name:'↳ Reply',exact:true}).click();
  const reply=page.locator('#ddForumReplyCreate');assert.equal(await reply.evaluate(e=>e.previousElementSibling?.dataset.ddForumReplyId),parentId);await reply.getByRole('textbox').fill('A fictional inline reply for layout acceptance.');await reply.getByRole('button',{name:'Post reply',exact:true}).click();await page.locator('#ddForumReplies').getByText('A fictional inline reply for layout acceptance.',{exact:true}).waitFor();checks++;
  await noOverflow(page,'Comment thread '+width);assert.deepEqual(errors,[]);checks++;
