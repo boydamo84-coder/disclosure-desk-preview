@@ -29,7 +29,7 @@ function sampleBackend(){
  }};
  window.DD_COMMUNITY_TEST_CONFIG={environment:'test',url:'https://fictional.invalid',publishableKey:'fictional-preview-only'};
  window.DD_COMMUNITY_FEATURES={privateChat:true,discussions:true};window.supabase={createClient:()=>client};
- window.DDMemberAvatars={decorate(){}};window.DDRefreshBoardStars=()=>{};window.DDSavePublicLinkToBoard=()=>{};window.DDSharePublicLink=()=>{};
+ window.DDMemberAvatars={decorate(element,name){element.dataset.socialAvatar=name}};window.DDRefreshBoardStars=()=>{};window.DDSavePublicLinkToBoard=()=>{};window.DDSharePublicLink=()=>{};
  window.navigateTo=id=>{
   for(const key of ['discover','archivePage','researchStudio','mapPage','clips','livePage','boards','witness','watchRead','profilePage','hub','chatPage','discussionsPage']){const e=document.getElementById(key);if(e){e.classList.toggle('hidden',key!==id);e.hidden=key!==id}}
   for(const tab of document.querySelectorAll('nav.nav .tab')){const active=tab.dataset.tab===id;tab.classList.toggle('active',active);if(active)tab.setAttribute('aria-current','page');else tab.removeAttribute('aria-current')}
