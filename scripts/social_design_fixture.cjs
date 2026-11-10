@@ -35,7 +35,7 @@ function sampleBackend(){
   for(const tab of document.querySelectorAll('nav.nav .tab')){const active=tab.dataset.tab===id;tab.classList.toggle('active',active);if(active)tab.setAttribute('aria-current','page');else tab.removeAttribute('aria-current')}
   if(id==='chatPage')void window.DDPrivateChat?.refresh();if(id==='discussionsPage')void window.DDDiscussions?.refresh();
  };
- window.__SocialQA={switchAccount(id){user=id;for(const cb of listeners)cb(id?'SIGNED_IN':'SIGNED_OUT',id?{user:{id}}:null)},pairs,posts,replies};
+ window.__SocialQA={switchAccount(id){user=id;for(const cb of listeners)cb(id?'SIGNED_IN':'SIGNED_OUT',id?{user:{id}}:null)},pairs,posts,replies,sections};
  window.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{for(const b of document.querySelectorAll('nav.nav .tab'))b.onclick=()=>navigateTo(b.dataset.tab);navigateTo(new URLSearchParams(location.search).get('view')||'chatPage')},0));
 }
 function buildFixture(){let html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8').replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,'');
