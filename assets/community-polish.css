@@ -749,3 +749,10 @@
  min-height:40px!important;padding:8px 12px!important;border-radius:9px!important;
  background:#d9bd8d!important;color:#142636!important;font-weight:700!important
 }
+
+/* The legacy Case modal used a higher-specificity ink-black rail. Bring it
+   under the identical shared post-strip surface without changing handlers. */
+#ddCaseDiscussionDialog #ddCaseDiscussionActions.dd-action-rail.dd-unified-rail{
+ background:var(--dd-rail-bg)!important;border-top:1px solid var(--dd-rail-border)!important;
+ justify-content:flex-end!important;gap:2px!important
+}
