@@ -18,7 +18,7 @@ for(const name of ['dd-news-main-actions','dd-forum-actions','dd-comment-action-
  assert(css.includes(name),'Shared CSS covers '+name);
 }
 assert.match(css,/M70 — single site-wide action rail/);
-assert.match(css,/ddRailType/gi===null?/never/:/dd-unified-rail/);
+assert.match(css,/dd-unified-rail/,'Common style is applied to every normalised rail');
 assert.match(css,/dd-comment-action-rail\.dd-action-rail\.dd-unified-rail/);
 assert.match(css,/transparent!important/,'Forum/comment replies remain transparent');
 assert.match(inline,/body\.rows=1/,'Every news/media comment starts in single-line mode');
