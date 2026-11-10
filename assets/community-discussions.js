@@ -248,13 +248,13 @@ function chooseReply(target,focusComposer=false){
  // Never scroll the page to a shared box at the end of the thread.
  const anchor=replyParent
   ? $('ddForumReplies')?.querySelector('[data-dd-forum-reply-id="'+replyParent+'"]')
-  : $('ddForumReplyContent');
- if(form){(anchor||$('ddForumReplyContent'))?.after(form);if(target||focusComposer)form.hidden=false;}
+  : $('ddForumReplies');
+ if(form){(anchor||$('ddForumReplies')||$('ddForumReplyContent'))?.after(form);form.hidden=false;}
  const submit=form?.querySelector?.('button[type="submit"]');if(submit)submit.textContent=replyParent?'Post reply':'Post comment';
  let note=$('ddForumReplyContext');
  if(!note&&form){note=mk('p','','dd-forum-reply-context');note.id='ddForumReplyContext';form.prepend(note)}
- if(note)note.textContent=replyParent?'Replying to '+String(target.author_name||'this comment')+' in “'+String(thread.title||'Discussion')+'”':'Commenting on “'+String(thread.title||'Discussion')+'”';
- if(input){input.placeholder=replyParent?'Write a reply to '+String(target.author_name||'this comment')+'…':'Add a comment to this post…';if(target||focusComposer)input.focus({preventScroll:true})}
+ if(note){note.textContent=replyParent?'Replying to '+String(target.author_name||'this comment')+' in “'+String(thread.title||'Discussion')+'”':'Commenting on “'+String(thread.title||'Discussion')+'”';note.hidden=!replyParent}
+ if(input){input.placeholder=replyParent?'Write a reply to '+String(target.author_name||'this comment')+'…':'Add a comment to this post…';resizeReplyComposer(input);if(target||focusComposer)input.focus({preventScroll:true})}
 }
 function appendReplyCard(list,row,replyLookup){
  const card=mk('article',undefined,'dd-forum-item dd-forum-reply-card');
@@ -292,9 +292,11 @@ async function openThread(item){
  actionsFor(tools,'thread',item,true,tools.flagHost);
  pane.append(main,tools);
  const replyForm=$('ddForumReplyCreate');
- replyForm.hidden=true;
- // Expand directly under the full post bar, not at the end of a long reply list.
- pane.after?.(replyForm);
+ replyForm.hidden=false;
+ // Keep comments directly beneath the full post. The composer follows the
+ // comment list by default, and moves immediately below an individual comment
+ // only when replying to that comment.
+ $('ddForumReplies')?.after?.(replyForm);
  replyForm.reset();
  chooseReply(null);
  await loadReplies();
@@ -304,12 +306,12 @@ async function loadReplies(){
  const id=thread.id,stamp=++epoch,list=$('ddForumReplies');
  // A refresh must not destroy an in-progress inline reply draft.
  const activeForm=$('ddForumReplyCreate');
- if(activeForm&&list.contains(activeForm))$('ddForumReplyContent')?.after(activeForm);
+ if(activeForm&&list.contains(activeForm))list.after?.(activeForm);
  empty(list,'Loading replies…');
  try{
   const rows=await rpc('dd_discussions_replies',{p_thread_id:id,p_limit:100});
   if(stamp!==epoch||thread?.id!==id)return;
-  let expanded=false;
+  let expanded=true; // All available comments appear automatically when opening a post.
   const all=Array.isArray(rows)?rows:[];
   const lookup=new Map(all.filter(r=>isId(r.id)).map(r=>[r.id,r]));
   const children=new Map(),ordered=[],seen=new Set();
@@ -320,7 +322,7 @@ async function loadReplies(){
   function display(){
    // Keep the composer connected while replacing comment cards on refresh.
    const activeForm=$('ddForumReplyCreate');
-   if(activeForm&&list.contains(activeForm))$('ddForumReplyContent')?.after(activeForm);
+   if(activeForm&&list.contains(activeForm))list.after?.(activeForm);
    list.replaceChildren();
    if(!all.length){empty(list,'No replies yet. Start the discussion.');return}
    const visible=expanded?ordered:ordered.slice(0,4);
@@ -641,6 +643,7 @@ function drawSections(){
   const meta=mk('small',(s.topic||'Research')+' · '+(s.thread_count||0)+' posts'+(s.is_steward?' · Your section':''),'muted');
   card.append(meta);
   const mark=mk('span',String(s.title||'S').charAt(0).toUpperCase(),'dd-community-subject-mark');mark.setAttribute('aria-hidden','true');card.append(mark);
+  favouriteButton(card,s,favouriteIds().has(s.id));
   const jump=mk('a','Open subject →','dd-forum-section-arrow dd-forum-section-open');
   jump.href='?dd_tab=discussionsPage&dd_section='+encodeURIComponent(s.id);
   jump.setAttribute('aria-label','Open subject: '+String(s.title||'Untitled'));
@@ -698,7 +701,7 @@ async function refresh(){
   const ownerIds=await loadOwnerSections();
   if(stamp!==epoch)return;
   ownerSectionIds=ownerIds;
-  sections=Array.isArray(rows)?rows:[];drawSections();
+  sections=orderSections(rows);drawSections();
   say(sections.length+' subjects available.');await openDeepLink();
  }catch(e){say(e?.message||'Sections temporarily unavailable.')}
 }
