@@ -158,7 +158,7 @@ def direct_feed(name,url):
 def normalized_headline(headline):
     text=unicodedata.normalize("NFKD",str(headline or ""))
     text="".join(char for char in text if not unicodedata.combining(char))
-    return " ".join(re.findall(r"[^\\W_]+",text.casefold(),flags=re.UNICODE))
+    return " ".join(re.findall(r"[^\W_]+",text.casefold(),flags=re.UNICODE))
 
 def deduplicate_headlines(items):
     kept=[]
