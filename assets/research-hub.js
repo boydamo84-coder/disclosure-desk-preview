@@ -4,7 +4,7 @@
 (()=>{'use strict';
 const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
 const enabled=['test','production'].includes(cfg.environment)&&!!cfg.url&&!!cfg.publishableKey;
-let db=null,nonce=0,userId=null;
+let db=null,nonce=0,userId=null,reactionNonce=0,lastReactionLoad=0;
 const $=id=>document.getElementById(id);
 const client=()=>enabled&&window.supabase?(db||(db=window.supabase.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}))):null;
 function visit(page){document.querySelector('.tab[data-tab="'+page+'"]')?.click()}
@@ -79,7 +79,7 @@ function commentEdit(row,item,ownerId){
  });
 }
 function guest(){
- userId=null; $('ddProfileGuest').hidden=false;$('ddProfilePrivate').hidden=true;
+ userId=null;++reactionNonce;lastReactionLoad=0;clearReactions('Sign in to view reactions received on your content.'); $('ddProfileGuest').hidden=false;$('ddProfilePrivate').hidden=true;
  $('ddProfileEmail').textContent='';
  for(const id of ['ddProfileFilesList','ddProfileTrashList','ddProfileBoardsList','ddProfileCommentsList','ddProfileWitnessList'])$(id).replaceChildren();
  actionNotice='';
@@ -92,9 +92,48 @@ function signIn(){
  $('ddCloudAccount')?.scrollIntoView({block:'start',behavior:'smooth'});
  $('ddCloudEmail')?.focus({preventScroll:true});
 }
+/* Received votes are server-side counts of other people's active votes on this
+ * member's published content. Never derive a score from visible cards or localStorage. */
+function clearReactions(message='Reaction totals unavailable.'){
+ for(const id of ['ddProfileLikesReceived','ddProfileDislikesReceived']){const el=$(id);if(el)el.textContent='—'}
+ const note=$('ddProfileReactionBreakdown');if(note)note.textContent=message;
+}
+function displayReactions(data){
+ const row=Array.isArray(data)?data[0]:data;
+ const keys=['post_likes','post_dislikes','comment_likes','comment_dislikes'];
+ if(!row||!keys.every(key=>Number.isSafeInteger(Number(row[key]))&&Number(row[key])>=0)){
+  clearReactions('Reaction totals are temporarily unavailable. Your votes and posts are unchanged.');
+  return false;
+ }
+ const [postLikes,postDislikes,commentLikes,commentDislikes]=keys.map(key=>Number(row[key]));
+ $('ddProfileLikesReceived').textContent=(postLikes+commentLikes).toLocaleString();
+ $('ddProfileDislikesReceived').textContent=(postDislikes+commentDislikes).toLocaleString();
+ $('ddProfileReactionBreakdown').textContent='Posts ▲ '+postLikes.toLocaleString()+' / ▼ '+postDislikes.toLocaleString()+
+  ' · Comments ▲ '+commentLikes.toLocaleString()+' / ▼ '+commentDislikes.toLocaleString()+
+  ' · Updated from published content; votes you cast on your own content do not count.';
+ lastReactionLoad=Date.now();
+ return true;
+}
+async function refreshReactions(){
+ const c=client(),current=userId;
+ if(!c||!current||document.hidden||$('profilePage')?.classList.contains('hidden')||
+    Date.now()-lastReactionLoad<25000)return;
+ const pageRevision=nonce,request=++reactionNonce;
+ try{
+  const {data:auth,error:authError}=await c.auth.getUser();
+  if(authError||auth?.user?.id!==current||auth?.user?.is_anonymous)return;
+  const {data,error}=await c.rpc('dd_profile_received_reactions');
+  if(request!==reactionNonce||pageRevision!==nonce||userId!==current)return;
+  if(error)throw error;
+  displayReactions(data);
+ }catch(_){
+  if(request===reactionNonce&&pageRevision===nonce&&userId===current)
+   clearReactions('Reaction totals are temporarily unavailable. Refresh to try again.');
+ }
+}
 async function refresh(){
  if($('profilePage')?.classList.contains('hidden'))return;
- const n=++nonce,c=client();if(!c){guest();return}
+ const n=++nonce,c=client(),reactionsRevision=++reactionNonce;if(!c){guest();return}
  const {data,error}=await c.auth.getUser();
  if(n!==nonce)return;
  const user=!error&&data?.user&&!data.user.is_anonymous?data.user:null;
@@ -105,6 +144,7 @@ async function refresh(){
  const initialName=String(user.user_metadata?.dd_requested_username||'').trim();
  $('ddProfileDisplayName').textContent=initialName||'Researcher';
  $('ddProfileStatus').textContent='Loading your private activity…';
+ clearReactions('Loading reactions received on your published posts and comments…');
  $('ddProfileAdmin').hidden=true;
  const results=await Promise.allSettled([
   c.from('research_documents').select('id,title,updated_at',{count:'exact'}).order('updated_at',{ascending:false}).limit(8),
@@ -113,13 +153,18 @@ async function refresh(){
   c.from('dd_witness_reports').select('id,category,event_date,city,country,status,created_at',{count:'exact'}).order('created_at',{ascending:false}).limit(10),
   c.from('dd_public_names').select('display_name').eq('user_id',user.id).maybeSingle(),
   c.rpc('dd_is_comment_moderator'),
-  c.from('research_document_trash').select('id,title,trashed_at',{count:'exact'}).order('trashed_at',{ascending:false}).limit(15)
+  c.from('research_document_trash').select('id,title,trashed_at',{count:'exact'}).order('trashed_at',{ascending:false}).limit(15),
+  c.rpc('dd_profile_received_reactions')
  ]);
  if(n!==nonce||userId!==user.id)return;
  let failed=0;
  const success=i=>results[i].status==='fulfilled'&&!results[i].value.error?results[i].value:null;
- const docs=success(0),boards=success(1),comments=success(2),reports=success(3),alias=success(4),moderator=success(5),trash=success(6);
+ const docs=success(0),boards=success(1),comments=success(2),reports=success(3),alias=success(4),moderator=success(5),trash=success(6),reactions=success(7);
  $('ddProfileDisplayName').textContent=alias?.data?.display_name||initialName||'Researcher';
+ if(reactionsRevision===reactionNonce){
+  if(reactions)displayReactions(reactions.data);
+  else clearReactions('Reaction totals are temporarily unavailable. Refresh to try again.');
+ }
  if(docs){
   $('ddProfileFilesCount').textContent=String(docs.count??docs.data?.length??0);
   $('ddProfileFilesList').replaceChildren();
@@ -260,6 +305,10 @@ function init(){
  };
  document.querySelectorAll('[data-profile-go]').forEach(b=>b.onclick=()=>visit(b.dataset.profileGo));
  const c=client();if(c)c.auth.onAuthStateChange(()=>{setTimeout(()=>void refresh(),0)});
+ // Lightweight totals refresh only while this profile is actually visible.
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)void refreshReactions()});
+ window.addEventListener('focus',()=>void refreshReactions());
+ setInterval(()=>void refreshReactions(),45000);
  void refresh();
 }
 window.DDResearchHub=Object.freeze({refresh});
