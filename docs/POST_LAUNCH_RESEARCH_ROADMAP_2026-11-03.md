@@ -2,6 +2,8 @@
 Approved: 3 November 2026. Owner accepted **all five** research enhancements.
 **Planning only. These are not built or live yet.**
 
+Current release gates and the owner's 10 November desktop/community/growth requests are prioritised in [the current product roadmap](PRODUCT_ROADMAP_2026-11-10.md). The five research phases below remain approved; the newer roadmap does not replace them.
+
 ## Release boundary
 Ship the current Disclosure Desk community/social beta reliably first: News/Archive/Watch & Read/Videos comments, map and signed-in witness reporting, five-flag moderation, W.NE Research Studio, Research Hub/Profile, owner-only Admin Centre, official LIVE hearings and saved read-only hearing chat/recordings, Podcasts label, and refreshed tour. Finish real-account, phone, network, RLS, accessibility and moderation QA before production. Do not conflate roadmap approval with authority to deploy these new features now. Respect Netlify credits by batching changes.
 
@@ -35,5 +37,5 @@ Ship the current Disclosure Desk community/social beta reliably first: News/Arch
 2. Respect uncertainty, including cases without sufficient evidence.
 3. Protect witnesses: city-level public locations, signed-in submissions, anti-abuse flags and self-moderation.
 4. No background location collection, no forced cloud and no private research publishing by accident.
-5. Accessible mobile-first design; use current 11-tab navigation rather than add five more tabs.
+5. Accessible mobile-first design; use the current navigation rather than add five more tabs. The 10 November source mirrors 13 destinations when both community features are enabled.
 6. Phase incrementally and feature-gate; evaluate usage and researcher feedback before paying for external aviation/astronomy feeds.
