@@ -185,6 +185,7 @@ function init(){
 
  document.querySelector('#ddCommentsToggle').onclick=()=>{
   replyTo=null;expanded=!expanded;
+  const cancel=document.getElementById('ddCaseReplyCancel');if(cancel)cancel.hidden=true;
   const composer=document.getElementById('ddCaseDiscussionForm');
   if(composer)composer.hidden=!expanded;
   renderComments();
@@ -199,6 +200,7 @@ function init(){
    if(!id)return;
    if(inlineHost)restoreModalLayout();
    ++dialogRevision;current=String(id).slice(0,180);expanded=false;loadedComments=[];replyTo=null;
+   const cancel=document.getElementById('ddCaseReplyCancel');if(cancel)cancel.hidden=true;
    const composer=document.getElementById('ddCaseDiscussionForm');if(composer)composer.hidden=true;
    const opened=dialogRevision,chosen=current;
    const heading=root.querySelector('h2');if(heading)heading.textContent=title;
@@ -217,6 +219,7 @@ function init(){
   if(inlineHost)window.ddCloseInlineCaseDiscussion();
   ++dialogRevision;++loadRevision;
   current=String(id).slice(0,180);expanded=true;loadedComments=[];replyTo=null;
+  const cancel=document.getElementById('ddCaseReplyCancel');if(cancel)cancel.hidden=true;
   inlineHost=host;host.hidden=false;
   root.style.cssText='position:relative;inset:auto;z-index:auto;background:transparent;overflow:visible;padding:0;width:100%;max-width:100%';
   root.classList.add('dd-case-discussion-inline');
