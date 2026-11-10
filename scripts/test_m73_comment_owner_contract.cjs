@@ -21,7 +21,7 @@ assert.match(forum,/dd-forum-owner-more/,'Discussions owner replies AND posts us
 assert.match(forum,/row\.is_mine/,'Discussions author ownership must originate from RPC');
 assert.match(forum,/openPostAction\(summary,kind,row,'delete'\)/,'Discussions Delete uses existing secure modal');
 assert.doesNotMatch(forum,/nodeAction\(parent,'🗑'/,'No direct Delete icon in Discussion action bar');
-assert.match(forum,/options\.append/,'Owner controls grouped into a menu');
+assert.match(forum,/more\.append\(summary,options\);parent\.append\(more\)/,'Owner controls grouped into a menu');
 assert.match(inline,/post\.textContent=state\.replyTo\?'Post reply':'Post comment'/);
 assert.match(inline,/cancel\.hidden=!state\.replyTo/,'Cancel shows for Reply');
 assert.match(inline,/state\.replyComposerDismissed=!!replyingTo/,'Successful Reply closes popup');
