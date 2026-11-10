@@ -102,7 +102,9 @@ async function inspect(rail,label,required){
 
   await page.evaluate(()=>window.navigateTo('clips'));
   await page.locator('[data-video-id="m67-video"]').first().waitFor();
-  await page.locator('#openImmersiveClips').click();
+  // Open the viewer through its visible mobile navigation, not the hidden
+  // advanced-filter shortcut. The latter is intentionally collapsed.
+  await page.locator('#ddSwipeVideos').click();
   const immersive=page.locator('#immersiveViewer:not([hidden]) .immersive-item').first();
   await immersive.waitFor();
   await inspect(immersive.locator('.immersive-tools'),'Immersive video',['comments','board','share']);
