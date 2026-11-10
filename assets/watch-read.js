@@ -124,7 +124,7 @@ function init(){
    const card=node('article');card.className='card dd-media-card';
    const content=node('div');content.className='dd-media-content';card.append(content);
    const rail=node('div');rail.className='dd-media-actions dd-action-rail';rail.setAttribute('role','group');rail.setAttribute('aria-label','Title actions');
-   const name=item.url?node('a',item.title):node('strong',item.title);if(item.url){name.href=item.url;name.target='_blank';name.rel='noopener noreferrer';name.style.cssText='display:block;font-weight:750;color:#e7c58a;text-decoration:underline;text-underline-offset:3px;margin-bottom:6px'}content.append(name,node('p',item.year+' · '+item.creator));
+   const name=item.url?node('a',item.title):node('strong',item.title);if(item.url){name.href=item.url;name.target='_blank';name.rel=item.source_kind==='member'?'noopener noreferrer nofollow ugc':'noopener noreferrer';name.style.cssText='display:block;font-weight:750;color:#e7c58a;text-decoration:underline;text-underline-offset:3px;margin-bottom:6px'}content.append(name,node('p',item.year+' · '+item.creator));
    const save=node('button',saved[item.id]?'✓ On my list':'+ My list');save.type='button';save.className='outline';
    save.onclick=()=>{if(saved[item.id])delete saved[item.id];else saved[item.id]=true;try{localStorage.setItem(key,JSON.stringify(saved))}catch{}render()};
    rail.append(save);

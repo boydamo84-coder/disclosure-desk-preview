@@ -165,6 +165,7 @@ jobs:
           exit 1
       - name: Run actual Chromium mobile editor tests without cloud access
         run: |
+          node scripts/test_media_auto_publish_chromium.cjs
           node scripts/test_research_editor_real_chromium_20261108.cjs
           node scripts/test_m32_actual_writer_ribbon_chromium_20261109.cjs
           node scripts/test_m34_writer_image_recovery_chromium_20261109.cjs
@@ -190,7 +191,6 @@ jobs:
           node scripts/test_research_home_navigation_chromium_20261108.cjs
           node scripts/test_research_json_restore_chromium_20261108.cjs
           node scripts/test_m30_first_document_chromium_20261109.cjs
-          node scripts/test_media_auto_publish_chromium.cjs
       - name: Stop loopback-only test origin
         if: always()
         run: kill "$(cat /tmp/dd-research-chrome.pid)" || true
