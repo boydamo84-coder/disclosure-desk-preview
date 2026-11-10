@@ -291,3 +291,76 @@
 #discussionsPage #ddForumThreadPane.dd-forum-detail-open>#ddForumThreadTitle,#discussionsPage #ddForumThreadPane.dd-forum-detail-open>#ddForumSectionInfo,#discussionsPage #ddForumThreadPane.dd-forum-detail-open>#ddForumBackSections{display:none}
 #discussionsPage #ddForumBackThreads{margin-bottom:14px}
 #discussionsPage #ddForumReplyPane{scroll-margin-top:90px}
+
+/* M51: single-line right-grouped social controls. Preserve each existing
+   vote, comment, Board, Share and Compare handler; visual placement only. */
+.dd-action-rail{justify-content:flex-end!important}
+#newsGrid article>.dd-news-actions{
+ display:block!important;width:100%!important;max-width:none!important;
+ margin:0!important;min-width:0!important
+}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions{
+ display:flex!important;justify-content:flex-end!important;align-items:center!important;
+ gap:2px!important;flex-wrap:wrap!important;width:100%!important;
+}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions>*,
+#newsGrid article>.dd-news-actions>.dd-news-main-actions>[data-news-article-votes],
+#newsGrid article .dd-news-article-vote-controls{
+ flex:0 0 auto!important;width:auto!important;max-width:100%!important;
+}
+#newsGrid article>.dd-news-actions>.dd-news-main-actions button,
+#newsGrid article .dd-news-article-vote-controls button,
+#newsGrid article>.dd-news-actions .dd-inline-comments-toggle{
+ flex:0 0 auto!important;width:auto!important;min-width:36px!important;
+ min-height:44px!important;max-width:100%!important;padding:6px 7px!important
+}
+#newsGrid article>.dd-news-actions .dd-news-compare-action{
+ font-size:11px!important;color:#e8c58c!important;
+ padding:7px 9px!important;white-space:nowrap!important
+}
+@media(max-width:360px){
+ #newsGrid article>.dd-news-actions>.dd-news-main-actions{gap:0!important}
+ #newsGrid article>.dd-news-actions>.dd-news-main-actions button{padding:5px!important}
+ #newsGrid article>.dd-news-actions .dd-news-compare-action{padding:5px 6px!important}
+}
+/* Profile icon/label: the avatar never sits beside the word Profile. */
+.nav .tab[data-tab="profilePage"]{
+ display:flex!important;flex-direction:column!important;align-items:center!important;
+ justify-content:center!important;text-align:center!important;gap:2px!important;
+ white-space:nowrap!important
+}
+.nav .tab[data-tab="profilePage"] .ico{
+ display:flex!important;flex:none!important;align-items:center!important;
+ justify-content:center!important;margin:0 auto 2px!important;
+ width:23px!important;height:23px!important;line-height:1!important
+}
+/* A saved Board item says Added, not merely a filled star. */
+.dd-action-rail .dd-action-board.bookmark-saved::after,
+.dd-action-rail .dd-forum-star-action.bookmark-saved::after{
+ content:"Added";font:650 10px/1.15 system-ui;color:#e8c58c;
+ margin-left:3px
+}
+.dd-citation-save{min-height:36px!important;width:auto!important;
+ padding:7px 10px!important;margin:4px 2px!important;font-size:12px!important;
+ white-space:normal!important;text-align:center
+}
+#archiveCaseBody [data-add-archive-event]{
+ min-height:36px!important;white-space:normal!important
+}
+
+/* M51 specificity against legacy M34 inline flex-start rails */
+#newsGrid article>.dd-news-actions>.dd-news-main-actions.dd-action-rail,
+#discussionsPage .dd-forum-actions.dd-action-rail,
+.dd-comment-card .dd-comment-action-rail.dd-action-rail,
+#clips .clip-utility-actions.dd-action-rail,
+#clips .immersive-tools.dd-action-rail{
+ justify-content:flex-end!important
+}
+/* On narrow News cards, wrap controls rather than losing Compare offscreen. */
+#newsGrid article>.dd-news-actions>.dd-news-main-actions.dd-action-rail{
+ flex-flow:row wrap!important;overflow-x:visible!important
+}
+#discussionsPage .dd-forum-reply-card .dd-forum-actions>.dd-forum-reply-action,
+.dd-comment-card .dd-comment-action-rail.dd-action-rail .dd-comment-reply-button{
+ margin-left:0!important
+}

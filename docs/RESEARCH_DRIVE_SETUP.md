@@ -1,8 +1,17 @@
 # W.NE Research — optional Google Drive Word copies
 
-Development implementation; real Google OAuth and a live upload/restore are not yet verified.
+M52: Public Google Web OAuth client ID was configured on the M51 development branch on 10 November 2026. **Not deployed.** Real Google OAuth consent, Drive API enablement and a live upload/restore have **not** been verified; do not advertise the website as connected until owner acceptance.
 
 The previous implementation in `boydamo84-coder/WNE-Research-Edition`, `wne_source_v1_0_1/wne_google_drive_connect_v0910.py`, uses a Google **Desktop** OAuth credential and a local Python callback. Its credential file, tokens and encrypted-library server code cannot be published inside the static website. The Research browser integration retains the limited `drive.file` scope and new-copy workflow.
+
+## 10 November 2026 — M52 website client registered
+
+- User created **Disclosure Desk W.NE Research Web** as a new *Web application* client in the existing **BDS Secure Backups** Google Cloud project, alongside the existing **BDS Backup Runner** Desktop client; Desktop client was not changed.
+- User supplied only the **public Web OAuth Client ID**, which is now in `research/google-drive-config.js` on `fix/post-m50-action-rails-citations-nov10`; no secret, OAuth JSON or token was added. `research/wne.html` loads `google-drive-config.js?v=m52` to bypass stale mobile caching.
+- New no-deploy source test checks the exact config shape, public bundle inclusion, limited `drive.file` scope and use of Google Identity Services. The existing `scripts/test_research_drive_runtime.cjs` covers fictional upload/readback hash, owner mismatch, memory-only tokens and a hostile upload host.
+- **Owner Google Cloud follow-ups (must be checked in the existing BDS project):** Google Drive API enabled; Google Auth Platform → Audience status (**Testing** or **In production**) and appropriate test accounts; Data access has `https://www.googleapis.com/auth/drive.file`; new Web client authorized JavaScript origin exactly `https://uapdisclosuredesk.com`; Branding/support/privacy configuration appropriate for public users.
+- **Still unverified:** authentic Google account consent, real upload, Drive retrieval and Word recovery, and signed-in Samsung/iPhone acceptance. Test on a disposable report; never treat source CI as proof of a real Google connection. Do not trigger a production Netlify deploy solely for the public ID.
+- The website's browser flow is **manual on-demand ordinary DOCX copies**, not the original encrypted full W.NE library backup or an automatic cloud scheduler. Do not overwrite any existing Drive files.
 
 ## Configuration needed before activation
 

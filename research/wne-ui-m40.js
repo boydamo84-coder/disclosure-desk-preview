@@ -163,7 +163,7 @@ function citationPreview(){
 function showCitationDialog(nextMode){
  if(!citationsDialog){
   const d=document.createElement('dialog');d.id='dd-m40-citation-dialog';d.className='dd-m40-citation-dialog';
-  d.innerHTML='<div class="dd-m40-cite-head"><h2>Insert a citation</h2><p>Choose a saved source or add a reference. Preview it before inserting.</p></div><div class="dd-m40-cite-scroll"><div class="dd-m40-cite-modes" role="group" aria-label="Citation source"><button type="button" id="dd-m40-cite-saved">Saved sources</button><button type="button" id="dd-m40-cite-new">Add new source</button></div><label>Reference collection<select id="dd-m40-cite-project"></select></label><div id="dd-m40-cite-saved-area"><label>Choose a reference<select id="dd-m40-cite-select"></select></label></div><div id="dd-m40-cite-new-area" hidden><label>Source title<input id="dd-m40-cite-title" maxlength="160" placeholder="e.g. Original government report"></label><label>Source web link<input id="dd-m40-cite-url" type="url" maxlength="1800" placeholder="https://..."></label></div><label>Citation style<select id="dd-m40-cite-style"><option value="investigative">Investigative report</option><option value="academic">Numbered [1]</option></select></label><div id="dd-m40-cite-preview" aria-live="polite"></div><p class="dd-m40-help">References are saved locally in this browser, not automatically synced between devices.</p><button type="button" id="dd-m40-cite-library">Open Research Library</button></div><div class="dd-m40-cite-footer"><p id="dd-m40-cite-status" role="status"></p><button type="button" id="dd-m40-cite-close">Cancel</button><button type="button" id="dd-m40-cite-insert" disabled>Insert citation</button></div>';
+  d.innerHTML='<div class="dd-m40-cite-head"><h2>My citations</h2><p>Save original sources to your citation list, or choose a source to insert into your document.</p></div><div class="dd-m40-cite-scroll"><div class="dd-m40-cite-modes" role="group" aria-label="Citation source"><button type="button" id="dd-m40-cite-saved">Saved sources</button><button type="button" id="dd-m40-cite-new">Add new source</button></div><label>Reference collection<select id="dd-m40-cite-project"></select></label><div id="dd-m40-cite-saved-area"><label>Choose a reference<select id="dd-m40-cite-select"></select></label></div><div id="dd-m40-cite-new-area" hidden><label>Source title<input id="dd-m40-cite-title" maxlength="160" placeholder="e.g. Original government report"></label><label>Source web link<input id="dd-m40-cite-url" type="url" maxlength="1800" placeholder="https://..."></label><button type="button" id="dd-m40-cite-save-only">＋ Save to citation list (no insertion)</button></div><label>Citation style<select id="dd-m40-cite-style"><option value="investigative">Investigative report</option><option value="academic">Numbered [1]</option></select></label><div id="dd-m40-cite-preview" aria-live="polite"></div><p class="dd-m40-help">References are saved locally in this browser, not automatically synced between devices.</p><button type="button" id="dd-m40-cite-library">Open Research Library</button></div><div class="dd-m40-cite-footer"><p id="dd-m40-cite-status" role="status"></p><button type="button" id="dd-m40-cite-close">Cancel</button><button type="button" id="dd-m40-cite-insert" disabled>Insert citation</button></div>';
   document.body.append(d);citationsDialog=d;
   d.querySelector('#dd-m40-cite-saved').onclick=()=>setCitationMode('saved');
   d.querySelector('#dd-m40-cite-new').onclick=()=>setCitationMode('new');
@@ -176,6 +176,7 @@ function showCitationDialog(nextMode){
    refreshCitationList();
   });
   d.querySelector('#dd-m40-cite-insert').onclick=insertCitation;
+  d.querySelector('#dd-m40-cite-save-only').onclick=saveCitationOnly;
  }
  const p=citationsDialog.querySelector('#dd-m40-cite-project');
  p.replaceChildren();
@@ -203,6 +204,26 @@ function setCitationMode(next){
  d.querySelector('#dd-m40-cite-new').setAttribute('aria-pressed',String(next==='new'));
  d.querySelector('#dd-m40-cite-insert').textContent=next==='new'?'Save and insert':'Insert citation';
  citationPreview();
+}
+function saveCitationOnly(){
+ const d=citationsDialog,output=d?.querySelector('#dd-m40-cite-status');
+ if(!d||!output)return;
+ const p=d.querySelector('#dd-m40-cite-project').value;
+ const title=d.querySelector('#dd-m40-cite-title').value.trim().slice(0,160);
+ const url=safeUrl(d.querySelector('#dd-m40-cite-url').value.trim());
+ if(!title||!url){output.textContent='Enter a source title and a valid http(s) URL before saving.';return}
+ const list=entries(p),existing=list.findIndex(x=>x.url===url);
+ if(existing<0&&list.length>=499){output.textContent='This reference collection is full. Export it from Research Library.';return}
+ const next=existing<0?[...list,{title,url,publisher:new URL(url).hostname,addedAt:new Date().toISOString()}]:list;
+ try{
+  if(existing<0)localStorage.setItem(sourceKey(p),JSON.stringify(next));
+  visibleProject=p;
+  setCitationMode('saved');
+  refreshCitationList();
+  d.querySelector('#dd-m40-cite-select').value=String(existing<0?next.length-1:existing);
+  citationPreview();
+  output.textContent=existing<0?'✓ Saved to your citations list. No text was inserted into the document.':'✓ Already in your citations list. No text was inserted.';
+ }catch{output.textContent='Could not save this source in browser storage. Nothing was inserted into your document.'}
 }
 function insertCitation(){
  const d=citationsDialog,output=d.querySelector('#dd-m40-cite-status'),button=d.querySelector('#dd-m40-cite-insert');
@@ -249,7 +270,7 @@ function showCitationsTab(){
   const selected=b===citeTab;b.setAttribute('aria-selected',String(selected));b.tabIndex=selected?0:-1;
  }
  panel.replaceChildren();panel.hidden=false;
- const choose=make('button','📚 Choose saved citation'),add=make('button','＋ Add source'),library=make('button','Research Library');
+ const choose=make('button','📚 Insert saved citation'),add=make('button','＋ Add source to citation list'),library=make('button','Research Library');
  [choose,add,library].forEach(b=>{b.type='button';b.classList.add('dd-m40-ribbon-action');panel.append(b)});
  choose.onclick=()=>showCitationDialog('saved');
  add.onclick=()=>showCitationDialog('new');

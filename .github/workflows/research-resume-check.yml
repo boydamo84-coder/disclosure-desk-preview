@@ -1,7 +1,7 @@
 name: Verify Research Studio resume and existing community (NO deploy)
 on:
   push:
-    branches: [fix/research-mobile-profile-polish-nov08, staging/research-samsung-m16-20261108, fix/compact-writing-popover-mobile-desktop-nov08]
+    branches: [fix/research-mobile-profile-polish-nov08, staging/research-samsung-m16-20261108, fix/compact-writing-popover-mobile-desktop-nov08, fix/post-m50-action-rails-citations-nov10]
   workflow_dispatch:
 permissions:
   contents: read
@@ -26,6 +26,8 @@ jobs:
         run: |
           node --check scripts/test_m34_ui_contract_20261109.cjs
           node scripts/test_m34_ui_contract_20261109.cjs
+          node --check scripts/test_m51_social_citations_contract.cjs
+          node scripts/test_m51_social_citations_contract.cjs
           node --check scripts/test_m34_community_consistency_20261109.cjs
           node scripts/test_m34_community_consistency_20261109.cjs
           node --check scripts/test_m35_sitewide_action_rail_20261109.cjs
@@ -49,6 +51,8 @@ jobs:
           node --check research/wne-cloud-bridge.js
           node scripts/test_research_backup_recovery_20261108.cjs
           node scripts/test_research_drive_runtime.cjs
+          node --check scripts/test_m52_drive_web_oauth_config.cjs
+          node scripts/test_m52_drive_web_oauth_config.cjs
           node scripts/test_docx_import_security.cjs
           node --check research/research-docx-import.js
           node --check scripts/test_research_docx_inline_import_20261108.cjs
@@ -185,6 +189,8 @@ jobs:
           node scripts/test_comment_action_rail_chromium_20261108.cjs
           node --check scripts/test_m35_action_rail_chromium_20261109.cjs
           node scripts/test_m35_action_rail_chromium_20261109.cjs
+          node --check scripts/test_m51_rail_profile_chromium.cjs
+          node scripts/test_m51_rail_profile_chromium.cjs
           node --check scripts/test_m38_hearing_inline_and_wide_rails_chromium_20261109.cjs
           node scripts/test_m38_hearing_inline_and_wide_rails_chromium_20261109.cjs
           node scripts/audit_full_site_chromium_20261108.cjs

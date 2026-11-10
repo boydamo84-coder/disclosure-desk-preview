@@ -1,0 +1,21 @@
+'use strict';
+// M52 source-only, no Google request, account access, publishing or real uploads.
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const config=fs.readFileSync('research/google-drive-config.js','utf8');
+const script=fs.readFileSync('research/google-drive.js','utf8');
+const html=fs.readFileSync('research/wne.html','utf8');
+const bundle=fs.readFileSync('scripts/build_public_release.cjs','utf8');
+const window={};vm.runInNewContext(config,{window},{timeout:1000});
+const keys=Object.keys(window.DDResearchDriveConfig||{});
+assert.deepEqual(keys,['clientId'],'Public browser config must hold a client ID ONLY');
+const id=window.DDResearchDriveConfig.clientId;
+assert.match(id,/^[0-9]{12}-[a-z0-9]+\.apps\.googleusercontent\.com$/i);
+assert.ok(id.length<150);
+assert.match(html,/\.\/google-drive-config\.js\?v=m52/,'Force fresh config after deployment');
+assert.match(html,/\.\/google-drive\.js/);
+assert.match(bundle,/'google-drive-config\.js','google-drive\.js'/,'Both Drive files are in public allowlist');
+assert.match(script,/https:\/\/www\.googleapis\.com\/auth\/drive\.file/,'Narrow per-file Drive scope');
+assert.match(script,/initTokenClient/,'Use GIS web browser token client');
+assert.match(script,/client_id:clientId/,'Use only the configured public client ID');
+assert.doesNotMatch(Object.keys(window.DDResearchDriveConfig).join(' '),/secret|token|refresh|password|key/i);
+console.log('PASS M52 public Web OAuth client configured; only ID exposed, drive.file, GIS and cache bust present (NO GOOGLE REQUEST).');
