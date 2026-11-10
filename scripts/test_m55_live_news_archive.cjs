@@ -69,7 +69,7 @@ async function check(){
  await check();
  assert.equal(calls.at(-1).rows[0].headline,'Bundled local','Offline copy remains functional');
  assert.match(calls.at(-1).label,/Bundled offline news/);
- const archiveLoader=span('async function loadHistoricalArchive(){','\\nfunction topStoryKey(');
+ const archiveLoader=span('async function loadHistoricalArchive(){','\nfunction topStoryKey(');
  assert.ok(archiveLoader.indexOf("fetch('data/curated-historical-cases.json'")>=0);
  assert.ok(archiveLoader.indexOf("fetch('data/curated-historical-cases.json'")<archiveLoader.indexOf("fetch('data/historical-news-archive.json'"));
  assert.match(html,/ddShowArchiveData\(\[\],curated\)/);
