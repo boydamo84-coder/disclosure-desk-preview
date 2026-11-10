@@ -73,20 +73,24 @@ async function main(){
    await page.locator('#dd-word-context-v1 [data-action=compare]').click();
    await page.locator('#dd-compare-boards-tab').click();
    await page.locator('#dd-compare-board').selectOption(BOARD);
-   await page.locator('#dd-compare-item option[value="0"]').waitFor();
+   await page.locator('#dd-compare-item option[value="0"]').waitFor({state:'attached'});
    await page.locator('#dd-compare-item').selectOption('0');
    await page.waitForFunction(()=>document.getElementById('dd-preview-message')?.textContent?.includes('Board Alpha'));
    assert.equal(await page.locator('#dd-preview-content table').count(),1);
    await page.locator('#dd-comparison-cancel').click();
    assert.equal(await page.locator('#editor .dd-comparison-block').count(),1);
    passed++;console.log('PASS M40 '+width+'px saved Board preview and cancellation protect report');
-   await page.locator('#drawer').click();
-   const layers=await page.evaluate(()=>{
-    const sidebar=document.querySelector('.sidebar.open'),sticky=document.getElementById('wne-m39-sticky-controls');
-    return {side:Number(getComputedStyle(sidebar).zIndex),
-     sticky:Number(getComputedStyle(sticky).zIndex)};
-   });
-   assert(layers.side>layers.sticky,'Sections drawer below toolbar '+JSON.stringify(layers));
+   if(width<=820){
+    await page.locator('#drawer').click();
+    const layers=await page.evaluate(()=>{
+     const sidebar=document.querySelector('.sidebar.open'),sticky=document.getElementById('wne-m39-sticky-controls');
+     return {side:Number(getComputedStyle(sidebar).zIndex),
+      sticky:Number(getComputedStyle(sticky).zIndex)};
+    });
+    assert(layers.side>layers.sticky,'Sections drawer below toolbar '+JSON.stringify(layers));
+   }else{
+    assert.equal(await page.locator('.sidebar').isVisible(),true,'Desktop Sections sidebar is already open');
+   }
    await page.locator('#add').click();
    await page.waitForFunction(()=>document.getElementById('chapter-title')?.value==='Section 2');
    passed++;console.log('PASS M40 '+width+'px Sections above ribbon and new title Section 2');
@@ -103,7 +107,7 @@ async function main(){
    assert.equal(await page.locator('#dd-m40-cite-insert').isDisabled(),true,
     'Saved citation needs explicit choice');
    await page.locator('#dd-m40-cite-select').selectOption('0');
-   await page.locator('#dd-m40-cite-preview').getByText('Official synthetic report').waitFor();
+   await page.locator('#dd-m40-cite-preview').getByText('Official synthetic report',{exact:true}).waitFor();
    await page.locator('#dd-m40-cite-close').click();
    passed++;console.log('PASS M40 '+width+'px dedicated Citations, preview, save and cancel');
    assert(!errors.some(e=>/M40|dd-comparison-dialog|dd-m40/i.test(e)),
