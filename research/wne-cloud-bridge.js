@@ -88,6 +88,7 @@ async function manuscript(method,input){
 async function makeLibraryZip(){
  const account=await user();
  if(typeof window.JSZip!=='function')throw Error('ZIP library unavailable. Check your connection and try again; your research has not changed.');
+ if(typeof window.DDResearchDocx?.exportFile!=='function')throw Error('Word backup tools are not ready. Keep the editor open and retry.');
  const rows=[],pageSize=100,needsReview=[];
  for(let offset=0;offset<1000;offset+=pageSize){
   const {data,error}=await db.from('research_documents')
@@ -114,13 +115,13 @@ async function makeLibraryZip(){
   documents:restorable.map(({id,title,revision,updated_at})=>({id,title,revision,updated_at})),
   manual_review_count:needsReview.length
  };
- zip.file('README.txt','Disclosure Desk W.NE Research Edition backup\\n'
- +'Includes only the research documents belonging to the signed-in account.\\n'
- +'Original document IDs are included for reference; restoring should create NEW copies.\\n'
- +'Private browser-only Boards, image files outside the manuscript, and Google Drive are not included.\\n'
- +'Store this ZIP privately. It may include sensitive, unpublished work.\\n');
+ zip.file('README.txt','Disclosure Desk W.NE Research Edition backup\n'
+ +'Includes only the research documents belonging to the signed-in account.\n'
+ +'Original document IDs are included for reference; restoring should create NEW copies.\n'
+ +'Private browser-only Boards, image files outside the manuscript, and Google Drive are not included.\n'
+ +'Store this ZIP privately. It may include sensitive, unpublished work.\n');
  zip.file('manifest.json',JSON.stringify(manifest,null,2));
- let characters=0;
+ let characters=0,wordDocumentCount=0;
  for(const row of rows){
   const data=JSON.stringify({
    id:row.id,title:row.title,revision:row.revision,created_at:row.created_at,
@@ -129,6 +130,14 @@ async function makeLibraryZip(){
   characters+=data.length;
   if(characters>60*1024*1024)throw Error('The research library is too large for one browser ZIP (60 MB limit). No file created.');
   zip.file((valid(row.content)?'documents/':'manual-review/')+row.id+'.json',data);
+  if(valid(row.content)){
+   const stillSignedIn=await user();if(stillSignedIn.id!==account.id)throw Error('Account changed. No backup will be downloaded.');
+   const word=await window.DDResearchDocx.exportFile(structuredClone(row.content));
+   const safeTitle=String(row.title||'Research').replace(/[^a-z0-9 _-]/gi,'').trim().slice(0,80)||'Research';
+   characters+=word.size;
+   if(characters>60*1024*1024)throw Error('The combined Word and recovery backup exceeds 60 MB. Download individual Word copies.');
+   zip.file('Word documents/'+safeTitle+'-'+row.id.slice(0,8)+'.docx',word);wordDocumentCount++;
+  }
  }
  if(needsReview.length)zip.file('WARNING-MANUAL-REVIEW.txt',
   'Older or incompatible documents were preserved as raw JSON in manual-review/. Only documents/ are valid for automatic restore.\n'
@@ -137,7 +146,7 @@ async function makeLibraryZip(){
  const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:4}});
  if(!blob?.size)throw Error('The ZIP archive could not be generated.');
  const stamp=exported.slice(0,10);
- return {blob,filename:'Disclosure-Desk-WNE-Research-'+stamp+'.zip',documentCount:rows.length,needsManualReview:needsReview.length};
+ return {blob,filename:'Disclosure-Desk-WNE-Research-'+stamp+'.zip',documentCount:rows.length,wordDocumentCount,needsManualReview:needsReview.length};
 }
 async function libraryAction(input){
  await user();
@@ -304,7 +313,8 @@ async function route(input,init){
 window.fetch=async(input,init)=>{
  const api=await route(input,init);return api||originalFetch(input,init);
 };
-db.auth.onAuthStateChange((event)=>{
+db.auth.onAuthStateChange((event,session)=>{
+ if(event==='SIGNED_OUT'||event==='SIGNED_IN'&&session?.user?.id!==state.owner){window.dispatchEvent?.(new Event('dd-wne-account-changed'))}
  if(event==='SIGNED_OUT'){
   state.owner=null;state.id=null;state.revision=null;state.document=null;state.saved=null;
   const editor=document.getElementById('editor');
@@ -312,6 +322,6 @@ db.auth.onAuthStateChange((event)=>{
   document.documentElement.dataset.wneBridge='signed-out';
  }
 });
-window.WNECloudIntegration=Object.freeze({getStatus:()=>({authenticated:!!state.owner,activeDocument:state.id,revision:state.revision}),readSavedDocument:async()=>{await ensureLoaded();return structuredClone(state.document)},makeLibraryZip,recoveryList:async()=>recovery('/api/snapshots','GET'),recoveryPreview:async id=>recovery('/api/snapshot/'+encodeURIComponent(id),'GET'),recoveryCopy:async id=>recovery('/api/recovery/copy','POST',{id})});
+window.WNECloudIntegration=Object.freeze({verifiedOwner:async()=>(await user()).id,getStatus:()=>({authenticated:!!state.owner,activeDocument:state.id,revision:state.revision}),readSavedDocument:async()=>{await ensureLoaded();return structuredClone(state.document)},makeLibraryZip,recoveryList:async()=>recovery('/api/snapshots','GET'),recoveryPreview:async id=>recovery('/api/snapshot/'+encodeURIComponent(id),'GET'),recoveryCopy:async id=>recovery('/api/recovery/copy','POST',{id})});
 document.documentElement.dataset.wneBridge='limited';
 })();
