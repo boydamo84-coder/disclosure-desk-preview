@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs');
 const read=p=>fs.readFileSync(p,'utf8');
 const html=read('index.html'),comments=read('assets/inline-news-comments.js');
-const live=read('assets/live-hearings.js'),votes=read('assets/community-votes.js');
+const live=read('assets/live-hearings.js'),liveSchedule=read('assets/live-schedule.js'),votes=read('assets/community-votes.js');
 const witness=read('assets/witness-community.js'),caseComments=read('assets/case-discussions.js');
 const rail=read('assets/unified-action-rails.js'),css=read('assets/community-polish.css');
 const required=[
@@ -27,6 +27,8 @@ assert.match(comments,/\.immersive-tools/,'Immersive comments toggle uses existi
 assert.match(comments,/body\.rows=1/,'Same single-line reply composer on news/media/cases');
 assert.match(caseComments,/rows="1"/,'Case and LIVE comments use one-to-three-line reply field');
 assert.match(live,/dd-live-hearing-action-rail dd-action-rail/,'Hearing cards share common post rail');
+assert.match(liveSchedule,/dd-live-hearing-action-rail dd-action-rail/,'Scheduled/live countdown hearing cards share action rail');
+assert.match(liveSchedule,/rail\.append\(discussionButton,board,share\)/,'Scheduled hearings retain real Comments, Board, Share');
 assert.match(live,/ddOpenInlineCaseDiscussion/,'Hearing comments are inline beneath recording');
 for(const phrase of ['window.DDSavePublicLinkToBoard','window.DDSharePublicLink','dd-hearing-comments-toggle'])
  assert(live.includes(phrase),'Working hearing Board/Share/Comments controls remain: '+phrase);
