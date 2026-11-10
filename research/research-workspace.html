@@ -445,6 +445,8 @@ $('dd-cloud-refresh').onclick=()=>run($('dd-cloud-refresh'),async()=>{
   if(event==='SIGNED_OUT'){
    seq++;
    sessionStorage.removeItem('wne-research-active-document');
+   try{sessionStorage.removeItem('dd-wne-resume-entry-v1')}catch(_){}
+   try{localStorage.removeItem('dd-wne-resume-entry-v1')}catch(_){}
    location.replace('./index.html');
   }
  });
