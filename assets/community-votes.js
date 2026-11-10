@@ -139,9 +139,9 @@ function mountCommentCard(card,header,body,flag,id,onReply,context={}){
  // Every public comment has the same star/share controls and a real
  // permalink to its parent discussion, not an invented external source.
  const caseId=String(context?.discussionKey||'');
- if(caseId.length>=6&&caseId.length<=180&&/^(news|video|archive|case|hearing):/.test(caseId)){
+ if(caseId.length>=1&&caseId.length<=180&&(/^(news|media|video|archive|case|hearing):/.test(caseId)||/^[a-z0-9][a-z0-9_-]{0,120}$/i.test(caseId))){
   const link=new URL('/',location.origin);
-  link.searchParams.set('dd_tab',caseId.startsWith('news:')?'discover':caseId.startsWith('video:')?'clips':'archivePage');
+  link.searchParams.set('dd_tab',caseId.startsWith('news:')?'discover':caseId.startsWith('video:')?'clips':caseId.startsWith('media:')?'watchRead':caseId.startsWith('hearing:')?'livePage':caseId.startsWith('archive:')?'archivePage':'mapPage');
   link.searchParams.set('dd_discussion',caseId);
   link.searchParams.set('dd_comment',String(id));
   const label=String(context?.title||'Community discussion').slice(0,100);
