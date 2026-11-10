@@ -51,6 +51,8 @@ jobs:
           node --check research/wne-cloud-bridge.js
           node scripts/test_research_backup_recovery_20261108.cjs
           node scripts/test_research_drive_runtime.cjs
+          node --check scripts/test_m52_drive_web_oauth_config.cjs
+          node scripts/test_m52_drive_web_oauth_config.cjs
           node scripts/test_docx_import_security.cjs
           node --check research/research-docx-import.js
           node --check scripts/test_research_docx_inline_import_20261108.cjs
