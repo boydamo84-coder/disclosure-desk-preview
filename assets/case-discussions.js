@@ -40,6 +40,7 @@ function chooseReply(item){
   anchor?.after(form);form.hidden=false;
  }
  const submit=form?.querySelector('button[type="submit"]');if(submit)submit.textContent=replyTo?'Post reply':'Post comment';
+ const cancel=document.getElementById('ddCaseReplyCancel');if(cancel)cancel.hidden=!replyTo;
  let context=document.getElementById('ddCaseReplyContext');
  if(!context&&form){context=document.createElement('p');context.id='ddCaseReplyContext';context.className='dd-comment-reply-context';form.prepend(context)}
  if(context)context.textContent=replyTo?'Replying to '+replyTo.alias+' · your reply will appear beneath this comment.':'Commenting on '+String(document.querySelector('#ddCaseDiscussionDialog h2')?.textContent||'this discussion');
@@ -108,7 +109,7 @@ function init(){
  root.id='ddCaseDiscussionDialog';
  root.hidden=true;
  root.style.cssText='position:fixed;inset:0;z-index:100100;background:#050b13ed;overflow-y:auto;padding:14px';
- root.innerHTML='<section role="dialog" aria-modal="true" aria-label="Case discussion" style="max-width:700px;margin:auto;background:#112131;border:1px solid #9e875d;border-radius:14px;padding:18px;color:#f4ead9"><button type="button" id="ddCaseDiscussionClose" class="outline" style="float:right">✕ Close</button><h2>Case Discussion</h2><p class="muted small">Comments are community contributions, not verified evidence. Comments appear immediately. Flag inappropriate content for moderation.</p><div id="ddCaseDiscussionActions" class="dd-action-rail dd-case-discussion-actions" role="group" aria-label="Discussion actions"><button id="ddCommentsToggle" type="button" class="outline" aria-expanded="false" aria-controls="ddCaseDiscussionList" aria-label="Read or add comments" title="Comments">💬 0</button><button id="ddCaseDiscussionBoard" type="button" class="dd-action-board" aria-label="Add discussion to Investigation Board" title="Add to Board"><span data-star-icon>☆</span></button><button id="ddCaseDiscussionShare" type="button" class="dd-action-share" aria-label="Share discussion" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8"/></svg></button></div><div id="ddCaseDiscussionList" aria-live="polite"></div><form id="ddCaseDiscussionForm"><label for="ddCaseDiscussionBody">Add a comment (registered users)</label><textarea id="ddCaseDiscussionBody" minlength="3" maxlength="2000" required rows="1" style="width:100%;margin:10px 0" placeholder="Ask a question or share a source reference. Never post personal details."></textarea><button type="submit">Post comment</button></form><p id="ddCaseDiscussionStatus" role="status" class="muted small"></p></section>';
+ root.innerHTML='<section role="dialog" aria-modal="true" aria-label="Case discussion" style="max-width:700px;margin:auto;background:#112131;border:1px solid #9e875d;border-radius:14px;padding:18px;color:#f4ead9"><button type="button" id="ddCaseDiscussionClose" class="outline" style="float:right">✕ Close</button><h2>Case Discussion</h2><p class="muted small">Comments are community contributions, not verified evidence. Comments appear immediately. Flag inappropriate content for moderation.</p><div id="ddCaseDiscussionActions" class="dd-action-rail dd-case-discussion-actions" role="group" aria-label="Discussion actions"><button id="ddCommentsToggle" type="button" class="outline" aria-expanded="false" aria-controls="ddCaseDiscussionList" aria-label="Read or add comments" title="Comments">💬 0</button><button id="ddCaseDiscussionBoard" type="button" class="dd-action-board" aria-label="Add discussion to Investigation Board" title="Add to Board"><span data-star-icon>☆</span></button><button id="ddCaseDiscussionShare" type="button" class="dd-action-share" aria-label="Share discussion" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8"/></svg></button></div><div id="ddCaseDiscussionList" aria-live="polite"></div><form id="ddCaseDiscussionForm"><label for="ddCaseDiscussionBody">Add a comment (registered users)</label><textarea id="ddCaseDiscussionBody" minlength="3" maxlength="2000" required rows="1" style="width:100%;margin:10px 0" placeholder="Ask a question or share a source reference. Never post personal details."></textarea><div class="dd-reply-compose-actions"><button type="submit">Post comment</button><button type="button" id="ddCaseReplyCancel" class="outline dd-reply-cancel" hidden>Cancel</button></div></form><p id="ddCaseDiscussionStatus" role="status" class="muted small"></p></section>';
  document.body.append(root);
  const modalRootStyle=root.style.cssText;
  const panel=root.querySelector('section'),modalPanelStyle=panel?.style.cssText||'';
@@ -129,6 +130,13 @@ function init(){
   restoreModalLayout();return true;
  };
  const composer=document.getElementById('ddCaseDiscussionForm');
+ const cancelReply=document.getElementById('ddCaseReplyCancel');
+ if(cancelReply)cancelReply.onclick=()=>{
+  replyTo=null;const input=document.getElementById('ddCaseDiscussionBody');
+  if(input){input.value='';fitCaseComposer(input)}
+  if(composer){composer.reset();composer.hidden=true;document.getElementById('ddCaseDiscussionActions')?.after(composer)}
+  cancelReply.hidden=true;document.getElementById('ddCommentsToggle')?.focus({preventScroll:true});
+ };
  const caseInput=document.getElementById('ddCaseDiscussionBody');
  caseInput?.addEventListener('input',()=>fitCaseComposer(caseInput));
  fitCaseComposer(caseInput);
@@ -263,7 +271,14 @@ function init(){
       :/duplicate comment/i.test(issue)?'You have already posted this comment.'
       :/limit reached/i.test(issue)?'Posting limit reached. Please try again later.'
       :'Unable to submit comment. Please try again.');
-     if(!error){e.target.reset();fitCaseComposer(document.getElementById('ddCaseDiscussionBody'));replyTo=null;await load();}
+     if(!error){
+       const wasReply=!!parent;
+       e.target.reset();fitCaseComposer(document.getElementById('ddCaseDiscussionBody'));
+       replyTo=null;
+       document.getElementById('ddCaseReplyCancel').hidden=true;
+       if(wasReply){e.target.hidden=true;document.getElementById('ddCaseDiscussionActions')?.after(e.target)}
+       await load(); // Keep comments visible but close the completed reply composer.
+     }
    }finally{button.disabled=false}
  };
 }
