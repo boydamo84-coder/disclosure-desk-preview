@@ -3,7 +3,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs');
 const read=path=>fs.readFileSync(path,'utf8');
 const html=read('index.html'),shared=read('assets/unified-action-rails.js'),css=read('assets/community-polish.css');
 const inline=read('assets/inline-news-comments.js'),caseComments=read('assets/case-discussions.js'),votes=read('assets/community-votes.js'),forum=read('assets/community-discussions.js'),watch=read('assets/watch-read.js');
-assert.match(html,/unified-action-rails\.js\?v=m70-shared-order/);
+assert.match(html,/unified-action-rails\.js\?v=m71-hearing-slot/);
 assert.match(html,/inline-news-comments\.js\?v=m71-secondary-views/);
 assert.match(html,/community-polish\.css\?v=m71/);
 assert.match(shared,/Object\.freeze\(\{vote:0,comments:1,board:2,share:3,extra:4,reply:5,spacer:6\}\)/);
