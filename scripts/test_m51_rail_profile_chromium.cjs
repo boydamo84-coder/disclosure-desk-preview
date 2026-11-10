@@ -5,8 +5,8 @@ const {chromium}=require('playwright-core');
 const source=fs.readFileSync('index.html','utf8');
 const inlineCss=[...source.matchAll(/<style(?:\s[^>]*)?>([\s\S]*?)<\/style>/gi)].map(x=>x[1]).join('\n');
 const sharedCss=fs.readFileSync('assets/community-polish.css','utf8');
-const demo=String.raw\`<!doctype html><html lang="en"><head><meta name="viewport" content="width=device-width,initial-scale=1">
-<style>\${inlineCss}</style><style>\${sharedCss}</style></head><body>
+const demo=String.raw`<!doctype html><html lang="en"><head><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>${inlineCss}</style><style>${sharedCss}</style></head><body>
 <div id="newsGrid" style="max-width:min(100%,440px);margin:16px auto">
 <article class="card"><div class="dd-news-actions">
 <div class="dd-news-main-actions dd-action-rail" data-check="news"><span data-news-article-votes><div class="dd-news-article-vote-controls"><button>▲ 0</button><button>▼ 0</button></div></span><button class="dd-inline-comments-toggle">💬 0</button><button class="dd-action-board bookmark-saved" data-check="saved-board"><span data-star-icon>★</span></button><button class="dd-action-share">♧</button><button class="outline dd-news-compare-action" data-compare-news="0">⚖ Compare</button></div>
@@ -14,7 +14,7 @@ const demo=String.raw\`<!doctype html><html lang="en"><head><meta name="viewport
 <section id="discussionsPage" style="max-width:440px;margin:auto"><article class="dd-forum-post-card"><div class="dd-forum-actions dd-action-rail" data-check="forum"><button>▲ 0</button><button>▼ 0</button><button>💬 0</button><button class="dd-forum-star-action bookmark-saved">★</button><button>♧</button></div></article></section>
 <article class="dd-comment-card" style="max-width:440px;margin:10px auto"><div class="dd-comment-action-rail dd-action-rail" data-check="comment"><div class="dd-community-votes"><button>▲ 0</button><button>▼ 0</button></div><button>☆</button><button>♧</button><button class="dd-comment-reply-button">Reply</button></div></article>
 <div class="nav"><div class="nav-inner"><button class="tab" data-tab="profilePage" data-check="profile"><span class="ico">◉</span>Profile</button></div></div>
-</body></html>\`;
+</body></html>`;
 (async()=>{
  const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,
    args:['--no-sandbox','--disable-dev-shm-usage']});
