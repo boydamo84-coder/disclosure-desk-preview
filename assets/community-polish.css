@@ -781,7 +781,8 @@
 }
 #immersiveViewer .dd-immersive-inline-comments:not([hidden]){
  position:absolute!important;z-index:12!important;
- left:10px!important;right:10px!important;
+ left:10px!important;right:auto!important;
+ width:calc(100vw - 20px)!important;max-width:calc(100vw - 20px)!important;
  bottom:calc(env(safe-area-inset-bottom,0px) + 109px)!important;
  max-height:min(51vh,470px)!important;min-height:0!important;
  padding:10px!important;margin:0!important;overflow-y:auto!important;
