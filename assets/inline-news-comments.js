@@ -130,7 +130,7 @@ function scan(){document.querySelectorAll('[data-news-comments]').forEach(n=>{if
 const mo=new MutationObserver(scan);
 function init(){
  scan();
- const roots=['newsGrid','ddWatchReadMount','archiveList','archiveCaseBody','clipsFeed','immersiveFeed'].map(id=>document.getElementById(id)).filter(Boolean);
+ const roots=['newsGrid','ddWatchReadMount','archiveList','archiveCaseBody','clipsFeed','immersiveFeed','caseList','rabbitList','evidenceBody'].map(id=>document.getElementById(id)).filter(Boolean);
  for(const root of roots.length?roots:[document.body])mo.observe(root,{childList:true,subtree:true});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
