@@ -2212,13 +2212,13 @@ function offerFirstVisitTour(){
 }
 window.addEventListener('load',()=>{setTimeout(offerFirstVisitTour,850)},{once:true});
 window.ddGoToDiscussionOrigin=(ref)=>{
- const colon=ref.indexOf(':');if(colon<0){navigateTo('cases');const card=[...$('caseList').querySelectorAll('[data-case-discussion]')].find(x=>x.dataset.caseDiscussion===ref);ddFocusCard(card);return;}
+ const colon=ref.indexOf(':');if(colon<0){navigateTo('cases');const mount=[...$('caseList').querySelectorAll('[data-news-comments]')].find(x=>x.dataset.newsComments===ref);ddFocusCard(mount?.closest('article'));return;}
  const kind=ref.slice(0,colon),id=ref.slice(colon+1);
  if(kind==='video'){navigateTo('clips');const card=[...$('clipsFeed').querySelectorAll('[data-video-id]')].find(x=>x.dataset.videoId===id);ddFocusCard(card);}
  else if(kind==='news'){topic='All';if($('newsSearch'))$('newsSearch').value='';navigateTo('discover');news();const card=[...$('newsGrid').querySelectorAll('[data-news-id]')].find(x=>x.dataset.newsId===id);ddFocusCard(card);}
- else if(kind==='archive'){navigateTo('archivePage');const btn=[...$('archiveList').querySelectorAll('[data-discuss-archive]')].find(x=>x.dataset.discussArchive===id);ddFocusCard(btn?.closest('article'))}
+ else if(kind==='archive'){navigateTo('archivePage');const mount=[...$('archiveList').querySelectorAll('[data-news-comments]')].find(x=>x.dataset.newsComments===ref);ddFocusCard(mount?.closest('article'))}
  else if(kind==='media'){navigateTo('watchRead');const card=[...$('ddWatchReadMount').querySelectorAll('[data-news-comments]')].find(x=>x.dataset.newsComments===ref);ddFocusCard(card?.closest('article'))}
- else {navigateTo('cases');const card=[...$('caseList').querySelectorAll('[data-case-discussion]')].find(x=>x.dataset.caseDiscussion===ref);ddFocusCard(card);}
+ else {navigateTo('cases');const mount=[...$('caseList').querySelectorAll('[data-news-comments]')].find(x=>x.dataset.newsComments===ref||x.dataset.newsComments===id);ddFocusCard(mount?.closest('article'));}
 };
 function ddInitNavSwipeHint(){
  const rail=document.querySelector('.nav-inner'),prev=document.getElementById('ddNavPrev'),next=document.getElementById('ddNavNext');
