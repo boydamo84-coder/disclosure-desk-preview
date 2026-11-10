@@ -7,7 +7,7 @@ function buildFixture(){
  if(start<0||end<start)throw Error('Profile markup missing');
  const styles=[...html.matchAll(/<style\b[^>]*>[\s\S]*?<\/style>/gi)].map(x=>x[0]).join('\n');
  const profile=html.slice(start,end).replace('id="profilePage" class="hidden"','id="profilePage"');
- return '<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Disclosure Desk profile QA — fictional account</title>'+styles+'<link rel="stylesheet" href="/assets/community-polish.css"></head><body><main style="max-width:1100px;margin:auto">'+profile+'</main><script>('+mockBackend.toString()+')();</script><script src="/assets/research-hub.js"></script></body></html>';
+ return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Disclosure Desk profile QA — fictional account</title>'+styles+'<link rel="stylesheet" href="/assets/community-polish.css"></head><body><main style="max-width:1100px;margin:auto">'+profile+'</main><script>('+mockBackend.toString()+')();</script><script src="/assets/research-hub.js"></script></body></html>';
 }
 function mockBackend(){
  let user={id:'11111111-1111-4111-8111-111111111111',email:'researcher@example.invalid',email_confirmed_at:'2026-11-10',user_metadata:{dd_requested_username:'Researcher'}},counts={post_likes:2,post_dislikes:1,comment_likes:3,comment_dislikes:4},failure=false;
