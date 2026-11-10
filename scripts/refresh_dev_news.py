@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Refresh the DEV news snapshot from public Google News RSS, retaining validated history."""
-import datetime as dt, email.utils, hashlib, html, json, os, pathlib, re, urllib.parse, urllib.request
+import datetime as dt, email.utils, hashlib, html, json, os, pathlib, re, urllib.parse, urllib.request, unicodedata
 PATH=pathlib.Path("data/news-alerts.json")
 NOW=dt.datetime.now(dt.timezone.utc)
 # Worldwide discovery through English-language editions; not restricted to UK/US stories.
@@ -134,6 +134,30 @@ def direct_feed(name,url):
         added.append(row)
     return added
 
+# Repeated syndicated articles often arrive under distinct Google News RSS URLs.
+# Use conservative exact headline normalization, NOT subject clustering: differently
+# worded reports, independent investigations and stories weeks apart survive.
+def normalized_headline(headline):
+    text=unicodedata.normalize("NFKD",str(headline or ""))
+    text="".join(char for char in text if not unicodedata.combining(char))
+    return " ".join(re.findall(r"[^\W_]+",text.casefold(),flags=re.UNICODE))
+
+def deduplicate_headlines(items):
+    kept=[]
+    published_for_title={}
+    for item in items:
+        title=normalized_headline(item.get("headline",""))
+        try:
+            when=dt.datetime.fromisoformat(item["date"].replace("Z","+00:00"))
+        except (ValueError,TypeError,KeyError):
+            continue
+        dates=published_for_title.get(title,())
+        if title and any(abs((when-earlier).total_seconds())<=14*86400 for earlier in dates):
+            continue
+        published_for_title.setdefault(title,[]).append(when)
+        kept.append(item)
+    return kept
+
 def publisher_image(article_url):
     """Best-effort Open Graph image from an actual publisher page, never a search preview."""
     from html.parser import HTMLParser
@@ -206,6 +230,9 @@ def main():
         except Exception:continue
         if not dt.timedelta(0)<=age<=dt.timedelta(days=MAX_AGE):continue
         seen.add(key);out.append(item)
+    before_dedup=len(out)
+    out=deduplicate_headlines(out)
+    print('Removed',before_dedup-len(out),'syndicated/repeated headline entries, preserving original source links')
     if not out:raise RuntimeError('Result empty; refusing to overwrite current catalogue')
     # Sanity checks: do not overwrite an existing useful feed with zero fresh articles.
     recent=sum(1 for x in gathered if (NOW-dt.datetime.fromisoformat(x['date']))<dt.timedelta(days=7))
