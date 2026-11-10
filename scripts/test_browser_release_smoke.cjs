@@ -186,6 +186,35 @@ async function selected(page,id){
   await page.locator('.nav .tab[data-tab="mapPage"][aria-current="page"]').waitFor({state:'attached',timeout:10000});
   assert.equal(await hasVisibleSection(page,'mapPage'),true,'Reload preserves Map');
   pass('M56 Map also restores after refresh and no longer jumps back to Archive');
+  // M56: A real W.NE dock click must confirm save, then land on the chosen
+  // section in ONE tap. A failed save must never navigate away from writing.
+  const wneDockPage=await context.newPage();
+  await wneDockPage.goto(BASE+'/robots.txt',{waitUntil:'domcontentloaded',timeout:10000});
+  await wneDockPage.setContent('<!doctype html><html lang="en"><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><div id="editor" contenteditable="true">Private unsaved fixture</div><button id="save">Save</button></body></html>');
+  await wneDockPage.evaluate(()=>{
+   sessionStorage.setItem('dd_last_open_tab_v1','researchStudio');
+   window.__wneFakeSaveOK=false;
+   window.wneSaveBeforeNavigation=async reason=>{
+    sessionStorage.setItem('m56-wne-saved-before-leaving',reason);
+    return window.__wneFakeSaveOK;
+   };
+  });
+  await wneDockPage.addScriptTag({url:BASE+'/research/research-site-nav.js'});
+  const clipsDock=wneDockPage.locator('[data-dd-tab="clips"]');
+  await clipsDock.waitFor({state:'visible'});
+  await clipsDock.click();
+  await wneDockPage.waitForFunction(()=>document.querySelector('.dd-site-dock-status')?.textContent?.includes('Save was not confirmed'));
+  assert.equal(new URL(wneDockPage.url()).pathname,'/robots.txt','Failed save must keep original W.NE document open');
+  assert.match(await wneDockPage.evaluate(()=>sessionStorage.getItem('m56-wne-saved-before-leaving')||''),/Disclosure Desk navigation to clips/);
+  pass('M56 W.NE dock protects unsaved document on rejected save, no navigation');
+  await wneDockPage.evaluate(()=>{window.__wneFakeSaveOK=true});
+  await clipsDock.click();
+  await wneDockPage.waitForURL(url=>new URL(url).pathname==='/'&&new URL(url).searchParams.get('dd_tab')==='clips',{timeout:15000});
+  await wneDockPage.locator('.nav .tab[data-tab="clips"][aria-current="page"]').waitFor({state:'attached',timeout:15000});
+  assert.equal(await wneDockPage.locator('#clips').evaluate(el=>!el.classList.contains('hidden')),true,'First W.NE click after confirmed save must open Videos');
+  assert.equal(await wneDockPage.locator('#researchStudio').evaluate(el=>el.classList.contains('hidden')),true,'Must not show intermediate W.NE landing page');
+  pass('M56 W.NE confirmed autosave routes to selected Videos tab in ONE tap, not W.NE landing');
+  await wneDockPage.close();
   await page.goto(BASE+'/research/guest-preview.html',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.dd-site-dock-tab');
   assert.equal(await page.locator('.dd-site-dock-tab').count(),13);
