@@ -1107,7 +1107,7 @@ function news(){
   const link=s.url&&/^https:\/\//.test(s.url)?`<a class="news-open" data-read-story="${i}" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">Read original story ↗</a>`:'';
   const when=s.date?new Date(s.date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'';
   const imageLabel=realImage?'Publisher/feed image':'Editorial illustration';
-  return `<article data-news-id="${esc(s.id||'')}" class="card ${i===0?'hero-news':'news-row'}"><div class="news-image-wrap ${realImage?'':'pillar-fallback'}">${realImage?`<img loading="lazy" alt="Publisher article image" src="${esc(pic)}" onload="verifyNewsPhoto(this)" onerror="usePillarFallback(this)">`:newsEditorialArt(s)}<span class="image-credit">${realImage?'Publisher article image':'Editorial illustration · not event evidence'}</span></div><div class="card-body"><span class="tag">${esc(s.category)}${s.country?' · '+esc(s.country):''}${s.sourceType==='official'?' · Official source':''}</span><h3>${safePublicUrl(s.url||'')?`<a class="news-headline-link" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.headline)}</a>`:esc(s.headline)}</h3><p>${esc(s.desc||'Open the original publisher for the full report.')}</p><div class="news-story-source"><span class="source-chip">${esc(s.source||'Publisher')}</span>${when?`<span class="meta">${esc(when)}</span>`:''}</div>${newsRabbitHole(s,i)}</div><div class="dd-news-actions"><div class="dd-news-tools">${safePublicUrl(s.url||"")?`<button class="outline" data-compare-news="${i}" type="button">⚖ Compare</button>`:""}</div><div class="dd-news-main-actions dd-action-rail"><span data-news-article-votes="${esc('news:'+String(s.id||s.url||'').slice(0,175))}"></span>${safePublicUrl(s.url||'')?`<button type="button" class="outline dd-action-board" data-save-news="${i}" data-bookmark-url="${esc(s.url)}" data-bookmark-label="${esc(s.headline)}" aria-label="Save to Investigation Board" title="Add to Board"><span data-star-icon>☆</span></button>`:'' }${safePublicUrl(s.url||"")?`<button class="outline dd-action-share" data-share-news="${i}" type="button" aria-label="Share news story" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8"/></svg></button>`:""}</div></div><div class="dd-news-inline-comments" data-news-comments="${esc('news:'+String(s.id||s.url||'').slice(0,175))}"></div></article>`;
+  return `<article data-news-id="${esc(s.id||'')}" class="card ${i===0?'hero-news':'news-row'}"><div class="news-image-wrap ${realImage?'':'pillar-fallback'}">${realImage?`<img loading="lazy" alt="Publisher article image" src="${esc(pic)}" onload="verifyNewsPhoto(this)" onerror="usePillarFallback(this)">`:newsEditorialArt(s)}<span class="image-credit">${realImage?'Publisher article image':'Editorial illustration · not event evidence'}</span></div><div class="card-body"><span class="tag">${esc(s.category)}${s.country?' · '+esc(s.country):''}${s.sourceType==='official'?' · Official source':''}</span><h3>${safePublicUrl(s.url||'')?`<a class="news-headline-link" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.headline)}</a>`:esc(s.headline)}</h3><p>${esc(s.desc||'Open the original publisher for the full report.')}</p><div class="news-story-source"><span class="source-chip">${esc(s.source||'Publisher')}</span>${when?`<span class="meta">${esc(when)}</span>`:''}</div>${newsRabbitHole(s,i)}</div><div class="dd-news-actions"><div class="dd-news-main-actions dd-action-rail"><span data-news-article-votes="${esc('news:'+String(s.id||s.url||'').slice(0,175))}"></span>${safePublicUrl(s.url||'')?`<button type="button" class="outline dd-action-board" data-save-news="${i}" data-bookmark-url="${esc(s.url)}" data-bookmark-label="${esc(s.headline)}" aria-label="Save to Investigation Board" title="Add to Board"><span data-star-icon>☆</span></button>`:'' }${safePublicUrl(s.url||"")?`<button class="outline dd-action-share" data-share-news="${i}" type="button" aria-label="Share news story" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8"/></svg></button>`:""}${safePublicUrl(s.url||"")?`<button class="outline dd-news-compare-action" data-compare-news="${i}" type="button" aria-label="Compare this news story" title="Compare">⚖ Compare</button>`:""}</div></div><div class="dd-news-inline-comments" data-news-comments="${esc('news:'+String(s.id||s.url||'').slice(0,175))}"></div></article>`;
  }).join('')||'<div class="card empty">No stories in this category right now. Try All or Refresh.</div>';
  document.querySelectorAll('.news-headline-link').forEach(a=>a.addEventListener('click',()=>{const card=a.closest('[data-news-id]');const item=results.find(x=>String(x.id||'')===card?.dataset.newsId);if(item)rememberReadStory(item)}));
  document.querySelectorAll('[data-share-news]').forEach(btn=>btn.onclick=async()=>{const story=results[Number(btn.dataset.shareNews)];const url=safePublicUrl(story?.url||'');if(!url)return;try{if(navigator.share)await navigator.share({title:story.headline,url});else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url);btn.textContent='✓ Copied';}else window.prompt('Copy story link',url)}catch(e){if(e.name!=='AbortError')window.prompt('Copy story link',url)}});
@@ -1232,7 +1232,7 @@ const boardSave=()=>{localStorage.setItem(ddActiveBoardKey,JSON.stringify(invest
 function safePublicUrl(value){try{const u=new URL(value);return (u.protocol==='https:'||u.protocol==='http:')&&!u.username&&!u.password&&!/(^localhost$|^127\\.|^10\\.|^192\\.168\\.)/.test(u.hostname)?u.href:null}catch{return null}}
 let pendingBookmark=null;
 function isBookmarked(url){const clean=safePublicUrl(url);return !!clean&&investigationBoards.some(b=>b.links.some(l=>l.url===clean))}
-function refreshBookmarkStars(){document.querySelectorAll('[data-bookmark-url]').forEach(el=>{const saved=isBookmarked(el.dataset.bookmarkUrl);const icon=el.querySelector('[data-star-icon]');if(icon)icon.textContent=saved?'★':'☆';el.classList.toggle('bookmark-saved',saved);el.setAttribute('aria-label',(saved?'Saved: ':'Save: ')+(el.dataset.bookmarkLabel||'research link'));el.title=saved?'Already saved in an investigation':'Save to Investigation Board'})}
+function refreshBookmarkStars(){document.querySelectorAll('[data-bookmark-url]').forEach(el=>{const saved=isBookmarked(el.dataset.bookmarkUrl);const icon=el.querySelector('[data-star-icon]');if(icon)icon.textContent=saved?'★':'☆';el.classList.toggle('bookmark-saved',saved);el.setAttribute('aria-label',(saved?'Saved: ':'Save: ')+(el.dataset.bookmarkLabel||'research link'));el.title=saved?'Already saved in an investigation':'Save to Investigation Board';el.dataset.boardState=saved?'added':'available';if(el.classList.contains('dd-case-bookmark'))el.textContent=saved?'✓ Added':(el.dataset.boardLabel||'☆ Board')})}
 window.DDRefreshBoardStars=refreshBookmarkStars;
 function addInvestigationLink(label,url,discussionId=null){
  pendingTimelineEvent=null;
@@ -1283,7 +1283,7 @@ function savePendingBookmark(board){
  const privateNote=$('pickerPrivateNote').value.trim().slice(0,4000);
  if(privateNote)entry.note=privateNote;
  if(pendingBookmark.availableDiscussion&&$('pickerIncludeDiscussion').checked)entry.discussion=pendingBookmark.availableDiscussion;
- board.links.unshift(entry);boardSave();pendingBookmark=null;$('collectionPicker').close();
+ board.links.unshift(entry);boardSave();refreshBookmarkStars();pendingBookmark=null;$('collectionPicker').close();
 }
 document.addEventListener('click',e=>{
  const btn=e.target.closest('[data-open-saved-discussion]');
@@ -2230,6 +2230,7 @@ function savePendingTimeline(board){
  if(board.timeline.some(t=>t.archiveEventId===event.archiveEventId)){$('pickerMessage').textContent='✓ Already saved to '+board.name+'.';return}
  if(board.timeline.length>=250){$('pickerMessage').textContent='This Board is full (250 timeline events). Choose another Board.';return}
  board.timeline.push({...event});board.timeline.sort((a,b)=>a.date.localeCompare(b.date));boardSave();
+ document.querySelectorAll('[data-timeline-key]').forEach(btn=>{if(btn.dataset.timelineKey===event.archiveEventId){btn.textContent='✓ Added';btn.setAttribute('aria-label','Event added to your private timeline')}});
  pendingTimelineEvent=null;
  $('pickerTitle').textContent='✓ Event added';
  $('pickerSubtitle').textContent='Saved to '+board.name+'. Your private timeline now includes the original source reference.';
@@ -2237,6 +2238,20 @@ function savePendingTimeline(board){
  $('pickerChoices').innerHTML='<button type="button" class="picker-choice" id="pickerTimelineDone"><strong>✓ Done</strong><span aria-hidden="true">›</span></button>';
  $('pickerTimelineDone').onclick=()=>$('collectionPicker').close();
  $('pickerCreate').classList.add('hidden');
+}
+const DD_SITE_CITATIONS='wne_research_references_v1';
+function ddSiteCitations(){
+ try{const value=JSON.parse(localStorage.getItem(DD_SITE_CITATIONS)||'[]');return Array.isArray(value)?value.filter(x=>x&&typeof x.title==='string'&&safePublicUrl(x.url)).slice(0,500):[]}catch{return []}
+}
+function ddSiteCitationSaved(url){const clean=safePublicUrl(url);return !!clean&&ddSiteCitations().some(x=>x.url===clean)}
+function ddSaveSiteCitation(title,url){
+ const clean=safePublicUrl(url);if(!clean)return false;
+ try{
+  const list=ddSiteCitations();if(list.some(x=>x.url===clean))return true;
+  if(list.length>=499){alert('The My saved references list is full. Open W.NE Research Library to export or organise sources.');return false}
+  list.push({title:String(title||'Original source').trim().slice(0,160)||'Original source',url:clean,publisher:new URL(clean).hostname,addedAt:new Date().toISOString()});
+  localStorage.setItem(DD_SITE_CITATIONS,JSON.stringify(list));return true;
+ }catch{alert('Cannot save this reference on this device. Check browser storage or use W.NE Research Library.');return false}
 }
 function archiveEvidencePanel(r){
  const refs=[{title:'Primary catalogue record',url:r.url,type:'Catalogue / original link'},...(Array.isArray(r.sources)?r.sources:[])].filter(x=>x&&safePublicUrl(x.url));
@@ -2249,7 +2264,7 @@ function archiveEvidencePanel(r){
   ['Alternative explanations',Array.isArray(r.explanations)&&r.explanations.length?r.explanations.length+' documented perspective(s)':'Not yet assessed']
  ];
  const list=lines.map(([name,value])=>'<div style="display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #324653;padding:9px 0"><strong>'+esc(name)+'</strong><span style="text-align:right;color:#dbc38e">'+esc(String(value))+'</span></div>').join('');
- const sources=unique.map(x=>'<li><a href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.title||'Original source')+' ↗</a> <span class="muted small">('+esc(x.type||'Source')+')</span></li>').join('');
+ const sources=unique.map(x=>'<li><a href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.title||'Original source')+' ↗</a> <span class="muted small">('+esc(x.type||'Source')+')</span> <button type="button" class="outline dd-citation-save" data-dd-citation-url="'+esc(x.url)+'" data-dd-citation-title="'+esc(x.title||r.title||'Original source')+'">'+(ddSiteCitationSaved(x.url)?'✓ Added to citations':'＋ Add to citations')+'</button></li>').join('');
  return '<section style="border:1px solid #bc9d62;border-radius:12px;background:#142736;padding:15px;margin:18px 0"><h3 style="margin-top:0;color:#e0c48e">◈ Evidence & Sources</h3><p class="muted small">This measures documentation in this case file, not the likelihood of an extraordinary explanation. Missing information means not yet catalogued, not necessarily nonexistent.</p>'+list+'<details style="margin-top:14px"><summary style="color:#e0c48e;cursor:pointer">Review documented sources ('+unique.length+')</summary><ol>'+sources+'</ol></details></section>';
 }
 const DD_FOLLOW_KEY='dd_followed_cases_v1';
@@ -2307,7 +2322,7 @@ ddCaseHistoryHtml(r.id)+
  '<h3>Timeline and dates</h3>'+
  '<ol style="padding-left:23px">'+
  '<li><strong>Recorded period:</strong> '+esc(String(r.year))+(r.endYear?'–'+esc(String(r.endYear)):'')+'. '+(r.dateType?esc(r.dateType):'A catalogue year or reporting period; the event date may differ.')+'</li>'+
- (Array.isArray(r.timeline)?r.timeline.slice(0,12).map((x,i)=>x&&x.date&&x.event?'<li><strong>'+esc(x.date)+':</strong> '+esc(x.event)+' <button class="outline" type="button" data-add-archive-event="'+i+'">＋ Add to my timeline</button></li>':'').join(''):'')+
+ (Array.isArray(r.timeline)?r.timeline.slice(0,12).map((x,i)=>x&&x.date&&x.event?'<li><strong>'+esc(x.date)+':</strong> '+esc(x.event)+' <button class="outline" type="button" data-add-archive-event="'+i+'" data-timeline-key="'+esc(String(r.id)+':'+i)+'">'+(investigationBoards.some(b=>Array.isArray(b.timeline)&&b.timeline.some(t=>t.archiveEventId===String(r.id)+':'+i))?'✓ Added':'＋ Add to my timeline')+'</button></li>':'').join(''):'')+
  '</ol>'+
  archiveEvidencePanel(r)+
  '<h3>Evidence and provenance</h3>'+
@@ -2321,17 +2336,19 @@ ddCaseHistoryHtml(r.id)+
  (r.evidenceStatus?'<p class="muted small"><strong>Evidence status:</strong> '+esc(r.evidenceStatus)+'</p>':'')+
  (r.metadataCredit?'<p class="muted small"><strong>Metadata credit:</strong> '+esc(r.metadataCredit)+'</p>':'')+
  '<p class="muted small">A listing confirms the existence of this record, not that any extraordinary explanation is established.</p>'+
- '<p><a class="news-open" href="'+esc(r.url)+'" target="_blank" rel="noopener noreferrer">Open original source ↗</a> <button class="outline" id="archiveCaseSave" type="button">☆ Board</button></p>'+
+ '<p><a class="news-open" href="'+esc(r.url)+'" target="_blank" rel="noopener noreferrer">Open original source ↗</a> <button class="outline dd-case-bookmark" id="archiveCaseSave" type="button" data-bookmark-url="'+esc(r.url)+'" data-bookmark-label="'+esc(r.title)+'" data-board-label="☆ Board">☆ Board</button> '+(safePublicUrl(r.url)?'<button class="outline dd-citation-save" type="button" data-dd-citation-url="'+esc(r.url)+'" data-dd-citation-title="'+esc(r.title)+'">'+(ddSiteCitationSaved(r.url)?'✓ Added to citations':'＋ Add to citations')+'</button>':'')+'</p>'+
  (Array.isArray(r.sources)&&r.sources.length?'<h3>Original documents and research references</h3>'+r.sources.filter(x=>x&&safePublicUrl(x.url)).map(x=>'<p><a class="news-open" href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.title||'Source document')+' ↗</a> <span class="muted small">'+esc(x.type||'Reference')+'</span></p>').join(''):'')+
  '<h3>Explore related records</h3><p class="muted small">Suggestions based on title keywords or nearby years. These are discovery leads, not established connections between events.</p>'+
  (related.length?related.map(x=>'<div class="card" style="margin-bottom:8px"><div class="card-body"><button class="outline" type="button" data-archive-related="'+esc(String(x.record.id))+'">'+esc(x.record.title)+'</button><p class="muted small">'+esc(String(x.record.year))+' · '+(x.shared.length?'Shared title terms: '+esc(x.shared.slice(0,4).join(', ')):'Nearby record year')+'</p></div></div>').join(''):'<p class="muted small">No suggested related records found.</p>')+
  '<h3>Related news coverage</h3><p class="muted small">Matching keywords suggest research leads; they do not establish that two reports concern the same incident.</p>'+archiveMediaHtml(media.newsMatches,'news')+
  '<h3>Research videos and source footage</h3>'+archiveMediaHtml(media.videoMatches,'videos')+
  '<h3>Continue your investigation</h3><p class="muted small">Save the original source to a private Investigation Board, then add your own notes and supporting links. Related matches above are automated suggestions, not independently confirmed case associations.</p>'+
- '<button class="outline" id="archiveCaseSaveBottom" type="button">☆ Save source to my Board</button>'+'<button class="outline" type="button" data-dd-sat-archive="'+esc(String(r.id))+'">🛰 Check historical satellite view</button>';
+ '<button class="outline dd-case-bookmark" id="archiveCaseSaveBottom" type="button" data-bookmark-url="'+esc(r.url)+'" data-bookmark-label="'+esc(r.title)+'" data-board-label="☆ Save source to my Board">☆ Save source to my Board</button>'+'<button class="outline" type="button" data-dd-sat-archive="'+esc(String(r.id))+'">🛰 Check historical satellite view</button>';
  $('ddFollowCaseButton').onclick=()=>ddFollowCase(String(r.id));
  $('archiveCaseSave').onclick=()=>addInvestigationLink(r.title,r.url);
  body.querySelectorAll('[data-add-archive-event]').forEach(btn=>btn.onclick=()=>importArchiveTimelineEvent(r,Number(btn.dataset.addArchiveEvent)));
+ body.querySelectorAll('[data-dd-citation-url]').forEach(btn=>btn.onclick=()=>{if(ddSaveSiteCitation(btn.dataset.ddCitationTitle,btn.dataset.ddCitationUrl)){btn.textContent='✓ Added to citations';btn.setAttribute('aria-label','Source saved in W.NE My saved references')}});
+ refreshBookmarkStars();
  $('archiveCaseSaveBottom').onclick=()=>addInvestigationLink(r.title,r.url);
  body.querySelectorAll('[data-archive-related]').forEach(b=>b.onclick=()=>archiveCaseOpen(b.dataset.archiveRelated));
  body.querySelectorAll('[data-archive-save-media]').forEach(b=>b.onclick=()=>addInvestigationLink(b.dataset.mediaLabel,b.dataset.archiveSaveMedia));
@@ -3146,5 +3163,5 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
 #mapPage #officialFootageSection,#mapPage #mapItems,
 #mapPage #mapArchiveResults{display:none!important}
 </style>
-<link rel="stylesheet" href="assets/community-polish.css?v=m49">
+<link rel="stylesheet" href="assets/community-polish.css?v=m51">
 </body></html>
