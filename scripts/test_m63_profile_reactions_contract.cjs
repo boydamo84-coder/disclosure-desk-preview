@@ -22,7 +22,7 @@ assert.match(hub,/setInterval\(\(\)=>void refreshReactions\(\),45000\)/,'Refresh
 assert.match(hub,/document\.hidden/,'Do not poll hidden browser tab');
 assert.match(hub,/Reaction totals are temporarily unavailable/,'Never invent success/zero on RPC error');
 assert.match(hub,/clearReactions\('Sign in to view reactions received/,'Clear previous user totals on sign-out');
-assert.match(hub,/post_likes','post_likes returned from server');
+assert.match(hub,/post_likes/,'post_likes returned from server');
 for(const status of ["t.status='published'","s.status='published'","r.status='published'","c.status='approved'","w.status='published'"]){
  assert(sql.includes(status),'Only approved/public content contributes: '+status);
 }
