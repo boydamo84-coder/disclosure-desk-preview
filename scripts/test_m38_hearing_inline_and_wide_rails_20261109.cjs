@@ -13,7 +13,7 @@ assert.match(hearing,/commentsHost=addInlineComments\(box,event\)/);
 assert.match(hearing,/window\.ddOpenInlineCaseDiscussion\?\.\('hearing:'\+event\.id/);
 assert.doesNotMatch(hearing,/window\.ddOpenCaseDiscussion\?\.\('hearing:/,
  'Hearing entry must not bounce into a separate modal');
-assert.match(schedule,/video\.append\(discussionButton,discussionHost\)/);
+assert.match(schedule,/video\.append\(rail,discussionHost\)/,'Upcoming hearing Comments, Board and Share share one rail');
 assert.match(schedule,/window\.ddOpenInlineCaseDiscussion\?\.\('hearing:'\+event\.id/);
 assert.match(caseDiscussion,/window\.ddOpenInlineCaseDiscussion=\(id,title,host\)=>/);
 assert.match(caseDiscussion,/host\.append\(root\)/);
