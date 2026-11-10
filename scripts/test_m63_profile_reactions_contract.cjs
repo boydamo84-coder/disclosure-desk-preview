@@ -12,7 +12,7 @@ assert.match(html,/Community reactions received/);
 assert.match(html,/Likes received/);
 assert.match(html,/Dislikes received/);
 assert.match(html,/assets\/research-hub\.js\?v=m64-compact-reactions/);
-assert.match(html,/assets\/community-polish\.css\?v=m66/);
+assert.match(html,/assets\/community-polish\.css\?v=m67/);
 assert.match(css,/\.dd-profile-reactions\{display:flex/);
 assert.match(css,/flex-wrap:wrap/,'Reaction row can wrap on narrow screens');
 assert.match(html,/<details class="dd-profile-reaction-info">/,'Breakdown stays optional');

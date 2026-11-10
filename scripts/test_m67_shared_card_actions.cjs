@@ -1,0 +1,16 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const html=fs.readFileSync('index.html','utf8'),inline=fs.readFileSync('assets/inline-news-comments.js','utf8'),media=fs.readFileSync('assets/watch-read.js','utf8');
+const start=html.indexOf('function ddArchiveFollowHTML('),end=html.indexOf('function ddBindArchiveActions(',start);
+const context={ddReadFollowed:()=>({caseA:{}}),ddCompareSelected:['caseA'],safePublicUrl:()=>true,ddSiteCitationSaved:()=>false,esc:value=>String(value??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;')};
+vm.createContext(context);vm.runInContext(html.slice(start,end),context);
+const record={id:'caseA',title:'Case <script> " unsafe',url:'https://example.invalid/a'};
+const follow=context.ddArchiveFollowHTML(record),rail=context.ddArchiveActionsHTML(record);
+assert.match(follow,/aria-pressed="true"/);assert.match(follow,/✓ Following/);assert.doesNotMatch(follow,/<script>/);assert.doesNotMatch(rail,/data-follow-archive/,'Follow is outside the bottom rail');
+for(const attr of ['data-save-archive','data-share-archive','data-compare-archive','data-dd-sat-archive'])assert(rail.includes(attr));
+assert.match(rail,/aria-pressed="true"/,'Existing comparison selection is represented');assert.doesNotMatch(rail,/<script>/,'Case metadata is escaped');
+for(const host of ['newsGrid','ddWatchReadMount','archiveList','clipsFeed'])assert(inline.includes("'"+host+"'"),'Refreshed '+host+' gets comment controls');
+assert.match(inline,/container.hidden=!state.expanded/,'Opt-in comment hosts genuinely hide when collapsed');assert.match(inline,/drafts.set\(id/,'Drafts retained on rerender');
+assert.match(media,/comments.dataset.commentsCollapsed='true'/);assert.match(html,/data-news-comments="video:/);assert.match(html,/data-news-comments="archive:/);
+assert.match(html,/inline-news-comments.js\?v=m67-foldout/);assert.match(html,/watch-read.js\?v=m67-actions/);
+console.log('PASS M67: shared Archive actions, escaped source data, selected Follow/Compare state, persistent fold-out wiring on all four card roots, cache invalidation');

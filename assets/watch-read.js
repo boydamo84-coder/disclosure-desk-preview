@@ -121,11 +121,12 @@ function init(){
     return value(y)-value(x)||a.title.localeCompare(b.title);
   });
   for(const item of candidates.slice(0,viewAll?100:10)){
-   const card=node('article');card.className='card dd-media-card';
+   const card=node('article');card.className='card dd-media-card';card.dataset.mediaId=item.id;
    const content=node('div');content.className='dd-media-content';card.append(content);
    const rail=node('div');rail.className='dd-media-actions dd-action-rail';rail.setAttribute('role','group');rail.setAttribute('aria-label','Title actions');
    const name=item.url?node('a',item.title):node('strong',item.title);if(item.url){name.href=item.url;name.target='_blank';name.rel=item.source_kind==='member'?'noopener noreferrer nofollow ugc':'noopener noreferrer';name.style.cssText='display:block;font-weight:750;color:#e7c58a;text-decoration:underline;text-underline-offset:3px;margin-bottom:6px'}content.append(name,node('p',item.year+' · '+item.creator));
-   const save=node('button',saved[item.id]?'✓ On my list':'+ My list');save.type='button';save.className='outline';
+   const save=node('button',saved[item.id]?'✓':'＋');save.type='button';save.className='dd-media-save';
+   save.setAttribute('aria-label',(saved[item.id]?'Remove ':'Add ')+item.title+(saved[item.id]?' from my list':' to my list'));save.title=saved[item.id]?'On my list · Remove':'Add to my list';save.setAttribute('aria-pressed',String(!!saved[item.id]));
    save.onclick=()=>{if(saved[item.id])delete saved[item.id];else saved[item.id]=true;try{localStorage.setItem(key,JSON.stringify(saved))}catch{}render()};
    rail.append(save);
    const share=node('button','Share');share.type='button';share.className='dd-action-share';share.setAttribute('aria-label','Share '+item.title);share.title='Share';
@@ -135,7 +136,7 @@ function init(){
    board.dataset.bookmarkUrl=discussionLink.href;board.dataset.bookmarkLabel=item.title;board.innerHTML='<span data-star-icon>☆</span>';
    board.onclick=()=>window.DDSavePublicLinkToBoard?.(item.title,discussionLink.href);
    share.onclick=()=>window.DDSharePublicLink?.(item.title,item.url||discussionLink.href);rail.append(board,share);window.DDMediaSubmissions?.attachReport?.(rail,item);card.append(rail);
-   const comments=node('div');comments.className='dd-news-inline-comments';comments.dataset.newsComments='media:'+item.id;card.append(comments);
+   const comments=node('div');comments.className='dd-news-inline-comments';comments.dataset.newsComments='media:'+item.id;comments.dataset.commentsTitle=item.title;comments.dataset.commentsCollapsed='true';card.append(comments);
    const summary=node('p',available
      ?((scores[item.id]?.ratings||0)+' ratings · '+(scores[item.id]?.ratings?Number(scores[item.id].average_score).toFixed(1)+'/10':'Not yet rated')+' · '+(scores[item.id]?.recommendations||0)+' recommendations')
      :'Community ratings coming soon · no votes displayed yet');
@@ -146,9 +147,12 @@ function init(){
    }
    rating.value=mine[item.id]?.score==null?'':String(mine[item.id].score);
    rating.disabled=!available;rating.onchange=()=>castVote(item,{score:rating.value?Number(rating.value):null});
-   const recommend=node('button',mine[item.id]?.recommended?'👍 Recommended':'👍 Recommend');recommend.type='button';recommend.className='outline';recommend.disabled=!available;
+   const recommend=node('button','👍 '+Math.max(0,Number(scores[item.id]?.recommendations)||0));recommend.type='button';recommend.className='dd-media-recommend';recommend.disabled=!available;recommend.title=mine[item.id]?.recommended?'Remove recommendation':'Recommend';recommend.setAttribute('aria-label',(mine[item.id]?.recommended?'Remove recommendation for ':'Recommend ')+item.title);recommend.setAttribute('aria-pressed',String(!!mine[item.id]?.recommended));
    recommend.onclick=()=>castVote(item,{recommended:!mine[item.id]?.recommended});
-   const ratings=node('div');ratings.className='dd-media-ratings';ratings.append(rating,recommend);content.append(ratings);list.append(card);
+   const ratings=node('div');ratings.className='dd-media-ratings';ratings.hidden=true;ratings.id='dd-media-rating-'+item.id.replace(/[^a-z0-9-]/gi,'-');ratings.append(rating);
+   const rate=node('button','★ Rate');rate.type='button';rate.className='dd-media-rate';rate.title='Rate this title';rate.setAttribute('aria-label','Rate '+item.title);rate.setAttribute('aria-expanded','false');rate.setAttribute('aria-controls',ratings.id);
+   rate.onclick=()=>{ratings.hidden=!ratings.hidden;rate.setAttribute('aria-expanded',String(!ratings.hidden));if(!ratings.hidden)rating.focus({preventScroll:true})};
+   rail.prepend(rate,recommend);card.append(ratings);list.append(card);
   }
   if(candidates.length>10){const more=node('button',viewAll?'Show Top Picks':'View all titles');more.type='button';more.className='outline';more.onclick=()=>{viewAll=!viewAll;render()};list.append(more)}
  }
