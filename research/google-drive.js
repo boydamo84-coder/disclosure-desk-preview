@@ -4,20 +4,41 @@
 (()=>{'use strict';
 const MIME='application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 const SCOPE='https://www.googleapis.com/auth/drive.file',APP='disclosure-desk-wne-research';
-let dialog,feedback,list,connect,backup,refresh,disconnect,last,token=null,expires=0,owner=null,ownerHash=null,epoch=0,busy=false,googleClient=null;
+let dialog,feedback,list,connect,backup,refresh,disconnect,last,token=null,expires=0,owner=null,ownerHash=null,epoch=0,busy=false,googleClient=null,needsAccountChooser=false;
 const node=(tag,text)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;return e};
 async function hash(bytes){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(n=>n.toString(16).padStart(2,'0')).join('')}
 async function verified(){const id=await window.WNECloudIntegration?.verifiedOwner?.();if(!id)throw Error('Sign in to Research before connecting Google Drive.');if(owner&&owner!==id){reset();throw Error('Your Research account changed. Reopen Google Drive.')}return id}
 function say(message){if(feedback)feedback.textContent=message}
 function connected(){return !!token&&Date.now()<expires}
-function controls(){const ok=connected();if(connect)connect.disabled=busy||!googleClient;if(backup)backup.disabled=busy||!ok;if(refresh)refresh.disabled=busy||!ok;if(disconnect)disconnect.disabled=busy||!ok}
-function reset(){epoch++;token=null;expires=0;owner=null;ownerHash=null;list?.replaceChildren();if(last)last.textContent='';controls()}
+// A non-sensitive reconnect preference, scoped to the verified Research owner.
+// Never persist any Google access/refresh token, Google email, or credentials.
+// GIS still requires an explicit user click to obtain a fresh access token.
+const REMEMBER_KEY='dd-wne-drive-reconnect:';
+function remembered(){
+ if(!ownerHash)return false;
+ try{return localStorage.getItem(REMEMBER_KEY+ownerHash)==='1'}catch(_){return false}
+}
+function remember(on){
+ if(!ownerHash)return;
+ try{if(on)localStorage.setItem(REMEMBER_KEY+ownerHash,'1');else localStorage.removeItem(REMEMBER_KEY+ownerHash)}catch(_){}
+}
+function controls(){
+ const ok=connected();
+ if(connect){
+  connect.disabled=busy||!googleClient||ok;
+  connect.textContent=ok?'Google Drive connected ✓':needsAccountChooser?'Choose Google account':remembered()?'Reconnect Google Drive':'Connect Google Drive';
+ }
+ if(backup)backup.disabled=busy||!ok;
+ if(refresh)refresh.disabled=busy||!ok;
+ if(disconnect)disconnect.disabled=busy||!ok;
+}
+function reset(){epoch++;token=null;expires=0;owner=null;ownerHash=null;needsAccountChooser=false;list?.replaceChildren();if(last)last.textContent='';controls()}
 async function request(url,options={}){
  const stamp=epoch;await verified();if(stamp!==epoch||!connected())throw Error('Connect Google Drive again to continue.');
  const parsed=new URL(url);if(parsed.origin!=='https://www.googleapis.com')throw Error('Unexpected Drive service address.');
  const response=await fetch(url,{...options,headers:{...options.headers,Authorization:'Bearer '+token},cache:'no-store'});
  if(stamp!==epoch)throw Error('Your Research account changed.');
- if(response.status===401){token=null;expires=0;controls();throw Error('Your Google connection expired. Connect again to continue.')}
+ if(response.status===401){token=null;expires=0;controls();throw Error('Your Google connection expired. Tap Reconnect Google Drive to continue. Your Research document is safe.')}
  if(!response.ok)throw Error('Google Drive could not complete this request ('+response.status+'). Your original document is safe.');
  return response;
 }
@@ -70,13 +91,17 @@ function connectGoogle(){
  const attempt=window.google.accounts.oauth2.initTokenClient({client_id:clientId,scope:SCOPE,include_granted_scopes:false,
   callback:async response=>{try{
    if(epoch!==requestedEpoch||owner!==requestedOwner)return;
-   if(response.error||!response.access_token)throw Error('Google Drive connection was cancelled or declined.');
+   if(response.error||!response.access_token){needsAccountChooser=true;throw Error('Google could not reconnect. Tap Choose Google account to confirm access.');}
    if(!window.google.accounts.oauth2.hasGrantedAllScopes(response,SCOPE))throw Error('Google Drive file permission was not granted.');
    await verified();if(epoch!==requestedEpoch||owner!==requestedOwner)return;
    token=response.access_token;expires=Date.now()+Math.max(0,Number(response.expires_in||0)-60)*1000;
-   say('Google Drive connected for this session. Choose Back up this document when ready.');controls();await files();
-  }catch(e){if(epoch===requestedEpoch){say(e.message);controls()}}},error_callback:()=>{if(epoch===requestedEpoch)say('Google could not open the connection window. Allow the popup and try again.')}});
- attempt.requestAccessToken({prompt:'select_account'});
+   needsAccountChooser=false;remember(true);
+   say('Google Drive connected for this session. Your account choice is remembered on this device; Google may still require a tap to reconnect after a reload.');controls();await files();
+  }catch(e){if(epoch===requestedEpoch){say(e.message);controls()}}},error_callback:()=>{if(epoch===requestedEpoch){needsAccountChooser=true;say('Google could not open the connection window. Allow the popup and tap Choose Google account.');controls()}}});
+ // A returning user can request the previously granted permission in one tap,
+ // without forcing the account chooser on every visit. Google may still show
+ // consent; this request is always initiated by the user's direct click.
+ attempt.requestAccessToken({prompt:remembered()&&!needsAccountChooser?'':'select_account'});
 }
 async function loadGoogle(){
  const clientId=window.DDResearchDriveConfig?.clientId||'';
@@ -84,7 +109,7 @@ async function loadGoogle(){
  if(!window.google?.accounts?.oauth2){
   await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='https://accounts.google.com/gsi/client';script.async=true;script.onload=resolve;script.onerror=()=>reject(Error('Google connection tools could not load. Please try again.'));document.head.append(script)});
  }
- googleClient=true;say('Connect Google Drive to back up or open a Word copy.');controls();
+ googleClient=true;say(remembered()?'Google Drive was connected before on this device. Tap Reconnect to confirm access.':'Connect Google Drive to back up or open a Word copy.');controls();
 }
 async function open(){
  if(!dialog){
@@ -97,14 +122,14 @@ async function open(){
   for(const b of [connect,backup,refresh,disconnect]){b.type='button';actions.append(b)}
   connect.onclick=connectGoogle;
   backup.onclick=()=>void run(save);refresh.onclick=()=>void run(files);
-  disconnect.onclick=()=>{const previous=token;reset();if(previous)window.google?.accounts?.oauth2.revoke(previous,()=>{});say('Google Drive disconnected. Your existing Drive files remain available in Google Drive.')};
+  disconnect.onclick=()=>{const previous=token;remember(false);reset();if(previous)window.google?.accounts?.oauth2.revoke(previous,()=>{});say('Google Drive disconnected and its remembered connection cleared on this device. Your Drive files remain untouched.')};
   list=node('div');list.id='dd-drive-files';
   const close=node('button','Close');close.type='button';close.onclick=()=>dialog.close();
   dialog.append(actions,feedback,last,node('h3','Recent Word backups'),list,close);document.body.append(dialog);
  }
  dialog.showModal();say('Checking your Research account…');
  const stamp=epoch;
- try{const next=await verified();if(stamp!==epoch)return;owner=next;const digest=await hash(new TextEncoder().encode(owner));if(stamp!==epoch)return;ownerHash=digest;const previous=localStorage.getItem('dd-wne-drive-backup:'+ownerHash);last.textContent=previous?'Last verified backup on this browser: '+new Date(previous).toLocaleString():'';if(!googleClient)await loadGoogle();else {say(connected()?'Google Drive connected for this session.':'Connect Google Drive to back up or open a Word copy.');controls()}}catch(e){say(e.message);controls()}
+ try{const next=await verified();if(stamp!==epoch)return;owner=next;const digest=await hash(new TextEncoder().encode(owner));if(stamp!==epoch)return;ownerHash=digest;const previous=localStorage.getItem('dd-wne-drive-backup:'+ownerHash);last.textContent=previous?'Last verified backup on this browser: '+new Date(previous).toLocaleString():'';if(!googleClient)await loadGoogle();else {say(connected()?'Google Drive connected for this session.':remembered()?'Google Drive was connected before. Tap Reconnect to continue safely.':'Connect Google Drive to back up or open a Word copy.');controls()}}catch(e){say(e.message);controls()}
 }
 window.addEventListener('dd-wne-account-changed',()=>{reset();say('Your Research sign-in changed. Reopen Google Drive to connect the right account.')});
 document.getElementById('dd-drive-open')?.addEventListener('click',()=>{const menu=document.getElementById('wne-file-menu');if(menu)menu.hidden=true;document.getElementById('wne-file-button')?.setAttribute('aria-expanded','false');void open()});
