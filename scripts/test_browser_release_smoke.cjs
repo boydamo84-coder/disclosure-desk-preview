@@ -45,10 +45,10 @@ async function selected(page,id){
   await page.goto(BASE+'/',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.nav .tab[data-tab="profilePage"]');
   const tabs=await page.locator('nav.nav .tab').count();
-  assert.equal(tabs,12,'Current public release keeps all twelve approved navigation tabs');
+  assert.equal(tabs,13,'Current public release keeps all thirteen approved navigation tabs');
   assert.equal(await selected(page,'discover'),'page');
   assert.equal(await hasVisibleSection(page,'discover'),true);
-  pass('all twelve approved bottom tabs and visible News');
+  pass('all thirteen approved bottom tabs and visible News');
   const navRail=page.locator('.nav-inner');
   await page.locator('#ddNavNext').waitFor({state:'visible'});
   const initialDockScroll=await navRail.evaluate(el=>el.scrollLeft);
@@ -138,14 +138,14 @@ async function selected(page,id){
   await page.screenshot({path:path.join(OUTPUT,'mobile-explore-393px.png'),fullPage:false});
   await page.goto(BASE+'/?dd_tab=discussionsPage',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.nav .tab[data-tab="discover"]');
-  assert.equal(await page.locator('nav.nav .tab').count(),12);
+  assert.equal(await page.locator('nav.nav .tab').count(),13);
   await page.waitForFunction(()=>!document.getElementById('discussionsPage').classList.contains('hidden'),
     null,{timeout:10000});
   assert.equal(await hasVisibleSection(page,'discussionsPage'),true,
     'Approved public Discussions deep link must open the community area');
-  assert.equal(await page.locator('.nav .tab[data-tab="discussionsPage"]').count(),0,
-    'Discussions opens through Community and must not duplicate the bottom dock');
-  pass('approved Discussions deep link opens community without adding a phantom bottom tab');
+  assert.equal(await page.locator('.nav .tab[data-tab="discussionsPage"]').count(),1,
+    'Discussions has exactly one dedicated tab');
+  pass('approved Discussions deep link opens the dedicated community tab');
   await page.goto(BASE+'/?dd_tab=chatPage',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.nav .tab[data-tab="chatPage"]');
   await page.waitForFunction(()=>!document.getElementById('chatPage').hidden &&
@@ -162,9 +162,9 @@ async function selected(page,id){
   pass('valid W.NE return deep link restores Profile');
   await page.goto(BASE+'/research/guest-preview.html',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.dd-site-dock-tab');
-  assert.equal(await page.locator('.dd-site-dock-tab').count(),12);
-  assert.equal(await page.locator('.dd-site-dock-tab[data-dd-tab="discussionsPage"]').count(),0);
-  pass('Research guest preview retains all twelve navigation links');
+  assert.equal(await page.locator('.dd-site-dock-tab').count(),13);
+  assert.equal(await page.locator('.dd-site-dock-tab[data-dd-tab="discussionsPage"]').count(),1);
+  pass('Research guest preview retains all thirteen navigation links');
   const back=page.locator('.dd-site-dock-tab[data-dd-tab="hub"]');
   await back.click({timeout:10000});
   await page.waitForURL('**/?dd_tab=hub',{timeout:10000});
@@ -172,8 +172,8 @@ async function selected(page,id){
   pass('Research dock returns through main site to Explore');
   await page.goto(BASE+'/research/index.html',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.dd-site-dock-tab[data-dd-tab="profilePage"]');
-  assert.equal(await page.locator('.dd-site-dock-tab').count(),12);
-  pass('Research entry preserves twelve shared nav destinations');
+  assert.equal(await page.locator('.dd-site-dock-tab').count(),13);
+  pass('Research entry preserves thirteen shared nav destinations');
   await page.screenshot({path:path.join(OUTPUT,'mobile-research-entry-393px.png'),fullPage:false});
   // The responsive check catches horizontal content that breaks phone navigation.
   const widths=await page.evaluate(()=>({viewport:document.documentElement.clientWidth,
