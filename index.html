@@ -1122,7 +1122,9 @@ function news(){
  document.querySelectorAll('[data-news-rabbit-panel]').forEach(el=>el.addEventListener('click',e=>{const btn=e.target.closest('[data-live-rabbit]');if(!btn)return;const data=el._rabbitData;if(!data)return;const item=btn.hasAttribute('data-live-search')?(data.searches||[])[Number(btn.dataset.liveSearch)]:(data.stories||[]).filter(x=>safePublicUrl(x.url))[Number(btn.dataset.liveIndex)];if(item)addInvestigationLink(item.title,item.url)}));
 }
 const DD_NEWS_CACHE_KEY='dd_online_news_cache_v1';
-const DD_NEWS_REMOTE='https://raw.githubusercontent.com/boydamo84-coder/disclosure-desk-preview/dev/mobile-video-performance-oct31/data/news-alerts.json';
+// GitHub Actions publishes the continually refreshed news catalogue to main.
+// Never use a development branch or require a Netlify deploy for each refresh.
+const DD_NEWS_REMOTE='https://raw.githubusercontent.com/boydamo84-coder/disclosure-desk-preview/main/data/news-alerts.json';
 function ddStoredNews(){try{const cache=JSON.parse(localStorage.getItem(DD_NEWS_CACHE_KEY)||'null');return Array.isArray(cache?.rows)?cache.rows:null}catch{return null}}
 function ddNewsRows(rows,origin){
  if(!Array.isArray(rows))throw Error('Unexpected news catalogue');
@@ -2395,22 +2397,47 @@ function ddCompareSelect(id){
  if(ddCompareSelected.length===2)ddRenderComparison();
  panel.scrollIntoView({behavior:'smooth',block:'start'});
 }
+function ddCompareSearchRows(query,limit=90){
+ // Keep ALL cases searchable but avoid putting >10,000 option elements into
+ // two phone <select>s. A selected case must survive catalogue refreshes.
+ const all=[...historicalRecords,...ddNewsCompare.values()];
+ const q=String(query||'').trim().toLowerCase(),hits=[];
+ const featured=!q?all.filter(r=>r.kind==='Featured investigation'):all;
+ for(const item of featured){
+  if(q&&![item.title,item.source,item.category,item.description,item.year,item.city].join(' ').toLowerCase().includes(q))continue;
+  hits.push(item);
+  if(hits.length>=limit)break;
+ }
+ if(!q&&hits.length<limit){
+  const present=new Set(hits.map(x=>String(x.id)));
+  for(const item of all){if(present.has(String(item.id)))continue;hits.push(item);present.add(String(item.id));if(hits.length>=limit)break}
+ }
+ return {hits,total:all.length};
+}
+function ddSetCompareOptions(selectId,searchId,preserve){
+ const target=$(selectId);if(!target)return;
+ const search=$(searchId)?.value||'',result=ddCompareSearchRows(search);
+ const selected=preserve||target.value;
+ const found=result.hits.slice();
+ if(selected&&!found.some(x=>String(x.id)===selected)){
+  const extra=ddCompareItem(selected);if(extra)found.push(extra);
+ }
+ const options='<option value="">Choose case · search to narrow '+result.total+' records</option>'+
+  found.map(x=>'<option value="'+esc(String(x.id))+'">'+esc(String(x.title||'Untitled'))+'</option>').join('');
+ target.innerHTML=options;
+ if(selected&&found.some(x=>String(x.id)===selected))target.value=selected;
+ target.dataset.totalAvailable=String(result.total);
+}
 function ddSetupCompareCases(){
- const cases=[...historicalRecords,...ddNewsCompare.values()];
  const left=$('ddCompareLeft'),right=$('ddCompareRight');if(!left||!right)return;
- const oldLeft=ddCompareSelected[0]||left.value,oldRight=ddCompareSelected[1]||right.value;
- const option='<option value="">Select a case…</option>'+cases.map(x=>'<option value="'+esc(String(x.id))+'">'+esc(x.title)+'</option>').join('');
- left.innerHTML=right.innerHTML=option;
- if(cases.some(x=>String(x.id)===oldLeft))left.value=oldLeft;
- if(cases.some(x=>String(x.id)===oldRight))right.value=oldRight;
- $('ddCompareRun').disabled=cases.length<2;
+ const previousLeft=ddCompareSelected[0]||left.value,previousRight=ddCompareSelected[1]||right.value;
+ ddSetCompareOptions('ddCompareLeft','ddCompareSearchLeft',previousLeft);
+ ddSetCompareOptions('ddCompareRight','ddCompareSearchRight',previousRight);
+ $('ddCompareRun').disabled=historicalRecords.length+ddNewsCompare.size<2;
  const status=$('ddCompareSelection');if(status)status.textContent='Selected: '+(left.selectedOptions[0]?.textContent||'None')+' / '+(right.selectedOptions[0]?.textContent||'None');
 }
 function ddFilterCompareOptions(inputId,selectId){
- const q=$(inputId).value.trim().toLowerCase(),select=$(selectId),current=select.value;
- const filtered=[...historicalRecords,...ddNewsCompare.values()].filter(r=>[r.title,r.source,r.category,r.description,r.year].join(' ').toLowerCase().includes(q));
- select.innerHTML='<option value="">Select a case ('+filtered.length+' found)</option>'+filtered.map(r=>'<option value="'+esc(String(r.id))+'">'+esc(r.title)+'</option>').join('');
- if(filtered.some(r=>String(r.id)===current))select.value=current;
+ ddSetCompareOptions(selectId,inputId,$(selectId)?.value||'');
 }
 for(const [input,select] of [['ddCompareSearchLeft','ddCompareLeft'],['ddCompareSearchRight','ddCompareRight']])$(input).addEventListener('input',()=>ddFilterCompareOptions(input,select));
 let ddPendingComparison=null;
