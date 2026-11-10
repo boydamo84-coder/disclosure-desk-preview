@@ -12,5 +12,5 @@ assert.match(rail,/aria-pressed="true"/,'Existing comparison selection is repres
 for(const host of ['newsGrid','ddWatchReadMount','archiveList','clipsFeed'])assert(inline.includes("'"+host+"'"),'Refreshed '+host+' gets comment controls');
 assert.match(inline,/container.hidden=!state.expanded/,'Opt-in comment hosts genuinely hide when collapsed');assert.match(inline,/drafts.set\(id/,'Drafts retained on rerender');
 assert.match(media,/comments.dataset.commentsCollapsed='true'/);assert.match(html,/data-news-comments="video:/);assert.match(html,/data-news-comments="archive:/);
-assert.match(html,/inline-news-comments.js\?v=m71-secondary-views/);assert.match(html,/watch-read.js\?v=m67-actions/);
+assert.match(html,/inline-news-comments.js\?v=m73-reply-cancel/);assert.match(html,/watch-read.js\?v=m67-actions/);
 console.log('PASS M67: shared Archive actions, escaped source data, selected Follow/Compare state, persistent fold-out wiring on all four card roots, cache invalidation');
