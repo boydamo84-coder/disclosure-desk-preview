@@ -803,3 +803,46 @@
 @media(orientation:landscape) and (max-height:600px){
  #immersiveViewer .dd-immersive-inline-comments{display:none!important}
 }
+
+/* M73 — one More owner menu for every authored post and comment, including
+   News, Archive, Videos, Watch & Read, Cases, Hearings and Discussions. */
+.dd-action-rail .dd-comment-more{position:relative;display:inline-flex;flex:0 0 auto;align-items:center;justify-content:center;min-width:40px;min-height:40px;overflow:visible;isolation:isolate;z-index:auto}
+.dd-action-rail .dd-comment-more[open]{z-index:100;isolation:auto}
+.dd-action-rail .dd-comment-more-trigger{display:grid;place-items:center;list-style:none;cursor:pointer;min-width:40px;min-height:40px;padding:5px 8px;border-radius:8px;color:#e9d7b4;font-size:24px;font-weight:700;line-height:1}
+.dd-action-rail .dd-comment-more-trigger::-webkit-details-marker{display:none}
+.dd-action-rail .dd-comment-more-trigger::marker{content:''}
+.dd-action-rail .dd-comment-more-trigger:hover,.dd-action-rail .dd-comment-more-trigger:focus-visible{background:#213b4b;outline-offset:1px}
+.dd-action-rail .dd-comment-more[open]>.dd-comment-more-trigger{background:#29444c;outline:1px solid #9d987d;color:#ffe2a7}
+.dd-action-rail .dd-comment-more-panel{
+ position:absolute;right:0;bottom:calc(100% + 4px);z-index:105;
+ min-width:158px;width:max-content;max-width:min(245px,calc(100vw - 32px));
+ box-sizing:border-box;padding:5px;display:flex;flex-direction:column;gap:2px;
+ border:1px solid #6e806f;border-radius:10px;background:#122d3d;box-shadow:0 12px 26px #0009
+}
+.dd-action-rail .dd-comment-more:not([open])>.dd-comment-more-panel{display:none}
+.dd-action-rail.dd-unified-rail .dd-comment-more-panel button,
+#discussionsPage .dd-forum-actions.dd-action-rail.dd-unified-rail .dd-comment-more-panel button{
+ box-sizing:border-box;display:block!important;min-height:42px!important;height:auto!important;
+ width:100%!important;min-width:142px!important;padding:10px 12px!important;
+ border:1px solid transparent!important;border-radius:7px!important;
+ background:transparent!important;color:#f0e3cc!important;text-align:left!important;
+ font:600 13px/1.3 system-ui!important;white-space:normal!important
+}
+.dd-action-rail .dd-comment-more-panel button:focus-visible,
+.dd-action-rail .dd-comment-more-panel button:hover{background:#294656!important}
+.dd-action-rail .dd-comment-more-panel .dd-comment-delete-button{color:#ffd4c9!important}
+.dd-comment-action-notice:empty{display:none!important}
+.dd-comment-action-notice:not(:empty){font-size:11px;color:#d7e7d5;max-width:100%;white-space:normal}
+.dd-comment-card,.dd-forum-reply-card,.dd-comment-main,.dd-comment-action-rail{overflow:visible!important}
+.dd-comment-edit-form{margin:8px 0 0;padding:11px;border:1px solid #3c5a6d;border-radius:10px;background:#132f3f}
+.dd-comment-edit-form label{display:block;font-size:12px;color:#d4dfe6}
+.dd-comment-edit-input{display:block;box-sizing:border-box;width:100%;min-height:72px;max-height:150px;margin:8px 0;border:1px solid #4c697d;border-radius:8px;background:#0c2030;color:#edf3f4;resize:vertical;padding:10px}
+.dd-comment-edit-actions,.dd-reply-compose-actions{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex-wrap:wrap}
+.dd-comment-edit-actions button,.dd-reply-compose-actions button{min-height:42px;padding:8px 13px;border-radius:9px}
+.dd-reply-compose-actions .dd-reply-cancel:not([hidden]){background:transparent;border:1px solid #536d7d;color:#e4d9c3}
+.dd-reply-compose-actions [hidden]{display:none!important}
+@media(max-width:360px){
+ .dd-action-rail .dd-comment-more-trigger{min-width:36px;padding:4px}
+ .dd-comment-edit-actions,.dd-reply-compose-actions{gap:6px}
+ .dd-comment-edit-actions button,.dd-reply-compose-actions button{min-width:76px}
+}
