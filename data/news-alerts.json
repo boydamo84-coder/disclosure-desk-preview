@@ -1,5 +1,17 @@
 [
   {
+    "id": "1bc969e7adad34aa8512",
+    "headline": "Serena DC on SPARK | UFOs, Paranormal Mysteries & Hollywood's New Streaming Platform",
+    "source": "YouTube",
+    "url": "https://news.google.com/rss/articles/CBMiQkFVX3lxTE9mQ1FXb0pjU0ZLUDdHMGZrQ3ZGRUdtZTJVclVGaFE1R2pGM1ZoZmJPWnZKU1kwTVFYeFZDNXFLdkJYQQ?oc=5",
+    "date": "2026-11-10T19:15:30+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://www.youtube.com/watch?v=8LRPIs0-vl8&feature=youtu.be",
+    "imageSource": "Publisher Open Graph image"
+  },
+  {
     "id": "fca44bb25cc4bf2d2dae",
     "headline": "The 30th Rung: LA Marzulli Says Roswell UFO Disclosure Has Reached a Turning Point",
     "source": "Charisma Magazine Online",
@@ -46,7 +58,7 @@
         "headline": "\"I did speak to some pilots\": Avi Loeb addresses Trump's UFO claims on Air Force's reported unusual sightings",
         "source": "AOL.com",
         "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5SakNSMmFyVlpadWhWa3dIdTM5VTFWMkxQMkk2eEtNendTYlNPYWpyWjlKUzBvWXVfNW1VYkUtbTBkb3dPSFZOeFgzUnQ2cUdPVnJkTDVITThxcWd1WTEyQ2x3dEFmNlBMdXZvaGdoYkRIMzN6ZzUwaQ?oc=5",
-        "date": "2026-11-10T08:26:27+00:00",
+        "date": "2026-11-10T09:26:31+00:00",
         "category": "UAP",
         "priority": "standard",
         "desc": "Read the source article for details."
@@ -354,6 +366,8 @@
     "category": "UAP",
     "priority": "standard",
     "desc": "Read the source article for details.",
+    "imageUrl": "https://hermes.media.transform.aol.com/f8cd6bae6ee12722f2f89f8f2fa419fd53b220fe/w_1200,c_scale,f_auto,q_auto/https://hermes.media.static.aol.com/media/2026/11/09/9911672f-86d0-3a32-b752-94a5658e9df6/e02c83f6-75d0-445e-9620-f7bfc9f65504.jpg",
+    "imageSource": "Publisher Open Graph image",
     "relatedCoverage": [
       {
         "id": "273e0a92c7ff2cf615d6",
@@ -375,9 +389,7 @@
         "priority": "standard",
         "desc": "Read the source article for details."
       }
-    ],
-    "imageUrl": "https://hermes.media.transform.aol.com/f8cd6bae6ee12722f2f89f8f2fa419fd53b220fe/w_1200,c_scale,f_auto,q_auto/https://hermes.media.static.aol.com/media/2026/11/09/9911672f-86d0-3a32-b752-94a5658e9df6/e02c83f6-75d0-445e-9620-f7bfc9f65504.jpg",
-    "imageSource": "Publisher Open Graph image"
+    ]
   },
   {
     "id": "a0d9d39951fad72c9a92",
@@ -608,8 +620,6 @@
     "category": "UAP",
     "priority": "standard",
     "desc": "Read the source article for details.",
-    "imageUrl": "https://brobible.com/wp-content/uploads/2026/11/international-space-station-ufo.jpg",
-    "imageSource": "Publisher Open Graph image",
     "relatedCoverage": [
       {
         "id": "6eeea0a61f3a7d319b6b",
@@ -621,7 +631,9 @@
         "priority": "standard",
         "desc": "Read the source article for details."
       }
-    ]
+    ],
+    "imageUrl": "https://brobible.com/wp-content/uploads/2026/11/international-space-station-ufo.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "facbbba581b6929b5797",
@@ -655,7 +667,9 @@
     "date": "2026-11-06T08:14:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://cdn3.wionews.com/prod/wion/images/2026/20261106/image-1793952636357.png?imwidth=1200&imheight=900",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "1961016cb5177961a117",
