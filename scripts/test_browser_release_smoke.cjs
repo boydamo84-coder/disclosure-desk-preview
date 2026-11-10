@@ -143,6 +143,9 @@ async function selected(page,id){
     null,{timeout:10000});
   assert.equal(await hasVisibleSection(page,'discussionsPage'),true,
     'Approved public Discussions deep link must open the community area');
+  assert.equal(await page.evaluate(()=>typeof window.supabase),'undefined',
+    'Offline navigation acceptance intentionally has no account SDK');
+  await page.waitForFunction(()=>document.getElementById('ddForumStatus')?.textContent?.includes('Community service unavailable'));
   assert.equal(await page.locator('.nav .tab[data-tab="discussionsPage"]').count(),1,
     'Discussions has exactly one dedicated tab');
   pass('approved Discussions deep link opens the dedicated community tab');

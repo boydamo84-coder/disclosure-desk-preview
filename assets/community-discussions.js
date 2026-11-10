@@ -655,7 +655,9 @@ function wireComposer(id){
  dialog.addEventListener('close',()=>$(dialog.dataset.returnFocus||'')?.focus());
 }
 function init(){
- if(ready||!$('discussionsPage')||!db())return;
+ // Keep the destination available when the account SDK is temporarily offline.
+ // Reads and composer actions still fail closed through rpc()/registered().
+ if(ready||!$('discussionsPage'))return;
  ready=true;
  const page=$('discussionsPage');page.removeAttribute('hidden');
  const witness=document.querySelector('.nav .tab[data-tab="witness"]');
