@@ -70,4 +70,31 @@ class NewsRelevanceTests(unittest.TestCase):
    {'headline':'Trump says Air Force pilots saw a strange UFO','url':'https://example.org/a','date':'2026-11-10T03:00:00+00:00'},
    {'headline':'Commercial airline pilots record UFO over Ohio','url':'https://example.org/b','date':'2026-11-10T03:00:00+00:00'}]
   self.assertEqual(len(mod.group_event_coverage(rows)),2)
+ def test_rediscovered_primary_keeps_saved_alternative_coverage(self):
+  date='2026-11-10T04:00:00+00:00'
+  primary={'headline':'Trump says Air Force pilots saw a strange UFO','url':'https://example.org/main','source':'Primary','date':date}
+  alternative={'headline':'Trump shares strange revelations from Air Force pilots about UFOs','url':'https://example.org/alt','source':'Alternative','date':date}
+  old={**primary,'relatedCoverage':[alternative]}
+  result=mod.prepare_news_items([primary,old],now=mod.dt.datetime.fromisoformat(date))
+  self.assertEqual(len(result),1)
+  self.assertEqual(result[0]['relatedCoverage'],[alternative])
+ def test_query_identifiers_and_case_sensitive_paths_are_distinct(self):
+  date='2026-11-10T04:00:00+00:00'
+  rows=[{'headline':'UAP official case '+str(101+i),'url':url,'date':date} for i,url in enumerate([
+   'https://example.org/record?id=1','https://example.org/record?id=2',
+   'https://example.org/Record?id=1'])]
+  self.assertEqual(len(mod.prepare_news_items(rows,now=mod.dt.datetime.fromisoformat(date))),3)
+  self.assertEqual(mod.news_url_key('https://example.org/record?id=1&utm_source=rss#top'),'https://example.org/record?id=1')
+ def test_same_official_id_spacing_is_normalized(self):
+  date='2026-11-10T04:00:00+00:00'
+  a={'headline':'Video DOW-UAP-PR124 unresolved UAP over Pacific 2019','url':'https://example.org/a','date':date}
+  b={**a,'headline':'Video DOW UAP PR124 unresolved UAP over Pacific 2019','url':'https://example.org/b'}
+  self.assertTrue(mod.same_report_event(a,b))
+ def test_retained_nested_items_are_revalidated(self):
+  date='2026-11-10T04:00:00+00:00'
+  row={'headline':'UFO official report','url':'https://example.org/a','date':date,'relatedCoverage':[
+   {'headline':'UFO official report','url':'http://unsafe.example/b','date':date},
+   {'headline':'UFO official report','url':'https://example.org/stale','date':'2020-01-01T00:00:00+00:00'}]}
+  result=mod.prepare_news_items([row],now=mod.dt.datetime.fromisoformat(date))
+  self.assertNotIn('relatedCoverage',result[0])
 if __name__=='__main__':unittest.main()
