@@ -823,34 +823,27 @@
  </div>
  </div><aside class="dd-community-context"><section class="dd-community-about"><span class="dd-community-eyebrow">ABOUT THIS SPACE</span><h3 id="ddForumContextTitle">A place for curious minds</h3><p id="ddForumContextDescription">Explore the evidence, compare ideas and learn from other researchers.</p><p id="ddForumContextCount" class="dd-community-context-count"></p></section><section class="dd-community-guidelines"><h3>Good conversations start here</h3><ol><li><strong>Bring the source.</strong> Link the original evidence where possible.</li><li><strong>Question with respect.</strong> Discuss ideas, not the person.</li><li><strong>Keep it safe.</strong> Five distinct reports hide content for review.</li></ol><a href="/community-rules">Read the community rules ↗</a></section></aside></div>
 </div></section><section id="profilePage" class="hidden" aria-labelledby="ddProfileTitle"><div class="section dd-profile-page">
-<div class="head"><h2 id="ddProfileTitle">My Research Hub</h2><span class="pill">PRIVATE</span></div>
-<p class="muted small">Your research, Boards, community contributions and account settings together. Everything remains private unless you choose to publish it.</p>
+<div class="head dd-profile-heading"><h2 id="ddProfileTitle">My profile</h2></div>
 <div id="ddProfileGuest" class="dd-profile-card" hidden><h3>Sign in to your Research Hub</h3><p class="muted">You can browse Disclosure Desk as a guest. To view private files or post contributions, use your existing Disclosure Desk account.</p><div class="dd-profile-actions"><button class="action" id="ddProfileSignIn" type="button">Sign in</button><button class="outline" id="ddProfileRegister" type="button">Create account</button></div></div>
 <div id="ddProfilePrivate" hidden>
- <section id="ddAvatarPanel" class="dd-profile-card" aria-labelledby="ddAvatarHeading" hidden>
-   <h3 id="ddAvatarHeading">👤 My profile photo</h3>
-   <div class="dd-avatar-layout"><div class="dd-avatar-circle">
-     <img id="ddAvatarImage" alt="Your private profile photo" hidden>
-     <span id="ddAvatarFallback" aria-hidden="true">👤</span>
-   </div><div class="dd-avatar-tools">
-     <details class="dd-avatar-information"><summary aria-label="About profile photos" title="About profile photos">ⓘ <span class="sr-only">About profile photos</span></summary><p class="muted small">Your photo appears beside your public username in Chat and Discussions and on your own navigation icons. It saves automatically when chosen, resized to 512 × 512 pixels as a WebP or JPEG (5 MB maximum original, saved photo under 1 MB). The original metadata is discarded. You can hide or remove the photo at any time. Hidden pictures are protected from new downloads, but previously saved copies cannot be recalled.</p></details>
-     <label for="ddAvatarFile" class="muted small">Choose or change your profile picture — saves automatically</label>
-     <input id="ddAvatarFile" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif" aria-describedby="ddAvatarStatus">
-     <label class="muted small dd-avatar-visible-toggle"><input type="checkbox" id="ddAvatarVisible" checked disabled> Show my profile picture to others (default on)</label>
-     <div class="dd-profile-actions">
-       <button type="button" class="outline" id="ddAvatarSave" hidden disabled>Retry photo upload</button>
-       <button type="button" class="outline" id="ddAvatarRemove" hidden>Remove photo</button>
-     </div>
-     <p id="ddAvatarStatus" class="muted small" role="status" aria-live="polite"></p>
-   </div></div>
- </section>
- <div class="dd-profile-card dd-profile-row"><div><div class="dd-studio-eyebrow">MY ACCOUNT</div><h3 id="ddProfileDisplayName">Researcher</h3><p id="ddProfileEmail" class="muted small"></p><p id="ddProfileVerification" class="muted small"></p><div class="dd-profile-reactions" role="group" aria-label="Community reactions received">
-  <span class="dd-profile-reaction-item"><span aria-hidden="true">▲</span> <strong id="ddProfileLikesReceived">—</strong> <span>Likes received</span></span>
-  <span class="dd-profile-reaction-item"><span aria-hidden="true">▼</span> <strong id="ddProfileDislikesReceived">—</strong> <span>Dislikes received</span></span>
-  <details class="dd-profile-reaction-info"><summary aria-label="About reaction totals" title="About reaction totals">ⓘ</summary><p id="ddProfileReactionBreakdown" class="muted small" role="status" aria-live="polite">Loading reactions on your published posts and comments…</p></details>
- </div></div><button class="outline" type="button" id="ddProfileRefresh">↻ Refresh</button></div>
+ <div class="dd-profile-card dd-profile-identity" id="ddProfileIdentityCard">
+  <div class="dd-profile-identity-main">
+   <div id="ddAvatarPanel" class="dd-profile-identity-avatar" aria-labelledby="ddAvatarHeading" hidden>
+    <span id="ddAvatarHeading" class="sr-only">Your profile photo</span>
+    <div class="dd-avatar-circle"><img id="ddAvatarImage" alt="Your profile photo" hidden><span id="ddAvatarFallback" aria-hidden="true">👤</span></div>
+   </div>
+   <div class="dd-profile-identity-content">
+    <div class="dd-studio-eyebrow">MY PROFILE</div>
+    <div class="dd-profile-name-line"><h3 id="ddProfileDisplayName">Researcher</h3><button class="outline dd-profile-refresh" type="button" id="ddProfileRefresh" aria-label="Refresh your profile" title="Refresh profile">↻</button></div>
+    <div class="dd-profile-reactions" role="group" aria-label="Community reactions received">
+      <span class="dd-profile-reaction-item"><span aria-hidden="true">▲</span> <strong id="ddProfileLikesReceived">—</strong> <span>Likes received</span></span>
+      <span class="dd-profile-reaction-item"><span aria-hidden="true">▼</span> <strong id="ddProfileDislikesReceived">—</strong> <span>Dislikes received</span></span>
+      <details class="dd-profile-reaction-info"><summary aria-label="About reaction totals" title="About reaction totals">ⓘ</summary><p id="ddProfileReactionBreakdown" class="muted small" role="status" aria-live="polite">Loading reactions on your published posts and comments…</p></details>
+    </div>
+   </div>
+  </div>
+ </div>
  <div class="dd-profile-stats"><div class="dd-profile-stat"><strong id="ddProfileFilesCount">—</strong><small>Cloud documents</small></div><div class="dd-profile-stat"><strong id="ddProfileBoardsCount">—</strong><small>Cloud Boards</small></div><div class="dd-profile-stat"><strong id="ddProfileWitnessCount">—</strong><small>Witness reports</small></div></div>
-
  <p id="ddProfileStatus" role="status" class="muted small" aria-live="polite"></p>
  <div class="dd-profile-grid">
   <details class="dd-profile-card dd-profile-fold"><summary><span>✎ My W.NE Research</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary><p class="muted small">Recent private cloud documents. Unsynced or device-only research may not appear here.</p><div class="dd-profile-list" id="ddProfileFilesList"></div>
@@ -859,13 +852,29 @@
   <div class="dd-profile-list" id="ddProfileTrashList"></div></details>
   <button type="button" class="outline" data-profile-go="researchStudio">Open Research Studio</button></details>
   <details class="dd-profile-card dd-profile-fold"><summary><span>▣ Investigation Boards</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary><p class="muted small">Private cloud Boards. Device-only Boards remain in the Boards tab.</p><div class="dd-profile-list" id="ddProfileBoardsList"></div><button type="button" class="outline" data-profile-go="boards">Open Boards &amp; backups</button></details>
-  <details class="dd-profile-card dd-profile-fold"><summary><span>💬 My Comments</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary><p class="muted small">Recent comments and moderation status, visible only to you.</p><div class="dd-profile-list" id="ddProfileCommentsList"></div></details>
   <details class="dd-profile-card dd-profile-fold"><summary><span>◉ My Witness Reports</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary><p class="muted small">Your reports and whether they are published, hidden or removed.</p><div class="dd-profile-list" id="ddProfileWitnessList"></div><button type="button" class="outline" data-profile-go="witness">Open Witness Reports</button></details>
-  <details class="dd-profile-card dd-profile-fold"><summary><span>👤 Public Username</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary><p class="muted small">Choose a display name and decide whether it appears with your approved comments. Your sign-in email stays private.</p><div id="ddProfileUsername"></div></details>
+  <details class="dd-profile-card dd-profile-fold"><summary><span>💬 My Comments</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary><p class="muted small">Recent comments and moderation status, visible only to you.</p><div class="dd-profile-list" id="ddProfileCommentsList"></div></details>
   <details id="ddProfileChatPanel" class="dd-profile-card dd-profile-fold"><summary><span>✉ Private Chat</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary>
  <p class="muted small">Accepted chats, pending requests and the conversation window all live in this section. No group chats.</p>
  <div id="ddProfileChatApp"></div></details>
- <details class="dd-profile-card dd-profile-fold"><summary><span>🔒 Account &amp; Security</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary><form id="ddProfilePasswordForm"><label class="muted small" for="ddProfileNewPassword">New password</label><input class="field" id="ddProfileNewPassword" type="password" minlength="8" autocomplete="new-password" required><label class="muted small" for="ddProfileConfirmPassword">Confirm new password</label><input class="field" id="ddProfileConfirmPassword" type="password" minlength="8" autocomplete="new-password" required><div class="dd-profile-actions"><button class="outline" type="submit">Change password</button><button class="outline" id="ddProfileSignOut" type="button">Sign out</button></div><p class="muted small" id="ddProfilePasswordStatus" role="status" aria-live="polite"></p></form><p class="muted small">Backup and recovery remain under Boards. For personal-data exports, contact <a href="mailto:support@uapdisclosuredesk.com">support@uapdisclosuredesk.com</a>.</p><details class="dd-profile-delete-request"><summary>Delete my account</summary><p class="muted small">Account deletion is permanent. Please export any research or Boards you want to keep. This starts a secure deletion request with support; it does not instantly delete your data.</p><a class="outline" href="mailto:support@uapdisclosuredesk.com?subject=Disclosure%20Desk%20account%20deletion%20request">Request account deletion</a></details><button class="outline" data-profile-go="boards" type="button">Backup &amp; recovery</button></details>
+  <details id="ddProfileSettings" class="dd-profile-card dd-profile-fold dd-profile-settings"><summary><span>⚙ Profile settings</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary>
+    <div class="dd-profile-settings-meta"><p id="ddProfileEmail" class="muted small"></p><p id="ddProfileVerification" class="muted small"></p></div>
+    <details id="ddAvatarSettings" class="dd-profile-card dd-profile-fold dd-profile-settings-photo" hidden><summary><span>Profile photo &amp; visibility</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary>
+      <div class="dd-avatar-tools">
+        <div class="dd-profile-actions dd-profile-photo-actions">
+          <label class="outline dd-avatar-file-trigger" for="ddAvatarFile">Change photo<input id="ddAvatarFile" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif" aria-label="Change profile photo" aria-describedby="ddAvatarStatus ddAvatarPhotoRequirements"></label>
+          <button class="outline" type="button" id="ddAvatarRemove" hidden>Remove photo</button>
+          <button class="outline" type="button" id="ddAvatarSave" hidden disabled>Retry upload</button>
+        </div>
+        <details class="dd-avatar-information"><summary>Photo requirements ⓘ</summary>
+          <p id="ddAvatarPhotoRequirements" class="muted small">Use JPG, PNG, WebP or iPhone HEIC, maximum 5 MB. Your photo is automatically resized to 512 × 512 pixels and saved as a compact WebP or JPEG. Original metadata is discarded. If you remove your photo, you will be asked to confirm. You can choose whether other members see your photo below. Previously downloaded copies cannot be recalled.</p>
+        </details>
+        <label class="muted small dd-avatar-visible-toggle"><input type="checkbox" id="ddAvatarVisible" checked disabled> Show my profile picture to others</label>
+        <p id="ddAvatarStatus" class="muted small" role="status" aria-live="polite"></p>
+      </div>
+    </details>
+  <details class="dd-profile-card dd-profile-fold"><summary><span>👤 Public Username</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary><p class="muted small">Choose a display name and decide whether it appears with your approved comments. Your sign-in email stays private.</p><div id="ddProfileUsername"></div></details>
+ <details class="dd-profile-card dd-profile-fold"><summary><span>🔒 Account &amp; Security</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary><form id="ddProfilePasswordForm"><label class="muted small" for="ddProfileNewPassword">New password</label><input class="field" id="ddProfileNewPassword" type="password" minlength="8" autocomplete="new-password" required><label class="muted small" for="ddProfileConfirmPassword">Confirm new password</label><input class="field" id="ddProfileConfirmPassword" type="password" minlength="8" autocomplete="new-password" required><div class="dd-profile-actions"><button class="outline" type="submit">Change password</button><button class="outline" id="ddProfileSignOut" type="button">Sign out</button></div><p class="muted small" id="ddProfilePasswordStatus" role="status" aria-live="polite"></p></form><p class="muted small">Backup and recovery remain under Boards. For personal-data exports, contact <a href="mailto:support@uapdisclosuredesk.com">support@uapdisclosuredesk.com</a>.</p><details class="dd-profile-delete-request"><summary>Delete my account</summary><p class="muted small">Account deletion is permanent. Please export any research or Boards you want to keep. This starts a secure deletion request with support; it does not instantly delete your data.</p><a class="outline" href="mailto:support@uapdisclosuredesk.com?subject=Disclosure%20Desk%20account%20deletion%20request">Request account deletion</a></details><button class="outline" data-profile-go="boards" type="button">Backup &amp; recovery</button></details>  </details>
  </div>
  <section id="ddProfileAdmin" class="dd-profile-card" hidden aria-labelledby="ddProfileAdminHeading"><div class="dd-profile-row"><h3 id="ddProfileAdminHeading">🛡 Admin Centre</h3><span class="pill">MODERATOR ONLY</span></div><p class="muted small">Visible only to authorised community administrators. Server-side permissions independently protect every moderation action.</p><div class="dd-profile-stats"><div class="dd-profile-stat"><strong id="ddAdminHiddenComments">—</strong><small>Hidden comments</small></div><div class="dd-profile-stat"><strong id="ddAdminHiddenWitness">—</strong><small>Hidden witness reports</small></div><div class="dd-profile-stat"><strong id="ddAdminHiddenLive">—</strong><small>Hidden LIVE messages</small></div><div class="dd-profile-stat"><strong id="ddAdminPublicWitness">—</strong><small>Published witness reports</small></div></div><p id="ddAdminStatus" class="muted small" role="status"></p><div id="ddAdminModerationControl" class="dd-profile-actions"></div>
 <details id="ddAdminDiscussions" class="dd-profile-card" hidden><summary>Discussions · Overall Admin Review</summary>
