@@ -1102,7 +1102,7 @@ body.tv .tv-controls #tv-exit:focus-visible {
 }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="./restore-library-core.js"></script><script src="./wne-cloud-bridge.js"></script><script src="./research-auth-guard.js"></script><script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.7/dist/purify.min.js"></script><script src="https://cdn.jsdelivr.net/npm/docx@9.5.1/dist/index.iife.js"></script><script src="https://cdn.jsdelivr.net/npm/mammoth@1.9.1/mammoth.browser.min.js"></script><script src="./docx-tools.js"></script><script src="./research-docx-import.js" defer></script><script src="./wne-export-integration.js"></script><style id="dd-research-spell-contrast">.wne-spell-wrap .wne-language-bar{background:#172c3e!important;color:#f1e5ce!important;border:1px solid #7c765f!important;border-radius:8px!important}.wne-spell-wrap .wne-language-bar label,.wne-spell-wrap .wne-language-bar small{color:#f1e5ce!important;opacity:1!important}.wne-spell-wrap .wne-language-bar select{background:#253b4e!important;color:#fff3dd!important;border:1px solid #8e896c!important}.wne-spell-wrap .wne-language-bar input{accent-color:#daba80}</style><style id="dd-research-site-return-v1">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="./vendor-jszip-3.10.1.js"></script><script src="./restore-library-core.js"></script><script src="./wne-cloud-bridge.js"></script><script src="./research-auth-guard.js"></script><script src="./vendor-dompurify-3.4.17.js"></script><script src="./vendor-docx-9.5.1.js"></script><script src="./docx-tools.js"></script><script src="./research-docx-import.js" defer></script><script src="./wne-export-integration.js"></script><style id="dd-research-spell-contrast">.wne-spell-wrap .wne-language-bar{background:#172c3e!important;color:#f1e5ce!important;border:1px solid #7c765f!important;border-radius:8px!important}.wne-spell-wrap .wne-language-bar label,.wne-spell-wrap .wne-language-bar small{color:#f1e5ce!important;opacity:1!important}.wne-spell-wrap .wne-language-bar select{background:#253b4e!important;color:#fff3dd!important;border:1px solid #8e896c!important}.wne-spell-wrap .wne-language-bar input{accent-color:#daba80}</style><style id="dd-research-site-return-v1">
 /* Always provide an obvious way out of the standalone Research editor, including in an iframe. */
 .dd-return-to-site{display:inline-flex;align-items:center;justify-content:center;gap:5px;box-sizing:border-box;border:1px solid #957d55!important;border-radius:9px;background:#243747!important;color:#eed4a0!important;text-decoration:none!important;font:600 12px/1.3 system-ui,sans-serif;white-space:nowrap;padding:9px 11px}
 .dd-return-to-site:focus-visible{outline:3px solid #e9ca8c;outline-offset:3px}
@@ -1113,7 +1113,7 @@ body.tv .tv-controls #tv-exit:focus-visible {
 @media(max-width:380px){.mobilebar .mobilebrand{font-size:19px}.mobilebar .dd-return-mobile{padding:6px 8px}}
 </style><script src="./wne-dialogs-m34.js"></script></head><body><div id="wne-splash" class="wne-gone" role="presentation" aria-label="W.NE starting"><div class="wne-mark"><div class="wne-word">W.NE</div><div class="wne-line"></div><div class="wne-tag">WRITE. NOTHING ELSE.</div></div><button class="wne-skip" type="button" aria-label="Skip W.NE intro" onpointerdown="this.closest('#wne-splash').remove()" onclick="this.closest('#wne-splash')?.remove()">Skip Intro →</button></div><span class="home-logo" id="home-link" title="Powered by W.NE" aria-label="W.NE Research Edition branding">W.NE</span><div id="remote-pointer" aria-hidden="true"></div>
 <div class="overlay" id="overlay"></div><div class="shell">
- <aside class="sidebar" id="sidebar"><div class="logo">W.NE<small>Research Edition</small></div><div class="nav-title"><span>Sections</span><button class="add" id="add">+ Section</button></div><nav id="chapters" class="chapters" aria-label="Sections"></nav><div class="side-note"><strong>Research Edition</strong><br>Your research is saved locally with recovery history. <a href="#research-studio-home" data-dd-research-home-link style="color:#d9bb8b">Research Studio Home &amp; backups ↗</a></div></aside>
+ <aside class="sidebar" id="sidebar"><div class="logo">W.NE<small>Research Edition</small></div><div class="nav-title"><span>Sections</span><button class="add" id="add">+ Section</button></div><nav id="chapters" class="chapters" aria-label="Sections"></nav><div class="side-note"><strong>Research Edition</strong><br>Your report autosaves to your private account. Keep a separate Word copy. <a href="#research-studio-home" data-dd-research-home-link style="color:#d9bb8b">Research Studio Home &amp; backups ↗</a></div></aside>
  <main class="main">
   <div class="mobilebar"><button class="burger" id="drawer">☰ Sections</button><div class="mobilebrand">W.NE<small>RESEARCH EDITION</small></div><span class="mobile-status" id="mobile-status">Connecting…</span></div>
   <header class="topbar"><div class="stateblock"><span class="eyebrow">W.NE / RESEARCH EDITION</span><span class="state" id="status" role="status">Connecting…</span></div><div class="actions">
@@ -1142,16 +1142,17 @@ body.tv .tv-controls #tv-exit:focus-visible {
    <button type="button" data-file-action="save" role="menuitem">💾 Save<small>Save this report to your private cloud · Ctrl+S</small></button>
     <button type="button" data-file-action="open" role="menuitem">📂 Open document<small>Choose from My documents</small></button>
     <button type="button" data-file-action="download-word" role="menuitem">📄 Download Word copy<small>Save a DOCX copy to this device</small></button>
+   <button id="dd-drive-open" type="button" role="menuitem">☁ Google Drive<small>Back up or open your Word copies</small></button>
    <button type="button" data-file-action="save-to" role="menuitem">📁 Save To…<small>Choose a folder and format</small></button>
    <button type="button" data-file-action="copy" role="menuitem">📑 Save a Copy…<small>Export a copy without replacing this report</small></button>
    <button type="button" data-file-action="export" role="menuitem">📤 Export &amp; Share<small>Open Export Studio</small></button>
    <button type="button" data-file-action="kindle" role="menuitem">📨 Send to Kindle<small>Send your manuscript using your connected account</small></button>
    <button type="button" data-file-action="cloud" role="menuitem">☁️ Cloud Save Options<small>Google Drive and connected backup options</small></button>
    <div class="wne-file-rule"></div><p class="wne-file-section">PROTECT YOUR RESEARCH</p>
-   <button type="button" data-file-action="lifeboat" role="menuitem">🛟 Backup Library<small>Download your private cloud research documents as a ZIP</small></button>
+   <button type="button" data-file-action="lifeboat" role="menuitem">🛟 Backup Library<small>Word copies of all your reports, plus exact recovery data</small></button>
    
    <button type="button" data-file-action="history" role="menuitem">🕘 Recovery History<small>Review earlier saved versions</small></button>
-   <button type="button" data-file-action="emergency" role="menuitem">🚨 Emergency Copy<small>Download unsaved text if saving fails</small></button>
+   <button type="button" data-file-action="emergency" role="menuitem">🚨 Emergency Copy<small>Save unsaved writing as a Word document</small></button>
   </div>
   <div id="more" class="more">
    <button class="button" type="button" id="wne-more-tv">▣ TV Mode</button>
@@ -1163,14 +1164,14 @@ body.tv .tv-controls #tv-exit:focus-visible {
    <button class="button" id="copy-prev">Copy earlier report</button>
    <button class="button" id="delete">Delete current section</button>
    <button class="button" id="lifeboat-restore">🛟 Restore Lifeboat ZIP</button>
-   <button class="button" id="more-import">Restore JSON backup</button>
+   <button class="button" id="more-import">Restore an older backup</button>
    <button class="button" id="emergency">Download unsaved emergency copy</button>
    <!-- Still wired by existing code and file-menu action proxies. -->
    <button class="button wne-more-legacy" id="lifeboat" type="button" tabindex="-1" aria-hidden="true">Backup library</button>
    <button class="button wne-more-legacy" id="more-recover" type="button" tabindex="-1" aria-hidden="true">Recovery history</button>
   </div>
   <div class="formatbar"><label for="font">Font</label><select id="font"><option>Georgia</option><option>Arial</option><option>Times New Roman</option><option>Courier New</option></select><label for="size" title="Whole-document display font setting (not selected text)">Document size</label><select id="size"><option>10</option><option>11</option><option selected>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>18</option><option>20</option><option>22</option><option>24</option></select><span class="sep"></span><span class="wne-view-size" aria-label="Editor viewing size"><span class="wne-view-label">View</span><button class="tool" type="button" id="wne-view-minus" aria-label="Decrease editor viewing size" title="Smaller on screen only; report unchanged">A−</button><output id="wne-view-value" aria-live="polite">18</output><button class="tool" type="button" id="wne-view-plus" aria-label="Increase editor viewing size" title="Larger on screen only; report unchanged">A+</button></span><span class="sep"></span><button class="tool" id="bold" title="Bold"><svg class="wne-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h6a4 4 0 0 1 0 8H7zm0 8h7a4 4 0 0 1 0 8H7z"/></svg></button><button class="tool" id="italic" title="Italic"><svg class="wne-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6M4 20h6M17 4 7 20"/></svg></button><button class="tool" id="underline" title="Underline"><svg class="wne-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v9a6 6 0 0 0 12 0V3M4 21h16"/></svg></button><span class="sep"></span><button class="tool" id="undo" title="Undo"><svg class="wne-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-2"/></svg></button><button class="tool" id="redo" title="Redo"><svg class="wne-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h2"/></svg></button><button class="tool" id="wne-format-find" type="button" title="Find & Replace (Ctrl+F)"><svg class="wne-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></svg><span class="wne-action-label">Find</span></button></div>
-  <div class="wne-spell-wrap" id="wne-spell-wrap"><button type="button" class="wne-spell-toggle" id="wne-spell-toggle" aria-expanded="false" aria-controls="wne-language-bar">✓ Writing checks <span aria-hidden="true">⌄</span></button><div class="wne-language-bar" id="wne-language-bar"><label for="wne-language">🌍 Language</label><select id="wne-language" aria-label="Document spelling language"><option value="en-GB">English (UK)</option><option value="en-US">English (US)</option><option value="fr-FR">Français</option><option value="es-ES">Español</option><option value="de-DE">Deutsch</option><option value="it-IT">Italiano</option><option value="lv-LV">Latviešu</option><option value="ru-RU">Русский</option></select><label><input type="checkbox" id="wne-spellcheck" checked> Spellcheck</label><small>LanguageTool English (UK) · suggestions only · no automatic replacements</small></div></div><div class="workspace-banner" id="workspace-banner" aria-live="polite">🔎 Research &amp; Investigations</div><div class="workarea"><section class="paper"><input class="book-title" id="book" placeholder="Investigation report title" aria-label="Research report title"><input class="chapter-title" id="chapter-title" placeholder="Section title" aria-label="Section title"><div id="editor" class="editor" contenteditable="false" role="textbox" aria-multiline="true" aria-label="Section editor" data-placeholder="Your next sentence begins here…" spellcheck="true"></div><footer class="footer"><span id="count">0 words</span><span class="tagline">Write. Nothing Else.</span></footer></section><p class="micro">Research Edition beta · Confirm a cloud save before leaving · Use test material only</p></div>
+  <div class="wne-spell-wrap" id="wne-spell-wrap"><button type="button" class="wne-spell-toggle" id="wne-spell-toggle" aria-expanded="false" aria-controls="wne-language-bar">✓ Writing checks <span aria-hidden="true">⌄</span></button><div class="wne-language-bar" id="wne-language-bar"><label for="wne-language">🌍 Language</label><select id="wne-language" aria-label="Document spelling language"><option value="en-GB">English (UK)</option><option value="en-US">English (US)</option><option value="fr-FR">Français</option><option value="es-ES">Español</option><option value="de-DE">Deutsch</option><option value="it-IT">Italiano</option><option value="lv-LV">Latviešu</option><option value="ru-RU">Русский</option></select><label><input type="checkbox" id="wne-spellcheck" checked> Spellcheck</label><small>LanguageTool English (UK) · suggestions only · no automatic replacements</small></div></div><div class="workspace-banner" id="workspace-banner" aria-live="polite">🔎 Research &amp; Investigations</div><div class="workarea"><section class="paper"><input class="book-title" id="book" placeholder="Investigation report title" aria-label="Research report title"><input class="chapter-title" id="chapter-title" placeholder="Section title" aria-label="Section title"><div id="editor" class="editor" contenteditable="false" role="textbox" aria-multiline="true" aria-label="Section editor" data-placeholder="Your next sentence begins here…" spellcheck="true"></div><footer class="footer"><span id="count">0 words</span><span class="tagline">Write. Nothing Else.</span></footer></section><p class="micro">Research autosave · Keep an independent Word backup</p></div>
  </main>
 </div>
 <dialog id="wne-save-dialog" style="border:1px solid #9f845e;border-radius:16px;max-width:420px;width:calc(100% - 30px);padding:22px;background:#262321;color:#f2e8d7;box-shadow:0 15px 65px #0009"><h2 style="font:700 25px Georgia,serif;margin:0 0 10px">Save research report</h2><p style="font:13px system-ui;color:#c4b9aa">Autosave continues to protect your local research report.</p><div style="display:grid;gap:10px;margin:16px 0"><button id="wne-save-local" type="button" style="padding:13px;border-radius:9px;background:#dfc499;border:0;color:#27221c;font-weight:700;text-align:left">💾 Save to device</button><button id="wne-save-to" type="button" style="padding:13px;border-radius:9px;background:#353c35;border:1px solid #c9a976;color:#f6ebda;text-align:left;font-weight:700">📂 Save To… (choose a folder)</button><button id="wne-save-drive" type="button" style="padding:13px;border-radius:9px;background:#38342e;border:1px solid #a18b6c;color:#fff;text-align:left">☁️ Save &amp; Back Up to Google Drive</button></div><button type="button" id="wne-open-drive" style="padding:12px;border-radius:9px;background:#34312e;border:1px solid #73634f;color:#f3e5cf;width:100%;text-align:left;cursor:pointer">📂 Open from Google Drive (as new copies)</button><p id="wne-save-feedback" role="status" style="font:12px system-ui;color:#dfc499;min-height:16px"></p><button id="wne-save-cancel" type="button" style="background:none;color:#e9dac6;border:0;padding:9px;cursor:pointer">Cancel</button></dialog>
@@ -1385,7 +1386,7 @@ function syncEditor(){if(!blocked&&!phoneLocked&&data)active().html=sanitizeHtml
 function draftStore(){try{localStorage.setItem(DRAFTKEY,JSON.stringify({revision,manuscript:data,updated:new Date().toISOString()}))}catch(e){}}
 function clearDraft(){try{localStorage.removeItem(DRAFTKEY)}catch(e){}}
 function dirty(){if(blocked||phoneLocked){if(phoneLocked)toast('Phone is editing · controls are on your phone');return;}gen++;data.modified=new Date().toISOString();draftStore();status('Unsaved…');clearTimeout(saveTimer);saveTimer=setTimeout(()=>saveNow(),750)}
-async function saveNow(reason='autosave'){if(blocked)return false;clearTimeout(saveTimer);syncEditor();if(saving){await saving;return gen===savedGen?true:saveNow(reason)}if(gen===savedGen){status('Saved to cloud',false,true);return true}const submittedGen=gen;const snapshot=structuredClone(data);const oldRev=revision;status('Saving…');saving=(async()=>{try{const x=await api('/api/manuscript',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({expected_revision:oldRev,remote_seq:remoteSeq,reason,manuscript:snapshot})});revision=x.revision;remoteSeq=x.remote_seq;savedGen=submittedGen;if(gen===savedGen){clearDraft();status('Saved to cloud',false,true)}else{draftStore();status('Unsaved…')}return true}catch(e){blocked=true;$('editor').contentEditable='false';status('SAVE FAILED — EXPORT!',true);window.WNEDialogs.notice(e.message+'\nYour current text remains in this tab. Use More → Emergency copy. Do not close W.NE yet.');return false}finally{saving=null}})();const ok=await saving;if(ok&&gen>savedGen)setTimeout(()=>saveNow(),100);return ok}
+async function saveNow(reason='autosave'){if(blocked)return false;clearTimeout(saveTimer);syncEditor();if(saving){await saving;return gen===savedGen?true:saveNow(reason)}if(gen===savedGen){status('Saved to cloud',false,true);return true}const submittedGen=gen;const snapshot=structuredClone(data);const oldRev=revision;status('Saving…');saving=(async()=>{try{const x=await api('/api/manuscript',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({expected_revision:oldRev,remote_seq:remoteSeq,reason,manuscript:snapshot})});revision=x.revision;remoteSeq=x.remote_seq;savedGen=submittedGen;if(gen===savedGen){clearDraft();status('Saved to cloud',false,true)}else{draftStore();status('Unsaved…')}return true}catch(e){blocked=true;$('editor').contentEditable='false';status('SAVE FAILED — EXPORT!',true);window.WNEDialogs.notice(e.message+'\nYour current text remains in this tab. Use File → Emergency Copy. Do not close W.NE yet.');return false}finally{saving=null}})();const ok=await saving;if(ok&&gen>savedGen)setTimeout(()=>saveNow(),100);return ok}
 // v0.9.64: guarded save bridge for controls declared outside this editor closure.
 // Only allow navigation after the editor confirms it has persisted the current revision.
 window.wneSaveBeforeNavigation = async function(reason='before navigation'){
@@ -1654,25 +1655,32 @@ function wneInitChapterManager(){
 async function switchChapter(id){if(id===data.active)return;if(!await beforeSwitch())return;data.active=id;render();window.scrollTo(0,0);document.querySelector('.workarea')?.scrollTo(0,0);$('editor').scrollTop=0;dirty();closeDrawer();await saveNow();wneSavePosition()}
 async function addChapter(){if(!await beforeSwitch())return;let n=data.chapters.length+1;const c={id:uid(),title:'Section '+n,html:''};data.chapters.push(c);data.active=c.id;render();dirty();closeDrawer();await saveNow('manual');$('editor').focus()}
 async function deleteChapter(){if(blocked)return;if(data.chapters.length===1){toast('Keep at least one chapter');return}if(!await window.WNEDialogs.confirm(`Delete "${active().title}"? A recovery checkpoint is created before the deletion.`))return;if(!await beforeSwitch())return;const idx=data.chapters.findIndex(c=>c.id===data.active);data.chapters.splice(idx,1);data.active=data.chapters[Math.max(0,idx-1)].id;render();dirty();await saveNow('delete');closeMore();toast('Chapter removed · recovery available')}
-async function downloadRaw(obj,prefix='WNE-emergency'){
- const stamp=new Date().toISOString().replace(/[:.]/g,'-');
- const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});
- const filename=prefix+'-'+stamp+'.json';
- // Chrome and Samsung often show a share sheet instead of saving. Emergency
- // recovery must always initiate a clearly named local JSON download first.
+async function downloadRaw(obj,prefix='WNE-Word-copy'){
+ const doc=obj?.manuscript||obj?.document||obj;
+ if(!doc||!Array.isArray(doc.chapters))throw Error('No document is ready to download.');
+ if(typeof window.DDResearchDocx?.exportFile!=='function')throw Error('Word tools are still loading. Keep this tab open and try again.');
+ const blob=await window.DDResearchDocx.exportFile(structuredClone(doc));
+ const title=String(doc.bookTitle||'Research').replace(/[^a-z0-9 _-]/gi,'').trim().replace(/ +/g,'-').slice(0,70)||'Research';
+ const filename=prefix+'-'+title+'-'+new Date().toISOString().replace(/[:.]/g,'-')+'.docx';
  const url=URL.createObjectURL(blob);
  try{const a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove()}
  finally{setTimeout(()=>URL.revokeObjectURL(url),60000)}
  return 'download';
 }
-window.wneEmergencyCopy=async function(){
- syncEditor(); // Include the CURRENT editable HTML, even when cloud saving fails.
+window.wneCaptureDocument=function(){syncEditor();if(!data||!Array.isArray(data.chapters))throw Error('Open a document first.');return structuredClone(data)};
+window.wneDownloadWordCopy=async function(prefix='WNE-Word-copy'){
+ syncEditor();
  if(!data||!Array.isArray(data.chapters))throw Error('Editor has not loaded; no content to export.');
- const result=await downloadRaw(structuredClone(data),'Disclosure-Desk-WNE-Emergency');
- toast(result==='shared'?'Emergency copy shared':'Emergency copy prepared · check Downloads');
+ await downloadRaw(structuredClone(data),prefix);
+ toast('Word copy prepared · open it in Word or another DOCX app');
  return true;
 };
-async function backup(){if(!await saveNow())return toast('Save failed. Use Emergency copy instead.');try{const response=await fetch('/api/backup',{cache:'no-store'});if(!response.ok){const detail=await response.json().catch(()=>({}));throw Error(detail.error||'Backup failed')}const blob=await response.blob();const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='WNE-research-backup.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);toast('Backup copy downloaded')}catch(e){window.WNEDialogs.notice('Backup was not downloaded: '+e.message+'\nUse Emergency copy before leaving.')}}
+window.wneEmergencyCopy=async function(){
+ syncEditor(); // Include the CURRENT editable HTML, even when cloud saving fails.
+ await window.wneDownloadWordCopy('WNE-Emergency');
+ return true;
+};
+async function backup(){try{await window.wneDownloadWordCopy()}catch(e){window.WNEDialogs.notice('Word copy was not downloaded: '+e.message+'\nKeep this document open.')}}
 async function replaceDoc(raw,reason){let next;try{next=normalise(raw)}catch(e){return window.WNEDialogs.notice('Cannot import: '+e.message)}if(!await window.WNEDialogs.confirm(`Replace current W.NE v0.7 test manuscript with "${next.bookTitle}"? A recovery checkpoint will preserve the previous version. Save a backup first if needed.`))return;if(!await beforeSwitch())return;const previous=data;data=next;render();dirty();if(!await saveNow(reason)){data=previous;render();return}toast('Manuscript imported into W.NE v0.7')}
 async function recover(){
  closeMore();if(!await beforeSwitch())return;
@@ -1680,19 +1688,21 @@ async function recover(){
    const bridge=window.WNECloudIntegration;
    items=bridge?.recoveryList?(await bridge.recoveryList()).items:(await api('/api/snapshots')).items;
   }catch(e){return window.WNEDialogs.notice('Recovery history unavailable: '+e.message+'\nYour current research remains unchanged.')}
- if(!items.length)return window.WNEDialogs.notice('No recovery versions yet. Keep Lifeboat backups too.');
+ if(!items.length)return window.WNEDialogs.notice('No earlier versions yet. Download a Word copy to keep an independent backup.');
  const shade=document.createElement('div');shade.className='recovery-shade';
  const panel=document.createElement('section');panel.className='recovery-panel';panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label','Recovery Centre');
- panel.innerHTML='<h2>🛟 Recovery Centre</h2><p>Browse earlier versions and rescue one as a separate document. Your current writing will not be replaced.</p><div class="recovery-grid"><div class="recovery-items"></div><div class="recovery-preview" aria-live="polite">Select a checkpoint to preview.</div></div><div class="recovery-actions"><button type="button" data-close>Close</button><button type="button" class="recovery-primary" data-restore disabled>Restore as new document</button></div>';
+ panel.innerHTML='<h2>🛟 Recovery Centre</h2><p>Browse earlier versions and rescue one as a separate document. Your current writing will not be replaced.</p><div class="recovery-grid"><div class="recovery-items"></div><div class="recovery-preview" aria-live="polite">Select a checkpoint to preview.</div></div><div class="recovery-actions"><button type="button" data-close>Close</button><button type="button" data-word-copy disabled>Download Word copy</button><button type="button" class="recovery-primary" data-restore disabled>Restore as new document</button></div>';
  shade.append(panel);document.body.append(shade);
  const list=panel.querySelector('.recovery-items'),preview=panel.querySelector('.recovery-preview'),restore=panel.querySelector('[data-restore]');
- let selected=null;const close=()=>shade.remove();panel.querySelector('[data-close]').onclick=close;
+ let selected=null,selectedDoc=null;const wordCopy=panel.querySelector('[data-word-copy]');
+ wordCopy.onclick=async()=>{if(!selectedDoc)return;wordCopy.disabled=true;try{await downloadRaw(selectedDoc,'WNE-Earlier-Version')}catch(e){window.WNEDialogs.notice('Word copy could not be prepared: '+e.message)}finally{wordCopy.disabled=false}};
+ const close=()=>shade.remove();panel.querySelector('[data-close]').onclick=close;
  shade.addEventListener('click',e=>{if(e.target===shade)close()});
  const plain=html=>{const d=document.createElement('div');d.innerHTML=html||'';return d.textContent||''};
  for(const item of items){const b=document.createElement('button');b.className='recovery-item';b.type='button';b.textContent=new Date(item.saved).toLocaleString()+' · '+item.reason+' · Revision '+item.revision;
- b.onclick=async()=>{selected=null;restore.disabled=true;for(const x of list.children)x.classList.remove('selected');b.classList.add('selected');preview.textContent='Loading checkpoint…';try{const result=window.WNECloudIntegration?.recoveryPreview?
+ b.onclick=async()=>{selected=null;selectedDoc=null;wordCopy.disabled=true;restore.disabled=true;for(const x of list.children)x.classList.remove('selected');b.classList.add('selected');preview.textContent='Loading checkpoint…';try{const result=window.WNECloudIntegration?.recoveryPreview?
      await window.WNECloudIntegration.recoveryPreview(item.id):
-     await api('/api/snapshot/'+item.id);const doc=result.manuscript;const sections=doc.chapters||[];let totalWords=0;const parts=sections.map(c=>{const text=plain(c.html).trim();const words=text?text.split(/\s+/).length:0;totalWords+=words;const images=(String(c.html).match(/<img\b/gi)||[]).length;return (c.title||'Section')+' · '+words+' words'+(images?' · '+images+' image(s)':'')+'\n'+(text.slice(0,500)||'(Empty section)')+(text.length>500?'…':'')});preview.textContent=(doc.bookTitle||'Untitled')+'\n'+sections.length+' sections · '+totalWords+' words\n\n'+parts.join('\n\n──────────\n\n')+'\n\nPreview only — the restored copy keeps the FULL original text, sections and images.';selected=item.id;restore.disabled=false}catch(e){preview.textContent='Unable to load: '+e.message}};
+     await api('/api/snapshot/'+item.id);const doc=result.manuscript;const sections=doc.chapters||[];let totalWords=0;const parts=sections.map(c=>{const text=plain(c.html).trim();const words=text?text.split(/\s+/).length:0;totalWords+=words;const images=(String(c.html).match(/<img\b/gi)||[]).length;return (c.title||'Section')+' · '+words+' words'+(images?' · '+images+' image(s)':'')+'\n'+(text.slice(0,500)||'(Empty section)')+(text.length>500?'…':'')});preview.textContent=(doc.bookTitle||'Untitled')+'\n'+sections.length+' sections · '+totalWords+' words\n\n'+parts.join('\n\n──────────\n\n')+'\n\nPreview only — the restored copy keeps the FULL original text, sections and images.';selected=item.id;selectedDoc=structuredClone(doc);wordCopy.disabled=false;restore.disabled=false}catch(e){preview.textContent='Unable to load: '+e.message}};
  list.append(b)}
  restore.onclick=async()=>{if(selected===null)return;restore.disabled=true;try{const result=window.WNECloudIntegration?.recoveryCopy?
      await window.WNECloudIntegration.recoveryCopy(selected):
@@ -1700,7 +1710,7 @@ async function recover(){
 }
 
 function importBackup(){closeMore();$('restore-file').click()}
-function copyPrev(){closeMore();let key=OLDKEYS.find(k=>{try{return !!localStorage.getItem(k)}catch(e){return false}});if(!key){return window.WNEDialogs.notice('No previous browser manuscript found. You can still restore a JSON backup.')}try{const old=JSON.parse(localStorage.getItem(key));replaceDoc(old,'replace')}catch(e){window.WNEDialogs.notice('Import failed: '+e.message)}}
+function copyPrev(){closeMore();let key=OLDKEYS.find(k=>{try{return !!localStorage.getItem(k)}catch(e){return false}});if(!key){return window.WNEDialogs.notice('No previous browser manuscript found. You can still import a Word copy or restore an older backup.')}try{const old=JSON.parse(localStorage.getItem(key));replaceDoc(old,'replace')}catch(e){window.WNEDialogs.notice('Import failed: '+e.message)}}
 function rememberSelection(){
  const sel=window.getSelection();if(!sel||!sel.rangeCount)return;
  const r=sel.getRangeAt(0),ed=$('editor');
@@ -2264,16 +2274,15 @@ html body #wne-bible-open,html body #wne-idea-open,html body #wne-companion-laun
      else if(action==='save-to'||action==='copy'){performClick('wne-save-to');}
      else if(action==='cloud'){const d=document.getElementById('wne-save-dialog');if(d&&!d.open){document.getElementById('wne-save-feedback').textContent='';d.showModal()}}
      else if(action==='download-word'){
-       await ensureSaved('before downloading a Word copy');
-       if(typeof window.WNEHostedExport!=='function')throw Error('Word export tools are unavailable. Retry when connected.');
-       await window.WNEHostedExport('/api/research/export-docx');
+       if(typeof window.wneDownloadWordCopy!=='function')throw Error('Word tools are still loading. Keep this report open and retry.');
+       await window.wneDownloadWordCopy();
       }
       else if(action==='lifeboat'){
       await ensureSaved('before ZIP library backup');
       const pack=await window.WNECloudIntegration?.makeLibraryZip?.();
       if(!pack?.blob||!pack.filename)throw Error('Could not create the library ZIP. Your documents are unchanged.');
       await saveResearchFile(pack.blob,pack.filename);
-      window.WNEDialogs.notice('Research library backup prepared: '+pack.documentCount+' document(s). Check Downloads and keep the ZIP private.'+(pack.needsManualReview?'\n\nAttention: '+pack.needsManualReview+' older or incompatible document(s) are included as raw JSON for manual review only. They were NOT automatically restored. See WARNING-MANUAL-REVIEW.txt in the ZIP.':''));
+      window.WNEDialogs.notice('Library backup prepared: '+pack.wordDocumentCount+' Word file(s). Open the Word documents folder in the ZIP to read them without this website. The backup also contains exact recovery data. Check Downloads and keep it private.'+(pack.needsManualReview?'\n\nAttention: '+pack.needsManualReview+' older or incompatible document(s) are included as raw JSON for manual review only. They were NOT automatically restored. See WARNING-MANUAL-REVIEW.txt in the ZIP.':''));
      }
      else if(action==='history'){performClick('recover');}
      else if(action==='emergency'){await window.wneEmergencyCopy();}
@@ -2863,9 +2872,9 @@ panel.addEventListener('click',event=>{
 const menu=document.getElementById('wne-file-menu');
 if(menu&&!document.getElementById('dd-word-file-advanced')){
  const details=document.createElement('details');details.id='dd-word-file-advanced';
- const title=document.createElement('summary');title.textContent='Advanced options & recovery';
+ const title=document.createElement('summary');title.textContent='Backups & earlier versions';
  const stack=document.createElement('div');details.append(title,stack);
- for(const command of ['save-to','copy','kindle','cloud','lifeboat','history','emergency']){
+ for(const command of ['save-to','copy','kindle','cloud','lifeboat','history']){
   const item=menu.querySelector('[data-file-action="'+command+'"]');if(item)stack.append(item);
  }
  menu.append(details);
@@ -3944,5 +3953,7 @@ html body #dd-research-insert-trigger{display:inline-flex!important;align-items:
 <script src="./wne-view-m39.js"></script>
 <link rel="stylesheet" href="./wne-ui-m40.css">
 <script src="./wne-ui-m40.js" defer></script>
+<script src="./google-drive-config.js"></script>
+<script src="./google-drive.js"></script>
 </body>
 </html>
