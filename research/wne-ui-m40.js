@@ -39,9 +39,9 @@ if(compareText&&introduction){
  const formats=body.querySelector('fieldset');
  const json=body.querySelector('details');
  if(formats)advanced.append(formats);
- if(json){const oldSummary=json.querySelector('summary');if(oldSummary)oldSummary.textContent='Import a JSON file (advanced)';advanced.append(json)}
- const preview=$('dd-comparison-preview');
- if(preview)preview.before(advanced);
+ if(json){json.hidden=true;advanced.append(json)} // Keep original internal data controls for handlers; users choose cases or saved comparisons.
+ const preview=body.querySelector('#dd-comparison-preview');
+ if(preview)preview.before(advanced);else body.append(advanced);
  if(status){status.classList.add('dd-m40-status');footer.append(status)}
  if(cancel){cancel.textContent='Cancel';footer.append(cancel)}
  if(confirm){confirm.textContent='Insert into document';footer.append(confirm)}
