@@ -1,7 +1,7 @@
 name: Verify Research Studio resume and existing community (NO deploy)
 on:
   push:
-    branches: [fix/research-mobile-profile-polish-nov08, staging/research-samsung-m16-20261108, fix/compact-writing-popover-mobile-desktop-nov08, fix/post-m50-action-rails-citations-nov10]
+    branches: [fix/research-mobile-profile-polish-nov08, staging/research-samsung-m16-20261108, fix/compact-writing-popover-mobile-desktop-nov08, fix/post-m50-action-rails-citations-nov10, fix/m55-live-news-archive-loading-nov10]
   workflow_dispatch:
 permissions:
   contents: read
@@ -34,6 +34,8 @@ jobs:
           node scripts/test_m35_sitewide_action_rail_20261109.cjs
           node --check scripts/test_m37_approved_rails_github_news_20261109.cjs
           node scripts/test_m37_approved_rails_github_news_20261109.cjs
+          node --check scripts/test_m55_live_news_archive.cjs
+          node scripts/test_m55_live_news_archive.cjs
           node --check scripts/test_m38_hearing_inline_and_wide_rails_20261109.cjs
           node scripts/test_m38_hearing_inline_and_wide_rails_20261109.cjs
           node --check research/wne-ui-m40.js
