@@ -347,3 +347,20 @@
 #archiveCaseBody [data-add-archive-event]{
  min-height:36px!important;white-space:normal!important
 }
+
+/* M51 specificity against legacy M34 inline flex-start rails */
+#newsGrid article>.dd-news-actions>.dd-news-main-actions.dd-action-rail,
+#discussionsPage .dd-forum-actions.dd-action-rail,
+.dd-comment-card .dd-comment-action-rail.dd-action-rail,
+#clips .clip-utility-actions.dd-action-rail,
+#clips .immersive-tools.dd-action-rail{
+ justify-content:flex-end!important
+}
+/* On narrow News cards, wrap controls rather than losing Compare offscreen. */
+#newsGrid article>.dd-news-actions>.dd-news-main-actions.dd-action-rail{
+ flex-flow:row wrap!important;overflow-x:visible!important
+}
+#discussionsPage .dd-forum-reply-card .dd-forum-actions>.dd-forum-reply-action,
+.dd-comment-card .dd-comment-action-rail.dd-action-rail .dd-comment-reply-button{
+ margin-left:0!important
+}
