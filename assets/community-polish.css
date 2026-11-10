@@ -637,3 +637,101 @@
  .dd-comment-card .dd-comment-body,
  #discussionsPage #ddForumReplies .dd-forum-body{font-size:14px!important;line-height:1.55!important}
 }
+
+/* M70 — single site-wide action rail contract.  The actual buttons remain
+   owned by News/Discussions/Archive/Videos/Watch & Read/Witness and Comment
+   modules. Order, spacing, focus and selected states are common. This block
+   intentionally comes AFTER historical screen-specific CSS rules. */
+:root{--dd-rail-bg:#0f2534;--dd-rail-border:#2b4656;--dd-rail-gold:#e8c58c}
+.dd-action-rail.dd-unified-rail,
+#newsGrid article>.dd-news-actions>.dd-news-main-actions.dd-action-rail.dd-unified-rail,
+#discussionsPage .dd-forum-actions.dd-action-rail.dd-unified-rail,
+#ddWatchRead .dd-media-actions.dd-action-rail.dd-unified-rail,
+#clips .clip-utility-actions.dd-action-rail.dd-unified-rail,
+#clips .immersive-tools.dd-action-rail.dd-unified-rail,
+.dd-archive-action-rail.dd-action-rail.dd-unified-rail,
+.dd-research-action-rail.dd-action-rail.dd-unified-rail,
+.dd-witness-report .dd-witness-action-rail.dd-action-rail.dd-unified-rail{
+ display:flex!important;align-items:center!important;justify-content:flex-end!important;
+ flex-flow:row wrap!important;gap:2px!important;max-width:100%!important;
+ width:100%!important;min-width:0!important;box-sizing:border-box!important;
+ padding:5px 8px!important;margin:0!important;overflow:visible!important;
+ background:var(--dd-rail-bg)!important;border-top:1px solid var(--dd-rail-border)!important
+}
+.dd-action-rail.dd-unified-rail>[data-dd-action-slot],
+.dd-witness-action-rail.dd-unified-rail>[data-dd-action-slot]{
+ flex:0 0 auto!important;min-width:0!important;width:auto!important;max-width:100%!important;
+ margin:0!important
+}
+.dd-action-rail.dd-unified-rail>[data-dd-action-slot=spacer]{display:none!important}
+.dd-action-rail.dd-unified-rail button,
+#newsGrid article>.dd-news-actions>.dd-news-main-actions.dd-action-rail.dd-unified-rail button,
+#discussionsPage .dd-forum-actions.dd-action-rail.dd-unified-rail button,
+#ddWatchRead .dd-media-actions.dd-unified-rail button,
+#clips .clip-utility-actions.dd-unified-rail button,
+.dd-archive-action-rail.dd-unified-rail button,
+.dd-witness-report .dd-witness-action-rail.dd-unified-rail button{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:4px!important;
+ flex:0 0 auto!important;width:auto!important;max-width:100%!important;
+ min-width:38px!important;min-height:40px!important;height:40px!important;
+ padding:5px 7px!important;margin:0!important;
+ background:transparent!important;border:1px solid transparent!important;
+ border-radius:8px!important;box-shadow:none!important;letter-spacing:normal!important;
+ font:650 12px/1.25 system-ui!important;white-space:nowrap!important;
+ color:#e9d7b4!important;text-align:center!important
+}
+.dd-action-rail.dd-unified-rail button:hover,
+.dd-action-rail.dd-unified-rail button:focus-visible{background:#213b4b!important}
+.dd-action-rail.dd-unified-rail button:focus-visible{outline:2px solid var(--dd-rail-gold)!important;outline-offset:-2px!important}
+.dd-action-rail.dd-unified-rail button[aria-pressed=true],
+.dd-action-rail.dd-unified-rail button[aria-expanded=true]{
+ background:#29444c!important;color:#ffe2a7!important;border-color:#8d9474!important
+}
+.dd-action-rail.dd-unified-rail .dd-community-votes,
+.dd-action-rail.dd-unified-rail .dd-forum-votes,
+.dd-action-rail.dd-unified-rail .dd-news-article-vote-controls{
+ display:inline-flex!important;flex:0 0 auto!important;align-items:center!important;
+ flex-flow:row nowrap!important;gap:2px!important;width:auto!important;
+ max-width:100%!important;margin:0!important;padding:0!important
+}
+.dd-action-rail.dd-unified-rail [data-dd-action-slot=board]{
+ color:var(--dd-rail-gold)!important;font-size:18px!important
+}
+.dd-action-rail.dd-unified-rail [data-dd-action-slot=share] svg{
+ width:20px!important;height:20px!important;fill:none!important;
+ stroke:currentColor!important;stroke-width:1.9!important;
+ stroke-linecap:round!important;stroke-linejoin:round!important
+}
+/* A reply row must match the compact, unboxed Discussion replies. */
+.dd-comment-card .dd-comment-action-rail.dd-action-rail.dd-unified-rail,
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-action-rail.dd-unified-rail{
+ width:100%!important;min-height:40px!important;justify-content:flex-end!important;
+ flex-flow:row wrap!important;gap:1px!important;padding:0!important;margin:0!important;
+ background:transparent!important;border:0!important;box-shadow:none!important
+}
+.dd-comment-card .dd-comment-action-rail.dd-unified-rail button,
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-unified-rail button{
+ min-width:32px!important;min-height:40px!important;height:40px!important;
+ padding:4px 5px!important;background:transparent!important;
+ border:1px solid transparent!important;font:650 11px/1.2 system-ui!important
+}
+.dd-comment-card .dd-comment-action-rail.dd-unified-rail .dd-comment-reply-button,
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-unified-rail .dd-forum-reply-action{
+ margin-left:0!important;min-width:57px!important
+}
+/* All inline public comment composers start as a single line and grow to
+   three lines, like the existing Discussion composer. */
+.dd-news-inline-comments form textarea{
+ width:100%!important;min-height:44px!important;max-height:94px!important;
+ resize:none!important;overflow-y:auto!important;border:1px solid #456073!important;
+ border-radius:10px!important;background:#0d2332!important;color:#edf2f5!important;
+ line-height:1.5!important;padding:10px 11px!important;box-sizing:border-box!important
+}
+.dd-news-inline-comments form button[type=submit]{
+ min-height:40px!important;padding:8px 12px!important;border-radius:9px!important;
+ background:#d9bd8d!important;color:#142636!important;font-weight:700!important
+}
+@media(max-width:360px){
+ .dd-action-rail.dd-unified-rail{padding:4px!important;gap:1px!important}
+ .dd-action-rail.dd-unified-rail button{padding:5px!important;font-size:11px!important}
+}
