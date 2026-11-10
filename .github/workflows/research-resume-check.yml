@@ -191,6 +191,8 @@ jobs:
           node scripts/test_comment_action_rail_chromium_20261108.cjs
           node --check scripts/test_m35_action_rail_chromium_20261109.cjs
           node scripts/test_m35_action_rail_chromium_20261109.cjs
+          node --check scripts/test_m54_docx_table_export_chromium.cjs
+          node scripts/test_m54_docx_table_export_chromium.cjs
           node --check scripts/test_m51_rail_profile_chromium.cjs
           node scripts/test_m51_rail_profile_chromium.cjs
           node --check scripts/test_m38_hearing_inline_and_wide_rails_chromium_20261109.cjs
