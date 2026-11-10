@@ -2102,11 +2102,26 @@ function ddVideoModeSetup(){
 }
 ddVideoModeSetup();
 const ddLastTabKey='dd_last_open_tab_v1';
+// A W.NE return link or shared link may contain ?dd_tab=archivePage.
+// Keep that URL in sync when visitors change tabs so refresh cannot restore
+// an older deep link in preference to the tab they are actually viewing.
+function ddSyncActiveTabUrl(id){
+ try{
+  const url=new URL(window.location.href),before=url.search;
+  if(url.searchParams.has('dd_tab'))url.searchParams.set('dd_tab',id);
+  if(id!=='mapPage')url.searchParams.delete('case');
+  if(id!=='discussionsPage')url.searchParams.delete('dd_thread');
+  if(id!=='discover')url.searchParams.delete('dd_news');
+  if(id!=='clips')url.searchParams.delete('dd_videos');
+  if(url.search!==before)window.history.replaceState(window.history.state,'',url.pathname+url.search+url.hash);
+ }catch(e){console.warn('Could not synchronise active tab URL:',e)}
+}
 function navigateTo(id){
 if(id==='discussionsPage'&&window.DD_COMMUNITY_FEATURES?.discussions!==true)return;
 if(id==='chatPage'&&window.DD_COMMUNITY_FEATURES?.privateChat!==true)return;
 if(['discover','archivePage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','hub','profilePage','discussionsPage','chatPage','cases','rabbitHole','resources','podcasts','about'].includes(id)){
  try{window.sessionStorage?.setItem(ddLastTabKey,id)}catch{}
+ ddSyncActiveTabUrl(id);
 }
 const avatar=document.getElementById('ddProfileShortcut');if(avatar)avatar.hidden=(id==='researchStudio');
 if(id==='discover')ddMarkSeen('news');
