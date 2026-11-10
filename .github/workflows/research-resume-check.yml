@@ -190,6 +190,7 @@ jobs:
           node scripts/test_research_home_navigation_chromium_20261108.cjs
           node scripts/test_research_json_restore_chromium_20261108.cjs
           node scripts/test_m30_first_document_chromium_20261109.cjs
+          node scripts/test_media_auto_publish_chromium.cjs
       - name: Stop loopback-only test origin
         if: always()
         run: kill "$(cat /tmp/dd-research-chrome.pid)" || true
@@ -242,4 +243,6 @@ jobs:
           node scripts/test_m34_news_votes_pg_20261109.cjs
 
       - name: M42 private media nominations (disposable PostgreSQL only)
-        run: node scripts/test_media_submissions_pg.cjs
+        run: |
+          node scripts/test_media_submissions_pg.cjs
+          node scripts/test_media_auto_publish_pg.cjs

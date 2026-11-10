@@ -4,14 +4,14 @@ Updated 10 November 2026. This is the current prioritisation of the owner's requ
 
 ## 1. Finish the audited release
 
-M41 repairs the broken development homepage script, comparison insertion, analytics re-consent and share destinations. M42 adds simpler discussions, app-style Chat, consistent compact action rails, wider desktop space, Word-first document copies, private Watch & Read nominations and an optional Google Drive implementation.
+M41 repairs the broken development homepage script, comparison insertion, analytics re-consent and share destinations. M42 adds simpler discussions, app-style Chat, consistent compact action rails, wider desktop space, Word-first document copies, Watch & Read additions and an optional Google Drive implementation.
 
 M44 additionally updates the Word-import security libraries and runs conversion in a bounded local worker.
 
 Before production:
 
 - Observe the exact source commit's existing **NO DEPLOY** workflow green, including real Chromium and disposable PostgreSQL. Local checks and fictional browser previews do not prove real services or devices.
-- M47 completed the additive link-submission migration and its narrowly scoped owner-status permission/performance follow-ups. Actual database-role acceptance passed for registered-user submission, second-account isolation, admin review, duplicates and rate limits; every QA nomination was rolled back. The isolated suite now has 18 scenarios. Signed-in frontend receipt/owner queue and physical-device acceptance remain before release.
+- M48 supersedes the original pre-review workflow at the owner’s request: valid links publish immediately, existing titles/URLs are rejected, and five distinct registered reports hide a title for owner restore/remove review. Its source/migration/device acceptance must be completed before release. M47 completed the earlier additive link-submission migration and its narrowly scoped owner-status permission/performance follow-ups. Actual database-role acceptance passed for registered-user submission, second-account isolation, admin review, duplicates and rate limits; every QA nomination was rolled back. The isolated suite now has 18 scenarios. Signed-in frontend receipt/owner queue and physical-device acceptance remain before release.
 - Configure a public **Web application** OAuth client ID for Drive; the original Desktop credential cannot be used in a static website. Follow [Drive setup and acceptance](RESEARCH_DRIVE_SETUP.md). Real OAuth consent, upload, opening the actual Word file outside the website and restore-as-new remain pending.
 - Test Windows/macOS desktop browsers, Android Chrome, iPhone Safari and installed-app views: portrait/landscape, opening/closing the keyboard, safe areas, zoom, touch targets, offline/retry, account changes, downloads and long documents. There is no claim that every device has been tested or that any site can guarantee zero device issues.
 - Keep self-service account deletion disabled until its separate recovery, write-freeze and inventory gates are complete. Include the new nomination table in that future inventory. Do not weaken RLS or expose private research to complete UI work.

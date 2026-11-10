@@ -99,3 +99,7 @@
  #discussionsPage .dd-forum{max-width:1100px}
  .map{height:min(650px,calc(100dvh - 240px));min-height:420px}
 }
+
+/* Watch & Read report form, matched to the site's navy/gold controls. */
+.dd-media-report-dialog{background:#142737;color:#f0e4ce;border:1px solid #a38c64;border-radius:14px;padding:20px;width:min(460px,calc(100vw - 28px));max-height:85dvh;overflow:auto;box-sizing:border-box;overflow-wrap:anywhere}
+.dd-media-report-dialog::backdrop{background:#000b}.dd-media-report-dialog h2{font-size:20px;color:#efd19b}.dd-media-report-dialog label{display:block;margin:14px 0}.dd-media-report-dialog select{width:100%;margin-top:6px}.dd-media-report-dialog button{min-height:40px;margin:4px}.dd-media-report{white-space:nowrap}

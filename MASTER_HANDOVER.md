@@ -1,6 +1,17 @@
 # Disclosure Desk — MASTER HANDOVER
 _Last updated: 10 November 2026 (Europe/London)_
 
+## Current owner change — M48 automatic Watch & Read additions (10 November 2026)
+
+**The owner explicitly replaces pre-publication editorial approval:** valid member links should appear automatically unless already added; five distinct registered reports hide the item for owner review. This supersedes the earlier private-only suggestion workflow wherever described below. No social-network posting is authorised by this change.
+
+- M47 final source `4fc363cafa40598cb2b58c099242aa67efdba8e8` passed full NO DEPLOY workflow [42734257227](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42734257227): verify, real Chromium and disposable PostgreSQL all SUCCESS.
+- M48 candidate adds server-side title/URL duplicate checks, including tracking parameters and common YouTube aliases, immediate publication through the existing catalogue/voting tables, per-account submission limits, a report dialog, private report identities and owner Restore/Remove actions. Four reports keep an item public; the fifth distinct account hides it from catalogue/ranking. Restoring starts a fresh report round and retains previous reports and owner decisions for audit. Removed/hidden records remain protected against duplicate re-addition.
+- Existing fifty editorial entries are copied from the actual source catalogue with original IDs, so existing ratings/comments/bookmarks retain their keys. Podcast catalogue rows become supported by the existing ratings schema. New public reads exclude submitter UUIDs and private notes. Anonymous accounts cannot submit/report, self-reporting is denied, and direct catalogue/report writes remain unavailable to members. Vote-table grants are reduced to the existing required member operations.
+- The candidate migration is `supabase/migrations/20261110011430_media_auto_publish_five_reports.sql`, **NOT YET APPLIED**. Forty-five isolated PostgreSQL-compatible scenarios pass locally; real PostgreSQL concurrent-report and actual browser checks are newly wired into the existing NO DEPLOY workflow. Observe the exact uploaded source result before applying the migration. The previous `verify_media_submissions_live_rollback.sql` checks the now-superseded private workflow; do not use it as M48 acceptance.
+- Form, card, report and owner-review controls are implemented; guides, privacy and community rules explain public additions and the five-report rule. The shared catalogue refreshes without a Netlify build for each added link. Initial/failed catalogue reads do not reintroduce statically cached hidden items.
+- M48 is still a candidate until final CI and actual database acceptance are recorded. No new frontend deployment has occurred. Google Web OAuth setup and physical-device/signed-in acceptance remain release gates; the single consolidated production release is already authorised once those are complete.
+
 > **Reconstructed master handover.** There was no existing `MASTER_HANDOVER.md` in the website repository's checked `production`, `main`, previous signup-hotfix, or current development branch. This file consolidates the live baseline with the existing `docs/DISCLOSURE_DESK_LIVE_COMMUNITY_HANDOVER_2026-11-03.md`, the 2 November `DEVELOPMENT_HANDOVER.md`, GitHub commit history and the owner's current acceptance feedback. Do not present the earlier handover's 3 November stage statuses as current facts.
 
 ## Active continuation — Milestones 46–47 (10 November 2026)
