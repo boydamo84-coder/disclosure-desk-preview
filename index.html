@@ -2526,7 +2526,9 @@ function ddArchiveFollowHTML(r,detail=false){
 function ddArchiveActionsHTML(r,detail=false){
  const id=esc(String(r.id)),compared=ddCompareSelected.includes(String(r.id));
  return '<div class="dd-archive-action-rail dd-action-rail" role="group" aria-label="Archive actions">'+
- (detail?'<button type="button" data-discuss-archive="'+id+'" aria-label="Read or add archive comments" title="Comments">💬</button>':'')+
+ /* Detail comments use the same inline fold-out host as archive cards; */
+ /* do not render a second modal-only comments button here. */
+ ''+
  '<button type="button" class="dd-case-bookmark dd-action-board" '+(detail?'id="archiveCaseSaveBottom" ':'')+'data-save-archive="'+id+'" data-bookmark-url="'+esc(r.url)+'" data-bookmark-label="'+esc(r.title)+'" aria-label="Save case to Investigation Board" title="Add to Board"><span data-star-icon>☆</span></button>'+
  '<button type="button" class="dd-action-share" data-share-archive="'+id+'" aria-label="Share archive source" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8"/></svg></button>'+
  '<button type="button" class="dd-card-compare-action" data-compare-archive="'+id+'" aria-pressed="'+compared+'" aria-label="'+(compared?'Remove from comparison':'Compare this archive case')+'" title="Compare">'+(compared?'✓ Compared':'⚖ Compare')+'</button>'+
@@ -2575,7 +2577,8 @@ ddCaseHistoryHtml(r.id)+
  '<h3>Related news coverage</h3><p class="muted small">Matching keywords suggest research leads; they do not establish that two reports concern the same incident.</p>'+archiveMediaHtml(media.newsMatches,'news')+
  '<h3>Research videos and source footage</h3>'+archiveMediaHtml(media.videoMatches,'videos')+
  '<h3>Continue your investigation</h3><p class="muted small">Save the original source to a private Investigation Board, then add your own notes and supporting links. Related matches above are automated suggestions, not independently confirmed case associations.</p>'+
- ddArchiveActionsHTML(r,true);
+ ddArchiveActionsHTML(r,true)+
+ '<div class="dd-news-inline-comments" data-news-comments="archive:'+esc(String(r.id))+'" data-comments-title="'+esc(r.title)+'" data-comments-collapsed="true"></div>';
  ddBindArchiveActions(body);
  body.querySelectorAll('[data-add-archive-event]').forEach(btn=>btn.onclick=()=>importArchiveTimelineEvent(r,Number(btn.dataset.addArchiveEvent)));
  body.querySelectorAll('[data-dd-citation-url]').forEach(btn=>btn.onclick=()=>{if(ddSaveSiteCitation(btn.dataset.ddCitationTitle,btn.dataset.ddCitationUrl)){btn.textContent='✓ Added to citations';btn.setAttribute('aria-label','Source saved in W.NE My saved references')}});
