@@ -30,7 +30,7 @@ function controls(){
  }
  if(backup)backup.disabled=busy||!ok;
  if(refresh)refresh.disabled=busy||!ok;
- if(disconnect)disconnect.disabled=busy||!ok;
+ if(disconnect)disconnect.disabled=busy||(!ok&&!remembered());
 }
 function reset(){epoch++;token=null;expires=0;owner=null;ownerHash=null;needsAccountChooser=false;list?.replaceChildren();if(last)last.textContent='';controls()}
 async function request(url,options={}){
