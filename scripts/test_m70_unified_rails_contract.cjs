@@ -4,8 +4,8 @@ const read=path=>fs.readFileSync(path,'utf8');
 const html=read('index.html'),shared=read('assets/unified-action-rails.js'),css=read('assets/community-polish.css');
 const inline=read('assets/inline-news-comments.js'),caseComments=read('assets/case-discussions.js'),votes=read('assets/community-votes.js'),forum=read('assets/community-discussions.js'),watch=read('assets/watch-read.js');
 assert.match(html,/unified-action-rails\.js\?v=m71-hearing-slot/);
-assert.match(html,/inline-news-comments\.js\?v=m71-secondary-views/);
-assert.match(html,/community-polish\.css\?v=m71/);
+assert.match(html,/inline-news-comments\.js\?v=m73-reply-cancel/);
+assert.match(html,/community-polish\.css\?v=m73/);
 assert.match(shared,/Object\.freeze\(\{vote:0,comments:1,board:2,share:3,extra:4,reply:5,spacer:6\}\)/);
 for(const type of ['.dd-inline-comments-toggle','.dd-forum-comments-action','.dd-action-board','.dd-forum-star-action','.dd-action-share','.dd-forum-share-action','.dd-comment-reply-button','.dd-forum-reply-action','.dd-community-votes','.dd-forum-vote']){
  assert(shared.includes(type),'Shared rail recognises existing action '+type);
@@ -27,7 +27,7 @@ assert.match(inline,/state\.replyTo/,'Existing target-specific nested Reply pres
 assert.match(caseComments,/id="ddCaseDiscussionBody"[^>]*rows="1"/,'Case/Hearing dialog uses the same single-line composer');
 assert.match(caseComments,/function fitCaseComposer/,'Case replies expand to three lines');
 assert.match(css,/#ddCaseDiscussionDialog #ddCaseDiscussionBody/,'Case composer uses shared Reply styling');
-assert(html.includes('assets/case-discussions.js?v=m70-reply-parity'),'Case/Hearing current script must bypass stale browser cache');
+assert(html.includes('assets/case-discussions.js?v=m73-reply-cancel'),'Case/Hearing current script must bypass stale browser cache');
 assert.match(votes,/dd_vote_set/,'Only existing real comment votes');
 assert.match(forum,/dd_discussions_vote/,'Discussions continues to use its real voting backend');
 assert.match(watch,/dd-media-recommend/,'Title recommendation remains separate from comment/post vote');
