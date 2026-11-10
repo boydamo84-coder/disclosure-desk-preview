@@ -41,11 +41,15 @@ function init(){
  // Comments use the shared case-discussion backend, but render directly below
  // the specific hearing video. No separate discussion menu or modal.
  function addInlineComments(target,event){
+  // Same shared action strip as Discussions, News and Videos. No fake
+  // public voting: hearings have a comment backend, not an article-vote RPC.
+  const rail=h('div');rail.className='dd-live-hearing-action-rail dd-action-rail';
+  rail.setAttribute('role','group');rail.setAttribute('aria-label','Hearing community actions');
   const button=h('button','💬 Comments');
-  button.type='button';button.className='outline dd-hearing-comments-toggle';
+  button.type='button';button.className='dd-hearing-comments-toggle';
   button.setAttribute('aria-expanded','false');button.setAttribute('aria-label','Show comments beneath '+event.title);
   const container=h('div');container.className='dd-hearing-comments-host';container.hidden=true;
-  container.id='dd-hearing-comments-'+String(event.id).replace(/[^a-zA-Z0-9_-]/g,'-');
+  container.id='dd-hearing-comments-'+String(event.id).replace(/[^a-zA-Z0-9_-]/g,'-')+'-'+(target.closest('.dd-live-inline-card')?'card':'detail');
   button.setAttribute('aria-controls',container.id);
   button.onclick=()=>{
    if(!container.hidden){
@@ -60,7 +64,29 @@ function init(){
   container.addEventListener('dd-inline-discussion-closed',()=>{
    container.hidden=true;button.textContent='💬 Comments';button.setAttribute('aria-expanded','false');
   });
-  target.append(button,container);
+  const discussion=new URL('/',location.origin);
+  discussion.searchParams.set('dd_tab','livePage');
+  discussion.searchParams.set('dd_discussion','hearing:'+event.id);
+  const board=h('button','☆');board.type='button';board.className='dd-action-board';
+  board.title='Add hearing to Investigation Board';
+  board.setAttribute('aria-label','Save hearing to an Investigation Board');
+  board.dataset.bookmarkUrl=discussion.href;board.dataset.bookmarkLabel=event.title;
+  board.innerHTML='<span data-star-icon>☆</span>';
+  board.onclick=()=>window.DDSavePublicLinkToBoard?.(event.title,discussion.href);
+  const share=h('button');share.type='button';share.className='dd-action-share';share.title='Share hearing';
+  share.setAttribute('aria-label','Share hearing discussion');
+  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');
+  for(const [tag,attrs] of [['circle',{cx:'18',cy:'5',r:'3'}],['circle',{cx:'6',cy:'12',r:'3'}],['circle',{cx:'18',cy:'19',r:'3'}],['path',{d:'m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8'}]]){
+   const el=document.createElementNS('http://www.w3.org/2000/svg',tag);
+   for(const [name,value] of Object.entries(attrs))el.setAttribute(name,value);
+   svg.append(el);
+  }
+  share.append(svg);
+  share.onclick=()=>void window.DDSharePublicLink?.(event.title,discussion.href);
+  rail.append(button,board,share);
+  target.append(rail,container);
+  window.DDRefreshBoardStars?.();
   return container;
  }
  function openEvent(event){
@@ -115,7 +141,7 @@ function init(){
    if(!filtered.length)continue;
    const heading=h('h3',sectionTitle);heading.style.margin='18px 0 10px';list.append(heading);
    for(const event of filtered){
-    const card=h('article');card.className='card';card.style.padding='14px';card.style.marginBottom='10px';
+    const card=h('article');card.className='card dd-live-inline-card';card.style.padding='14px';card.style.marginBottom='10px';
     const heading=h('strong',event.title);heading.style.display='block';heading.style.marginBottom='6px';
     const date=h('p',event.date+' · '+(event.status==='ended'?'Past hearing':event.status==='live'?'Live hearing':'Upcoming hearing'));date.className='muted small';
     card.append(heading,date);
