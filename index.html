@@ -740,25 +740,25 @@
 </section>
 <section id="discussionsPage" class="hidden" hidden aria-labelledby="ddForumHeading">
 <div class="section dd-forum">
- <div class="head"><h2 id="ddForumHeading">Community Discussions</h2><span class="pill">PUBLIC COMMUNITY</span></div>
- <p class="muted small">Create research sections, discuss evidence and share sources. Open posts need no section-steward approval. Stewards organise and escalate issues; they cannot silence people for disagreeing.</p>
+ <div class="head"><h2 id="ddForumHeading">Discussions</h2><span class="pill">PUBLIC COMMUNITY</span></div>
+ <p class="muted small">Choose a subject, open a post and join the conversation. Share sources and keep it respectful.</p>
  <p id="ddForumStatus" class="muted small" role="status" aria-live="polite"></p>
  <div id="ddForumSectionsPane">
-  <div class="dd-forum-tools"><label for="ddForumSearch">Search subjects<input id="ddForumSearch" class="field" type="search" placeholder="Search discussion subjects" maxlength="80"></label><div class="dd-forum-tool-actions"><button id="ddForumRefresh" type="button" class="outline dd-forum-tool-button">↻ <span>Refresh</span></button><button id="ddForumNewSection" type="button" class="action dd-forum-tool-button dd-forum-plus" aria-label="Create a discussion section" aria-haspopup="dialog" aria-controls="ddForumSectionDialog">＋</button></div></div>
+  <div class="dd-forum-tools"><label for="ddForumSearch">Search subjects<input id="ddForumSearch" class="field" type="search" placeholder="Find a subject…" maxlength="80"></label><div class="dd-forum-tool-actions"><button id="ddForumRefresh" type="button" class="outline dd-forum-tool-button">↻ <span>Refresh</span></button><button id="ddForumNewSection" type="button" class="action dd-forum-tool-button dd-forum-plus" aria-label="Create a discussion subject" aria-haspopup="dialog" aria-controls="ddForumSectionDialog">＋ New subject</button></div></div>
   <div id="ddForumSections" class="dd-forum-list"></div>
-  <dialog id="ddForumSectionDialog" class="dd-forum-dialog" aria-labelledby="ddForumSectionDialogTitle"><div class="dd-forum-dialog-heading"><h3 id="ddForumSectionDialogTitle">Create a discussion section</h3><button type="button" class="outline dd-forum-dialog-close" data-dd-forum-close aria-label="Close create section">✕</button></div>
-   <p class="muted small">As creator, you become this section's steward—not a moderator with banning powers.</p>
+  <dialog id="ddForumSectionDialog" class="dd-forum-dialog" aria-labelledby="ddForumSectionDialogTitle"><div class="dd-forum-dialog-heading"><h3 id="ddForumSectionDialogTitle">Create a discussion subject</h3><button type="button" class="outline dd-forum-dialog-close" data-dd-forum-close aria-label="Close create section">✕</button></div>
+   <p class="muted small">Choose a clear subject name. You can organise it after creating it.</p>
    <form id="ddForumSectionCreate">
-    <label>Section title<input class="field" name="title" minlength="4" maxlength="60" required></label>
+    <label>Subject name<input class="field" name="title" minlength="4" maxlength="60" required></label>
     <p class="muted small dd-forum-form-hint">Letters, numbers, spaces, hyphens and underscores only. For example, “UAP UFO sightings”. New accounts must be 24 hours old; each account can create two sections per rolling 24 hours.</p>
     <label>Description<textarea class="field" name="description" maxlength="400" rows="3"></textarea></label>
     <label>Topic / category<input class="field" name="topic" maxlength="40" placeholder="e.g. UAP Evidence"></label>
     <p class="dd-forum-form-status" data-dd-form-status hidden role="status" aria-live="polite"></p>
-    <div class="dd-forum-dialog-actions"><button type="button" class="outline" data-dd-forum-close>Cancel</button><button type="submit" class="action">Create section</button></div>
+    <div class="dd-forum-dialog-actions"><button type="button" class="outline" data-dd-forum-close>Cancel</button><button type="submit" class="action">Create subject</button></div>
    </form></dialog>
  </div>
  <div id="ddForumThreadPane" hidden>
-  <button type="button" class="outline" id="ddForumBackSections">← All sections</button>
+  <button type="button" class="outline" id="ddForumBackSections">← All subjects</button>
   <h3 id="ddForumThreadTitle">Section</h3>
   <p id="ddForumSectionInfo" class="muted small"></p>
   <details id="ddForumStewardPanel" class="dd-forum-form-card" hidden><summary>Steward settings · Organise, don't gatekeep</summary>
@@ -767,7 +767,7 @@
    <label>Topic / category<input class="field" name="topic" maxlength="40"></label>
    <button class="outline" type="submit">Save section details</button></form></details>
   <div class="dd-forum-feed-toolbar">
-   <label for="ddForumFeedSearch">Search this section<input id="ddForumFeedSearch" class="field" type="search" maxlength="80" placeholder="Search titles and posts"></label>
+   <label for="ddForumFeedSearch">Search this subject<input id="ddForumFeedSearch" class="field" type="search" maxlength="80" placeholder="Search titles and posts"></label>
    <label id="ddForumSortLabel" for="ddForumSort">Sort<select id="ddForumSort" class="field"><option value="recent">Newest</option><option value="active">Recently active</option><option value="top">Most liked</option></select></label>
   </div>
   <div class="dd-forum-create-post-row"><button id="ddForumNewPost" type="button" class="action dd-forum-new-post" aria-haspopup="dialog" aria-controls="ddForumPostDialog">＋ New post</button></div>
@@ -1297,13 +1297,7 @@ function exportBoardPrintable(board){
  const sourceRows=links.length?links.map((l,i)=>'<article class="source"><div class="source-no">SOURCE '+String(i+1).padStart(2,'0')+'</div><h3>'+safeText(l.title)+'</h3><a href="'+safeText(l.url)+'">'+safeText(l.url)+'</a>'+(l.note?'<p><strong>Source notes:</strong> '+safeText(l.note)+'</p>':'')+'</article>').join(''):'<p class="empty">No source links saved in this collection.</p>';
  const noteRows=notes.length?notes.map((n,i)=>'<article class="note"><div class="source-no">RESEARCH NOTE '+String(i+1).padStart(2,'0')+'</div><p>'+safeText(n)+'</p></article>').join(''):'<p class="empty">No research notes saved in this collection.</p>';
  const css='@page{size:A4;margin:15mm}*{box-sizing:border-box}html{background:#09111a}body{margin:0;background:#09111a;color:#edf1f2;font:12pt/1.6 Inter,Segoe UI,Arial,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}.dossier{max-width:900px;margin:auto;padding:28px 32px}.cover{min-height:570px;background:linear-gradient(145deg,#0b131c,#14283a);border:1px solid #766445;padding:44px 34px;display:flex;flex-direction:column;justify-content:space-between;break-after:page}.brand{font-size:15pt;font-weight:850;letter-spacing:5px;color:#e4c58b}.eyebrow{font-size:9pt;color:#b9c8d2;letter-spacing:3px;text-transform:uppercase}.rule{height:2px;background:linear-gradient(90deg,#d9c18e,transparent);margin:25px 0}.cover h1{font-size:34pt;line-height:1.12;overflow-wrap:anywhere;color:#fff;margin:14px 0 22px}.kicker{color:#dbbf88;letter-spacing:2px;font-size:11pt;font-weight:750}.meta{color:#b5c3cc;font-size:10pt}.pill{display:inline-block;border:1px solid #b99a60;color:#e4c58b;padding:7px 12px;border-radius:18px;font-size:9pt;font-weight:700;letter-spacing:1px}.chapter{padding:24px 0;break-before:page}.chapter h2{font-size:23pt;color:#e4c58b;border-bottom:2px solid #766445;padding-bottom:12px;margin:0 0 25px}.source,.note{background:#142432;border-left:4px solid #d9c18e;padding:16px 18px;margin:15px 0;break-inside:avoid}.source h3{margin:8px 0 6px;color:#f6f6f6;font-size:14pt}.source-no{letter-spacing:2px;color:#d9c18e;font-size:9pt;font-weight:750}.source a{color:#9ed7f2;overflow-wrap:anywhere;word-break:break-word;font-size:10pt}.note p{white-space:pre-wrap;margin:9px 0 0}.empty{color:#b5c3cc}.footer{border-top:1px solid #766445;margin-top:35px;padding-top:14px;color:#b5c3cc;font-size:9pt}.toolbar{max-width:900px;margin:16px auto;padding:14px 24px;background:#142432;border:1px solid #766445;border-radius:10px;color:white}.toolbar button{background:#d9c18e;color:#0b131c;font-weight:750;border:0;border-radius:8px;padding:11px 18px}.toolbar small{display:block;margin-top:8px;color:#b5c3cc}@media print{.toolbar{display:none}.dossier{padding:0}.cover{min-height:245mm}.chapter{padding:0}.footer{break-inside:avoid}}';
- const content='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+safeText(board.name)+' — Disclosure Desk Dossier</title><style>'+css+'</style></head><body><div class="toolbar"><button onclick="window.print()">Print / Save as PDF</button><small>For best results, enable “Background graphics” in print options. This report includes private notes.</small></div><main class="dossier"><section class="cover"><div><div class="brand">◈ DISCLOSURE DESK</div><div class="eyebrow">Independent investigations · Evidence archive</div><div class="rule"></div><div class="kicker">INVESTIGATION DOSSIER</div><h1>'+safeText(board.name)+'</h1><span class="pill">PERSONAL RESEARCH · PRIVATE NOTES</span></div><div><div class="rule"></div><p class="meta">Prepared '+safeText(date)+'<br>'+links.length+' saved sources · '+notes.length+' research notes</p><p class="kicker">FOLLOW THE EVIDENCE. CONNECT THE UNKNOWN.</p><p class="meta">Boyd Digital Studios · Disclosure Desk</p></div></section><section class="chapter"><h2>01 / Source Register</h2><p class="meta">Original source links retained for verification. Evidence claims remain attributable to their publishers.</p>'+sourceRows+'</section><section class="chapter"><h2>02 / Research Notes</h2><p class="meta">Personal observations and theories are not independently verified findings.</p>'+noteRows+'</section><div class="footer">DISCLOSURE DESK · Independent investigations · Sources and interpretations should be verified independently. Review this dossier before distributing, especially personal notes.</div></main><style id="dd-m40-map-focus">
-/* M40 Map is a location-first screen, not a duplicate Archive/Videos index.
-   Keep source material and JS nodes intact for shared data callbacks. */
-#mapPage #jumpToOfficialFootage,#mapPage #ddMapArchiveShortcut,
-#mapPage #officialFootageSection,#mapPage #mapItems,
-#mapPage #mapArchiveResults{display:none!important}
-</style></body></html>';
+ const content='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+safeText(board.name)+' — Disclosure Desk Dossier</title><style>'+css+'</style></head><body><div class="toolbar"><button onclick="window.print()">Print / Save as PDF</button><small>For best results, enable “Background graphics” in print options. This report includes private notes.</small></div><main class="dossier"><section class="cover"><div><div class="brand">◈ DISCLOSURE DESK</div><div class="eyebrow">Independent investigations · Evidence archive</div><div class="rule"></div><div class="kicker">INVESTIGATION DOSSIER</div><h1>'+safeText(board.name)+'</h1><span class="pill">PERSONAL RESEARCH · PRIVATE NOTES</span></div><div><div class="rule"></div><p class="meta">Prepared '+safeText(date)+'<br>'+links.length+' saved sources · '+notes.length+' research notes</p><p class="kicker">FOLLOW THE EVIDENCE. CONNECT THE UNKNOWN.</p><p class="meta">Boyd Digital Studios · Disclosure Desk</p></div></section><section class="chapter"><h2>01 / Source Register</h2><p class="meta">Original source links retained for verification. Evidence claims remain attributable to their publishers.</p>'+sourceRows+'</section><section class="chapter"><h2>02 / Research Notes</h2><p class="meta">Personal observations and theories are not independently verified findings.</p>'+noteRows+'</section><div class="footer">DISCLOSURE DESK · Independent investigations · Sources and interpretations should be verified independently. Review this dossier before distributing, especially personal notes.</div></main><\/body><\/html>';
  const opened=window.open('','_blank');if(!opened){alert('Allow pop-ups for this site to open the dossier.');return}opened.document.open();opened.document.write(content);opened.document.close();
 }
 function exportPortableBoard(board){
@@ -2546,7 +2540,7 @@ window.ddTickerOpenStory=function(id){
 };
 window.ddTickerRefresh=function(){return loadLiveNews(false)};
 $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
-</script><script defer src="assets/news-ticker.js?v=nov08-v9"></script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/research-hub.js?v=nov3-hub1"></script><script defer src="assets/profile-avatars.js?v=nov08-iphone-jpeg-fallback-v3"></script><script defer src="assets/member-avatars.js?v=nov08-visible-by-default"></script><script defer src="assets/profile-private-chat.js?v=nov08-stability-v1"></script><script defer src="assets/chat-tab-ui.js?v=nov08-stability-v1"></script><script defer src="assets/community-discussions.js?v=nov08-v9"></script><script defer src="assets/discussions-admin.js?v=nov3-forum-admin-staged"></script><script defer src="assets/historical-satellite.js?v=nov08-landsat-handoff-prefill"></script><script defer src="assets/support-site.js?v=ko-fi-disclosuredesk-20261103"></script><script defer src="assets/community-votes.js?v=nov08-comment-action-rail"></script><script defer src="assets/news-article-votes.js?v=m34-news-article-votes"></script><script defer src="assets/case-discussions.js?v=nov08-comment-action-rail"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=nov08-comment-action-rail"></script><script defer src="assets/live-hearings.js?v=dev-1"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=nov3-beta1"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/watch-read.js?v=dev-1"></script><style id="dd-m34-profile-news-sticky-polish">
+</script><script defer src="assets/news-ticker.js?v=nov08-v9"></script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/research-hub.js?v=nov3-hub1"></script><script defer src="assets/profile-avatars.js?v=nov08-iphone-jpeg-fallback-v3"></script><script defer src="assets/member-avatars.js?v=nov08-visible-by-default"></script><script defer src="assets/profile-private-chat.js?v=nov08-stability-v1"></script><script defer src="assets/chat-tab-ui.js?v=nov08-stability-v1"></script><script defer src="assets/community-discussions.js?v=nov08-v9"></script><script defer src="assets/discussions-admin.js?v=nov3-forum-admin-staged"></script><script defer src="assets/historical-satellite.js?v=nov08-landsat-handoff-prefill"></script><script defer src="assets/support-site.js?v=ko-fi-disclosuredesk-20261103"></script><script defer src="assets/community-votes.js?v=nov08-comment-action-rail"></script><script defer src="assets/news-article-votes.js?v=m34-news-article-votes"></script><script defer src="assets/case-discussions.js?v=nov08-comment-action-rail"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=nov08-comment-action-rail"></script><script defer src="assets/live-hearings.js?v=dev-1"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=nov3-beta1"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/media-submissions.js?v=m42"></script><script defer src="assets/watch-read.js?v=dev-1"></script><style id="dd-m34-profile-news-sticky-polish">
 /* M34: group the avatar control with its visible photo rather than leaving
    the thumbnail stranded at the bottom of a tall settings card. */
 #ddAvatarPanel .dd-avatar-layout{
@@ -2890,7 +2884,7 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
  flex:0 0 auto!important;min-width:44px!important;margin:0!important
 }
 #discussionsPage .dd-forum-reply-card .dd-forum-actions>.dd-forum-reply-action{
- flex:0 0 auto!important;margin-left:auto!important;
+ flex:0 0 auto!important;margin-left:0!important;
  white-space:nowrap!important;min-width:72px!important
 }
 /* News article rail: adjacent ▲ ▼ left; Share and Comments to the right. */
@@ -3142,4 +3136,12 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
  #clips .immersive-tools.dd-action-rail{justify-content:flex-end!important;gap:6px!important}
 }
 </style>
+<style id="dd-m40-map-focus">
+/* M40 Map is a location-first screen, not a duplicate Archive/Videos index.
+   Keep source material and JS nodes intact for shared data callbacks. */
+#mapPage #jumpToOfficialFootage,#mapPage #ddMapArchiveShortcut,
+#mapPage #officialFootageSection,#mapPage #mapItems,
+#mapPage #mapArchiveResults{display:none!important}
+</style>
+<link rel="stylesheet" href="assets/community-polish.css?v=m42">
 </body></html>
