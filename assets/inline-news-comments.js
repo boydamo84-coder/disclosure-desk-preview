@@ -18,9 +18,9 @@ function mount(container){
  const toggle=el('button','💬 0');toggle.type='button';toggle.className='outline';toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Read or add comments');toggle.title='Comments';
  const entries=el('div');entries.className='dd-inline-comments-preview';
  const form=el('form');form.hidden=true;
- const body=el('textarea');body.placeholder='Add a comment or source reference…';body.rows=collapsible?1:3;body.maxLength=2000;body.minLength=3;body.required=true;body.style.cssText='display:block;width:100%;box-sizing:border-box;margin:8px 0';
+ const body=el('textarea');body.placeholder='Add a comment or source reference…';body.rows=1;body.maxLength=2000;body.minLength=3;body.required=true;body.style.cssText='display:block;width:100%;box-sizing:border-box;margin:8px 0;resize:none;overflow-y:auto;min-height:44px;max-height:94px';
  body.value=previous.draft;
- const fitBody=()=>{if(collapsible){body.style.height='auto';body.style.height=Math.min(94,Math.max(44,body.scrollHeight))+'px'}};
+ const fitBody=()=>{body.style.height='auto';body.style.height=Math.min(94,Math.max(44,body.scrollHeight))+'px'};
  body.addEventListener('input',()=>{drafts.set(id,{expanded:state.expanded,draft:body.value});fitBody()});
  const post=el('button','Post comment');post.type='submit';post.className='outline';
  const message=el('p');message.className='muted small';message.setAttribute('role','status');
