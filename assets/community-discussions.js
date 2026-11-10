@@ -738,6 +738,11 @@ function init(){
  $('ddForumNewPost').onclick=e=>{void openComposer('ddForumPostDialog',e.currentTarget)};
  setCreateButtons();
  $('ddForumSearch').addEventListener('input',drawSections);
+ const replyInput=$('ddForumReplyText');
+ if(replyInput){
+  replyInput.addEventListener('input',()=>resizeReplyComposer(replyInput));
+  replyInput.addEventListener('focus',()=>resizeReplyComposer(replyInput));
+ }
  $('ddForumBackSections').onclick=()=>{thread=null;section=null;updateCommunityContext();setCreateButtons();++epoch;$('ddForumSectionsPane').hidden=false;$('ddForumThreadPane').hidden=true;void refresh()};
  $('ddForumBackThreads').onclick=()=>{thread=null;replyParent=null;$('ddForumReplyCreate').hidden=true;$('ddForumThreadPane').classList?.remove?.('dd-forum-detail-open');setCreateButtons();++epoch;$('ddForumPostCreate').hidden=false;$('ddForumPostList').hidden=false;$('ddForumSortLabel').hidden=false;$('ddForumStewardPanel').hidden=!section?.is_steward;$('ddForumReplyPane').hidden=true;$('ddForumThreadTitle').textContent=section?.title||'Section';void loadThreads()};
  $('ddForumSort').onchange=event=>{sort=event.target.value;feedPage=0;void loadThreads()};
@@ -809,7 +814,7 @@ function init(){
   if(body.length<2||body.length>2000){say('Replies must be 2–2000 characters.');return}
   const parent=replyParent,originalThread=thread.id;
   void change(b,()=>rpc('dd_discussions_reply',{p_thread_id:originalThread,p_body:body,p_parent_id:parent}),'Reply posted.',()=>{
-   form.reset();if(thread?.id===originalThread)chooseReply(null);
+   form.reset();resizeReplyComposer(form.elements.namedItem('body'));if(thread?.id===originalThread)chooseReply(null);
   });
  };
  db()?.auth?.onAuthStateChange?.((_event,session)=>onIdentityChange(session));
