@@ -235,6 +235,68 @@ async function selected(page,id){
   assert.equal(await wneNews.evaluate(()=>sessionStorage.getItem('dd_last_open_tab_v1')),'discover');
   pass('M56 W.NE auto-save and single tap to News bypasses old W.NE landing even with stale prior tab');
   await wneNews.close();
+  // M57 regression: we tested leaving an open W.NE editor in M56, but missed
+  // the return trip. First-time visitors may still see the public introduction.
+  // Returning authenticated researchers must instead go through the account-
+  // checked Research entry to reopen their actual document, not the landing.
+  const m57=await context.newPage();
+  await m57.goto(BASE+'/?dd_tab=clips',{waitUntil:'domcontentloaded',timeout:35000});
+  await m57.evaluate(()=>{
+   sessionStorage.removeItem('wne-research-active-document');
+   sessionStorage.removeItem('dd-wne-resume-entry-v1');
+   localStorage.removeItem('dd-wne-resume-entry-v1');
+  });
+  await m57.locator('.nav .tab[data-tab="researchStudio"]').click();
+  assert.equal(new URL(m57.url()).pathname,'/','First-time visitor may use the W.NE introduction');
+  assert.equal(await hasVisibleSection(m57,'researchStudio'),true);
+  pass('M57 first-time W.NE visitor still sees the introduction and guest preview');
+
+  const m57Doc='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+  const m57Owner='11111111-1111-4111-8111-111111111111';
+  await m57.goto(BASE+'/?dd_tab=clips',{waitUntil:'domcontentloaded',timeout:35000});
+  await m57.evaluate(({doc,owner})=>{
+   sessionStorage.setItem('wne-research-active-document',doc);
+   localStorage.setItem('wne-research-last-document:'+owner,doc);
+  },{doc:m57Doc,owner:m57Owner});
+  // The entire resume flow runs against synthetic account/RLS results. No
+  // real Supabase account, API or document is contacted or modified.
+  await m57.addInitScript(({doc,owner})=>{
+   if(!location.pathname.startsWith('/research/'))return;
+   const db={
+    auth:{
+     getUser:async()=>({data:{user:{id:owner}},error:null}),
+     onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}})
+    },
+    from:table=>{
+     if(table!=='research_documents')throw Error('Unexpected test table '+table);
+     return {select:()=>({
+      eq:(_field,id)=>({maybeSingle:async()=>({
+       data:id===doc?{id:doc}:null,error:null
+      })}),
+      order:()=>({limit:async()=>({data:[{id:doc}],error:null})})
+     })};
+    }
+   };
+   window.supabase={createClient:()=>db};
+  },{doc:m57Doc,owner:m57Owner});
+  await m57.locator('.nav .tab[data-tab="researchStudio"]').click();
+  await m57.waitForURL(url=>new URL(url).pathname==='/research/research-workspace.html'
+    &&new URL(url).searchParams.get('id')===m57Doc,{timeout:16000});
+  assert.match(await m57.locator('#writer').getAttribute('src'),/wne.html\\?id=aaaaaaaa-/,
+   'Returning W.NE tab must reopen the selected private report');
+  assert.equal(await m57.evaluate(()=>localStorage.getItem('dd-wne-resume-entry-v1')),'1');
+  pass('M57 returning W.NE tab reopens last RLS-verified document, never public intro');
+
+  // The prior authenticated session is sufficient even after the active-doc
+  // session hint disappears, e.g. browser resumes a tab after restart.
+  await m57.goto(BASE+'/?dd_tab=clips',{waitUntil:'domcontentloaded',timeout:35000});
+  await m57.evaluate(()=>sessionStorage.removeItem('wne-research-active-document'));
+  await m57.locator('.nav .tab[data-tab="researchStudio"]').click();
+  await m57.waitForURL(url=>new URL(url).pathname==='/research/research-workspace.html'
+    &&new URL(url).searchParams.get('id')===m57Doc,{timeout:16000});
+  pass('M57 remembered signed-in workspace returns through auth gate after page switch');
+  await m57.close();
+
   await page.goto(BASE+'/research/guest-preview.html',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.dd-site-dock-tab');
   assert.equal(await page.locator('.dd-site-dock-tab').count(),13);
