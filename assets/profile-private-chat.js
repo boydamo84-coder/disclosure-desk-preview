@@ -71,6 +71,7 @@ function toggleDrawer(){
 }
 function showInbox(){
  currentId=null;lastPaintedPairId=null;lastConversationSignature='';conversation?.replaceChildren();
+ if(conversation){const empty=mk('div',undefined,'dd-chat-empty');empty.append(mk('strong','Your conversations'),mk('p','Choose a chat from the list, or start a new conversation using a public username.'));conversation.append(empty)}
  if(host&&typeof host.className==='string')host.className=host.className.replace(/\s*dd-chat-conversation-open\b/g,'');
  page()?.classList?.remove?.('dd-chat-is-conversation');
  closeDrawer();
@@ -93,6 +94,7 @@ function drawList(target,list){
  target.replaceChildren();
  const query=String($('ddChatInboxSearch')?.value||'').trim().toLowerCase();
  const visible=query?list.filter(row=>String(row.other_username||'Researcher').toLowerCase().includes(query)):list;
+ if(target===received){const label=$('ddChatRequestsLabel');if(label)label.textContent='Requests'+(list.length?' ('+list.length+')':'')}
  if(!visible.length){
   entry(target,query?'No matching conversations.':
    target===accepted?'No conversations yet. Tap New chat to find a researcher.':'No pending requests.');
@@ -155,6 +157,7 @@ async function refresh(forceConversation=false){
   // A send/accept action explicitly requests a forced redraw; unread changes redraw as needed.
   if(active&&(forceConversation||conversationSignature(active)!==lastConversationSignature))await openConversation(active);
   else if(currentId&&!active)showInbox();
+  else if(!currentId)showInbox();
   if(stamp!==epoch)return;
   say('Private chat requests updated.');
  }catch(e){say('Chat unavailable. '+String(e?.message||'Please retry').slice(0,135))}
@@ -218,7 +221,11 @@ async function openConversation(row){
    const {data,error}=await c.rpc('dd_chat_history',{p_pair_id:pairId,p_limit:100});
    if(error)throw error;
    if(currentId!==pairId)return;
+   let previousDay='';
    for(const m of (data||[]).slice().reverse()){
+    const sent=m.sent_at?new Date(m.sent_at):null;
+    const day=sent&&!Number.isNaN(sent.getTime())?sent.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'}):'';
+    if(day&&day!==previousDay){history.append(mk('div',day,'dd-chat-day'));previousDay=day}
     const item=mk('article',undefined,'dd-chat-bubble '+(m.mine?'dd-chat-bubble-mine':'dd-chat-bubble-other'));
     item.append(mk('small',m.mine?(myUsername||'You'):(row.other_username||'Researcher')),mk('p',m.body||''));
     if(m.sent_at){const time=mk('small',new Date(m.sent_at).toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'}),'dd-chat-message-time');item.append(time)}
@@ -262,6 +269,7 @@ async function openConversation(row){
    const bar=mk('div',undefined,'dd-chat-compose-bar');
    const body=mk('textarea');body.maxLength=2000;body.rows=1;body.required=true;
    body.placeholder='Write a message…';body.setAttribute('aria-label','Write a private message');
+   body.addEventListener('keydown',event=>{if(event.key==='Enter'&&(event.ctrlKey||event.metaKey)){event.preventDefault();form.requestSubmit?.()}});
    body.value=drafts[pairId]||'';body.addEventListener('input',()=>{drafts[pairId]=body.value;autoGrow(body)});
    label.append(body);const send=mk('button','Send','dd-chat-send');send.type='submit';
    send.setAttribute('aria-label','Send private message');
@@ -366,13 +374,14 @@ function init(){
  accepted=mk('div',undefined,'dd-chat-people');
  list.append(acceptedHeader,accepted);
  list.setAttribute('id','ddChatListDrawer');
- list.append(mk('h4','Pending requests'));
- received=mk('div',undefined,'dd-chat-people');list.append(received);
+ const requests=mk('details',undefined,'dd-chat-requests');
+ const requestLabel=mk('summary','Requests');requestLabel.id='ddChatRequestsLabel';requests.append(requestLabel);
+ received=mk('div',undefined,'dd-chat-people');requests.append(received);list.append(requests);
  conversation=mk('div');view.append(conversation);grid.append(list,view);
  const shade=mk('button',undefined,'dd-chat-drawer-shade');
  shade.type='button';shade.setAttribute('aria-label','Close conversation list');
  shade.onclick=()=>closeDrawer();grid.append(shade);
- host.append(grid);
+ host.append(grid);showInbox();
  document.addEventListener('keydown',event=>{
   if(event.key==='Escape'&&drawerOpen){closeDrawer();drawerToggle?.focus?.()}
  });
