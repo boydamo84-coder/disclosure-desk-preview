@@ -323,6 +323,32 @@ async function selected(page,id){
   assert.equal(await m59NewsPage.evaluate(()=>window.ddNewsTickerRows?.length),3,
    'Live ticker must not repeat syndicated article');
   pass('M59 News cards and ticker collapse duplicate Google RSS URLs without hiding separate reports');
+  // M60: actual News DOM groups different headlines for one event and retains
+  // all attributed source URLs in a compact expandable coverage list.
+  await m59NewsPage.evaluate(()=>{
+   const recent=new Date().toISOString();
+   const item=(id,headline,source)=>({id,headline,source,date:recent,
+     url:'https://example.org/uap-source/'+id,category:'UAP',priority:'standard'});
+   ddNewsRows([
+    item('m60-main','Trump says Air Force pilots saw strange UFO beyond their F-22','Publisher Main'),
+    item('m60-alt','Trump shares very strange revelations from Air Force pilots about UFOs','Publisher Alt'),
+    item('m60-file-a','Video - DOW-UAP-PR124, Unresolved UAP Report, Pacific Ocean, 2019','DOW'),
+    item('m60-file-b','Video - DOW-UAP-PR125, Unresolved UAP Report, Pacific Ocean, 2019','DOW')
+   ],'M60 event coverage browser fixture');
+  });
+  assert.equal(await m59NewsPage.locator('#newsGrid article[data-news-id]').count(),3,
+   'Two differently worded same-event stories should display as one, official video IDs separate');
+  assert.equal(await m59NewsPage.locator('#newsGrid article[data-news-id="m60-alt"]').count(),0);
+  const coverage=m59NewsPage.locator('#newsGrid article[data-news-id="m60-main"] details.dd-news-more-coverage');
+  assert.equal(await coverage.count(),1,'Grouped News event exposes source expansion');
+  assert.match(await coverage.locator('summary').innerText(),/1 other report/);
+  await coverage.locator('summary').click();
+  assert.equal(await coverage.locator('a[href="https://example.org/uap-source/m60-alt"]').count(),1,
+   'Original additional publisher link is accessible after expansion');
+  assert.match(await coverage.innerText(),/Publisher Alt/);
+  assert.equal(await m59NewsPage.evaluate(()=>window.ddNewsTickerRows?.length),3,
+   'Ticker presents event only once, plus two separate government videos');
+  pass('M60 Chromium grouped related-event cards expose other original publishers; official file IDs stay distinct');
   await m59NewsPage.close();
 
   await page.goto(BASE+'/research/guest-preview.html',{waitUntil:'domcontentloaded',timeout:35000});
