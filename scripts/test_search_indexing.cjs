@@ -51,6 +51,20 @@ for(const p of ['research/index.html','research/guest-preview.html','research/wn
   'Preserve private noindex for '+p);
  assert.ok(!listed.some(url=>url.includes('/research/')),'Never list W.NE internals');
 }
+// M62: Public help pages must reflect the current available social release.
+const guide=read('guide.html'), communityRules=read('community-rules.html');
+for(const route of ['chatPage','discussionsPage']){
+ assert.ok(guide.includes('href="/?dd_tab='+route+'"'),
+  'Guide links to public '+route+' destination');
+}
+assert.doesNotMatch(guide,/data-guide-beta|local phone beta, not enabled for the general public website/i,
+ 'Public guide must not hide live social navigation');
+assert.match(guide,/Eligible registered members can create subjects, posts and replies on the public website/,
+ 'Discussions FAQ documents eligibility');
+assert.match(communityRules,/Community Discussions and private one-to-one Chat are available to eligible signed-in members/,
+ 'Community Rules reflect current public website');
+assert.doesNotMatch(communityRules,/Planned: user-created Discussions sections|Proposed Discussions and private Chat rules/i,
+ 'No outdated social launch text on indexed public pages');
 const research=read('research-edition.html');
 assert.match(research,/href="\/research\/index\.html"/);
 assert.match(research,/href="\/research\/guest-preview\.html"/);
