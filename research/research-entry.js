@@ -38,7 +38,11 @@ async function enter(user){
   }else{
    sessionStorage.removeItem('wne-research-active-document');
   }
-  location.replace('./research-workspace.html'+(chosen?'?id='+encodeURIComponent(chosen):''));
+  // This non-sensitive hint only changes where the public W.NE tab sends
+ // returning visitors. The Research entry always revalidates auth + RLS.
+ try{sessionStorage.setItem('dd-wne-resume-entry-v1','1')}catch(_){}
+ try{localStorage.setItem('dd-wne-resume-entry-v1','1')}catch(_){}
+ location.replace('./research-workspace.html'+(chosen?'?id='+encodeURIComponent(chosen):''));
  }catch(err){
   routing=false;ready();
   status('We could not open your research safely. '+(err.message||'Please retry.'));
