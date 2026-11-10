@@ -80,7 +80,8 @@ function mount(container){
     state.replyTo={id:target.id,alias:target.publicAlias||'this commenter'};
     state.expanded=true;drafts.set(id,{expanded:true,draft:body.value});render();
     body.focus({preventScroll:true});
-   },{discussionKey:id,title:discussionTitle})){
+   },{discussionKey:id,title:discussionTitle,isMine:item.is_mine===true,
+    createdAt:item.created_at,body:item.body,onChanged:()=>refresh()})){
     card.append(header,text,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);
    }
    entries.append(card);
