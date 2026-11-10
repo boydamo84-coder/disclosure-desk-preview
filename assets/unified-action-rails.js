@@ -10,7 +10,7 @@ function role(node){
  if(!node?.matches)return 'extra';
  if(node.matches('.dd-forum-spacer'))return 'spacer';
  if(node.matches('.dd-community-votes,.dd-forum-votes,[data-news-article-votes],.dd-news-article-vote-controls,.dd-forum-vote,.dd-community-vote-button,.dd-news-article-vote-button'))return 'vote';
- if(node.matches('.dd-inline-comments-toggle,.dd-forum-comments-action,[data-clip-action="discuss"],[data-discuss-archive],[data-news-discussion],#ddCommentsToggle'))return 'comments';
+ if(node.matches('.dd-inline-comments-toggle,.dd-forum-comments-action,.dd-hearing-comments-toggle,[data-clip-action="discuss"],[data-discuss-archive],[data-news-discussion],#ddCommentsToggle'))return 'comments';
  if(node.matches('.dd-action-board,.dd-forum-star-action,.dd-case-bookmark,[data-save-archive],[data-save-news]'))return 'board';
  if(node.matches('.dd-action-share,.dd-forum-share-action,[data-share-news],[data-share-archive]'))return 'share';
  if(node.matches('.dd-comment-reply-button,.dd-forum-reply-action'))return 'reply';
