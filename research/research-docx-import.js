@@ -89,6 +89,7 @@ async function importFile(file){
 }
 input.addEventListener('change',()=>{const file=input.files?.[0];if(file)void importFile(file)});
 window.DDResearchImport=Object.freeze({
+ importFile,
  open(){if(busy)return false;input.click();return true}
 });
 })();
