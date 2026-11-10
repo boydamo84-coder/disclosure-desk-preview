@@ -1124,7 +1124,20 @@ function news(){
 const DD_NEWS_CACHE_KEY='dd_online_news_cache_v1';
 // GitHub Actions publishes the continually refreshed news catalogue to main.
 // Never use a development branch or require a Netlify deploy for each refresh.
-const DD_NEWS_REMOTE='https://raw.githubusercontent.com/boydamo84-coder/disclosure-desk-preview/main/data/news-alerts.json';
+const DD_NEWS_REMOTES=[
+ {url:'https://raw.githubusercontent.com/boydamo84-coder/disclosure-desk-preview/dev/mobile-video-performance-oct31/data/news-alerts.json',label:'GitHub active feed'},
+ {url:'https://raw.githubusercontent.com/boydamo84-coder/disclosure-desk-preview/main/data/news-alerts.json',label:'GitHub main mirror'}
+];
+function ddNewsFreshness(rows){
+ if(!Array.isArray(rows))return -Infinity;
+ let latest=-Infinity;
+ for(const row of rows){
+  if(!row||typeof row.headline!=='string'||typeof row.source!=='string'||!safePublicUrl(row.url))continue;
+  const date=Date.parse(row.date);
+  if(Number.isFinite(date)&&date>latest)latest=date;
+ }
+ return latest;
+}
 function ddStoredNews(){try{const cache=JSON.parse(localStorage.getItem(DD_NEWS_CACHE_KEY)||'null');return Array.isArray(cache?.rows)?cache.rows:null}catch{return null}}
 function ddNewsRows(rows,origin){
  if(!Array.isArray(rows))throw Error('Unexpected news catalogue');
@@ -1151,15 +1164,32 @@ async function loadLiveNews(force=false){
  if(!feedLive&&cached){try{ddNewsRows(cached,'Offline cache · checking updates')}catch{}}
  $('feedStatus').textContent=feedLive?'Checking online for new stories…':'Loading news…';
  try{
-   // The online feed takes precedence; never mistake the APK's packaged file for a live refresh.
-   const url=DD_NEWS_REMOTE+'?t='+Date.now();
-   const res=await fetch(url,{cache:'no-store',signal:AbortSignal.timeout(12000)});
-   if(!res.ok)throw Error('Online news unavailable: '+res.status);
-   const rows=await res.json();
-   // Validate before caching, so malformed responses never replace good offline data.
-   if(!Array.isArray(rows)||!rows.some(x=>x&&x.headline&&safePublicUrl(x.url)&&!Number.isNaN(Date.parse(x.date))))throw Error('Invalid online feed');
-   ddNewsRows(rows,'Online · updated automatically');
-   try{localStorage.setItem(DD_NEWS_CACHE_KEY,JSON.stringify({rows,savedAt:new Date().toISOString()}))}catch{}
+   // GitHub's long-running catalogue updater currently writes to the active
+   // development feed. The main mirror can lag, so compare their actual
+   // article dates rather than assuming main is newer. No Netlify function.
+   const checked=await Promise.all(DD_NEWS_REMOTES.map(async source=>{
+     try{
+       const res=await fetch(source.url+'?t='+Date.now(),{cache:'no-store',signal:AbortSignal.timeout(12000)});
+       if(!res.ok)throw Error('HTTP '+res.status);
+       const rows=await res.json();
+       const latest=ddNewsFreshness(rows);
+       if(!Number.isFinite(latest))throw Error('No valid attributed news reports');
+       return {rows,latest,label:source.label};
+     }catch(error){
+       console.warn('GitHub news source unavailable:',source.label,error);
+       return null;
+     }
+   }));
+   const candidates=checked.filter(Boolean).sort((a,b)=>b.latest-a.latest);
+   if(!candidates.length)throw Error('No online GitHub news feed available');
+   const winner=candidates[0],savedLatest=ddNewsFreshness(cached);
+   // A temporarily lagging mirror must never overwrite a newer local copy.
+   if(savedLatest>winner.latest){
+     ddNewsRows(cached,'Saved GitHub news · checking for updates');
+   }else{
+     ddNewsRows(winner.rows,winner.label+' · updated without site deployment');
+     try{localStorage.setItem(DD_NEWS_CACHE_KEY,JSON.stringify({rows:winner.rows,savedAt:new Date().toISOString()}))}catch{}
+   }
  }catch(e){
    console.warn('Online news update:',e.message);
    if(feedLive){$('feedStatus').textContent='Online update unavailable · Showing cached news';}
