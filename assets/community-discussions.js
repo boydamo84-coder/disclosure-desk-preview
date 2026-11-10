@@ -518,17 +518,36 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
  }
  parent.append(mk('span',undefined,'dd-forum-spacer'));
  if(row.is_mine){
+  // One More menu per owned post OR reply, matching all other comment bars.
+  // Edit expires after 30 minutes; Delete remains available to the author.
+  const more=mk('details',undefined,'dd-comment-more dd-forum-owner-more');
+  const summary=mk('summary','⋯','dd-comment-more-trigger dd-forum-more-trigger');
+  summary.setAttribute('aria-label','More options for my '+(kind==='thread'?'post':'reply'));
+  summary.setAttribute('title','More options for my '+(kind==='thread'?'post':'reply'));
+  const options=mk('div',undefined,'dd-comment-more-panel');
+  options.setAttribute('role','group');options.setAttribute('aria-label','My '+(kind==='thread'?'post':'reply')+' options');
   const posted=Date.parse(row.created_at);
-  if(Number.isFinite(posted)&&Date.now()>=posted&&Date.now()-posted<30*60*1000){
-   const edit=nodeAction(parent,'Edit',b=>openPostAction(b,kind,row,'edit'),'dd-forum-icon-button');
+  const editable=Number.isFinite(posted)&&Date.now()>=posted&&Date.now()-posted<30*60*1000;
+  if(editable){
+   const edit=nodeAction(options,'Edit '+(kind==='thread'?'post':'reply'),()=>{
+    more.open=false;openPostAction(summary,kind,row,'edit');
+   },'dd-comment-edit-button');
    edit.setAttribute('aria-label','Edit my '+kind);
   }
-  const remove=nodeAction(parent,'🗑',b=>openPostAction(b,kind,row,'delete'),'dd-forum-icon-button dd-forum-danger');
-  setActionIcon(remove,'trash','🗑');
+  const remove=nodeAction(options,'Delete '+(kind==='thread'?'post':'reply'),()=>{
+   more.open=false;openPostAction(summary,kind,row,'delete');
+  },'dd-comment-delete-button');
   remove.setAttribute('aria-label','Delete my '+kind);
-  remove.setAttribute('title','Delete');
- }
- if(section?.is_steward){
+  if(section?.is_steward){
+   const moderation=nodeAction(options,'Moderator tools',()=>{
+    more.open=false;openStewardTools(summary,kind,row);
+   },'dd-comment-moderate-button');
+   moderation.setAttribute('aria-label','Moderator tools');
+  }
+  more.append(summary,options);parent.append(more);
+ }else if(section?.is_steward){
+  // Stewards may still moderate other people's posts but never Edit/Delete
+  // another author's content through the owner-only menu.
   const more=nodeAction(parent,'⋯',b=>openStewardTools(b,kind,row),'dd-forum-icon-button dd-forum-more-trigger');
   more.setAttribute('aria-label','More post tools');
   more.setAttribute('aria-haspopup','dialog');
