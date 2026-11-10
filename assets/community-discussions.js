@@ -251,10 +251,21 @@ function chooseReply(target,focusComposer=false){
   : $('ddForumReplies');
  if(form){(anchor||$('ddForumReplies')||$('ddForumReplyContent'))?.after(form);form.hidden=false;}
  const submit=form?.querySelector?.('button[type="submit"]');if(submit)submit.textContent=replyParent?'Post reply':'Post comment';
+ const cancel=$('ddForumReplyCancel');if(cancel)cancel.hidden=!replyParent;
  let note=$('ddForumReplyContext');
  if(!note&&form){note=mk('p','','dd-forum-reply-context');note.id='ddForumReplyContext';form.prepend(note)}
  if(note){note.textContent=replyParent?'Replying to '+String(target.author_name||'this comment')+' in “'+String(thread.title||'Discussion')+'”':'Commenting on “'+String(thread.title||'Discussion')+'”';note.hidden=!replyParent}
  if(input){input.placeholder=replyParent?'Write a reply to '+String(target.author_name||'this comment')+'…':'Add a comment to this post…';resizeReplyComposer(input);if(target||focusComposer)input.focus({preventScroll:true})}
+}
+function closeReplyComposer(){
+ replyParent=null;
+ const form=$('ddForumReplyCreate'),input=form?.elements?.namedItem('body');
+ if(!form)return;
+ form.reset();form.hidden=true;
+ $('ddForumReplies')?.after(form);
+ if($('ddForumReplyCancel'))$('ddForumReplyCancel').hidden=true;
+ if($('ddForumReplyContext'))$('ddForumReplyContext').hidden=true;
+ if(input)resizeReplyComposer(input);
 }
 function appendReplyCard(list,row,replyLookup){
  const card=mk('article',undefined,'dd-forum-item dd-forum-reply-card');
@@ -757,6 +768,11 @@ function init(){
  $('ddForumNewPost').onclick=e=>{void openComposer('ddForumPostDialog',e.currentTarget)};
  setCreateButtons();
  $('ddForumSearch').addEventListener('input',drawSections);
+ const cancelReply=$('ddForumReplyCancel');
+ if(cancelReply)cancelReply.onclick=()=>{
+  closeReplyComposer();
+  $('ddForumReplyContent')?.querySelector('.dd-forum-comments-action')?.focus({preventScroll:true});
+ };
  const replyInput=$('ddForumReplyText');
  if(replyInput){
   replyInput.addEventListener('input',()=>resizeReplyComposer(replyInput));
@@ -833,7 +849,7 @@ function init(){
   if(body.length<2||body.length>2000){say('Replies must be 2–2000 characters.');return}
   const parent=replyParent,originalThread=thread.id;
   void change(b,()=>rpc('dd_discussions_reply',{p_thread_id:originalThread,p_body:body,p_parent_id:parent}),'Reply posted.',()=>{
-   form.reset();resizeReplyComposer(form.elements.namedItem('body'));if(thread?.id===originalThread)chooseReply(null);
+   form.reset();resizeReplyComposer(form.elements.namedItem('body'));if(thread?.id===originalThread)closeReplyComposer();
   });
  };
  db()?.auth?.onAuthStateChange?.((_event,session)=>onIdentityChange(session));
