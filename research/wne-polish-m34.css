@@ -207,3 +207,7 @@ html[data-theme] .wne-m34-prompt menu button:last-child:focus-visible{
  html[data-theme] #wne-findbar #wne-find-next{flex:0 0 48px!important}
  html[data-theme] #wne-findbar #wne-find-count{flex:1 1 auto!important;text-align:right}
 }
+
+#dd-research-drive-dialog{width:min(620px,94vw);max-height:88dvh;overflow:auto;background:#132b3c;color:#f0e5d3;border:1px solid #9c875e;border-radius:16px;padding:20px}
+#dd-research-drive-dialog p{font:13px/1.55 system-ui;color:#d1dce2}#dd-research-drive-dialog button{min-height:44px;background:#294454;border:1px solid #68808b;color:#f1dfbd;border-radius:9px;padding:9px 13px}
+.dd-drive-actions{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.dd-drive-file{display:grid;gap:8px;border:1px solid #476273;border-radius:11px;padding:13px;margin:10px 0;overflow-wrap:anywhere}.dd-drive-file small{color:#b0c4d1}.dd-drive-file button{justify-self:start}
