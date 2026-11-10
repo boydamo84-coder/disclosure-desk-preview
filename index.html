@@ -1096,10 +1096,18 @@ function newsEditorialArt(story){
  const words=String(story.headline||'Research report').trim().split(/\s+/).slice(0,8).join(' ');
  return '<div class="news-editorial-art dd-story-art art-'+theme+'" role="img" aria-label="Disclosure Desk graphic illustration, not event photography"><div class="news-art-grid"></div><div class="dd-art-orbit" aria-hidden="true"></div><span class="news-art-symbol" aria-hidden="true">'+symbol+'</span><span class="news-art-label">'+label+'</span><span class="dd-art-caption">'+esc(words)+'</span></div>';
 }
+function ddNewsCoverageHTML(story){
+ const links=(Array.isArray(story.relatedCoverage)?story.relatedCoverage:[]).filter(x=>x&&safePublicUrl(x.url));
+ if(!links.length)return '';
+ const items=links.map(source=>'<li><a href="'+esc(source.url)+'" target="_blank" rel="noopener noreferrer">'+
+  esc(source.source||'Publisher')+' — '+esc(source.headline||'Additional reporting')+'</a></li>').join('');
+ return '<details class="dd-news-more-coverage"><summary>More coverage <span>· '+links.length+
+  ' other '+(links.length===1?'report':'reports')+'</span></summary><ul>'+items+'</ul></details>';
+}
 function news(){
  let cats=['All','UAP','Drones','Encounters'];
  $('topicChips').innerHTML=cats.map(c=>`<button class="chip ${topic===c?'active':''}" data-topic="${c}">${c}</button>`).join('');
- const combined=ddNewsDeduplicate([...interestStories,...stories]);const query=($('newsSearch')?.value||'').trim().toLowerCase();const results=combined.filter(s=>{if(newsCountry!=='All'&&s.country!==newsCountry)return false;if(topic!=='All'&&s.category!==topic)return false;if(query&&![s.headline,s.category,s.summary,s.source,s.publisher,s.country].filter(Boolean).join(' ').toLowerCase().includes(query))return false;return true});
+ const combined=ddNewsDeduplicate([...interestStories,...stories]);const query=($('newsSearch')?.value||'').trim().toLowerCase();const results=combined.filter(s=>{if(newsCountry!=='All'&&s.country!==newsCountry)return false;if(topic!=='All'&&s.category!==topic)return false;if(query&&![s.headline,s.category,s.summary,s.source,s.publisher,s.country,...(s.relatedCoverage||[]).map(x=>x.headline)].filter(Boolean).join(' ').toLowerCase().includes(query))return false;return true});
  $('newsGrid').innerHTML=results.map((s,i)=>{
   // Use only URLs explicitly supplied by an approved feed. Never treat topic illustration as evidence.
   const realImage=typeof s.imageUrl==='string'&&/^https:\/\//i.test(s.imageUrl)&&!/[<>"']/g.test(s.imageUrl);
@@ -1107,7 +1115,7 @@ function news(){
   const link=s.url&&/^https:\/\//.test(s.url)?`<a class="news-open" data-read-story="${i}" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">Read original story ↗</a>`:'';
   const when=s.date?new Date(s.date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'';
   const imageLabel=realImage?'Publisher/feed image':'Editorial illustration';
-  return `<article data-news-id="${esc(s.id||'')}" class="card ${i===0?'hero-news':'news-row'}"><div class="news-image-wrap ${realImage?'':'pillar-fallback'}">${realImage?`<img loading="lazy" alt="Publisher article image" src="${esc(pic)}" onload="verifyNewsPhoto(this)" onerror="usePillarFallback(this)">`:newsEditorialArt(s)}<span class="image-credit">${realImage?'Publisher article image':'Editorial illustration · not event evidence'}</span></div><div class="card-body"><span class="tag">${esc(s.category)}${s.country?' · '+esc(s.country):''}${s.sourceType==='official'?' · Official source':''}</span><h3>${safePublicUrl(s.url||'')?`<a class="news-headline-link" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.headline)}</a>`:esc(s.headline)}</h3><p>${esc(s.desc||'Open the original publisher for the full report.')}</p><div class="news-story-source"><span class="source-chip">${esc(s.source||'Publisher')}</span>${when?`<span class="meta">${esc(when)}</span>`:''}</div>${newsRabbitHole(s,i)}</div><div class="dd-news-actions"><div class="dd-news-main-actions dd-action-rail"><span data-news-article-votes="${esc('news:'+String(s.id||s.url||'').slice(0,175))}"></span>${safePublicUrl(s.url||'')?`<button type="button" class="outline dd-action-board" data-save-news="${i}" data-bookmark-url="${esc(s.url)}" data-bookmark-label="${esc(s.headline)}" aria-label="Save to Investigation Board" title="Add to Board"><span data-star-icon>☆</span></button>`:'' }${safePublicUrl(s.url||"")?`<button class="outline dd-action-share" data-share-news="${i}" type="button" aria-label="Share news story" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8"/></svg></button>`:""}${safePublicUrl(s.url||"")?`<button class="outline dd-news-compare-action" data-compare-news="${i}" type="button" aria-label="Compare this news story" title="Compare">⚖ Compare</button>`:""}</div></div><div class="dd-news-inline-comments" data-news-comments="${esc('news:'+String(s.id||s.url||'').slice(0,175))}"></div></article>`;
+  return `<article data-news-id="${esc(s.id||'')}" class="card ${i===0?'hero-news':'news-row'}"><div class="news-image-wrap ${realImage?'':'pillar-fallback'}">${realImage?`<img loading="lazy" alt="Publisher article image" src="${esc(pic)}" onload="verifyNewsPhoto(this)" onerror="usePillarFallback(this)">`:newsEditorialArt(s)}<span class="image-credit">${realImage?'Publisher article image':'Editorial illustration · not event evidence'}</span></div><div class="card-body"><span class="tag">${esc(s.category)}${s.country?' · '+esc(s.country):''}${s.sourceType==='official'?' · Official source':''}</span><h3>${safePublicUrl(s.url||'')?`<a class="news-headline-link" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.headline)}</a>`:esc(s.headline)}</h3><p>${esc(s.desc||'Open the original publisher for the full report.')}</p><div class="news-story-source"><span class="source-chip">${esc(s.source||'Publisher')}</span>${when?`<span class="meta">${esc(when)}</span>`:''}</div>${ddNewsCoverageHTML(s)}${newsRabbitHole(s,i)}</div><div class="dd-news-actions"><div class="dd-news-main-actions dd-action-rail"><span data-news-article-votes="${esc('news:'+String(s.id||s.url||'').slice(0,175))}"></span>${safePublicUrl(s.url||'')?`<button type="button" class="outline dd-action-board" data-save-news="${i}" data-bookmark-url="${esc(s.url)}" data-bookmark-label="${esc(s.headline)}" aria-label="Save to Investigation Board" title="Add to Board"><span data-star-icon>☆</span></button>`:'' }${safePublicUrl(s.url||"")?`<button class="outline dd-action-share" data-share-news="${i}" type="button" aria-label="Share news story" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8"/></svg></button>`:""}${safePublicUrl(s.url||"")?`<button class="outline dd-news-compare-action" data-compare-news="${i}" type="button" aria-label="Compare this news story" title="Compare">⚖ Compare</button>`:""}</div></div><div class="dd-news-inline-comments" data-news-comments="${esc('news:'+String(s.id||s.url||'').slice(0,175))}"></div></article>`;
  }).join('')||'<div class="card empty">No stories in this category right now. Try All or Refresh.</div>';
  document.querySelectorAll('.news-headline-link').forEach(a=>a.addEventListener('click',()=>{const card=a.closest('[data-news-id]');const item=results.find(x=>String(x.id||'')===card?.dataset.newsId);if(item)rememberReadStory(item)}));
  document.querySelectorAll('[data-share-news]').forEach(btn=>btn.onclick=async()=>{const story=results[Number(btn.dataset.shareNews)];const url=safePublicUrl(story?.url||'');if(!url)return;try{if(navigator.share)await navigator.share({title:story.headline,url});else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url);btn.textContent='✓ Copied';}else window.prompt('Copy story link',url)}catch(e){if(e.name!=='AbortError')window.prompt('Copy story link',url)}});
@@ -1148,22 +1156,67 @@ function ddNewsHeadlineKey(headline){
  return String(headline||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'')
   .toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim().replace(/\s+/g,' ');
 }
+// M60 event-based clustering: retain alternative reporting, not separate cards.
+// Never merge independently numbered official videos/files or numbered batches.
+// All matches are local and deterministic, with no server/AI cost.
+const DD_NEWS_EVENT_STOP=new Set('a an and are as at be been by from for has have had in is its it of on or over says said say report reports about after before new latest how what why where with this that these those their the to into than more now ufo uap ufos uaps unidentified alien aliens footage video news watch reveals reveal revealed claims claim'.split(' '));
+const DD_NEWS_EVENT_ORDINALS=new Set('first second third fourth fifth sixth seventh eighth ninth tenth eleventh twelfth thirteenth fourteenth fifteenth'.split(' '));
+function ddNewsEventTokens(headline){
+ return new Set(ddNewsHeadlineKey(headline).split(' ').filter(word=>word.length>2&&!DD_NEWS_EVENT_STOP.has(word)));
+}
+function ddNewsEventRefs(headline){
+ const title=String(headline||'').toLowerCase();
+ const tokens=ddNewsEventTokens(headline);
+ return {
+  ids:new Set((title.match(/\bdow[\s-]*uap[\s-]*pr[\s-]*\d+\b/gi)||[]).map(x=>x.replace(/[\s-]/g,''))),
+  years:new Set(title.match(/\b(?:19|20)\d{2}\b/g)||[]),
+  ordinals:new Set([...tokens].filter(x=>DD_NEWS_EVENT_ORDINALS.has(x)))
+ };
+}
+function ddNewsDifferentRefs(a,b){
+ return a.size>0&&b.size>0&&(a.size!==b.size||[...a].some(x=>!b.has(x)));
+}
+function ddNewsSameEvent(a,b){
+ const age=Math.abs(Date.parse(a.date)-Date.parse(b.date));
+ if(!Number.isFinite(age)||age>14*86400000)return false;
+ const ar=ddNewsEventRefs(a.headline),br=ddNewsEventRefs(b.headline);
+ if(ddNewsDifferentRefs(ar.ids,br.ids)||ddNewsDifferentRefs(ar.years,br.years)||ddNewsDifferentRefs(ar.ordinals,br.ordinals))return false;
+ if(ddNewsHeadlineKey(a.headline)===ddNewsHeadlineKey(b.headline))return true;
+ if(age>5*86400000)return false;
+ const trumpAirforce=s=>{
+  const t=String(s||'').toLowerCase();
+  return /\btrump\b/.test(t)&&/\b(?:pilots?|air\s*force|f[\s-]*22|fighter\s*jets?)\b/.test(t)&&
+   /\b(?:ufos?|uaps?|aliens?|strange|round\s*object|revelations?)\b/.test(t);
+ };
+ if(trumpAirforce(a.headline)&&trumpAirforce(b.headline))return true;
+ if(age>3*86400000)return false;
+ const at=ddNewsEventTokens(a.headline),bt=ddNewsEventTokens(b.headline);
+ const intersection=[...at].filter(word=>bt.has(word)).length;
+ return intersection>=4&&intersection/Math.max(1,Math.min(at.size,bt.size))>=0.80&&
+  intersection/Math.max(1,new Set([...at,...bt]).size)>=0.53;
+}
 function ddNewsDeduplicate(rows){
- const seenUrls=new Set(),seenTitles=new Map(),out=[];
- for(const row of Array.isArray(rows)?rows:[]){
-  if(!row)continue;
-  const url=typeof row.url==='string'?row.url.trim().toLowerCase():'';
-  const title=ddNewsHeadlineKey(row.headline);
-  const time=Date.parse(row.date||'');
-  if(url&&seenUrls.has(url))continue;
-  const dates=title?seenTitles.get(title):null;
-  if(dates&&dates.some(prev=>!Number.isFinite(prev)||!Number.isFinite(time)||
-      Math.abs(time-prev)<=14*86400000))continue;
-  if(url)seenUrls.add(url);
-  if(title){if(dates)dates.push(time);else seenTitles.set(title,[time])}
-  out.push(row);
+ const flat=[],groups=[],seenUrls=new Set();
+ for(const source of Array.isArray(rows)?rows:[]){
+  if(!source||typeof source!=='object')continue;
+  const primary={...source};delete primary.relatedCoverage;
+  flat.push(primary);
+  for(const alternative of Array.isArray(source.relatedCoverage)?source.relatedCoverage:[]){
+   if(alternative&&typeof alternative==='object'&&alternative.headline&&alternative.url&&alternative.date){
+    const extra={...alternative};delete extra.relatedCoverage;flat.push(extra);
+   }
+  }
  }
- return out;
+ flat.sort((a,b)=>Date.parse(b.date||'')-Date.parse(a.date||''));
+ for(const row of flat){
+  const url=String(row.url||'').toLowerCase().trim();
+  if(url&&seenUrls.has(url))continue;
+  if(url)seenUrls.add(url);
+  const primary=groups.find(x=>ddNewsSameEvent(x,row));
+  if(primary){(primary.relatedCoverage??=[]).push(row)}
+  else groups.push({...row});
+ }
+ return groups;
 }
 function ddNewsRows(rows,origin){
  if(!Array.isArray(rows))throw Error('Unexpected news catalogue');
@@ -1171,7 +1224,7 @@ function ddNewsRows(rows,origin){
  if(!valid.length)throw Error('No attributed news reports');
  const deduped=ddNewsDeduplicate(valid.filter(x=>{const age=Date.now()-Date.parse(x.date);return age>=0&&age<=365*86400000}).sort((a,b)=>Date.parse(b.date)-Date.parse(a.date)));
  ddUpdateBadge('news',deduped.filter(x=>x.priority==='major'&&Date.now()-Date.parse(x.date)<48*3600000).map(x=>x.id||x.url));
- stories=deduped.map(x=>({headline:x.headline,source:x.source,publisher:x.source,country:x.country||'',sourceType:x.sourceType||'',originalLanguage:x.originalLanguage||'',summary:'Reported by '+x.source+' · Open the original reporting for full context.',url:x.url,date:x.date,id:x.id,category:x.category||'UAP',imageUrl:typeof x.imageUrl==='string'&&safePublicUrl(x.imageUrl)?x.imageUrl:'',imageSource:x.imageSource||'',publisherUrl:typeof x.publisherUrl==='string'&&safePublicUrl(x.publisherUrl)?x.publisherUrl:''}));
+ stories=deduped.map(x=>({headline:x.headline,source:x.source,publisher:x.source,country:x.country||'',sourceType:x.sourceType||'',originalLanguage:x.originalLanguage||'',summary:'Reported by '+x.source+' · Open the original reporting for full context.',url:x.url,date:x.date,id:x.id,category:x.category||'UAP',imageUrl:typeof x.imageUrl==='string'&&safePublicUrl(x.imageUrl)?x.imageUrl:'',imageSource:x.imageSource||'',publisherUrl:typeof x.publisherUrl==='string'&&safePublicUrl(x.publisherUrl)?x.publisherUrl:'',relatedCoverage:Array.isArray(x.relatedCoverage)?x.relatedCoverage:[]}));
  feedLive=true;updatedAt=valid.reduce((a,x)=>x.date>a?x.date:a,valid[0].date);
  // When a local beta receives a fresher sourced feed, refresh saved-interest matches.
  if(myInterests.length){
@@ -3346,3 +3399,11 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
 </style>
 <link rel="stylesheet" href="assets/community-polish.css?v=m51">
 </body></html>
+<style id="dd-m60-coverage-style">
+.dd-news-more-coverage{margin:9px 0 5px;border:1px solid #576777;border-radius:9px;background:#101f2c;color:#d8e2e7;font:12px system-ui}
+.dd-news-more-coverage summary{padding:10px 12px;cursor:pointer;font-weight:700;color:#e1c590;list-style:inside}
+.dd-news-more-coverage summary span{font-weight:400;color:#bdc8d3}
+.dd-news-more-coverage ul{list-style:none;margin:0;padding:0 12px 10px;display:grid;gap:8px;max-height:270px;overflow:auto}
+.dd-news-more-coverage li{padding-top:8px;border-top:1px solid #334655;overflow-wrap:anywhere;line-height:1.4}
+.dd-news-more-coverage a{color:#c9ddef;text-decoration:underline;text-underline-offset:2px}
+</style>
