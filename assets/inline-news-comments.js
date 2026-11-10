@@ -49,7 +49,7 @@ function mount(container){
   if(!shown.length&&(!collapsible||state.expanded)){const note=el('p','No comments yet.');note.className='muted small';entries.append(note);}
   for(const item of shown){
    const card=el('div');card.className='card';card.style.cssText='margin:8px 0';card.dataset.ddNewsCommentId=String(item.id||'');
-   if(item.replyDepth>0)card.classList.add('dd-comment-nested');
+   if(item.replyDepth>0){card.classList.add('dd-comment-nested');card.style.setProperty('--dd-comment-depth',String(item.replyDepth))}
    const alias=item.publicAlias||'Community member';
    const header=el('div');header.className='muted small';header.style.cssText='display:flex;align-items:center;min-width:0';
    const avatar=el('span',item.publicAlias?alias.charAt(0).toUpperCase():'?');

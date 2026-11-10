@@ -542,3 +542,98 @@
 .dd-news-inline-comments[data-comments-collapsed=true] .dd-inline-comments-preview{display:block;width:100%;min-width:0;max-width:none}
 .dd-news-inline-comments[data-comments-collapsed=true] .dd-inline-comments-preview>.card{width:auto;max-width:100%;min-width:0}
 .dd-news-inline-comments[data-comments-collapsed=true] textarea{min-height:44px!important;max-height:94px!important;height:44px;resize:none;overflow-y:auto;line-height:1.5;padding:10px 11px;background:#172f3f;color:#edf2f5;border:1px solid #456073;border-radius:9px;font-size:14px}
+
+/* M68 — continuous comment threads, with compact rows and quiet reply guides.
+   Post/card action strips stay unchanged. Public and forum reply APIs stay unchanged. */
+:root{--dd-thread-step:14px;--dd-thread-guide:#365361}
+.dd-news-inline-comments .dd-inline-comments-preview,
+#ddCaseDiscussionList,
+#discussionsPage #ddForumThreadPane.dd-forum-detail-open #ddForumReplies{
+ display:block!important;grid-template-columns:none!important;gap:0!important
+}
+.dd-comment-card.card,
+#newsGrid article .dd-news-inline-comments .dd-comment-card,
+#discussionsPage #ddForumReplies .dd-forum-reply-card{
+ position:relative!important;box-sizing:border-box!important;min-width:0!important;
+ width:100%;max-width:100%;margin:0!important;padding:3px 0 1px!important;
+ background:transparent!important;border:0!important;border-radius:0!important;
+ box-shadow:none!important;overflow:visible!important
+}
+.dd-comment-card .dd-comment-main,
+#discussionsPage #ddForumReplies .dd-forum-reply-card .dd-forum-post-main{
+ padding:0!important;min-width:0
+}
+.dd-comment-card .dd-comment-head,
+#discussionsPage #ddForumReplies .dd-forum-post-head{
+ position:relative;display:flex;align-items:center;gap:6px;
+ padding:0 42px 0 0!important;min-height:36px!important;margin:0!important
+}
+.dd-comment-card .dd-comment-head .dd-forum-avatar,
+#discussionsPage #ddForumReplies .dd-forum-avatar{
+ flex:0 0 24px!important;width:24px!important;height:24px!important;min-width:24px!important;
+ margin:0!important;font-size:10px!important
+}
+.dd-comment-card .dd-comment-head>span:not(.dd-forum-avatar),
+#discussionsPage #ddForumReplies .dd-forum-post-author>small{
+ color:#abc0cb;font-size:11px;line-height:1.4;overflow-wrap:anywhere
+}
+.dd-comment-card .dd-comment-flag,
+#discussionsPage #ddForumReplies .dd-forum-head-flag{
+ position:absolute!important;right:0!important;top:0!important;margin:0!important
+}
+.dd-comment-card .dd-comment-flag,
+#discussionsPage #ddForumReplies .dd-forum-head-flag button{
+ width:40px!important;min-width:40px!important;height:36px!important;min-height:36px!important;
+ padding:5px!important;border:0!important;border-radius:7px!important;background:transparent!important
+}
+.dd-comment-card .dd-comment-body,
+#discussionsPage #ddForumReplies .dd-forum-body{
+ display:block!important;margin:0 0 2px 30px!important;font-size:14px!important;
+ line-height:1.55!important;color:#dbe5ea!important;white-space:pre-wrap!important;
+ overflow-wrap:anywhere!important;-webkit-line-clamp:unset!important
+}
+.dd-comment-card .dd-comment-action-rail.dd-action-rail,
+#newsGrid article .dd-news-inline-comments .dd-comment-card .dd-comment-action-rail.dd-action-rail,
+#ddCaseDiscussionDialog .dd-comment-card .dd-comment-action-rail.dd-action-rail,
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-action-rail{
+ display:flex!important;flex-flow:row wrap!important;justify-content:flex-end!important;
+ min-height:40px!important;padding:0!important;margin:0!important;gap:1px!important;
+ background:transparent!important;border:0!important;box-shadow:none!important
+}
+.dd-comment-card .dd-comment-action-rail.dd-action-rail button,
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-action-rail button{
+ flex:0 0 auto!important;min-height:40px!important;min-width:32px!important;
+ padding:4px 5px!important;background:transparent!important;border:0!important;
+ border-radius:7px!important;font-size:11px!important
+}
+.dd-comment-card .dd-comment-action-rail.dd-action-rail .dd-action-board,
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-action-rail .dd-forum-star-action{font-size:18px!important}
+.dd-comment-card .dd-comment-action-rail.dd-action-rail .dd-action-share svg,
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-action-rail .dd-forum-share-action svg{width:18px!important;height:18px!important}
+.dd-comment-card .dd-comment-action-rail.dd-action-rail button:hover,
+.dd-comment-card .dd-comment-action-rail.dd-action-rail button:focus-visible,
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-action-rail button:hover,
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-action-rail button:focus-visible{background:#213b4b!important}
+.dd-comment-card .dd-comment-action-rail.dd-action-rail button[aria-pressed=true],
+#discussionsPage #ddForumReplies .dd-forum-actions.dd-action-rail button[aria-pressed=true]{background:#29444c!important;color:#ffe2a7!important}
+.dd-comment-card.dd-comment-nested,
+#discussionsPage #ddForumReplies .dd-forum-reply-card.dd-forum-nested-reply{
+ margin-left:calc(var(--dd-comment-depth,1) * var(--dd-thread-step))!important;
+ width:calc(100% - var(--dd-comment-depth,1) * var(--dd-thread-step));
+ padding-left:9px!important;border-left:1px solid var(--dd-thread-guide)!important
+}
+.dd-comment-card.dd-comment-nested::before,
+#discussionsPage #ddForumReplies .dd-forum-nested-reply::before{
+ content:"";position:absolute;left:0;top:21px;width:8px;border-top:1px solid var(--dd-thread-guide)
+}
+/* Parent context stays available to assistive readers without a second byline. */
+.dd-comment-card .dd-comment-parent-label,
+#discussionsPage #ddForumReplies .dd-forum-reply-target{
+ position:absolute!important;width:1px!important;height:1px!important;padding:0!important;
+ margin:-1px!important;overflow:hidden!important;clip-path:inset(50%);white-space:nowrap!important
+}
+@media(max-width:500px){
+ :root{--dd-thread-step:8px}
+ .dd-comment-card .dd-comment-body,
+ #discussionsPage #ddForumReplies .dd-forum-body{font-size:14px!important;line-height:1.55!important}
+}
