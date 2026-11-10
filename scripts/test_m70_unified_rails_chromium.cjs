@@ -79,6 +79,21 @@ async function checkRail(rail,kind,label,withComments=true){
    // No synthetic vote counters added to media titles or video cards.
    if(label==='Videos'||label==='Watch & Read')assert(!result.ordered.includes('vote'),label+': no unsupported fabricated member-vote counter');
   }
+  // Case / Hearing discussions reuse the same shared public comment actions.
+  await page.evaluate(()=>window.ddOpenCaseDiscussion('case:fixture','Fixture case discussion'));
+  await page.locator('#ddCaseDiscussionDialog:not([hidden])').waitFor();
+  await checkRail(page.locator('#ddCaseDiscussionActions'),'post','Case/Hearing',true);
+  await page.locator('#ddCommentsToggle').click();
+  await page.locator('#ddCaseDiscussionBody').waitFor({state:'visible'});
+  assert.equal(await page.locator('#ddCaseDiscussionBody').getAttribute('rows'),'1','Case/Hearing composer starts as single line');
+  await page.locator('#ddCaseDiscussionBody').fill('Test case / hearing reply input expands to three lines while preserving all existing comments.');
+  const caseHeight=await page.locator('#ddCaseDiscussionBody').evaluate(el=>el.getBoundingClientRect().height);
+  assert(caseHeight>=44&&caseHeight<=95,'Case/Hearing composer is capped at three lines');
+  await page.locator('#ddCaseDiscussionList .dd-comment-card').first().waitFor();
+  await checkRail(page.locator('#ddCaseDiscussionList .dd-comment-card').first().locator('.dd-comment-action-rail'),'comment','Case/Hearing reply',false);
+  await page.locator('#ddCaseDiscussionList .dd-comment-card').first().locator('.dd-comment-reply-button').click();
+  assert.equal(await page.locator('#ddCaseDiscussionForm button[type=submit]').textContent(),'Post reply','Case/Hearing Reply follows the Discussion pattern');
+  await page.locator('#ddCaseDiscussionClose').click();
   await page.goto(BASE+'/__m70-forum?view=discussionsPage',{waitUntil:'domcontentloaded'});
   await page.addScriptTag({url:BASE+'/assets/unified-action-rails.js'});
   await page.getByRole('button',{name:'Browse subject: UAP evidence',exact:true}).click();
