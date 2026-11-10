@@ -94,12 +94,47 @@ function tableBlock(node){
  if(rows.length>300)throw Error('Comparison table has too many rows for safe DOCX export');
  const cols=Math.max(...rows.map(row=>[...row.children].reduce((n,c)=>n+Math.max(1,Number(c.getAttribute('colspan'))||1),0)));
  if(cols>16)throw Error('Comparison table exceeds 16 columns');
- const matrix=rows.map(row=>{
-  const cells=[...row.children].filter(n=>/^(TH|TD)$/.test(n.tagName));
-  if(cells.some(c=>Number(c.getAttribute('rowspan')||1)>1||Number(c.getAttribute('colspan')||1)>1))throw Error('Merged comparison cells require PDF/HTML export; DOCX export stopped without losing data');
-  return Array.from({length:cols},(_,i)=>new d.TableCell({children:[paragraph(cells[i]||document.createElement('span'))],shading:cells[i]?.tagName==='TH'?{fill:'E9EEF2'}:undefined}));
+ // Default A4/Letter with 1-inch margins has at least ~9,000 twips of
+ // writable width. Word must not stretch three equal columns or let long
+ // source addresses silently resize the Field column.
+ const pageWidth=9000;
+ const comparison=cols===3 && /^field$/i.test((rows[0].children[0]?.textContent||'').trim());
+ const widths=comparison?[1800,3600,3600]:Array.from({length:cols},(_,i)=>{
+  const first=Math.floor(pageWidth/cols);return i===cols-1?pageWidth-first*(cols-1):first;
  });
- return new d.Table({rows:matrix.map(cells=>new d.TableRow({children:cells})),width:{size:100,type:d.WidthType.PERCENTAGE},borders:{top:{style:d.BorderStyle.SINGLE,size:4,color:'9AA9B5'},bottom:{style:d.BorderStyle.SINGLE,size:4,color:'9AA9B5'},left:{style:d.BorderStyle.SINGLE,size:4,color:'9AA9B5'},right:{style:d.BorderStyle.SINGLE,size:4,color:'9AA9B5'},insideHorizontal:{style:d.BorderStyle.SINGLE,size:4,color:'9AA9B5'},insideVertical:{style:d.BorderStyle.SINGLE,size:4,color:'9AA9B5'}}});
+ const hasHeading=[...rows[0].children].some(c=>c.tagName==='TH');
+ const matrix=rows.map((row,rowIndex)=>{
+  const cells=[...row.children].filter(n=>/^(TH|TD)$/.test(n.tagName));
+  if(cells.some(c=>Number(c.getAttribute('rowspan')||1)>1||Number(c.getAttribute('colspan')||1)>1))
+   throw Error('Merged comparison cells require PDF/HTML export; DOCX export stopped without losing data');
+  const isHeading=hasHeading&&rowIndex===0;
+  const result=Array.from({length:cols},(_,column)=>{
+   const cell=cells[column]||document.createElement('span');
+   const cellText=isHeading?[new d.TextRun({text:cell.textContent||'',bold:true})]:inlineRuns(cell);
+   return new d.TableCell({
+    children:[new d.Paragraph({children:cellText,spacing:{before:0,after:0,line:250}})],
+    width:{size:widths[column],type:d.WidthType.DXA},
+    verticalAlign:d.VerticalAlignTable.TOP,
+    shading:isHeading?{fill:'E8EDF2'}:(comparison&&column===0?{fill:'F4F6F8'}:undefined)
+   });
+  });
+  return new d.TableRow({children:result,cantSplit:true,tableHeader:isHeading});
+ });
+ return new d.Table({
+  rows:matrix,
+  width:{size:pageWidth,type:d.WidthType.DXA},
+  columnWidths:widths,
+  layout:d.TableLayoutType.FIXED,
+  margins:{top:85,bottom:85,left:110,right:110},
+  borders:{
+   top:{style:d.BorderStyle.SINGLE,size:4,color:'A8B5BF'},
+   bottom:{style:d.BorderStyle.SINGLE,size:4,color:'A8B5BF'},
+   left:{style:d.BorderStyle.SINGLE,size:4,color:'A8B5BF'},
+   right:{style:d.BorderStyle.SINGLE,size:4,color:'A8B5BF'},
+   insideHorizontal:{style:d.BorderStyle.SINGLE,size:4,color:'C4CDD4'},
+   insideVertical:{style:d.BorderStyle.SINGLE,size:4,color:'C4CDD4'}
+  }
+ });
 }
 function blocks(html){
  const root=document.createElement('div');
