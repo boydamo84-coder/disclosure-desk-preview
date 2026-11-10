@@ -1099,7 +1099,7 @@ function newsEditorialArt(story){
 function news(){
  let cats=['All','UAP','Drones','Encounters'];
  $('topicChips').innerHTML=cats.map(c=>`<button class="chip ${topic===c?'active':''}" data-topic="${c}">${c}</button>`).join('');
- const combined=[...interestStories,...stories];const used=new Set();const query=($('newsSearch')?.value||'').trim().toLowerCase();const results=combined.filter(s=>{if(newsCountry!=='All'&&s.country!==newsCountry)return false;if(topic!=='All'&&s.category!==topic)return false;if(query&&![s.headline,s.category,s.summary,s.source,s.publisher,s.country].filter(Boolean).join(' ').toLowerCase().includes(query))return false;const key=(s.url||s.headline||'').toLowerCase();if(used.has(key))return false;used.add(key);return true});
+ const combined=ddNewsDeduplicate([...interestStories,...stories]);const query=($('newsSearch')?.value||'').trim().toLowerCase();const results=combined.filter(s=>{if(newsCountry!=='All'&&s.country!==newsCountry)return false;if(topic!=='All'&&s.category!==topic)return false;if(query&&![s.headline,s.category,s.summary,s.source,s.publisher,s.country].filter(Boolean).join(' ').toLowerCase().includes(query))return false;return true});
  $('newsGrid').innerHTML=results.map((s,i)=>{
   // Use only URLs explicitly supplied by an approved feed. Never treat topic illustration as evidence.
   const realImage=typeof s.imageUrl==='string'&&/^https:\/\//i.test(s.imageUrl)&&!/[<>"']/g.test(s.imageUrl);
@@ -1140,12 +1140,38 @@ function ddNewsFreshness(rows){
  return latest;
 }
 function ddStoredNews(){try{const cache=JSON.parse(localStorage.getItem(DD_NEWS_CACHE_KEY)||'null');return Array.isArray(cache?.rows)?cache.rows:null}catch{return null}}
+// M59: Google News can give the same syndicated headline different RSS links.
+// Keep the first (freshest) attributed report, preserving its original URL,
+// ID, publisher and social actions. Similar-looking but differently worded
+// investigations remain independent; a title reused weeks later is allowed.
+function ddNewsHeadlineKey(headline){
+ return String(headline||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'')
+  .toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim().replace(/\s+/g,' ');
+}
+function ddNewsDeduplicate(rows){
+ const seenUrls=new Set(),seenTitles=new Map(),out=[];
+ for(const row of Array.isArray(rows)?rows:[]){
+  if(!row)continue;
+  const url=typeof row.url==='string'?row.url.trim().toLowerCase():'';
+  const title=ddNewsHeadlineKey(row.headline);
+  const time=Date.parse(row.date||'');
+  if(url&&seenUrls.has(url))continue;
+  const dates=title?seenTitles.get(title):null;
+  if(dates&&dates.some(prev=>!Number.isFinite(prev)||!Number.isFinite(time)||
+      Math.abs(time-prev)<=14*86400000))continue;
+  if(url)seenUrls.add(url);
+  if(title){if(dates)dates.push(time);else seenTitles.set(title,[time])}
+  out.push(row);
+ }
+ return out;
+}
 function ddNewsRows(rows,origin){
  if(!Array.isArray(rows))throw Error('Unexpected news catalogue');
  const valid=rows.filter(x=>x&&typeof x.headline==='string'&&typeof x.source==='string'&&safePublicUrl(x.url)&&!Number.isNaN(Date.parse(x.date)));
  if(!valid.length)throw Error('No attributed news reports');
- ddUpdateBadge('news',valid.filter(x=>x.priority==='major'&&Date.now()-Date.parse(x.date)<48*3600000).map(x=>x.id||x.url));
- stories=valid.filter(x=>{const age=Date.now()-Date.parse(x.date);return age>=0&&age<=365*86400000}).sort((a,b)=>Date.parse(b.date)-Date.parse(a.date)).map(x=>({headline:x.headline,source:x.source,publisher:x.source,country:x.country||'',sourceType:x.sourceType||'',originalLanguage:x.originalLanguage||'',summary:'Reported by '+x.source+' · Open the original reporting for full context.',url:x.url,date:x.date,id:x.id,category:x.category||'UAP',imageUrl:typeof x.imageUrl==='string'&&safePublicUrl(x.imageUrl)?x.imageUrl:'',imageSource:x.imageSource||'',publisherUrl:typeof x.publisherUrl==='string'&&safePublicUrl(x.publisherUrl)?x.publisherUrl:''}));
+ const deduped=ddNewsDeduplicate(valid.filter(x=>{const age=Date.now()-Date.parse(x.date);return age>=0&&age<=365*86400000}).sort((a,b)=>Date.parse(b.date)-Date.parse(a.date)));
+ ddUpdateBadge('news',deduped.filter(x=>x.priority==='major'&&Date.now()-Date.parse(x.date)<48*3600000).map(x=>x.id||x.url));
+ stories=deduped.map(x=>({headline:x.headline,source:x.source,publisher:x.source,country:x.country||'',sourceType:x.sourceType||'',originalLanguage:x.originalLanguage||'',summary:'Reported by '+x.source+' · Open the original reporting for full context.',url:x.url,date:x.date,id:x.id,category:x.category||'UAP',imageUrl:typeof x.imageUrl==='string'&&safePublicUrl(x.imageUrl)?x.imageUrl:'',imageSource:x.imageSource||'',publisherUrl:typeof x.publisherUrl==='string'&&safePublicUrl(x.publisherUrl)?x.publisherUrl:''}));
  feedLive=true;updatedAt=valid.reduce((a,x)=>x.date>a?x.date:a,valid[0].date);
  // When a local beta receives a fresher sourced feed, refresh saved-interest matches.
  if(myInterests.length){
@@ -1155,7 +1181,7 @@ function ddNewsRows(rows,origin){
  const old=Date.now()-Date.parse(updatedAt)>3*86400000;
  $('feedStatus').classList.toggle('feed-error',old);
  $('feedStatus').textContent=(old?'⚠ NEWS UPDATE DELAYED · ':'WORLD MEDIA · ')+stories.length+' sourced stories · Latest '+new Date(updatedAt).toLocaleDateString('en-GB')+' · '+origin+(old?' · Freshness requires attention':'');
- window.ddNewsTickerRows=valid;window.dispatchEvent(new Event("dd-news-updated"));
+ window.ddNewsTickerRows=deduped;window.dispatchEvent(new Event("dd-news-updated"));
  renderCases();news();ddOpenNewsTarget();
 }
 async function loadLiveNews(force=false){
