@@ -9,7 +9,7 @@ function snippet(start,end){
  assert(a>=0&&b>a,'Missing site News integration '+start);
  return html.slice(a,b);
 }
-const ctx={Date};
+const ctx={Date,URL};
 vm.createContext(ctx);
 vm.runInContext(snippet('function ddNewsHeadlineKey(headline){','function ddNewsRows(rows,origin){'),ctx);
 const row=(headline,source,url,date='2026-11-10T03:00:00Z')=>({headline,source,url,date,id:url.split('/').pop()});

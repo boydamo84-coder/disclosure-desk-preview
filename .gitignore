@@ -3,3 +3,7 @@
 
 # Local Supabase CLI version/cache metadata
 supabase/.temp/
+
+# Python test caches
+__pycache__/
+*.pyc

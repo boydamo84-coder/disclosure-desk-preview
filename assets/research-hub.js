@@ -101,7 +101,11 @@ function clearReactions(message='Reaction totals unavailable.'){
 function displayReactions(data){
  const row=Array.isArray(data)?data[0]:data;
  const keys=['post_likes','post_dislikes','comment_likes','comment_dislikes'];
- if(!row||!keys.every(key=>Number.isSafeInteger(Number(row[key]))&&Number(row[key])>=0)){
+ const validCount=value=>(typeof value==='number'||typeof value==='string'&&/^\d+$/.test(value))&&
+  Number.isSafeInteger(Number(value))&&Number(value)>=0;
+ if(!row||!keys.every(key=>validCount(row[key]))||
+    !Number.isSafeInteger(Number(row.post_likes)+Number(row.comment_likes))||
+    !Number.isSafeInteger(Number(row.post_dislikes)+Number(row.comment_dislikes))){
   clearReactions('Reaction totals are temporarily unavailable. Your votes and posts are unchanged.');
   return false;
  }
@@ -110,7 +114,7 @@ function displayReactions(data){
  $('ddProfileDislikesReceived').textContent=(postDislikes+commentDislikes).toLocaleString();
  $('ddProfileReactionBreakdown').textContent='Posts ▲ '+postLikes.toLocaleString()+' / ▼ '+postDislikes.toLocaleString()+
   ' · Comments ▲ '+commentLikes.toLocaleString()+' / ▼ '+commentDislikes.toLocaleString()+
-  ' · Updated from published content; votes you cast on your own content do not count.';
+  ' · Published content only; your own votes are excluded.';
  lastReactionLoad=Date.now();
  return true;
 }
@@ -121,7 +125,11 @@ async function refreshReactions(){
  const pageRevision=nonce,request=++reactionNonce;
  try{
   const {data:auth,error:authError}=await c.auth.getUser();
-  if(authError||auth?.user?.id!==current||auth?.user?.is_anonymous)return;
+  if(authError||auth?.user?.id!==current||auth?.user?.is_anonymous){
+   if(request===reactionNonce&&pageRevision===nonce&&userId===current)
+    clearReactions('Sign in to view reactions received on your content.');
+   return;
+  }
   const {data,error}=await c.rpc('dd_profile_received_reactions');
   if(request!==reactionNonce||pageRevision!==nonce||userId!==current)return;
   if(error)throw error;
@@ -304,7 +312,11 @@ function init(){
   ++nonce;guest();
  };
  document.querySelectorAll('[data-profile-go]').forEach(b=>b.onclick=()=>visit(b.dataset.profileGo));
- const c=client();if(c)c.auth.onAuthStateChange(()=>{setTimeout(()=>void refresh(),0)});
+ const c=client();if(c)c.auth.onAuthStateChange(()=>{
+  ++nonce;++reactionNonce;lastReactionLoad=0;
+  clearReactions('Checking your account…');
+  setTimeout(()=>void refresh(),0);
+ });
  // Lightweight totals refresh only while this profile is actually visible.
  document.addEventListener('visibilitychange',()=>{if(!document.hidden)void refreshReactions()});
  window.addEventListener('focus',()=>void refreshReactions());

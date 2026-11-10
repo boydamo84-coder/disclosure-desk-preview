@@ -5,16 +5,18 @@ const read=path=>fs.readFileSync(path,'utf8');
 const html=read('index.html'),hub=read('assets/research-hub.js'),
       css=read('assets/community-polish.css'),
       sql=read('supabase/migrations/20261110150000_profile_reactions_received_m63.sql');
-for(const id of ['ddProfileReactionsTitle','ddProfileLikesReceived','ddProfileDislikesReceived','ddProfileReactionBreakdown']){
- assert(html.includes('id="'+id+'"'),'Profile includes visible '+id);
+for(const id of ['ddProfileLikesReceived','ddProfileDislikesReceived','ddProfileReactionBreakdown']){
+ assert(html.includes('id="'+id+'"'),'Profile includes '+id);
 }
 assert.match(html,/Community reactions received/);
-assert.match(html,/▲ Likes received/);
-assert.match(html,/▼ Dislikes received/);
-assert.match(html,/assets\/research-hub\.js\?v=m63-received-reactions/);
-assert.match(html,/assets\/community-polish\.css\?v=m63/);
-assert.match(css,/\.dd-profile-reaction-grid/);
-assert.match(css,/@media\(max-width:360px\)/,'Mobile reputation cards must fit small screens');
+assert.match(html,/Likes received/);
+assert.match(html,/Dislikes received/);
+assert.match(html,/assets\/research-hub\.js\?v=m64-compact-reactions/);
+assert.match(html,/assets\/community-polish\.css\?v=m64/);
+assert.match(css,/\.dd-profile-reactions\{display:flex/);
+assert.match(css,/flex-wrap:wrap/,'Reaction row can wrap on narrow screens');
+assert.match(html,/<details class="dd-profile-reaction-info">/,'Breakdown stays optional');
+assert.doesNotMatch(html,/dd-profile-reaction-grid/,'No large reaction cards');
 assert.match(hub,/c\.rpc\('dd_profile_received_reactions'\)/,'Counts must come from the server');
 assert.match(hub,/reactionNonce/,'Discard out-of-order responses');
 assert.match(hub,/userId!==current/,'Discard responses after account switch');
@@ -31,4 +33,4 @@ assert.match(sql,/Registered account required/);
 assert.match(sql,/revoke all on function public\.dd_profile_received_reactions\(\) from public,anon,authenticated;/);
 assert.match(sql,/grant execute on function public\.dd_profile_received_reactions\(\) to authenticated;/);
 assert.doesNotMatch(sql,/dd_news_article_votes|dd_media_votes|p_user_id/,'News publisher votes and product ratings must not become member likes');
-console.log('PASS M63: profile cards, privacy and lifecycle, fresh server totals, 4 public-only author sources, no self-votes, account isolation, responsive UI, cache bust');
+console.log('PASS M63/M64: compact profile row, privacy and lifecycle, fresh server totals, 4 public-only author sources, no self-votes, account isolation, responsive UI, cache bust');

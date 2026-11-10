@@ -6,7 +6,7 @@ const html=fs.readFileSync('index.html','utf8');
 const begin=html.indexOf('function ddNewsHeadlineKey(headline){');
 const end=html.indexOf('function ddNewsRows(rows,origin){',begin);
 assert(begin>=0&&end>begin,'M60 website event-cluster helper present');
-const ctx={Date};
+const ctx={Date,URL};
 vm.createContext(ctx);
 vm.runInContext(html.slice(begin,end),ctx);
 const cluster=vm.runInContext('ddNewsDeduplicate',ctx);
@@ -44,3 +44,21 @@ assert.match(html,/ddNewsCoverageHTML\(s\)/,'more coverage must render in each N
 assert.match(html,/relatedCoverage:Array\.isArray\(x\.relatedCoverage\)/,'source metadata crosses the feed-mapping boundary');
 assert.match(html,/window\.ddNewsTickerRows=deduped/,'ticker sees grouped primary stories only');
 console.log('PASS M60: event-level News groups; publishers and original links retained; separate official files and novel reporting safe (NO DEPLOY)');
+
+assert.equal(cluster([
+ row('case101','Official UAP case 101 unresolved report over Pacific','Official'),
+ row('case102','Official UAP case 102 unresolved report over Pacific','Official')
+]).length,2,'different generic official case IDs cannot be grouped by the client');
+assert.equal(cluster([
+ {...row('q1','Official UAP case 101','Official'),url:'https://example.org/record?id=1'},
+ {...row('q2','Official UAP case 102','Official'),url:'https://example.org/record?id=2'}
+]).length,2,'query-string record identifiers survive');
+assert.equal(cluster([
+ {...row('p1','Official UAP case 101','Official'),url:'https://example.org/A'},
+ {...row('p2','Official UAP case 102','Official'),url:'https://example.org/a'}
+]).length,2,'case-sensitive paths survive');
+assert.equal(cluster([
+ {...row('t1','Official UAP case 101','Official'),url:'https://example.org/a?utm_source=rss'},
+ {...row('t2','Official UAP case 101','Official'),url:'https://example.org/a'}
+]).length,1,'tracking-only URL variants collapse');
+assert.match(html,/const valid=ddNewsExpandCoverage\(rows\)\.filter/,'Nested source links, attribution and dates are validated like main rows');

@@ -29,7 +29,16 @@ REGIONAL_TERMS={
  'Mexico':'UFO UAP Mexico OVNI when:7d',
  'Japan':'UFO UAP Japan when:7d',
  'Canada':'UFO UAP Canada when:7d',
- 'Australia':'UFO UAP Australia when:7d'
+ 'Australia':'UFO UAP Australia when:7d',
+ 'United Kingdom':'UFO UAP Britain UK when:7d',
+ 'New Zealand':'UFO UAP New Zealand when:7d',
+ 'Argentina':'OVNI UFO Argentina when:7d',
+ 'Chile':'OVNI UFO Chile when:7d',
+ 'Peru':'OVNI UFO Peru when:7d',
+ 'Spain':'OVNI UFO Spain when:7d',
+ 'Italy':'UFO UAP Italy when:7d',
+ 'India':'UFO UAP India when:7d',
+ 'South Africa':'UFO UAP South Africa when:7d'
 }
 # First-party RSS sources, with direct publisher links and optional media thumbnails.
 DIRECT_FEEDS={
@@ -57,7 +66,16 @@ COUNTRY_WORDS={
  'Mexico':r'\b(?:mexico|mexican)\b',
  'Japan':r'\b(?:japan|japanese|tokyo)\b',
  'Canada':r'\b(?:canada|canadian|ottawa)\b',
- 'Australia':r'\b(?:australia|australian|aussie|canberra)\b'
+ 'Australia':r'\b(?:australia|australian|aussie|canberra)\b',
+ 'United Kingdom':r'\b(?:united kingdom|britain|british|england|scotland|wales|northern ireland|london)\b',
+ 'New Zealand':r'\b(?:new zealand|kiwi|auckland|wellington)\b',
+ 'Argentina':r'\b(?:argentina|argentine|argentinian|buenos aires)\b',
+ 'Chile':r'\b(?:chile|chilean|santiago)\b',
+ 'Peru':r'\b(?:peru|peruvian|lima)\b',
+ 'Spain':r'\b(?:spain|spanish|madrid)\b',
+ 'Italy':r'\b(?:italy|italian|rome)\b',
+ 'India':r'\b(?:india|indian|delhi|mumbai)\b',
+ 'South Africa':r'\b(?:south africa|south african|johannesburg|cape town)\b'
 }
 def relevant_headline(title):
     return bool(TOPIC.search(title)) and not bool(OFF_TOPIC.search(title))
@@ -171,7 +189,7 @@ def event_reference_ids(headline):
     ids.update(re.findall(r"\b(?:case|document|report)[- #]+(?:no[. ]*)?\d{2,}\b",title,re.I))
     numbers=set(re.findall(r"\b(?:19|20)\d{2}\b",title))
     ordinals=event_tokens(headline)&ORDINALS
-    return ids,numbers,ordinals
+    return {re.sub(r"[\s#.-]+","",value) for value in ids},numbers,ordinals
 def same_report_event(a,b):
     try:
         difference=abs((dt.datetime.fromisoformat(a["date"].replace("Z","+00:00"))-
@@ -199,23 +217,53 @@ def same_report_event(a,b):
     common=len(ta&tb)
     return common>=4 and common/max(1,min(len(ta),len(tb)))>=0.80 and common/max(1,len(ta|tb))>=0.53
 
-def group_event_coverage(items):
-    # A previously grouped feed can be loaded again: safely expand nested links
-    # first to avoid dropping alternate publishers on the next scheduled run.
+def expand_news_coverage(items):
+    # Expand BEFORE URL filtering: rediscovering an old primary URL must not
+    # discard the alternative sources attached to the saved version of it.
     flat=[]
     for raw in items:
         if not isinstance(raw,dict):continue
         primary={key:value for key,value in raw.items() if key!="relatedCoverage"}
         flat.append(primary)
-        for alt in raw.get("relatedCoverage",[]):
+        alternatives=raw.get("relatedCoverage",[])
+        for alt in alternatives if isinstance(alternatives,list) else []:
             if isinstance(alt,dict) and alt.get("headline") and alt.get("url") and alt.get("date"):
                 flat.append({key:value for key,value in alt.items() if key!="relatedCoverage"})
-    flat.sort(key=lambda entry:entry.get("date",""),reverse=True)
+    return flat
+
+def news_url_key(url):
+    # Query parameters can identify distinct official records. Remove only
+    # known tracking parameters; paths and query values remain case-sensitive.
+    try:
+        parsed=urllib.parse.urlsplit(url.strip())
+        if parsed.scheme.lower()!='https' or not parsed.hostname or parsed.username or parsed.password:return ''
+        query=sorted((key,value) for key,value in urllib.parse.parse_qsl(parsed.query,keep_blank_values=True)
+                     if not key.lower().startswith('utm_') and key.lower() not in ('fbclid','gclid'))
+        return urllib.parse.urlunsplit(('https',parsed.netloc.lower(),parsed.path,urllib.parse.urlencode(query),''))
+    except (ValueError,TypeError,AttributeError):return ''
+
+def prepare_news_items(items,now=NOW):
+    seen=set();out=[]
+    for item in sorted(expand_news_coverage(items),key=lambda x:x.get('date',''),reverse=True):
+        if not relevant_headline(item.get('headline','')):continue
+        if item.get('country') in COUNTRY_WORDS and not applies_to_country(item['headline'],item['country']):
+            item={key:value for key,value in item.items() if key!='country'}
+        key=news_url_key(item.get('url',''))
+        if not key or key in seen or not item.get('date'):continue
+        try:age=now-dt.datetime.fromisoformat(item['date'].replace('Z','+00:00'))
+        except (ValueError,TypeError,AttributeError):continue
+        if not dt.timedelta(0)<=age<=dt.timedelta(days=MAX_AGE):continue
+        seen.add(key);out.append(item)
+    return group_event_coverage(out)
+
+def group_event_coverage(items):
+    flat=expand_news_coverage(items)
+    flat.sort(key=lambda entry:entry.get('date',''),reverse=True)
     groups=[];seen_urls=set()
     for story in flat:
-        url=story.get("url","")
-        if not isinstance(url,str) or not url.startswith("https://") or url.lower() in seen_urls:continue
-        seen_urls.add(url.lower())
+        url=news_url_key(story.get('url',''))
+        if not url or url in seen_urls:continue
+        seen_urls.add(url)
         primary=next((entry for entry in groups if same_report_event(entry,story)),None)
         if primary is None:
             groups.append(dict(story))
@@ -284,21 +332,8 @@ def main():
     print('Direct publisher feeds contributed',direct_count,'matching stories')
     if not success:raise RuntimeError('All RSS sources failed; existing catalogue left unchanged. '+'; '.join(errors))
     print('RSS searches succeeded:',success,'of',len(TERMS),'total items:',len(gathered))
-    seen=set();out=[]
-    for item in sorted(gathered+old,key=lambda x:x.get('date',''),reverse=True):
-        if not isinstance(item,dict):continue
-        if not relevant_headline(item.get('headline','')):continue
-        if item.get('country') in COUNTRY_WORDS and not applies_to_country(item['headline'],item['country']):
-            item={k:v for k,v in item.items() if k!='country'}
-        url=item.get('url','');key=url.split('?')[0] if url.startswith('https://') else None
-        if not key or key in seen or not item.get('headline') or not item.get('date'):continue
-        try:age=NOW-dt.datetime.fromisoformat(item['date'].replace('Z','+00:00'))
-        except Exception:continue
-        if not dt.timedelta(0)<=age<=dt.timedelta(days=MAX_AGE):continue
-        seen.add(key);out.append(item)
-    before_group=len(out)
-    out=group_event_coverage(out)
-    grouped_count=sum(len(row.get('relatedCoverage',[])) for row in out)
+    out=prepare_news_items(gathered+old)
+    grouped_count=sum(len(row.get("relatedCoverage",[])) for row in out)
     print('Grouped',grouped_count,'alternate article links into',len(out),'main stories; verified article links preserved')
     if not out:raise RuntimeError('Result empty; refusing to overwrite current catalogue')
     # Sanity checks: do not overwrite an existing useful feed with zero fresh articles.
