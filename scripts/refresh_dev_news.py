@@ -187,7 +187,7 @@ def event_reference_ids(headline):
     title=str(headline or "").lower()
     ids=set(re.findall(r"\bdow[\s-]*uap[\s-]*pr[\s-]*\d+\b",title,re.I))
     ids.update(re.findall(r"\b(?:case|document|report)[- #]+(?:no[. ]*)?\d{2,}\b",title,re.I))
-    numbers=set(re.findall(r"\b\d{2,}\b",title))
+    numbers=set(re.findall(r"\b(?:19|20)\d{2}\b",title))
     ordinals=event_tokens(headline)&ORDINALS
     return ids,numbers,ordinals
 def same_report_event(a,b):
