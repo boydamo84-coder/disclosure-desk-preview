@@ -802,7 +802,8 @@
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-05/260508-uap-ufo-mn-0945-3ba239.jpg"
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-05/260508-uap-ufo-mn-0945-3ba239.jpg",
+    "publisherUrl": "https://www.nbcnews.com/science/ufos-and-anomalous-phenomena/ufo-uap-files-pentagon-release-trump-rcna344204"
   },
   {
     "id": "91d80d6f4aeb9eaf02cb",
@@ -811,7 +812,8 @@
     "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBkYkJzOW8tOElfelQ2Z2NiRnVqcHA3MkpiQ2FtM2xRZlBDN3B6bzlsT3oyTFEzNnkwRzRvS2FWM0cyWTRnQWtDU2RwTnJwYVd4bGV3V3BQNVZxRTVKTVVhNkoyVFBVSmM?oc=5",
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.cnn.com/2026/05/08/us/bigfoot-sightings-ohio"
   },
   {
     "id": "23e00aca8a9c6ddcf09e",
@@ -964,8 +966,7 @@
     "date": "2026-04-05T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8",
-    "publisherUrl": "https://www.theguardian.com/us-news/2026/apr/05/alien-life-nasa-jared-isaacman-artemis-ii"
+    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8"
   },
   {
     "id": "ef2cf6dd2b9e6f0cd58a",
