@@ -27,7 +27,7 @@ assert.match(inline,/state\.replyTo/,'Existing target-specific nested Reply pres
 assert.match(caseComments,/id="ddCaseDiscussionBody"[^>]*rows="1"/,'Case/Hearing dialog uses the same single-line composer');
 assert.match(caseComments,/function fitCaseComposer/,'Case replies expand to three lines');
 assert.match(css,/#ddCaseDiscussionDialog #ddCaseDiscussionBody/,'Case composer uses shared Reply styling');
-assert.match(html,/case-discussions\\.js\\?v=m70-reply-parity/);
+assert(html.includes('assets/case-discussions.js?v=m70-reply-parity'),'Case/Hearing current script must bypass stale browser cache');
 assert.match(votes,/dd_vote_set/,'Only existing real comment votes');
 assert.match(forum,/dd_discussions_vote/,'Discussions continues to use its real voting backend');
 assert.match(watch,/dd-media-recommend/,'Title recommendation remains separate from comment/post vote');
