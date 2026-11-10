@@ -15,7 +15,7 @@ const required=[
  ['Featured case cards',/ddCaseCardActions\(r,true,true\)\+ddCaseInlineComments\(r\)/],
  ['Case full evidence',/ddCaseCardActions\(r,false,true\)\+ddCaseInlineComments\(r\)/],
  ['Rabbit Hole cards',/function renderRabbitHole\(/],
- ['Discussion posts',/community-discussions\.js\?v=m61/],
+ ['Discussion posts',/community-discussions\.js\?v=m73-owner-more/],
  ['Witness signed-in public reports',/witness-community\.js\?v=nov3-community/],
  ['LIVE hearings',/live-hearings\.js\?v=m71-hearing-actions/]
 ];
