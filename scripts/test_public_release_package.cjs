@@ -6,7 +6,7 @@ cp.execFileSync(process.execPath,['scripts/build_public_release.cjs'],{cwd:root,
 const m=JSON.parse(fs.readFileSync(path.join(out,'release-manifest.json'),'utf8'));
 const paths=m.files.map(f=>f.path),names=new Set(paths);
 assert.equal(names.size,paths.length);
-assert.ok(paths.length>=35&&paths.length<=80,'Unexpected package count '+paths.length);
+assert.ok(paths.length>=35&&paths.length<=90,'Unexpected package count '+paths.length);
 for(const f of m.files){
  const bytes=fs.readFileSync(path.join(out,f.path));
  assert.equal(bytes.length,f.bytes,f.path);
@@ -14,7 +14,9 @@ for(const f of m.files){
  assert.doesNotMatch(f.path,/(^|\/)(?:scripts|supabase|finance_local|finance-review|finance|android-test|docs|\.github)(\/|$)|\.(?:zip|sql|py|md|env)$/i);
 }
 for(const f of ['index.html','guide.html','sources.html','research/wne.html','research/index.html',
- 'research/research-site-nav.js','assets/community-test-config.js','assets/profile-private-chat.js',
+ 'research/research-site-nav.js','research/google-drive.js','research/google-drive-config.js',
+ 'research/vendor-jszip-3.10.1.js','research/vendor-docx-9.5.1.js','research/vendor-dompurify-3.4.17.js','research/vendor-mammoth-1.12.3.js','research/docx-import-worker.js',
+ 'assets/community-polish.css','assets/media-submissions.js','assets/community-test-config.js','assets/profile-private-chat.js',
  'assets/community-discussions.js','data/approved-live-events.json','data/historical-news-archive.json'])
  assert.ok(names.has(f),'Required site dependency missing: '+f);
 for(const f of ['MASTER_HANDOVER.md','finance_local/vault.py','supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql',
