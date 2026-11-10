@@ -480,6 +480,12 @@ async function selected(page,id){
   const photoBounds=await avatarPage.locator('#ddAvatarPanel').boundingBox();
   assert(photoBounds&&photoBounds.width<=393,'Private avatar must fit portrait viewport');
   pass('profile photo real Chromium controls render inside 393px screen, offline');
+  // M66: actual member path is Profile settings → Photo & visibility;
+  // keep full real upload/removal acceptance, not a hidden-control shortcut.
+  await avatarPage.locator('#ddProfileSettings > summary').click();
+  await avatarPage.locator('#ddAvatarSettings > summary').click();
+  assert.equal(await avatarPage.locator('#ddAvatarFile').isEnabled(),true,
+   'Photo picker remains enabled inside opened Profile Settings');
   const png=Buffer.from(
    'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAGUlEQVR4nGM8Mc2GgRTARJLqUQ2jGoaUBgAZUwG6BUheJgAAAABJRU5ErkJggg==',
    'base64');
