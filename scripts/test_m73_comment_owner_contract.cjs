@@ -1,0 +1,41 @@
+'use strict';
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const read=p=>fs.readFileSync(p,'utf8');
+const shared=read('assets/community-votes.js'),forum=read('assets/community-discussions.js'),
+      inline=read('assets/inline-news-comments.js'),cases=read('assets/case-discussions.js'),
+      style=read('assets/community-polish.css'),html=read('index.html');
+for(const id of ['ddForumReplyCancel','ddCaseReplyCancel'])assert(html.includes('id="'+id+'"')||cases.includes('id="'+id+'"'),'Reply Cancel control '+id);
+assert.match(shared,/if\(context\?\.isMine===true\)/,'Owner menu must be gated on RPC-derived is_mine');
+assert.match(shared,/dd-comment-more dd-owner-more/,'Shared comments have one menu');
+assert.match(shared,/menu\.append\(deletion\);more\.append\(summary,menu\);rail\.append\(more\)/,'Delete appears INSIDE More');
+assert.doesNotMatch(shared,/rail\.append\(deletion\)/,'No extra visible Delete icon');
+for(const key of ["dd_delete_my_comment","dd_edit_my_comment","Delete your comment?","Date.now()-posted<30*60*1000"])
+ assert(shared.includes(key),'Owner controls + editing restrictions '+key);
+assert.match(shared,/result\.data!==true/,'Owner actions must check server success, not optimistic success');
+assert.match(shared,/auth\.getUser\(\)/,'Owner mutation is authenticated before RPC');
+assert.match(inline,/isMine:item\.is_mine===true/,'News/Archive/Video/Watch & Read owner flags come from server');
+assert.match(cases,/isMine:item\.is_mine===true/,'Cases/Hearings owner flags come from server');
+assert.match(inline,/onChanged:\(\)=>refresh\(\)/,'After deleting/editing, News shared comment thread refreshes');
+assert.match(cases,/onChanged:\(\)=>load\(\)/,'After deleting/editing, Case/Hearing shared thread refreshes');
+assert.match(forum,/dd-forum-owner-more/,'Discussions owner replies AND posts use same menu');
+assert.match(forum,/row\.is_mine/,'Discussions author ownership must originate from RPC');
+assert.match(forum,/openPostAction\(summary,kind,row,'delete'\)/,'Discussions Delete uses existing secure modal');
+assert.doesNotMatch(forum,/nodeAction\(parent,'🗑'/,'No direct Delete icon in Discussion action bar');
+assert.match(forum,/options\.append/,'Owner controls grouped into a menu');
+assert.match(inline,/post\.textContent=state\.replyTo\?'Post reply':'Post comment'/);
+assert.match(inline,/cancel\.hidden=!state\.replyTo/,'Cancel shows for Reply');
+assert.match(inline,/state\.replyComposerDismissed=!!replyingTo/,'Successful Reply closes popup');
+assert.match(inline,/cancel\.addEventListener\('click'/,'Cancel closes reply popup without writing');
+assert.match(cases,/cancelReply\.onclick/,'Case/Hearing Cancel closes reply popup');
+assert.match(cases,/if\(wasReply\)\{e\.target\.hidden=true/,'Case/Hearing successful Reply closes popup');
+assert.match(forum,/closeReplyComposer\(\)/,'Discussion successful Reply closes popup');
+assert.match(forum,/if\(cancelReply\)cancelReply\.onclick/,'Discussion Reply has cancel');
+assert.match(style,/M73 — one More owner menu/,'Shared More style is available');
+assert.match(style,/\.dd-comment-more-panel/,'Visible popup menu is styled');
+assert.match(html,/assets\/community-votes\.js\?v=m73-owner-more/);
+assert.match(html,/assets\/community-discussions\.js\?v=m73-owner-more/);
+assert.match(html,/assets\/inline-news-comments\.js\?v=m73-reply-cancel/);
+assert.match(html,/assets\/case-discussions\.js\?v=m73-reply-cancel/);
+assert.match(html,/assets\/community-polish\.css\?v=m73/);
+assert.doesNotMatch(shared,/\.from\('dd_case_comments'\)\.(?:delete|update)/,'No direct client bypass of owner RPC');
+console.log('PASS M73 shared comment ownership, single More menus, verified RPC calls, limited Edit, permanent own Delete, Post/Cancel reply popup close and cache versions');
