@@ -4,7 +4,7 @@
     "headline": "Is the truth really out there? Studying UAP sightings",
     "source": "CBS News",
     "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPQWd0cURRbkpHQ3dKeGEzcHpzcGpDV2xoTGpiVnp4WWNTMTZIai1uSHFXWnRVNkNadUNCa0FwWlVpUW1DU2ZmUThHaHRJTGRCb1drQ19pNEhJZ1VGSUFERmVsWlo4SWhwUFFBekFlWE1Ya1M5REdwS2ljVi1qVlRqRHZNZDdxS1FiQkE?oc=5",
-    "date": "2026-11-01T14:28:02+00:00",
+    "date": "2026-11-01T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
     "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/10/31/92cefc93-e8e5-43f1-bb77-8c7ff3044915/thumbnail/1200x630/1fecf9d18a0a263af523749271a445b1/uaps-top-secret-1280.jpg",
@@ -812,8 +812,7 @@
     "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBkYkJzOW8tOElfelQ2Z2NiRnVqcHA3MkpiQ2FtM2xRZlBDN3B6bzlsT3oyTFEzNnkwRzRvS2FWM0cyWTRnQWtDU2RwTnJwYVd4bGV3V3BQNVZxRTVKTVVhNkoyVFBVSmM?oc=5",
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
-    "priority": "standard",
-    "publisherUrl": "https://www.cnn.com/2026/05/08/us/bigfoot-sightings-ohio"
+    "priority": "standard"
   },
   {
     "id": "23e00aca8a9c6ddcf09e",
@@ -823,7 +822,8 @@
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://i.cbc.ca/ais/50c4115a-a1a3-41bf-ba00-cea4bb157870,1778274584549/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C145%2C3420%2C1923%29%3BResize%3D620"
+    "imageUrl": "https://i.cbc.ca/ais/50c4115a-a1a3-41bf-ba00-cea4bb157870,1778274584549/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C145%2C3420%2C1923%29%3BResize%3D620",
+    "publisherUrl": "https://www.cbc.ca/news/world/ufo-files-released-unidentified-aerial-phenomena-nasa-9.7192864"
   },
   {
     "id": "720fbcb4e4a90e156846",
