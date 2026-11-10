@@ -95,7 +95,12 @@ function clear(){
  ++epoch;++identityRevision;
  rows=[];currentId=null;ownerId=null;myUsername='You';drafts=Object.create(null);previews=Object.create(null);inboxMode='all';
  showInbox();
- if(inviteSection){inviteSection.hidden=true;inviteSection.querySelector?.('form')?.reset?.()}
+ const search=$('ddChatInboxSearch');if(search)search.value='';
+ if(inviteSection){
+  inviteSection.hidden=true;inviteSection.querySelector?.('form')?.reset?.();
+  const detail=inviteSection.querySelector?.('.dd-chat-invite-details');if(detail)detail.hidden=true;
+  const feedback=inviteSection.querySelector?.('.dd-chat-request-feedback');if(feedback){feedback.textContent='';feedback.dataset.state=''}
+ }
  received?.replaceChildren();accepted?.replaceChildren();conversation?.replaceChildren()
 }
 function drawList(target,list){
