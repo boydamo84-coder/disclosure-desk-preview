@@ -185,31 +185,19 @@ function mountCommentCard(card,header,body,flag,id,onReply,context={}){
    if(typeof context.onChanged==='function')await context.onChanged();
    else if(card.isConnected)card.remove();
   };
-  const deletion=make('button','dd-comment-delete-button','🗑');
-  deletion.type='button';deletion.title='Delete my comment';
-  deletion.setAttribute('aria-label','Delete my comment');
-  deletion.addEventListener('click',async()=>{
-   if(!window.confirm('Delete your comment? This cannot be undone. Existing replies by other members will remain visible.'))return;
-   deletion.disabled=true;notice.textContent='Deleting…';
-   try{
-    await callOwner('dd_delete_my_comment',{p_id:id});
-    notice.textContent='Comment deleted.';
-    await changed();
-   }catch(err){notice.textContent='Could not delete comment. '+String(err?.message||'Try again.')}
-   finally{deletion.disabled=false}
-  });
-  rail.append(deletion);
+  // One owner-only More menu on EVERY authored public comment, even after the
+  // 30-minute edit window. Do not put permanent Delete outside the menu.
+  const more=make('details','dd-comment-more dd-owner-more');
+  const summary=make('summary','dd-comment-more-trigger','⋯');
+  summary.setAttribute('aria-label','More options for my comment');
+  summary.setAttribute('title','More options for my comment');
+  const menu=make('div','dd-comment-more-panel');
+  menu.setAttribute('role','group');menu.setAttribute('aria-label','My comment options');
   const posted=Date.parse(String(context.createdAt||''));
   const editable=Number.isFinite(posted)&&Date.now()>=posted&&Date.now()-posted<30*60*1000;
   if(editable){
-   const more=make('details','dd-comment-more');
-   const summary=make('summary','dd-comment-more-trigger','⋯');
-   summary.setAttribute('aria-label','More actions for my comment');
-   summary.setAttribute('title','More actions');
-   const menu=make('div','dd-comment-more-panel');
    const edit=make('button','dd-comment-edit-button','Edit comment');
-   edit.type='button';
-   menu.append(edit);more.append(summary,menu);rail.append(more);
+   edit.type='button';menu.append(edit);
    edit.addEventListener('click',()=>{
     more.open=false;
     if(card.querySelector('.dd-comment-edit-form'))return;
@@ -238,6 +226,21 @@ function mountCommentCard(card,header,body,flag,id,onReply,context={}){
     };
    });
   }
+  const deletion=make('button','dd-comment-delete-button','Delete comment');
+  deletion.type='button';deletion.title='Delete my comment';
+  deletion.setAttribute('aria-label','Delete my comment');
+  deletion.addEventListener('click',async()=>{
+   more.open=false;
+   if(!window.confirm('Delete your comment? This cannot be undone. Existing replies by other members will remain visible.'))return;
+   deletion.disabled=true;notice.textContent='Deleting…';
+   try{
+    await callOwner('dd_delete_my_comment',{p_id:id});
+    notice.textContent='Comment deleted.';
+    await changed();
+   }catch(err){notice.textContent='Could not delete comment. '+String(err?.message||'Try again.')}
+   finally{deletion.disabled=false}
+  });
+  menu.append(deletion);more.append(summary,menu);rail.append(more);
   rail.append(notice);
  }
  if(typeof onReply==='function'){
