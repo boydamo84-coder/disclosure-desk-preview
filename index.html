@@ -2106,7 +2106,7 @@ window.scrollTo(0,0);
 if(id==='profilePage')window.DDResearchHub?.refresh();
 if(id==='discussionsPage')window.DDDiscussions?.refresh?.();
 if(id==='chatPage'){window.DDPrivateChat?.refresh?.();window.DDChatTab?.poll?.()}
-if(id==='archivePage'&&!historicalRecords.length)loadHistoricalArchive();
+if(id==='archivePage'&&!ddArchiveFullReady&&!ddArchiveTried)void loadHistoricalArchive();
 if(id==='boards')renderBoards();
 if(id==='rabbitHole')renderRabbitHole();
 if(id==='cases')renderCases();
@@ -2143,6 +2143,18 @@ news();renderCases();showDrafts();const requestedCase=new URLSearchParams(locati
 // Save uses the same persistent Investigation Board workflow as News.
 function ddSyncStickyHeaderHeight(){const h=document.querySelector('header.top');if(h)document.documentElement.style.setProperty('--dd-header-height',Math.ceil(h.getBoundingClientRect().height)+'px')}ddSyncStickyHeaderHeight();window.addEventListener('resize',ddSyncStickyHeaderHeight);
 let historicalRecords=[];
+let ddArchiveLoading=null,ddArchiveTried=false,ddArchiveFullReady=false;
+function ddArchiveRetryButton(){
+ let button=$('ddArchiveRetry');
+ if(button)return button;
+ button=document.createElement('button');
+ button.id='ddArchiveRetry';button.type='button';button.className='outline';
+ button.textContent='↻ Retry full archive';button.hidden=true;
+ $('archiveStatus').after(button);
+ button.onclick=()=>{ddArchiveTried=false;void loadHistoricalArchive()};
+ return button;
+}
+
 function setArchiveView(mode){
  const satellite=mode==='satellite';
  const cases=$('ddArchiveCasesPanel'),research=$('ddArchiveSatellitePanel');
@@ -2489,23 +2501,71 @@ function ddRenderComparison(){
  $('ddSaveComparison').onclick=()=>ddOpenComparisonSave(first,second);
 }
 $('ddCompareRun').onclick=ddRenderComparison;
-async function loadHistoricalArchive(){
- try{
- const response=await fetch('data/historical-news-archive.json',{cache:'no-store'});
- if(!response.ok)throw Error('Archive unavailable');
- const rows=await response.json();
- let curated=[];try{const cr=await fetch('data/curated-historical-cases.json',{cache:'no-store'});if(cr.ok)curated=await cr.json()}catch{}
- const combined=[...(Array.isArray(rows)?rows:[]),...(Array.isArray(curated)?curated:[])];const seen=new Set();historicalRecords=combined.filter(r=>{if(!(r&&Number.isInteger(r.year)&&r.title&&r.source&&safePublicUrl(r.url)&&r.kind)||seen.has(r.id))return false;seen.add(r.id);return true});
+function ddShowArchiveData(records,curated){
+ const combined=[...(Array.isArray(curated)?curated:[]),...(Array.isArray(records)?records:[])];
+ const seen=new Set();
+ const next=combined.filter(r=>{
+  if(!(r&&Number.isInteger(r.year)&&r.title&&r.source&&safePublicUrl(r.url)&&r.kind)||seen.has(String(r.id)))return false;
+  seen.add(String(r.id));return true
+ });
+ if(!next.length)throw Error('No source-linked archive records were valid');
+ historicalRecords=next;
  const latestYear=new Date().getFullYear();
  const years=Array.from({length:latestYear-1947+1},(_,i)=>latestYear-i);
- $('archiveYear').innerHTML='<option value="all">All years</option>'+years.map(y=>`<option value="${y}">${y}</option>`).join('');
+ $('archiveYear').innerHTML='<option value="all">All years</option>'+years.map(y=>'<option value="'+y+'">'+y+'</option>').join('');
  const categories=[...new Set(historicalRecords.map(x=>x.category).filter(Boolean))].sort();
- $('archiveCategory').innerHTML='<option value="all">All subjects</option>'+categories.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
+ $('archiveCategory').innerHTML='<option value="all">All subjects</option>'+categories.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join('');
  const kinds=[...new Set(historicalRecords.map(x=>x.kind))].sort();
- $('archiveType').innerHTML='<option value="all">All types</option>'+kinds.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
- ddRecordCaseUpdates();renderHistoricalArchive();renderArchiveSatelliteCases();ddSetupCompareCases();renderResearchDashboard();
- if($('mapViewMode').value==='archive'){refreshArchiveMapYears();renderMarkers()}
- }catch(e){$('archiveStatus').textContent='Archive unavailable; try again later.';}
+ $('archiveType').innerHTML='<option value="all">All types</option>'+kinds.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join('');
+ renderHistoricalArchive();
+ renderArchiveSatelliteCases();
+ ddSetupCompareCases();
+ // Nonessential personalised panels may fail without masking public cases.
+ try{ddRecordCaseUpdates();renderResearchDashboard()}catch(e){console.warn('Archive research dashboard:',e)}
+ if($('mapViewMode')?.value==='archive'){refreshArchiveMapYears();renderMarkers()}
+}
+async function loadHistoricalArchive(){
+ if(ddArchiveLoading)return ddArchiveLoading;
+ if(ddArchiveFullReady)return;
+ ddArchiveTried=true;
+ const retry=ddArchiveRetryButton();retry.hidden=true;
+ const operation=(async()=>{
+  let curated=[];
+  // Render curated, real source-linked cases first rather than making visitors
+  // wait for the complete multi-megabyte historical catalogue.
+  try{
+   const response=await fetch('data/curated-historical-cases.json',{cache:'no-store',signal:AbortSignal.timeout(15000)});
+   if(!response.ok)throw Error('Curated case file HTTP '+response.status);
+   const json=await response.json();if(!Array.isArray(json))throw Error('Curated cases format invalid');
+   curated=json;
+   if(!ddArchiveFullReady&&curated.length){
+    ddShowArchiveData([],curated);
+    $('archiveStatus').textContent=historicalRecords.length+' verified catalogue entries ready · Loading full historical archive…';
+   }
+  }catch(e){console.warn('Curated historical source unavailable:',e)}
+  try{
+   // Same-origin catalogue is published as a static asset, not a Netlify
+   // function. Its download can be large: keep the curated results visible.
+   const response=await fetch('data/historical-news-archive.json',{cache:'no-store',signal:AbortSignal.timeout(45000)});
+   if(!response.ok)throw Error('Full archive HTTP '+response.status);
+   const records=await response.json();
+   if(!Array.isArray(records))throw Error('Full archive is not a JSON array');
+   ddShowArchiveData(records,curated);
+   ddArchiveFullReady=true;
+   retry.hidden=true;
+  }catch(e){
+   console.warn('Full historical archive could not load:',e);
+   if(!historicalRecords.length&&curated.length){
+    try{ddShowArchiveData([],curated)}catch(err){console.warn('Curated archive fallback:',err)}
+   }
+   $('archiveStatus').textContent=historicalRecords.length
+    ?'Showing '+historicalRecords.length+' curated source-linked cases · Full historical catalogue unavailable. Try again.'
+    :'Historical case data unavailable. Check your connection and try again.';
+   retry.hidden=false;
+  }
+ })();
+ ddArchiveLoading=operation;
+ try{return await operation}finally{ddArchiveLoading=null}
 }
 function topStoryKey(headline){
  const t=(headline||'').toLowerCase();
