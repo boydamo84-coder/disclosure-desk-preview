@@ -17,7 +17,7 @@ function fixture(persisted=new Map(),initialOwner='account-A'){
   if(url.includes('alt=media'))return new Response(corrupt?'different':data);
   return Response.json({files:metadata?[{id:'created-file',name:metadata.name,modifiedTime:new Date().toISOString(),appProperties:metadata.appProperties}]:[]});};
  const ctx={window:win,document,crypto,TextEncoder,Uint8Array,URL,URLSearchParams,Blob,Response,File,Date,fetch,
-  localStorage:{getItem:k=>stored.get(k)||null,setItem:(k,v)=>stored.set(k,v)}};
+  localStorage:{getItem:k=>stored.get(k)||null,setItem:(k,v)=>stored.set(k,v),removeItem:k=>stored.delete(k)}};
  vm.runInNewContext(source,ctx);
  const walk=n=>[n,...(n.children||[]).flatMap(walk)];
  const button=name=>walk(body).find(n=>n.tag==='button'&&n.textContent===name);
