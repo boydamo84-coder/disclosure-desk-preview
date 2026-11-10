@@ -266,6 +266,8 @@
     "category": "UAP",
     "priority": "standard",
     "desc": "Read the source article for details.",
+    "imageUrl": "https://hermes.media.transform.aol.com/f8cd6bae6ee12722f2f89f8f2fa419fd53b220fe/w_1200,c_scale,f_auto,q_auto/https://hermes.media.static.aol.com/media/2026/11/09/9911672f-86d0-3a32-b752-94a5658e9df6/e02c83f6-75d0-445e-9620-f7bfc9f65504.jpg",
+    "imageSource": "Publisher Open Graph image",
     "relatedCoverage": [
       {
         "id": "39951016fee1fbe2afec",
@@ -277,9 +279,7 @@
         "priority": "standard",
         "desc": "Read the source article for details."
       }
-    ],
-    "imageUrl": "https://hermes.media.transform.aol.com/f8cd6bae6ee12722f2f89f8f2fa419fd53b220fe/w_1200,c_scale,f_auto,q_auto/https://hermes.media.static.aol.com/media/2026/11/09/9911672f-86d0-3a32-b752-94a5658e9df6/e02c83f6-75d0-445e-9620-f7bfc9f65504.jpg",
-    "imageSource": "Publisher Open Graph image"
+    ]
   },
   {
     "id": "a0d9d39951fad72c9a92",
@@ -629,7 +629,9 @@
         "priority": "standard",
         "desc": "Read the source article for details."
       }
-    ]
+    ],
+    "imageUrl": "https://discover.swns.com/2026/11/commercial-pilot-films-mysterious-lights-after-repeated-ufo-sightings-2/",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "97c0ce0d4e4f1f951da3",
