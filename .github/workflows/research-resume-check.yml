@@ -1,7 +1,7 @@
 name: Verify Research Studio resume and existing community (NO deploy)
 on:
   push:
-    branches: [fix/research-mobile-profile-polish-nov08, staging/research-samsung-m16-20261108, fix/compact-writing-popover-mobile-desktop-nov08, fix/post-m50-action-rails-citations-nov10, fix/m55-live-news-archive-loading-nov10, fix/m56-refresh-keeps-active-page-nov10, fix/m57-wne-return-directly-to-document-nov10, fix/m58-drive-reconnect-ux-nov10, fix/m59-news-duplicate-headlines-nov10]
+    branches: [fix/research-mobile-profile-polish-nov08, staging/research-samsung-m16-20261108, fix/compact-writing-popover-mobile-desktop-nov08, fix/post-m50-action-rails-citations-nov10, fix/m55-live-news-archive-loading-nov10, fix/m56-refresh-keeps-active-page-nov10, fix/m57-wne-return-directly-to-document-nov10, fix/m58-drive-reconnect-ux-nov10, fix/m59-news-duplicate-headlines-nov10, fix/m60-news-event-clusters-nov10]
   workflow_dispatch:
 permissions:
   contents: read
@@ -38,6 +38,8 @@ jobs:
           node scripts/test_m55_live_news_archive.cjs
           node --check scripts/test_m59_news_dedup.cjs
           node scripts/test_m59_news_dedup.cjs
+          node --check scripts/test_m60_news_event_clusters.cjs
+          node scripts/test_m60_news_event_clusters.cjs
           python3 -m py_compile scripts/refresh_dev_news.py
           python3 -m unittest discover -s tests -p 'test_news_relevance.py' -v
           node --check scripts/test_m38_hearing_inline_and_wide_rails_20261109.cjs
