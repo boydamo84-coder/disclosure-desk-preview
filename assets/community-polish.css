@@ -735,3 +735,17 @@
  .dd-action-rail.dd-unified-rail{padding:4px!important;gap:1px!important}
  .dd-action-rail.dd-unified-rail button{padding:5px!important;font-size:11px!important}
 }
+
+/* M70 parity: stand-alone Case and Hearing discussions use the same compact
+   expanding Reply composer as Forums, News and inline card comments. */
+#ddCaseDiscussionDialog #ddCaseDiscussionBody{
+ box-sizing:border-box!important;display:block!important;width:100%!important;
+ min-height:44px!important;max-height:94px!important;resize:none!important;
+ overflow-y:auto!important;padding:10px 11px!important;margin:8px 0!important;
+ border:1px solid #456073!important;border-radius:10px!important;
+ background:#0d2332!important;color:#edf2f5!important;font:14px/1.5 system-ui!important
+}
+#ddCaseDiscussionDialog #ddCaseDiscussionForm button[type=submit]{
+ min-height:40px!important;padding:8px 12px!important;border-radius:9px!important;
+ background:#d9bd8d!important;color:#142636!important;font-weight:700!important
+}
