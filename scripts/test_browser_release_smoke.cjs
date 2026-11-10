@@ -163,6 +163,27 @@ async function selected(page,id){
   await page.waitForSelector('.nav .tab[data-tab="profilePage"]');
   assert.equal(await selected(page,'profilePage'),'page');
   pass('valid W.NE return deep link restores Profile');
+  // M56 regression: deep-link URLs must follow actual navigation, not force
+  // Archive again after refresh. All requests stay inside this offline fixture.
+  await page.goto(BASE+'/?dd_tab=archivePage',{waitUntil:'domcontentloaded',timeout:35000});
+  await page.locator('.nav .tab[data-tab="archivePage"][aria-current="page"]').waitFor({state:'attached',timeout:10000});
+  assert.equal(await hasVisibleSection(page,'archivePage'),true,'Direct Archive URL must initialise a real visible page');
+  await page.waitForFunction(()=>/curated|verified catalogue|source-linked cases|Historical case data unavailable/.test(
+   document.querySelector('#archiveStatus')?.textContent||''),null,{timeout:15000});
+  assert.equal(errors.some(e=>/Cannot access '(historicalRecords|ddArchiveFullReady|ddArchiveTried)' before initialization/.test(e)),false,
+   'Opening Archive directly cannot access state before it is initialised');
+  await page.locator('.nav .tab[data-tab="discover"]').click();
+  assert.equal(new URL(page.url()).searchParams.get('dd_tab'),'discover','Archive query updated to News');
+  await page.reload({waitUntil:'domcontentloaded',timeout:35000});
+  await page.locator('.nav .tab[data-tab="discover"][aria-current="page"]').waitFor({state:'attached',timeout:10000});
+  assert.equal(await hasVisibleSection(page,'discover'),true,'Reload after leaving Archive must remain on News');
+  pass('M56 direct Archive loads safely, switching to News rewrites stale URL, refresh stays on News');
+  await page.locator('.nav .tab[data-tab="mapPage"]').click();
+  assert.equal(new URL(page.url()).searchParams.get('dd_tab'),'mapPage','News to Map updates deep-link URL');
+  await page.reload({waitUntil:'domcontentloaded',timeout:35000});
+  await page.locator('.nav .tab[data-tab="mapPage"][aria-current="page"]').waitFor({state:'attached',timeout:10000});
+  assert.equal(await hasVisibleSection(page,'mapPage'),true,'Reload preserves Map');
+  pass('M56 Map also restores after refresh and no longer jumps back to Archive');
   await page.goto(BASE+'/research/guest-preview.html',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.dd-site-dock-tab');
   assert.equal(await page.locator('.dd-site-dock-tab').count(),13);
