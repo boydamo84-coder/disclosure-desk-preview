@@ -2,16 +2,27 @@
 window.DDResearchDocx=(()=>{
 'use strict';
 const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-async function importFile(file){
- if(!window.mammoth)throw Error('Word import library unavailable');
- if(!/\.docx$/i.test(file.name)||file.size>14*1024*1024)throw Error('Choose a DOCX smaller than 14 MB');
- const result=await window.mammoth.convertToHtml({arrayBuffer:await file.arrayBuffer()},{
-  convertImage:window.mammoth.images.imgElement(async image=>{
-   if(!['image/png','image/jpeg'].includes(image.contentType))return {alt:'Unsupported Word image omitted: '+image.contentType};
-   const base64=await image.read('base64');
-   return {src:'data:'+image.contentType+';base64,'+base64,alt:'Imported research image'};
-  })
+const importWorkerUrl=new URL('./docx-import-worker.js',document.currentScript?.src||location.href).href;
+async function convertWord(file){
+ if(typeof Worker!=='function')throw Error('This browser cannot safely import Word files. Try a current browser.');
+ const buffer=await file.arrayBuffer();
+ return new Promise((resolve,reject)=>{
+  const worker=new Worker(importWorkerUrl);
+  const finish=(error,result)=>{clearTimeout(timer);worker.terminate();error?reject(error):resolve(result)};
+  const timer=setTimeout(()=>finish(Error('Word import took too long. Your original file is unchanged.')),30000);
+  worker.onmessage=event=>{
+   const result=event.data;
+   if(result?.error)return finish(Error(result.error));
+   if(typeof result?.value!=='string'||result.value.length>16*1024*1024||!Array.isArray(result.messages))return finish(Error('Word conversion could not be verified.'));
+   finish(null,result);
+  };
+  worker.onerror=event=>{event.preventDefault();finish(Error('Word conversion could not finish. Your original file is unchanged.'))};
+  worker.postMessage({buffer},[buffer]);
  });
+}
+async function importFile(file){
+ if(!/\.docx$/i.test(file.name)||file.size>14*1024*1024)throw Error('Choose a DOCX smaller than 14 MB');
+ const result=await convertWord(file);
  const sanitised=window.DOMPurify.sanitize(result.value,{ALLOWED_TAGS:['p','br','b','strong','i','em','u','h1','h2','h3','ul','ol','li','table','tbody','thead','tr','td','th','a','blockquote','div','span','figure','figcaption','img'],ALLOWED_ATTR:['href','colspan','rowspan','title','src','alt','width','height','data-wne-font-size']});
  const temp=document.createElement('div');temp.innerHTML=sanitised;
  const segments=[],headings=[...temp.querySelectorAll('h1,h2,h3')];
@@ -36,6 +47,7 @@ function inlineRuns(node){
   if(n.nodeType===3){if(n.nodeValue)out.push(new d.TextRun({text:n.nodeValue,...style}));return}
   if(n.nodeType!==1)return;
   const tag=n.tagName.toLowerCase();
+  if(tag==='img'){out.push(imageRun(n));return}
   if(tag==='br'){out.push(new d.TextRun({break:1}));return}
   const next={...style};
   if(['b','strong'].includes(tag))next.bold=true;
@@ -57,6 +69,17 @@ function inlineRuns(node){
  }
  for(const child of node.childNodes)visit(child);
  return out.length?out:[new d.TextRun('')];
+}
+function imageRun(node){
+ const src=node.getAttribute('src')||'';
+ const m=/^data:image\/(png|jpeg);base64,([A-Za-z0-9+/=]+)$/i.exec(src);
+ if(!m)throw Error('Word copy needs embedded PNG/JPEG images. Convert this image before export; no incomplete Word file was downloaded.');
+ const bin=atob(m[2]);if(bin.length>5*1024*1024)throw Error('Image too large for Word export.');
+ const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+ const width=Math.max(1,Number(node.getAttribute('width'))||360),height=Math.max(1,Number(node.getAttribute('height'))||240);
+ const ratio=Math.min(1,500/width,650/height);
+ return new window.docx.ImageRun({data:bytes,type:m[1].toLowerCase()==='jpeg'?'jpg':'png',
+  transformation:{width:Math.max(1,Math.round(width*ratio)),height:Math.max(1,Math.round(height*ratio))}});
 }
 function paragraph(node,heading){
  const d=window.docx;

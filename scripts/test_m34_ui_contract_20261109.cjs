@@ -27,7 +27,7 @@ assert.match(home,/#discussionsPage \[hidden\]\{display:none!important\}/);
 console.log('PASS M34: sections → full posts → individual replies and nonduplicated detail');
 
 assert.match(votes,/function threadedComments\(items\)/);
-assert.match(votes,/function mountCommentCard\(card,header,body,flag,id,onReply\)/);
+assert.match(votes,/function mountCommentCard\(card,header,body,flag,id,onReply,context=\{\}\)/);
 assert.match(votes,/▲ /);
 assert.match(votes,/▼ /);
 assert.doesNotMatch(votes,/👍|👎/);

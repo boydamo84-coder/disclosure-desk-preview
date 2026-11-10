@@ -13,7 +13,7 @@ const TAB_NAMES=[
  ['mapPage','Map'],['clips','Videos'],['livePage','LIVE'],
  ['boards','Boards'],['witness','Witness'],['watchRead','Watch & Read'],
  ['profilePage','Profile'],['hub','Explore'],['chatPage','Chat'],
- ['discussionsPage','Discussions (Explore deep link)']
+ ['discussionsPage','Discussions']
 ];
 const PAGES=[
  '/','/guide.html','/sources.html','/community-rules.html','/privacy.html',
@@ -49,7 +49,7 @@ function normalizeIssue(x){return [x.viewport,x.target,x.kind,x.label||''].join(
      tabCount:document.querySelectorAll('nav.nav .tab').length,
      navName:document.querySelector('nav.nav')?.getAttribute('aria-label')||''
    }));
-   assert.equal(checks.tabCount,12,'Navigation has 12 approved tabs at '+viewport.width);
+   assert.equal(checks.tabCount,13,'Navigation has 13 approved tabs at '+viewport.width);
    assert.ok(checks.navName,'Nav has accessible name');
    for(const [tab,label] of TAB_NAMES){
     if(tab==='discussionsPage'){

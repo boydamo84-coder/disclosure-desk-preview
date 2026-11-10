@@ -18,6 +18,8 @@ async function load(){
  const chosen=current,revision=++loadRevision;
  const list=document.querySelector('#ddCaseDiscussionList');
  if(!list)return false;
+ const composer=document.getElementById('ddCaseDiscussionForm');
+ if(composer&&list.contains(composer))document.getElementById('ddCaseDiscussionActions')?.after(composer);
  list.textContent='Loading comments…';
  const {data,error}=await c.rpc('dd_public_comments',{p_case_id:chosen,p_limit:100});
  // Never show a response for a case that has since been switched, closed or refreshed.
@@ -32,19 +34,26 @@ async function load(){
 function chooseReply(item){
  replyTo=item&&item.id?{id:item.id,alias:item.publicAlias||'this commenter'}:null;
  const form=document.getElementById('ddCaseDiscussionForm'),input=document.getElementById('ddCaseDiscussionBody');
- if(form)form.hidden=false;
+ if(form){
+  const anchor=replyTo&&item?.id?document.getElementById('discussion-comment-'+item.id):document.getElementById('ddCaseDiscussionActions');
+  anchor?.after(form);form.hidden=false;
+ }
  const submit=form?.querySelector('button[type="submit"]');if(submit)submit.textContent=replyTo?'Post reply':'Post comment';
  let context=document.getElementById('ddCaseReplyContext');
  if(!context&&form){context=document.createElement('p');context.id='ddCaseReplyContext';context.className='dd-comment-reply-context';form.prepend(context)}
  if(context)context.textContent=replyTo?'Replying to '+replyTo.alias+' · your reply will appear beneath this comment.':'Commenting on '+String(document.querySelector('#ddCaseDiscussionDialog h2')?.textContent||'this discussion');
- if(input){input.placeholder=replyTo?'Write your reply…':'Ask a question or share a source reference.';input.focus();input.scrollIntoView({block:'center',behavior:'smooth'})}
+ if(input){input.placeholder=replyTo?'Write your reply…':'Ask a question or share a source reference.';input.focus({preventScroll:true})}
 }
 function renderComments(){
  const c=client();
  const list=document.querySelector('#ddCaseDiscussionList');
+ const form=document.getElementById('ddCaseDiscussionForm');
+ if(form&&list.contains(form))document.getElementById('ddCaseDiscussionActions')?.after(form);
  list.textContent='';
  const toggle=document.querySelector('#ddCommentsToggle');
- toggle.textContent='Comments ('+loadedComments.length+') '+(expanded?'▲':'▼');
+ toggle.textContent='💬 '+loadedComments.length;
+ toggle.setAttribute('aria-label',(expanded?'Hide':'Read or add')+' comments ('+loadedComments.length+')');
+ toggle.title='Comments';
  toggle.setAttribute('aria-expanded',String(expanded));
  if(!loadedComments.length){list.textContent='No comments yet. Be the first to contribute.';return}
  const all=window.DDCommunityVotes?.threadedComments?.(loadedComments)||loadedComments;
@@ -83,11 +92,13 @@ function renderComments(){
    };
    if(!window.DDCommunityVotes?.mountCommentCard?.(card,header,body,flag,item.id,()=>{
      expanded=true;renderComments();chooseReply(item);
-   })){
+   },{discussionKey:current,title:'Comment on '+String(document.querySelector('#ddCaseDiscussionDialog h2')?.textContent||'Case discussion').slice(0,80)})){
     card.append(header,body,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);
    }
    list.append(card);
  }
+ window.DDRefreshBoardStars?.();
+ if(replyTo&&form&&!form.hidden){const target=document.getElementById('discussion-comment-'+replyTo.id);if(target)target.after(form)}
 }
 function init(){
  const profileButton=ownProfileButton();
@@ -95,11 +106,42 @@ function init(){
  root.id='ddCaseDiscussionDialog';
  root.hidden=true;
  root.style.cssText='position:fixed;inset:0;z-index:100100;background:#050b13ed;overflow-y:auto;padding:14px';
- root.innerHTML='<section role="dialog" aria-modal="true" aria-label="Case discussion" style="max-width:700px;margin:auto;background:#112131;border:1px solid #9e875d;border-radius:14px;padding:18px;color:#f4ead9"><button type="button" id="ddCaseDiscussionClose" class="outline" style="float:right">✕ Close</button><h2>Case Discussion</h2><p class="muted small">Comments are community contributions, not verified evidence. Comments appear immediately. Flag inappropriate content for moderation.</p><button id="ddCommentsToggle" type="button" class="outline" aria-expanded="false" aria-controls="ddCaseDiscussionList" style="display:block;margin:12px 0">Comments ▼</button><div id="ddCaseDiscussionList" aria-live="polite"></div><form id="ddCaseDiscussionForm"><label for="ddCaseDiscussionBody">Add a comment (registered users)</label><textarea id="ddCaseDiscussionBody" minlength="3" maxlength="2000" required rows="4" style="width:100%;margin:10px 0" placeholder="Ask a question or share a source reference. Never post personal details."></textarea><button type="submit">Post comment</button></form><p id="ddCaseDiscussionStatus" role="status" class="muted small"></p></section>';
+ root.innerHTML='<section role="dialog" aria-modal="true" aria-label="Case discussion" style="max-width:700px;margin:auto;background:#112131;border:1px solid #9e875d;border-radius:14px;padding:18px;color:#f4ead9"><button type="button" id="ddCaseDiscussionClose" class="outline" style="float:right">✕ Close</button><h2>Case Discussion</h2><p class="muted small">Comments are community contributions, not verified evidence. Comments appear immediately. Flag inappropriate content for moderation.</p><div id="ddCaseDiscussionActions" class="dd-action-rail dd-case-discussion-actions" role="group" aria-label="Discussion actions"><button id="ddCommentsToggle" type="button" class="outline" aria-expanded="false" aria-controls="ddCaseDiscussionList" aria-label="Read or add comments" title="Comments">💬 0</button><button id="ddCaseDiscussionBoard" type="button" class="dd-action-board" aria-label="Add discussion to Investigation Board" title="Add to Board"><span data-star-icon>☆</span></button><button id="ddCaseDiscussionShare" type="button" class="dd-action-share" aria-label="Share discussion" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8"/></svg></button></div><div id="ddCaseDiscussionList" aria-live="polite"></div><form id="ddCaseDiscussionForm"><label for="ddCaseDiscussionBody">Add a comment (registered users)</label><textarea id="ddCaseDiscussionBody" minlength="3" maxlength="2000" required rows="4" style="width:100%;margin:10px 0" placeholder="Ask a question or share a source reference. Never post personal details."></textarea><button type="submit">Post comment</button></form><p id="ddCaseDiscussionStatus" role="status" class="muted small"></p></section>';
  document.body.append(root);
+ const modalRootStyle=root.style.cssText;
+ const panel=root.querySelector('section'),modalPanelStyle=panel?.style.cssText||'';
+ let inlineHost=null;
+ function restoreModalLayout(){
+  if(!inlineHost)return;
+  const former=inlineHost;inlineHost=null;
+  root.hidden=true;root.classList.remove('dd-case-discussion-inline');
+  root.style.cssText=modalRootStyle;
+  if(panel){panel.style.cssText=modalPanelStyle;panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true')}
+  document.body.append(root);
+  former.hidden=true;
+  former.dispatchEvent(new Event('dd-inline-discussion-closed'));
+ }
+ window.ddCloseInlineCaseDiscussion=(host)=>{
+  if(!inlineHost||(host&&host!==inlineHost))return false;
+  ++dialogRevision;++loadRevision;current=null;loadedComments=[];replyTo=null;
+  restoreModalLayout();return true;
+ };
  const composer=document.getElementById('ddCaseDiscussionForm');
- const toggleNode=document.getElementById('ddCommentsToggle');
- if(composer&&toggleNode){toggleNode.after(composer);composer.hidden=true;}
+ const actionRail=document.getElementById('ddCaseDiscussionActions');
+ if(composer&&actionRail){actionRail.after(composer);composer.hidden=true;}
+ const publicDiscussionLink=()=>{
+  if(!current)return null;
+  const url=new window.URL('/',location.origin);
+  const section=current.startsWith('news:')?'discover':current.startsWith('video:')?'clips':current.startsWith('hearing:')?'livePage':current.startsWith('media:')?'watchRead':current.startsWith('archive:')?'archivePage':'mapPage';
+  url.searchParams.set('dd_tab',section);url.searchParams.set('dd_discussion',current);
+  return url.href;
+ };
+ document.getElementById('ddCaseDiscussionBoard').onclick=()=>{
+  const url=publicDiscussionLink();if(url)window.DDSavePublicLinkToBoard?.(String(root.querySelector('h2')?.textContent||'Public discussion'),url);
+ };
+ document.getElementById('ddCaseDiscussionShare').onclick=()=>{
+  const url=publicDiscussionLink();if(url)void window.DDSharePublicLink?.(String(root.querySelector('h2')?.textContent||'Public discussion'),url);
+ };
  const profile=document.createElement('section');profile.hidden=true;profile.style.cssText='position:fixed;inset:0;z-index:100110;background:#06101bee;overflow:auto;padding:16px;color:#f5ead9';
  const profileBox=document.createElement('div');profileBox.style.cssText='max-width:680px;margin:auto;background:#102331;border:1px solid #99805b;border-radius:14px;padding:18px';
  const profileClose=document.createElement('button');profileClose.type='button';profileClose.textContent='✕ Close';profileClose.onclick=()=>profile.hidden=true;
@@ -133,20 +175,65 @@ function init(){
   const composer=document.getElementById('ddCaseDiscussionForm');
   if(composer)composer.hidden=!expanded;
   renderComments();
-  if(expanded){const input=document.getElementById('ddCaseDiscussionBody');if(input){input.focus();input.scrollIntoView({block:'nearest',behavior:'smooth'})}}
+  if(expanded){const input=document.getElementById('ddCaseDiscussionBody');if(input){input.focus({preventScroll:true})}}
  };
- document.querySelector('#ddCaseDiscussionClose').onclick=()=>{++dialogRevision;++loadRevision;root.hidden=true;document.body.style.overflow='';current=null;loadedComments=[];replyTo=null};
+ document.querySelector('#ddCaseDiscussionClose').onclick=()=>{
+  if(inlineHost){window.ddCloseInlineCaseDiscussion();return}
+  ++dialogRevision;++loadRevision;root.hidden=true;document.body.style.overflow='';current=null;loadedComments=[];replyTo=null
+ };
  root.addEventListener('click',e=>{if(e.target===root)document.querySelector('#ddCaseDiscussionClose').click()});
  window.ddOpenCaseDiscussion=(id,title='Case Discussion',focusComment=null)=>{
    if(!id)return;
+   if(inlineHost)restoreModalLayout();
    ++dialogRevision;current=String(id).slice(0,180);expanded=false;loadedComments=[];replyTo=null;
    const composer=document.getElementById('ddCaseDiscussionForm');if(composer)composer.hidden=true;
    const opened=dialogRevision,chosen=current;
    const heading=root.querySelector('h2');if(heading)heading.textContent=title;
+   const link=publicDiscussionLink();const board=document.getElementById('ddCaseDiscussionBoard');
+   if(board){board.dataset.bookmarkUrl=link||'';board.dataset.bookmarkLabel=title;}
+   window.DDRefreshBoardStars?.();
    root.hidden=false;document.body.style.overflow='hidden';
    announce('');void load().then(success=>{if(!success||opened!==dialogRevision||chosen!==current||root.hidden)return;
      if(focusComment){expanded=true;renderComments();const item=document.getElementById('discussion-comment-'+focusComment);item?.scrollIntoView({block:'center',behavior:'smooth'});if(item)item.style.outline='2px solid #e2bc74';}});
  };
+ // Hearing comments live immediately below their own recording, without
+ // navigating away or opening the fixed-position discussion overlay.
+ // Reuse the exact existing approved-comment RPCs, flagging and replies.
+ window.ddOpenInlineCaseDiscussion=(id,title,host)=>{
+  if(!id||!host?.isConnected||host.ownerDocument!==document)return false;
+  if(inlineHost)window.ddCloseInlineCaseDiscussion();
+  ++dialogRevision;++loadRevision;
+  current=String(id).slice(0,180);expanded=true;loadedComments=[];replyTo=null;
+  inlineHost=host;host.hidden=false;
+  root.style.cssText='position:relative;inset:auto;z-index:auto;background:transparent;overflow:visible;padding:0;width:100%;max-width:100%';
+  root.classList.add('dd-case-discussion-inline');
+  if(panel){
+   panel.style.cssText='max-width:none;margin:0;background:#112131;border:1px solid #9e875d;border-radius:12px;padding:12px;color:#f4ead9';
+   panel.setAttribute('role','region');panel.removeAttribute('aria-modal');
+  }
+  host.append(root);
+  const heading=root.querySelector('h2');if(heading)heading.textContent=title||'Hearing Discussion';
+  const board=document.getElementById('ddCaseDiscussionBoard');
+  if(board){board.dataset.bookmarkUrl=publicDiscussionLink()||'';board.dataset.bookmarkLabel=String(title||'Hearing Discussion')}
+  window.DDRefreshBoardStars?.();
+  const form=document.getElementById('ddCaseDiscussionForm');
+  const actionBar=document.getElementById('ddCaseDiscussionActions');
+  if(form&&actionBar){actionBar.after(form);form.hidden=false;form.reset()}
+  const toggle=document.getElementById('ddCommentsToggle');
+  if(toggle)toggle.setAttribute('aria-expanded','true');
+  root.hidden=false;announce('');
+  void load();return true;
+ };
+ // Public deep links produced by the shared Board/Share bar open the exact
+ // parent discussion and optionally highlight the selected approved comment.
+ try{
+  const params=new URLSearchParams(location.search),deep=params.get('dd_discussion');
+  const focus=params.get('dd_comment');
+  if(deep&&deep.length<=180&&(/^(news|media|video|archive|case|hearing):/.test(deep)||/^[a-z0-9][a-z0-9_-]{0,120}$/i.test(deep))
+   &&(!focus||/^[0-9a-f-]{36}$/i.test(focus))){
+   window.ddOpenCaseDiscussion(deep,'Community discussion',focus);
+  }
+ }catch(_){}
  document.addEventListener('click',e=>{
    const button=e.target.closest('[data-case-discussion]');
    if(button)window.ddOpenCaseDiscussion(button.dataset.caseDiscussion);

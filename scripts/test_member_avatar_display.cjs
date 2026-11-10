@@ -11,7 +11,7 @@ assert.doesNotMatch(src,/getPublicUrl|service_role/);
 assert.match(chat,/DDMemberAvatars\?\.decorate\?\.\(avatar,name\)/);
 assert.match(chat,/DDMemberAvatars\?\.decorate\?\.\(avatar,peerName\)/);
 assert.match(forum,/DDMemberAvatars\?\.decorate\?\.\(avatar,authorName\)/);
-assert.match(forum,/DDMemberAvatars\?\.decorate\?\.\(avatar,replyName\)/);
+assert.match(forum,/main\.append\(makePostHead\(row,'reply',tools\)\)/); // Replies use the shared decorated author header.
 assert.match(html,/assets\/member-avatars\.js/);
 assert.match(fs.readFileSync('scripts/build_public_release.cjs','utf8'),/'member-avatars\.js'/);
 const off={DD_COMMUNITY_FEATURES:{profileAvatars:false},DD_COMMUNITY_TEST_CONFIG:{environment:'production'}};

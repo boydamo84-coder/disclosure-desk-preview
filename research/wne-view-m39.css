@@ -1,0 +1,76 @@
+/* M39: Research Edition display-only sticky ribbon and Fit Page. No document writes. */
+body:not(.tv) #wne-m39-sticky-controls{
+ position:sticky;top:0;z-index:200;min-width:0;width:100%;
+ background:var(--panel);color:var(--ink);
+ box-shadow:0 4px 12px #07132022;
+ isolation:isolate;
+}
+body:not(.tv) #wne-m39-sticky-controls>.mobilebar,
+body:not(.tv) #wne-m39-sticky-controls>.topbar,
+body:not(.tv) #wne-m39-sticky-controls>#dd-word-ribbon-v1,
+body:not(.tv) #wne-m39-sticky-controls>#dd-word-context-v1,
+body:not(.tv) #wne-m39-sticky-controls>.formatbar{
+ position:relative!important;top:auto!important;left:auto!important;right:auto!important;
+ max-width:100%;box-sizing:border-box;
+}
+body:not(.tv) #wne-m39-sticky-controls>.mobilebar{
+ z-index:auto!important;
+}
+body:not(.tv) #wne-m39-sticky-controls>#dd-word-ribbon-v1,
+body:not(.tv) #wne-m39-sticky-controls>#dd-word-context-v1{
+ z-index:auto!important;
+}
+body:not(.tv) #wne-m39-sticky-controls>.formatbar{
+ z-index:auto!important;
+}
+body:not(.tv) #wne-file-menu:not([hidden]){
+ z-index:400!important;
+}
+#wne-m39-fit-toggle{
+ white-space:nowrap;min-width:86px!important;min-height:39px!important;
+ border:1px solid var(--line);border-radius:9px;
+ background:var(--button);color:var(--ink);padding:7px 10px;
+ font:650 12px/1.2 system-ui;flex:0 0 auto;
+}
+#wne-m39-fit-toggle[aria-pressed=true],
+#dd-word-context-v1 [data-action=fitpage][aria-pressed=true]{
+ background:var(--accent)!important;color:#162632!important;
+ border-color:var(--accent)!important;
+}
+body:not(.tv).wne-m39-fit-page .workarea{
+ overflow-x:clip!important;min-width:0;
+}
+body:not(.tv).wne-m39-fit-page .paper{
+ /* A4-like page at 96 CSS pixels per inch; zoom scales the visual page only. */
+ box-sizing:border-box!important;width:794px!important;max-width:none!important;
+ min-height:1123px!important;padding:55px!important;
+ zoom:var(--wne-m39-fit-ratio,1)!important;
+ margin-left:auto!important;margin-right:auto!important;
+}
+body:not(.tv).wne-m39-fit-page #editor{
+ min-width:0!important;max-width:100%!important;
+ overflow-wrap:anywhere!important;
+}
+body:not(.tv).wne-m39-fit-page #editor .dd-comparison-block{
+ max-width:100%!important;overflow-x:visible!important;
+}
+body:not(.tv).wne-m39-fit-page #editor .dd-comparison-block table{
+ box-sizing:border-box!important;min-width:0!important;max-width:100%!important;
+ width:100%!important;table-layout:fixed!important;
+}
+body:not(.tv).wne-m39-fit-page #editor .dd-comparison-block th,
+body:not(.tv).wne-m39-fit-page #editor .dd-comparison-block td{
+ min-width:0!important;width:auto!important;
+ overflow-wrap:anywhere!important;word-break:normal!important;
+ white-space:normal!important;
+}
+body:not(.tv).wne-m39-fit-page #editor img{
+ max-width:100%!important;height:auto!important;
+}
+@media(max-width:820px){
+ body:not(.tv) #wne-m39-sticky-controls>.topbar{padding:6px 9px!important}
+ body:not(.tv) #wne-m39-sticky-controls>.mobilebar{min-height:48px;padding:5px 9px}
+ body:not(.tv) #wne-m39-sticky-controls>#dd-word-ribbon-v1{padding:3px 5px!important}
+ body:not(.tv) #wne-m39-sticky-controls>#dd-word-context-v1{min-height:44px!important;padding:4px 8px}
+ #wne-m39-fit-toggle{padding:6px 8px;min-height:39px!important}
+}

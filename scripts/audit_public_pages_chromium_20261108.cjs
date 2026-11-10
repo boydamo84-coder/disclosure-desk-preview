@@ -43,7 +43,10 @@ const PAGES=['/index.html','/guide.html','/sources.html','/community-rules.html'
      if(!a.href||/^\s*(?:mailto:|tel:|https?:\/\/|\/\/|data:|javascript:)/i.test(a.href))continue;
      if(a.href.includes('$'+'{'))continue;
      const url=new URL(a.href,BASE+pathname);if(url.origin!==BASE)continue;
-     const file=url.pathname.endsWith('/')?url.pathname+'index.html':url.pathname;
+     let file=url.pathname.endsWith('/')?url.pathname+'index.html':url.pathname;
+     // Netlify serves the known public HTML pages at clean canonical URLs.
+     // Resolve only those reviewed routes; an arbitrary missing path stays missing.
+     if(!path.extname(file)&&PAGES.includes(file+'.html'))file+='.html';
      const anchor=url.hash?decodeURIComponent(url.hash.slice(1)):'';
      const key=file+'#'+anchor;
      if(!unique.has(key))unique.set(key,{file,anchor,source:pathname});

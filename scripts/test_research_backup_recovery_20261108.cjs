@@ -55,7 +55,7 @@ function table(name){
  };
 }
 const db={auth:{getUser:async()=>({data:{user:{id:active}},error:null}),onAuthStateChange(){}},from:table};
-const win={supabase:{createClient:()=>db},JSZip,fetch:async()=>{throw Error('external request not expected')}};
+const win={DDResearchDocx:{exportFile:async doc=>new Blob([doc.chapters.map(c=>c.html).join('')],{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'})},supabase:{createClient:()=>db},JSZip,fetch:async()=>{throw Error('external request not expected')}};
 const store=new Map(),ctx={
  window:win,location:{href:'https://uapdisclosuredesk.com/research/wne.html?id='+id,search:'?id='+id},
  URL,URLSearchParams,Request,Response,Blob,crypto:require('node:crypto').webcrypto,
@@ -69,6 +69,8 @@ vm.runInNewContext(source,ctx,{timeout:4000,filename:'wne-cloud-bridge.js'});
  assert.equal(opened.status,200,'owner verified manuscript loads');
  const zip=await win.WNECloudIntegration.makeLibraryZip();
  assert.equal(zip.documentCount,1,'backup must not include another account');
+ assert.equal(zip.wordDocumentCount,1,'backup includes an independently readable Word file');
+ assert.ok(Object.keys(lastZip.files).some(name=>name.startsWith('Word documents/')&&name.endsWith('.docx')));
  assert.match(zip.filename,/WNE-Research-2026/);
  assert.equal(zip.blob.type,'application/zip');
  assert.ok(lastZip.files['documents/'+id+'.json']);
@@ -115,7 +117,7 @@ vm.runInNewContext(source,ctx,{timeout:4000,filename:'wne-cloud-bridge.js'});
  assert.notEqual(copy.id,id,'direct recovery never overwrites the original');
  assert.match(writer,/window\.wneEmergencyCopy=async function\(/,'Emergency Copy direct save exists');
  assert.match(writer,/syncEditor\(\); \/\/ Include the CURRENT editable HTML/,'Emergency includes unsaved editor contents');
- assert.match(writer,/jszip@3\.10\.1/,'Pinned ZIP dependency');
+ assert.match(writer,/vendor-jszip-3\.10\.1\.js/,'Pinned ZIP dependency');
  assert.match(writer,/restore-library-core\.js/,'recovery HTML validation loaded before bridge');
  // Simulate a cloud success ACK followed by an independently fetched row whose
  // section HTML differs. The UI MUST reject it instead of claiming recovery.

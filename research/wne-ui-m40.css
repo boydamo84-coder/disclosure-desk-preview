@@ -1,0 +1,126 @@
+/* M40 — W.NE Research Edition: no change to manuscript content or save APIs. */
+@media(max-width:820px){
+ body:not(.tv) .sidebar.open,body:not(.tv) #sidebar.open{
+  z-index:600!important;top:0!important;bottom:0!important;
+  overflow-y:auto!important;max-height:100dvh!important;
+  overscroll-behavior:contain;padding-bottom:22px!important;
+ }
+ body:not(.tv) .overlay.on,body:not(.tv) #overlay.on{
+  z-index:550!important;position:fixed!important;inset:0!important;
+ }
+}
+#dd-comparison-dialog.dd-m40-simple{
+ box-sizing:border-box;width:min(570px,calc(100vw - 16px))!important;
+ max-width:calc(100vw - 16px)!important;
+ max-height:calc(100dvh - 16px)!important;height:min(88dvh,710px);
+ overflow:hidden!important;padding:0!important;
+ border:1px solid #b89a64!important;border-radius:15px!important;
+ background:#122636!important;color:#f1e5ce!important;
+ box-shadow:0 20px 65px #000b!important;
+}
+#dd-comparison-dialog.dd-m40-simple[open]{
+ display:flex;flex-direction:column;
+}
+#dd-comparison-dialog .dd-m40-dialog-heading{
+ padding:16px 18px 10px;flex:0 0 auto;background:#142a3b;border-bottom:1px solid #4a6070;
+}
+#dd-comparison-dialog .dd-m40-dialog-heading h3{margin:0;color:#ebc98c;font:700 23px Georgia,serif}
+#dd-comparison-dialog .dd-m40-dialog-heading p{margin:7px 0 0;color:#d2d5d6;font-size:13px;line-height:1.45}
+#dd-comparison-dialog .dd-m40-dialog-scroll{
+ flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+ padding:10px 14px 18px;scrollbar-width:thin;
+}
+#dd-comparison-dialog .dd-m40-simple-label{margin:5px 0 8px;font-weight:750;color:#e3c78e}
+#dd-comparison-dialog #dd-compare-sources{margin:7px 0 12px}
+#dd-comparison-dialog #dd-compare-sources button{min-height:45px;font-size:13px}
+#dd-comparison-dialog #dd-saved-comparison-picker,#dd-comparison-dialog #dd-compare-archive-pane{
+ padding:11px 12px!important;background:#192f41!important;border:1px solid #5d7282!important;border-radius:10px
+}
+#dd-comparison-dialog :is(select,input:not([type=radio]):not([type=checkbox])){
+ box-sizing:border-box;min-height:43px;border-radius:8px;
+ background:#233c50;color:#f4e8d2;border:1px solid #8797a1;padding:9px 11px;
+}
+#dd-comparison-dialog label{font-weight:650;color:#e5d6bb}
+#dd-comparison-dialog input::placeholder{color:#b7c3cc}
+#dd-comparison-dialog #dd-archive-search,
+#dd-comparison-dialog #dd-archive-use,
+#dd-comparison-dialog #dd-load-saved-compare{display:none!important}
+#dd-comparison-dialog #dd-archive-selected{font-size:12px;color:#e4c388;font-weight:700}
+#dd-comparison-dialog #dd-archive-status,#dd-comparison-dialog #dd-compare-availability{
+ font-size:12px;line-height:1.4;color:#d2d6db
+}
+#dd-comparison-dialog #dd-comparison-preview{
+ margin:12px 0 8px!important;padding:12px!important;
+ border:1px solid #ac9162!important;background:#172e40!important;
+}
+#dd-comparison-dialog #dd-m40-advanced{
+ margin:10px 0;border:1px solid #526e80;border-radius:10px;padding:8px 11px;
+}
+#dd-comparison-dialog #dd-m40-advanced>summary{color:#dfc187;font-size:13px;font-weight:700;cursor:pointer;min-height:35px}
+#dd-comparison-dialog #dd-m40-advanced fieldset{margin:7px 0 10px}
+#dd-comparison-dialog .dd-m40-dialog-footer{
+ display:flex;flex:0 0 auto;gap:8px;align-items:center;flex-wrap:wrap;
+ padding:11px 14px calc(12px + env(safe-area-inset-bottom));
+ background:#142a3b;border-top:1px solid #506776;
+}
+#dd-comparison-dialog .dd-m40-dialog-footer .dd-m40-status{flex:0 0 100%;min-height:0;margin:0;font-size:12px;line-height:1.3}
+#dd-comparison-dialog .dd-m40-dialog-footer button{min-height:43px;flex:1 1 110px}
+#dd-comparison-dialog #dd-comparison-confirm{
+ background:#dabd86!important;color:#13283a!important;border-color:#dabd86!important;font-weight:750
+}
+#dd-comparison-dialog :is(button,input,select,summary):focus-visible{
+ outline:2px solid #eccc8e;outline-offset:2px;
+}
+#dd-word-ribbon-v1 [data-ribbon=citations]{
+ color:#eed8ad!important;min-width:70px!important;
+}
+#dd-word-ribbon-v1 [data-ribbon=citations][aria-selected=true]{
+ background:#dabb82!important;color:#142b3b!important;
+}
+#dd-word-context-v1 .dd-m40-ribbon-action{min-height:43px!important}
+.dd-m40-citation-dialog{
+ box-sizing:border-box;background:#122636;color:#efe4d1;
+ border:1px solid #b49a6f;border-radius:16px;width:min(540px,calc(100vw - 18px));
+ max-height:calc(100dvh - 18px);height:min(85dvh,700px);
+ padding:0;overflow:hidden;box-shadow:0 20px 70px #000a;
+}
+.dd-m40-citation-dialog[open]{display:flex;flex-direction:column}
+.dd-m40-citation-dialog::backdrop{background:#050c15be}
+.dd-m40-cite-head{padding:16px 17px 9px;background:#142c3f;border-bottom:1px solid #526475}
+.dd-m40-cite-head h2{font:700 23px Georgia,serif;color:#e9c58b;margin:0}
+.dd-m40-cite-head p{font-size:13px;line-height:1.4;color:#d7d4ce;margin:7px 0 0}
+.dd-m40-cite-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:14px 16px}
+.dd-m40-cite-modes{display:flex;gap:7px;margin-bottom:11px}
+.dd-m40-cite-modes button{flex:1 1 50%;min-height:43px}
+.dd-m40-citation-dialog button,.dd-m40-citation-dialog select,.dd-m40-citation-dialog input{
+ font:inherit;box-sizing:border-box;background:#274254;color:#f1e4cf;border:1px solid #7b8996;
+ border-radius:8px;padding:10px;min-height:43px;
+}
+.dd-m40-cite-modes button[aria-pressed=true],#dd-m40-cite-insert{background:#d9bc84!important;color:#142a3b!important;border-color:#d9bc84!important;font-weight:750}
+.dd-m40-citation-dialog label{display:block;margin:9px 0;color:#e0d1b6;font-weight:700}
+.dd-m40-citation-dialog label select,.dd-m40-citation-dialog label input{
+ display:block;width:100%;margin-top:5px;font-weight:400;
+}
+.dd-m40-citation-dialog #dd-m40-cite-preview{
+ margin:12px 0;padding:12px;background:#193649;border:1px solid #a18661;
+ border-radius:9px;overflow-wrap:anywhere;
+}
+.dd-m40-citation-dialog #dd-m40-cite-preview strong{display:block;color:#eccc94;margin-bottom:7px}
+.dd-m40-citation-dialog #dd-m40-cite-preview a{color:#b7dcff;display:block;word-break:break-all}
+.dd-m40-citation-dialog .dd-m40-citation-example{font-size:12px;margin:10px 0 0}
+.dd-m40-citation-dialog .dd-m40-help{font-size:12px;color:#bbcbd3;line-height:1.45}
+.dd-m40-citation-dialog .dd-m40-cite-footer{
+ display:flex;flex:0 0 auto;gap:8px;align-items:center;flex-wrap:wrap;
+ padding:10px 15px calc(12px + env(safe-area-inset-bottom));
+ background:#152c3f;border-top:1px solid #566c7b;
+}
+.dd-m40-cite-footer p{flex:0 0 100%;min-height:0;margin:0;font-size:12px;color:#ffcab3}
+.dd-m40-cite-footer button{flex:1 1 130px}
+.dd-m40-citation-dialog button:disabled{opacity:.4;cursor:not-allowed}
+.dd-m40-citation-dialog :is(button,select,input):focus-visible{outline:2px solid #ead09f;outline-offset:2px}
+@media(max-width:420px){
+ #dd-comparison-dialog .dd-m40-dialog-heading{padding:14px 15px 9px}
+ #dd-comparison-dialog .dd-m40-dialog-scroll{padding:10px 11px 12px}
+ #dd-comparison-dialog #dd-compare-sources button{font-size:12px;padding:8px 5px}
+ .dd-m40-citation-dialog .dd-m40-cite-scroll{padding:10px 12px}
+}

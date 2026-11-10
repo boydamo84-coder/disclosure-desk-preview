@@ -89,7 +89,7 @@ assert.doesNotMatch(HTML.slice(endBodyAt),/<style\b|<script\b/i,'No style/script
         return st.display!=='none'&&st.visibility!=='hidden'&&r.width>0&&r.height>0})
       .map(x=>x.tagName).slice(0,8)
    }));
-   assert.deepEqual(dom.ribbonButtons,['File','Home','Insert','Review','View']);
+   assert.deepEqual(dom.ribbonButtons,['File','Home','Insert','Citations','Review','View']);
    assert.deepEqual(dom.codeLeaks,[],'Raw JavaScript was rendered below document!');
    assert(!dom.bodyText.includes("const toolbar=document.querySelector('.formatbar')"),
     'The source code must never appear as visible document text');

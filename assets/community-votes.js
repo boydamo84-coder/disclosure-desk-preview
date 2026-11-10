@@ -113,10 +113,10 @@ function threadedComments(items){
  for(const item of source)if(!seen.has(String(item.id||'')))visit(item,0);
  return out;
 }
-function mountCommentCard(card,header,body,flag,id,onReply){
+function mountCommentCard(card,header,body,flag,id,onReply,context={}){
  if(!card||!header||!body||!flag)return false;
  const content=make('div','dd-comment-main');
- const rail=make('div','dd-comment-action-rail');
+ const rail=make('div','dd-comment-action-rail dd-action-rail');
  card.classList.add('dd-comment-card');
  header.classList.add('dd-comment-head');
  body.classList.add('dd-comment-body');
@@ -136,6 +136,34 @@ function mountCommentCard(card,header,body,flag,id,onReply){
  content.append(header,body);
  card.replaceChildren(content,rail);
  mount(rail,'comment',id);
+ // Every public comment has the same star/share controls and a real
+ // permalink to its parent discussion, not an invented external source.
+ const caseId=String(context?.discussionKey||'');
+ if(caseId.length>=1&&caseId.length<=180&&(/^(news|media|video|archive|case|hearing):/.test(caseId)||/^[a-z0-9][a-z0-9_-]{0,120}$/i.test(caseId))){
+  const link=new URL('/',location.origin);
+  link.searchParams.set('dd_tab',caseId.startsWith('news:')?'discover':caseId.startsWith('video:')?'clips':caseId.startsWith('media:')?'watchRead':caseId.startsWith('hearing:')?'livePage':caseId.startsWith('archive:')?'archivePage':'mapPage');
+  link.searchParams.set('dd_discussion',caseId);
+  link.searchParams.set('dd_comment',String(id));
+  const label=String(context?.title||'Community discussion').slice(0,100);
+  const star=make('button','dd-action-board');
+  const icon=make('span','', '☆');icon.dataset.starIcon='';star.append(icon);
+  star.dataset.bookmarkUrl=link.href;star.dataset.bookmarkLabel=label;
+  star.type='button';star.title='Add this comment to an Investigation Board';
+  star.setAttribute('aria-label','Add comment to Board');
+  star.addEventListener('click',()=>window.DDSavePublicLinkToBoard?.(label,link.href));
+  const share=make('button','dd-action-share');
+  const shareSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  shareSvg.setAttribute('viewBox','0 0 24 24');shareSvg.setAttribute('aria-hidden','true');
+  for(const [tag,attrs] of [
+   ['circle',{cx:'18',cy:'5',r:'3'}],['circle',{cx:'6',cy:'12',r:'3'}],
+   ['circle',{cx:'18',cy:'19',r:'3'}],['path',{d:'m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8'}]
+  ]){const el=document.createElementNS('http://www.w3.org/2000/svg',tag);
+   for(const [name,value] of Object.entries(attrs))el.setAttribute(name,value);shareSvg.append(el)}
+  share.append(shareSvg);share.type='button';share.title='Share direct public comment link';
+  share.setAttribute('aria-label','Share this public comment');
+  share.addEventListener('click',()=>void window.DDSharePublicLink?.(label,link.href));
+  rail.append(star,share);
+ }
  if(typeof onReply==='function'){
   const reply=make('button','dd-comment-reply-button','↳ Reply');
   reply.type='button';reply.setAttribute('aria-label','Reply to this comment');

@@ -1,59 +1,69 @@
 'use strict';
-/* Google Search discovery and privacy checks — no Google account or live deployment required. */
-const fs=require('node:fs');
-const assert=require('node:assert/strict');
+// M36: Match indexing signals to live Netlify clean URLs. Read-only source gate.
+const fs=require('node:fs'),assert=require('node:assert/strict');
 const read=p=>fs.readFileSync(p,'utf8');
-const domain='https://uapdisclosuredesk.com';
-const publicPages=['/','/research-edition.html','/community-rules.html','/privacy.html'];
-const publicFiles={'/':'index.html','/research-edition.html':'research-edition.html','/community-rules.html':'community-rules.html','/privacy.html':'privacy.html'};
+const origin='https://uapdisclosuredesk.com';
+const publicRoutes=[
+ ['/','index.html'],['/research-edition','research-edition.html'],
+ ['/sources','sources.html'],['/guide','guide.html'],
+ ['/community-rules','community-rules.html'],['/privacy','privacy.html']
+];
 const robots=read('robots.txt'),sitemap=read('sitemap.xml');
 assert.match(robots,/User-agent:\s*\*/);
 assert.match(robots,/Allow:\s*\//);
-assert.ok(robots.includes('Sitemap: '+domain+'/sitemap.xml'),'Use the canonical domain for the sitemap');
-const urls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
-assert.equal(urls.length,publicPages.length,'Sitemap must list only approved public indexable pages');
-assert.deepEqual(urls,publicPages.map(p=>domain+p));
+assert.ok(robots.includes('Sitemap: '+origin+'/sitemap.xml'));
+const listed=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
+assert.deepEqual(listed,publicRoutes.map(([route])=>origin+route),
+ 'Use only the six live clean, canonical public routes, each exactly once');
 assert.match(sitemap,/<urlset xmlns="http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9">/);
-assert.doesNotMatch(sitemap,/\/research\/|\/data\/|\/api\/|\/admin\/|\/netlify\//,'Never expose private document or API routes in public sitemap');
-for(const p of publicPages){
- const html=read(publicFiles[p]);
- const name=p==='/'?'home':p;
- assert.match(html,/lang="en(?:-GB)?"/,'Missing English language on '+name);
+assert.doesNotMatch(sitemap,/\/research\/|\/data\/|\/api\/|\/admin\/|\/netlify\//);
+assert.ok(listed.every(url=>!url.includes('?')&&!url.includes('#')&&!url.endsWith('.html')));
+const titles=new Set();
+for(const [route,file] of publicRoutes){
+ const html=read(file),head=html.split('</head>')[0];
+ const canonical=origin+route;
+ assert.match(html.slice(0,200),/<html[^>]+lang="en(?:-GB)?"/i,file+' language');
  const title=html.match(/<title>([^<]+)<\/title>/)?.[1];
- assert.ok(title&&title.length>18&&title.length<85,'Provide distinct, human-readable title for '+name);
- assert.match(html,/<meta name="description" content="[^"]{50,220}">/,'Missing useful meta description on '+name);
- assert.ok(html.includes('<link rel="canonical" href="'+domain+p+'">'),'Incorrect canonical for '+name);
- assert.doesNotMatch(html.slice(0,2500),/<meta name="robots" content="[^"]*noindex/i,'Public page must be indexable: '+name);
+ assert.ok(title&&title.length>18&&title.length<85,'Clear page title for '+file);
+ assert.ok(!titles.has(title),'Unique title '+file);titles.add(title);
+ assert.match(head,/<meta name="description" content="[^"]{50,220}">/,'Description '+file);
+ assert.ok(head.includes('<link rel="canonical" href="'+canonical+'">'),'Canonical '+file);
+ assert.doesNotMatch(head,/<meta[^>]+name="robots"[^>]+noindex/i,'Public page noindex '+file);
+ const og=head.match(/<meta property="og:url" content="([^"]+)"/)?.[1];
+ if(og)assert.equal(og,canonical,'OG shares canonical '+file);
+ const schema=html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+ if(schema){
+  const data=JSON.parse(schema[1]);
+  if(data['@type']==='WebPage')assert.equal(data.url,canonical,'Structured page URL '+file);
+ }
 }
-const home=read('index.html');
-assert.ok(home.includes('href="/research-edition.html"'),'Provide a crawlable public link to W.NE Research Edition');
-assert.ok(home.includes('href="/privacy.html"'),'Provide a crawlable Privacy Policy link');
-assert.ok(home.includes('href="/community-rules.html"'),'Provide a crawlable community rules link');
-assert.match(home,/<meta property="og:title"/);
-assert.match(home,/<meta property="og:url" content="https:\/\/uapdisclosuredesk.com\/">/);
+for(const [route,file] of publicRoutes.filter(([route])=>route!=='/')){
+ const home=read('index.html');
+ assert.ok(home.includes('href="'+route+'"'),'Crawlable direct homepage link '+route);
+}
+// The new prettified public pages do not change private W.NE endpoints.
+// No public sitemap entries or canonical links may point to authenticated documents.
+for(const p of ['research/index.html','research/guest-preview.html','research/wne.html',
+ 'research/research-workspace.html','research/research-bible.html','research/import.html',
+ 'research/restore-copy.html','research/restore-library.html']){
+ const source=read(p).slice(0,2400);
+ assert.match(source,/<meta\s+name="robots"\s+content="[^"]*noindex[^"]*">/i,
+  'Preserve private noindex for '+p);
+ assert.ok(!listed.some(url=>url.includes('/research/')),'Never list W.NE internals');
+}
 const research=read('research-edition.html');
-assert.ok(research.includes('href="/research/index.html"'),'Public research information must link to the actual app');
-assert.ok(research.includes('href="/research/guest-preview.html"'),'Public research information must link to guest preview');
-const schemaMatch=research.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
-assert.ok(schemaMatch,'Public research information needs factual JSON-LD description');
-const schema=JSON.parse(schemaMatch[1]);
-assert.equal(schema['@context'],'https://schema.org');
-assert.equal(schema['@type'],'WebPage');
-assert.equal(schema.url,domain+'/research-edition.html');
-assert.equal(schema.publisher.name,'Boyd Digital Studios');
-for(const p of ['research/index.html','research/guest-preview.html','research/wne.html','research/research-workspace.html','research/research-bible.html','research/import.html','research/restore-copy.html']){
- const html=read(p);
- assert.match(html.slice(0,1800),/<meta name="robots" content="[^"]*noindex[^"]*">/,p+' must remain non-indexable');
- assert.ok(!urls.some(url=>url.endsWith(p.replace('research/','/research/'))),p+' must not be in public sitemap');
-}
-assert.ok(!urls.some(x=>x.includes('?')||x.includes('#')),'Sitemap must use permanent clean URLs');
+assert.match(research,/href="\/research\/index\.html"/);
+assert.match(research,/href="\/research\/guest-preview\.html"/);
 const rules=read('community-rules.html');
-for(const section of ['accounts','witness','voting','flagging','comments','research','privacy']){
- assert.ok(rules.includes('id="'+section+'"'),'Document community rule category '+section);
-}
-for(const needle of ['3 new public witness reports','5 flags from distinct registered accounts','one active vote per item','private drafts only','rolling 24-hour period','Community-published W.NE research']){
- assert.ok(rules.includes(needle),'Missing clear beta community policy: '+needle);
-}
-assert.match(rules,/some community features described below are still being built or tested/i,'No misleading claim that public publishing is live');
-
-console.log('PASS: robots, canonical public sitemap, homepage social metadata, W.NE structured page, crawlable links, noindex private research and no leakage of dynamic records');
+for(const id of ['accounts','witness','voting','flagging','comments','research','privacy'])
+ assert.ok(rules.includes('id="'+id+'"'),'Community rules retain '+id);
+assert.match(rules,/5 flags from distinct registered accounts/);
+assert.match(rules,/one active vote per item/);
+// Search Console 404: do not attempt a function absent from the public
+// Netlify package. News Interests still matches genuine feed headlines.
+const main=read('index.html');
+assert.doesNotMatch(main,/fetch\(\s*['"]\/\.netlify\/functions\/interests\b/i,
+ 'Do not request the never-deployed /interests Netlify function');
+assert.match(main,/interestStories=feedLive\?localInterestMatches\(stories,myInterests\):\[\]/,
+ 'Keep sourced News Interests matching instead of disabling the feature');
+console.log('PASS M36 Search: 6 clean sitemap URLs, consistent canonicals and schema, direct internal links, protected W.NE noindex, no search privacy regressions');

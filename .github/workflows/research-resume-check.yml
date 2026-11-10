@@ -15,7 +15,11 @@ jobs:
           node-version: '22'
       - name: Syntax checks for modified modules
         run: |
+          node scripts/test_published_html_syntax.cjs
           node --check research/wne-cloud-bridge.js
+          node --check research/google-drive.js
+          node --check assets/media-submissions.js
+          node --check assets/watch-read.js
           node --check assets/profile-avatars.js
           node --check scripts/test_research_resume_20261108.cjs
       - name: M34 community and W.NE design contracts (NO deploy)
@@ -24,6 +28,19 @@ jobs:
           node scripts/test_m34_ui_contract_20261109.cjs
           node --check scripts/test_m34_community_consistency_20261109.cjs
           node scripts/test_m34_community_consistency_20261109.cjs
+          node --check scripts/test_m35_sitewide_action_rail_20261109.cjs
+          node scripts/test_m35_sitewide_action_rail_20261109.cjs
+          node --check scripts/test_m37_approved_rails_github_news_20261109.cjs
+          node scripts/test_m37_approved_rails_github_news_20261109.cjs
+          node --check scripts/test_m38_hearing_inline_and_wide_rails_20261109.cjs
+          node scripts/test_m38_hearing_inline_and_wide_rails_20261109.cjs
+          node --check research/wne-ui-m40.js
+          node --check scripts/test_m40_ui_analytics_contract_20261109.cjs
+          node scripts/test_m40_ui_analytics_contract_20261109.cjs
+          node --check assets/live-hearings.js
+          node --check assets/live-schedule.js
+          node --check scripts/test_search_indexing.cjs
+          node scripts/test_search_indexing.cjs
           node --check assets/news-article-votes.js
       - name: Research Studio resume and Home QA (mock account)
         run: node scripts/test_research_resume_20261108.cjs
@@ -31,6 +48,8 @@ jobs:
         run: |
           node --check research/wne-cloud-bridge.js
           node scripts/test_research_backup_recovery_20261108.cjs
+          node scripts/test_research_drive_runtime.cjs
+          node scripts/test_docx_import_security.cjs
           node --check research/research-docx-import.js
           node --check scripts/test_research_docx_inline_import_20261108.cjs
           node scripts/test_research_docx_inline_import_20261108.cjs
@@ -109,9 +128,11 @@ jobs:
           node scripts/test_account_deletion_write_fence_20261108.cjs
           node --check scripts/test_account_deletion_live_audit_contract_20261108.cjs
           node scripts/test_account_deletion_live_audit_contract_20261108.cjs
-      - name: Verify restricted static bundle and every published link (NO deploy)
+      - name: Verify restricted static bundle, canonical search URLs and published links (NO deploy)
         run: |
           node scripts/test_public_release_package.cjs
+          node --check scripts/test_search_indexing.cjs
+          node scripts/test_search_indexing.cjs
           node scripts/audit_public_pages_20261108.cjs
   real-browser:
     name: Offline real Chromium editor acceptance gate (NO deploy)
@@ -144,10 +165,17 @@ jobs:
           exit 1
       - name: Run actual Chromium mobile editor tests without cloud access
         run: |
+          node scripts/test_social_redesign_chromium.cjs
+          node scripts/test_media_auto_publish_chromium.cjs
           node scripts/test_research_editor_real_chromium_20261108.cjs
           node scripts/test_m32_actual_writer_ribbon_chromium_20261109.cjs
           node scripts/test_m34_writer_image_recovery_chromium_20261109.cjs
           node scripts/test_m34_writer_dialogs_chromium_20261109.cjs
+          node --check research/wne-view-m39.js
+          node --check scripts/test_m39_sticky_toolbar_fit_page_chromium_20261109.cjs
+          node scripts/test_m39_sticky_toolbar_fit_page_chromium_20261109.cjs
+          node --check scripts/test_m40_research_map_ga_chromium_20261109.cjs
+          node scripts/test_m40_research_map_ga_chromium_20261109.cjs
           node scripts/test_research_review_chromium_20261108.cjs
           node scripts/test_research_library_chromium_20261108.cjs
           node scripts/test_research_nav_avatar_chromium_20261108.cjs
@@ -155,6 +183,10 @@ jobs:
           node scripts/audit_public_pages_chromium_20261108.cjs
           node scripts/test_browser_release_smoke.cjs
           node scripts/test_comment_action_rail_chromium_20261108.cjs
+          node --check scripts/test_m35_action_rail_chromium_20261109.cjs
+          node scripts/test_m35_action_rail_chromium_20261109.cjs
+          node --check scripts/test_m38_hearing_inline_and_wide_rails_chromium_20261109.cjs
+          node scripts/test_m38_hearing_inline_and_wide_rails_chromium_20261109.cjs
           node scripts/audit_full_site_chromium_20261108.cjs
           node scripts/test_m28_public_workflows_chromium_20261108.cjs
           node scripts/test_research_home_navigation_chromium_20261108.cjs
@@ -210,3 +242,8 @@ jobs:
         run: |
           node --check scripts/test_m34_news_votes_pg_20261109.cjs
           node scripts/test_m34_news_votes_pg_20261109.cjs
+
+      - name: M42 private media nominations (disposable PostgreSQL only)
+        run: |
+          node scripts/test_media_submissions_pg.cjs
+          node scripts/test_media_auto_publish_pg.cjs

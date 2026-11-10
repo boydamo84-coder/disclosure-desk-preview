@@ -11,6 +11,7 @@ function element(tag){
   disabled:false,textContent:'',classList:{contains:()=>false},
   elements:{namedItem:()=>({value:''})},
   append(...items){this.children.push(...items)},prepend(...items){this.children.unshift(...items)},
+  insertBefore(item,before){const index=this.children.indexOf(before);if(index<0)this.children.push(item);else this.children.splice(index,0,item);return item},
   replaceChildren(...items){this.children=[...items]},setAttribute(k,v){this.attrs[k]=v},
   removeAttribute(k){delete this.attrs[k]},addEventListener(k,fn){this.listeners[k]=fn},
   after(){},reset(){},querySelector(){return element('button')}

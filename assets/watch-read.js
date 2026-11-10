@@ -1,4 +1,4 @@
-/* Watch & Read beta — curated starter list; rankings need moderated database votes. */
+/* Watch & Read — shared catalogue, member additions and five-report moderation. */
 (()=>{'use strict';
 const starterRows=[
  ['documentaries','The Phenomenon','2020','James Fox'],
@@ -38,6 +38,18 @@ const key='dd_watch_read_saved_v1';
 let client=null;
 const db=()=>{const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};if(!window.supabase||!cfg.url||!cfg.publishableKey||!['test','production'].includes(cfg.environment))return null;return client||(client=window.supabase.createClient(cfg.url,cfg.publishableKey));};
 let scores={},mine={},available=false,busy=false;
+let catalogue=[],catalogueState='loading',catalogueRequest=0,catalogueFingerprint='';
+async function loadCatalogue(){
+ const stamp=++catalogueRequest,c=db();
+ if(!c){catalogue=[];catalogueState='unavailable';window.ddRenderWatchRead?.();return}
+ try{const result=await c.rpc('dd_media_catalogue');if(stamp!==catalogueRequest)return;if(result.error||!Array.isArray(result.data))throw result.error||Error('Invalid catalogue');
+  const next=result.data.filter(x=>x&&typeof x.id==='string'&&x.id.length<=150&&['documentaries','movies','books','podcasts'].includes(x.category)&&typeof x.title==='string').map(x=>({
+   id:x.id,category:x.category,title:x.title,year:x.display_year||x.release_year||'',creator:x.creator||'',
+   url:x.public_url?window.DDMediaSubmissions?.publicUrl(x.public_url):null,created_at:x.created_at,source_kind:x.source_kind
+  }));
+  const fingerprint=JSON.stringify(next),different=fingerprint!==catalogueFingerprint||catalogueState!=='ready';catalogueFingerprint=fingerprint;catalogue=next;catalogueState='ready';if(different)window.ddRenderWatchRead?.();
+ }catch(e){if(stamp===catalogueRequest){catalogue=[];catalogueState='unavailable';window.ddRenderWatchRead?.()}}
+}
 async function loadVotes(){
  const c=db();if(!c){available=false;mine={};scores={};return;}
  available=false;mine={};scores={};
@@ -77,9 +89,10 @@ function node(tag,value){const n=document.createElement(tag);if(value!==undefine
 function init(){
  const host=document.getElementById('ddWatchReadMount');if(!host)return;
  const section=node('div');section.className='section';section.id='ddWatchRead';
- section.append(node('p','Explore documentaries, movies, books and podcast episodes. Starter titles are editorial picks, not community-ranked results.'));
+ section.append(node('p','Explore documentaries, films, books and podcast episodes. Editorial picks and community additions share the catalogue; additions are not independently verified.'));
+ window.DDMediaSubmissions?.mount?.(section);
  const toolbar=node('div');toolbar.style.cssText='display:flex;gap:7px;flex-wrap:wrap;margin:12px 0';
- const list=node('div'),msg=node('p','Community voting and member nominations will launch after our Supabase security tests.');msg.className='muted small';
+ const list=node('div'),msg=node('p','Saved titles stay on this device. Added titles and links are public; optional notes stay private.');msg.className='muted small';
  let category='documentaries',viewAll=false,sort='picks',podcastSearch='';
  function render(){
   toolbar.replaceChildren();
@@ -87,62 +100,46 @@ function init(){
    const b=node('button',label);b.type='button';b.className=category===cat?'chip active':'chip';b.onclick=()=>{category=cat;viewAll=false;render()};toolbar.append(b);
   }
   list.replaceChildren();
+  if(catalogueState!=='ready'){
+   const note=node('p',catalogueState==='loading'?'Loading catalogue…':'Catalogue temporarily unavailable. Please retry to see the current moderated list.');note.setAttribute('role','status');list.append(note);
+   if(catalogueState==='unavailable'){const retry=node('button','Retry catalogue');retry.type='button';retry.className='outline';retry.onclick=()=>void loadCatalogue();list.append(retry)}
+  }
   if(category==='podcasts'){
-   const info=node('p','Top 100 UFO Podcast Episodes · Unranked starter catalogue (official episode links; not a most-listened chart). '+starter.filter(v=>v.category==='podcasts').length+' verified episode links so far; no invented community rankings.');info.className='muted small';list.append(info);
+   const info=node('p','Explore podcast episodes, guests and original publisher links. Community ratings reflect member votes.');info.className='muted small';list.append(info);
    const search=node('input');search.type='search';search.className='field';search.placeholder='Search episode, guest or podcast…';search.value=podcastSearch;search.setAttribute('aria-label','Search podcast episode recommendations');search.oninput=()=>{podcastSearch=search.value;render();const next=list.querySelector('input[type="search"]');next?.focus();next?.setSelectionRange(podcastSearch.length,podcastSearch.length)};list.append(search);
   }
-  if(category==='podcasts'){
-   const details=node('details');details.className='card';details.style.cssText='padding:12px;margin:12px 0';
-   const heading=node('summary','＋ Suggest a podcast episode');heading.style.cssText='cursor:pointer;color:#e4c58b;font-weight:700';details.append(heading);
-   const description=node('p','Paste a link to a specific episode. Suggestions are private until reviewed; submitting does not add an episode to the Top 100.');description.className='muted small';details.append(description);
-   const form=node('form');form.style.cssText='display:grid;gap:9px';
-   const url=node('input');url.className='field';url.type='url';url.required=true;url.maxLength=1000;url.placeholder='https://… episode URL';url.setAttribute('aria-label','Podcast episode URL');
-   const title=node('input');title.className='field';title.required=true;title.maxLength=180;title.minLength=3;title.placeholder='Episode title';title.setAttribute('aria-label','Episode title');
-   const notes=node('textarea');notes.className='field';notes.maxLength=500;notes.rows=2;notes.placeholder='Why should we feature it? (optional)';notes.setAttribute('aria-label','Reason for recommendation');
-   const submit=node('button','Submit suggestion for review');submit.type='submit';submit.className='outline';
-   const feedback=node('p','');feedback.className='muted small';feedback.setAttribute('role','status');
-   const validUrl=value=>{try{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password&&u.hostname.includes('.')&&!['localhost','127.0.0.1'].includes(u.hostname)}catch{return false}};
-   form.onsubmit=async e=>{
-    e.preventDefault();
-    const link=url.value.trim(),name=title.value.trim(),reason=notes.value.trim();
-    if(!validUrl(link)){feedback.textContent='Please paste a public HTTPS episode link.';return}
-    if(starter.some(v=>v.url===link)){feedback.textContent='This episode is already in our recommendations.';return}
-    const c=db();if(!c){feedback.textContent='Suggestions are not enabled in this build yet.';return}
-    submit.disabled=true;feedback.textContent='Submitting…';
-    try{
-     const {data:{user},error:authError}=await c.auth.getUser();
-     if(authError||!user){feedback.textContent='Please sign in before submitting an episode.';return}
-     const {error}=await c.from('dd_podcast_suggestions').insert({user_id:user.id,episode_url:link,title:name,notes:reason});
-     if(error){feedback.textContent=error.code==='23505'?'You already suggested this episode.':'Could not submit. The suggestions database may not be enabled yet.';return}
-     feedback.textContent='✓ Suggestion received for review. Thank you!';
-     form.reset();
-    }catch(err){feedback.textContent='Could not submit this suggestion. Please try again.'}
-    finally{submit.disabled=false}
-   };
-   form.append(url,title,notes,submit,feedback);details.append(form);list.append(details);
-  }
   const order=node('select');order.setAttribute('aria-label','Sort Watch and Read titles');
-  for(const [v,l] of [['picks','Editorial picks'],['score','Community rating'],['recommended','Most recommended']]){
+  for(const [v,l] of [['picks','Catalogue'],['newest','Newest additions'],['score','Community rating'],['recommended','Most recommended']]){
     const opt=node('option',l);opt.value=v;order.append(opt);
   }
   order.value=sort;order.onchange=()=>{sort=order.value;render()};toolbar.append(order);
-  const candidates=starter.filter(v=>v.category===category&&(!podcastSearch||category!=='podcasts'||[v.title,v.creator,v.year].join(' ').toLowerCase().includes(podcastSearch.toLowerCase()))).slice(0,category==='podcasts'?100:1000);
-  if(available&&sort!=='picks')candidates.sort((a,b)=>{
+  const candidates=catalogue.filter(v=>v.category===category&&(!podcastSearch||category!=='podcasts'||[v.title,v.creator,v.year].join(' ').toLowerCase().includes(podcastSearch.toLowerCase()))).slice(0,category==='podcasts'?100:1000);
+  if(sort==='newest')candidates.sort((a,b)=>Date.parse(b.created_at)-Date.parse(a.created_at));
+  if(available&&['score','recommended'].includes(sort))candidates.sort((a,b)=>{
     const x=scores[a.id]||{},y=scores[b.id]||{};
     const value=t=>sort==='score'?(Number(t.ratings)>=5?Number(t.average_score)||0:0):Number(t.recommendations)||0;
     return value(y)-value(x)||a.title.localeCompare(b.title);
   });
   for(const item of candidates.slice(0,viewAll?100:10)){
-   const card=node('article');card.className='card';card.style.cssText='padding:12px;margin:8px 0';
-   const name=item.url?node('a',item.title):node('strong',item.title);if(item.url){name.href=item.url;name.target='_blank';name.rel='noopener noreferrer';name.style.cssText='display:block;font-weight:750;color:#e7c58a;text-decoration:underline;text-underline-offset:3px;margin-bottom:6px'}card.append(name,node('p',item.year+' · '+item.creator));
+   const card=node('article');card.className='card dd-media-card';
+   const content=node('div');content.className='dd-media-content';card.append(content);
+   const rail=node('div');rail.className='dd-media-actions dd-action-rail';rail.setAttribute('role','group');rail.setAttribute('aria-label','Title actions');
+   const name=item.url?node('a',item.title):node('strong',item.title);if(item.url){name.href=item.url;name.target='_blank';name.rel=item.source_kind==='member'?'noopener noreferrer nofollow ugc':'noopener noreferrer';name.style.cssText='display:block;font-weight:750;color:#e7c58a;text-decoration:underline;text-underline-offset:3px;margin-bottom:6px'}content.append(name,node('p',item.year+' · '+item.creator));
    const save=node('button',saved[item.id]?'✓ On my list':'+ My list');save.type='button';save.className='outline';
    save.onclick=()=>{if(saved[item.id])delete saved[item.id];else saved[item.id]=true;try{localStorage.setItem(key,JSON.stringify(saved))}catch{}render()};
-   card.append(save);
+   rail.append(save);
+   const share=node('button','Share');share.type='button';share.className='dd-action-share';share.setAttribute('aria-label','Share '+item.title);share.title='Share';
+   share.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8"/></svg>';
+   const discussionLink=new URL('/',location.origin);discussionLink.searchParams.set('dd_tab','watchRead');discussionLink.searchParams.set('dd_discussion','media:'+item.id);
+   const board=node('button','☆');board.type='button';board.className='dd-action-board';board.title='Add to Board';board.setAttribute('aria-label','Add '+item.title+' to an Investigation Board');
+   board.dataset.bookmarkUrl=discussionLink.href;board.dataset.bookmarkLabel=item.title;board.innerHTML='<span data-star-icon>☆</span>';
+   board.onclick=()=>window.DDSavePublicLinkToBoard?.(item.title,discussionLink.href);
+   share.onclick=()=>window.DDSharePublicLink?.(item.title,item.url||discussionLink.href);rail.append(board,share);window.DDMediaSubmissions?.attachReport?.(rail,item);card.append(rail);
    const comments=node('div');comments.className='dd-news-inline-comments';comments.dataset.newsComments='media:'+item.id;card.append(comments);
    const summary=node('p',available
      ?((scores[item.id]?.ratings||0)+' ratings · '+(scores[item.id]?.ratings?Number(scores[item.id].average_score).toFixed(1)+'/10':'Not yet rated')+' · '+(scores[item.id]?.recommendations||0)+' recommendations')
      :'Community ratings coming soon · no votes displayed yet');
-   summary.className='muted small';card.append(summary);
+   summary.className='muted small';content.append(summary);
    const rating=node('select');rating.setAttribute('aria-label','Rate '+item.title);
    for(const [v,l] of [['','Your rating: —'],...Array.from({length:10},(_,i)=>[String(i+1),(i+1)+'/10'])]){
      const option=node('option',l);option.value=v;rating.append(option);
@@ -151,11 +148,14 @@ function init(){
    rating.disabled=!available;rating.onchange=()=>castVote(item,{score:rating.value?Number(rating.value):null});
    const recommend=node('button',mine[item.id]?.recommended?'👍 Recommended':'👍 Recommend');recommend.type='button';recommend.className='outline';recommend.disabled=!available;
    recommend.onclick=()=>castVote(item,{recommended:!mine[item.id]?.recommended});
-   card.append(rating,recommend);list.append(card);
+   const ratings=node('div');ratings.className='dd-media-ratings';ratings.append(rating,recommend);content.append(ratings);list.append(card);
   }
   if(candidates.length>10){const more=node('button',viewAll?'Show Top Picks':'View all titles');more.type='button';more.className='outline';more.onclick=()=>{viewAll=!viewAll;render()};list.append(more)}
  }
- section.append(toolbar,list,msg);host.append(section);window.ddRenderWatchRead=render;render();loadVotes().then(render);
+ section.append(toolbar,list,msg);host.append(section);window.ddRenderWatchRead=render;render();loadVotes().then(render);void loadCatalogue();
+ window.addEventListener('dd-media-catalogue-changed',event=>{if(event.detail?.category)category=event.detail.category;if(event.detail?.newest)sort='newest';void loadCatalogue();void loadVotes().then(render)});
+ window.setInterval(()=>{const page=document.getElementById('watchRead');if(page&&!page.classList.contains('hidden')&&document.visibilityState==='visible')void loadCatalogue()},15000);
+ document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')void loadCatalogue()});
  const c=db();c?.auth.onAuthStateChange(()=>{mine={};scores={};available=false;render();setTimeout(()=>loadVotes().then(render),0)});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();

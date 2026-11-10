@@ -11,9 +11,9 @@ function mount(container){
  const id=container.dataset.newsComments;
  if(!id)return;
  const previous=drafts.get(id)||{expanded:false,draft:''};
- const state={expanded:previous.expanded,items:[],busy:false,replyTo:null};
+ const state={expanded:previous.expanded,items:[],busy:false,loaded:false,replyTo:null};
  states.set(container,state);
- const toggle=el('button','Comments ▼');toggle.type='button';toggle.className='outline';toggle.setAttribute('aria-expanded','false');
+ const toggle=el('button','💬 0');toggle.type='button';toggle.className='outline';toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Read or add comments');toggle.title='Comments';
  const entries=el('div');entries.className='dd-inline-comments-preview';
  const form=el('form');form.hidden=true;
  const body=el('textarea');body.placeholder='Add a comment or source reference…';body.rows=3;body.maxLength=2000;body.minLength=3;body.required=true;body.style.cssText='display:block;width:100%;box-sizing:border-box;margin:8px 0';
@@ -24,12 +24,15 @@ function mount(container){
  const replyContext=el('p');replyContext.className='dd-comment-reply-context muted small';replyContext.hidden=true;
  form.append(replyContext,body,post);
  // Mount Comments in the same full-width action rail as Board / Compare / Share.
- const rail=container.closest('article')?.querySelector('.dd-news-main-actions');
- if(rail)rail.append(toggle);else container.append(toggle);
- toggle.classList.add('dd-inline-comments-toggle');
+ const rail=container.closest('article')?.querySelector('.dd-news-main-actions, .dd-media-actions');
+ if(rail){const star=rail.querySelector('.dd-action-board');if(star)rail.insertBefore(toggle,star);else rail.append(toggle)}else container.append(toggle);
+ toggle.classList.add('dd-inline-comments-toggle');toggle.setAttribute('aria-controls','dd-news-comments-'+id.replace(/[^a-z0-9-]/gi,'-'));container.id=toggle.getAttribute('aria-controls');
  container.append(form,entries,message);
  function render(){
-  toggle.textContent='Comments ('+state.items.length+') '+(state.expanded?'▲':'▼');
+  toggle.textContent='💬 '+(state.loaded?state.items.length:'…');
+  toggle.setAttribute('aria-label',(state.expanded?'Hide':'Read or add')+' comments'+(state.loaded?' ('+state.items.length+')':''));
+  // Never lose a typed draft when refreshing the visible comment list.
+  if(entries.contains(form))container.insertBefore(form,entries);
   toggle.setAttribute('aria-expanded',String(state.expanded));
   form.hidden=!state.expanded;
   entries.replaceChildren();
@@ -40,7 +43,7 @@ function mount(container){
   post.textContent=state.replyTo?'Post reply':'Post comment';
   if(!shown.length){const note=el('p','No comments yet.');note.className='muted small';entries.append(note);}
   for(const item of shown){
-   const card=el('div');card.className='card';card.style.cssText='margin:8px 0';
+   const card=el('div');card.className='card';card.style.cssText='margin:8px 0';card.dataset.ddNewsCommentId=String(item.id||'');
    if(item.replyDepth>0)card.classList.add('dd-comment-nested');
    const alias=item.publicAlias||'Community member';
    const header=el('div');header.className='muted small';header.style.cssText='display:flex;align-items:center;min-width:0';
@@ -70,12 +73,17 @@ function mount(container){
     const target=state.items.find(x=>x.id===parentId);if(!target)return;
     state.replyTo={id:target.id,alias:target.publicAlias||'this commenter'};
     state.expanded=true;drafts.set(id,{expanded:true,draft:body.value});render();
-    body.focus();body.scrollIntoView({block:'center',behavior:'smooth'});
-   })){
+    body.focus({preventScroll:true});
+   },{discussionKey:id,title:'News comment: '+String(container.closest('article')?.querySelector('.news-headline-link')?.textContent||'News article').slice(0,75)})){
     card.append(header,text,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);
    }
    entries.append(card);
   }
+  window.DDRefreshBoardStars?.();
+  if(state.replyTo){
+   const target=entries.querySelector('[data-dd-news-comment-id="'+state.replyTo.id+'"]');
+   if(target)target.after(form);
+  }else if(form.parentElement!==container)container.insertBefore(form,entries);
  }
  async function refresh(){
   const c=client();if(!c){message.textContent='Comments are not configured.';return}
@@ -84,13 +92,13 @@ function mount(container){
   if(error){message.textContent='Comments temporarily unavailable.';return}
   const aliases=await window.DDPublicProfiles?.namesFor('comment',data||[])||{};
   if(!container.isConnected)return;
-  state.items=(data||[]).map(x=>({...x,publicAlias:aliases[x.id]||null}));render();
+  state.loaded=true;state.items=(data||[]).map(x=>({...x,publicAlias:aliases[x.id]||null}));render();
  }
  toggle.onclick=()=>{
   if(state.replyTo){state.replyTo=null;state.expanded=true;}
   else state.expanded=!state.expanded;
   drafts.set(id,{expanded:state.expanded,draft:body.value});render();
-  if(state.expanded){body.focus();body.scrollIntoView({block:'nearest',behavior:'smooth'})}
+  if(state.expanded){body.focus({preventScroll:true});if(!state.loaded)void refresh()}
  };
  form.onsubmit=async ev=>{ev.preventDefault();if(state.busy)return;const c=client();if(!c)return;
    const {data:{user}}=await c.auth.getUser();if(!user||user.is_anonymous){message.textContent='Sign in with a registered account to comment.';return}
@@ -105,11 +113,15 @@ function mount(container){
    }
    state.busy=false;post.disabled=false;
  };
- render();refresh();
+ render();
+ if(state.expanded)void refresh();
+ else if(typeof IntersectionObserver==='function'){
+  const visible=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){visible.disconnect();if(!state.loaded)void refresh()}},{rootMargin:'250px'});
+  visible.observe(container);
+ }else void refresh();
 }
-const observer=new IntersectionObserver(entries=>{for(const e of entries){if(e.isIntersecting){observer.unobserve(e.target);mount(e.target)}}},{rootMargin:'350px'});
-function scan(){document.querySelectorAll('[data-news-comments]').forEach(n=>{if(!states.has(n))observer.observe(n)})}
-const mo=new MutationObserver(()=>scan());
-function init(){scan();const root=document.getElementById('newsGrid');if(root)mo.observe(root,{childList:true});mo.observe(document.body,{childList:true,subtree:true});}
+function scan(){document.querySelectorAll('[data-news-comments]').forEach(n=>{if(!states.has(n))mount(n)})}
+const mo=new MutationObserver(scan);
+function init(){scan();const root=document.getElementById('newsGrid');mo.observe(root||document.body,{childList:true,subtree:true});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();

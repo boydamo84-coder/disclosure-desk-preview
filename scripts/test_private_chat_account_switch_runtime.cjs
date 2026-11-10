@@ -8,7 +8,7 @@ const source=fs.readFileSync('assets/profile-private-chat.js','utf8');
 const useVm=true;
 (async()=>{
 function element(tag){
-  return {tag,children:[],listeners:{},attrs:{},style:{},textContent:'',value:'',className:'',
+  return {tag,dataset:{},children:[],listeners:{},attrs:{},style:{},textContent:'',value:'',className:'',
     disabled:false,hidden:false,open:false,closest(kind){return kind==='details'?panel:null;},
     append(...items){this.children.push(...items);},
     replaceChildren(...items){this.children=[...items];},
@@ -49,9 +49,9 @@ async function flush(){for(let i=0;i<30;i++)await Promise.resolve();}
 function tree(n){return String(n?.textContent||'')+(n?.children||[]).map(tree).join(' ');}
 function collect(n){return [n,...(n?.children||[]).flatMap(collect)];}
 panel.listeners.toggle();await flush();
-const side=host.children[2].children[0];
-const accepted=side.children[1],received=side.children[3];
-const conversation=host.children[2].children[1].children[0];
+const side=collect(host).find(n=>n.className==='dd-chat-side');
+const [accepted,received]=collect(side).filter(n=>n.className==='dd-chat-people');
+const conversation=collect(host).find(n=>n.className==='dd-chat-view').children[0];
 assert.equal(accepted.children[0].textContent.includes('AlphaFriend'),true,'A accepted chat loaded');
 assert.equal(received.children[0].textContent.includes('WaitingFriend'),true,'A pending chat loaded');
 received.children[0].onclick();await flush();

@@ -12,6 +12,8 @@ const enabled=feature.witnessPublic===true&&['test','production'].includes(cfg.e
 const make=(tag,cls,content)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(content!==undefined)x.textContent=content;return x;};
 const reportKey=/^[0-9a-f]{8}-[0-9a-f-]{27,36}$/i;
 let db=null,publicRows=[],busy=false,refreshTimer=null,detail=null;
+const pendingWitnessId=(()=>{try{return new URLSearchParams(location.search).get('dd_witness')||''}catch{return ''}})();
+let publicDeepLinkOpened=false;
 const client=()=>db||(db=window.supabase?.createClient(cfg.url,cfg.publishableKey,{
  auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}
 }));
@@ -62,6 +64,9 @@ async function load(){
   return;
  }
  publicRows=(data||[]).map(clean).filter(Boolean);
+ if(!publicDeepLinkOpened&&reportKey.test(pendingWitnessId)&&publicRows.some(row=>row.id===pendingWitnessId)){
+  publicDeepLinkOpened=true;open(pendingWitnessId);
+ }
  const count=document.getElementById('ddWitnessPublicCount');
  if(count)count.textContent=publicRows.length+' published report'+(publicRows.length===1?'':'s')+' in the latest map sample';
  window.ddWitnessRefreshMap?.();
@@ -88,11 +93,31 @@ function open(id,{report=false}={}){
  const inner=make('div','card-body');
  const close=make('button','outline','✕ Close');
  close.type='button';close.addEventListener('click',hideDetail);
- inner.append(close,make('h2','',item.category));
+ const topbar=make('div','dd-witness-report-topbar');topbar.append(close);
+ inner.append(topbar,make('h2','',item.category));
  inner.append(make('p','muted small',item.city+', '+item.country+' · '+item.event_date));
  inner.append(make('p','dd-witness-warning','Unverified personal account; location shown is an approximate town or city.'));
  const body=make('p');body.style.whiteSpace='pre-wrap';body.textContent=item.story;inner.append(body);
- const votes=make('div');votes.dataset.ddWitnessVote=item.id;inner.append(votes);
+ const actionBar=make('div','dd-witness-action-rail dd-action-rail');
+ const votes=make('div');votes.dataset.ddWitnessVote=item.id;actionBar.append(votes);
+ const link='https://uapdisclosuredesk.com/?dd_tab=mapPage&dd_witness='+encodeURIComponent(item.id);
+ const title='Witness report · '+item.category+' · '+item.city+', '+item.country;
+ const star=make('button','dd-action-board');star.type='button';star.title='Add public report to Board';
+ star.setAttribute('aria-label','Add witness report to Investigation Board');
+ star.dataset.bookmarkUrl=link;star.dataset.bookmarkLabel=title;
+ const starIcon=make('span','','☆');starIcon.dataset.starIcon='';star.append(starIcon);
+ star.onclick=()=>window.DDSavePublicLinkToBoard?.(title,link);
+ const share=make('button','dd-action-share');share.type='button';share.title='Share public report';
+ share.setAttribute('aria-label','Share public witness report');
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+ svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');
+ for(const [tag,attrs] of [['circle',{cx:'18',cy:'5',r:'3'}],['circle',{cx:'6',cy:'12',r:'3'}],
+  ['circle',{cx:'18',cy:'19',r:'3'}],['path',{d:'m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8'}]]){
+  const n=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  for(const [key,value] of Object.entries(attrs))n.setAttribute(key,value);svg.append(n);
+ }
+ share.append(svg);share.onclick=()=>void window.DDSharePublicLink?.(title,link);
+ actionBar.append(star,share);inner.append(actionBar);
  const flagBox=make('div','dd-witness-report-actions');
  const flag=make('button','outline','⚑ Flag this report');
  flag.type='button';
@@ -129,13 +154,13 @@ function open(id,{report=false}={}){
    submit.disabled=false;
   }
  };
- flagBox.append(flag);inner.append(flagBox,reasonBox);
+ flagBox.append(flag);topbar.append(flagBox);inner.append(reasonBox);
  const rules=make('a','outline','Community Rules');
  rules.href='/community-rules.html#flagging';inner.append(rules);
  card.append(inner);detail.append(card);document.body.append(detail);
  detail.addEventListener('click',e=>{if(e.target===detail)hideDetail()});
  document.body.style.overflow='hidden';
- mountVotes();close.focus();
+ mountVotes();window.DDRefreshBoardStars?.();close.focus();
  if(report){flag.onclick()}
 }
 // Supabase functions.invoke wraps non-2xx responses in an HTTP error. Read the

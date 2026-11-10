@@ -6,14 +6,32 @@
 const MEASUREMENT='G-ZWJQMK8JSW',KEY='dd-site-analytics-consent-v1';
 const pages=new Set(['/','/index.html','/guide.html','/sources.html',
  '/community-rules.html','/privacy.html','/research-edition.html']);
-const path=location.pathname;if(!pages.has(path)||window.top!==window)return;
+const requestedPath=location.pathname;
+const aliases=Object.freeze({
+ '/guide':'/guide.html','/sources':'/sources.html',
+ '/community-rules':'/community-rules.html','/privacy':'/privacy.html',
+ '/research-edition':'/research-edition.html'
+});
+// Netlify serves extensionless public URLs, whereas source files end in .html.
+const bare=requestedPath==='/'?'/':requestedPath.replace(/\/$/,'');
+const path=aliases[bare]||bare;
+if(!pages.has(path)||window.top!==window)return;
 const sections=Object.freeze({
  discover:'News',archivePage:'Archive',mapPage:'Map',clips:'Videos',
  livePage:'Live',witness:'Witness',watchRead:'Watch and Read',hub:'Explore'
 });
-let state=null,started=false,lastPage='',banner=null;
+let state=null,started=false,lastPage='',banner=null,tagLoaded=false,tagFailed=false;
 try{const raw=localStorage.getItem(KEY);if(raw==='accepted'||raw==='declined')state=raw}catch(_){}
-function store(v){state=v;try{localStorage.setItem(KEY,v)}catch(_){}}
+function refreshStatus(){
+ const status=document.getElementById('dd-analytics-device-status');
+ if(!status)return;
+ if(state==='declined')status.textContent='This browser: analytics off (you chose No thanks). Your visits are not counted.';
+ else if(state!=='accepted')status.textContent='This browser: analytics not enabled. Choose Allow analytics if you want your public-page visits counted.';
+ else if(tagFailed)status.textContent='This browser: analytics allowed, but the Google tag could not load (possibly blocked by a browser setting).';
+ else if(tagLoaded)status.textContent='This browser: analytics allowed; Google tag loaded. Check GA4 Realtime for received visits. Public pages only.';
+ else status.textContent='This browser: analytics allowed. Waiting for the Google tag; private pages are not measured.';
+}
+function store(v){state=v;try{localStorage.setItem(KEY,v)}catch(_){}refreshStatus()}
 function show(v){if(banner)banner.hidden=!v}
 function bootTag(){
  if(started||state!=='accepted')return;
@@ -28,12 +46,18 @@ function bootTag(){
  const script=document.createElement('script');
  script.async=true;script.src='https://www.googletagmanager.com/gtag/js?id='+MEASUREMENT;
  script.referrerPolicy='no-referrer';
+ script.addEventListener('load',()=>{tagLoaded=true;tagFailed=false;refreshStatus()});
+ script.addEventListener('error',()=>{tagLoaded=false;tagFailed=true;refreshStatus()});
  document.head.appendChild(script);
+ refreshStatus();
 }
 function current(){
  if(path!=='/'&&path!=='/index.html')return path;
- const tab=document.querySelector('.nav .tab.active')?.dataset.tab;
- // A private tab must NEVER be mislabelled as public News.
+ // Direct links must be classified BEFORE the SPA navigates. Never report a
+ // deep link to a private page as News merely because News is the initial tab.
+ const requested=new URLSearchParams(location.search).get('dd_tab');
+ if(requested&&!sections[requested])return null;
+ const tab=requested||document.querySelector('.nav .tab.active')?.dataset.tab;
  const section=tab?sections[tab]:'News';
  return section?'/site/'+section.toLowerCase().replace(/[^a-z0-9]+/g,'-'):null;
 }
@@ -56,7 +80,11 @@ function deleteAnalyticsCookies(){
 }
 function choose(yes){
  store(yes?'accepted':'declined');show(false);
- if(yes){measure(current())}
+ if(yes){
+  bootTag();
+  if(started&&window.gtag)window.gtag('consent','update',{analytics_storage:'granted'});
+  lastPage='';measure(current());
+ }
  else{lastPage='';if(started&&window.gtag)
   window.gtag('consent','update',{analytics_storage:'denied'});
   deleteAnalyticsCookies()}
@@ -83,19 +111,23 @@ style.textContent="#dd-analytics-consent{position:relative;z-index:1;display:blo
  if(location.hash==='#analytics-settings')preferences();
  else if(!state)show(true);
  if(state==='accepted')measure(current());
+ refreshStatus();
 }
-window.DDAnalyticsConsent=Object.freeze({openPreferences:preferences});
+window.DDAnalyticsConsent=Object.freeze({openPreferences:preferences,getStatus:()=>Object.freeze({consent:state,tagLoaded,tagFailed,measuredPublicPath:lastPage||null})});
 window.addEventListener('dd-public-section-change',event=>{
  const name=sections[String(event.detail?.section||'')];
  if(name)measure('/site/'+name.toLowerCase().replace(/[^a-z0-9]+/g,'-'));
 });
 window.addEventListener('storage',event=>{
  if(event.key!==KEY)return;
- if(event.newValue==='accepted'){state='accepted';show(false);measure(current());}
+ if(event.newValue==='accepted'){choose(true);}
  else if(event.newValue==='declined'){state='declined';show(false);
   if(started&&window.gtag)window.gtag('consent','update',{analytics_storage:'denied'});
   deleteAnalyticsCookies();
- }else{state=null;show(true)}
+ }else{state=null;lastPage='';
+  if(started&&window.gtag)window.gtag('consent','update',{analytics_storage:'denied'});
+  deleteAnalyticsCookies();show(true)}
+ refreshStatus();
 });
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',create,{once:true});
 else create();

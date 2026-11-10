@@ -11,8 +11,12 @@ const TABS=[
  ['boards','▣','Boards'],['witness','◉','Witness'],
  ['watchRead','♫','Watch & Read'],['profilePage','👤','Profile'],['hub','☷','Explore']
 ];
-// Discussions are available through Explore on the public site, not as a
-// duplicate bottom tab. Keep this dock identical across Research and website.
+// Match the current website's dedicated Discussions tab. Source-controlled
+// feature flags and normal save-before-navigation checks still apply.
+if(window.DD_COMMUNITY_FEATURES?.discussions===true){
+ const beforeMedia=TABS.findIndex(row=>row[0]==='watchRead');
+ TABS.splice(beforeMedia,0,['discussionsPage','☷','Discussions']);
+}
 if(window.DD_COMMUNITY_FEATURES?.privateChat===true){
  const beforeProfile=TABS.findIndex(row=>row[0]==='profilePage');
  TABS.splice(beforeProfile,0,['chatPage','☏','Chat']);
