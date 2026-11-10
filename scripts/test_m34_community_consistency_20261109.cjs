@@ -16,7 +16,7 @@ assert.match(page,/data-news-article-votes=/);
 assert.doesNotMatch(page,/class="dd-news-tools"/,'Compare now belongs to the single action bar');
 assert.match(page,/class="outline dd-news-compare-action" data-compare-news=/,'The Compare action is in the existing news rail');
 assert.match(page,/#newsGrid article>\.dd-news-actions>\.dd-news-main-actions/);
-assert(news.includes("'.dd-news-main-actions, .dd-media-actions, .dd-archive-action-rail, .clip-utility-actions, .immersive-tools'"),'Shared mount must include every existing card rail, including immersive clips');
+assert(news.includes("'.dd-news-main-actions, .dd-media-actions, .dd-archive-action-rail, .clip-utility-actions, .immersive-tools, .dd-research-action-rail'"),'Shared mount must include all card and full detail rails');
 assert.match(news,/container\.append\(form,entries,message\)/);
 assert.match(news,/toggle\.onclick=\(\)=>/);
 assert.match(news,/body\.focus\(\{preventScroll:true\}\)/);
