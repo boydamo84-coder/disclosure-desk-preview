@@ -7,8 +7,14 @@ const JSZip=require('../research/vendor-jszip-3.10.1.js');
  const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
  try{
   const page=await browser.newPage({viewport:{width:393,height:900}});
-  await page.route('**/*',route=>route.abort());
-  await page.setContent('<!doctype html><html lang="en"><body><main>Local Word table test only</main></body></html>');
+  // Give document.currentScript's relative import-worker URL a valid base.
+  // Fulfil this fixture navigation locally; no external network is contacted.
+  await page.route('**/*',route=>{
+   if(route.request().isNavigationRequest()&&route.request().url()==='https://offline.example/research/m54-test.html')
+    return route.fulfill({status:200,contentType:'text/html',body:'<!doctype html><html lang="en"><body><main>Local Word table test only</main></body></html>'});
+   return route.abort();
+  });
+  await page.goto('https://offline.example/research/m54-test.html');
   for(const source of ['research/vendor-dompurify-3.4.17.js','research/vendor-docx-9.5.1.js','research/docx-tools.js'])
    await page.addScriptTag({content:fs.readFileSync(source,'utf8')});
   const bytes=await page.evaluate(async()=>{
