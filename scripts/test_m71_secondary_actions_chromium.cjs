@@ -45,6 +45,7 @@ async function inspect(rail,label,required){
   await archive.locator('[data-open-archive]').click();
   const detail=page.locator('#archiveCaseDialog');
   await detail.waitFor({state:'visible'});
+  await detail.locator('#archiveCaseBody .dd-action-rail .dd-inline-comments-toggle').waitFor();
   await inspect(detail.locator('#archiveCaseBody .dd-action-rail'),'Archive full case',['comments','board','share']);
   assert.equal(await detail.locator('.dd-inline-comments-toggle').count(),1,'Exactly one Archive full-case comments button, not a second modal control');
   await detail.locator('.dd-inline-comments-toggle').click();
