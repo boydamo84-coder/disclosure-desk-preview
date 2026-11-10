@@ -8,7 +8,7 @@ const source=fs.readFileSync('assets/profile-private-chat.js','utf8');
 const useVm=true;
 (async()=>{
 function element(tag){
-  return {tag,children:[],listeners:{},attrs:{},style:{},textContent:'',value:'',className:'',
+  return {tag,dataset:{},children:[],listeners:{},attrs:{},style:{},textContent:'',value:'',className:'',
     disabled:false,hidden:false,open:false,closest(kind){return kind==='details'?panel:null;},
     append(...items){this.children.push(...items);},
     replaceChildren(...items){this.children=[...items];},

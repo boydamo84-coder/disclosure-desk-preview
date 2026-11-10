@@ -6,7 +6,7 @@ const config=window.DD_COMMUNITY_TEST_CONFIG||{},flags=window.DD_COMMUNITY_FEATU
 const enabled=flags.privateChat===true&&['production','test'].includes(config.environment);
 const $=id=>document.getElementById(id),mk=(tag,content,cls='')=>{
  const x=document.createElement(tag);if(cls)x.className=cls;if(content!==undefined)x.textContent=String(content);return x};
-let db,host,notice,received,accepted,conversation,currentId=null,lastPaintedPairId=null,lastConversationSignature='',ownerId=null,rows=[],epoch=0,identityRevision=0,myUsername='You',drafts=Object.create(null),inviteSection=null,drawerToggle=null,drawerOpen=false;
+let db,host,notice,received,accepted,conversation,currentId=null,lastPaintedPairId=null,lastConversationSignature='',ownerId=null,rows=[],epoch=0,identityRevision=0,myUsername='You',drafts=Object.create(null),inviteSection=null,drawerToggle=null,drawerOpen=false,inboxMode='all',previews=Object.create(null);
 const client=()=>window.supabase?(db||(db=window.supabase.createClient(config.url,config.publishableKey,
  {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}))):null;
 function say(message){
@@ -69,12 +69,20 @@ function toggleDrawer(){
  }
  drawerToggle?.setAttribute?.('aria-expanded',String(drawerOpen));
 }
+function renderInbox(){
+ drawList(accepted,rows.filter(x=>x.status==='accepted'));
+ drawList(received,rows.filter(x=>x.status!=='accepted'));
+ const unread=rows.filter(x=>x.status==='accepted'&&!x.contact_unavailable&&Number(x.unread_count)>0).length;
+ const modes=host?.querySelectorAll?.('[data-dd-inbox-mode]')||[];
+ for(const b of modes){const selected=b.dataset.ddInboxMode===inboxMode;b.setAttribute('aria-pressed',String(selected));b.textContent=b.dataset.ddInboxMode==='unread'?'Unread'+(unread?' ('+unread+')':''):'All chats'}
+}
 function showInbox(){
  currentId=null;lastPaintedPairId=null;lastConversationSignature='';conversation?.replaceChildren();
  if(conversation){const empty=mk('div',undefined,'dd-chat-empty');empty.append(mk('strong','Your conversations'),mk('p','Choose a chat from the list, or start a new conversation using a public username.'));conversation.append(empty)}
  if(host&&typeof host.className==='string')host.className=host.className.replace(/\s*dd-chat-conversation-open\b/g,'');
  page()?.classList?.remove?.('dd-chat-is-conversation');
  closeDrawer();
+ if(accepted&&received)renderInbox();
 }
 function newChat(){
  showInbox();
@@ -85,31 +93,32 @@ function newChat(){
 }
 function clear(){
  ++epoch;++identityRevision;
- rows=[];currentId=null;ownerId=null;myUsername='You';drafts=Object.create(null);
+ rows=[];currentId=null;ownerId=null;myUsername='You';drafts=Object.create(null);previews=Object.create(null);inboxMode='all';
  showInbox();
- if(inviteSection)inviteSection.hidden=true;
+ if(inviteSection){inviteSection.hidden=true;inviteSection.querySelector?.('form')?.reset?.()}
  received?.replaceChildren();accepted?.replaceChildren();conversation?.replaceChildren()
 }
 function drawList(target,list){
  target.replaceChildren();
  const query=String($('ddChatInboxSearch')?.value||'').trim().toLowerCase();
- const visible=query?list.filter(row=>String(row.other_username||'Researcher').toLowerCase().includes(query)):list;
- if(target===received){const label=$('ddChatRequestsLabel');if(label)label.textContent='Requests'+(list.length?' ('+list.length+')':'')}
+ const filtered=target===accepted&&inboxMode==='unread'?list.filter(row=>Number(row.unread_count)>0&&!row.contact_unavailable):list;
+ const visible=query?filtered.filter(row=>String(row.other_username||'Researcher').toLowerCase().includes(query)):filtered;
+ if(target===received){const label=$('ddChatRequestsLabel');if(label)label.textContent='Message requests'+(list.length?' ('+list.length+')':'')}
  if(!visible.length){
   entry(target,query?'No matching conversations.':
-   target===accepted?'No conversations yet. Tap New chat to find a researcher.':'No pending requests.');
+   target===accepted?(inboxMode==='unread'?'You’re all caught up.':'No conversations yet. Tap New chat to find a researcher.'):'No pending requests.');
   return;
  }
  for(const row of visible){
   const unread=Math.max(0,Number(row.unread_count)||0);
   const name=row.other_username||'Researcher';
   const status=row.contact_unavailable?'Unavailable':
-    row.status==='accepted'?(unread?'New messages':'Open conversation'):
+    row.status==='accepted'?(previews[row.pair_id]||(unread?unread+' unread '+(unread===1?'message':'messages'):'Private conversation')):
     row.status==='pending'?(row.direction==='received'?'Incoming request · tap to respond':'Request sent · awaiting acceptance'):
     'Request closed';
-  const item=button(target,name,()=>{closeDrawer();currentId=row.pair_id;if(inviteSection)inviteSection.hidden=true;return openConversation(row)});
+  const item=button(target,name,()=>{closeDrawer();currentId=row.pair_id;if(inviteSection)inviteSection.hidden=true;renderInbox();return openConversation(row)});
   item.className+=' dd-chat-person'+(row.pair_id===currentId?' is-current':'');
-  item.setAttribute('aria-label',name+' · '+status);
+  item.setAttribute('aria-label',name+' · '+status);item.setAttribute('aria-pressed',String(row.pair_id===currentId));
   item.append(mk('small',status,'dd-chat-person-detail'));
   const avatar=mk('span',String(name).trim().charAt(0).toUpperCase()||'R','dd-chat-avatar');
   avatar.setAttribute('aria-hidden','true');item.append(avatar);
@@ -150,8 +159,7 @@ async function refresh(forceConversation=false){
   if(stamp!==epoch||ownerId!==data.user.id)return;
   if(response.error)throw response.error;
   rows=Array.isArray(response.data)?response.data:[];
-  drawList(accepted,rows.filter(x=>x.status==='accepted'));
-  drawList(received,rows.filter(x=>x.status!=='accepted'));
+  renderInbox();
   const active=rows.find(x=>x.pair_id===currentId);
   // Polling must never rebuild the message editor and keyboard when nothing changed.
   // A send/accept action explicitly requests a forced redraw; unread changes redraw as needed.
@@ -163,6 +171,7 @@ async function refresh(forceConversation=false){
  }catch(e){say('Chat unavailable. '+String(e?.message||'Please retry').slice(0,135))}
 }
 async function openConversation(row){
+ const conversationOwner=ownerId,conversationRevision=identityRevision;
  lastConversationSignature=conversationSignature(row);
  const sameConversation=lastPaintedPairId===row.pair_id;
  const previous=sameConversation?conversation.querySelector?.('.dd-chat-history'):null;
@@ -172,10 +181,9 @@ async function openConversation(row){
  if(host&&typeof host.className==='string'&&!host.className.includes('dd-chat-conversation-open'))host.className+=' dd-chat-conversation-open';
  page()?.classList?.add?.('dd-chat-is-conversation');
  const heading=mk('div',undefined,'dd-chat-conversation-head');
- const back=button(heading,'☰',()=>toggleDrawer());
- back.className+=' dd-chat-back';back.setAttribute('aria-label','Open conversation list');
+ const back=button(heading,'←',()=>showInbox());
+ back.className+=' dd-chat-back';back.setAttribute('aria-label','Back to chats');
  back.setAttribute('aria-controls','ddChatListDrawer');
- back.setAttribute('aria-expanded',String(drawerOpen));
  drawerToggle=back;
  const peerName=row.other_username||'Private chat';
  const avatar=mk('span',String(peerName).trim().charAt(0).toUpperCase()||'R','dd-chat-avatar dd-chat-avatar-peer');
@@ -220,7 +228,8 @@ async function openConversation(row){
    const c=await auth();
    const {data,error}=await c.rpc('dd_chat_history',{p_pair_id:pairId,p_limit:100});
    if(error)throw error;
-   if(currentId!==pairId)return;
+   if(currentId!==pairId||ownerId!==conversationOwner||identityRevision!==conversationRevision)return;
+   if(data?.[0]){previews[pairId]=(data[0].mine?'You: ':'')+String(data[0].body||'').replace(/\s+/g,' ').slice(0,100);renderInbox()}
    let previousDay='';
    for(const m of (data||[]).slice().reverse()){
     const sent=m.sent_at?new Date(m.sent_at):null;
@@ -251,13 +260,12 @@ async function openConversation(row){
    // On Android the final layout height is measured after DOM paint.
    window.requestAnimationFrame?.(syncHistoryScroll);
    const lastMessageId=(data||[])[0]?.message_id;
-   if(lastMessageId&&currentId===pairId&&Number(row.unread_count)>0){
+   if(lastMessageId&&currentId===pairId&&ownerId===conversationOwner&&identityRevision===conversationRevision&&Number(row.unread_count)>0){
     const seen=await c.rpc('dd_chat_mark_read',{p_pair_id:pairId,p_last_message_id:lastMessageId});
     if(!seen.error&&seen.data===true&&currentId===pairId){
      row.unread_count=0;
      lastConversationSignature=conversationSignature(row);
-     drawList(accepted,rows.filter(x=>x.status==='accepted'));
-     drawList(received,rows.filter(x=>x.status!=='accepted'));
+     renderInbox();
     }
    }
   }catch(e){entry(history,'History is temporarily unavailable. '+String(e?.message||'').slice(0,100))}
@@ -305,12 +313,13 @@ function invite(target){
  const section=mk('section',undefined,'dd-chat-start');
  const headline=mk('h3','Find a researcher');
  const newHead=mk('div',undefined,'dd-chat-new-head');newHead.append(headline);
- const closeNew=button(newHead,'✕',()=>{if(inviteSection)inviteSection.hidden=true});
+ const closeNew=button(newHead,'✕',()=>{if(inviteSection)inviteSection.hidden=true;$('ddChatNew')?.focus?.()});
  closeNew.setAttribute('aria-label','Close new chat request');
  const form=mk('form',undefined,'dd-chat-search-form');
+ const guidance=mk('p','Enter their public username, then send a short introduction. They’ll accept before the conversation starts.','dd-chat-search-help');
  const search=mk('div',undefined,'dd-chat-search-row');
  const name=mk('input');name.required=true;name.maxLength=24;name.autocomplete='off';
- name.placeholder='Search user';name.setAttribute('aria-label','Search user by exact public username');
+ name.placeholder='Public username';name.setAttribute('aria-label','Search user by exact public username');
  const reveal=mk('button','Request chat','dd-chat-search-action');reveal.type='button';
  search.append(name,reveal);
  const detail=mk('div',undefined,'dd-chat-invite-details');detail.hidden=true;
@@ -330,7 +339,7 @@ function invite(target){
   }
   feedback.textContent='';detail.hidden=false;intro.focus?.();
  };
- form.append(search,detail,feedback);
+ form.append(guidance,search,detail,feedback);
  form.onsubmit=event=>{
   event.preventDefault();const username=name.value.trim(),preview=intro.value.trim();
   if(detail.hidden){reveal.onclick();return}
@@ -348,6 +357,16 @@ function invite(target){
  };
  section.append(newHead,form);target.append(section);inviteSection=section;inviteSection.hidden=true;
 }
+function fitChatViewport(){
+ const root=page();if(!root?.style?.setProperty)return;
+ const vv=window.visualViewport;
+ const height=vv?.height||window.innerHeight;
+ if(Number.isFinite(height))root.style.setProperty('--dd-chat-visual-height',height+'px');
+ root.style.setProperty('--dd-chat-visual-top',(vv?.offsetTop||0)+'px');
+ const keyboard=Number.isFinite(height)&&window.innerHeight-height>140;
+ const dock=document.querySelector?.('nav.nav')?.getBoundingClientRect?.().height||70;
+ root.style.setProperty('--dd-chat-bottom-space',(keyboard?0:Math.ceil(dock)+4)+'px');
+}
 function init(){
  const panel=$('ddProfileChatPanel');host=$('ddProfileChatApp');if(!panel||!host)return;
  if(!enabled){entry(host,'Consent-first one-to-one messaging is being prepared. It is not active yet.');return}
@@ -355,33 +374,40 @@ function init(){
  invite(host);
  const externalNew=$('ddChatNew');if(externalNew)externalNew.onclick=()=>newChat();
  const inboxSearch=$('ddChatInboxSearch');
- if(inboxSearch)inboxSearch.addEventListener('input',()=>{
-  drawList(accepted,rows.filter(x=>x.status==='accepted'));
-  drawList(received,rows.filter(x=>x.status!=='accepted'));
- });
+ if(inboxSearch)inboxSearch.addEventListener('input',renderInbox);
  notice=mk('p','Sign in to view your chat requests.','muted small');
  notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');
  host.append(notice);
  const grid=mk('div',undefined,'dd-chat-layout');
  const list=mk('div',undefined,'dd-chat-side'),view=mk('div',undefined,'dd-chat-view');
+ page()?.classList?.add?.('dd-chat-designed');
+ const sidebarHead=mk('div',undefined,'dd-chat-sidebar-head');
+ sidebarHead.append(mk('h2','Chats'));
+ if(externalNew){externalNew.textContent='＋';externalNew.setAttribute('aria-label','Start a new chat');sidebarHead.append(externalNew)}
+ else button(sidebarHead,'＋',()=>newChat());
+ list.append(sidebarHead);
+ const filter=inboxSearch?.closest?.('.dd-chat-inbox-filter');if(filter)list.append(filter);
+ const modes=mk('div',undefined,'dd-chat-inbox-modes');modes.setAttribute('role','group');modes.setAttribute('aria-label','Filter conversations');
+ for(const [id,label] of [['all','All chats'],['unread','Unread']]){const b=button(modes,label,()=>{inboxMode=id;renderInbox()});b.dataset.ddInboxMode=id;b.setAttribute('aria-pressed',String(id===inboxMode))}
+ list.append(modes);
  const acceptedHeader=mk('div',undefined,'dd-chat-group-head');
  const allChats=button(acceptedHeader,'← Inbox',()=>showInbox());
  allChats.className+=' dd-chat-show-inbox';allChats.setAttribute('aria-label','Return to all chats');
- acceptedHeader.append(mk('h4','Conversations'));
- const create=button(acceptedHeader,'＋',()=>newChat());
- create.className+=' dd-chat-new-from-list';create.setAttribute('aria-label','Start a new chat');
+ acceptedHeader.append(mk('h4','Messages'));
  const refreshButton=button(acceptedHeader,'↻',()=>refresh());refreshButton.className='dd-chat-refresh';refreshButton.setAttribute('aria-label','Refresh conversations');
  accepted=mk('div',undefined,'dd-chat-people');
  list.append(acceptedHeader,accepted);
  list.setAttribute('id','ddChatListDrawer');
  const requests=mk('details',undefined,'dd-chat-requests');
- const requestLabel=mk('summary','Requests');requestLabel.id='ddChatRequestsLabel';requests.append(requestLabel);
+ const requestLabel=mk('summary','Message requests');requestLabel.id='ddChatRequestsLabel';requests.append(requestLabel);
  received=mk('div',undefined,'dd-chat-people');requests.append(received);list.append(requests);
+ const privacy=mk('p','Private messages · Requests need acceptance','dd-chat-privacy-note');list.append(privacy);
  conversation=mk('div');view.append(conversation);grid.append(list,view);
  const shade=mk('button',undefined,'dd-chat-drawer-shade');
  shade.type='button';shade.setAttribute('aria-label','Close conversation list');
  shade.onclick=()=>closeDrawer();grid.append(shade);
- host.append(grid);showInbox();
+ host.append(grid);showInbox();fitChatViewport();
+ window.addEventListener?.('resize',fitChatViewport);window.visualViewport?.addEventListener?.('resize',fitChatViewport);window.visualViewport?.addEventListener?.('scroll',fitChatViewport);
  document.addEventListener('keydown',event=>{
   if(event.key==='Escape'&&drawerOpen){closeDrawer();drawerToggle?.focus?.()}
  });

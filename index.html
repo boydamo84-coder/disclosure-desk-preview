@@ -740,9 +740,11 @@
 </section>
 <section id="discussionsPage" class="hidden" hidden aria-labelledby="ddForumHeading">
 <div class="section dd-forum">
- <div class="head"><h2 id="ddForumHeading">Discussions</h2><span class="pill">PUBLIC COMMUNITY</span></div>
- <p class="muted small">Choose a subject, open a post and join the conversation. Share sources and keep it respectful.</p>
+ <div class="dd-community-banner"><span class="dd-community-mark" aria-hidden="true">◈</span><div><p class="dd-community-eyebrow">THE RESEARCH COMMUNITY</p><h2 id="ddForumHeading">Discussions</h2><p>Ask a question. Share a source. Follow the evidence together.</p></div></div>
  <p id="ddForumStatus" class="muted small" role="status" aria-live="polite"></p>
+ <div class="dd-community-grid">
+ <aside class="dd-community-subjects" aria-label="Discussion subjects"><h3>Subjects</h3><button id="ddForumBrowseAll" type="button" class="dd-community-all">☷ All subjects</button><nav id="ddForumSubjectNav" class="dd-community-subject-nav" aria-label="Browse discussion subjects"></nav></aside>
+ <div class="dd-community-main">
  <div id="ddForumSectionsPane">
   <div class="dd-forum-tools"><label for="ddForumSearch">Search subjects<input id="ddForumSearch" class="field" type="search" placeholder="Find a subject…" maxlength="80"></label><div class="dd-forum-tool-actions"><button id="ddForumRefresh" type="button" class="outline dd-forum-tool-button">↻ <span>Refresh</span></button><button id="ddForumNewSection" type="button" class="action dd-forum-tool-button dd-forum-plus" aria-label="Create a discussion subject" aria-haspopup="dialog" aria-controls="ddForumSectionDialog">＋ New subject</button></div></div>
   <div id="ddForumSections" class="dd-forum-list"></div>
@@ -813,12 +815,13 @@
    </form>
   </dialog>
   <div id="ddForumReplyPane" hidden>
-   <button type="button" class="outline" id="ddForumBackThreads">← All topics</button>
+   <button type="button" class="outline" id="ddForumBackThreads">← Back to posts</button>
    <div id="ddForumReplyContent" class="dd-forum-item dd-forum-post-card dd-forum-thread-detail"></div>
-   <h4>Replies</h4><div id="ddForumReplies" class="dd-forum-list"></div>
+   <h4>Comments</h4><div id="ddForumReplies" class="dd-forum-list"></div>
    <form id="ddForumReplyCreate" class="dd-forum-form-card"><label>Your reply<textarea class="field" name="body" rows="4" minlength="2" maxlength="2000" required></textarea></label><button type="submit" class="action">Reply</button></form>
   </div>
  </div>
+ </div><aside class="dd-community-context"><section class="dd-community-about"><span class="dd-community-eyebrow">ABOUT THIS SPACE</span><h3 id="ddForumContextTitle">A place for curious minds</h3><p id="ddForumContextDescription">Explore the evidence, compare ideas and learn from other researchers.</p><p id="ddForumContextCount" class="dd-community-context-count"></p></section><section class="dd-community-guidelines"><h3>Good conversations start here</h3><ol><li><strong>Bring the source.</strong> Link the original evidence where possible.</li><li><strong>Question with respect.</strong> Discuss ideas, not the person.</li><li><strong>Keep it safe.</strong> Five distinct reports hide content for review.</li></ol><a href="/community-rules">Read the community rules ↗</a></section></aside></div>
 </div></section><section id="profilePage" class="hidden" aria-labelledby="ddProfileTitle"><div class="section dd-profile-page">
 <div class="head"><h2 id="ddProfileTitle">My Research Hub</h2><span class="pill">PRIVATE</span></div>
 <p class="muted small">Your research, Boards, community contributions and account settings together. Everything remains private unless you choose to publish it.</p>
@@ -2540,7 +2543,7 @@ window.ddTickerOpenStory=function(id){
 };
 window.ddTickerRefresh=function(){return loadLiveNews(false)};
 $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
-</script><script defer src="assets/news-ticker.js?v=nov08-v9"></script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/research-hub.js?v=nov3-hub1"></script><script defer src="assets/profile-avatars.js?v=nov08-iphone-jpeg-fallback-v3"></script><script defer src="assets/member-avatars.js?v=nov08-visible-by-default"></script><script defer src="assets/profile-private-chat.js?v=nov08-stability-v1"></script><script defer src="assets/chat-tab-ui.js?v=nov08-stability-v1"></script><script defer src="assets/community-discussions.js?v=nov08-v9"></script><script defer src="assets/discussions-admin.js?v=nov3-forum-admin-staged"></script><script defer src="assets/historical-satellite.js?v=nov08-landsat-handoff-prefill"></script><script defer src="assets/support-site.js?v=ko-fi-disclosuredesk-20261103"></script><script defer src="assets/community-votes.js?v=nov08-comment-action-rail"></script><script defer src="assets/news-article-votes.js?v=m34-news-article-votes"></script><script defer src="assets/case-discussions.js?v=nov08-comment-action-rail"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=nov08-comment-action-rail"></script><script defer src="assets/live-hearings.js?v=dev-1"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=nov3-beta1"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/media-submissions.js?v=m42"></script><script defer src="assets/watch-read.js?v=dev-1"></script><style id="dd-m34-profile-news-sticky-polish">
+</script><script defer src="assets/news-ticker.js?v=nov08-v9"></script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/research-hub.js?v=nov3-hub1"></script><script defer src="assets/profile-avatars.js?v=nov08-iphone-jpeg-fallback-v3"></script><script defer src="assets/member-avatars.js?v=nov08-visible-by-default"></script><script defer src="assets/profile-private-chat.js?v=m49-social-design"></script><script defer src="assets/chat-tab-ui.js?v=nov08-stability-v1"></script><script defer src="assets/community-discussions.js?v=m49-social-design"></script><script defer src="assets/discussions-admin.js?v=nov3-forum-admin-staged"></script><script defer src="assets/historical-satellite.js?v=nov08-landsat-handoff-prefill"></script><script defer src="assets/support-site.js?v=ko-fi-disclosuredesk-20261103"></script><script defer src="assets/community-votes.js?v=nov08-comment-action-rail"></script><script defer src="assets/news-article-votes.js?v=m34-news-article-votes"></script><script defer src="assets/case-discussions.js?v=nov08-comment-action-rail"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=nov08-comment-action-rail"></script><script defer src="assets/live-hearings.js?v=dev-1"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=nov3-beta1"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/media-submissions.js?v=m42"></script><script defer src="assets/watch-read.js?v=dev-1"></script><style id="dd-m34-profile-news-sticky-polish">
 /* M34: group the avatar control with its visible photo rather than leaving
    the thumbnail stranded at the bottom of a tall settings card. */
 #ddAvatarPanel .dd-avatar-layout{
@@ -3143,5 +3146,5 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
 #mapPage #officialFootageSection,#mapPage #mapItems,
 #mapPage #mapArchiveResults{display:none!important}
 </style>
-<link rel="stylesheet" href="assets/community-polish.css?v=m42">
+<link rel="stylesheet" href="assets/community-polish.css?v=m49">
 </body></html>

@@ -165,6 +165,7 @@ jobs:
           exit 1
       - name: Run actual Chromium mobile editor tests without cloud access
         run: |
+          node scripts/test_social_redesign_chromium.cjs
           node scripts/test_media_auto_publish_chromium.cjs
           node scripts/test_research_editor_real_chromium_20261108.cjs
           node scripts/test_m32_actual_writer_ribbon_chromium_20261109.cjs

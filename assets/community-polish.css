@@ -103,3 +103,191 @@
 /* Watch & Read report form, matched to the site's navy/gold controls. */
 .dd-media-report-dialog{background:#142737;color:#f0e4ce;border:1px solid #a38c64;border-radius:14px;padding:20px;width:min(460px,calc(100vw - 28px));max-height:85dvh;overflow:auto;box-sizing:border-box;overflow-wrap:anywhere}
 .dd-media-report-dialog::backdrop{background:#000b}.dd-media-report-dialog h2{font-size:20px;color:#efd19b}.dd-media-report-dialog label{display:block;margin:14px 0}.dd-media-report-dialog select{width:100%;margin-top:6px}.dd-media-report-dialog button{min-height:40px;margin:4px}.dd-media-report{white-space:nowrap}
+
+/* M49 — native-feeling messages and an evidence-first community feed. */
+#chatPage.dd-chat-designed:not(.hidden){max-width:1380px;border-radius:18px;margin:12px auto;height:calc(100dvh - 188px);min-height:480px;background:#0c1e2c;box-shadow:0 18px 55px #0003}
+#chatPage.dd-chat-designed>.dd-chat-titlebar,#chatPage.dd-chat-designed>.dd-chat-explainer{display:none}
+#chatPage.dd-chat-designed .dd-chat-layout{grid-template-columns:320px minmax(0,1fr)!important;gap:0;height:100%;margin:0}
+#chatPage.dd-chat-designed .dd-chat-side{display:flex!important;flex-direction:column;overflow:hidden;padding:0;border-right:1px solid #294252;background:#102735}
+#chatPage.dd-chat-designed .dd-chat-sidebar-head{display:flex;align-items:center;justify-content:space-between;padding:20px 18px 16px;gap:16px;flex:none}
+#chatPage.dd-chat-designed .dd-chat-sidebar-head h2{margin:0;color:#f1f4f6;font-size:25px;letter-spacing:-.7px}
+#chatPage.dd-chat-designed .dd-chat-sidebar-head button{width:40px;min-width:40px;height:40px;padding:0;border-radius:50%;background:#d7bb86;color:#122635;border:0;font-size:24px}
+#chatPage.dd-chat-designed .dd-chat-inbox-filter{padding:0 16px 14px;flex:none}
+#chatPage.dd-chat-designed .dd-chat-inbox-filter input{width:100%;box-sizing:border-box;min-height:42px;padding:10px 14px;border-radius:12px;background:#1a3443;border:1px solid #2f4d5e;color:#e7edf2;font-size:14px}
+#chatPage.dd-chat-designed .dd-chat-inbox-modes{display:flex;gap:7px;padding:0 16px 12px;flex:none}
+#chatPage.dd-chat-designed .dd-chat-inbox-modes button{padding:7px 13px;border-radius:20px;border:1px solid transparent;background:transparent;color:#a8bcc9;font-size:12px;min-height:34px}
+#chatPage.dd-chat-designed .dd-chat-inbox-modes button[aria-pressed=true]{background:#304a4e;color:#f0d8a7;border-color:#637164}
+#chatPage.dd-chat-designed .dd-chat-group-head{display:flex;align-items:center;justify-content:space-between;padding:0 17px 8px;flex:none}
+#chatPage.dd-chat-designed .dd-chat-group-head h4{margin:0;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;color:#7e9eae}
+#chatPage.dd-chat-designed .dd-chat-refresh{background:transparent;border:0;color:#9db3c0;padding:5px;min-width:30px;min-height:30px;font-size:17px}
+#chatPage.dd-chat-designed .dd-chat-show-inbox{display:none!important}
+#chatPage.dd-chat-designed .dd-chat-side>.dd-chat-people{flex:1;min-height:100px;overflow-y:auto;display:block;padding:0 9px;overscroll-behavior:contain}
+#chatPage.dd-chat-designed .dd-chat-person{display:block;width:100%;margin:3px 0;min-height:78px;border:1px solid transparent;border-radius:12px;padding:17px 35px 15px 65px;background:transparent;color:#e7eef3;font-size:14px;font-weight:700;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#chatPage.dd-chat-designed .dd-chat-person:hover{background:#1a3545}
+#chatPage.dd-chat-designed .dd-chat-person.is-current{background:#1e3d4b;border-color:#3a5966}
+#chatPage.dd-chat-designed .dd-chat-person-detail{display:block;font-size:11px;font-weight:400;line-height:1.65;color:#9fb4c1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
+#chatPage.dd-chat-designed .dd-chat-person .dd-chat-avatar{left:12px;width:42px;height:42px;border-radius:50%;background:linear-gradient(145deg,#3b5e6a,#233d4c);color:#f0dec1;border:1px solid #5d7881;font-size:18px;font-weight:600;display:grid;place-items:center}
+#chatPage.dd-chat-designed .dd-chat-person-count{background:#dfc08b;color:#152734;border:0;right:10px;min-width:19px;height:19px;font-size:10px;display:grid;place-items:center;font-weight:800}
+#chatPage.dd-chat-designed .dd-chat-requests{border-top:1px solid #294252;margin-top:8px;flex:none}
+#chatPage.dd-chat-designed .dd-chat-requests>summary{padding:16px 18px;font-size:12px;color:#b8cad5;cursor:pointer}
+#chatPage.dd-chat-designed .dd-chat-requests .dd-chat-people{max-height:210px;overflow:auto;padding:0 9px}
+#chatPage.dd-chat-designed .dd-chat-privacy-note{padding:13px 16px;margin:0;font-size:10px;color:#7f9ba9;border-top:1px solid #294252;flex:none}
+#chatPage.dd-chat-designed .dd-chat-view{padding:0!important;min-height:0;background:#0b1d2a;border:0;overflow:hidden}
+#chatPage.dd-chat-designed .dd-chat-view>div{display:flex;flex-direction:column;min-height:0;height:100%;flex:1}
+#chatPage.dd-chat-designed .dd-chat-conversation-head{display:flex;align-items:center;gap:11px;flex:none;padding:14px 20px;background:#102735;border-bottom:1px solid #294252;min-height:75px}
+#chatPage.dd-chat-designed .dd-chat-peer-title h4{font-size:16px;color:#edf2f5;margin:0 0 3px;font-weight:700}
+#chatPage.dd-chat-designed .dd-chat-peer-title small{font-size:11px;color:#8ea9b9}
+#chatPage.dd-chat-designed .dd-chat-avatar-peer{width:39px;height:39px;font-size:17px;border:1px solid #5f7981;background:#2a4957;color:#ebd5ac}
+#chatPage.dd-chat-designed .dd-chat-history{display:flex;flex:1;min-height:0;max-height:none;overflow-y:auto;gap:5px;padding:22px 26px;background:radial-gradient(ellipse at 60% 20%,#15304044,transparent 75%),#0b1d2a;overscroll-behavior:contain}
+#chatPage.dd-chat-designed .dd-chat-day{background:#183240;color:#a0b6c4;font-size:10px;letter-spacing:.2px;padding:5px 11px;margin:9px 0 14px;border:1px solid #274553}
+#chatPage.dd-chat-designed .dd-chat-bubble{position:relative;max-width:76%;padding:12px 15px 9px;margin:2px 0;border:1px solid #294958;box-shadow:none;border-radius:16px 16px 16px 5px}
+#chatPage.dd-chat-designed .dd-chat-bubble-mine{background:#294a52;border-color:#375c62;border-radius:16px 16px 5px 16px}
+#chatPage.dd-chat-designed .dd-chat-bubble-other{background:#163240}
+#chatPage.dd-chat-designed .dd-chat-bubble>small:first-child{display:none}
+#chatPage.dd-chat-designed .dd-chat-bubble p{font-size:14px;line-height:1.6;color:#e7eef1;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+#chatPage.dd-chat-designed .dd-chat-message-time{margin-top:5px;font-size:9px;letter-spacing:.2px;color:#a2b8c2}
+#chatPage.dd-chat-designed .dd-chat-message-menu{position:absolute;top:3px;right:4px}
+#chatPage.dd-chat-designed .dd-chat-message-menu>summary{opacity:0;cursor:pointer;padding:0 4px;color:#d6e1e6;list-style:none}
+#chatPage.dd-chat-designed .dd-chat-bubble:hover .dd-chat-message-menu>summary,#chatPage.dd-chat-designed .dd-chat-message-menu:focus-within>summary,#chatPage.dd-chat-designed .dd-chat-message-menu[open]>summary{opacity:1}
+#chatPage.dd-chat-designed .dd-chat-message-menu[open]{z-index:5;background:#233e4b;border:1px solid #527080;border-radius:9px;padding:5px}
+#chatPage.dd-chat-designed .dd-chat-message-menu button{min-height:40px;white-space:nowrap}
+#chatPage.dd-chat-designed .dd-chat-compose{position:relative!important;bottom:auto!important;flex:none;margin:0;padding:14px 18px;background:#102735;border-top:1px solid #294252}
+#chatPage.dd-chat-designed .dd-chat-compose-bar{gap:10px;padding:0}
+#chatPage.dd-chat-designed .dd-chat-compose-bar textarea{border-radius:24px;min-height:46px;height:46px;padding:12px 17px;background:#1b3745;border:1px solid #345463;color:#edf3f6;line-height:21px;font-size:14px}
+#chatPage.dd-chat-designed .dd-chat-compose-bar .dd-chat-send{height:46px;width:46px;min-width:46px;border-radius:50%;padding:0;background:#ddbf89;color:#142938;border:0;font-size:0}
+#chatPage.dd-chat-designed .dd-chat-compose-bar .dd-chat-send::after{content:'➤';font-size:20px}
+#chatPage.dd-chat-designed .dd-chat-empty{gap:13px;background:radial-gradient(circle at center,#183b4b44,transparent 62%)}
+#chatPage.dd-chat-designed .dd-chat-empty::before{content:'☏';display:grid;place-items:center;width:68px;height:68px;border-radius:24px;border:1px solid #35515f;background:#16303f;color:#d6ba89;font-size:32px;margin-bottom:4px}
+#chatPage.dd-chat-designed .dd-chat-empty strong{font-size:23px;color:#e9eff2;letter-spacing:-.6px}
+#chatPage.dd-chat-designed .dd-chat-empty p{color:#8faabb;font-size:13px;line-height:1.65}
+#chatPage.dd-chat-designed .dd-chat-start:not([hidden]){left:320px;background:#102735;padding:28px;display:flex;flex-direction:column;justify-content:flex-start}
+#chatPage.dd-chat-designed .dd-chat-start .dd-chat-search-form{width:100%;max-width:480px;margin:30px auto}
+#chatPage.dd-chat-designed .dd-chat-start h3{font-size:23px;color:#eef3f6;letter-spacing:-.5px}
+#chatPage.dd-chat-designed .dd-chat-start input,#chatPage.dd-chat-designed .dd-chat-start textarea{border-radius:12px;background:#183443;color:#eaf0f4;border:1px solid #3a5969;padding:12px}
+
+#discussionsPage .dd-forum{max-width:1460px;padding:0;background:transparent;border:0;box-shadow:none}
+#discussionsPage .dd-community-banner{display:flex;align-items:center;gap:17px;padding:22px 8px 20px;border-bottom:1px solid #2b4555;margin-bottom:18px}
+#discussionsPage .dd-community-mark{width:64px;height:64px;display:grid;place-items:center;flex:none;border:1px solid #6c766b;border-radius:18px;background:linear-gradient(150deg,#2d4a50,#142d3f);color:#e7c58d;font-size:35px}
+#discussionsPage .dd-community-eyebrow{font-size:9px;font-weight:700;letter-spacing:1.7px;color:#a4ad9e;margin:0 0 7px}
+#discussionsPage .dd-community-banner h2{margin:0 0 5px;font-size:32px;font-weight:750;letter-spacing:-1px;color:#eff3f5}
+#discussionsPage .dd-community-banner p:last-child{margin:0;color:#9fb5c4;font-size:13px;line-height:1.6}
+#discussionsPage #ddForumStatus{font-size:11px;color:#91aab9;padding:0 8px;margin:0 0 12px}
+#discussionsPage .dd-community-grid{display:grid;grid-template-columns:190px minmax(0,1fr) 250px;gap:20px;align-items:start}
+#discussionsPage .dd-community-main{min-width:0}
+#discussionsPage .dd-community-subjects,#discussionsPage .dd-community-context{position:sticky;top:18px;min-width:0}
+#discussionsPage .dd-community-subjects h3{font-size:10px;text-transform:uppercase;letter-spacing:1.6px;color:#7f9dad;margin:12px 12px}
+#discussionsPage .dd-community-all,#discussionsPage .dd-community-subject-link{display:block;position:relative;width:100%;text-align:left;min-height:44px;background:transparent;border:1px solid transparent;border-radius:10px;color:#a8bdca;padding:12px;font-size:12px;line-height:1.5;cursor:pointer}
+#discussionsPage .dd-community-all{color:#e7d3ac;font-weight:650;margin-bottom:6px}
+#discussionsPage .dd-community-subject-link{padding-right:34px;overflow-wrap:anywhere}
+#discussionsPage .dd-community-subject-link:hover,#discussionsPage .dd-community-all:hover{background:#172f3f}
+#discussionsPage .dd-community-subject-link[aria-current=page],#discussionsPage .dd-community-all[aria-current=page]{color:#f0dcba;background:#203c47;border-color:#3b5860}
+#discussionsPage .dd-community-subject-count{position:absolute;right:10px;top:13px;color:#7e9aaa;font-size:10px}
+#discussionsPage .dd-community-subject-nav{max-height:65dvh;overflow-y:auto}
+#discussionsPage .dd-community-about,#discussionsPage .dd-community-guidelines{padding:19px;border:1px solid #2e4a5b;border-radius:14px;background:#112837;margin-bottom:14px}
+#discussionsPage .dd-community-context h3{font-size:15px;color:#e4edf2;margin:7px 0 11px;line-height:1.45}
+#discussionsPage .dd-community-context p{font-size:12px;color:#96aebc;line-height:1.7;margin:0 0 12px}
+#discussionsPage .dd-community-context-count{padding-top:12px;border-top:1px solid #2e4a5b;color:#d8c49e!important;font-size:11px!important;margin-bottom:0!important}
+#discussionsPage .dd-community-guidelines ol{padding-left:16px;margin:0;font-size:11px;color:#94adbd;line-height:1.75}
+#discussionsPage .dd-community-guidelines li{padding-left:3px;margin-bottom:13px}
+#discussionsPage .dd-community-guidelines strong{display:block;color:#cbd9e2;font-weight:600}
+#discussionsPage .dd-community-guidelines a{color:#dfc48d;font-size:11px;text-decoration:none}
+#discussionsPage #ddForumSections{grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:12px}
+#discussionsPage .dd-forum-section-card{position:relative;border:1px solid #315063;border-radius:14px;background:#112b3b;padding:22px 18px 18px;box-shadow:none;min-height:225px}
+#discussionsPage .dd-forum-section-card>.dd-forum-title{display:block;width:100%;font-size:17px;line-height:1.4;padding:0 0 0 48px;margin:0 0 16px;min-height:40px;color:#edf2f5;text-align:left;font-weight:700;letter-spacing:-.3px}
+#discussionsPage .dd-community-subject-mark{position:absolute;top:23px;left:18px;display:grid;place-items:center;width:33px;height:33px;border:1px solid #5e777b;border-radius:11px;background:#284957;color:#e2cfaa;font-size:17px}
+#discussionsPage .dd-forum-section-card .dd-forum-body{font-size:12px;line-height:1.7;color:#a5bdca;margin-bottom:16px;min-height:60px}
+#discussionsPage .dd-forum-section-card>small{font-size:10px;color:#82a2b6}
+#discussionsPage .dd-forum-section-open{display:block;margin-top:15px;color:#dfc58e;font-size:11px;text-decoration:none}
+#discussionsPage .dd-forum-tools,#discussionsPage .dd-forum-feed-toolbar{background:#102736;border:1px solid #2d485a;padding:12px;border-radius:13px;gap:12px;margin-bottom:14px}
+#discussionsPage #ddForumThreadTitle{font-size:24px;color:#edf2f4;letter-spacing:-.6px;margin:18px 0 8px}
+#discussionsPage #ddForumSectionInfo{font-size:12px;line-height:1.65;color:#96afbf;margin-bottom:18px}
+#discussionsPage .dd-forum-feed-toolbar label{font-size:10px;color:#91a9b8}
+#discussionsPage .dd-forum-feed-toolbar .field,#discussionsPage .dd-forum-tools .field{border-color:#355366;background:#183442;border-radius:9px;font-size:12px;color:#dfe8ed}
+#discussionsPage .dd-forum-create-post-row{margin:0 0 15px}
+#discussionsPage .dd-forum-new-post{border-radius:22px;padding:10px 19px;min-height:42px;font-size:12px;background:#ddbf89;border-color:#ddbf89;color:#142838}
+#discussionsPage .dd-forum-post-card{background:#112a3a;border:1px solid #304e60;border-radius:15px;overflow:hidden;margin:0 0 14px;box-shadow:none}
+#discussionsPage .dd-forum-post-card:hover{border-color:#506b79}
+#discussionsPage .dd-forum-post-main{padding:17px 19px!important}
+#discussionsPage .dd-forum-post-head{margin-bottom:12px;align-items:center}
+#discussionsPage .dd-forum-post-author{gap:7px;display:flex;align-items:center;min-width:0;flex-wrap:wrap}
+#discussionsPage .dd-forum-post-author>small{font-size:10px;color:#8da9ba;line-height:1.5}
+#discussionsPage .dd-forum-avatar{width:23px;height:23px;min-width:23px;font-size:10px;border-color:#577581;background:#294856;margin-right:0}
+#discussionsPage .dd-forum-post-main>.dd-forum-title,#discussionsPage .dd-forum-post-main>h3{color:#eef3f6;font-size:19px;font-weight:700;line-height:1.45;letter-spacing:-.3px;text-align:left;margin:8px 0 12px;padding:0}
+#discussionsPage .dd-forum-post-main>.dd-forum-title:hover{color:#e1c58e}
+#discussionsPage .dd-forum-post-main>.dd-forum-body{font-size:13px;line-height:1.8;color:#b3c7d2;margin:8px 0 10px;white-space:pre-wrap;overflow-wrap:anywhere}
+#discussionsPage .dd-forum-post-card:not(.dd-forum-thread-detail) .dd-forum-body{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+#discussionsPage .dd-forum-actions.dd-action-rail{background:#0f2534!important;border-top:1px solid #2b4656!important;padding:7px 12px!important;gap:4px!important}
+#discussionsPage .dd-forum-actions button{min-height:37px!important;font-size:11px;padding:5px 9px!important;border-radius:19px!important;background:transparent;border-color:transparent}
+#discussionsPage .dd-forum-actions .dd-forum-vote{background:#1c3848;border-color:#2a4d60;color:#c6d7e1}
+#discussionsPage .dd-forum-actions .dd-forum-vote[aria-pressed=true]{background:#3a514d!important;border-color:#8d9474;color:#efd5a1!important}
+#discussionsPage .dd-forum-head-flag button{opacity:.65;border:0;background:transparent;min-width:30px;min-height:30px}
+#discussionsPage .dd-forum-head-flag button:hover,#discussionsPage .dd-forum-head-flag button:focus-visible{opacity:1}
+#discussionsPage #ddForumReplies{gap:0;margin-top:12px}
+#discussionsPage .dd-forum-reply-card{background:transparent;border:0;border-radius:0;border-bottom:1px solid #294655;margin:0 0 10px;box-shadow:none}
+#discussionsPage .dd-forum-reply-card .dd-forum-post-main{padding:14px 14px 5px!important}
+#discussionsPage .dd-forum-reply-card .dd-forum-actions{border:0!important;padding-top:0!important;background:transparent!important}
+#discussionsPage .dd-forum-nested-reply{margin-left:calc(var(--dd-comment-depth,1) * 22px);border-left:2px solid #365565;border-bottom:0;padding-left:8px}
+#discussionsPage .dd-forum-reply-target{font-size:10px;color:#93aebf}
+#discussionsPage #ddForumReplyCreate{border:1px solid #3e5d6e;border-radius:14px;padding:15px;background:#132e3e;margin:12px 0 20px}
+#discussionsPage #ddForumReplyCreate textarea{background:#0d2332;border:1px solid #345165;border-radius:10px;font-size:14px;min-height:100px}
+@media(max-width:1190px){#discussionsPage .dd-community-grid{grid-template-columns:175px minmax(0,1fr)}#discussionsPage .dd-community-context{display:none}}
+@media(max-width:759px){
+ #chatPage.dd-chat-designed:not(.hidden){height:calc(100dvh - 190px);min-height:400px;margin:0;border:0;border-radius:0}
+ #chatPage.dd-chat-designed .dd-chat-layout{display:block!important;position:relative;height:100%}
+ #chatPage.dd-chat-designed .dd-chat-side{height:100%;border:0}
+ #chatPage.dd-chat-designed .dd-chat-view{display:none!important}
+ #chatPage.dd-chat-designed #ddProfileChatApp.dd-chat-conversation-open .dd-chat-side{display:none!important}
+ #chatPage.dd-chat-designed #ddProfileChatApp.dd-chat-conversation-open .dd-chat-view{display:flex!important;height:100%}
+ #chatPage.dd-chat-designed .dd-chat-conversation-head{padding:12px 14px;min-height:72px}
+ #chatPage.dd-chat-designed .dd-chat-back{display:block!important;border:0;background:transparent;color:#d9c296;font-size:25px;padding:4px 8px;min-width:38px;min-height:42px}
+ #chatPage.dd-chat-designed .dd-chat-history{padding:15px 13px}
+ #chatPage.dd-chat-designed .dd-chat-bubble{max-width:85%;padding:10px 13px 8px}
+ #chatPage.dd-chat-designed .dd-chat-bubble p{font-size:14px}
+ #chatPage.dd-chat-designed .dd-chat-message-menu>summary{opacity:1;font-size:13px;padding:0 3px}
+ #chatPage.dd-chat-designed .dd-chat-compose{padding:10px 12px}
+ #chatPage.dd-chat-designed .dd-chat-compose-bar textarea{font-size:16px}
+ #chatPage.dd-chat-designed .dd-chat-empty{display:none}
+ #chatPage.dd-chat-designed.dd-chat-is-conversation:not(.hidden){position:fixed;top:var(--dd-chat-visual-top,0px);left:0;right:0;bottom:auto;width:100%;height:calc(var(--dd-chat-visual-height,100dvh) - var(--dd-chat-bottom-space,78px));min-height:0;z-index:1010}
+ #chatPage.dd-chat-designed .dd-chat-start:not([hidden]){left:0;padding:20px;inset:0;overflow:auto}
+ #discussionsPage .dd-community-grid{display:block}
+ #discussionsPage .dd-community-context{display:none}
+ #discussionsPage .dd-community-banner{padding:18px 4px;gap:12px;margin-bottom:12px}
+ #discussionsPage .dd-community-mark{width:48px;height:48px;border-radius:14px;font-size:28px}
+ #discussionsPage .dd-community-banner h2{font-size:26px}
+ #discussionsPage .dd-community-banner p:last-child{font-size:11px}
+ #discussionsPage .dd-community-subjects{display:flex;position:static;gap:6px;align-items:center;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #294555;overflow:hidden}
+ #discussionsPage .dd-community-subjects h3{display:none}
+ #discussionsPage .dd-community-all{width:auto;white-space:nowrap;flex:none;margin:0;padding:9px;font-size:10px}
+ #discussionsPage .dd-community-subject-nav{display:flex;flex:1;min-width:0;overflow-x:auto;overflow-y:hidden;gap:5px;max-height:none}
+ #discussionsPage .dd-community-subject-link{white-space:nowrap;width:auto;flex:none;padding:9px 11px;min-height:36px;font-size:10px;border:1px solid #2c495a;border-radius:20px}
+ #discussionsPage .dd-community-subject-count{display:none}
+ #discussionsPage #ddForumSections{grid-template-columns:1fr}
+ #discussionsPage .dd-forum-section-card{min-height:190px}
+ #discussionsPage .dd-forum-post-main{padding:15px!important}
+ #discussionsPage .dd-forum-post-main>.dd-forum-title,#discussionsPage .dd-forum-post-main>h3{font-size:18px}
+ #discussionsPage .dd-forum-post-author>small{font-size:9px}
+ #discussionsPage .dd-forum-nested-reply{margin-left:calc(var(--dd-comment-depth,1) * 12px);padding-left:5px}
+ #discussionsPage .dd-forum-actions button{min-height:42px!important;padding:5px 8px!important}
+ #discussionsPage .dd-forum-feed-toolbar{display:grid;grid-template-columns:minmax(0,1fr) 115px}
+ #discussionsPage .dd-forum-feed-toolbar label{min-width:0}
+}
+/* Icon geometry is independent of font baselines on desktop and mobile. */
+#chatPage.dd-chat-designed{padding-bottom:0}
+#chatPage.dd-chat-designed .dd-chat-sidebar-head button{position:relative;display:grid;place-items:center;line-height:1;font-size:0}
+#chatPage.dd-chat-designed .dd-chat-sidebar-head button::before,#chatPage.dd-chat-designed .dd-chat-sidebar-head button::after{content:'';position:absolute;left:50%;top:50%;width:17px;height:2px;border-radius:1px;background:currentColor;transform:translate(-50%,-50%)}
+#chatPage.dd-chat-designed .dd-chat-sidebar-head button::after{transform:translate(-50%,-50%) rotate(90deg)}
+#chatPage.dd-chat-designed .dd-chat-empty::before{content:'◌';font-size:40px}
+#chatPage.dd-chat-designed .dd-chat-search-help{color:#a3bac8;font-size:13px;line-height:1.75;margin:0 0 22px}
+#discussionsPage #ddForumNewSection{width:auto;min-width:0;font-size:12px;padding:10px 15px;line-height:1.4;border-radius:22px}
+#discussionsPage #ddForumSections{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:759px){
+ #chatPage.dd-chat-designed .dd-chat-bubble{padding-right:24px}
+ #chatPage.dd-chat-designed .dd-chat-search-row{flex-direction:column}
+ #chatPage.dd-chat-designed .dd-chat-search-row input{font-size:16px}
+ #chatPage.dd-chat-designed .dd-chat-search-action{align-self:flex-start;padding:11px 18px;border-radius:22px}
+ #discussionsPage #ddForumSections{grid-template-columns:1fr}
+}
+#chatPage.dd-chat-designed .dd-chat-empty::before{content:'';background:#16303f url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d6ba89' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6 4V6a2 2 0 0 1 2-2Z'/%3E%3Cpath d='M7 9h10M7 13h7'/%3E%3C/svg%3E") center/32px no-repeat}
+#discussionsPage #ddForumThreadPane.dd-forum-detail-open>#ddForumThreadTitle,#discussionsPage #ddForumThreadPane.dd-forum-detail-open>#ddForumSectionInfo,#discussionsPage #ddForumThreadPane.dd-forum-detail-open>#ddForumBackSections{display:none}
+#discussionsPage #ddForumBackThreads{margin-bottom:14px}
+#discussionsPage #ddForumReplyPane{scroll-margin-top:90px}

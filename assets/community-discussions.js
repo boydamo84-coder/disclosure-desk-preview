@@ -123,8 +123,17 @@ function link(parent,url,label){
  const a=mk('a',label||new URL(valid).hostname,'dd-forum-link');a.href=valid;
  a.target='_blank';a.rel='noopener noreferrer nofollow ugc';parent.append(a);
 }
+function updateCommunityContext(){
+ const nav=$('ddForumSubjectNav');
+ if(nav){nav.replaceChildren();for(const item of sections){const b=nodeAction(nav,item.title||'Untitled subject',()=>openSection(item),'dd-community-subject-link');b.setAttribute('aria-current',section?.id===item.id?'page':'false');const count=mk('span',String(item.thread_count||0),'dd-community-subject-count');count.setAttribute('aria-label',(item.thread_count||0)+' posts');b.append(count)}}
+ const all=$('ddForumBrowseAll');if(all)all.setAttribute('aria-current',section?'false':'page');
+ const title=$('ddForumContextTitle'),description=$('ddForumContextDescription'),count=$('ddForumContextCount');
+ if(title)title.textContent=section?.title||'A place for curious minds';
+ if(description)description.textContent=section?.description||'Explore the evidence, compare ideas and learn from other researchers.';
+ if(count)count.textContent=section?(section.thread_count||0)+' posts · '+(section.topic||'Open discussion'):sections.length?sections.length+' subjects to explore':'';
+}
 async function openSection(item){
- if(!isId(item?.id))return;section=item;thread=null;setCreateButtons();feedPage=0;feedQuery='';feedTotal=0;
+ if(!isId(item?.id))return;section=item;thread=null;updateCommunityContext();setCreateButtons();feedPage=0;feedQuery='';feedTotal=0;
  if($('ddForumFeedSearch'))$('ddForumFeedSearch').value='';
  $('ddForumSectionsPane').hidden=true;$('ddForumThreadPane').hidden=false;
  $('ddForumThreadTitle').textContent=item.title||'Discussions';
@@ -163,6 +172,9 @@ function appendReplyCard(list,row,replyLookup){
  const parentId=String(row.parent_id||row.parent_reply_id||'');
  if(isId(parentId)&&replyLookup?.has(parentId)){
   card.classList.add('dd-forum-nested-reply');
+  let depth=1,ancestor=replyLookup.get(parentId),seen=new Set([String(row.id)]);
+  while(depth<3&&ancestor&&!seen.has(String(ancestor.id))){seen.add(String(ancestor.id));const next=String(ancestor.parent_id||ancestor.parent_reply_id||'');if(!replyLookup.has(next))break;ancestor=replyLookup.get(next);depth++}
+  card.style?.setProperty?.('--dd-comment-depth',String(depth));
   main.append(mk('small','↳ Reply to '+String(replyLookup.get(parentId).author_name||'another comment'),'dd-forum-reply-target'));
  }
  main.append(mk('p',row.body||'','dd-forum-body'));
@@ -207,14 +219,19 @@ async function loadReplies(){
   if(stamp!==epoch||thread?.id!==id)return;
   let expanded=false;
   const all=Array.isArray(rows)?rows:[];
+  const lookup=new Map(all.filter(r=>isId(r.id)).map(r=>[r.id,r]));
+  const children=new Map(),ordered=[],seen=new Set();
+  for(const row of all){const key=row.parent_id||row.parent_reply_id;const parent=lookup.has(key)&&key!==row.id?key:null;if(!children.has(parent))children.set(parent,[]);children.get(parent).push(row)}
+  function visit(row){if(seen.has(row.id))return;seen.add(row.id);ordered.push(row);for(const child of children.get(row.id)||[])visit(child)}
+  for(const row of children.get(null)||[])visit(row);
+  for(const row of all)visit(row); // Preserve orphaned/cyclic rows without duplicating a comment.
   function display(){
    // Keep the composer connected while replacing comment cards on refresh.
    const activeForm=$('ddForumReplyCreate');
    if(activeForm&&list.contains(activeForm))$('ddForumReplyContent')?.after(activeForm);
    list.replaceChildren();
    if(!all.length){empty(list,'No replies yet. Start the discussion.');return}
-   const visible=expanded?all:all.slice(0,4);
-   const lookup=new Map(all.filter(r=>isId(r.id)).map(r=>[r.id,r]));
+   const visible=expanded?ordered:ordered.slice(0,4);
    for(const row of visible)appendReplyCard(list,row,lookup);
    window.DDRefreshBoardStars?.();
    if(replyParent&&activeForm&&!activeForm.hidden){
@@ -231,54 +248,6 @@ async function loadReplies(){
   }
   display();
  }catch(e){say(e?.message||'Replies temporarily unavailable.')}
-}
-function renderReplyPreview(card,row,stamp,sectionId){
- const total=Math.max(0,Number(row.reply_count)||0);
- if(!total)return;
- const panel=mk('section',undefined,'dd-forum-reply-preview'),heading=mk('h5',total+' '+(total===1?'comment':'comments'));
- const body=mk('div',undefined,'dd-forum-preview-list');
- panel.append(heading,body);card.append(panel);
- let loadedRows=[],expanded=false,loading=false,loadedLimit=0;
- function display(){
-  body.replaceChildren();
-  for(const reply of expanded?loadedRows:loadedRows.slice(0,4)){
-   const line=mk('p',undefined,'dd-forum-preview-line');
-   const replyName=reply.author_name||'Community member';
-    const avatar=mk('span',replyName.charAt(0).toUpperCase(),'dd-forum-avatar');
-    avatar.setAttribute('aria-hidden','true');
-    line.append(avatar,mk('strong',replyName),mk('span','  '+String(reply.body||'').slice(0,expanded?2000:240)));
-    window.DDMemberAvatars?.decorate?.(avatar,replyName);
-   body.append(line);
-  }
-  if(total>4){
-   const more=nodeAction(body,expanded?'⌃ Show fewer comments':'⌄ Read more comments ('+total+')',async()=>{
-    if(!expanded&&loadedLimit<100)await fetchReplies(100);
-    expanded=!expanded;display();
-   },'dd-forum-comment-expand');
-   more.setAttribute('aria-expanded',String(expanded));
-  }
-  if(expanded&&total>100){
-   const view=nodeAction(body,'Open full discussion →',()=>openThread(row),'dd-forum-comment-expand');
-   view.setAttribute('aria-label','Open discussion to read all available comments');
-  }
- }
- async function fetchReplies(limit){
-  if(loading||loadedLimit>=limit)return;
-  loading=true;
-  try{
-   const incoming=await rpc('dd_discussions_replies',{p_thread_id:row.id,p_limit:limit});
-   if(stamp!==epoch||section?.id!==sectionId||thread)return;
-   loadedRows=Array.isArray(incoming)?incoming:[];loadedLimit=limit;display();
-  }catch{if(stamp===epoch)body.replaceChildren(mk('small','Unable to load comments. Open the discussion to retry.','muted small'))}
-  finally{loading=false}
- }
- const load=()=>{void fetchReplies(4)};
- if(typeof window.IntersectionObserver==='function'){
-  const observer=new window.IntersectionObserver(entries=>{
-   if(entries.some(entry=>entry.isIntersecting)){observer.disconnect();load()}
-  },{rootMargin:'180px'});
-  observer.observe(card);
- }else load();
 }
 async function vote(kind,row,value,button){
  const next=Number(row.my_vote)===value?0:value;
@@ -548,7 +517,6 @@ async function loadThreads(){
    photo(main,row);
    link(main,row.link_url,safeLink(row.link_url)?'Source · '+new URL(safeLink(row.link_url)).hostname:'');
    card.append(main);
-   renderReplyPreview(card,row,stamp,id);
    actionsFor(actions,'thread',row,false,actions.flagHost);
    card.append(actions);list.append(card);
   }
@@ -568,6 +536,7 @@ async function loadOwnerSections(){
  }catch{return new Set()}
 }
 function drawSections(){
+ updateCommunityContext();
  const root=$('ddForumSections');root.replaceChildren();
  const query=$('ddForumSearch').value.trim().toLowerCase();
  const shown=sections.filter(s=>[s.title,s.description,s.topic,s.slug].join(' ').toLowerCase().includes(query));
@@ -579,6 +548,7 @@ function drawSections(){
   card.append(mk('p',String(s.description||'').slice(0,250),'dd-forum-body'));
   const meta=mk('small',(s.topic||'Research')+' · '+(s.thread_count||0)+' posts'+(s.is_steward?' · Your section':''),'muted');
   card.append(meta);
+  const mark=mk('span',String(s.title||'S').charAt(0).toUpperCase(),'dd-community-subject-mark');mark.setAttribute('aria-hidden','true');card.append(mark);
   const jump=mk('a','Open subject →','dd-forum-section-arrow dd-forum-section-open');
   jump.href='?dd_tab=discussionsPage&dd_section='+encodeURIComponent(s.id);
   jump.setAttribute('aria-label','Open subject: '+String(s.title||'Untitled'));
@@ -615,6 +585,7 @@ function onIdentityChange(session){
  if(viewerId===next)return; // Token refresh should not discard an open public discussion.
  viewerId=next;identityRevision++;epoch++;section=null;thread=null;ownerSectionIds=new Set();flaggedThisSession=new Set();setCreateButtons();sections=[];feedPage=0;feedQuery='';deepLinkHandled=false;
  for(const id of ['ddForumSectionDialog','ddForumPostDialog','ddForumActionDialog','ddForumMoreDialog','ddForumAdminDialog']){const dialog=$(id);if(dialog?.open)dialog.close()}
+ updateCommunityContext();
  const sectionsPane=$('ddForumSectionsPane'),threadPane=$('ddForumThreadPane');
  if(sectionsPane)sectionsPane.hidden=false;
  if(threadPane)threadPane.hidden=true;
@@ -667,11 +638,12 @@ function init(){
  witness?.after(tab);
  wireComposer('ddForumSectionDialog');wireComposer('ddForumPostDialog');wireComposer('ddForumActionDialog');
  wireComposer('ddForumMoreDialog');wireComposer('ddForumAdminDialog');
+ const browseAll=$('ddForumBrowseAll');if(browseAll)browseAll.onclick=()=>$('ddForumBackSections').click();
  $('ddForumNewSection').onclick=e=>{void openComposer('ddForumSectionDialog',e.currentTarget)};
  $('ddForumNewPost').onclick=e=>{void openComposer('ddForumPostDialog',e.currentTarget)};
  setCreateButtons();
  $('ddForumSearch').addEventListener('input',drawSections);
- $('ddForumBackSections').onclick=()=>{thread=null;section=null;setCreateButtons();++epoch;$('ddForumSectionsPane').hidden=false;$('ddForumThreadPane').hidden=true;void refresh()};
+ $('ddForumBackSections').onclick=()=>{thread=null;section=null;updateCommunityContext();setCreateButtons();++epoch;$('ddForumSectionsPane').hidden=false;$('ddForumThreadPane').hidden=true;void refresh()};
  $('ddForumBackThreads').onclick=()=>{thread=null;replyParent=null;$('ddForumReplyCreate').hidden=true;$('ddForumThreadPane').classList?.remove?.('dd-forum-detail-open');setCreateButtons();++epoch;$('ddForumPostCreate').hidden=false;$('ddForumPostList').hidden=false;$('ddForumSortLabel').hidden=false;$('ddForumStewardPanel').hidden=!section?.is_steward;$('ddForumReplyPane').hidden=true;$('ddForumThreadTitle').textContent=section?.title||'Section';void loadThreads()};
  $('ddForumSort').onchange=event=>{sort=event.target.value;feedPage=0;void loadThreads()};
  const feedSearch=$('ddForumFeedSearch');

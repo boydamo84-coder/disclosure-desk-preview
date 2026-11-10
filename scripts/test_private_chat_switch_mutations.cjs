@@ -6,7 +6,7 @@ const source=fs.readFileSync('assets/profile-private-chat.js','utf8');
 async function run(){
  let panel;
  function element(tag){
-  return {tag,children:[],listeners:{},attributes:{},textContent:'',value:'',hidden:false,disabled:false,open:false,
+  return {tag,dataset:{},children:[],listeners:{},attributes:{},textContent:'',value:'',hidden:false,disabled:false,open:false,
    append(...x){this.children.push(...x)},replaceChildren(...x){this.children=[...x]},
    setAttribute(k,v){this.attributes[k]=v},addEventListener(k,f){this.listeners[k]=f},
    closest(which){return which==='details'?panel:null}};
