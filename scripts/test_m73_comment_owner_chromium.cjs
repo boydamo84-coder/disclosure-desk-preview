@@ -52,7 +52,7 @@ async function menuTest(card,label,{edit=true}={}){
    assert.equal(await stranger.locator('.dd-owner-more').count(),0,'Other members have no owner menu');
 
    await first.locator('.dd-comment-reply-button').click();
-   const form=archive.locator('.dd-news-inline-comments > form');
+   const form=archive.locator('.dd-news-inline-comments form').first();
    assert.equal(await form.locator('button[type=submit]').textContent(),'Post reply');
    await form.locator('textarea').fill('This is an unsent reply to cancel');
    await form.getByRole('button',{name:'Cancel'}).click();
