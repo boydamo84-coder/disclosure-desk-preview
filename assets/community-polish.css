@@ -756,3 +756,49 @@
  background:var(--dd-rail-bg)!important;border-top:1px solid var(--dd-rail-border)!important;
  justify-content:flex-end!important;gap:2px!important
 }
+
+/* M71 — secondary view audit: LIVE hearings share the exact post rails.
+   The immersive video's opt-in comments are an accessible in-viewer panel,
+   never a detached discussion modal or another action design. */
+#ddLiveEvents .dd-live-hearing-action-rail.dd-action-rail.dd-unified-rail,
+#ddLiveEvents .dd-live-hearing-action-rail.dd-action-rail{
+ display:flex!important;width:100%!important;min-width:0!important;box-sizing:border-box!important;
+ justify-content:flex-end!important;flex-flow:row wrap!important;gap:2px!important;
+ margin:10px 0 0!important;padding:5px 8px!important;
+ background:var(--dd-rail-bg,#0f2534)!important;
+ border-top:1px solid var(--dd-rail-border,#2b4656)!important;
+}
+#ddLiveEvents .dd-live-hearing-action-rail button{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ min-height:40px!important;padding:5px 7px!important;background:transparent!important;
+ border:1px solid transparent!important;border-radius:8px!important;
+ color:#e9d7b4!important;font:650 12px/1.25 system-ui!important
+}
+#ddLiveEvents .dd-hearing-comments-host:not([hidden]){
+ margin:0!important;padding:10px 12px!important;background:#102635!important;
+ max-width:100%!important;min-width:0!important;box-sizing:border-box!important;
+ border-top:1px solid #2b4656!important;
+}
+#immersiveViewer .dd-immersive-inline-comments:not([hidden]){
+ position:absolute!important;z-index:12!important;
+ left:10px!important;right:10px!important;
+ bottom:calc(env(safe-area-inset-bottom,0px) + 109px)!important;
+ max-height:min(51vh,470px)!important;min-height:0!important;
+ padding:10px!important;margin:0!important;overflow-y:auto!important;
+ overscroll-behavior:contain!important;box-sizing:border-box!important;
+ background:#102635f5!important;border:1px solid #496374!important;
+ border-radius:12px!important;box-shadow:0 12px 30px #0009!important;
+}
+#immersiveViewer .immersive-item:has(>.dd-immersive-inline-comments:not([hidden])) .immersive-details{
+ opacity:0!important;pointer-events:none!important
+}
+#immersiveViewer .immersive-tools.dd-action-rail.dd-unified-rail{
+ position:absolute!important;z-index:15!important;
+ left:10px!important;right:10px!important;bottom:calc(env(safe-area-inset-bottom,0px) + 57px)!important;
+ width:calc(100% - 20px)!important;max-width:calc(100% - 20px)!important;
+ justify-content:flex-end!important;flex-flow:row wrap!important
+}
+/* Landscape intentionally remains an unobstructed fullscreen player. */
+@media(orientation:landscape) and (max-height:600px){
+ #immersiveViewer .dd-immersive-inline-comments{display:none!important}
+}
