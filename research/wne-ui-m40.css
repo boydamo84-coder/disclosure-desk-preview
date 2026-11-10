@@ -124,3 +124,6 @@
  #dd-comparison-dialog #dd-compare-sources button{font-size:12px;padding:8px 5px}
  .dd-m40-citation-dialog .dd-m40-cite-scroll{padding:10px 12px}
 }
+/* M51: distinguish saving a reference from inserting a citation into writing. */
+.dd-m40-citation-dialog #dd-m40-cite-save-only{display:block;width:100%;margin:12px 0 5px;min-height:46px;background:#294d4c!important;color:#f6e8b4!important;border:1px solid #b79a65!important;font-weight:750!important}
+.dd-m40-citation-dialog #dd-m40-cite-save-only:focus-visible{outline:2px solid #ffe1a1!important;outline-offset:2px}
