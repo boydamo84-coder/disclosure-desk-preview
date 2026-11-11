@@ -1,6 +1,5 @@
--- M89: staged, read-only across-subject Discussions feed. Never apply without release approval.
+-- M89: owner-approved read-only across-subject Discussions feed.
 -- Uses the SAME published threads, votes, replies, author and section controls.
-begin;
 create or replace function public.dd_discussions_global_feed(
  p_limit integer default 10, p_offset integer default 0, p_sort text default 'popular'
 )
@@ -57,4 +56,3 @@ revoke all on function public.dd_discussions_global_feed(integer,integer,text) f
 grant execute on function public.dd_discussions_global_feed(integer,integer,text) to anon,authenticated;
 comment on function public.dd_discussions_global_feed(integer,integer,text) is
  'Read-only published Discussions posts across subjects. Popular weighs engagement with recency decay; New is newest; Top is net likes.';
-commit;
