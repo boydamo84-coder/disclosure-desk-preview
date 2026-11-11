@@ -33,9 +33,9 @@ jobs:
           node scripts/test_android_dev_snapshot_contract.cjs
       - name: Install Android SDK
         run: |
-          SDKMANAGER="\${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin/sdkmanager"
+          SDKMANAGER="${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin/sdkmanager"
           if [ ! -x "$SDKMANAGER" ]; then
-            SDKMANAGER=$(find "\${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools" -type f -name sdkmanager | head -n 1)
+            SDKMANAGER=$(find "${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools" -type f -name sdkmanager | head -n 1)
           fi
           test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
           yes | "$SDKMANAGER" --licenses >/dev/null || true
