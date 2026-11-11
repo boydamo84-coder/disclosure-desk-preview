@@ -28,7 +28,7 @@ assert(main.includes('prefs.getBoolean(FIRST_RUN_ALERTS_CHOICE,false)'),'Prompt 
 assert(main.includes('if(!isMainFrame'),'Native bridge retains main-frame restriction');
 assert(main.includes('Collections.singleton("https://uapdisclosuredesk.com")'),'Native bridge origin stays pinned');
 assert(main.includes('if(PLAY_BILLING_APPROVED)premium=new LifetimeAdsManager'),'Paid billing still disabled');
-assert.match(gradle,/versionCode = (?:15|16|17|18)/);
+assert.match(gradle,/versionCode = (?:15|16|17|18|19)/);
 assert.match(gradle,/applicationIdSuffix = "\.beta"/);
 for(const source of [inline,cases]){
  assert(source.includes("item.parent_id||''"),'Nested row uses real parent_id');
@@ -50,7 +50,7 @@ for(const token of [
 const tail=style.slice(style.lastIndexOf('/* M77 — real nested'));
 assert(!tail.includes('calc(var(--dd-comment-depth,1) * var(--dd-thread-step))'),
  'Modern WebView style must not use unsupported calc multiplication for replies');
-assert(workflow.includes('android/m81-native-research-inbox-nov11'),'Correct Android development branch');
+assert(workflow.includes('android/m82-inbox-dialog-list-fix-nov11'),'Correct Android development branch');
 assert(workflow.includes('scripts/test_m77_android_mobile_contract.cjs'),'M77 source test runs in APK CI');
 assert(workflow.includes('scripts/test_m77_android_mobile_chromium.cjs'),'Real mobile browser test runs in APK CI');
 assert(!/\bnetlify deploy\b/.test(workflow),'M77 never deploys Netlify');
