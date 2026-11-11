@@ -1,8 +1,8 @@
-name: Build Disclosure Desk M79 PRIVATE Android APK (NO Netlify)
+name: Build Disclosure Desk M81 PRIVATE Android APK (NO Netlify)
 on:
   workflow_dispatch:
   push:
-    branches: [android/m79-keyboard-comment-scroll-nov11]
+    branches: [android/m81-native-research-inbox-nov11]
     paths:
       - 'android-test/**'
       - 'assets/community-polish.css'
@@ -16,6 +16,9 @@ on:
       - 'scripts/test_m78_profile_notifications_chromium.cjs'
       - 'scripts/test_m79_mobile_comment_keyboard_contract.cjs'
       - 'scripts/test_m79_mobile_comment_keyboard_chromium.cjs'
+      - 'scripts/android/ResearchLinkParserTest.java'
+      - 'scripts/test_m81_native_research_contract.cjs'
+      - 'scripts/test_m81_research_inbox_chromium.cjs'
       - 'scripts/stage_android_dev_snapshot.cjs'
       - 'scripts/test_android_dev_snapshot_contract.cjs'
       - 'scripts/build_public_release.cjs'
@@ -46,6 +49,7 @@ jobs:
           node scripts/test_m77_android_mobile_contract.cjs
           node scripts/test_m78_profile_notifications_contract.cjs
           node scripts/test_m79_mobile_comment_keyboard_contract.cjs
+          node scripts/test_m81_native_research_contract.cjs
       - name: Verify mobile comment threading and full-screen Chat in real Chromium (NO deploy)
         run: |
           npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
@@ -60,6 +64,15 @@ jobs:
           node scripts/test_m77_android_mobile_chromium.cjs
           node scripts/test_m78_profile_notifications_chromium.cjs
           node scripts/test_m79_mobile_comment_keyboard_chromium.cjs
+          node scripts/test_m81_research_inbox_chromium.cjs
+      - name: Verify safe Android Share-link parser (offline Java only)
+        run: |
+          CLASSES=$(mktemp -d)
+          trap 'rm -rf "$CLASSES"' EXIT
+          javac -encoding UTF-8 -d "$CLASSES" \
+            android-test/app/src/main/java/com/disclosuredesk/preview/ResearchLinkParser.java \
+            scripts/android/ResearchLinkParserTest.java
+          java -cp "$CLASSES" com.disclosuredesk.preview.ResearchLinkParserTest
       - name: Install Android SDK
         run: |
           SDKMANAGER="${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin/sdkmanager"
@@ -83,7 +96,7 @@ jobs:
       - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M79-PRIVATE-BETA
+          name: DisclosureDesk-M81-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
