@@ -18,9 +18,11 @@ assert(html.includes('community-polish.css?v=m74&m80=web-reply-parity&m86=on-dem
 assert(css.includes('#newsGrid article > .dd-news-inline-comments[hidden]')&&css.includes('{display:none!important}'),'Hidden prevents old CSS opening');
 assert(read('assets/watch-read.js').includes("comments.dataset.newsComments='media:'"),'Watch & Read uses shared panel');
 const bytes=Buffer.from(forum),blob=crypto.createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex');
-assert.equal(blob,'745e231c9a8bc44b10324a7ee398e8b7ab2b414a','Forum unchanged byte for byte');
+// M89 intentionally adds a cross-subject discovery feed to the forum; preserve the M86 *behaviour*, not its prior exact blob.
+assert.notEqual(blob,'745e231c9a8bc44b10324a7ee398e8b7ab2b414a','Global discovery requires an updated forum script');
+assert(forum.includes('function renderDiscussionCard('),'Original post renderer reused in both lists');
 assert(forum.includes('let expanded=true; // All available comments appear automatically when opening a post.'),'Discussions remains open');
 assert(cases.includes('window.ddOpenInlineCaseDiscussion'),'Hearing video comments preserved');
 assert(workflow.includes('fix/m86-sitewide-comments-on-demand-nov11'),'Website branch tested');
 assert(workflow.includes('node scripts/test_m86_comments_on_demand_chromium.cjs'),'Browser test in CI');
-console.log('PASS M86 closed-only-on-public-cards; Discussions untouched; nested comments retained.');
+console.log('PASS M86 public cards remain collapsed; Discussions comments still auto-open; M89 discovery added without altering reply behaviour.');
