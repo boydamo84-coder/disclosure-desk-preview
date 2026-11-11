@@ -126,7 +126,8 @@ public final class MainActivity extends Activity {
         if(Build.VERSION.SDK_INT >= 35){
             root.setOnApplyWindowInsetsListener((view,insets)->{
                 int top=insets.getInsets(WindowInsets.Type.statusBars()).top;
-                view.setPadding(0,top,0,0);
+                int bottom=insets.getInsets(WindowInsets.Type.navigationBars()).bottom;
+                view.setPadding(0,top,0,bottom);
                 return insets;
             });
             root.requestApplyInsets();
@@ -144,13 +145,13 @@ public final class MainActivity extends Activity {
                 return embeddedWebsiteAsset(request);
             }
             @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap favicon){
-                if(HOME.equals(url))mainPageFailed=false;
+                if(isAppHomeUrl(url))mainPageFailed=false;
             }
             @Override public void onPageCommitVisible(WebView view,String url){
-                if(!mainPageFailed && HOME.equals(url))showOnline();
+                if(!mainPageFailed && isAppHomeUrl(url))showOnline();
             }
             @Override public void onPageFinished(WebView view,String url){
-                if(!mainPageFailed && HOME.equals(url))showOnline();
+                if(!mainPageFailed && isAppHomeUrl(url))showOnline();
                 if(url!=null && url.startsWith(HOME)){
                     useTwoLineBreakingNews();
                     deliverChatToken();
@@ -224,6 +225,12 @@ public final class MainActivity extends Activity {
     // It is served under the canonical HTTPS origin; Supabase auth, OAuth redirects and
     // existing same-origin routes therefore keep their normal origin semantics.
     // Dynamic Netlify requests and third-party feeds are deliberately NOT intercepted.
+    private boolean isAppHomeUrl(String url){
+        if(url==null)return false;
+        Uri parsed=Uri.parse(url);
+        return "https".equals(parsed.getScheme()) && "uapdisclosuredesk.com".equals(parsed.getHost())
+            && "/".equals(parsed.getPath());
+    }
     private void loadSnapshotManifest(){
         try(InputStream in=getAssets().open("dd-site/snapshot-manifest.json");
             BufferedReader reader=new BufferedReader(new InputStreamReader(in,StandardCharsets.UTF_8))){
@@ -289,7 +296,7 @@ public final class MainActivity extends Activity {
         title.setPadding(0,dp(26),0,dp(8));
         panel.addView(title);
         TextView message=new TextView(this);
-        message.setText("You're offline\\nConnect to the internet to access your latest research. Your saved account data has not been cleared.");
+        message.setText("You're offline\nConnect to the internet to access your latest research. Your saved account data has not been cleared.");
         message.setTextColor(Color.rgb(218,228,239));
         message.setTextSize(16);
         message.setGravity(Gravity.CENTER);
@@ -554,10 +561,29 @@ public final class MainActivity extends Activity {
     }
     private int dp(int pixels){return (int)(pixels*getResources().getDisplayMetrics().density+0.5f);}
     @Override public void onBackPressed(){
-        if(fullView!=null){ ((WebChromeClient)web.getWebChromeClient()).onHideCustomView();return; }
-        web.evaluateJavascript("(function(){var d=document.getElementById('immersiveViewer');if(d&&!d.hidden){var c=document.getElementById('closeImmersive');if(c)c.click();return 'handled'};var active=document.querySelector('.tab.active');if(active&&active.dataset.tab!=='discover'){var n=document.querySelector('[data-tab=discover]');if(n)n.click();return 'handled'};return 'exit'})()",value->{
+        if(fullView!=null){((WebChromeClient)web.getWebChromeClient()).onHideCustomView();return;}
+        // Back closes the current popover/dialog or nested Discussion before
+        // switching tabs. In W.NE or another actual document URL, use WebView history.
+        String script="(function(){try{"
+          +"var url=new URL(location.href);"
+          +"if(url.pathname!=='/'&&url.pathname!=='/index.html')return 'exit';"
+          +"var dlg=document.querySelector('dialog[open]');if(dlg){dlg.close();return 'handled'};"
+          +"var d=document.getElementById('immersiveViewer');"
+          +"if(d&&!d.hidden){var c=document.getElementById('closeImmersive');if(c)c.click();return 'handled'};"
+          +"var reply=document.getElementById('ddForumReplyPane');"
+          +"var backPost=document.getElementById('ddForumBackThreads');"
+          +"if(reply&&!reply.hidden&&backPost){backPost.click();return 'handled'};"
+          +"var section=document.getElementById('ddForumThreadPane');"
+          +"var backSections=document.getElementById('ddForumBackSections');"
+          +"if(section&&!section.hidden&&backSections){backSections.click();return 'handled'};"
+          +"var active=document.querySelector('.tab.active');"
+          +"if(active&&active.dataset.tab!=='discover'){var home=document.querySelector('[data-tab=discover]');"
+          +"if(home)home.click();return 'handled'};"
+          +"return 'exit'}catch(e){return 'exit'}})()";
+        web.evaluateJavascript(script,value->{
             if(!"\"handled\"".equals(value)){
-                if(web.canGoBack())web.goBack();else finish();
+                if(web.canGoBack())web.goBack();
+                else finish();
             }
         });
     }
