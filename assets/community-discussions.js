@@ -618,7 +618,7 @@ function renderDiscussionCard(list,row,fromAll=false){
   const subject=sections.find(s=>s.id===row.section_id)||
    {id:row.section_id,title:row.section_title||'Discussion subject',description:'',topic:'',is_steward:false};
   const chip=nodeAction(main,'◈ '+(subject.title||'Discussion subject'),()=>openSection(subject),'dd-community-global-subject');
-  chip.setAttribute('aria-label','Browse subject: '+String(subject.title||'Discussion subject'));
+  chip.setAttribute('aria-label','View posts in subject: '+String(subject.title||'Discussion subject'));
  }
  const title=nodeAction(main,row.title||'Untitled topic',()=>fromAll?openGlobalThread(row):openThread(row),'dd-forum-title');
  title.setAttribute('aria-label','Read discussion: '+String(row.title||'Untitled topic'));
