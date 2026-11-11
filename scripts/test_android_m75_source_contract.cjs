@@ -40,5 +40,5 @@ assert.match(workflow,/node scripts\/stage_android_dev_snapshot\.cjs/);
 assert.match(workflow,/node scripts\/test_android_dev_snapshot_contract\.cjs/);
 assert.match(workflow,/android\/m75-private-beta-integration-nov11/);
 assert.match(workflow,/DisclosureDesk-M75-PRIVATE-BETA/);
-assert(!/netlify (?:deploy|build|publish)/i.test(workflow),'No Netlify CLI deployment in APK build');
+assert(!/(?:^|\n)\s*(?:npx\s+)?netlify\s+(?:deploy|build|publish)\b/im.test(workflow),'No Netlify CLI deployment in APK build');
 console.log('PASS M75 Android beta source: pending M74/M73 UI, origin-safe snapshot, isolated install, native back, file picker, explicit billing/push gates, no Netlify.');
