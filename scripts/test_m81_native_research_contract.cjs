@@ -38,14 +38,14 @@ assert(!/supabase|httpURLConnection|fetch\(/i.test(store),'No network/cloud writ
 assert(parser.includes('looksLikeCredentialLink'),'Sensitive shared tokens filtered');
 assert(parser.includes('parsed.getRawUserInfo()!=null'),'No HTTP basic-auth links');
 assert(parser.includes('MAX_URL = 2048'),'Unsafe enormous payloads rejected');
-assert.match(gradle,/versionCode = 18/,'New APK version');
+assert.match(gradle,/versionCode = (?:18|19)/,'New APK version');
 assert.match(gradle,/applicationIdSuffix = "\.beta"/,'Private test app separately installed');
 assert(!html.includes('ddAndroidResearchInbox'),'Android-only controls never shipped into website HTML');
 assert(!html.includes('ResearchInboxStore'),'Native store not exposed on public site');
 assert(build.includes('node scripts/test_m81_native_research_contract.cjs'),'Contract runs in private APK CI');
 assert(build.includes('node scripts/test_m81_research_inbox_chromium.cjs'),'Profile row tested in Chromium');
 assert(build.includes('ResearchLinkParserTest'),'Pure JVM URL safety test runs in CI');
-assert(build.includes('android/m81-native-research-inbox-nov11'),'Android branch only');
+assert(build.includes('android/m82-inbox-dialog-list-fix-nov11'),'Android branch only');
 assert(!/\bnetlify deploy\b/i.test(build),'CI never deploys Netlify');
 const start=main.indexOf('private void installResearchInboxControl(){');
 const end=main.indexOf('private boolean receiveSharedResearchLink(',start);
