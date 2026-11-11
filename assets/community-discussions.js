@@ -226,7 +226,8 @@ function updateCommunityContext(){
  if(count)count.textContent=section?(section.thread_count||0)+' posts · '+(section.topic||'Open discussion'):sections.length?sections.length+' subjects to explore':'';
 }
 async function openSection(item){
- if(!isId(item?.id))return;globalReturn=false;++globalRequest;section=item;thread=null;updateCommunityContext();setCreateButtons();feedPage=0;feedQuery='';feedTotal=0;
+ if(!isId(item?.id))return;globalReturn=false;++globalRequest;section=item;thread=null;
+ const threadBack=$('ddForumBackThreads');if(threadBack)threadBack.textContent='← Back to posts';updateCommunityContext();setCreateButtons();feedPage=0;feedQuery='';feedTotal=0;
  if($('ddForumFeedSearch'))$('ddForumFeedSearch').value='';
  $('ddForumSectionsPane').hidden=true;$('ddForumThreadPane').hidden=false;
  $('ddForumThreadTitle').textContent=item.title||'Discussions';
@@ -631,9 +632,11 @@ async function openGlobalThread(row){
  if(!isId(row?.id)||!isId(row?.section_id))return;
  const subject=sections.find(s=>s.id===row.section_id)||
   {id:row.section_id,title:row.section_title||'Discussion subject',description:'',topic:'',is_steward:false};
+ const identityBefore=identityRevision;
  await openSection(subject);
+ if(identityRevision!==identityBefore||section?.id!==subject.id)return;
  globalReturn=true;
- $('ddForumBackThreads').textContent='← Back to Popular';
+ $('ddForumBackThreads').textContent='← Back to '+(globalSort==='new'?'New':globalSort==='top'?'Top':'Popular');
  await openThread(row); // Existing post detail retains automatic nested replies.
 }
 async function loadGlobalFeed(reset=false){
@@ -661,7 +664,7 @@ async function loadGlobalFeed(reset=false){
  }catch(error){
   if(stamp!==globalRequest)return;
   if(!globalRows.length)empty(list,'Across-subject posts are temporarily unavailable. Browse subjects below.');
-  status.textContent='Popular feed unavailable. Other Discussions remain accessible.';
+  status.textContent='Discussion feed unavailable. Other Discussions remain accessible.';
   more.hidden=true;
  }finally{if(stamp===globalRequest)globalLoading=false}
 }
