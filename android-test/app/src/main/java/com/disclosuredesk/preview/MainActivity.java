@@ -19,6 +19,15 @@ import java.util.Collections;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.webkit.WebResourceResponse;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Set;
+import java.util.HashSet;
+import android.graphics.drawable.GradientDrawable;
+import android.widget.ScrollView;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceError;
 import android.graphics.Typeface;
@@ -68,12 +77,18 @@ public final class MainActivity extends Activity {
     private boolean adFree=false;
     private boolean adConsentReady=false;
     private LifetimeAdsManager premium;
+    // Paid entitlement lacks server-side receipt verification: disabled in all M75 builds.
+    private static final boolean PLAY_BILLING_APPROVED = false;
+    private final Set<String> snapshotFiles=new HashSet<>();
+    private String snapshotCommit="unknown";
     // Real unit configured in AdMob: ca-app-pub-6712657097464071/7357709206
     // All test builds MUST use Google test inventory; never use the real unit in this debug APK.
     private static final String TEST_BANNER_UNIT = "ca-app-pub-3940256099942544/6300978111";
     private static final String LIVE_BANNER_UNIT = "ca-app-pub-6712657097464071/7357709206";
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadSnapshotManifest();
+        if(snapshotFiles.isEmpty())throw new IllegalStateException("Android beta requires its verified embedded development website snapshot.");
         root = new FrameLayout(this);
         web = new WebView(this);
         root.addView(web, new FrameLayout.LayoutParams(-1,-1));
@@ -91,6 +106,12 @@ public final class MainActivity extends Activity {
         notifications.setContentDescription("Notification preferences");
         notifications.setTextSize(15);
         notifications.setAllCaps(false);
+        notifications.setTextColor(Color.rgb(245,222,173));
+        GradientDrawable bellShape=new GradientDrawable();
+        bellShape.setColor(Color.rgb(23,46,60));
+        bellShape.setCornerRadius(dp(13));
+        bellShape.setStroke(dp(1),Color.rgb(150,125,84));
+        notifications.setBackground(bellShape);
         FrameLayout.LayoutParams bell=new FrameLayout.LayoutParams(dp(55),dp(48),Gravity.TOP|Gravity.RIGHT);
         bell.topMargin=dp(3);bell.rightMargin=dp(4);
         root.addView(notifications,bell);
@@ -116,7 +137,12 @@ public final class MainActivity extends Activity {
         settings.setDomStorageEnabled(true);
         settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setAllowFileAccess(false);
+        settings.setAllowContentAccess(false);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE); // Private APK always uses its embedded UI version.
         web.setWebViewClient(new WebViewClient(){
+            @Override public WebResourceResponse shouldInterceptRequest(WebView view,WebResourceRequest request){
+                return embeddedWebsiteAsset(request);
+            }
             @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap favicon){
                 if(HOME.equals(url))mainPageFailed=false;
             }
@@ -176,9 +202,15 @@ public final class MainActivity extends Activity {
             }
         });
         setupChatPushBridge();
-        premium=new LifetimeAdsManager(this,this::setAdFree);
-        web.loadUrl(notificationUrl(getIntent()));
+        if(PLAY_BILLING_APPROVED)premium=new LifetimeAdsManager(this,this::setAdFree);
+        if(savedInstanceState==null || web.restoreState(savedInstanceState)==null){
+            web.loadUrl(notificationUrl(getIntent()));
+        }
         prepareTestBanner();
+    }
+    @Override protected void onSaveInstanceState(Bundle state){
+        if(web!=null)web.saveState(state);
+        super.onSaveInstanceState(state);
     }
     @Override protected void onActivityResult(int requestCode,int resultCode,Intent data){
         super.onActivityResult(requestCode,resultCode,data);
@@ -186,6 +218,56 @@ public final class MainActivity extends Activity {
             ValueCallback<Uri[]> callback=pendingFiles;
             pendingFiles=null;
             callback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode,data));
+        }
+    }
+    // The packaged UI is built from the M74 branch with the exact public web allowlist.
+    // It is served under the canonical HTTPS origin; Supabase auth, OAuth redirects and
+    // existing same-origin routes therefore keep their normal origin semantics.
+    // Dynamic Netlify requests and third-party feeds are deliberately NOT intercepted.
+    private void loadSnapshotManifest(){
+        try(InputStream in=getAssets().open("dd-site/snapshot-manifest.json");
+            BufferedReader reader=new BufferedReader(new InputStreamReader(in,StandardCharsets.UTF_8))){
+            StringBuilder json=new StringBuilder();String line;
+            while((line=reader.readLine())!=null)json.append(line);
+            JSONObject root=new JSONObject(json.toString());
+            if(!"Disclosure Desk embedded Android development snapshot".equals(root.optString("type")))return;
+            snapshotCommit=root.optString("commit","unknown");
+            org.json.JSONArray files=root.getJSONArray("files");
+            for(int i=0;i<files.length();i++){
+                String rel=files.getString(i);
+                if(!rel.startsWith("/")&&!rel.contains("\\")&&!rel.contains(".."))snapshotFiles.add(rel);
+            }
+        }catch(Exception e){android.util.Log.e("DisclosureDesk","The reviewed Android snapshot is missing or invalid.");}
+    }
+    private WebResourceResponse embeddedWebsiteAsset(WebResourceRequest request){
+        if(request==null || !"GET".equalsIgnoreCase(request.getMethod()))return null;
+        Uri url=request.getUrl();
+        if(url==null || !"https".equals(url.getScheme()) || !"uapdisclosuredesk.com".equals(url.getHost()))return null;
+        String path=Uri.decode(url.getEncodedPath());
+        if(path==null)return null;
+        String name="/".equals(path)?"index.html":path.startsWith("/")?path.substring(1):path;
+        if(!snapshotFiles.contains(name))return null;
+        String mime="text/plain";
+        if(name.endsWith(".html"))mime="text/html";
+        else if(name.endsWith(".js"))mime="application/javascript";
+        else if(name.endsWith(".css"))mime="text/css";
+        else if(name.endsWith(".json"))mime="application/json";
+        else if(name.endsWith(".svg"))mime="image/svg+xml";
+        else if(name.endsWith(".png"))mime="image/png";
+        else if(name.endsWith(".jpg")||name.endsWith(".jpeg"))mime="image/jpeg";
+        else if(name.endsWith(".webp"))mime="image/webp";
+        else if(name.endsWith(".gif"))mime="image/gif";
+        else if(name.endsWith(".ico"))mime="image/x-icon";
+        else if(name.endsWith(".woff2"))mime="font/woff2";
+        else if(name.endsWith(".webmanifest"))mime="application/manifest+json";
+        else if(name.endsWith(".xml"))mime="application/xml";
+        try{
+            InputStream bytes=getAssets().open("dd-site/"+name);
+            return new WebResourceResponse(mime,"UTF-8",bytes);
+        }catch(Exception ex){
+            android.util.Log.e("DisclosureDesk","Bundled site asset could not be opened: "+name);
+            return new WebResourceResponse("text/plain","UTF-8",404,"Not Found",
+              Collections.singletonMap("Cache-Control","no-store"),new java.io.ByteArrayInputStream(new byte[0]));
         }
     }
     private View createOfflinePanel(){
@@ -399,8 +481,9 @@ public final class MainActivity extends Activity {
         footage.setText("Fresh video discoveries");
         footage.setChecked(prefs.getBoolean("videos",false));
         CheckBox chats=new CheckBox(this);
-        chats.setText("Private Chat messages");
-        chats.setChecked(prefs.getBoolean("chats",true));
+        chats.setText("Private Chat push · setup pending");
+        chats.setChecked(false);
+        chats.setEnabled(false);
         choices.addView(chats);
         CheckBox news=new CheckBox(this);
         news.setText("Major-media UAP news");
@@ -409,7 +492,7 @@ public final class MainActivity extends Activity {
         Button removeAds=new Button(this);
         removeAds.setText("Remove Ads · lifetime / restore purchase");
         removeAds.setAllCaps(false);
-        choices.addView(removeAds);
+        if(PLAY_BILLING_APPROVED && premium!=null)choices.addView(removeAds);
         removeAds.setOnClickListener(v->{if(premium!=null)premium.showOptions();});
         Button test=new Button(this);
         test.setText("Schedule TEST alert (about 1 minute)");
@@ -454,9 +537,12 @@ public final class MainActivity extends Activity {
                 catch(Exception ignored){}
              }).show()
         );
+        ScrollView scroll=new ScrollView(this);
+        scroll.setFillViewport(false);
+        scroll.addView(choices);
         new AlertDialog.Builder(this).setTitle("Discovery alerts")
           .setMessage("Optional alerts. News checks run approximately every 30 minutes; video discoveries every 2 hours. Android may delay background work to save battery. Your existing library never triggers an initial alert. News reports are attributed to publishers, not proof of extraordinary claims.")
-          .setView(choices).setNegativeButton("Cancel",null)
+          .setView(scroll).setNegativeButton("Cancel",null)
           .setPositiveButton("Save",(dialog,which)->{
               boolean vids=footage.isChecked(),stories=news.isChecked(),chatAlerts=chats.isChecked();
               prefs.edit().putBoolean("videos",vids).putBoolean("news",stories).putBoolean("chats",chatAlerts).apply();
