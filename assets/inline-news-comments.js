@@ -1,4 +1,4 @@
-/* Shared card discussions: News previews; Archive, Watch & Read and Videos fold out on demand. */
+/* Shared on-demand inline threads for News, Archive, Watch & Read, Videos and case cards. Discussions is intentionally separate and stays open. */
 (()=>{'use strict';
 const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
 let db;
@@ -11,7 +11,7 @@ function mount(container){
  const id=container.dataset.newsComments;
  if(!id)return;
  const previous=drafts.get(id)||{expanded:false,draft:''};
- const collapsible=container.dataset.commentsCollapsed==='true';
+ const collapsible=container.dataset.commentsCollapsed!=='false'; // All content cards are closed by default.
  const discussionTitle=String(container.dataset.commentsTitle||container.closest('article')?.querySelector('h3,.news-headline-link')?.textContent||'Community discussion').trim().slice(0,100);
  const state={expanded:previous.expanded,items:[],busy:false,loaded:false,replyTo:null,replyComposerDismissed:false};
  states.set(container,state);
@@ -40,8 +40,8 @@ function mount(container){
  toggle.classList.add('dd-inline-comments-toggle');toggle.setAttribute('aria-controls','dd-news-comments-'+id.replace(/[^a-z0-9-]/gi,'-'));container.id=toggle.getAttribute('aria-controls');
  container.append(form,entries,message);
  function render(){
-  toggle.textContent='💬 '+(state.loaded?state.items.length:collapsible?'':'…')+(collapsible?(state.expanded?' ▴':' ▾'):'');
-  if(collapsible){container.hidden=!state.expanded;toggle.classList.add('dd-comments-dropdown')}
+  toggle.textContent='💬 '+(state.loaded?state.items.length:'Comments')+(state.expanded?' ▴':' ▾');
+  container.hidden=!state.expanded;toggle.classList.add('dd-comments-dropdown');
   toggle.setAttribute('aria-label',(state.expanded?'Hide':'Read or add')+' comments'+(state.loaded?' ('+state.items.length+')':''));
   // Never lose a typed draft when refreshing the visible comment list.
   if(entries.contains(form))container.insertBefore(form,entries);
@@ -50,12 +50,12 @@ function mount(container){
   if(state.expanded)fitBody();
   entries.replaceChildren();
   const ordered=window.DDCommunityVotes?.threadedComments?.(state.items)||state.items;
-  const shown=state.expanded?ordered:collapsible?[]:ordered.slice(-2);
+  const shown=state.expanded?ordered:[]; // No teasers before an explicit tap.
   replyContext.hidden=!state.replyTo;
   replyContext.textContent=state.replyTo?'Replying to '+state.replyTo.alias+' · this will appear beneath that comment.':'';
   post.textContent=state.replyTo?'Post reply':'Post comment';
   cancel.hidden=!state.replyTo;
-  if(!shown.length&&(!collapsible||state.expanded)){const note=el('p','No comments yet.');note.className='muted small';entries.append(note);}
+  if(!shown.length&&state.expanded&&state.loaded){const note=el('p','No comments yet.');note.className='muted small';entries.append(note);}
   for(const item of shown){
    const card=el('div');card.className='card';card.style.cssText='margin:8px 0';card.dataset.ddNewsCommentId=String(item.id||'');
    if(item.replyDepth>0){
@@ -116,12 +116,12 @@ function mount(container){
   state.loaded=true;state.items=(data||[]).map(x=>({...x,publicAlias:aliases[x.id]||null}));render();
  }
  toggle.onclick=()=>{
-  if(collapsible){state.expanded=!state.expanded;if(!state.expanded)state.replyTo=null;}
-  else if(state.replyTo){state.replyTo=null;state.expanded=true;}
-  else state.expanded=!state.expanded;
+  state.expanded=!state.expanded;
+  if(!state.expanded)state.replyTo=null;
   if(state.expanded)state.replyComposerDismissed=false;
   drafts.set(id,{expanded:state.expanded,draft:body.value});render();
-  if(state.expanded){body.focus({preventScroll:true});window.DDCommunityVotes?.keepCommentComposerVisible?.(form);if(!state.loaded)void refresh()}
+  // Show comments to read without immediately opening the mobile keyboard.
+  if(state.expanded&&!state.loaded)void refresh();
  };
  form.onsubmit=async ev=>{ev.preventDefault();if(state.busy)return;const c=client();if(!c)return;
    const {data:{user}}=await c.auth.getUser();if(!user||user.is_anonymous){message.textContent='Sign in with a registered account to comment.';return}
@@ -148,11 +148,7 @@ function mount(container){
    state.busy=false;post.disabled=false;
  };
  render();
- if(state.expanded)void refresh();
- else if(!collapsible&&typeof IntersectionObserver==='function'){
-  const visible=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){visible.disconnect();if(!state.loaded)void refresh()}},{rootMargin:'250px'});
-  visible.observe(container);
- }else if(!collapsible)void refresh();
+ if(state.expanded)void refresh(); // Never fetch hidden threads in the background.
 }
 function scan(){document.querySelectorAll('[data-news-comments]').forEach(n=>{if(!states.has(n))mount(n)})}
 const mo=new MutationObserver(scan);

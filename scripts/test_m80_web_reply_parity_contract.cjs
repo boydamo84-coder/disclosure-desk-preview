@@ -4,8 +4,8 @@
 const fs=require('node:fs'),assert=require('node:assert/strict'),crypto=require('node:crypto');
 const read=path=>fs.readFileSync(path,'utf8'),html=read('index.html');
 const expected=new Map([
- ['assets/community-polish.css','fb87106404d31233adfa86c55ba26ad66df5f734'],
- ['assets/inline-news-comments.js','088e90354118f7c828148497ca918720f0d86830'],
+ // M86 changes only visibility/activation in the shared card presenter and CSS.
+ // M80 byte-exact checks still protect the three other APK-tested modules.
  ['assets/case-discussions.js','aa7b252567402e2073c5dce78dc5d23cd0cb449e'],
  ['assets/community-votes.js','e3d5fc3e59565fb037fef885a4d447ae5dc4c996'],
  ['assets/community-discussions.js','745e231c9a8bc44b10324a7ee398e8b7ab2b414a']
@@ -27,7 +27,7 @@ for(const [path,oldVersion] of [
  ['assets/case-discussions.js','m73-reply-cancel'],
  ['assets/inline-news-comments.js','m73-reply-cancel']
 ]){
- const url=path+'?v='+oldVersion+'&m80=web-reply-parity';
+ const url=path+'?v='+oldVersion+'&m80=web-reply-parity'+(['assets/community-polish.css','assets/inline-news-comments.js'].includes(path)?'&m86=on-demand':'');
  assert(html.includes(url),'Next website release busts cache for '+path);
  assert.equal(html.split(url).length,2,'Exactly one public URL for '+path);
 }
@@ -62,4 +62,4 @@ for(const publicAsset of ['community-polish.css','community-votes.js','community
 assert(!html.includes('installProfileNotificationControl'),'Android-only native Profile settings not added to website');
 assert(!html.includes('FIRST_RUN_ALERTS_CHOICE'),'Android notification permission prompt is native-only');
 assert(!style.includes('window.DDAndroid'),'CSS never uses native bridge');
-console.log('PASS M80 website release: exact M77/M79 APK-verified reply/keyboard assets; all shared comment tabs; cache-busted public assets; Android-only features excluded.');
+console.log('PASS M80 baseline: three untouched M79 APK-exact modules, shared reply/keyboard source invariants, cache-busted M86 content cards and no Android-only code.');
