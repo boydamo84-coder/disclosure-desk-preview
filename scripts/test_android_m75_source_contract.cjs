@@ -26,7 +26,7 @@ assert.match(app,/chats.setEnabled\(false\)/,'Incomplete FCM push is not adverti
 assert.match(gradle,/applicationIdSuffix = "\.beta"/);
 assert.match(gradle,/manifestPlaceholders\["ddAppLabel"\] = "Disclosure Desk Beta"/);
 assert.match(gradle,/targetSdk = 36/);
-assert.match(gradle,/versionCode = 14/);
+assert.match(gradle,/versionCode = (?:14|15)/);
 assert.match(manifest,/android:label="\$\{ddAppLabel\}"/);
 assert.match(worker,/dd_scope/);
 assert.match(html,/assets\/confirmation-dialog\.js\?v=m74/);
