@@ -43,6 +43,20 @@ const BASE='http://127.0.0.1:4173';
    assert.equal(await host.isVisible(),true,label+' panel visible');
    assert.equal(await host.evaluate(el=>el.closest('article')===el.parentElement),true,label+' panel directly beneath card');
    await host.locator('.dd-comment-card.dd-comment-nested').first().waitFor({state:'visible'});
+   if(label==='News'){
+    const [parentId,replyId,nestedReplyId]=await page.evaluate(()=>window.__m68.ids);
+    const rows=await host.evaluate((panel,ids)=>ids.map(id=>{
+     const row=panel.querySelector('[data-dd-news-comment-id="'+id+'"]');
+     const {left,right}=row.getBoundingClientRect();
+     return {left,right,guide:parseFloat(getComputedStyle(row).borderLeftWidth)};
+    }),[parentId,replyId,nestedReplyId]);
+    for(let depth=1;depth<rows.length;depth++){
+     const parent=rows[depth-1],reply=rows[depth];
+     assert(reply.left>=parent.left+12,`News reply depth ${depth} indents at ${width}px: ${JSON.stringify(rows)}`);
+     assert(reply.right<=parent.right+1,`News reply depth ${depth} stays within the thread at ${width}px`);
+     assert(reply.guide>=2,`News reply depth ${depth} has a visible thread guide at ${width}px`);
+    }
+   }
    assert.equal(await host.locator('textarea').isVisible(),true,label+' composer in opened panel');
    assert.equal(await host.locator('textarea').evaluate(el=>document.activeElement===el),false,label+' no forced keyboard');
    const parent=host.locator('.dd-comment-card').first();

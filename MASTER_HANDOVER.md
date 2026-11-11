@@ -1,6 +1,13 @@
 # Disclosure Desk — MASTER HANDOVER
 _Last updated: 11 November 2026 (Europe/London)_
 
+## M86 website published and live smoke checked — 11 November 2026
+
+- **Production:** Gary approved the deploy. GitHub `production` was fast-forwarded from M72 to `4e894f71e971674ee6fc8907d9a1ea6cc52e60a5`. Its source tree is the reviewed M86 candidate with the handover-only preflight note. [Netlify deploy 6af471953dbbcedf6b776584](https://app.netlify.com/projects/uap-disclosure-desk/deploys/6af471953dbbcedf6b776584) is published and ready as of 13:46 UTC. The dashboard and public Netlify metadata agree on the production commit.
+- **Build control:** Temporarily activated builds, checked that activation did not queue a deploy, then triggered one normal production build. Restored the project's stopped-build setting after publication and verified it in the signed-in dashboard. M72 deploy `6af3a6aa91e46f47ab5ed8e1` remains the rollback target.
+- **Live smoke:** The public homepage serves the M86 cache keys. News and Archive comments were initially closed and opened beneath the card on tap. News also closed again on tap. Videos and Watch & Read passed the same closed-to-open check. An existing public Discussions thread displayed its nested replies immediately on opening. Archive records and the interactive case Map rendered.
+- **Acceptance scope:** Live smoke was read-only in a desktop browser. Signed-in posting and owner actions on real Samsung/iPhone remain device acceptance items. The previously green M86 Chromium suite exercised those reply and owner flows with synthetic accounts. No live test comments or account changes were made.
+
 ## M86 consolidated website preflight — 11 November 2026
 
 - **Live production:** [Netlify deploy 6af3a6aa91e46f47ab5ed8e1](https://app.netlify.com/projects/uap-disclosure-desk/deploys/6af3a6aa91e46f47ab5ed8e1) is published from GitHub `production` at `211424c1e2224ccbd2cdd3a398173e97a066c5ec` (M72), 10 November at 23:20 UTC. The live domain serves the M71 comment assets. Map, curated-case and historical news endpoints returned valid arrays.
