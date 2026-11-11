@@ -5,7 +5,9 @@ _Last updated: 11 November 2026 (Europe/London)_
 
 - **Samsung feedback:** M83 Research Inbox opened from Explore and displayed the saved rows. Remove worked on the Galaxy S24 Ultra. Rows with a hostname as their saved title displayed the same hostname a second time as the source.
 - **Android fix:** The native list now shows one line when the title and source identify the same hostname, ignoring case and an optional `www.` prefix. A distinct article title still shows the source below it. Formatting applies to existing links as well as new shares and does not change stored links or actions.
-- **Branch and version:** `android/m84-inbox-row-labels-nov11`, versionCode 21, versionName `0.12.3-m84-private-beta` before the debug suffix. Android APK build and Samsung M84 acceptance are pending.
+- **Branch and version:** `android/m84-inbox-row-labels-nov11`, versionCode 21, versionName `0.12.3-m84-private-beta` before the debug suffix. The Android build passed. Samsung M84 acceptance is pending.
+- **Verification:** [GitHub Actions run 42956804177](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42956804177) passed source checks, Chromium, 37 offline JVM assertions and Gradle. Artifact `13827830711` matched the recorded ZIP digest. The APK includes the label formatter and matches source commit `91b8795f09ede418f99592aa14c6b3f62d039075` in the snapshot. APK SHA-256 `8360cd798e4b17d1235ebb779255346a12d08e659fa67190350daf5496a9defb`.
+- **Samsung retest:** Share a bare URL and verify its domain appears on one line. A distinct title should still have its source underneath. M84 has a different debug signing certificate from M83. Copy saved links before uninstalling M83 because uninstalling clears the local inbox.
 
 ## Milestone 83 — Put Research Inbox on News and Explore (11 November 2026)
 
