@@ -80,7 +80,7 @@ public final class ResearchLinkParser {
             if (key.equals("access_token") || key.equals("refresh_token") ||
                 key.equals("id_token") || key.equals("auth_token") ||
                 key.equals("session_token") || key.equals("api_key") ||
-                key.equals("client_secret") || key.equals("password") ||
+                key.equals("client_secret") || key.equals("secret") || key.equals("password") ||
                 key.equals("authorization_code") || key.equals("code")) return true;
         }
         return false;
