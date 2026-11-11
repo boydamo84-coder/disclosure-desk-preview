@@ -38,11 +38,11 @@ public final class ResearchLinkParserTest {
         ok(capture(null)==null,"Null ignored");
         ok(capture("https://")==null,"Incomplete host rejected");
         ok(capture("https://example.com/a b").url.equals("https://example.com/a"),"Only valid URL token captured");
-        ok(capture("https://example.com/?secret=token")!=null,"Ordinary non-credential article token remains allowed");
+        ok(capture("https://example.com/?secret=token")==null,"Secrets are not saved");
         ok(capture("https://example.com\nhttps://other.com").url.equals("https://example.com"),"First source wins");
         ok(capture("x".repeat(9000)+" https://example.com")==null,"Oversize share rejected");
         ok(ResearchLinkParser.cleanUrl("https://example.com/"+ "x".repeat(2200))==null,"Oversize URL rejected");
-        ok(capture("Long title ".repeat(200)+" https://example.com")==null,"Too long share rejected");
+        ok(capture("Long title ".repeat(200)+" https://example.com").title.length()<=120,"Long share title truncated");
         ok(ResearchLinkParser.cleanUrl("https://exam ple.com")==null,"Embedded whitespace URL rejected");
         ok(ResearchLinkParser.cleanUrl("https://example.com/\u0001")==null,"Control chars rejected");
         ok(ResearchLinkParser.cleanUrl("https://example.com:99999/path")==null,"Invalid port rejected");
