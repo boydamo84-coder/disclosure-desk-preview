@@ -1,8 +1,8 @@
-name: Build Disclosure Desk M81 PRIVATE Android APK (NO Netlify)
+name: Build Disclosure Desk M82 PRIVATE Android APK (NO Netlify)
 on:
   workflow_dispatch:
   push:
-    branches: [android/m81-native-research-inbox-nov11]
+    branches: [android/m82-inbox-dialog-list-fix-nov11]
     paths:
       - 'android-test/**'
       - 'assets/community-polish.css'
@@ -19,6 +19,7 @@ on:
       - 'scripts/android/ResearchLinkParserTest.java'
       - 'scripts/test_m81_native_research_contract.cjs'
       - 'scripts/test_m81_research_inbox_chromium.cjs'
+      - 'scripts/test_m82_research_inbox_dialog_contract.cjs'
       - 'scripts/stage_android_dev_snapshot.cjs'
       - 'scripts/test_android_dev_snapshot_contract.cjs'
       - 'scripts/build_public_release.cjs'
@@ -50,6 +51,7 @@ jobs:
           node scripts/test_m78_profile_notifications_contract.cjs
           node scripts/test_m79_mobile_comment_keyboard_contract.cjs
           node scripts/test_m81_native_research_contract.cjs
+          node scripts/test_m82_research_inbox_dialog_contract.cjs
       - name: Verify mobile comment threading and full-screen Chat in real Chromium (NO deploy)
         run: |
           npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
@@ -96,7 +98,7 @@ jobs:
       - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M81-PRIVATE-BETA
+          name: DisclosureDesk-M82-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
