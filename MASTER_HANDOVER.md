@@ -1,6 +1,16 @@
 # Disclosure Desk — MASTER HANDOVER
 _Last updated: 11 November 2026 (Europe/London)_
 
+## M88 owner-approved GitHub production release; Netlify publication pending verification — 11 November 2026
+
+- The owner explicitly approved M88 deployment. Exact consolidated source commit `f5be4142c4561f4e64c06c64155cc75729dbcf67` passed the [NO DEPLOY verification run 43100365938](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43100365938) with `verify` and real Chromium jobs both SUCCESS.
+- GitHub `production` was moved by non-force, expected-SHA fast-forward from `4e894f71e971674ee6fc8907d9a1ea6cc52e60a5` to `f5be4142c4561f4e64c06c64155cc75729dbcf67`, and the production branch HEAD was read back and verified. The M88 website code is now staged on the Netlify source branch.
+- **Do not claim website publication yet.** This chat has no connected Netlify deployment action or signed-in Netlify Cloud Browser; Netlify settings previously showed builds stopped. A public HTTP check of `https://uapdisclosuredesk.com/terms` was not accessible through web retrieval, and the retrieved homepage still lacked the new Terms link. No Netlify deploy was triggered or verified here.
+- **Next owner/Work action:** Open Netlify project `uap-disclosure-desk` → Deploys, confirm builds are stopped and no build of the M88 production SHA is already running. Reactivate builds only if needed, issue **one** production build for `f5be4142...`, and confirm Published/Ready SHA matches. Then check `/terms` returns 200 with correct content and accessible footer links, and the News indentation fix. Restore stopped-build setting afterwards if desired to preserve credits; recheck it was set. No backend SQL reapplication is required because M87 handover already records 10-in-10 live cap as applied.
+- Keep Google OAuth Testing until real Google Drive copy and recovery tests and consent review pass; enter `https://uapdisclosuredesk.com/terms` in Google branding only after the site actually publishes.
+- This entry is a handover-only update on the pending release branch; `production` remains at the exact green/tested SHA for Netlify build traceability.
+
+
 ## M88 consolidated release candidate — News reply fix + legal Terms (11 November 2026)
 
 - **STAGED, NO DEPLOY:** Branch `fix/m88-consolidated-news-replies-terms-nov11` merges the previously verified but unpublished `fix/m87-news-reply-indent-nov11` (News reply indentation plus the already-applied live ten-posts-per-ten-minutes Supabase cap) with `fix/m87-terms-of-service-nov11` (Terms of Service). M86 is still the public Netlify website. Do not publish or move `production` without the owner's release approval.
