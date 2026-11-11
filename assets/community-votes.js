@@ -269,7 +269,7 @@ function commentViewportBounds(){
 function scrollCommentBy(target,dy,smooth){
  if(!Number.isFinite(dy)||Math.abs(dy)<4)return false;
  const parent=commentScrollContainer(target);
- const behavior=smooth&&!window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches?'smooth':'instant';
+ const behavior=smooth&&!window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches?'smooth':'auto';
  if(parent)parent.scrollBy({top:dy,behavior});
  else window.scrollBy({top:dy,behavior});
  return true;
