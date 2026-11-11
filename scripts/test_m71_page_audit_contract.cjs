@@ -44,7 +44,7 @@ for(const name of ['dd-news-inline-comments','dd-immersive-inline-comments','dd-
  assert(css.includes(name),'Shared styles must cover '+name);
 }
 assert.match(html,/inline-news-comments\.js\?v=m73-reply-cancel/);
-assert.match(html,/community-polish\.css\?v=m73/);
+assert.match(html,/community-polish\.css\?v=m74/);
 assert.match(witness,/dd-witness-action-rail dd-action-rail/,'Witness detail retains real votes/Board/share');
 assert.match(witness,/DDCommunityVotes\.mount/,'Witness votes use existing actual backend');
 assert.doesNotMatch(witness,/dd_case_comments|dd_discussions_reply/,'No invented public replies for witness reports');
