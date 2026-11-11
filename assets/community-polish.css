@@ -983,3 +983,26 @@ dialog.dd-confirm-dialog::backdrop{background:rgba(1,10,17,.79);backdrop-filter:
  #discussionsPage .dd-community-global-sort{min-width:110px}
  #discussionsPage .dd-community-global-subject{font-size:10px}
 }
+
+
+/* M89 sidebar scale-up: subject navigation scrolls independently of the content feed. */
+@media(min-width:760px){
+ #discussionsPage .dd-community-subject-nav{
+  max-height:min(65dvh,calc(100dvh - 260px));
+  min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;
+  scrollbar-width:thin;scrollbar-color:#a58d65 #152d3b;
+  scrollbar-gutter:stable;padding:2px 4px 2px 0;
+ }
+ #discussionsPage .dd-community-subject-nav::-webkit-scrollbar{width:7px}
+ #discussionsPage .dd-community-subject-nav::-webkit-scrollbar-track{background:#152d3b;border-radius:9px}
+ #discussionsPage .dd-community-subject-nav::-webkit-scrollbar-thumb{background:#a58d65;border-radius:9px}
+ #discussionsPage .dd-community-subject-nav:focus-visible{outline:2px solid #e3c58e;outline-offset:3px;border-radius:9px}
+}
+@media(max-width:759px){
+ #discussionsPage .dd-community-subject-nav{
+  overflow-x:auto;overflow-y:hidden;max-height:none;
+  overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;scrollbar-color:#8f7c61 transparent;
+ }
+ #discussionsPage .dd-community-subject-row{scroll-snap-align:start}
+}
