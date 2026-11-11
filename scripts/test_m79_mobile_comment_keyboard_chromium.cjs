@@ -20,6 +20,7 @@ const BASE='http://127.0.0.1:4173';
    page.on('pageerror',e=>errors.push(e.message));
    await page.goto(BASE+'/__m79-comment?dd_tab=archivePage',{waitUntil:'domcontentloaded'});
    await page.waitForFunction(()=>!!window.DDCommunityVotes&&!!window.__m68);
+   await page.evaluate(()=>{window.__m67.user=true}); // Synthetic registered account, never live.
    const archive=page.locator('[data-archive-id="m67-archive-a"]').first();
    await archive.locator('.dd-inline-comments-toggle').click();
    const first=archive.locator('.dd-comment-card').first();
