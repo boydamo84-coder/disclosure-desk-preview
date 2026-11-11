@@ -93,6 +93,7 @@ function mount(container){
     state.replyTo={id:target.id,alias:target.publicAlias||'this commenter'};
     state.replyComposerDismissed=false;state.expanded=true;drafts.set(id,{expanded:true,draft:body.value});render();
     body.focus({preventScroll:true});
+    window.DDCommunityVotes?.keepCommentComposerVisible?.(form);
    },{discussionKey:id,title:discussionTitle,isMine:item.is_mine===true,
     createdAt:item.created_at,body:item.body,onChanged:()=>refresh()})){
     card.append(header,text,flag);window.DDCommunityVotes?.mount(card,'comment',item.id);
@@ -120,18 +121,24 @@ function mount(container){
   else state.expanded=!state.expanded;
   if(state.expanded)state.replyComposerDismissed=false;
   drafts.set(id,{expanded:state.expanded,draft:body.value});render();
-  if(state.expanded){body.focus({preventScroll:true});if(!state.loaded)void refresh()}
+  if(state.expanded){body.focus({preventScroll:true});window.DDCommunityVotes?.keepCommentComposerVisible?.(form);if(!state.loaded)void refresh()}
  };
  form.onsubmit=async ev=>{ev.preventDefault();if(state.busy)return;const c=client();if(!c)return;
    const {data:{user}}=await c.auth.getUser();if(!user||user.is_anonymous){message.textContent='Sign in with a registered account to comment.';return}
    state.busy=true;post.disabled=true;
    const replyingTo=state.replyTo;
-   const {error}=await c.from('dd_case_comments').insert({case_id:id,author_id:user.id,parent_id:replyingTo?.id||null,body:body.value.trim(),status:'approved'});
+   const postedBody=body.value.trim(),priorIds=new Set(state.items.map(item=>String(item.id)));
+   const {error}=await c.from('dd_case_comments').insert({case_id:id,author_id:user.id,parent_id:replyingTo?.id||null,body:postedBody,status:'approved'});
    if(!error){
+     body.blur(); // Close the mobile keyboard before revealing the posted reply.
      body.value='';state.replyTo=null;state.replyComposerDismissed=!!replyingTo;
      drafts.set(id,{expanded:state.expanded,draft:''});
      message.textContent=replyingTo?'Reply posted.':'Comment posted.';
      await refresh(); // Keep thread visible; close the reply popup after posting.
+     const created=state.items.find(item=>!priorIds.has(String(item.id)) && item.is_mine
+       && item.body===postedBody && String(item.parent_id||'')===String(replyingTo?.id||''));
+     const posted=created&&entries.querySelector('[data-dd-news-comment-id="'+created.id+'"]');
+     if(posted)window.DDCommunityVotes?.revealPostedComment?.(posted);
    }else{
      const issue=String(error.message||'');
      message.textContent=/duplicate comment/i.test(issue)?'You have already posted this comment.'
