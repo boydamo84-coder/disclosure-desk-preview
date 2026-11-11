@@ -25,7 +25,8 @@ const ID='11111111-1111-4111-8111-111111111111';
    await page.goto(BASE+'/robots.txt',{waitUntil:'domcontentloaded'});
    await page.setContent('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>'+
       '<body style="background:#0b1823;color:#eee;font:14px system-ui"><div id="cases"></div>'+
-      '<div class="dd-news-inline-comments" data-news-comments="news:sample"></div></body></html>');
+      '<article class="card"><div class="dd-news-main-actions dd-action-rail"><button class="dd-action-board">☆</button></div>'+ 
+      '<div class="dd-news-inline-comments" data-news-comments="news:sample" data-comments-collapsed="true"></div></article></body></html>');
    await page.addStyleTag({content:css});
    await page.evaluate(id=>{
      const calls=[];window.__commentActionCalls=calls;
@@ -55,6 +56,7 @@ const ID='11111111-1111-4111-8111-111111111111';
    const host=page.locator('[data-news-comments]');
    const toggle=page.locator('.dd-inline-comments-toggle');
    await toggle.waitFor({state:'visible'});
+   assert.equal(await toggle.evaluate(el=>el.closest('[data-news-comments]')===null),true,'Visible comments toggle stays outside collapsed panel');
    assert.equal(await toggle.getAttribute('aria-expanded'),'false','News comments closed by default');
    assert.equal(await host.isVisible(),false,'News comments must not render previews until tapped');
    assert.equal(await page.evaluate(()=>window.__commentActionCalls.filter(x=>x.name==='dd_public_comments').length),0,
