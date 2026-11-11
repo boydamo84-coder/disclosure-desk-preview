@@ -53,6 +53,34 @@ const BASE='http://127.0.0.1:4173',html=buildFixture();
    await page.locator('#ddForumPostList .dd-forum-post-card').first().waitFor();
    assert.equal(await page.locator('#ddForumPostList .dd-forum-post-card').count(),3,'Original subject feed unaffected');
    checks+=2;
+   const menu=page.getByRole('button',{name:'Open all discussion subjects'});
+   await menu.click();
+   const drawer=page.getByRole('dialog',{name:'All subjects'});
+   await drawer.waitFor();
+   const rows=drawer.locator('#ddForumDrawerList .dd-community-drawer-subject-row');
+   assert.equal(await rows.count(),4,'All four subjects are listed');
+   await drawer.locator('#ddForumDrawerList [data-section-favourite]').first().click();
+   await drawer.locator('#ddForumDrawerFavouriteNav .dd-community-drawer-subject-row').first().waitFor();
+   assert.equal(await drawer.locator('#ddForumDrawerFavouriteNav .dd-community-drawer-subject-row').count(),1,'Favourite appears at top');
+   assert.equal(await drawer.locator('#ddForumDrawerList [data-section-favourite]').first().getAttribute('aria-pressed'),'true','Star selection saved');
+   await page.evaluate(()=>window.__SocialQA.sections.push({
+    id:'99999999-8888-4888-8888-888888888888',
+    title:'Newly published discussion subject',description:'A newly added subject',topic:'UAP',
+    thread_count:0,is_steward:false,created_at:new Date().toISOString()
+   }));
+   await drawer.getByRole('button',{name:'Refresh discussion subjects'}).click();
+   await drawer.getByRole('button',{name:'Open discussion subject: Newly published discussion subject'}).waitFor();
+   assert.equal(await rows.count(),5,'New subject automatically appears in the refreshed drawer');
+   await drawer.getByRole('searchbox',{name:'Search discussion subjects'}).fill('this will not match');
+   assert.equal(await rows.count(),0,'Drawer search narrows subjects');
+   await drawer.getByRole('searchbox',{name:'Search discussion subjects'}).fill('');
+   await drawer.getByRole('button',{name:'Open discussion subject: Newly published discussion subject'}).click();
+   await drawer.waitFor({state:'hidden'});
+   assert.equal(await menu.getAttribute('aria-expanded'),'false','Drawer closes on navigation');
+   await menu.click();await page.keyboard.press('Escape');await drawer.waitFor({state:'hidden'});
+   assert.equal(await menu.getAttribute('aria-expanded'),'false','Escape dismisses drawer');
+   if(width<760)assert.equal(await page.locator('#discussionsPage .dd-community-subjects').isVisible(),false,'Mobile uses drawer rather than horizontal subject strip');
+   checks+=9;
    const dims=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth}));
    assert(dims.scroll<=dims.client+2,'No horizontal overflow '+width+' '+JSON.stringify(dims));
    assert.deepEqual(errors,[],'No JS page errors '+width);

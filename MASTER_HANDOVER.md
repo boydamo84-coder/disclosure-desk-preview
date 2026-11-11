@@ -1,6 +1,14 @@
 # Disclosure Desk — MASTER HANDOVER
 _Last updated: 11 November 2026 (Europe/London)_
 
+## M89 auto-updating Discussions subjects drawer — 11 November 2026
+
+- **STAGED ONLY, not live.** The user requested a ☰ three-line drawer, listing all current discussion subjects, allowing navigation into the real board and ☆/★ favourites next to each. Implemented a native accessible drawer with close, Escape, backdrop, searchable subjects, saved-favourites group and refresh, reusing `dd_discussions_sections`, `favouriteButton`, the account-specific favourites key, existing post renderer and moderation. No copy of comments or posts is created.
+- The drawer fetches current subjects when opened, polls only while open (60 s) and can be manually refreshed. Phone-width navigation replaces the previously crowded horizontal subject bar; desktop sidebar is preserved. New subjects added to the server appear in the drawer without code changes. The Popular/New/Top single dropdown is unchanged, as are existing action bars, public comments and nested reply behaviour.
+- Added offline UI/source contract checks and synthetic Chromium checks at 320/393/820/1280px for the drawer, star toggles, newly added subjects, search, navigation and dismissal. Updated legacy social browser favourite assertions for the hidden mobile sidebar. Any actual data schema work for Popular remains a separate staged SQL draft, **not applied**. No Netlify deploy, GitHub production updates, or live Supabase write occurred.
+- **Gate:** Full regression CI must pass on exact release candidate, then backend Popular read RPC is reviewed/tested, followed by owner-authorised deployment and real-device verification.
+
+
 ## M89 — Discussions across-subject discovery feed (11 November 2026)
 
 - **Owner-approved concept; STAGED ONLY — NOT DEPLOYED.** Branch `fix/m89-discussions-popular-feed-nov11` starts from M88 `production` source commit `f5be4142c4561f4e64c06c64155cc75729dbcf67`. Do NOT change `production` or trigger Netlify. No live Supabase schema, RPC, RLS, community content, reactions or account changed.

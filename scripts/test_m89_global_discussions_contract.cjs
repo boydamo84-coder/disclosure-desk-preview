@@ -23,4 +23,12 @@ for(const fragment of ["'popular'","'new'","'top'","auth.uid()","t.section_id","
  assert.ok(sql.includes(fragment),'SQL must include '+fragment);
 }
 assert.ok(html.includes('id="ddForumSections"')&&html.includes('id="ddForumSubjectNav"'),'Original subjects preserved');
+for(const id of ['ddForumSubjectsMenu','ddForumSubjectsDrawer','ddForumDrawerList','ddForumDrawerFavouriteGroup','ddForumDrawerSearch','ddForumDrawerRefresh']){
+ assert(html.includes('id="'+id+'"'),'Missing subject menu control '+id);
+}
+for(const phrase of ['function renderSubjectsDrawer()','function refreshSubjectsDrawer()','function openSubjectsDrawer()','function closeSubjectsDrawer()','sections=orderSections(rows);drawSections();','favouriteButton(row,item,stars.has(item.id),true)']){
+ assert(js.includes(phrase),'Drawer must reuse live sections and existing favourites '+phrase);
+}
+assert(js.includes('window.setInterval'), 'Drawer refreshes while open');
+assert(css.includes('.dd-community-subjects-drawer::backdrop'), 'Drawer backdrop present');
 console.log('PASS M89 global Discussions feed, Popular/New/Top, original actions and auto-open reply flow; NO DEPLOY');
