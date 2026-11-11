@@ -1,6 +1,17 @@
 # Disclosure Desk — MASTER HANDOVER
 _Last updated: 11 November 2026 (Europe/London)_
 
+## M89 — Discussions across-subject discovery feed (11 November 2026)
+
+- **Owner-approved concept; STAGED ONLY — NOT DEPLOYED.** Branch `fix/m89-discussions-popular-feed-nov11` starts from M88 `production` source commit `f5be4142c4561f4e64c06c64155cc75729dbcf67`. Do NOT change `production` or trigger Netlify. No live Supabase schema, RPC, RLS, community content, reactions or account changed.
+- Added a **top-of-Discussions “Across all discussions” post feed** with a single **Popular / New / Top** dropdown (Popular default), an original-subject chip and “Load more posts” paging (10 at a time). Existing subject directory, sidebar links, favourites, comments, share, board stars, vote, flag, author-only edit/delete and overall visuals remain.
+- The across-subject feed calls new **staged-only** database RPC `dd_discussions_global_feed`. Draft SQL: `supabase/migrations/20261111221500_dd_discussions_global_feed.sql`, NOT APPLIED. It filters to published posts in published sections, emits only existing public author names, uses existing authenticated ownership/current-vote logic, allows anon/authenticated read access and restricts sort to Popular/New/Top. Popular = engagement adjusted by age; New = newest post; Top = all-time net likes. No new tables or public posting workflow.
+- Both the new and existing subject list render via **one shared Discussions post card/action renderer**. Opening global post first selects its actual subject and then invokes the existing `openThread()` and auto-open `loadReplies()` logic. Back returns to the cross-subject feed with the correct Popular/New/Top label. Normal subject posts retain “Back to posts”. Account changes invalidate pending cross-subject fetches. No separate Popular comments store.
+- Added synthetic cross-subject rows to `scripts/social_design_fixture.cjs` and test gates `scripts/test_m89_global_discussions_contract.cjs` and `scripts/test_m89_global_discussions_chromium.cjs`; wired the no-deploy QA workflow to M89. Reconciled previous regression tests that pinned the old Discussions JS SHA or cache-key despite deliberate M89 changes; retained their behavior checks.
+- **Pending:** full M89 Chromium CI result on exact feature SHA; separately review the staged SQL migration, then deploy the DB read-only RPC before publishing the frontend so the cross-subject feed is available. Obtain explicit owner approval for a later consolidated Netlify release. After that, test actual guest/signed-in feed, sorting, comment replies and return navigation on Samsung and desktop, with a rollback plan.
+
+
+
 ## M88 consolidated release candidate — News reply fix + legal Terms (11 November 2026)
 
 - **STAGED, NO DEPLOY:** Branch `fix/m88-consolidated-news-replies-terms-nov11` merges the previously verified but unpublished `fix/m87-news-reply-indent-nov11` (News reply indentation plus the already-applied live ten-posts-per-ten-minutes Supabase cap) with `fix/m87-terms-of-service-nov11` (Terms of Service). M86 is still the public Netlify website. Do not publish or move `production` without the owner's release approval.
