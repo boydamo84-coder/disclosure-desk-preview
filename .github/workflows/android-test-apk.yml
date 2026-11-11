@@ -12,6 +12,7 @@ on:
       - 'assets/community-discussions.js'
       - 'assets/inline-news-comments.js'
       - 'assets/case-discussions.js'
+      - 'scripts/test_android_m75_source_contract.cjs'
       - 'scripts/test_m77_android_mobile_contract.cjs'
       - 'scripts/test_m77_android_mobile_chromium.cjs'
       - 'scripts/test_m78_profile_notifications_contract.cjs'
