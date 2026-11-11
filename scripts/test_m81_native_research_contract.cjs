@@ -24,7 +24,7 @@ for(const p of [
 assert(main.includes('if(!isMainFrame || origin==null'),'Bridge must reject third-party frames');
 assert(main.includes('if(receiveSharedResearchLink(intent))return;'),'Share must not reset active WebView');
 assert(main.includes('new AlertDialog.Builder(this)'), 'Native list and actions use Android dialogs');
-assert(!main.includes('startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(intent.getStringExtra')), 'Untrusted external text never auto-opens');
+assert(!main.includes('Uri.parse(intent.getStringExtra('), 'Untrusted external text must never be parsed into an auto-open intent');
 assert.match(manifest,/android\.intent\.action\.SEND/,'Share target registered');
 assert.match(manifest,/android\.intent\.category\.DEFAULT/,'Share target visible to chooser');
 assert.match(manifest,/android:mimeType="text\/plain"/,'Text links only');
