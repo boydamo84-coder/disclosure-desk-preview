@@ -40,7 +40,7 @@ function mount(container){
  toggle.classList.add('dd-inline-comments-toggle');toggle.setAttribute('aria-controls','dd-news-comments-'+id.replace(/[^a-z0-9-]/gi,'-'));container.id=toggle.getAttribute('aria-controls');
  container.append(form,entries,message);
  function render(){
-  toggle.textContent='💬 '+(state.loaded?state.items.length:'Comments')+(state.expanded?' ▴':' ▾');
+  toggle.textContent='💬 '+(state.loaded?state.items.length:'')+(state.expanded?' ▴':' ▾');
   container.hidden=!state.expanded;toggle.classList.add('dd-comments-dropdown');
   toggle.setAttribute('aria-label',(state.expanded?'Hide':'Read or add')+' comments'+(state.loaded?' ('+state.items.length+')':''));
   // Never lose a typed draft when refreshing the visible comment list.
