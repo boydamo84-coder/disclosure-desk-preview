@@ -44,7 +44,7 @@ function chooseReply(item){
  let context=document.getElementById('ddCaseReplyContext');
  if(!context&&form){context=document.createElement('p');context.id='ddCaseReplyContext';context.className='dd-comment-reply-context';form.prepend(context)}
  if(context)context.textContent=replyTo?'Replying to '+replyTo.alias+' · your reply will appear beneath this comment.':'Commenting on '+String(document.querySelector('#ddCaseDiscussionDialog h2')?.textContent||'this discussion');
- if(input){input.placeholder=replyTo?'Write your reply…':'Ask a question or share a source reference.';fitCaseComposer(input);input.focus({preventScroll:true})}
+ if(input){input.placeholder=replyTo?'Write your reply…':'Ask a question or share a source reference.';fitCaseComposer(input);input.focus({preventScroll:true});window.DDCommunityVotes?.keepCommentComposerVisible?.(form)}
 }
 function renderComments(){
  const c=client();
@@ -62,7 +62,12 @@ function renderComments(){
  const visible=expanded?all:all.slice(-2);
  for(const item of visible){
    const card=document.createElement('article');card.className='card';card.id='discussion-comment-'+item.id;card.style.cssText='margin:8px 0';
-   if(item.replyDepth>0){card.classList.add('dd-comment-nested');card.style.setProperty('--dd-comment-depth',String(item.replyDepth))}
+   if(item.replyDepth>0){
+    card.classList.add('dd-comment-nested');
+    card.style.setProperty('--dd-comment-depth',String(item.replyDepth));
+    card.style.setProperty('--dd-comment-indent',Math.min(4,Number(item.replyDepth))*18+'px');
+    card.dataset.ddReplyParent=String(item.parent_id||'');
+   }
    const alias=item.publicAlias||'Community member';
    const header=document.createElement('div');header.className='muted small';
    header.style.cssText='display:flex;align-items:center;min-width:0';
@@ -266,7 +271,7 @@ function init(){
      if(revision!==dialogRevision||chosen!==current||root.hidden)return;
      const user=data?.user;
      if(authError||!user||user.is_anonymous){announce('Please sign in with a registered Disclosure Desk account first.');return}
-     const parent=replyTo;
+     const parent=replyTo,priorIds=new Set(loadedComments.map(item=>String(item.id)));
      const {error}=await c.from('dd_case_comments').insert({case_id:chosen,author_id:user.id,parent_id:parent?.id||null,body,status:'approved'});
      if(revision!==dialogRevision||chosen!==current||root.hidden)return;
      const issue=String(error?.message||'');
@@ -276,11 +281,17 @@ function init(){
       :'Unable to submit comment. Please try again.');
      if(!error){
        const wasReply=!!parent;
+       document.getElementById('ddCaseDiscussionBody')?.blur();
        e.target.reset();fitCaseComposer(document.getElementById('ddCaseDiscussionBody'));
        replyTo=null;
        document.getElementById('ddCaseReplyCancel').hidden=true;
        if(wasReply){e.target.hidden=true;document.getElementById('ddCaseDiscussionActions')?.after(e.target)}
-       await load(); // Keep comments visible but close the completed reply composer.
+       const loaded=await load(); // Keep comments visible but close the completed reply composer.
+       if(loaded){
+         const posted=loadedComments.find(item=>!priorIds.has(String(item.id)) && item.is_mine
+           && item.body===body && String(item.parent_id||'')===String(parent?.id||''));
+         if(posted)window.DDCommunityVotes?.revealPostedComment?.(document.getElementById('discussion-comment-'+posted.id));
+       }
      }
    }finally{button.disabled=false}
  };
