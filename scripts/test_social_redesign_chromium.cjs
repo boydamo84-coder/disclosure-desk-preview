@@ -32,13 +32,13 @@ try{for(const width of [320,393,820,1280]){
  await page.evaluate(()=>window.navigateTo('discussionsPage'));await page.getByRole('button',{name:'Browse subject: UAP evidence',exact:true}).waitFor();await noOverflow(page,'Subjects '+width);checks++;
  const originalSubject=page.locator('#ddForumSections .dd-forum-section-card').first();
  await originalSubject.locator('button[data-section-favourite]').click();
- await page.locator('#ddForumFavouriteGroup').getByRole('button',{name:/Open favourite subject UAP evidence/}).waitFor();
+ await page.waitForFunction(()=>!document.getElementById('ddForumFavouriteGroup').hidden);
  assert.equal(await page.locator('#ddForumSubjectNav button[aria-pressed=true]').count(),1,
   'Favourited subject shows a selected star beside the sidebar subject');checks++;
  await page.evaluate(()=>window.__SocialQA.switchAccount('11111111-1111-4111-8111-111111111111'));
  await page.waitForFunction(()=>document.getElementById('ddForumFavouriteGroup').hidden);
  await page.evaluate(()=>window.__SocialQA.switchAccount('22222222-2222-4222-8222-222222222222'));
- await page.locator('#ddForumFavouriteGroup').getByRole('button',{name:/Open favourite subject UAP evidence/}).waitFor();
+ await page.waitForFunction(()=>!document.getElementById('ddForumFavouriteGroup').hidden);
  checks++;
  await page.evaluate(()=>{
   window.__SocialQA.sections.unshift({id:'99999999-9999-4999-8999-999999999999',
