@@ -5,7 +5,7 @@ const html=read('index.html'),shared=read('assets/unified-action-rails.js'),css=
 const inline=read('assets/inline-news-comments.js'),caseComments=read('assets/case-discussions.js'),votes=read('assets/community-votes.js'),forum=read('assets/community-discussions.js'),watch=read('assets/watch-read.js');
 assert.match(html,/unified-action-rails\.js\?v=m71-hearing-slot/);
 assert.match(html,/inline-news-comments\.js\?v=m73-reply-cancel/);
-assert.match(html,/community-polish\.css\?v=m73/);
+assert.match(html,/community-polish\.css\?v=m74/);
 assert.match(shared,/Object\.freeze\(\{vote:0,comments:1,board:2,share:3,extra:4,reply:5,spacer:6\}\)/);
 for(const type of ['.dd-inline-comments-toggle','.dd-forum-comments-action','.dd-action-board','.dd-forum-star-action','.dd-action-share','.dd-forum-share-action','.dd-comment-reply-button','.dd-forum-reply-action','.dd-community-votes','.dd-forum-vote']){
  assert(shared.includes(type),'Shared rail recognises existing action '+type);
