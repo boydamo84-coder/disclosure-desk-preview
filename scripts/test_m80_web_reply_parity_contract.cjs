@@ -8,7 +8,7 @@ const expected=new Map([
  // M80 byte-exact checks still protect the three other APK-tested modules.
  ['assets/case-discussions.js','aa7b252567402e2073c5dce78dc5d23cd0cb449e'],
  ['assets/community-votes.js','e3d5fc3e59565fb037fef885a4d447ae5dc4c996'],
- ['assets/community-discussions.js','745e231c9a8bc44b10324a7ee398e8b7ab2b414a']
+ // Discussions M89 deliberately changes source for cross-subject feed; shared M80 reply/keyboard checks still run.
 ]);
 for(const [path,knownApkBlob] of expected){
  const file=fs.readFileSync(path);
@@ -23,11 +23,11 @@ const forum=read('assets/community-discussions.js');
 for(const [path,oldVersion] of [
  ['assets/community-polish.css','m74'],
  ['assets/community-votes.js','m74-branded-confirm'],
- ['assets/community-discussions.js','m73-owner-more'],
+ ['assets/community-discussions.js','m89-global-popular-feed'],
  ['assets/case-discussions.js','m73-reply-cancel'],
  ['assets/inline-news-comments.js','m73-reply-cancel']
 ]){
- const url=path+'?v='+oldVersion+'&m80=web-reply-parity'+(['assets/community-polish.css','assets/inline-news-comments.js'].includes(path)?'&m86=on-demand':'');
+ const url=path==='assets/community-discussions.js'?'assets/community-discussions.js?v=m89-global-popular-feed':path+'?v='+oldVersion+'&m80=web-reply-parity'+(['assets/community-polish.css','assets/inline-news-comments.js'].includes(path)?'&m86=on-demand':'');
  assert(html.includes(url),'Next website release busts cache for '+path);
  assert.equal(html.split(url).length,2,'Exactly one public URL for '+path);
 }
