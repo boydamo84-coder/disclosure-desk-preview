@@ -223,7 +223,7 @@ async function uploadPending(){
 save.addEventListener('click',()=>{void uploadPending()});
 remove.addEventListener('click',async()=>{
  if(operation||!owner||!avatarKey||!hasSavedPhoto)return;
- if(!confirm('Remove your account profile photo? You can upload another later.'))return;
+ if(!await window.DDConfirm?.show?.({title:'Remove profile photo?',message:'Your saved profile photo will be removed. You can upload another later.',confirmText:'Remove photo'}))return;
  const expected=owner,key=avatarKey,stamp=epoch;
  operation=true;buttons();say('Removing profile photo…');
  try{
