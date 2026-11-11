@@ -477,22 +477,26 @@ public final class MainActivity extends Activity {
         // it does not add a floating bell or alter the public website's Profile.
         if(!WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)||web==null)return;
         String javascript="(function(){try{"
-          +"var heading=document.querySelector('#profilePage .dd-profile-heading');"
-          +"if(!heading||document.getElementById('ddAndroidAlertsSettings'))return;"
-          +"var panel=document.createElement('div');panel.id='ddAndroidAlertsSettings';"
-          +"panel.className='dd-profile-card dd-android-alert-settings';"
-          +"panel.style.cssText='margin:12px 0;padding:14px;border:1px solid #496477;border-radius:12px;background:#112c3c';"
-          +"var title=document.createElement('strong');title.textContent='App notifications';"
-          +"title.style.cssText='display:block;color:#f0d4a0;margin-bottom:5px';"
+          +"var settings=document.getElementById('ddProfileSettings');"
+          +"if(!settings||document.getElementById('ddAndroidAlertsSettings'))return;"
+          +"var panel=document.createElement('details');panel.id='ddAndroidAlertsSettings';"
+          +"panel.className='dd-profile-card dd-profile-fold dd-android-alert-settings';"
+          +"var summary=document.createElement('summary');"
+          +"var label=document.createElement('span');label.textContent='🔔 App notifications';"
+          +"var chevron=document.createElement('span');chevron.className='dd-profile-chevron';"
+          +"chevron.setAttribute('aria-hidden','true');chevron.textContent='⌄';"
+          +"summary.append(label,chevron);"
           +"var note=document.createElement('p');note.textContent='News and video alerts. Chat push notifications are being prepared.';"
-          +"note.className='muted small';note.style.margin='4px 0 11px';"
+          +"note.className='muted small';note.style.cssText='margin:10px 0 12px';"
           +"var action=document.createElement('button');action.type='button';action.className='outline';"
           +"action.textContent='Notification settings';action.setAttribute('aria-label','Open Android notification settings');"
-          +"action.style.cssText='min-height:44px;padding:10px 15px';"
+          +"action.style.cssText='min-height:44px;padding:10px 15px;margin-bottom:12px';"
           +"action.addEventListener('click',function(){"
           +"if(window.DDAndroid&&typeof window.DDAndroid.postMessage==='function')"
           +"window.DDAndroid.postMessage(JSON.stringify({type:'open_notification_settings'}));"
-          +"});panel.append(title,note,action);heading.insertAdjacentElement('afterend',panel);"
+          +"});panel.append(summary,note,action);"
+          +"var meta=settings.querySelector('.dd-profile-settings-meta');"
+          +"if(meta)meta.insertAdjacentElement('afterend',panel);else settings.append(panel);"
           +"}catch(e){}})()";
         web.evaluateJavascript(javascript,null);
     }
@@ -503,7 +507,7 @@ public final class MainActivity extends Activity {
         firstRunAlertsPromptShown=true;
         new AlertDialog.Builder(this)
           .setTitle("Keep up with new discoveries?")
-          .setMessage("Enable all currently available alerts: major UAP news and newly discovered videos. News is checked approximately every 30 minutes, videos every 2 hours; Android may delay updates to save battery. Private Chat push alerts are not ready yet. You can change your choices anytime in Profile > App notifications.")
+          .setMessage("Enable all currently available alerts: major UAP news and newly discovered videos. News is checked approximately every 30 minutes, videos every 2 hours; Android may delay updates to save battery. Private Chat push alerts are not ready yet. You can change your choices anytime in Profile > Profile settings > App notifications.")
           .setNegativeButton("Not now",(dialog,which)->
               prefs.edit().putBoolean(FIRST_RUN_ALERTS_CHOICE,true).apply())
           .setPositiveButton("Enable available alerts",(dialog,which)->{
