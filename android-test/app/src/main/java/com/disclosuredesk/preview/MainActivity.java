@@ -3,6 +3,10 @@ package com.disclosuredesk.preview;
 import android.app.Activity;
 import android.os.Bundle;
 import android.content.Intent;
+import android.content.Context;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import java.util.List;
 import android.net.Uri;
 import android.provider.Settings;
 import java.text.DateFormat;
@@ -63,6 +67,7 @@ public final class MainActivity extends Activity {
     private static final int FILE_CHOOSER_REQUEST = 4312;
     private ValueCallback<Uri[]> pendingFiles;
     private static final String HOME = "https://uapdisclosuredesk.com/";
+    private ResearchInboxStore researchInbox;
     private WebView web;
     private FrameLayout root;
     private View fullView;
@@ -88,6 +93,8 @@ public final class MainActivity extends Activity {
     private static final String LIVE_BANNER_UNIT = "ca-app-pub-6712657097464071/7357709206";
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        researchInbox=new ResearchInboxStore(this);
+        if(savedInstanceState==null)receiveSharedResearchLink(getIntent());
         loadSnapshotManifest();
         if(snapshotFiles.isEmpty())throw new IllegalStateException("Android beta requires its verified embedded development website snapshot.");
         root = new FrameLayout(this);
@@ -141,6 +148,7 @@ public final class MainActivity extends Activity {
                 if(isAppHomeUrl(url)){
                     useTwoLineBreakingNews();
                     installProfileNotificationControl();
+                    installResearchInboxControl();
                     showFirstRunAlertsPrompt();
                     deliverChatToken();
                 }
@@ -299,6 +307,13 @@ public final class MainActivity extends Activity {
             web.loadUrl(HOME);
         });
         panel.addView(retry,new LinearLayout.LayoutParams(-1,dp(52)));
+        Button inbox=new Button(this);
+        inbox.setAllCaps(false);
+        inbox.setText("Research Inbox · saved links");
+        inbox.setOnClickListener(v->showResearchInbox());
+        LinearLayout.LayoutParams inboxLayout=new LinearLayout.LayoutParams(-1,dp(52));
+        inboxLayout.topMargin=dp(12);
+        panel.addView(inbox,inboxLayout);
         return panel;
     }
     private void showOffline(){
@@ -376,6 +391,7 @@ public final class MainActivity extends Activity {
     @Override protected void onNewIntent(Intent intent){
         super.onNewIntent(intent);
         setIntent(intent);
+        if(receiveSharedResearchLink(intent))return;
         String target=notificationUrl(intent);
         if(!HOME.equals(target)&&web!=null)web.loadUrl(target);
     }
@@ -390,6 +406,10 @@ public final class MainActivity extends Activity {
                    !"uapdisclosuredesk.com".equals(origin.getHost()))return;
                 try{
                     JSONObject data=new JSONObject(message.getData());
+                    if("open_research_inbox".equals(data.optString("type"))){
+                        runOnUiThread(this::showResearchInbox);
+                        return;
+                    }
                     if("open_notification_settings".equals(data.optString("type"))){
                         runOnUiThread(this::notificationSettings);
                         return;
@@ -500,6 +520,117 @@ public final class MainActivity extends Activity {
           +"}catch(e){}})()";
         web.evaluateJavascript(javascript,null);
     }
+    private void installResearchInboxControl(){
+        // Android-only panel nested inside Profile settings. It is not shipped
+        // on the website and uses the existing origin-pinned WebMessage bridge.
+        if(!WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)||web==null)return;
+        String script="(function(){try{"
+          +"var settings=document.getElementById('ddProfileSettings');"
+          +"if(!settings||document.getElementById('ddAndroidResearchInbox'))return;"
+          +"var panel=document.createElement('details');panel.id='ddAndroidResearchInbox';"
+          +"panel.className='dd-profile-card dd-profile-fold dd-android-research-inbox';"
+          +"var summary=document.createElement('summary');"
+          +"var label=document.createElement('span');label.textContent='📥 Research Inbox';"
+          +"var chevron=document.createElement('span');chevron.className='dd-profile-chevron';"
+          +"chevron.setAttribute('aria-hidden','true');chevron.textContent='⌄';"
+          +"summary.append(label,chevron);"
+          +"var note=document.createElement('p');"
+          +"note.textContent='Save a source link from Chrome or another app using Share → Disclosure Desk. Links stay on this phone only, not in your online account.';"
+          +"note.className='muted small';note.style.cssText='margin:10px 0 12px';"
+          +"var button=document.createElement('button');button.type='button';button.className='outline';"
+          +"button.textContent='Open Research Inbox';button.style.cssText='min-height:44px;padding:10px 15px;margin-bottom:12px';"
+          +"button.setAttribute('aria-label','Open saved Android research links');"
+          +"button.addEventListener('click',function(){"
+          +"if(window.DDAndroid&&typeof window.DDAndroid.postMessage==='function')"
+          +"window.DDAndroid.postMessage(JSON.stringify({type:'open_research_inbox'}));"
+          +"});panel.append(summary,note,button);"
+          +"var alerts=document.getElementById('ddAndroidAlertsSettings');"
+          +"if(alerts)alerts.insertAdjacentElement('afterend',panel);else settings.append(panel);"
+          +"}catch(e){}})()";
+        web.evaluateJavascript(script,null);
+    }
+    private boolean receiveSharedResearchLink(Intent intent){
+        if(intent==null || !Intent.ACTION_SEND.equals(intent.getAction()) ||
+           !"text/plain".equalsIgnoreCase(intent.getType()))return false;
+        ResearchLinkParser.Entry shared=ResearchLinkParser.fromSharedText(
+            intent.getStringExtra(Intent.EXTRA_TEXT));
+        // Consume the external intent: activity recreation must never
+        // produce a second save or a repeated notification.
+        intent.removeExtra(Intent.EXTRA_TEXT);
+        intent.setAction(Intent.ACTION_MAIN);
+        if(shared==null){
+            android.widget.Toast.makeText(this,"Share a normal website link to save it for research.",android.widget.Toast.LENGTH_LONG).show();
+        }else if(researchInbox!=null && researchInbox.add(shared)){
+            android.widget.Toast.makeText(this,"Source saved to your device Research Inbox.",android.widget.Toast.LENGTH_LONG).show();
+        }else{
+            android.widget.Toast.makeText(this,"Could not save this link.",android.widget.Toast.LENGTH_LONG).show();
+        }
+        return true;
+    }
+    private void showResearchInbox(){
+        if(isFinishing()||isDestroyed()||researchInbox==null)return;
+        List<ResearchInboxStore.Item> entries=researchInbox.list();
+        if(entries.isEmpty()){
+            new AlertDialog.Builder(this)
+              .setTitle("Research Inbox")
+              .setMessage("No saved links yet. From Chrome or another app, select Share → Disclosure Desk Beta.\n\nThe inbox is stored only on this device. Links are not uploaded or synced, and may be visible to anyone who can use this phone.")
+              .setPositiveButton("Close",null).show();
+            return;
+        }
+        String[] labels=new String[entries.size()];
+        for(int i=0;i<entries.size();i++){
+            ResearchInboxStore.Item item=entries.get(i);
+            String host=Uri.parse(item.url).getHost();
+            labels[i]=item.title+"\n"+(host==null?item.url:host);
+        }
+        new AlertDialog.Builder(this)
+          .setTitle("Research Inbox · "+entries.size()+" saved")
+          .setMessage("Device only · not synced between accounts. Tap a source to open, copy or remove it.")
+          .setItems(labels,(dialog,index)->showSavedResearchLink(entries.get(index)))
+          .setNegativeButton("Close",null)
+          .setNeutralButton("Clear all",(dialog,which)->
+             new AlertDialog.Builder(this)
+               .setTitle("Clear Research Inbox?")
+               .setMessage("This removes all saved links from this phone. It does not change any online investigations or accounts.")
+               .setNegativeButton("Cancel",(d,w)->showResearchInbox())
+               .setPositiveButton("Clear links",(d,w)->{
+                   if(researchInbox.clear())android.widget.Toast.makeText(this,"Device Research Inbox cleared.",android.widget.Toast.LENGTH_SHORT).show();
+               }).show())
+          .show();
+    }
+    private void showSavedResearchLink(ResearchInboxStore.Item item){
+        if(item==null)return;
+        new AlertDialog.Builder(this)
+          .setTitle(item.title)
+          .setMessage(item.url+"\n\nLinks open in your usual browser, not as trusted Disclosure Desk pages.")
+          .setPositiveButton("Open in browser",(dialog,which)->{
+              try{
+                  Intent open=new Intent(Intent.ACTION_VIEW,Uri.parse(item.url));
+                  open.addCategory(Intent.CATEGORY_BROWSABLE);
+                  startActivity(open);
+              }catch(Exception error){
+                  android.widget.Toast.makeText(this,"No browser could open this link.",android.widget.Toast.LENGTH_LONG).show();
+              }
+          })
+          .setNeutralButton("Copy link",(dialog,which)->{
+              ClipboardManager clipboard=(ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+              if(clipboard!=null){
+                  clipboard.setPrimaryClip(ClipData.newPlainText("Research source",item.url));
+                  android.widget.Toast.makeText(this,"Link copied.",android.widget.Toast.LENGTH_SHORT).show();
+              }
+          })
+          .setNegativeButton("Remove",(dialog,which)->
+              new AlertDialog.Builder(this)
+                .setTitle("Remove this saved link?")
+                .setMessage("The source will be removed only from this device's Research Inbox.")
+                .setNegativeButton("Cancel",(d,w)->showResearchInbox())
+                .setPositiveButton("Remove",(d,w)->{
+                    researchInbox.remove(item.url);
+                    showResearchInbox();
+                }).show())
+          .show();
+    }
+
     private void showFirstRunAlertsPrompt(){
         SharedPreferences prefs=getSharedPreferences(DiscoveryWorker.PREFS,MODE_PRIVATE);
         if(firstRunAlertsPromptShown || prefs.getBoolean(FIRST_RUN_ALERTS_CHOICE,false)
