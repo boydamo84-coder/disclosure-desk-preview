@@ -103,8 +103,16 @@ async function menuTest(card,label,{edit=true}={}){
    // Delete only our comment, through ... and an explicit confirmation dialog.
    await page.evaluate(dest=>window.navigateTo(dest),'archivePage');
    await archive.locator('.dd-comment-card').first().locator('.dd-owner-more > summary').click();
-   page.once('dialog',dialog=>dialog.accept());
    await archive.locator('.dd-comment-card').first().locator('.dd-comment-more .dd-comment-delete-button').click();
+   const confirm=page.locator('dialog.dd-confirm-dialog');
+   await confirm.waitFor({state:'visible'});
+   assert.match(await confirm.innerText(),/Delete your comment\?/);
+   await confirm.getByRole('button',{name:'Cancel'}).click();
+   assert.equal(await page.evaluate(()=>window.__m73.mutations.some(x=>x.name==='dd_delete_my_comment')),false,
+    'Cancel must not write a delete RPC');
+   await archive.locator('.dd-comment-card').first().locator('.dd-owner-more > summary').click();
+   await archive.locator('.dd-comment-card').first().locator('.dd-comment-more .dd-comment-delete-button').click();
+   await confirm.getByRole('button',{name:'Delete comment'}).click();
    await page.waitForFunction(()=>window.__m73.mutations.some(x=>x.name==='dd_delete_my_comment'));
    assert.equal(await archive.getByText('My revised research comment with the original source.',{exact:true}).count(),0,
     'Deleting through More removes our authored comment');
