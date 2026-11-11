@@ -886,3 +886,77 @@ dialog.dd-confirm-dialog::backdrop{background:rgba(1,10,17,.79);backdrop-filter:
  .dd-confirm-actions button{font-size:13px;padding:9px 7px!important}
  .dd-confirm-title{font-size:19px!important}
 }
+
+/* M77 — real nested comment hierarchy. M73 used calc(number * length),
+   unsupported on some Android WebViews; a precomputed px value is reliable. */
+.dd-inline-comments-preview .dd-comment-card.dd-comment-nested,
+#ddCaseDiscussionList .dd-comment-card.dd-comment-nested{
+  --dd-comment-indent:16px;
+  margin-left:var(--dd-comment-indent)!important;
+  width:calc(100% - var(--dd-comment-indent))!important;
+  max-width:calc(100% - var(--dd-comment-indent))!important;
+  border-left:2px solid #55758a!important;
+  padding:5px 0 4px 9px!important;
+  border-bottom:1px solid #263f50!important;
+  background:linear-gradient(90deg,#19374866,transparent 80%)!important;
+}
+.dd-inline-comments-preview .dd-comment-card.dd-comment-nested::before,
+#ddCaseDiscussionList .dd-comment-card.dd-comment-nested::before{
+  content:"";position:absolute;top:24px;left:0;width:9px;
+  border-top:2px solid #55758a;
+}
+.dd-comment-card.dd-comment-nested .dd-comment-head{flex-wrap:wrap!important;row-gap:2px!important}
+.dd-comment-card.dd-comment-nested .dd-comment-parent-label{
+  position:static!important;clip-path:none!important;overflow:visible!important;
+  width:auto!important;height:auto!important;max-width:calc(100% - 30px)!important;
+  margin:0 0 0 30px!important;flex:0 0 auto!important;
+  padding:0!important;color:#9ebaca!important;white-space:normal!important;
+  font-size:11px!important;line-height:1.35!important
+}
+@media(max-width:380px){
+ .dd-inline-comments-preview .dd-comment-card.dd-comment-nested,
+ #ddCaseDiscussionList .dd-comment-card.dd-comment-nested{
+   border-left-width:2px!important;padding-left:7px!important
+ }
+}
+
+/* M77 — mobile Chat gets its own properly sized screen above the app dock.
+   Using visualViewport vars avoids a fixed 190px deduction + empty gutter. */
+@media(max-width:759px){
+ #chatPage.dd-chat-designed:not(.hidden){
+   position:fixed!important;top:var(--dd-chat-visual-top,0px)!important;
+   left:0!important;right:0!important;bottom:auto!important;
+   width:100%!important;max-width:100%!important;
+   height:calc(var(--dd-chat-visual-height,100dvh) - var(--dd-chat-bottom-space,78px))!important;
+   min-height:0!important;margin:0!important;padding:0!important;
+   z-index:790!important;border:0!important;border-radius:0!important;
+   display:flex!important;flex-direction:column!important;overflow:hidden!important;
+   background:#0b2130!important
+ }
+ #chatPage.dd-chat-designed #ddChatPageMount,
+ #chatPage.dd-chat-designed #ddProfileChatApp{
+   display:flex!important;flex:1 1 auto!important;flex-direction:column!important;
+   min-height:0!important;height:100%!important;overflow:hidden!important
+ }
+ #chatPage.dd-chat-designed .dd-chat-layout{
+   display:flex!important;flex:1 1 auto!important;flex-direction:column!important;
+   width:100%!important;height:auto!important;min-height:0!important;margin:0!important
+ }
+ #chatPage.dd-chat-designed .dd-chat-side{
+   display:flex!important;flex:1 1 auto!important;min-height:0!important;
+   height:100%!important;overflow:hidden!important
+ }
+ #chatPage.dd-chat-designed .dd-chat-side>.dd-chat-people{
+   min-height:0!important;flex:1 1 auto!important;overflow-y:auto!important
+ }
+ #chatPage.dd-chat-designed .dd-chat-sidebar-head{padding-top:19px!important}
+ #chatPage.dd-chat-designed .dd-chat-view{
+   flex:1 1 auto!important;min-height:0!important;height:100%!important;
+ }
+ #chatPage.dd-chat-designed #ddProfileChatApp.dd-chat-conversation-open .dd-chat-view{
+   display:flex!important
+ }
+ #chatPage.dd-chat-designed .dd-chat-privacy-note{
+   padding:12px 16px!important;margin:0!important
+ }
+}
