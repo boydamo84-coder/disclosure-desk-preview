@@ -24,6 +24,16 @@
     "imageSource": "Publisher Open Graph image"
   },
   {
+    "id": "3fcb426ed05abc9c31dc",
+    "headline": "A New Galileo Project Observatory for High-Resolution Imaging and Spectroscopy of UAP | by Avi Loeb | Nov, 2026",
+    "source": "Medium",
+    "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQTVBXUF96WVk5RXRaUXJKTEp1MEkzeVJCNEIxY29uR2dyVTltcXFWMFV2ZmdnUUU0dWl1QVFtaU9saVBFckdIWU13SUxmY0RSNTB3NEVrUER1bU9Ub0xhZ3g1czdpVGlVNGhYQ0JXUWtndnpja0IxUmowMkV1bWxycjZaZktxSTJOSUlqRzdFeTZuakZZTGhRVDg5TlB2UDN5UmgwZmdkT1ZiWHkyMjFKU0FKcTVvbEcwbVVKbDBtQmR4RUNXNnc?oc=5",
+    "date": "2026-11-10T18:30:43+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details."
+  },
+  {
     "id": "58ada840e51766c246e7",
     "headline": "'3 times faster than an F-22': Trump reveals Air Force pilots' bizarre UFO encounter",
     "source": "The Economic Times",
@@ -620,8 +630,6 @@
     "category": "UAP",
     "priority": "standard",
     "desc": "Read the source article for details.",
-    "imageUrl": "https://brobible.com/wp-content/uploads/2026/11/international-space-station-ufo.jpg",
-    "imageSource": "Publisher Open Graph image",
     "relatedCoverage": [
       {
         "id": "6eeea0a61f3a7d319b6b",
@@ -633,7 +641,9 @@
         "priority": "standard",
         "desc": "Read the source article for details."
       }
-    ]
+    ],
+    "imageUrl": "https://brobible.com/wp-content/uploads/2026/11/international-space-station-ufo.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "facbbba581b6929b5797",
@@ -679,9 +689,7 @@
     "date": "2026-11-06T06:52:59+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details.",
-    "imageUrl": "https://d1ldvf68ux039x.cloudfront.net/thumbs/frames/video/2606/1010336/DOD_111764902.0000001/1000w_q95.jpg",
-    "imageSource": "Publisher Open Graph image"
+    "desc": "Read the source article for details."
   },
   {
     "id": "bbf8849f9778c418f40d",
@@ -703,9 +711,7 @@
     "date": "2026-11-05T22:34:12+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details.",
-    "imageUrl": "https://media.pubninja.com/galleries/brand-7/how-a-1947-ufo-sighting-near-mt-rainier-popularized-the-term-flying-saucer-mw43apac/thumbnail/poster.webp?v=1793916049013",
-    "imageSource": "Publisher Open Graph image"
+    "desc": "Read the source article for details."
   },
   {
     "id": "dfcd50ddd2d7d90dd3d1",
@@ -715,9 +721,7 @@
     "date": "2026-11-05T21:04:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details.",
-    "imageUrl": "https://cowboystatedaily.imgix.net/Gillette-UFO-inset-11.5.26.jpg?w=1200&q=75&auto=format%2Ccompress",
-    "imageSource": "Publisher Open Graph image"
+    "desc": "Read the source article for details."
   },
   {
     "id": "117c17a5236885186f12",
@@ -751,9 +755,7 @@
         "priority": "standard",
         "desc": "Read the source article for details."
       }
-    ],
-    "imageUrl": "https://discover.swns.com/2026/11/commercial-pilot-films-mysterious-lights-after-repeated-ufo-sightings-2/",
-    "imageSource": "Publisher Open Graph image"
+    ]
   },
   {
     "id": "97c0ce0d4e4f1f951da3",
