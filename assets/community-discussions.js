@@ -609,6 +609,63 @@ function openSectionAdminDialog(sectionRow,opener){
  dialog.dataset.returnFocus=opener?.id||'';
  if(!dialog.open){dialog.showModal();reason.focus?.()}
 }
+// One shared Discussion post-card renderer for subject and across-subject feeds.
+function renderDiscussionCard(list,row,fromAll=false){
+ const card=mk('article',undefined,'dd-forum-item dd-forum-post-card');
+ const main=mk('div',undefined,'dd-forum-post-main'),actions=mk('div',undefined,'dd-forum-actions dd-action-rail');
+ main.append(makePostHead(row,'thread',actions));
+ if(fromAll){
+  const subject=sections.find(s=>s.id===row.section_id)||
+   {id:row.section_id,title:row.section_title||'Discussion subject',description:'',topic:'',is_steward:false};
+  const chip=nodeAction(main,'◈ '+(subject.title||'Discussion subject'),()=>openSection(subject),'dd-community-global-subject');
+  chip.setAttribute('aria-label','Browse subject: '+String(subject.title||'Discussion subject'));
+ }
+ const title=nodeAction(main,row.title||'Untitled topic',()=>fromAll?openGlobalThread(row):openThread(row),'dd-forum-title');
+ title.setAttribute('aria-label','Read discussion: '+String(row.title||'Untitled topic'));
+ main.append(mk('p',String(row.body||'').slice(0,330),'dd-forum-body'));
+ photo(main,row);
+ link(main,row.link_url,safeLink(row.link_url)?'Source · '+new URL(safeLink(row.link_url)).hostname:'');
+ card.append(main);actionsFor(actions,'thread',row,false,actions.flagHost);card.append(actions);list.append(card);
+}
+async function openGlobalThread(row){
+ if(!isId(row?.id)||!isId(row?.section_id))return;
+ const subject=sections.find(s=>s.id===row.section_id)||
+  {id:row.section_id,title:row.section_title||'Discussion subject',description:'',topic:'',is_steward:false};
+ await openSection(subject);
+ globalReturn=true;
+ $('ddForumBackThreads').textContent='← Back to Popular';
+ await openThread(row); // Existing post detail retains automatic nested replies.
+}
+async function loadGlobalFeed(reset=false){
+ const list=$('ddForumGlobalFeed'),more=$('ddForumGlobalLoadMore'),status=$('ddForumGlobalStatus');
+ if(!list||!more||!status||section||thread||!ready)return;
+ if(globalLoading&&!reset)return;
+ if(reset){globalRows=[];globalTotal=0;list.replaceChildren()}
+ const stamp=++globalRequest,offset=globalRows.length,mode=globalSort;
+ globalLoading=true;status.textContent='Loading '+mode+' discussions…';more.hidden=true;
+ try{
+  const rows=await rpc('dd_discussions_global_feed',{p_limit:10,p_offset:offset,p_sort:mode});
+  if(stamp!==globalRequest||section||thread)return;
+  if(!Array.isArray(rows))throw Error('Unexpected global feed response');
+  const found=new Set(globalRows.map(row=>row.id));
+  for(const row of rows)if(isId(row?.id)&&isId(row?.section_id)&&!found.has(row.id)){
+   globalRows.push(row);found.add(row.id)
+  }
+  if(rows.length)globalTotal=Number(rows[0].total_count)||globalRows.length;
+  list.replaceChildren();
+  if(!globalRows.length)empty(list,'No public discussions yet. Explore the subjects below.');
+  for(const row of globalRows)renderDiscussionCard(list,row,true);
+  window.DDRefreshBoardStars?.();
+  status.textContent=globalRows.length?'Showing '+globalRows.length+' of '+globalTotal+' posts · '+mode:'Browse subjects below to begin a conversation.';
+  more.hidden=!rows.length||globalRows.length>=globalTotal;
+ }catch(error){
+  if(stamp!==globalRequest)return;
+  if(!globalRows.length)empty(list,'Across-subject posts are temporarily unavailable. Browse subjects below.');
+  status.textContent='Popular feed unavailable. Other Discussions remain accessible.';
+  more.hidden=true;
+ }finally{if(stamp===globalRequest)globalLoading=false}
+}
+
 async function loadThreads(){
  if(!section)return;
  const id=section.id,stamp=++epoch,list=$('ddForumPostList');empty(list,'Loading discussions…');
@@ -633,19 +690,7 @@ async function loadThreads(){
   if(stamp!==epoch||section?.id!==id||thread)return;
   list.replaceChildren();
   if(!rows?.length)empty(list,'No posts found. Try another search or start the conversation.');
-  for(const row of rows||[]){
-   const card=mk('article',undefined,'dd-forum-item dd-forum-post-card');
-   const main=mk('div',undefined,'dd-forum-post-main'),actions=mk('div',undefined,'dd-forum-actions dd-action-rail');
-   main.append(makePostHead(row,'thread',actions));
-   const title=nodeAction(main,row.title||'Untitled topic',()=>openThread(row),'dd-forum-title');
-   title.setAttribute('aria-label','Read discussion: '+String(row.title||'Untitled topic'));
-   main.append(mk('p',String(row.body||'').slice(0,330),'dd-forum-body'));
-   photo(main,row);
-   link(main,row.link_url,safeLink(row.link_url)?'Source · '+new URL(safeLink(row.link_url)).hostname:'');
-   card.append(main);
-   actionsFor(actions,'thread',row,false,actions.flagHost);
-   card.append(actions);list.append(card);
-  }
+  for(const row of rows||[])renderDiscussionCard(list,row);
   window.DDRefreshBoardStars?.();
   if(count)count.textContent='Page '+(feedPage+1)+' · '+feedTotal+' posts'+(!feedModern?' · first 100 while upgrade is pending':'');
   if(prev)prev.disabled=feedPage===0;
