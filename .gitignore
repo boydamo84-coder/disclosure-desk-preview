@@ -7,3 +7,8 @@ supabase/.temp/
 # Python test caches
 __pycache__/
 *.pyc
+
+# Generated Android private website snapshot and Gradle build outputs
+android-test/app/src/main/assets/dd-site/
+android-test/.gradle/
+android-test/app/build/
