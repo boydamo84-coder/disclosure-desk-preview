@@ -251,5 +251,77 @@ function mountCommentCard(card,header,body,flag,id,onReply,context={}){
  }
  return true;
 }
-window.DDCommunityVotes=Object.freeze({mount,mountCommentCard,threadedComments});
+// M79: one mobile keyboard/posted-reply viewport controller shared by every
+// public comment surface. It never changes comment data or triggers a write.
+function commentScrollContainer(element){
+ let node=element?.parentElement;
+ while(node&&node!==document.body&&node!==document.documentElement){
+  const style=window.getComputedStyle(node);
+  if(/auto|scroll/.test(style.overflowY)&&node.scrollHeight>node.clientHeight+2)return node;
+  node=node.parentElement;
+ }
+ return null;
+}
+function commentViewportBounds(){
+ const visual=window.visualViewport;
+ return {top:visual?.offsetTop||0,bottom:(visual?.offsetTop||0)+(visual?.height||window.innerHeight)};
+}
+function scrollCommentBy(target,dy,smooth){
+ if(!Number.isFinite(dy)||Math.abs(dy)<4)return false;
+ const parent=commentScrollContainer(target);
+ const behavior=smooth&&!window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches?'smooth':'auto';
+ if(parent)parent.scrollBy({top:dy,behavior});
+ else window.scrollBy({top:dy,behavior});
+ return true;
+}
+function keepCommentComposerVisible(form){
+ if(!form?.isConnected||form.hidden)return false;
+ const actions=form.querySelector('.dd-reply-compose-actions,.dd-forum-reply-actions,button[type="submit"]');
+ if(!actions||!actions.getClientRects().length)return false;
+ const rect=actions.getBoundingClientRect();
+ const bounds=commentViewportBounds();
+ // Also respect a scrollable Case/Hearing dialog or other nested container.
+ const scroller=commentScrollContainer(actions);
+ const containerBottom=scroller?scroller.getBoundingClientRect().bottom-12:Infinity;
+ // Allow for keyboard chrome and a small comfortable tap margin.
+ const delta=Math.ceil(rect.bottom-Math.min(bounds.bottom-18,containerBottom));
+ if(delta<8)return false;
+ return scrollCommentBy(actions,delta,false);
+}
+function revealPostedComment(card){
+ if(!card?.isConnected)return false;
+ const restore=()=>{
+  if(!card.isConnected)return;
+  const bounds=commentViewportBounds();
+  const rect=card.getBoundingClientRect();
+  // Leave clearance for the site's news ticker and bottom navigation above
+  // the Android AdMob banner without shifting a comment already in view.
+  const top=bounds.top+70;
+  const bottom=bounds.bottom-Math.min(185,Math.max(90,(bounds.bottom-bounds.top)*0.22));
+  let dy=0;
+  if(rect.top<top)dy=rect.top-top;
+  else if(rect.bottom>bottom)dy=rect.bottom-bottom;
+  scrollCommentBy(card,dy,true);
+ };
+ // Let a successful submit blur/close the Android keyboard and complete DOM
+ // reflow before making a SMALL, post-only scroll. Nothing happens on failure.
+ window.setTimeout(restore,240);
+ return true;
+}
+(function watchCommentKeyboard(){
+ const selector='.dd-news-inline-comments form,#ddCaseDiscussionForm,#ddForumReplyCreate';
+ let frame=0;
+ const update=()=>{
+  const active=document.activeElement;
+  const form=active?.closest?.(selector);
+  if(!form)return;
+  if(frame)window.cancelAnimationFrame(frame);
+  frame=window.requestAnimationFrame(()=>{frame=0;keepCommentComposerVisible(form)});
+ };
+ document.addEventListener('focusin',update,true);
+ document.addEventListener('input',update,true);
+ window.visualViewport?.addEventListener('resize',update);
+})();
+
+window.DDCommunityVotes=Object.freeze({mount,mountCommentCard,threadedComments,keepCommentComposerVisible,revealPostedComment});
 })();
