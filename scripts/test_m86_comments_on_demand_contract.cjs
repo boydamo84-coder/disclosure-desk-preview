@@ -3,12 +3,13 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),crypto=require(
 const read=p=>fs.readFileSync(p,'utf8');
 const inline=read('assets/inline-news-comments.js'),html=read('index.html'),css=read('assets/community-polish.css');
 const forum=read('assets/community-discussions.js'),cases=read('assets/case-discussions.js'),workflow=read('.github/workflows/research-resume-check.yml');
-assert(inline.includes("container.dataset.commentsCollapsed!=='false'"),'Shared public cards default closed');
+assert(inline.includes("drafts.get(id)||{expanded:false,draft:''}"),'Shared public cards default closed');
 assert(inline.includes('container.hidden=!state.expanded'),'Whole comment panel hidden before click');
 assert(inline.includes('const shown=state.expanded?ordered:[]'),'No automatic previews');
 assert(inline.includes('if(state.expanded&&!state.loaded)void refresh()'),'Load only when opened');
 assert(!inline.includes('IntersectionObserver'),'No background loading hidden News comments');
 assert(inline.includes("state.replyTo={id:target.id"),'Reply parent preserved');
+assert(inline.includes('replyTo:previous.replyTo||null')&&inline.includes('replyTo:state.replyTo'),'Drafts retain their reply target on card redraw');
 assert(inline.includes("item.parent_id||''"),'Nested reply relationship intact');
 assert(inline.includes('revealPostedComment?.(posted)'),'New replies revealed');
 assert(html.includes('data-comments-collapsed="true"'),'News explicitly collapsed');
