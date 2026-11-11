@@ -13,7 +13,7 @@ assert.match(main,/syncDiscoverySchedules\(\);/,'Enrol settings on app start/sav
 assert.match(worker,/dd_scope/,'Separate News and Video workers');
 assert.match(worker,/JOB_NEWS="dd-news-alert-checks"/);
 assert.match(worker,/JOB_VIDEOS="dd-video-alert-checks"/);
-const siteMatch=site.match(/const DD_NEWS_REMOTE='([^']+)'/);
+const siteMatch=site.match(/const DD_NEWS_REMOTES=\[\s*\{url:'([^']+)',label:'GitHub active feed'/);
 const appMatch=worker.match(/private static final String NEWS_FEED="([^"]+)"/);
 assert(siteMatch&&appMatch&&siteMatch[1]===appMatch[1],'Android and website consume exactly same live publisher-sourced feed');
 assert.match(ticker,/root\.ddTickerRefresh\(\)/,'Visible website ticker refresh remains enabled');
