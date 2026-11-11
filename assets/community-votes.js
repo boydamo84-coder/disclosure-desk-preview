@@ -231,7 +231,7 @@ function mountCommentCard(card,header,body,flag,id,onReply,context={}){
   deletion.setAttribute('aria-label','Delete my comment');
   deletion.addEventListener('click',async()=>{
    more.open=false;
-   if(!window.confirm('Delete your comment? This cannot be undone. Existing replies by other members will remain visible.'))return;
+   if(!await window.DDConfirm?.show?.({title:'Delete your comment?',message:'This cannot be undone. Existing replies by other members will remain visible.',confirmText:'Delete comment'}))return;
    deletion.disabled=true;notice.textContent='Deleting…';
    try{
     await callOwner('dd_delete_my_comment',{p_id:id});
