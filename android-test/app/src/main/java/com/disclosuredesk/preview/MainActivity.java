@@ -137,7 +137,7 @@ public final class MainActivity extends Activity {
         settings.setDomStorageEnabled(true);
         settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setAllowFileAccess(false);
-        settings.setAllowContentAccess(false);
+        // Keep content:// reads enabled for the existing Android document/image chooser.
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE); // Private APK always uses its embedded UI version.
         web.setWebViewClient(new WebViewClient(){
             @Override public WebResourceResponse shouldInterceptRequest(WebView view,WebResourceRequest request){
