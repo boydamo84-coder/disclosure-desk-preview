@@ -10,7 +10,7 @@ assert.equal(manifest.type,'Disclosure Desk embedded Android development snapsho
 assert.deepEqual(manifest.files,publicManifest.files.map(x=>x.path));
 assert.equal(manifest.totalBytes,publicManifest.totalBytes);
 for(const rel of [
- 'index.html','assets/community-polish.css','assets/community-votes.js',
+ 'index.html','guide.html','assets/community-polish.css','assets/community-votes.js',
  'assets/confirmation-dialog.js','assets/community-discussions.js',
  'assets/inline-news-comments.js','assets/case-discussions.js','assets/unified-action-rails.js',
  'research/wne.html','assets/research-hub.js']){
@@ -30,7 +30,7 @@ assert.match(main,/DD_FIREBASE_APP_ID/,'Firebase groundwork preserved');
 assert.match(main,/PLAY_BILLING_APPROVED = false/,'Unverified paid purchase is disabled');
 assert.match(gradle,/applicationIdSuffix = "\.beta"/,'Private beta does not overwrite production app');
 assert.match(gradle,/targetSdk = 36/);
-assert.match(gradle,/versionCode = 19/);
+assert.match(gradle,/versionCode = 20/);
 assert(!manifest.files.some(p=>p.startsWith('.github/')||p.startsWith('supabase/')||p.startsWith('scripts/')||p.includes('SECRET')),
  'No source jobs, SQL or internal config distributed in APK');
 console.log('PASS M77 private beta uses exact M74 pending website snapshot, no Netlify dependency, protected origin and separate Android package');

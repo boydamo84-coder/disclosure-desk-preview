@@ -1,10 +1,12 @@
-name: Build Disclosure Desk M82 PRIVATE Android APK (NO Netlify)
+name: Build Disclosure Desk M83 PRIVATE Android APK (NO Netlify)
 on:
   workflow_dispatch:
   push:
-    branches: [android/m82-inbox-dialog-list-fix-nov11]
+    branches: [android/m83-research-inbox-shortcuts-nov11]
     paths:
       - 'android-test/**'
+      - 'guide.html'
+      - 'index.html'
       - 'assets/community-polish.css'
       - 'assets/community-votes.js'
       - 'assets/community-discussions.js'
@@ -98,7 +100,7 @@ jobs:
       - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M82-PRIVATE-BETA
+          name: DisclosureDesk-M83-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14

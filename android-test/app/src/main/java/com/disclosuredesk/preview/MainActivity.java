@@ -248,7 +248,10 @@ public final class MainActivity extends Activity {
         if(url==null || !"https".equals(url.getScheme()) || !"uapdisclosuredesk.com".equals(url.getHost()))return null;
         String path=Uri.decode(url.getEncodedPath());
         if(path==null)return null;
-        String name="/".equals(path)?"index.html":path.startsWith("/")?path.substring(1):path;
+        String name;
+        if("/".equals(path))name="index.html";
+        else if("/guide".equals(path))name="guide.html";
+        else name=path.startsWith("/")?path.substring(1):path;
         if(!snapshotFiles.contains(name))return null;
         String mime="text/plain";
         if(name.endsWith(".html"))mime="text/html";
@@ -410,6 +413,10 @@ public final class MainActivity extends Activity {
                         runOnUiThread(this::showResearchInbox);
                         return;
                     }
+                    if("open_research_inbox_help".equals(data.optString("type"))){
+                        runOnUiThread(this::showResearchInboxHelp);
+                        return;
+                    }
                     if("open_notification_settings".equals(data.optString("type"))){
                         runOnUiThread(this::notificationSettings);
                         return;
@@ -521,34 +528,47 @@ public final class MainActivity extends Activity {
         web.evaluateJavascript(javascript,null);
     }
     private void installResearchInboxControl(){
-        // Android-only panel nested inside Profile settings. It is not shipped
-        // on the website and uses the existing origin-pinned WebMessage bridge.
         if(!WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)||web==null)return;
-        String script="(function(){try{"
-          +"var settings=document.getElementById('ddProfileSettings');"
-          +"if(!settings||document.getElementById('ddAndroidResearchInbox'))return;"
-          +"var panel=document.createElement('details');panel.id='ddAndroidResearchInbox';"
-          +"panel.className='dd-profile-card dd-profile-fold dd-android-research-inbox';"
-          +"var summary=document.createElement('summary');"
-          +"var label=document.createElement('span');label.textContent='📥 Research Inbox';"
-          +"var chevron=document.createElement('span');chevron.className='dd-profile-chevron';"
-          +"chevron.setAttribute('aria-hidden','true');chevron.textContent='⌄';"
-          +"summary.append(label,chevron);"
-          +"var note=document.createElement('p');"
-          +"note.textContent='Save a source link from Chrome or another app using Share → Disclosure Desk. Links stay on this phone only, not in your online account.';"
-          +"note.className='muted small';note.style.cssText='margin:10px 0 12px';"
-          +"var button=document.createElement('button');button.type='button';button.className='outline';"
-          +"button.textContent='Open Research Inbox';button.style.cssText='min-height:44px;padding:10px 15px;margin-bottom:12px';"
-          +"button.setAttribute('aria-label','Open saved Android research links');"
-          +"button.addEventListener('click',function(){"
-          +"if(window.DDAndroid&&typeof window.DDAndroid.postMessage==='function')"
-          +"window.DDAndroid.postMessage(JSON.stringify({type:'open_research_inbox'}));"
-          +"});panel.append(summary,note,button);"
-          +"var alerts=document.getElementById('ddAndroidAlertsSettings');"
-          +"if(alerts)alerts.insertAdjacentElement('afterend',panel);else settings.append(panel);"
-          +"}catch(e){}})()";
+        String script="(function(){"
+          +"if(!window.DDAndroid||typeof window.DDAndroid.postMessage!=='function')return;"
+          +"var newsHero=document.querySelector('#discover > .hero');"
+          +"var exploreHeading=document.getElementById('ddExploreTitle');"
+          +"if(!newsHero||!exploreHeading||document.getElementById('ddAndroidResearchInbox'))return;"
+          +"var style=document.createElement('style');"
+          +"style.textContent='.dd-android-research-inbox{display:flex;gap:8px;margin:10px 0 14px}'"
+          +"+'.dd-android-research-inbox button{min-height:44px;padding:8px 14px}'"
+          +"+'.dd-android-research-inbox button:first-child{flex:1;text-align:left;font-weight:700}'"
+          +"+'.dd-android-research-inbox button:last-child{min-width:44px;padding:8px;font-size:19px}';"
+          +"document.head.appendChild(style);"
+          +"function button(text,label,type){"
+          +"var action=document.createElement('button');"
+          +"action.type='button';action.className='outline';action.textContent=text;"
+          +"action.setAttribute('aria-label',label);"
+          +"action.addEventListener('click',function(){window.DDAndroid.postMessage(JSON.stringify({type:type}));});"
+          +"return action;"
+          +"}"
+          +"function shortcut(id){"
+          +"var row=document.createElement('div');row.id=id;row.className='dd-android-research-inbox';"
+          +"row.append(button('Research Inbox','Open Research Inbox','open_research_inbox'),"
+          +"button('ⓘ','How to use Research Inbox','open_research_inbox_help'));"
+          +"return row;"
+          +"}"
+          +"newsHero.before(shortcut('ddAndroidResearchInbox'));"
+          +"exploreHeading.after(shortcut('ddAndroidResearchInboxExplore'));"
+          +"})()";
         web.evaluateJavascript(script,null);
     }
+
+    private void showResearchInboxHelp(){
+        if(isFinishing()||isDestroyed()||web==null)return;
+        new AlertDialog.Builder(this)
+          .setTitle("How to use Research Inbox")
+          .setMessage("In Chrome or another app, tap Share and choose Disclosure Desk Beta. Open Research Inbox from News or Explore and tap a saved link to open, copy or remove it. Links stay on this device.")
+          .setNegativeButton("Close",null)
+          .setPositiveButton("Open guide",(dialog,which)->web.loadUrl(HOME+"guide#android-research-inbox"))
+          .show();
+    }
+
     private boolean receiveSharedResearchLink(Intent intent){
         if(intent==null || !Intent.ACTION_SEND.equals(intent.getAction()) ||
            !"text/plain".equalsIgnoreCase(intent.getType()))return false;

@@ -6,7 +6,7 @@ const main=read('android-test/app/src/main/java/com/disclosuredesk/preview/MainA
 const manifest=read('android-test/app/src/main/AndroidManifest.xml');
 const store=read('android-test/app/src/main/java/com/disclosuredesk/preview/ResearchInboxStore.java');
 const parser=read('android-test/app/src/main/java/com/disclosuredesk/preview/ResearchLinkParser.java');
-const html=read('index.html'),build=read('.github/workflows/android-test-apk.yml');
+const html=read('index.html'),guide=read('guide.html'),build=read('.github/workflows/android-test-apk.yml');
 const gradle=read('android-test/app/build.gradle.kts');
 for(const p of [
 'installResearchInboxControl();','ResearchInboxStore researchInbox;',
@@ -15,6 +15,9 @@ for(const p of [
 'ResearchLinkParser.fromSharedText','intent.removeExtra(Intent.EXTRA_TEXT);',
 'intent.setAction(Intent.ACTION_MAIN);','if(receiveSharedResearchLink(intent))return;',
 'open_research_inbox','runOnUiThread(this::showResearchInbox)',
+'open_research_inbox_help','runOnUiThread(this::showResearchInboxHelp)',
+'else if("/guide".equals(path))name="guide.html";',
+'web.loadUrl(HOME+"guide#android-research-inbox")',
 'private void showResearchInbox(){','private void showSavedResearchLink(',
 'ClipboardManager','ClipData.newPlainText','startActivity(open);',
 'Research Inbox · saved links','Links open in your usual browser',
@@ -38,26 +41,30 @@ assert(!/supabase|httpURLConnection|fetch\(/i.test(store),'No network/cloud writ
 assert(parser.includes('looksLikeCredentialLink'),'Sensitive shared tokens filtered');
 assert(parser.includes('parsed.getRawUserInfo()!=null'),'No HTTP basic-auth links');
 assert(parser.includes('MAX_URL = 2048'),'Unsafe enormous payloads rejected');
-assert.match(gradle,/versionCode = (?:18|19)/,'New APK version');
+assert.match(gradle,/versionCode = 20/,'New APK version');
 assert.match(gradle,/applicationIdSuffix = "\.beta"/,'Private test app separately installed');
 assert(!html.includes('ddAndroidResearchInbox'),'Android-only controls never shipped into website HTML');
 assert(!html.includes('ResearchInboxStore'),'Native store not exposed on public site');
 assert(build.includes('node scripts/test_m81_native_research_contract.cjs'),'Contract runs in private APK CI');
-assert(build.includes('node scripts/test_m81_research_inbox_chromium.cjs'),'Profile row tested in Chromium');
+assert(build.includes('node scripts/test_m81_research_inbox_chromium.cjs'),'Inbox shortcuts tested in Chromium');
 assert(build.includes('ResearchLinkParserTest'),'Pure JVM URL safety test runs in CI');
-assert(build.includes('android/m82-inbox-dialog-list-fix-nov11'),'Android branch only');
+assert(build.includes('android/m83-research-inbox-shortcuts-nov11'),'Android branch only');
 assert(!/\bnetlify deploy\b/i.test(build),'CI never deploys Netlify');
 const start=main.indexOf('private void installResearchInboxControl(){');
 const end=main.indexOf('private boolean receiveSharedResearchLink(',start);
-assert(start>=0&&end>start,'Android-only profile injector exists');
+assert(start>=0&&end>start,'Android-only inbox injector exists');
 const block=main.slice(start,end);
 const snippet=block.slice(block.indexOf('String script='),block.indexOf('web.evaluateJavascript(script,null)'));
 const tokens=[...snippet.matchAll(/"(?:\\.|[^"\\])*"/g)].map(x=>JSON.parse(x[0]));
 assert(tokens.length>=10,'Java string pieces found');
 const script=tokens.join('');
 new Function(script); // tests actual string that WebView will run
-assert(script.includes("document.getElementById('ddProfileSettings')"),'Profile row is in existing settings');
-assert(script.includes("if(!settings||document.getElementById('ddAndroidResearchInbox'))return"),'No duplicate row on reload');
-assert(script.includes("window.DDAndroid.postMessage(JSON.stringify({type:'open_research_inbox'}))"),'Calls origin-restricted native bridge');
+assert(script.includes("newsHero.before(shortcut('ddAndroidResearchInbox'))"),'Inbox opens directly from News');
+assert(script.includes("exploreHeading.after(shortcut('ddAndroidResearchInboxExplore'))"),'Inbox opens directly from Explore');
+assert(!script.includes('ddProfileSettings'),'Inbox is independent of Profile settings and sign-in');
+assert(script.includes("document.getElementById('ddAndroidResearchInbox')"),'No duplicate controls on reload');
+assert(script.includes("window.DDAndroid.postMessage(JSON.stringify({type:type}))"),'Calls origin-restricted native bridge');
+assert.match(guide,/id="android-research-inbox" data-help-search/,'Android guide has a searchable deep link');
+assert(guide.includes('<summary>How do I save a link from Chrome to Research Inbox?</summary>'),'FAQ includes Chrome Share instructions');
 module.exports={getInjectedJs:()=>script};
-if(require.main===module)console.log('PASS M81 native Research Inbox source; safe Android Share links; private bounded local storage; real Java-injected Profile JS parsed; no Netlify.');
+if(require.main===module)console.log('PASS Research Inbox native actions, safe Android Share, private local storage, Java-injected shortcuts, guide and FAQ.');
