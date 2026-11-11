@@ -14,8 +14,9 @@ android {
         buildConfigField("String", "DD_FIREBASE_PROJECT_ID", "\"${System.getenv("DD_FIREBASE_PROJECT_ID") ?: ""}\"")
 
         buildConfigField("String", "DD_FIREBASE_SENDER_ID", "\"${System.getenv("DD_FIREBASE_SENDER_ID") ?: ""}\"")
-        versionCode = 13
-        versionName = "0.10.0-community-beta"
+        versionCode = 14
+        versionName = "0.11.0-m75-private-beta"
+        manifestPlaceholders["ddAppLabel"] = "Disclosure Desk"
     }
     buildFeatures { buildConfig = true }
     signingConfigs {
@@ -30,6 +31,12 @@ android {
         }
     }
     buildTypes {
+        getByName("debug") {
+            // Never uninstall or overwrite the owner's installed production package.
+            applicationIdSuffix = ".beta"
+            versionNameSuffix = "-preview"
+            manifestPlaceholders["ddAppLabel"] = "Disclosure Desk Beta"
+        }
         getByName("release") {
             isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("upload")
