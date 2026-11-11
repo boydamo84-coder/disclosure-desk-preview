@@ -37,7 +37,7 @@ const api={
 };
 const win={DD_COMMUNITY_TEST_CONFIG:{environment:'production',url:'https://fake.invalid',publishableKey:'fake'},
  DD_COMMUNITY_FEATURES:{profileAvatars:true},supabase:{createClient:()=>api},
- DDMemberAvatars:{clearCache(){cacheClears++}}};
+ DDMemberAvatars:{clearCache(){cacheClears++}},DDConfirm:{show:async()=>true}};
 const document={getElementById:id=>nodes[id],
  createElement(tag){assert.equal(tag,'canvas');const canvas={width:512,height:512,getContext(){return {fillRect(){},drawImage(){},fillStyle:''}},
  toBlob(cb,mime){cb({type:mime==='image/webp'&&!webpSupported?'image/png':mime,size:333})},
