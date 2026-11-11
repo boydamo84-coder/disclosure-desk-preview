@@ -1,6 +1,12 @@
 # Disclosure Desk — MASTER HANDOVER
 _Last updated: 11 November 2026 (Europe/London)_
 
+## M87 News reply indentation and comment posting limit — 11 November 2026
+
+- The owner's signed-in Samsung screenshot showed the correct reply target but flush-left News rows. The News-only selector in the shared compact card reset had higher specificity than the nested row, overriding both its margin and thread guide. Removed the redundant selector and added a new stylesheet cache key. Discussions continues to open comments automatically.
+- [No-deploy CI 43036374599](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43036374599) passed source, packaging and the Chromium suite at `89b451c7c98fa1f534604b1b1342b80d2cf2865d`. The News regression measures visible first- and second-level indentation and the thread guide at 320, 393, 820 and 1280 px. The website is still serving M86. Publishing the staged M87 stylesheet requires a separate Netlify production deploy.
+- On the owner's request, the shared public-card burst cap is live at ten comments or replies per account in the existing rolling ten-minute window. The forty-per-day cap, duplicate check, parent validation, registered-account policy and same-account advisory lock are preserved. The isolated PostgreSQL fixture accepted the tenth, rejected the eleventh and exercised the daily cap, duplicates, wrong parents, wrong authors and anonymous posting. The live function and its grants were checked read-only after applying `20261111141217_dd_comment_burst_limit_10.sql`. No production test comments were posted.
+
 ## M86 website published and live smoke checked — 11 November 2026
 
 - **Production:** Gary approved the deploy. GitHub `production` was fast-forwarded from M72 to `4e894f71e971674ee6fc8907d9a1ea6cc52e60a5`. Its source tree is the reviewed M86 candidate with the handover-only preflight note. [Netlify deploy 6af471953dbbcedf6b776584](https://app.netlify.com/projects/uap-disclosure-desk/deploys/6af471953dbbcedf6b776584) is published and ready as of 13:46 UTC. The dashboard and public Netlify metadata agree on the production commit.
