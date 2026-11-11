@@ -255,7 +255,7 @@ function chooseReply(target,focusComposer=false){
  let note=$('ddForumReplyContext');
  if(!note&&form){note=mk('p','','dd-forum-reply-context');note.id='ddForumReplyContext';form.prepend(note)}
  if(note){note.textContent=replyParent?'Replying to '+String(target.author_name||'this comment')+' in “'+String(thread.title||'Discussion')+'”':'Commenting on “'+String(thread.title||'Discussion')+'”';note.hidden=!replyParent}
- if(input){input.placeholder=replyParent?'Write a reply to '+String(target.author_name||'this comment')+'…':'Add a comment to this post…';resizeReplyComposer(input);if(target||focusComposer)input.focus({preventScroll:true})}
+ if(input){input.placeholder=replyParent?'Write a reply to '+String(target.author_name||'this comment')+'…':'Add a comment to this post…';resizeReplyComposer(input);if(target||focusComposer)input.focus({preventScroll:true});window.DDCommunityVotes?.keepCommentComposerVisible?.(form)}
 }
 function closeReplyComposer(){
  replyParent=null;
@@ -848,8 +848,15 @@ function init(){
   const form=event.currentTarget,body=form.elements.namedItem('body').value.trim(),b=form.querySelector('button[type="submit"]');
   if(body.length<2||body.length>2000){say('Replies must be 2–2000 characters.');return}
   const parent=replyParent,originalThread=thread.id;
+  const priorIds=new Set([...$('ddForumReplies').querySelectorAll('[data-dd-forum-reply-id]')].map(n=>n.dataset.ddForumReplyId));
   void change(b,()=>rpc('dd_discussions_reply',{p_thread_id:originalThread,p_body:body,p_parent_id:parent}),'Reply posted.',()=>{
+   form.elements.namedItem('body')?.blur();
    form.reset();resizeReplyComposer(form.elements.namedItem('body'));if(thread?.id===originalThread)closeReplyComposer();
+  }).then(saved=>{
+   if(!saved||thread?.id!==originalThread)return;
+   const fresh=[...$('ddForumReplies').querySelectorAll('[data-dd-forum-reply-id]')]
+     .find(n=>!priorIds.has(n.dataset.ddForumReplyId)&&n.querySelector('.dd-forum-body')?.textContent===body);
+   if(fresh)window.DDCommunityVotes?.revealPostedComment?.(fresh);
   });
  };
  db()?.auth?.onAuthStateChange?.((_event,session)=>onIdentityChange(session));
