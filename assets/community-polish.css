@@ -962,3 +962,24 @@ dialog.dd-confirm-dialog::backdrop{background:rgba(1,10,17,.79);backdrop-filter:
 
 /* M86: hide the entire inline comment panel until 💬 is pressed. */
 .dd-news-inline-comments[hidden],#newsGrid article > .dd-news-inline-comments[hidden],#archiveList article > .dd-news-inline-comments[hidden],#clipsFeed article > .dd-news-inline-comments[hidden],#caseList article > .dd-news-inline-comments[hidden]{display:none!important}
+
+/* M89: Cross-subject discovery uses the original Discussions cards, action rails and comment layout. */
+#discussionsPage .dd-community-global{margin:0 0 25px;border:1px solid #345466;border-radius:16px;background:linear-gradient(170deg,#102a3a,#0d2231);padding:17px 17px 12px;min-width:0}
+#discussionsPage .dd-community-global-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+#discussionsPage .dd-community-global-head h3{font-size:20px;line-height:1.3;color:#efd7a8;margin:4px 0 7px}
+#discussionsPage .dd-community-global-head p{margin:0;max-width:540px;font-size:12px;line-height:1.6;color:#a9bfcd}
+#discussionsPage .dd-community-global-sort{display:grid;gap:5px;min-width:122px;font-size:11px;font-weight:700;color:#d3c49f}
+#discussionsPage .dd-community-global-sort .field{border-radius:10px;border:1px solid #536979;background:#163442;color:#f3e0b7;min-height:39px;font:600 13px system-ui;padding:7px 9px}
+#discussionsPage .dd-community-global-subject{display:inline-flex;align-items:center;max-width:100%;margin:0 0 8px;padding:5px 10px;border:1px solid #416075;border-radius:18px;background:#1b3c4b;color:#e0c68f;font:600 11px system-ui;cursor:pointer;overflow-wrap:anywhere;text-align:left}
+#discussionsPage .dd-community-global-subject:hover,#discussionsPage .dd-community-global-subject:focus-visible{background:#2a5061;border-color:#8c9175}
+#discussionsPage .dd-community-global-more{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:2px}
+#discussionsPage .dd-community-global-more .outline{min-height:39px;border-radius:20px}
+#discussionsPage .dd-community-directory-heading{font-size:17px;font-weight:750;color:#e6d1ab;margin:22px 2px 14px}
+#discussionsPage .dd-community-global [hidden]{display:none!important}
+@media(max-width:759px){
+ #discussionsPage .dd-community-global{padding:13px 11px 9px;border-radius:13px;margin-bottom:21px}
+ #discussionsPage .dd-community-global-head{gap:10px}
+ #discussionsPage .dd-community-global-head h3{font-size:18px}
+ #discussionsPage .dd-community-global-sort{min-width:110px}
+ #discussionsPage .dd-community-global-subject{font-size:10px}
+}
