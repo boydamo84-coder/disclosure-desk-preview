@@ -52,6 +52,15 @@ const ID='11111111-1111-4111-8111-111111111111';
    await page.addScriptTag({url:BASE+'/assets/community-votes.js'});
    await page.addScriptTag({url:BASE+'/assets/case-discussions.js'});
    await page.addScriptTag({url:BASE+'/assets/inline-news-comments.js'});
+   const host=page.locator('[data-news-comments]');
+   const toggle=page.locator('.dd-inline-comments-toggle');
+   await toggle.waitFor({state:'visible'});
+   assert.equal(await toggle.getAttribute('aria-expanded'),'false','News comments closed by default');
+   assert.equal(await host.isVisible(),false,'News comments must not render previews until tapped');
+   assert.equal(await page.evaluate(()=>window.__commentActionCalls.filter(x=>x.name==='dd_public_comments').length),0,
+     'Closed News does not request public comments before click');
+   await toggle.click();
+   assert.equal(await toggle.getAttribute('aria-expanded'),'true','Comments button expands News thread inline');
    const news=page.locator('[data-news-comments] .dd-comment-card');
    await news.waitFor({timeout:6000});
    await page.waitForFunction(()=>document.querySelector('[data-news-comments] [data-vote-value="1"]')?.textContent.includes('3'));
