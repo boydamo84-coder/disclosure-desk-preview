@@ -181,8 +181,8 @@ async function refresh(){
    const row=managedEntry('ddProfileFilesList',d.title||'Untitled research','Saved '+formattedDate(d.updated_at)+' · Cloud copy');
    if(!row)continue;
    addAction(row,'Open Studio',()=>visit('researchStudio'));
-   addAction(row,'Move to trash',(button,status)=>{
-    if(!confirm('Move this cloud document to Recently deleted? You can restore it later. Downloaded and device-only copies are not affected.'))return;
+   addAction(row,'Move to trash',async(button,status)=>{
+    if(!await window.DDConfirm?.show?.({title:'Move document to trash?',message:'You can restore this cloud document later. Downloaded and device-only copies will not be affected.',confirmText:'Move to trash',danger:false}))return;
     void runOwned(user.id,button,status,async c=>{
      const {data,error}=await c.rpc('research_trash_document',{p_id:d.id});
      if(error)throw error;return data===true;
@@ -200,8 +200,8 @@ async function refresh(){
     const {data,error}=await c.rpc('research_restore_document',{p_id:d.id});
     if(error)throw error;return data===true;
    },'Cloud document restored.'));
-   addAction(row,'Delete forever',(button,status)=>{
-    if(prompt('This permanently removes the trashed cloud document and cannot be undone. Type DELETE to confirm:')!=='DELETE')return;
+   addAction(row,'Delete forever',async(button,status)=>{
+    if(!await window.DDConfirm?.show?.({title:'Permanently delete document?',message:'This removes your trashed cloud document permanently and cannot be undone.',confirmText:'Delete forever',requiredPhrase:'DELETE'}))return;
     void runOwned(user.id,button,status,async c=>{
      const {data,error}=await c.rpc('research_purge_trashed_document',{p_id:d.id});
      if(error)throw error;return data===true;
@@ -229,8 +229,8 @@ async function refresh(){
     if(Number.isFinite(postTime)&&Date.now()-postTime<30*60*1000&&Date.now()>=postTime)
      addAction(row,'Edit',()=>commentEdit(row,item,user.id));
    }
-   addAction(row,'Delete',(button,status)=>{
-    if(!confirm('Permanently delete this comment? This cannot be undone and may remove its votes.'))return;
+   addAction(row,'Delete',async(button,status)=>{
+    if(!await window.DDConfirm?.show?.({title:'Delete your comment?',message:'This action cannot be undone and may remove its votes. Replies from other members may remain visible.',confirmText:'Delete comment'}))return;
     void runOwned(user.id,button,status,async c=>{
      const {data,error}=await c.rpc('dd_delete_my_comment',{p_id:item.id});
      if(error)throw error;return data===true;
@@ -247,8 +247,8 @@ async function refresh(){
     r.status+' · Event '+formattedDate(r.event_date));
    if(!row)continue;
    addAction(row,'Witness section',()=>visit('witness'));
-   addAction(row,'Delete report',(button,status)=>{
-    if(!confirm('Permanently remove this witness report from Disclosure Desk, including its public map marker? This cannot be undone and does NOT reset the three-per-day report limit.'))return;
+   addAction(row,'Delete report',async(button,status)=>{
+    if(!await window.DDConfirm?.show?.({title:'Delete witness report?',message:'This permanently removes the report and its public map marker. It cannot be undone and will not reset your three-per-day submission limit.',confirmText:'Delete report'}))return;
     void runOwned(user.id,button,status,async c=>{
      const {data,error}=await c.from('dd_witness_reports').delete().eq('id',r.id).eq('author_id',user.id).select('id');
      if(error)throw error;
