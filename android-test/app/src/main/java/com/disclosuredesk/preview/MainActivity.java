@@ -41,6 +41,9 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.EditText;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import androidx.work.PeriodicWorkRequest;
@@ -563,7 +566,7 @@ public final class MainActivity extends Activity {
         if(isFinishing()||isDestroyed()||web==null)return;
         new AlertDialog.Builder(this)
           .setTitle("How to use Research Inbox")
-          .setMessage("In Chrome or another app, tap Share and choose Disclosure Desk Beta. Open Research Inbox from News or Explore and tap a saved link to open, copy or remove it. Links stay on this device.")
+          .setMessage("In Chrome or another app, tap Share and choose Disclosure Desk Beta. Give your link a name when it arrives, or tap a saved link and choose Rename. Open, copy or remove it from News or Explore. Links stay on this device.")
           .setNegativeButton("Close",null)
           .setPositiveButton("Open guide",(dialog,which)->web.loadUrl(HOME+"guide#android-research-inbox"))
           .show();
@@ -574,14 +577,19 @@ public final class MainActivity extends Activity {
            !"text/plain".equalsIgnoreCase(intent.getType()))return false;
         ResearchLinkParser.Entry shared=ResearchLinkParser.fromSharedText(
             intent.getStringExtra(Intent.EXTRA_TEXT));
-        // Consume the external intent: activity recreation must never
-        // produce a second save or a repeated notification.
+        shared=ResearchLinkParser.preferSharedSubject(shared,intent.getStringExtra(Intent.EXTRA_SUBJECT));
+        // Consume both extras before any prompt: recreation/reopening cannot
+        // duplicate the share or unexpectedly re-prompt the user.
         intent.removeExtra(Intent.EXTRA_TEXT);
+        intent.removeExtra(Intent.EXTRA_SUBJECT);
         intent.setAction(Intent.ACTION_MAIN);
         if(shared==null){
             android.widget.Toast.makeText(this,"Share a normal website link to save it for research.",android.widget.Toast.LENGTH_LONG).show();
         }else if(researchInbox!=null && researchInbox.add(shared)){
-            android.widget.Toast.makeText(this,"Source saved to your device Research Inbox.",android.widget.Toast.LENGTH_LONG).show();
+            final String savedUrl=shared.url;
+            // Share may arrive during onCreate, before setContentView. Defer the
+            // naming prompt until the Activity's decor is attached and shown.
+            getWindow().getDecorView().post(()->promptResearchLinkTitle(savedUrl,true));
         }else{
             android.widget.Toast.makeText(this,"Could not save this link.",android.widget.Toast.LENGTH_LONG).show();
         }
@@ -617,7 +625,7 @@ public final class MainActivity extends Activity {
         heading.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
         header.addView(heading);
         TextView privacy=new TextView(this);
-        privacy.setText("Device only · not synced between accounts. Tap a source to open, copy or remove it.");
+        privacy.setText("Device only · not synced between accounts. Tap a source to rename, open, copy or remove it.");
         privacy.setTextColor(Color.rgb(224,229,236));
         privacy.setTextSize(14);
         privacy.setPadding(0,dp(9),0,0);
@@ -637,36 +645,111 @@ public final class MainActivity extends Activity {
           .show();
     }
     private void showSavedResearchLink(ResearchInboxStore.Item item){
-        if(item==null)return;
+        if(item==null || isFinishing() || isDestroyed())return;
+        // Four equally visible actions. Do not mix AlertDialog.setMessage
+        // with setItems, which hid the original Research Inbox rows in M82.
+        LinearLayout header=new LinearLayout(this);
+        header.setOrientation(LinearLayout.VERTICAL);
+        header.setPadding(dp(24),dp(16),dp(24),dp(12));
+        TextView title=new TextView(this);
+        title.setText(item.title);
+        title.setTextColor(Color.rgb(242,215,162));
+        title.setTextSize(19);
+        title.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
+        header.addView(title);
+        TextView source=new TextView(this);
+        source.setText(item.url);
+        source.setTextIsSelectable(true);
+        source.setTextColor(Color.rgb(224,229,236));
+        source.setTextSize(12);
+        source.setPadding(0,dp(8),0,0);
+        header.addView(source);
         new AlertDialog.Builder(this)
-          .setTitle(item.title)
-          .setMessage(item.url+"\n\nLinks open in your usual browser, not as trusted Disclosure Desk pages.")
-          .setPositiveButton("Open in browser",(dialog,which)->{
-              try{
-                  Intent open=new Intent(Intent.ACTION_VIEW,Uri.parse(item.url));
-                  open.addCategory(Intent.CATEGORY_BROWSABLE);
-                  startActivity(open);
-              }catch(Exception error){
-                  android.widget.Toast.makeText(this,"No browser could open this link.",android.widget.Toast.LENGTH_LONG).show();
+          .setCustomTitle(header)
+          .setItems(new String[]{"Rename","Open in browser","Copy link","Remove"},(dialog,which)->{
+              if(which==0){promptResearchLinkTitle(item.url,false);return;}
+              if(which==1){
+                  try{
+                      Intent open=new Intent(Intent.ACTION_VIEW,Uri.parse(item.url));
+                      open.addCategory(Intent.CATEGORY_BROWSABLE);
+                      startActivity(open);
+                  }catch(Exception error){
+                      android.widget.Toast.makeText(this,"No browser could open this link.",android.widget.Toast.LENGTH_LONG).show();
+                  }
+              }else if(which==2){
+                  ClipboardManager clipboard=(ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+                  if(clipboard!=null){
+                      clipboard.setPrimaryClip(ClipData.newPlainText("Research source",item.url));
+                      android.widget.Toast.makeText(this,"Link copied.",android.widget.Toast.LENGTH_SHORT).show();
+                  }
+                  showResearchInbox();
+              }else if(which==3){
+                  new AlertDialog.Builder(this)
+                    .setTitle("Remove this saved link?")
+                    .setMessage("The source will be removed only from this device's Research Inbox.")
+                    .setNegativeButton("Cancel",(d,w)->showResearchInbox())
+                    .setPositiveButton("Remove",(d,w)->{
+                        if(!researchInbox.remove(item.url))
+                            android.widget.Toast.makeText(this,"Link could not be removed.",android.widget.Toast.LENGTH_LONG).show();
+                        showResearchInbox();
+                    }).show();
               }
           })
-          .setNeutralButton("Copy link",(dialog,which)->{
-              ClipboardManager clipboard=(ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
-              if(clipboard!=null){
-                  clipboard.setPrimaryClip(ClipData.newPlainText("Research source",item.url));
-                  android.widget.Toast.makeText(this,"Link copied.",android.widget.Toast.LENGTH_SHORT).show();
-              }
-          })
-          .setNegativeButton("Remove",(dialog,which)->
-              new AlertDialog.Builder(this)
-                .setTitle("Remove this saved link?")
-                .setMessage("The source will be removed only from this device's Research Inbox.")
-                .setNegativeButton("Cancel",(d,w)->showResearchInbox())
-                .setPositiveButton("Remove",(d,w)->{
-                    researchInbox.remove(item.url);
-                    showResearchInbox();
-                }).show())
+          .setNegativeButton("Back",(dialog,which)->showResearchInbox())
           .show();
+    }
+
+    private void promptResearchLinkTitle(String url,boolean afterShare){
+        if(isFinishing()||isDestroyed()||researchInbox==null)return;
+        ResearchInboxStore.Item selected=null;
+        for(ResearchInboxStore.Item item:researchInbox.list()){
+            if(item.url.equals(url)){selected=item;break;}
+        }
+        if(selected==null)return;
+        LinearLayout fieldWrap=new LinearLayout(this);
+        fieldWrap.setOrientation(LinearLayout.VERTICAL);
+        fieldWrap.setPadding(dp(24),dp(4),dp(24),dp(4));
+        TextView explanation=new TextView(this);
+        explanation.setText("Use a recognisable name, especially when saving several articles from the same website. The original URL will not change.");
+        explanation.setTextColor(Color.rgb(224,229,236));
+        explanation.setTextSize(14);
+        fieldWrap.addView(explanation);
+        EditText name=new EditText(this);
+        name.setHint("e.g. Congressional hearing evidence");
+        name.setSingleLine(true);
+        name.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        name.setFilters(new InputFilter[]{new InputFilter.LengthFilter(120)});
+        name.setText(selected.title);
+        name.selectAll();
+        name.setTextColor(Color.WHITE);
+        LinearLayout.LayoutParams nameParams=new LinearLayout.LayoutParams(-1,dp(56));
+        nameParams.topMargin=dp(10);
+        fieldWrap.addView(name,nameParams);
+        AlertDialog editor=new AlertDialog.Builder(this)
+          .setTitle(afterShare?"Name your saved research link":"Rename research link")
+          .setView(fieldWrap)
+          .setNegativeButton(afterShare?"Later":"Cancel",(dialog,which)->{
+              if(!afterShare)showResearchInbox();
+          })
+          .setPositiveButton("Save name",null)
+          .create();
+        editor.setOnShowListener(dialog->
+            editor.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v->{
+                String proposed=ResearchLinkParser.cleanCustomTitle(name.getText().toString());
+                if(proposed==null){
+                    name.setError("Enter a name for this source.");
+                    return;
+                }
+                if(!researchInbox.rename(url,proposed)){
+                    name.setError("Could not save this name. The original link is unchanged.");
+                    return;
+                }
+                editor.dismiss();
+                android.widget.Toast.makeText(this,"Research link name saved.",android.widget.Toast.LENGTH_SHORT).show();
+                if(!afterShare)showResearchInbox();
+            })
+        );
+        editor.show();
     }
 
     private void showFirstRunAlertsPrompt(){

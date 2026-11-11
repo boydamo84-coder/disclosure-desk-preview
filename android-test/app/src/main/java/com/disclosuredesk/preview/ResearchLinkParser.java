@@ -43,6 +43,26 @@ public final class ResearchLinkParser {
         return null;
     }
 
+    /** Optional browser article title; do not replace a title explicitly shared as text. */
+    public static Entry preferSharedSubject(Entry entry, String subject) {
+        if (entry==null || subject==null || subject.length()>1024) return entry;
+        String title=cleanCustomTitle(subject);
+        if (title==null || cleanUrl(title)!=null) return entry;
+        try {
+            String host=new URI(entry.url).getHost();
+            if(host!=null && !entry.title.equalsIgnoreCase(host)) return entry;
+        } catch(Exception ignored) { return entry; }
+        return new Entry(entry.url,title);
+    }
+
+    /** Uniform validation for newly named and later renamed local labels. */
+    public static String cleanCustomTitle(String raw) {
+        if(raw==null || raw.length()>8192) return null;
+        String title=raw.replaceAll("[\\p{Cntrl}]+"," ").replaceAll("\\s+"," ").trim();
+        if(title.length()>MAX_TITLE) title=title.substring(0,MAX_TITLE).trim();
+        return title.isEmpty()?null:title;
+    }
+
     public static String cleanUrl(String raw) {
         if (raw == null || raw.isEmpty()) return null;
         // Do not trim away control characters before validating the raw input.

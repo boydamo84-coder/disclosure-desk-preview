@@ -35,19 +35,20 @@ assert(!builder.includes('.setMessage('),
  'CRITICAL: setMessage suppresses setItems rows in Android AlertDialog');
 assert(builder.indexOf('.setCustomTitle(header)')<builder.indexOf('.setItems(labels,'),
  'Informational title must precede actual clickable list');
-assert(nonempty.includes('privacy.setText("Device only · not synced between accounts. Tap a source to open, copy or remove it.")'),
+assert(nonempty.includes('privacy.setText("Device only · not synced between accounts. Tap a source to rename, open, copy or remove it.")'),
  'Device-only/account-independent notice remains visible');
 assert(section.includes('researchInbox.list()'),'Real device-local items loaded');
 assert(!section.includes('getCurrentUser('),'Signed-in website account must not gate local inbox');
 const saved=main.slice(end,main.indexOf('private void showFirstRunAlertsPrompt(',end));
-assert(saved.includes('.setPositiveButton("Open in browser"'),'Open saved link');
-assert(saved.includes('.setNeutralButton("Copy link"'),'Copy saved link');
-assert(saved.includes('.setNegativeButton("Remove"'),'Remove saved link with confirmation');
+assert(saved.includes('.setItems(new String[]{"Rename","Open in browser","Copy link","Remove"}'),'Four visible saved-link actions');
+assert(saved.includes('Intent.ACTION_VIEW'),'Open saved link in external browser');
+assert(saved.includes('ClipData.newPlainText'),'Copy original URL');
+assert(saved.includes('.setTitle("Remove this saved link?")'),'Remove saved link with confirmation');
 assert(section.includes('.setTitle("Clear Research Inbox?")'),'Clear all is confirmed');
 assert(/android:windowSoftInputMode="adjustResize"/.test(manifest),'M79 keyboard setting retained');
-assert(/versionCode = 21/.test(gradle),'Current installable beta');
-assert(workflow.includes('android/m84-inbox-row-labels-nov11'),'Correct private branch');
+assert(/versionCode = 22/.test(gradle),'Current installable beta');
+assert(workflow.includes('android/m85-research-inbox-rename-nov11'),'Correct private branch');
 assert(workflow.includes('scripts/test_m82_research_inbox_dialog_contract.cjs'),'CI runs hotfix check');
-assert(workflow.includes('DisclosureDesk-M84-PRIVATE-BETA'),'New isolated artifact');
+assert(workflow.includes('DisclosureDesk-M85-PRIVATE-BETA'),'New isolated artifact');
 assert(!/\bnetlify deploy\b/i.test(workflow),'Website deployment never occurs here');
 console.log('PASS M82 native Research Inbox saved-row visibility: message/list collision removed, custom notice and tappable items retained, account-independent local data untouched.');

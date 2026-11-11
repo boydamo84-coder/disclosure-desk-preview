@@ -1,6 +1,15 @@
 # Disclosure Desk — MASTER HANDOVER
 _Last updated: 11 November 2026 (Europe/London)_
 
+## Milestone 85 — Name imported research links and rename later (11 November 2026)
+
+- **Owner feedback:** Chrome → Android Share is working; multiple bare links from the same domain are impossible to distinguish. M84 duplicate hostname row display is retained.
+- **Implementation on isolated branch `android/m85-research-inbox-rename-nov11`:** A new native naming dialog opens after successful Share, with a prefilled title, editable single-line field (maximum 120 characters), Save name and Later. The link is saved before the prompt, so cancelling it does not discard the source. An optional safe Android share subject may supply a more descriptive default; links are never fetched or scraped to find titles. Open any saved Inbox row for a visible **Rename / Open in browser / Copy link / Remove** action menu, with the original URL visible. Renaming can be repeated at any time.
+- **Safety:** `ResearchInboxStore.rename(url,title)` changes the label only, keeping original validated URL, saved timestamp and list order. Re-sharing an existing URL retains an earlier custom name and existing no-duplicate behaviour. Blank names are rejected, titles are capped, external intents are consumed before prompting and prompts are posted after Activity setup. Same device-only 50-link store; no user/account, Supabase, Netlify or Play Store changes.
+- **Version and verification:** versionCode **22**, versionName **0.12.4-m85-private-beta** (+ debug suffix), workflow produces `DisclosureDesk-M85-PRIVATE-BETA`. Extended isolated JVM parser and source contract checks. **Source QA / GitHub Actions / APK / Samsung acceptance still pending at this note**; do not claim build or device testing complete until separately verified.
+- **Device acceptance:** Install M85 beta without removing existing local data where signatures permit; if Android requires uninstall due to debug-signing mismatch, copy important URLs first, as uninstall clears local Inbox. Share two different articles from the same website, assign distinct titles in the new prompt; verify both rows and original links, rename an old saved row, copy and open original URL, share same URL again and check no duplicate and no loss of custom label. Existing M84 display fix and News/Explore shortcuts remain.
+- **Release boundary:** Android-only source and embedded guide; no public website deploy authorised in this milestone. Production must not be replaced automatically.
+
 ## Milestone 84 — Show each Research Inbox domain once (11 November 2026)
 
 - **Samsung feedback:** M83 Research Inbox opened from Explore and displayed the saved rows. Remove worked on the Galaxy S24 Ultra. Rows with a hostname as their saved title displayed the same hostname a second time as the source.

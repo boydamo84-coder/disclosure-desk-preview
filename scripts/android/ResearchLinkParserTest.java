@@ -26,6 +26,19 @@ public final class ResearchLinkParserTest {
             "Article title retains a distinct source line");
         ok(ResearchLinkParser.formatInboxRow("Archive.Example.ORG","news.example.org")
             .equals("Archive.Example.ORG\nnews.example.org"),"Distinct subdomains remain visible");
+        ok(ResearchLinkParser.cleanCustomTitle("  CIA hearing 2026  ").equals("CIA hearing 2026"),
+            "User-specified names trim correctly");
+        ok(ResearchLinkParser.cleanCustomTitle(" \n ")==null,"Empty names are rejected");
+        ok(ResearchLinkParser.cleanCustomTitle("A".repeat(160)).length()==120,"Names bounded at 120");
+        ok(ResearchLinkParser.cleanCustomTitle("Line\none").equals("Line one"),
+            "Newlines cannot split an inbox label");
+        ok(ResearchLinkParser.preferSharedSubject(capture("https://example.net/news/uap"),
+            "New UAP hearing released").title.equals("New UAP hearing released"),
+            "Browser subject provides a meaningful name for URL-only shares");
+        ok(ResearchLinkParser.preferSharedSubject(article,"Other browser subject").title.equals("Interesting source"),
+            "Shared text article title outranks optional subject");
+        ok(ResearchLinkParser.preferSharedSubject(bare,"https://www.example.net/feature").title.equals(bare.title),
+            "URL as subject cannot become misleading title");
         ok(capture("Read this (https://example.com/news).").url.equals("https://example.com/news"),"Parenthetical link trimmed");
         ok(capture("https://example.com/uap#analysis").url.contains("#analysis"),"Ordinary article fragment retained");
         ok(capture("http://example.org/history")!=null,"Normal HTTP link allowed");

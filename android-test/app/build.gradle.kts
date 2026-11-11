@@ -14,8 +14,8 @@ android {
         buildConfigField("String", "DD_FIREBASE_PROJECT_ID", "\"${System.getenv("DD_FIREBASE_PROJECT_ID") ?: ""}\"")
 
         buildConfigField("String", "DD_FIREBASE_SENDER_ID", "\"${System.getenv("DD_FIREBASE_SENDER_ID") ?: ""}\"")
-        versionCode = 21
-        versionName = "0.12.3-m84-private-beta"
+        versionCode = 22
+        versionName = "0.12.4-m85-private-beta"
         manifestPlaceholders["ddAppLabel"] = "Disclosure Desk"
     }
     buildFeatures { buildConfig = true }

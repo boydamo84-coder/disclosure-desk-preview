@@ -49,13 +49,37 @@ public final class ResearchInboxStore {
 
     public synchronized boolean add(ResearchLinkParser.Entry incoming) {
         if (incoming==null || ResearchLinkParser.cleanUrl(incoming.url)==null)return false;
+        List<Item> existing=list();
+        Item previous=null;
+        for(Item item:existing) {
+            if(item.url.equals(incoming.url)){previous=item;break;}
+        }
+        String safeTitle=ResearchLinkParser.cleanCustomTitle(incoming.title);
         JSONArray updated=new JSONArray();
-        put(updated,incoming.url,incoming.title,System.currentTimeMillis());
-        for (Item item:list()) {
+        // Re-sharing the same URL must never silently erase a custom name.
+        put(updated,incoming.url,previous!=null?previous.title:
+            (safeTitle==null?"Shared research link":safeTitle),
+            previous!=null?previous.addedAt:System.currentTimeMillis());
+        for (Item item:existing) {
             if (updated.length()>=MAX_ITEMS)break;
             if (!item.url.equals(incoming.url))put(updated,item.url,item.title,item.addedAt);
         }
         return preferences.edit().putString(KEY,updated.toString()).commit();
+    }
+
+    /** Rename a single saved source without touching its URL, order or timestamp. */
+    public synchronized boolean rename(String target,String requestedTitle) {
+        String safeTitle=ResearchLinkParser.cleanCustomTitle(requestedTitle);
+        if(safeTitle==null || ResearchLinkParser.cleanUrl(target)==null)return false;
+        JSONArray updated=new JSONArray();
+        boolean found=false;
+        for(Item item:list()){
+            if(item.url.equals(target)){
+                put(updated,item.url,safeTitle,item.addedAt);
+                found=true;
+            }else put(updated,item.url,item.title,item.addedAt);
+        }
+        return found && preferences.edit().putString(KEY,updated.toString()).commit();
     }
 
     public synchronized boolean remove(String target) {
