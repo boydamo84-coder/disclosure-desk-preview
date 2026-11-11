@@ -45,6 +45,11 @@ public final class ResearchLinkParser {
 
     public static String cleanUrl(String raw) {
         if (raw == null || raw.isEmpty()) return null;
+        // Do not trim away control characters before validating the raw input.
+        // A link containing hidden control bytes must be rejected outright.
+        for (int i=0;i<raw.length();i++) {
+            if (Character.isISOControl(raw.charAt(i))) return null;
+        }
         String url = raw.trim();
         while (!url.isEmpty() && ".,!?;:)]}>".indexOf(url.charAt(url.length()-1)) >= 0) {
             url = url.substring(0, url.length()-1);
