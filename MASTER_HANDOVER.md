@@ -1,12 +1,18 @@
 # Disclosure Desk — MASTER HANDOVER
 _Last updated: 11 November 2026 (Europe/London)_
 
+## Milestone 84 — Show each Research Inbox domain once (11 November 2026)
+
+- **Samsung feedback:** M83 Research Inbox opened from Explore and displayed the saved rows. Remove worked on the Galaxy S24 Ultra. Rows with a hostname as their saved title displayed the same hostname a second time as the source.
+- **Android fix:** The native list now shows one line when the title and source identify the same hostname, ignoring case and an optional `www.` prefix. A distinct article title still shows the source below it. Formatting applies to existing links as well as new shares and does not change stored links or actions.
+- **Branch and version:** `android/m84-inbox-row-labels-nov11`, versionCode 21, versionName `0.12.3-m84-private-beta` before the debug suffix. Android APK build and Samsung M84 acceptance are pending.
+
 ## Milestone 83 — Put Research Inbox on News and Explore (11 November 2026)
 
 - **M82 device confirmation:** Chrome Share saved a link into Research Inbox on a Galaxy S24 Ultra. Feedback identified that the entry inside Profile settings was hard to find.
 - **Android change:** Added direct Research Inbox shortcuts above the News hero and below the Explore heading, available to guests as well as signed-in users. Each shortcut has a separate ⓘ button with Chrome Share instructions, a local-storage note and a link to the bundled guide. The searchable guide and FAQ now explain saving, finding, opening, copying and removing links.
 - **Branch and version:** `android/m83-research-inbox-shortcuts-nov11`, versionCode 20, versionName `0.12.2-m83-private-beta` before the debug suffix. The inbox store, Share handling and website deployment configuration are unchanged.
-- **Verification:** Existing Android and website source checks passed. Chromium verified both shortcuts, their help actions and the searchable guide on the actual pages at 320, 393 and 820 px. [GitHub Actions run 42955731705](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42955731705) passed the browser and JVM suites and the Gradle APK build. Artifact `13826907547` matched the CI ZIP digest. The extracted APK matched source commit `4b41e9d00e841275112fe68c460c3acc9e62fb7a` in its snapshot manifest, and the packaged guide and home page matched the branch files byte for byte. APK SHA-256 `4624deb88fdf5bda74b10ba93456797f08ec41539f18bd87d0bb183ffe845b56`. Samsung M83 acceptance is pending.
+- **Verification:** Existing Android and website source checks passed. Chromium verified both shortcuts, their help actions and the searchable guide on the actual pages at 320, 393 and 820 px. [GitHub Actions run 42955731705](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/42955731705) passed the browser and JVM suites and the Gradle APK build. Artifact `13826907547` matched the CI ZIP digest. The extracted APK matched source commit `4b41e9d00e841275112fe68c460c3acc9e62fb7a` in its snapshot manifest, and the packaged guide and home page matched the branch files byte for byte. APK SHA-256 `4624deb88fdf5bda74b10ba93456797f08ec41539f18bd87d0bb183ffe845b56`. Samsung confirmed the Explore shortcut, saved-row visibility and Remove. The duplicate hostname display is tracked in M84.
 - **Beta upgrade:** M83 has a different debug signing certificate from M82. Copy important inbox links before uninstalling the M82 beta. Uninstalling clears the local inbox. After installing M83, share the links again to restore them.
 - **Samsung retest:** Open News and Explore, tap Research Inbox, verify an existing saved link is visible, then tap ⓘ and open the guide. Repeat Chrome Share and verify the new link can be opened or copied.
 

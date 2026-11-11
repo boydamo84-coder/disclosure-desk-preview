@@ -26,7 +26,7 @@ assert.match(app,/chats.setEnabled\(false\)/,'Incomplete FCM push is not adverti
 assert.match(gradle,/applicationIdSuffix = "\.beta"/);
 assert.match(gradle,/manifestPlaceholders\["ddAppLabel"\] = "Disclosure Desk Beta"/);
 assert.match(gradle,/targetSdk = 36/);
-assert.match(gradle,/versionCode = (?:14|15|16|17|18|19|20)/);
+assert.match(gradle,/versionCode = (?:14|15|16|17|18|19|20|21)/);
 assert.match(manifest,/android:label="\$\{ddAppLabel\}"/);
 assert.match(worker,/dd_scope/);
 assert.match(html,/assets\/confirmation-dialog\.js\?v=m74/);
@@ -38,7 +38,7 @@ assert.match(stage,/Refusing to overwrite existing Android snapshot/);
 assert.match(workflow,/node scripts\/build_public_release\.cjs/);
 assert.match(workflow,/node scripts\/stage_android_dev_snapshot\.cjs/);
 assert.match(workflow,/node scripts\/test_android_dev_snapshot_contract\.cjs/);
-assert.match(workflow,/android\/m83-research-inbox-shortcuts-nov11/);
-assert.match(workflow,/DisclosureDesk-M83-PRIVATE-BETA/);
+assert.match(workflow,/android\/m84-inbox-row-labels-nov11/);
+assert.match(workflow,/DisclosureDesk-M84-PRIVATE-BETA/);
 assert(!/(?:^|\n)\s*(?:npx\s+)?netlify\s+(?:deploy|build|publish)\b/im.test(workflow),'No Netlify CLI deployment in APK build');
 console.log('PASS M75 Android beta source: pending M74/M73 UI, origin-safe snapshot, isolated install, native back, file picker, explicit billing/push gates, no Netlify.');

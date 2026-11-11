@@ -17,7 +17,7 @@ assert(emptyStart>=0&&emptyEnd>emptyStart,'Empty state separate from saved-link 
 const nonempty=section.slice(emptyEnd);
 for(const needle of [
  'String[] labels=new String[entries.size()]',
- 'labels[i]=item.title+"\\n"+(host==null?item.url:host)',
+ 'labels[i]=ResearchLinkParser.formatInboxRow(item.title,host==null?item.url:host)',
  'LinearLayout header=new LinearLayout(this)',
  'TextView heading=new TextView(this)',
  'TextView privacy=new TextView(this)',
@@ -45,9 +45,9 @@ assert(saved.includes('.setNeutralButton("Copy link"'),'Copy saved link');
 assert(saved.includes('.setNegativeButton("Remove"'),'Remove saved link with confirmation');
 assert(section.includes('.setTitle("Clear Research Inbox?")'),'Clear all is confirmed');
 assert(/android:windowSoftInputMode="adjustResize"/.test(manifest),'M79 keyboard setting retained');
-assert(/versionCode = 20/.test(gradle),'Current installable beta');
-assert(workflow.includes('android/m83-research-inbox-shortcuts-nov11'),'Correct private branch');
+assert(/versionCode = 21/.test(gradle),'Current installable beta');
+assert(workflow.includes('android/m84-inbox-row-labels-nov11'),'Correct private branch');
 assert(workflow.includes('scripts/test_m82_research_inbox_dialog_contract.cjs'),'CI runs hotfix check');
-assert(workflow.includes('DisclosureDesk-M83-PRIVATE-BETA'),'New isolated artifact');
+assert(workflow.includes('DisclosureDesk-M84-PRIVATE-BETA'),'New isolated artifact');
 assert(!/\bnetlify deploy\b/i.test(workflow),'Website deployment never occurs here');
 console.log('PASS M82 native Research Inbox saved-row visibility: message/list collision removed, custom notice and tappable items retained, account-independent local data untouched.');

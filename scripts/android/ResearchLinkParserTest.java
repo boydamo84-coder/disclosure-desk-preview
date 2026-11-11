@@ -18,6 +18,14 @@ public final class ResearchLinkParserTest {
         ResearchLinkParser.Entry bare=capture("https://www.example.net/feature.");
         ok(bare!=null&&bare.url.equals("https://www.example.net/feature"),"Punctuation trimmed");
         ok(bare.title.equals("www.example.net"),"Hostname fallback");
+        ok(ResearchLinkParser.formatInboxRow(bare.title,"www.example.net").equals("www.example.net"),
+            "Host-only title is shown once");
+        ok(ResearchLinkParser.formatInboxRow("EXAMPLE.NET","www.example.net").equals("EXAMPLE.NET"),
+            "Case and www differences do not repeat the host");
+        ok(ResearchLinkParser.formatInboxRow(article.title,"example.org").equals("Interesting source\nexample.org"),
+            "Article title retains a distinct source line");
+        ok(ResearchLinkParser.formatInboxRow("Archive.Example.ORG","news.example.org")
+            .equals("Archive.Example.ORG\nnews.example.org"),"Distinct subdomains remain visible");
         ok(capture("Read this (https://example.com/news).").url.equals("https://example.com/news"),"Parenthetical link trimmed");
         ok(capture("https://example.com/uap#analysis").url.contains("#analysis"),"Ordinary article fragment retained");
         ok(capture("http://example.org/history")!=null,"Normal HTTP link allowed");
@@ -46,6 +54,6 @@ public final class ResearchLinkParserTest {
         ok(ResearchLinkParser.cleanUrl("https://exam ple.com")==null,"Embedded whitespace URL rejected");
         ok(ResearchLinkParser.cleanUrl("https://example.com/\u0001")==null,"Control chars rejected");
         ok(ResearchLinkParser.cleanUrl("https://example.com:99999/path")==null,"Invalid port rejected");
-        System.out.println("PASS M81 native Android share-link parser: "+checks+" safe offline JVM assertions");
+        System.out.println("PASS native Android share-link parser and inbox labels: "+checks+" safe offline JVM assertions");
     }
 }

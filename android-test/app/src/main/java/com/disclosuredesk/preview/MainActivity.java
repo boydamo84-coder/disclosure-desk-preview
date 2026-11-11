@@ -601,7 +601,7 @@ public final class MainActivity extends Activity {
         for(int i=0;i<entries.size();i++){
             ResearchInboxStore.Item item=entries.get(i);
             String host=Uri.parse(item.url).getHost();
-            labels[i]=item.title+"\n"+(host==null?item.url:host);
+            labels[i]=ResearchLinkParser.formatInboxRow(item.title,host==null?item.url:host);
         }
         // Android AlertDialog cannot show a message AND a setItems list:
         // setMessage takes over the content area and silently hides the rows.

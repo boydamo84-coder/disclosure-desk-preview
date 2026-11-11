@@ -34,9 +34,9 @@ assert(forum.includes('.then(saved=>{'),'Discussions scrolls only after successf
 assert(forum.includes('if(!saved||thread?.id!==originalThread)return'),'Discussions does not reveal if thread changes');
 assert(build.includes('scripts/test_m79_mobile_comment_keyboard_contract.cjs'),'APK CI runs M79 static test');
 assert(build.includes('scripts/test_m79_mobile_comment_keyboard_chromium.cjs'),'APK CI runs M79 real mobile test');
-assert(build.includes('android/m83-research-inbox-shortcuts-nov11'),'M79 build isolated branch');
-assert(build.includes('DisclosureDesk-M83-PRIVATE-BETA'),'M79 separately named APK artifact');
-assert.match(gradle,/versionCode = (?:17|18|19|20)/);
+assert(build.includes('android/m84-inbox-row-labels-nov11'),'M79 build isolated branch');
+assert(build.includes('DisclosureDesk-M84-PRIVATE-BETA'),'M79 separately named APK artifact');
+assert.match(gradle,/versionCode = (?:17|18|19|20|21)/);
 assert.match(manifest,/android:windowSoftInputMode="adjustResize"/,'Android WebView requests keyboard resize, not pan');
 assert(!/\bnetlify deploy\b/.test(build),'No Netlify publish in APK workflow');
 console.log('PASS M79 keyboard-safe comment composers + post-only scroll across News/Archive/Videos/Watch & Read/Case/Hearing/Discussions');

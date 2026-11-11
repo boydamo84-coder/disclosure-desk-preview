@@ -91,6 +91,12 @@ public final class ResearchLinkParser {
         return false;
     }
 
+    static String formatInboxRow(String title, String source) {
+        String titleHost = title.replaceFirst("(?i)^www[.]", "");
+        String sourceHost = source.replaceFirst("(?i)^www[.]", "");
+        return titleHost.equalsIgnoreCase(sourceHost) ? title : title + "\n" + source;
+    }
+
     private static String cleanTitle(String text, String url) {
         String title=(text==null?"":text).replaceAll("[\\p{Cntrl}]+", " ")
             .replaceAll("\\s+", " ").trim();
