@@ -1,6 +1,15 @@
 # Disclosure Desk — MASTER HANDOVER
 _Last updated: 11 November 2026 (Europe/London)_
 
+## Milestone 87 — Terms of Service prepared for next website deployment (11 November 2026)
+
+- **Status: STAGED ONLY, NOT DEPLOYED.** Branch `fix/m87-terms-of-service-nov11` is based on published M86 production commit `4e894f71e971674ee6fc8907d9a1ea6cc52e60a5`. Do not move `production`, enable Netlify builds, or publish without the owner's later release approval.
+- Added `terms.html` at proposed public clean URL `https://uapdisclosuredesk.com/terms`, consistent navy-and-gold design, canonical/SEO metadata, mobile layout and analytics-consent script. It explains the operator brand, acceptable use, accounts, ownership/licensing of public user contributions, private W.NE documents, moderation, optional manual Google Drive Word copies (NOT full auto backups), third-party research claims, IP, liability and consumer rights, free access/donations, changes and support.
+- Cross-linked Terms from the homepage footer and Explore area, Privacy, Community Rules, Guide, and Research Edition landing page. Included it in the public sitemap, explicit Netlify build allowlist, public static link and Chromium audits, SEO canonical checks and inline script syntax gates. Added dedicated M87 contract test and GitHub no-deploy CI branch trigger.
+- **Caution:** This is an owner-review legal draft; no registered legal entity or street/postal business address was invented. The operator should review the final page for legal/business disclosure requirements before first publication, particularly if the site becomes a trading service. After Netlify deploy, verify `/terms` is public, returns 200, links function and Google OAuth Branding uses exactly `https://uapdisclosuredesk.com/terms`. Do not put that URL in Google Cloud as live until the new release is actually published.
+- The current live site remains M86. Google Cloud project restoration/OAuth Testing changes are separate from this website commit. The Terms change alone does not switch OAuth to Production or verify Drive recovery.
+
+
 ## M86 consolidated website preflight — 11 November 2026
 
 - **Live production:** [Netlify deploy 6af3a6aa91e46f47ab5ed8e1](https://app.netlify.com/projects/uap-disclosure-desk/deploys/6af3a6aa91e46f47ab5ed8e1) is published from GitHub `production` at `211424c1e2224ccbd2cdd3a398173e97a066c5ec` (M72), 10 November at 23:20 UTC. The live domain serves the M71 comment assets. Map, curated-case and historical news endpoints returned valid arrays.
