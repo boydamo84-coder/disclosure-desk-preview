@@ -280,8 +280,11 @@ function keepCommentComposerVisible(form){
  if(!actions||!actions.getClientRects().length)return false;
  const rect=actions.getBoundingClientRect();
  const bounds=commentViewportBounds();
+ // Also respect a scrollable Case/Hearing dialog or other nested container.
+ const scroller=commentScrollContainer(actions);
+ const containerBottom=scroller?scroller.getBoundingClientRect().bottom-12:Infinity;
  // Allow for keyboard chrome and a small comfortable tap margin.
- const delta=Math.ceil(rect.bottom-(bounds.bottom-18));
+ const delta=Math.ceil(rect.bottom-Math.min(bounds.bottom-18,containerBottom));
  if(delta<8)return false;
  return scrollCommentBy(actions,delta,false);
 }
