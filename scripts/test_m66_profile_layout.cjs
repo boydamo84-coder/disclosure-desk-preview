@@ -46,11 +46,11 @@ assert.match(page,/id="ddAvatarPhotoRequirements"/,'Photo sizes/formats are acce
 assert.match(page,/id="ddProfileReactionBreakdown"/,'Keep M64 optional reaction detail');
 assert.match(avatar,/settingsPanel\.hidden=false/,'Avatar settings available after own-account auth');
 assert.match(avatar,/settingsPanel\.hidden=true/,'Avatar settings hidden after sign-out');
-assert.match(avatar,/if\(!confirm\('Remove your account profile photo/,'Photo removal still asks for confirmation');
+assert.match(avatar,/await window\.DDConfirm\?\.show\?\.\(/,'Photo removal still asks for branded confirmation');
 assert.match(avatar,/await uploadPending\(\)/,'Photo selection still auto-saves');
 assert.match(style,/#profilePage \.dd-profile-identity-main\{display:flex/);
 assert.match(style,/@media\(max-width:360px\)/);
 assert.match(style,/#profilePage \.dd-avatar-file-trigger input\[type=file\]/);
-assert.match(html,/assets\/profile-avatars\.js\?v=m66-profile-identity/);
-assert.match(html,/assets\/community-polish\.css\?v=m73/);
+assert.match(html,/assets\/profile-avatars\.js\?v=m74-branded-confirm/);
+assert.match(html,/assets\/community-polish\.css\?v=m74/);
 console.log('PASS M66 profile: photo+name+received stats first, cloud/Boards/witness order, controls in collapsed Settings, secured photo auto-save/remove, mobile styles');
