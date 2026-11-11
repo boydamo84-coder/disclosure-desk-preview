@@ -31,6 +31,7 @@ jobs:
           node scripts/build_public_release.cjs
           node scripts/stage_android_dev_snapshot.cjs
           node scripts/test_android_dev_snapshot_contract.cjs
+          node scripts/test_android_m75_source_contract.cjs
       - name: Install Android SDK
         run: |
           SDKMANAGER="${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin/sdkmanager"
