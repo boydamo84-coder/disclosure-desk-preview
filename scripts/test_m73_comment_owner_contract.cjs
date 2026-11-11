@@ -33,7 +33,7 @@ assert.match(forum,/if\(cancelReply\)cancelReply\.onclick/,'Discussion Reply has
 assert.match(style,/M73 — one More owner menu/,'Shared More style is available');
 assert.match(style,/\.dd-comment-more-panel/,'Visible popup menu is styled');
 assert.match(html,/assets\/community-votes\.js\?v=m74-branded-confirm/);
-assert.match(html,/assets\/community-discussions\.js\?v=m73-owner-more/);
+assert.match(html,/assets\/community-discussions\.js\?v=(?:m73-owner-more|m89-global-popular-feed)/);
 assert.match(html,/assets\/inline-news-comments\.js\?v=m73-reply-cancel/);
 assert.match(html,/assets\/case-discussions\.js\?v=m73-reply-cancel/);
 assert.match(html,/assets\/community-polish\.css\?v=m74/);
