@@ -6,6 +6,7 @@ const cases=read('assets/case-discussions.js');
 const forum=read('assets/community-discussions.js');
 const build=read('.github/workflows/android-test-apk.yml');
 const gradle=read('android-test/app/build.gradle.kts');
+const manifest=read('android-test/app/src/main/AndroidManifest.xml');
 for(const required of [
  'function commentViewportBounds()','window.visualViewport','function commentScrollContainer(element)',
  'function keepCommentComposerVisible(form)','function revealPostedComment(card)',
@@ -36,5 +37,6 @@ assert(build.includes('scripts/test_m79_mobile_comment_keyboard_chromium.cjs'),'
 assert(build.includes('android/m79-keyboard-comment-scroll-nov11'),'M79 build isolated branch');
 assert(build.includes('DisclosureDesk-M79-PRIVATE-BETA'),'M79 separately named APK artifact');
 assert.match(gradle,/versionCode = 17/);
+assert.match(manifest,/android:windowSoftInputMode="adjustResize"/,'Android WebView requests keyboard resize, not pan');
 assert(!/\bnetlify deploy\b/.test(build),'No Netlify publish in APK workflow');
 console.log('PASS M79 keyboard-safe comment composers + post-only scroll across News/Archive/Videos/Watch & Read/Case/Hearing/Discussions');
