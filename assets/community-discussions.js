@@ -885,6 +885,7 @@ function init(){
   $('ddForumDrawerRefresh').onclick=()=>{void refreshSubjectsDrawer()};
   $('ddForumDrawerSearch').oninput=()=>renderSubjectsDrawer();
   drawer.addEventListener('click',event=>{if(event.target===drawer)closeSubjectsDrawer()});
+  drawer.addEventListener('cancel',event=>{event.preventDefault();closeSubjectsDrawer()});
   drawer.addEventListener('close',()=>{
    ++drawerRequest;
    if(drawerTimer!==null){window.clearInterval?.(drawerTimer);drawerTimer=null}
