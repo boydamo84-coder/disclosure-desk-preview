@@ -1,7 +1,7 @@
 name: Verify Research Studio resume and existing community (NO deploy)
 on:
   push:
-    branches: [fix/research-mobile-profile-polish-nov08, staging/research-samsung-m16-20261108, fix/compact-writing-popover-mobile-desktop-nov08, fix/post-m50-action-rails-citations-nov10, fix/m55-live-news-archive-loading-nov10, fix/m56-refresh-keeps-active-page-nov10, fix/m57-wne-return-directly-to-document-nov10, fix/m58-drive-reconnect-ux-nov10, fix/m59-news-duplicate-headlines-nov10, fix/m60-news-event-clusters-nov10, fix/m61-discussions-favourites-inline-comments-nov10, fix/m62-google-indexing-guide-alignment-nov10, fix/m63-profile-received-reactions-nov10, fix/m64-release-review-compact-profile-nov10, fix/m66-profile-identity-settings-order-nov10, fix/m67-archive-shared-action-rails-nov10, fix/m68-compact-comment-threads-nov10, fix/m70-unified-site-action-rails-nov10, fix/m71-interaction-page-audit-nov10, fix/m73-comment-owner-actions-parity-nov10, fix/m74-branded-delete-confirmations-nov11]
+    branches: [fix/research-mobile-profile-polish-nov08, staging/research-samsung-m16-20261108, fix/compact-writing-popover-mobile-desktop-nov08, fix/post-m50-action-rails-citations-nov10, fix/m55-live-news-archive-loading-nov10, fix/m56-refresh-keeps-active-page-nov10, fix/m57-wne-return-directly-to-document-nov10, fix/m58-drive-reconnect-ux-nov10, fix/m59-news-duplicate-headlines-nov10, fix/m60-news-event-clusters-nov10, fix/m61-discussions-favourites-inline-comments-nov10, fix/m62-google-indexing-guide-alignment-nov10, fix/m63-profile-received-reactions-nov10, fix/m64-release-review-compact-profile-nov10, fix/m66-profile-identity-settings-order-nov10, fix/m67-archive-shared-action-rails-nov10, fix/m68-compact-comment-threads-nov10, fix/m70-unified-site-action-rails-nov10, fix/m71-interaction-page-audit-nov10, fix/m73-comment-owner-actions-parity-nov10, fix/m74-branded-delete-confirmations-nov11, fix/m80-web-mobile-reply-parity-nov11]
   workflow_dispatch:
 permissions:
   contents: read
@@ -31,7 +31,11 @@ jobs:
           node --check assets/confirmation-dialog.js
           node --check scripts/test_m74_confirmation_contract.cjs
           node scripts/test_m74_confirmation_contract.cjs
+          node --check scripts/test_m80_web_reply_parity_contract.cjs
+          node scripts/test_m80_web_reply_parity_contract.cjs
           node --check scripts/test_m74_confirmation_chromium.cjs
+          node --check scripts/test_m80_web_reply_layout_chromium.cjs
+          node --check scripts/test_m80_web_comment_keyboard_chromium.cjs
           node --check scripts/test_m73_comment_owner_chromium.cjs
           node --check scripts/m73_owner_comments_fixture.cjs
           node --check scripts/test_m71_secondary_actions_chromium.cjs
@@ -211,6 +215,8 @@ jobs:
           node scripts/test_m71_secondary_actions_chromium.cjs
           node scripts/test_m73_comment_owner_chromium.cjs
           node scripts/test_m74_confirmation_chromium.cjs
+          node scripts/test_m80_web_reply_layout_chromium.cjs
+          node scripts/test_m80_web_comment_keyboard_chromium.cjs
           node scripts/test_media_auto_publish_chromium.cjs
           node scripts/test_research_editor_real_chromium_20261108.cjs
           node scripts/test_m32_actual_writer_ribbon_chromium_20261109.cjs
