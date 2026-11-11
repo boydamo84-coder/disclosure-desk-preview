@@ -512,7 +512,8 @@ async function selected(page,id){
   assert.equal(upload.contentType,'image/webp');
   assert(upload.bytes>0&&upload.bytes<=1048576,'Photo is re-encoded under 1 MiB');
   pass('real browser photo auto-saves WebP to separate opaque private key');
-  avatarPage.on('dialog',d=>d.accept());
+  // M74's styled DDConfirm replaces the browser's native confirm dialog.
+  await avatarPage.waitForFunction(()=>typeof window.DDConfirm?.show==='function');
   // Avatar auto-upload is asynchronous: wait for its UI confirmation, not only the mock write call.
   try{
    await avatarPage.locator('#ddAvatarRemove:not([hidden]):not([disabled])').waitFor({state:'visible',timeout:10000});
@@ -530,6 +531,14 @@ async function selected(page,id){
    throw Error('Avatar removal readiness diagnostic '+JSON.stringify(snapshot)+'; '+error.message);
   }
   await avatarPage.locator('#ddAvatarRemove').click();
+  const confirmation=avatarPage.locator('dialog.dd-confirm-dialog');
+  await confirmation.waitFor({state:'visible'});
+  await confirmation.locator('.dd-confirm-cancel').click();
+  assert.equal(await avatarPage.evaluate(()=>window.__avatarQa.writes.filter(x=>x.action==='remove').length),0,
+   'Branded cancel must not remove avatar');
+  await avatarPage.locator('#ddAvatarRemove').click();
+  await confirmation.waitFor({state:'visible'});
+  await confirmation.locator('.dd-confirm-accept').click();
   await avatarPage.waitForFunction(()=>window.__avatarQa?.writes?.some(x=>x.action==='remove'));
   const removal=await avatarPage.evaluate(()=>window.__avatarQa.writes.find(x=>x.action==='remove'));
   assert.deepEqual(removal.paths,['22222222-2222-4222-8222-222222222222/avatar.webp']);
