@@ -26,7 +26,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.HashSet;
-import android.graphics.drawable.GradientDrawable;
 import android.widget.ScrollView;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceError;
@@ -80,6 +79,8 @@ public final class MainActivity extends Activity {
     // Paid entitlement lacks server-side receipt verification: disabled in all M75 builds.
     private static final boolean PLAY_BILLING_APPROVED = false;
     private final Set<String> snapshotFiles=new HashSet<>();
+    private boolean firstRunAlertsPromptShown=false;
+    private static final String FIRST_RUN_ALERTS_CHOICE="dd-alerts-opt-in-m77";
     private String snapshotCommit="unknown";
     // Real unit configured in AdMob: ca-app-pub-6712657097464071/7357709206
     // All test builds MUST use Google test inventory; never use the real unit in this debug APK.
@@ -101,24 +102,9 @@ public final class MainActivity extends Activity {
         launch.addView(mark,markParams);
         splash=launch;
         root.addView(launch,new FrameLayout.LayoutParams(-1,-1));
-        Button notifications=new Button(this);
-        notifications.setText("🔔");
-        notifications.setContentDescription("Notification preferences");
-        notifications.setTextSize(15);
-        notifications.setAllCaps(false);
-        notifications.setTextColor(Color.rgb(245,222,173));
-        GradientDrawable bellShape=new GradientDrawable();
-        bellShape.setColor(Color.rgb(23,46,60));
-        bellShape.setCornerRadius(dp(13));
-        bellShape.setStroke(dp(1),Color.rgb(150,125,84));
-        notifications.setBackground(bellShape);
-        FrameLayout.LayoutParams bell=new FrameLayout.LayoutParams(dp(55),dp(48),Gravity.TOP|Gravity.RIGHT);
-        bell.topMargin=dp(3);bell.rightMargin=dp(4);
-        root.addView(notifications,bell);
         offlinePanel=createOfflinePanel();
         root.addView(offlinePanel,new FrameLayout.LayoutParams(-1,-1));
         offlinePanel.setVisibility(View.GONE);
-        notifications.setOnClickListener(v->notificationSettings());
         setContentView(root);
         // Upgrade existing 2h subscriptions automatically without resetting the user's choices.
         syncDiscoverySchedules();
@@ -152,8 +138,10 @@ public final class MainActivity extends Activity {
             }
             @Override public void onPageFinished(WebView view,String url){
                 if(!mainPageFailed && isAppHomeUrl(url))showOnline();
-                if(url!=null && url.startsWith(HOME)){
+                if(isAppHomeUrl(url)){
                     useTwoLineBreakingNews();
+                    installProfileNotificationControl();
+                    showFirstRunAlertsPrompt();
                     deliverChatToken();
                 }
             }
@@ -402,6 +390,10 @@ public final class MainActivity extends Activity {
                    !"uapdisclosuredesk.com".equals(origin.getHost()))return;
                 try{
                     JSONObject data=new JSONObject(message.getData());
+                    if("open_notification_settings".equals(data.optString("type"))){
+                        runOnUiThread(this::notificationSettings);
+                        return;
+                    }
                     if(!"account".equals(data.optString("type")))return;
                     String id=data.optString("user_id","");
                     boolean signedIn=id.matches("(?i)[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}");
@@ -479,6 +471,54 @@ public final class MainActivity extends Activity {
           +"})()";
         web.evaluateJavascript(script,null);
     }
+
+    private void installProfileNotificationControl(){
+        // This item exists ONLY in the Android APK's in-site Profile screen;
+        // it does not add a floating bell or alter the public website's Profile.
+        if(!WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)||web==null)return;
+        String javascript="(function(){try{"
+          +"var heading=document.querySelector('#profilePage .dd-profile-heading');"
+          +"if(!heading||document.getElementById('ddAndroidAlertsSettings'))return;"
+          +"var panel=document.createElement('div');panel.id='ddAndroidAlertsSettings';"
+          +"panel.className='dd-profile-card dd-android-alert-settings';"
+          +"panel.style.cssText='margin:12px 0;padding:14px;border:1px solid #496477;border-radius:12px;background:#112c3c';"
+          +"var title=document.createElement('strong');title.textContent='App notifications';"
+          +"title.style.cssText='display:block;color:#f0d4a0;margin-bottom:5px';"
+          +"var note=document.createElement('p');note.textContent='News and video alerts. Chat push notifications are being prepared.';"
+          +"note.className='muted small';note.style.margin='4px 0 11px';"
+          +"var action=document.createElement('button');action.type='button';action.className='outline';"
+          +"action.textContent='Notification settings';action.setAttribute('aria-label','Open Android notification settings');"
+          +"action.style.cssText='min-height:44px;padding:10px 15px';"
+          +"action.addEventListener('click',function(){"
+          +"if(window.DDAndroid&&typeof window.DDAndroid.postMessage==='function')"
+          +"window.DDAndroid.postMessage(JSON.stringify({type:'open_notification_settings'}));"
+          +"});panel.append(title,note,action);heading.insertAdjacentElement('afterend',panel);"
+          +"}catch(e){}})()";
+        web.evaluateJavascript(javascript,null);
+    }
+    private void showFirstRunAlertsPrompt(){
+        SharedPreferences prefs=getSharedPreferences(DiscoveryWorker.PREFS,MODE_PRIVATE);
+        if(firstRunAlertsPromptShown || prefs.getBoolean(FIRST_RUN_ALERTS_CHOICE,false)
+            || isFinishing() || mainPageFailed)return;
+        firstRunAlertsPromptShown=true;
+        new AlertDialog.Builder(this)
+          .setTitle("Keep up with new discoveries?")
+          .setMessage("Enable all currently available alerts: major UAP news and newly discovered videos. News is checked approximately every 30 minutes, videos every 2 hours; Android may delay updates to save battery. Private Chat push alerts are not ready yet. You can change your choices anytime in Profile > App notifications.")
+          .setNegativeButton("Not now",(dialog,which)->
+              prefs.edit().putBoolean(FIRST_RUN_ALERTS_CHOICE,true).apply())
+          .setPositiveButton("Enable available alerts",(dialog,which)->{
+              prefs.edit().putBoolean(FIRST_RUN_ALERTS_CHOICE,true)
+                .putBoolean("news",true).putBoolean("videos",true)
+                .putBoolean("chats",false).apply();
+              syncDiscoverySchedules();
+              if(Build.VERSION.SDK_INT>=33 &&
+                 checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED)
+                  requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS},712);
+          })
+          .setOnCancelListener(dialog->prefs.edit().putBoolean(FIRST_RUN_ALERTS_CHOICE,true).apply())
+          .show();
+    }
+
     private void notificationSettings(){
         SharedPreferences prefs=getSharedPreferences(DiscoveryWorker.PREFS,MODE_PRIVATE);
         LinearLayout choices=new LinearLayout(this);
@@ -531,6 +571,19 @@ public final class MainActivity extends Activity {
         status.setTextSize(12);
         status.setPadding(0,dp(10),0,dp(8));
         choices.addView(status);
+        Button systemPermissions=new Button(this);
+        systemPermissions.setAllCaps(false);
+        systemPermissions.setText("Android notification permission");
+        choices.addView(systemPermissions);
+        systemPermissions.setOnClickListener(v->{
+            try{
+                Intent settingsIntent=new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+                settingsIntent.putExtra(Settings.EXTRA_APP_PACKAGE,getPackageName());
+                startActivity(settingsIntent);
+            }catch(Exception error){
+                startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,Uri.parse("package:"+getPackageName())));
+            }
+        });
         Button battery=new Button(this);
         battery.setAllCaps(false);
         battery.setText("Battery settings / notification help");
