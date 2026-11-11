@@ -62,10 +62,28 @@ public final class ResearchLinkParser {
             if (parsed.getPort()>65535) return null;
             String normalizedHost=host.toLowerCase(Locale.ROOT);
             if (normalizedHost.equals("localhost") || normalizedHost.endsWith(".localhost")) return null;
+            // Never retain credential-bearing auth callbacks or token fragments
+            // in the device research list. They are not research sources.
+            if (looksLikeCredentialLink(parsed.getRawQuery()) ||
+                looksLikeCredentialLink(parsed.getRawFragment())) return null;
             return url;
         } catch (URISyntaxException | IllegalArgumentException exception) {
             return null;
         }
+    }
+
+    private static boolean looksLikeCredentialLink(String rawParams) {
+        if (rawParams==null || rawParams.isEmpty()) return false;
+        String source=rawParams.toLowerCase(Locale.ROOT);
+        for (String param:source.split("[&;]")) {
+            String key=param.split("=",2)[0];
+            if (key.equals("access_token") || key.equals("refresh_token") ||
+                key.equals("id_token") || key.equals("auth_token") ||
+                key.equals("session_token") || key.equals("api_key") ||
+                key.equals("client_secret") || key.equals("password") ||
+                key.equals("authorization_code") || key.equals("code")) return true;
+        }
+        return false;
     }
 
     private static String cleanTitle(String text, String url) {
