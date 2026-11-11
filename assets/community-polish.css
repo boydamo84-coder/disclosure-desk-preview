@@ -1006,3 +1006,35 @@ dialog.dd-confirm-dialog::backdrop{background:rgba(1,10,17,.79);backdrop-filter:
  }
  #discussionsPage .dd-community-subject-row{scroll-snap-align:start}
 }
+
+/* M89 Subjects drawer; the existing cards, interactions and star storage remain the source of truth. */
+#discussionsPage .dd-community-menu-toggle{margin-left:auto;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:42px;padding:8px 13px;border:1px solid #6e795f;border-radius:22px;background:#1a3540;color:#ecd2a0;font-size:12px;font-weight:750;white-space:nowrap}
+#discussionsPage .dd-community-menu-toggle span:first-child{font-size:22px;line-height:1}
+#discussionsPage .dd-community-menu-toggle:hover{background:#2b4750;border-color:#e0bc7a}
+#discussionsPage .dd-community-subjects-drawer:not([open]){display:none!important}
+#discussionsPage .dd-community-subjects-drawer[open]{display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;width:min(92vw,390px);height:100dvh;max-height:100dvh;max-width:92vw;margin:0;padding:0;border:1px solid #435e68;border-radius:0 17px 17px 0;background:#0d2433;color:#e6edf2;box-shadow:12px 0 40px #0009;overflow:hidden}
+#discussionsPage .dd-community-subjects-drawer::backdrop{background:rgba(3,10,18,.76);backdrop-filter:blur(3px)}
+#discussionsPage .dd-community-drawer-head{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;padding:calc(22px + env(safe-area-inset-top,0px)) 18px 16px;border-bottom:1px solid #375367;background:#102d3e}
+#discussionsPage .dd-community-drawer-head h3{color:#e9cf9d;font-size:23px;margin:3px 0 5px}
+#discussionsPage .dd-community-drawer-head p{font-size:12px;line-height:1.5;color:#a8bfcb;margin:0}
+#discussionsPage .dd-community-drawer-close{flex:none;min-height:42px;min-width:42px;border:1px solid #456173;border-radius:50%;background:#193947;color:#e4d0ac;font-size:17px}
+#discussionsPage .dd-community-drawer-scroll{flex:1 1 auto;min-height:0;padding:17px 14px 24px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#9f8763 #112d3b}
+#discussionsPage .dd-community-drawer-search-label{display:block;font-size:11px;color:#d3c198;font-weight:750;margin:5px 4px 6px}
+#discussionsPage #ddForumDrawerSearch{font-size:14px;min-height:44px;background:#122f40;border-color:#496275;margin:0 0 16px}
+#discussionsPage .dd-community-drawer-favourites{margin:0 0 17px;padding:0 0 13px;border-bottom:1px solid #355062}
+#discussionsPage .dd-community-drawer-favourites[hidden]{display:none!important}
+#discussionsPage .dd-community-drawer-favourites h4{font-size:12px;color:#f0d9a7;margin:0 4px 8px}
+#discussionsPage .dd-community-drawer-list,#discussionsPage #ddForumDrawerFavouriteNav{display:grid;gap:5px}
+#discussionsPage .dd-community-drawer-subject-row{display:flex;align-items:center;gap:5px;min-width:0;border:1px solid #2b4859;border-radius:11px;background:#123041;padding:4px 5px}
+#discussionsPage .dd-community-drawer-subject-row:has([aria-current=page]){border-color:#b49a65;background:#234451}
+#discussionsPage .dd-community-drawer-subject-link{min-width:0;flex:1 1 auto;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:0;background:transparent;color:#dfebef;font-size:13px;font-weight:650;line-height:1.4;padding:9px 8px;text-align:left;overflow-wrap:anywhere}
+#discussionsPage .dd-community-drawer-subject-link:hover{color:#efd5a4}
+#discussionsPage .dd-community-drawer-subject-count{color:#91afbd;font-size:10px;font-weight:400}
+#discussionsPage .dd-community-drawer-star{min-height:42px;min-width:40px;flex:0 0 40px;border:1px solid transparent;border-radius:9px;background:transparent;color:#9eafba;font-size:22px;padding:2px}
+#discussionsPage .dd-community-drawer-star.is-favourite,#discussionsPage .dd-community-drawer-star[aria-pressed=true]{color:#f1cc7f}
+#discussionsPage .dd-community-drawer-star:hover{background:#294a55}
+#discussionsPage .dd-community-drawer-foot{padding:11px 14px calc(13px + env(safe-area-inset-bottom,0px));border-top:1px solid #385263;background:#0e2a3a;display:flex;align-items:center;gap:7px;justify-content:space-between}
+#discussionsPage .dd-community-drawer-foot .muted{font-size:10px;line-height:1.4}
+#discussionsPage .dd-community-drawer-foot button{min-height:39px;white-space:nowrap;font-size:11px;border-radius:20px;padding:8px 12px}
+@media(max-width:759px){#discussionsPage .dd-community-subjects{display:none!important}#discussionsPage .dd-community-drawer-head{padding-top:calc(19px + env(safe-area-inset-top,0px))}}
+@media(max-width:430px){#discussionsPage .dd-community-menu-toggle{min-width:44px;padding:7px}#discussionsPage .dd-community-menu-toggle span:last-child{display:none}}
