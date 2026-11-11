@@ -31,7 +31,7 @@ for(const [path,oldVersion] of [
  assert(html.includes(url),'Next website release busts cache for '+path);
  assert.equal(html.split(url).length,2,'Exactly one public URL for '+path);
 }
-for(const selector of ['#newsGrid','#archiveList','#ddWatchRead','#clips','.dd-comment-card.dd-comment-nested']){
+for(const selector of ['#newsGrid','.dd-archive-card','#ddWatchRead','#clips','.dd-comment-card.dd-comment-nested']){
  assert(style.includes(selector),'Shared mobile website layout and nested reply CSS for '+selector);
 }
 assert(style.includes('width:calc(100% - var(--dd-comment-indent))!important'),'Nesting actually reduces card width');
