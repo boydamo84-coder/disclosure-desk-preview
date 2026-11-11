@@ -13,7 +13,7 @@ for(const f of m.files){
  assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),f.sha256,f.path);
  assert.doesNotMatch(f.path,/(^|\/)(?:scripts|supabase|finance_local|finance-review|finance|android-test|docs|\.github)(\/|$)|\.(?:zip|sql|py|md|env)$/i);
 }
-for(const f of ['index.html','guide.html','sources.html','research/wne.html','research/index.html',
+for(const f of ['index.html','guide.html','sources.html','terms.html','research/wne.html','research/index.html',
  'research/research-site-nav.js','research/google-drive.js','research/google-drive-config.js',
  'research/vendor-jszip-3.10.1.js','research/vendor-docx-9.5.1.js','research/vendor-dompurify-3.4.17.js','research/vendor-mammoth-1.12.3.js','research/docx-import-worker.js',
  'assets/community-polish.css','assets/media-submissions.js','assets/community-test-config.js','assets/profile-private-chat.js',

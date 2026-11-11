@@ -3,7 +3,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const {chromium}=require('playwright-core');
 const BASE='http://127.0.0.1:4173';
-const PAGES=['/index.html','/guide.html','/sources.html','/community-rules.html','/privacy.html',
+const PAGES=['/index.html','/guide.html','/sources.html','/community-rules.html','/privacy.html','/terms.html',
  '/research-edition.html','/research/guest-preview.html','/research/index.html',
  '/research/research-bible.html'];
 (async()=>{

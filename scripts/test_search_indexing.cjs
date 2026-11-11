@@ -6,7 +6,7 @@ const origin='https://uapdisclosuredesk.com';
 const publicRoutes=[
  ['/','index.html'],['/research-edition','research-edition.html'],
  ['/sources','sources.html'],['/guide','guide.html'],
- ['/community-rules','community-rules.html'],['/privacy','privacy.html']
+ ['/community-rules','community-rules.html'],['/privacy','privacy.html'],['/terms','terms.html']
 ];
 const robots=read('robots.txt'),sitemap=read('sitemap.xml');
 assert.match(robots,/User-agent:\s*\*/);
@@ -14,7 +14,7 @@ assert.match(robots,/Allow:\s*\//);
 assert.ok(robots.includes('Sitemap: '+origin+'/sitemap.xml'));
 const listed=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
 assert.deepEqual(listed,publicRoutes.map(([route])=>origin+route),
- 'Use only the six live clean, canonical public routes, each exactly once');
+ 'Use only reviewed clean, canonical public routes, each exactly once');
 assert.match(sitemap,/<urlset xmlns="http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9">/);
 assert.doesNotMatch(sitemap,/\/research\/|\/data\/|\/api\/|\/admin\/|\/netlify\//);
 assert.ok(listed.every(url=>!url.includes('?')&&!url.includes('#')&&!url.endsWith('.html')));
@@ -80,4 +80,4 @@ assert.doesNotMatch(main,/fetch\(\s*['"]\/\.netlify\/functions\/interests\b/i,
  'Do not request the never-deployed /interests Netlify function');
 assert.match(main,/interestStories=feedLive\?localInterestMatches\(stories,myInterests\):\[\]/,
  'Keep sourced News Interests matching instead of disabling the feature');
-console.log('PASS M36 Search: 6 clean sitemap URLs, consistent canonicals and schema, direct internal links, protected W.NE noindex, no search privacy regressions');
+console.log('PASS Search: 7 clean sitemap URLs, consistent canonicals and schema, direct internal links, protected W.NE noindex, no search privacy regressions');

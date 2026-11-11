@@ -1,6 +1,14 @@
 # Disclosure Desk — MASTER HANDOVER
 _Last updated: 11 November 2026 (Europe/London)_
 
+## M88 consolidated release candidate — News reply fix + legal Terms (11 November 2026)
+
+- **STAGED, NO DEPLOY:** Branch `fix/m88-consolidated-news-replies-terms-nov11` merges the previously verified but unpublished `fix/m87-news-reply-indent-nov11` (News reply indentation plus the already-applied live ten-posts-per-ten-minutes Supabase cap) with `fix/m87-terms-of-service-nov11` (Terms of Service). M86 is still the public Netlify website. Do not publish or move `production` without the owner's release approval.
+- **Terms:** New `terms.html` at planned canonical `https://uapdisclosuredesk.com/terms`. Links from site footer, Explore, Privacy Policy, Community Rules, Guide and Research Edition; public allowlist, sitemap, static and Chromium auditors, canonical SEO check and dedicated Terms contract. Clear disclosures cover community, ownership, sources, moderation and the *optional manual* Google Drive Word-copy feature (not automatic complete-library recovery).
+- **Preserved from M87 News branch:** Existing News-specific indent CSS correction, M87 stylesheet cache key and four-viewport News reply regression, plus `supabase/migrations/20261111141217_dd_comment_burst_limit_10.sql`. The ten-in-ten-minute cap has already been applied and checked in live Supabase according to the M87 handover; this consolidated website release does not reapply the SQL.
+- **Release gate:** Green automated NO DEPLOY CI required for exact consolidated SHA, then owner review for accuracy of Terms and mandatory business/contact information before publishing. Verify both News thread nesting and public `/terms` on Netlify with a controlled single production deploy and real Google Drive OAuth sign-in/Word backup before marking cloud integration generally available. Do not put the not-yet-live Terms URL in Google OAuth Branding until publication.
+
+
 ## M87 News reply indentation and comment posting limit — 11 November 2026
 
 - The owner's signed-in Samsung screenshot showed the correct reply target but flush-left News rows. The News-only selector in the shared compact card reset had higher specificity than the nested row, overriding both its margin and thread guide. Removed the redundant selector and added a new stylesheet cache key. Discussions continues to open comments automatically.

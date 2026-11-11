@@ -2,7 +2,7 @@
 // Parse executable inline JS in the actual allowlisted HTML. External-module
 // checks alone do not protect the homepage or embedded editor from parse errors.
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
-const pages=['index.html','guide.html','sources.html','privacy.html','community-rules.html','research-edition.html',
+const pages=['index.html','guide.html','sources.html','privacy.html','community-rules.html','terms.html','research-edition.html',
  ...fs.readdirSync('research').filter(p=>p.endsWith('.html')).map(p=>'research/'+p)];
 let count=0;
 for(const file of pages){
