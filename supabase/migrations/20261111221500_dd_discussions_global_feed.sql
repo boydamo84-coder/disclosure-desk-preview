@@ -16,7 +16,7 @@ as $function$
 begin
  if coalesce(p_limit,0) not between 1 and 20
   or coalesce(p_offset,-1) not between 0 and 100000
-  or p_sort not in ('popular','new','top')
+  or coalesce(p_sort,'') not in ('popular','new','top')
  then raise exception 'Invalid global discussion feed query'; end if;
  return query
  with visible as (
