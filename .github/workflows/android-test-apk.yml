@@ -1,8 +1,8 @@
-name: Build Disclosure Desk M77 PRIVATE Android APK (NO Netlify)
+name: Build Disclosure Desk M78 PRIVATE Android APK (NO Netlify)
 on:
   workflow_dispatch:
   push:
-    branches: [android/m77-alert-settings-chat-nested-replies-nov11]
+    branches: [android/m78-profile-notification-settings-nov11]
     paths:
       - 'android-test/**'
       - 'assets/community-polish.css'
@@ -10,6 +10,8 @@ on:
       - 'assets/case-discussions.js'
       - 'scripts/test_m77_android_mobile_contract.cjs'
       - 'scripts/test_m77_android_mobile_chromium.cjs'
+      - 'scripts/test_m78_profile_notifications_contract.cjs'
+      - 'scripts/test_m78_profile_notifications_chromium.cjs'
       - 'scripts/stage_android_dev_snapshot.cjs'
       - 'scripts/test_android_dev_snapshot_contract.cjs'
       - 'scripts/build_public_release.cjs'
@@ -38,6 +40,7 @@ jobs:
           node scripts/test_android_dev_snapshot_contract.cjs
           node scripts/test_android_m75_source_contract.cjs
           node scripts/test_m77_android_mobile_contract.cjs
+          node scripts/test_m78_profile_notifications_contract.cjs
       - name: Verify mobile comment threading and full-screen Chat in real Chromium (NO deploy)
         run: |
           npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
@@ -50,6 +53,7 @@ jobs:
             sleep 1
           done
           node scripts/test_m77_android_mobile_chromium.cjs
+          node scripts/test_m78_profile_notifications_chromium.cjs
       - name: Install Android SDK
         run: |
           SDKMANAGER="${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin/sdkmanager"
@@ -73,7 +77,7 @@ jobs:
       - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M77-PRIVATE-BETA
+          name: DisclosureDesk-M78-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
