@@ -27,8 +27,10 @@ for(const needle of [
  '.setNeutralButton("Clear all"',
  'The app',
 ])if(needle!=='The app')assert(nonempty.includes(needle),'Missing saved-link UI: '+needle);
+// The Clear All button deliberately opens a *separate* confirmation dialog
+// with setMessage; only the saved-items list builder must avoid that conflict.
 const builder=nonempty.slice(nonempty.indexOf('new AlertDialog.Builder(this)'),
-  nonempty.indexOf('.show();',nonempty.indexOf('new AlertDialog.Builder(this)'))+8);
+  nonempty.indexOf('.setNeutralButton("Clear all"'));
 assert(!builder.includes('.setMessage('),
  'CRITICAL: setMessage suppresses setItems rows in Android AlertDialog');
 assert(builder.indexOf('.setCustomTitle(header)')<builder.indexOf('.setItems(labels,'),
