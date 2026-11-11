@@ -1,6 +1,14 @@
 # Disclosure Desk — MASTER HANDOVER
 _Last updated: 11 November 2026 (Europe/London)_
 
+## Production brief — Disclosure Desk promotional video / Work-mode handoff (11 November 2026)
+
+**PLANNED ONLY; NO VIDEO HAS YET BEEN GENERATED, RENDERED OR PUBLISHED.** Owner asked whether ChatGPT Work could make a genuine, fluid **TV-style commercial** for both Disclosure Desk website and upcoming Android app, rather than a static screenshot slideshow. This is a **good candidate for Work mode**, because it involves current page/app review, interactive capture, cross-application video editing and render QA. Do not claim that Work natively includes a full cinematic video generator or guaranteed MP4 export; actual video editing/rendering capabilities must be checked within the available environment. Official OpenAI Help Center indicates Work is intended for supported browsers/files/apps and creative artifact orchestration, while the Sora app/web/API were discontinued during 2026.
+
+**Detailed approved planning/handoff file created:** [`PROMO_VIDEO_WORK_BRIEF.md`](https://github.com/boydamo84-coder/disclosure-desk-preview/blob/android/m81-native-research-inbox-nov11/PROMO_VIDEO_WORK_BRIEF.md). The brief contains a **30-second 1080p 16:9 promo + 9:16 social cut**, documentary/broadcast navy/gold treatment, animated map and investigation UI, real screen motion, private chat redaction, licensing/rights requirements, and a paste-ready Work prompt. Do not substitute pan/zoom of still screenshots for a genuinely moving advert; if no render tool/editor exists, prepare editable assets and explain the limitation. Present the app as **upcoming** until Google Play publication is independently verified; do not claim that a native feature is released before the owner has device-tested it.
+
+**Important boundaries:** The website staging branch `fix/m80-web-mobile-reply-parity-nov11` remains tested and **undeployed**; Android development branch `android/m81-native-research-inbox-nov11` contains the private APK, with Research Inbox **not yet accepted on Samsung**. Promo planning does not grant approval to publish, upload anything, change accounts, spend on assets, expose private user data or make Netlify/Play changes. For Work, read this handover and `PROMO_VIDEO_WORK_BRIEF.md` first, capture only approved, truthful UI, and update both files with any verified deliverables.
+
 ## Milestone 81 — Android-native Share-to-Research Inbox and Google Play policy review (11 November 2026)
 
 **M81 FULL ANDROID PRIVATE APK BUILD AND ALL CI CHECKS SUCCESSFUL; APK FILE INTEGRITY AND EMBEDDED WEBSITE SNAPSHOT INDEPENDENTLY VERIFIED. SAMSUNG M81 ON-DEVICE ACCEPTANCE PENDING. NO NETLIFY, PRODUCTION OR PLAY STORE PUBLISH.**
