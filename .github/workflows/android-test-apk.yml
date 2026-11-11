@@ -1,10 +1,13 @@
-name: Build Disclosure Desk Android TEST APK
+name: Build Disclosure Desk M75 PRIVATE Android APK (NO Netlify)
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [android/m75-private-beta-integration-nov11]
     paths:
       - 'android-test/**'
+      - 'scripts/stage_android_dev_snapshot.cjs'
+      - 'scripts/test_android_dev_snapshot_contract.cjs'
+      - 'scripts/build_public_release.cjs'
       - '.github/workflows/android-test-apk.yml'
 permissions:
   contents: read
@@ -17,26 +20,41 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare private dev website from approved public allowlist (NO deploy)
+        run: |
+          node scripts/test_m73_comment_owner_contract.cjs
+          node scripts/test_m74_confirmation_contract.cjs
+          node scripts/test_android_news_cadence_20261108.cjs
+          node scripts/build_public_release.cjs
+          node scripts/stage_android_dev_snapshot.cjs
+          node scripts/test_android_dev_snapshot_contract.cjs
       - name: Install Android SDK
         run: |
-          SDKMANAGER="${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin/sdkmanager"
+          SDKMANAGER="\${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin/sdkmanager"
           if [ ! -x "$SDKMANAGER" ]; then
-            SDKMANAGER=$(find "${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools" -type f -name sdkmanager | head -n 1)
+            SDKMANAGER=$(find "\${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools" -type f -name sdkmanager | head -n 1)
           fi
           test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
           yes | "$SDKMANAGER" --licenses >/dev/null || true
-          "$SDKMANAGER" "platforms;android-35" "build-tools;35.0.0"
+          "$SDKMANAGER" "platforms;android-36" "build-tools;35.0.0"
       - name: Install Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.9'
-      - name: Build unsigned test APK
+          gradle-version: '8.13'
+      - name: Build parallel-install private beta APK
         working-directory: android-test
         run: gradle --no-daemon :app:assembleDebug
-      - name: Publish installable test APK
+      - name: Verify private beta output
+        run: |
+          test -s android-test/app/build/outputs/apk/debug/app-debug.apk
+          echo "Private APK built with embedded branch website. No Netlify deployment."
+      - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-Android-TEST
+          name: DisclosureDesk-M75-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
