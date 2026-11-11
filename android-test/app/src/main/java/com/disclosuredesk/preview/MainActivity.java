@@ -664,6 +664,12 @@ public final class MainActivity extends Activity {
         source.setTextSize(12);
         source.setPadding(0,dp(8),0,0);
         header.addView(source);
+        TextView safety=new TextView(this);
+        safety.setText("Links open in your usual browser, not as trusted Disclosure Desk pages.");
+        safety.setTextSize(12);
+        safety.setTextColor(Color.rgb(184,196,210));
+        safety.setPadding(0,dp(8),0,0);
+        header.addView(safety);
         new AlertDialog.Builder(this)
           .setCustomTitle(header)
           .setItems(new String[]{"Rename","Open in browser","Copy link","Remove"},(dialog,which)->{
