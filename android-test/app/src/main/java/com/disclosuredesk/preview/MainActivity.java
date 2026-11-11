@@ -583,9 +583,27 @@ public final class MainActivity extends Activity {
             String host=Uri.parse(item.url).getHost();
             labels[i]=item.title+"\n"+(host==null?item.url:host);
         }
+        // Android AlertDialog cannot show a message AND a setItems list:
+        // setMessage takes over the content area and silently hides the rows.
+        // A custom title keeps the important device-only notice above the
+        // actual native, selectable link list (including with one saved item).
+        LinearLayout header=new LinearLayout(this);
+        header.setOrientation(LinearLayout.VERTICAL);
+        header.setPadding(dp(24),dp(18),dp(24),dp(14));
+        TextView heading=new TextView(this);
+        heading.setText("Research Inbox · "+entries.size()+" saved");
+        heading.setTextColor(Color.rgb(242,215,162));
+        heading.setTextSize(21);
+        heading.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
+        header.addView(heading);
+        TextView privacy=new TextView(this);
+        privacy.setText("Device only · not synced between accounts. Tap a source to open, copy or remove it.");
+        privacy.setTextColor(Color.rgb(224,229,236));
+        privacy.setTextSize(14);
+        privacy.setPadding(0,dp(9),0,0);
+        header.addView(privacy);
         new AlertDialog.Builder(this)
-          .setTitle("Research Inbox · "+entries.size()+" saved")
-          .setMessage("Device only · not synced between accounts. Tap a source to open, copy or remove it.")
+          .setCustomTitle(header)
           .setItems(labels,(dialog,index)->showSavedResearchLink(entries.get(index)))
           .setNegativeButton("Close",null)
           .setNeutralButton("Clear all",(dialog,which)->
