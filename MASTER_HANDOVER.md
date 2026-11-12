@@ -1,5 +1,15 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 11 November 2026 (Europe/London)_
+_Last updated: 12 November 2026 (Europe/London)_
+
+## M90 — two-tab Discussions overview, staged for 29 November 2026 release (12 Nov 2026)
+
+- **STATUS: DEVELOPMENT BRANCH ONLY. DO NOT DEPLOY, DO NOT CHANGE `production`, DO NOT TRIGGER NETLIFY, DO NOT APPLY DATABASE MIGRATIONS.** Owner is out of monthly Netlify credits and explicitly deferred the next big site deployment to **29 November 2026**. This is a planned target, not a scheduled deployment.
+- Feature branch: `fix/m90-discussions-feed-sections-tabs-nov12`, based exactly on published M89 GitHub production SHA `b02d21d720b84504fba86705aac4455f0206731b`. This update changes the UI only; uses the existing live `dd_discussions_global_feed` and `dd_discussions_sections` read-only RPCs. No new backend schema, posts or users.
+- Added two mutually exclusive accessible overview tabs, **Feed (default)** and **Sections**. Feed contains only the cross-board Popular/New/Top dropdown, existing post cards/action rails and Load More; Sections contains only Search, New Subject, existing section cards/stars and creation dialog. The long combined screen is gone. `☰ Subjects` drawer stays available from both and continues to auto-update its list and account-scoped favourites. Desktop subject sidebar and existing Community context remain.
+- Each account/device remembers its chosen overview via `localStorage` key `dd-forum-overview-tab-v1:` + viewer ID (guest separate). Opening a post from Feed returns to Feed (with automatic nested comments unchanged), while opening from Sections returns to Sections. The tab bar hides while viewing a section/post and reappears when returning to overview. Arrow-key / Home / End navigation and selected-tab ARIA supported.
+- Original section cards, votes, board stars, sharing, owner edit/delete, reporting, moderation, comments and conversation data are **untouched**; the change is layout and view-state only. Existing M89 source/UI tests adjusted solely to click Sections before looking for subject directory cards; URL script/style cache keys append `&m90=tabs` while preserving prior M80/M86/M89 prefixes to avoid regressions.
+- Pending: exact-SHA GitHub NO DEPLOY source + real Chromium checks of Feed/Sections switching at 320/393/820/1280px, account preference persistence, return navigation, subjects drawer, social regression. Once passed, leave M90 staged until the planned consolidated release around 29 Nov, after owner gives separate deploy approval. Keep handover updated as milestones complete.
+
 
 ## M89 auto-updating Discussions subjects drawer — 11 November 2026
 
