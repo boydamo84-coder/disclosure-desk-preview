@@ -2576,6 +2576,7 @@ function ddBindArchiveActions(root){
  root.querySelectorAll('[data-compare-archive]').forEach(b=>b.onclick=()=>{if($('archiveCaseDialog').open)$('archiveCaseDialog').close();ddCompareSelect(b.dataset.compareArchive)});
  root.querySelectorAll('[data-discuss-archive]').forEach(b=>b.onclick=()=>{if($('archiveCaseDialog').open)$('archiveCaseDialog').close();window.ddOpenCaseDiscussion?.('archive:'+String(b.dataset.discussArchive).slice(0,170),'Archive Discussion')});
 }
+const ddArchiveCaseDialog=$('archiveCaseDialog');
 function archiveCaseOpen(id){
  const r=historicalRecords.find(x=>String(x.id)===String(id));if(!r)return;
  const related=archiveConnections(r);const media=archiveMediaLinks(r);const body=$('archiveCaseBody');
@@ -2618,9 +2619,27 @@ ddCaseHistoryHtml(r.id)+
  refreshBookmarkStars();
  body.querySelectorAll('[data-archive-related]').forEach(b=>b.onclick=()=>archiveCaseOpen(b.dataset.archiveRelated));
  body.querySelectorAll('[data-archive-save-media]').forEach(b=>b.onclick=()=>addInvestigationLink(b.dataset.mediaLabel,b.dataset.archiveSaveMedia));
- const dlg=$('archiveCaseDialog');if(!dlg.open)dlg.showModal();
+ if(!ddArchiveCaseDialog.open)ddArchiveCaseDialog.showModal();
+ const caseId=String(r.id),previousCaseId=history.state?.ddArchiveCaseId;
+ if(previousCaseId!==caseId){
+  const state={...history.state,ddArchiveCaseId:caseId};
+  // Related cases replace the current detail so one Back returns to the list.
+  if(previousCaseId)history.replaceState(state,'');
+  else history.pushState(state,'');
+ }
 }
-$('archiveCaseClose').onclick=()=>$('archiveCaseDialog').close();
+$('archiveCaseClose').onclick=()=>ddArchiveCaseDialog.close();
+ddArchiveCaseDialog.addEventListener('close',()=>{
+ // Close, Escape and native dismiss all consume the same case entry.
+ if(!ddArchiveCaseDialog.open&&history.state?.ddArchiveCaseId)history.back();
+});
+window.addEventListener('popstate',event=>{
+ const caseId=event.state?.ddArchiveCaseId;
+ if(caseId){
+  if($('archivePage').classList.contains('hidden'))navigateTo('archivePage');
+  archiveCaseOpen(caseId);
+ }else if(ddArchiveCaseDialog.open)ddArchiveCaseDialog.close();
+});
 function renderHistoricalArchive(){
  const q=($('archiveSearch').value||'').trim().toLowerCase();
  const selectedYear=$('archiveYear').value,kind=$('archiveType').value,category=$('archiveCategory').value;
@@ -2768,6 +2787,8 @@ function ddShowArchiveData(records,curated){
  renderHistoricalArchive();
  renderArchiveSatelliteCases();
  ddSetupCompareCases();
+ const openCase=history.state?.ddArchiveCaseId;
+ if(openCase&&!ddArchiveCaseDialog.open&&!$('archivePage').classList.contains('hidden'))archiveCaseOpen(openCase);
  // Nonessential personalised panels may fail without masking public cases.
  try{ddRecordCaseUpdates();renderResearchDashboard()}catch(e){console.warn('Archive research dashboard:',e)}
  if($('mapViewMode')?.value==='archive'){refreshArchiveMapYears();renderMarkers()}
