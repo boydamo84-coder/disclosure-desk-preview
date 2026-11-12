@@ -751,11 +751,16 @@
    <div class="dd-community-drawer-foot"><span id="ddForumDrawerStatus" class="muted small" role="status" aria-live="polite"></span><button id="ddForumDrawerRefresh" type="button" class="outline" aria-label="Refresh discussion subjects">↻ Refresh</button></div>
   </dialog>
  <p id="ddForumStatus" class="muted small" role="status" aria-live="polite"></p>
+ <div id="ddForumViewTabs" class="dd-community-view-tabs" role="tablist" aria-label="Discussions overview views">
+  <button id="ddForumFeedTab" class="dd-community-view-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="ddForumFeedView" tabindex="0">Feed</button>
+  <button id="ddForumSectionsTab" class="dd-community-view-tab" type="button" role="tab" aria-selected="false" aria-controls="ddForumDirectoryView" tabindex="-1">Sections</button>
+ </div>
  <div class="dd-community-grid">
  <aside class="dd-community-subjects" aria-label="Discussion subjects"><h3>Subjects</h3><div id="ddForumFavouriteGroup" class="dd-community-favourites" hidden><h4>★ Your favourites</h4><nav id="ddForumFavouritesNav" class="dd-community-favourites-nav" aria-label="Your favourite discussion subjects"></nav></div><button id="ddForumBrowseAll" type="button" class="dd-community-all">☷ All subjects</button><nav id="ddForumSubjectNav" class="dd-community-subject-nav" aria-label="Browse discussion subjects"></nav></aside>
  <div class="dd-community-main">
  <div id="ddForumSectionsPane">
-  <section id="ddForumGlobalPanel" class="dd-community-global" aria-labelledby="ddForumGlobalHeading">
+  <section id="ddForumFeedView" role="tabpanel" aria-labelledby="ddForumFeedTab">
+   <section id="ddForumGlobalPanel" class="dd-community-global" aria-labelledby="ddForumGlobalHeading">
    <div class="dd-community-global-head">
     <div><span class="dd-community-eyebrow">FROM EVERY SUBJECT</span><h3 id="ddForumGlobalHeading">Across all discussions</h3><p class="muted small">Discover conversations from every discussion board. Posts remain in their original subjects.</p></div>
     <label for="ddForumGlobalSort" class="dd-community-global-sort">Show
@@ -764,8 +769,10 @@
    </div>
    <div id="ddForumGlobalFeed" class="dd-forum-list" aria-label="Posts from across discussion subjects"></div>
    <div class="dd-community-global-more"><span id="ddForumGlobalStatus" class="muted small" role="status" aria-live="polite"></span><button id="ddForumGlobalLoadMore" class="outline" type="button" hidden>Load more posts</button></div>
+   </section>
   </section>
-  <h3 class="dd-community-directory-heading">Explore discussion subjects</h3>
+  <section id="ddForumDirectoryView" role="tabpanel" aria-labelledby="ddForumSectionsTab" hidden>
+   <h3 class="dd-community-directory-heading">Explore discussion subjects</h3>
   <div class="dd-forum-tools"><label for="ddForumSearch">Search subjects<input id="ddForumSearch" class="field" type="search" placeholder="Find a subject…" maxlength="80"></label><div class="dd-forum-tool-actions"><button id="ddForumRefresh" type="button" class="outline dd-forum-tool-button">↻ <span>Refresh</span></button><button id="ddForumNewSection" type="button" class="action dd-forum-tool-button dd-forum-plus" aria-label="Create a discussion subject" aria-haspopup="dialog" aria-controls="ddForumSectionDialog">＋ New subject</button></div></div>
   <div id="ddForumSections" class="dd-forum-list"></div>
   <dialog id="ddForumSectionDialog" class="dd-forum-dialog" aria-labelledby="ddForumSectionDialogTitle"><div class="dd-forum-dialog-heading"><h3 id="ddForumSectionDialogTitle">Create a discussion subject</h3><button type="button" class="outline dd-forum-dialog-close" data-dd-forum-close aria-label="Close create section">✕</button></div>
@@ -778,6 +785,7 @@
     <p class="dd-forum-form-status" data-dd-form-status hidden role="status" aria-live="polite"></p>
     <div class="dd-forum-dialog-actions"><button type="button" class="outline" data-dd-forum-close>Cancel</button><button type="submit" class="action">Create subject</button></div>
    </form></dialog>
+  </section>
  </div>
  <div id="ddForumThreadPane" hidden>
   <button type="button" class="outline" id="ddForumBackSections">← All subjects</button>
@@ -2888,7 +2896,7 @@ window.ddTickerOpenStory=function(id){
 };
 window.ddTickerRefresh=function(){return loadLiveNews(false)};
 $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
-</script><script defer src="assets/news-ticker.js?v=nov08-v9"></script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/confirmation-dialog.js?v=m74"></script><script defer src="assets/research-hub.js?v=m74-branded-confirm"></script><script defer src="assets/profile-avatars.js?v=m74-branded-confirm"></script><script defer src="assets/member-avatars.js?v=nov08-visible-by-default"></script><script defer src="assets/profile-private-chat.js?v=m49-social-design"></script><script defer src="assets/chat-tab-ui.js?v=nov08-stability-v1"></script><script defer src="assets/community-discussions.js?v=m89-global-popular-feed&drawer=v1"></script><script defer src="assets/discussions-admin.js?v=nov3-forum-admin-staged"></script><script defer src="assets/historical-satellite.js?v=nov08-landsat-handoff-prefill"></script><script defer src="assets/support-site.js?v=ko-fi-disclosuredesk-20261103"></script><script defer src="assets/community-votes.js?v=m74-branded-confirm&m80=web-reply-parity"></script><script defer src="assets/news-article-votes.js?v=m34-news-article-votes"></script><script defer src="assets/case-discussions.js?v=m73-reply-cancel&m80=web-reply-parity"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=m73-reply-cancel&m80=web-reply-parity&m86=on-demand"></script><script defer src="assets/unified-action-rails.js?v=m71-hearing-slot"></script><script defer src="assets/live-hearings.js?v=m71-hearing-actions"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=m71-upcoming-actions"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/media-submissions.js?v=m42"></script><script defer src="assets/watch-read.js?v=m67-actions"></script><style id="dd-m34-profile-news-sticky-polish">
+</script><script defer src="assets/news-ticker.js?v=nov08-v9"></script><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script defer src="cloud-boards.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/community-test-config.js?v=dev-1"></script><script defer src="assets/public-profiles.js?v=nov08-signup-auto-public-v1"></script><script defer src="assets/confirmation-dialog.js?v=m74"></script><script defer src="assets/research-hub.js?v=m74-branded-confirm"></script><script defer src="assets/profile-avatars.js?v=m74-branded-confirm"></script><script defer src="assets/member-avatars.js?v=nov08-visible-by-default"></script><script defer src="assets/profile-private-chat.js?v=m49-social-design"></script><script defer src="assets/chat-tab-ui.js?v=nov08-stability-v1"></script><script defer src="assets/community-discussions.js?v=m90-feed-sections-tabs"></script><script defer src="assets/discussions-admin.js?v=nov3-forum-admin-staged"></script><script defer src="assets/historical-satellite.js?v=nov08-landsat-handoff-prefill"></script><script defer src="assets/support-site.js?v=ko-fi-disclosuredesk-20261103"></script><script defer src="assets/community-votes.js?v=m74-branded-confirm&m80=web-reply-parity"></script><script defer src="assets/news-article-votes.js?v=m34-news-article-votes"></script><script defer src="assets/case-discussions.js?v=m73-reply-cancel&m80=web-reply-parity"></script><script defer src="assets/case-comment-moderation.js?v=dev-1"></script><script defer src="assets/inline-news-comments.js?v=m73-reply-cancel&m80=web-reply-parity&m86=on-demand"></script><script defer src="assets/unified-action-rails.js?v=m71-hearing-slot"></script><script defer src="assets/live-hearings.js?v=m71-hearing-actions"></script><script defer src="assets/live-chat.js?v=nov3-beta1"></script><script defer src="assets/live-schedule.js?v=m71-upcoming-actions"></script><script defer src="assets/witness-community.js?v=nov3-community"></script><script defer src="assets/media-submissions.js?v=m42"></script><script defer src="assets/watch-read.js?v=m67-actions"></script><style id="dd-m34-profile-news-sticky-polish">
 /* M34: group the avatar control with its visible photo rather than leaving
    the thumbnail stranded at the bottom of a tall settings card. */
 #ddAvatarPanel .dd-avatar-layout{
@@ -3491,7 +3499,7 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
 #mapPage #officialFootageSection,#mapPage #mapItems,
 #mapPage #mapArchiveResults{display:none!important}
 </style>
-<link rel="stylesheet" href="assets/community-polish.css?v=m74&m80=web-reply-parity&m86=on-demand&m87=news-reply-indent&m89=global-feed&drawer=v1">
+<link rel="stylesheet" href="assets/community-polish.css?v=m90-feed-sections-tabs">
 </body></html>
 <style id="dd-m60-coverage-style">
 .dd-news-more-coverage{margin:9px 0 5px;border:1px solid #576777;border-radius:9px;background:#101f2c;color:#d8e2e7;font:12px system-ui}
