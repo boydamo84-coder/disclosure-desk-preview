@@ -301,7 +301,9 @@
     "date": "2026-07-14T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "publisherUrl": "https://www.nytimes.com/2026/07/07/world/australia/queensland-australia-space-balls-debris.html"
+    "publisherUrl": "https://www.nytimes.com/2026/07/07/world/australia/queensland-australia-space-balls-debris.html",
+    "imageUrl": "https://static01.nyt.com/images/2026/07/06/world/xp-spacedebris/xp-spacedebris-videoSixteenByNineJumbo1600.jpg",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "b1fb11b777028fca4aba",
