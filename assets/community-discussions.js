@@ -247,7 +247,7 @@ function showDiscussionView(view,persist=false,loadIfNeeded=false){
   const active=next===name;
   button.setAttribute('aria-selected',String(active));
   button.setAttribute('tabindex',active?'0':'-1');
-  button.classList.toggle('is-active',active);
+  button.classList?.toggle?.('is-active',active);
  }
  const tabs=$('ddForumViewTabs');if(tabs)tabs.hidden=!!section;
  if(persist){try{localStorage.setItem(discussionViewKey(),next)}catch{}}
