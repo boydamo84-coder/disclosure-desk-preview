@@ -77,6 +77,7 @@ const BASE='http://127.0.0.1:4173';
   }
   await page.goto(BASE+'/__m86-forum?view=discussionsPage',{waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>!!window.__SocialQA);
+  await page.getByRole('tab',{name:'Sections',exact:true}).click();
   await page.getByRole('button',{name:'Browse subject: UAP evidence',exact:true}).click();
   await page.getByRole('button',{name:/Read discussion: What should we check first/}).click();
   await page.locator('#ddForumReplies .dd-forum-reply-card').first().waitFor({state:'visible'});
