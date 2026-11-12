@@ -7,28 +7,26 @@ const store=read('android-test/app/src/main/java/com/disclosuredesk/preview/Rese
 const parser=read('android-test/app/src/main/java/com/disclosuredesk/preview/ResearchLinkParser.java');
 const workflow=read('.github/workflows/android-test-apk.yml');
 const gradle=read('android-test/app/build.gradle.kts');
+const inbox=read('android-test/app/src/main/java/com/disclosuredesk/preview/ResearchInboxActivity.java');
+const editor=read('android-test/app/src/main/java/com/disclosuredesk/preview/ResearchLinkNameDialog.java');
 for(const part of [
  'ResearchLinkParser.preferSharedSubject(shared,intent.getStringExtra(Intent.EXTRA_SUBJECT))',
  'intent.removeExtra(Intent.EXTRA_SUBJECT);',
- 'getWindow().getDecorView().post(()->promptResearchLinkTitle(savedUrl,true))',
- 'private void promptResearchLinkTitle(String url,boolean afterShare)',
+ 'getWindow().getDecorView().post(()->ResearchLinkNameDialog.show(this,researchInbox,savedUrl,true'
+])assert(activity.includes(part),'Missing safe share prompt: '+part);
+assert(activity.indexOf('researchInbox.add(shared)') < activity.indexOf('ResearchLinkNameDialog.show('),
+ 'Links are saved before naming');
+for(const part of [
  'new InputFilter.LengthFilter(120)',
- 'name.selectAll();',
+ 'name.setSelectAllOnFocus(true)',
  'setOnShowListener',
  'ResearchLinkParser.cleanCustomTitle(name.getText().toString())',
- 'researchInbox.rename(url,proposed)',
- 'afterShare?"Later":"Cancel"',
- 'if(!afterShare)showResearchInbox()'
-])assert(activity.includes(part),'Missing safe name prompt: '+part);
-const list=activity.slice(activity.indexOf('private void showResearchInbox(){'),
- activity.indexOf('private void showSavedResearchLink('));
-assert(list.includes('labels[i]=ResearchLinkParser.formatInboxRow('),'M84 de-duplicated labels preserved');
-assert(list.includes('.setItems(labels,(dialog,index)->showSavedResearchLink(entries.get(index)))'),'Tappable list retained');
-const actions=activity.slice(activity.indexOf('private void showSavedResearchLink('),
- activity.indexOf('private void promptResearchLinkTitle('));
-assert(actions.includes('.setItems(new String[]{"Rename","Open in browser","Copy link","Remove"}'),'Rename visible alongside all existing actions');
-assert(actions.includes('setTextIsSelectable(true)'),'Original URL remains readable and selectable');
-assert(!actions.includes('setMessage(item.url'),'No message/item collision');
+ 'store.rename(url, proposed)',
+ 'afterShare ? "Later" : "Cancel"'
+])assert(editor.includes(part),'Missing safe name editor: '+part);
+assert(inbox.includes('ResearchLinkParser.formatInboxRow(item.title, domain)'),'M84 de-duplicated labels preserved');
+assert(inbox.includes('ResearchLinkNameDialog.show(this, store, item.url, false, this::reload)'),'Rename refreshes the current inbox');
+assert(inbox.includes('source.setTextIsSelectable(true)'),'Original URL remains selectable');
 for(const part of [
  'public synchronized boolean rename(String target,String requestedTitle)',
  'ResearchLinkParser.cleanCustomTitle(requestedTitle)',
@@ -42,10 +40,10 @@ for(const part of [
 assert(!/Supabase|HttpURLConnection|fetch\(|DELETE|cloud backup/.test(store),'Renaming never writes online');
 assert(parser.includes('public static String cleanCustomTitle(String raw)'),'Shared title validation');
 assert(parser.includes('public static Entry preferSharedSubject('),'Optional browser subjects supported');
-assert(gradle.includes('versionCode = 22')&&gradle.includes('0.12.4-m85-private-beta'),'New Android-only beta version');
-assert(workflow.includes('android/m85-research-inbox-rename-nov11'),'Private testing branch');
+assert(gradle.includes('versionCode = 23')&&gradle.includes('0.13.0-m91-private-beta'),'New Android-only beta version');
+assert(workflow.includes('android/m91-research-inbox-polish-nov12'),'Private testing branch');
 assert(workflow.includes('node scripts/test_m85_research_inbox_rename_contract.cjs'),'Contract runs in CI');
-assert(workflow.includes('DisclosureDesk-M85-PRIVATE-BETA'),'M85 artifact name');
+assert(workflow.includes('DisclosureDesk-M91-PRIVATE-BETA'),'M85 artifact name');
 assert(!/\bnetlify deploy\b/i.test(workflow),'No public website publishing');
 assert(read('guide.html').includes('<strong>Rename</strong>'),'Guide reflects four actions');
 console.log('PASS M85 Research Inbox: prompt on share, later rename, URL/age preservation, duplicate-safe title, no network or public deploy.');

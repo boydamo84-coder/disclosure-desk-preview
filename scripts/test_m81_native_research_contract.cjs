@@ -3,6 +3,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs');
 const read=p=>fs.readFileSync(p,'utf8');
 const main=read('android-test/app/src/main/java/com/disclosuredesk/preview/MainActivity.java');
+const inbox=read('android-test/app/src/main/java/com/disclosuredesk/preview/ResearchInboxActivity.java');
 const manifest=read('android-test/app/src/main/AndroidManifest.xml');
 const store=read('android-test/app/src/main/java/com/disclosuredesk/preview/ResearchInboxStore.java');
 const parser=read('android-test/app/src/main/java/com/disclosuredesk/preview/ResearchLinkParser.java');
@@ -18,15 +19,15 @@ for(const p of [
 'open_research_inbox_help','runOnUiThread(this::showResearchInboxHelp)',
 'else if("/guide".equals(path))name="guide.html";',
 'web.loadUrl(HOME+"guide#android-research-inbox")',
-'private void showResearchInbox(){','private void showSavedResearchLink(',
-'ClipboardManager','ClipData.newPlainText','startActivity(open);',
-'Research Inbox · saved links','Links open in your usual browser',
+'private void showResearchInbox(){','new Intent(this,ResearchInboxActivity.class)',
+'Research Inbox · saved links',
 'installProfileNotificationControl();','showFirstRunAlertsPrompt();',
 'PLAY_BILLING_APPROVED = false','Collections.singleton("https://uapdisclosuredesk.com")',
 ])assert(main.includes(p),'Missing native integration: '+p);
 assert(main.includes('if(!isMainFrame || origin==null'),'Bridge must reject third-party frames');
 assert(main.includes('if(receiveSharedResearchLink(intent))return;'),'Share must not reset active WebView');
-assert(main.includes('new AlertDialog.Builder(this)'), 'Native list and actions use Android dialogs');
+for(const p of ['ClipboardManager','ClipData.newPlainText','startActivity(open);','store.list()'])
+ assert(inbox.includes(p),'Missing native inbox action: '+p);
 assert(!main.includes('Uri.parse(intent.getStringExtra('), 'Untrusted external text must never be parsed into an auto-open intent');
 assert.match(manifest,/android\.intent\.action\.SEND/,'Share target registered');
 assert.match(manifest,/android\.intent\.category\.DEFAULT/,'Share target visible to chooser');
@@ -41,14 +42,14 @@ assert(!/supabase|httpURLConnection|fetch\(/i.test(store),'No network/cloud writ
 assert(parser.includes('looksLikeCredentialLink'),'Sensitive shared tokens filtered');
 assert(parser.includes('parsed.getRawUserInfo()!=null'),'No HTTP basic-auth links');
 assert(parser.includes('MAX_URL = 2048'),'Unsafe enormous payloads rejected');
-assert.match(gradle,/versionCode = 22/,'New APK version');
+assert.match(gradle,/versionCode = 23/,'New APK version');
 assert.match(gradle,/applicationIdSuffix = "\.beta"/,'Private test app separately installed');
 assert(!html.includes('ddAndroidResearchInbox'),'Android-only controls never shipped into website HTML');
 assert(!html.includes('ResearchInboxStore'),'Native store not exposed on public site');
 assert(build.includes('node scripts/test_m81_native_research_contract.cjs'),'Contract runs in private APK CI');
 assert(build.includes('node scripts/test_m81_research_inbox_chromium.cjs'),'Inbox shortcuts tested in Chromium');
 assert(build.includes('ResearchLinkParserTest'),'Pure JVM URL safety test runs in CI');
-assert(build.includes('android/m85-research-inbox-rename-nov11'),'Android branch only');
+assert(build.includes('android/m91-research-inbox-polish-nov12'),'Android branch only');
 assert(!/\bnetlify deploy\b/i.test(build),'CI never deploys Netlify');
 const start=main.indexOf('private void installResearchInboxControl(){');
 const end=main.indexOf('private boolean receiveSharedResearchLink(',start);

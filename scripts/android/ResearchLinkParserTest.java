@@ -67,6 +67,16 @@ public final class ResearchLinkParserTest {
         ok(ResearchLinkParser.cleanUrl("https://exam ple.com")==null,"Embedded whitespace URL rejected");
         ok(ResearchLinkParser.cleanUrl("https://example.com/\u0001")==null,"Control chars rejected");
         ok(ResearchLinkParser.cleanUrl("https://example.com:99999/path")==null,"Invalid port rejected");
+        ok(ResearchLinkParser.matchesInboxSearch(article.title,article.url,"  INTERESTING  "),
+            "Search matches custom titles without case or surrounding spaces");
+        ok(ResearchLinkParser.matchesInboxSearch(article.title,article.url,"example.org"),
+            "Search matches a source domain");
+        ok(ResearchLinkParser.matchesInboxSearch(article.title,article.url,"/uap/report"),
+            "Search matches an original URL path");
+        ok(ResearchLinkParser.matchesInboxSearch(article.title,article.url,"  "),
+            "Blank search displays every saved item");
+        ok(!ResearchLinkParser.matchesInboxSearch(article.title,article.url,"other.example"),
+            "Unrelated query excludes the row");
         System.out.println("PASS native Android share-link parser and inbox labels: "+checks+" safe offline JVM assertions");
     }
 }

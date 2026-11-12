@@ -111,6 +111,12 @@ public final class ResearchLinkParser {
         return false;
     }
 
+    static boolean matchesInboxSearch(String title, String url, String query) {
+        String needle = query.trim().toLowerCase(Locale.ROOT);
+        return needle.isEmpty() || title.toLowerCase(Locale.ROOT).contains(needle)
+                || url.toLowerCase(Locale.ROOT).contains(needle);
+    }
+
     static String formatInboxRow(String title, String source) {
         String titleHost = title.replaceFirst("(?i)^www[.]", "");
         String sourceHost = source.replaceFirst("(?i)^www[.]", "");

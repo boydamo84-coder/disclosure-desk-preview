@@ -1,54 +1,36 @@
 'use strict';
-// M82 regression: Android AlertDialog.Builder.setMessage and setItems compete for
-// the same body region. Test the NON-EMPTY research inbox separately so a saved
-// link can never be hidden by a message. No user data or Android login involved.
-const assert=require('node:assert/strict'),fs=require('node:fs');
-const main=fs.readFileSync('android-test/app/src/main/java/com/disclosuredesk/preview/MainActivity.java','utf8');
-const manifest=fs.readFileSync('android-test/app/src/main/AndroidManifest.xml','utf8');
-const gradle=fs.readFileSync('android-test/app/build.gradle.kts','utf8');
-const workflow=fs.readFileSync('.github/workflows/android-test-apk.yml','utf8');
-const start=main.indexOf('private void showResearchInbox(){');
-const end=main.indexOf('private void showSavedResearchLink(',start);
-assert(start>=0&&end>start,'Native research inbox list method exists');
-const section=main.slice(start,end);
-const emptyStart=section.indexOf('if(entries.isEmpty()){');
-const emptyEnd=section.indexOf('String[] labels=',emptyStart);
-assert(emptyStart>=0&&emptyEnd>emptyStart,'Empty state separate from saved-link list');
-const nonempty=section.slice(emptyEnd);
-for(const needle of [
- 'String[] labels=new String[entries.size()]',
- 'labels[i]=ResearchLinkParser.formatInboxRow(item.title,host==null?item.url:host)',
- 'LinearLayout header=new LinearLayout(this)',
- 'TextView heading=new TextView(this)',
- 'TextView privacy=new TextView(this)',
- '.setCustomTitle(header)',
- '.setItems(labels,(dialog,index)->showSavedResearchLink(entries.get(index)))',
- '.setNegativeButton("Close",null)',
- '.setNeutralButton("Clear all"',
- 'The app',
-])if(needle!=='The app')assert(nonempty.includes(needle),'Missing saved-link UI: '+needle);
-// The Clear All button deliberately opens a *separate* confirmation dialog
-// with setMessage; only the saved-items list builder must avoid that conflict.
-const builder=nonempty.slice(nonempty.indexOf('new AlertDialog.Builder(this)'),
-  nonempty.indexOf('.setNeutralButton("Clear all"'));
-assert(!builder.includes('.setMessage('),
- 'CRITICAL: setMessage suppresses setItems rows in Android AlertDialog');
-assert(builder.indexOf('.setCustomTitle(header)')<builder.indexOf('.setItems(labels,'),
- 'Informational title must precede actual clickable list');
-assert(nonempty.includes('privacy.setText("Device only · not synced between accounts. Tap a source to rename, open, copy or remove it.")'),
- 'Device-only/account-independent notice remains visible');
-assert(section.includes('researchInbox.list()'),'Real device-local items loaded');
-assert(!section.includes('getCurrentUser('),'Signed-in website account must not gate local inbox');
-const saved=main.slice(end,main.indexOf('private void showFirstRunAlertsPrompt(',end));
-assert(saved.includes('.setItems(new String[]{"Rename","Open in browser","Copy link","Remove"}'),'Four visible saved-link actions');
-assert(saved.includes('Intent.ACTION_VIEW'),'Open saved link in external browser');
-assert(saved.includes('ClipData.newPlainText'),'Copy original URL');
-assert(saved.includes('.setTitle("Remove this saved link?")'),'Remove saved link with confirmation');
-assert(section.includes('.setTitle("Clear Research Inbox?")'),'Clear all is confirmed');
-assert(/android:windowSoftInputMode="adjustResize"/.test(manifest),'M79 keyboard setting retained');
-assert(/versionCode = 22/.test(gradle),'Current installable beta');
-assert(workflow.includes('android/m85-research-inbox-rename-nov11'),'Correct private branch');
-assert(workflow.includes('scripts/test_m82_research_inbox_dialog_contract.cjs'),'CI runs hotfix check');
-assert(workflow.includes('DisclosureDesk-M85-PRIVATE-BETA'),'New isolated artifact');
-assert(!/\bnetlify deploy\b/i.test(workflow),'Website deployment never occurs here');
-console.log('PASS M82 native Research Inbox saved-row visibility: message/list collision removed, custom notice and tappable items retained, account-independent local data untouched.');
+// M82 regression: one saved source must be visible and tappable. M91 uses a native
+// list for the inbox; its per-link action dialog still keeps message and list separate.
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const read = path => fs.readFileSync(path, 'utf8');
+const root = 'android-test/app/src/main/';
+const main = read(root + 'java/com/disclosuredesk/preview/MainActivity.java');
+const inbox = read(root + 'java/com/disclosuredesk/preview/ResearchInboxActivity.java');
+const manifest = read(root + 'AndroidManifest.xml');
+const gradle = read('android-test/app/build.gradle.kts');
+const workflow = read('.github/workflows/android-test-apk.yml');
+
+assert.match(main, /startActivity\(new Intent\(this,ResearchInboxActivity\.class\)\)/);
+assert.match(manifest, /<activity android:name="\.ResearchInboxActivity" android:exported="false"\s+android:label="Research Inbox" android:windowSoftInputMode="adjustResize"/);
+for (const token of [
+    'entries = store.list()', 'list.setAdapter(adapter)', 'list.setEmptyView(empty)',
+    'adapter.setRows(matches)', 'new LinkAdapter()', 'matches.add(item)',
+    'ResearchLinkParser.matchesInboxSearch(item.title, item.url, query)',
+    'link.setOnClickListener(view -> open(item))', 'options.setOnClickListener(view -> showLinkOptions(item))',
+    'Saved on this device.', 'No saved links yet', 'No matching links',
+    'WindowInsets.Type.displayCutout() | WindowInsets.Type.ime()', 'state.putString("query"',
+    '.setTitle("Clear Research Inbox?")', '.setTitle("Remove this saved link?")',
+    'Intent.ACTION_VIEW', 'ClipData.newPlainText("Research source", item.url)'
+]) assert(inbox.includes(token), 'Missing native inbox behavior: ' + token);
+assert(!/getCurrentUser\(|HttpURLConnection|WebView/.test(inbox), 'Inbox requires only device-local data');
+const actions = inbox.slice(inbox.indexOf('private void showLinkOptions('), inbox.indexOf('private void open('));
+assert(actions.includes('.setCustomTitle(header)'));
+assert(actions.includes('.setItems(new String[]{"Open in browser", "Rename", "Copy link", "Remove"}'));
+assert(!actions.includes('.setMessage('), 'Dialog message must not hide the selectable actions');
+assert.match(gradle, /versionCode = 23/);
+assert(workflow.includes('android/m91-research-inbox-polish-nov12'));
+assert(workflow.includes('DisclosureDesk-M91-PRIVATE-BETA'));
+assert(workflow.includes('scripts/test_m82_research_inbox_dialog_contract.cjs'));
+assert(!/\bnetlify deploy\b/i.test(workflow));
+console.log('PASS native Research Inbox list, search, saved-row actions, local-only data and separate confirmation dialogs.');
