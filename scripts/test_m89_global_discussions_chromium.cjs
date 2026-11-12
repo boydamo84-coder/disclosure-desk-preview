@@ -49,6 +49,7 @@ const BASE='http://127.0.0.1:4173',html=buildFixture();
    await page.locator('#ddForumBackThreads').click();
    await feed.locator('.dd-forum-post-card').first().waitFor();
    assert.equal(await page.locator('#ddForumSectionsPane').isVisible(),true);
+   await page.getByRole('tab',{name:'Sections',exact:true}).click();
    await page.getByRole('button',{name:'Browse subject: UAP evidence',exact:true}).first().click();
    await page.locator('#ddForumPostList .dd-forum-post-card').first().waitFor();
    assert.equal(await page.locator('#ddForumPostList .dd-forum-post-card').count(),3,'Original subject feed unaffected');
