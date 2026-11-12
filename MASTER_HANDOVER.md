@@ -1,6 +1,13 @@
 # Disclosure Desk — MASTER HANDOVER
 _Last updated: 12 November 2026 (Europe/London)_
 
+## M91 — Archive case Back navigation (12 Nov 2026)
+
+- Live guest check reproduced a browser-history gap in the Rendlesham Forest case. The on-screen Close button returned to Archive, while browser Back left the website. The case dialog previously had no history entry. Android's physical gesture was reported by a visitor and has not been tested on their device.
+- The staged fix adds one history entry for an open Archive case. Opening a related case updates that entry so Back returns directly to the list and keeps the current search. On-screen Close and native dialog dismissal consume the same entry. Forward and a reload of the open entry restore its case. No Archive URL, data or account permissions changed.
+- [GitHub no-deploy run 43313366527](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43313366527) passed source, packaging and the full Chromium suite for `962f09d61d02b71f56c95b90af762b7a3052bac5`. The case regression passed Back, Forward, Close, Escape, related cases, reload and preserved search at 320, 393, 820 and 1280 px.
+- Staged on top of the M90 November candidate. Production stays on M89 `b02d21d720b84504fba86705aac4455f0206731b`. No Netlify deployment or database action. Carry forward into the planned 29 November update with the owner's deploy approval.
+
 ## M90 — two-tab Discussions overview, staged for 29 November 2026 release (12 Nov 2026)
 
 **Completed verification:** [GitHub NO DEPLOY run 43151257778](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43151257778) passed both `verify` and full real Chromium browser jobs on exact staged source SHA `a3d82859f7fce9cbb41754da978d3ae323e5aa4c`. The M90-specific acceptance performed **92 real-browser checks** across 320px, 393px, 820px and 1280px, covering mutually exclusive Feed/Sections views, per-account preference persistence after page navigation/reload, return to correct view, unchanged nested replies, action boards and drawer. The full earlier M89/News/Chat/W.NE and responsive suite passed on this same SHA. Four older tests that expected the subject directory to be visible immediately were updated to select Sections first; they continue testing the original features. Earlier run 43150908962 failed only at this obsolete M68 view assumption; the follow-up full run is now green.
