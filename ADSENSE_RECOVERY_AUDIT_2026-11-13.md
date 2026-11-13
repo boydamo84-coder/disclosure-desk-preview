@@ -38,3 +38,12 @@ Inspect latest integrated source and live URLs, produce evidence-backed page-lev
 - Next: build dedicated substantive case URL(s) and archive connection; perform source copyedit and verify source URLs, mobile layout, no-deploy CI and logged-out accessibility on the exact combined release.
 - Consolidated matrix: `docs/ADSENSE_RECOVERY_NEXT_DEPLOY_MATRIX_2026-11-13.md`. Do not imply all pending M86–M96 changes were merged already.
 - **No live deployment or AdSense review submission.**
+
+
+## Milestone 3 — individually crawlable Rendlesham and Roswell research dossiers (13 November 2026)
+
+- Staged `rendlesham-forest-1980.html` and `roswell-1947.html` with original archival analysis, source-provenance notes, timelines, evidence completeness checklists, alternative explanations and research questions. Cited institutional starting points: UK National Archives, US National Archives, GAO NSIAD-95-187. Editorial copy is a **draft requiring further source fact-check and sign-off**, not externally verified news reporting.
+- Homepage and `/investigations` now link to both dossiers. Their links into the existing archive use explicitly allowed curated IDs `featured-rendlesham-1980` and `featured-roswell-1947`, while those archive cases link back to the articles; no new case dataset, private data or backend schema is added.
+- Strict public bundler, sitemap and static route/indexing/public-page/package test expectations updated for 10 clean URLs.
+- 18/18 targeted read-only source checks passed (metadata, unique canonicals, internal links, public data/consent-only, HTML nesting, source sections, archive ID mapping, allowlisted packaging and search tests). Previously 11/11 source checks passed for initial research page. **Full Node/Chromium CI and real mobile/backend testing still pending.**
+- No Netlify preview/production builds, account changes or AdSense resubmission. Owner sign-off, precise source page review, current branch reconciliation, public build and mobile acceptance all remain.
