@@ -5,7 +5,7 @@ const read=p=>fs.readFileSync(p,'utf8');
 const origin='https://uapdisclosuredesk.com';
 const publicRoutes=[
  ['/','index.html'],['/research-edition','research-edition.html'],
- ['/sources','sources.html'],['/investigations','investigations.html'],['/guide','guide.html'],
+ ['/sources','sources.html'],['/investigations','investigations.html'],['/rendlesham-forest-1980','rendlesham-forest-1980.html'],['/roswell-1947','roswell-1947.html'],['/guide','guide.html'],
  ['/community-rules','community-rules.html'],['/privacy','privacy.html'],['/terms','terms.html']
 ];
 const robots=read('robots.txt'),sitemap=read('sitemap.xml');
@@ -94,4 +94,4 @@ assert.match(read('assets/disclosure-desk-mark.svg'),/<svg[^>]*viewBox="0 0 512 
   'Favicon redirect must target the real Disclosure Desk artwork');
 assert.ok(read('scripts/build_public_release.cjs').includes("'disclosure-desk-mark.svg'"),
   'Strict release package must publish the favicon SVG');
-console.log('PASS Search: 8 clean sitemap URLs, consistent canonicals and schema, direct internal links, protected W.NE noindex, no search privacy regressions');
+console.log('PASS Search: 10 clean sitemap URLs, consistent canonicals and schema, direct internal links, protected W.NE noindex, no search privacy regressions');
