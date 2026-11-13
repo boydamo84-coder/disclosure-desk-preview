@@ -49,3 +49,17 @@ Owner decision: 13 November 2026 · Project: `uapdisclosuredesk.com` (website on
 - Case Connections technical design: `docs/CASE_CONNECTIONS_FULL_ARCHIVE_DESIGN_2026-11-13.md`.
 - Ground truth handover: `MASTER_HANDOVER.md`.
 - No background deploy/monitoring automation created; subsequent releases need separate verification and explicit publish approval.
+
+
+
+## Branch creation record (13 November 2026)
+
+The queue branches now exist and each includes its own `docs/QUEUED_RELEASE_BRANCH.md`, with initial documentation-only commits:
+
+| Queue branch | First branch-only documentation commit |
+| --- | --- |
+| `queue/dd-web-r2-evidence-intelligence` | `bd98977869f97e44aad5136794f36929ea607c6e` |
+| `queue/dd-web-r3-hypothesis-discovery` | `d9bf9e21c8d92510c849969209c3a0813cea0771` |
+| `queue/dd-web-r4-living-research` | `441a559435a442fe565ba8a62c87a744dd7d58fa` |
+
+**Completion achieved here:** version tracking, isolated GitHub branch creation, scoping, release gates and handover updates. **Not achieved:** feature implementations R2–R4, a ready-to-publish R1 integrated build, actual deployments or account-specific AdSense re-approval. Separate latest-source release work should proceed using the branch-specific contracts above, not by merging a queued branch into production.
