@@ -1,0 +1,57 @@
+name: AdSense original research recovery QA (NO DEPLOY)
+on:
+  push:
+    branches: [audit/adsense-low-value-recovery-nov13]
+    paths:
+      - 'index.html'
+      - 'investigations.html'
+      - 'rendlesham-forest-1980.html'
+      - 'roswell-1947.html'
+      - 'sitemap.xml'
+      - 'scripts/build_public_release.cjs'
+      - 'scripts/test_original_research_contract.cjs'
+      - 'scripts/test_original_research_chromium.cjs'
+      - '.github/workflows/qa-adsense-research-no-deploy.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  research-source-and-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate editorial source, sitemap, AdSense and privacy contracts
+        run: |
+          node --check scripts/test_original_research_contract.cjs
+          node --check scripts/test_original_research_chromium.cjs
+          node scripts/test_original_research_contract.cjs
+          node scripts/test_search_indexing.cjs
+          node scripts/test_adsense_source_readiness.cjs
+      - name: Build strict public-only candidate and check links
+        run: |
+          node --check scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          node scripts/audit_public_pages_20261108.cjs
+      - name: Prepare local browser QA
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 leaflet@1.9.4
+          test -x /usr/bin/google-chrome
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-adsense-research-browser.log 2>&1 &
+          echo $! >/tmp/dd-adsense-research-browser.pid
+          for i in $(seq 1 20); do curl -fsS --max-time 2 http://127.0.0.1:4173/ >/dev/null && exit 0; sleep 1; done
+          cat /tmp/dd-adsense-research-browser.log
+          exit 1
+      - name: Verify mobile and desktop research-to-archive navigation in Chromium
+        run: node scripts/test_original_research_chromium.cjs
+      - name: Stop loopback browser server
+        if: always()
+        run: |
+          if test -f /tmp/dd-adsense-research-browser.pid; then
+            kill "$(cat /tmp/dd-adsense-research-browser.pid)" || true
+          fi
+# This workflow does not publish to Netlify or GitHub Pages, change a backend,
+# touch AdSense accounts or request publisher review.
