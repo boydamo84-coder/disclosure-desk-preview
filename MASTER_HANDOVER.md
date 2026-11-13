@@ -1449,3 +1449,10 @@ Verified three isolated queue branches in GitHub, each with `docs/QUEUED_RELEASE
 - `queue/dd-web-r4-living-research` → `441a559435a442fe565ba8a62c87a744dd7d58fa`
 
 Each was forked from the R1 source **after** release-train scope documentation was written. The queue branches differ by their own documentation-only branch marker and **do not contain implemented R2–R4 features**. They must later be rebased/reconciled onto the preceding release's actual accepted live SHA. The R1 candidate `audit/adsense-low-value-recovery-nov13` remains staged. Recent GitHub Actions inspection found no runs triggered for these three queue branches; that does not establish third-party Netlify settings. **No production deploy or AdSense action was initiated.**
+
+
+### Release 2 R2 Evidence DNA progress — separate branch (13 Nov 2026)
+
+Release queue progression only; **no R2 code merged into R1**. On isolated `queue/dd-web-r2-evidence-intelligence`, Evidence DNA alpha now has source deduplication, reviewed claim lineage/cycle checks and a read-only case modal panel. GitHub no-deploy QA run `43517988515` **passed** (95 allowlisted files, public page audit 0 errors/3 pre-existing private W.NE warnings, mobile/desktop Chromium). Distinct URLs are not independent witnesses; without verified source-to-source proof the panel displays **not assessed**. Human-reviewed original claim graph, Contradiction Radar and visual case graph remain unbuilt.
+
+This status update exists in the R1 Master Handover only for consolidated awareness; **Release 1 remains the only next release candidate**, still requiring integration of approved website work, editorial checks, full QA and explicit deployment permission. Before R2 promotion, reconcile it onto the accepted live R1 commit and re-test. Netlify, production and AdSense untouched.
