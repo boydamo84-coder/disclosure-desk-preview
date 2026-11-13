@@ -42,6 +42,21 @@ const BASE='http://127.0.0.1:4173';
     assert.match(title,slug.startsWith('roswell')?/Roswell/i:/Rendlesham/i);
     const correctReturn=await page.locator('#archiveCaseBody a[href="/'+slug+'"]').count();
     assert(correctReturn===1,'Archive detail must return to same original article');
+    // Case Connections must be usable on EVERY case detail, including on mobile.
+    assert.equal(await page.locator('#archiveCaseBody [data-dd-case-mode]').count(),4,
+     'Four source-grounded connection filters are visible in the existing archive dialog');
+    for(const mode of ['nearby','similar','time','all']){
+     await page.locator('#archiveCaseBody [data-dd-case-mode="'+mode+'"]').click();
+     assert.equal(await page.locator('#archiveCaseBody [data-dd-case-mode="'+mode+'"]').getAttribute('aria-pressed'),'true',
+      'Filter state updates for '+mode);
+     assert.equal(await page.locator('#ddCaseConnectionsResults').getAttribute('data-mode'),mode,
+      'Case Connections result panel updates for '+mode);
+     const disclosure=await page.locator('#ddCaseConnectionsCoverage').innerText();
+     assert.match(disclosure,/loaded public source records/i);
+    }
+    assert.equal(await page.evaluate(()=>typeof window.DDCaseConnections?.build),'function',
+      'Indexed Case Connections module is available in public app');
+
     await page.locator('#archiveCaseClose').click();
     await page.locator('#archiveCaseDialog[open]').waitFor({state:'hidden',timeout:8000});
     assert(await page.locator('#archivePage').isVisible(),'Archive remains visible after closing details');
