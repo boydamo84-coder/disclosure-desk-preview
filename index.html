@@ -2541,18 +2541,53 @@ function archiveEvidencePanel(r){
 }
 // Release 2 preview: read-only source provenance. No independent corroboration
 // is inferred from a source link, archive listing or repeated publisher URL.
+let ddEvidenceDnaCaseGraphs=new Map();
+let ddEvidenceDnaLoadPromise=null;
+async function ddLoadEvidenceDnaDrafts(){
+ if(ddEvidenceDnaLoadPromise)return ddEvidenceDnaLoadPromise;
+ ddEvidenceDnaLoadPromise=(async()=>{
+  try{
+   const response=await fetch('data/evidence-dna-claim-drafts.json',{cache:'no-store',signal:AbortSignal.timeout(7000)});
+   if(!response.ok)throw Error('Draft source file HTTP '+response.status);
+   const dataset=await response.json();
+   if(dataset.version!==1||dataset.visibility!=='public-editorial-draft'||!Array.isArray(dataset.cases))
+    throw Error('Unsupported public claim dataset');
+   const allowed=new Set(['featured-rendlesham-1980','featured-roswell-1947']);
+   const next=new Map();
+   for(const entry of dataset.cases.slice(0,30)){
+    if(!allowed.has(String(entry.caseId))||next.has(entry.caseId))continue;
+    const parsed=window.DDEvidenceDNA?.parseGraph(entry);
+    if(!parsed?.valid||parsed.claims.some(c=>c.editorialStatus!=='draft-needs-review'||!c.citations.length))
+     throw Error('Public claim record missing source citation or draft label');
+    next.set(entry.caseId,entry);
+   }
+   ddEvidenceDnaCaseGraphs=next;
+  }catch(error){console.warn('Optional Evidence DNA claim drafts could not load:',error)}
+ })();
+ return ddEvidenceDnaLoadPromise;
+}
 function ddEvidenceDNAHtml(record){
- const evidence=window.DDEvidenceDNA?.analyse(record,record.evidenceDna);
+ const evidence=window.DDEvidenceDNA?.analyse(record,ddEvidenceDnaCaseGraphs.get(String(record.id))||null);
  if(!evidence)return '<p class="muted small">Source lineage module unavailable; open the original sources below.</p>';
  const inventory=evidence.inventory;
  const rows=inventory.items.slice(0,20).map((source,i)=>
   '<li style="padding:6px 0"><a href="'+esc(source.url)+'" target="_blank" rel="noopener noreferrer">'+esc(source.title)+' ↗</a>'+
   '<span class="muted small"> · '+esc(source.type)+(source.repeatedReferences?' · Appears '+(1+source.repeatedReferences)+' times in this case record':'')+'</span></li>').join('');
  const lineage=evidence.claims.length?evidence.claims.slice(0,8).map(claim=>
-  '<article class="card" style="margin:8px 0"><div class="card-body"><strong>'+esc(claim.text)+'</strong>'+
-  '<p class="muted small">'+esc(claim.result?.status||'Unverified')+
-  ' · '+esc(String(claim.result?.reviewedDependencyCount||0))+' documented source-dependency relationship(s)'+
-  ' · Independent witnesses: not established</p></div></article>').join(''):
+  '<article class="card dd-evidence-dna-claim" style="margin:8px 0"><div class="card-body">'+
+  '<p class="muted small"><strong>Draft claim · Editorial review pending</strong></p>'+
+  '<strong>'+esc(claim.text)+'</strong>'+
+  '<p class="muted small">Origin status: '+esc(claim.result?.status||'Unverified')+
+  ' · '+esc(String(claim.result?.reviewedDependencyCount||0))+' reviewed source-dependency relationship(s)'+
+  ' · Independent witnesses: not established</p>'+
+  '<h5>Source references</h5>'+
+  (claim.citations?.length?'<ul>'+claim.citations.map(citation=>
+   '<li><a href="'+esc(citation.url)+'" target="_blank" rel="noopener noreferrer">Open original institutional source ↗</a>'+
+   '<p class="muted small"><strong>Locate:</strong> '+esc(citation.locator)+'</p>'+
+   '<p class="muted small"><strong>Context:</strong> '+esc(citation.context||'Check original passage')+'</p>'+
+   '<p class="muted small">Review: '+esc(citation.reviewStatus==='reviewed'?'Source-checked':'Editorial draft — needs review')+'</p></li>'
+   ).join('')+'</ul>':'<p class="muted small">No document-level citation supplied.</p>')+
+  '</div></article>').join(''):
   '<p class="muted small">No claim-level dependency chain has been reviewed for this case. Open each original document before deciding whether reports are independent.</p>';
  return '<details class="dd-evidence-dna" style="border:1px solid #a88951;border-radius:12px;margin:16px 0;padding:13px;background:#122637">'+
   '<summary style="cursor:pointer;color:#e6c48e;font-weight:750">◇ Evidence DNA · Source lineage (R2 preview)</summary>'+
@@ -2561,7 +2596,7 @@ function ddEvidenceDNAHtml(record){
   ' repeated reference(s) · <strong>Independent accounts: not assessed</strong></p>'+
   '<p class="muted small">URLs are de-duplicated conservatively (e.g. tracking parameters removed). Different URLs may still repeat one account; we do not automatically call them independent.</p>'+
   (rows?'<ol style="padding-left:20px">'+rows+'</ol>':'<p class="muted small">No public source URLs are catalogued for this item yet.</p>')+
-  '<h4>Claim lineage review</h4>'+lineage+
+  '<h4>Source-linked claim review</h4>'+lineage+
   '<p class="muted small">'+esc(evidence.caution)+' This research preview does not publish private notes, witness data or personal research.</p>'+
   '</details>';
 }
@@ -2887,6 +2922,8 @@ async function loadHistoricalArchive(){
  ddArchiveTried=true;
  const retry=ddArchiveRetryButton();retry.hidden=true;
  const operation=(async()=>{
+  // Keep all new claim data public and optional; no private docs or user state.
+  await ddLoadEvidenceDnaDrafts();
   let curated=[];
   // Render curated, real source-linked cases first rather than making visitors
   // wait for the complete multi-megabyte historical catalogue.
