@@ -12,6 +12,8 @@ on:
       - 'scripts/test_public_release_package.cjs'
       - 'scripts/test_original_research_contract.cjs'
       - 'scripts/test_original_research_chromium.cjs'
+      - 'assets/case-connections.js'
+      - 'scripts/test_case_connections.cjs'
       - '.github/workflows/qa-adsense-research-no-deploy.yml'
   workflow_dispatch:
 permissions:
@@ -29,6 +31,9 @@ jobs:
         run: |
           node --check scripts/test_original_research_contract.cjs
           node --check scripts/test_original_research_chromium.cjs
+          node --check assets/case-connections.js
+          node --check scripts/test_case_connections.cjs
+          node scripts/test_case_connections.cjs
           node scripts/test_original_research_contract.cjs
           node scripts/test_search_indexing.cjs
           node scripts/test_adsense_source_readiness.cjs
