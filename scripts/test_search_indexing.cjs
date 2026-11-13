@@ -80,4 +80,18 @@ assert.doesNotMatch(main,/fetch\(\s*['"]\/\.netlify\/functions\/interests\b/i,
  'Do not request the never-deployed /interests Netlify function');
 assert.match(main,/interestStories=feedLive\?localInterestMatches\(stories,myInterests\):\[\]/,
  'Keep sourced News Interests matching instead of disabling the feature');
+// M96: older browsers and crawlers may request /favicon.ico even when the
+// branded SVG favicon is declared correctly. Keep an exact, non-invasive
+// Netlify fallback; do not create a catch-all redirect for missing paths.
+const netlify=read('netlify.toml');
+assert.ok(netlify.includes('from = "/favicon.ico"') &&
+          netlify.includes('to = "/assets/disclosure-desk-mark.svg"') &&
+          netlify.includes('status = 302'),
+  'Legacy favicon fallback must point at the published brand SVG only');
+assert.ok(read('index.html').includes('<link rel="icon" type="image/svg+xml" href="/assets/disclosure-desk-mark.svg">'),
+  'Browser should prefer the original branded SVG favicon');
+assert.match(read('assets/disclosure-desk-mark.svg'),/<svg[^>]*viewBox="0 0 512 512"/,
+  'Favicon redirect must target the real Disclosure Desk artwork');
+assert.ok(read('scripts/build_public_release.cjs').includes("'disclosure-desk-mark.svg'"),
+  'Strict release package must publish the favicon SVG');
 console.log('PASS Search: 7 clean sitemap URLs, consistent canonicals and schema, direct internal links, protected W.NE noindex, no search privacy regressions');
