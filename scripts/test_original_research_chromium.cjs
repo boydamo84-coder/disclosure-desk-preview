@@ -22,10 +22,13 @@ const BASE='http://127.0.0.1:4173';
     }
     return route.abort('blockedbyclient');
    });
-   const page=await context.newPage();
    const failures=[];
-   page.on('pageerror',e=>failures.push(String(e.message||e)));
    for(const slug of ['rendlesham-forest-1980','roswell-1947']){
+    // Each article-to-archive journey has its own tab. Closing an archive
+    // case intentionally calls history.back(); don't race that navigation
+    // against a second dossier's page.goto() in the same tab.
+    const page=await context.newPage();
+    page.on('pageerror',e=>failures.push(String(e.message||e)));
     await page.goto(BASE+'/'+slug+'.html',{waitUntil:'domcontentloaded',timeout:30000});
     await page.locator('#content h1').waitFor();
     assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'),'https://uapdisclosuredesk.com/'+slug);
@@ -60,7 +63,8 @@ const BASE='http://127.0.0.1:4173';
     await page.locator('#archiveCaseClose').click();
     await page.locator('#archiveCaseDialog[open]').waitFor({state:'hidden',timeout:8000});
     assert(await page.locator('#archivePage').isVisible(),'Archive remains visible after closing details');
-    console.log('PASS RESEARCH BROWSER '+slug+' '+viewport.width+'px: public article, citations, no overflow, curated archive dialogue, return link');
+    console.log('PASS RESEARCH BROWSER '+slug+' '+viewport.width+'px: public article, citations, no overflow, curated archive dialogue, return link and case-connection filters');
+    await page.close();
    }
    // External CDNs and authentication services are intentionally blocked.
    // Report JS exceptions for triage but do not assume external fetch failures mean a site regression.
