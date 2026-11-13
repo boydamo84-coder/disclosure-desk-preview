@@ -9,7 +9,7 @@ Owner decision: 13 November 2026 · Project: `uapdisclosuredesk.com` (website on
 | Version | Working name | Tracked branch | Intended features | State as of 13 Nov 2026 |
 | --- | --- | --- | --- | --- |
 | **DD-WEB-R1** | Foundation, AdSense recovery and Case Connections | `audit/adsense-low-value-recovery-nov13` | Reconcile every already-approved website fix (M86–M96 and newer), no-regression news/community/W.NE, AdSense original research/editorial improvements, Rendlesham and Roswell dossiers, Case Connections for all public archive records | **Code staged; not release-ready**. Isolated QA green at run 43513005838; integrated branch, editorial review, real-phone and live checks pending |
-| **DD-WEB-R2** | Evidence Intelligence | `queue/dd-web-r2-evidence-intelligence` | **Evidence DNA**, **Contradiction Radar**, **visual case relationship graph**, source provenance/independence checks | **Queue approved; features not implemented or tested** |
+| **DD-WEB-R2** | Evidence Intelligence | `queue/dd-web-r2-evidence-intelligence` | **Evidence DNA**, **Contradiction Radar**, **visual case relationship graph**, source provenance/independence checks | **Evidence DNA alpha implemented/tested on isolated branch; graph and Contradiction Radar not built, not deployable** |
 | **DD-WEB-R3** | Hypothesis and Discovery | `queue/dd-web-r3-hypothesis-discovery` | **Hypothesis Lab**, **Research Gap Finder**, guided comparisons and evidence-needs planning | **Queue approved; features not implemented or tested** |
 | **DD-WEB-R4** | Living Research and Writing | `queue/dd-web-r4-living-research` | **Living Investigations**, **Research Passport**, carefully permissioned W.NE citation/version/export integration | **Queue approved; features not implemented or tested** |
 
@@ -49,3 +49,15 @@ Owner decision: 13 November 2026 · Project: `uapdisclosuredesk.com` (website on
 - Case Connections technical design: `docs/CASE_CONNECTIONS_FULL_ARCHIVE_DESIGN_2026-11-13.md`.
 - Ground truth handover: `MASTER_HANDOVER.md`.
 - No background deploy/monitoring automation created; subsequent releases need separate verification and explicit publish approval.
+
+
+## R2 milestone 1 — Evidence DNA provenance foundation (13 November 2026)
+
+**Implementation:** alpha on this queue branch only; not merged to R1 or production, not deployed, not AdSense-reviewed.
+
+- New `assets/evidence-dna.js`: read-only source inventory; conservative URL de-duplication; schema-validated document/claim/source-dependency relationships; explicit review status and page/section citation required for reviewed edges; transitive lineage tracing; cycle detection; unresolved-source reporting. **Independent witness count stays unknown** even for multiple distinct URLs or first-hand document pointers.
+- The existing Archive case detail displays a native expandable **Evidence DNA · Source lineage** panel for every public case, reusing the original source links. It counts repeated URL references and states when no source-to-source relationship has been reviewed. It does not silently publish claims, private notes, witness details or a researcher’s Board.
+- Updated strict public package allowlist for `evidence-dna.js`. The new `scripts/test_evidence_dna.cjs` has synthetic regression cases covering duplicated URLs, unverified sources, false corroboration, chains, reviewed citation requirements and circular dependencies. Existing Case Connections tests remain separate.
+- Added **isolated R2 QA** workflow `.github/workflows/qa-r2-evidence-dna-no-deploy.yml`. First exact-code workflow `43517988515` at `7eecb2902b57fd7c6ca041950c9e113946707380` passed source tests, allowed bundle (95 files), public-link audit (0 errors, 3 existing hidden W.NE link warnings), and case modal display on Chromium 393px and 1280px.
+- This is a **foundation**; no historical claim independence has been adjudicated, no public reviewed lineage dataset exists, no interactive complete visual graph and no Contradiction Radar. Those are subsequent R2 milestones. Native Android physical tests, actual phone performance, full release integration and owner acceptance remain.
+- The branch originated as a documentation-only snapshot of staged R1. Before any future R2 deploy it MUST be rebased/reconciled onto the actual accepted R1 live commit; a green R2 branch test is not release authorisation. **Release 1 remains the sole next deployment candidate.**
