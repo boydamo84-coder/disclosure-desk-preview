@@ -58,3 +58,10 @@ Current status: **SOURCE ONLY; NOT DEPLOYED; NOT ADSENSE-RESUBMITTED**
 - **QA**: no-deploy GitHub run 43513005838 GREEN (commit `dbeda42a221852858e8402850d92ee444eebc45d`). Unit test exercises 12,000 synthetic records; public bundle staged 94 files; 393px/1280px local Chromium case filters and archive navigation passed. 0 public-page audit errors; 3 known legacy W.NE link warnings. No production/devices claim.
 - **Next deploy gate**: integrate these changes with approved M86–M96 and all newer active website patches into final release branch, rerun complete tests at merged SHA, check real Samsung navigation and actual archive source locations/dates, then one controlled Netlify publish. Keep AdSense re-review deferred until live content verification.
 - **Limits**: absent geodata cannot yield a distance; archive/year-only matching is prevented; generic collection records can be related subjects rather than individual sightings. See `docs/CASE_CONNECTIONS_FULL_ARCHIVE_DESIGN_2026-11-13.md`.
+
+
+## Controlled multi-version release queue (13 November 2026)
+
+This document is now the **DD-WEB-R1** scope and QA ledger, not a catch-all wish list. Record every already-approved R1 website fix, AdSense recovery item and source-linked case/Case Connections feature here. Later R2–R4 capabilities must **not** be silently added to R1; they belong in isolated tracks defined by `docs/RELEASE_TRAIN_2026-11-13.md`.
+
+Next proposed versions: R2 Evidence DNA + Contradiction Radar + case graph; R3 Hypothesis Lab + Research Gap Finder; R4 Living Investigations + Research Passport + W.NE integration. All are approved as roadmap, not implemented or deployed. The next release must be accepted live before the following queued version is promoted. No GitHub action, Netlify publish or AdSense resubmission was authorised by this queue decision.
