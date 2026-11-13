@@ -1,15 +1,15 @@
-name: Build Disclosure Desk M94 PRIVATE Android APK (NO Netlify)
+name: Build Disclosure Desk M95 PRIVATE Android APK (NO Netlify)
 on:
   workflow_dispatch:
   push:
-    branches: [android/m94-native-navigation-news-nov13]
+    branches: [android/m95-restore-editorial-layout-nov13]
     paths:
       - 'android-test/**'
       - 'guide.html'
       - 'scripts/test_m92_android_parity.cjs'
       - 'scripts/test_m92_archive_bridge_chromium.cjs'
       - 'scripts/test_m93_compact_header_chromium.cjs'
-      - 'scripts/test_m94_native_shell_chromium.cjs'
+      - 'scripts/test_m95_editorial_restore_chromium.cjs'
       - 'index.html'
       - 'assets/community-polish.css'
       - 'assets/community-votes.js'
@@ -86,7 +86,7 @@ jobs:
           node scripts/test_m90_discussions_views_chromium.cjs
           node scripts/test_m92_archive_bridge_chromium.cjs
           node scripts/test_m93_compact_header_chromium.cjs
-          node scripts/test_m94_native_shell_chromium.cjs
+          node scripts/test_m95_editorial_restore_chromium.cjs
           node scripts/test_m71_secondary_actions_chromium.cjs
       - name: Verify safe Android Share-link parser (offline Java only)
         run: |
@@ -119,7 +119,7 @@ jobs:
       - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M94-PRIVATE-BETA
+          name: DisclosureDesk-M95-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
