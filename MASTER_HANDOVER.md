@@ -1,5 +1,21 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 12 November 2026 (Europe/London)_
+_Last updated: 13 November 2026 (Europe/London) — M96 favicon fix staged_
+
+## M96 — Legacy favicon fallback and Netlify 404 review (13 November 2026)
+
+**Scope:** isolated website candidate branch `fix/m96-favicon-legacy-fallback-nov13`, based on the verified M91 website candidate. Website remains **staged only** for the later consolidated deploy; Android M95 is maintained separately.
+
+- **Root cause confirmed from repository:** production and M91 homepage already declare `<link rel="icon" type="image/svg+xml" href="/assets/disclosure-desk-mark.svg">`, and the original 512×512 navy-and-gold emblem exists and is on the strict public-release asset allowlist. **There is no `/favicon.ico` source file**; browsers/crawlers requesting this legacy path receive a missing-resource response, matching Netlify's historical dashboard. No redesign needed.
+- **Minimal fix staged:** `netlify.toml` now has **one exact-match temporary 302 redirect** from `/favicon.ico` to the existing shipped `/assets/disclosure-desk-mark.svg`. It does not redirect `.env`, `.git`, WordPress probes, other missing paths or dynamic URLs, and it requires no extra binary, external host, public asset or Netlify build to stage.
+- **Regression check added:** `scripts/test_search_indexing.cjs` verifies the exact redirect and status, existing favicon link, brand SVG and public asset packaging. Source-level assertions have been reviewed. A successful exact-branch automated CI run and a live Netlify HTTP 302 response are **not yet verified**; don't claim this change is already live.
+- **Other top 404s in 6–13 November owner screenshot:** `/wp-admin/install.php`, `/wp-login.php`, `/.env`, `/.git/config` and credentials paths resemble opportunistic probing. 404s alone do **not** show compromise or data access. `/api/library` isn't present as a handler in the inspected site tree; verify referrers before treating it as an application bug. `/.netlify/functions/interests` isn't present either; `scripts/test_search_indexing.cjs` already guards against a website request for this absent function and confirms News Interests operates locally on live feed data. Do not create an unauthenticated function merely to eliminate 404 counts.
+- **Still worth checking during controlled deployment:** verify `/favicon.ico` redirects to a real SVG (no 404); browser tab icon and iOS touch icon behaviour; public `/terms`, `/privacy`, `/manifest.webmanifest` and Search Console; Netlify's response codes, bot sources, rate spikes and any genuine `5xx` errors. An apple-touch icon PNG is not confirmed packaged, so separate mobile-home-screen polish can follow if needed. No security incident is established by the screenshot.
+- **Safety:** no production merge, Netlify build, live deploy, Supabase mutation, ads or OAuth change. Website release retains the planned late-November batch and owner-reviewed gates.
+
+### Approved next Android phase (after the current site/APK checks)
+
+Owner approved all five Android-experience improvements with **unchanged midnight-navy/antique-gold premium design and the original preferred editorial bottom navigation**: (1) real Android notification centre and deep links, (2) native Saved Research hub with clearly separated offline/private storage, (3) native account/settings controls, (4) app-quality loading, transitions, pull-to-refresh, Back/keyboard/offline behaviour, (5) phone-first Save → Investigation → Note → Board. **Approved for upcoming implementation, not completed in M95/M96.** Keep existing account data, access rules, signed-in navigation and the website product intact. Do not mistake these plans for shipping features or rewrite the live site to look like the M94 native cards.
+
 
 ## M91 — Archive case Back navigation (12 Nov 2026)
 
