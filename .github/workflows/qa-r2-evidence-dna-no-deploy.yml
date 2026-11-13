@@ -1,0 +1,54 @@
+name: R2 Evidence DNA isolated QA (NO DEPLOY)
+on:
+  push:
+    branches: [queue/dd-web-r2-evidence-intelligence]
+    paths:
+      - 'index.html'
+      - 'assets/evidence-dna.js'
+      - 'scripts/test_evidence_dna.cjs'
+      - 'scripts/test_original_research_chromium.cjs'
+      - 'scripts/build_public_release.cjs'
+      - 'scripts/test_public_release_package.cjs'
+      - '.github/workflows/qa-r2-evidence-dna-no-deploy.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-source-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test source independence and typed provenance engine
+        run: |
+          node --check assets/evidence-dna.js
+          node --check scripts/test_evidence_dna.cjs
+          node scripts/test_evidence_dna.cjs
+          node scripts/test_case_connections.cjs
+          node scripts/test_original_research_contract.cjs
+          node scripts/test_search_indexing.cjs
+      - name: Verify strict public packaging and public link integrity
+        run: |
+          node scripts/test_public_release_package.cjs
+          node scripts/audit_public_pages_20261108.cjs
+      - name: Install local browser dependencies and start loopback only
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 leaflet@1.9.4
+          test -x /usr/bin/google-chrome
+          node --check scripts/test_original_research_chromium.cjs
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-r2-local.log 2>&1 &
+          echo $! >/tmp/dd-r2-local.pid
+          for i in $(seq 1 20); do curl -fsS --max-time 2 http://127.0.0.1:4173/ >/dev/null && exit 0; sleep 1; done
+          cat /tmp/dd-r2-local.log
+          exit 1
+      - name: Test research archive and Evidence DNA on phone and desktop Chromium
+        run: node scripts/test_original_research_chromium.cjs
+      - name: Stop local server
+        if: always()
+        run: |
+          if test -f /tmp/dd-r2-local.pid; then kill "$(cat /tmp/dd-r2-local.pid)" || true; fi
+# This only validates an isolated source branch. It cannot publish a site,
+# release a later version, contact a real user account or resubmit AdSense.
