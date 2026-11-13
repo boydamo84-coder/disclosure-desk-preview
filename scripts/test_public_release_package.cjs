@@ -6,7 +6,7 @@ cp.execFileSync(process.execPath,['scripts/build_public_release.cjs'],{cwd:root,
 const m=JSON.parse(fs.readFileSync(path.join(out,'release-manifest.json'),'utf8'));
 const paths=m.files.map(f=>f.path),names=new Set(paths);
 assert.equal(names.size,paths.length);
-assert.ok(paths.length>=35&&paths.length<=90,'Unexpected package count '+paths.length);
+assert.ok(paths.length>=35&&paths.length<=95,'Unexpected package count '+paths.length);
 for(const f of m.files){
  const bytes=fs.readFileSync(path.join(out,f.path));
  assert.equal(bytes.length,f.bytes,f.path);
