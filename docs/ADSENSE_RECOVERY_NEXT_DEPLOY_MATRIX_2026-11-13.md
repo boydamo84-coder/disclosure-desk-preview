@@ -13,9 +13,9 @@ Current status: **SOURCE ONLY; NOT DEPLOYED; NOT ADSENSE-RESUBMITTED**
 | Workstream | Related pending branch/milestone | Release requirement | Current state |
 | --- | --- | --- | --- |
 | AdSense source-first editorial research | audit/adsense-low-value-recovery-nov13 | Research page /investigations, homepage/about/footer links, sitemap, strict allowlist and indexing/HTML contracts | Staged on recovery branch; 11 static source checks passed; editorial sign-off and browser acceptance pending |
-| AdSense original case studies | Roadmap public cases, Phase A/D | Validate archival citations, publish document-level analyses and related-case methods without overclaiming | Three research briefs drafted on one page; dedicated case URLs, case links, fact review and depth assessment pending |
-| Evidence completeness methodology | Research Phase D | Provenance, chronology, alternate explanations and missing evidence, clearly distinct from strangeness | Editorial methodology on /investigations staged; interactive per-case checklist not implemented |
-| Case Intelligence | Research Phase A | Read-only source, timeline, nearby/relevant reports, verified vs suggested connections | Editorial foundation staged only; archive-level investigation controls pending |
+| AdSense original case studies | Roadmap public cases, Phase A/D | Validate archival citations, publish document-level analyses and related-case methods without overclaiming | Three initial research briefs plus TWO dedicated case dossiers with archival chronology, source notes, evidence gaps and review questions staged; editorial/source/UX review pending |
+| Evidence completeness methodology | Research Phase D | Provenance, chronology, alternate explanations and missing evidence, clearly distinct from strangeness | Editorial methodology and case-specific evidence completeness checklists on Rendlesham and Roswell pages staged; interactive per-case editing not implemented |
+| Case Intelligence | Research Phase A | Read-only source, timeline, nearby/relevant reports, verified vs suggested connections | Two source-linked canonical dossiers deep-link into matching curated archive records and link back; richer cross-case intelligence engine not implemented |
 | Opt-in public publishing | Research Phase E | User consent, redaction, review, revisions and no private-data leakage | **Deferred** until separately verified |
 | News duplicate reduction | fix/m59, fix/m60 and newer approved work | Do not regress event-cluster dedupe, source links or live News usability | Reconcile latest version, tests pending |
 | News/community replies and action rails | fix/m70–m80, fix/m86–m88 | Apply comments on demand, indent replies, compact cards and moderated owner actions across pages | Reconcile latest integrated branch; tests pending |
@@ -23,7 +23,7 @@ Current status: **SOURCE ONLY; NOT DEPLOYED; NOT ADSENSE-RESUBMITTED**
 | Archive Android back behaviour | fix/m91 | Verify case back navigation on Android browser | Reconcile and test, pending |
 | Favicon legacy fallback | fix/m96 | Preserve branded SVG and exact legacy icon fallback | Included in recovery branch base, release merge verification pending |
 | W.NE Research Studio and Drive | M41–M45 and latest fixes | Preserve existing editor, safe document imports and backups; real OAuth and device QA must not be assumed complete | Regression/security/real account gates remain |
-| AdSense trust and site integrity | Research recovery + existing compliance | Validate About/Privacy/Terms/Sources, attribution, corrections, mobile navigation, 404, ads.txt, crawlability | New corrections text staged; complete live audit pending |
+| AdSense trust and site integrity | Research recovery + existing compliance | Validate About/Privacy/Terms/Sources, attribution, corrections, mobile navigation, 404, ads.txt, crawlability | Public research dossiers include corrections links; complete live audit and editorial fact check pending |
 
 ## AdSense go/no-go
 1. Editorial owner approves accuracy and substance of each first research brief. Do not claim human review before that.
@@ -39,4 +39,13 @@ Current status: **SOURCE ONLY; NOT DEPLOYED; NOT ADSENSE-RESUBMITTED**
 ## Status at milestone
 - Recovery branch already exists and only contains development source commits.
 - No production deployment or AdSense review performed.
-- 11 source-level checks passed (link targets, route metadata, branch packaging references, analytics consent module, markup balance); exact-head Node/Chromium CI and real live tests **not run yet**.
+- 11 + 18 source-level checks passed across earlier and current milestones (link targets, route metadata, branch packaging references, analytics consent module, markup balance); exact-head Node/Chromium CI and real live tests **not run yet**.
+
+
+## Milestone 3 — first source-linked case dossiers (13 November 2026)
+
+- Created `rendlesham-forest-1980.html` and `roswell-1947.html`, each with a unique title, canonical path, evidence-completeness checklist, chronology, competing interpretations, primary-source links, research questions and corrections contact. These remain **pre-publication editorial drafts**.
+- Added individual dossier links to the research hub and homepage. Existing curated archive `featured-rendlesham-1980` and `featured-roswell-1947` are linked both directions. Deep links carry only these two explicit case IDs and wait for the public curated catalogue to load; do not change archive storage or personal research.
+- Both documents added to strict public release allowlist, sitemap and existing indexing/package/public-page checks. Public crawlable route count proposed as 10, pending exact merged release and live route verification.
+- **18/18 targeted source-level checks passed**; earlier 11/11 checks for the research hub also passed. This is **not** confirmation of a green Node/Chromium workflow, Netlify build, real device QA or published pages.
+- Source factual review against original documents and editorial owner sign-off remain mandatory. Preserve already approved M86–M96 pending work; nothing merged or deployed to production.
