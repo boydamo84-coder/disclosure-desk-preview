@@ -85,8 +85,27 @@
       if(!c||!str(c.id)||claimIds.has(str(c.id))||!str(c.text)) {issues.push('Invalid or duplicated claim');continue;}
       const ids=[...new Set((Array.isArray(c.documentIds)?c.documentIds:[]).map(str))];
       if(ids.some(id=>!docIds.has(id))) {issues.push('Claim references unknown document');continue;}
+      // Citations attach individual claims to specific documents and locators.
+      // A citation is a finding aid, NOT confirmation that the claim is true.
+      const citations=[];
+      const sourceCites=Array.isArray(c.citations)?c.citations:[];
+      if(sourceCites.length>30)issues.push('Too many claim citations');
+      for(const cite of sourceCites.slice(0,30)){
+        const doc=documents.find(d=>d.id===str(cite?.documentId));
+        const url=canonicalUrl(cite?.url);
+        if(!doc||!ids.includes(doc.id)||!url||url!==canonicalUrl(doc.url)||
+           !str(cite.locator)||str(cite.locator).length>320){
+          issues.push('Claim citation missing a matching document and precise locator');continue;
+        }
+        citations.push({documentId:doc.id,url:doc.url,
+          locator:str(cite.locator).slice(0,320),
+          context:str(cite.context).slice(0,320),
+          reviewStatus:cite.reviewStatus==='reviewed'?'reviewed':'draft-needs-review'});
+      }
       claimIds.add(str(c.id));
-      claims.push({id:str(c.id),text:str(c.text).slice(0,550),documentIds:ids});
+      claims.push({id:str(c.id),text:str(c.text).slice(0,550),documentIds:ids,
+       editorialStatus:c.editorialStatus==='reviewed'?'reviewed':'draft-needs-review',
+       citations});
     }
     const edges=[];
     for(const edge of rawEdges.slice(0,20000)) {
@@ -160,6 +179,7 @@
     if(!parsed.valid)return {inventory,trace:null,claims:[],state:'invalid-provenance',issues:parsed.issues,
       caution:'Provenance metadata failed checks; no independence conclusion can be shown.'};
     return {inventory,trace:null,claims:parsed.claims.map(c=>({id:c.id,text:c.text,
+        citations:c.citations,editorialStatus:c.editorialStatus,
         result:traceClaim(graph,c.id)})),state:parsed.claims.length?'claim-lineage':'source-inventory-only',
       caution:'Only explicitly documented relationships are traced. Independent witness counts are never inferred from URL counts.'};
   }
