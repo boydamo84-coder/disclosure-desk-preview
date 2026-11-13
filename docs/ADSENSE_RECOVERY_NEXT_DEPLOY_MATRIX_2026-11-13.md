@@ -49,3 +49,12 @@ Current status: **SOURCE ONLY; NOT DEPLOYED; NOT ADSENSE-RESUBMITTED**
 - Both documents added to strict public release allowlist, sitemap and existing indexing/package/public-page checks. Public crawlable route count proposed as 10, pending exact merged release and live route verification.
 - **18/18 targeted source-level checks passed**; earlier 11/11 checks for the research hub also passed. This is **not** confirmation of a green Node/Chromium workflow, Netlify build, real device QA or published pages.
 - Source factual review against original documents and editorial owner sign-off remain mandatory. Preserve already approved M86–M96 pending work; nothing merged or deployed to production.
+
+
+## Milestone 4 — Case Connections across all loaded public archive records (13 November 2026)
+
+- **Staged**: shared descriptive-term, named-locality and coordinate-distance matches on all public archive cases, four filter buttons inside existing case modal, source rationale and read-only original source links. No event linking is marked verified merely because a score exists.
+- **Code**: `assets/case-connections.js`; `index.html`; `scripts/build_public_release.cjs`; no additional site tab, no new backend schema and no private research indexing.
+- **QA**: no-deploy GitHub run 43513005838 GREEN (commit `dbeda42a221852858e8402850d92ee444eebc45d`). Unit test exercises 12,000 synthetic records; public bundle staged 94 files; 393px/1280px local Chromium case filters and archive navigation passed. 0 public-page audit errors; 3 known legacy W.NE link warnings. No production/devices claim.
+- **Next deploy gate**: integrate these changes with approved M86–M96 and all newer active website patches into final release branch, rerun complete tests at merged SHA, check real Samsung navigation and actual archive source locations/dates, then one controlled Netlify publish. Keep AdSense re-review deferred until live content verification.
+- **Limits**: absent geodata cannot yield a distance; archive/year-only matching is prevented; generic collection records can be related subjects rather than individual sightings. See `docs/CASE_CONNECTIONS_FULL_ARCHIVE_DESIGN_2026-11-13.md`.
