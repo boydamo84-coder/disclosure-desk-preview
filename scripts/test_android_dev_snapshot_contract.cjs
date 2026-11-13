@@ -28,7 +28,7 @@ assert.match(main,/"https"\.equals\(url\.getScheme\(\)\)/,'Only HTTPS origin int
 assert.match(main,/"uapdisclosuredesk\.com"\.equals\(url\.getHost\(\)\)/);
 assert.match(main,/DD_FIREBASE_APP_ID/,'Firebase groundwork preserved');
 assert.match(main,/PLAY_BILLING_APPROVED = false/,'Unverified paid purchase is disabled');
-assert.match(gradle,/applicationIdSuffix = "\.beta\.m94"/,'Private beta does not overwrite production app');
+assert.match(gradle,/applicationIdSuffix = "\.beta\.m95"/,'Private beta does not overwrite production app');
 assert.match(gradle,/targetSdk = 36/);
 assert.match(gradle,/versionCode = 27/);
 assert(!manifest.files.some(p=>p.startsWith('.github/')||p.startsWith('supabase/')||p.startsWith('scripts/')||p.includes('SECRET')),
