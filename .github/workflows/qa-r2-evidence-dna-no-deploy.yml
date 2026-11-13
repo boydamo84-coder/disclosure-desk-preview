@@ -5,6 +5,7 @@ on:
     paths:
       - 'index.html'
       - 'assets/evidence-dna.js'
+      - 'data/evidence-dna-claim-drafts.json'
       - 'scripts/test_evidence_dna.cjs'
       - 'scripts/test_original_research_chromium.cjs'
       - 'scripts/build_public_release.cjs'
