@@ -63,3 +63,8 @@ The queue branches now exist and each includes its own `docs/QUEUED_RELEASE_BRAN
 | `queue/dd-web-r4-living-research` | `441a559435a442fe565ba8a62c87a744dd7d58fa` |
 
 **Completion achieved here:** version tracking, isolated GitHub branch creation, scoping, release gates and handover updates. **Not achieved:** feature implementations R2–R4, a ready-to-publish R1 integrated build, actual deployments or account-specific AdSense re-approval. Separate latest-source release work should proceed using the branch-specific contracts above, not by merging a queued branch into production.
+
+
+## R2 milestone 1 status — 13 November 2026
+
+Evidence DNA alpha source + archive panel now staged **only** on `queue/dd-web-r2-evidence-intelligence`. Isolated GitHub QA `43517988515` passed; details in that branch's `MASTER_HANDOVER.md` and `docs/RELEASE_R2_EVIDENCE_INTELLIGENCE_SCOPE.md`. This is **not** an R2 deployable release, not a reviewed claim graph, and does not change R1 scope. Contradiction Radar and interactive graph pending; owner authorisation remains necessary for every deployment.
