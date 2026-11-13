@@ -34,6 +34,8 @@ import android.widget.ScrollView;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceError;
 import android.graphics.Typeface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.webkit.WebSettings;
@@ -70,6 +72,7 @@ public final class MainActivity extends Activity {
     private static final int FILE_CHOOSER_REQUEST = 4312;
     private static final int OFFLINE_ARCHIVE_REQUEST = 4313;
     private static final int DESK_BAR_DP = 52;
+    private static final int NAV_BAR_DP = 62;
     private static final int DESK_GOLD = Color.rgb(242,215,162);
     private static final String SUPPORT_URL = "https://ko-fi.com/disclosuredesk";
     private static final Set<String> LEGAL_PAGES = new HashSet<>(java.util.Arrays.asList(
@@ -81,7 +84,21 @@ public final class MainActivity extends Activity {
     private FrameLayout root;
     private LinearLayout deskBar;
     private ImageButton deskProfile;
+    private ImageButton deskSupport;
+    private NativeNewsView nativeNews;
+    private DeskNavigation bottomNav;
     private boolean compactHeader;
+    private boolean nativeShell;
+    private boolean nativeNewsSelected;
+    private boolean shellModal;
+    private boolean cachedNewsOnly;
+    private String activeSection="discover";
+    private final Runnable refreshDeadline=()->{
+        if(nativeNews!=null){
+            nativeNews.finishRefresh();
+            nativeNews.update(null,"News refresh timed out · Showing available headlines");
+        }
+    };
     private int documentGeneration;
     private String pendingArchiveCase;
     private boolean deskHome;
@@ -115,6 +132,16 @@ public final class MainActivity extends Activity {
         root = new FrameLayout(this);
         web = new WebView(this);
         root.addView(web, new FrameLayout.LayoutParams(-1,-1));
+        nativeNews=new NativeNewsView(this,new NativeNewsView.Actions(){
+            @Override public void refreshNews(){refreshNativeNews();}
+            @Override public void openSharedNews(String id,String url){showSharedNews(id,url);}
+            @Override public void openPublisher(JSONObject story){openNewsPublisher(story);}
+        });
+        nativeNews.setVisibility(View.GONE);
+        root.addView(nativeNews,new FrameLayout.LayoutParams(-1,-1));
+        bottomNav=new DeskNavigation(this,this::openNativeSection);
+        bottomNav.setVisibility(View.GONE);
+        root.addView(bottomNav,new FrameLayout.LayoutParams(-1,dp(NAV_BAR_DP),Gravity.BOTTOM));
         deskBar = createDeskBar();
         deskBar.setVisibility(View.GONE);
         root.addView(deskBar, new FrameLayout.LayoutParams(-1, dp(DESK_BAR_DP), Gravity.TOP));
@@ -133,12 +160,17 @@ public final class MainActivity extends Activity {
         setContentView(root);
         // Upgrade existing 2h subscriptions automatically without resetting the user's choices.
         syncDiscoverySchedules();
-        // Android 15+ enforces edge-to-edge for target SDK 35. Keep web content below the status bar.
-        if(Build.VERSION.SDK_INT >= 35){
+        // Android 15+ draws edge to edge. Earlier versions fit the system bars.
+        if(Build.VERSION.SDK_INT >= 30){
             root.setOnApplyWindowInsetsListener((view,insets)->{
-                android.graphics.Insets safe=insets.getInsets(
-                        WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout());
-                view.setPadding(safe.left,safe.top,safe.right,safe.bottom);
+                if(Build.VERSION.SDK_INT >= 35){
+                    android.graphics.Insets safe=insets.getInsets(
+                            WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout());
+                    android.graphics.Insets ime=insets.getInsets(WindowInsets.Type.ime());
+                    view.setPadding(safe.left,safe.top,safe.right,Math.max(safe.bottom,ime.bottom));
+                }
+                bottomNav.setKeyboardOpen(insets.isVisible(WindowInsets.Type.ime()));
+                layoutDesk();
                 return insets;
             });
             root.requestApplyInsets();
@@ -157,6 +189,15 @@ public final class MainActivity extends Activity {
             }
             @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap favicon){
                 documentGeneration++;
+                nativeNews.rememberPosition();
+                root.removeCallbacks(refreshDeadline);
+                nativeNews.finishRefresh();
+                nativeShell=false;
+                nativeNewsSelected=false;
+                shellModal=false;
+                cachedNewsOnly=false;
+                activeSection="discover";
+                updateDeskPhoto("");
                 deskHome = false;
                 compactHeader = false;
                 if(isAppHomeUrl(url))mainPageFailed=false;
@@ -168,6 +209,7 @@ public final class MainActivity extends Activity {
             @Override public void onPageFinished(WebView view,String url){
                 if(!mainPageFailed && isAppHomeUrl(url) && isAppHomeUrl(view.getUrl())){
                     installCompactHeader();
+                    installNativeShell(url);
                     useTwoLineBreakingNews();
                     installProfileNotificationControl();
                     installResearchInboxControl();
@@ -282,6 +324,15 @@ public final class MainActivity extends Activity {
         brand.setEllipsize(android.text.TextUtils.TruncateAt.END);
         bar.addView(brand,new LinearLayout.LayoutParams(0,-2,1));
 
+        deskSupport=new ImageButton(this);
+        deskSupport.setImageResource(R.drawable.ic_desk_support);
+        deskSupport.setScaleType(ImageView.ScaleType.CENTER);
+        deskSupport.setContentDescription("Support Disclosure Desk");
+        deskSupport.setTooltipText("Support Disclosure Desk");
+        deskSupport.setBackground(deskRipple(false));
+        deskSupport.setOnClickListener(v->openSupport());
+        bar.addView(deskSupport,new LinearLayout.LayoutParams(dp(48),dp(48)));
+
         deskProfile=new ImageButton(this);
         deskProfile.setImageResource(R.drawable.ic_desk_profile);
         deskProfile.setScaleType(ImageView.ScaleType.CENTER);
@@ -339,13 +390,115 @@ public final class MainActivity extends Activity {
         showOnline();
         showFirstRunAlertsPrompt();
     }
+    private void installNativeShell(String url){
+        if(!WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER))return;
+        int generation=documentGeneration;
+        try(BufferedReader script=new BufferedReader(new InputStreamReader(
+                getAssets().open("native-shell.js"),StandardCharsets.UTF_8))){
+            StringBuilder source=new StringBuilder();
+            String line;
+            while((line=script.readLine())!=null)source.append(line).append('\n');
+            web.evaluateJavascript(source.toString()+"("+generation+")",value->{
+                if(generation!=documentGeneration || mainPageFailed || !isAppHomeUrl(web.getUrl()))return;
+                nativeShell="true".equals(value);
+                Uri address=Uri.parse(url);
+                nativeNewsSelected=nativeShell && address.getQueryParameter("dd_news")==null
+                    && address.getQueryParameter("dd_tab")==null && address.getQueryParameter("case")==null;
+                layoutDesk();
+            });
+        }catch(java.io.IOException error){
+            android.util.Log.e("DisclosureDesk","Native navigation asset could not be opened.",error);
+        }
+    }
+    private void updateDeskPhoto(String photo){
+        Bitmap bitmap=null;
+        if(!photo.isEmpty() && photo.length()<=24000){
+            try{
+                byte[] bytes=android.util.Base64.decode(photo,android.util.Base64.NO_WRAP);
+                BitmapFactory.Options options=new BitmapFactory.Options();
+                options.inJustDecodeBounds=true;
+                BitmapFactory.decodeByteArray(bytes,0,bytes.length,options);
+                if(options.outWidth==96 && options.outHeight==96 && "image/jpeg".equals(options.outMimeType)){
+                    options.inJustDecodeBounds=false;
+                    bitmap=BitmapFactory.decodeByteArray(bytes,0,bytes.length,options);
+                }
+            }catch(IllegalArgumentException ignored){ /* Leave the default profile icon available. */ }
+        }
+        if(bitmap==null){
+            deskProfile.setScaleType(ImageView.ScaleType.CENTER);
+            deskProfile.setImageResource(R.drawable.ic_desk_profile);
+        }else{
+            androidx.core.graphics.drawable.RoundedBitmapDrawable avatar=
+                androidx.core.graphics.drawable.RoundedBitmapDrawableFactory.create(getResources(),bitmap);
+            avatar.setCircular(true);
+            deskProfile.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            deskProfile.setImageDrawable(avatar);
+        }
+        int inset=bitmap==null?0:dp(8);
+        deskProfile.setPadding(inset,inset,inset,inset);
+    }
+    private void openNativeSection(String section){
+        if(!nativeShell || !isAppHomeUrl(web.getUrl()))return;
+        int generation=documentGeneration;
+        web.evaluateJavascript("window.DDNativeShell?.go("+JSONObject.quote(section)+")",value->{
+            if(generation!=documentGeneration || !"true".equals(value))return;
+            if(!"discover".equals(section))nativeNews.rememberPosition();
+            nativeNewsSelected="discover".equals(section);
+            layoutDesk();
+        });
+    }
+    private void refreshNativeNews(){
+        root.removeCallbacks(refreshDeadline);
+        if(cachedNewsOnly || !nativeShell || !isAppHomeUrl(web.getUrl())){
+            nativeNews.finishRefresh();
+            cachedNewsOnly=false;
+            mainPageFailed=false;
+            web.loadUrl(HOME);
+            return;
+        }
+        root.postDelayed(refreshDeadline,15000);
+        web.evaluateJavascript("void window.DDNativeShell?.refresh()",null);
+    }
+    private void showSharedNews(String id,String url){
+        if(cachedNewsOnly || !nativeShell || !isAppHomeUrl(web.getUrl())){
+            android.widget.Toast.makeText(this,"Connect to open discussion and research tools",android.widget.Toast.LENGTH_SHORT).show();
+            return;
+        }
+        nativeNews.rememberPosition();
+        nativeNewsSelected=false;
+        layoutDesk();
+        if(!id.isEmpty() && NativeNewsView.safeUrl(url)){
+            web.evaluateJavascript("window.DDNativeShell?.story("+JSONObject.quote(id)+","+JSONObject.quote(url)+")",value->{
+                if("false".equals(value) && !nativeNewsSelected)
+                    android.widget.Toast.makeText(this,"This story is in your saved list. Its original link is still available there.",android.widget.Toast.LENGTH_SHORT).show();
+            });
+        }
+    }
+    private void openNewsPublisher(JSONObject story){
+        String url=story.optString("url");
+        if(!NativeNewsView.safeUrl(url))return;
+        if(nativeShell && isAppHomeUrl(web.getUrl())){
+            web.evaluateJavascript("window.DDNativeShell?.read(JSON.parse("+
+                JSONObject.quote(story.toString())+"))",null);
+        }
+        try{
+            startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(url)));
+        }catch(ActivityNotFoundException error){
+            android.widget.Toast.makeText(this,"No browser is available to open this story",android.widget.Toast.LENGTH_SHORT).show();
+        }
+    }
     private void openProfile(){
-        if(!compactHeader || !isAppHomeUrl(web.getUrl()))return;
+        if(cachedNewsOnly || !compactHeader || !isAppHomeUrl(web.getUrl()))return;
         String script="(function(){if(location.origin!=='https://uapdisclosuredesk.com'||location.pathname!=='/')return false;"
           + "const profile=document.getElementById('ddProfileShortcut');"
           + "if(!profile||document.querySelector('dialog[open]'))return false;"
           + "profile.click();return true;})()";
         web.evaluateJavascript(script,value->{
+            if("true".equals(value) && isAppHomeUrl(web.getUrl())){
+                nativeNews.rememberPosition();
+                nativeNewsSelected=false;
+                layoutDesk();
+            }
             if("false".equals(value) && compactHeader)
                 android.widget.Toast.makeText(this,"Close the current panel to open My Profile",android.widget.Toast.LENGTH_SHORT).show();
         });
@@ -362,9 +515,6 @@ public final class MainActivity extends Activity {
         menu.getMenu().add("Offline Archive").setOnMenuItemClickListener(item->{openOfflineArchive();return true;});
         menu.getMenu().add("Research Inbox").setOnMenuItemClickListener(item->{showResearchInbox();return true;});
         menu.getMenu().add("Notification settings").setOnMenuItemClickListener(item->{notificationSettings();return true;});
-        if(compactHeader){
-            menu.getMenu().add("Support Disclosure Desk").setOnMenuItemClickListener(item->{openSupport();return true;});
-        }
         menu.show();
     }
     private void openOfflineArchive(){
@@ -372,18 +522,35 @@ public final class MainActivity extends Activity {
     }
     private void layoutDesk(){
         boolean ready=splash==null && offlinePanel!=null && offlinePanel.getVisibility()!=View.VISIBLE;
-        boolean showDesk=deskHome && ready && fullView==null;
+        boolean showDesk=(deskHome && ready || cachedNewsOnly) && fullView==null;
         if(deskBar==null || web==null)return;
         deskBar.setVisibility(showDesk?View.VISIBLE:View.GONE);
-        deskProfile.setVisibility(compactHeader?View.VISIBLE:View.GONE);
-        boolean showAd=adView!=null && ready && fullView==null;
+        deskProfile.setVisibility(compactHeader && !cachedNewsOnly?View.VISIBLE:View.GONE);
+        deskSupport.setVisibility(compactHeader || cachedNewsOnly?View.VISIBLE:View.GONE);
+        boolean showNews=fullView==null && (cachedNewsOnly || ready && nativeShell &&
+                nativeNewsSelected && "discover".equals(activeSection) && !shellModal);
+        boolean showNav=ready && nativeShell && fullView==null && !shellModal && !bottomNav.isKeyboardOpen();
+        nativeNews.setVisibility(showNews?View.VISIBLE:View.GONE);
+        web.setImportantForAccessibility(showNews?View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS:View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
+        bottomNav.setVisibility(showNav?View.VISIBLE:View.GONE);
+        boolean showAd=adView!=null && ready && fullView==null && !bottomNav.isKeyboardOpen() && !shellModal;
         if(adView!=null)adView.setVisibility(showAd?View.VISIBLE:View.GONE);
-        FrameLayout.LayoutParams layout=(FrameLayout.LayoutParams)web.getLayoutParams();
-        int top=showDesk?dp(DESK_BAR_DP):0,bottom=showAd?dp(50):0;
+        int adHeight=showAd?dp(50):0;
+        setMargins(bottomNav,0,adHeight);
+        int top=showDesk?dp(DESK_BAR_DP):0,bottom=adHeight+(showNav?dp(NAV_BAR_DP):0);
+        setMargins(web,top,bottom);
+        setMargins(nativeNews,top,bottom);
+        if(cachedNewsOnly){
+            nativeNews.bringToFront();
+            deskBar.bringToFront();
+        }
+    }
+    private void setMargins(View view,int top,int bottom){
+        FrameLayout.LayoutParams layout=(FrameLayout.LayoutParams)view.getLayoutParams();
         if(layout.topMargin!=top || layout.bottomMargin!=bottom){
             layout.topMargin=top;
             layout.bottomMargin=bottom;
-            web.setLayoutParams(layout);
+            view.setLayoutParams(layout);
         }
     }
     // The packaged UI is built from the latest reviewed website with the public web allowlist.
@@ -493,6 +660,15 @@ public final class MainActivity extends Activity {
         archive.setText("Offline Archive");
         archive.setOnClickListener(v->openOfflineArchive());
         panel.addView(archive,new LinearLayout.LayoutParams(-1,dp(52)));
+        Button savedNews=new Button(this);
+        savedNews.setAllCaps(false);
+        savedNews.setText("News and saved stories");
+        savedNews.setOnClickListener(v->{
+            cachedNewsOnly=true;
+            nativeNews.showOffline();
+            layoutDesk();
+        });
+        panel.addView(savedNews,new LinearLayout.LayoutParams(-1,dp(52)));
         return panel;
     }
     private void showOffline(){
@@ -585,6 +761,12 @@ public final class MainActivity extends Activity {
                    !"uapdisclosuredesk.com".equals(origin.getHost()))return;
                 try{
                     JSONObject data=new JSONObject(message.getData());
+                    String type=data.optString("type");
+                    if(type.startsWith("shell_")){
+                        if(isAppHomeUrl(view.getUrl()) && !mainPageFailed
+                                && data.optInt("generation",-1)==documentGeneration)handleShellMessage(type,data);
+                        return;
+                    }
                     if("open_research_inbox".equals(data.optString("type"))){
                         runOnUiThread(this::showResearchInbox);
                         return;
@@ -623,6 +805,32 @@ public final class MainActivity extends Activity {
                 FirebaseApp.initializeApp(this,options);
             }
         }catch(Exception problem){android.util.Log.w("DisclosureDesk","FCM unavailable for this build.");}
+    }
+    private void handleShellMessage(String type,JSONObject data){
+        switch(type){
+            case "shell_state":
+                String section=data.optString("section","discover");
+                if(!"discover".equals(section) && "discover".equals(activeSection))nativeNews.rememberPosition();
+                if(!"discover".equals(section))nativeNewsSelected=false;
+                activeSection=section;
+                shellModal=data.optBoolean("modal");
+                bottomNav.update(activeSection,data.optString("chat"),data.optString("videos"));
+                layoutDesk();
+                break;
+            case "shell_avatar":
+                updateDeskPhoto(data.optString("photo"));
+                break;
+            case "shell_news":
+                org.json.JSONArray rows=data.optJSONArray("rows");
+                if(rows!=null && rows.length()<=250)nativeNews.update(rows,data.optString("status"));
+                break;
+            case "shell_refresh_done":
+                root.removeCallbacks(refreshDeadline);
+                nativeNews.finishRefresh();
+                break;
+            default:
+                break;
+        }
     }
     private void deliverChatToken(){
         if(FirebaseApp.getApps(this).isEmpty() || web==null)return;
@@ -739,7 +947,7 @@ public final class MainActivity extends Activity {
         if(isFinishing()||isDestroyed()||web==null)return;
         new AlertDialog.Builder(this)
           .setTitle("How to use Research Inbox")
-          .setMessage("In Chrome or another app, tap Share and choose Disclosure Desk Beta M93. Open Research Inbox from News or Explore. Tap a saved link to open it, or use its menu to rename, copy or remove it. Links stay on this device.")
+          .setMessage("In Chrome or another app, tap Share and choose Disclosure Desk Beta M94. Open Research Inbox from News or Explore. Tap a saved link to open it, or use its menu to rename, copy or remove it. Links stay on this device.")
           .setNegativeButton("Close",null)
           .setPositiveButton("Open guide",(dialog,which)->web.loadUrl(HOME+"guide#android-research-inbox"))
           .show();
@@ -892,6 +1100,17 @@ public final class MainActivity extends Activity {
     private int dp(int pixels){return (int)(pixels*getResources().getDisplayMetrics().density+0.5f);}
     @Override public void onBackPressed(){
         if(fullView!=null){((WebChromeClient)web.getWebChromeClient()).onHideCustomView();return;}
+        if(cachedNewsOnly){
+            cachedNewsOnly=false;
+            nativeNews.rememberPosition();
+            layoutDesk();
+            return;
+        }
+        if(nativeShell && !nativeNewsSelected && !shellModal && "discover".equals(activeSection)){
+            nativeNewsSelected=true;
+            layoutDesk();
+            return;
+        }
         // Back closes the current popover/dialog or nested Discussion before
         // switching tabs. In W.NE or another actual document URL, use WebView history.
         String script="(function(){try{"
@@ -908,16 +1127,19 @@ public final class MainActivity extends Activity {
           +"if(section&&!section.hidden&&backSections){backSections.click();return 'handled'};"
           +"var active=document.querySelector('.tab.active');"
           +"if(active&&active.dataset.tab!=='discover'){var home=document.querySelector('[data-tab=discover]');"
-          +"if(home)home.click();return 'handled'};"
+          +"if(home)home.click();return 'home'};"
           +"return 'exit'}catch(e){return 'exit'}})()";
         web.evaluateJavascript(script,value->{
-            if(!"\"handled\"".equals(value)){
+            if("\"home\"".equals(value) && nativeShell){
+                nativeNewsSelected=true;
+                layoutDesk();
+            }else if(!"\"handled\"".equals(value) && !"\"home\"".equals(value)){
                 if(web.canGoBack())web.goBack();
                 else finish();
             }
         });
     }
-    @Override protected void onPause(){if(adView!=null)adView.pause();super.onPause();}
+    @Override protected void onPause(){if(nativeNews!=null)nativeNews.rememberPosition();if(adView!=null)adView.pause();super.onPause();}
     @Override protected void onResume(){super.onResume();if(adView!=null)adView.resume();if(premium!=null)premium.restore();}
     @Override protected void onDestroy(){if(pendingFiles!=null){pendingFiles.onReceiveValue(null);pendingFiles=null;}if(premium!=null)premium.close();if(adView!=null)adView.destroy();web.destroy();super.onDestroy();}
 }

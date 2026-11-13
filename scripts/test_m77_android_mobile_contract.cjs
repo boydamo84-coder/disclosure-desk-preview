@@ -29,7 +29,7 @@ assert(main.includes('if(!isMainFrame'),'Native bridge retains main-frame restri
 assert(main.includes('Collections.singleton("https://uapdisclosuredesk.com")'),'Native bridge origin stays pinned');
 assert(main.includes('if(PLAY_BILLING_APPROVED)premium=new LifetimeAdsManager'),'Paid billing still disabled');
 assert(Number(gradle.match(/versionCode = (\d+)/)?.[1]) >= 15);
-assert.match(gradle,/applicationIdSuffix = "\.beta\.m93"/);
+assert.match(gradle,/applicationIdSuffix = "\.beta\.m94"/);
 for(const source of [inline,cases]){
  assert(source.includes("item.parent_id||''"),'Nested row uses real parent_id');
  assert(source.includes("card.style.setProperty('--dd-comment-indent'"),'Nesting has computed valid px offset');
@@ -50,7 +50,7 @@ for(const token of [
 const tail=style.slice(style.lastIndexOf('/* M77 — real nested'));
 assert(!tail.includes('calc(var(--dd-comment-depth,1) * var(--dd-thread-step))'),
  'Modern WebView style must not use unsupported calc multiplication for replies');
-assert(workflow.includes('android/m93-compact-native-header-nov13'),'Correct Android development branch');
+assert(workflow.includes('android/m94-native-navigation-news-nov13'),'Correct Android development branch');
 assert(workflow.includes('scripts/test_m77_android_mobile_contract.cjs'),'M77 source test runs in APK CI');
 assert(workflow.includes('scripts/test_m77_android_mobile_chromium.cjs'),'Real mobile browser test runs in APK CI');
 assert(!/\bnetlify deploy\b/.test(workflow),'M77 never deploys Netlify');

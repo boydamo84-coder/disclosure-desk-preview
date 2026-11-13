@@ -14,8 +14,8 @@ android {
         buildConfigField("String", "DD_FIREBASE_PROJECT_ID", "\"${System.getenv("DD_FIREBASE_PROJECT_ID") ?: ""}\"")
 
         buildConfigField("String", "DD_FIREBASE_SENDER_ID", "\"${System.getenv("DD_FIREBASE_SENDER_ID") ?: ""}\"")
-        versionCode = 25
-        versionName = "0.14.1-m93-private-beta"
+        versionCode = 26
+        versionName = "0.14.2-m94-private-beta"
         manifestPlaceholders["ddAppLabel"] = "Disclosure Desk"
     }
     buildFeatures { buildConfig = true }
@@ -33,9 +33,9 @@ android {
     buildTypes {
         getByName("debug") {
             // Never uninstall or overwrite the owner's installed production package.
-            applicationIdSuffix = ".beta.m93"
+            applicationIdSuffix = ".beta.m94"
             versionNameSuffix = "-preview"
-            manifestPlaceholders["ddAppLabel"] = "Disclosure Desk Beta M93"
+            manifestPlaceholders["ddAppLabel"] = "Disclosure Desk Beta M94"
         }
         getByName("release") {
             isMinifyEnabled = false
@@ -46,3 +46,6 @@ android {
 }
 
 dependencies { implementation("androidx.work:work-runtime:2.9.1"); implementation("com.google.guava:guava:31.1-android"); implementation("com.google.android.gms:play-services-ads:25.5.0"); implementation("com.google.android.ump:user-messaging-platform:3.2.0"); implementation("com.android.billingclient:billing:9.1.0"); implementation("com.google.firebase:firebase-messaging:26.0.1"); implementation("androidx.webkit:webkit:1.17.1") }
+dependencies {
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0")
+}
