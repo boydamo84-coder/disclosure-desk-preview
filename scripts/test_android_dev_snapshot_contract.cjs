@@ -28,9 +28,9 @@ assert.match(main,/"https"\.equals\(url\.getScheme\(\)\)/,'Only HTTPS origin int
 assert.match(main,/"uapdisclosuredesk\.com"\.equals\(url\.getHost\(\)\)/);
 assert.match(main,/DD_FIREBASE_APP_ID/,'Firebase groundwork preserved');
 assert.match(main,/PLAY_BILLING_APPROVED = false/,'Unverified paid purchase is disabled');
-assert.match(gradle,/applicationIdSuffix = "\.beta\.m92"/,'Private beta does not overwrite production app');
+assert.match(gradle,/applicationIdSuffix = "\.beta\.m93"/,'Private beta does not overwrite production app');
 assert.match(gradle,/targetSdk = 36/);
-assert.match(gradle,/versionCode = 24/);
+assert.match(gradle,/versionCode = 25/);
 assert(!manifest.files.some(p=>p.startsWith('.github/')||p.startsWith('supabase/')||p.startsWith('scripts/')||p.includes('SECRET')),
  'No source jobs, SQL or internal config distributed in APK');
 console.log('PASS M77 private beta uses exact M74 pending website snapshot, no Netlify dependency, protected origin and separate Android package');

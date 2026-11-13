@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.content.Context;
+import android.content.ActivityNotFoundException;
+import android.content.res.ColorStateList;
 import java.util.List;
 import android.net.Uri;
 import android.provider.Settings;
@@ -32,9 +34,12 @@ import android.widget.ScrollView;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceError;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.webkit.WebSettings;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -64,7 +69,9 @@ import com.google.android.ump.UserMessagingPlatform;
 public final class MainActivity extends Activity {
     private static final int FILE_CHOOSER_REQUEST = 4312;
     private static final int OFFLINE_ARCHIVE_REQUEST = 4313;
-    private static final int DESK_BAR_DP = 49;
+    private static final int DESK_BAR_DP = 52;
+    private static final int DESK_GOLD = Color.rgb(242,215,162);
+    private static final String SUPPORT_URL = "https://ko-fi.com/disclosuredesk";
     private static final Set<String> LEGAL_PAGES = new HashSet<>(java.util.Arrays.asList(
             "guide", "terms", "privacy", "community-rules", "sources", "research-edition"));
     private ValueCallback<Uri[]> pendingFiles;
@@ -73,6 +80,9 @@ public final class MainActivity extends Activity {
     private WebView web;
     private FrameLayout root;
     private LinearLayout deskBar;
+    private ImageButton deskProfile;
+    private boolean compactHeader;
+    private int documentGeneration;
     private String pendingArchiveCase;
     private boolean deskHome;
     private View fullView;
@@ -146,20 +156,21 @@ public final class MainActivity extends Activity {
                 return embeddedWebsiteAsset(request);
             }
             @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap favicon){
-                deskHome = isAppHomeUrl(url);
-                if(deskHome)mainPageFailed=false;
+                documentGeneration++;
+                deskHome = false;
+                compactHeader = false;
+                if(isAppHomeUrl(url))mainPageFailed=false;
                 layoutDesk();
             }
             @Override public void onPageCommitVisible(WebView view,String url){
                 if(!mainPageFailed && isAppHomeUrl(url))showOnline();
             }
             @Override public void onPageFinished(WebView view,String url){
-                if(!mainPageFailed && isAppHomeUrl(url))showOnline();
-                if(isAppHomeUrl(url)){
+                if(!mainPageFailed && isAppHomeUrl(url) && isAppHomeUrl(view.getUrl())){
+                    installCompactHeader();
                     useTwoLineBreakingNews();
                     installProfileNotificationControl();
                     installResearchInboxControl();
-                    showFirstRunAlertsPrompt();
                     deliverChatToken();
                     openPendingArchiveCase();
                 }
@@ -256,34 +267,104 @@ public final class MainActivity extends Activity {
     private LinearLayout createDeskBar(){
         LinearLayout bar=new LinearLayout(this);
         bar.setGravity(Gravity.CENTER_VERTICAL);
-        bar.setBackgroundColor(Color.rgb(12,21,31));
-        bar.setPadding(dp(12),0,dp(9),0);
+        bar.setBackgroundColor(Color.rgb(11,19,28));
+        bar.setPadding(dp(14),0,dp(8),0);
         ImageView logo=new ImageView(this);
         logo.setImageResource(com.disclosuredesk.preview.R.drawable.dd_emblem);
         bar.addView(logo,new LinearLayout.LayoutParams(dp(28),dp(28)));
         TextView brand=new TextView(this);
         brand.setText("Disclosure Desk");
-        brand.setTextColor(Color.rgb(242,215,162));
+        brand.setTextColor(DESK_GOLD);
         brand.setTextSize(16);
         brand.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
         brand.setPadding(dp(8),0,dp(5),0);
         brand.setSingleLine(true);
         brand.setEllipsize(android.text.TextUtils.TruncateAt.END);
         bar.addView(brand,new LinearLayout.LayoutParams(0,-2,1));
+
+        deskProfile=new ImageButton(this);
+        deskProfile.setImageResource(R.drawable.ic_desk_profile);
+        deskProfile.setScaleType(ImageView.ScaleType.CENTER);
+        deskProfile.setContentDescription("My Profile");
+        deskProfile.setTooltipText("My Profile");
+        deskProfile.setBackground(deskRipple(false));
+        deskProfile.setOnClickListener(v->openProfile());
+        bar.addView(deskProfile,new LinearLayout.LayoutParams(dp(48),dp(48)));
+
         Button desk=new Button(this);
         desk.setText("Desk");
         desk.setAllCaps(false);
-        desk.setTextColor(Color.rgb(242,215,162));
+        desk.setTextColor(DESK_GOLD);
+        desk.setTextSize(14);
+        desk.setPadding(dp(13),0,dp(13),0);
+        desk.setMinWidth(dp(56));
+        desk.setMinimumWidth(dp(56));
+        desk.setStateListAnimator(null);
+        desk.setBackground(deskRipple(true));
         desk.setContentDescription("Open Desk menu");
         desk.setOnClickListener(this::showDeskMenu);
         bar.addView(desk,new LinearLayout.LayoutParams(-2,dp(48)));
         return bar;
+    }
+    private RippleDrawable deskRipple(boolean outlined){
+        GradientDrawable mask=new GradientDrawable();
+        mask.setColor(Color.WHITE);
+        mask.setCornerRadius(dp(13));
+        GradientDrawable surface=null;
+        if(outlined){
+            surface=new GradientDrawable();
+            surface.setColor(Color.rgb(22,34,47));
+            surface.setStroke(dp(1),Color.rgb(104,87,56));
+            surface.setCornerRadius(dp(13));
+        }
+        return new RippleDrawable(ColorStateList.valueOf(0x33F2D7A2),surface,mask);
+    }
+    private void installCompactHeader(){
+        int generation=documentGeneration;
+        try(BufferedReader script=new BufferedReader(new InputStreamReader(
+                getAssets().open("compact-header.js"),StandardCharsets.UTF_8))){
+            StringBuilder source=new StringBuilder();
+            String line;
+            while((line=script.readLine())!=null)source.append(line).append('\n');
+            web.evaluateJavascript(source.toString(),value->finishHomeLayout(generation,"true".equals(value)));
+        }catch(java.io.IOException error){
+            android.util.Log.e("DisclosureDesk","Compact header asset could not be opened.",error);
+            finishHomeLayout(generation,false);
+        }
+    }
+    private void finishHomeLayout(int generation,boolean installed){
+        if(generation!=documentGeneration || mainPageFailed || !isAppHomeUrl(web.getUrl()))return;
+        deskHome=true;
+        compactHeader=installed;
+        showOnline();
+        showFirstRunAlertsPrompt();
+    }
+    private void openProfile(){
+        if(!compactHeader || !isAppHomeUrl(web.getUrl()))return;
+        String script="(function(){if(location.origin!=='https://uapdisclosuredesk.com'||location.pathname!=='/')return false;"
+          + "const profile=document.getElementById('ddProfileShortcut');"
+          + "if(!profile||document.querySelector('dialog[open]'))return false;"
+          + "profile.click();return true;})()";
+        web.evaluateJavascript(script,value->{
+            if("false".equals(value) && compactHeader)
+                android.widget.Toast.makeText(this,"Close the current panel to open My Profile",android.widget.Toast.LENGTH_SHORT).show();
+        });
+    }
+    private void openSupport(){
+        try{
+            startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(SUPPORT_URL)));
+        }catch(ActivityNotFoundException error){
+            android.widget.Toast.makeText(this,"No browser is available to open Ko-fi",android.widget.Toast.LENGTH_SHORT).show();
+        }
     }
     private void showDeskMenu(View anchor){
         android.widget.PopupMenu menu=new android.widget.PopupMenu(this,anchor);
         menu.getMenu().add("Offline Archive").setOnMenuItemClickListener(item->{openOfflineArchive();return true;});
         menu.getMenu().add("Research Inbox").setOnMenuItemClickListener(item->{showResearchInbox();return true;});
         menu.getMenu().add("Notification settings").setOnMenuItemClickListener(item->{notificationSettings();return true;});
+        if(compactHeader){
+            menu.getMenu().add("Support Disclosure Desk").setOnMenuItemClickListener(item->{openSupport();return true;});
+        }
         menu.show();
     }
     private void openOfflineArchive(){
@@ -294,6 +375,7 @@ public final class MainActivity extends Activity {
         boolean showDesk=deskHome && ready && fullView==null;
         if(deskBar==null || web==null)return;
         deskBar.setVisibility(showDesk?View.VISIBLE:View.GONE);
+        deskProfile.setVisibility(compactHeader?View.VISIBLE:View.GONE);
         boolean showAd=adView!=null && ready && fullView==null;
         if(adView!=null)adView.setVisibility(showAd?View.VISIBLE:View.GONE);
         FrameLayout.LayoutParams layout=(FrameLayout.LayoutParams)web.getLayoutParams();
@@ -657,7 +739,7 @@ public final class MainActivity extends Activity {
         if(isFinishing()||isDestroyed()||web==null)return;
         new AlertDialog.Builder(this)
           .setTitle("How to use Research Inbox")
-          .setMessage("In Chrome or another app, tap Share and choose Disclosure Desk Beta M92. Open Research Inbox from News or Explore. Tap a saved link to open it, or use its menu to rename, copy or remove it. Links stay on this device.")
+          .setMessage("In Chrome or another app, tap Share and choose Disclosure Desk Beta M93. Open Research Inbox from News or Explore. Tap a saved link to open it, or use its menu to rename, copy or remove it. Links stay on this device.")
           .setNegativeButton("Close",null)
           .setPositiveButton("Open guide",(dialog,which)->web.loadUrl(HOME+"guide#android-research-inbox"))
           .show();
