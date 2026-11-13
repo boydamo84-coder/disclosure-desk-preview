@@ -1,6 +1,19 @@
 # Disclosure Desk — MASTER HANDOVER
 _Last updated: 13 November 2026 (Europe/London)_
 
+
+## Milestone 93 — Compact native Android toolbar (13 November 2026)
+
+- The owner's M92 screenshot from the Galaxy S24 Ultra confirmed the app opened and showed a large gap above the content. The Android toolbar and mobile site header were both visible, and the site header added its mobile top padding.
+- The M93 app uses one 52 dp navy-and-gold toolbar on the main site screen. My Profile opens the existing account view from a native 48 dp button. Desk opens a native menu with Offline Archive, Research Inbox, notification settings and Support Disclosure Desk. Support opens the existing Ko-fi page via Android's browser intent.
+- The Android-only asset removes the duplicate header from layout and resets the News and Archive sticky offsets once it verifies the site's Profile and Support controls are available. The website header serves as a fallback. Standalone guides and W.NE documents retain their own layout, and fullscreen video hides the app toolbar.
+- Android branch `android/m93-compact-native-header-nov13` starts at the verified M92 Android handover. The November web features continue to ship from that source. The Android Research Inbox guide names M93 in the share sheet. No production deployment, Play publication or backend migration.
+- M93 uses application ID `com.boyddigitalstudios.disclosuredesk.beta.m93`, versionCode 25 and versionName `0.14.1-m93-private-beta-preview`. It installs alongside M92. Sign in to access the same account, and keep M92 installed for any device-only Research Inbox links or drafts.
+- **Verified APK.** [GitHub Actions 43339375142](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43339375142) passed on `bd84a3cf9913102f4a788ee0390ff7ffedffbf1c`. The Chromium suite includes the compact header, browser and missing-action fallbacks, no remaining header spacer, Profile and sticky News/Archive offsets at 320, 393 and 820 px. Existing mobile Chat, comment, Research Inbox and Archive navigation regressions and the JVM Share-link parser also passed.
+- **Artifact.** [DisclosureDesk-M93-PRIVATE-BETA](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43339375142/artifacts/13999315672). APK signature and all 90 bundled website files independently verified. APK 10,519,137 bytes, SHA-256 `0b57a014c96622fb922a848113868443cb3d4fc64a52b9365ffa5ed8233c9e30`. Actions ZIP 10,061,898 bytes, sha256:6f45d7c2427d64634bfc8630283c18cff3f7a536c091155339a35151fb2d2848.
+- **Galaxy S24 Ultra acceptance pending.** Open News and scroll to the filters, tap My Profile, check Desk actions, open an Archive case and use Android Back, and enter and leave video fullscreen. Next Android polish candidate is a native bottom navigation bar with a More sheet, followed by a native News feed with saved reading and pull-to-refresh.
+
+
 ## Milestone 92 — Website parity and native Android Desk (13 November 2026)
 
 - The Android beta integrates the full verified November website candidate from `fix/m91-archive-case-back-nov12` at `e31a6aeec848f0e5ef0f06ab9cfabd4cd6ab4c71`. It contains the M86 fold-out comments, M87 News reply indentation, M88 Terms, M89 discussion sorting and Subjects drawer, M90 Feed/Sections and the M91 Archive Back fix. The Android guide adds instructions for the native Research Inbox.
