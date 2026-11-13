@@ -59,3 +59,16 @@ The largest next search opportunity is a small set of **substantive, source-link
 ## 6. Retained research phases
 
 Proceed incrementally through the original approved plan: **A** Case Intelligence, **B** possible sky explanations, **C** independent witness matching, **D** evidence completeness/status, **E** opt-in published investigations. Existing satellite-imagery links do not by themselves complete Phase B. Prioritise reliable saves, clear sources, privacy and a simple experience before additional external data feeds or AI features.
+
+
+## 7. AdSense-aligned research release (13 November 2026 addendum)
+
+The owner's authenticated AdSense screenshot shows **Needs attention: Low-value content**. Address original research and source transparency through existing approved research roadmap phases rather than building separate advertising-only features.
+
+**Prioritise now:** Phase A's sourced timelines and verified-vs-suggested relationship methodology; Phase D's evidence completeness and visible gaps; the public-read-only presentation part of Phase E. A standalone `investigations.html` with three source-linked evidence reviews and a six-part research method is **staged on** `audit/adsense-low-value-recovery-nov13` and linked from its homepage/About/footer. It is not deployed or editorially approved. Public page metadata/sitemap and release allowlist were prepared; full CI and live acceptance pending.
+
+**Build next in the same release candidate:** document-level original historical case pages with stable canonical URLs, transparent source provenance, research date and correction history; clearly distinguish official records from editorial analysis. Use case-level timelines, an evidence inventory and links to the current archive. Keep default browsing public without requiring a login.
+
+**Keep for later:** full member opt-in publishing (Phase E backend), Phase B aircraft/astronomy matching, Phase C witness matching, pinned Chat/Boards, profile reactions and automatic social syndication, except where an independent pre-existing release commitment explicitly requires them. None should delay or dilute the site-content improvements.
+
+Track each milestone in `MASTER_HANDOVER.md` and `docs/ADSENSE_RECOVERY_NEXT_DEPLOY_MATRIX_2026-11-13.md`; reconcile pending M86–M96 branches and new production fixes before the single authorised Netlify deployment. Google approval is **not guaranteed** by any particular implementation.
