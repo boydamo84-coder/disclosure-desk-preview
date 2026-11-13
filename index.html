@@ -2279,6 +2279,9 @@ function ddVideoModeSetup(){
 }
 ddVideoModeSetup();
 let historicalRecords=[];
+// Initialise claim-loader state BEFORE the archive's early startup call.
+let ddEvidenceDnaCaseGraphs=new Map();
+let ddEvidenceDnaLoadPromise=null;
 let ddArchiveLoading=null,ddArchiveTried=false,ddArchiveFullReady=false;
 // A public evidence dossier may link directly to an existing featured case.
 // The allowlist prevents arbitrary text from reaching a case or a page.
@@ -2541,8 +2544,6 @@ function archiveEvidencePanel(r){
 }
 // Release 2 preview: read-only source provenance. No independent corroboration
 // is inferred from a source link, archive listing or repeated publisher URL.
-let ddEvidenceDnaCaseGraphs=new Map();
-let ddEvidenceDnaLoadPromise=null;
 async function ddLoadEvidenceDnaDrafts(){
  if(ddEvidenceDnaLoadPromise)return ddEvidenceDnaLoadPromise;
  ddEvidenceDnaLoadPromise=(async()=>{
