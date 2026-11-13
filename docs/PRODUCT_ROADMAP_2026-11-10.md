@@ -72,3 +72,12 @@ The owner's authenticated AdSense screenshot shows **Needs attention: Low-value 
 **Keep for later:** full member opt-in publishing (Phase E backend), Phase B aircraft/astronomy matching, Phase C witness matching, pinned Chat/Boards, profile reactions and automatic social syndication, except where an independent pre-existing release commitment explicitly requires them. None should delay or dilute the site-content improvements.
 
 Track each milestone in `MASTER_HANDOVER.md` and `docs/ADSENSE_RECOVERY_NEXT_DEPLOY_MATRIX_2026-11-13.md`; reconcile pending M86–M96 branches and new production fixes before the single authorised Netlify deployment. Google approval is **not guaranteed** by any particular implementation.
+
+
+## 8. Phase A Case Connections staged (13 November 2026)
+
+The owner approved full-archive related-case discovery from every public archive case (similar content, source-locality, approximate geographic distance when coordinates exist, supportive catalogue-year proximity and possible duplicates), with explanation and source links. **Implemented only on** `audit/adsense-low-value-recovery-nov13` as an indexed, read-only `assets/case-connections.js` plus four filter modes inside the existing archive modal. The previous title-only/year-only matcher is superseded on that branch. This is a Phase A improvement but is not a claim of verified relationship or corroboration.
+
+Local no-deploy CI run 43513005838 passed source/strict package/Chromium checks and a 12,000 synthetic-record regression. Real device and production loaded-data QA, editorial review and reconciliation with pending M86–M96 changes remain. Future Phase A: record-level geocoding with documented precision, distinguish true event timestamps from catalogue years, verified connections and a researcher-editable visual graph. Do not merge automatic duplicate suggestions into permanent source records without independent verification. All cases remain original source records.
+
+See `docs/CASE_CONNECTIONS_FULL_ARCHIVE_DESIGN_2026-11-13.md` and the consolidated release matrix. Netlify remains untouched; no AdSense re-review.
