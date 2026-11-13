@@ -50,7 +50,7 @@ for(const token of [
 const tail=style.slice(style.lastIndexOf('/* M77 — real nested'));
 assert(!tail.includes('calc(var(--dd-comment-depth,1) * var(--dd-thread-step))'),
  'Modern WebView style must not use unsupported calc multiplication for replies');
-assert(workflow.includes('android/m94-native-navigation-news-nov13'),'Correct Android development branch');
+assert(workflow.includes('android/m95-restore-editorial-layout-nov13'),'Correct Android development branch');
 assert(workflow.includes('scripts/test_m77_android_mobile_contract.cjs'),'M77 source test runs in APK CI');
 assert(workflow.includes('scripts/test_m77_android_mobile_chromium.cjs'),'Real mobile browser test runs in APK CI');
 assert(!/\bnetlify deploy\b/.test(workflow),'M77 never deploys Netlify');
