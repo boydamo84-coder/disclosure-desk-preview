@@ -22,6 +22,18 @@ The owner supplied a `Top resources not found` list for 6–13 November: `/wp-ad
 
 
 
+### Owner-approved Android phase after M95 and favicon/site checks (13 November 2026)
+
+Owner **approved all five** proposed native Android upgrades, to start **after** M95 is built/verified and the immediate website favicon/404 audit is settled. Non-negotiable visual constraint: retain the premium midnight-navy, antique-gold colour scheme, typography and preferred original editorial bottom navigation; do NOT revive M94's replacement native bottom bar or stripped-down native News feed.
+
+1. Native notification centre with account-scoped read/unread state, sensible categories, direct deep links to the correct story/reply/chat/investigation and Android settings integration; avoid duplicate notifications.
+2. Native Saved Research hub unifying phone-local Research Inbox, offline Archive and available saved references, while preserving private account Boards, original URLs, local data and Supabase RLS.
+3. Native Android settings and account shortcuts for profile photo, notification opt-ins, offline storage/cache, privacy and Support, keeping public/private profile visibility choices intact.
+4. Native-feeling refresh/loading, motion, keyboard-aware replies, Android Back/history, disconnected states, video fullscreen and safe state restoration. Start with functional behaviour, no wholesale UI rewrite.
+5. Phone-first Save → Add to Investigation → Add Note → Open Board flow, integrating Android Share with existing validated Boards and clear offline/sync status.
+
+These are **approved roadmap requirements, not features implemented in M95**. Complete regression QA and Play-policy checks before distribution. The favicon fallback is separately staged on website branch `fix/m96-favicon-legacy-fallback-nov13`; it is not an APK commit. Do not auto-merge unrelated branches or deploy Netlify.
+
 ## Milestone 94 — Native Android navigation, News and profile photo (13 November 2026)
 
 - The compact Android toolbar has a Support button beside My Profile. Support opens the verified Disclosure Desk Ko-fi page in Android's browser. The profile button uses the photo chosen in the existing account Profile and returns to the default icon when that photo is removed or the account signs out. The Android toolbar uses an in-memory thumbnail of the existing owner photo and does not modify its public visibility setting.
