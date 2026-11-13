@@ -9,6 +9,7 @@ on:
       - 'roswell-1947.html'
       - 'sitemap.xml'
       - 'scripts/build_public_release.cjs'
+      - 'scripts/test_public_release_package.cjs'
       - 'scripts/test_original_research_contract.cjs'
       - 'scripts/test_original_research_chromium.cjs'
       - '.github/workflows/qa-adsense-research-no-deploy.yml'
