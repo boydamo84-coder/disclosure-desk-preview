@@ -29,7 +29,7 @@ assert(main.includes('if(!isMainFrame'),'Native bridge retains main-frame restri
 assert(main.includes('Collections.singleton("https://uapdisclosuredesk.com")'),'Native bridge origin stays pinned');
 assert(main.includes('if(PLAY_BILLING_APPROVED)premium=new LifetimeAdsManager'),'Paid billing still disabled');
 assert(Number(gradle.match(/versionCode = (\d+)/)?.[1]) >= 15);
-assert.match(gradle,/applicationIdSuffix = "\.beta\.m94"/);
+assert.match(gradle,/applicationIdSuffix = "\.beta\.m95"/);
 for(const source of [inline,cases]){
  assert(source.includes("item.parent_id||''"),'Nested row uses real parent_id');
  assert(source.includes("card.style.setProperty('--dd-comment-indent'"),'Nesting has computed valid px offset');
