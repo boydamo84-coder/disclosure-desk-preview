@@ -1,6 +1,7 @@
 'use strict';
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const path = require('node:path');
 const { chromium } = require('playwright-core');
 const main = 'android-test/app/src/main/';
 const headerScript = fs.readFileSync(main + 'assets/compact-header.js', 'utf8');
@@ -8,7 +9,8 @@ const activity = fs.readFileSync(main + 'java/com/disclosuredesk/preview/MainAct
 const openProfile = activity.split('private void openProfile(){')[1].split('web.evaluateJavascript')[0];
 const profileScript = [...openProfile.split('String script=')[1].matchAll(/"(?:[^"\\]|\\.)*"/g)]
     .map(match => JSON.parse(match[0])).join('');
-const local = 'http://127.0.0.1:4173';
+const snapshot = path.resolve(main, 'assets/dd-site');
+const files = new Set(JSON.parse(fs.readFileSync(path.join(snapshot, 'snapshot-manifest.json'))).files);
 const app = 'https://uapdisclosuredesk.com';
 
 (async () => {
@@ -20,11 +22,12 @@ const app = 'https://uapdisclosuredesk.com';
         for (const width of [320, 393, 820]) {
             const page = await browser.newPage({ viewport: { width, height: 780 }, serviceWorkers: 'block' });
             await page.addInitScript(() => localStorage.setItem('dd-welcome-tour-choice-v2', 'dismissed'));
-            await page.route('**/*', async route => {
+            await page.route('**/*', route => {
                 const url = new URL(route.request().url());
                 if (url.origin !== app || route.request().method() !== 'GET') return route.abort();
-                const response = await route.fetch({ url: local + url.pathname + url.search });
-                return route.fulfill({ response });
+                const file = url.pathname === '/' ? 'index.html' : url.pathname.slice(1);
+                if (!files.has(file)) return route.abort();
+                return route.fulfill({ path: path.join(snapshot, file) });
             });
             await page.goto(app + '/', { waitUntil: 'domcontentloaded' });
             const header = page.locator('.shell > header.top');
@@ -62,6 +65,7 @@ const app = 'https://uapdisclosuredesk.com';
 
             await page.goto(app + '/guide.html', { waitUntil: 'domcontentloaded' });
             assert.equal(await page.evaluate(headerScript), false);
+            await page.unrouteAll({ behavior: 'wait' });
             await page.close();
         }
         console.log('PASS M93: duplicate header removed with no spacer, profile accessible, website fallback intact at 320/393/820 px.');
