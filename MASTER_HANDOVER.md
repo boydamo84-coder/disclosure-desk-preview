@@ -1456,3 +1456,12 @@ Each was forked from the R1 source **after** release-train scope documentation w
 Release queue progression only; **no R2 code merged into R1**. On isolated `queue/dd-web-r2-evidence-intelligence`, Evidence DNA alpha now has source deduplication, reviewed claim lineage/cycle checks and a read-only case modal panel. GitHub no-deploy QA run `43517988515` **passed** (95 allowlisted files, public page audit 0 errors/3 pre-existing private W.NE warnings, mobile/desktop Chromium). Distinct URLs are not independent witnesses; without verified source-to-source proof the panel displays **not assessed**. Human-reviewed original claim graph, Contradiction Radar and visual case graph remain unbuilt.
 
 This status update exists in the R1 Master Handover only for consolidated awareness; **Release 1 remains the only next release candidate**, still requiring integration of approved website work, editorial checks, full QA and explicit deployment permission. Before R2 promotion, reconcile it onto the accepted live R1 commit and re-test. Netlify, production and AdSense untouched.
+
+
+### R2 Evidence DNA milestone 2 — source-linked draft claims (13 November 2026)
+
+**Status information only — NO R2 application code merged into R1.** The isolated branch `queue/dd-web-r2-evidence-intelligence` now includes four source-linked *editorial-draft* claims in two curated historical cases, with exact source/section locators, careful limitations and original archive links. It extends Evidence DNA's provenance parser and read-only case panel. Source references are not verified event observations or independent witnesses. Contradiction Radar, visual graph, independently adjudicated source-dependency data and owner editorial sign-off remain future work.
+
+GitHub R2 no-deploy QA run `43519473367` at code SHA `40b36fc76dbc4bef4ed99199e292fac4aeb0a147` PASSED: strict 96-file public staging, unit/source tests, 18-page audit with 0 errors (3 legacy private W.NE warnings), Chromium archive-to-case tests at mobile 393px and desktop 1280px. Source panel boot regression was fixed and browser verified. This is NOT a full integrated R2 release test or phone hardware acceptance.
+
+Release 1 website/AdSense recovery remains next to publish, subject to branch reconciliation, editorial review, exact-HEAD QA, physical device checks and explicit owner approval. R2 must later rebase on the actual verified live R1 commit and pass separate gates. Nothing deployed, no Netlify credits spent and no AdSense resubmission.
