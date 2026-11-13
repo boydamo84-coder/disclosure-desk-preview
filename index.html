@@ -945,7 +945,7 @@
   <h2 id="ddSatelliteTitle">🛰 Historical satellite imagery</h2>
   <div id="ddSatelliteDialogBody"></div>
  </div>
-</dialog><dialog id="ddNoteDialog" class="dd-note-dialog" aria-labelledby="ddNoteHeading"><div class="dd-note-shell"><div class="dd-note-top"><h2 id="ddNoteHeading">✎ Private note</h2><button class="outline" type="button" id="ddNoteClose" aria-label="Close editor">✕</button></div><p id="ddNoteSource" class="muted small"></p><p class="muted small">Only stored in your private Investigation Board. Never posted to the public archive.</p><textarea id="ddNoteText" class="field" maxlength="4000" rows="7" placeholder="Observations, contradictions, follow-up questions or why this source matters…"></textarea><p class="muted small" id="ddNoteCount">0 / 4000</p><div class="dd-note-actions"><button class="outline" id="ddNoteCancel" type="button">Cancel</button><button class="outline" id="ddNoteClear" type="button">Clear note</button><button class="action" id="ddNoteSave" type="button">Save note</button></div></div></dialog><div id="ddBoardToast" class="dd-board-toast" hidden role="status"></div><dialog id="ddComparisonSaveDialog" class="collection-dialog" aria-label="Save comparison"><div class="picker-content"><div class="picker-head"><h3>Save comparison</h3><button type="button" class="picker-close" id="ddComparisonSaveClose">×</button></div><p class="muted small">Keep this comparison and its source references in your private Board.</p><div id="ddComparisonSaveChoices"></div><p class="picker-message" id="ddComparisonSaveStatus" role="status"></p></div></dialog><dialog id="collectionPicker" class="collection-dialog" aria-labelledby="pickerTitle"><div class="picker-content"><div class="picker-head"><h3 id="pickerTitle">Save discovery</h3><button type="button" id="pickerClose" class="picker-close" aria-label="Close">×</button></div><p id="pickerSubtitle" class="picker-subtitle"></p><div id="pickerChoices"></div><label for="pickerPrivateNote" class="muted small" style="display:block;margin-top:12px"><strong>Private note (optional)</strong> · saved with this source, case or video</label><textarea id="pickerPrivateNote" class="field" rows="3" maxlength="4000" style="width:100%;resize:vertical" placeholder="Why I saved this, what to investigate, contradictions or questions…"></textarea><label id="pickerDiscussionOption" style="display:none;padding:10px 6px;font-size:13px"><input type="checkbox" id="pickerIncludeDiscussion"> Include case discussion link (optional)</label><form id="pickerCreate" class="picker-create hidden"><label for="pickerNewName">New collection name</label><input class="field" id="pickerNewName" maxlength="60" required placeholder="e.g. Roswell research"><button type="submit">Create and save</button></form><div id="pickerMessage" class="picker-message" role="status"></div></div></dialog><script>
+</dialog><dialog id="ddNoteDialog" class="dd-note-dialog" aria-labelledby="ddNoteHeading"><div class="dd-note-shell"><div class="dd-note-top"><h2 id="ddNoteHeading">✎ Private note</h2><button class="outline" type="button" id="ddNoteClose" aria-label="Close editor">✕</button></div><p id="ddNoteSource" class="muted small"></p><p class="muted small">Only stored in your private Investigation Board. Never posted to the public archive.</p><textarea id="ddNoteText" class="field" maxlength="4000" rows="7" placeholder="Observations, contradictions, follow-up questions or why this source matters…"></textarea><p class="muted small" id="ddNoteCount">0 / 4000</p><div class="dd-note-actions"><button class="outline" id="ddNoteCancel" type="button">Cancel</button><button class="outline" id="ddNoteClear" type="button">Clear note</button><button class="action" id="ddNoteSave" type="button">Save note</button></div></div></dialog><div id="ddBoardToast" class="dd-board-toast" hidden role="status"></div><dialog id="ddComparisonSaveDialog" class="collection-dialog" aria-label="Save comparison"><div class="picker-content"><div class="picker-head"><h3>Save comparison</h3><button type="button" class="picker-close" id="ddComparisonSaveClose">×</button></div><p class="muted small">Keep this comparison and its source references in your private Board.</p><div id="ddComparisonSaveChoices"></div><p class="picker-message" id="ddComparisonSaveStatus" role="status"></p></div></dialog><dialog id="collectionPicker" class="collection-dialog" aria-labelledby="pickerTitle"><div class="picker-content"><div class="picker-head"><h3 id="pickerTitle">Save discovery</h3><button type="button" id="pickerClose" class="picker-close" aria-label="Close">×</button></div><p id="pickerSubtitle" class="picker-subtitle"></p><div id="pickerChoices"></div><label for="pickerPrivateNote" class="muted small" style="display:block;margin-top:12px"><strong>Private note (optional)</strong> · saved with this source, case or video</label><textarea id="pickerPrivateNote" class="field" rows="3" maxlength="4000" style="width:100%;resize:vertical" placeholder="Why I saved this, what to investigate, contradictions or questions…"></textarea><label id="pickerDiscussionOption" style="display:none;padding:10px 6px;font-size:13px"><input type="checkbox" id="pickerIncludeDiscussion"> Include case discussion link (optional)</label><form id="pickerCreate" class="picker-create hidden"><label for="pickerNewName">New collection name</label><input class="field" id="pickerNewName" maxlength="60" required placeholder="e.g. Roswell research"><button type="submit">Create and save</button></form><div id="pickerMessage" class="picker-message" role="status"></div></div></dialog><script src="assets/case-connections.js?v=m97-indexed"></script><script>
 'use strict';const $=id=>document.getElementById(id);const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const images={space:'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=900&q=80',sky:'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=850&q=80',ruins:'https://images.unsplash.com/photo-1603569283847-aa295f0d016a?w=850&q=80',night:'https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?w=850&q=80',radio:'https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=850&q=80'};
 const previewStories=[{category:'UAP',headline:'Inside the official investigations into unidentified aerial phenomena',desc:'How researchers assess reports, video evidence and unresolved observations.',img:'sky',source:'Editorial preview · Not live'},{category:'UAP',headline:'Roswell: the original 1947 reports and decades of speculation',desc:'The historical record, official findings and stories that followed.',img:'night',source:'Editorial preview · Not live'},];
@@ -2427,15 +2427,43 @@ let newsArchiveMode=false;
 let archiveDisplayCount=60;
 const archiveStopWords=new Set(['project','blue','book','case','file','files','uap','ufo','reported','report','reports','unknown','incident','investigation','government','the','and','from','with','of','at','on','in','for','an','a','to','near','unidentified','flying','object','objects','sighting','sightings']);
 function archiveTokens(r){return new Set(String(r.title||'').toLowerCase().match(/[a-z]{4,}/g)?.filter(w=>!archiveStopWords.has(w))||[])}
-function archiveConnections(item){
- const tokens=archiveTokens(item);
- return historicalRecords.filter(r=>r.id!==item.id&&r.url!==item.url).map(r=>{
-   const shared=[...archiveTokens(r)].filter(t=>tokens.has(t));
-   const nearYear=Math.abs(r.year-item.year)<=2;
-   const sharedSubject=r.category&&item.category&&r.category===item.category;
-   const score=shared.length*5+(nearYear?1:0)+(sharedSubject?0.2:0);
-   return {record:r,shared,score,nearYear};
- }).filter(x=>x.shared.length>0||x.nearYear).sort((a,b)=>b.score-a.score||Math.abs(a.record.year-item.year)-Math.abs(b.record.year-item.year)).slice(0,8);
+// Indexed suggestions are drawn from ALL currently loaded public archive cases.
+ // A suggestion is never independent corroboration, even if titles match.
+let ddCaseConnectionsIndex=null;
+function archiveConnections(item,mode='all',limit=12){
+ return ddCaseConnectionsIndex?.search(item,{mode,limit})||[];
+}
+function ddCaseConnectionsHtml(item,mode='all'){
+ const matches=archiveConnections(item,mode,14);
+ const missingPlace=!item?.city&&!item?.location&&(!Number.isFinite(Number(item?.lat))||!Number.isFinite(Number(item?.lon)));
+ const scope=ddCaseConnectionsIndex?.size||historicalRecords.length;
+ if(!matches.length)return '<p class="muted small">No well-supported '+esc(mode==='nearby'?'geographical':mode==='similar'?'descriptive':mode==='time'?'time-linked':'similar')+' matches among '+esc(String(scope))+' loaded public archive records. '+(mode==='nearby'&&missingPlace?'This case does not have a sufficiently specific listed location. ':'')+'Missing source coordinates or descriptions can limit suggestions; this does not mean no related reports exist.</p>';
+ return matches.map(x=>'<div class="card" style="margin:8px 0"><div class="card-body">'+
+  '<button type="button" class="outline" data-archive-related="'+esc(String(x.id))+'">'+esc(x.record.title)+'</button>'+
+  '<p class="muted small" style="margin:8px 0">'+esc(String(x.record.year||'Date uncertain'))+' · '+esc(x.record.category||x.record.kind||'Archive record')+
+  (x.possibleDuplicate?' · <strong>Possible overlapping record</strong>':'')+'</p>'+
+  '<ul class="muted small" style="margin:5px 0 5px 20px">'+x.reasons.slice(0,5).map(reason=>'<li>'+esc(reason)+'</li>').join('')+'</ul>'+
+  '<a class="dd-archive-source-link" href="'+esc(x.record.url)+'" target="_blank" rel="noopener noreferrer">View original catalogue source ↗</a>'+
+  '</div></div>').join('');
+}
+function ddBindCaseConnections(body,record){
+ const host=body.querySelector('#ddCaseConnectionsResults');
+ if(!host)return;
+ const buttons=[...body.querySelectorAll('[data-dd-case-mode]')];
+ function show(mode){
+  host.dataset.mode=mode;
+  host.innerHTML=ddCaseConnectionsHtml(record,mode);
+  buttons.forEach(b=>{
+   const selected=b.dataset.ddCaseMode===mode;
+   b.classList.toggle('active',selected);
+   b.setAttribute('aria-pressed',String(selected));
+  });
+  host.querySelectorAll('[data-archive-related]').forEach(b=>b.onclick=()=>archiveCaseOpen(b.dataset.archiveRelated));
+  const count=body.querySelector('#ddCaseConnectionsCoverage');
+  if(count)count.textContent='Searching '+(ddCaseConnectionsIndex?.size||historicalRecords.length).toLocaleString('en-GB')+' currently loaded public source records. Geographic distance is calculated only when coordinates exist; values may use approximate reported locations.';
+ }
+ buttons.forEach(b=>b.onclick=()=>show(b.dataset.ddCaseMode));
+ show(host.dataset.mode||'all');
 }
 function archiveMediaLinks(r){
  const terms=archiveTokens(r);
@@ -2586,7 +2614,7 @@ function ddBindArchiveActions(root){
 const ddArchiveCaseDialog=$('archiveCaseDialog');
 function archiveCaseOpen(id){
  const r=historicalRecords.find(x=>String(x.id)===String(id));if(!r)return;
- const related=archiveConnections(r);const media=archiveMediaLinks(r);const body=$('archiveCaseBody');
+ const media=archiveMediaLinks(r);const body=$('archiveCaseBody');
  body.dataset.archiveCaseId=String(r.id);
  body.innerHTML='<div class="dd-archive-card-head"><h2 id="archiveCaseTitle">'+esc(r.title)+'</h2>'+ddArchiveFollowHTML(r,true)+'</div>'+
  '<p class="muted small">'+esc(r.kind||'Archive record')+' · Record/event year: '+esc(String(r.year))+(r.endYear?'–'+esc(String(r.endYear)):'')+'</p>'+
@@ -2615,8 +2643,13 @@ ddCaseHistoryHtml(r.id)+
  '<p class="muted small">A listing confirms the existence of this record, not that any extraordinary explanation is established.</p>'+
  '<p><a class="news-open" href="'+esc(r.url)+'" target="_blank" rel="noopener noreferrer">Open original source ↗</a></p>'+
  (Array.isArray(r.sources)&&r.sources.length?'<h3>Original documents and research references</h3>'+r.sources.filter(x=>x&&safePublicUrl(x.url)).map(x=>'<p><a class="news-open" href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.title||'Source document')+' ↗</a> <span class="muted small">'+esc(x.type||'Reference')+'</span></p>').join(''):'')+
- '<h3>Explore related records</h3><p class="muted small">Suggestions based on title keywords or nearby years. These are discovery leads, not established connections between events.</p>'+
- (related.length?related.map(x=>'<div class="card" style="margin-bottom:8px"><div class="card-body"><button class="outline" type="button" data-archive-related="'+esc(String(x.record.id))+'">'+esc(x.record.title)+'</button><p class="muted small">'+esc(String(x.record.year))+' · '+(x.shared.length?'Shared title terms: '+esc(x.shared.slice(0,4).join(', ')):'Nearby record year')+'</p></div></div>').join(''):'<p class="muted small">No suggested related records found.</p>')+
+ '<section class="dd-case-connections"><h3>◈ Case Connections</h3>'+
+ '<p class="muted small">Explore automatically suggested research leads across all loaded archive cases. Shared details or proximity are not proof of the same event, independent witnesses or an extraordinary cause.</p>'+
+ '<div class="chips" role="group" aria-label="Filter connected case files">'+
+ ['all','nearby','similar','time'].map((mode,i)=>'<button type="button" class="chip'+(i===0?' active':'')+'" data-dd-case-mode="'+mode+'" aria-pressed="'+(i===0?'true':'false')+'">'+({all:'All connections',nearby:'Nearby',similar:'Similar reports',time:'Close in time'}[mode])+'</button>').join('')+'</div>'+
+ '<p id="ddCaseConnectionsCoverage" class="muted small" role="status"></p>'+
+ '<div id="ddCaseConnectionsResults" aria-live="polite"></div>'+
+ '<p class="muted small">Locality comparisons use published place names; distances require coordinates and are approximate. A catalogue year may describe a reporting or document period, not an exact sighting date. Open the original source before treating two records as linked.</p></section>'+
  '<h3>Related news coverage</h3><p class="muted small">Matching keywords suggest research leads; they do not establish that two reports concern the same incident.</p>'+archiveMediaHtml(media.newsMatches,'news')+
  '<h3>Research videos and source footage</h3>'+archiveMediaHtml(media.videoMatches,'videos')+
  '<h3>Continue your investigation</h3><p class="muted small">Save the original source to a private Investigation Board, then add your own notes and supporting links. Related matches above are automated suggestions, not independently confirmed case associations.</p>'+
@@ -2626,7 +2659,7 @@ ddCaseHistoryHtml(r.id)+
  body.querySelectorAll('[data-add-archive-event]').forEach(btn=>btn.onclick=()=>importArchiveTimelineEvent(r,Number(btn.dataset.addArchiveEvent)));
  body.querySelectorAll('[data-dd-citation-url]').forEach(btn=>btn.onclick=()=>{if(ddSaveSiteCitation(btn.dataset.ddCitationTitle,btn.dataset.ddCitationUrl)){btn.textContent='✓ Added to citations';btn.setAttribute('aria-label','Source saved in W.NE My saved references')}});
  refreshBookmarkStars();
- body.querySelectorAll('[data-archive-related]').forEach(b=>b.onclick=()=>archiveCaseOpen(b.dataset.archiveRelated));
+ ddBindCaseConnections(body,r);
  body.querySelectorAll('[data-archive-save-media]').forEach(b=>b.onclick=()=>addInvestigationLink(b.dataset.mediaLabel,b.dataset.archiveSaveMedia));
  if(!ddArchiveCaseDialog.open)ddArchiveCaseDialog.showModal();
  const caseId=String(r.id),previousCaseId=history.state?.ddArchiveCaseId;
@@ -2786,6 +2819,14 @@ function ddShowArchiveData(records,curated){
  });
  if(!next.length)throw Error('No source-linked archive records were valid');
  historicalRecords=next;
+ try{ddCaseConnectionsIndex=window.DDCaseConnections?.build(next)||null}
+ catch(error){console.warn('Case Connections could not index public records:',error);ddCaseConnectionsIndex=null}
+ // Refresh recommendations when the complete catalogue supersedes the curated starter set.
+ if($('archiveCaseDialog')?.open){
+  const openId=$('archiveCaseBody')?.dataset.archiveCaseId;
+  const selected=next.find(record=>String(record.id)===openId);
+  if(selected)ddBindCaseConnections($('archiveCaseBody'),selected);
+ }
  const latestYear=new Date().getFullYear();
  const years=Array.from({length:latestYear-1947+1},(_,i)=>latestYear-i);
  $('archiveYear').innerHTML='<option value="all">All years</option>'+years.map(y=>'<option value="'+y+'">'+y+'</option>').join('');
