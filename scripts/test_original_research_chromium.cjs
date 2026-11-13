@@ -43,6 +43,15 @@ const BASE='http://127.0.0.1:4173';
     await page.locator('#archiveCaseDialog[open] #archiveCaseTitle').waitFor({timeout:25000});
     const title=await page.locator('#archiveCaseTitle').innerText();
     assert.match(title,slug.startsWith('roswell')?/Roswell/i:/Rendlesham/i);
+    // R2 Evidence DNA lives inside the existing case file, never in a new tab.
+    const dna=page.locator('#archiveCaseBody details.dd-evidence-dna');
+    assert.equal(await dna.count(),1,'Every source-linked case has one Evidence DNA panel');
+    await dna.locator('summary').click();
+    assert.equal(await dna.getAttribute('open'),'','Evidence DNA expands with the native keyboard-accessible disclosure');
+    assert.match(await dna.innerText(),/Independent accounts: not assessed/);
+    assert.match(await dna.innerText(),/No claim-level dependency chain has been reviewed/);
+    assert(await dna.locator('a[href^="https://"]').count()>=1,'Original source citations remain clickable');
+    assert.equal(await page.evaluate(()=>typeof window.DDEvidenceDNA?.traceClaim),'function');
     const correctReturn=await page.locator('#archiveCaseBody a[href="/'+slug+'"]').count();
     assert(correctReturn===1,'Archive detail must return to same original article');
     // Case Connections must be usable on EVERY case detail, including on mobile.
