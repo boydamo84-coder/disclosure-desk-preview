@@ -81,3 +81,10 @@ The owner approved full-archive related-case discovery from every public archive
 Local no-deploy CI run 43513005838 passed source/strict package/Chromium checks and a 12,000 synthetic-record regression. Real device and production loaded-data QA, editorial review and reconciliation with pending M86–M96 changes remain. Future Phase A: record-level geocoding with documented precision, distinguish true event timestamps from catalogue years, verified connections and a researcher-editable visual graph. Do not merge automatic duplicate suggestions into permanent source records without independent verification. All cases remain original source records.
 
 See `docs/CASE_CONNECTIONS_FULL_ARCHIVE_DESIGN_2026-11-13.md` and the consolidated release matrix. Netlify remains untouched; no AdSense re-review.
+
+
+## 9. Sequential release queue — owner approved 13 November 2026
+
+Adopt `docs/RELEASE_TRAIN_2026-11-13.md` as the version-specific release ledger. **R1** is the next integrated website/AdSense recovery + original case editorials + explainable Case Connections. **R2** is Evidence DNA, Contradiction Radar, a visual case relationship graph; **R3** is Hypothesis Lab and Research Gap Finder; **R4** is Living Investigations, Research Passport and W.NE professional citations/research export integration. All six newly suggested ideas approved as *roadmap targets*; R2–R4 are **not built or ready to deploy**.
+
+Version branches: `audit/adsense-low-value-recovery-nov13` for R1; `queue/dd-web-r2-evidence-intelligence`; `queue/dd-web-r3-hypothesis-discovery`; `queue/dd-web-r4-living-research`. Never publish queue branches or introduce new website build previews to test. Only after previous release passes production verification and owner approval is the next version rebased/reconciled onto its final live commit, tested and presented for a new deploy approval. Maintain exact-SHA manifests, rollback plans, original source provenance and private-research controls at each gate.
