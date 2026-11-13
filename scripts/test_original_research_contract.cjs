@@ -7,6 +7,8 @@ const fs=require('node:fs');
 const read=f=>fs.readFileSync(f,'utf8');
 const home=read('index.html');
 const hub=read('investigations.html');
+const guide=read('guide.html');
+const sourcesDirectory=read('sources.html');
 const sitemap=read('sitemap.xml');
 const builder=read('scripts/build_public_release.cjs');
 const archive=JSON.parse(read('data/curated-historical-cases.json'));
@@ -17,6 +19,8 @@ const routes=[
 ];
 assert.ok(home.includes('href="/investigations"'),'Homepage links to the editorial hub');
 assert.ok(hub.includes('href="/rendlesham-forest-1980"')&&hub.includes('href="/roswell-1947"'),'Hub links to the two review dossiers');
+assert.ok(guide.includes('href="/investigations"')&&sourcesDirectory.includes('href="/investigations"'),
+ 'Both the public guide and Sources directory link to original research');
 assert.ok(builder.includes("'investigations.html'"),'Hub included in strict deploy allowlist');
 for(const {slug,caseId,source} of routes){
  const content=read(slug+'.html'),url='https://uapdisclosuredesk.com/'+slug;
@@ -46,6 +50,14 @@ for(const {slug,caseId,source} of routes){
 assert.ok(home.includes("['featured-rendlesham-1980','featured-roswell-1947']"),
  'Archive deep-links must accept only reviewed public case IDs');
 assert.ok(home.includes('ddPendingArchiveCase=null;'),'Open deep links exactly once');
+const publicBuilder=read('scripts/build_public_release.cjs');
+assert.ok(home.includes('src="assets/case-connections.js?v=m97-indexed"'),'Public index loads the Case Connections engine before inline archive logic');
+assert.ok(publicBuilder.includes("'case-connections.js'"),'Research matching module explicitly included in strict public package');
+assert.ok(home.includes("window.DDCaseConnections?.build(next)"),'Index is rebuilt when the full archive loads');
+for(const mode of ['all','nearby','similar','time'])
+ assert.ok(home.includes("mode")&&home.includes("'"+mode+"'"),'Archive modal offers '+mode+' case filter');
+assert.ok(home.includes('ddBindCaseConnections(body,r);'),'Every archive detail gets connected case recommendations');
+assert.ok(!home.includes("Suggestions based on title keywords or nearby years."),'Old year-only recommendations are removed');
 assert.ok(home.includes('ddPendingArchiveCase')&&home.includes('archiveCaseOpen(linked.id)'),
  'Open existing case detail instead of generating a duplicate record');
 assert.ok(home.includes('href="/rendlesham-forest-1980">Read original research: Rendlesham Forest')&&
