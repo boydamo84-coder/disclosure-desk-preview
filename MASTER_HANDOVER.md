@@ -1438,3 +1438,14 @@ No-deploy run [42574407131](https://github.com/boydamo84-coder/disclosure-desk-p
 - **Promotion discipline:** one published release at a time; do not deploy R2 until R1 confirmed stable, and likewise R3 after R2, R4 after R3. The queued branches may be created from a documentation-only snapshot to provide independent tracks; they are **not** immutable finished binaries. Rebase each later candidate onto the **verified live production SHA** after its predecessor is accepted, reconcile all intervening fixes, run exact-head no-deploy CI, Android/desktop and privacy checks, obtain explicit owner approval for that version and only then publish once.
 - **Quality principles:** source citation and privacy by default; automated suggested claims never imply independent verification; private witness reports, W.NE work, Boards or chats cannot enter a public research graph without explicit permission. Preserve offline core, backups and existing functions. Any unexpected production regression pauses the queue and calls for safe rollback.
 - Release-status tracking should be updated after every milestone in this master handover and `docs/RELEASE_TRAIN_2026-11-13.md`. Future approved features are NOT to be forced into R1; avoid turning the AdSense re-review into a dependency on later R2–R4 research systems.
+
+
+
+### Release train branches physically created (13 Nov 2026)
+
+Verified three isolated queue branches in GitHub, each with `docs/QUEUED_RELEASE_BRANCH.md` explaining the exact release scope, prerequisites and **NOT DEPLOYABLE** status:
+- `queue/dd-web-r2-evidence-intelligence` → `bd98977869f97e44aad5136794f36929ea607c6e`
+- `queue/dd-web-r3-hypothesis-discovery` → `d9bf9e21c8d92510c849969209c3a0813cea0771`
+- `queue/dd-web-r4-living-research` → `441a559435a442fe565ba8a62c87a744dd7d58fa`
+
+Each was forked from the R1 source **after** release-train scope documentation was written. The queue branches differ by their own documentation-only branch marker and **do not contain implemented R2–R4 features**. They must later be rebased/reconciled onto the preceding release's actual accepted live SHA. The R1 candidate `audit/adsense-low-value-recovery-nov13` remains staged. Recent GitHub Actions inspection found no runs triggered for these three queue branches; that does not establish third-party Netlify settings. **No production deploy or AdSense action was initiated.**
