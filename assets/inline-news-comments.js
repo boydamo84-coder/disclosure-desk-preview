@@ -1,4 +1,4 @@
-/* Shared card discussions: News previews; Archive, Watch & Read and Videos fold out on demand. */
+/* Shared on-demand inline threads for News, Archive, Watch & Read, Videos and case cards. Discussions is intentionally separate and stays open. */
 (()=>{'use strict';
 const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
 let db;
@@ -11,17 +11,17 @@ function mount(container){
  const id=container.dataset.newsComments;
  if(!id)return;
  const previous=drafts.get(id)||{expanded:false,draft:''};
- const collapsible=container.dataset.commentsCollapsed==='true';
  const discussionTitle=String(container.dataset.commentsTitle||container.closest('article')?.querySelector('h3,.news-headline-link')?.textContent||'Community discussion').trim().slice(0,100);
- const state={expanded:previous.expanded,items:[],busy:false,loaded:false,replyTo:null,replyComposerDismissed:false};
+ const state={expanded:previous.expanded,items:[],busy:false,loaded:false,replyTo:previous.replyTo||null,replyComposerDismissed:false};
  states.set(container,state);
  const toggle=el('button','💬 0');toggle.type='button';toggle.className='outline';toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Read or add comments');toggle.title='Comments';
  const entries=el('div');entries.className='dd-inline-comments-preview';
  const form=el('form');form.hidden=true;
  const body=el('textarea');body.placeholder='Add a comment or source reference…';body.rows=1;body.maxLength=2000;body.minLength=3;body.required=true;body.style.cssText='display:block;width:100%;box-sizing:border-box;margin:8px 0;resize:none;overflow-y:auto;min-height:44px;max-height:94px';
  body.value=previous.draft;
+ const saveDraft=()=>drafts.set(id,{expanded:state.expanded,draft:body.value,replyTo:state.replyTo});
  const fitBody=()=>{body.style.height='auto';body.style.height=Math.min(94,Math.max(44,body.scrollHeight))+'px'};
- body.addEventListener('input',()=>{drafts.set(id,{expanded:state.expanded,draft:body.value});fitBody()});
+ body.addEventListener('input',()=>{saveDraft();fitBody()});
  const post=el('button','Post comment');post.type='submit';post.className='outline';
  const cancel=el('button','Cancel');cancel.type='button';cancel.className='outline dd-reply-cancel';cancel.hidden=true;
  const message=el('p');message.className='muted small';message.setAttribute('role','status');
@@ -30,7 +30,7 @@ function mount(container){
  composerActions.append(post,cancel);form.append(replyContext,body,composerActions);
  cancel.addEventListener('click',()=>{
   state.replyTo=null;state.replyComposerDismissed=true;
-  body.value='';drafts.set(id,{expanded:state.expanded,draft:''});
+  body.value='';saveDraft();
   render();toggle.focus({preventScroll:true});
  });
  // Mount Comments in the same full-width action rail as Board / Compare / Share.
@@ -40,8 +40,8 @@ function mount(container){
  toggle.classList.add('dd-inline-comments-toggle');toggle.setAttribute('aria-controls','dd-news-comments-'+id.replace(/[^a-z0-9-]/gi,'-'));container.id=toggle.getAttribute('aria-controls');
  container.append(form,entries,message);
  function render(){
-  toggle.textContent='💬 '+(state.loaded?state.items.length:collapsible?'':'…')+(collapsible?(state.expanded?' ▴':' ▾'):'');
-  if(collapsible){container.hidden=!state.expanded;toggle.classList.add('dd-comments-dropdown')}
+  toggle.textContent='💬 '+(state.loaded?state.items.length:'')+(state.expanded?' ▴':' ▾');
+  container.hidden=!state.expanded;toggle.classList.add('dd-comments-dropdown');
   toggle.setAttribute('aria-label',(state.expanded?'Hide':'Read or add')+' comments'+(state.loaded?' ('+state.items.length+')':''));
   // Never lose a typed draft when refreshing the visible comment list.
   if(entries.contains(form))container.insertBefore(form,entries);
@@ -50,12 +50,12 @@ function mount(container){
   if(state.expanded)fitBody();
   entries.replaceChildren();
   const ordered=window.DDCommunityVotes?.threadedComments?.(state.items)||state.items;
-  const shown=state.expanded?ordered:collapsible?[]:ordered.slice(-2);
+  const shown=state.expanded?ordered:[]; // No teasers before an explicit tap.
   replyContext.hidden=!state.replyTo;
   replyContext.textContent=state.replyTo?'Replying to '+state.replyTo.alias+' · this will appear beneath that comment.':'';
   post.textContent=state.replyTo?'Post reply':'Post comment';
   cancel.hidden=!state.replyTo;
-  if(!shown.length&&(!collapsible||state.expanded)){const note=el('p','No comments yet.');note.className='muted small';entries.append(note);}
+  if(!shown.length&&state.expanded&&state.loaded){const note=el('p','No comments yet.');note.className='muted small';entries.append(note);}
   for(const item of shown){
    const card=el('div');card.className='card';card.style.cssText='margin:8px 0';card.dataset.ddNewsCommentId=String(item.id||'');
    if(item.replyDepth>0){
@@ -91,7 +91,7 @@ function mount(container){
    if(!window.DDCommunityVotes?.mountCommentCard?.(card,header,text,flag,item.id,(parentId)=>{
     const target=state.items.find(x=>x.id===parentId);if(!target)return;
     state.replyTo={id:target.id,alias:target.publicAlias||'this commenter'};
-    state.replyComposerDismissed=false;state.expanded=true;drafts.set(id,{expanded:true,draft:body.value});render();
+    state.replyComposerDismissed=false;state.expanded=true;saveDraft();render();
     body.focus({preventScroll:true});
     window.DDCommunityVotes?.keepCommentComposerVisible?.(form);
    },{discussionKey:id,title:discussionTitle,isMine:item.is_mine===true,
@@ -116,12 +116,11 @@ function mount(container){
   state.loaded=true;state.items=(data||[]).map(x=>({...x,publicAlias:aliases[x.id]||null}));render();
  }
  toggle.onclick=()=>{
-  if(collapsible){state.expanded=!state.expanded;if(!state.expanded)state.replyTo=null;}
-  else if(state.replyTo){state.replyTo=null;state.expanded=true;}
-  else state.expanded=!state.expanded;
+  state.expanded=!state.expanded;
   if(state.expanded)state.replyComposerDismissed=false;
-  drafts.set(id,{expanded:state.expanded,draft:body.value});render();
-  if(state.expanded){body.focus({preventScroll:true});window.DDCommunityVotes?.keepCommentComposerVisible?.(form);if(!state.loaded)void refresh()}
+  saveDraft();render();
+  // Show comments to read without immediately opening the mobile keyboard.
+  if(state.expanded&&!state.loaded)void refresh();
  };
  form.onsubmit=async ev=>{ev.preventDefault();if(state.busy)return;const c=client();if(!c)return;
    const {data:{user}}=await c.auth.getUser();if(!user||user.is_anonymous){message.textContent='Sign in with a registered account to comment.';return}
@@ -132,7 +131,7 @@ function mount(container){
    if(!error){
      body.blur(); // Close the mobile keyboard before revealing the posted reply.
      body.value='';state.replyTo=null;state.replyComposerDismissed=!!replyingTo;
-     drafts.set(id,{expanded:state.expanded,draft:''});
+     saveDraft();
      message.textContent=replyingTo?'Reply posted.':'Comment posted.';
      await refresh(); // Keep thread visible; close the reply popup after posting.
      const created=state.items.find(item=>!priorIds.has(String(item.id)) && item.is_mine
@@ -148,11 +147,7 @@ function mount(container){
    state.busy=false;post.disabled=false;
  };
  render();
- if(state.expanded)void refresh();
- else if(!collapsible&&typeof IntersectionObserver==='function'){
-  const visible=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){visible.disconnect();if(!state.loaded)void refresh()}},{rootMargin:'250px'});
-  visible.observe(container);
- }else if(!collapsible)void refresh();
+ if(state.expanded)void refresh(); // Never fetch hidden threads in the background.
 }
 function scan(){document.querySelectorAll('[data-news-comments]').forEach(n=>{if(!states.has(n))mount(n)})}
 const mo=new MutationObserver(scan);

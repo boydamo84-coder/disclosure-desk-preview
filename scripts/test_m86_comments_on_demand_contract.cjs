@@ -1,0 +1,28 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),crypto=require('node:crypto');
+const read=p=>fs.readFileSync(p,'utf8');
+const inline=read('assets/inline-news-comments.js'),html=read('index.html'),css=read('assets/community-polish.css');
+const forum=read('assets/community-discussions.js'),cases=read('assets/case-discussions.js'),workflow=read('.github/workflows/research-resume-check.yml');
+assert(inline.includes("drafts.get(id)||{expanded:false,draft:''}"),'Shared public cards default closed');
+assert(inline.includes('container.hidden=!state.expanded'),'Whole comment panel hidden before click');
+assert(inline.includes('const shown=state.expanded?ordered:[]'),'No automatic previews');
+assert(inline.includes('if(state.expanded&&!state.loaded)void refresh()'),'Load only when opened');
+assert(!inline.includes('IntersectionObserver'),'No background loading hidden News comments');
+assert(inline.includes("state.replyTo={id:target.id"),'Reply parent preserved');
+assert(inline.includes('replyTo:previous.replyTo||null')&&inline.includes('replyTo:state.replyTo'),'Drafts retain their reply target on card redraw');
+assert(inline.includes("item.parent_id||''"),'Nested reply relationship intact');
+assert(inline.includes('revealPostedComment?.(posted)'),'New replies revealed');
+assert(html.includes('data-comments-collapsed="true"'),'News explicitly collapsed');
+assert(html.includes('inline-news-comments.js?v=m73-reply-cancel&m80=web-reply-parity&m86=on-demand'),'New script cache key');
+assert(html.includes('community-polish.css?v=m74&m80=web-reply-parity&m86=on-demand'),'New CSS cache key');
+assert(css.includes('#newsGrid article > .dd-news-inline-comments[hidden]')&&css.includes('{display:none!important}'),'Hidden prevents old CSS opening');
+assert(read('assets/watch-read.js').includes("comments.dataset.newsComments='media:'"),'Watch & Read uses shared panel');
+const bytes=Buffer.from(forum),blob=crypto.createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex');
+// M89 intentionally adds a cross-subject discovery feed to the forum; preserve the M86 *behaviour*, not its prior exact blob.
+assert.notEqual(blob,'745e231c9a8bc44b10324a7ee398e8b7ab2b414a','Global discovery requires an updated forum script');
+assert(forum.includes('function renderDiscussionCard('),'Original post renderer reused in both lists');
+assert(forum.includes('let expanded=true; // All available comments appear automatically when opening a post.'),'Discussions remains open');
+assert(cases.includes('window.ddOpenInlineCaseDiscussion'),'Hearing video comments preserved');
+assert(workflow.includes('fix/m86-sitewide-comments-on-demand-nov11'),'Website branch tested');
+assert(workflow.includes('node scripts/test_m86_comments_on_demand_chromium.cjs'),'Browser test in CI');
+console.log('PASS M86 public cards remain collapsed; Discussions comments still auto-open; M89 discovery added without altering reply behaviour.');

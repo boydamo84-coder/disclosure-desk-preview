@@ -1,5 +1,36 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 12 November 2026 (Europe/London)_
+_Last updated: 13 November 2026 (Europe/London)_
+
+## Milestone 92 — Website parity and native Android Desk (13 November 2026)
+
+- The Android beta integrates the full verified November website candidate from `fix/m91-archive-case-back-nov12` at `e31a6aeec848f0e5ef0f06ab9cfabd4cd6ab4c71`. It contains the M86 fold-out comments, M87 News reply indentation, M88 Terms, M89 discussion sorting and Subjects drawer, M90 Feed/Sections and the M91 Archive Back fix. The Android guide adds instructions for the native Research Inbox.
+- Android adds a native Desk bar and menu for Offline Archive, Research Inbox and notification settings. The native offline browser reads the two existing bundled case datasets with no network or account requirement, shows source-labelled case previews and hands off to the existing full case view for online actions. Fullscreen media hides the app bar and banner; standalone research documents keep their current layout.
+- Private test APK uses separate application ID `com.boyddigitalstudios.disclosuredesk.beta.m92`, versionCode 24. The existing beta can remain installed with its local data. The new app uses separate local storage and shares the existing account services after sign-in.
+- No production ref, Netlify deployment, Google Play release or Supabase migration is part of this milestone. The main site screens retain their shared web implementation. Full native migration of those screens is future work.
+- Verification and Samsung acceptance to be recorded after the build.
+
+### Website source checkpoint
+
+#### M91 — Archive case Back navigation (12 Nov 2026)
+
+- Live guest check reproduced a browser-history gap in the Rendlesham Forest case. The on-screen Close button returned to Archive, while browser Back left the website. The case dialog previously had no history entry. Android's physical gesture was reported by a visitor and has not been tested on their device.
+- The staged fix adds one history entry for an open Archive case. Opening a related case updates that entry so Back returns directly to the list and keeps the current search. On-screen Close and native dialog dismissal consume the same entry. Forward and a reload of the open entry restore its case. No Archive URL, data or account permissions changed.
+- [GitHub no-deploy run 43313366527](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43313366527) passed source, packaging and the full Chromium suite for `962f09d61d02b71f56c95b90af762b7a3052bac5`. The case regression passed Back, Forward, Close, Escape, related cases, reload and preserved search at 320, 393, 820 and 1280 px.
+- Staged on top of the M90 November candidate. Production stays on M89 `b02d21d720b84504fba86705aac4455f0206731b`. No Netlify deployment or database action. Carry forward into the planned 29 November update with the owner's deploy approval.
+
+## M90 — two-tab Discussions overview, staged for 29 November 2026 release (12 Nov 2026)
+
+**Completed verification:** [GitHub NO DEPLOY run 43151257778](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43151257778) passed both `verify` and full real Chromium browser jobs on exact staged source SHA `a3d82859f7fce9cbb41754da978d3ae323e5aa4c`. The M90-specific acceptance performed **92 real-browser checks** across 320px, 393px, 820px and 1280px, covering mutually exclusive Feed/Sections views, per-account preference persistence after page navigation/reload, return to correct view, unchanged nested replies, action boards and drawer. The full earlier M89/News/Chat/W.NE and responsive suite passed on this same SHA. Four older tests that expected the subject directory to be visible immediately were updated to select Sections first; they continue testing the original features. Earlier run 43150908962 failed only at this obsolete M68 view assumption; the follow-up full run is now green.
+
+**No-release confirmation:** GitHub `production` remains on M89 `b02d21d720b84504fba86705aac4455f0206731b`; the M90 branch is separate and ahead of it. There was no Netlify action, no deploy, no Supabase mutation. The next intended consolidated deployment date is **29 November 2026**, subject to the owner's explicit go-ahead and release checks. GitHub Actions only ran local/synthetic acceptance and does not spend Netlify credits.
+
+- **STATUS: DEVELOPMENT BRANCH ONLY. DO NOT DEPLOY, DO NOT CHANGE `production`, DO NOT TRIGGER NETLIFY, DO NOT APPLY DATABASE MIGRATIONS.** Owner is out of monthly Netlify credits and explicitly deferred the next big site deployment to **29 November 2026**. This is a planned target, not a scheduled deployment.
+- Feature branch: `fix/m90-discussions-feed-sections-tabs-nov12`, based exactly on published M89 GitHub production SHA `b02d21d720b84504fba86705aac4455f0206731b`. This update changes the UI only; uses the existing live `dd_discussions_global_feed` and `dd_discussions_sections` read-only RPCs. No new backend schema, posts or users.
+- Added two mutually exclusive accessible overview tabs, **Feed (default)** and **Sections**. Feed contains only the cross-board Popular/New/Top dropdown, existing post cards/action rails and Load More; Sections contains only Search, New Subject, existing section cards/stars and creation dialog. The long combined screen is gone. `☰ Subjects` drawer stays available from both and continues to auto-update its list and account-scoped favourites. Desktop subject sidebar and existing Community context remain.
+- Each account/device remembers its chosen overview via `localStorage` key `dd-forum-overview-tab-v1:` + viewer ID (guest separate). Opening a post from Feed returns to Feed (with automatic nested comments unchanged), while opening from Sections returns to Sections. The tab bar hides while viewing a section/post and reappears when returning to overview. Arrow-key / Home / End navigation and selected-tab ARIA supported.
+- Original section cards, votes, board stars, sharing, owner edit/delete, reporting, moderation, comments and conversation data are **untouched**; the change is layout and view-state only. Existing M89 source/UI tests adjusted solely to click Sections before looking for subject directory cards; URL script/style cache keys append `&m90=tabs` while preserving prior M80/M86/M89 prefixes to avoid regressions.
+- Pending: exact-SHA GitHub NO DEPLOY source + real Chromium checks of Feed/Sections switching at 320/393/820/1280px, account preference persistence, return navigation, subjects drawer, social regression. Once passed, leave M90 staged until the planned consolidated release around 29 Nov, after owner gives separate deploy approval. Keep handover updated as milestones complete.
+
 
 ## Milestone 91 — Full-screen native Android Research Inbox (12 November 2026)
 

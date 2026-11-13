@@ -1,11 +1,13 @@
-name: Build Disclosure Desk M91 PRIVATE Android APK (NO Netlify)
+name: Build Disclosure Desk M92 PRIVATE Android APK (NO Netlify)
 on:
   workflow_dispatch:
   push:
-    branches: [android/m91-research-inbox-polish-nov12]
+    branches: [android/m92-web-parity-native-desk-nov13]
     paths:
       - 'android-test/**'
       - 'guide.html'
+      - 'scripts/test_m92_android_parity.cjs'
+      - 'scripts/test_m92_archive_bridge_chromium.cjs'
       - 'index.html'
       - 'assets/community-polish.css'
       - 'assets/community-votes.js'
@@ -57,6 +59,11 @@ jobs:
           node scripts/test_m81_native_research_contract.cjs
           node scripts/test_m82_research_inbox_dialog_contract.cjs
           node scripts/test_m85_research_inbox_rename_contract.cjs
+          node scripts/test_m86_comments_on_demand_contract.cjs
+          node scripts/test_m87_terms_contract.cjs
+          node scripts/test_m89_global_discussions_contract.cjs
+          node scripts/test_m90_discussions_views_contract.cjs
+          node scripts/test_m92_android_parity.cjs
       - name: Verify mobile comment threading and full-screen Chat in real Chromium (NO deploy)
         run: |
           npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
@@ -72,6 +79,11 @@ jobs:
           node scripts/test_m78_profile_notifications_chromium.cjs
           node scripts/test_m79_mobile_comment_keyboard_chromium.cjs
           node scripts/test_m81_research_inbox_chromium.cjs
+          node scripts/test_m86_comments_on_demand_chromium.cjs
+          node scripts/test_m89_global_discussions_chromium.cjs
+          node scripts/test_m90_discussions_views_chromium.cjs
+          node scripts/test_m92_archive_bridge_chromium.cjs
+          node scripts/test_m71_secondary_actions_chromium.cjs
       - name: Verify safe Android Share-link parser (offline Java only)
         run: |
           CLASSES=$(mktemp -d)
@@ -103,7 +115,7 @@ jobs:
       - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M91-PRIVATE-BETA
+          name: DisclosureDesk-M92-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14

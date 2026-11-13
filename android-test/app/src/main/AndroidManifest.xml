@@ -8,6 +8,8 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <activity android:name=".OfflineArchiveActivity" android:exported="false"
+            android:label="Offline Archive" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ResearchInboxActivity" android:exported="false"
             android:label="Research Inbox" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".MainActivity" android:exported="true" android:configChanges="orientation|screenSize|keyboardHidden" android:windowSoftInputMode="adjustResize">

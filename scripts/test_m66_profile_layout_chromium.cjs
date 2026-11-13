@@ -39,6 +39,7 @@ const BASE='http://127.0.0.1:4173';
     window.DD_COMMUNITY_FEATURES={profileAvatars:true};
     window.supabase.createClient=()=>fake;
    });
+   await page.addScriptTag({url:BASE+'/assets/confirmation-dialog.js'});
    await page.addScriptTag({url:BASE+'/assets/profile-avatars.js'});
    await page.waitForFunction(()=>document.querySelector('#ddAvatarImage')?.hidden===false);
    const size=await page.evaluate(()=>{
@@ -65,8 +66,15 @@ const BASE='http://127.0.0.1:4173';
    assert.equal(await page.locator('#ddAvatarRemove').isVisible(),true,'Remove photo in settings only');
    await page.locator('#ddAvatarSettings .dd-avatar-information > summary').click();
    assert.match(await page.locator('#ddAvatarPhotoRequirements').textContent(),/maximum 5 MB/);
-   page.once('dialog',dialog=>dialog.accept());
+   // M74 uses a branded modal instead of the obsolete window.confirm().
    await page.locator('#ddAvatarRemove').click();
+   const confirmation=page.locator('dialog.dd-confirm-dialog');
+   await confirmation.waitFor({state:'visible'});
+   await confirmation.locator('.dd-confirm-cancel').click();
+   assert.equal(await page.evaluate(()=>window.__m66.removed),0,'Cancel must preserve profile photo');
+   await page.locator('#ddAvatarRemove').click();
+   await confirmation.waitFor({state:'visible'});
+   await confirmation.locator('.dd-confirm-accept').click();
    await page.waitForFunction(()=>document.getElementById('ddAvatarFallback')?.hidden===false);
    assert.equal(await page.evaluate(()=>window.__m66.removed),1,'Existing confirmed removal called once');
    assert.equal(await page.locator('#ddProfileLikesReceived').textContent(),'5','Avatar removal does not reset reaction stats');

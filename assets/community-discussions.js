@@ -11,6 +11,10 @@ const $=id=>document.getElementById(id);
 const mk=(tag,text,cls)=>{const x=document.createElement(tag);if(text!==undefined)x.textContent=String(text);if(cls)x.className=cls;return x};
 let client=null,section=null,thread=null,sections=[],sort='recent',epoch=0,ready=false,feedPage=0,feedQuery='',feedTotal=0,feedModern=true,deepLinkHandled=false,searchTimer=null;
 let viewerId=undefined,identityRevision=0,ownerSectionIds=new Set(),flaggedThisSession=new Set(),replyParent=null;
+let globalSort='popular',globalRows=[],globalTotal=0,globalRequest=0,globalLoading=false,globalReturn=false;
+let drawerRequest=0,drawerTimer=null;
+let discussionView='feed';
+const DD_FORUM_VIEW_KEY='dd-forum-overview-tab-v1:';
 
 const DD_FORUM_FAV_KEY='dd-forum-favourite-sections-v1:';
 const DD_FORUM_ORDER_KEY='dd-forum-subject-order-v1';
@@ -26,7 +30,9 @@ function toggleFavourite(item){
  const ids=favouriteIds();
  if(ids.has(item.id))ids.delete(item.id);else ids.add(item.id);
  try{localStorage.setItem(favouriteKey(),JSON.stringify([...ids]))}catch(e){say('Favourite saved for this visit; device storage unavailable.')}
+ const restoreFocus=$('ddForumSubjectsDrawer')?.open&&document.activeElement?.dataset?.sectionFavourite===item.id;
  drawSections();
+ if(restoreFocus)$('ddForumDrawerList')?.querySelector('[data-section-favourite="'+item.id+'"]')?.focus?.({preventScroll:true});
 }
 function favouriteButton(parent,item,selected,compact=false){
  const star=nodeAction(parent,selected?'★':'☆',()=>toggleFavourite(item),
@@ -223,10 +229,94 @@ function updateCommunityContext(){
  if(title)title.textContent=section?.title||'A place for curious minds';
  if(description)description.textContent=section?.description||'Explore the evidence, compare ideas and learn from other researchers.';
  if(count)count.textContent=section?(section.thread_count||0)+' posts · '+(section.topic||'Open discussion'):sections.length?sections.length+' subjects to explore':'';
+ renderSubjectsDrawer();
 }
+// M90 two independent overview tabs; shared Discussions cards/actions untouched.
+function discussionViewKey(){return DD_FORUM_VIEW_KEY+(typeof viewerId==='string'&&viewerId.trim()?viewerId.slice(0,64):'guest')}
+function savedDiscussionView(){
+ try{return localStorage.getItem(discussionViewKey())==='sections'?'sections':'feed'}catch{return 'feed'}
+}
+function showDiscussionView(view,persist=false,loadIfNeeded=false){
+ const next=view==='sections'?'sections':'feed';
+ discussionView=next;
+ const feed=$('ddForumFeedView'),directory=$('ddForumDirectoryView');
+ if(feed)feed.hidden=next!=='feed';
+ if(directory)directory.hidden=next!=='sections';
+ for(const [name,id] of [['feed','ddForumFeedTab'],['sections','ddForumSectionsTab']]){
+  const button=$(id);if(!button)continue;
+  const active=next===name;
+  button.setAttribute('aria-selected',String(active));
+  button.setAttribute('tabindex',active?'0':'-1');
+  button.classList?.toggle?.('is-active',active);
+ }
+ const tabs=$('ddForumViewTabs');if(tabs)tabs.hidden=!!section;
+ if(persist){try{localStorage.setItem(discussionViewKey(),next)}catch{}}
+ if(loadIfNeeded&&next==='feed'&&!section&&!thread&&!globalLoading&&!globalRows.length)void loadGlobalFeed(true);
+}
+// Subject drawer: no duplicate posts, same section RPC, same account-scoped stars.
+function renderSubjectsDrawer(){
+ const nav=$('ddForumDrawerList'),fav=$('ddForumDrawerFavouriteNav'),group=$('ddForumDrawerFavouriteGroup');
+ if(!nav||!fav||!group)return;
+ const q=String($('ddForumDrawerSearch')?.value||'').trim().toLowerCase(),stars=favouriteIds();
+ const visible=sections.filter(s=>[s.title,s.description,s.topic].join(' ').toLowerCase().includes(q));
+ function rowInto(parent,item,saved=false){
+  const row=mk('div',undefined,'dd-community-drawer-subject-row');
+  const go=nodeAction(row,item.title||'Untitled subject',()=>{closeSubjectsDrawer();void openSection(item)},'dd-community-drawer-subject-link');
+  go.dataset.drawerSection=item.id;
+  go.setAttribute('aria-label',(saved?'Open favourite discussion subject: ':'Open discussion subject: ')+String(item.title||'Untitled subject'));
+  go.setAttribute('aria-current',section?.id===item.id?'page':'false');
+  go.append(mk('span',String(item.thread_count||0)+' posts','dd-community-drawer-subject-count'));
+  const star=favouriteButton(row,item,stars.has(item.id),true);star.classList?.add?.('dd-community-drawer-star');
+  parent.append(row);
+ }
+ nav.replaceChildren();
+ if(!visible.length)empty(nav,sections.length?'No matching subjects.':'No subjects yet.');
+ for(const item of visible)rowInto(nav,item);
+ fav.replaceChildren();const picked=visible.filter(s=>stars.has(s.id));group.hidden=!picked.length;
+ for(const item of picked)rowInto(fav,item,true);
+ const status=$('ddForumDrawerStatus');
+ if(status&&!status.dataset.loading)status.textContent=sections.length+' subjects available';
+}
+function closeSubjectsDrawer(){
+ const modal=$('ddForumSubjectsDrawer');
+ ++drawerRequest;
+ if(drawerTimer!==null){window.clearInterval?.(drawerTimer);drawerTimer=null}
+ if(modal?.open)modal.close?.();
+ $('ddForumSubjectsMenu')?.setAttribute('aria-expanded','false');
+}
+async function refreshSubjectsDrawer(){
+ const modal=$('ddForumSubjectsDrawer'),status=$('ddForumDrawerStatus');
+ if(!modal?.open)return;
+ const stamp=++drawerRequest,identity=identityRevision;
+ if(status){status.dataset.loading='true';status.textContent='Checking for new subjects…'}
+ try{
+  const rows=await rpc('dd_discussions_sections',{p_limit:100});
+  if(stamp!==drawerRequest||identity!==identityRevision||!modal.open)return;
+  if(!Array.isArray(rows))throw Error('Unexpected subjects');
+  sections=orderSections(rows);drawSections();
+  if(status)status.textContent=sections.length+' subjects · up to date';
+ }catch(e){
+  if(stamp===drawerRequest&&status)status.textContent='Refresh unavailable; existing subjects still accessible.';
+ }finally{if(stamp===drawerRequest&&status)delete status.dataset.loading}
+}
+function openSubjectsDrawer(){
+ const modal=$('ddForumSubjectsDrawer');
+ if(!modal?.showModal||modal.open)return;
+ if($('ddForumDrawerSearch'))$('ddForumDrawerSearch').value='';
+ renderSubjectsDrawer();modal.showModal();
+ $('ddForumSubjectsMenu')?.setAttribute('aria-expanded','true');
+ $('ddForumSubjectsClose')?.focus?.({preventScroll:true}); // Don't raise mobile keyboard.
+ void refreshSubjectsDrawer();
+ if(typeof window.setInterval==='function')drawerTimer=window.setInterval(()=>{
+  if(modal.open)void refreshSubjectsDrawer();
+ },60000);
+}
+
 async function openSection(item){
- if(!isId(item?.id))return;section=item;thread=null;updateCommunityContext();setCreateButtons();feedPage=0;feedQuery='';feedTotal=0;
+ if(!isId(item?.id))return;globalReturn=false;++globalRequest;section=item;thread=null;
+ const threadBack=$('ddForumBackThreads');if(threadBack)threadBack.textContent='← Back to posts';updateCommunityContext();setCreateButtons();feedPage=0;feedQuery='';feedTotal=0;
  if($('ddForumFeedSearch'))$('ddForumFeedSearch').value='';
+ $('ddForumViewTabs').hidden=true;
  $('ddForumSectionsPane').hidden=true;$('ddForumThreadPane').hidden=false;
  $('ddForumThreadTitle').textContent=item.title||'Discussions';
  $('ddForumSectionInfo').textContent=(item.description||'')+(item.is_steward?' · You organise this subject.':'');
@@ -496,7 +586,8 @@ function actionsFor(parent,kind,row,inDetail=false,flagHost=null){
   const commentCount=Number.isFinite(Number(row.reply_count))?Number(row.reply_count):0;
   const comments=nodeAction(parent,'💬 '+commentCount,async()=>{
    if(inDetail&&thread?.id===row.id){chooseReply(null,true);return}
-   await openThread(row);
+   if(!section&&isId(row.section_id))await openGlobalThread(row);
+   else await openThread(row);
    if(thread?.id===row.id)chooseReply(null,true);
   },'dd-forum-icon-button dd-forum-comments-action');
   comments.setAttribute('aria-label','Read or add comments · '+commentCount+' comments');
@@ -607,6 +698,65 @@ function openSectionAdminDialog(sectionRow,opener){
  dialog.dataset.returnFocus=opener?.id||'';
  if(!dialog.open){dialog.showModal();reason.focus?.()}
 }
+// One shared Discussion post-card renderer for subject and across-subject feeds.
+function renderDiscussionCard(list,row,fromAll=false){
+ const card=mk('article',undefined,'dd-forum-item dd-forum-post-card');
+ const main=mk('div',undefined,'dd-forum-post-main'),actions=mk('div',undefined,'dd-forum-actions dd-action-rail');
+ main.append(makePostHead(row,'thread',actions));
+ if(fromAll){
+  const subject=sections.find(s=>s.id===row.section_id)||
+   {id:row.section_id,title:row.section_title||'Discussion subject',description:'',topic:'',is_steward:false};
+  const chip=nodeAction(main,'◈ '+(subject.title||'Discussion subject'),()=>openSection(subject),'dd-community-global-subject');
+  chip.setAttribute('aria-label','View posts in subject: '+String(subject.title||'Discussion subject'));
+ }
+ const title=nodeAction(main,row.title||'Untitled topic',()=>fromAll?openGlobalThread(row):openThread(row),'dd-forum-title');
+ title.setAttribute('aria-label','Read discussion: '+String(row.title||'Untitled topic'));
+ main.append(mk('p',String(row.body||'').slice(0,330),'dd-forum-body'));
+ photo(main,row);
+ link(main,row.link_url,safeLink(row.link_url)?'Source · '+new URL(safeLink(row.link_url)).hostname:'');
+ card.append(main);actionsFor(actions,'thread',row,false,actions.flagHost);card.append(actions);list.append(card);
+}
+async function openGlobalThread(row){
+ if(!isId(row?.id)||!isId(row?.section_id))return;
+ const subject=sections.find(s=>s.id===row.section_id)||
+  {id:row.section_id,title:row.section_title||'Discussion subject',description:'',topic:'',is_steward:false};
+ const identityBefore=identityRevision;
+ await openSection(subject);
+ if(identityRevision!==identityBefore||section?.id!==subject.id)return;
+ globalReturn=true;
+ $('ddForumBackThreads').textContent='← Back to '+(globalSort==='new'?'New':globalSort==='top'?'Top':'Popular');
+ await openThread(row); // Existing post detail retains automatic nested replies.
+}
+async function loadGlobalFeed(reset=false){
+ const list=$('ddForumGlobalFeed'),more=$('ddForumGlobalLoadMore'),status=$('ddForumGlobalStatus');
+ if(!list||!more||!status||section||thread||!ready||discussionView!=='feed')return;
+ if(globalLoading&&!reset)return;
+ if(reset){globalRows=[];globalTotal=0;list.replaceChildren()}
+ const stamp=++globalRequest,offset=globalRows.length,mode=globalSort;
+ globalLoading=true;status.textContent='Loading '+mode+' discussions…';more.hidden=true;
+ try{
+  const rows=await rpc('dd_discussions_global_feed',{p_limit:10,p_offset:offset,p_sort:mode});
+  if(stamp!==globalRequest||section||thread||discussionView!=='feed')return;
+  if(!Array.isArray(rows))throw Error('Unexpected global feed response');
+  const found=new Set(globalRows.map(row=>row.id));
+  for(const row of rows)if(isId(row?.id)&&isId(row?.section_id)&&!found.has(row.id)){
+   globalRows.push(row);found.add(row.id)
+  }
+  if(rows.length)globalTotal=Number(rows[0].total_count)||globalRows.length;
+  list.replaceChildren();
+  if(!globalRows.length)empty(list,'No public discussions yet. Explore the subjects below.');
+  for(const row of globalRows)renderDiscussionCard(list,row,true);
+  window.DDRefreshBoardStars?.();
+  status.textContent=globalRows.length?'Showing '+globalRows.length+' of '+globalTotal+' posts · '+mode:'Browse subjects below to begin a conversation.';
+  more.hidden=!rows.length||globalRows.length>=globalTotal;
+ }catch(error){
+  if(stamp!==globalRequest)return;
+  if(!globalRows.length)empty(list,'Across-subject posts are temporarily unavailable. Browse subjects below.');
+  status.textContent='Discussion feed unavailable. Other Discussions remain accessible.';
+  more.hidden=true;
+ }finally{if(stamp===globalRequest)globalLoading=false}
+}
+
 async function loadThreads(){
  if(!section)return;
  const id=section.id,stamp=++epoch,list=$('ddForumPostList');empty(list,'Loading discussions…');
@@ -631,19 +781,7 @@ async function loadThreads(){
   if(stamp!==epoch||section?.id!==id||thread)return;
   list.replaceChildren();
   if(!rows?.length)empty(list,'No posts found. Try another search or start the conversation.');
-  for(const row of rows||[]){
-   const card=mk('article',undefined,'dd-forum-item dd-forum-post-card');
-   const main=mk('div',undefined,'dd-forum-post-main'),actions=mk('div',undefined,'dd-forum-actions dd-action-rail');
-   main.append(makePostHead(row,'thread',actions));
-   const title=nodeAction(main,row.title||'Untitled topic',()=>openThread(row),'dd-forum-title');
-   title.setAttribute('aria-label','Read discussion: '+String(row.title||'Untitled topic'));
-   main.append(mk('p',String(row.body||'').slice(0,330),'dd-forum-body'));
-   photo(main,row);
-   link(main,row.link_url,safeLink(row.link_url)?'Source · '+new URL(safeLink(row.link_url)).hostname:'');
-   card.append(main);
-   actionsFor(actions,'thread',row,false,actions.flagHost);
-   card.append(actions);list.append(card);
-  }
+  for(const row of rows||[])renderDiscussionCard(list,row);
   window.DDRefreshBoardStars?.();
   if(count)count.textContent='Page '+(feedPage+1)+' · '+feedTotal+' posts'+(!feedModern?' · first 100 while upgrade is pending':'');
   if(prev)prev.disabled=feedPage===0;
@@ -708,14 +846,16 @@ async function openDeepLink(){
 function onIdentityChange(session){
  const next=session?.user?.id||null;
  if(viewerId===next)return; // Token refresh should not discard an open public discussion.
- viewerId=next;identityRevision++;epoch++;section=null;thread=null;ownerSectionIds=new Set();flaggedThisSession=new Set();setCreateButtons();sections=[];feedPage=0;feedQuery='';deepLinkHandled=false;
+ closeSubjectsDrawer();
+ viewerId=next;identityRevision++;epoch++;++globalRequest;globalLoading=false;globalRows=[];globalTotal=0;globalReturn=false;section=null;thread=null;ownerSectionIds=new Set();flaggedThisSession=new Set();setCreateButtons();sections=[];feedPage=0;feedQuery='';deepLinkHandled=false;
+ showDiscussionView(savedDiscussionView(),false,false);
  for(const id of ['ddForumSectionDialog','ddForumPostDialog','ddForumActionDialog','ddForumMoreDialog','ddForumAdminDialog']){const dialog=$(id);if(dialog?.open)dialog.close()}
  updateCommunityContext();
  const sectionsPane=$('ddForumSectionsPane'),threadPane=$('ddForumThreadPane');
  if(sectionsPane)sectionsPane.hidden=false;
  if(threadPane)threadPane.hidden=true;
  for(const name of ['ddForumStewardPanel','ddForumReplyPane']){const el=$(name);if(el)el.hidden=true}
- for(const name of ['ddForumSections','ddForumPostList','ddForumReplies'])$(name)?.replaceChildren();
+ for(const name of ['ddForumSections','ddForumPostList','ddForumReplies','ddForumGlobalFeed'])$(name)?.replaceChildren();
  const info=$('ddForumSectionInfo');if(info)info.textContent='';
  say('Account changed. Reloading public discussions…');
  if(ready)void refresh();
@@ -733,6 +873,7 @@ async function refresh(){
   ownerSectionIds=ownerIds;
   sections=orderSections(rows);drawSections();
   say(sections.length+' subjects available.');await openDeepLink();
+   if(!section&&!thread&&discussionView==='feed')await loadGlobalFeed(true);
  }catch(e){say(e?.message||'Sections temporarily unavailable.')}
 }
 function setCreateButtons(){const button=$('ddForumNewPost');if(button)button.hidden=!section||!!thread}
@@ -763,11 +904,43 @@ function init(){
  witness?.after(tab);
  wireComposer('ddForumSectionDialog');wireComposer('ddForumPostDialog');wireComposer('ddForumActionDialog');
  wireComposer('ddForumMoreDialog');wireComposer('ddForumAdminDialog');
- const browseAll=$('ddForumBrowseAll');if(browseAll)browseAll.onclick=()=>$('ddForumBackSections').click();
+ const drawer=$('ddForumSubjectsDrawer');
+ if(drawer){
+  $('ddForumSubjectsMenu').onclick=()=>openSubjectsDrawer();
+  $('ddForumSubjectsClose').onclick=()=>closeSubjectsDrawer();
+  $('ddForumDrawerRefresh').onclick=()=>{void refreshSubjectsDrawer()};
+  $('ddForumDrawerSearch').oninput=()=>renderSubjectsDrawer();
+  drawer.addEventListener('click',event=>{if(event.target===drawer)closeSubjectsDrawer()});
+  drawer.addEventListener('cancel',event=>{event.preventDefault();closeSubjectsDrawer()});
+  drawer.addEventListener('close',()=>{
+   ++drawerRequest;
+   if(drawerTimer!==null){window.clearInterval?.(drawerTimer);drawerTimer=null}
+   $('ddForumSubjectsMenu')?.setAttribute('aria-expanded','false');
+  });
+ }
+ const tabs=$('ddForumViewTabs');
+ const switchOverview=view=>{showDiscussionView(view,true,true)};
+ $('ddForumFeedTab').onclick=()=>switchOverview('feed');
+ $('ddForumSectionsTab').onclick=()=>switchOverview('sections');
+ tabs?.addEventListener('keydown',event=>{
+  if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+  event.preventDefault();
+  const next=event.key==='Home'?'feed':event.key==='End'?'sections':discussionView==='feed'?'sections':'feed';
+  switchOverview(next);$(next==='feed'?'ddForumFeedTab':'ddForumSectionsTab')?.focus?.({preventScroll:true});
+ });
+ showDiscussionView(savedDiscussionView(),false,false);
+ const browseAll=$('ddForumBrowseAll');if(browseAll)browseAll.onclick=()=>{
+  showDiscussionView('sections',true,false);$('ddForumBackSections').click();
+ };
  $('ddForumNewSection').onclick=e=>{void openComposer('ddForumSectionDialog',e.currentTarget)};
  $('ddForumNewPost').onclick=e=>{void openComposer('ddForumPostDialog',e.currentTarget)};
  setCreateButtons();
  $('ddForumSearch').addEventListener('input',drawSections);
+ const globalSelect=$('ddForumGlobalSort');if(globalSelect)globalSelect.onchange=event=>{
+  const value=event.target.value;if(!['popular','new','top'].includes(value))return;
+  globalSort=value;void loadGlobalFeed(true);
+ };
+ const globalMore=$('ddForumGlobalLoadMore');if(globalMore)globalMore.onclick=()=>{void loadGlobalFeed(false)};
  const cancelReply=$('ddForumReplyCancel');
  if(cancelReply)cancelReply.onclick=()=>{
   closeReplyComposer();
@@ -778,8 +951,14 @@ function init(){
   replyInput.addEventListener('input',()=>resizeReplyComposer(replyInput));
   replyInput.addEventListener('focus',()=>resizeReplyComposer(replyInput));
  }
- $('ddForumBackSections').onclick=()=>{thread=null;section=null;updateCommunityContext();setCreateButtons();++epoch;$('ddForumSectionsPane').hidden=false;$('ddForumThreadPane').hidden=true;void refresh()};
- $('ddForumBackThreads').onclick=()=>{thread=null;replyParent=null;$('ddForumReplyCreate').hidden=true;$('ddForumThreadPane').classList?.remove?.('dd-forum-detail-open');setCreateButtons();++epoch;$('ddForumPostCreate').hidden=false;$('ddForumPostList').hidden=false;$('ddForumSortLabel').hidden=false;$('ddForumStewardPanel').hidden=!section?.is_steward;$('ddForumReplyPane').hidden=true;$('ddForumThreadTitle').textContent=section?.title||'Section';void loadThreads()};
+ $('ddForumBackSections').onclick=()=>{
+  thread=null;globalReturn=false;section=null;
+  showDiscussionView(discussionView,false,false);
+  updateCommunityContext();setCreateButtons();++epoch;
+  $('ddForumSectionsPane').hidden=false;$('ddForumThreadPane').hidden=true;
+  void refresh();
+ };
+ $('ddForumBackThreads').onclick=()=>{if(globalReturn){$('ddForumBackSections').click();return}thread=null;replyParent=null;$('ddForumReplyCreate').hidden=true;$('ddForumThreadPane').classList?.remove?.('dd-forum-detail-open');setCreateButtons();++epoch;$('ddForumPostCreate').hidden=false;$('ddForumPostList').hidden=false;$('ddForumSortLabel').hidden=false;$('ddForumStewardPanel').hidden=!section?.is_steward;$('ddForumReplyPane').hidden=true;$('ddForumThreadTitle').textContent=section?.title||'Section';void loadThreads()};
  $('ddForumSort').onchange=event=>{sort=event.target.value;feedPage=0;void loadThreads()};
  const feedSearch=$('ddForumFeedSearch');
  if(feedSearch)feedSearch.oninput=event=>{

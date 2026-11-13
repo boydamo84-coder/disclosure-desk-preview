@@ -63,11 +63,18 @@ import com.google.android.ump.UserMessagingPlatform;
 
 public final class MainActivity extends Activity {
     private static final int FILE_CHOOSER_REQUEST = 4312;
+    private static final int OFFLINE_ARCHIVE_REQUEST = 4313;
+    private static final int DESK_BAR_DP = 49;
+    private static final Set<String> LEGAL_PAGES = new HashSet<>(java.util.Arrays.asList(
+            "guide", "terms", "privacy", "community-rules", "sources", "research-edition"));
     private ValueCallback<Uri[]> pendingFiles;
     private static final String HOME = "https://uapdisclosuredesk.com/";
     private ResearchInboxStore researchInbox;
     private WebView web;
     private FrameLayout root;
+    private LinearLayout deskBar;
+    private String pendingArchiveCase;
+    private boolean deskHome;
     private View fullView;
     private View splash;
     private View offlinePanel;
@@ -98,6 +105,9 @@ public final class MainActivity extends Activity {
         root = new FrameLayout(this);
         web = new WebView(this);
         root.addView(web, new FrameLayout.LayoutParams(-1,-1));
+        deskBar = createDeskBar();
+        deskBar.setVisibility(View.GONE);
+        root.addView(deskBar, new FrameLayout.LayoutParams(-1, dp(DESK_BAR_DP), Gravity.TOP));
         ImageView mark=new ImageView(this);
         mark.setImageResource(com.disclosuredesk.preview.R.drawable.dd_emblem);
         mark.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -116,9 +126,9 @@ public final class MainActivity extends Activity {
         // Android 15+ enforces edge-to-edge for target SDK 35. Keep web content below the status bar.
         if(Build.VERSION.SDK_INT >= 35){
             root.setOnApplyWindowInsetsListener((view,insets)->{
-                int top=insets.getInsets(WindowInsets.Type.statusBars()).top;
-                int bottom=insets.getInsets(WindowInsets.Type.navigationBars()).bottom;
-                view.setPadding(0,top,0,bottom);
+                android.graphics.Insets safe=insets.getInsets(
+                        WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout());
+                view.setPadding(safe.left,safe.top,safe.right,safe.bottom);
                 return insets;
             });
             root.requestApplyInsets();
@@ -136,7 +146,9 @@ public final class MainActivity extends Activity {
                 return embeddedWebsiteAsset(request);
             }
             @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap favicon){
-                if(isAppHomeUrl(url))mainPageFailed=false;
+                deskHome = isAppHomeUrl(url);
+                if(deskHome)mainPageFailed=false;
+                layoutDesk();
             }
             @Override public void onPageCommitVisible(WebView view,String url){
                 if(!mainPageFailed && isAppHomeUrl(url))showOnline();
@@ -149,6 +161,7 @@ public final class MainActivity extends Activity {
                     installResearchInboxControl();
                     showFirstRunAlertsPrompt();
                     deliverChatToken();
+                    openPendingArchiveCase();
                 }
             }
             @Override public void onReceivedError(WebView view,WebResourceRequest request,WebResourceError error){
@@ -188,16 +201,19 @@ public final class MainActivity extends Activity {
                 fullView=view;fullCallback=callback;
                 web.setVisibility(View.GONE);
                 root.addView(view,new FrameLayout.LayoutParams(-1,-1));
+                layoutDesk();
             }
             @Override public void onHideCustomView(){
                 if(fullView==null)return;
                 root.removeView(fullView);fullView=null;
                 web.setVisibility(View.VISIBLE);
                 if(fullCallback!=null){fullCallback.onCustomViewHidden();fullCallback=null;}
+                layoutDesk();
             }
         });
         setupChatPushBridge();
         if(PLAY_BILLING_APPROVED)premium=new LifetimeAdsManager(this,this::setAdFree);
+        if(savedInstanceState!=null)pendingArchiveCase=savedInstanceState.getString("pendingArchiveCase");
         if(savedInstanceState==null || web.restoreState(savedInstanceState)==null){
             web.loadUrl(notificationUrl(getIntent()));
         }
@@ -205,6 +221,7 @@ public final class MainActivity extends Activity {
     }
     @Override protected void onSaveInstanceState(Bundle state){
         if(web!=null)web.saveState(state);
+        state.putString("pendingArchiveCase",pendingArchiveCase);
         super.onSaveInstanceState(state);
     }
     @Override protected void onActivityResult(int requestCode,int resultCode,Intent data){
@@ -214,8 +231,80 @@ public final class MainActivity extends Activity {
             pendingFiles=null;
             callback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode,data));
         }
+        if(requestCode==OFFLINE_ARCHIVE_REQUEST && resultCode==RESULT_OK && data!=null){
+            pendingArchiveCase=data.getStringExtra("archive_case");
+            if(isAppHomeUrl(web.getUrl()) && !mainPageFailed) openPendingArchiveCase();
+            else web.loadUrl(HOME);
+        }
     }
-    // The packaged UI is built from the M74 branch with the exact public web allowlist.
+    private void openPendingArchiveCase(){
+        String id=pendingArchiveCase;
+        if(id==null || id.length()>160)return;
+        // Open in the same document so an unsaved workspace and WebView history stay intact.
+        String script="(function(id){if(location.pathname!=='/'||typeof navigateTo!=='function'"
+          + "||typeof archiveCaseOpen!=='function')return false;"
+          + "navigateTo('archivePage');"
+          + "if(historicalRecords.some(r=>String(r.id)===id))archiveCaseOpen(id);"
+          + "else Promise.resolve(loadHistoricalArchive()).then(()=>{"
+          + "if(!document.getElementById('archivePage').classList.contains('hidden'))archiveCaseOpen(id);"
+          + "});return true;})("+JSONObject.quote(id)+")";
+        web.evaluateJavascript(script,value->{
+            if("true".equals(value) && id.equals(pendingArchiveCase))pendingArchiveCase=null;
+        });
+    }
+
+    private LinearLayout createDeskBar(){
+        LinearLayout bar=new LinearLayout(this);
+        bar.setGravity(Gravity.CENTER_VERTICAL);
+        bar.setBackgroundColor(Color.rgb(12,21,31));
+        bar.setPadding(dp(12),0,dp(9),0);
+        ImageView logo=new ImageView(this);
+        logo.setImageResource(com.disclosuredesk.preview.R.drawable.dd_emblem);
+        bar.addView(logo,new LinearLayout.LayoutParams(dp(28),dp(28)));
+        TextView brand=new TextView(this);
+        brand.setText("Disclosure Desk");
+        brand.setTextColor(Color.rgb(242,215,162));
+        brand.setTextSize(16);
+        brand.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
+        brand.setPadding(dp(8),0,dp(5),0);
+        brand.setSingleLine(true);
+        brand.setEllipsize(android.text.TextUtils.TruncateAt.END);
+        bar.addView(brand,new LinearLayout.LayoutParams(0,-2,1));
+        Button desk=new Button(this);
+        desk.setText("Desk");
+        desk.setAllCaps(false);
+        desk.setTextColor(Color.rgb(242,215,162));
+        desk.setContentDescription("Open Desk menu");
+        desk.setOnClickListener(this::showDeskMenu);
+        bar.addView(desk,new LinearLayout.LayoutParams(-2,dp(48)));
+        return bar;
+    }
+    private void showDeskMenu(View anchor){
+        android.widget.PopupMenu menu=new android.widget.PopupMenu(this,anchor);
+        menu.getMenu().add("Offline Archive").setOnMenuItemClickListener(item->{openOfflineArchive();return true;});
+        menu.getMenu().add("Research Inbox").setOnMenuItemClickListener(item->{showResearchInbox();return true;});
+        menu.getMenu().add("Notification settings").setOnMenuItemClickListener(item->{notificationSettings();return true;});
+        menu.show();
+    }
+    private void openOfflineArchive(){
+        startActivityForResult(new Intent(this,OfflineArchiveActivity.class),OFFLINE_ARCHIVE_REQUEST);
+    }
+    private void layoutDesk(){
+        boolean ready=splash==null && offlinePanel!=null && offlinePanel.getVisibility()!=View.VISIBLE;
+        boolean showDesk=deskHome && ready && fullView==null;
+        if(deskBar==null || web==null)return;
+        deskBar.setVisibility(showDesk?View.VISIBLE:View.GONE);
+        boolean showAd=adView!=null && ready && fullView==null;
+        if(adView!=null)adView.setVisibility(showAd?View.VISIBLE:View.GONE);
+        FrameLayout.LayoutParams layout=(FrameLayout.LayoutParams)web.getLayoutParams();
+        int top=showDesk?dp(DESK_BAR_DP):0,bottom=showAd?dp(50):0;
+        if(layout.topMargin!=top || layout.bottomMargin!=bottom){
+            layout.topMargin=top;
+            layout.bottomMargin=bottom;
+            web.setLayoutParams(layout);
+        }
+    }
+    // The packaged UI is built from the latest reviewed website with the public web allowlist.
     // It is served under the canonical HTTPS origin; Supabase auth, OAuth redirects and
     // existing same-origin routes therefore keep their normal origin semantics.
     // Dynamic Netlify requests and third-party feeds are deliberately NOT intercepted.
@@ -249,6 +338,7 @@ public final class MainActivity extends Activity {
         String name;
         if("/".equals(path))name="index.html";
         else if("/guide".equals(path))name="guide.html";
+        else if(path.startsWith("/") && LEGAL_PAGES.contains(path.substring(1)))name=path.substring(1)+".html";
         else name=path.startsWith("/")?path.substring(1):path;
         if(!snapshotFiles.contains(name))return null;
         String mime="text/plain";
@@ -304,6 +394,7 @@ public final class MainActivity extends Activity {
         retry.setAllCaps(false);
         retry.setOnClickListener(v->{
             offlinePanel.setVisibility(View.GONE);
+            layoutDesk();
             mainPageFailed=false;
             web.loadUrl(HOME);
         });
@@ -315,6 +406,11 @@ public final class MainActivity extends Activity {
         LinearLayout.LayoutParams inboxLayout=new LinearLayout.LayoutParams(-1,dp(52));
         inboxLayout.topMargin=dp(12);
         panel.addView(inbox,inboxLayout);
+        Button archive=new Button(this);
+        archive.setAllCaps(false);
+        archive.setText("Offline Archive");
+        archive.setOnClickListener(v->openOfflineArchive());
+        panel.addView(archive,new LinearLayout.LayoutParams(-1,dp(52)));
         return panel;
     }
     private void showOffline(){
@@ -323,6 +419,7 @@ public final class MainActivity extends Activity {
             if(splash!=null){root.removeView(splash);splash=null;}
             offlinePanel.setVisibility(View.VISIBLE);
             offlinePanel.bringToFront();
+            layoutDesk();
         });
     }
     private void showOnline(){
@@ -330,6 +427,7 @@ public final class MainActivity extends Activity {
         runOnUiThread(()->{
             if(splash!=null){root.removeView(splash);splash=null;}
             if(offlinePanel!=null)offlinePanel.setVisibility(View.GONE);
+            layoutDesk();
         });
     }
     private void setAdFree(boolean active){
@@ -338,7 +436,7 @@ public final class MainActivity extends Activity {
             if(active){
                 if(adView!=null){adView.destroy();root.removeView(adView);adView=null;}
                 adStarted=false;
-                FrameLayout.LayoutParams lp=(FrameLayout.LayoutParams)web.getLayoutParams();lp.bottomMargin=0;web.setLayoutParams(lp);
+                layoutDesk();
             }else if(adConsentReady && !adStarted)showTestBanner();
         });
     }
@@ -362,10 +460,8 @@ public final class MainActivity extends Activity {
             adView.setAdSize(AdSize.BANNER);
             FrameLayout.LayoutParams layout=new FrameLayout.LayoutParams(-2,dp(50),Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL);
             root.addView(adView,layout);
-            // Keep the web page clear of the banner rather than covering content.
-            FrameLayout.LayoutParams webLayout=(FrameLayout.LayoutParams)web.getLayoutParams();
-            webLayout.bottomMargin=dp(50);
-            web.setLayoutParams(webLayout);
+            // Reserve room for the banner and keep it out of fullscreen media.
+            layoutDesk();
             adView.loadAd(new AdRequest.Builder().build());
         }));
     }
@@ -561,7 +657,7 @@ public final class MainActivity extends Activity {
         if(isFinishing()||isDestroyed()||web==null)return;
         new AlertDialog.Builder(this)
           .setTitle("How to use Research Inbox")
-          .setMessage("In Chrome or another app, tap Share and choose Disclosure Desk Beta. Open Research Inbox from News or Explore. Tap a saved link to open it, or use its menu to rename, copy or remove it. Links stay on this device.")
+          .setMessage("In Chrome or another app, tap Share and choose Disclosure Desk Beta M92. Open Research Inbox from News or Explore. Tap a saved link to open it, or use its menu to rename, copy or remove it. Links stay on this device.")
           .setNegativeButton("Close",null)
           .setPositiveButton("Open guide",(dialog,which)->web.loadUrl(HOME+"guide#android-research-inbox"))
           .show();

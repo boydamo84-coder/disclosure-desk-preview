@@ -48,7 +48,7 @@ public final class ResearchInboxActivity extends Activity {
     private static final int TEXT = 0xfff1f3f7;
     private static final int MUTED = 0xffb8c4d2;
     private static final String INSTRUCTIONS =
-            "Tap Share in Chrome or another app and choose Disclosure Desk Beta. "
+            "Tap Share in Chrome or another app and choose Disclosure Desk Beta M92. "
             + "Tap a saved link to open it, or use its menu to rename, copy or remove it.";
     private static final String PRIVACY = "Saved on this device. Anyone using this app can see these links.";
 
