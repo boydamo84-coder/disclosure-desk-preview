@@ -1,0 +1,123 @@
+{
+  "version": 1,
+  "visibility": "public-editorial-draft",
+  "description": "Only case IDs with source-linked editorial claim cards appear here. No source independence or corroboration is declared. All claims require editorial sign-off before publication.",
+  "cases": [
+    {
+      "caseId": "featured-rendlesham-1980",
+      "schemaVersion": 1,
+      "edition": "0.2-draft",
+      "editorialStatus": "draft-needs-review",
+      "scope": "Only the institution's collection description has been inspected. These are statements about its records, not independent measurements of the reported event.",
+      "documents": [
+        {
+          "id": "uk-archives-rendlesham",
+          "title": "UK National Archives — UFO reports: Rendlesham correspondence",
+          "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/",
+          "author": "The National Archives (UK)",
+          "published": "undated guide",
+          "originStatus": "unassessed"
+        }
+      ],
+      "claims": [
+        {
+          "id": "rendlesham-record-scope",
+          "text": "The National Archives describes a single-sheet report as the only record of the Rendlesham event itself in its holdings; other files largely concern subsequent enquiries.",
+          "documentIds": [
+            "uk-archives-rendlesham"
+          ],
+          "editorialStatus": "draft-needs-review",
+          "citations": [
+            {
+              "documentId": "uk-archives-rendlesham",
+              "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/",
+              "locator": "Correspondence on the Rendlesham Forest incident — paragraph on the single-sheet report",
+              "context": "Scope limited to records held by this archive, not all documents ever created.",
+              "reviewStatus": "draft-needs-review"
+            }
+          ]
+        },
+        {
+          "id": "rendlesham-defence-statement",
+          "text": "The Archives describes the Ministry of Defence as having found no defence interest or threat to UK airspace in the reported incident.",
+          "documentIds": [
+            "uk-archives-rendlesham"
+          ],
+          "editorialStatus": "draft-needs-review",
+          "citations": [
+            {
+              "documentId": "uk-archives-rendlesham",
+              "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/",
+              "locator": "Correspondence on the Rendlesham Forest incident — paragraph about Parliamentary Question and defence interest",
+              "context": "An assessment of defence significance is not a physical identification of the lights.",
+              "reviewStatus": "draft-needs-review"
+            }
+          ]
+        }
+      ],
+      "edges": []
+    },
+    {
+      "caseId": "featured-roswell-1947",
+      "schemaVersion": 1,
+      "edition": "0.2-draft",
+      "editorialStatus": "draft-needs-review",
+      "scope": "These claims document the remit and findings described by official archives; they do not establish the origin of every Roswell allegation or the independence of later witnesses.",
+      "documents": [
+        {
+          "id": "nara-bluebook-roswell",
+          "title": "US National Archives — Project Blue Book: The Roswell Incident",
+          "url": "https://www.archives.gov/research/military/air-force/ufos",
+          "author": "US National Archives and Records Administration",
+          "published": "archive guide",
+          "originStatus": "unassessed"
+        },
+        {
+          "id": "gao-roswell-1995",
+          "title": "US Government Accountability Office — NSIAD-95-187",
+          "url": "https://www.gao.gov/products/nsiad-95-187",
+          "author": "US General Accounting Office",
+          "published": "1995-07-28",
+          "originStatus": "unassessed"
+        }
+      ],
+      "claims": [
+        {
+          "id": "roswell-bluebook-records",
+          "text": "The US National Archives says it could not locate Roswell documentation among its Project Blue Book records.",
+          "documentIds": [
+            "nara-bluebook-roswell"
+          ],
+          "editorialStatus": "draft-needs-review",
+          "citations": [
+            {
+              "documentId": "nara-bluebook-roswell",
+              "url": "https://www.archives.gov/research/military/air-force/ufos",
+              "locator": "The Roswell Incident — opening paragraph",
+              "context": "This is a statement about the Blue Book holdings searched; it is not a claim that no other relevant records exist.",
+              "reviewStatus": "draft-needs-review"
+            }
+          ]
+        },
+        {
+          "id": "roswell-gao-review",
+          "text": "The GAO's 28 July 1995 report examined relevant government records and requirements for reporting air accidents concerning the 1947 Roswell event.",
+          "documentIds": [
+            "gao-roswell-1995"
+          ],
+          "editorialStatus": "draft-needs-review",
+          "citations": [
+            {
+              "documentId": "gao-roswell-1995",
+              "url": "https://www.gao.gov/products/nsiad-95-187",
+              "locator": "Report Highlights — two stated areas of focus",
+              "context": "The remit is an archival investigation, not a scientific test of all later eyewitness narratives.",
+              "reviewStatus": "draft-needs-review"
+            }
+          ]
+        }
+      ],
+      "edges": []
+    }
+  ]
+}
