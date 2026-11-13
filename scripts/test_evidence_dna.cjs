@@ -81,4 +81,45 @@ assert(homepage.includes('assets/evidence-dna.js?v=r2-alpha01'),'Public case win
 assert(homepage.includes('ddEvidenceDNAHtml(r)+'),'Every case detail offers provenance view');
 assert(homepage.includes("Independent accounts: not assessed"),'No false corroboration label');
 assert(bundler.includes("'evidence-dna.js'"),'Module is explicitly allowed in strict website packaging');
+const drafts=JSON.parse(fs.readFileSync('data/evidence-dna-claim-drafts.json','utf8'));
+assert.equal(drafts.version,1);
+assert.equal(drafts.visibility,'public-editorial-draft');
+assert.equal(drafts.cases.length,2,'Only explicitly curated draft case profiles published');
+let citationsChecked=0;
+for(const profile of drafts.cases){
+ const sourceRecord=curated.find(r=>r.id===profile.caseId);
+ assert(sourceRecord,'Draft claim graph may only reference a real curated archive case');
+ const parsed=dna.parseGraph(profile);
+ assert.equal(parsed.valid,true,'Claim graph valid: '+profile.caseId+' '+parsed.issues.join(','));
+ assert(profile.claims.length>=2,'At least two source-anchored claims per curated dossier');
+ assert.equal(profile.edges.length,0,'No fabricated reviewed source independence');
+ for(const claim of parsed.claims){
+  assert.equal(claim.editorialStatus,'draft-needs-review','Never imply signed-off editorial proof');
+  assert(claim.citations.length>0,'Each claim has an original source citation');
+  const result=dna.traceClaim(profile,claim.id);
+  assert.equal(result.independentWitnessCount,null,'Citations never imply independent witnesses');
+  assert.equal(result.reviewedDependencyCount,0,'No provenance relationship is invented');
+  for(const cite of claim.citations){
+   assert.equal(cite.reviewStatus,'draft-needs-review');
+   assert(cite.locator.length>15,'A precise source section locator is required');
+   assert(cite.context.length>30,'Cite the limits of what source proves');
+   const citedDocument=profile.documents.find(d=>d.id===cite.documentId);
+   assert(citedDocument,'Citation must identify a graph document');
+   assert.equal(dna.canonicalUrl(cite.url),dna.canonicalUrl(citedDocument.url));
+   citationsChecked++;
+  }
+ }
+ const analysis=dna.analyse(sourceRecord,profile);
+ assert.equal(analysis.state,'claim-lineage');
+ assert.equal(analysis.claims.length,profile.claims.length);
+}
+const broken=structuredClone(drafts.cases[0]);
+broken.claims[0].citations[0].url='https://example.org/not-the-original';
+assert.equal(dna.parseGraph(broken).valid,false,'Wrong source-document link must be rejected');
+const missingLocator=structuredClone(drafts.cases[0]);
+missingLocator.claims[0].citations[0].locator='';
+assert.equal(dna.parseGraph(missingLocator).valid,false,'No made-up source locator');
+assert(homepage.includes("data/evidence-dna-claim-drafts.json"),'Archive loader includes dedicated public draft case profiles');
+assert(bundler.includes("'evidence-dna-claim-drafts.json'"),'Strict public package explicitly includes the tiny review dataset');
+console.log('PASS Evidence DNA claim profiles: '+drafts.cases.length+' curated cases with '+citationsChecked+' exact source pointers, draft-only status, no false corroboration');
 console.log('PASS Evidence DNA R2: duplicates, source inventory, verified citation lineage, transitive dependencies, cycles, unreviewed relationships, no false witness count, real archive read-only and integration guards');
