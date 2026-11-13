@@ -7,11 +7,11 @@ const ROOT='.release-staging/public-site';
 assert(fs.existsSync(path.join(ROOT,'release-manifest.json')),'Run node scripts/build_public_release.cjs first');
 const manifest=JSON.parse(fs.readFileSync(path.join(ROOT,'release-manifest.json'),'utf8'));
 const htmls=manifest.files.filter(x=>x.path.endsWith('.html')).map(x=>x.path);
-const primary=new Set(['index.html','guide.html','sources.html','community-rules.html','privacy.html','terms.html','research-edition.html']);
+const primary=new Set(['index.html','guide.html','sources.html','investigations.html','community-rules.html','privacy.html','terms.html','research-edition.html']);
 const allowVirtual=new Set(['home','login','logout','signup','account','profile']);
-// Netlify serves these six public .html files at clean canonical URLs.
+// Netlify serves these reviewed public .html files at clean canonical URLs.
 // Do not generalise: unknown pretty URLs must still be flagged as 404 risks.
-const cleanPublicRoutes=new Set(['research-edition','sources','guide','community-rules','privacy','terms']);
+const cleanPublicRoutes=new Set(['research-edition','sources','investigations','guide','community-rules','privacy','terms']);
 let errors=0,warnings=0,links=0;
 const report=[];
 for(const file of htmls){
