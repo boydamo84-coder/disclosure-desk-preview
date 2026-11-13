@@ -24,7 +24,7 @@ function copy(rel){
 // must never silently make it publicly accessible on a subsequent deploy.
 const approvedWeb=Object.freeze({
  assets:[
-  'media-submissions.js','community-polish.css','analytics-consent.js','case-comment-moderation.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
+  'media-submissions.js','community-polish.css','analytics-consent.js','case-comment-moderation.js','case-connections.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
   'community-test-config.js','community-votes.js','confirmation-dialog.js','disclosure-desk-mark.svg',
   'discussions-admin.js','historical-satellite.js','inline-news-comments.js','unified-action-rails.js',
   'live-chat.js','live-hearings.js','live-schedule.css','live-schedule.js',
