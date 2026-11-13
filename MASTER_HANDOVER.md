@@ -1,5 +1,23 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 13 November 2026 (Europe/London)_
+_Last updated: 13 November 2026 (Europe/London) — M95 restored navigation staged_
+
+## Milestone 95 — Restored premium editorial navigation and full News (13 November 2026)
+
+**Owner feedback:** the redesigned M94 Android bottom navigation and separate native headline-only News list felt like a step backwards. The owner preferred the earlier, more premium navy-and-gold navigation bar and News layout. A branch named M95 existed but initially pointed at exactly the M94 commit, so no rollback had yet occurred.
+
+- **Correct source and branch:** `boydamo84-coder/disclosure-desk-preview`, `android/m95-restore-editorial-layout-nov13`. The older `disclosure-desk` repository is legacy automation, not this app. Never use it as the APK's site source.
+- **Implemented, code staged:** `android-test/app/src/main/assets/native-shell.js` now installs **only** the same-origin Android profile-photo bridge, returns `false` and neither hides `nav.nav` nor creates `DDNativeShell`. This keeps the original premium website navigation and full existing News feed, including shared filters, Read/Top 100 and research actions, instead of M94's native dock/headline-only screen. Native News and bottom dock Java classes are retained dormant for comparison, **not activated**.
+- **Compact native header retained:** the verified M93 52 dp compact top header stays. User photo is displayed in the native Profile button and resets to default after removal/sign-out; the Support button remains immediately beside it. The original duplicate website header is suppressed **only inside the Android APK**; the original website navigation remains visible. Research Inbox, native Offline Archive, notifications, Chat, Discussions, W.NE, existing account features, embedded November web parity and Android Back remain.
+- **Offline fallback:** removed the discontinued M94 native News shortcut from the no-connection landing screen; Offline Archive and Research Inbox remain. This avoids showing a mostly empty obsolete News interface when the editorial website screen is being restored.
+- **Parallel installation:** private beta `com.boyddigitalstudios.disclosuredesk.beta.m95`, versionCode **27**, versionName `0.14.3-m95-private-beta-preview`; this does **not** overwrite M94 or its device-local data. Android Help/Share name updated to M95.
+- **QA prepared:** `scripts/test_m95_editorial_restore_chromium.cjs` asserts at 320/393/820 px that the original nav and full News are visible, M94 native shell stays disabled, compact header removes only the duplicate header, News ticker preference is untouched, and the bridge sends the selected avatar then resets. The APK workflow `.github/workflows/android-test-apk.yml` now targets **only** the M95 branch, executes the new test alongside prior regression tests, and uploads `DisclosureDesk-M95-PRIVATE-BETA` if it builds.
+- **Verification status at authoring:** source and branch changes were committed through the GitHub connector. **GitHub Actions completion, a downloadable M95 APK, signing/package-content audit, and physical Galaxy S24 Ultra acceptance are not yet verified.** Do not claim them passed based only on staged code. Next inspect the branch's exact-head CI, fix any failure, validate the resulting APK and then let the owner test navigation, News, Support/photo, comment keyboard, Android Back and fullscreen media.
+- **Safety:** no Netlify or live website deployment, no Play Store publication, no Supabase write/migration and no `production` change. Website release remains separately staged for the planned 29 November bundle.
+
+### Netlify 404 analytics screenshot reviewed — 13 November 2026
+
+The owner supplied a `Top resources not found` list for 6–13 November: `/wp-admin/install.php` 606, `/api/library` 120, `/favicon.ico` 59, `/wp-login.php` 39, `/.netlify/functions/interests` 31, `/.env` 13 and other sensitive paths in small numbers. These are **404/missing-resource counts**, not evidence that secrets were served or accounts compromised. WordPress probes, `.env`, `.git/config` and credential-filename guesses fit common opportunistic scanning. Check whether `/.netlify/functions/interests` is a real site dependency and whether the favicon is configured; review origin/referrer breakdown and 2xx/5xx anomalies before inferring an attack. No traffic-blocking or public security configuration changes were made from this screenshot alone.
+
 
 
 
