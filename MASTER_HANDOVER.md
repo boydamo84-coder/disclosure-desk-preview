@@ -2,6 +2,19 @@
 _Last updated: 13 November 2026 (Europe/London)_
 
 
+
+## Milestone 94 — Native Android navigation, News and profile photo (13 November 2026)
+
+- The compact Android toolbar has a Support button beside My Profile. Support opens the verified Disclosure Desk Ko-fi page in Android's browser. The profile button uses the photo chosen in the existing account Profile and returns to the default icon when that photo is removed or the account signs out. The Android toolbar uses an in-memory thumbnail of the existing owner photo and does not modify its public visibility setting.
+- Fixed native navigation gives direct access to News, Archive, Discussions and Chat. More opens a native sheet for Videos, Map, Investigation Boards, W.NE Research, Live, Watch & Read, Witness Reports, Explore and Profile. The shared routes still handle existing account actions, Archive case history and W.NE resume. Chat and Videos keep their existing unread indicators in the native shell.
+- The native News list uses the same sourced and deduplicated feed as the website. It supports pull-to-refresh, a Refresh button, separate Latest and Saved scroll positions, and a compact ticker that starts collapsed and remembers its setting. Tapping a headline offers the original publisher, a handoff to the shared discussion and research tools, and a device-local Save for later action. News tools opens the full shared News screen for filters, reading history, Top 100 and Investigation Boards.
+- The app keeps public headline metadata and publisher links for offline use. It does not cache third-party article text. Saved in native News is device-local, while the existing Boards still use their current storage and account behaviour. The offline landing screen includes access to cached News alongside Offline Archive and Research Inbox.
+- Android branch `android/m94-native-navigation-news-nov13`, based on the verified M93 handover. M94 uses application ID `com.boyddigitalstudios.disclosuredesk.beta.m94`, versionCode 26 and versionName `0.14.2-m94-private-beta-preview`. It installs alongside M93, which retains its own local data. No website deployment, Play publication or backend migration.
+- **Verified APK.** [GitHub Actions 43342445156](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43342445156) ran on `8d75ebd5544321c0e4b8ea6accf152191f657b49`. The Chromium regression passed at 320, 393 and 820 px for the Android-only dock, route and modal handling, Chat viewport, ticker preferences, News handoff and refresh, and profile photo replacement and reset. Existing browser and JVM regressions passed. The APK signature and all 90 packaged website files were independently verified.
+- **Artifact.** [DisclosureDesk-M94-PRIVATE-BETA](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43342445156/artifacts/13999039644). APK 10,555,360 bytes, SHA-256 `f6191787a5f63981ce55fc2bc185e2e29572af3ce242e99a4c61b0b23136cc90`. Actions ZIP 10,095,943 bytes, sha256:4df083a1aeee231895412e01b1c261c0f0124a184cb153895bda98d0bcbb8f83.
+- **Galaxy S24 Ultra acceptance pending.** Verify the photo after sign-in and removal, Support, More, Archive Back, Chat keyboard and video fullscreen, pull-to-refresh, return to the same headline after switching tabs, and saved headlines in airplane mode.
+
+
 ## Milestone 93 — Compact native Android toolbar (13 November 2026)
 
 - The owner's M92 screenshot from the Galaxy S24 Ultra confirmed the app opened and showed a large gap above the content. The Android toolbar and mobile site header were both visible, and the site header added its mobile top padding.
