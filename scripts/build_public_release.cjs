@@ -5,7 +5,7 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'.release-staging','p
 if(fs.existsSync(out))throw Error('Refusing to overwrite existing release staging folder');
 const top=['index.html','guide.html','sources.html','investigations.html','rendlesham-forest-1980.html','roswell-1947.html','community-rules.html','privacy.html','terms.html','research-edition.html',
  'cloud-boards.js','manifest.webmanifest','robots.txt','sitemap.xml','ads.txt','app-ads.txt'];
-const data=['approved-live-events.json','curated-historical-cases.json','curated-official-videos.json',
+const data=['approved-live-events.json','curated-historical-cases.json','evidence-dna-claim-drafts.json','curated-official-videos.json',
  'disclosure-clips.json','disclosure-map.json','historical-news-archive.json',
  'international-source-registry.json','news-alerts.json'];
 const webExt=new Set(['.html','.js','.css','.svg','.png','.jpg','.jpeg','.webp','.gif','.ico','.woff2']);
