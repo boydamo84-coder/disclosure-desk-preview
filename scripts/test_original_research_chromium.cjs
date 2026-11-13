@@ -28,7 +28,8 @@ const BASE='http://127.0.0.1:4173';
     // case intentionally calls history.back(); don't race that navigation
     // against a second dossier's page.goto() in the same tab.
     const page=await context.newPage();
-    page.on('pageerror',e=>failures.push(String(e.message||e)));
+    page.on('pageerror',e=>{failures.push(String(e.message||e));console.log('R2 PAGE ERROR',String(e.message||e))});
+    page.on('console',msg=>{if(msg.type()==='error'||msg.type()==='warning')console.log('R2 BROWSER '+msg.type()+' '+msg.text().slice(0,350))});
     await page.goto(BASE+'/'+slug+'.html',{waitUntil:'domcontentloaded',timeout:30000});
     await page.locator('#content h1').waitFor();
     assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'),'https://uapdisclosuredesk.com/'+slug);
@@ -40,7 +41,19 @@ const BASE='http://127.0.0.1:4173';
       slug+' has a linked curated archive record');
     await page.locator('a[href^="/?dd_tab=archivePage"][href*="dd_archive_case"]').first().click();
     await page.waitForURL('**/?dd_tab=archivePage*',{timeout:15000});
-    await page.locator('#archiveCaseDialog[open] #archiveCaseTitle').waitFor({timeout:25000});
+    await page.locator('#archiveCaseDialog[open] #archiveCaseTitle').waitFor({timeout:18000}).catch(async error=>{
+     const diagnostic=await page.evaluate(()=>({
+      url:location.href,hasArchiveTab:!!document.querySelector('#archivePage:not(.hidden)'),
+      status:document.querySelector('#archiveStatus')?.textContent?.slice(0,250),
+      dialogOpen:document.querySelector('#archiveCaseDialog')?.open,
+      scriptReady:typeof window.DDEvidenceDNA?.parseGraph,
+      caseModule:typeof window.DDCaseConnections?.build,
+      archiveVisible:document.querySelector('#archivePage')?.className,
+      searchState:history.state
+     })).catch(e=>({diagnosticError:String(e)}));
+     console.log('R2 ARCHIVE TIMEOUT DIAGNOSTIC '+JSON.stringify(diagnostic));
+     throw error;
+    });
     const title=await page.locator('#archiveCaseTitle').innerText();
     assert.match(title,slug.startsWith('roswell')?/Roswell/i:/Rendlesham/i);
     // R2 Evidence DNA lives inside the existing case file, never in a new tab.
