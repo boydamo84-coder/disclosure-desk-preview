@@ -660,7 +660,7 @@ public final class MainActivity extends Activity {
         archive.setText("Offline Archive");
         archive.setOnClickListener(v->openOfflineArchive());
         panel.addView(archive,new LinearLayout.LayoutParams(-1,dp(52)));
-        // M95 uses the full editorial website News page, not the discontinued\n        // native headline-only screen. Keep offline Archive and Research Inbox.\n        return panel;
+        return panel;
     }
     private void showOffline(){
         if(isFinishing() || offlinePanel==null)return;
