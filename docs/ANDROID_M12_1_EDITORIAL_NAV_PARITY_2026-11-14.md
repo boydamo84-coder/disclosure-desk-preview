@@ -1,7 +1,7 @@
 # Disclosure Desk M12.1 — editorial navigation parity (private Android)
 Date: 14 November 2026
 Branch: `android/m12-who-is-who-navigation-directory-nov14`
-Release: PRIVATE APK ONLY. NO public website deployment or Netlify build.
+Release: PRIVATE APK **GITHUB QA GREEN**. NO public website deployment or Netlify build. Physical Samsung acceptance still outstanding.
 
 ## Physical Samsung feedback
 M12 Who's Who displays an incorrect bottom bar: News / Archive / Discuss / Chat / More. The user's actual home page shows the intended gold-on-navy scrolling dock: News / Archive / Who's Who / W.NE / Map / Videos / LIVE / Boards / Witness / Discussions / Watch & Read / Chat / Profile / Explore, with swipe/paging arrows. User supplied paired phone screenshots demonstrating the mismatch.
@@ -22,3 +22,10 @@ M12 Who's Who displays an incorrect bottom bar: News / Archive / Discuss / Chat 
 
 ## Safety and status
 A green source/browser/compiler run means the private APK can be tested, not that Samsung UX is signed off. Do not promote GitHub production, Netlify, public Play Store or R2 website research data without separate owner approval. R1/R2 release queue remains unchanged.
+
+## Build and artifact — verified
+- [GitHub run 43616534698](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43616534698): **SUCCESS** on code commit `8bd20d9be773f890a749c98c85aa1c8e503f4dc1`.
+- Artifact `DisclosureDesk-M12-1-EDITORIAL-NAV-PRIVATE-BETA`, ID `14122303346`; ZIP SHA256 `c1ff82df6fdef0c8b18c4ca37e8953ca54668b534110fc6fdf47a796bbd6d2b6`.
+- Extracted debug APK size 10,678,839 bytes, SHA256 `83b5011f993cbd3f6782142226423599120705a817eeb3460cc1e7ab1c6d628d`. ZIP CRC and AndroidManifest/classes.dex presence checked independently.
+- Tested on loopback Chromium at 393 and 820px for full **14-tab** parity, back-from-person, swipe arrows, keyboard hiding and internal routes; full Android source/compiler CI green.
+- No physical Samsung sign-off yet. Use the separate M12.1 installation to compare Who's Who dock with Home and report any mismatch before promotion.
