@@ -140,7 +140,10 @@ async function selected(page,id){
   await page.screenshot({path:path.join(OUTPUT,'mobile-explore-393px.png'),fullPage:false});
   await page.goto(BASE+'/?dd_tab=discussionsPage',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.nav .tab[data-tab="discover"]');
-  assert.equal(await page.locator('nav.nav .tab').count(),13);
+  assert.equal(await page.locator('nav.nav .tab').count(),14,
+   'R2 preserves all fourteen approved premium navigation tabs');
+  assert.equal(await page.locator('nav.nav .tab[data-tab="peopleDirectory"]').count(),1,
+   "R2 adds exactly one Who's Who navigation tab");
   await page.waitForFunction(()=>!document.getElementById('discussionsPage').classList.contains('hidden'),
     null,{timeout:10000});
   assert.equal(await hasVisibleSection(page,'discussionsPage'),true,
