@@ -195,6 +195,31 @@
       caution:'Two research-draft summaries are shown for source comparison. They are not verbatim quotations. A difference in wording or source pages does not establish a contradiction, dishonesty or independent corroboration. Read the original passages and context before drawing conclusions.'
     };
   }
+  // Explicit cross-case reading aid. It NEVER assigns truth or detects dishonesty.
+  function compareSelections(caseGraphs, selectionA, selectionB) {
+    const entries=Array.isArray(caseGraphs)?caseGraphs.slice(0,50):[];
+    function pick(selection) {
+      if(!selection||!str(selection.caseId)||!str(selection.claimId))return null;
+      const graph=entries.find(g=>g&&str(g.caseId)===str(selection.caseId));
+      if(!graph)return null;
+      const parsed=parseGraph(graph);
+      if(!parsed.valid)return null;
+      const claim=parsed.claims.find(c=>c.id===str(selection.claimId));
+      if(!claim||!claim.citations.length)return null;
+      return {caseId:str(graph.caseId),id:claim.id,text:claim.text,
+        citations:claim.citations,editorialStatus:claim.editorialStatus};
+    }
+    const first=pick(selectionA),second=pick(selectionB);
+    if(!first||!second||first.caseId===second.caseId&&first.id===second.id)
+      return {valid:false,issues:['Select two distinct, source-linked statements from the curated public cases']};
+    const secondUrls=new Set(second.citations.map(c=>canonicalUrl(c.url)).filter(Boolean));
+    const sharedSourceUrls=[...new Set(first.citations.map(c=>canonicalUrl(c.url)).filter(Boolean))]
+      .filter(url=>secondUrls.has(url));
+    return {valid:true,first,second,sharedSourceUrls,
+      sourceRelationship:sharedSourceUrls.length?'same-cited-source-page':'different-cited-source-pages-unassessed',
+      contradictionEstablished:false,independentCorroborationEstablished:false,status:'human-comparison-only',
+      caution:'These are editorial summaries, not verbatim quotations or verified competing eyewitness reports. The source pages may describe different questions, events or reporting scopes. A comparison cannot establish a contradiction, dishonesty or independent corroboration. Read the cited original context.'};
+  }
   function analyse(record, graph) {
     const inventory=sourceInventory(record);
     if(!graph)return {inventory,trace:null,claims:[],state:'source-inventory-only',
@@ -207,5 +232,5 @@
         result:traceClaim(graph,c.id)})),state:parsed.claims.length?'claim-lineage':'source-inventory-only',
       caution:'Only explicitly documented relationships are traced. Independent witness counts are never inferred from URL counts.'};
   }
-  return Object.freeze({version:'0.2',publicUrl,canonicalUrl,sourceInventory,parseGraph,traceClaim,compareClaims,analyse});
+  return Object.freeze({version:'0.2',publicUrl,canonicalUrl,sourceInventory,parseGraph,traceClaim,compareClaims,compareSelections,analyse});
 });
