@@ -214,15 +214,15 @@ public final class MainActivity extends Activity {
             }
             @Override public void onPageFinished(WebView view,String url){
                 if(!mainPageFailed && isEmbeddedSecondaryPage(url) && isEmbeddedSecondaryPage(view.getUrl())){
-                    // Bundled research pages are part of the app, not external web destinations.
-                    // Keep the real premium bottom navigation mounted on secondary pages.
-                    nativeShell=true;
+                    // M12.1: Match the WEBSITE'S navy/gold scrolling navigation exactly.
+                    // M94 native DeskNavigation is deliberately NOT used here or on Home.
+                    nativeShell=false;
                     nativeNewsSelected=false;
                     shellModal=false;
-                    deskHome=false; // Their own branded header remains; do not overlay the home header.
+                    deskHome=false; // Secondary pages already include their own branded header.
                     activeSection="more";
-                    bottomNav.update(activeSection,"","");
                     showOnline();
+                    installSecondaryEditorialNavigation();
                     layoutDesk();
                 }
                 if(!mainPageFailed && isAppHomeUrl(url) && isAppHomeUrl(view.getUrl())){
@@ -454,6 +454,18 @@ public final class MainActivity extends Activity {
         }
         int inset=bitmap==null?0:dp(8);
         deskProfile.setPadding(inset,inset,inset,inset);
+    }
+    private void installSecondaryEditorialNavigation(){
+        if(web==null || !isEmbeddedSecondaryPage(web.getUrl()))return;
+        try(BufferedReader script=new BufferedReader(new InputStreamReader(
+                getAssets().open("editorial-secondary-nav.js"),StandardCharsets.UTF_8))){
+            StringBuilder source=new StringBuilder();
+            String line;
+            while((line=script.readLine())!=null)source.append(line).append('\n');
+            web.evaluateJavascript(source.toString(),null);
+        }catch(java.io.IOException error){
+            android.util.Log.e("DisclosureDesk","Editorial secondary navigation asset could not be opened.",error);
+        }
     }
     private void openNativeSection(String section){
         if(!nativeShell)return;
