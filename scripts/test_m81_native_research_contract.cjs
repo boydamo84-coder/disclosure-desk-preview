@@ -45,7 +45,7 @@ assert(parser.includes('looksLikeCredentialLink'),'Sensitive shared tokens filte
 assert(parser.includes('parsed.getRawUserInfo()!=null'),'No HTTP basic-auth links');
 assert(parser.includes('MAX_URL = 2048'),'Unsafe enormous payloads rejected');
 assert.match(gradle,/versionCode = 31/,'New APK version');
-assert.match(gradle,/applicationIdSuffix = "\.beta\.m121"/,'Private test app separately installed');
+assert.match(gradle,/applicationIdSuffix = "\.beta\.m122"/,'Private test app separately installed');
 assert(!html.includes('ddAndroidResearchInbox'),'Android-only controls never shipped into website HTML');
 assert(!html.includes('ResearchInboxStore'),'Native store not exposed on public site');
 assert(build.includes('node scripts/test_m81_native_research_contract.cjs'),'Contract runs in private APK CI');
