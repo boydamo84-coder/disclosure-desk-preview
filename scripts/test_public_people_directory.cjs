@@ -9,7 +9,7 @@ const bundle=fs.readFileSync('scripts/build_public_release.cjs','utf8');
 const isSafe=url=>{try{let u=new URL(url);return u.protocol==='https:'&&!u.username&&!u.password}catch{return false}};
 const ids=new Set(),names=new Set();
 assert.equal(dir.version,1);
-assert.equal(dir.people.length,7);
+assert.equal(dir.people.length,17);
 assert.equal(dir.status,'research-copy-edit-needed','Not verified/approved without source checks');
 let videos=0,socials=0,cites=0;
 for(const p of dir.people){
@@ -25,6 +25,10 @@ for(const p of dir.people){
  assert(Array.isArray(p.videos)&&p.videos.length>=1&&p.videos.every(x=>/^[\w-]{11}$/.test(x.youtubeId)&&
    /testimony|interview|analysis|reconstruction|report|documentary|programme|discussion/i.test(x.type)&&x.context.length>40),
   'Only attributed, type-labelled published YouTube videos: '+p.name);
+ assert(Array.isArray(p.podcastEpisodes)&&p.podcastEpisodes.length>=1,'Podcast episode/coverage entry required: '+p.name);
+ assert(Array.isArray(p.filmCredits),'Film credit ledger must exist even when unverified: '+p.name);
+ assert(p.podcastEpisodes.every(e=>isSafe(e.url)&&e.title&&e.show&&e.role),'Every podcast must link a publisher and credit the person's role');
+ assert(p.filmCredits.every(f=>isSafe(f.url)&&f.title&&f.year&&f.role&&f.type),'All claimed screen credits must cite a publisher/credit source');
  assert(Array.isArray(p.socialPages));
  assert(p.socialPages.every(x=>isSafe(x.url)&&x.kind),'No invented personal account without publisher attribution');
  assert(p.photo===null,'No unlicensed portrait downloads or false rights claims');
@@ -32,7 +36,7 @@ for(const p of dir.people){
  videos+=p.videos.length;socials+=p.socialPages.length;cites+=p.milestones.length+p.articles.length;
 }
 for(const token of ['id="profileBiography"','id="profileTimeline"','id="profileArticles"','id="profileSocials"',
-                    'id="profileVideoPlayers"','id="directoryBack"','id="peopleSearch"','id="peopleCategory"'])
+                    'id="profileVideoPlayers"','id="profilePodcasts"','id="profileFilms"','id="profileRelatedCases"','id="directoryBack"','id="peopleSearch"','id="peopleCategory"'])
  assert(page.includes(token),'Directory exposes '+token);
 assert(page.includes('analytics-consent.js')&&!page.includes('googletagmanager.com'),
  'Public profile entry uses consent-gated analytics');
@@ -48,5 +52,11 @@ assert(app.includes("history.pushState")&&app.includes("window.addEventListener(
  'Shareable individual ?person links with Back behaviour');
 assert(!page.match(/<iframe\b/i),'No publisher trackers in initial HTML');
 assert(app.includes('esc('),'Escaped public-sourced content rather than raw HTML injection');
+for(const id of ['bob-lazar','jake-barber','steven-greer','larry-warren','luis-elizondo','christopher-mellon','avi-loeb','jacques-vallee','james-fox','nick-pope'])
+ assert(ids.has(id),'Approved research directory participant present: '+id);
+assert(dir.people.find(p=>p.id==='nick-pope').biography.join(' ').includes('6 April 2026'),'Correct memorial context recorded');
+assert(dir.people.find(p=>p.id==='larry-warren').relatedCases?.some(c=>c.url==='/rendlesham-forest-1980'),'Rendlesham source deep link included');
+assert(app.includes('profileRelatedCases')&&app.includes('profilePodcasts')&&app.includes('profileFilms'),'Public page must render all new research sections');
+assert(!page.includes('7 initial profiles'),'Page count is not stale');
 console.log('PASS Who’s Who R2: '+dir.people.length+' sourced detailed biographies, '+cites+' dated/source references, '+
  videos+' context-labelled videos, '+socials+' attributed social links, 0 unlicensed headshots; click-to-play, shareable profiles and public-only packaging');
