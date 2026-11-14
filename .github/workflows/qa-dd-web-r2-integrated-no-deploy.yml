@@ -1,0 +1,111 @@
+name: DD-WEB-R2 integrated website release QA (NO DEPLOY)
+on:
+  push:
+    branches: [release/dd-web-r2-integration-nov14]
+    paths:
+      - 'index.html'
+      - 'assets/evidence-dna.js'
+      - 'data/evidence-dna-claim-drafts.json'
+      - 'data/public-people-directory.json'
+      - 'data/public-person-case-links.json'
+      - 'assets/people-directory.js'
+      - 'assets/person-case-links.js'
+      - 'who-is-who.html'
+      - 'guide.html'
+      - 'investigations.html'
+      - 'rendlesham-forest-1980.html'
+      - 'roswell-1947.html'
+      - 'sources.html'
+      - 'research-edition.html'
+      - 'community-rules.html'
+      - 'privacy.html'
+      - 'terms.html'
+      - 'assets/page-help.js'
+      - 'assets/community-polish.css'
+      - 'sitemap.xml'
+      - 'scripts/test_search_indexing.cjs'
+      - 'scripts/test_public_people_directory.cjs'
+      - 'scripts/test_people_directory_chromium.cjs'
+      - 'scripts/test_evidence_dna.cjs'
+      - 'scripts/test_person_case_links.cjs'
+      - 'scripts/test_source_lineage.cjs'
+      - 'scripts/test_page_help_contract.cjs'
+      - 'scripts/test_page_help_chromium.cjs'
+      - 'scripts/test_archive_case_scroll_and_people_nav_chromium.cjs'
+      - 'scripts/test_m77_android_mobile_chromium.cjs'
+      - 'scripts/test_original_research_chromium.cjs'
+      - 'scripts/build_public_release.cjs'
+      - 'scripts/test_public_release_package.cjs'
+      - '.github/workflows/qa-dd-web-r2-integrated-no-deploy.yml'
+      - 'scripts/test_home_navigation_chromium.cjs'
+      - 'scripts/test_m12_2_scroll_return_chromium.cjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-source-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test source independence and typed provenance engine
+        run: |
+          node --check assets/evidence-dna.js
+          node --check scripts/test_evidence_dna.cjs
+          node --check assets/people-directory.js
+          node --check assets/person-case-links.js
+          node scripts/test_public_people_directory.cjs
+          node scripts/test_person_case_links.cjs
+          node --check scripts/test_source_lineage.cjs
+          node scripts/test_source_lineage.cjs
+          node --check assets/page-help.js
+          node scripts/test_page_help_contract.cjs
+          node scripts/test_evidence_dna.cjs
+          node scripts/test_case_connections.cjs
+          node scripts/test_original_research_contract.cjs
+          node scripts/test_search_indexing.cjs
+      - name: Verify strict public packaging and public link integrity
+        run: |
+          node scripts/test_public_release_package.cjs
+          node scripts/audit_public_pages_20261108.cjs
+      - name: Install local browser dependencies and start loopback only
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 leaflet@1.9.4
+          test -x /usr/bin/google-chrome
+          node --check scripts/test_original_research_chromium.cjs
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-r2-local.log 2>&1 &
+          echo $! >/tmp/dd-r2-local.pid
+          for i in $(seq 1 20); do curl -fsS --max-time 2 http://127.0.0.1:4173/ >/dev/null && exit 0; sleep 1; done
+          cat /tmp/dd-r2-local.log
+          exit 1
+      - name: Test research archive and Evidence DNA on phone and desktop Chromium
+        run: node scripts/test_original_research_chromium.cjs
+      - name: Test Who's Who profiles and opt-in publisher video embeds
+        run: |
+          node --check scripts/test_people_directory_chromium.cjs
+          node scripts/test_people_directory_chromium.cjs
+      - name: Verify R1 Home, browser Back and source-card return all survive R2
+        run: |
+          node scripts/test_home_navigation_chromium.cjs
+          node scripts/test_m12_2_scroll_return_chromium.cjs
+      - name: Test contextual help and refreshed tours in Chromium (NO DEPLOY)
+        run: |
+          node --check scripts/test_page_help_chromium.cjs
+          node scripts/test_page_help_chromium.cjs
+          node --check scripts/test_archive_case_scroll_and_people_nav_chromium.cjs
+          node scripts/test_archive_case_scroll_and_people_nav_chromium.cjs
+      - name: Test mobile Chat and comment reply viewport at 320/393/820px (NO DEPLOY)
+        run: node scripts/test_m77_android_mobile_chromium.cjs
+      - name: Stop local server
+        if: always()
+        run: |
+          if test -f /tmp/dd-r2-local.pid; then kill "$(cat /tmp/dd-r2-local.pid)" || true; fi
+# This only validates an isolated source branch. It cannot publish a site,
+# release a later version, contact a real user account or resubmit AdSense.
+# M8 checks source-attributed public people/case references; does not publish.
+
+# Owner approved website promotion, but this branch is a development candidate.
+# DO NOT release before R1 live production has been verified, then reconfirm R2 scope and editorial evidence.
