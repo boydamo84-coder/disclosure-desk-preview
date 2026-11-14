@@ -119,7 +119,7 @@ const BASE='http://127.0.0.1:4173';
     assert.equal(await graph.locator('svg.dd-source-graph-svg rect').count(),16,'Three cases, three people, four statements, six cited documents');
     const list=graph.locator('details').first();
     await list.locator('summary').click();
-    assert.equal(await list.locator('li').count(),14,'Text alternative contains eight research links and six public role sources');
+    assert.equal(await list.locator('li').count(),15,'Text alternative includes eight research links, one source mention, six public roles');
     assert(await list.locator('a[href^="https://"]').count()>=4,'Original citation locations remain available without SVG');
     await graph.locator('select[data-graph-mode]').selectOption('current');
     assert.match(await graph.locator('[data-graph-summary]').innerText(),/1 case dossier/i);
