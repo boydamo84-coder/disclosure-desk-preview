@@ -6,14 +6,16 @@ single-browser LOCAL vault. Please use fictional/example data, not
 sensitive research, until a full security audit has been completed.
 
 TEST ON YOUR SAMSUNG GALAXY / TERMUX
-1. Extract the new ZIP into Downloads/HypothesisLab_R3_Nav_Polish.
+1. Extract the new ZIP into Downloads/R3_Lab_Verified_20261114.
 2. Stop the existing Termux Python server (CTRL + C).
 3. In Termux, run:
-   cd ~/storage/downloads/HypothesisLab_R3_Nav_Polish
+   cd ~/storage/downloads/R3_Lab_Verified_20261114
    pwd
    cat BUILD_INFO.txt
    grep -n 'ddConfirmDialog' index.html
    python -m http.server 4175 --bind 127.0.0.1
+   If you see "Address already in use", a previous server is STILL active
+   and must be stopped in its original Termux session (CTRL+C).
    (If you used a different folder name, update the cd line.)
 4. On your SAME Chrome profile, visit http://127.0.0.1:4175/?version=check
    At the top of the page find the R3 NAV / PROMPT POLISH · BUILD identifier.
