@@ -56,3 +56,16 @@ This pilot deliberately has **no unmoderated personal credibility poll**, no "li
 4. Consider a neutral **claim-evidence survey**, not real-person character ratings. Would need secure one-vote-per-user, anti-manipulation, moderation and opt-out/privacy rules.
 5. Real Samsung phone testing, publisher embed acceptance, source fact-check/author approval, build exact integrated R2 SHA after R1 is live and stable.
 6. Release R2 only after R1 has been deployed/verified and the owner explicitly approves R2. No production merge, Netlify deploy or AdSense submission during this milestone.
+
+
+## R2 Milestone 4 — 17-person Who's Who and podcast/film credits (14 November 2026)
+
+**User-approved and staged on R2 branch only, NOT DEPLOYED.**
+- Added six further researched people: Luis Elizondo, Christopher Mellon, Avi Loeb, Jacques Vallée, James Fox and Nick Pope, bringing Who's Who to **17 profiles**. Each additional biography has cited public background, source-linked chronology and editorial uncertainty/context. Nick Pope's published memorial records death on 6 April 2026; profile uses historical wording.
+- **23** selected podcast recordings/entries across all 17 people, with original publisher links and specific roles (**guest/host/subject of coverage**; do not misrepresent an episode about a person as their own appearance).
+- **21** attributed film/TV/press-recording credits from original producers, professional biographies and catalogues, each with participation role and content type. Where no film appearance was reliably verified (Avi Loeb, Mick West, Larry Warren), the UI explicitly says so rather than inventing one.
+- Site UI: `who-is-who.html` now has Podcasts and Documentaries/Films/TV sections; `assets/people-directory.js` renders direct publisher links safely, retains optional click-to-load YouTube, full biography, public accounts, source timeline, direct profile URLs and contextual related-case links. Expanded role and research-topic filters. Only public reference data.
+- **GREEN GitHub no-deploy CI `43585311950`** at code SHA `a4010164a48f06120c00cda6f9a87aef9917f200`: 17 profiles; 112 dated/source references, 21 video entries, 23 public social/organisation links; 99-file strict public staging, 19-page / 330-link public audit 0 errors with 3 pre-existing W.NE hidden-link warnings; browser checks passed at 393px and 1280px.
+- **Source caution:** static/Chromium testing does not validate every external episode/streaming link or permission to embed; full human editorial fact-check and physical Samsung QA remain. No unlicensed headshots, private contacts, reputation-poll rankings or unapproved YouTube autoplay.
+- Documentation: `docs/R2_WHO_IS_WHO_EXPANSION_PODCAST_FILMS_2026-11-14.md`. Source JSON `data/public-people-directory.json`, page `who-is-who.html`, renderer `assets/people-directory.js`.
+- Next: verify every external attribution/film credit, consider person↔case source-based relationships and prepare Contradiction Radar. R2 remains **not a deployable release** until predecessor R1 is live and accepted, merged/rebased into verified production baseline and fully tested with explicit owner approval. No Netlify, production or AdSense mutation.
