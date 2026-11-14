@@ -40,3 +40,6 @@ M12.2 fixed the same-document Who's Who directory→profile→directory scroll i
 - Unpacked `app-debug.apk`: 10,682,950 bytes, SHA256 `58b6171edefa12514ed03b9e163947dbd1cd5b0f562c2a0a7dbc1d042be56b94`. ZIP and APK CRC tests clean; verified `AndroidManifest.xml`, `classes.dex`, `assets/research-return-nav.js`, and bundled Who's Who HTML/JavaScript.
 - Final Chromium tester also maps only Android's vetted clean dossier routes to their actual HTML files rather than treating a Python server's 404 as a valid page.
 - No production or Netlify change. Device Back gesture + actual Android ad placement have **not** been confirmed on the user's Galaxy yet; label is private beta only.
+
+
+**USER PHONE FEEDBACK — 14 November 2026:** After installing and testing the M12.3 private APK, owner reported **“Works well woop woop”**, confirming the implemented navigation feels correct on their Android phone. Mark **user-reported navigation acceptance: positive**. Individual checklist items (each dossier, Android gesture variant, test ad placement, keyboard/flight mode) were **not separately reported**; do not imply that every hardware test was performed or that production release is approved. The next planned milestone is M13 Who's Who editorial/image polish. Retain the known-good M12.3 private baseline and all Netlify/production safeguards. No deployment requested.
