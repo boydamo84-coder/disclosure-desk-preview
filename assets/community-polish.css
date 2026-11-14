@@ -1049,3 +1049,22 @@ dialog.dd-confirm-dialog::backdrop{background:rgba(1,10,17,.79);backdrop-filter:
 #discussionsPage #ddForumDirectoryView .dd-community-directory-heading{margin:4px 2px 16px}
 #discussionsPage #ddForumFeedView .dd-community-global{margin-bottom:0}
 @media(max-width:759px){#discussionsPage .dd-community-view-tabs{margin-bottom:15px;gap:5px}#discussionsPage .dd-community-view-tab{min-height:45px;font-size:13px}}
+
+/* M10 Android integration: grow Chat's nested WebView mounts through the
+ * entire available mobile viewport. Without min-height:0/flex on the
+ * intermediate #ddChatPageMount and #ddProfileChatApp containers, the
+ * conversation column may collapse despite the outer fixed-height screen.
+ * Apply only to the currently visible Chat tab; preserve premium styling. */
+@media(max-width:759px){
+ #chatPage.dd-chat-designed:not(.hidden){display:flex;flex-direction:column}
+ #chatPage.dd-chat-designed:not(.hidden) #ddChatPageMount{
+  display:flex;flex:1;min-height:0;flex-direction:column
+ }
+ #chatPage.dd-chat-designed:not(.hidden) #ddProfileChatApp{
+  display:flex;flex:1;min-height:0;flex-direction:column
+ }
+ #chatPage.dd-chat-designed:not(.hidden) .dd-chat-layout{
+  flex:1;min-height:0;height:100%
+ }
+ #chatPage.dd-chat-designed:not(.hidden) .dd-chat-side{height:100%}
+}
