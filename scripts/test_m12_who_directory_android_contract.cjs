@@ -30,7 +30,7 @@ assert(people.includes('paintPortrait')&&people.includes('photo.source')&&people
  'Portrait source and licence checks preserved');
 assert(page.includes('profilePhotoCredit'),'Portrait credit exposed for real users');
 assert.equal(data.people.length,50,'Exactly fifty source-linked profile records');
-assert(data.people.filter(p=>p.photo).length>=9,'Reviewed portraits appear where available');
+assert(data.people.filter(p=>p.photo).length>=17,'Reviewed portraits appear where available');
 assert(data.people.filter(p=>p.category.includes('Congress')).length>=10,'Congress members included');
 assert(data.people.filter(p=>p.category.includes('NASA UAP study')).length===17,'NASA independent study covered');
 assert(!main.includes('addJavascriptInterface('),'Do not weaken origin restricted Android bridge');
