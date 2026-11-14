@@ -947,7 +947,7 @@
   <h2 id="ddSatelliteTitle">🛰 Historical satellite imagery</h2>
   <div id="ddSatelliteDialogBody"></div>
  </div>
-</dialog><dialog id="ddNoteDialog" class="dd-note-dialog" aria-labelledby="ddNoteHeading"><div class="dd-note-shell"><div class="dd-note-top"><h2 id="ddNoteHeading">✎ Private note</h2><button class="outline" type="button" id="ddNoteClose" aria-label="Close editor">✕</button></div><p id="ddNoteSource" class="muted small"></p><p class="muted small">Only stored in your private Investigation Board. Never posted to the public archive.</p><textarea id="ddNoteText" class="field" maxlength="4000" rows="7" placeholder="Observations, contradictions, follow-up questions or why this source matters…"></textarea><p class="muted small" id="ddNoteCount">0 / 4000</p><div class="dd-note-actions"><button class="outline" id="ddNoteCancel" type="button">Cancel</button><button class="outline" id="ddNoteClear" type="button">Clear note</button><button class="action" id="ddNoteSave" type="button">Save note</button></div></div></dialog><div id="ddBoardToast" class="dd-board-toast" hidden role="status"></div><dialog id="ddComparisonSaveDialog" class="collection-dialog" aria-label="Save comparison"><div class="picker-content"><div class="picker-head"><h3>Save comparison</h3><button type="button" class="picker-close" id="ddComparisonSaveClose">×</button></div><p class="muted small">Keep this comparison and its source references in your private Board.</p><div id="ddComparisonSaveChoices"></div><p class="picker-message" id="ddComparisonSaveStatus" role="status"></p></div></dialog><dialog id="collectionPicker" class="collection-dialog" aria-labelledby="pickerTitle"><div class="picker-content"><div class="picker-head"><h3 id="pickerTitle">Save discovery</h3><button type="button" id="pickerClose" class="picker-close" aria-label="Close">×</button></div><p id="pickerSubtitle" class="picker-subtitle"></p><div id="pickerChoices"></div><label for="pickerPrivateNote" class="muted small" style="display:block;margin-top:12px"><strong>Private note (optional)</strong> · saved with this source, case or video</label><textarea id="pickerPrivateNote" class="field" rows="3" maxlength="4000" style="width:100%;resize:vertical" placeholder="Why I saved this, what to investigate, contradictions or questions…"></textarea><label id="pickerDiscussionOption" style="display:none;padding:10px 6px;font-size:13px"><input type="checkbox" id="pickerIncludeDiscussion"> Include case discussion link (optional)</label><form id="pickerCreate" class="picker-create hidden"><label for="pickerNewName">New collection name</label><input class="field" id="pickerNewName" maxlength="60" required placeholder="e.g. Roswell research"><button type="submit">Create and save</button></form><div id="pickerMessage" class="picker-message" role="status"></div></div></dialog><script src="assets/case-connections.js?v=m97-indexed"></script><script src="assets/evidence-dna.js?v=r2-alpha01"></script><script>
+</dialog><dialog id="ddNoteDialog" class="dd-note-dialog" aria-labelledby="ddNoteHeading"><div class="dd-note-shell"><div class="dd-note-top"><h2 id="ddNoteHeading">✎ Private note</h2><button class="outline" type="button" id="ddNoteClose" aria-label="Close editor">✕</button></div><p id="ddNoteSource" class="muted small"></p><p class="muted small">Only stored in your private Investigation Board. Never posted to the public archive.</p><textarea id="ddNoteText" class="field" maxlength="4000" rows="7" placeholder="Observations, contradictions, follow-up questions or why this source matters…"></textarea><p class="muted small" id="ddNoteCount">0 / 4000</p><div class="dd-note-actions"><button class="outline" id="ddNoteCancel" type="button">Cancel</button><button class="outline" id="ddNoteClear" type="button">Clear note</button><button class="action" id="ddNoteSave" type="button">Save note</button></div></div></dialog><div id="ddBoardToast" class="dd-board-toast" hidden role="status"></div><dialog id="ddComparisonSaveDialog" class="collection-dialog" aria-label="Save comparison"><div class="picker-content"><div class="picker-head"><h3>Save comparison</h3><button type="button" class="picker-close" id="ddComparisonSaveClose">×</button></div><p class="muted small">Keep this comparison and its source references in your private Board.</p><div id="ddComparisonSaveChoices"></div><p class="picker-message" id="ddComparisonSaveStatus" role="status"></p></div></dialog><dialog id="collectionPicker" class="collection-dialog" aria-labelledby="pickerTitle"><div class="picker-content"><div class="picker-head"><h3 id="pickerTitle">Save discovery</h3><button type="button" id="pickerClose" class="picker-close" aria-label="Close">×</button></div><p id="pickerSubtitle" class="picker-subtitle"></p><div id="pickerChoices"></div><label for="pickerPrivateNote" class="muted small" style="display:block;margin-top:12px"><strong>Private note (optional)</strong> · saved with this source, case or video</label><textarea id="pickerPrivateNote" class="field" rows="3" maxlength="4000" style="width:100%;resize:vertical" placeholder="Why I saved this, what to investigate, contradictions or questions…"></textarea><label id="pickerDiscussionOption" style="display:none;padding:10px 6px;font-size:13px"><input type="checkbox" id="pickerIncludeDiscussion"> Include case discussion link (optional)</label><form id="pickerCreate" class="picker-create hidden"><label for="pickerNewName">New collection name</label><input class="field" id="pickerNewName" maxlength="60" required placeholder="e.g. Roswell research"><button type="submit">Create and save</button></form><div id="pickerMessage" class="picker-message" role="status"></div></div></dialog><script src="assets/case-connections.js?v=m97-indexed"></script><script src="assets/evidence-dna.js?v=r2-alpha01"></script><script src="assets/person-case-links.js?v=r2-m8-alpha01"></script><script>
 'use strict';const $=id=>document.getElementById(id);const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const images={space:'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=900&q=80',sky:'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=850&q=80',ruins:'https://images.unsplash.com/photo-1603569283847-aa295f0d016a?w=850&q=80',night:'https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?w=850&q=80',radio:'https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=850&q=80'};
 const previewStories=[{category:'UAP',headline:'Inside the official investigations into unidentified aerial phenomena',desc:'How researchers assess reports, video evidence and unresolved observations.',img:'sky',source:'Editorial preview · Not live'},{category:'UAP',headline:'Roswell: the original 1947 reports and decades of speculation',desc:'The historical record, official findings and stories that followed.',img:'night',source:'Editorial preview · Not live'},];
@@ -2284,12 +2284,14 @@ let historicalRecords=[];
 // Initialise claim-loader state BEFORE the archive's early startup call.
 let ddEvidenceDnaCaseGraphs=new Map();
 let ddEvidenceDnaLoadPromise=null;
+let ddPersonCaseLedger={valid:true,links:[]};
+let ddPersonCaseLoadPromise=null;
 let ddArchiveLoading=null,ddArchiveTried=false,ddArchiveFullReady=false;
 // A public evidence dossier may link directly to an existing featured case.
 // The allowlist prevents arbitrary text from reaching a case or a page.
 let ddPendingArchiveCase=(()=>{try{
  const id=new URLSearchParams(location.search).get('dd_archive_case');
- return ['featured-rendlesham-1980','featured-roswell-1947'].includes(id)?id:null;
+ return ['featured-rendlesham-1980','featured-roswell-1947','featured-nimitz-2004'].includes(id)?id:null;
 }catch(_){return null}})();
 const ddLastTabKey='dd_last_open_tab_v1';
 // A W.NE return link or shared link may contain ?dd_tab=archivePage.
@@ -2569,10 +2571,28 @@ async function ddLoadEvidenceDnaDrafts(){
  })();
  return ddEvidenceDnaLoadPromise;
 }
+async function ddLoadPersonCaseLinks(){
+ if(ddPersonCaseLoadPromise)return ddPersonCaseLoadPromise;
+ ddPersonCaseLoadPromise=(async()=>{
+  try{
+   const response=await fetch('data/public-person-case-links.json',{cache:'no-store',signal:AbortSignal.timeout(7000)});
+   if(!response.ok)throw Error('Public role ledger HTTP '+response.status);
+   const dataset=await response.json();
+   const parsed=window.DDPersonCaseLinks?.parse?.(dataset,{
+     personIds:['david-fravor','nick-pope','larry-warren'],
+     caseIds:['featured-rendlesham-1980','featured-nimitz-2004']
+   });
+   if(!parsed?.valid)throw Error('Public role attribution data failed schema review');
+   ddPersonCaseLedger=parsed;
+  }catch(error){console.warn('Optional public case/person links could not load:',error)}
+ })();
+ return ddPersonCaseLoadPromise;
+}
 function ddEvidenceDNAHtml(record){
  const evidence=window.DDEvidenceDNA?.analyse(record,ddEvidenceDnaCaseGraphs.get(String(record.id))||null);
  if(!evidence)return '<p class="muted small">Source lineage module unavailable; open the original sources below.</p>';
  const inventory=evidence.inventory;
+ const peopleLinks=window.DDPersonCaseLinks?.byCase?.(ddPersonCaseLedger,String(record.id))||[];
  const rows=inventory.items.slice(0,20).map((source,i)=>
   '<li style="padding:6px 0"><a href="'+esc(source.url)+'" target="_blank" rel="noopener noreferrer">'+esc(source.title)+' ↗</a>'+
   '<span class="muted small"> · '+esc(source.type)+(source.repeatedReferences?' · Appears '+(1+source.repeatedReferences)+' times in this case record':'')+'</span></li>').join('');
@@ -2592,6 +2612,16 @@ function ddEvidenceDNAHtml(record){
    ).join('')+'</ul>':'<p class="muted small">No document-level citation supplied.</p>')+
   '</div></article>').join(''):
   '<p class="muted small">No claim-level dependency chain has been reviewed for this case. Open each original document before deciding whether reports are independent.</p>';
+ const peoplePanel=peopleLinks.length?'<section class="dd-case-people" style="margin:14px 0;border:1px solid #6b8498;padding:13px;border-radius:11px">'+
+ '<h4>People, published accounts & source roles</h4>'+
+ '<p class="muted small">Public-source attribution only. These links document what someone testified, claimed or published; they do not prove the reported event or imply independent witnesses.</p>'+
+ peopleLinks.map(link=>'<article class="card" style="margin:9px 0;padding:12px">'+
+  '<strong><a href="/who-is-who.html?person='+esc(link.personId)+'">'+esc(link.personName)+'</a></strong>'+
+  '<p class="muted small"><strong>'+esc(link.roleLabel)+'</strong> · Editorial review pending</p>'+
+  '<p>'+esc(link.statement)+'</p><p class="muted small">'+esc(link.context)+'</p>'+
+  '<p class="muted small"><a href="'+esc(link.source.url)+'" target="_blank" rel="noopener noreferrer">Inspect original published evidence ↗</a>'+
+  ' · '+esc(link.source.publisher)+' · '+esc(link.source.locator)+'</p>'+
+  '</article>').join('')+'</section>':'';
  const sourceGraph=ddEvidenceDnaCaseGraphs.get(String(record.id));
  const pair=sourceGraph&&evidence.claims.length>=2?
   window.DDEvidenceDNA?.compareClaims?.(sourceGraph,evidence.claims[0].id,evidence.claims[1].id):null;
@@ -2614,7 +2644,7 @@ function ddEvidenceDNAHtml(record){
   '<button type="button" class="outline" data-radar-compare>Compare selected statements</button>'+
   '<p class="muted small">Side-by-side reading aid only. No contradiction or dishonest account is automatically identified.</p>'+
   '<div data-radar-output role="status" aria-live="polite">'+ddRadarResultHtml(pair)+'</div></details>':'';
- const graphPanel=sourceGraph?'<details class="dd-evidence-graph" style="margin:14px 0;border:1px solid #628598;border-radius:11px;padding:13px">'+
+ const graphPanel=(sourceGraph||peopleLinks.length)?'<details class="dd-evidence-graph" style="margin:14px 0;border:1px solid #628598;border-radius:11px;padding:13px">'+
   '<summary style="color:#e5c894;cursor:pointer;font-weight:750">◇ Evidence Relationship Graph · Source connections (R2 preview)</summary>'+
   '<p class="muted small">Trace how editorial case summaries cite original pages. Dashed lines mean catalogue links or unreviewed citations, not independently verified incidents.</p>'+
   '<label>View graph scope <select data-graph-mode class="field" aria-label="Evidence graph scope" style="max-width:100%;width:270px;margin:8px 0">'+
@@ -2627,7 +2657,7 @@ function ddEvidenceDNAHtml(record){
   ' repeated reference(s) · <strong>Independent accounts: not assessed</strong></p>'+
   '<p class="muted small">URLs are de-duplicated conservatively (e.g. tracking parameters removed). Different URLs may still repeat one account; we do not automatically call them independent.</p>'+
   (rows?'<ol style="padding-left:20px">'+rows+'</ol>':'<p class="muted small">No public source URLs are catalogued for this item yet.</p>')+
-  '<h4>Source-linked claim review</h4>'+lineage+radar+graphPanel+
+  '<h4>Source-linked claim review</h4>'+lineage+radar+peoplePanel+graphPanel+
   '<p class="muted small">'+esc(evidence.caution)+' This research preview does not publish private notes, witness data or personal research.</p>'+
   '</details>';
 }
@@ -2668,26 +2698,26 @@ document.addEventListener('click',event=>{
 // is the keyboard/screen-reader alternative and links to the original documents.
 function ddEvidenceGraphHtml(mode,caseId){
  const data=window.DDEvidenceDNA?.buildRelationshipGraph?.(
-  [...ddEvidenceDnaCaseGraphs.values()],mode==='all'?'all':caseId);
+  [...ddEvidenceDnaCaseGraphs.values()],mode==='all'?'all':caseId,ddPersonCaseLedger.links);
  if(!data?.valid||!data.nodes.length)return '<p class="muted small">No validated public source graph is available for this case.</p>';
- const groups={case:[],claim:[],document:[]};
+ const groups={person:[],case:[],claim:[],document:[]};
  data.nodes.forEach(n=>{if(groups[n.type])groups[n.type].push(n)});
- const positions=new Map(),xs={case:22,claim:333,document:680},widths={case:250,claim:300,document:280};
- const count=Math.max(groups.case.length,groups.claim.length,groups.document.length);
+ const positions=new Map(),xs={person:18,case:220,claim:455,document:745},widths={person:180,case:210,claim:262,document:280};
+ const count=Math.max(groups.person.length,groups.case.length,groups.claim.length,groups.document.length);
  const height=Math.max(185,78+count*76);
- const labels={case:'Case dossiers',claim:'Draft claim summaries',document:'Original source pages'};
+ const labels={person:'Public individuals',case:'Case dossiers',claim:'Draft claim summaries',document:'Cited source pages'};
  const heads=Object.keys(groups).map(type=>'<text x="'+xs[type]+'" y="21" font-size="14" font-weight="700" fill="#e8cb91">'+esc(labels[type])+'</text>').join('');
  const blocks=[];
- for(const type of ['case','claim','document']){
+ for(const type of ['person','case','claim','document']){
   groups[type].forEach((node,i)=>{
    const x=xs[type],y=40+i*76,w=widths[type];
    positions.set(node.id,{x,y,w});
-   const fill=type==='case'?'#1a405b':type==='claim'?'#273849':'#143b3f';
+   const fill=type==='person'?'#3d3447':type==='case'?'#1a405b':type==='claim'?'#273849':'#143b3f';
    blocks.push('<g><rect x="'+x+'" y="'+y+'" width="'+w+'" height="52" rx="9" fill="'+fill+'" stroke="#718698"/>'+
     '<text x="'+(x+10)+'" y="'+(y+22)+'" fill="#f6f1e9" font-size="13">'+
     esc(node.label.slice(0,type==='claim'?36:30))+(node.label.length>(type==='claim'?36:30)?'…':'')+'</text>'+
     '<text x="'+(x+10)+'" y="'+(y+40)+'" fill="#e8c88a" font-size="11">'+
-    esc(type==='claim'?'Editorial draft':type==='document'?'Source reference':'Case context')+'</text></g>');
+    esc(type==='person'?'Attributed public role':type==='claim'?'Editorial draft':type==='document'?'Source reference':'Case context')+'</text></g>');
   });
  }
  const lines=data.edges.map(edge=>{
@@ -2704,16 +2734,18 @@ function ddEvidenceGraphHtml(mode,caseId){
   const from=data.nodes.find(n=>n.id===edge.from),to=data.nodes.find(n=>n.id===edge.to);
   if(!from||!to)return '';
   const relation=edge.relation==='catalogues-editorial-summary'?'includes editorial summary':
-    edge.relation==='cites-source-page'?'cites source page':edge.relation.replace(/_/g,' ');
+    edge.relation==='cites-source-page'?'cites source page':
+    edge.relation==='attributed-public-involvement'?'has published involvement with':
+    edge.relation==='attribution-source-page'?'role documented by':edge.relation.replace(/_/g,' ');
   return '<li><strong>'+esc(from.label.slice(0,130))+'</strong> · '+esc(relation)+' · <strong>'+esc(to.label.slice(0,130))+
    '</strong> <span class="muted small">('+esc(edge.reviewStatus)+')</span>'+
    (edge.evidence?.url?'<p class="muted small"><a target="_blank" rel="noopener noreferrer" href="'+esc(edge.evidence.url)+'">Inspect cited source ↗</a>'+
    ' · '+esc(edge.evidence.locator||'Source context not supplied')+'</p>':'')+'</li>';
  }).filter(Boolean).slice(0,80).join('');
- return '<p class="muted small" data-graph-summary>'+data.caseCount+' case dossier(s), '+data.claimCount+
+ return '<p class="muted small" data-graph-summary>'+data.caseCount+' case dossier(s), '+data.personCount+' attributed public person(s), '+data.claimCount+
   ' editorial draft statement(s), '+data.documentCount+' distinct cited source page(s), '+data.edges.length+
   ' catalogued relationship(s). <strong>Verified cross-case connections: 0.</strong></p>'+
-  '<div style="max-width:100%;overflow:hidden"><svg class="dd-source-graph-svg" viewBox="0 0 980 '+height+
+  '<div style="max-width:100%;overflow:hidden"><svg class="dd-source-graph-svg" viewBox="0 0 1040 '+height+
   '" width="100%" role="img" aria-label="Source citation graph; full accessible list follows" style="display:block;width:100%;height:auto">'+
   heads+lines+blocks.join('')+'</svg></div>'+
   '<details style="margin:8px 0"><summary>Readable source relationship list ('+data.edges.length+')</summary>'+
@@ -3050,7 +3082,7 @@ async function loadHistoricalArchive(){
  const retry=ddArchiveRetryButton();retry.hidden=true;
  const operation=(async()=>{
   // Keep all new claim data public and optional; no private docs or user state.
-  await ddLoadEvidenceDnaDrafts();
+  await Promise.all([ddLoadEvidenceDnaDrafts(),ddLoadPersonCaseLinks()]);
   let curated=[];
   // Render curated, real source-linked cases first rather than making visitors
   // wait for the complete multi-megabyte historical catalogue.
