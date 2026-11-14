@@ -26,7 +26,7 @@ for(const rel of [
 assert.match(html,/confirmation-dialog\.js\?v=m74/,'Newest popup reached APK');
 assert.match(html,/community-votes\.js\?v=m74-branded-confirm/,'M73 owner actions reached APK');
 assert.match(main,/shouldInterceptRequest\(WebView view,WebResourceRequest request\)/);
-assert.match(main,/snapshotFiles\.contains\(name\)/,'Only reviewed site files intercepted');
+assert.match(main,/EmbeddedWebsiteRoutes\.resolve\(path, snapshotFiles\)/,'Only explicit M11 allowlisted public routes are intercepted');
 assert.match(main,/"https"\.equals\(url\.getScheme\(\)\)/,'Only HTTPS origin intercepted');
 assert.match(main,/"uapdisclosuredesk\.com"\.equals\(url\.getHost\(\)\)/);
 assert.match(main,/DD_FIREBASE_APP_ID/,'Firebase groundwork preserved');
