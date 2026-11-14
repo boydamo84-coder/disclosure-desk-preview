@@ -75,8 +75,6 @@ public final class MainActivity extends Activity {
     private static final int NAV_BAR_DP = 62;
     private static final int DESK_GOLD = Color.rgb(242,215,162);
     private static final String SUPPORT_URL = "https://ko-fi.com/disclosuredesk";
-    private static final Set<String> LEGAL_PAGES = new HashSet<>(java.util.Arrays.asList(
-            "guide", "terms", "privacy", "community-rules", "sources", "research-edition"));
     private ValueCallback<Uri[]> pendingFiles;
     private static final String HOME = "https://uapdisclosuredesk.com/";
     private ResearchInboxStore researchInbox;
@@ -584,12 +582,11 @@ public final class MainActivity extends Activity {
         if(url==null || !"https".equals(url.getScheme()) || !"uapdisclosuredesk.com".equals(url.getHost()))return null;
         String path=Uri.decode(url.getEncodedPath());
         if(path==null)return null;
-        String name;
-        if("/".equals(path))name="index.html";
-        else if("/guide".equals(path))name="guide.html";
-        else if(path.startsWith("/") && LEGAL_PAGES.contains(path.substring(1)))name=path.substring(1)+".html";
-        else name=path.startsWith("/")?path.substring(1):path;
-        if(!snapshotFiles.contains(name))return null;
+        // Includes /who-is-who, /investigations and public dossier routes.
+        // An uncatalogued path cannot escape the embedded manifest or fall
+        // back to the live website for a bundled research page.
+        String name = EmbeddedWebsiteRoutes.resolve(path, snapshotFiles);
+        if(name==null)return null;
         String mime="text/plain";
         if(name.endsWith(".html"))mime="text/html";
         else if(name.endsWith(".js"))mime="application/javascript";
