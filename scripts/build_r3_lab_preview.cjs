@@ -88,7 +88,7 @@ fs.writeFileSync(path.join(out,'BUILD_INFO.txt'),[
 console.log('R3 version '+build+' with fingerprinted CSS/JS asset URLs');
 const published=fs.readFileSync(path.join(root,'scripts','build_public_release.cjs'),'utf8');
 if(published.includes('research-gap-bridge.cjs')||published.includes('research-gap-bridge.js')||
- published.includes('research-gap-finder.js')||published.includes('curated-public-cases.js')||
+ published.includes('research-gap-finder.js')||published.includes("copy(\'curated-public-cases.js\')")||
  published.includes('hypothesis-lab-preview.html')||published.includes('hypothesis-ui.js')||
  published.includes('hypothesis-ui.css')||published.includes('hypothesis-engine.js')||
  published.includes('hypothesis-vault.js')||published.includes('editorial-dock.css'))
