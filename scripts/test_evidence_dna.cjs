@@ -145,8 +145,31 @@ assert.equal(dna.compareClaims(uncited,uncited.claims[0].id,uncited.claims[1].id
  'Uncited editorial claim cannot enter the comparison panel');
 assert.equal(dna.compareClaims(broken,broken.claims[0].id,broken.claims[1].id).valid,false,
  'Misattributed/invalid citation blocks the radar');
-assert(homepage.includes('dd-contradiction-radar')&&homepage.includes('renderRadarSide(pair.first'),
+assert(homepage.includes('dd-contradiction-radar')&&homepage.includes('ddRadarSideHtml(pair.first'),
  'Existing archive detail contains a source-linked two-column comparison, not a new tab');
+// M6: researcher selection can cross case boundaries but never imply related events.
+const picked=dna.compareSelections(drafts.cases,
+ {caseId:'featured-rendlesham-1980',claimId:'rendlesham-record-scope'},
+ {caseId:'featured-roswell-1947',claimId:'roswell-gao-review'});
+assert.equal(picked.valid,true,'Cross-case statement selection supported');
+assert.equal(picked.first.caseId,'featured-rendlesham-1980');
+assert.equal(picked.second.caseId,'featured-roswell-1947');
+assert.equal(picked.sharedSourceUrls.length,0,'Different source pages are not independent witnesses');
+assert.equal(picked.contradictionEstablished,false);
+assert.equal(picked.independentCorroborationEstablished,false);
+assert.equal(dna.compareSelections(drafts.cases,
+ {caseId:'featured-roswell-1947',claimId:'roswell-bluebook-records'},
+ {caseId:'featured-roswell-1947',claimId:'roswell-bluebook-records'}).valid,false,'Self-comparison must be rejected');
+assert.equal(dna.compareSelections(drafts.cases,
+ {caseId:'featured-roswell-1947',claimId:'does-not-exist'},
+ {caseId:'featured-rendlesham-1980',claimId:'rendlesham-record-scope'}).valid,false,'Unknown claims rejected');
+assert.equal(dna.compareSelections([uncited,...drafts.cases.slice(1)],
+ {caseId:'featured-rendlesham-1980',claimId:'rendlesham-record-scope'},
+ {caseId:'featured-roswell-1947',claimId:'roswell-gao-review'}).valid,false,'Uncited selections blocked');
+assert(homepage.includes('data-radar-pick="a"')&&homepage.includes('data-radar-pick="b"')&&
+ homepage.includes('data-radar-compare')&&homepage.includes('ddRadarResultHtml(result)'),
+ 'Researcher comparison UI has two explicit selections and live results');
+console.log('PASS M6 selectable comparisons: cross-case citations, invalid/self/uncited rejection, no inferred case connection');
 console.log('PASS Contradiction Radar comparison-only alpha: shared-source distinction, exact locators, no invented contradiction/independent witnesses');
 console.log('PASS Evidence DNA claim profiles: '+drafts.cases.length+' curated cases with '+citationsChecked+' exact source pointers, draft-only status, no false corroboration');
 console.log('PASS Evidence DNA R2: duplicates, source inventory, verified citation lineage, transitive dependencies, cycles, unreviewed relationships, no false witness count, real archive read-only and integration guards');
