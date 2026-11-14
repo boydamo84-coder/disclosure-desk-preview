@@ -2,7 +2,7 @@
 Date: 14 November 2026
 Branch: `android/m12-2-profile-scroll-return-nov14`
 Base: M12.1 editorial-navigation branch `android/m12-who-is-who-navigation-directory-nov14`.
-Status: PRIVATE ANDROID BETA; source / browser / compile acceptance required. No website release and no Netlify deployment.
+Status: PRIVATE APK CI GREEN; physical Samsung swipe/back and UX acceptance outstanding. No website release and no Netlify deployment.
 
 ## Observed user issue
 The owner supplied a 13-second Samsung screen recording. Who's Who opens at the directory intro, tapping "Read detailed profile" swaps the page content but scrolls back to the top, and returning to the directory also resets to the same header. At a glance both screens look identical until scrolling, obscuring the transition. The working M12.1 bottom dock must be preserved unchanged.
@@ -28,3 +28,9 @@ The owner supplied a 13-second Samsung screen recording. Who's Who opens at the 
 2. Press the on-screen Back or Android edge swipe. The same card and original directory position should return, with a brief gold edge.
 3. Repeat with search/filter active, a direct shared person link, and a person profile's linked Archive case.
 4. Check smoothness, keyboard visibility, online portrait loads, M12.1 premium 14-tab dock, and test ad placement.
+
+## Final M12.2 build and sign-off gates (14 November 2026)
+- [GitHub Actions run 43621364554](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43621364554) **SUCCESS** on exact APK source SHA `f17cb07fd558f8f678ccd89ffcf2a8317a2f460c`. Offline source checks, legacy browser QA, new 393px+1280px scroll return / person highlight / direct URL / active filters / profile case context tests, M12.1 editorial dock parity and Android Gradle debug build all green.
+- Artifact `DisclosureDesk-M12-2-SCROLL-RETURN-PRIVATE-BETA`, ID `14123539525`. ZIP SHA256 `99a703fdc1ed093d99a0e67aed02347092b7c9c25ce130df1a72503772f086d6`; unpacked `app-debug.apk` 10,680,043 bytes, SHA256 `68616a3fc24199f73c79c6175c02aaba6799c1338485530951e1d9dd7fc110f4`. ZIP CRC and APK internal ZIP CRC tested; `AndroidManifest.xml`, `classes.dex`, bundled Who's Who HTML and JS confirmed present. Source entry contains `showProfileAtContent`, `restoreDirectoryPosition`, `ddDirectoryReturn`, and `dd-returned-card`.
+- QA distinction: the original person profile's Android/system Back path and exact card restoration have automated coverage; a linked Archive case's own history/modal Back sequence may consume an additional Back. The case-context scroll is tested on re-opening the original profile, **not** as a guarantee that a single Back closes Archive and returns to the person. Test that separately on the physical Samsung before accepting that additional behaviour.
+- **No Netlify deploy, no Play Store publication, no public website merge.** M12.1 separate premium bar preserved. New M12.2 beta package is intentionally independent of M12.1 for safe user testing.
