@@ -61,6 +61,8 @@ const BASE='http://127.0.0.1:4173';
    assert.equal(await legacy.locator('#profileName').textContent(),'Nick Pope');
    assert.match(await legacy.locator('#profileBiography').innerText(),/6 April 2026/,'Historical memorial biography');
    assert.equal(await legacy.locator('#profileFilms .source-entry').count()>=1,true);
+   assert.equal(await legacy.locator('#profileRelatedCases .dd-person-case-link').count(),1,
+    'Pope's 2014 Rendlesham book authorship has a cited reference');
    await legacy.close();
    const warren=await ctx.newPage();
    await warren.goto(BASE+'/who-is-who.html?person=larry-warren',{waitUntil:'domcontentloaded'});
@@ -80,8 +82,6 @@ const BASE='http://127.0.0.1:4173';
    assert.equal(await fravor.locator('#profileRelatedCases a[href*="dd_archive_case=featured-nimitz-2004"]').count(),1);
    assert.equal(await fravor.locator('#profileRelatedCases a[href^="https://"]').count(),1);
    await fravor.close();
-   assert.equal(await legacy.locator('#profileRelatedCases .dd-person-case-link').count(),1,
-    'Pope's 2014 Rendlesham book authorship has a cited reference');
    await warren.close();
    await direct.locator('#directoryPage').waitFor({state:'visible'});
    assert.equal(new URL(direct.url()).searchParams.has('person'),false,'Return clears profile ID');
