@@ -41,6 +41,13 @@ async function visible(page,selector){
    await page.waitForFunction(target=>Math.abs(window.scrollY-target)<45,start);
    const returned=await page.evaluate(()=>Math.round(window.scrollY));
    assert(Math.abs(start-returned)<tolerance,'Back restores same scroll position: '+start+' vs '+returned);
+   // Scroll restoration can precede the two requestAnimationFrame callbacks
+   // that apply the gold return cue. Wait for the actual user-visible state
+   // rather than racing it after the scroll assertion.
+   await page.waitForFunction(()=>{
+    const el=document.querySelector('#peopleCards [data-person-id="james-fox"]');
+    return el?.classList.contains('dd-returned-card')===true;
+   },undefined,{timeout:3000});
    assert.equal(await card.evaluate(e=>e.classList.contains('dd-returned-card')),true,
     'The card we just came from receives a temporary gold return cue');
    assert.equal(await page.locator('#peopleSearch').inputValue(),'','Search state is preserved');
