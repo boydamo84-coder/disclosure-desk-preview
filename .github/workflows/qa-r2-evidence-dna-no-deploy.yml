@@ -7,13 +7,16 @@ on:
       - 'assets/evidence-dna.js'
       - 'data/evidence-dna-claim-drafts.json'
       - 'data/public-people-directory.json'
+      - 'data/public-person-case-links.json'
       - 'assets/people-directory.js'
+      - 'assets/person-case-links.js'
       - 'who-is-who.html'
       - 'sitemap.xml'
       - 'scripts/test_search_indexing.cjs'
       - 'scripts/test_public_people_directory.cjs'
       - 'scripts/test_people_directory_chromium.cjs'
       - 'scripts/test_evidence_dna.cjs'
+      - 'scripts/test_person_case_links.cjs'
       - 'scripts/test_original_research_chromium.cjs'
       - 'scripts/build_public_release.cjs'
       - 'scripts/test_public_release_package.cjs'
@@ -35,7 +38,9 @@ jobs:
           node --check assets/evidence-dna.js
           node --check scripts/test_evidence_dna.cjs
           node --check assets/people-directory.js
+          node --check assets/person-case-links.js
           node scripts/test_public_people_directory.cjs
+          node scripts/test_person_case_links.cjs
           node scripts/test_evidence_dna.cjs
           node scripts/test_case_connections.cjs
           node scripts/test_original_research_contract.cjs
