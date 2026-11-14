@@ -23,8 +23,8 @@ assert(!app.includes('settings.setAllowContentAccess(false)'), 'Android content 
 assert.match(app,/if\(PLAY_BILLING_APPROVED\)premium=new LifetimeAdsManager/);
 assert.match(app,/if\(PLAY_BILLING_APPROVED && premium!=null\)choices.addView\(removeAds\)/);
 assert.match(app,/chats.setEnabled\(false\)/,'Incomplete FCM push is not advertised as delivered');
-assert.match(gradle,/applicationIdSuffix = "\.beta\.m12"/);
-assert.match(gradle,/manifestPlaceholders\["ddAppLabel"\] = "Disclosure Desk Beta M12"/);
+assert.match(gradle,/applicationIdSuffix = "\.beta\.m121"/);
+assert.match(gradle,/manifestPlaceholders\["ddAppLabel"\] = "Disclosure Desk Beta M12.1"/);
 assert.match(gradle,/targetSdk = 36/);
 assert(Number(gradle.match(/versionCode = (\d+)/)?.[1]) >= 14);
 assert.match(manifest,/android:label="\$\{ddAppLabel\}"/);
@@ -39,6 +39,6 @@ assert.match(workflow,/node scripts\/build_public_release\.cjs/);
 assert.match(workflow,/node scripts\/stage_android_dev_snapshot\.cjs/);
 assert.match(workflow,/node scripts\/test_android_dev_snapshot_contract\.cjs/);
 assert.match(workflow,/android\/m12-who-is-who-navigation-directory-nov14/);
-assert.match(workflow,/DisclosureDesk-M12-WHOS-WHO-PRIVATE-BETA/);
+assert.match(workflow,/DisclosureDesk-M12-1-EDITORIAL-NAV-PRIVATE-BETA/);
 assert(!/(?:^|\n)\s*(?:npx\s+)?netlify\s+(?:deploy|build|publish)\b/im.test(workflow),'No Netlify CLI deployment in APK build');
 console.log('PASS M12 full Android private beta source: pending M74/M73 UI, origin-safe snapshot, isolated install, native back, file picker, explicit billing/push gates, no Netlify.');
