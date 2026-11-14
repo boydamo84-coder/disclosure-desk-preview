@@ -1,5 +1,5 @@
 'use strict';
-// M11: a newly selected archive case must never inherit the previous dialog scroll.
+// M11 QA: newly selected archive cases must start at the top, and Who’s Who must have a proper tab.
 // All requests remain on loopback; neither Netlify nor user accounts are contacted.
 const assert=require('node:assert/strict');
 const path=require('node:path');
