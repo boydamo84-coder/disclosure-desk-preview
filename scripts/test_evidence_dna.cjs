@@ -169,6 +169,38 @@ assert.equal(dna.compareSelections([uncited,...drafts.cases.slice(1)],
 assert(homepage.includes('data-radar-pick="a"')&&homepage.includes('data-radar-pick="b"')&&
  homepage.includes('data-radar-compare')&&homepage.includes('ddRadarResultHtml(result)'),
  'Researcher comparison UI has two explicit selections and live results');
+// M7: source-only graph: case -> editorial statement -> cited original page.
+const onlyRend=dna.buildRelationshipGraph(drafts.cases,'featured-rendlesham-1980');
+assert.equal(onlyRend.valid,true);
+assert.equal(onlyRend.caseCount,1);
+assert.equal(onlyRend.claimCount,2);
+assert.equal(onlyRend.documentCount,1,'Shared National Archives page is one source, not two witnesses');
+assert.equal(onlyRend.edges.filter(e=>e.relation==='catalogues-editorial-summary').length,2);
+assert.equal(onlyRend.edges.filter(e=>e.relation==='cites-source-page').length,2);
+assert.equal(onlyRend.independentWitnessCount,null);
+assert.equal(onlyRend.verifiedCaseToCaseEdges,0);
+const allPublic=dna.buildRelationshipGraph(drafts.cases,'all');
+assert.equal(allPublic.valid,true);
+assert.equal(allPublic.caseCount,2);
+assert.equal(allPublic.claimCount,4);
+assert.equal(allPublic.documentCount,3);
+assert.equal(allPublic.nodes.length,9);
+assert.equal(allPublic.edges.length,8);
+assert(!allPublic.edges.some(e=>e.from.startsWith('case:')&&e.to.startsWith('case:')),
+ 'No invented relationship between distinct UAP incidents');
+for(const edge of allPublic.edges.filter(e=>e.relation==='cites-source-page')){
+ assert(edge.evidence?.url?.startsWith('https://')&&edge.evidence.locator,
+  'Every claim-to-source link retains original URL and exact locator');
+ assert.equal(edge.reviewStatus,'draft-needs-review','Citation link is not verified event evidence');
+}
+assert.equal(dna.buildRelationshipGraph(drafts.cases,'unknown-case').nodes.length,0);
+const invalidGraph=dna.buildRelationshipGraph([broken],'all');
+assert.equal(invalidGraph.valid,false,'Invalid provenance graph must fail closed');
+assert.equal(invalidGraph.nodes.length,0);
+assert(homepage.includes('dd-evidence-graph')&&homepage.includes('data-graph-mode')&&
+ homepage.includes('ddEvidenceGraphHtml(control.value,record)')&&homepage.includes('Readable source relationship list'),
+ 'Native archive modal has visual graph, selectable scope and accessible source list');
+console.log('PASS M7 graph: 2 public cases, 4 editorial claims, 3 unique source pages, 8 sourced/context edges; no fabricated connections');
 console.log('PASS M6 selectable comparisons: cross-case citations, invalid/self/uncited rejection, no inferred case connection');
 console.log('PASS Contradiction Radar comparison-only alpha: shared-source distinction, exact locators, no invented contradiction/independent witnesses');
 console.log('PASS Evidence DNA claim profiles: '+drafts.cases.length+' curated cases with '+citationsChecked+' exact source pointers, draft-only status, no false corroboration');
