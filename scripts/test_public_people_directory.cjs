@@ -1,4 +1,5 @@
 'use strict';
+// M11 visible directory route acceptance: website aliases and explicit offline .html paths.
 // Public editorial "Who's Who" data contract; no network or account access.
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const dir=JSON.parse(fs.readFileSync('data/public-people-directory.json','utf8'));
