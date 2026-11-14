@@ -28,7 +28,7 @@ for(const p of dir.people){
  assert(p.videos.length>0||p.filmCredits.length>0,'Every profile offers a verified video, screen recording or film source: '+p.name);
  assert(Array.isArray(p.podcastEpisodes)&&p.podcastEpisodes.length>=1,'Podcast episode/coverage entry required: '+p.name);
  assert(Array.isArray(p.filmCredits),'Film credit ledger must exist even when unverified: '+p.name);
- assert(p.podcastEpisodes.every(e=>isSafe(e.url)&&e.title&&e.show&&e.role),'Every podcast must link a publisher and credit the person's role');
+ assert(p.podcastEpisodes.every(e=>isSafe(e.url)&&e.title&&e.show&&e.role),'Every podcast must link a publisher and credit the person\'s role');
  assert(p.filmCredits.every(f=>isSafe(f.url)&&f.title&&f.year&&f.role&&f.type),'All claimed screen credits must cite a publisher/credit source');
  assert(Array.isArray(p.socialPages));
  assert(p.socialPages.every(x=>isSafe(x.url)&&x.kind),'No invented personal account without publisher attribution');
