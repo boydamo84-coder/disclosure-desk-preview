@@ -38,3 +38,12 @@
 6. AdSense review is a separate owner-operated account action after live policy/content checks; never falsely claim approval.
 
 **No R2 or R3/R4 merge to `production`, no Play Store update and no Supabase migration performed in this checkpoint.**
+
+
+## R2 standalone Who's Who dock parity — 14 November 2026
+
+- **Owner-screen reference:** right-hand screenshot showing original scrollable 14-tab midnight-navy/gold dock with Who's Who and W.NE is approved; left-hand screenshot shows rejected News / Archive / Discuss / Chat / More five-tab shell. Both are Android screenshots with native test ads; do not mistake either for direct Chrome web preview acceptance.
+- **Web preview defect fixed:** standalone `who-is-who.html` previously had only 4 header links, no bottom rail. R2 now loads isolated `assets/secondary-editorial-nav.js` and `.css`, strictly allowlisted in the public bundle and cache-busted. It recreates approved 14 tabs, their order, original icon palette, swipeable rail and arrows, active Who's Who, native-style keyboard hiding and the existing same-origin `/?dd_tab=` router. The currently selected Who's Who tab returns from a profile using the existing history-safe handler.
+- **Android parity guard:** when the already-approved M12.3 `#ddAndroidEditorialNav` exists, web copy is hidden to avoid a double bottom dock. This change ships **only as website source**; it does not fix or replace old native APK five-tab navigation inside a legacy app, nor authorize third-party preview host access. Use the known-good M12.3 Android build for private device checks.
+- **Exact-code green QA:** `6fd3124b3a3972cccc56c94ef0dba7c5e297a921`, integrated no-deploy [43643104023](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43643104023), full mobile Chromium [43643103998](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43643103998), public package/source [43643103978](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43643103978): all **SUCCESS**. Netlify R2 deploy preview status **SUCCESS**. Real device acceptance, editorial/portrait legal sign-off and live R1 source route check remain outstanding. **No R2 production merge, Netlify production deploy, Android build or backend changes.**
+
