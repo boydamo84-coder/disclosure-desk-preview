@@ -222,7 +222,7 @@
   }
   // A bounded public-only graph of *catalogued* claims and cited pages.
   // It does not infer physical events, independent witnesses or case agreement.
-  function buildRelationshipGraph(caseGraphs, selectedCaseId) {
+  function buildRelationshipGraph(caseGraphs, selectedCaseId, publicPersonLinks=[]) {
     const input=Array.isArray(caseGraphs)?caseGraphs.slice(0,20):[];
     const cases=input.filter(g=>g&&str(g.caseId)&&(selectedCaseId==='all'||str(g.caseId)===str(selectedCaseId)));
     const nodes=[],edges=[],sources=new Map(),edgeIds=new Set(),issues=[];
@@ -271,13 +271,47 @@
         addEdge({from,to,relation:edge.relation,reviewStatus:edge.status,evidence:edge.evidence});
       }
     }
+    // Optional M8 public-role links carry original citations, but they are NOT
+    // a judgement that the associated sighting happened or that two cases connect.
+    const attributed=Array.isArray(publicPersonLinks)?publicPersonLinks.slice(0,80):[];
+    const knownPeople=new Map();
+    for(const item of attributed){
+      if(!item||!item.caseId||!item.personId||!item.source?.url||!item.source.locator||
+         item.reviewStatus!=='editorial-draft'||item.eventVerified!==false||!publicUrl(item.source.url)||
+         (selectedCaseId!=='all'&&str(item.caseId)!==str(selectedCaseId)))continue;
+      const caseNode='case:'+str(item.caseId);
+      if(!nodes.some(n=>n.id===caseNode)&&!addNode({id:caseNode,type:'case',
+         label:str(item.caseLabel).slice(0,120),reviewStatus:'editorial-draft'}))break;
+      let personNode=knownPeople.get(str(item.personId));
+      if(!personNode){
+        personNode='person:'+str(item.personId);
+        if(!addNode({id:personNode,type:'person',label:str(item.personName).slice(0,120),
+          personId:str(item.personId),reviewStatus:'editorial-draft'}))break;
+        knownPeople.set(str(item.personId),personNode);
+      }
+      const url=canonicalUrl(item.source.url);
+      if(!url)continue;
+      let docNode=sources.get(url);
+      if(!docNode){
+        docNode='document:'+sources.size;
+        if(!addNode({id:docNode,type:'document',label:str(item.source.publisher).slice(0,140),
+          url:str(item.source.url),reviewStatus:'source-page-unassessed'}))break;
+        sources.set(url,docNode);
+      }
+      const citation={url:str(item.source.url),locator:str(item.source.locator),
+        context:str(item.context)};
+      addEdge({from:personNode,to:caseNode,relation:'attributed-public-involvement',
+        role:str(item.role),roleLabel:str(item.roleLabel),reviewStatus:'editorial-draft',evidence:citation});
+      addEdge({from:personNode,to:docNode,relation:'attribution-source-page',
+        reviewStatus:'editorial-draft',evidence:citation});
+    }
     const kinds=type=>nodes.filter(n=>n.type===type).length;
-    const caseNodes=kinds('case'),claimNodes=kinds('claim'),documentNodes=kinds('document');
+    const caseNodes=kinds('case'),claimNodes=kinds('claim'),documentNodes=kinds('document'),personNodes=kinds('person');
     return {valid:!issues.length,issues,nodes,edges,caseCount:caseNodes,claimCount:claimNodes,
-      documentCount:documentNodes,selectedCaseId:str(selectedCaseId||'all'),
+      documentCount:documentNodes,personCount:personNodes,selectedCaseId:str(selectedCaseId||'all'),
       verifiedCaseToCaseEdges:0,independentWitnessCount:null,
       truncated:nodes.length>=100||edges.length>=260,
-      caution:'This is a map of draft case-to-claim and claim-to-source references, not a map of verified extraordinary events. A shared document shows common sourcing, not independent corroboration. No relationship between different incidents is established from these records.'};
+      caution:'This maps draft citations and source-attributed public roles, not independently verified extraordinary events. A documented statement or authorship shows what somebody said or published; it does not verify the event, prove corroboration, or establish a link between incidents.'};
   }
   function analyse(record, graph) {
     const inventory=sourceInventory(record);
