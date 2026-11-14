@@ -11,6 +11,8 @@ on:
       - 'data/public-people-directory.json'
       - 'data/public-person-case-links.json'
       - 'assets/people-directory.js'
+      - 'assets/secondary-editorial-nav.js'
+      - 'assets/secondary-editorial-nav.css'
       - 'assets/person-case-links.js'
       - 'who-is-who.html'
       - 'guide.html'
@@ -58,6 +60,7 @@ jobs:
           node --check assets/evidence-dna.js
           node --check scripts/test_evidence_dna.cjs
           node --check assets/people-directory.js
+          node --check assets/secondary-editorial-nav.js
           node --check assets/person-case-links.js
           node scripts/test_public_people_directory.cjs
           node scripts/test_person_case_links.cjs
