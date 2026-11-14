@@ -23,7 +23,7 @@ for(const p of dir.people){
  assert(Array.isArray(p.articles)&&p.articles.length>=2&&p.articles.every(x=>isSafe(x.url)&&x.publisher),
   'Publisher/source coverage for '+p.name);
  assert(Array.isArray(p.videos)&&p.videos.length>=1&&p.videos.every(x=>/^[\w-]{11}$/.test(x.youtubeId)&&
-   /testimony|interview|analysis|report|documentary|programme|discussion/i.test(x.type)&&x.context.length>40),
+   /testimony|interview|analysis|reconstruction|report|documentary|programme|discussion/i.test(x.type)&&x.context.length>40),
   'Only attributed, type-labelled published YouTube videos: '+p.name);
  assert(Array.isArray(p.socialPages));
  assert(p.socialPages.every(x=>isSafe(x.url)&&x.kind),'No invented personal account without publisher attribution');
