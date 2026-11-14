@@ -105,6 +105,23 @@ const BASE='http://127.0.0.1:4173';
      assert.equal(await roles.locator('a[href^="https://"]').count(),2,'Each attribution cites the original publisher');
      assert.match(await dna.locator('.dd-case-people').innerText(),/does not adjudicate|not a claim|does not prove/i);
     }
+    // M9 — checked NARA mention ≠ proof that NARA copied the GAO report.
+    const sourceDesk=dna.locator('details.dd-source-lineage-desk');
+    assert.equal(await sourceDesk.count(),1,'Curated dossiers offer a distinct source lineage desk');
+    await sourceDesk.locator('summary').first().click();
+    const deskSummary=await sourceDesk.locator('[data-lineage-summary]').innerText();
+    assert.match(deskSummary,isRoswell?/1 checked cross-document reference/i:/0 checked cross-document reference/i);
+    assert.match(deskSummary,/0 separately evidenced re-use\/derivation link/i);
+    assert.match(deskSummary,/Independent witnesses: unknown/i);
+    if(isRoswell){
+      assert.match(await sourceDesk.innerText(),/General Accounting Office/i);
+      assert.match(await sourceDesk.innerText(),/NARA specifically discusses/i);
+      assert.equal(await sourceDesk.locator('ol > li a[href="https://www.archives.gov/research/military/air-force/ufos"]').count(),2,
+       'Original NARA source remains linked in checked reference and source list');
+      assert.match(await sourceDesk.innerText(),/NOT evidence/i);
+    }else{
+      assert.match(await sourceDesk.innerText(),/No source-to-source reference has been checked/i);
+    }
     const graph=dna.locator('details.dd-evidence-graph');
     assert.equal(await graph.count(),1,'Curated dossiers expose a separate graph disclosure');
     await graph.locator('summary').first().click();
@@ -116,10 +133,15 @@ const BASE='http://127.0.0.1:4173';
     assert.match(await graph.locator('[data-graph-summary]').innerText(),/3 attributed public person/i);
     assert.match(await graph.locator('[data-graph-summary]').innerText(),/4 editorial draft statement/i);
     assert.match(await graph.locator('[data-graph-summary]').innerText(),/6 distinct cited source page/i);
+    assert.match(await graph.locator('[data-graph-summary]').innerText(),/1 checked inter-document reference/i);
+    assert.match(await graph.locator('[data-graph-summary]').innerText(),/0 evidenced re-use link/i);
     assert.equal(await graph.locator('svg.dd-source-graph-svg rect').count(),16,'Three cases, three people, four statements, six cited documents');
     const list=graph.locator('details').first();
     await list.locator('summary').click();
     assert.equal(await list.locator('li').count(),15,'Text alternative includes eight research links, one source mention, six public roles');
+    const edgesText=await list.innerText();
+    assert.match(edgesText,/refers to a separately published inquiry/i,'Graph includes the checked NARA→GAO reference with clear non-copying label');
+    assert.match(edgesText,/The Roswell Incident/i,'Graph preserves exact archive section locator');
     assert(await list.locator('a[href^="https://"]').count()>=4,'Original citation locations remain available without SVG');
     await graph.locator('select[data-graph-mode]').selectOption('current');
     assert.match(await graph.locator('[data-graph-summary]').innerText(),/1 case dossier/i);
