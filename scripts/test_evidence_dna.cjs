@@ -92,7 +92,10 @@ for(const profile of drafts.cases){
  const parsed=dna.parseGraph(profile);
  assert.equal(parsed.valid,true,'Claim graph valid: '+profile.caseId+' '+parsed.issues.join(','));
  assert(profile.claims.length>=2,'At least two source-anchored claims per curated dossier');
- assert.equal(profile.edges.length,0,'No fabricated reviewed source independence');
+ assert.equal(profile.edges.filter(e=>e.status==='reviewed'&&['repeats','derived_from'].includes(e.relation)).length,
+  0,'No checked source copying or derivation is fabricated');
+ assert.equal(profile.edges.filter(e=>e.relation==='mentions'&&e.status==='reviewed').length,
+  profile.caseId==='featured-roswell-1947'?1:0,'Only the exact NARA reference to GAO has been checked');
  for(const claim of parsed.claims){
   assert.equal(claim.editorialStatus,'draft-needs-review','Never imply signed-off editorial proof');
   assert(claim.citations.length>0,'Each claim has an original source citation');
