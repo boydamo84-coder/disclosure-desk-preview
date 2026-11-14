@@ -49,7 +49,7 @@ const BASE='http://127.0.0.1:4173';
    const direct=await ctx.newPage();
    await direct.goto(BASE+'/who-is-who.html?person=david-grusch',{waitUntil:'domcontentloaded'});
    await direct.locator('#personProfile').waitFor({state:'visible'});
-   assert.equal(await direct.locator('#profileName').textContent(),'David Grusch','Deep link to correct person's dossier');
+   assert.equal(await direct.locator('#profileName').textContent(),'David Grusch',"Deep link to the correct person profile");
    assert.match(await direct.locator('#profileSocials').textContent(),/No personal social media account/,
     'No fake personal handles inferred where unverified');
    await direct.locator('#directoryBack').click();
