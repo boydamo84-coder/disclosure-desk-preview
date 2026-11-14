@@ -1,5 +1,5 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 14 November 2026 (Europe/London) — R3 premium Hypothesis Lab offline UI browser-tested; ZIP available; no R3 production deploy_
+_Last updated: 14 November 2026 (Europe/London) — R3 Hypothesis Lab local UI opened successfully on owner Samsung/Termux; persistence and account security pending_
 
 ## M96 — Legacy favicon fallback and Netlify 404 review (13 November 2026)
 
@@ -1645,4 +1645,14 @@ Separately prepared `release/dd-web-r2-integration-nov14` **website-only** from 
 - **Green exact-code no-deploy CI:** [run 43647603582](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43647603582), source/workflow SHA `58f29890f0b4cee39dcc18f86413459209a78c80`. Both jobs **SUCCESS** (R3 Gap Finder and Hypothesis engine contract; local Chromium 393px and 1280px). `upload-artifact` succeeded and produced **7-file 1.1MB ZIP** artifact ID `14134459077`: `https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43647603582/artifacts/14134459077`. Archive contents verified: index.html, hypothesis engine/browser scripts/style, README_TESTING.txt and fictional comparison screenshots. Artifact metadata expires 28 November 2026. The user also received a local sandbox-downloadable ZIP in this turn.
 - Milestone documentation `docs/R3_HYPOTHESIS_LAB_UI_MILESTONE_2026-11-14.md` records exact scope, test evidence and limitations. Documentation-only commit `8b6b377067c6e3869cc7b18291b28d1d203f3004` followed the green source code; no application runtime changed in it.
 - **Next independent gate:** user optional offline Samsung/Termux test from ZIP; secure local storage, optional authenticated workspace adapter/consent, backup/import/recovery, real source verification and limited manual Gap Finder link integration must be designed/tested before deploying R3 to users. No Netlify production/preview build, account changes, Supabase migration, AdSense operation, GitHub production merge, R3 live release or APK publication occurred. Working live R2 remains Netlify Published at `8af0a5a`.
+
+
+
+## DD-WEB-R3 milestone 3b — owner Samsung local UI acceptance (14 November 2026)
+
+**Owner real-device feedback:** Owner downloaded/extracted `R3_Hypothesis_Lab_Android_Test` onto their Samsung, started a local Python server bound to `127.0.0.1:4175` in Termux, opened the local page in Chrome, and reported **“Works perfect”**. Earlier directory-listing issue was resolved by serving the correct extracted folder. This verifies **successful launch and owner-reported basic functional acceptance of the isolated R3 Hypothesis Lab UI on a physical Android handset**. It does not establish independent QA of each form, secure notebook storage, account authentication, backend access control, accessibility, public website integration, or iPhone support.
+
+- Current verified automated UI baseline remains GitHub Actions [43647603582](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43647603582), successful 393px/1280px Chromium prototype and offline engine tests. GitHub artifact `14134459077` contains seven offline preview files and testing instructions.
+- **No R3 production merge/Netlify deploy, no Supabase/Auth/storage changes, and no Android APK installation.** This was a browser UI served from Termux; R2 live site remains on the published `8af0a5a` release. The original live 14-tab dock was not changed.
+- **Next controlled milestone:** plan explicitly consented, secure save/restore with version-history integrity and a true authenticated workspace isolation model. Avoid misrepresenting prototype `workspaceId` checks or JSON export as encryption/authorization. Only after secure architecture, testing and owner approval should live integration be considered.
 
