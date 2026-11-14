@@ -147,3 +147,4 @@ jobs:
           retention-days: 14
 # M10: all M95 safety contracts retain assertions against the new separate private package identity.
 # Recheck original M95 native safety invariants using independently signed M10 debug package.
+# Public package audit can validate the already-assembled immutable Android snapshot without re-staging it.
