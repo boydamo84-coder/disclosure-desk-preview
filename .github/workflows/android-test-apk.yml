@@ -146,3 +146,4 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 # M10: all M95 safety contracts retain assertions against the new separate private package identity.
+# Recheck original M95 native safety invariants using independently signed M10 debug package.
