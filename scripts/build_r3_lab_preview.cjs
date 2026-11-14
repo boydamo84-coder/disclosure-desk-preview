@@ -15,6 +15,7 @@ fs.mkdirSync(out,{recursive:true});
 for(const [from,to] of [
  ['hypothesis-lab-preview.html','index.html'],
  ['hypothesis-ui.js','hypothesis-ui.js'],
+ ['hypothesis-vault.js','hypothesis-vault.js'],
  ['hypothesis-ui.css','hypothesis-ui.css'],
  ['README_TESTING.txt','README_TESTING.txt']
 ])fs.copyFileSync(path.join(srcDir,from),path.join(out,to),fs.constants.COPYFILE_EXCL);
@@ -22,6 +23,7 @@ const wrapped=`'use strict';(function(){const module={exports:{}};\n${src}\nObje
 fs.writeFileSync(path.join(out,'hypothesis-engine.js'),wrapped,{flag:'wx'});
 const published=fs.readFileSync(path.join(root,'scripts','build_public_release.cjs'),'utf8');
 if(published.includes('hypothesis-lab-preview.html')||published.includes('hypothesis-ui.js')||
- published.includes('hypothesis-ui.css')||published.includes('hypothesis-engine.js'))
+ published.includes('hypothesis-ui.css')||published.includes('hypothesis-engine.js')||
+ published.includes('hypothesis-vault.js'))
  throw Error('R3 prototype is unexpectedly listed in the production build');
 console.log('PASS offline R3 UI preview assembled into .r3-lab-preview (not public release)');
