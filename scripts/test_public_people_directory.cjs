@@ -4,6 +4,8 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
 const dir=JSON.parse(fs.readFileSync('data/public-people-directory.json','utf8'));
 const page=fs.readFileSync('who-is-who.html','utf8');
 const app=fs.readFileSync('assets/people-directory.js','utf8');
+const editorialNav=fs.readFileSync('assets/secondary-editorial-nav.js','utf8');
+const editorialNavCss=fs.readFileSync('assets/secondary-editorial-nav.css','utf8');
 const home=fs.readFileSync('index.html','utf8');
 const bundle=fs.readFileSync('scripts/build_public_release.cjs','utf8');
 const isSafe=url=>{try{let u=new URL(url);return u.protocol==='https:'&&!u.username&&!u.password}catch{return false}};
@@ -91,6 +93,25 @@ assert(app.includes('Display cropped to fit')&&app.includes("'Photo: '+photo.cre
 assert(page.includes('.card-photo-credit a{'),'Mobile directory credits have visible tappable links');
 assert(page.includes('/assets/people-directory.js?v=r2-photo-credit-tasl-20261114'),
  'Who\'s Who production HTML must cache-bust the credited portrait renderer');
+
+assert(page.includes('/assets/secondary-editorial-nav.js?v=r2-premium-nav01')&&
+ page.includes('/assets/secondary-editorial-nav.css?v=r2-premium-nav01'),
+ 'Standalone Who\'s Who must load the original premium navigation resources');
+assert(bundle.includes("'secondary-editorial-nav.js'")&&bundle.includes("'secondary-editorial-nav.css'"),
+ 'Premium navigation files must be explicitly website-only allowlisted');
+for(const id of ['discover','archivePage','peopleDirectory','researchStudio','mapPage',
+ 'clips','livePage','boards','witness','discussionsPage','watchRead','chatPage','profilePage','hub'])
+ assert(editorialNav.includes("['"+id+"',"),'Fourteen-tab editorial dock preserves '+id);
+assert(editorialNav.includes('ddWebNavPrev')&&editorialNav.includes('ddWebNavNext')&&
+ editorialNav.includes("location.assign('/?dd_tab='"),
+ 'Dock must retain real scroll arrows and route to Home app sections');
+assert(editorialNav.includes("document.getElementById('ddAndroidEditorialNav')")&&
+ editorialNavCss.includes('body:has(#ddAndroidEditorialNav)'),
+ 'Bundled M12.3 Android must suppress the duplicate web dock');
+assert(editorialNavCss.includes('background:#101a27f7')&&
+ editorialNavCss.includes('.tab.active{color:#efd3a0}'),
+ 'Premium dock keeps original midnight-navy/antique-gold visual contract');
+
 assert(app.includes('DDPeopleDirectoryBack')&&app.includes('paintPortrait'),'Native Back and licensed portrait renderer present');
 
 assert(page.includes('public-domain or Creative Commons sources'),
