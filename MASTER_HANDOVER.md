@@ -1,5 +1,5 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 14 November 2026 (Europe/London) — R2 Netlify production Published @8af0a5a confirmed by owner screenshot, 21:49 GMT; live device acceptance open_
+_Last updated: 14 November 2026 (Europe/London) — R2 live Published and owner-reported phone functionality accepted; R3 preparation next_
 
 ## M96 — Legacy favicon fallback and Netlify 404 review (13 November 2026)
 
@@ -1598,4 +1598,12 @@ Separately prepared `release/dd-web-r2-integration-nov14` **website-only** from 
 - **Outstanding QA:** owner live mobile review of original 14 tabs/swipe arrows with no duplicate or unwanted native five-tab bar, Who's Who search and one profile, profile → cited Archive case → Back/card scroll, W.NE resume, News/Chat, responsive keyboard and native ad space. Editorial quality and portrait permissions for all 50 public draft profiles remain open; all remain explicitly `research-copy-edit-needed`. The final additional integration browser suite had timing/test-harness failures; last clean *runtime-code* gate remained SHA `6fd3124b3a3972cccc56c94ef0dba7c5e297a921` (three no-deploy workflows green). The runtime assets did not change between that gate and R2 merge; do not falsely report the final extra CI as passed.
 - **Release queue status:** R3 Hypothesis & Discovery branch `queue/dd-web-r3-hypothesis-discovery` and R4 Living Research branch `queue/dd-web-r4-living-research` were inspected: they carry **older 13 November handover snapshots** with conceptual scopes, not an R2-based accepted release. They are **NOT** published or ready to merge. Next stage: confirm R2 live smoke and errors first, create/reconcile R3 onto exact verified R2 production revision, implement Hypothesis Lab + Research Gap Finder with citation/privacy discipline, run isolated CI and device tests, then seek distinct owner approval for R3 publication. **Do not auto-deploy R3 or R4.**
 - **Rollback:** retain verified R1 GitHub production commit `5f602cdcd832e84a6fee49bd1f7c29b1b7e99b21`; the current verified R2 published application code is `8af0a5a60c8282542154502e17d96177aade97d2`. Any subsequent `[skip ci]` master-handover documentation changes are not a new user-facing release. Preserve Netlify screenshot reference in the conversation, not as a public user data file.
+
+
+
+## DD-WEB-R2 owner-reported live phone acceptance — 14 November 2026
+
+**Owner feedback after R2 Netlify publication:** On 14 November 2026, following instructions to test the **live** `https://uapdisclosuredesk.com/who-is-who` on Samsung (premium navigation, people/profile links, Back behaviour), owner replied: **“Yeah all works woop woop”**. Record **user-reported successful live R2 mobile acceptance for the requested smoke-check journey** and no reported blocking issues. This is not a separate authenticated penetration test, full 50-person editorial/source/legal review, Safari acceptance or an exhaustive test of every site feature. R2 production was already confirmed **Published at @8af0a5a** by screenshot at 21:49 GMT; no production functional code changed as a result of this feedback.
+
+**Release-train handoff:** R2 may now be regarded as owner-accepted for the scope of the live phone smoke check. This unlocks **R3 development preparation**, **not R3 production deployment approval**. R3 scope remains Hypothesis Lab (private, versioned, falsifiable competing explanations) and Research Gap Finder (source-based missing-evidence prompts without invented absence/claims). The existing `queue/dd-web-r3-hypothesis-discovery` is a stale 13 November roadmap snapshot and must not be merged into R2 production. Create a new R2-based isolated R3 development branch; keep production, Supabase, live accounts and R4 unchanged. Final R3 website deployment requires separate exact-code QA, privacy/source review, physical phone acceptance and explicit owner approval. R1 rollback `5f602cdc`; verified live R2 runtime release `8af0a5a`.
 
