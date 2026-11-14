@@ -15,7 +15,8 @@ fs.mkdirSync(out,{recursive:true});
 for(const [from,to] of [
  ['hypothesis-lab-preview.html','index.html'],
  ['hypothesis-ui.js','hypothesis-ui.js'],
- ['hypothesis-ui.css','hypothesis-ui.css']
+ ['hypothesis-ui.css','hypothesis-ui.css'],
+ ['README_TESTING.txt','README_TESTING.txt']
 ])fs.copyFileSync(path.join(srcDir,from),path.join(out,to),fs.constants.COPYFILE_EXCL);
 const wrapped=`'use strict';(function(){const module={exports:{}};\n${src}\nObject.defineProperty(window,'DDHypothesisLab',{value:module.exports,configurable:false,writable:false});})();\n`;
 fs.writeFileSync(path.join(out,'hypothesis-engine.js'),wrapped,{flag:'wx'});
