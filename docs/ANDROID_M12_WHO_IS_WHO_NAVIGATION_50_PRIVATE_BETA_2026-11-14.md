@@ -2,7 +2,7 @@
 Date: 14 November 2026
 Branch: `android/m12-who-is-who-navigation-directory-nov14`
 Base: `android/full-experience-m11-r2-nov14`
-Status: PRIVATE BETA UNDER CI + ANDROID HARDWARE ACCEPTANCE REQUIRED. NOT APPROVED FOR WEBSITE RELEASE.
+Status: PRIVATE APK BUILT AND CI GREEN; ANDROID HARDWARE ACCEPTANCE REQUIRED. NOT APPROVED FOR WEBSITE RELEASE.
 Netlify: NO DEPLOYMENT. Main/production untouched. Do not trigger builds until credits reset and owner approves staged R1/R2 schedule.
 
 ## User feedback and scope
@@ -44,4 +44,9 @@ Netlify: NO DEPLOYMENT. Main/production untouched. Do not trigger builds until c
 8. Observe a full Android offline/flight-mode restart: staged profiles should remain browsable, photo initials fallback expected where images cannot load.
 
 ## Next action
-Wait for the full GitHub Actions M12 private beta job to pass, then download the APK build artifact and user-test on the phone. If red, inspect job logs and fix; do not claim complete or deploy Netlify.
+Full GitHub Actions M12 private beta CI passed: run 43613391944 at source SHA 696d50b80c2c6983e901ec81b386b05f3e58382e. Artifact ID 14120274684, name DisclosureDesk-M12-WHOS-WHO-PRIVATE-BETA, contains app-debug.apk 10,675,536 bytes. Full artifact ZIP SHA256 4ed7b2c4dcecb385b20231ef49b37e8283a6604918c7e0643f1c9ed650721719; extracted APK SHA256 c179b0818cb75a2a5f057d4e2d0c6581aae29dbe2a0f33b2a45f0011be04acfe. ZIP and APK file integrity both checked in container. Next: owner to install and test on Galaxy S24 Ultra; do not mark hardware-verified or merge until results are known. No Netlify release.
+
+### M12 final build acceptance — 14 November 2026
+- [GitHub Actions build 43613391944](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43613391944) **SUCCESS** on exact source commit `696d50b80c2c6983e901ec81b386b05f3e58382e`; the final change substitutes a verified individually attributed NASA Scott Kelly portrait.
+- `DisclosureDesk-M12-WHOS-WHO-PRIVATE-BETA` artifact ID `14120274684`; artefact SHA256 `4ed7b2c4dcecb385b20231ef49b37e8283a6604918c7e0643f1c9ed650721719` and APK SHA256 `c179b0818cb75a2a5f057d4e2d0c6581aae29dbe2a0f33b2a45f0011be04acfe`.
+- Android compile, required JavaScript source and Chromium browser tests passed. Physical Samsung swipe, portrait display and premium bottom-tab interactions require device testing. Seventeen image credits are cleared, not all 50 portraits; rights clearing of others remains open. Netlify unmodified.
