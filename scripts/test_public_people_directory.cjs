@@ -71,5 +71,13 @@ assert(!page.includes('17 draft profiles'),'Page count is not stale');
 assert(dir.people.filter(p=>p.category.includes('Congress')).length>=10,'Congressional advocates included');
 assert(dir.people.filter(p=>p.category.includes('NASA UAP study')).length===17,'NASA study panel and its coordinator represented');
 assert(app.includes('DDPeopleDirectoryBack')&&app.includes('paintPortrait'),'Native Back and licensed portrait renderer present');
+
+assert(page.includes('public-domain or Creative Commons sources'),
+ 'Public directory must not describe CC BY/SA images as all public-domain');
+assert(page.includes('An initials tile means no image is displayed'),
+ 'Describe unavailable external photos without claiming the subject lacks a verified image');
+assert(app.includes("host.classList.remove('has-photo');") &&
+  app.includes("if(host.contains(picture))host.classList.add('has-photo')"),
+ 'Reused avatar must reset loaded-image state and ignore detached image events');
 console.log('PASS Who’s Who R2: '+dir.people.length+' sourced detailed biographies, '+cites+' dated/source references, '+
  videos+' context-labelled videos, '+socials+' attributed social links, '+portraits+' documented reuse portraits; click-to-play, shareable profiles and public-only packaging');
