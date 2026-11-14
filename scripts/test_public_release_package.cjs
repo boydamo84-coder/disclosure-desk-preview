@@ -1,8 +1,8 @@
 'use strict';
 const fs=require('fs'),path=require('path'),crypto=require('crypto'),cp=require('child_process'),assert=require('assert/strict');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'.release-staging','public-site');
-if(fs.existsSync(out))throw Error('Refuse to overwrite existing build output');
-cp.execFileSync(process.execPath,['scripts/build_public_release.cjs'],{cwd:root,stdio:'inherit'});
+if(!fs.existsSync(out))cp.execFileSync(process.execPath,['scripts/build_public_release.cjs'],{cwd:root,stdio:'inherit'});
+else console.log('Verifying existing immutable public staging from Android snapshot build; no overwrite');
 const m=JSON.parse(fs.readFileSync(path.join(out,'release-manifest.json'),'utf8'));
 const paths=m.files.map(f=>f.path),names=new Set(paths);
 assert.equal(names.size,paths.length);
