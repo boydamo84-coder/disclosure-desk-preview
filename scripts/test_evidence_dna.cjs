@@ -121,5 +121,32 @@ missingLocator.claims[0].citations[0].locator='';
 assert.equal(dna.parseGraph(missingLocator).valid,false,'No made-up source locator');
 assert(homepage.includes("data/evidence-dna-claim-drafts.json"),'Archive loader includes dedicated public draft case profiles');
 assert(bundler.includes("'evidence-dna-claim-drafts.json'"),'Strict public package explicitly includes the tiny review dataset');
+// R2 M5: comparison is a review aid, never a verdict about human honesty.
+for (const profile of drafts.cases) {
+ const [first,second]=profile.claims;
+ const compared=dna.compareClaims(profile,first.id,second.id);
+ assert.equal(compared.valid,true,'Two cited claims can be inspected side by side');
+ assert.equal(compared.status,'human-comparison-only');
+ assert.equal(compared.contradictionEstablished,false,'Comparing wording cannot establish contradiction');
+ assert.equal(compared.independentCorroborationEstablished,false,'Two citations cannot prove independence');
+ assert.equal(compared.first.editorialStatus,'draft-needs-review');
+ assert.equal(compared.second.editorialStatus,'draft-needs-review');
+ assert(compared.first.citations[0].locator && compared.second.citations[0].context,
+  'Both original locations and limitations remain available');
+ assert.match(compared.caution,/not verbatim quotations/i);
+ assert.equal(compared.sharedSourceUrls.length,profile.caseId==='featured-rendlesham-1980'?1:0,
+  'Same archival webpage must be recognized without inferring independent verification');
+ assert.equal(dna.compareClaims(profile,first.id,first.id).valid,false,'Cannot compare a claim to itself');
+ assert.equal(dna.compareClaims(profile,first.id,'nonexistent').valid,false,'Unknown claim is rejected');
+}
+const uncited=structuredClone(drafts.cases[0]);
+uncited.claims[0].citations=[];
+assert.equal(dna.compareClaims(uncited,uncited.claims[0].id,uncited.claims[1].id).valid,false,
+ 'Uncited editorial claim cannot enter the comparison panel');
+assert.equal(dna.compareClaims(broken,broken.claims[0].id,broken.claims[1].id).valid,false,
+ 'Misattributed/invalid citation blocks the radar');
+assert(homepage.includes('dd-contradiction-radar')&&homepage.includes('renderRadarSide(pair.first'),
+ 'Existing archive detail contains a source-linked two-column comparison, not a new tab');
+console.log('PASS Contradiction Radar comparison-only alpha: shared-source distinction, exact locators, no invented contradiction/independent witnesses');
 console.log('PASS Evidence DNA claim profiles: '+drafts.cases.length+' curated cases with '+citationsChecked+' exact source pointers, draft-only status, no false corroboration');
 console.log('PASS Evidence DNA R2: duplicates, source inventory, verified citation lineage, transitive dependencies, cycles, unreviewed relationships, no false witness count, real archive read-only and integration guards');
