@@ -10,8 +10,8 @@ const avatarBridge = fs.readFileSync(path.join(assets, 'native-shell.js'), 'utf8
 const compactHeader = fs.readFileSync(path.join(assets, 'compact-header.js'), 'utf8');
 const activity = fs.readFileSync('android-test/app/src/main/java/com/disclosuredesk/preview/MainActivity.java', 'utf8');
 const gradle = fs.readFileSync('android-test/app/build.gradle.kts', 'utf8');
-assert.ok(gradle.includes('applicationIdSuffix = ".beta.m95"'), 'M95 installs alongside M94');
-assert.match(gradle, /versionCode = 27/);
+assert.ok(gradle.includes('applicationIdSuffix = ".beta.m10"'), 'M10 private test installs alongside main app and earlier M95/M94 variants');
+assert.match(gradle, /versionCode = 28/);
 assert.ok(activity.includes('installCompactHeader();') && activity.includes('installNativeShell(url);'));
 assert.ok(!activity.includes('savedNews.setText("News and saved stories")'));
 const app = 'https://uapdisclosuredesk.com';
@@ -68,7 +68,7 @@ const app = 'https://uapdisclosuredesk.com';
             await page.unrouteAll({ behavior: 'wait' });
             await page.close();
         }
-        console.log('PASS M95: restored original nav + complete News, compact header, native avatar reset at 320/393/820px.');
+        console.log('PASS M10 native shell: restored original nav + complete News, compact header, native avatar reset at 320/393/820px.');
     } finally {
         await browser.close();
     }
