@@ -185,7 +185,7 @@ assert.equal(allPublic.caseCount,2);
 assert.equal(allPublic.claimCount,4);
 assert.equal(allPublic.documentCount,3);
 assert.equal(allPublic.nodes.length,9);
-assert.equal(allPublic.edges.length,8);
+assert.equal(allPublic.edges.length,9,'One additional checked inter-document reference, not an inferred dependency');
 assert(!allPublic.edges.some(e=>e.from.startsWith('case:')&&e.to.startsWith('case:')),
  'No invented relationship between distinct UAP incidents');
 for(const edge of allPublic.edges.filter(e=>e.relation==='cites-source-page')){
@@ -200,7 +200,7 @@ assert.equal(invalidGraph.nodes.length,0);
 assert(homepage.includes('dd-evidence-graph')&&homepage.includes('data-graph-mode')&&
  homepage.includes('ddEvidenceGraphHtml(control.value,record)')&&homepage.includes('Readable source relationship list'),
  'Native archive modal has visual graph, selectable scope and accessible source list');
-console.log('PASS M7 graph: 2 public cases, 4 editorial claims, 3 unique source pages, 8 sourced/context edges; no fabricated connections');
+console.log('PASS M9 source graph: 2 claim dossiers, 4 editorial claims, 3 unique source pages, 9 cited/context/reference edges; no fabricated copying');
 console.log('PASS M6 selectable comparisons: cross-case citations, invalid/self/uncited rejection, no inferred case connection');
 console.log('PASS Contradiction Radar comparison-only alpha: shared-source distinction, exact locators, no invented contradiction/independent witnesses');
 console.log('PASS Evidence DNA claim profiles: '+drafts.cases.length+' curated cases with '+citationsChecked+' exact source pointers, draft-only status, no false corroboration');
