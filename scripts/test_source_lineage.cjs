@@ -51,6 +51,11 @@ assert(graph.nodes.some(n=>n.id===mention.from&&n.type==='document'));
 assert(graph.nodes.some(n=>n.id===mention.to&&n.type==='document'));
 assert.equal(graph.verifiedCaseToCaseEdges,0);
 assert.equal(graph.independentWitnessCount,null);
+assert.equal(dna.buildRelationshipGraph(drafts.cases,'featured-roswell-1947').reviewedSourceReferences,1,
+ 'Only the Roswell case has the checked NARA→GAO source reference');
+assert.equal(dna.buildRelationshipGraph(drafts.cases,'featured-rendlesham-1980').reviewedSourceReferences,0,
+ 'Rendlesham source references stay explicitly unassessed');
+
 // Synthetic: only literal reviewed re-use can create a real dependency chain.
 const example={schemaVersion:1,documents:[
  {id:'original',title:'Original scanned note',url:'https://example.org/scan',originStatus:'unassessed'},
