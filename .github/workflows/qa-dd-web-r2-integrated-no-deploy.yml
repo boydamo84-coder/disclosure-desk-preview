@@ -1,5 +1,7 @@
 name: DD-WEB-R2 integrated website release QA (NO DEPLOY)
 on:
+  pull_request:
+    branches: [production]
   push:
     branches: [release/dd-web-r2-integration-nov14]
     paths:
