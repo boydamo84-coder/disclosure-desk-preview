@@ -424,7 +424,14 @@
           "url": "https://www.newsnationnow.com/"
         }
       ],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Ross_Coulthart_(cropped).jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:Ross_Coulthart_(cropped).jpg",
+        "credit": "Mosman Library; cropped by Animalparty / Wikimedia Commons",
+        "license": "CC BY 2.0",
+        "status": "source-and-licence-reviewed",
+        "caption": "Ross Coulthart at Mosman Library in 2012; original photograph by Mosman Library, cropped for portrait display"
+      },
       "biography": [
         "Ross Coulthart is an Australian investigative journalist and author who has covered military matters, political accountability and UAP allegations. He has written about UAP questions and interviewed sources who describe claimed classified activity.",
         "His UAP reporting drew wider international attention through interviews with David Grusch, and the public record includes a November 2023 NewsNation announcement appointing him as special correspondent. That statement specifically referenced his work on the Grusch story and broader claims about military retrieval programmes.",
@@ -706,7 +713,14 @@
           "url": "https://www.weaponizedpodcast.com/"
         }
       ],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/George_Knapp_(8221331696)_(cropped).jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:George_Knapp_(8221331696)_(cropped).jpg",
+        "credit": "Peabody Awards / Anders Krusberg; cropped by Kaiketsu / Wikimedia Commons",
+        "license": "CC BY 2.0",
+        "status": "source-and-licence-reviewed",
+        "caption": "George Knapp at a Peabody Awards event, cropped from an attributed event photograph"
+      },
       "biography": [
         "George Knapp is a long-serving investigative journalist based in Las Vegas and is widely associated with coverage of unusual claims connected to Nevada, Area 51 and Bob Lazar. His professional biography documents a broadcasting career that extends well beyond UAP subjects.",
         "Knapp co-hosts Weaponized with Jeremy Corbell. In that role he presents interviews, archived stories, original recordings and discussions about government secrecy and witness claims. His earlier reports helped bring several UAP narratives to wider public attention, but the original reporting and the underlying allegation remain distinct forms of evidence.",
@@ -852,7 +866,14 @@
           "url": "https://www.metabunk.org/"
         }
       ],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Mick_West_CSICon_2018_Debunking_9-11_Microsphere_Myths.jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:Mick_West_CSICon_2018_Debunking_9-11_Microsphere_Myths.jpg",
+        "credit": "Karl Withakay / Wikimedia Commons",
+        "license": "CC BY-SA 4.0",
+        "status": "source-and-licence-reviewed",
+        "caption": "Mick West speaking at CSICon in October 2018; original event photograph"
+      },
       "biography": [
         "Mick West is a writer, former video game developer and sceptical investigator who analyses unusual video, photography and claims using geometry, camera behaviour, environmental data and alternative explanations. He operates Metabunk, a public forum for investigating disputed material.",
         "His UAP work has examined famous naval videos including Gimbal, GoFast and FLIR. In an analysis posted on Metabunk he argued that certain apparent rotations or movements can arise from sensor optics or viewing geometry, rather than directly revealing the physical movement of a craft. Such analyses are hypotheses to test against original data, not automatic identification of every object.",
