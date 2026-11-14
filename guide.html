@@ -121,6 +121,9 @@ footer a{margin:0 7px}
 <a href="#workflows">Research workflows</a>
 <a href="#news">News &amp; sources</a>
 <a href="#archive">Evidence Archive</a>
+<a href="#evidence-dna">Evidence DNA &amp; Contradiction Radar</a>
+<a href="#source-lineage">Source Lineage &amp; graph</a>
+<a href="#people">Who’s Who &amp; public roles</a>
 <a href="#map">Map &amp; case files</a>
 <a href="#videos">Video, LIVE &amp; Watch &amp; Read</a>
 <a href="#studio">W.NE Research Studio</a>
@@ -142,7 +145,7 @@ footer a{margin:0 7px}
 <a class="quick" href="/?dd_tab=mapPage"><strong>3. Investigate a place</strong><small>Explore mapped cases and nearby reports without assuming exact pin precision.</small></a>
 <a class="quick" href="/?dd_tab=boards"><strong>4. Build your own file</strong><small>Collect leads and notes in private investigation Boards.</small></a>
 </div>
-<div class="note"><strong>New visitor?</strong> Open <a href="/?dd_tab=hub">Explore</a> and choose <strong>Take the full site tour</strong>. There are also focused tours of W.NE, investigation tools, community features and privacy.</div>
+<div class="note"><strong>New visitor?</strong> Tap ⓘ at the top of a page for a quick contextual popup, or open <a href="/?dd_tab=hub">Explore</a> and choose <strong>Take the full site tour</strong>. There are also focused tours of W.NE, investigation tools, community features and privacy.</div>
 </section>
 
 <section class="card" id="workflows">
@@ -184,6 +187,42 @@ footer a{margin:0 7px}
 <ol class="steps"><li>Open <a href="/?dd_tab=archivePage">Archive</a>.</li><li>Filter for a specific year, location, document type or incident description.</li><li>Open a case or source entry and follow its original archive reference.</li><li>Write down the <em>event date</em>, <em>record date</em> and <em>publication date</em> separately, if known.</li><li>If you want to reuse an image or document, check the record's usage terms and any necessary permission.</li></ol>
 <p class="muted">A mention in a government archive is evidence that the report or document exists, not proof that every interpretation within it is correct.</p>
 <div class="linkrow"><a class="actionlink" href="/?dd_tab=archivePage">Open Evidence Archive</a><a class="actionlink" href="/sources">Original source directory</a></div>
+</section>
+
+<section class="card guide-topic" id="evidence-dna" data-help-search>
+<span class="tag beta">R2 research preview · awaiting release</span><h2>Evidence DNA: investigate what the records support</h2>
+<p>Within a curated Archive case file, expand <strong>Evidence DNA</strong>. It reveals source references and editorial-draft statement summaries. Some investigations have more provenance data than others; the absence of this panel's detailed claims does not mean a case is false.</p>
+<ol class="steps">
+<li>Open <a href="/?dd_tab=archivePage">Evidence Archive</a>, choose a curated case such as Roswell or Rendlesham, and open its case file.</li>
+<li>Expand <strong>Evidence DNA</strong>. Read each summary and the citation's original publisher, exact section and stated limitations.</li>
+<li>Choose <strong>Contradiction Radar</strong> to select two source-linked statements and compare their original citations side by side. A difference in wording is not automatic evidence of deception or factual conflict.</li>
+<li>Use <strong>Case Connections</strong> filters for nearby, similar, time-related or all listed cases. These are research prompts, not confirmed relationships.</li>
+<li>Read the original documents before quoting an account, establishing its date or claiming independent corroboration.</li>
+</ol>
+<p class="note"><strong>Important:</strong> Evidence DNA, Contradiction Radar and the graph are staged in the R2 research preview and are not yet available on the public site. Draft editorial summaries are not direct quotations or human-reviewed witness reports.</p>
+<div class="linkrow"><a class="actionlink" href="/?dd_tab=archivePage">Explore the Archive</a><a class="actionlink" href="/investigations">Read original research</a></div>
+</section>
+
+<section class="card guide-topic" id="source-lineage" data-help-search>
+<span class="tag beta">R2 research preview · awaiting release</span><h2>Source Lineage Desk and Evidence Relationship Graph</h2>
+<p>Two websites describing an event might both be repeating one original report. Source Lineage Intelligence separates an <em>explicit mention</em> from a separately documented <em>repost or derivation</em>.</p>
+<ol class="steps"><li>Open the curated case's <strong>Evidence DNA</strong> panel, then expand <strong>Source Lineage Desk</strong>.</li>
+<li>Check any reviewed publication-to-publication link using its exact citing source and paragraph. A reviewed mention means the reference exists, not that all statements were endorsed.</li>
+<li>Note sources whose upstream provenance is still <strong>unassessed</strong>. Do not count separate URLs as separate eyewitnesses.</li>
+<li>Expand <strong>Evidence Relationship Graph</strong> for case, person, draft-statement and source nodes. Choose <em>This case</em> or <em>All curated cases</em>.</li>
+<li>If the SVG is difficult to read on a phone, expand its <strong>Readable source relationship list</strong> to inspect the same document links in text.</li></ol>
+<p class="note"><strong>Example:</strong> A National Archives Roswell page mentions the GAO audit. That shows a documentary reference, not proof that the Archives copied the GAO's conclusions or that an extraordinary interpretation is correct.</p>
+</section>
+
+<section class="card guide-topic" id="people" data-help-search>
+<span class="tag beta">R2 directory preview · awaiting release</span><h2>Who's Who: people, involvement and original evidence</h2>
+<p><strong>Who's Who in Disclosure</strong> is a public research directory of people involved in UAP reporting, testimony, investigations and commentary. Its source-linked biographies are editorial drafts and do not rank people's credibility or suggest guilt or dishonesty.</p>
+<ol class="steps"><li>Open <a href="/who-is-who">Who's Who</a>, search a name or filter by role, then open a profile.</li>
+<li>Read the timeline and use original publisher links to check the person's own recorded statements or professional work.</li>
+<li>Open <strong>Attributed case involvement</strong>, where available. The label distinguishes testimony, book authorship and a disputed retrospective account. Not everyone listed was a witness.</li>
+<li>Follow the cited Archive case and inspect its evidence. A person-to-case link documents involvement, not the truth of every assertion.</li>
+<li>For videos, click <strong>Play here</strong> only if you wish to activate the third-party YouTube player. The page does not load the embed automatically.</li></ol>
+<p class="note">Public biographies and historical attributions require final source review before release. No unlicensed portraits or unverified personal social media handles are inserted.</p>
 </section>
 
 <section class="card guide-topic" id="map" data-help-search>
@@ -327,5 +366,6 @@ search.addEventListener('input',update);
 update();
 })();
 </script>
+<script defer src="/assets/page-help.js?v=r2-m10-help01"></script>
 </body>
 </html>
