@@ -9,7 +9,7 @@ const page=fs.readFileSync('who-is-who.html','utf8');
 const data=JSON.parse(fs.readFileSync('data/public-people-directory.json','utf8'));
 const gradle=fs.readFileSync('android-test/app/build.gradle.kts','utf8');
 for(const needle of ['isEmbeddedSecondaryPage(url)','isEmbeddedSecondaryPage(view.getUrl())',
-  'nativeShell=true','bottomNav.update(activeSection','isEmbeddedSecondaryPage(web.getUrl())',
+  'nativeShell=false','installSecondaryEditorialNavigation();','isEmbeddedSecondaryPage(web.getUrl())',
   'web.loadUrl(HOME+"?dd_tab="+Uri.encode(section))','window.DDPeopleDirectoryBack',
   'if(web.canGoBack())web.goBack();','else web.loadUrl(HOME+"?dd_tab=hub");'])
  assert(main.includes(needle),'Secondary embedded Android app route and Back logic: '+needle);
@@ -20,9 +20,10 @@ assert(main.includes('if(!"https".equals(parsed.getScheme())')&&
  main.includes('!"uapdisclosuredesk.com".equals(parsed.getHost())'),
  'Only canonical secure origins are internal routes');
 assert(nav.includes('MAIN = {"discover", "archivePage", "discussionsPage", "chatPage", "more"}'),
- 'Original premium bottom tabs preserved');
-assert(gradle.includes('applicationIdSuffix = ".beta.m12"')&&
- gradle.includes('versionCode = 29'),'Unique non-production APK package and version');
+ 'Legacy native bar kept only for compatibility; secondary pages use the real editorial nav');
+assert(main.includes('nativeShell=false;')&&main.includes('installSecondaryEditorialNavigation();'),'Secondary pages must use the editorial nav, not the legacy native dock');
+assert(gradle.includes('applicationIdSuffix = ".beta.m121"')&&
+ gradle.includes('versionCode = 30'),'Unique non-production APK package and version');
 assert(people.includes('window.DDPeopleDirectoryBack=backToDirectory')&&
  people.includes('history.back()')&&people.includes('history.replaceState'),
  'Directory uses browser history when available and safe direct-link fallback');
