@@ -22,8 +22,9 @@ assert(main.includes('if(!"https".equals(parsed.getScheme())')&&
 assert(nav.includes('MAIN = {"discover", "archivePage", "discussionsPage", "chatPage", "more"}'),
  'Legacy native bar kept only for compatibility; secondary pages use the real editorial nav');
 assert(main.includes('nativeShell=false;')&&main.includes('installSecondaryEditorialNavigation();'),'Secondary pages must use the editorial nav, not the legacy native dock');
-assert(gradle.includes('applicationIdSuffix = ".beta.m121"')&&
- gradle.includes('versionCode = 30'),'Unique non-production APK package and version');
+assert(gradle.includes('applicationIdSuffix = ".beta.m122"')&&
+ gradle.includes('versionCode = 31'),'Unique non-production APK package and version');
+assert(people.includes('ddDirectoryReturn')&&people.includes('restoreDirectoryPosition')&&people.includes('showProfileAtContent')&&people.includes('dd-returned-card'),'Profile opens at details and restores original directory card on Back');
 assert(people.includes('window.DDPeopleDirectoryBack=backToDirectory')&&
  people.includes('history.back()')&&people.includes('history.replaceState'),
  'Directory uses browser history when available and safe direct-link fallback');
