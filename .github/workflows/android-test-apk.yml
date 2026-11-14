@@ -1,4 +1,4 @@
-name: Build Disclosure Desk M12 WHO'S WHO FULL PRIVATE Android APK (NO Netlify)
+name: Build Disclosure Desk M12.1 EDITORIAL NAV PRIVATE Android APK (NO Netlify)
 on:
   workflow_dispatch:
   push:
@@ -148,7 +148,7 @@ jobs:
       - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M12-WHOS-WHO-PRIVATE-BETA
+          name: DisclosureDesk-M12-1-EDITORIAL-NAV-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
