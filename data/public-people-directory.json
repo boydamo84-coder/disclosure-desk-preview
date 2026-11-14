@@ -2,7 +2,7 @@
   "version": 1,
   "edition": "2026-11-14-50-profile-android-m12-editorial-draft",
   "status": "research-copy-edit-needed",
-  "ethics": "Fifty public figures covering testimony, Congress, NASA science, FOIA research and journalism. New entries are structured research drafts, not individually fact-checked publication. Original sourced 17 retain rich episodes and credits; extra people do not claim unverified podcasts, film appearances or social handles. Nine attributed public-domain portraits are connected to their Wikimedia Commons reuse pages; remaining portraits need reviewed permissions. Missing photos use initials; no guessed images or private contacts.",
+  "ethics": "Fifty public figures covering testimony, Congress, NASA science, FOIA research and journalism. New entries are structured research drafts, not individually fact-checked publication. Original sourced 17 retain rich episodes and credits; extra people do not claim unverified podcasts, film appearances or social handles. Seventeen individually reviewed public-domain or Commons-licensed portraits include attribution and reuse links; remaining portraits need reviewed permissions. Missing photos use initials; no guessed images or private contacts.",
   "people": [
     {
       "id": "david-grusch",
@@ -34,7 +34,14 @@
         }
       ],
       "officialLinks": [],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/David_Grusch_giving_testimony_on_26_July_2023_before_the_US_House_Subcommittee_on_National_Security_the_Border_and_Foreign_Affairs.png?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:David_Grusch_giving_testimony_on_26_July_2023_before_the_US_House_Subcommittee_on_National_Security_the_Border_and_Foreign_Affairs.png",
+        "credit": "U.S. House Committee on Oversight and Accountability",
+        "license": "Public domain (US federal government)",
+        "status": "source-and-licence-reviewed",
+        "caption": "Reviewed reusable picture of David Grusch; identity and rights attributed at source"
+      },
       "biography": [
         "David Grusch previously worked in US Air Force and intelligence roles and was involved in government UAP reporting. In 2023 he became widely known after making allegations about programmes that he said were described to him by individuals with relevant access. His congressional statement describes his duties, his reporting to inspectors general and the constraints of discussing classified information publicly.",
         "He appeared before the House Oversight subcommittee on 26 July 2023 alongside Ryan Graves and David Fravor. Grusch told lawmakers that he had been informed of alleged crash-retrieval and reverse-engineering activity. The publicly available statement documents that he made the allegations; it does not itself provide independently inspectable physical evidence for the programmes described.",
@@ -156,7 +163,14 @@
           "url": "https://www.safeaerospace.org/"
         }
       ],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Ryan_Graves_26_July_2023.png?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:Ryan_Graves_26_July_2023.png",
+        "credit": "U.S. House Committee on Oversight and Accountability",
+        "license": "Public domain (US federal government)",
+        "status": "source-and-licence-reviewed",
+        "caption": "Reviewed reusable picture of Ryan Graves; identity and rights attributed at source"
+      },
       "biography": [
         "Ryan Graves is a former US Navy F/A-18 aviator who founded Americans for Safe Aerospace, a nonprofit focused on aviation safety, UAP reporting and better research data. His public advocacy emphasises that pilots need reliable channels to report unusual observations without stigma.",
         "At the House hearing on 26 July 2023, Graves described reports from military and civilian aircrew, along with the difficulty of documenting encounters in a useful, systematic way. He spoke about observations during naval service, including accounts of unusual objects reported near training areas.",
@@ -1560,7 +1574,14 @@
           "context": "An extended account from the interview subject; the statements are not direct recordings of alleged physical recovered materials."
         }
       ],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Luis_Elizondo.jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:Luis_Elizondo.jpg",
+        "credit": "Max Moszkowicz",
+        "license": "CC BY 3.0",
+        "status": "source-and-licence-reviewed",
+        "caption": "Reviewed reusable picture of Luis Elizondo; identity and rights attributed at source"
+      },
       "sources": [
         {
           "label": "HISTORY — Elizondo and the Unidentified investigation series",
@@ -1814,7 +1835,14 @@
           "context": "Interview about models and possibilities; it does not provide proof of extraterrestrial engineering."
         }
       ],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Abraham(Avi)_Loeb.jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:Abraham(Avi)_Loeb.jpg",
+        "credit": "Lotem Loeb / Aloeb",
+        "license": "CC BY-SA 4.0",
+        "status": "source-and-licence-reviewed",
+        "caption": "Reviewed reusable picture of Avi Loeb; identity and rights attributed at source"
+      },
       "sources": [
         {
           "label": "Galileo Project organisation and science aims",
@@ -1916,7 +1944,14 @@
         }
       ],
       "videos": [],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Jacques_Vall%C3%A9e_by_Christopher_Michel_12122024_01.jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:Jacques_Vall%C3%A9e_by_Christopher_Michel_12122024_01.jpg",
+        "credit": "Christopher Michel / Cmichel67",
+        "license": "CC BY-SA 4.0",
+        "status": "source-and-licence-reviewed",
+        "caption": "Reviewed reusable picture of Jacques Vallée; identity and rights attributed at source"
+      },
       "sources": [
         {
           "label": "Jacques Vallée — own media, interviews and film credits",
@@ -2034,7 +2069,14 @@
         }
       ],
       "videos": [],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/James-Fox.png?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:James-Fox.png",
+        "credit": "Rosully / Wikimedia Commons",
+        "license": "CC0 1.0",
+        "status": "source-and-licence-reviewed",
+        "caption": "Reviewed reusable picture of James Fox; identity and rights attributed at source"
+      },
       "sources": [
         {
           "label": "Director interview — The Program",
@@ -4252,7 +4294,14 @@
       ],
       "media": [],
       "officialLinks": [],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Timothy_Gallaudet_official_photo.jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:Timothy_Gallaudet_official_photo.jpg",
+        "credit": "U.S. Department of Commerce / NOAA",
+        "license": "Public domain (US federal government)",
+        "status": "source-and-licence-reviewed",
+        "caption": "Reviewed reusable picture of Tim Gallaudet; identity and rights attributed at source"
+      },
       "biography": [
         "Tim Gallaudet is a retired us navy rear admiral; uap congressional witness. His or her documented work is relevant to naval service, marine environments and government transparency. The original sources linked here establish a public professional or research role; they do not establish that any particular extraordinary explanation for an observation is correct.",
         "The public record includes work dated 13 November 2024, with an emphasis on 2026 UAP advisory discussion. Readers should distinguish an original document, a reported account, an analytical interpretation and a statement of belief. These are different forms of evidence and should not be collapsed into one claim.",
@@ -4320,7 +4369,14 @@
       ],
       "media": [],
       "officialLinks": [],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/ShellenbergerNov2024.jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:ShellenbergerNov2024.jpg",
+        "credit": "Public.news / Civilization Works",
+        "license": "CC BY 4.0",
+        "status": "source-and-licence-reviewed",
+        "caption": "Reviewed reusable picture of Michael Shellenberger; identity and rights attributed at source"
+      },
       "biography": [
         "Michael Shellenberger is a journalist and 2024 house uap hearing witness. His or her documented work is relevant to public-interest reporting, whistleblower claims and government oversight. The original sources linked here establish a public professional or research role; they do not establish that any particular extraordinary explanation for an observation is correct.",
         "The public record includes work dated 13 November 2024, with an emphasis on the public hearing's scrutiny of unattributed and classified allegations. Readers should distinguish an original document, a reported account, an analytical interpretation and a statement of belief. These are different forms of evidence and should not be collapsed into one claim.",
