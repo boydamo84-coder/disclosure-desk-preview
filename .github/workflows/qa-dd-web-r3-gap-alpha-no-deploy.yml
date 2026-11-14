@@ -1,11 +1,13 @@
-name: DD-WEB-R3 Research Gap Finder alpha (NO DEPLOY)
+name: DD-WEB-R3 Research Gap Finder and Hypothesis Lab alpha (NO DEPLOY)
 on:
   push:
     branches:
       - queue/dd-web-r3-from-r2-nov14
     paths:
       - experiments/r3/research-gap-finder.cjs
+      - experiments/r3/hypothesis-lab.cjs
       - scripts/test_r3_research_gap_finder.cjs
+      - scripts/test_r3_hypothesis_lab.cjs
       - data/curated-historical-cases.json
       - .github/workflows/qa-dd-web-r3-gap-alpha-no-deploy.yml
   workflow_dispatch:
@@ -20,13 +22,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Validate dependency-free, offline R3 research gap alpha
+      - name: Validate dependency-free, offline R3 research engines
         run: |
           node --check experiments/r3/research-gap-finder.cjs
           node --check scripts/test_r3_research_gap_finder.cjs
           node scripts/test_r3_research_gap_finder.cjs
+          node --check experiments/r3/hypothesis-lab.cjs
+          node --check scripts/test_r3_hypothesis_lab.cjs
+          node scripts/test_r3_hypothesis_lab.cjs
       - name: Confirm this experimental code is absent from the public release allowlist
         run: |
           ! grep -q 'research-gap-finder.cjs' scripts/build_public_release.cjs
           ! grep -q 'test_r3_research_gap_finder.cjs' scripts/build_public_release.cjs
+          ! grep -q 'hypothesis-lab.cjs' scripts/build_public_release.cjs
+          ! grep -q 'test_r3_hypothesis_lab.cjs' scripts/build_public_release.cjs
 # No Netlify command, production merge, Supabase, accounts or public data upload.
