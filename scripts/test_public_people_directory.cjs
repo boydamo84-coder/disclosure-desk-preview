@@ -77,6 +77,18 @@ for(const id of ['ross-coulthart','george-knapp','mick-west']){
   'Additional credited Commons photo must link its source page: '+id);
 }
 assert.equal(portraits,20,'R2 profile photo inventory after source-backed expansion');
+
+assert(app.includes('PHOTO_LICENSE_URLS')&&app.includes('appendPortraitCredit'),
+ 'Portrait credit component must be shared between card and profile');
+for(const deed of [
+ 'https://creativecommons.org/licenses/by/2.0/',
+ 'https://creativecommons.org/licenses/by/3.0/',
+ 'https://creativecommons.org/licenses/by/4.0/',
+ 'https://creativecommons.org/licenses/by-sa/4.0/'
+])assert(app.includes(deed),'Link to required Creative Commons deed: '+deed);
+assert(app.includes('Display cropped to fit')&&app.includes('Photo: '+''+''+''),
+ 'Visible author/source credit and display crop acknowledgement');
+assert(page.includes('.card-photo-credit a{'),'Mobile directory credits have visible tappable links');
 assert(app.includes('DDPeopleDirectoryBack')&&app.includes('paintPortrait'),'Native Back and licensed portrait renderer present');
 
 assert(page.includes('public-domain or Creative Commons sources'),
