@@ -117,7 +117,19 @@
           ]
         }
       ],
-      "edges": []
+      "edges": [
+        {
+          "from": "nara-bluebook-roswell",
+          "to": "gao-roswell-1995",
+          "relation": "mentions",
+          "status": "reviewed",
+          "evidence": {
+            "url": "https://www.archives.gov/research/military/air-force/ufos",
+            "locator": "The Roswell Incident — paragraphs beginning 'At the request of Congressman Steven H. Schiff' and describing the 1994 GAO audit",
+            "context": "NARA specifically discusses the GAO's investigation and later report. This is a checked reference to that government audit, NOT evidence that NARA's full summary was copied from or corroborated by the GAO report."
+          }
+        }
+      ]
     }
   ]
 }
