@@ -81,6 +81,21 @@ const BASE='http://127.0.0.1:4173';
    assert.match(await fravor.locator('#profileRelatedCases').innerText(),/First-person encounter account/);
    assert.equal(await fravor.locator('#profileRelatedCases a[href*="dd_archive_case=featured-nimitz-2004"]').count(),1);
    assert.equal(await fravor.locator('#profileRelatedCases a[href^="https://"]').count(),1);
+   // Follow the real profile → case deep link, not merely the href string.
+   await fravor.locator('#profileRelatedCases a[href*="dd_archive_case=featured-nimitz-2004"]').click();
+   await fravor.waitForURL('**/?dd_tab=archivePage*',{timeout:18000});
+   await fravor.locator('#archiveCaseDialog[open] #archiveCaseTitle').waitFor({timeout:18000});
+   assert.match(await fravor.locator('#archiveCaseTitle').innerText(),/Nimitz/i,
+    "Fravor's profile opens the actual Nimitz Archive case");
+   const nimitzDna=fravor.locator('#archiveCaseBody details.dd-evidence-dna');
+   await nimitzDna.locator('summary').first().click();
+   assert.equal(await nimitzDna.locator('.dd-case-people article').count(),1,
+    'Nimitz Archive has his source-attributed person record even without a claim draft');
+   const nimitzGraph=nimitzDna.locator('details.dd-evidence-graph');
+   assert.equal(await nimitzGraph.count(),1,'Nimitz shows a source graph without inventing a claim');
+   await nimitzGraph.locator('summary').first().click();
+   assert.match(await nimitzGraph.locator('[data-graph-summary]').innerText(),/1 attributed public person/i);
+   assert.match(await nimitzGraph.locator('[data-graph-summary]').innerText(),/0 editorial draft statement/i);
    await fravor.close();
    await warren.close();
    await direct.locator('#directoryPage').waitFor({state:'visible'});
