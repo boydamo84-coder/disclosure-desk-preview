@@ -13,6 +13,21 @@ let selected=null;
 let caseLinks={valid:true,links:[]};
 const initials=p=>String(p.name||'').trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
 const shortDate=v=>String(v||'');
+function paintPortrait(host,person){
+ if(!host)return;
+ host.replaceChildren(document.createTextNode(initials(person)));
+ const photo=person.photo;
+ if(!photo||!safeUrl(photo.url)||!safeUrl(photo.source)||!photo.credit||
+   !['Public domain (US federal government)','CC BY 4.0','CC BY-SA 4.0'].includes(photo.license))return;
+ const u=new URL(photo.url);
+ if(!['commons.wikimedia.org','upload.wikimedia.org','images-assets.nasa.gov'].includes(u.hostname))return;
+ const picture=document.createElement('img');
+ picture.alt='';picture.loading='lazy';picture.decoding='async';
+ picture.referrerPolicy='no-referrer';
+ picture.addEventListener('load',()=>host.classList.add('has-photo'),{once:true});
+ picture.addEventListener('error',()=>{host.classList.remove('has-photo');picture.remove()},{once:true});
+ picture.src=u.href;host.appendChild(picture);
+}
 const validLinks=(v)=>Array.isArray(v)?v.filter(x=>x&&safeUrl(x.url)).slice(0,30):[];
 function renderList(items,opts={}){
  const filtered=validLinks(items);
@@ -31,7 +46,17 @@ function openPerson(person,updateUrl=true){
  $('profileName').textContent=person.name;
  $('profileRole').textContent=person.role;
  $('profileShort').textContent=person.short;
- $('profileAvatar').textContent=initials(person);
+ paintPortrait($('profileAvatar'),person);
+ const credit=$('profilePhotoCredit');
+ if(credit){
+  credit.replaceChildren();
+  if(person.photo&&safeUrl(person.photo.source)&&person.photo.credit){
+   const anchor=document.createElement('a');anchor.href=safeUrl(person.photo.source);
+   anchor.target='_blank';anchor.rel='noopener noreferrer';
+   anchor.textContent='Portrait: '+person.photo.credit+' · '+person.photo.license;
+   credit.appendChild(anchor);
+  }
+ }
  $('profilePosition').textContent=person.position;
  $('profileContext').textContent=person.context;
  $('profileTags').innerHTML=(person.category||[]).map(c=>'<span class="pill">'+esc(c)+'</span>').join('');
@@ -111,7 +136,7 @@ function openPerson(person,updateUrl=true){
  $('directoryBack').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});
  if(updateUrl){
   const u=new URL(location.href);u.searchParams.set('person',person.id);
-  history.pushState({directoryPerson:person.id},'',u.pathname+u.search+u.hash);
+  history.pushState({directoryPerson:person.id,fromDirectory:true},'',u.pathname+u.search+u.hash);
  }
 }
 function showDirectory(updateUrl=true){
@@ -123,6 +148,15 @@ function showDirectory(updateUrl=true){
  }
  window.scrollTo({top:0,behavior:'instant'});
 }
+// Native Android Back and the on-screen Back button use identical history-aware logic.
+function backToDirectory(){
+ if(!selected)return false;
+ if(history.state?.fromDirectory){history.back();return true;}
+ const u=new URL(location.href);u.searchParams.delete('person');
+ history.replaceState({directoryPerson:null},'',u.pathname+u.search+u.hash);
+ showDirectory(false);return true;
+}
+window.DDPeopleDirectoryBack=backToDirectory;
 function renderCards(){
  const query=$('peopleSearch').value.trim().toLocaleLowerCase();
  const kind=$('peopleCategory').value;
@@ -135,10 +169,10 @@ function renderCards(){
  const host=$('peopleCards');host.replaceChildren();
  for(const person of results){
   const card=document.createElement('article');card.className='card';
-  card.innerHTML='<div class="person-head"><span aria-hidden="true" class="avatar">'+esc(initials(person))+
-   '</span><div><h3>'+esc(person.name)+'</h3><p class="muted small compact">'+esc(person.role)+'</p></div></div>'+
+  card.innerHTML='<div class="person-head"><span aria-hidden="true" class="avatar"></span><div><h3>'+esc(person.name)+'</h3><p class="muted small compact">'+esc(person.role)+'</p></div></div>'+
    '<div class="pills">'+(person.category||[]).map(c=>'<span class="pill">'+esc(c)+'</span>').join('')+'</div>'+
    '<p>'+esc(person.short)+'</p><button type="button" class="btn">Read detailed profile</button>';
+  paintPortrait(card.querySelector('.avatar'),person);
   card.querySelector('button').addEventListener('click',()=>openPerson(person));
   host.appendChild(card);
  }
@@ -150,7 +184,7 @@ function fromLocation(){
  if(record)openPerson(record,false);
  else showDirectory(false);
 }
-$('directoryBack').addEventListener('click',()=>showDirectory());
+$('directoryBack').addEventListener('click',backToDirectory);
 $('peopleSearch').addEventListener('input',renderCards);
 $('peopleCategory').addEventListener('change',renderCards);
 window.addEventListener('popstate',fromLocation);
