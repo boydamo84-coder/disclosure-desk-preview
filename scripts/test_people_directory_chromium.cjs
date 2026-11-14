@@ -19,6 +19,53 @@ const BASE='http://127.0.0.1:4173';
    page.on('pageerror',e=>errors.push(String(e.message||e)));
    await page.goto(BASE+'/who-is-who.html',{waitUntil:'domcontentloaded',timeout:30000});
    await page.locator('#peopleCards article.card').first().waitFor();
+
+   const dock=page.locator('#ddWebSecondaryNav');
+   await dock.waitFor({state:'visible'});
+   const dockIds=await dock.locator('.tab').evaluateAll(nodes=>nodes.map(n=>n.dataset.tab));
+   assert.deepEqual(dockIds,[
+    'discover','archivePage','peopleDirectory','researchStudio','mapPage',
+    'clips','livePage','boards','witness','discussionsPage','watchRead',
+    'chatPage','profilePage','hub'
+   ],"Standalone Who's Who must show the ORIGINAL fourteen-tab editorial dock");
+   assert.equal(await dock.locator('.tab.active[aria-current="page"]').getAttribute('data-tab'),
+    'peopleDirectory',"Who's Who must remain highlighted in the dock");
+   assert.equal(await page.locator('#ddWebNavNext').isVisible(),true,
+    'Scroll arrow reveals hidden premium navigation tabs');
+   const initialRailScroll=await dock.locator('.nav-inner').evaluate(el=>el.scrollLeft);
+   await page.locator('#ddWebNavNext').click();
+   await page.waitForFunction(x=>document.querySelector('#ddWebSecondaryNav .nav-inner').scrollLeft>x+12,initialRailScroll);
+   assert.equal(await dock.locator('.tab[aria-current="page"]').getAttribute('data-tab'),
+    'peopleDirectory','Arrows scroll the dock without changing sections');
+   await page.locator('#ddWebNavPrev').click();
+   await page.waitForFunction(x=>document.querySelector('#ddWebSecondaryNav .nav-inner').scrollLeft<x-12,65);
+   if(width===393){
+    await page.locator('#peopleSearch').focus();
+    assert.equal(await dock.isVisible(),false,'Mobile keyboard focus must hide the dock');
+    await page.locator('#peopleSearch').blur();
+    await dock.waitFor({state:'visible'});
+    const routeTest=await ctx.newPage();
+    await routeTest.goto(BASE+'/who-is-who.html',{waitUntil:'domcontentloaded'});
+    await routeTest.locator('#ddWebSecondaryNav .tab[data-tab="mapPage"]').click();
+    await routeTest.waitForURL('**/?dd_tab=mapPage',{timeout:15000});
+    assert.equal(new URL(routeTest.url()).searchParams.get('dd_tab'),'mapPage',
+     'Standalone Map button uses the existing Home app router');
+    await routeTest.close();
+    const nativeTest=await ctx.newPage();
+    await nativeTest.goto(BASE+'/who-is-who.html',{waitUntil:'domcontentloaded'});
+    await nativeTest.locator('#ddWebSecondaryNav').waitFor({state:'visible'});
+    await nativeTest.evaluate(()=>{
+     const nav=document.createElement('nav');nav.id='ddAndroidEditorialNav';document.body.appendChild(nav);
+    });
+    await nativeTest.waitForFunction(()=>{
+     const el=document.getElementById('ddWebSecondaryNav');
+     return el&&getComputedStyle(el).display==='none';
+    });
+    assert.equal(await nativeTest.locator('#ddWebSecondaryNav').isVisible(),false,
+     'Website dock hides if M12.3 Android adds the original premium dock');
+    await nativeTest.close();
+   }
+
    assert.equal(await page.locator('#peopleCards article.card').count(),50,'All fifty source-linked cards appear');
    assert.equal(await page.locator('iframe').count(),0,'No publisher player loads by default');
    const widths=await page.evaluate(()=>({a:document.documentElement.scrollWidth,b:window.innerWidth}));
