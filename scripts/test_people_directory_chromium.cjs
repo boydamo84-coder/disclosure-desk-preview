@@ -1,0 +1,64 @@
+'use strict';
+// Local loopback Chromium acceptance: mobile/desktop directory, shareable links,
+// optional third-party YouTube iframe and browser Back. No real accounts.
+const assert=require('node:assert/strict'),path=require('node:path');
+const {chromium}=require('playwright-core');
+const BASE='http://127.0.0.1:4173';
+(async()=>{
+ const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,
+  args:['--no-sandbox','--disable-dev-shm-usage']});
+ try{
+  for(const width of [393,1280]){
+   const ctx=await browser.newContext({viewport:{width,height:850},locale:'en-GB'});
+   await ctx.route('**/*',route=>{
+    const url=new URL(route.request().url());
+    if(url.origin===BASE)return route.continue();
+    return route.abort('blockedbyclient');
+   });
+   const page=await ctx.newPage();const errors=[];
+   page.on('pageerror',e=>errors.push(String(e.message||e)));
+   await page.goto(BASE+'/who-is-who.html',{waitUntil:'domcontentloaded',timeout:30000});
+   await page.locator('#peopleCards article.card').first().waitFor();
+   assert.equal(await page.locator('#peopleCards article.card').count(),7,'All seven people cards appear');
+   assert.equal(await page.locator('iframe').count(),0,'No publisher player loads by default');
+   const widths=await page.evaluate(()=>({a:document.documentElement.scrollWidth,b:window.innerWidth}));
+   assert(widths.a<=widths.b+3,'Directory must not horizontally overflow '+width+'px');
+   await page.locator('#peopleSearch').fill('Mick West');
+   assert.equal(await page.locator('#peopleCards article.card').count(),1,'Name search filters');
+   await page.locator('#peopleCards button').click();
+   await page.locator('#personProfile').waitFor({state:'visible'});
+   assert.equal(await page.locator('#profileName').textContent(),'Mick West','Correct person detail');
+   assert.equal(await page.locator('#profileTimeline li').count()>=3,true,'Dated history present');
+   assert.equal(await page.locator('#profileBiography p').count()>=3,true,'Full story present');
+   assert.equal(await page.locator('#profileVideoPlayers .video-card').count()>=1,true,'Publisher video card');
+   assert.equal(await page.locator('iframe').count(),0,'Lazy player does not contact YouTube yet');
+   const u=new URL(page.url());assert.equal(u.searchParams.get('person'),'mick-west','Shareable profile URL');
+   await page.locator('#profileVideoPlayers .video-card .video-play').first().click();
+   const video=page.locator('#profileVideoPlayers iframe').first();
+   await video.waitFor({state:'attached'});
+   assert.match(await video.getAttribute('src'),/^https:\/\/www\.youtube-nocookie\.com\/embed\/[A-Za-z0-9_-]{11}$/);
+   assert.equal(await page.locator('#profileVideoPlayers a[href*="youtube.com/watch"]').count()>=1,true,
+    'Publisher video original link preserved');
+   const detailWidths=await page.evaluate(()=>({a:document.documentElement.scrollWidth,b:window.innerWidth}));
+   assert(detailWidths.a<=detailWidths.b+3,'Detailed profile must not horizontally overflow '+width+'px');
+   await page.goBack({waitUntil:'domcontentloaded'});
+   await page.locator('#directoryPage').waitFor({state:'visible'});
+   await page.locator('#peopleSearch').fill('');
+   await page.locator('#peopleCategory').selectOption('Pilot');
+   assert.equal(await page.locator('#peopleCards article.card').count()>=2,true,'Role filtering');
+   const direct=await ctx.newPage();
+   await direct.goto(BASE+'/who-is-who.html?person=david-grusch',{waitUntil:'domcontentloaded'});
+   await direct.locator('#personProfile').waitFor({state:'visible'});
+   assert.equal(await direct.locator('#profileName').textContent(),'David Grusch','Deep link to correct person's dossier');
+   assert.match(await direct.locator('#profileSocials').textContent(),/No personal social media account/,
+    'No fake personal handles inferred where unverified');
+   await direct.locator('#directoryBack').click();
+   await direct.locator('#directoryPage').waitFor({state:'visible'});
+   assert.equal(new URL(direct.url()).searchParams.has('person'),false,'Return clears profile ID');
+   const deadly=errors.filter(x=>/ReferenceError|SyntaxError|Cannot access|is not defined/.test(x));
+   assert.deepEqual(deadly,[],'Fatal client errors: '+deadly.join(', '));
+   console.log('PASS Who’s Who '+width+'px: 7 profiles, text/category filters, deep links, long bios, source history, click-only video, browser Back and no layout overflow');
+   await ctx.close();
+  }
+ }finally{await browser.close()}
+})().catch(error=>{console.error('FAIL Who’s Who Chromium:',error.stack||error);process.exitCode=1});
