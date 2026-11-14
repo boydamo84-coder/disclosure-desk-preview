@@ -6,8 +6,13 @@ on:
     paths:
       - experiments/r3/research-gap-finder.cjs
       - experiments/r3/hypothesis-lab.cjs
+      - experiments/r3/hypothesis-lab-preview.html
+      - experiments/r3/hypothesis-ui.js
+      - experiments/r3/hypothesis-ui.css
       - scripts/test_r3_research_gap_finder.cjs
       - scripts/test_r3_hypothesis_lab.cjs
+      - scripts/build_r3_lab_preview.cjs
+      - scripts/test_r3_hypothesis_ui_chromium.cjs
       - data/curated-historical-cases.json
       - .github/workflows/qa-dd-web-r3-gap-alpha-no-deploy.yml
   workflow_dispatch:
@@ -36,4 +41,36 @@ jobs:
           ! grep -q 'test_r3_research_gap_finder.cjs' scripts/build_public_release.cjs
           ! grep -q 'hypothesis-lab.cjs' scripts/build_public_release.cjs
           ! grep -q 'test_r3_hypothesis_lab.cjs' scripts/build_public_release.cjs
+  offline-browser-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check isolated R3 UI source and build local preview
+        run: |
+          node --check experiments/r3/hypothesis-ui.js
+          node --check scripts/build_r3_lab_preview.cjs
+          node --check scripts/test_r3_hypothesis_ui_chromium.cjs
+          node scripts/build_r3_lab_preview.cjs
+      - name: Install isolated headless browser test driver
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+      - name: Serve prototype on loopback only and test 393px/1280px
+        run: |
+          python3 -m http.server 4175 --bind 127.0.0.1 --directory .r3-lab-preview >/tmp/dd-r3-preview.log 2>&1 &
+          echo $! >/tmp/dd-r3-preview.pid
+          for i in $(seq 1 20); do
+            if curl -fsS --max-time 2 http://127.0.0.1:4175/ >/dev/null; then break; fi
+            sleep 1
+          done
+          curl -fsS --max-time 2 http://127.0.0.1:4175/ >/dev/null
+          node scripts/test_r3_hypothesis_ui_chromium.cjs
+      - name: Stop isolated preview server
+        if: always()
+        run: |
+          if test -f /tmp/dd-r3-preview.pid; then kill "$(cat /tmp/dd-r3-preview.pid)" || true; fi
 # No Netlify command, production merge, Supabase, accounts or public data upload.
