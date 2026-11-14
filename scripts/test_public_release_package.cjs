@@ -17,7 +17,7 @@ for(const f of ['index.html','guide.html','sources.html','investigations.html','
  'research/research-site-nav.js','research/google-drive.js','research/google-drive-config.js',
  'research/vendor-jszip-3.10.1.js','research/vendor-docx-9.5.1.js','research/vendor-dompurify-3.4.17.js','research/vendor-mammoth-1.12.3.js','research/docx-import-worker.js',
  'assets/community-polish.css','assets/media-submissions.js','assets/community-test-config.js','assets/profile-private-chat.js',
- 'assets/community-discussions.js','assets/evidence-dna.js','assets/person-case-links.js','assets/people-directory.js','data/public-people-directory.json','data/evidence-dna-claim-drafts.json','data/public-person-case-links.json','data/approved-live-events.json','data/historical-news-archive.json'])
+ 'assets/community-discussions.js','assets/page-help.js','assets/evidence-dna.js','assets/person-case-links.js','assets/people-directory.js','data/public-people-directory.json','data/evidence-dna-claim-drafts.json','data/public-person-case-links.json','data/approved-live-events.json','data/historical-news-archive.json'])
  assert.ok(names.has(f),'Required site dependency missing: '+f);
 for(const f of ['MASTER_HANDOVER.md','finance_local/vault.py','supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql',
  'data/gep-2026-09-preflight-summary.json','data/news-feed-health.json','data/modern-official-uap-seed.json'])
