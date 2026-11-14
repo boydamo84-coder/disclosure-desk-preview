@@ -24,7 +24,7 @@ const BASE='http://127.0.0.1:4175';
    page.on('pageerror',e=>errors.push(String(e.message||e)));
    await page.goto(BASE+'/',{waitUntil:'domcontentloaded'});
    assert.match(await page.title(),/Hypothesis Lab/);
-   assert.match(await page.locator('#privacyWarning').innerText(),/do not enter sensitive research/i);
+   assert.match(await page.locator('#privacyWarning').innerText(),/don.t enter sensitive information yet/i);
    assert.equal(await page.locator('#setupPanel').isVisible(),true);
    assert.equal(await page.locator('#previewDock .dock-tab').count(),14);
    assert.equal(await page.locator('#previewDock .dock-tab:not([disabled])').count(),0,
