@@ -20,20 +20,54 @@ const BASE='http://127.0.0.1:4175';
     if(u.origin===BASE)return route.continue();
     requests.push(u.href);return route.abort('blockedbyclient');
    });
-   const page=await context.newPage(),errors=[];
+   const page=await context.newPage(),errors=[],nativeDialogs=[];
    page.on('pageerror',e=>errors.push(String(e.message||e)));
+   page.on('dialog',async d=>{nativeDialogs.push(d.type());await d.dismiss()});
    await page.goto(BASE+'/',{waitUntil:'domcontentloaded'});
    assert.match(await page.title(),/Hypothesis Lab/);
    assert.match(await page.locator('#privacyWarning').innerText(),/don.t enter sensitive information yet/i);
    assert.equal(await page.locator('#setupPanel').isVisible(),true);
-   assert.equal(await page.locator('#previewDock .dock-tab').count(),14);
-   assert.equal(await page.locator('#previewDock .dock-tab:not([disabled])').count(),0,
-    'Isolated UI may not activate live-site tabs');
+   const dock=page.locator('#ddWebSecondaryNav');
+   const expectedTabIds=[
+    'discover','archivePage','peopleDirectory','researchStudio','mapPage',
+    'clips','livePage','boards','witness','discussionsPage','watchRead',
+    'chatPage','profilePage','hub'
+   ];
+   assert.deepEqual(await dock.locator('.tab').evaluateAll(nodes=>nodes.map(n=>n.dataset.tab)),
+    expectedTabIds,'Standalone R3 must match exact original R2 14-tab order');
+   assert.equal(await dock.locator('.tab:not([disabled])').count(),0,
+    'Offline R3 preview may not link to live/real accounts');
+   assert.equal(await dock.locator('.tab.active').getAttribute('data-tab'),'boards',
+    'Hypothesis Lab is a Boards research tool, not a replacement nav tab');
+   assert.equal(await dock.locator('.tab[data-tab="chatPage"] svg.dd-chat-nav-symbol').count(),1,
+    'Use exact R2 outlined Chat icon, not a generic box');
+   assert.equal(await dock.locator('.tab[data-tab="profilePage"] .ico').textContent(),'👤');
+   assert.equal(fs.readFileSync('.r3-lab-preview/editorial-dock.css','utf8'),
+    fs.readFileSync('assets/secondary-editorial-nav.css','utf8'),
+    'Preview must ship the ACTUAL approved R2 nav CSS byte for byte');
+   assert.equal(await page.locator('#dockNext').isVisible(),true,
+    'Original dock right arrow must reveal other tabs');
+   const firstScroll=await dock.locator('.nav-inner').evaluate(node=>node.scrollLeft);
+   await page.locator('#dockNext').click();
+   await page.waitForFunction(old=>document.querySelector('#dockScroll').scrollLeft>old+10,firstScroll);
+   assert.equal(await dock.locator('.tab.active').getAttribute('data-tab'),'boards');
    await page.locator('#sampleBtn').click();
    await page.locator('#workPanel').waitFor({state:'visible'});
    assert.match(await page.locator('#notebookHeading').textContent(),/Fictional case/);
    assert.equal(await page.locator('#hypothesisList .hypothesis-item').count(),2);
    assert.equal(await page.locator('#compareView').isVisible(),false);
+   // Owner-reported Chrome grey modal is replaced by a first-party,
+   // explicitly cancellable navy/gold warning for UNSAVED notebooks.
+   await page.locator('#resetBtn').click();
+   await page.locator('#ddConfirmDialog').waitFor({state:'visible'});
+   assert.match(await page.locator('#ddDialogTitle').innerText(),/Discard unsaved notebook/);
+   assert.match(await page.locator('#ddDialogDescription').innerText(),/not been encrypted or saved/);
+   assert.equal(await page.locator('#ddDialogAccept').textContent(),'Discard notebook');
+   await page.locator('#ddDialogCancel').click();
+   await page.locator('#ddConfirmDialog').waitFor({state:'hidden'});
+   assert.equal(await page.locator('#hypothesisList .hypothesis-item').count(),2,
+    'Cancel retains the notebook and all research');
+   assert.equal(await page.locator('#workPanel').isVisible(),true);
    await page.locator('#compareTab').click();
    assert.equal(await page.locator('#compareTab').getAttribute('aria-selected'),'true');
    await page.locator('#buildCompareBtn').click();
@@ -156,11 +190,26 @@ const BASE='http://127.0.0.1:4175';
     await page.locator('#revisionList button[data-revision="2"]').click();
     assert.match(await page.locator('#historySnapshot').innerText(),/encrypted revision two/);
     // Explicit lock, delete, tamper rejection, wrong passphrase, and restore.
-    page.once('dialog',dialog=>dialog.accept());
     await page.locator('#lockVaultBtn').click();
+    await page.locator('#ddConfirmDialog').waitFor({state:'visible'});
+    assert.match(await page.locator('#ddDialogTitle').innerText(),/Lock your private notebook/);
+    await page.locator('#ddDialogCancel').click();
+    assert.equal(await page.locator('#workPanel').isVisible(),true,'Cancel lock preserves notebook');
+    await page.locator('#lockVaultBtn').click();
+    await page.locator('#ddDialogAccept').click();
     await page.locator('#unlockVaultForm').waitFor({state:'visible'});
-    page.once('dialog',dialog=>dialog.accept('DELETE'));
     await page.locator('#deleteVaultBtn').click();
+    await page.locator('#ddConfirmDialog').waitFor({state:'visible'});
+    assert.match(await page.locator('#ddDialogTitle').innerText(),/Delete this encrypted notebook/);
+    assert.equal(await page.locator('#ddDialogAccept').isDisabled(),true,
+     'Destructive deletion requires the typed confirmation');
+    await page.locator('#ddDialogVerify').fill('DELET');
+    assert.equal(await page.locator('#ddDialogAccept').isDisabled(),true);
+    await page.locator('#ddDialogCancel').click();
+    await page.locator('#unlockVaultForm').waitFor({state:'visible'});
+    await page.locator('#deleteVaultBtn').click();
+    await page.locator('#ddDialogVerify').fill('DELETE');
+    await page.locator('#ddDialogAccept').click();
     await page.locator('#importVaultForm').waitFor({state:'visible'});
     const setEncryptedFile=async text=>{
      await page.locator('#importVaultFile').setInputFiles({
@@ -204,6 +253,8 @@ const BASE='http://127.0.0.1:4175';
     'No horizontal overflow at '+width+'px; actual='+JSON.stringify(dimensions));
    assert.deepEqual(requests,[],'Offline prototype must not request any external services');
    assert.deepEqual(errors,[],'No browser JS errors at '+width+'px');
+   assert.deepEqual(nativeDialogs,[],
+    'No Chrome native prompt/confirm/alert dialogs: use the branded R3 dialog');
    console.log('PASS R3 UI '+width+'px: fictional research editor, encrypted vault backup/recovery at 393px, revision history, original 14-tab visual contract and no external requests');
    await context.close();
   }
