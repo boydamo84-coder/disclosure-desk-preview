@@ -103,7 +103,7 @@ const BASE='http://127.0.0.1:4173';
     if(!isRoswell){
      assert.equal(await roles.locator('a[href^="/who-is-who.html?person="]').count(),2);
      assert.equal(await roles.locator('a[href^="https://"]').count(),2,'Each attribution cites the original publisher');
-     assert.match(await roles.innerText(),/does not adjudicate|not a claim|does not prove/i);
+     assert.match(await dna.locator('.dd-case-people').innerText(),/does not adjudicate|not a claim|does not prove/i);
     }
     const graph=dna.locator('details.dd-evidence-graph');
     assert.equal(await graph.count(),1,'Curated dossiers expose a separate graph disclosure');
