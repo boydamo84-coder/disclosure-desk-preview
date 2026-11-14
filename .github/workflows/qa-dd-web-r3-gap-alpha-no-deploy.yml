@@ -69,6 +69,15 @@ jobs:
           done
           curl -fsS --max-time 2 http://127.0.0.1:4175/ >/dev/null
           node scripts/test_r3_hypothesis_ui_chromium.cjs
+      - name: Upload standalone R3 test ZIP and fictional screenshots
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: disclosure-desk-r3-hypothesis-lab-offline-prototype
+          path: .r3-lab-preview/
+          include-hidden-files: true
+          retention-days: 14
+          if-no-files-found: error
       - name: Stop isolated preview server
         if: always()
         run: |
