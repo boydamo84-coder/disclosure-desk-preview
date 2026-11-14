@@ -1,0 +1,241 @@
+{
+  "version": 1,
+  "edition": "2026-11-14-draft",
+  "status": "editorial-review-required",
+  "ethics": "Public figures only. Roles and attributed public positions from linked sources. No personal phone numbers, addresses, subjective credibility rankings or fabricated social handles. Portraits require verified re-use permissions; current directory uses initials.",
+  "people": [
+    {
+      "id": "david-grusch",
+      "name": "David Grusch",
+      "category": [
+        "Hearing witness",
+        "Former intelligence official"
+      ],
+      "role": "2023 congressional UAP hearing witness",
+      "short": "Former US intelligence officer who testified to Congress about allegations of concealed UAP programmes.",
+      "position": "In his July 2023 opening statement, Grusch described allegations relayed to him by other individuals about classified UAP-related programmes. His statement expressly described much of this information as second-hand.",
+      "context": "The hearing establishes what was said under oath; it does not independently confirm each underlying allegation. His claims should be traced to original records and any publicly testable evidence.",
+      "sources": [
+        {
+          "label": "US House Oversight hearing & witness statements",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/"
+        },
+        {
+          "label": "Grusch opening statement (Congress.gov PDF)",
+          "url": "https://www.congress.gov/118/meeting/house/116282/witnesses/HHRG-118-GO06-Wstate-GruschD-20230726.pdf"
+        }
+      ],
+      "media": [
+        {
+          "label": "Opening statement — C-SPAN (YouTube)",
+          "url": "https://www.youtube.com/watch?v=lcrCMLVk614"
+        }
+      ],
+      "officialLinks": [],
+      "photo": null
+    },
+    {
+      "id": "ryan-graves",
+      "name": "Ryan Graves",
+      "category": [
+        "Hearing witness",
+        "Pilot",
+        "Advocate"
+      ],
+      "role": "Former US Navy pilot; Americans for Safe Aerospace",
+      "short": "A former naval aviator who has advocated for safer reporting of unidentified observations by aircrew.",
+      "position": "Graves testified to Congress in July 2023 about pilot experiences and shortcomings in UAP reporting systems. Americans for Safe Aerospace describes its mission as safety, research and de-identified reporting.",
+      "context": "Pilot reporting and advocacy are documented. The physical origin of specific observations requires separate evidence and should not be inferred from the number of stories reported.",
+      "sources": [
+        {
+          "label": "US House hearing and testimony",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/"
+        },
+        {
+          "label": "Americans for Safe Aerospace — official organisation",
+          "url": "https://www.safeaerospace.org/"
+        }
+      ],
+      "media": [
+        {
+          "label": "2023 congressional UAP hearing recording",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Americans for Safe Aerospace",
+          "url": "https://www.safeaerospace.org/"
+        }
+      ],
+      "photo": null
+    },
+    {
+      "id": "david-fravor",
+      "name": "David Fravor",
+      "category": [
+        "Hearing witness",
+        "Pilot"
+      ],
+      "role": "Retired US Navy commander and aviator",
+      "short": "Former naval aviator who described the 2004 encounter commonly discussed as the 'Tic Tac' incident.",
+      "position": "Fravor appeared before Congress in July 2023 and described his firsthand naval aviation experience concerning an unidentified observation.",
+      "context": "The testimony documents his account. Interpreting the nature, capabilities or origin of any object requires checking independently available sensor, flight and environmental data, not just repeating media summaries.",
+      "sources": [
+        {
+          "label": "US House hearing and Fravor written witness material",
+          "url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=116282"
+        },
+        {
+          "label": "Official hearing record (GovInfo)",
+          "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm"
+        }
+      ],
+      "media": [
+        {
+          "label": "2023 congressional hearing video and testimony",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/"
+        }
+      ],
+      "officialLinks": [],
+      "photo": null
+    },
+    {
+      "id": "ross-coulthart",
+      "name": "Ross Coulthart",
+      "category": [
+        "Journalist",
+        "Interviewer"
+      ],
+      "role": "Investigative journalist and NewsNation correspondent",
+      "short": "Australian journalist known for long-form reporting and interviews concerning UAP disclosure.",
+      "position": "NewsNation announced Coulthart as a special correspondent in November 2023. His public reporting includes interviews with witnesses and discussion of alleged government programmes.",
+      "context": "Journalistic interviews provide attributed accounts and leads; statements made by interviewees are not automatically independently corroborated by the broadcaster.",
+      "sources": [
+        {
+          "label": "NewsNation appointment — Nexstar Media Group",
+          "url": "https://www.nexstar.tv/newsnation-signs-ross-coulthart-as-special-correspondent/"
+        }
+      ],
+      "media": [
+        {
+          "label": "Reality Check: Road to Disclosure — NewsNation (YouTube)",
+          "url": "https://www.youtube.com/watch?v=wAur0awdEjw"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "NewsNation official reporting",
+          "url": "https://www.newsnationnow.com/"
+        }
+      ],
+      "photo": null
+    },
+    {
+      "id": "jeremy-corbell",
+      "name": "Jeremy Corbell",
+      "category": [
+        "Filmmaker",
+        "Journalist",
+        "Interviewer"
+      ],
+      "role": "Documentary filmmaker; Weaponized co-host",
+      "short": "Filmmaker and interview host whose work includes UAP witness accounts, imagery and investigative documentaries.",
+      "position": "The Weaponized programme describes Corbell's work as investigative journalism and documentary filmmaking related to UAP claims and public source material.",
+      "context": "Released footage or interview accounts should be evaluated against original context and documented source provenance. A documentary release does not itself verify a claim.",
+      "sources": [
+        {
+          "label": "Weaponized — About and host background",
+          "url": "https://www.weaponizedpodcast.com/about"
+        }
+      ],
+      "media": [
+        {
+          "label": "Jeremy Corbell's YouTube channel — episodes and interviews",
+          "url": "https://www.youtube.com/JeremyCorbell"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Weaponized official programme",
+          "url": "https://www.weaponizedpodcast.com/"
+        },
+        {
+          "label": "Video channel",
+          "url": "https://www.youtube.com/JeremyCorbell"
+        }
+      ],
+      "photo": null
+    },
+    {
+      "id": "george-knapp",
+      "name": "George Knapp",
+      "category": [
+        "Journalist",
+        "Interviewer"
+      ],
+      "role": "Investigative journalist; Weaponized co-host",
+      "short": "Long-serving investigative reporter known for reporting on UFO claims, Nevada stories and interviews.",
+      "position": "Weaponized identifies Knapp as its co-host and highlights his reporting about Bob Lazar, Area 51 and Skinwalker Ranch.",
+      "context": "Interviews, documentaries and claims should be evaluated by the underlying records and independent checks. Coverage of an allegation does not establish that the allegation is fact.",
+      "sources": [
+        {
+          "label": "Weaponized — About George Knapp",
+          "url": "https://www.weaponizedpodcast.com/about"
+        }
+      ],
+      "media": [
+        {
+          "label": "Weaponized interviews and reports — official programme",
+          "url": "https://www.weaponizedpodcast.com/show"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Weaponized official programme",
+          "url": "https://www.weaponizedpodcast.com/"
+        }
+      ],
+      "photo": null
+    },
+    {
+      "id": "mick-west",
+      "name": "Mick West",
+      "category": [
+        "Sceptical analyst",
+        "Researcher"
+      ],
+      "role": "Writer and sceptical investigator",
+      "short": "Researcher known for technical examination of unusual video and photographic claims and possible conventional explanations.",
+      "position": "West describes his work as sceptical investigation and technical image/video analysis, with Metabunk as his principal discussion and research website.",
+      "context": "A proposed conventional explanation should also be tested against original sensor context and alternatives. An analyst's model or reconstruction is not automatically a confirmed explanation for every witness account.",
+      "sources": [
+        {
+          "label": "Mick West — own biography and investigation methods",
+          "url": "https://mickwest.com/"
+        },
+        {
+          "label": "Metabunk — discussion and investigations",
+          "url": "https://www.metabunk.org/"
+        }
+      ],
+      "media": [
+        {
+          "label": "Technical analysis and publications",
+          "url": "https://mickwest.com/"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Mick West website",
+          "url": "https://mickwest.com/"
+        },
+        {
+          "label": "Metabunk",
+          "url": "https://www.metabunk.org/"
+        }
+      ],
+      "photo": null
+    }
+  ]
+}
