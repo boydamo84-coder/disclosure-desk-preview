@@ -1,4 +1,4 @@
-DISCLOSURE DESK — R3 ENCRYPTED HYPOTHESIS LAB · PREMIUM NAV / PROMPTS
+DISCLOSURE DESK — R3 GAP FINDER + ENCRYPTED HYPOTHESIS LAB
 ==================================================================
 This test ZIP is NOT the live website or an installed APK. There is no
 account login or cloud copy. This is an experimental passphrase-protected
@@ -6,10 +6,10 @@ single-browser LOCAL vault. Please use fictional/example data, not
 sensitive research, until a full security audit has been completed.
 
 TEST ON YOUR SAMSUNG GALAXY / TERMUX
-1. Extract the new ZIP into Downloads/R3_Lab_Verified_20261114.
+1. Extract the new ZIP into Downloads/R3_Research_Gaps_Android.
 2. Stop the existing Termux Python server (CTRL + C).
 3. In Termux, run:
-   cd ~/storage/downloads/R3_Lab_Verified_20261114
+   cd ~/storage/downloads/R3_Research_Gaps_Android
    pwd
    cat BUILD_INFO.txt
    grep -n 'ddConfirmDialog' index.html
@@ -37,6 +37,29 @@ DESKTOP
 Run from the extracted directory:
    python3 -m http.server 4175 --bind 127.0.0.1
 and open http://127.0.0.1:4175.
+
+NEW: SOURCE-LINKED RESEARCH GAPS (PRIVATE ALPHA)
+- On a fresh notebook, choose one of 3 featured investigations from the
+  public case dropdown. Other 9 entries are guide/catalogue references,
+  not individual incident case scans.
+- Open the Gaps tab. A gap means a structured field is NOT INDEXED in
+  THIS catalogue entry; it is NOT evidence that the original documents
+  lack that information, and it is never proof of any explanation.
+- Each suggestion explains the catalogue field, possible next action
+  and original linked public source. Nothing is fetched unless YOU
+  explicitly tap the external source link.
+- Tap Record research question to add it to your private notebook.
+  You may optionally link it to an existing hypothesis. This DOES NOT
+  alter that hypothesis or produce evidence or a truth score.
+- With encrypted saving enabled, accepted research questions become
+  part of the ciphertext and survive refresh/unlock and backups.
+- For a first test use Incognito with fictional notes: it is a
+  SEPARATE TEMPORARY profile and won't overwrite your regular Chrome
+  encrypted vault. Incognito data may disappear when closed.
+- Normal Chrome currently supports ONE encrypted notebook per
+  localhost browser profile. If an older encrypted vault exists,
+  unlock it. Do NOT delete a real notebook to test another public case.
+  Keep an encrypted backup separately before deliberate deletion.
 
 ENCRYPTION / SAVING BEHAVIOUR
 - Opt-in browser IndexedDB storage, encrypted with AES-256-GCM and a
