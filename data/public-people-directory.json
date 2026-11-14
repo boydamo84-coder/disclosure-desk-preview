@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "edition": "2026-11-14-release2-podcast-and-films-editorial-draft",
+  "edition": "2026-11-14-podcast-film-research-draft",
   "status": "research-copy-edit-needed",
   "ethics": "Public figures only. Roles and attributed public positions from linked sources. No personal phone numbers, addresses, subjective credibility rankings or fabricated social handles. Portraits require verified re-use permissions; current directory uses initials. Embeds load only after direct visitor interaction; third-party YouTube may set cookies when activated. Source links and dated claims need editorial signoff.",
   "people": [
@@ -90,7 +90,35 @@
           "context": "Records his public statement and oversight allegations; not video of an alleged recovered object."
         }
       ],
-      "socialPages": []
+      "socialPages": [],
+      "podcastEpisodes": [
+        {
+          "show": "Joe Rogan Experience",
+          "title": "Episode #2065 — David Grusch",
+          "date": "2023-11-21",
+          "url": "https://podcasts.apple.com/gb/podcast/2065-david-grusch/id360084272?i=1000644538784",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        },
+        {
+          "show": "Joe Rogan Experience",
+          "title": "Episode #2560 — David Grusch",
+          "date": "2026-09-30",
+          "url": "https://podcasts.apple.com/na/podcast/2560-david-grusch/id360084272?i=1000792423503",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": [
+        {
+          "title": "US House UAP hearing",
+          "year": "2023",
+          "role": "Witness",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/",
+          "type": "Hearing recording",
+          "context": "Official hearing recording, not a film production credit."
+        }
+      ]
     },
     {
       "id": "ryan-graves",
@@ -207,6 +235,26 @@
           "url": "https://www.safeaerospace.org/",
           "kind": "Official podcast directory"
         }
+      ],
+      "podcastEpisodes": [
+        {
+          "show": "Lex Fridman Podcast",
+          "title": "Episode #308 — Ryan Graves",
+          "date": "2022-08-01",
+          "url": "https://podcasts.apple.com/us/podcast/308-ryan-graves-ufos-fighter-jets-and-aliens/id1434243584?i=1000574663736",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": [
+        {
+          "title": "US House UAP hearing",
+          "year": "2023",
+          "role": "Witness",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/",
+          "type": "Hearing recording",
+          "context": "Official hearing recording, not a film production credit."
+        }
       ]
     },
     {
@@ -295,7 +343,35 @@
           "context": "Fravor recounts what he says he saw. This hearing clip is not footage of the actual 2004 encounter."
         }
       ],
-      "socialPages": []
+      "socialPages": [],
+      "podcastEpisodes": [
+        {
+          "show": "Lex Fridman Podcast",
+          "title": "Episode #122 — David Fravor",
+          "date": "2020-09-08",
+          "url": "https://podcasts.apple.com/us/podcast/122-david-fravor-ufos-aliens-fighter-jets-and/id1434243584?i=1000490482060",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        },
+        {
+          "show": "Joe Rogan Experience",
+          "title": "Episode #1361 — Fravor and Corbell",
+          "date": "2019-10-05",
+          "url": "https://podcasts.apple.com/us/podcast/1361-cmdr-david-fravor-jeremy-corbell/id360084272?i=1000644539473",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": [
+        {
+          "title": "US House UAP hearing",
+          "year": "2023",
+          "role": "Witness",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/",
+          "type": "Hearing recording",
+          "context": "Official hearing recording, not a film production credit."
+        }
+      ]
     },
     {
       "id": "ross-coulthart",
@@ -403,6 +479,34 @@
           "label": "NewsNation — official reporting and video channel",
           "url": "https://www.youtube.com/@NewsNation",
           "kind": "News outlet channel"
+        }
+      ],
+      "podcastEpisodes": [
+        {
+          "show": "WEAPONIZED",
+          "title": "The UFO Hearing — What Happened?",
+          "date": "2023-08-01",
+          "url": "https://podcasts.apple.com/us/podcast/the-ufo-hearing-what-happened-whats-next-guests-ross/id1664299388?i=1000623022943",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        },
+        {
+          "show": "Need to Know",
+          "title": "Ross Coulthart and Bryce Zabel — programme archive",
+          "date": "2021–2025",
+          "url": "https://podcasts.apple.com/gb/podcast/need-to-know/id1600409359",
+          "role": "Co-host, show archive",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": [
+        {
+          "title": "Road to Disclosure",
+          "year": "2026",
+          "role": "Presenter / investigative journalist",
+          "url": "https://www.youtube.com/watch?v=wAur0awdEjw",
+          "type": "TV special",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
       ]
     },
@@ -512,6 +616,42 @@
           "label": "Weaponized — official programme",
           "url": "https://www.weaponizedpodcast.com/",
           "kind": "Official website"
+        }
+      ],
+      "podcastEpisodes": [
+        {
+          "show": "WEAPONIZED",
+          "title": "The UFO Hearing — What Happened?",
+          "date": "2023-08-01",
+          "url": "https://podcasts.apple.com/us/podcast/the-ufo-hearing-what-happened-whats-next-guests-ross/id1664299388?i=1000623022943",
+          "role": "Co-host",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": [
+        {
+          "title": "Bob Lazar: Area 51 & Flying Saucers",
+          "year": "2018",
+          "role": "Director / producer",
+          "url": "https://www.youtube.com/watch?v=sZaE5rIavVA",
+          "type": "Documentary",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
+        },
+        {
+          "title": "Hunt for the Skinwalker",
+          "year": "2018",
+          "role": "Director",
+          "url": "https://www.youtube.com/watch?v=TczkJ6UAQ8A",
+          "type": "Documentary",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
+        },
+        {
+          "title": "TMZ Presents: UFO Revolution",
+          "year": "2024–2026",
+          "role": "Producer / participant",
+          "url": "https://tubitv.com/series/300002259/tmz-presents-ufo-revolution/season-2",
+          "type": "Docuseries",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
       ]
     },
@@ -630,6 +770,26 @@
           "label": "Mystery Wire — reporting site",
           "url": "https://www.mysterywire.com/",
           "kind": "Public editorial website"
+        }
+      ],
+      "podcastEpisodes": [
+        {
+          "show": "WEAPONIZED",
+          "title": "The UFO Hearing — What Happened?",
+          "date": "2023-08-01",
+          "url": "https://podcasts.apple.com/us/podcast/the-ufo-hearing-what-happened-whats-next-guests-ross/id1664299388?i=1000623022943",
+          "role": "Co-host",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": [
+        {
+          "title": "Investigation Alien",
+          "year": "2024",
+          "role": "Presenter / investigator",
+          "url": "https://www.netflix.com/title/81674441",
+          "type": "Docuseries",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
       ]
     },
@@ -774,7 +934,18 @@
           "url": "https://www.metabunk.org/",
           "kind": "Research community"
         }
-      ]
+      ],
+      "podcastEpisodes": [
+        {
+          "show": "Decoding the Gurus",
+          "title": "Interview with Mick West: UFOs, Aliens and Conspiracy Psychology",
+          "date": "2023-06-17",
+          "url": "https://podcasts.apple.com/us/podcast/interview-with-mick-west-ufos-aliens-and/id1531266667?i=1000617335022",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": []
     },
     {
       "id": "bob-lazar",
@@ -881,7 +1052,27 @@
           "context": "A contemporary account of his asserted work and claimed observations; testimony should not be confused with independent verification."
         }
       ],
-      "socialPages": []
+      "socialPages": [],
+      "podcastEpisodes": [
+        {
+          "show": "Joe Rogan Experience",
+          "title": "Episode #1315 — Bob Lazar and Jeremy Corbell",
+          "date": "2019-06-20",
+          "url": "https://podcasts.apple.com/us/podcast/1315-bob-lazar-jeremy-corbell/id360084272?i=1000644539536",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": [
+        {
+          "title": "Bob Lazar: Area 51 & Flying Saucers",
+          "year": "2018",
+          "role": "Interview subject",
+          "url": "https://www.youtube.com/watch?v=sZaE5rIavVA",
+          "type": "Documentary",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
+        }
+      ]
     },
     {
       "id": "jake-barber",
@@ -993,7 +1184,27 @@
           "context": "Long-form account presented by the original broadcaster; claims and any video evidence require independent source verification."
         }
       ],
-      "socialPages": []
+      "socialPages": [],
+      "podcastEpisodes": [
+        {
+          "show": "UFO News with Cristina Gomez",
+          "title": "Jake Barber Joins Congress After Calling It Powerless",
+          "date": "2026-11-09",
+          "url": "https://podcasts.apple.com/gb/podcast/jake-barber-joins-congress-after-calling-it-powerless/id1580449965?i=1000800838982",
+          "role": "Subject of news episode; not guest",
+          "context": "Reported discussion, not an appearance or interview with the person."
+        }
+      ],
+      "filmCredits": [
+        {
+          "title": "NewsNation Jake Barber retrieval interview special",
+          "year": "2025",
+          "role": "Interview subject",
+          "url": "https://www.youtube.com/watch?v=3dtA9w5ldHw",
+          "type": "TV interview special",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
+        }
+      ]
     },
     {
       "id": "steven-greer",
@@ -1111,6 +1322,26 @@
           "label": "Disclosure Project — official project page",
           "url": "https://disclosureprojects.com/",
           "kind": "Verified project page"
+        }
+      ],
+      "podcastEpisodes": [
+        {
+          "show": "The Resilient Show",
+          "title": "Breaking Interview with Dr. Steven Greer",
+          "date": "2024-11-25",
+          "url": "https://podcasts.apple.com/us/podcast/breaking-interview-with-dr-steven-greer-senate-hearing/id1695040954?i=1000678148970",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": [
+        {
+          "title": "Disclosure Project National Press Club event",
+          "year": "2001",
+          "role": "Organiser / presenter",
+          "url": "https://www.youtube.com/watch?v=katZjHUmBh0",
+          "type": "Press conference recording",
+          "context": "Original recorded public event, not a documentary feature."
         }
       ]
     },
@@ -1235,7 +1466,26 @@
           "url": "/rendlesham-forest-1980",
           "context": "The source-linked case file covers documents and evidence gaps, not an endorsement of a specific witness's account."
         }
-      ]
+      ],
+      "podcastEpisodes": [
+        {
+          "show": "Paranormal UFO Consciousness Podcast",
+          "title": "Rendlesham Forest: Larry Warren Breaks His Silence — Part 1",
+          "date": "2026-11-03",
+          "url": "https://podcasts.apple.com/us/podcast/rendelsham-forest-larry-warren-breaks-his-silence-the/id1560033573?i=1000799539315",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        },
+        {
+          "show": "Paranormal UFO Consciousness Podcast",
+          "title": "Rendlesham Forest: New Evidence — Part 2",
+          "date": "2026-11-04",
+          "url": "https://podcasts.apple.com/gb/podcast/rendelsham-forest-new-evidence-ufo-witnesses-the/id1560033573?i=1000799721433",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": []
     },
     {
       "id": "luis-elizondo",
@@ -1341,6 +1591,26 @@
           "label": "Luis Elizondo — official website",
           "url": "https://luiselizondo-official.com/"
         }
+      ],
+      "podcastEpisodes": [
+        {
+          "show": "Joe Rogan Experience",
+          "title": "Episode #2194 — Luis Elizondo",
+          "date": "2024-08-23",
+          "url": "https://podcasts.apple.com/us/podcast/2194-luis-elizondo/id360084272?i=1000666389836",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": [
+        {
+          "title": "Unidentified: Inside America's UFO Investigation",
+          "year": "2019–2020",
+          "role": "Featured investigator",
+          "url": "https://www.history.com/shows/unidentified-inside-americas-ufo-investigation",
+          "type": "Docuseries",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
+        }
       ]
     },
     {
@@ -1440,6 +1710,34 @@
         {
           "label": "Christopher Mellon — X (attributed by podcast host)",
           "url": "https://x.com/ChrisKMellon"
+        }
+      ],
+      "podcastEpisodes": [
+        {
+          "show": "Anomalous Review",
+          "title": "Episode #005 — Chris Mellon on UAP and National Security",
+          "date": "2024-09-12",
+          "url": "https://podcasts.apple.com/gb/podcast/005-chris-mellon-on-uap-national-security-government/id1762690003?i=1000669232420",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": [
+        {
+          "title": "Unidentified: Inside America's UFO Investigation",
+          "year": "2019–2020",
+          "role": "Featured participant",
+          "url": "https://www.history.com/shows/unidentified-inside-americas-ufo-investigation",
+          "type": "Docuseries",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
+        },
+        {
+          "title": "The Phenomenon",
+          "year": "2020",
+          "role": "Interview participant",
+          "url": "https://vailsymposium.org/speaker/christopher-mellon/",
+          "type": "Documentary",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
       ]
     },
@@ -1547,7 +1845,18 @@
           "label": "Galileo Project — Harvard",
           "url": "https://galileo.hsites.harvard.edu/organization"
         }
-      ]
+      ],
+      "podcastEpisodes": [
+        {
+          "show": "Theories of Everything",
+          "title": "Avi Loeb on Consciousness, UAPs and AI",
+          "date": "2022-09-09",
+          "url": "https://podcasts.apple.com/gb/podcast/avi-loeb-on-consciousness-uaps-ai-ce5-jacques-vall%C3%A9e/id1521758802?i=1000578980831",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": []
     },
     {
       "id": "jacques-vallee",
@@ -1631,6 +1940,34 @@
           "label": "Jacques Vallée — official published media",
           "url": "https://www.jacquesvallee.net/media/"
         }
+      ],
+      "podcastEpisodes": [
+        {
+          "show": "Joe Rogan Experience",
+          "title": "Episode #1574 — Jacques Vallée and James Fox",
+          "date": "2020-12-04",
+          "url": "https://podcasts.apple.com/gb/podcast/1574-jacques-vall%C3%A9e-james-fox/id360084272?i=1000644539319",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": [
+        {
+          "title": "Witness of Another World",
+          "year": "2018",
+          "role": "Research participant",
+          "url": "https://www.jacquesvallee.net/media/",
+          "type": "Documentary",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
+        },
+        {
+          "title": "The Phenomenon",
+          "year": "2020",
+          "role": "Interview participant",
+          "url": "https://www.jacquesvallee.net/media/",
+          "type": "Documentary",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
+        }
       ]
     },
     {
@@ -1710,7 +2047,59 @@
       ],
       "media": [],
       "socialPages": [],
-      "officialLinks": []
+      "officialLinks": [],
+      "podcastEpisodes": [
+        {
+          "show": "Film School Radio",
+          "title": "The Program — Director James Fox",
+          "date": "2025-01",
+          "url": "https://filmschoolradio.com/the-program-director-james-fox/",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        },
+        {
+          "show": "Astonishing Legends",
+          "title": "The Program with Director James Fox",
+          "date": "2024-12-15",
+          "url": "https://podcasts.apple.com/gb/podcast/the-program-with-director-james-fox/id923527373?i=1000680397754",
+          "role": "Guest",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": [
+        {
+          "title": "Out of the Blue",
+          "year": "2003",
+          "role": "Director / producer",
+          "url": "https://filmschoolradio.com/the-program-director-james-fox/",
+          "type": "Documentary",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
+        },
+        {
+          "title": "The Phenomenon",
+          "year": "2020",
+          "role": "Director",
+          "url": "https://tv.apple.com/gb/person/james-fox/umc.cpc.6nn94fbb6henu22kyijnrv1p9",
+          "type": "Documentary",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
+        },
+        {
+          "title": "Moment of Contact",
+          "year": "2022",
+          "role": "Director",
+          "url": "https://tv.apple.com/gb/person/james-fox/umc.cpc.6nn94fbb6henu22kyijnrv1p9",
+          "type": "Documentary",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
+        },
+        {
+          "title": "The Program",
+          "year": "2024",
+          "role": "Director / producer",
+          "url": "https://filmschoolradio.com/the-program-director-james-fox/",
+          "type": "Documentary",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
+        }
+      ]
     },
     {
       "id": "nick-pope",
@@ -1821,6 +2210,34 @@
         {
           "label": "Nick Pope — official memorial and legacy research",
           "url": "https://www.nickpope.net/life"
+        }
+      ],
+      "podcastEpisodes": [
+        {
+          "show": "Last Podcast on the Left",
+          "title": "UFOs in the UK: An Interview with Nick Pope",
+          "date": "2024-08-28",
+          "url": "https://podcasts.apple.com/gb/podcast/ufos-in-the-uk-an-interview-with-nick-pope/id437299706?i=1000666861672",
+          "role": "Guest (archival)",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        },
+        {
+          "show": "Celebrity Interviews",
+          "title": "Nick Pope: Inside the UFO Files",
+          "date": "2025-03-29",
+          "url": "https://podcasts.apple.com/gb/podcast/nick-pope-inside-the-ufo-files-and-ancient-aliens-live/id1505253570?i=1000701353562",
+          "role": "Guest (archival)",
+          "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
+        }
+      ],
+      "filmCredits": [
+        {
+          "title": "Ancient Aliens",
+          "year": "2010s–2020s",
+          "role": "TV contributor",
+          "url": "https://www.nickpope.net/life",
+          "type": "Documentary television",
+          "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
       ]
     }
