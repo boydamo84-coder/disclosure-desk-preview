@@ -1,5 +1,63 @@
 [
   {
+    "id": "659cf0a89699bd29549d",
+    "headline": "Presidential Unsealing and Reporting System for UAP Encounters (PURSUE)",
+    "source": "U.S. Department of War (.gov)",
+    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBlZ1RkSjRVOVF6SWhuRWF2NTFiV0g3UHc4Z3RSWXI3T09fQ3RiN29wVnlUMk9SOGpYZVZLTXNadjlvUl94R0ZrWlY3dmdSLVVaMWRvOE03T3lFZw?oc=5",
+    "date": "2026-11-14T15:54:01+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details.",
+    "relatedCoverage": [
+      {
+        "id": "f4697b9c09717c44c56b",
+        "headline": "Presidential Unsealing and Reporting System for UAP Encounters (PURSUE)",
+        "source": "U.S. Department of War (.gov)",
+        "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE1Qa0RNbzhZOXczN0lZOU9EWkx3MV9vVjFicnpIdWJzT1MwRVliOV8yMElQcG1EUU8yTEJVMkVHbTZsSW5GUE9sZXp6Wkg?oc=5",
+        "date": "2026-11-11T20:05:10+00:00",
+        "category": "UAP",
+        "priority": "standard",
+        "desc": "Read the source article for details."
+      }
+    ]
+  },
+  {
+    "id": "701d7b7042a44bf83e42",
+    "headline": "Former Pentagon UFO investigator says jellyfish-shaped object's motion resembles a kite",
+    "source": "Mezha.net",
+    "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxONXNaUUFxd0RXUW9hSlBUVGtVTDktakF2WHMyX1dVbWJGT3BzSjY4TXpCYmRSY0JHSVZVVXloQTlCUmZRWkZtdUUxSmkwcUtsYVlXMnV2aUVHTTZQWVM4UXQ1VGNlVWhQbjlpbVY4SUNrcWZpX1YtanUyeDdtWEhRUHpxRHE?oc=5",
+    "date": "2026-11-14T14:15:36+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://mezha.net/eng/wp-content/mezha-og-r205/kd_image_generate/eng/3744459-4d83a8b2f97f.jpg",
+    "imageSource": "Publisher Open Graph image"
+  },
+  {
+    "id": "6e99e2a110b5f73beee6",
+    "headline": "Pentagon's former UFO investigator offers simple theory for mysterious jellyfish-shaped object on video",
+    "source": "Yahoo",
+    "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPSzVXa2hSMTBNbV9hTDlKOVRrVnJKdXhEX29EVUZ1WDk5UTl1SG9MTktPX2MwM2l5TkRqMEJRWGVUUmwxMTFkc1FQRlZJVlNpMHdxbTBJLUZfTkc0MUlVQUN0R3o4SUxFSzUycFYxYTc1QU5pRjg5UDZZUzJBbWdLMGZVSkZIOUZJeDI4ZG5oUjhxaU9aQTJ2SW9lNUZNUVlo?oc=5",
+    "date": "2026-11-14T14:00:38+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://s.yimg.com/lo/mysterio/api/6ce9ef1391866030971e5c5f484063cc8db3b884098dace31115974a87c2a7e4/lightyear_networkapi/resizefill_w1200%3Bquality_80%3Bformat_jpg/https%3A%2F%2Fmedia.zenfs.com%2Fen%2Ffox_news_text_979%2F394abb73656d32761e836df476ef7567",
+    "imageSource": "Publisher Open Graph image"
+  },
+  {
+    "id": "64144571474d5464748e",
+    "headline": "‘Why are the aliens so interested in the United States?’ SETI scientist Seth Shostak questions UFO sightings",
+    "source": "Starlust.org",
+    "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNQld5WHlQbGZVb2VHREw5cFd1aHYtQmtPdW9jUlAxb3RRY2E5STROb0lQVWhMeFNpWDgxbHp5NktkVGRjVkNFQmlRV3k3dE5SNm9rYjVuWUdGYnVNUXpuc1FmcnREX3Q4YlgyWTFpZ0F4bGNSVkVzMFdzWlBLaHotbHA2N3gwNEx0amVHSkhFbVpjeUdMWGxMSkJIdndta09PN216bkpuaVFFTUJOWGw2dElJb2JQUWMxTjNRZkNuNGEzMm9VTmxMNVEwZlNCdTZFNFZsV2Zn?oc=5",
+    "date": "2026-11-14T12:40:15+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://media.pubninja.com/galleries/brand-7/why-are-the-aliens-so-interested-in-the-united-states-seti-scientist-seth-shostak-questions-ufo-sigh-mwg9frwh/thumbnail/poster.webp?v=1794651957225",
+    "imageSource": "Publisher Open Graph image"
+  },
+  {
     "id": "61099c6f74e6df96c2e7",
     "headline": "Tentacled UFO? Experts have explanation for bizarre Alaskan sight",
     "source": "FOX 8 News",
@@ -32,6 +90,16 @@
         "desc": "Read the source article for details."
       },
       {
+        "id": "a8a6a440dd98949d7e1f",
+        "headline": "Tentacled UFO? Experts have explanation for bizarre Alaskan sight",
+        "source": "NewsNation",
+        "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQQzkycVU5MlV1dDk1NWtNY2VCSDV0b08tR0t4UHhpWlp0bm81Y2t3dnZiTXNZX1lEQlVUN0pEa0NRVm0yclRPamlreU53Um5OSXpaRDdUX2J0LWZKbnByUWxWaExsNzZyZkdrUWRJU1d6b1BLbUIxTF8xUGQ2MWVtTzFxamNMemtGd1RwcXA1cXFvaGN4TWpmQlZUek5IVVkxSEVOVmtDcXRjLUlzTmt0R2owLXZCT1RGaW5DX9IBwgFBVV95cUxNYllyTVRJU19LSHdCVGViM1JsczdsdUFTSUhqU2lGaVdZN2ZhZEdYNV9Sb1E0cU9FalFKMXJhV1FkRXlZMnQ2RkJEU0NKR2RkM1ZPWERxNmgtaFc1ZlBfRENLVllPbV9zZzVyYXBQZVhoT2RzOXdzZnBBblVMUVBSMEFQVWJMYXRobHREaWhtTm9lSFV0QkwwWW1HT0lyNXg1ejBQY1h6OGVMb0VBYlBEVWxJLTBvcjcwVTlPQmFobDh2UQ?oc=5",
+        "date": "2026-11-12T12:02:09+00:00",
+        "category": "UAP",
+        "priority": "standard",
+        "desc": "Read the source article for details."
+      },
+      {
         "id": "ca82d001d6f8189602cf",
         "headline": "Tentacled UFO? Experts have explanation for bizarre Alaskan sight",
         "source": "NewsNation",
@@ -42,16 +110,6 @@
         "desc": "Read the source article for details.",
         "imageUrl": "https://www.newsnationnow.com/wp-content/uploads/sites/108/2026/11/jesse-weber-1.png?w=1280",
         "imageSource": "Publisher Open Graph image"
-      },
-      {
-        "id": "a8a6a440dd98949d7e1f",
-        "headline": "Tentacled UFO? Experts have explanation for bizarre Alaskan sight",
-        "source": "NewsNation",
-        "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQQzkycVU5MlV1dDk1NWtNY2VCSDV0b08tR0t4UHhpWlp0bm81Y2t3dnZiTXNZX1lEQlVUN0pEa0NRVm0yclRPamlreU53Um5OSXpaRDdUX2J0LWZKbnByUWxWaExsNzZyZkdrUWRJU1d6b1BLbUIxTF8xUGQ2MWVtTzFxamNMemtGd1RwcXA1cXFvaGN4TWpmQlZUek5IVVkxSEVOVmtDcXRjLUlzTmt0R2owLXZCT1RGaW5DX9IBwgFBVV95cUxNYllyTVRJU19LSHdCVGViM1JsczdsdUFTSUhqU2lGaVdZN2ZhZEdYNV9Sb1E0cU9FalFKMXJhV1FkRXlZMnQ2RkJEU0NKR2RkM1ZPWERxNmgtaFc1ZlBfRENLVllPbV9zZzVyYXBQZVhoT2RzOXdzZnBBblVMUVBSMEFQVWJMYXRobHREaWhtTm9lSFV0QkwwWW1HT0lyNXg1ejBQY1h6OGVMb0VBYlBEVWxJLTBvcjcwVTlPQmFobDh2UQ?oc=5",
-        "date": "2026-11-12T08:50:56+00:00",
-        "category": "UAP",
-        "priority": "standard",
-        "desc": "Read the source article for details."
       },
       {
         "id": "5c0856159b7db38ac0f2",
@@ -66,18 +124,6 @@
         "imageSource": "Publisher Open Graph image"
       }
     ]
-  },
-  {
-    "id": "64144571474d5464748e",
-    "headline": "‘Why are the aliens so interested in the United States?’ SETI scientist Seth Shostak questions UFO sightings",
-    "source": "starlust.org",
-    "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNQld5WHlQbGZVb2VHREw5cFd1aHYtQmtPdW9jUlAxb3RRY2E5STROb0lQVWhMeFNpWDgxbHp5NktkVGRjVkNFQmlRV3k3dE5SNm9rYjVuWUdGYnVNUXpuc1FmcnREX3Q4YlgyWTFpZ0F4bGNSVkVzMFdzWlBLaHotbHA2N3gwNEx0amVHSkhFbVpjeUdMWGxMSkJIdndta09PN216bkpuaVFFTUJOWGw2dElJb2JQUWMxTjNRZkNuNGEzMm9VTmxMNVEwZlNCdTZFNFZsV2Zn?oc=5",
-    "date": "2026-11-14T10:55:31+00:00",
-    "category": "UAP",
-    "priority": "standard",
-    "desc": "Read the source article for details.",
-    "imageUrl": "https://media.pubninja.com/galleries/brand-7/why-are-the-aliens-so-interested-in-the-united-states-seti-scientist-seth-shostak-questions-ufo-sigh-mwg9frwh/thumbnail/poster.webp?v=1794651957225",
-    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "5637ec26a4de0468b9a0",
@@ -194,6 +240,30 @@
     "imageSource": "Publisher Open Graph image"
   },
   {
+    "id": "6a90228e04892f0d6bdf",
+    "headline": "Could new telescopes solve the UFO mystery? Avi Loeb explains",
+    "source": "NewsNation",
+    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQb2s4ZEttSlVyeGFiSHcxa21oQmNrekt0Ym1uOFVDS1NhTW5MUm1JNC1VSTVOVk1jNzhDd1ZCdXQ3dDVHdS1GNjBmRDEtT1M3N0UyVjVTWTdvNkw1TTVFYUc2Q3VkTmw3d1FWV3RqWU8wRXpad21qNEFDZzFOdnk2Y3lHeEhMcG0xSGtEVDI1TWhxa2F2dUhtSC1mbGZxRXFMMGpaMnFMaDlZdnVKRGsxZjZtazhDT1nSAbwBQVVfeXFMTmt5S2RYYUkzaWFwa3JMS1l0c3ZVYThqVHlXbDFUQ2UtYUxvYkd6ZGJ0ZE1DYTJ6WGpPNzJlU1gtQzl2U0htZHJpSHN4SkVBMjR2OExOLTJnUkNwWWRhU0puMWQxX2lUWUhxcWZSQllGMFk0cnRObExacVZWRHd4b3JoaHlXcHd0eDFXdUQxeU5Pd3hNTUMxdGNtdkpWLVB2RWFCQk5tNDUzaUJpeVU1cENjY204MWM0eGlYR3k?oc=5",
+    "date": "2026-11-13T05:31:04+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://www.newsnationnow.com/wp-content/uploads/sites/108/2026/11/6af66c69245a02.40322849.jpg?w=1280",
+    "imageSource": "Publisher Open Graph image"
+  },
+  {
+    "id": "4a8d90ee9576fdb33f32",
+    "headline": "UAP EP 242 Disclosure 2027 with Jordan Flowers",
+    "source": "97.9 WRMF",
+    "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNU1A1Wm5Wa3YtTTMxNG40OGhrX3U1WEFOSmJZUjZaeDBUbW5pS0QwTHJKbWhKSUNVQW8tMkFKYVpaQlVQbzlxYXpXb0RwdmxzN1pleG15d3JvUkVTREdCdlg2TDNXN1lINEpOMXp1aF9iU181UkpHcHNDTkw5LUYzNzRn?oc=5",
+    "date": "2026-11-13T05:00:00+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://www.wrmf.com/wp-content/uploads/2023/07/cropped-WRMF_blacklong.png",
+    "imageSource": "Publisher Open Graph image"
+  },
+  {
     "id": "616bbdc0bfc0412c0b52",
     "headline": "New UFO-spotting telescope planned, Avi Loeb says",
     "source": "NewsNation",
@@ -203,7 +273,19 @@
     "priority": "standard",
     "desc": "Read the source article for details.",
     "imageUrl": "https://www.newsnationnow.com/wp-content/uploads/sites/108/2025/11/GettyImages-1093919978.jpg?w=1280",
-    "imageSource": "Publisher Open Graph image"
+    "imageSource": "Publisher Open Graph image",
+    "relatedCoverage": [
+      {
+        "id": "d171291cb25e3112b9e0",
+        "headline": "New UFO-spotting telescope planned, Avi Loeb says | The Hill",
+        "source": "NewsNation",
+        "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNUmV2MzZVbWZIVW9sNTE5RDhfYWhwMklQWm5COWxhQTJJWnhvbDFDaWh0eV84S2QxOTF0N1lMRUlqMTVTNU9iRy1wZWk2UzRJY1VVZTBkSTExYU1RUmVCQWlwQzlqeTVQR3Uzd05IMEplVHpwNFQ0UGFHTDNjdTlDSk03MjFreFNySHJoMS02RHNNSVBvLWxsYzVQX0Z4U0pyLXBPemdR?oc=5",
+        "date": "2026-11-13T00:17:55+00:00",
+        "category": "UAP",
+        "priority": "standard",
+        "desc": "Read the source article for details."
+      }
+    ]
   },
   {
     "id": "f5c8974225f656c633b6",
@@ -309,9 +391,7 @@
     "date": "2026-11-12T06:53:37+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details.",
-    "imageUrl": "https://static.kinoafisha.info/k/movie_shots/canvas/1200x630/upload/trailers/177920522746a2fcdd661c16cc5618ab4adcc9fc30.jpg",
-    "imageSource": "Publisher Open Graph image"
+    "desc": "Read the source article for details."
   },
   {
     "id": "2073c101fc6f3fb4945f",
@@ -394,16 +474,6 @@
     "imageSource": "Publisher Open Graph image"
   },
   {
-    "id": "f4697b9c09717c44c56b",
-    "headline": "Presidential Unsealing and Reporting System for UAP Encounters (PURSUE)",
-    "source": "U.S. Department of War (.gov)",
-    "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE1Qa0RNbzhZOXczN0lZOU9EWkx3MV9vVjFicnpIdWJzT1MwRVliOV8yMElQcG1EUU8yTEJVMkVHbTZsSW5GUE9sZXp6Wkg?oc=5",
-    "date": "2026-11-11T20:05:10+00:00",
-    "category": "UAP",
-    "priority": "standard",
-    "desc": "Read the source article for details."
-  },
-  {
     "id": "107fb486cdcc4eb07fbe",
     "headline": "“Only God And The Government Know”: Giant Tentacled UFO Spotted Over Alaska!",
     "source": "Yahoo",
@@ -460,6 +530,8 @@
     "category": "UAP",
     "priority": "standard",
     "desc": "Read the source article for details.",
+    "imageUrl": "https://hermes.media.transform.aol.com/e0b365724bcf856fed87d4416db73587c824154f/w_1200,c_scale,f_auto,q_auto/https://hermes.media.static.aol.com/media/2026/11/11/854871c4-98ae-32da-89df-3a1a001abeb6/eebe0476-ba2a-40c9-b3ea-fb6bb65fda80.jpg",
+    "imageSource": "Publisher Open Graph image",
     "relatedCoverage": [
       {
         "id": "dca3532d7edc6b0b715f",
@@ -473,9 +545,7 @@
         "imageUrl": "https://statico.soapcentral.com/editor/2026/11/e95d3-17943877957721-1920.jpg",
         "imageSource": "Publisher Open Graph image"
       }
-    ],
-    "imageUrl": "https://hermes.media.transform.aol.com/e0b365724bcf856fed87d4416db73587c824154f/w_1200,c_scale,f_auto,q_auto/https://hermes.media.static.aol.com/media/2026/11/11/854871c4-98ae-32da-89df-3a1a001abeb6/eebe0476-ba2a-40c9-b3ea-fb6bb65fda80.jpg",
-    "imageSource": "Publisher Open Graph image"
+    ]
   },
   {
     "id": "6b74f90cd0bd266163fb",
@@ -497,9 +567,7 @@
     "date": "2026-11-10T19:32:15+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details.",
-    "imageUrl": "https://i.ytimg.com/vi/VoLJzAUb44U/hqdefault.jpg?format=natural",
-    "imageSource": "Publisher Open Graph image"
+    "desc": "Read the source article for details."
   },
   {
     "id": "1bc969e7adad34aa8512",
@@ -509,9 +577,7 @@
     "date": "2026-11-10T19:15:30+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details.",
-    "imageUrl": "https://www.youtube.com/watch?v=8LRPIs0-vl8&feature=youtu.be",
-    "imageSource": "Publisher Open Graph image"
+    "desc": "Read the source article for details."
   },
   {
     "id": "21fc7f24f5fc81b3704d",
@@ -841,9 +907,7 @@
     "date": "2026-11-10T16:45:57+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details.",
-    "imageUrl": "https://media.pubninja.com/videos/brand-7/sl-seth-shostak-interview-final-mwaoqeab/thumbs/poster_1280x720.webp",
-    "imageSource": "Publisher Open Graph image"
+    "desc": "Read the source article for details."
   },
   {
     "id": "b40153c9ddd7039cf387",
@@ -1102,8 +1166,7 @@
     "category": "UAP",
     "priority": "standard",
     "desc": "Read the source article for details.",
-    "imageUrl": "https://nowtoronto.com/wp-content/uploads/2023/08/Now-Toronto.jpg",
-    "imageSource": "Publisher Open Graph image"
+    "country": "Canada"
   },
   {
     "id": "c017ece44261e3de7ee8",
