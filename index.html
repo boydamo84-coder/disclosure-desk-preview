@@ -2614,14 +2614,20 @@ function ddEvidenceDNAHtml(record){
   '<button type="button" class="outline" data-radar-compare>Compare selected statements</button>'+
   '<p class="muted small">Side-by-side reading aid only. No contradiction or dishonest account is automatically identified.</p>'+
   '<div data-radar-output role="status" aria-live="polite">'+ddRadarResultHtml(pair)+'</div></details>':'';
- return '<details class="dd-evidence-dna" style="border:1px solid #a88951;border-radius:12px;margin:16px 0;padding:13px;background:#122637">'+
+ const graphPanel=sourceGraph?'<details class="dd-evidence-graph" style="margin:14px 0;border:1px solid #628598;border-radius:11px;padding:13px">'+
+  '<summary style="color:#e5c894;cursor:pointer;font-weight:750">◇ Evidence Relationship Graph · Source connections (R2 preview)</summary>'+
+  '<p class="muted small">Trace how editorial case summaries cite original pages. Dashed lines mean catalogue links or unreviewed citations, not independently verified incidents.</p>'+
+  '<label>View graph scope <select data-graph-mode class="field" aria-label="Evidence graph scope" style="max-width:100%;width:270px;margin:8px 0">'+
+  '<option value="current">This case only</option><option value="all">All currently curated cases</option></select></label>'+
+  '<div data-graph-output>'+ddEvidenceGraphHtml('current',String(record.id))+'</div></details>':'';
+ return '<details class="dd-evidence-dna" data-case-id="'+esc(String(record.id))+'" style="border:1px solid #a88951;border-radius:12px;margin:16px 0;padding:13px;background:#122637">'+
   '<summary style="cursor:pointer;color:#e6c48e;font-weight:750">◇ Evidence DNA · Source lineage (R2 preview)</summary>'+
   '<p class="muted small">How many links refer to distinct source pages, and which claims can be traced to an original document? A source count is not a witness count.</p>'+
   '<p><strong>'+inventory.items.length+' distinct source URL(s)</strong> · '+inventory.duplicateReferences+
   ' repeated reference(s) · <strong>Independent accounts: not assessed</strong></p>'+
   '<p class="muted small">URLs are de-duplicated conservatively (e.g. tracking parameters removed). Different URLs may still repeat one account; we do not automatically call them independent.</p>'+
   (rows?'<ol style="padding-left:20px">'+rows+'</ol>':'<p class="muted small">No public source URLs are catalogued for this item yet.</p>')+
-  '<h4>Source-linked claim review</h4>'+lineage+radar+
+  '<h4>Source-linked claim review</h4>'+lineage+radar+graphPanel+
   '<p class="muted small">'+esc(evidence.caution)+' This research preview does not publish private notes, witness data or personal research.</p>'+
   '</details>';
 }
@@ -2657,6 +2663,69 @@ document.addEventListener('click',event=>{
  const result=window.DDEvidenceDNA?.compareSelections?.(
   [...ddEvidenceDnaCaseGraphs.values()],parseValue('a'),parseValue('b'));
  output.innerHTML=ddRadarResultHtml(result);
+});
+// Read-only, bounded source graph. SVG is decorative; the adjacent evidence list
+// is the keyboard/screen-reader alternative and links to the original documents.
+function ddEvidenceGraphHtml(mode,caseId){
+ const data=window.DDEvidenceDNA?.buildRelationshipGraph?.(
+  [...ddEvidenceDnaCaseGraphs.values()],mode==='all'?'all':caseId);
+ if(!data?.valid||!data.nodes.length)return '<p class="muted small">No validated public source graph is available for this case.</p>';
+ const groups={case:[],claim:[],document:[]};
+ data.nodes.forEach(n=>{if(groups[n.type])groups[n.type].push(n)});
+ const positions=new Map(),xs={case:22,claim:333,document:680},widths={case:250,claim:300,document:280};
+ const count=Math.max(groups.case.length,groups.claim.length,groups.document.length);
+ const height=Math.max(185,78+count*76);
+ const labels={case:'Case dossiers',claim:'Draft claim summaries',document:'Original source pages'};
+ const heads=Object.keys(groups).map(type=>'<text x="'+xs[type]+'" y="21" font-size="14" font-weight="700" fill="#e8cb91">'+esc(labels[type])+'</text>').join('');
+ const blocks=[];
+ for(const type of ['case','claim','document']){
+  groups[type].forEach((node,i)=>{
+   const x=xs[type],y=40+i*76,w=widths[type];
+   positions.set(node.id,{x,y,w});
+   const fill=type==='case'?'#1a405b':type==='claim'?'#273849':'#143b3f';
+   blocks.push('<g><rect x="'+x+'" y="'+y+'" width="'+w+'" height="52" rx="9" fill="'+fill+'" stroke="#718698"/>'+
+    '<text x="'+(x+10)+'" y="'+(y+22)+'" fill="#f6f1e9" font-size="13">'+
+    esc(node.label.slice(0,type==='claim'?36:30))+(node.label.length>(type==='claim'?36:30)?'…':'')+'</text>'+
+    '<text x="'+(x+10)+'" y="'+(y+40)+'" fill="#e8c88a" font-size="11">'+
+    esc(type==='claim'?'Editorial draft':type==='document'?'Source reference':'Case context')+'</text></g>');
+  });
+ }
+ const lines=data.edges.map(edge=>{
+  const a=positions.get(edge.from),b=positions.get(edge.to);
+  if(!a||!b)return '';
+  const x1=a.x+a.w,y1=a.y+26,x2=b.x,y2=b.y+26;
+  const c=(x1+x2)/2;
+  const verified=edge.reviewStatus==='reviewed';
+  return '<path d="M '+x1+' '+y1+' C '+c+' '+y1+' '+c+' '+y2+' '+x2+' '+y2+
+   '" fill="none" stroke="'+(verified?'#8fc8b1':'#b49b6b')+'" stroke-width="2"'+
+   (verified?'':' stroke-dasharray="5 5"')+'/>';
+ }).join('');
+ const list=data.edges.map(edge=>{
+  const from=data.nodes.find(n=>n.id===edge.from),to=data.nodes.find(n=>n.id===edge.to);
+  if(!from||!to)return '';
+  const relation=edge.relation==='catalogues-editorial-summary'?'includes editorial summary':
+    edge.relation==='cites-source-page'?'cites source page':edge.relation.replace(/_/g,' ');
+  return '<li><strong>'+esc(from.label.slice(0,130))+'</strong> · '+esc(relation)+' · <strong>'+esc(to.label.slice(0,130))+
+   '</strong> <span class="muted small">('+esc(edge.reviewStatus)+')</span>'+
+   (edge.evidence?.url?'<p class="muted small"><a target="_blank" rel="noopener noreferrer" href="'+esc(edge.evidence.url)+'">Inspect cited source ↗</a>'+
+   ' · '+esc(edge.evidence.locator||'Source context not supplied')+'</p>':'')+'</li>';
+ }).filter(Boolean).slice(0,80).join('');
+ return '<p class="muted small" data-graph-summary>'+data.caseCount+' case dossier(s), '+data.claimCount+
+  ' editorial draft statement(s), '+data.documentCount+' distinct cited source page(s), '+data.edges.length+
+  ' catalogued relationship(s). <strong>Verified cross-case connections: 0.</strong></p>'+
+  '<div style="max-width:100%;overflow:hidden"><svg class="dd-source-graph-svg" viewBox="0 0 980 '+height+
+  '" width="100%" role="img" aria-label="Source citation graph; full accessible list follows" style="display:block;width:100%;height:auto">'+
+  heads+lines+blocks.join('')+'</svg></div>'+
+  '<details style="margin:8px 0"><summary>Readable source relationship list ('+data.edges.length+')</summary>'+
+  '<ol style="padding-left:22px">'+list+'</ol></details>'+
+  '<p class="muted small">'+esc(data.caution)+(data.truncated?' Display limited for readability.':'')+'</p>';
+}
+document.addEventListener('change',event=>{
+ const control=event.target?.closest?.('select[data-graph-mode]');
+ if(!control)return;
+ const output=control.closest('.dd-evidence-graph')?.querySelector('[data-graph-output]');
+ const record=control.closest('.dd-evidence-dna')?.getAttribute('data-case-id');
+ if(output&&record)output.innerHTML=ddEvidenceGraphHtml(control.value,record);
 });
 const DD_FOLLOW_KEY='dd_followed_cases_v1';
 function ddReadFollowed(){try{const x=JSON.parse(localStorage.getItem(DD_FOLLOW_KEY)||'{}');return x&&typeof x==='object'&&!Array.isArray(x)?x:{}}catch{return {}}}
