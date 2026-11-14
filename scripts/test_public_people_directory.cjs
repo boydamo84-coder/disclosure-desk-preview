@@ -37,7 +37,7 @@ for(const p of dir.people){
  if(p.photo!==null){
   assert(isSafe(p.photo.url)&&isSafe(p.photo.source)&&p.photo.credit,
    'A portrait must have a secure source, publisher and attribution: '+p.name);
-  assert(p.photo.status==='source-and-licence-reviewed'&&['Public domain (US federal government)','CC0 1.0','CC BY 3.0','CC BY 4.0','CC BY-SA 4.0'].includes(p.photo.license),
+  assert(p.photo.status==='source-and-licence-reviewed'&&['Public domain (US federal government)','CC0 1.0','CC BY 2.0','CC BY 3.0','CC BY 4.0','CC BY-SA 4.0'].includes(p.photo.license),
    'Portrait only appears with reviewed and permitted source metadata: '+p.name);
   assert(p.photo.source.includes('commons.wikimedia.org/wiki/File:'),
    'Reuse page must document rights and identity: '+p.name);portraits++;
@@ -70,6 +70,13 @@ assert(app.includes('profileRelatedCases')&&app.includes('profilePodcasts')&&app
 assert(!page.includes('17 draft profiles'),'Page count is not stale');
 assert(dir.people.filter(p=>p.category.includes('Congress')).length>=10,'Congressional advocates included');
 assert(dir.people.filter(p=>p.category.includes('NASA UAP study')).length===17,'NASA study panel and its coordinator represented');
+
+for(const id of ['ross-coulthart','george-knapp','mick-west']){
+ const p=dir.people.find(row=>row.id===id);
+ assert(p?.photo?.url&&p.photo.source?.startsWith('https://commons.wikimedia.org/wiki/File:'),
+  'Additional credited Commons photo must link its source page: '+id);
+}
+assert.equal(portraits,20,'R2 profile photo inventory after source-backed expansion');
 assert(app.includes('DDPeopleDirectoryBack')&&app.includes('paintPortrait'),'Native Back and licensed portrait renderer present');
 
 assert(page.includes('public-domain or Creative Commons sources'),
