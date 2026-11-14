@@ -48,6 +48,30 @@ function openPerson(person,updateUrl=true){
   '</div></li>').join('');
  $('profileArticles').innerHTML=renderList(person.articles,{empty:'No separately verified media references added yet.'});
  $('profileSocials').innerHTML=renderList(person.socialPages,{empty:"No personal social media account has been positively attributed from an official source. We won't guess or link fan accounts."});
+ const episodes=Array.isArray(person.podcastEpisodes)?person.podcastEpisodes.slice(0,24):[];
+ $('profilePodcasts').innerHTML=episodes.length?episodes.map(e=>{
+  const url=safeUrl(e.url);
+  if(!url)return '';
+  return '<article class="source-entry"><strong>'+esc(e.title)+'</strong><p class="muted small">'+
+   esc(e.show)+' · '+esc(e.date)+' · '+esc(e.role)+'</p><p class="muted small">'+esc(e.context||'Original publisher episode')+'</p>'+
+   '<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">Open podcast episode ↗</a></article>';
+ }).join(''):'<p class="muted small">No original episode has been verified yet.</p>';
+ const films=Array.isArray(person.filmCredits)?person.filmCredits.slice(0,24):[];
+ $('profileFilms').innerHTML=films.length?films.map(f=>{
+  const url=safeUrl(f.url);
+  if(!url)return '';
+  return '<article class="source-entry"><strong>'+esc(f.title)+'</strong><p class="muted small">'+
+   esc(f.year)+' · '+esc(f.type)+' · '+esc(f.role)+'</p><p class="muted small">'+
+   esc(f.context||'Verify original credits and presentation')+'</p>'+
+   '<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">Publisher / credit source ↗</a></article>';
+ }).join(''):'<p class="muted small">No film or documentary appearance has yet been verified from a reliable source. This is not a claim that none exists.</p>';
+ const related=(Array.isArray(person.relatedCases)?person.relatedCases:[]).filter(c=>c&&/^\/[a-z0-9-]+$/.test(c.url));
+ const relatedCard=$('profileRelatedCard');
+ if(relatedCard){
+  relatedCard.classList.toggle('hidden',related.length===0);
+  $('profileRelatedCases').innerHTML=related.map(c=>'<p><a href="'+esc(c.url)+'">'+esc(c.label)+'</a>'+
+   '<span class="muted small"> · '+esc(c.context||'Check source documents')+'</span></p>').join('');
+ }
  const videoHost=$('profileVideoPlayers');videoHost.replaceChildren();
  for(const v of Array.isArray(person.videos)?person.videos.slice(0,8):[]){
   if(!supportedVideoId(v.youtubeId))continue;
@@ -93,7 +117,7 @@ function renderCards(){
  const kind=$('peopleCategory').value;
  const results=people.filter(p=>{
   if(kind!=='all'&&!(p.category||[]).includes(kind))return false;
-  const searchable=[p.name,p.short,p.role,p.position,...(p.category||[])].join(' ').toLocaleLowerCase();
+  const searchable=[p.name,p.short,p.role,p.position,...(p.category||[]),...(p.biography||[]),...(p.milestones||[]).map(m=>m.title||''),...(p.podcastEpisodes||[]).map(e=>e.title+' '+e.show),...(p.filmCredits||[]).map(f=>f.title)].join(' ').toLocaleLowerCase();
   return !query||searchable.includes(query);
  });
  $('peopleStatus').textContent=results.length+' people match · Source-linked editorial profiles';
