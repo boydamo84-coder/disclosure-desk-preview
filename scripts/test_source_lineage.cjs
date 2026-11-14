@@ -33,7 +33,7 @@ assert.equal(audit.reviewedReferences[0].evidence.url,
 assert.match(audit.reviewedReferences[0].evidence.locator,/The Roswell Incident/);
 assert.match(audit.reviewedReferences[0].evidence.context,/NOT evidence/i);
 assert.equal(dna.traceClaim(roswell,'roswell-bluebook-records').reviewedDependencyCount,0,
- 'NARA's checked GAO mention is not an upstream derivation');
+ "NARA’s checked GAO mention is not an upstream derivation");
 const original=dna.sourceLineageAudit(rendlesham);
 assert.equal(original.valid,true);
 assert.equal(original.reviewedReferenceCount,0);
