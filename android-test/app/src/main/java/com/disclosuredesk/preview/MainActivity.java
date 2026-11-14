@@ -223,6 +223,7 @@ public final class MainActivity extends Activity {
                     activeSection="more";
                     showOnline();
                     installSecondaryEditorialNavigation();
+                    installResearchReturnNavigation(url);
                     layoutDesk();
                 }
                 if(!mainPageFailed && isAppHomeUrl(url) && isAppHomeUrl(view.getUrl())){
@@ -232,6 +233,7 @@ public final class MainActivity extends Activity {
                     installProfileNotificationControl();
                     installResearchInboxControl();
                     deliverChatToken();
+                    installResearchReturnNavigation(url);
                     openPendingArchiveCase();
                 }
             }
@@ -465,6 +467,19 @@ public final class MainActivity extends Activity {
             web.evaluateJavascript(source.toString(),null);
         }catch(java.io.IOException error){
             android.util.Log.e("DisclosureDesk","Editorial secondary navigation asset could not be opened.",error);
+        }
+    }
+    private void installResearchReturnNavigation(String url){
+        // Only canonical HTTPS, bundled, first-party research documents are eligible.
+        if(!isAppHomeUrl(url) && !isEmbeddedSecondaryPage(url))return;
+        try(BufferedReader reader=new BufferedReader(new InputStreamReader(
+                getAssets().open("research-return-nav.js"),StandardCharsets.UTF_8))){
+            StringBuilder source=new StringBuilder();
+            String line;
+            while((line=reader.readLine())!=null)source.append(line).append('\n');
+            web.evaluateJavascript(source.toString(),null);
+        }catch(java.io.IOException error){
+            android.util.Log.w("DisclosureDesk","Contextual research return is unavailable.",error);
         }
     }
     private void openNativeSection(String section){
@@ -1164,6 +1179,8 @@ public final class MainActivity extends Activity {
             // Profiles use same-document history; Android swipe must close a profile
             // before it can return to the directory. Direct links need a safe fallback.
             String secondaryBack="(function(){try{"
+              +"if(window.DDResearchReturn&&typeof window.DDResearchReturn.handleBack==='function'"
+              +"&&window.DDResearchReturn.handleBack())return 'handled';"
               +"var profile=document.getElementById('personProfile');"
               +"if((location.pathname==='/who-is-who'||location.pathname==='/who-is-who.html')"
               +"&&profile&&!profile.classList.contains('hidden')"
@@ -1182,6 +1199,8 @@ public final class MainActivity extends Activity {
         String script="(function(){try{"
           +"var url=new URL(location.href);"
           +"if(url.pathname!=='/'&&url.pathname!=='/index.html')return 'exit';"
+          +"if(window.DDResearchReturn&&typeof window.DDResearchReturn.handleBack==='function'"
+          +"&&window.DDResearchReturn.handleBack())return 'handled';"
           +"var dlg=document.querySelector('dialog[open]');if(dlg){dlg.close();return 'handled'};"
           +"var d=document.getElementById('immersiveViewer');"
           +"if(d&&!d.hidden){var c=document.getElementById('closeImmersive');if(c)c.click();return 'handled'};"
