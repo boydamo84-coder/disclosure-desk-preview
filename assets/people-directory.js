@@ -95,6 +95,9 @@ const initials=p=>String(p.name||'').trim().split(/\s+/).slice(0,2).map(x=>x[0])
 const shortDate=v=>String(v||'');
 function paintPortrait(host,person){
  if(!host)return;
+ // Profile detail reuses the same host for successive people. Never retain a
+ // previous portrait's transparent-initials class when the next has no photo.
+ host.classList.remove('has-photo');
  host.replaceChildren(document.createTextNode(initials(person)));
  const photo=person.photo;
  if(!photo||!safeUrl(photo.url)||!safeUrl(photo.source)||!photo.credit||
@@ -104,8 +107,13 @@ function paintPortrait(host,person){
  const picture=document.createElement('img');
  picture.alt='';picture.loading='lazy';picture.decoding='async';
  picture.referrerPolicy='no-referrer';
- picture.addEventListener('load',()=>host.classList.add('has-photo'),{once:true});
- picture.addEventListener('error',()=>{host.classList.remove('has-photo');picture.remove()},{once:true});
+ // Detached images can still dispatch an asynchronous load/error after the
+ // visitor has opened another profile. Only the image currently inside this
+ // avatar may update its visible/initials state.
+ picture.addEventListener('load',()=>{if(host.contains(picture))host.classList.add('has-photo')},{once:true});
+ picture.addEventListener('error',()=>{
+  if(host.contains(picture)){host.classList.remove('has-photo');picture.remove()}
+ },{once:true});
  picture.src=u.href;host.appendChild(picture);
 }
 const validLinks=(v)=>Array.isArray(v)?v.filter(x=>x&&safeUrl(x.url)).slice(0,30):[];
