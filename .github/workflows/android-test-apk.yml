@@ -1,8 +1,8 @@
-name: Build Disclosure Desk M10 FULL PRIVATE Android APK (NO Netlify)
+name: Build Disclosure Desk M12 WHO'S WHO FULL PRIVATE Android APK (NO Netlify)
 on:
   workflow_dispatch:
   push:
-    branches: [android/full-experience-m10-r2-nov14]
+    branches: [android/m12-who-is-who-navigation-directory-nov14]
     paths:
       - 'android-test/**'
       - 'guide.html'
@@ -17,6 +17,7 @@ on:
       - 'data/public-people-directory.json'
       - 'scripts/test_page_help_chromium.cjs'
       - 'scripts/test_page_help_contract.cjs'
+      - 'scripts/test_m12_who_directory_android_contract.cjs'
       - 'scripts/test_source_lineage.cjs'
       - 'scripts/test_m92_android_parity.cjs'
       - 'scripts/test_m92_archive_bridge_chromium.cjs'
@@ -79,6 +80,7 @@ jobs:
           node scripts/test_m90_discussions_views_contract.cjs
           node scripts/test_m92_android_parity.cjs
           node scripts/test_public_people_directory.cjs
+          node scripts/test_m12_who_directory_android_contract.cjs
           node scripts/test_person_case_links.cjs
           node scripts/test_source_lineage.cjs
           node scripts/test_evidence_dna.cjs
@@ -141,10 +143,10 @@ jobs:
       - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M10-FULL-PRIVATE-BETA
+          name: DisclosureDesk-M12-WHOS-WHO-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
-# M10: all M95 safety contracts retain assertions against the new separate private package identity.
-# Recheck original M95 native safety invariants using independently signed M10 debug package.
+# M12: all M95 safety contracts retain assertions against the new separate private package identity.
+# Recheck original M95 native safety invariants using independently signed M12 debug package.
 # Public package audit can validate the already-assembled immutable Android snapshot without re-staging it.
