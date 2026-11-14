@@ -18,6 +18,8 @@ on:
       - 'scripts/test_page_help_chromium.cjs'
       - 'scripts/test_page_help_contract.cjs'
       - 'scripts/test_m12_who_directory_android_contract.cjs'
+      - 'scripts/test_m12_editorial_secondary_nav_chromium.cjs'
+      - 'android-test/app/src/main/assets/editorial-secondary-nav.js'
       - 'scripts/test_public_people_directory.cjs'
       - 'scripts/test_people_directory_chromium.cjs'
       - 'scripts/test_android_m75_source_contract.cjs'
@@ -86,6 +88,7 @@ jobs:
           node scripts/test_m92_android_parity.cjs
           node scripts/test_public_people_directory.cjs
           node scripts/test_m12_who_directory_android_contract.cjs
+          node --check android-test/app/src/main/assets/editorial-secondary-nav.js
           node scripts/test_person_case_links.cjs
           node scripts/test_source_lineage.cjs
           node scripts/test_evidence_dna.cjs
@@ -115,6 +118,7 @@ jobs:
           node scripts/test_m95_editorial_restore_chromium.cjs
           node scripts/test_original_research_chromium.cjs
           node scripts/test_people_directory_chromium.cjs
+          node scripts/test_m12_editorial_secondary_nav_chromium.cjs
           node scripts/test_page_help_chromium.cjs
           node scripts/test_m71_secondary_actions_chromium.cjs
       - name: Verify safe Android Share-link parser (offline Java only)
