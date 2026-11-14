@@ -101,7 +101,7 @@ function paintPortrait(host,person){
  host.replaceChildren(document.createTextNode(initials(person)));
  const photo=person.photo;
  if(!photo||!safeUrl(photo.url)||!safeUrl(photo.source)||!photo.credit||
-   !['Public domain (US federal government)','CC0 1.0','CC BY 3.0','CC BY 4.0','CC BY-SA 4.0'].includes(photo.license))return;
+   !['Public domain (US federal government)','CC0 1.0','CC BY 2.0','CC BY 3.0','CC BY 4.0','CC BY-SA 4.0'].includes(photo.license))return;
  const u=new URL(photo.url);
  if(!['commons.wikimedia.org','upload.wikimedia.org','images-assets.nasa.gov'].includes(u.hostname))return;
  const picture=document.createElement('img');
