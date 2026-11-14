@@ -3,7 +3,7 @@
 Date: 14 November 2026
 Private branch: `android/m12-3-research-return-nov14`
 Baseline: `android/m12-2-profile-scroll-return-nov14`
-Stage: private Android APK. No public website, Netlify, Play Store or production merge.
+Stage: **PRIVATE APK CI GREEN, Samsung physical acceptance pending**. No public website, Netlify, Play Store or production merge.
 
 ## Why M12.3
 M12.2 fixed the same-document Who's Who directory→profile→directory scroll issue. However, the case record in the Home/Archive shell creates its own modal history entry, often replacing or consuming WebView Back history. Browsers can therefore stay on Archive instead of returning to the person they came from, even though the person profile's scroll offset was recorded.
@@ -32,3 +32,11 @@ M12.2 fixed the same-document Who's Who directory→profile→directory scroll i
 7. Check the premium dock arrows, Watch/Read, W.NE and test ad positioning.
 
 **No claim of production readiness or physical hardware success before device confirmation.** CI success only approves a private APK test.
+
+## Verified final private build (14 November 2026)
+- GitHub Actions [run 43630612793](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43630612793): **SUCCESS**, exact source commit `79f0901edd7c37829b444a6daeaf6617147e9fc8`.
+- Static source/package/route checks, prior 393px/desktop Who's Who scrolling, M12.1 premium 14-tab UI, M12.2 regression, new 393px/820px contextual origin/Archive/dossier return tests and Android Java/Gradle compilation all green.
+- Published artifact `DisclosureDesk-M12-3-RESEARCH-RETURN-PRIVATE-BETA`, ID `14127718427`. ZIP SHA256 `ce3eff34b4e270e252949940eb2b182b5c4f7602a373c1351c594c5cfad341b1`.
+- Unpacked `app-debug.apk`: 10,682,950 bytes, SHA256 `58b6171edefa12514ed03b9e163947dbd1cd5b0f562c2a0a7dbc1d042be56b94`. ZIP and APK CRC tests clean; verified `AndroidManifest.xml`, `classes.dex`, `assets/research-return-nav.js`, and bundled Who's Who HTML/JavaScript.
+- Final Chromium tester also maps only Android's vetted clean dossier routes to their actual HTML files rather than treating a Python server's 404 as a valid page.
+- No production or Netlify change. Device Back gesture + actual Android ad placement have **not** been confirmed on the user's Galaxy yet; label is private beta only.
