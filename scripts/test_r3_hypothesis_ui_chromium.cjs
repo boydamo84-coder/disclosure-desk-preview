@@ -40,6 +40,9 @@ const BASE='http://127.0.0.1:4175';
    assert.equal(await page.locator('#comparisonResult .compare-column').count(),2);
    assert.match(await page.locator('#comparisonResult').innerText(),/Disconfirming evidence/i);
    assert(!(/probability score|winner:/i).test(await page.locator('#comparisonResult').innerText()));
+   // Public test artifact shows only invented examples, never user data.
+   fs.mkdirSync('.r3-lab-preview/screenshots',{recursive:true});
+   await page.screenshot({path:'.r3-lab-preview/screenshots/fictional-compare-'+width+'px.png',fullPage:true});
    await page.locator('#writeTab').click();
    await page.locator('#editSelectedBtn').click();
    await page.locator('#editorForm').waitFor({state:'visible'});
