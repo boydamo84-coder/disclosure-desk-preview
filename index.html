@@ -2595,22 +2595,25 @@ function ddEvidenceDNAHtml(record){
  const sourceGraph=ddEvidenceDnaCaseGraphs.get(String(record.id));
  const pair=sourceGraph&&evidence.claims.length>=2?
   window.DDEvidenceDNA?.compareClaims?.(sourceGraph,evidence.claims[0].id,evidence.claims[1].id):null;
- const renderRadarSide=(side,letter)=>'<article style="min-width:0;border:1px solid #54677c;border-radius:10px;padding:12px;background:#0b1b29">'+
-  '<p class="muted small"><strong>Statement '+letter+' · Editorial summary (not a direct quotation)</strong></p>'+
-  '<p>'+esc(side.text)+'</p><strong>Original sources and context</strong><ul>'+
-  side.citations.slice(0,5).map(c=>'<li><a href="'+esc(c.url)+'" target="_blank" rel="noopener noreferrer">Original document ↗</a>'+
-  '<p class="muted small"><strong>Find:</strong> '+esc(c.locator)+'</p>'+
-  '<p class="muted small"><strong>Limitation:</strong> '+esc(c.context||'Interpret with the source passage')+'</p></li>').join('')+
-  '</ul></article>';
+ const options=[...ddEvidenceDnaCaseGraphs.values()].flatMap(graph=>{
+  const parsed=window.DDEvidenceDNA?.parseGraph(graph);
+  if(!parsed?.valid)return [];
+  const caseName=graph.caseId==='featured-roswell-1947'?'Roswell (1947)':graph.caseId==='featured-rendlesham-1980'?'Rendlesham Forest (1980)':graph.caseId;
+  return parsed.claims.filter(claim=>claim.citations.length).map(claim=>({value:graph.caseId+'::'+claim.id,
+   label:caseName+' · '+claim.text.slice(0,120)}));
+ }).slice(0,100);
+ const optionsHtml=value=>options.map(o=>'<option value="'+esc(o.value)+'"'+(o.value===value?' selected':'')+'>'+esc(o.label)+'</option>').join('');
+ const defaultA=String(record.id)+'::'+(evidence.claims[0]?.id||'');
+ const defaultB=String(record.id)+'::'+(evidence.claims[1]?.id||'');
  const radar=pair?.valid?'<details class="dd-contradiction-radar" style="margin:14px 0;border:1px solid #7b6847;border-radius:11px;padding:13px">'+
   '<summary style="color:#e9ca90;cursor:pointer;font-weight:750">◇ Contradiction Radar · Compare cited statements (R2 alpha)</summary>'+
+  '<p class="muted small">Choose two editorial summaries from the curated cases, including across cases. This is not a claim that the two events are related.</p>'+
+  '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin:12px 0">'+
+  '<label>Statement A<select data-radar-pick="a" class="field" aria-label="First statement" style="width:100%">'+optionsHtml(defaultA)+'</select></label>'+
+  '<label>Statement B<select data-radar-pick="b" class="field" aria-label="Second statement" style="width:100%">'+optionsHtml(defaultB)+'</select></label></div>'+
+  '<button type="button" class="outline" data-radar-compare>Compare selected statements</button>'+
   '<p class="muted small">Side-by-side reading aid only. No contradiction or dishonest account is automatically identified.</p>'+
-  '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px">'+
-  renderRadarSide(pair.first,'A')+renderRadarSide(pair.second,'B')+'</div>'+
-  '<p class="muted small"><strong>Source relationship:</strong> '+
-  (pair.sharedSourceUrls.length?'These summaries cite at least one identical source page; this is not independent corroboration.':
-  'Different cited pages. Their independence has not been assessed.')+'</p>'+
-  '<p class="muted small">'+esc(pair.caution)+'</p></details>':'';
+  '<div data-radar-output role="status" aria-live="polite">'+ddRadarResultHtml(pair)+'</div></details>':'';
  return '<details class="dd-evidence-dna" style="border:1px solid #a88951;border-radius:12px;margin:16px 0;padding:13px;background:#122637">'+
   '<summary style="cursor:pointer;color:#e6c48e;font-weight:750">◇ Evidence DNA · Source lineage (R2 preview)</summary>'+
   '<p class="muted small">How many links refer to distinct source pages, and which claims can be traced to an original document? A source count is not a witness count.</p>'+
@@ -2622,6 +2625,39 @@ function ddEvidenceDNAHtml(record){
   '<p class="muted small">'+esc(evidence.caution)+' This research preview does not publish private notes, witness data or personal research.</p>'+
   '</details>';
 }
+function ddRadarSideHtml(side,letter){
+ return '<article style="min-width:0;border:1px solid #54677c;border-radius:10px;padding:12px;background:#0b1b29">'+
+ '<p class="muted small"><strong>Statement '+letter+' · Editorial summary (not a direct quotation)</strong></p>'+
+ (side.caseId?'<p class="muted small">'+esc(side.caseId==='featured-roswell-1947'?'Roswell 1947':'Rendlesham Forest 1980')+'</p>':'')+
+ '<p>'+esc(side.text)+'</p><strong>Original sources and context</strong><ul>'+
+ side.citations.slice(0,5).map(c=>'<li><a href="'+esc(c.url)+'" target="_blank" rel="noopener noreferrer">Original document ↗</a>'+
+ '<p class="muted small"><strong>Find:</strong> '+esc(c.locator)+'</p>'+
+ '<p class="muted small"><strong>Limitation:</strong> '+esc(c.context||'Interpret with the source passage')+'</p></li>').join('')+
+ '</ul></article>';
+}
+function ddRadarResultHtml(pair){
+ if(!pair?.valid)return '<p class="muted small">Choose two different cited statements before comparing.</p>';
+ return '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px">'+
+ ddRadarSideHtml(pair.first,'A')+ddRadarSideHtml(pair.second,'B')+'</div>'+
+ '<p class="muted small"><strong>Source relationship:</strong> '+
+ (pair.sharedSourceUrls.length?'These summaries cite at least one identical source page; this is not independent corroboration.':
+ 'Different cited pages. Their independence has not been assessed.')+'</p>'+
+ '<p class="muted small">'+esc(pair.caution)+'</p>';
+}
+document.addEventListener('click',event=>{
+ const button=event.target?.closest?.('button[data-radar-compare]');
+ if(!button)return;
+ const panel=button.closest('.dd-contradiction-radar'),output=panel?.querySelector('[data-radar-output]');
+ if(!output)return;
+ const parseValue=type=>{
+  const value=panel.querySelector('select[data-radar-pick="'+type+'"]')?.value||'';
+  const [caseId,claimId]=value.split('::');
+  return {caseId,claimId};
+ };
+ const result=window.DDEvidenceDNA?.compareSelections?.(
+  [...ddEvidenceDnaCaseGraphs.values()],parseValue('a'),parseValue('b'));
+ output.innerHTML=ddRadarResultHtml(result);
+});
 const DD_FOLLOW_KEY='dd_followed_cases_v1';
 function ddReadFollowed(){try{const x=JSON.parse(localStorage.getItem(DD_FOLLOW_KEY)||'{}');return x&&typeof x==='object'&&!Array.isArray(x)?x:{}}catch{return {}}}
 function ddFollowCase(id){
