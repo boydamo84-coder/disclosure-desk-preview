@@ -62,13 +62,16 @@ const BASE='http://127.0.0.1:4173';
     const panel=await page.evaluate(()=>{
      const chat=document.getElementById('chatPage'),side=chat.querySelector('.dd-chat-side');
      const cr=chat.getBoundingClientRect(),sr=side.getBoundingClientRect(),computed=getComputedStyle(chat);
+     const mount=chat.querySelector('#ddChatPageMount'),app=chat.querySelector('#ddProfileChatApp'),layout=chat.querySelector('.dd-chat-layout');
      return {top:cr.top,height:cr.height,width:cr.width,sideHeight:sr.height,position:computed.position,
+       mountHeight:mount?.getBoundingClientRect().height,appHeight:app?.getBoundingClientRect().height,
+       layoutHeight:layout?.getBoundingClientRect().height,sideComputedHeight:getComputedStyle(side).height,
        overflow:document.documentElement.scrollWidth-innerWidth};
     });
     assert.equal(panel.position,'fixed');
     assert(panel.top>=-1&&panel.top<=1,'Chat starts at top, not below unused website header');
     assert(panel.height>=880&&panel.height<=886,'Chat fills viewport above dock: '+JSON.stringify(panel));
-    assert(panel.sideHeight>=850,'Chat conversation list grows to use screen');
+    assert(panel.sideHeight>=850,'Chat conversation list grows to use screen: '+JSON.stringify(panel));
     assert(panel.overflow<=1,'Chat must not widen page');
    }
    await context.close();
