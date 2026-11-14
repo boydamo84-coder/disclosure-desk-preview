@@ -15,13 +15,15 @@
     '/community-rules.html'
   ]);
   if(!allowed.has(location.pathname))return false;
-  // The same order, names and symbols used by index.html's .nav-inner dock.
+  // Same order, names and symbols as index.html's dock + approved Discussions/Chat injected tabs.
   const tabs=[
     ['discover','◈','News'],['archivePage','▥','Archive'],
     ['peopleDirectory','♙','Who’s Who'],['researchStudio','✎','W.NE'],
     ['mapPage','◎','Map'],['clips','▶','Videos'],['livePage','●','LIVE'],
     ['boards','▣','Boards'],['witness','◉','Witness'],
-    ['watchRead','♫','Watch & Read'],['profilePage','👤','Profile'],
+    ['discussionsPage','☷','Discussions'],
+    ['watchRead','♫','Watch & Read'],['chatPage','','Chat'],
+    ['profilePage','👤','Profile'],
     ['hub','☷','Explore']
   ];
   const current=location.pathname.startsWith('/who-is-who')?'peopleDirectory':
@@ -35,6 +37,7 @@
 #ddAndroidEditorialNav .tab{min-width:72px;flex:1 0 72px;scroll-snap-align:center;background:transparent;color:#8ca1b3;border:0;font:400 10px system-ui,-apple-system,Segoe UI,sans-serif;padding:6px 1px;min-height:49px;overflow-wrap:anywhere;text-align:center;cursor:pointer}
 #ddAndroidEditorialNav .tab .ico{display:block;font-size:21px;margin-bottom:2px;line-height:1.2}
 #ddAndroidEditorialNav .tab.active{color:#efd3a0}
+#ddAndroidEditorialNav .tab[data-tab="chatPage"] .ico .dd-chat-nav-symbol{display:block;width:21px;height:21px;margin:auto;stroke:currentColor;fill:none}
 #ddAndroidEditorialNav .tab:focus-visible,#ddAndroidEditorialNav .dd-nav-swipe-hint:focus-visible{outline:2px solid #e8c98d;outline-offset:2px}
 #ddAndroidEditorialNav .dd-nav-swipe-hint{position:absolute;top:8px;bottom:auto;width:27px;min-width:27px;height:43px;display:flex;align-items:center;justify-content:center;box-sizing:border-box;padding:0;border:1px solid #705e3c;border-radius:7px;background:#162739e8;font-size:25px;color:#e8cb91;cursor:pointer;z-index:2}
 #ddAndroidEditorialNav .dd-nav-swipe-prev{left:2px;right:auto;background:linear-gradient(90deg,#1a3043,#101a27)}
@@ -55,12 +58,26 @@ body.dd-android-keyboard-open #ddAndroidEditorialNav{display:none!important}
   const next=document.createElement('button');next.type='button';
   next.className='dd-nav-swipe-hint dd-nav-swipe-next';next.id='ddAndroidNavNext';
   next.setAttribute('aria-label','Scroll navigation one tab right');next.textContent='›';next.hidden=true;
+  function chatGlyph(){
+    // Match assets/chat-tab-ui.js's original SVG icon on the public home dock.
+    const ns='http://www.w3.org/2000/svg';
+    const svg=document.createElementNS(ns,'svg');
+    svg.setAttribute('viewBox','0 0 24 24');
+    svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');
+    svg.setAttribute('stroke-width','1.85');svg.setAttribute('stroke-linejoin','round');
+    svg.setAttribute('stroke-linecap','round');svg.setAttribute('aria-hidden','true');
+    svg.setAttribute('class','dd-chat-nav-symbol');
+    const path=document.createElementNS(ns,'path');
+    path.setAttribute('d','M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4.2-1L3 21l2-5a8.5 8.5 0 1 1 16-4.5Z');
+    svg.appendChild(path);return svg;
+  }
   for(const [id,icon,label] of tabs){
     const btn=document.createElement('button');btn.type='button';btn.className='tab';
     btn.dataset.tab=id;
     if(id===current){btn.classList.add('active');btn.setAttribute('aria-current','page')}
     btn.setAttribute('aria-label',label==='Who’s Who'?'Who’s Who in Disclosure':label);
-    const ico=document.createElement('span');ico.className='ico';ico.textContent=icon;
+    const ico=document.createElement('span');ico.className='ico';
+    if(id==='chatPage')ico.appendChild(chatGlyph());else ico.textContent=icon;
     ico.setAttribute('aria-hidden','true');
     btn.appendChild(ico);btn.appendChild(document.createTextNode(label));
     btn.addEventListener('click',()=>{
