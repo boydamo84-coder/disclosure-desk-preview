@@ -8,6 +8,7 @@
  <title>Hypothesis Lab · Disclosure Desk · R3 Offline Prototype</title>
  <meta name="robots" content="noindex,nofollow,noarchive">
  <link rel="stylesheet" href="./hypothesis-ui.css">
+ <link rel="stylesheet" href="./editorial-dock.css">
  <script defer src="./hypothesis-engine.js"></script>
  <script defer src="./hypothesis-vault.js"></script>
  <script defer src="./hypothesis-ui.js"></script>
@@ -114,10 +115,28 @@
    <footer class="footer">Boyd Digital Studios · Disclosure Desk R3 isolated interface prototype · No automated conclusions</footer>
   </main>
  </div>
- <nav class="preview-dock" aria-label="Original 14-tab design reference; disabled in standalone alpha" id="previewDock">
-  <button type="button" class="dock-arrow" id="dockPrev" aria-label="Scroll navigation preview left">‹</button>
-  <div class="dock-scroll" id="dockScroll" aria-label="Original premium navigation design"></div>
-  <button type="button" class="dock-arrow" id="dockNext" aria-label="Scroll navigation preview right">›</button>
+ <nav id="ddWebSecondaryNav" class="dd-web-editorial-nav" aria-label="Disclosure Desk premium navigation design reference">
+  <button type="button" class="dd-nav-swipe-hint dd-nav-swipe-prev" id="dockPrev" aria-label="Scroll navigation one tab left">‹</button>
+  <div class="nav-inner" id="dockScroll" aria-label="Fourteen original Disclosure Desk sections"></div>
+  <button type="button" class="dd-nav-swipe-hint dd-nav-swipe-next" id="dockNext" aria-label="Scroll navigation one tab right">›</button>
  </nav>
+ <dialog id="ddConfirmDialog" class="dd-confirm" aria-labelledby="ddDialogTitle" aria-describedby="ddDialogDescription">
+  <form id="ddDialogForm" method="dialog">
+   <div class="dd-confirm-heading">
+    <span class="eyebrow">DISCLOSURE DESK · RESEARCH LAB</span>
+    <button id="ddDialogClose" type="button" class="dd-confirm-close" aria-label="Cancel and close dialog">×</button>
+   </div>
+   <div id="ddDialogIcon" class="dd-confirm-icon" aria-hidden="true">!</div>
+   <h2 id="ddDialogTitle">Review your changes</h2>
+   <p id="ddDialogDescription">Confirm your choice.</p>
+   <label id="ddDialogVerifyWrap" hidden>Type DELETE to permanently remove the local encrypted copy
+    <input id="ddDialogVerify" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="10" placeholder="DELETE">
+   </label>
+   <div class="dd-confirm-actions">
+    <button id="ddDialogCancel" type="button" class="btn-secondary">Keep working</button>
+    <button id="ddDialogAccept" type="submit" class="btn-primary">Continue</button>
+   </div>
+  </form>
+ </dialog>
 </body>
 </html>
