@@ -88,6 +88,37 @@
     time=r.recordedAt;
    }
   }
+  // Optional append-only R3 research-question extension. Old encrypted
+  // notebooks without gapReviews remain valid and unlock unchanged.
+  if(book.gapReviews!==undefined){
+   if(!Array.isArray(book.gapReviews)||book.gapReviews.length>100)
+    err('Invalid saved research-question history');
+   const reviewIds=new Set();
+   for(const r of book.gapReviews){
+    if(!r||typeof r!=='object'||Array.isArray(r)||
+       typeof r.id!=='string'||r.id.length>190||
+       typeof r.caseId!=='string'||r.caseId!==book.caseId||
+       typeof r.field!=='string'||r.field.length>120||
+       typeof r.reason!=='string'||r.reason.length>2000||
+       typeof r.nextAction!=='string'||r.nextAction.length>2000||
+       r.dataset!=='data/curated-historical-cases.json'||
+       r.scope!=='Current catalogue entry only'||
+       r.status!=='research-question-not-evidence'||
+       typeof r.reviewedAt!=='string'||!Number.isFinite(Date.parse(r.reviewedAt))||
+       r.reviewedAt<book.createdAt||r.reviewedAt>book.updatedAt||
+       typeof r.reviewerNote!=='string'||r.reviewerNote.length>800||
+       typeof r.relatedHypothesisId!=='string'||r.relatedHypothesisId.length>80||
+       (r.relatedHypothesisId&&!ids.has(r.relatedHypothesisId))||
+       reviewIds.has(r.id))
+     err('Invalid saved research-question entry');
+    reviewIds.add(r.id);
+    let url;
+    try{url=new URL(r.source?.url)}catch{err('Invalid saved research-question source')}
+    if(url.protocol!=='https:'||url.username||url.password||
+       typeof r.source.label!=='string'||r.source.label.length>180)
+     err('A saved research question requires a labelled public HTTPS source');
+   }
+  }
   const plain=encoder.encode(JSON.stringify(book));
   if(plain.byteLength>MAX_BYTES)err('Notebook exceeds the encrypted vault size limit');
   return plain;
