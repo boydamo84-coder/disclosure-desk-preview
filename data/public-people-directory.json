@@ -2,7 +2,7 @@
   "version": 1,
   "edition": "2026-11-14-50-profile-android-m12-editorial-draft",
   "status": "research-copy-edit-needed",
-  "ethics": "Fifty public figures covering testimony, Congress, NASA science, FOIA research and journalism. New entries are structured research drafts, not individually fact-checked publication. Original sourced 17 retain rich episodes and credits; extra people do not claim unverified podcasts, film appearances or social handles. Portraits are only shown where license and official source are reviewed. Missing photos use initials; no guessed images or private contacts.",
+  "ethics": "Fifty public figures covering testimony, Congress, NASA science, FOIA research and journalism. New entries are structured research drafts, not individually fact-checked publication. Original sourced 17 retain rich episodes and credits; extra people do not claim unverified podcasts, film appearances or social handles. Nine attributed public-domain portraits are connected to their Wikimedia Commons reuse pages; remaining portraits need reviewed permissions. Missing photos use initials; no guessed images or private contacts.",
   "people": [
     {
       "id": "david-grusch",
@@ -3003,7 +3003,14 @@
           "url": "https://science.nasa.gov/uap/"
         }
       ],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/NASA_astronaut_Scott_Kelly.jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:NASA_astronaut_Scott_Kelly.jpg",
+        "credit": "NASA / Johnson Space Center",
+        "license": "Public domain (US federal government)",
+        "status": "source-and-licence-reviewed",
+        "caption": "Official or NASA portrait of Scott Kelly — attributed public-domain source"
+      },
       "biography": [
         "Scott Kelly is a former NASA astronaut and retired US Navy aviator. The expertise described by NASA includes human spaceflight, International Space Station operations and high-performance aviation. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
         "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Scott Kelly's role involved bringing operational flight and astronaut experience to NASA's study. A useful research question is how trained observers, recording limitations and instrument conditions interact; each proposed interpretation must be assessed against the quality of the original measurements.",
@@ -3509,7 +3516,14 @@
       ],
       "media": [],
       "officialLinks": [],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Anna_Paulina_Luna.jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:Anna_Paulina_Luna.jpg",
+        "credit": "U.S. House of Representatives",
+        "license": "Public domain (US federal government)",
+        "status": "source-and-licence-reviewed",
+        "caption": "Official or NASA portrait of Anna Paulina Luna — attributed public-domain source"
+      },
       "biography": [
         "Anna Paulina Luna is a US representative documented in House Oversight material on declassification and government transparency. In February 2025, the committee named Anna Paulina Luna among the members of the Task Force on the Declassification of Federal Secrets. The panel addresses several sets of federal records, not just reports of unidentified anomalous phenomena.",
         "The relevant public involvement includes leading the task force and requesting records relating to UAP investigations. For researchers, the value of this record is that the House identifies the member, committee and remit; this is more reliable than inferring a lawmaker's actions from a video title or social-media clip. The exact content of any particular member's questions or views should be checked in the official hearing or statement.",
@@ -3577,7 +3591,14 @@
       ],
       "media": [],
       "officialLinks": [],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Nancy_Mace_portrait_(118th_Congress).jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:Nancy_Mace_portrait_(118th_Congress).jpg",
+        "credit": "U.S. House of Representatives",
+        "license": "Public domain (US federal government)",
+        "status": "source-and-licence-reviewed",
+        "caption": "Official or NASA portrait of Nancy Mace — attributed public-domain source"
+      },
       "biography": [
         "Nancy Mace is a US representative documented in House Oversight material on declassification and government transparency. In February 2025, the committee named Nancy Mace among the members of the Task Force on the Declassification of Federal Secrets. The panel addresses several sets of federal records, not just reports of unidentified anomalous phenomena.",
         "The relevant public involvement includes co-leading a November 2024 public hearing examining UAP transparency. For researchers, the value of this record is that the House identifies the member, committee and remit; this is more reliable than inferring a lawmaker's actions from a video title or social-media clip. The exact content of any particular member's questions or views should be checked in the official hearing or statement.",
@@ -3645,7 +3666,14 @@
       ],
       "media": [],
       "officialLinks": [],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Rep._Tim_Burchett_official_photo%2C_116th_congress.jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:Rep._Tim_Burchett_official_photo%2C_116th_congress.jpg",
+        "credit": "U.S. House of Representatives",
+        "license": "Public domain (US federal government)",
+        "status": "source-and-licence-reviewed",
+        "caption": "Official or NASA portrait of Tim Burchett — attributed public-domain source"
+      },
       "biography": [
         "Tim Burchett is a US representative documented in House Oversight material on declassification and government transparency. In February 2025, the committee named Tim Burchett among the members of the Task Force on the Declassification of Federal Secrets. The panel addresses several sets of federal records, not just reports of unidentified anomalous phenomena.",
         "The relevant public involvement includes publicly pushing for hearings, witness access and federal record transparency. For researchers, the value of this record is that the House identifies the member, committee and remit; this is more reliable than inferring a lawmaker's actions from a video title or social-media clip. The exact content of any particular member's questions or views should be checked in the official hearing or statement.",
@@ -3781,7 +3809,14 @@
       ],
       "media": [],
       "officialLinks": [],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Eric_Burlison_portrait_118th.jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:Eric_Burlison_portrait_118th.jpg",
+        "credit": "House Creative Services",
+        "license": "Public domain (US federal government)",
+        "status": "source-and-licence-reviewed",
+        "caption": "Official or NASA portrait of Eric Burlison — attributed public-domain source"
+      },
       "biography": [
         "Eric Burlison is a US representative documented in House Oversight material on declassification and government transparency. In February 2025, the committee named Eric Burlison among the members of the Task Force on the Declassification of Federal Secrets. The panel addresses several sets of federal records, not just reports of unidentified anomalous phenomena.",
         "The relevant public involvement includes joining the task force and working on legislative oversight of unexplained observations. For researchers, the value of this record is that the House identifies the member, committee and remit; this is more reliable than inferring a lawmaker's actions from a video title or social-media clip. The exact content of any particular member's questions or views should be checked in the official hearing or statement.",
@@ -3917,7 +3952,14 @@
       ],
       "media": [],
       "officialLinks": [],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Brandon_Gill%2C_official_portrait%2C_119th_Congress.jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:Brandon_Gill%2C_official_portrait%2C_119th_Congress.jpg",
+        "credit": "U.S. House of Representatives / House Creative Services",
+        "license": "Public domain (US federal government)",
+        "status": "source-and-licence-reviewed",
+        "caption": "Official or NASA portrait of Brandon Gill — attributed public-domain source"
+      },
       "biography": [
         "Brandon Gill is a US representative documented in House Oversight material on declassification and government transparency. In February 2025, the committee named Brandon Gill among the members of the Task Force on the Declassification of Federal Secrets. The panel addresses several sets of federal records, not just reports of unidentified anomalous phenomena.",
         "The relevant public involvement includes participating in legislative scrutiny of the handling and disclosure of federal secrets. For researchers, the value of this record is that the House identifies the member, committee and remit; this is more reliable than inferring a lawmaker's actions from a video title or social-media clip. The exact content of any particular member's questions or views should be checked in the official hearing or statement.",
@@ -3985,7 +4027,14 @@
       ],
       "media": [],
       "officialLinks": [],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Chuck_Schumer_official_photo.jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:Chuck_Schumer_official_photo.jpg",
+        "credit": "U.S. Senate Photographic Studio / Jeff McEvoy",
+        "license": "Public domain (US federal government)",
+        "status": "source-and-licence-reviewed",
+        "caption": "Official or NASA portrait of Chuck Schumer — attributed public-domain source"
+      },
       "biography": [
         "Chuck Schumer is a United States senator whose role in UAP disclosure is documented through bipartisan legislative work. In July 2023, he introduced the proposed UAP Disclosure Act with Senator Mike Rounds, seeking a formal archival and review structure for records held by federal agencies.",
         "The proposal was modelled on the JFK records collection process and would have directed the identification of records concerning unidentified anomalous phenomena, with a presumption of disclosure subject to review. This is chiefly an institutional and transparency contribution rather than a firsthand account of a UAP incident or a laboratory finding.",
@@ -4053,7 +4102,14 @@
       ],
       "media": [],
       "officialLinks": [],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Mike_Rounds_official_Senate_portrait.jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:Mike_Rounds_official_Senate_portrait.jpg",
+        "credit": "U.S. Senate Photographic Studio",
+        "license": "Public domain (US federal government)",
+        "status": "source-and-licence-reviewed",
+        "caption": "Official or NASA portrait of Mike Rounds — attributed public-domain source"
+      },
       "biography": [
         "Mike Rounds is a United States senator whose role in UAP disclosure is documented through bipartisan legislative work. In July 2023, he introduced the proposed UAP Disclosure Act with Senator Chuck Schumer, seeking a formal archival and review structure for records held by federal agencies.",
         "The proposal was modelled on the JFK records collection process and would have directed the identification of records concerning unidentified anomalous phenomena, with a presumption of disclosure subject to review. This is chiefly an institutional and transparency contribution rather than a firsthand account of a UAP incident or a laboratory finding.",
@@ -4121,7 +4177,14 @@
       ],
       "media": [],
       "officialLinks": [],
-      "photo": null,
+      "photo": {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Jared_Moskowitz_portrait_(118th_Congress).jpg?width=250",
+        "source": "https://commons.wikimedia.org/wiki/File:Jared_Moskowitz_portrait_(118th_Congress).jpg",
+        "credit": "Office of the Clerk, U.S. House of Representatives",
+        "license": "Public domain (US federal government)",
+        "status": "source-and-licence-reviewed",
+        "caption": "Official or NASA portrait of Jared Moskowitz — attributed public-domain source"
+      },
       "biography": [
         "Jared Moskowitz is a US representative who took part in the congressional examination of UAP-related government transparency. House hearing records document a bipartisan public discussion of what agencies know, what witnesses reported and why records and reporting pathways matter.",
         "The 26 July 2023 House Oversight hearing brought witnesses David Grusch, Ryan Graves and David Fravor before lawmakers. The later November 2024 hearing continued scrutiny of allegations and information held by the federal government. Moskowitz's contribution should be tracked through actual hearing questions and filed statements, not interpreted as acceptance of every witness claim.",
