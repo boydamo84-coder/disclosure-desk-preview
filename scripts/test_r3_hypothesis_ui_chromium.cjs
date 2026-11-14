@@ -29,7 +29,7 @@ const BASE='http://127.0.0.1:4175';
    assert(match,'Build verification info must provide a single readable SHA fingerprint');
    const buildId=match[1],html=fs.readFileSync('.r3-lab-preview/index.html','utf8');
    assert.match(await page.locator('#r3BuildStamp').textContent(),
-    new RegExp('R3 NAV / PROMPT POLISH . BUILD '+buildId));
+    new RegExp('R3 GAP FINDER / HYPOTHESIS . BUILD '+buildId));
    for(const asset of ['hypothesis-engine.js','research-gap-finder.js',
     'research-gap-bridge.js','curated-public-cases.js','hypothesis-vault.js',
     'hypothesis-ui.js','hypothesis-ui.css','editorial-dock.css']){
@@ -198,6 +198,8 @@ const BASE='http://127.0.0.1:4175';
     assert(!backupText.includes('demo-workspace'));
     await page.reload({waitUntil:'domcontentloaded'});
     await page.locator('#unlockVaultForm').waitFor({state:'visible'});
+    assert.equal(await page.locator('#setupPanel').isVisible(),false,
+     'Do not create a second notebook while saved encrypted research is locked');
     assert.equal(await page.locator('#workPanel').isVisible(),false,
      'No decrypted notebook should appear after refresh before unlock');
     await page.locator('#unlockPassphrase').fill('incorrect-passphrase-value');
@@ -239,6 +241,8 @@ const BASE='http://127.0.0.1:4175';
     await page.locator('#ddDialogVerify').fill('DELETE');
     await page.locator('#ddDialogAccept').click();
     await page.locator('#importVaultForm').waitFor({state:'visible'});
+    assert.equal(await page.locator('#setupPanel').isVisible(),true,
+     'After explicit deletion, a fresh notebook is permitted');
     const setEncryptedFile=async text=>{
      await page.locator('#importVaultFile').setInputFiles({
       name:'r3-encrypted.json',mimeType:'application/json',buffer:Buffer.from(text,'utf8')
