@@ -21,6 +21,7 @@ on:
       - 'privacy.html'
       - 'terms.html'
       - 'assets/page-help.js'
+      - 'assets/community-polish.css'
       - 'sitemap.xml'
       - 'scripts/test_search_indexing.cjs'
       - 'scripts/test_public_people_directory.cjs'
@@ -30,6 +31,7 @@ on:
       - 'scripts/test_source_lineage.cjs'
       - 'scripts/test_page_help_contract.cjs'
       - 'scripts/test_page_help_chromium.cjs'
+      - 'scripts/test_m77_android_mobile_chromium.cjs'
       - 'scripts/test_original_research_chromium.cjs'
       - 'scripts/build_public_release.cjs'
       - 'scripts/test_public_release_package.cjs'
@@ -86,6 +88,8 @@ jobs:
         run: |
           node --check scripts/test_page_help_chromium.cjs
           node scripts/test_page_help_chromium.cjs
+      - name: Test mobile Chat and comment reply viewport at 320/393/820px (NO DEPLOY)
+        run: node scripts/test_m77_android_mobile_chromium.cjs
       - name: Stop local server
         if: always()
         run: |
