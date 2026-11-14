@@ -1,8 +1,8 @@
-name: Build Disclosure Desk M12.1 EDITORIAL NAV PRIVATE Android APK (NO Netlify)
+name: Build Disclosure Desk M12.2 PROFILE SCROLL RETURN PRIVATE Android APK (NO Netlify)
 on:
   workflow_dispatch:
   push:
-    branches: [android/m12-who-is-who-navigation-directory-nov14]
+    branches: [android/m12-2-profile-scroll-return-nov14]
     paths:
       - 'android-test/**'
       - 'guide.html'
@@ -19,6 +19,7 @@ on:
       - 'scripts/test_page_help_contract.cjs'
       - 'scripts/test_m12_who_directory_android_contract.cjs'
       - 'scripts/test_m12_editorial_secondary_nav_chromium.cjs'
+      - 'scripts/test_m12_2_scroll_return_chromium.cjs'
       - 'android-test/app/src/main/assets/editorial-secondary-nav.js'
       - 'scripts/test_public_people_directory.cjs'
       - 'scripts/test_people_directory_chromium.cjs'
@@ -119,6 +120,7 @@ jobs:
           node scripts/test_original_research_chromium.cjs
           node scripts/test_people_directory_chromium.cjs
           node scripts/test_m12_editorial_secondary_nav_chromium.cjs
+          node scripts/test_m12_2_scroll_return_chromium.cjs
           node scripts/test_page_help_chromium.cjs
           node scripts/test_m71_secondary_actions_chromium.cjs
       - name: Verify safe Android Share-link parser (offline Java only)
@@ -152,7 +154,7 @@ jobs:
       - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M12-1-EDITORIAL-NAV-PRIVATE-BETA
+          name: DisclosureDesk-M12-2-SCROLL-RETURN-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
