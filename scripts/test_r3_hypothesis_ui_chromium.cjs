@@ -23,7 +23,20 @@ const BASE='http://127.0.0.1:4175';
    const page=await context.newPage(),errors=[],nativeDialogs=[];
    page.on('pageerror',e=>errors.push(String(e.message||e)));
    page.on('dialog',async d=>{nativeDialogs.push(d.type());await d.dismiss()});
-   await page.goto(BASE+'/',{waitUntil:'domcontentloaded'});
+   await page.goto(BASE+'/?version=verify',{waitUntil:'domcontentloaded'});
+   const info=fs.readFileSync('.r3-lab-preview/BUILD_INFO.txt','utf8');
+   const match=info.match(/^Build: ([a-f0-9]{12})$/m);
+   assert(match,'Build verification info must provide a single readable SHA fingerprint');
+   const buildId=match[1],html=fs.readFileSync('.r3-lab-preview/index.html','utf8');
+   assert.match(await page.locator('#r3BuildStamp').textContent(),
+    new RegExp('R3 NAV / PROMPT POLISH . BUILD '+buildId));
+   for(const asset of ['hypothesis-engine.js','hypothesis-vault.js',
+    'hypothesis-ui.js','hypothesis-ui.css','editorial-dock.css']){
+    assert(html.includes('./'+asset+'?v='+buildId),
+     'Fingerprint asset URL prevents stale Chrome cache for '+asset);
+   }
+   assert(html.includes('id="ddConfirmDialog"'),
+    'Correct standalone build must contain the polished native-dialog replacement');
    assert.match(await page.title(),/Hypothesis Lab/);
    assert.match(await page.locator('#privacyWarning').innerText(),/don.t enter sensitive information yet/i);
    assert.equal(await page.locator('#setupPanel').isVisible(),true);
