@@ -38,6 +38,7 @@ const getItems=()=>Array.from(document.querySelectorAll('nav.nav .nav-inner .tab
    await next.waitFor({state:'visible'});
    await next.click();
    await page.waitForFunction(()=>document.querySelector('#ddAndroidEditorialNav .nav-inner').scrollLeft>5);
+   await page.locator('#ddAndroidNavPrev').waitFor({state:'visible',timeout:5000});
    assert.equal(await page.locator('#ddAndroidNavPrev').isVisible(),true,'Backward arrow shown after scrolling');
    await page.locator('#ddAndroidNavPrev').click();
    await page.locator('#peopleSearch').focus();
