@@ -672,7 +672,7 @@
  <a class="outline dd-explore-guide-link" href="/guide">📖 How to Use Disclosure Desk · 31 FAQs ↗</a>
 <div class="dd-explore-tour-options" role="group" aria-label="Focused guided tours">
 <button class="outline" type="button" data-start-tour="studio">✎ W.NE Research Studio tour</button>
-<button class="outline" type="button" data-start-tour="research">🔎 Investigation tools tour</button><button class="outline" type="button" data-start-tour="community">💬 Community &amp; LIVE tour</button>
+<button class="outline" type="button" data-start-tour="research">🔎 Investigation tools tour</button><button class="outline" type="button" data-start-tour="evidence">◇ Evidence DNA &amp; Source Lineage tour</button><button class="outline" type="button" data-start-tour="community">💬 Community &amp; LIVE tour</button>
 <button class="outline" type="button" data-start-tour="safety">🔐 Privacy &amp; backup tour</button>
 </div>
 </div></div>
@@ -2114,6 +2114,8 @@ const tourSections=[
   {title:'Welcome to Disclosure Desk',body:'Independent investigation starts with original sources. News reporting and historical case records are not automatically verified evidence.',page:'discover',target:'.hero'},
   {title:'Latest News',body:'Explore recent reporting, search topics and save useful articles to your private Investigation Boards.',page:'discover',target:'.news-sticky-controls'},
   {title:'Historical Archive',body:'Search historical cases, examine original sources and open detailed case files.',page:'archivePage',target:'.archive-toolbar'},
+  {title:'Case Connections and Evidence DNA',body:'Open a case file and expand Evidence DNA. Its draft claim summaries, source-lineage links, case connections and graph are research aids, not proof of independent witnesses or related incidents.',page:'archivePage',target:'.archive-toolbar'},
+  {title:"Who’s Who in Disclosure",body:"The Who’s Who directory profiles public investigators, witnesses, journalists and analysts. Check each person's stated role and follow public source links. Find the directory via Explore or the home page.",page:'hub',target:'.dd-explore-guide-link'},
   {title:'Historical Satellite Research',body:'In Archive, select Satellite Research to prepare official NASA, USGS Landsat or EUMETSAT searches from a public case. A mapped forest or town is approximate, and a viewer date does not confirm an actual historical satellite frame. This tool is currently in the local phone beta.',page:'archivePage',target:'#ddArchiveSatelliteTab'},
   {title:'W.NE Research Studio',body:'Meet W.NE Research Edition. Use the original research workspace to organise reports, sections and sources. Sign in with your Disclosure Desk account, or open the read-only guest demonstration.',page:'researchStudio',target:'.dd-studio-overview'},
   {title:'World Map',body:'Find regional case reports. Public pins use approximate locations, never precise witness addresses.',page:'mapPage',target:'#map'},
@@ -2124,6 +2126,15 @@ const tourSections=[
   {title:'My Research Hub and Profile',body:'Profile brings private cloud research, Boards, comments, witness reports, username controls and account security together. The Admin Centre is restricted to authorised moderators.',page:'profilePage',target:'#ddProfileTitle'},
   {title:'How-to & FAQ: your researcher handbook',body:'Go to Explore and open How to Use Disclosure Desk: a searchable handbook with four guided research workflows and 31 FAQs. It explains where to find sources, privacy protections and what is public versus still in beta.',page:'hub',target:'.dd-explore-guide-link'},
  ]},
+ {id:'evidence',label:'Follow the Evidence',icon:'◇',steps:[
+  {title:'Search a source-linked case',body:'Open Archive, search by case or year, and choose a curated file. Every record is a finding aid, not proof of the reported event.',page:'archivePage',target:'.archive-toolbar'},
+  {title:'Investigate case connections',body:'Inside the case, choose Nearby, Similar, Time or All. Geography and shared themes suggest research leads only.',page:'archivePage',target:'#ddArchiveCasesPanel'},
+  {title:'Read Evidence DNA',body:'Expand Evidence DNA inside a case. Source-linked editorial claims show citations, exact locations and their unverified status.',page:'archivePage',target:'.archive-toolbar'},
+  {title:'Check Source Lineage',body:'The Source Lineage Desk distinguishes an original document mentioning another record from a separately evidenced copy or derivation. Independent witnesses are not calculated from URLs.',page:'archivePage',target:'.archive-toolbar'},
+  {title:'Compare with Contradiction Radar',body:'Select two source-linked statements from the curated cases and compare citations. Differences do not automatically mean either person is dishonest or two events are related.',page:'archivePage',target:'.archive-toolbar'},
+  {title:'Follow the relationship graph',body:'Switch between one case and all curated cases; use the accessible source list to open the original reference. Person roles are labelled testimony, publication or attributed claim.',page:'archivePage',target:'.archive-toolbar'},
+  {title:'Use Who’s Who and the Guide',body:'Find the public people directory from Explore or the News landing page. Each role link leads back to a case and its publisher. Tap the ⓘ button on each page for a short guide.',page:'hub',target:'.dd-explore-guide-link'}
+ ]},
  {id:'research',label:'Become an Investigator',icon:'🔎',steps:[
   {title:'Start with W.NE Research Studio',body:'The W.NE tab introduces the research workspace and a safe guest preview. Signed-in investigators can return to their own research documents.',page:'researchStudio',target:'.dd-studio-actions'},
   {title:'Your Investigation Boards',body:'Create private research collections and save stories, sources and case links in one place.',page:'boards',target:'#boardList'},
@@ -2131,6 +2142,8 @@ const tourSections=[
   {title:'Private Timelines',body:'Build your own dated research chronology and link events to original archive entries.',page:'boards',target:'#boardList'},
   {title:'Evidence Connection Map',body:'Connect saved items and label possible, documented, speculative or contradictory relationships. Your theories are not verification.',page:'boards',target:'#boardList'},
   {title:'Compare Two Items',body:'Compare cases with cases, news with news or reporting against a historical case. Save comparisons to your Board.',page:'archivePage',target:'#ddCompareCases'},
+  {title:'Evidence DNA and Source Lineage',body:'In Archive, open a historical case and expand Evidence DNA. The Source Lineage Desk separates a document citing another source from a proven re-use or eyewitness account.',page:'archivePage',target:'.archive-toolbar'},
+  {title:'Contradiction Radar and graph',body:'Choose two cited editorial statements to read side by side. Expand the relationship graph to follow the case, people and source references. Neither tool automatically proves a contradiction or independent witnesses.',page:'archivePage',target:'.archive-toolbar'},
   {title:'Historical Satellite Research',body:'In Archive, select Satellite Research to prepare official NASA, USGS Landsat or EUMETSAT searches from a public case. A mapped forest or town is approximate, and a viewer date does not confirm an actual historical satellite frame. This tool is currently in the local phone beta.',page:'archivePage',target:'#ddArchiveSatelliteTab'},
   {title:'Follow Investigations',body:'Follow a case and review its locally tracked catalogue changes in Case Update History. Background alerts are not yet part of this feature.',page:'archivePage',target:'.archive-toolbar'},
   {title:'How-to & FAQ: your researcher handbook',body:'Go to Explore and open How to Use Disclosure Desk: a searchable handbook with four guided research workflows and 31 FAQs. It explains where to find sources, privacy protections and what is public versus still in beta.',page:'hub',target:'.dd-explore-guide-link'},
@@ -2197,6 +2210,7 @@ function openTour(section='basics'){
  tourSteps=tourSections[tourSection].steps;tourStep=0;
  dialog.showModal();renderTour();
 }
+window.DDStartTour=openTour;
 $('startAppTour').onclick=()=>openTour('basics');
 document.querySelectorAll('[data-start-tour]').forEach(btn=>btn.onclick=()=>openTour(btn.dataset.startTour));
 $('tourClose').onclick=closeTour;
@@ -2226,7 +2240,7 @@ function offerFirstVisitTour(){
  card.style.cssText='background:#102131;border:1px solid #E0C48E;border-radius:16px;padding:26px 22px;width:min(100%,420px);max-height:calc(100dvh - 40px);overflow-y:auto;box-sizing:border-box;box-shadow:0 16px 55px #000a;color:#F5F0E6;font:15px/1.6 Arial,sans-serif';
  const brand=document.createElement('div');brand.textContent='DISCLOSURE DESK';brand.style.cssText='font-weight:800;color:#E0C48E;letter-spacing:2px;margin-bottom:14px';
  const title=document.createElement('h2');title.id='ddWelcomeTitle';title.textContent='Welcome to Disclosure Desk';title.style.cssText='font-size:24px;margin:0 0 12px;color:#F5F0E6';
- const desc=document.createElement('p');desc.textContent='Explore News, Archive, W.NE Research Studio, Map, Videos, official LIVE hearing replays, Witness Reports and your Research Hub. No account is needed to take the tour.';desc.style.cssText='color:#D5E0E8;margin:0 0 22px';
+ const desc=document.createElement('p');desc.textContent='Explore News, Archive, Evidence DNA, original-source connections, Who’s Who, W.NE Research Studio, Map, LIVE and your Research Hub. Find a quick how-to popup with the ⓘ button on each page. No account is needed to take the tour.';desc.style.cssText='color:#D5E0E8;margin:0 0 22px';
  const actions=document.createElement('div');actions.style.cssText='display:flex;gap:10px;flex-wrap:wrap';
  const later=document.createElement('button');later.textContent='Not now';later.type='button';later.style.cssText='flex:1;min-width:110px;padding:13px;border-radius:9px;background:#1C2B39;color:#F5F0E6;border:1px solid #8B7754';
  const begin=document.createElement('button');begin.textContent='Take the tour';begin.type='button';begin.style.cssText='flex:1;min-width:140px;padding:13px;border-radius:9px;background:#E0C48E;color:#0E1D2B;border:0;font-weight:700';
@@ -3839,7 +3853,7 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
 #mapPage #mapArchiveResults{display:none!important}
 </style>
 <link rel="stylesheet" href="assets/community-polish.css?v=m74&m80=web-reply-parity&m86=on-demand&m87=news-reply-indent&m89=global-feed&drawer=v1&m90=tabs">
-</body></html>
+<script defer src="/assets/page-help.js?v=r2-m10-help01"></script></body></html>
 <style id="dd-m60-coverage-style">
 .dd-news-more-coverage{margin:9px 0 5px;border:1px solid #576777;border-radius:9px;background:#101f2c;color:#d8e2e7;font:12px system-ui}
 .dd-news-more-coverage summary{padding:10px 12px;cursor:pointer;font-weight:700;color:#e1c590;list-style:inside}
