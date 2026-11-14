@@ -67,7 +67,9 @@
   button.append(glyph,copy);button.addEventListener('click',()=>open(topic,button));return button;
  }
  let inserted=0;
- for(const name of names){
+ // Only the single-page app has these tab IDs. Static guide sections reuse
+ // IDs such as boards and witness, but must receive their header help icon.
+ if(document.querySelector('.nav .tab'))for(const name of names){
   const section=document.getElementById(name);
   if(!section||section.querySelector(':scope > .dd-help-bar'))continue;
   const bar=document.createElement('div');bar.className='dd-help-bar';
