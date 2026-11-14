@@ -7,12 +7,15 @@
 (()=>{
  const engine=window.DDHypothesisLab;
  const vault=window.DDPrivateVault;
+ const gapBridge=window.DDResearchGapBridge;
+ const publicCases=window.DDPublicCuratedCases;
  const $=id=>document.getElementById(id);
- if(!engine||!vault){$('notice').hidden=false;$('notice').textContent='Secure hypothesis engine unavailable; no notebook was loaded.';return;}
+ if(!engine||!vault||!gapBridge||!Array.isArray(publicCases)){$('notice').hidden=false;$('notice').textContent='Secure hypothesis engine unavailable; no notebook was loaded.';return;}
  let book=null,selectedId=null,editingId=null,view='write';
  let unlockedVault=null, busy=false;
  const selected=()=>book?.hypotheses.find(h=>h.id===selectedId)||null;
  const latest=h=>h?.revisions[h.revisions.length-1]||null;
+ const curatedCases=gapBridge.caseCatalogue(publicCases);
  const elt=(tag,cls,text)=>{
   const node=document.createElement(tag);
   if(cls)node.className=cls;
@@ -163,12 +166,13 @@
  }
  function showView(next){
   view=next;
-  for(const key of ['write','compare','history']){
+  for(const key of ['write','compare','history','gaps']){
    $(key+'View').hidden=key!==next;
    $(key+'Tab').setAttribute('aria-selected',String(key===next));
   }
   if(next==='compare')renderCompareOptions();
   if(next==='history')renderHistoryOptions();
+  if(next==='gaps')renderGaps();
  }
  function renderList(){
   const host=$('hypothesisList');host.replaceChildren();
@@ -255,6 +259,111 @@
   header.appendChild(elt('p','',current.content.explanation));root.appendChild(header);
   const structure=elt('div','structured-preview');paintContent(structure,current.content);
   root.appendChild(structure);
+ }
+ function appendSourceLink(host,source){
+  if(!source?.url||!/^https:\/\//.test(source.url))return;
+  const a=elt('a','gap-source-link','Open catalogue-linked source');
+  a.href=source.url;a.target='_blank';a.rel='noopener noreferrer';a.referrerPolicy='no-referrer';
+  host.appendChild(a);
+ }
+ function gapTitle(key){
+  const labels={
+   'event-year-not-indexed':'Event year needs checking',
+   'event-date-precision-not-indexed':'Exact event date needs checking',
+   'clock-time-not-indexed':'Observation time needs checking',
+   'sighting-position-not-verified':'Location precision needs checking',
+   'individual-source-list-not-indexed':'Supporting-source list needs checking',
+   'instrument-metadata-not-indexed':'Instrument metadata needs checking',
+   'witness-independence-not-indexed':'Witness independence needs checking'
+  };
+  return labels[key]||'A catalogue field needs checking';
+ }
+ function renderGaps(){
+  if(!book)return;
+  const info=$('gapCaseDetails'),host=$('gapCandidateList'),saved=$('gapReviewList');
+  info.replaceChildren();host.replaceChildren();saved.replaceChildren();
+  const known=curatedCases.find(x=>x.id===book.caseId);
+  const candidates=gapBridge.candidates(publicCases,book.caseId);
+  const reviews=gapBridge.recordedQuestions(book,{workspaceId:book.workspaceId});
+  if(!known){
+   $('gapSummary').textContent='This notebook is not tied to one of the three reviewed incident entries in this small local catalogue. No automated gap scan is possible here; that is not proof that a case has no research gaps.';
+  }else{
+   info.appendChild(elt('strong','',known.title));
+   info.appendChild(elt('p','muted small','Scope: only fields indexed in this local curated catalogue. Links are for human review.'));
+   $('gapSummary').textContent=candidates.length+' tentative questions to investigate, '+reviews.length+' explicitly saved. Nothing has been independently verified.';
+   if(!candidates.length)host.appendChild(elt('p','muted','No reviewable linked prompts for this entry. Other archival sources may still contain research needs.'));
+   for(const gap of candidates){
+    const already=reviews.some(x=>x.id===gap.id);
+    const card=elt('article','gap-card');card.dataset.gapId=gap.id;
+    const top=elt('div','gap-head');
+    top.appendChild(elt('h3','',gapTitle(gap.key)));
+    top.appendChild(elt('span','gap-state',already?'Saved privately':'Unverified question'));
+    card.appendChild(top);
+    card.appendChild(elt('p','',gap.reason));
+    card.appendChild(elt('p','gap-next','Suggested check: '+gap.nextAction));
+    const attribution=elt('p','gap-attribution','Catalogue entry only · '+gap.source.label);
+    card.appendChild(attribution);appendSourceLink(card,gap.source);
+    const controls=elt('div','gap-review-controls');
+    const label=elt('label','', 'Connect to existing hypothesis (optional)');
+    const select=elt('select');select.setAttribute('aria-label','Link '+gapTitle(gap.key)+' to a hypothesis');
+    const none=elt('option','', 'General case research · no hypothesis');
+    none.value='';select.appendChild(none);
+    for(const h of book.hypotheses){
+     const opt=elt('option','',latest(h).content.title);opt.value=h.id;select.appendChild(opt);
+    }
+    label.appendChild(select);
+    const button=elt('button','btn-add',already?'Already saved':'Record research question');
+    button.type='button';button.disabled=already;button.dataset.gapRecord=gap.id;
+    button.addEventListener('click',()=>recordGap(gap.id,select.value,button));
+    controls.append(label,button);card.appendChild(controls);host.appendChild(card);
+   }
+  }
+  if(!reviews.length)saved.appendChild(elt('p','muted','No research questions saved yet. Review an original source before drawing conclusions.'));
+  for(const review of reviews){
+   const entry=elt('article','gap-recorded');entry.dataset.recordId=review.id;
+   entry.appendChild(elt('strong','',gapTitle(review.id.split(':').slice(1).join(':'))));
+   entry.appendChild(elt('p','muted small',
+    'Research question · '+review.reviewedAt+' · NOT verified evidence'));
+   entry.appendChild(elt('p','',review.reason));
+   entry.appendChild(elt('p','gap-next','Suggested check: '+review.nextAction));
+   if(review.relatedHypothesisId){
+    const h=book.hypotheses.find(h=>h.id===review.relatedHypothesisId);
+    entry.appendChild(elt('p','gap-attribution',
+     'Linked to hypothesis: '+(h?latest(h).content.title:review.relatedHypothesisId)));
+   }
+   appendSourceLink(entry,review.source);saved.appendChild(entry);
+  }
+ }
+ async function recordGap(id,relatedHypothesisId,button){
+  if(busy||!book)return;
+  busy=true;button.disabled=true;hideStatus();
+  try{
+   const next=gapBridge.recordQuestion(book,{workspaceId:book.workspaceId,
+    records:publicCases,gapId:id,relatedHypothesisId,at:time()});
+   if(unlockedVault){
+    const generation=await vault.save(next,unlockedVault.key,unlockedVault.generation);
+    unlockedVault.generation=generation;
+   }
+   book=next;renderGaps();updateSecurityUI();
+   status(unlockedVault?
+    'Research question accepted and saved in your encrypted notebook; it remains unverified.':
+    'Research question added to this session only. Enable encrypted saving to keep it.');
+  }catch(error){
+   status('Research question was NOT recorded: '+error.message,true);
+   button.disabled=false;
+  }finally{busy=false}
+ }
+ function populateCatalogueCases(){
+  const select=$('catalogueCaseSelect');
+  for(const entry of curatedCases){
+   const option=elt('option','',entry.title);option.value=entry.id;select.appendChild(option);
+  }
+  select.addEventListener('change',()=>{
+   const chosen=curatedCases.find(x=>x.id===select.value);
+   if(!chosen)return;
+   $('caseInput').value=chosen.id;
+   $('notebookInput').value='Research notebook · '+chosen.title.replace(/^FEATURED INVESTIGATION · /,'').slice(0,140);
+  });
  }
  function renderNotebook(){
   if(!book)return;
@@ -419,7 +528,7 @@
  function clearDecryptedDOM(){
   for(const id of ['hypothesisList','selectedSections','comparisonResult',
    'compareOptions','revisionList','historySnapshot','predictionEntries',
-   'disconfirmEntries','sourceEntries'])$(id).replaceChildren();
+   'disconfirmEntries','sourceEntries','gapCaseDetails','gapCandidateList','gapReviewList'])$(id).replaceChildren();
   $('editorForm').reset();
   $('notebookHeading').textContent='';$('notebookMeta').textContent='';
   $('selectedTitle').textContent='';$('selectedExplanation').textContent='';
@@ -558,7 +667,7 @@
  $('addPredictionBtn').addEventListener('click',()=>addEntry('prediction'));
  $('addDisconfirmBtn').addEventListener('click',()=>addEntry('disconfirm'));
  $('addSourceBtn').addEventListener('click',()=>addEntry('source'));
- for(const key of ['write','compare','history'])
+ for(const key of ['write','compare','history','gaps'])
   $(key+'Tab').addEventListener('click',async()=>{
    if(!$('editorForm').hidden&&!(await confirmAction({
     title:'Leave unfinished edits?',
@@ -577,6 +686,7 @@
  $('unlockVaultForm').addEventListener('submit',unlockEncrypted);
  $('importVaultForm').addEventListener('submit',importEncrypted);
  $('deleteVaultBtn').addEventListener('click',deleteSaved);
+ populateCatalogueCases();
  renderDock();
  updateSecurityUI();
  refreshVaultAccess().catch(err=>status('Browser vault unavailable: '+err.message,true));
