@@ -1,14 +1,16 @@
 'use strict';
 /*
- * R3 isolated standalone prototype only. Uses the same tested hypothesis
- * engine as Node, in a generated local browser wrapper. NO account, network,
- * persistence, automatic publication, external scripts or evidence scoring.
+ * R3 local alpha only. Shared Node hypothesis engine and browser WebCrypto
+ * vault; explicit encrypted IndexedDB saving, NO account auth, server requests,
+ * background publishing, outside scripts or evidence scoring.
  */
 (()=>{
  const engine=window.DDHypothesisLab;
+ const vault=window.DDPrivateVault;
  const $=id=>document.getElementById(id);
- if(!engine){$('notice').hidden=false;$('notice').textContent='Hypothesis engine unavailable; no data was created.';return;}
+ if(!engine||!vault){$('notice').hidden=false;$('notice').textContent='Secure hypothesis engine unavailable; no notebook was loaded.';return;}
  let book=null,selectedId=null,editingId=null,view='write';
+ let unlockedVault=null, busy=false;
  const selected=()=>book?.hypotheses.find(h=>h.id===selectedId)||null;
  const latest=h=>h?.revisions[h.revisions.length-1]||null;
  const elt=(tag,cls,text)=>{
@@ -276,20 +278,26 @@
    sources:readEntries('source')
   };
  }
- function saveHypothesis(event){
-  event.preventDefault();hideStatus();
+ async function saveHypothesis(event){
+  event.preventDefault();if(busy)return;hideStatus();
+  busy=true;$('saveHypothesisBtn').disabled=true;
   try{
    const content=getContent();
-   if(editingId){
-    book=engine.reviseHypothesis(book,{workspaceId:book.workspaceId,id:editingId,content,at:time()});
-    selectedId=editingId;status('Saved a new private revision. Previous predictions remain intact.');
-   }else{
-    const id=slug(content.title,book.hypotheses.length+1);
-    book=engine.addHypothesis(book,{workspaceId:book.workspaceId,id,content,at:time()});
-    selectedId=id;status('Private in-memory hypothesis added. Remember to export before closing.');
+   const revising=!!editingId,id=revising?editingId:slug(content.title,book.hypotheses.length+1);
+   const next=revising?
+    engine.reviseHypothesis(book,{workspaceId:book.workspaceId,id,content,at:time()}):
+    engine.addHypothesis(book,{workspaceId:book.workspaceId,id,content,at:time()});
+   if(unlockedVault){
+    const generation=await vault.save(next,unlockedVault.key,unlockedVault.generation);
+    unlockedVault.generation=generation;
    }
-   editingId=null;renderList();renderSelected();
-  }catch(err){status(err.message,true);}
+   book=next;selectedId=id;editingId=null;
+   renderList();renderSelected();
+   updateSecurityUI();
+   status(unlockedVault?'Encrypted local save complete. Previous revisions preserved.':
+    'Draft saved in memory ONLY. Enable encryption before closing the page.');
+  }catch(err){status('Save was NOT completed: '+err.message,true)}
+  finally{busy=false;$('saveHypothesisBtn').disabled=false}
  }
  function createNotebook(event){
   event.preventDefault();hideStatus();
@@ -299,8 +307,8 @@
     caseId:$('caseInput').value.trim(),
     title:$('notebookInput').value.trim(),at:new Date().toISOString()
    });
-   selectedId=null;view='write';renderNotebook();
-   status('Notebook created in this tab only. No data has been saved or uploaded.');
+   selectedId=null;view='write';renderNotebook();updateSecurityUI();
+   status('Notebook created in memory only. Enable encrypted saving to keep it after closing.');
   }catch(err){status(err.message,true);}
  }
  const demoContent=(title,description,observation)=>({
@@ -317,6 +325,7 @@
   sources:[]
  });
  function loadDemo(){
+  if(unlockedVault){status('Lock your encrypted notebook before loading a different demo.',true);return;}
   if(book&&!window.confirm('Replace your in-memory notebook with a fictional demo? Unsaved work will be lost.'))return;
   book=engine.createNotebook({workspaceId:'demo-workspace',caseId:'fictional-case',
    title:'Fictional case — demonstration only',at:new Date().toISOString()});
@@ -327,24 +336,127 @@
    content:demoContent('Instrument interpretation','An imaginary instrument artefact might produce a similar pattern.',
     'A replicated sensor effect under controlled conditions would be detectable.'),at:time()});
   selectedId='h-environmental';view='write';renderNotebook();
-  status('Fictional demonstration loaded. No real case claims or personal data.');
+  updateSecurityUI();status('Fictional demonstration loaded in memory. Enable encrypted saving if you wish to keep it.');
  }
- function exportDraft(){
-  if(!book)return;
-  if(!window.confirm('Download this notebook as UNENCRYPTED JSON to your device? Anyone with the file can read it.'))return;
-  const text=engine.serializePrivateDraft(book,{workspaceId:book.workspaceId});
-  const blob=new Blob([text],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=elt('a');a.href=url;a.download='disclosure-desk-r3-'+book.workspaceId+'-'+book.caseId+'.json';
-  document.body.appendChild(a);a.click();a.remove();window.setTimeout(()=>URL.revokeObjectURL(url),1000);
-  status('Local JSON download requested. This prototype has not uploaded or stored the notebook.');
+ function clearDecryptedDOM(){
+  for(const id of ['hypothesisList','selectedSections','comparisonResult',
+   'compareOptions','revisionList','historySnapshot','predictionEntries',
+   'disconfirmEntries','sourceEntries'])$(id).replaceChildren();
+  $('editorForm').reset();
+  $('notebookHeading').textContent='';$('notebookMeta').textContent='';
+  $('selectedTitle').textContent='';$('selectedExplanation').textContent='';
+  $('workspaceInput').value='';$('caseInput').value='';$('notebookInput').value='';
+  for(const id of ['vaultNewPassphrase','vaultConfirmPassphrase',
+   'unlockPassphrase','importPassphrase'])$(id).value='';
+  $('importVaultFile').value='';
  }
- function closeNotebook(){
-  if(!book)return;
-  if(!window.confirm('Discard this in-memory notebook? Export first if you need a copy.'))return;
-  book=null;selectedId=null;editingId=null;view='write';
+ async function refreshVaultAccess(){
+  const stored=await vault.readStored();
+  $('vaultAccessPanel').hidden=!!book;
+  $('unlockVaultForm').hidden=!stored;
+  $('importVaultForm').hidden=!!stored;
+  $('deleteVaultBtn').hidden=!stored;
+  $('vaultAccessStatus').textContent=stored?
+   'An encrypted notebook was found in this Chrome profile. Enter its passphrase to recover it.':
+   'No local encrypted notebook found. You can restore a password-protected backup here, or start a fresh notebook.';
+  if(!book)$('vaultBadge').textContent=stored?'◉ Encrypted notebook locked':'◉ Session only · not saved';
+ }
+ function updateSecurityUI(){
+  $('enableVaultForm').hidden=!!unlockedVault;
+  $('lockVaultBtn').hidden=!unlockedVault;
+  $('exportBtn').disabled=!unlockedVault;
+  $('vaultSaveState').textContent=unlockedVault?
+   'Encrypted autosave active for completed revisions. Download a separate encrypted backup in case Chrome data is cleared.':
+   'Session-only: this notebook is NOT stored. Closing or refreshing will lose it.';
+  $('vaultBadge').textContent=unlockedVault?'◉ Encrypted on this device':'◉ Session only · not saved';
+ }
+ async function enableEncryption(event){
+  event.preventDefault();if(!book||busy||unlockedVault)return;
+  const pass=$('vaultNewPassphrase').value;
+  const confirm=$('vaultConfirmPassphrase').value;
+  if(pass!==confirm){status('Passphrase confirmation does not match.',true);return;}
+  busy=true;$('enableVaultBtn').disabled=true;hideStatus();
+  try{
+   const session=await vault.create(book,pass);
+   unlockedVault=session;
+   updateSecurityUI();
+   status('Encrypted notebook saved in this browser. Reopen with your passphrase and download a separate encrypted backup.');
+   await refreshVaultAccess();
+  }catch(err){status('Encryption was NOT enabled: '+err.message,true)}
+  finally{
+   $('vaultNewPassphrase').value='';$('vaultConfirmPassphrase').value='';
+   busy=false;$('enableVaultBtn').disabled=false;
+  }
+ }
+ async function unlockEncrypted(event){
+  event.preventDefault();if(busy)return;busy=true;$('unlockVaultBtn').disabled=true;
+  try{
+   const session=await vault.unlock($('unlockPassphrase').value);
+   book=session.book;unlockedVault={key:session.key,generation:session.generation};
+   selectedId=book.hypotheses[0]?.id||null;editingId=null;view='write';
+   renderNotebook();updateSecurityUI();await refreshVaultAccess();
+   status('Encrypted notebook unlocked locally. All saved revisions recovered.');
+  }catch(err){status('Unlock failed: '+err.message,true)}
+  finally{$('unlockPassphrase').value='';$('unlockVaultBtn').disabled=false;busy=false}
+ }
+ async function importEncrypted(event){
+  event.preventDefault();if(busy)return;
+  const file=$('importVaultFile').files?.[0];
+  if(!file||file.size>2*1024*1024){
+   status('Select an encrypted R3 backup smaller than 2 MB.',true);return;
+  }
+  busy=true;$('importVaultBtn').disabled=true;hideStatus();
+  try{
+   const session=await vault.importBackup(await file.text(),$('importPassphrase').value);
+   book=session.book;unlockedVault={key:session.key,generation:session.generation};
+   selectedId=book.hypotheses[0]?.id||null;editingId=null;view='write';
+   renderNotebook();updateSecurityUI();await refreshVaultAccess();
+   status('Encrypted backup restored to browser storage. Previous revisions preserved.');
+  }catch(err){status('Restore failed; no existing data was replaced: '+err.message,true)}
+  finally{
+   $('importPassphrase').value='';$('importVaultFile').value='';
+   $('importVaultBtn').disabled=false;busy=false;
+  }
+ }
+ async function exportEncrypted(){
+  if(!unlockedVault||busy)return;
+  busy=true;$('exportBtn').disabled=true;
+  try{
+   const text=await vault.encryptedExport(unlockedVault.generation);
+   const blob=new Blob([text],{type:'application/json'});
+   const url=URL.createObjectURL(blob);
+   const a=elt('a');a.href=url;
+   a.download='disclosure-desk-R3-ENCRYPTED-backup.json';
+   document.body.appendChild(a);a.click();a.remove();
+   window.setTimeout(()=>URL.revokeObjectURL(url),1500);
+   status('Encrypted backup download requested. Store the file safely; only your passphrase can open it.');
+  }catch(err){status('Backup download failed: '+err.message,true)}
+  finally{busy=false;$('exportBtn').disabled=!unlockedVault}
+ }
+ async function closeSession(){
+  if(!book||busy)return;
+  const prompt=unlockedVault?
+   'Lock this notebook and clear the current page? Its latest completed revisions remain encrypted in this browser.':
+   'Discard this UNSAVED session? Its changes cannot be recovered.';
+  if(!window.confirm(prompt))return;
+  clearDecryptedDOM();
+  book=null;unlockedVault=null;selectedId=null;editingId=null;view='write';
   $('workPanel').hidden=true;$('setupPanel').hidden=false;
-  $('setupForm').reset();hideStatus();
+  hideStatus();
+  try{await refreshVaultAccess()}catch(err){status(err.message,true)}
+ }
+ async function deleteSaved(){
+  if(busy||unlockedVault){
+   status('Lock the active notebook before deleting its encrypted local copy.',true);return;
+  }
+  if(window.prompt('Type DELETE to permanently erase the local encrypted notebook. Export a backup first if you need it.')!=='DELETE')return;
+  busy=true;$('deleteVaultBtn').disabled=true;
+  try{
+   await vault.deleteLocalVault();
+   await refreshVaultAccess();
+   status('Local encrypted notebook deleted. No encrypted backups elsewhere were changed.');
+  }catch(err){status(err.message,true)}
+  finally{busy=false;$('deleteVaultBtn').disabled=false}
  }
  $('setupForm').addEventListener('submit',createNotebook);
  $('sampleBtn').addEventListener('click',loadDemo);
@@ -364,7 +476,14 @@
   });
  $('buildCompareBtn').addEventListener('click',renderComparison);
  $('historyPerson').addEventListener('change',renderHistory);
- $('exportBtn').addEventListener('click',exportDraft);
- $('resetBtn').addEventListener('click',closeNotebook);
+ $('exportBtn').addEventListener('click',exportEncrypted);
+ $('resetBtn').addEventListener('click',closeSession);
+ $('lockVaultBtn').addEventListener('click',closeSession);
+ $('enableVaultForm').addEventListener('submit',enableEncryption);
+ $('unlockVaultForm').addEventListener('submit',unlockEncrypted);
+ $('importVaultForm').addEventListener('submit',importEncrypted);
+ $('deleteVaultBtn').addEventListener('click',deleteSaved);
  renderDock();
+ updateSecurityUI();
+ refreshVaultAccess().catch(err=>status('Browser vault unavailable: '+err.message,true));
 })();
