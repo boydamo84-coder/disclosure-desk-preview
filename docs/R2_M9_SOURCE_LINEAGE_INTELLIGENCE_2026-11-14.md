@@ -30,3 +30,9 @@
 ## Next candidate
 
 After review of more source-specific references: editorial worklist identifying direct first-hand documents, each later report's **exact quoted citation**, explicit documentary reuse and a link to the earlier public report; warnings for circular citations and unverified proposed links; avoid automatically calling common URLs distinct original eyewitness accounts.
+
+## Automated QA outcome (14 November 2026)
+
+**SUCCESS:** isolated GitHub Actions [run 43591055313](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43591055313) for tested code SHA `5a8766ec0ef3d4420bc1afb48fb3f5e0b11b81cc`.
+
+The run included `node scripts/test_source_lineage.cjs`, existing independent source/people validation, strict public package and link audits, responsive local Chromium Archive comparison, real case dialogs and source graph checks (393px phone and 1280px desktop), and Who's Who browser navigation. This does **not** substitute for hand-checking external links against the original source passage, human claim/editorial approval, physical Android testing or the owner-controlled release workflow.
