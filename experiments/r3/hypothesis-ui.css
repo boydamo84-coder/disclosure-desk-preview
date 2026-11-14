@@ -69,3 +69,40 @@
 .build-stamp{display:inline-block;margin:10px 0 0;padding:5px 9px;
  background:#142536;border:1px solid #675839;border-radius:8px;
  color:#ecd09a;font-size:10px;font-weight:760;letter-spacing:.55px}
+
+/* R3 source-linked Gap Finder: catalogue fields are questions, not verdicts. */
+.catalogue-setup{margin:16px 0 10px;padding:15px;border:1px solid #496178;
+ border-radius:12px;background:#112433}
+.catalogue-setup label{margin:0 0 5px;color:#edcc91}
+.catalogue-setup p{margin:8px 0 0}
+.catalogue-setup select{margin:7px 0}
+.gap-case-details{margin:17px 0 10px;padding:12px 14px;
+ background:#112b39;border:1px solid #445b6e;border-radius:12px}
+.gap-case-details strong{color:#f4d49e;font-size:13px}
+.gap-case-details p{margin:5px 0 0}
+.gap-candidate-list,.gap-review-list{display:grid;gap:13px;margin:13px 0}
+.gap-card,.gap-recorded{min-width:0;overflow-wrap:anywhere;border-radius:13px;
+ border:1px solid #4d6574;padding:15px;background:#101e2c}
+.gap-card{border-left:3px solid #d3b374}
+.gap-recorded{border-left:3px solid #77ad9c;background:#12252b}
+.gap-head{display:flex;justify-content:space-between;align-items:start;gap:10px;flex-wrap:wrap}
+.gap-head h3{margin:0;color:#f5d8a7;font-size:14px}
+.gap-card p,.gap-recorded p{margin:10px 0;color:#c5d5df;font-size:12px;line-height:1.68}
+.gap-card .gap-next,.gap-recorded .gap-next{color:#e1cda5}
+.gap-card .gap-attribution,.gap-recorded .gap-attribution{color:#9eafbd;font-size:11px}
+.gap-state{color:#e0d0ac;border:1px solid #716448;border-radius:28px;
+ padding:4px 8px;background:#2a2b28;font-size:10px;white-space:nowrap}
+.gap-source-link{display:inline-block;margin:4px 0 8px;color:#f0cd90;
+ font-size:12px;text-decoration:underline;overflow-wrap:anywhere}
+.gap-review-controls{display:grid;grid-template-columns:minmax(0,1fr) auto;
+ align-items:end;gap:12px;margin-top:10px;padding-top:8px;border-top:1px solid #344858}
+.gap-review-controls label{margin:0;color:#adc2d2}
+.gap-review-controls select{margin-top:6px}
+.gap-review-controls button{min-height:46px}
+.gap-recorded strong{color:#c5dfd3}
+.gap-saved-title{margin:25px 0 7px!important;border-top:1px solid #3a5262;padding-top:22px}
+@media(max-width:720px){
+ .gap-review-controls{grid-template-columns:1fr}
+ .gap-review-controls button{width:100%}
+ .gap-head{flex-direction:column;align-items:start}
+}
