@@ -97,6 +97,14 @@ const BASE='http://127.0.0.1:4173';
     assert.equal(await radar.locator('[data-radar-output] article').count(),2);
 
     // R2 M7 graph view: mobile/desktop must show a bounded, source-only topology.
+    // M8 deliberately limits people to supported public source attributions.
+    const roles=dna.locator('.dd-case-people article');
+    assert.equal(await roles.count(),isRoswell?0:2,'Only Rendlesham has current human-role references');
+    if(!isRoswell){
+     assert.equal(await roles.locator('a[href^="/who-is-who.html?person="]').count(),2);
+     assert.equal(await roles.locator('a[href^="https://"]').count(),2,'Each attribution cites the original publisher');
+     assert.match(await roles.innerText(),/does not adjudicate|not a claim|does not prove/i);
+    }
     const graph=dna.locator('details.dd-evidence-graph');
     assert.equal(await graph.count(),1,'Curated dossiers expose a separate graph disclosure');
     await graph.locator('summary').first().click();
@@ -104,13 +112,14 @@ const BASE='http://127.0.0.1:4173';
     assert.match(await graph.locator('[data-graph-summary]').innerText(),/Verified cross-case connections: 0/i);
     assert(await graph.locator('svg.dd-source-graph-svg rect').count()>=4,'Graphic nodes render');
     await graph.locator('select[data-graph-mode]').selectOption('all');
-    assert.match(await graph.locator('[data-graph-summary]').innerText(),/2 case dossier/i);
+    assert.match(await graph.locator('[data-graph-summary]').innerText(),/3 case dossier/i);
+    assert.match(await graph.locator('[data-graph-summary]').innerText(),/3 attributed public person/i);
     assert.match(await graph.locator('[data-graph-summary]').innerText(),/4 editorial draft statement/i);
-    assert.match(await graph.locator('[data-graph-summary]').innerText(),/3 distinct cited source page/i);
-    assert.equal(await graph.locator('svg.dd-source-graph-svg rect').count(),9,'Two cases, four statements, three distinct sources');
+    assert.match(await graph.locator('[data-graph-summary]').innerText(),/6 distinct cited source page/i);
+    assert.equal(await graph.locator('svg.dd-source-graph-svg rect').count(),16,'Three cases, three people, four statements, six cited documents');
     const list=graph.locator('details').first();
     await list.locator('summary').click();
-    assert.equal(await list.locator('li').count(),8,'Text alternative retains eight source/context relationships');
+    assert.equal(await list.locator('li').count(),14,'Text alternative contains eight research links and six public role sources');
     assert(await list.locator('a[href^="https://"]').count()>=4,'Original citation locations remain available without SVG');
     await graph.locator('select[data-graph-mode]').selectOption('current');
     assert.match(await graph.locator('[data-graph-summary]').innerText(),/1 case dossier/i);
