@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "status": "public-editorial-draft",
+  "description": "Source-attributed public person/case relationships only. Evidence establishes documented statements or publication, not the reported event or the veracity of extraordinary claims.",
+  "links": [
+    {
+      "id": "fravor-nimitz-congress-2023",
+      "personId": "david-fravor",
+      "personName": "David Fravor",
+      "caseId": "featured-nimitz-2004",
+      "caseLabel": "USS Nimitz / Tic Tac (2004)",
+      "role": "firsthand-statement",
+      "roleLabel": "First-person encounter account in congressional testimony",
+      "statement": "Fravor described his own November 2004 flight and the reported Tic Tac-shaped observation during testimony recorded by the US House.",
+      "context": "The hearing records the testimony; it does not by itself independently verify every interpretation or reported performance detail.",
+      "source": {
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+        "locator": "STATEMENT OF DAVID FRAVOR (RET.) — description of 2004 USS Nimitz / USS Princeton encounter",
+        "publisher": "US Government Publishing Office, House Oversight hearing",
+        "date": "2023-07-26"
+      },
+      "reviewStatus": "editorial-draft",
+      "eventVerified": false
+    },
+    {
+      "id": "pope-rendlesham-book-2014",
+      "personId": "nick-pope",
+      "personName": "Nick Pope",
+      "caseId": "featured-rendlesham-1980",
+      "caseLabel": "Rendlesham Forest (1980)",
+      "role": "published-commentary",
+      "roleLabel": "Co-author of a later case book",
+      "statement": "Nick Pope co-authored the 2014 book Encounter in Rendlesham Forest with John Burroughs and Jim Penniston.",
+      "context": "A documented authorship and publication association, not a claim that Pope was present for the December 1980 incident or proof of the book's assertions.",
+      "source": {
+        "url": "https://www.nickpope.net/archive",
+        "locator": "Books — Encounter in Rendlesham Forest (2014)",
+        "publisher": "Nick Pope official archive",
+        "date": "2014"
+      },
+      "reviewStatus": "editorial-draft",
+      "eventVerified": false
+    },
+    {
+      "id": "warren-rendlesham-interview-2023",
+      "personId": "larry-warren",
+      "personName": "Larry Warren",
+      "caseId": "featured-rendlesham-1980",
+      "caseLabel": "Rendlesham Forest (1980)",
+      "role": "retrospective-claim",
+      "roleLabel": "Retrospective claimed participant account",
+      "statement": "A June 2023 recorded interview features Larry Warren discussing his claimed experience associated with Rendlesham Forest.",
+      "context": "The interview documents Warren's own retrospective account. His claimed presence and incident details have been disputed; this link does not adjudicate the disagreement.",
+      "source": {
+        "url": "https://www.thecosmicswitchboard.com/2023/06/06/rendlesham-forest-secrets/",
+        "locator": "6 June 2023 — Larry Warren & Steve LaPlume interview, Part 1 and Part 2",
+        "publisher": "The Cosmic Switchboard",
+        "date": "2023-06-06"
+      },
+      "reviewStatus": "editorial-draft",
+      "eventVerified": false
+    }
+  ]
+}

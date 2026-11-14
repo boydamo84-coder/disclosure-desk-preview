@@ -1,0 +1,125 @@
+'use strict';
+// Public editorial "Who's Who" data contract; no network or account access.
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const dir=JSON.parse(fs.readFileSync('data/public-people-directory.json','utf8'));
+const page=fs.readFileSync('who-is-who.html','utf8');
+const app=fs.readFileSync('assets/people-directory.js','utf8');
+const editorialNav=fs.readFileSync('assets/secondary-editorial-nav.js','utf8');
+const editorialNavCss=fs.readFileSync('assets/secondary-editorial-nav.css','utf8');
+const home=fs.readFileSync('index.html','utf8');
+const bundle=fs.readFileSync('scripts/build_public_release.cjs','utf8');
+const isSafe=url=>{try{let u=new URL(url);return u.protocol==='https:'&&!u.username&&!u.password}catch{return false}};
+const ids=new Set(),names=new Set();
+assert.equal(dir.version,1);
+assert.equal(dir.people.length,50);
+assert.equal(dir.status,'research-copy-edit-needed','Not verified/approved without source checks');
+let videos=0,socials=0,cites=0,portraits=0;
+const legacyIds=new Set(['david-grusch','ryan-graves','david-fravor','ross-coulthart','jeremy-corbell','george-knapp','mick-west','bob-lazar','jake-barber','steven-greer','larry-warren','luis-elizondo','christopher-mellon','avi-loeb','jacques-vallee','james-fox','nick-pope']);
+for(const p of dir.people){
+ assert(/^[a-z0-9-]+$/.test(p.id)&&!ids.has(p.id),'Unique safe direct profile ID');
+ assert(!names.has(p.name),'Unique public identity');ids.add(p.id);names.add(p.name);
+ assert(Array.isArray(p.category)&&p.category.length>=1);
+ assert(Array.isArray(p.biography)&&p.biography.length>=3&&p.biography.every(x=>x.length>=100),
+  'Detailed editorial biography, not a thin scraped stub: '+p.name);
+ assert(Array.isArray(p.milestones)&&p.milestones.length>=3&&p.milestones.every(x=>x.title&&x.date&&isSafe(x.source)),
+  'Dated public involvement timeline with working-type source URLs: '+p.name);
+ assert(Array.isArray(p.articles)&&p.articles.length>=2&&p.articles.every(x=>isSafe(x.url)&&x.publisher),
+  'Publisher/source coverage for '+p.name);
+ assert(Array.isArray(p.videos)&&p.videos.every(x=>/^[\w-]{11}$/.test(x.youtubeId)&&
+   /testimony|interview|analysis|reconstruction|report|documentary|programme|discussion/i.test(x.type)&&x.context.length>40),
+  'Only attributed, type-labelled published YouTube videos: '+p.name);
+ assert(!legacyIds.has(p.id)||p.videos.length>0||p.filmCredits.length>0,'Preserve original richly sourced media profiles: '+p.name);
+ assert(Array.isArray(p.podcastEpisodes),'Podcast entry list exists even if not verified: '+p.name);
+ assert(!legacyIds.has(p.id)||p.podcastEpisodes.length>=1,'Existing profile episodes preserved: '+p.name);
+ assert(Array.isArray(p.filmCredits),'Film credit ledger must exist even when unverified: '+p.name);
+ assert(p.podcastEpisodes.every(e=>isSafe(e.url)&&e.title&&e.show&&e.role),'Every podcast must link a publisher and credit the person\'s role');
+ assert(p.filmCredits.every(f=>isSafe(f.url)&&f.title&&f.year&&f.role&&f.type),'All claimed screen credits must cite a publisher/credit source');
+ assert(Array.isArray(p.socialPages));
+ assert(p.socialPages.every(x=>isSafe(x.url)&&x.kind),'No invented personal account without publisher attribution');
+ if(p.photo!==null){
+  assert(isSafe(p.photo.url)&&isSafe(p.photo.source)&&p.photo.credit,
+   'A portrait must have a secure source, publisher and attribution: '+p.name);
+  assert(p.photo.status==='source-and-licence-reviewed'&&['Public domain (US federal government)','CC0 1.0','CC BY 2.0','CC BY 3.0','CC BY 4.0','CC BY-SA 4.0'].includes(p.photo.license),
+   'Portrait only appears with reviewed and permitted source metadata: '+p.name);
+  assert(p.photo.source.includes('commons.wikimedia.org/wiki/File:'),
+   'Reuse page must document rights and identity: '+p.name);portraits++;
+ }
+ assert(Array.isArray(p.sources)&&p.sources.every(x=>isSafe(x.url)),'Primary public sources');
+ videos+=p.videos.length;socials+=p.socialPages.length;cites+=p.milestones.length+p.articles.length;
+}
+for(const token of ['id="profileBiography"','id="profileTimeline"','id="profileArticles"','id="profileSocials"',
+                    'id="profileVideoPlayers"','id="profilePodcasts"','id="profileFilms"','id="profileRelatedCases"','id="directoryBack"','id="peopleSearch"','id="peopleCategory"'])
+ assert(page.includes(token),'Directory exposes '+token);
+assert(page.includes('analytics-consent.js')&&!page.includes('googletagmanager.com'),
+ 'Public profile entry uses consent-gated analytics');
+assert(page.includes('href="/"')&&home.includes('href="/who-is-who.html"'),'Visible Home and directory navigation');
+assert(page.includes('https://uapdisclosuredesk.com/who-is-who'),'Canonical public directory');
+assert(page.includes('Video')&&page.includes('Profiles'),'Accessible user-facing profile sections');
+assert(bundle.includes("'who-is-who.html'")&&bundle.includes("'public-people-directory.json'")&&
+  bundle.includes("'people-directory.js'"),'Strict website-only bundler explicitly allows three new items');
+assert(app.includes('www.youtube-nocookie.com/embed/')&&app.includes("addEventListener('click'"),
+ 'Embeds load only after visitor clicks');
+assert(!/autoplay=1|youtube\.com\/embed\//.test(app),'No automatic video start or cookie-rich YouTube embed');
+assert(app.includes("history.pushState")&&app.includes("window.addEventListener('popstate'"),
+ 'Shareable individual ?person links with Back behaviour');
+assert(!page.match(/<iframe\b/i),'No publisher trackers in initial HTML');
+assert(app.includes('esc('),'Escaped public-sourced content rather than raw HTML injection');
+for(const id of ['bob-lazar','jake-barber','steven-greer','larry-warren','luis-elizondo','christopher-mellon','avi-loeb','jacques-vallee','james-fox','nick-pope'])
+ assert(ids.has(id),'Approved research directory participant present: '+id);
+assert(dir.people.find(p=>p.id==='nick-pope').biography.join(' ').includes('6 April 2026'),'Correct memorial context recorded');
+assert(dir.people.find(p=>p.id==='larry-warren').relatedCases?.some(c=>c.url==='/rendlesham-forest-1980'),'Rendlesham source deep link included');
+assert(app.includes('profileRelatedCases')&&app.includes('profilePodcasts')&&app.includes('profileFilms'),'Public page must render all new research sections');
+assert(!page.includes('17 draft profiles'),'Page count is not stale');
+assert(dir.people.filter(p=>p.category.includes('Congress')).length>=10,'Congressional advocates included');
+assert(dir.people.filter(p=>p.category.includes('NASA UAP study')).length===17,'NASA study panel and its coordinator represented');
+
+for(const id of ['ross-coulthart','george-knapp','mick-west']){
+ const p=dir.people.find(row=>row.id===id);
+ assert(p?.photo?.url&&p.photo.source?.startsWith('https://commons.wikimedia.org/wiki/File:'),
+  'Additional credited Commons photo must link its source page: '+id);
+}
+assert.equal(portraits,20,'R2 profile photo inventory after source-backed expansion');
+
+assert(app.includes('PHOTO_LICENSE_URLS')&&app.includes('appendPortraitCredit'),
+ 'Portrait credit component must be shared between card and profile');
+for(const deed of [
+ 'https://creativecommons.org/licenses/by/2.0/',
+ 'https://creativecommons.org/licenses/by/3.0/',
+ 'https://creativecommons.org/licenses/by/4.0/',
+ 'https://creativecommons.org/licenses/by-sa/4.0/'
+])assert(app.includes(deed),'Link to required Creative Commons deed: '+deed);
+assert(app.includes('Display cropped to fit')&&app.includes("'Photo: '+photo.credit"),
+ 'Visible author/source credit and display crop acknowledgement');
+assert(page.includes('.card-photo-credit a{'),'Mobile directory credits have visible tappable links');
+assert(page.includes('/assets/people-directory.js?v=r2-photo-credit-tasl-20261114'),
+ 'Who\'s Who production HTML must cache-bust the credited portrait renderer');
+
+assert(page.includes('/assets/secondary-editorial-nav.js?v=r2-premium-nav01')&&
+ page.includes('/assets/secondary-editorial-nav.css?v=r2-premium-nav01'),
+ 'Standalone Who\'s Who must load the original premium navigation resources');
+assert(bundle.includes("'secondary-editorial-nav.js'")&&bundle.includes("'secondary-editorial-nav.css'"),
+ 'Premium navigation files must be explicitly website-only allowlisted');
+for(const id of ['discover','archivePage','peopleDirectory','researchStudio','mapPage',
+ 'clips','livePage','boards','witness','discussionsPage','watchRead','chatPage','profilePage','hub'])
+ assert(editorialNav.includes("['"+id+"',"),'Fourteen-tab editorial dock preserves '+id);
+assert(editorialNav.includes('ddWebNavPrev')&&editorialNav.includes('ddWebNavNext')&&
+ editorialNav.includes("location.assign('/?dd_tab='"),
+ 'Dock must retain real scroll arrows and route to Home app sections');
+assert(editorialNav.includes("document.getElementById('ddAndroidEditorialNav')")&&
+ editorialNavCss.includes('body:has(#ddAndroidEditorialNav)'),
+ 'Bundled M12.3 Android must suppress the duplicate web dock');
+assert(editorialNavCss.includes('background:#101a27f7')&&
+ editorialNavCss.includes('.tab.active{color:#efd3a0}'),
+ 'Premium dock keeps original midnight-navy/antique-gold visual contract');
+
+assert(app.includes('DDPeopleDirectoryBack')&&app.includes('paintPortrait'),'Native Back and licensed portrait renderer present');
+
+assert(page.includes('public-domain or Creative Commons sources'),
+ 'Public directory must not describe CC BY/SA images as all public-domain');
+assert(page.includes('An initials tile means no image is displayed'),
+ 'Describe unavailable external photos without claiming the subject lacks a verified image');
+assert(app.includes("host.classList.remove('has-photo');") &&
+  app.includes("if(host.contains(picture))host.classList.add('has-photo')"),
+ 'Reused avatar must reset loaded-image state and ignore detached image events');
+console.log('PASS Who’s Who R2: '+dir.people.length+' sourced detailed biographies, '+cites+' dated/source references, '+
+ videos+' context-labelled videos, '+socials+' attributed social links, '+portraits+' documented reuse portraits; click-to-play, shareable profiles and public-only packaging');
