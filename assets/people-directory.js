@@ -241,10 +241,12 @@ function backToDirectory(){
  if(!selected)return false;
  if(history.state?.fromDirectory){history.back();return true;}
  const personId=selected.id;
+ // Capture the return anchor BEFORE replaceState clears this profile entry.
+ // This matters after crossing Archive's separate document history.
+ const anchor=history.state?.ddDirectoryReturn;
  const u=new URL(location.href);u.searchParams.delete('person');
  history.replaceState({directoryPerson:null},'',u.pathname+u.search+u.hash);
- // A directly opened profile has no previous directory entry.
- const anchor=history.state?.ddDirectoryReturn;
+ // A directly opened profile with no previous directory entry shows cards.
  showDirectory(false,anchor?.personId===personId&&numberY(anchor.y)!==null
   ?anchor:{personId,firstCard:true});return true;
 }
