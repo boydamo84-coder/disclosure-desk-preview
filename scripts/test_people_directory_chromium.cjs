@@ -42,7 +42,7 @@ const BASE='http://127.0.0.1:4173';
    if(width===393){
     await page.locator('#peopleSearch').focus();
     assert.equal(await dock.isVisible(),false,'Mobile keyboard focus must hide the dock');
-    await page.locator('#peopleSearch').blur();
+    await page.locator('#peopleSearch').evaluate(el=>el.blur());
     await dock.waitFor({state:'visible'});
     const routeTest=await ctx.newPage();
     await routeTest.goto(BASE+'/who-is-who.html',{waitUntil:'domcontentloaded'});
