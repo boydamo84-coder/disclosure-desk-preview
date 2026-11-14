@@ -24,10 +24,27 @@ const BASE='http://127.0.0.1:4173';
    const widths=await page.evaluate(()=>({a:document.documentElement.scrollWidth,b:window.innerWidth}));
    assert(widths.a<=widths.b+3,'Directory must not horizontally overflow '+width+'px');
    await page.locator('#peopleSearch').fill('Mick West');
+   const cardCredit=page.locator('#peopleCards .card-photo-credit');
+   assert.equal(await cardCredit.locator('a').count(),2,
+    'CC photo card shows linked source and separate licence');
+   assert.match(await cardCredit.innerText(),/Karl Withakay/i,
+    'Photographer must be visible on the card rather than tooltip only');
+   assert.match(await cardCredit.innerText(),/Display cropped to fit/,
+    'Thumbnail crop/modification must be disclosed');
+   assert.match(await cardCredit.locator('a').nth(0).getAttribute('href'),
+    /^https:\/\/commons.wikimedia.org\/wiki\/File:/);
+   assert.equal(await cardCredit.locator('a').nth(1).getAttribute('href'),
+    'https://creativecommons.org/licenses/by-sa/4.0/');
    assert.equal(await page.locator('#peopleCards article.card').count(),1,'Name search filters');
    await page.locator('#peopleCards button').click();
    await page.locator('#personProfile').waitFor({state:'visible'});
    assert.equal(await page.locator('#profileName').textContent(),'Mick West','Correct person detail');
+   const profileCredit=page.locator('#profilePhotoCredit');
+   assert.equal(await profileCredit.locator('a').count(),2,
+    'Detailed photo attribution links to source and CC licence deed');
+   assert.match(await profileCredit.innerText(),/Karl Withakay.*CC BY-SA 4\.0.*Display cropped to fit/);
+   assert.equal(await profileCredit.locator('a').nth(1).getAttribute('href'),
+    'https://creativecommons.org/licenses/by-sa/4.0/');
    assert.equal(await page.locator('#profileTimeline li').count()>=3,true,'Dated history present');
    assert.equal(await page.locator('#profileBiography p').count()>=3,true,'Full story present');
    assert.equal(await page.locator('#profilePodcasts .source-entry').count()>=1,true,'A real podcast link appears');
@@ -77,7 +94,9 @@ const BASE='http://127.0.0.1:4173';
    const portrait=await ctx.newPage();
    await portrait.goto(BASE+'/who-is-who.html?person=anna-paulina-luna',{waitUntil:'domcontentloaded'});
    await portrait.locator('#personProfile').waitFor({state:'visible'});
-   assert.match(await portrait.locator('#profilePhotoCredit').innerText(),/Portrait:/,'Portrait source attribution available');
+   assert.match(await portrait.locator('#profilePhotoCredit').innerText(),/Photo:/,'Portrait source attribution available');
+   assert.equal(await portrait.locator('#profilePhotoCredit a').count(),1,
+    'US federal public-domain portrait does not invent a Creative Commons deed');
    assert.match(await portrait.locator('#profileAvatar').textContent(),/AP/,'Blocked external images retain initials in offline browser QA');
    await portrait.close();
 
