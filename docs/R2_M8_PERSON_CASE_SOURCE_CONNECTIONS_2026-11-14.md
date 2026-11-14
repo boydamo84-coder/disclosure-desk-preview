@@ -21,3 +21,8 @@ The public directory and Archive now connect people and investigations by the sp
 - Existing archive and profile Chromium tests extended for source links at phone width 393px and desktop 1280px. Strict public release package includes only the new public data/code; no private records added.
 - Expected full graph: 3 case nodes, 4 already-drafted claim nodes, 3 public person nodes, 6 distinct cited pages = **16 nodes**; 8 original citation/catalogue edges and 6 attributed/source edges = **14**; no verified case-to-case edges.
 - Editorial human review of exact original passages, mobile hardware tests, accessibility and owner acceptance remain mandatory. More people/cases should be linked **only after individually reviewable primary evidence is found**. R1 first; R2 rebase onto actual live production after separate acceptance; no Netlify preview, deployment, merge, AdSense resubmission or live account work.
+
+## Verified automated QA outcome — 14 November 2026
+- GitHub Actions isolated no-deploy CI **[run 43588686078](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43588686078) succeeded** on exact code SHA `3663791761b63fbbc5c285915b7fc4c68faca75a`.
+- Passed: typed attribution and graph invariants, strict  public-only release allowlist/package, public HTML/link audit, simulated Samsung-width 393px and desktop 1280px Archive/source graph and relationship list, Who's Who profile browser checks, and **Fravor profile → Nimitz Archive → person role + source graph** end-to-end.
+- The automated tests do not imply that all external source pages have been manually verified, that the wider historical archive has true people relationships, that the live website has changed, or that actual Galaxy device testing has been completed.
