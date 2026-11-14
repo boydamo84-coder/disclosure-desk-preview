@@ -114,7 +114,7 @@ const BASE='http://127.0.0.1:4173';
     assert.match(deskSummary,/0 separately evidenced re-use\/derivation link/i);
     assert.match(deskSummary,/Independent witnesses: unknown/i);
     if(isRoswell){
-      assert.match(await sourceDesk.innerText(),/General Accounting Office/i);
+      assert.match(await sourceDesk.innerText(),/Government Accountability Office|GAO/i);
       assert.match(await sourceDesk.innerText(),/NARA specifically discusses/i);
       assert.equal(await sourceDesk.locator('ol > li a[href="https://www.archives.gov/research/military/air-force/ufos"]').count(),2,
        'Original NARA source remains linked in checked reference and source list');
