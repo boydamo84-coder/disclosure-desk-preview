@@ -87,10 +87,22 @@
   // Keep the nav hidden throughout mobile editing, not just while a
   // textarea has focus. Otherwise focusout between pointerdown and click
   // makes the fixed dock reappear and steals taps on Add source/save.
-  const syncKeyboard=()=>document.body.classList.toggle('dd-web-keyboard-open',
-   editing(document.activeElement)||!$('editorForm').hidden);
-  document.addEventListener('focusin',syncKeyboard);
-  document.addEventListener('focusout',()=>setTimeout(syncKeyboard,50));
+  const keyboardShouldHide=()=>editing(document.activeElement)||!$('editorForm').hidden;
+  // A focusout while the user taps Create/Record/Save can occur between
+  // pointerdown and click. Keep nav hidden long enough for that click to
+  // complete rather than shifting the viewport and stealing the action.
+  let keyboardTimer;
+  const deferredKeyboardSync=()=>{
+   clearTimeout(keyboardTimer);
+   keyboardTimer=setTimeout(()=>document.body.classList.toggle(
+    'dd-web-keyboard-open',keyboardShouldHide()),350);
+  };
+  document.addEventListener('focusin',()=>{
+   if(editing(document.activeElement)){
+    clearTimeout(keyboardTimer);document.body.classList.add('dd-web-keyboard-open');
+   }else deferredKeyboardSync();
+  });
+  document.addEventListener('focusout',deferredKeyboardSync);
   document.body.classList.add('dd-web-secondary-nav');
   requestAnimationFrame(update);
  }
