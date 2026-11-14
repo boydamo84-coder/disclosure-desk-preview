@@ -1,5 +1,5 @@
 'use strict';
-// M11: a newly selected archive case must never inherit the previous dialog scroll.
+// M11 PRIVATE APK release gate: every new case opens at top and Who’s Who must have its own tab.
 // All requests remain on loopback; neither Netlify nor user accounts are contacted.
 const assert=require('node:assert/strict');
 const path=require('node:path');
