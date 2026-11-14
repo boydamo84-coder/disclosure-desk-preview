@@ -29,6 +29,17 @@ article.profile{margin:30px 0 42px}.profile-intro{display:flex;gap:16px;align-it
 .note{border-left:3px solid var(--gold);background:#172a3b;padding:11px 16px}.compact{margin:0}.hidden{display:none!important}
 footer{border-top:1px solid var(--line);padding:24px 0 44px;color:var(--muted);font-size:13px;margin-top:38px}
 footer a{margin-right:14px}
+.profile-timeline{list-style:none;padding:0;display:grid;gap:13px}
+.profile-timeline li{display:grid;grid-template-columns:145px minmax(0,1fr);gap:16px;padding:16px;border:1px solid var(--line);border-radius:11px;background:#0b1e2e}
+.profile-timeline time{color:var(--gold);font-size:14px;font-weight:800}
+.profile-timeline p{margin:5px 0 7px}
+#profileBiography p{max-width:88ch;margin:13px 0;line-height:1.8}
+.video-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.video-card{border:1px solid var(--line);background:#0b1b2b;padding:17px;border-radius:12px}
+.video-card strong{font-size:16px}.video-card p{margin:8px 0}
+.video-preview{background:#172d40;border:1px solid #476177;border-radius:10px;padding:14px;margin-top:12px;aspect-ratio:16/9;display:grid;align-content:center;justify-items:center;overflow:hidden}
+.video-preview iframe{width:100%;height:100%;aspect-ratio:16/9;border:0}
+@media(max-width:760px){.video-grid{grid-template-columns:1fr}.profile-timeline li{grid-template-columns:1fr;gap:5px}}
 @media(max-width:760px){.tools,.cards,.profile-grid{grid-template-columns:1fr}.hero{padding-top:27px}.card{padding:18px}}
 </style>
 <script defer src="/assets/analytics-consent.js?v=nov08-ga4-optin-m18"></script>
@@ -52,6 +63,8 @@ footer a{margin-right:14px}
 <div id="profileTags" class="pills"></div><p id="profileShort"></p>
 <p class="muted small">Profile images are not included until appropriate permission or a verified reusable licence is available.</p>
 </div>
+<section class="card" id="profileFullStory"><div class="section-title">Background · career · UAP involvement</div><h2>The full story</h2><div id="profileBiography"></div></section>
+<section class="card" id="profileKeyDates"><div class="section-title">Dated record</div><h2>Key milestones and involvement</h2><ol class="profile-timeline" id="profileTimeline"></ol></section>
 <div class="profile-grid">
 <div>
 <section class="card"><div class="section-title">Public statements and perspective</div><h3>What they have publicly discussed</h3><p id="profilePosition"></p></section>
@@ -59,10 +72,12 @@ footer a{margin-right:14px}
 </div>
 <aside>
 <section class="card"><div class="section-title">Attribution</div><h3>Source documents</h3><ul id="profileSources" class="link-list"></ul></section>
-<section class="card"><div class="section-title">Watch &amp; listen</div><h3>Published videos and interviews</h3><ul id="profileMedia" class="link-list"></ul><p class="muted small">External videos open at the original publisher; there is no autoplay, copied footage or implied endorsement.</p></section>
+<section class="card"><div class="section-title">Reports &amp; coverage</div><h3>Articles and reporting</h3><div id="profileArticles"></div><p class="muted small">Publishing a story documents its coverage, not independent verification of every claim.</p></section><section class="card"><div class="section-title">Watch &amp; listen</div><h3>Published videos and interviews</h3><ul id="profileMedia" class="link-list"></ul><p class="muted small">These publisher links open new tabs. Embedded players below load only after you consent by clicking play.</p></section><section class="card"><div class="section-title">Public social pages</div><h3>Follow their work</h3><div id="profileSocials"></div><p class="muted small">Only public pages attributed by an official biography or the relevant institution. No private contacts or unverified fan accounts.</p></section>
 <section class="card"><div class="section-title">Official public links</div><h3>Public sites and channels</h3><ul id="profileLinks" class="link-list"></ul><p class="muted small">Only verified public channels are listed; private contact details and unconfirmed social handles are excluded.</p></section>
 </aside>
 </div>
+<section class="card"><div class="section-title">Watch their own words</div><h2>Video interviews, testimony and analysis</h2>
+<p class="muted small">Testimony and journalistic interviews are not the original incident footage unless specifically labelled otherwise. Videos are hosted by their publishers. Players are activated only when you choose to play.</p><div id="profileVideoPlayers" class="video-grid"></div></section>
 </article>
 <section class="card" id="editorialPolicy"><div class="section-title">Directory policy</div><h2>Profiles are evidence guides, not popularity contests</h2>
 <p>Statements are attributed to their speakers or published institutions. Reporting, first-hand testimony, technical analysis and alleged facts are different types of evidence. Inclusion is not an endorsement or accusation.</p>
