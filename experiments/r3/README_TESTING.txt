@@ -1,4 +1,4 @@
-DISCLOSURE DESK — R3 ENCRYPTED LOCAL HYPOTHESIS LAB (PRIVATE ALPHA)
+DISCLOSURE DESK — R3 ENCRYPTED HYPOTHESIS LAB · PREMIUM NAV / PROMPTS
 ==================================================================
 This test ZIP is NOT the live website or an installed APK. There is no
 account login or cloud copy. This is an experimental passphrase-protected
@@ -6,10 +6,10 @@ single-browser LOCAL vault. Please use fictional/example data, not
 sensitive research, until a full security audit has been completed.
 
 TEST ON YOUR SAMSUNG GALAXY / TERMUX
-1. Extract the new ZIP into Downloads/R3_Hypothesis_Lab_Encrypted_Test.
+1. Extract the new ZIP into Downloads/HypothesisLab_R3_Nav_Polish.
 2. Stop the existing Termux Python server (CTRL + C).
 3. In Termux, run:
-   cd ~/storage/downloads/R3_Hypothesis_Lab_Encrypted_Test
+   cd ~/storage/downloads/HypothesisLab_R3_Nav_Polish
    ls
    python -m http.server 4175 --bind 127.0.0.1
    (If you used a different folder name, update the cd line.)
@@ -49,8 +49,16 @@ ENCRYPTION / SAVING BEHAVIOUR
   isolation or multi-user permission enforcement.
 - This is an unaudited prototype. Do NOT claim it has a production
   security certification or guarantees against device compromise.
-- The original 14-tab premium dock is a DISABLED design reference; the
-  active live R2 website navigation was not changed.
+- The original 14-tab premium dock now uses the EXACT approved R2 source
+  stylesheet, tab order, labels and glyphs (including correct Chat icon).
+  This is a DISABLED design reference in the offline prototype, not a
+  link to the live website. Scroll with the premium arrows.
+  When editing on mobile, it hides to avoid covering inputs and to
+  prevent keyboard focus transitions stealing Add source/save taps.
+- Closing a session, locking a notebook, navigating away from unsaved
+  edits or deleting a vault now shows a branded navy-and-gold confirmation
+  modal. Cancel leaves research unchanged. Permanent deletion requires
+  typing DELETE in the modal; it never uses Chrome's grey prompt.
 - No research is uploaded, no Netlify deploy is performed and no site
   account or Supabase table has been modified.
 - Browser Back and refresh discard any unsaved in-form edits. Only
