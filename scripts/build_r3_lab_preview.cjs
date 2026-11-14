@@ -1,7 +1,7 @@
 'use strict';
 // Offline only: assemble a self-contained local UI preview from the production-
 // independent R3 experiment. This NEVER touches the public website release.
-const fs=require('node:fs'),path=require('node:path');
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const root=path.resolve(__dirname,'..');
 const out=path.join(root,'.r3-lab-preview');
 if(fs.existsSync(out))throw Error('R3 preview already exists; refusing to overwrite');
@@ -25,6 +25,26 @@ fs.copyFileSync(path.join(root,'assets','secondary-editorial-nav.css'),
  path.join(out,'editorial-dock.css'),fs.constants.COPYFILE_EXCL);
 const wrapped=`'use strict';(function(){const module={exports:{}};\n${src}\nObject.defineProperty(window,'DDHypothesisLab',{value:module.exports,configurable:false,writable:false});})();\n`;
 fs.writeFileSync(path.join(out,'hypothesis-engine.js'),wrapped,{flag:'wx'});
+// A locally served ZIP keeps the same 127.0.0.1:4175 origin to retain the
+// encrypted browser vault. Fingerprint all CSS/JS so Chrome never silently
+// reuses stale scripts or styles when the code changes between ZIPs.
+const assets=['hypothesis-engine.js','hypothesis-vault.js','hypothesis-ui.js',
+ 'hypothesis-ui.css','editorial-dock.css'];
+const digest=crypto.createHash('sha256');
+for(const file of assets)digest.update(fs.readFileSync(path.join(out,file)));
+const build=digest.digest('hex').slice(0,12);
+const htmlPath=path.join(out,'index.html');
+let html=fs.readFileSync(htmlPath,'utf8');
+for(const file of assets){
+ const match='"./'+file+'"';
+ if(!html.includes(match))throw Error('Missing R3 asset '+file);
+ html=html.replace(match,'"./'+file+'?v='+build+'"');
+}
+if(!html.includes('id="r3BuildStamp"'))throw Error('Missing visible R3 build identifier');
+html=html.replace('R3 OFFLINE · NAV/PROMPT PATCH',
+ 'R3 NAV / PROMPT POLISH · BUILD '+build);
+fs.writeFileSync(htmlPath,html);
+console.log('R3 version '+build+' with fingerprinted CSS/JS asset URLs');
 const published=fs.readFileSync(path.join(root,'scripts','build_public_release.cjs'),'utf8');
 if(published.includes('hypothesis-lab-preview.html')||published.includes('hypothesis-ui.js')||
  published.includes('hypothesis-ui.css')||published.includes('hypothesis-engine.js')||
