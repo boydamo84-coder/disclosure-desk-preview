@@ -12,6 +12,7 @@ on:
       - 'scripts/test_public_release_package.cjs'
       - 'scripts/test_original_research_contract.cjs'
       - 'scripts/test_original_research_chromium.cjs'
+      - 'scripts/test_home_navigation_chromium.cjs'
       - 'assets/case-connections.js'
       - 'scripts/test_case_connections.cjs'
       - '.github/workflows/qa-adsense-research-no-deploy.yml'
@@ -53,6 +54,10 @@ jobs:
           exit 1
       - name: Verify mobile and desktop research-to-archive navigation in Chromium
         run: node scripts/test_original_research_chromium.cjs
+      - name: Test clickable Home, native browser Back and top return navigation
+        run: |
+          node --check scripts/test_home_navigation_chromium.cjs
+          node scripts/test_home_navigation_chromium.cjs
       - name: Stop loopback browser server
         if: always()
         run: |
