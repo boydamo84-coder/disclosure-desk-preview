@@ -84,6 +84,13 @@ const BASE='http://127.0.0.1:4173';
    // When switching detailed profiles, a previous asynchronous portrait load
    // must never hide the current person's initials, including on browser Back.
    const photoSwitch=await ctx.newPage();
+   // Keep Commons images pending so synthetic load events can exercise both
+   // the current and detached-image handlers deterministically, even offline.
+   const releasePortraitRequests=[];
+   await photoSwitch.route('**/Special:FilePath/**',async route=>{
+    await new Promise(resolve=>releasePortraitRequests.push(resolve));
+    try{await route.abort('blockedbyclient')}catch{}
+   });
    await photoSwitch.goto(BASE+'/who-is-who.html?person=david-grusch',{waitUntil:'domcontentloaded'});
    await photoSwitch.locator('#personProfile').waitFor({state:'visible'});
    assert.equal(await photoSwitch.evaluate(()=>{
@@ -114,6 +121,7 @@ const BASE='http://127.0.0.1:4173';
    assert.equal(await photoSwitch.locator('#profileAvatar').evaluate(el=>el.classList.contains('has-photo')),false,
     'Switching loaded photo to no-photo profile resets class');
    assert.match(await photoSwitch.locator('#profileAvatar').textContent(),/DF/);
+   for(const release of releasePortraitRequests)release();
    await photoSwitch.close();
    const legacy=await ctx.newPage();
    await legacy.goto(BASE+'/who-is-who.html?person=nick-pope',{waitUntil:'domcontentloaded'});
