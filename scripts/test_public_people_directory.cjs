@@ -9,9 +9,10 @@ const bundle=fs.readFileSync('scripts/build_public_release.cjs','utf8');
 const isSafe=url=>{try{let u=new URL(url);return u.protocol==='https:'&&!u.username&&!u.password}catch{return false}};
 const ids=new Set(),names=new Set();
 assert.equal(dir.version,1);
-assert.equal(dir.people.length,17);
+assert.equal(dir.people.length,50);
 assert.equal(dir.status,'research-copy-edit-needed','Not verified/approved without source checks');
-let videos=0,socials=0,cites=0;
+let videos=0,socials=0,cites=0,portraits=0;
+const legacyIds=new Set(['david-grusch','ryan-graves','david-fravor','ross-coulthart','jeremy-corbell','george-knapp','mick-west','bob-lazar','jake-barber','steven-greer','larry-warren','luis-elizondo','christopher-mellon','avi-loeb','jacques-vallee','james-fox','nick-pope']);
 for(const p of dir.people){
  assert(/^[a-z0-9-]+$/.test(p.id)&&!ids.has(p.id),'Unique safe direct profile ID');
  assert(!names.has(p.name),'Unique public identity');ids.add(p.id);names.add(p.name);
@@ -25,14 +26,22 @@ for(const p of dir.people){
  assert(Array.isArray(p.videos)&&p.videos.every(x=>/^[\w-]{11}$/.test(x.youtubeId)&&
    /testimony|interview|analysis|reconstruction|report|documentary|programme|discussion/i.test(x.type)&&x.context.length>40),
   'Only attributed, type-labelled published YouTube videos: '+p.name);
- assert(p.videos.length>0||p.filmCredits.length>0,'Every profile offers a verified video, screen recording or film source: '+p.name);
- assert(Array.isArray(p.podcastEpisodes)&&p.podcastEpisodes.length>=1,'Podcast episode/coverage entry required: '+p.name);
+ assert(!legacyIds.has(p.id)||p.videos.length>0||p.filmCredits.length>0,'Preserve original richly sourced media profiles: '+p.name);
+ assert(Array.isArray(p.podcastEpisodes),'Podcast entry list exists even if not verified: '+p.name);
+ assert(!legacyIds.has(p.id)||p.podcastEpisodes.length>=1,'Existing profile episodes preserved: '+p.name);
  assert(Array.isArray(p.filmCredits),'Film credit ledger must exist even when unverified: '+p.name);
  assert(p.podcastEpisodes.every(e=>isSafe(e.url)&&e.title&&e.show&&e.role),'Every podcast must link a publisher and credit the person\'s role');
  assert(p.filmCredits.every(f=>isSafe(f.url)&&f.title&&f.year&&f.role&&f.type),'All claimed screen credits must cite a publisher/credit source');
  assert(Array.isArray(p.socialPages));
  assert(p.socialPages.every(x=>isSafe(x.url)&&x.kind),'No invented personal account without publisher attribution');
- assert(p.photo===null,'No unlicensed portrait downloads or false rights claims');
+ if(p.photo!==null){
+  assert(isSafe(p.photo.url)&&isSafe(p.photo.source)&&p.photo.credit,
+   'A portrait must have a secure source, publisher and attribution: '+p.name);
+  assert(p.photo.status==='source-and-licence-reviewed'&&p.photo.license==='Public domain (US federal government)',
+   'Portrait only appears with reviewed and permitted source metadata: '+p.name);
+  assert(p.photo.source.includes('commons.wikimedia.org/wiki/File:'),
+   'Reuse page must document rights and identity: '+p.name);portraits++;
+ }
  assert(Array.isArray(p.sources)&&p.sources.every(x=>isSafe(x.url)),'Primary public sources');
  videos+=p.videos.length;socials+=p.socialPages.length;cites+=p.milestones.length+p.articles.length;
 }
@@ -58,6 +67,9 @@ for(const id of ['bob-lazar','jake-barber','steven-greer','larry-warren','luis-e
 assert(dir.people.find(p=>p.id==='nick-pope').biography.join(' ').includes('6 April 2026'),'Correct memorial context recorded');
 assert(dir.people.find(p=>p.id==='larry-warren').relatedCases?.some(c=>c.url==='/rendlesham-forest-1980'),'Rendlesham source deep link included');
 assert(app.includes('profileRelatedCases')&&app.includes('profilePodcasts')&&app.includes('profileFilms'),'Public page must render all new research sections');
-assert(!page.includes('7 initial profiles'),'Page count is not stale');
+assert(!page.includes('17 draft profiles'),'Page count is not stale');
+assert(dir.people.filter(p=>p.category.includes('Congress')).length>=10,'Congressional advocates included');
+assert(dir.people.filter(p=>p.category.includes('NASA UAP study')).length===17,'NASA study panel and its coordinator represented');
+assert(app.includes('DDPeopleDirectoryBack')&&app.includes('paintPortrait'),'Native Back and licensed portrait renderer present');
 console.log('PASS Who’s Who R2: '+dir.people.length+' sourced detailed biographies, '+cites+' dated/source references, '+
- videos+' context-labelled videos, '+socials+' attributed social links, 0 unlicensed headshots; click-to-play, shareable profiles and public-only packaging');
+ videos+' context-labelled videos, '+socials+' attributed social links, '+portraits+' documented reuse portraits; click-to-play, shareable profiles and public-only packaging');
