@@ -44,6 +44,7 @@ assert(page.includes('analytics-consent.js')&&!page.includes('googletagmanager.c
  'Public profile entry uses consent-gated analytics');
 assert(page.includes('href="/"')&&(home.includes('href="/who-is-who"')||home.includes('href="/who-is-who.html"')),'Visible Home and directory navigation (embedded APK may use explicit .html route)');
 assert(page.includes('https://uapdisclosuredesk.com/who-is-who'),'Canonical public directory');
+assert(home.includes('data-tab="peopleDirectory"')&&home.includes("location.assign('/who-is-who.html')"),'Main navigation provides an actual directly clickable Who’s Who tab');
 assert(page.includes('Video')&&page.includes('Profiles'),'Accessible user-facing profile sections');
 assert(bundle.includes("'who-is-who.html'")&&bundle.includes("'public-people-directory.json'")&&
   bundle.includes("'people-directory.js'"),'Strict website-only bundler explicitly allows three new items');
