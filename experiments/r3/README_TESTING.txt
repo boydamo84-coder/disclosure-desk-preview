@@ -1,34 +1,57 @@
-DISCLOSURE DESK — R3 HYPOTHESIS LAB PRIVATE UI ALPHA
-=================================================
-This ZIP is an isolated offline research UI prototype. It is NOT the live
-Disclosure Desk website, not connected to user accounts and not safe for
-sensitive research yet. NO background saving happens.
+DISCLOSURE DESK — R3 ENCRYPTED LOCAL HYPOTHESIS LAB (PRIVATE ALPHA)
+==================================================================
+This test ZIP is NOT the live website or an installed APK. There is no
+account login or cloud copy. This is an experimental passphrase-protected
+single-browser LOCAL vault. Please use fictional/example data, not
+sensitive research, until a full security audit has been completed.
 
-ANDROID / GALAXY + TERMUX TEST
-1. Download the ZIP from the successful GitHub Actions R3 workflow artifact.
-2. Extract the ZIP into a folder on your phone, e.g. Download/r3-lab-test/.
-3. In Termux, install Python if necessary: pkg install python
-4. In Termux, use a local-only server for the extracted folder, e.g.:
-   cd /sdcard/Download/r3-lab-test
+TEST ON YOUR SAMSUNG GALAXY / TERMUX
+1. Extract the new ZIP into Downloads/R3_Hypothesis_Lab_Encrypted_Test.
+2. Stop the existing Termux Python server (CTRL + C).
+3. In Termux, run:
+   cd ~/storage/downloads/R3_Hypothesis_Lab_Encrypted_Test
+   ls
    python -m http.server 4175 --bind 127.0.0.1
-   (Adjust the folder path if extracted elsewhere. Your system may ask
-    Termux for storage permission.)
-5. In Chrome on that same phone, open http://127.0.0.1:4175
-6. Press Load fictional demo. Test Write, Compare, History, and export.
+   (If you used a different folder name, update the cd line.)
+4. On your SAME Chrome profile, visit http://127.0.0.1:4175
+5. Tap "Load fictional demo". Tap "Enable encrypted local saving".
+   Enter and confirm a UNIQUE passphrase at least 12 characters long.
+6. Download your encrypted backup JSON. Keep the passphrase safe.
+7. Edit a hypothesis and save its next revision.
+8. Close the browser tab, reopen the same local URL and unlock using
+   the passphrase. Inspect the saved comparison/revision history.
+9. Test importing your encrypted backup on a separate fresh browser
+   profile OR, after confirming you have a usable backup, explicitly
+   delete the current local encrypted vault and import it again.
 
-DESKTOP TEST
-From the extracted folder, run:
+DESKTOP
+Run from the extracted directory:
    python3 -m http.server 4175 --bind 127.0.0.1
-Then open http://127.0.0.1:4175 in a browser.
+and open http://127.0.0.1:4175.
 
-IMPORTANT
-- Use only invented/example data. No authenticated user protection exists.
-- Data vanishes on refresh or close. Export explicitly to your phone as
-  plain, UNENCRYPTED JSON if needed.
-- The 14-tab navy/gold dock is a DESIGN REFERENCE. It does not navigate to
-  the live website or modify the existing Android APK.
-- All source URLs are opened only if YOU explicitly tap them; the interface
-  never fetches external data itself.
-- R2 production remains live and untouched. R3 is NOT deployed.
-- The user interface currently has no import/restore, secure on-device
-  storage, authentication, W.NE integration or sharing.
+ENCRYPTION / SAVING BEHAVIOUR
+- Opt-in browser IndexedDB storage, encrypted with AES-256-GCM and a
+  PBKDF2-SHA256-derived key (310,000 iterations; 16-byte random salt).
+- Passphrase is not written to browser storage. Unlock is required each
+  time the page reloads. The derived key remains only in tab memory
+  while unlocked; it is cleared from app references when locking.
+- Each completed saved revision is encrypted before the local write.
+  Unsubmitted text in the editor is NOT autosaved.
+- The encrypted JSON backup is user-initiated and is NOT plain text.
+  Import authenticates/decrypts before writing, and refuses to overwrite
+  an existing vault. A changed/tampered backup or wrong passphrase fails.
+- Local storage is tied to the Chrome profile + URL origin
+  (http://127.0.0.1:4175). Changing the port, clearing browser data,
+  using Incognito, or browser removal can make the saved copy unavailable.
+  Always keep an encrypted backup separately.
+- Anyone with your passphrase AND access to the saved data can open it.
+  There is NO passphrase recovery, encrypted cloud sync, remote account
+  isolation or multi-user permission enforcement.
+- This is an unaudited prototype. Do NOT claim it has a production
+  security certification or guarantees against device compromise.
+- The original 14-tab premium dock is a DISABLED design reference; the
+  active live R2 website navigation was not changed.
+- No research is uploaded, no Netlify deploy is performed and no site
+  account or Supabase table has been modified.
+- Browser Back and refresh discard any unsaved in-form edits. Only
+  completed, successfully encrypted revisions persist.
