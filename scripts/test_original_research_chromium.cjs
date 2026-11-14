@@ -59,7 +59,7 @@ const BASE='http://127.0.0.1:4173';
     // R2 Evidence DNA lives inside the existing case file, never in a new tab.
     const dna=page.locator('#archiveCaseBody details.dd-evidence-dna');
     assert.equal(await dna.count(),1,'Every source-linked case has one Evidence DNA panel');
-    await dna.locator('summary').click();
+    await dna.locator('summary').first().click();
     assert.equal(await dna.getAttribute('open'),'','Evidence DNA expands with the native keyboard-accessible disclosure');
     assert.match(await dna.innerText(),/Independent accounts: not assessed/);
     assert.equal(await dna.locator('.dd-evidence-dna-claim').count(),2,'Two named claims with institutional source locators');
@@ -68,6 +68,17 @@ const BASE='http://127.0.0.1:4173';
     assert(await dna.locator('.dd-evidence-dna-claim a[href^="https://"]').count()>=2,'Every dossier displays precise reviewable source links');
     assert(await dna.locator('a[href^="https://"]').count()>=1,'Original source citations remain clickable');
     assert.equal(await page.evaluate(()=>typeof window.DDEvidenceDNA?.traceClaim),'function');
+    // M5: read two source-linked editorial statements; no machine verdict.
+    const radar=dna.locator('details.dd-contradiction-radar');
+    assert.equal(await radar.count(),1,'The two curated case graphs expose an optional comparison');
+    await radar.locator('summary').click();
+    assert.equal(await radar.locator('article').count(),2,'Side-by-side context for both source-linked statements');
+    assert(await radar.locator('a[href^="https://"]').count()>=2,'Both statements offer original institutional source links');
+    assert.match(await radar.innerText(),/not a direct quotation/i);
+    assert.match(await radar.innerText(),/No contradiction or dishonest account is automatically identified/i);
+    assert.match(await radar.innerText(),/independence has not been assessed|not independent corroboration/i);
+    assert.equal(await page.evaluate(()=>typeof window.DDEvidenceDNA?.compareClaims),'function');
+
     const correctReturn=await page.locator('#archiveCaseBody a[href="/'+slug+'"]').count();
     assert(correctReturn===1,'Archive detail must return to same original article');
     // Case Connections must be usable on EVERY case detail, including on mobile.
