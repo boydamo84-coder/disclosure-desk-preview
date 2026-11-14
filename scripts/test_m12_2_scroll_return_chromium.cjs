@@ -76,7 +76,14 @@ async function visible(page,selector){
     await link.click();
     await casePage.waitForURL('**/?dd_tab=archivePage*',{timeout:15000});
     await visible(casePage,'#archiveCaseDialog[open]');
-    await casePage.goBack({waitUntil:'domcontentloaded'});
+    // Archive uses its own history state for a case dialog. Traverse the
+    // internal case history before reaching the original Who's Who document.
+    for(let step=0;step<4&&!new URL(casePage.url()).pathname.includes('who-is-who');step++){
+     const navigated=await casePage.goBack({waitUntil:'domcontentloaded'});
+     if(navigated===null)break;
+    }
+    assert.equal(new URL(casePage.url()).searchParams.get('person'),'david-fravor',
+     'Back from Archive eventually reaches the original person profile URL');
     await visible(casePage,'#personProfile');
     await casePage.waitForFunction(target=>Math.abs(window.scrollY-target)<70,caseY);
     assert(Math.abs(await casePage.evaluate(()=>Math.round(window.scrollY))-caseY)<70,
