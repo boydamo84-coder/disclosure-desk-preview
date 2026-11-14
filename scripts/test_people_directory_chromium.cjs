@@ -66,6 +66,22 @@ const BASE='http://127.0.0.1:4173';
    await warren.goto(BASE+'/who-is-who.html?person=larry-warren',{waitUntil:'domcontentloaded'});
    await warren.locator('#personProfile').waitFor({state:'visible'});
    assert.equal(await warren.locator('#profileRelatedCases a[href="/rendlesham-forest-1980"]').count(),1);
+   // M8 source-attributed reverse links: original citations and editorial caution.
+   assert.equal(await warren.locator('#profileRelatedCases .dd-person-case-link').count(),1,
+    'Warren profile has exactly one attributed retrospective Rendlesham relationship');
+   assert.match(await warren.locator('#profileRelatedCases').innerText(),/Retrospective claimed participant/);
+   assert(await warren.locator('#profileRelatedCases a[href^="https://"]').count()>=1);
+   const fravor=await ctx.newPage();
+   await fravor.goto(BASE+'/who-is-who.html?person=david-fravor',{waitUntil:'domcontentloaded'});
+   await fravor.locator('#personProfile').waitFor({state:'visible'});
+   assert.equal(await fravor.locator('#profileRelatedCases .dd-person-case-link').count(),1,
+    'Fravor's Nimitz encounter is linked to the public congressional record');
+   assert.match(await fravor.locator('#profileRelatedCases').innerText(),/First-person encounter account/);
+   assert.equal(await fravor.locator('#profileRelatedCases a[href*="dd_archive_case=featured-nimitz-2004"]').count(),1);
+   assert.equal(await fravor.locator('#profileRelatedCases a[href^="https://"]').count(),1);
+   await fravor.close();
+   assert.equal(await legacy.locator('#profileRelatedCases .dd-person-case-link').count(),1,
+    'Pope's 2014 Rendlesham book authorship has a cited reference');
    await warren.close();
    await direct.locator('#directoryPage').waitFor({state:'visible'});
    assert.equal(new URL(direct.url()).searchParams.has('person'),false,'Return clears profile ID');
