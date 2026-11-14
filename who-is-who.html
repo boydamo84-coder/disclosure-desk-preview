@@ -20,6 +20,7 @@ h1{font-size:clamp(32px,5.4vw,51px);line-height:1.15;margin:13px 0 16px}h2{font-
 input,select{background:#0c1926;color:#eff3f7;border:1px solid #57687a;padding:13px;border-radius:9px;width:100%;font:inherit}
 .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.card{border:1px solid var(--line);background:linear-gradient(135deg,#152d40,#0d1e2c);border-radius:15px;padding:21px}
 .person-head{display:flex;gap:13px;align-items:center;margin-bottom:11px}.avatar{display:grid;place-items:center;width:58px;height:58px;border-radius:17px;flex:none;background:#22394b;border:1px solid #9b804f;color:var(--gold);font-weight:800;letter-spacing:1px;font-size:22px}
+.avatar{position:relative;overflow:hidden}.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit}.avatar.has-photo{color:transparent}.photo-credit{min-height:19px;margin:8px 0 0;font-size:11px;color:var(--muted)}.photo-credit a{color:var(--muted)}
 .pills{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.pill{font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid #76633f;color:#e8c98e}
 .card p{margin:9px 0 16px}.btn,button{cursor:pointer}.btn{border-radius:10px;border:1px solid #a18450;background:#272d2c;color:#ffdfaa;padding:10px 14px;font:700 13px system-ui;display:inline-block;text-decoration:none}
 .link-list{margin:8px 0;padding-left:21px}.link-list li{padding:4px 0}.link-list a{overflow-wrap:anywhere}
@@ -49,19 +50,19 @@ footer a{margin-right:14px}
 <main id="content" class="wrap">
 <section class="hero"><div class="eyebrow">People, evidence and the public record</div><h1>Who's Who in Disclosure</h1>
 <p class="intro">Meet public witnesses, researchers, journalists, interviewers and sceptical analysts involved in UAP discussion. Follow their recorded statements and professional work back to attributed sources—not popularity rankings or personal judgements.</p>
-<p class="muted small">Editorial preview · 17 draft profiles · Original source reviews and episode-credit checking ongoing · Additional profiles and corrections welcome</p>
+<p class="muted small">Editorial preview · 50 source-linked draft profiles · Portraits show reviewed public-domain images where available · Fact-checking and credit reviews ongoing</p>
 </section>
 <section id="directoryPage" aria-label="People directory">
-<div class="tools"><label>Search people, roles and topics<input id="peopleSearch" type="search" maxlength="80" placeholder="e.g. pilot, Grusch, investigative journalist"></label><label>Filter roles<select id="peopleCategory"><option value="all">All roles</option><option value="Hearing witness">Hearing witnesses</option><option value="Pilot">Pilots</option><option value="Journalist">Journalists</option><option value="Interviewer">Interviewers</option><option value="Sceptical analyst">Sceptical analysts</option><option value="Filmmaker">Filmmakers</option><option value="Claimant">Public claimants</option><option value="Disclosure advocate">Disclosure advocates</option><option value="Scientist">Scientists</option><option value="Researcher">Researchers</option><option value="Documentary director">Documentary directors</option><option value="Former government official">Former government officials</option></select></label></div>
+<div class="tools"><label>Search people, roles and topics<input id="peopleSearch" type="search" maxlength="80" placeholder="e.g. pilot, Grusch, investigative journalist"></label><label>Filter roles<select id="peopleCategory"><option value="all">All roles</option><option value="Hearing witness">Hearing witnesses</option><option value="Pilot">Pilots</option><option value="Journalist">Journalists</option><option value="Interviewer">Interviewers</option><option value="Sceptical analyst">Sceptical analysts</option><option value="Filmmaker">Filmmakers</option><option value="Claimant">Public claimants</option><option value="Disclosure advocate">Disclosure advocates</option><option value="Scientist">Scientists</option><option value="NASA UAP study">NASA UAP study</option><option value="Congress">Congress &amp; oversight</option><option value="Advocate">Transparency advocates</option><option value="FOIA researcher">FOIA researchers</option><option value="Researcher">Researchers</option><option value="Documentary director">Documentary directors</option><option value="Former government official">Former government officials</option></select></label></div>
 <p id="peopleStatus" class="muted small" role="status">Loading source-linked profiles…</p>
-<div id="peopleCards" class="cards"><div class="card"><h3>Research directory</h3><p>Profiles include sources, attributed public statements, responses and links to published videos. JavaScript is needed to filter and open individual profiles.</p><p><strong>Included initially:</strong> David Grusch, Ryan Graves, David Fravor, Ross Coulthart, Jeremy Corbell, George Knapp, Mick West, Bob Lazar, Jake Barber, Steven Greer, Larry Warren, Luis Elizondo, Christopher Mellon, Avi Loeb, Jacques Vallée, James Fox and Nick Pope.</p></div></div>
+<div id="peopleCards" class="cards"><div class="card"><h3>Research directory</h3><p>Fifty research-draft profiles span congressional oversight, NASA's independent UAP study, aviation witnesses, scientific researchers and archive investigators. JavaScript is needed for search and full profiles.</p></div></div>
 </section>
 <article id="personProfile" class="profile hidden" aria-live="polite">
 <button id="directoryBack" type="button" class="btn">← Back to people directory</button>
 <div class="card" style="margin-top:18px">
 <div class="profile-intro"><span id="profileAvatar" class="avatar" aria-hidden="true"></span><div><div class="eyebrow">Source-linked person profile</div><h2 id="profileName"></h2><p id="profileRole" class="muted small compact"></p></div></div>
-<div id="profileTags" class="pills"></div><p id="profileShort"></p>
-<p class="muted small">Profile images are not included until appropriate permission or a verified reusable licence is available.</p>
+<p id="profilePhotoCredit" class="photo-credit"></p><div id="profileTags" class="pills"></div><p id="profileShort"></p>
+<p class="muted small">Portraits are credited where a reusable licence has been checked. An initials tile means no verified reusable portrait has been selected yet.</p>
 </div>
 <section class="card" id="profileFullStory"><div class="section-title">Background · career · UAP involvement</div><h2>The full story</h2><div id="profileBiography"></div></section>
 <section class="card" id="profileKeyDates"><div class="section-title">Dated record</div><h2>Key milestones and involvement</h2><ol class="profile-timeline" id="profileTimeline"></ol></section>
@@ -89,6 +90,6 @@ footer a{margin-right:14px}
 </section></main>
 <footer><div class="wrap">Disclosure Desk · Boyd Digital Studios · Public-source research directory<br><a href="/">Home</a><a href="/investigations">Original research</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></footer>
 <script defer src="/assets/person-case-links.js?v=r2-m8-alpha01"></script>
-<script defer src="/assets/people-directory.js?v=r2-profile-preview02"></script>
+<script defer src="/assets/people-directory.js?v=r2-profile-preview03-m12"></script>
 <script defer src="/assets/page-help.js?v=r2-m10-help01"></script>
 </body></html>
