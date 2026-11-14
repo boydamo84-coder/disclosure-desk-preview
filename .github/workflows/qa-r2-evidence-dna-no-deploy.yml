@@ -6,6 +6,13 @@ on:
       - 'index.html'
       - 'assets/evidence-dna.js'
       - 'data/evidence-dna-claim-drafts.json'
+      - 'data/public-people-directory.json'
+      - 'assets/people-directory.js'
+      - 'who-is-who.html'
+      - 'sitemap.xml'
+      - 'scripts/test_search_indexing.cjs'
+      - 'scripts/test_public_people_directory.cjs'
+      - 'scripts/test_people_directory_chromium.cjs'
       - 'scripts/test_evidence_dna.cjs'
       - 'scripts/test_original_research_chromium.cjs'
       - 'scripts/build_public_release.cjs'
@@ -27,6 +34,8 @@ jobs:
         run: |
           node --check assets/evidence-dna.js
           node --check scripts/test_evidence_dna.cjs
+          node --check assets/people-directory.js
+          node scripts/test_public_people_directory.cjs
           node scripts/test_evidence_dna.cjs
           node scripts/test_case_connections.cjs
           node scripts/test_original_research_contract.cjs
@@ -47,6 +56,10 @@ jobs:
           exit 1
       - name: Test research archive and Evidence DNA on phone and desktop Chromium
         run: node scripts/test_original_research_chromium.cjs
+      - name: Test Who's Who profiles and opt-in publisher video embeds
+        run: |
+          node --check scripts/test_people_directory_chromium.cjs
+          node scripts/test_people_directory_chromium.cjs
       - name: Stop local server
         if: always()
         run: |
