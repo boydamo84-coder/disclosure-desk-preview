@@ -31,29 +31,99 @@
   return 'h-'+(out||'idea')+'-'+count;
  };
  function renderDock(){
+  // Same 14 IDs, labels and glyphs as approved R2 secondary-editorial-nav.js;
+  // links remain disabled because this is an isolated localhost prototype.
   const tabs=[
-   ['◈','News'],['▥','Archive'],['♙','Who’s Who'],['✎','W.NE'],
-   ['◎','Map'],['▶','Videos'],['●','LIVE'],['▣','Boards'],
-   ['◉','Witness'],['☷','Discussions'],['♫','Watch & Read'],
-   ['▢','Chat'],['♙','Profile'],['☷','Explore']
+   ['discover','◈','News'],['archivePage','▥','Archive'],
+   ['peopleDirectory','♙','Who’s Who'],['researchStudio','✎','W.NE'],
+   ['mapPage','◎','Map'],['clips','▶','Videos'],['livePage','●','LIVE'],
+   ['boards','▣','Boards'],['witness','◉','Witness'],
+   ['discussionsPage','☷','Discussions'],['watchRead','♫','Watch & Read'],
+   ['chatPage','','Chat'],['profilePage','👤','Profile'],['hub','☷','Explore']
   ];
-  const rail=$('dockScroll');
-  for(const [icon,label] of tabs){
-   const b=elt('button','dock-tab'+(label==='Boards'?' current':''));b.type='button';b.disabled=true;
-   b.title='Original 14-tab design reference only; not connected to the live site';
-   b.setAttribute('aria-label',label+' (design preview only)');
-   const picture=elt('span','',icon);picture.setAttribute('aria-hidden','true');
-   b.append(picture,document.createTextNode(label));rail.appendChild(b);
-  }
-  $('dockPrev').addEventListener('click',()=>rail.scrollBy({left:-220,behavior:'smooth'}));
-  $('dockNext').addEventListener('click',()=>rail.scrollBy({left:220,behavior:'smooth'}));
-  const arrows=()=>{
-   const max=rail.scrollWidth-rail.clientWidth;
-   $('dockPrev').disabled=rail.scrollLeft<5;
-   $('dockNext').disabled=max<5||rail.scrollLeft>=max-5;
+  const rail=$('dockScroll'),prev=$('dockPrev'),next=$('dockNext');
+  const chatGlyph=()=>{
+   const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');
+   svg.setAttribute('viewBox','0 0 24 24');
+   svg.setAttribute('stroke-width','1.85');
+   svg.setAttribute('stroke-linecap','round');
+   svg.setAttribute('stroke-linejoin','round');
+   svg.setAttribute('class','dd-chat-nav-symbol');
+   svg.setAttribute('aria-hidden','true');
+   const p=document.createElementNS(ns,'path');
+   p.setAttribute('d','M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4.2-1L3 21l2-5a8.5 8.5 0 1 1 16-4.5Z');
+   svg.appendChild(p);return svg;
   };
-  rail.addEventListener('scroll',arrows,{passive:true});window.addEventListener('resize',arrows);
-  requestAnimationFrame(arrows);
+  for(const [id,symbol,label] of tabs){
+   const btn=elt('button','tab');btn.type='button';btn.dataset.tab=id;
+   btn.disabled=true;
+   btn.title=label+' — not available in the offline prototype';
+   btn.setAttribute('aria-label',label+' (design preview only)');
+   if(id==='boards'){btn.classList.add('active');btn.setAttribute('aria-current','page');}
+   const icon=elt('span','ico');icon.setAttribute('aria-hidden','true');
+   if(id==='chatPage')icon.appendChild(chatGlyph());else icon.textContent=symbol;
+   btn.append(icon,document.createTextNode(label));rail.appendChild(btn);
+  }
+  const update=()=>{
+   const max=Math.max(0,rail.scrollWidth-rail.clientWidth);
+   prev.hidden=max<8||rail.scrollLeft<=5;
+   next.hidden=max<8||rail.scrollLeft>=max-5;
+  };
+  const move=direction=>{
+   const tabWidth=rail.querySelector('.tab')?.getBoundingClientRect().width||72;
+   rail.scrollTo({left:Math.max(0,Math.min(rail.scrollWidth-rail.clientWidth,
+    rail.scrollLeft+direction*tabWidth)),behavior:'smooth'});
+  };
+  prev.addEventListener('click',()=>move(-1));
+  next.addEventListener('click',()=>move(1));
+  rail.addEventListener('scroll',update,{passive:true});
+  window.addEventListener('resize',update);
+  if(window.ResizeObserver)new ResizeObserver(update).observe(rail);
+  const editing=el=>!!el&&(el.matches?.('input,textarea,select,[contenteditable=true]')||
+   !!el.closest?.('[contenteditable=true]'));
+  const syncKeyboard=()=>document.body.classList.toggle('dd-web-keyboard-open',editing(document.activeElement));
+  document.addEventListener('focusin',syncKeyboard);
+  document.addEventListener('focusout',()=>setTimeout(syncKeyboard,50));
+  document.body.classList.add('dd-web-secondary-nav');
+  requestAnimationFrame(update);
+ }
+ function confirmAction({title,message,confirmText='Continue',
+   cancelText='Keep working',destructive=false,verifyDelete=false}){
+  return new Promise(resolve=>{
+   const dialog=$('ddConfirmDialog');
+   if(dialog.open){resolve(false);return;}
+   const controller=new AbortController(),options={signal:controller.signal};
+   const confirm=$('ddDialogAccept'),verify=$('ddDialogVerify');
+   $('ddDialogTitle').textContent=title;
+   $('ddDialogDescription').textContent=message;
+   $('ddDialogCancel').textContent=cancelText;
+   confirm.textContent=confirmText;
+   confirm.className=destructive?'btn-danger':'btn-primary';
+   $('ddDialogIcon').textContent=destructive?'!':'✓';
+   dialog.classList.toggle('destructive',destructive);
+   $('ddDialogVerifyWrap').hidden=!verifyDelete;
+   verify.value='';confirm.disabled=verifyDelete;
+   const finish=accepted=>{
+    controller.abort();
+    dialog.close();
+    resolve(accepted);
+   };
+   verify.addEventListener('input',()=>{
+    confirm.disabled=verify.value.trim()!=='DELETE';
+   },options);
+   $('ddDialogCancel').addEventListener('click',()=>finish(false),options);
+   $('ddDialogClose').addEventListener('click',()=>finish(false),options);
+   $('ddDialogForm').addEventListener('submit',event=>{
+    event.preventDefault();
+    if(verifyDelete&&verify.value.trim()!=='DELETE')return;
+    finish(true);
+   },options);
+   dialog.addEventListener('cancel',event=>{event.preventDefault();finish(false)},options);
+   dialog.addEventListener('click',event=>{
+    if(event.target===dialog)finish(false);
+   },options);
+   dialog.showModal();$('ddDialogCancel').focus();
+  });
  }
  function section(root,title,items){
   const box=elt('div','detail-block');box.appendChild(elt('h3','',title));
@@ -324,9 +394,13 @@
    howToCheck:'Check the fictional original report and calibration history.'}],
   sources:[]
  });
- function loadDemo(){
+ async function loadDemo(){
   if(unlockedVault){status('Lock your encrypted notebook before loading a different demo.',true);return;}
-  if(book&&!window.confirm('Replace your in-memory notebook with a fictional demo? Unsaved work will be lost.'))return;
+  if(book&&!(await confirmAction({
+   title:'Replace this demonstration?',
+   message:'The current notebook is not encrypted or saved. Loading a new fictional example will discard its changes.',
+   confirmText:'Replace demo',cancelText:'Keep current notebook',destructive:true
+  })))return;
   book=engine.createNotebook({workspaceId:'demo-workspace',caseId:'fictional-case',
    title:'Fictional case — demonstration only',at:new Date().toISOString()});
   book=engine.addHypothesis(book,{workspaceId:book.workspaceId,id:'h-environmental',
@@ -437,10 +511,15 @@
  }
  async function closeSession(){
   if(!book||busy)return;
-  const prompt=unlockedVault?
-   'Lock this notebook and clear the current page? Its latest completed revisions remain encrypted in this browser.':
-   'Discard this UNSAVED session? Its changes cannot be recovered.';
-  if(!window.confirm(prompt))return;
+  if(!(await confirmAction(unlockedVault?{
+   title:'Lock your private notebook?',
+   message:'Completed revisions remain encrypted in this browser. Any text you have not saved in the editor will be lost.',
+   confirmText:'Lock notebook',cancelText:'Keep working'
+  }:{
+   title:'Discard unsaved notebook?',
+   message:'This notebook has not been encrypted or saved. Closing it now will permanently discard the changes in this session.',
+   confirmText:'Discard notebook',cancelText:'Keep notebook open',destructive:true
+  })))return;
   clearDecryptedDOM();
   book=null;unlockedVault=null;selectedId=null;editingId=null;view='write';
   $('workPanel').hidden=true;$('setupPanel').hidden=false;
@@ -451,7 +530,12 @@
   if(busy||unlockedVault){
    status('Lock the active notebook before deleting its encrypted local copy.',true);return;
   }
-  if(window.prompt('Type DELETE to permanently erase the local encrypted notebook. Export a backup first if you need it.')!=='DELETE')return;
+  if(!(await confirmAction({
+   title:'Delete this encrypted notebook?',
+   message:'This permanently removes the saved copy from this browser. Download your encrypted backup first. Enter DELETE to confirm. Other backup files will not be removed.',
+   confirmText:'Delete local copy',cancelText:'Keep encrypted copy',
+   destructive:true,verifyDelete:true
+  })))return;
   busy=true;$('deleteVaultBtn').disabled=true;
   try{
    await vault.deleteLocalVault();
@@ -471,8 +555,12 @@
  $('addDisconfirmBtn').addEventListener('click',()=>addEntry('disconfirm'));
  $('addSourceBtn').addEventListener('click',()=>addEntry('source'));
  for(const key of ['write','compare','history'])
-  $(key+'Tab').addEventListener('click',()=>{
-   if(!$('editorForm').hidden&&!window.confirm('Leave this unfinished editor? Unsaved changes will be lost.'))return;
+  $(key+'Tab').addEventListener('click',async()=>{
+   if(!$('editorForm').hidden&&!(await confirmAction({
+    title:'Leave unfinished edits?',
+    message:'The text currently in the editor has not been saved as a revision. Leave now and these edits will be lost.',
+    confirmText:'Leave editor',cancelText:'Continue editing',destructive:true
+   })))return;
    if(key==='write')renderSelected();
    showView(key);hideStatus();
   });
