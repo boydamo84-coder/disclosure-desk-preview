@@ -1,5 +1,5 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 14 November 2026 (Europe/London) — R2 live Published and owner-reported phone functionality accepted; R3 preparation next_
+_Last updated: 14 November 2026 (Europe/London) — R3 isolated R2-based source-gap alpha prepared; no R3 public UI/deploy_
 
 ## M96 — Legacy favicon fallback and Netlify 404 review (13 November 2026)
 
@@ -1606,4 +1606,17 @@ Separately prepared `release/dd-web-r2-integration-nov14` **website-only** from 
 **Owner feedback after R2 Netlify publication:** On 14 November 2026, following instructions to test the **live** `https://uapdisclosuredesk.com/who-is-who` on Samsung (premium navigation, people/profile links, Back behaviour), owner replied: **“Yeah all works woop woop”**. Record **user-reported successful live R2 mobile acceptance for the requested smoke-check journey** and no reported blocking issues. This is not a separate authenticated penetration test, full 50-person editorial/source/legal review, Safari acceptance or an exhaustive test of every site feature. R2 production was already confirmed **Published at @8af0a5a** by screenshot at 21:49 GMT; no production functional code changed as a result of this feedback.
 
 **Release-train handoff:** R2 may now be regarded as owner-accepted for the scope of the live phone smoke check. This unlocks **R3 development preparation**, **not R3 production deployment approval**. R3 scope remains Hypothesis Lab (private, versioned, falsifiable competing explanations) and Research Gap Finder (source-based missing-evidence prompts without invented absence/claims). The existing `queue/dd-web-r3-hypothesis-discovery` is a stale 13 November roadmap snapshot and must not be merged into R2 production. Create a new R2-based isolated R3 development branch; keep production, Supabase, live accounts and R4 unchanged. Final R3 website deployment requires separate exact-code QA, privacy/source review, physical phone acceptance and explicit owner approval. R1 rollback `5f602cdc`; verified live R2 runtime release `8af0a5a`.
+
+
+
+## DD-WEB-R3 milestone 1 — R2-based branch and offline Research Gap Finder alpha (14 November 2026)
+
+**Owner-confirmed prerequisite:** Netlify R2 production `8af0a5a` Published and owner replied “Yeah all works woop woop” after requested live Samsung checks. New active R3 branch **`queue/dd-web-r3-from-r2-nov14`** created from `production` documentation SHA `4c8107d34dd379d92e00e5708306a567bd09146b` (published R2 app code plus handover-only updates). The older `queue/dd-web-r3-hypothesis-discovery` remains a stale roadmap snapshot, **not** a valid merge/deploy candidate. **Production unchanged.**
+
+**R3 alpha milestone:**
+- [Scope and boundary](docs/R3_FOUNDATION_CHECKPOINT_2026-11-14.md): actual public `data/curated-historical-cases.json` has **12 curated catalogue entries, of which 3 are explicit featured investigations**. The other nine catalogue/guide records are not automatically treated as witnessed incidents.
+- New **`experiments/r3/research-gap-finder.cjs`** is a private development-only, dependency-free pure function that scans only explicit structured fields on recognised case records: event year/day/month, clock time, map-location precision, individually listed sources, instrument metadata and multi-account independence. Findings are `research-prompt-unverified` with an original public catalogue link, exact field, caveat and suggested next action. It deliberately says “not indexed in this catalogue” rather than claiming absence from the world. No private coordinates, inferred independent witnesses, numeric alien probabilities, network requests, storage or content publication.
+- New `scripts/test_r3_research_gap_finder.cjs`: synthetic complete/incomplete records, safe/unsafe source URLs, not treating nine archival guides as incident reports, bounding results, and actual 12-record fixture. New `.github/workflows/qa-dd-web-r3-gap-alpha-no-deploy.yml` runs only source/unit checks on this isolated branch, with zero Netlify/Supabase/production operations. The experimental directory is **not in the strict public site allowlist** or index page, and no feature tab has been added.
+- Initial alpha code commit `c5378ddafa17929b40013a8aea072317906aeec9`, test commit `dacd38a3ba42970b6e10b6bafbbe61059149ca43`, workflow commit `7d720ee688ef347ab2634dcb38c05974907e6f60`. **No GitHub Actions completed result verified at time of recording; do not declare QA passed until exact run checks are retrieved.**
+- **Next:** verify alpha CI, then draft versioned private Hypothesis Lab with explicit falsification/alternatives and no auto-publication; design a reviewable site integration that preserves the original premium 14-tab navigation, archive, W.NE, user data boundaries and R2 mobile acceptance. R3 is not deployed, approved for publishing, merged into production or previewed in Netlify. R4 stays queued. Preserve R2 rollback SHA `8af0a5a` and R1 SHA `5f602cdc`.
 
