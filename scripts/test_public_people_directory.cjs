@@ -89,6 +89,8 @@ for(const deed of [
 assert(app.includes('Display cropped to fit')&&app.includes("'Photo: '+photo.credit"),
  'Visible author/source credit and display crop acknowledgement');
 assert(page.includes('.card-photo-credit a{'),'Mobile directory credits have visible tappable links');
+assert(page.includes('/assets/people-directory.js?v=r2-photo-credit-tasl-20261114'),
+ 'Who\'s Who production HTML must cache-bust the credited portrait renderer');
 assert(app.includes('DDPeopleDirectoryBack')&&app.includes('paintPortrait'),'Native Back and licensed portrait renderer present');
 
 assert(page.includes('public-domain or Creative Commons sources'),
