@@ -27,7 +27,14 @@ function showProfileAtContent(person,allowCaseReturn=false){
   if(raw){
    const candidate=JSON.parse(raw);
    if(candidate.personId===person.id && candidate.page===location.pathname+location.search &&
-      Date.now()-candidate.savedAt<30*60*1000)saved=numberY(candidate.y);
+      Date.now()-candidate.savedAt<15*60*1000){
+    saved=numberY(candidate.y);
+    const anchor=candidate.directoryReturn;
+    if(anchor&&anchor.personId===person.id&&numberY(anchor.y)!==null)
+     history.replaceState({...history.state,ddDirectoryReturn:{
+      personId:person.id,y:numberY(anchor.y)
+     }},'',location.href);
+   }
    sessionStorage.removeItem(CASE_RETURN_KEY);
   }
  }catch{try{sessionStorage.removeItem(CASE_RETURN_KEY)}catch{}}
@@ -61,10 +68,26 @@ function rememberProfileCaseDeparture(event){
  try{
   const dest=new URL(link.href,location.href);
   if(dest.origin!==location.origin)return;
+  const isArchive=(dest.pathname==='/'&&dest.searchParams.get('dd_tab')==='archivePage'
+    &&/^featured-[a-z0-9-]{3,65}$/.test(dest.searchParams.get('dd_archive_case')||''));
+  const isDossier=['/rendlesham-forest-1980','/rendlesham-forest-1980.html',
+   '/roswell-1947','/roswell-1947.html'].includes(dest.pathname);
+  if(!isArchive&&!isDossier)return;
+  const directoryReturn=history.state?.ddDirectoryReturn;
   sessionStorage.setItem(CASE_RETURN_KEY,JSON.stringify({
-   personId:selected.id,page:location.pathname+location.search,
+   personId:selected.id,personName:selected.name.slice(0,120),
+   page:location.pathname+location.search,
+   target:isArchive?'archive':'dossier',
+   caseId:isArchive?dest.searchParams.get('dd_archive_case'):null,
+   targetPath:isDossier?dest.pathname:null,
+   directoryReturn:directoryReturn?.personId===selected.id
+     ?{personId:selected.id,y:numberY(directoryReturn.y)}:null,
    savedAt:Date.now(),y:window.scrollY
   }));
+  // An explicit same-origin marker is required to activate Android's
+  // contextual Back. Visiting Archive independently never inherits this state.
+  dest.searchParams.set('dd_from','who');
+  link.href=dest.pathname+dest.search+dest.hash;
  }catch{}
 }
 
@@ -97,11 +120,11 @@ function renderList(items,opts={}){
 }
 function openPerson(person,updateUrl=true){
  if(!person)return;
+ let originAnchor=null;
  if(updateUrl){
+  originAnchor={personId:person.id,y:Math.max(0,Math.round(window.scrollY))};
   // Save the origin card's scroll position on the directory history entry.
-  history.replaceState({...history.state,ddDirectoryReturn:{
-   personId:person.id,y:Math.max(0,Math.round(window.scrollY))
-  }},'',location.href);
+  history.replaceState({...history.state,ddDirectoryReturn:originAnchor},'',location.href);
  }
  selected=person;
  const show=$('personProfile'),directory=$('directoryPage');
@@ -199,7 +222,8 @@ function openPerson(person,updateUrl=true){
  $('directoryBack').focus({preventScroll:true});
  if(updateUrl){
   const u=new URL(location.href);u.searchParams.set('person',person.id);
-  history.pushState({directoryPerson:person.id,fromDirectory:true},'',u.pathname+u.search+u.hash);
+  history.pushState({directoryPerson:person.id,fromDirectory:true,
+   ddDirectoryReturn:originAnchor},'',u.pathname+u.search+u.hash);
  }
  showProfileAtContent(person,!updateUrl);
 }
@@ -220,7 +244,9 @@ function backToDirectory(){
  const u=new URL(location.href);u.searchParams.delete('person');
  history.replaceState({directoryPerson:null},'',u.pathname+u.search+u.hash);
  // A directly opened profile has no previous directory entry.
- showDirectory(false,{personId,firstCard:true});return true;
+ const anchor=history.state?.ddDirectoryReturn;
+ showDirectory(false,anchor?.personId===personId&&numberY(anchor.y)!==null
+  ?anchor:{personId,firstCard:true});return true;
 }
 window.DDPeopleDirectoryBack=backToDirectory;
 function renderCards(){
