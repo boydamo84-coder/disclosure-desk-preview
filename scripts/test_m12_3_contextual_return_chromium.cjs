@@ -3,13 +3,22 @@
 // outside requests or changes to the public index.html document.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
+const path=require('node:path');
 const {chromium}=require('playwright-core');
 const BASE='http://127.0.0.1:4173';
 const injected=fs.readFileSync('android-test/app/src/main/assets/research-return-nav.js','utf8');
 async function localOnly(ctx){
  await ctx.route('**/*',route=>{
-  try{return new URL(route.request().url()).origin===BASE?route.continue():route.abort('blockedbyclient')}
-  catch{return route.abort('blockedbyclient')}
+  try{
+   const u=new URL(route.request().url());
+   if(u.origin!==BASE)return route.abort('blockedbyclient');
+   // Reproduce Android's explicit EmbeddedWebsiteRoutes clean-path allowlist.
+   if(u.pathname==='/rendlesham-forest-1980')
+    return route.fulfill({path:path.resolve('rendlesham-forest-1980.html'),contentType:'text/html'});
+   if(u.pathname==='/roswell-1947')
+    return route.fulfill({path:path.resolve('roswell-1947.html'),contentType:'text/html'});
+   return route.continue();
+  }catch{return route.abort('blockedbyclient')}
  });
 }
 async function profileReturn(page,person,label){
