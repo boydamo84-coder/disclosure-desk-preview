@@ -96,6 +96,24 @@ const BASE='http://127.0.0.1:4173';
     await radar.locator('button[data-radar-compare]').click();
     assert.equal(await radar.locator('[data-radar-output] article').count(),2);
 
+    // R2 M7 graph view: mobile/desktop must show a bounded, source-only topology.
+    const graph=dna.locator('details.dd-evidence-graph');
+    assert.equal(await graph.count(),1,'Curated dossiers expose a separate graph disclosure');
+    await graph.locator('summary').first().click();
+    assert.match(await graph.locator('[data-graph-summary]').innerText(),/1 case dossier/i);
+    assert.match(await graph.locator('[data-graph-summary]').innerText(),/Verified cross-case connections: 0/i);
+    assert(await graph.locator('svg.dd-source-graph-svg rect').count()>=4,'Graphic nodes render');
+    await graph.locator('select[data-graph-mode]').selectOption('all');
+    assert.match(await graph.locator('[data-graph-summary]').innerText(),/2 case dossier/i);
+    assert.match(await graph.locator('[data-graph-summary]').innerText(),/4 editorial draft statement/i);
+    assert.match(await graph.locator('[data-graph-summary]').innerText(),/3 distinct cited source page/i);
+    assert.equal(await graph.locator('svg.dd-source-graph-svg rect').count(),9,'Two cases, four statements, three distinct sources');
+    const list=graph.locator('details').first();
+    await list.locator('summary').click();
+    assert.equal(await list.locator('li').count(),8,'Text alternative retains eight source/context relationships');
+    assert(await list.locator('a[href^="https://"]').count()>=4,'Original citation locations remain available without SVG');
+    await graph.locator('select[data-graph-mode]').selectOption('current');
+    assert.match(await graph.locator('[data-graph-summary]').innerText(),/1 case dossier/i);
     const correctReturn=await page.locator('#archiveCaseBody a[href="/'+slug+'"]').count();
     assert(correctReturn===1,'Archive detail must return to same original article');
     // Case Connections must be usable on EVERY case detail, including on mobile.
