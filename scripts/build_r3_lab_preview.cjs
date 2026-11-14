@@ -75,10 +75,10 @@ for(const file of assets){
 }
 if(!html.includes('id="r3BuildStamp"'))throw Error('Missing visible R3 build identifier');
 html=html.replace('R3 OFFLINE · NAV/PROMPT PATCH',
- 'R3 NAV / PROMPT POLISH · BUILD '+build);
+ 'R3 GAP FINDER / HYPOTHESIS · BUILD '+build);
 fs.writeFileSync(htmlPath,html);
 fs.writeFileSync(path.join(out,'BUILD_INFO.txt'),[
- 'Disclosure Desk R3 NAV / PROMPT POLISH',
+ 'Disclosure Desk R3 GAP FINDER / HYPOTHESIS',
  'Build: '+build,
  'Correct: original 14-tab R2 dock, navy/gold confirmations and research gaps.',
  'If you see a grey 127.0.0.1:4175 says popup: an OLD folder/server is active.',
