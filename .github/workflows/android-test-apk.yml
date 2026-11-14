@@ -118,9 +118,9 @@ jobs:
           node scripts/test_m93_compact_header_chromium.cjs
           node scripts/test_m95_editorial_restore_chromium.cjs
           node scripts/test_original_research_chromium.cjs
+          node scripts/test_m12_2_scroll_return_chromium.cjs
           node scripts/test_people_directory_chromium.cjs
           node scripts/test_m12_editorial_secondary_nav_chromium.cjs
-          node scripts/test_m12_2_scroll_return_chromium.cjs
           node scripts/test_page_help_chromium.cjs
           node scripts/test_m71_secondary_actions_chromium.cjs
       - name: Verify safe Android Share-link parser (offline Java only)
