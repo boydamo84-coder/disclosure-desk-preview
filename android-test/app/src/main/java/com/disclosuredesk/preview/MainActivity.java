@@ -114,6 +114,7 @@ public final class MainActivity extends Activity {
     // Paid entitlement lacks server-side receipt verification: disabled in all M75 builds.
     private static final boolean PLAY_BILLING_APPROVED = false;
     private final Set<String> snapshotFiles=new HashSet<>();
+    private android.window.OnBackInvokedCallback systemBackCallback;
     private boolean firstRunAlertsPromptShown=false;
     private static final String FIRST_RUN_ALERTS_CHOICE="dd-alerts-opt-in-m77";
     private String snapshotCommit="unknown";
@@ -156,6 +157,13 @@ public final class MainActivity extends Activity {
         root.addView(offlinePanel,new FrameLayout.LayoutParams(-1,-1));
         offlinePanel.setVisibility(View.GONE);
         setContentView(root);
+        // Android 13+ predictive/system swipe back must follow the WebView's nested
+        // page history, rather than invoking Activity's implicit finish path.
+        if(Build.VERSION.SDK_INT>=33){
+            systemBackCallback=this::onBackPressed;
+            getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
+              android.window.OnBackInvokedDispatcher.PRIORITY_DEFAULT,systemBackCallback);
+        }
         // Upgrade existing 2h subscriptions automatically without resetting the user's choices.
         syncDiscoverySchedules();
         // Android 15+ draws edge to edge. Earlier versions fit the system bars.
@@ -1187,5 +1195,12 @@ public final class MainActivity extends Activity {
     }
     @Override protected void onPause(){if(nativeNews!=null)nativeNews.rememberPosition();if(adView!=null)adView.pause();super.onPause();}
     @Override protected void onResume(){super.onResume();if(adView!=null)adView.resume();if(premium!=null)premium.restore();}
-    @Override protected void onDestroy(){if(pendingFiles!=null){pendingFiles.onReceiveValue(null);pendingFiles=null;}if(premium!=null)premium.close();if(adView!=null)adView.destroy();web.destroy();super.onDestroy();}
+    @Override protected void onDestroy(){
+        if(Build.VERSION.SDK_INT>=33 && systemBackCallback!=null)
+            getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(systemBackCallback);
+        if(pendingFiles!=null){pendingFiles.onReceiveValue(null);pendingFiles=null;}
+        if(premium!=null)premium.close();
+        if(adView!=null)adView.destroy();
+        web.destroy();super.onDestroy();
+    }
 }
