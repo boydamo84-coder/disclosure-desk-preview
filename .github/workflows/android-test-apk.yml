@@ -16,6 +16,7 @@ on:
       - 'data/public-person-case-links.json'
       - 'data/public-people-directory.json'
       - 'scripts/test_page_help_chromium.cjs'
+      - 'scripts/test_archive_case_scroll_and_people_nav_chromium.cjs'
       - 'scripts/test_page_help_contract.cjs'
       - 'scripts/test_source_lineage.cjs'
       - 'scripts/test_m92_android_parity.cjs'
@@ -109,6 +110,8 @@ jobs:
           node scripts/test_original_research_chromium.cjs
           node scripts/test_people_directory_chromium.cjs
           node scripts/test_page_help_chromium.cjs
+          node --check scripts/test_archive_case_scroll_and_people_nav_chromium.cjs
+          node scripts/test_archive_case_scroll_and_people_nav_chromium.cjs
           node scripts/test_m71_secondary_actions_chromium.cjs
       - name: Verify safe Android Share-link parser (offline Java only)
         run: |
