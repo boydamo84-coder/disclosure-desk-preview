@@ -71,3 +71,4 @@ jobs:
           if test -f /tmp/dd-r2-local.pid; then kill "$(cat /tmp/dd-r2-local.pid)" || true; fi
 # This only validates an isolated source branch. It cannot publish a site,
 # release a later version, contact a real user account or resubmit AdSense.
+# M8 checks source-attributed public people/case references; does not publish.
