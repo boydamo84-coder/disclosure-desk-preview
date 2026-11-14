@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "edition": "2026-11-14-draft",
-  "status": "editorial-review-required",
-  "ethics": "Public figures only. Roles and attributed public positions from linked sources. No personal phone numbers, addresses, subjective credibility rankings or fabricated social handles. Portraits require verified re-use permissions; current directory uses initials.",
+  "edition": "2026-11-14-detailed-editorial-draft",
+  "status": "research-copy-edit-needed",
+  "ethics": "Public figures only. Roles and attributed public positions from linked sources. No personal phone numbers, addresses, subjective credibility rankings or fabricated social handles. Portraits require verified re-use permissions; current directory uses initials. Embeds load only after direct visitor interaction; third-party YouTube may set cookies when activated. Source links and dated claims need editorial signoff.",
   "people": [
     {
       "id": "david-grusch",
@@ -27,12 +27,64 @@
       ],
       "media": [
         {
-          "label": "Opening statement — C-SPAN (YouTube)",
-          "url": "https://www.youtube.com/watch?v=lcrCMLVk614"
+          "label": "David Grusch — opening statement at US House UAP hearing",
+          "url": "https://www.youtube.com/watch?v=lcrCMLVk614",
+          "type": "Testimony (not incident footage)",
+          "context": "Records his public statement and oversight allegations; not video of an alleged recovered object."
         }
       ],
       "officialLinks": [],
-      "photo": null
+      "photo": null,
+      "biography": [
+        "David Grusch previously worked in US Air Force and intelligence roles and was involved in government UAP reporting. In 2023 he became widely known after making allegations about programmes that he said were described to him by individuals with relevant access. His congressional statement describes his duties, his reporting to inspectors general and the constraints of discussing classified information publicly.",
+        "He appeared before the House Oversight subcommittee on 26 July 2023 alongside Ryan Graves and David Fravor. Grusch told lawmakers that he had been informed of alleged crash-retrieval and reverse-engineering activity. The publicly available statement documents that he made the allegations; it does not itself provide independently inspectable physical evidence for the programmes described.",
+        "His role in UAP disclosure debates is therefore different from that of a pilot describing a directly witnessed encounter. Researchers should distinguish first-person experience of intelligence reporting from second-hand descriptions of purported events, and review the original testimony rather than a chain of summaries."
+      ],
+      "milestones": [
+        {
+          "date": "2019–2023",
+          "title": "UAP-related government work",
+          "detail": "Grusch's own written statement describes UAP-tasking and intelligence responsibilities. These dates and duties are attributed to his filed testimony.",
+          "source": "https://www.congress.gov/118/meeting/house/116282/witnesses/HHRG-118-GO06-Wstate-GruschD-20230726.pdf"
+        },
+        {
+          "date": "June 2023",
+          "title": "Public whistleblower allegations",
+          "detail": "His claims entered public reporting, including NewsNation coverage and interviews. The underlying alleged programmes were not publicly verified by those interviews.",
+          "source": "https://www.nexstar.tv/newsnation-signs-ross-coulthart-as-special-correspondent/"
+        },
+        {
+          "date": "26 July 2023",
+          "title": "Testimony before US Congress",
+          "detail": "He appeared under oath with two former naval aviators, presenting allegations and discussing government oversight and transparency.",
+          "source": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Official written opening statement to Congress",
+          "publisher": "US House / Congress.gov",
+          "date": "2023-07-26",
+          "url": "https://www.congress.gov/118/meeting/house/116282/witnesses/HHRG-118-GO06-Wstate-GruschD-20230726.pdf"
+        },
+        {
+          "label": "NewsNation appoints Ross Coulthart; references continuing Grusch coverage",
+          "publisher": "Nexstar / NewsNation",
+          "date": "2023-11-14",
+          "url": "https://www.nexstar.tv/newsnation-signs-ross-coulthart-as-special-correspondent/"
+        }
+      ],
+      "videos": [
+        {
+          "title": "David Grusch — opening statement at US House UAP hearing",
+          "youtubeId": "lcrCMLVk614",
+          "type": "Testimony (not incident footage)",
+          "publisher": "C-SPAN",
+          "date": "2023-07-26",
+          "context": "Records his public statement and oversight allegations; not video of an alleged recovered object."
+        }
+      ],
+      "socialPages": []
     },
     {
       "id": "ryan-graves",
@@ -58,8 +110,10 @@
       ],
       "media": [
         {
-          "label": "2023 congressional UAP hearing recording",
-          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/"
+          "label": "Ryan Graves — opening statement to Congress",
+          "url": "https://www.youtube.com/watch?v=Lf6y9QHj5S8",
+          "type": "Testimony (not incident footage)",
+          "context": "Explains his experience and aviation safety concerns; original aircrew sensor recordings are not presented as part of this video."
         }
       ],
       "officialLinks": [
@@ -68,7 +122,80 @@
           "url": "https://www.safeaerospace.org/"
         }
       ],
-      "photo": null
+      "photo": null,
+      "biography": [
+        "Ryan Graves is a former US Navy F/A-18 aviator who founded Americans for Safe Aerospace, a nonprofit focused on aviation safety, UAP reporting and better research data. His public advocacy emphasises that pilots need reliable channels to report unusual observations without stigma.",
+        "At the House hearing on 26 July 2023, Graves described reports from military and civilian aircrew, along with the difficulty of documenting encounters in a useful, systematic way. He spoke about observations during naval service, including accounts of unusual objects reported near training areas.",
+        "Graves's work subsequently broadened from individual stories to reporting standards, protection for witnesses and engagement with policymakers and researchers. A named pilot's experience and de-identified reports are starting points for investigation; without complete source records they do not establish a specific physical explanation."
+      ],
+      "milestones": [
+        {
+          "date": "2010s",
+          "title": "Naval aviation and reported observations",
+          "detail": "Graves describes F/A-18 service and the UAP reporting environment in his submitted testimony.",
+          "source": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/"
+        },
+        {
+          "date": "1 June 2023",
+          "title": "Americans for Safe Aerospace launch",
+          "detail": "Graves publicly announced the nonprofit's reporting, policy and aviation-safety mission.",
+          "source": "https://www.safeaerospace.org/news/asa-501-c-3-launc"
+        },
+        {
+          "date": "26 July 2023",
+          "title": "Congressional testimony",
+          "detail": "Spoke as Americans for Safe Aerospace executive director regarding encounters, reporting and safety.",
+          "source": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/"
+        },
+        {
+          "date": "2026",
+          "title": "Research and policy work continues",
+          "detail": "ASA publishes research and policy updates and runs an interview programme for firsthand accounts.",
+          "source": "https://www.safeaerospace.org/news"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Americans for Safe Aerospace launch",
+          "publisher": "ASA",
+          "date": "2023-06-01",
+          "url": "https://www.safeaerospace.org/news/asa-501-c-3-launc"
+        },
+        {
+          "label": "ASA research and policy news",
+          "publisher": "ASA",
+          "date": "Ongoing",
+          "url": "https://www.safeaerospace.org/news"
+        },
+        {
+          "label": "Congressional UAP hearing record",
+          "publisher": "US House Oversight",
+          "date": "2023-07-26",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Ryan Graves — opening statement to Congress",
+          "youtubeId": "Lf6y9QHj5S8",
+          "type": "Testimony (not incident footage)",
+          "publisher": "C-SPAN",
+          "date": "2023-07-26",
+          "context": "Explains his experience and aviation safety concerns; original aircrew sensor recordings are not presented as part of this video."
+        }
+      ],
+      "socialPages": [
+        {
+          "label": "Americans for Safe Aerospace — official website",
+          "url": "https://www.safeaerospace.org/",
+          "kind": "Organisation website"
+        },
+        {
+          "label": "The Safe Aerospace Podcast — official ASA channel",
+          "url": "https://www.safeaerospace.org/",
+          "kind": "Official podcast directory"
+        }
+      ]
     },
     {
       "id": "david-fravor",
@@ -93,12 +220,64 @@
       ],
       "media": [
         {
-          "label": "2023 congressional hearing video and testimony",
-          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/"
+          "label": "David Fravor — opening statement on the 2004 Nimitz incident",
+          "url": "https://www.youtube.com/watch?v=usPustgTcDU",
+          "type": "Testimony / firsthand account (not 2004 footage)",
+          "context": "Fravor recounts what he says he saw. This hearing clip is not footage of the actual 2004 encounter."
         }
       ],
       "officialLinks": [],
-      "photo": null
+      "photo": null,
+      "biography": [
+        "Retired Commander David Fravor commanded Strike Fighter Squadron 41 while serving with the USS Nimitz carrier group. His best-known UAP account concerns an encounter off the coast of California in November 2004 during a naval training period.",
+        "In his own written statement Fravor described being vectored towards an object by controllers on USS Princeton and observing a white, elongated object apparently moving over disturbed water. He recounted its motion, the efforts of his flight to observe it, and the circumstances in which the object was no longer visible. The account has featured prominently in later reporting on naval UAP encounters.",
+        "Fravor testified before a House Oversight subcommittee in July 2023. His firsthand account is a primary witness source, while claims about speed, distance and physical characteristics must still be evaluated alongside the quality and availability of sensor records, timings and independent observations. Video widely discussed alongside the incident should not be assumed to show the exact instant Fravor personally saw the object."
+      ],
+      "milestones": [
+        {
+          "date": "November 2004",
+          "title": "USS Nimitz training-period encounter",
+          "detail": "Fravor's detailed written statement recounts the reported white, Tic Tac-shaped object and the actions of his flight.",
+          "source": "https://oversight.house.gov/wp-content/uploads/2023/07/David-Fravor-Statement-for-House-Oversight-Committee.pdf"
+        },
+        {
+          "date": "2017 onward",
+          "title": "Naval UAP accounts receive renewed coverage",
+          "detail": "Public attention expanded as military video and pilot descriptions were discussed; video provenance and pilot testimony require separate review.",
+          "source": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm"
+        },
+        {
+          "date": "26 July 2023",
+          "title": "Congressional testimony",
+          "detail": "Fravor presented his firsthand account and answered questions in the House hearing.",
+          "source": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "David Fravor's original written account",
+          "publisher": "US House Oversight",
+          "date": "2023-07-26",
+          "url": "https://oversight.house.gov/wp-content/uploads/2023/07/David-Fravor-Statement-for-House-Oversight-Committee.pdf"
+        },
+        {
+          "label": "Public hearing transcript",
+          "publisher": "US Government Publishing Office",
+          "date": "2023-07-26",
+          "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm"
+        }
+      ],
+      "videos": [
+        {
+          "title": "David Fravor — opening statement on the 2004 Nimitz incident",
+          "youtubeId": "usPustgTcDU",
+          "type": "Testimony / firsthand account (not 2004 footage)",
+          "publisher": "C-SPAN",
+          "date": "2023-07-26",
+          "context": "Fravor recounts what he says he saw. This hearing clip is not footage of the actual 2004 encounter."
+        }
+      ],
+      "socialPages": []
     },
     {
       "id": "ross-coulthart",
@@ -119,8 +298,16 @@
       ],
       "media": [
         {
-          "label": "Reality Check: Road to Disclosure — NewsNation (YouTube)",
-          "url": "https://www.youtube.com/watch?v=wAur0awdEjw"
+          "label": "Road to Disclosure — full TV special",
+          "url": "https://www.youtube.com/watch?v=wAur0awdEjw",
+          "type": "Journalistic documentary and interviews",
+          "context": "Combines interviews, historical reporting and commentary; imagery is not automatically independently verified incident footage."
+        },
+        {
+          "label": "Reality Check — viewer questions on UAP reporting",
+          "url": "https://www.youtube.com/watch?v=cd-ZsjeuZ64",
+          "type": "Journalistic discussion and Q&A",
+          "context": "Coulthart discusses questions and claims; this is not an original recording of a sighting."
         }
       ],
       "officialLinks": [
@@ -129,7 +316,77 @@
           "url": "https://www.newsnationnow.com/"
         }
       ],
-      "photo": null
+      "photo": null,
+      "biography": [
+        "Ross Coulthart is an Australian investigative journalist and author who has covered military matters, political accountability and UAP allegations. He has written about UAP questions and interviewed sources who describe claimed classified activity.",
+        "His UAP reporting drew wider international attention through interviews with David Grusch, and the public record includes a November 2023 NewsNation announcement appointing him as special correspondent. That statement specifically referenced his work on the Grusch story and broader claims about military retrieval programmes.",
+        "Coulthart hosts Reality Check and has produced long-form programmes addressing UAP history and contemporary interviews. These broadcasts are useful guides to what different participants have said. Independent verification requires examining primary testimony, documentary sources and the programme's distinctions between reporting and established findings."
+      ],
+      "milestones": [
+        {
+          "date": "2021",
+          "title": "Book-length UAP investigation",
+          "detail": "Published In Plain Sight, a journalist's examination of UAP claims and scientific questions.",
+          "source": "https://www.nexstar.tv/newsnation-signs-ross-coulthart-as-special-correspondent/"
+        },
+        {
+          "date": "2022",
+          "title": "Need to Know podcast",
+          "detail": "Nexstar notes his work with Bryce Zabel on the programme.",
+          "source": "https://www.nexstar.tv/newsnation-signs-ross-coulthart-as-special-correspondent/"
+        },
+        {
+          "date": "14 November 2023",
+          "title": "Appointed NewsNation special correspondent",
+          "detail": "NewsNation's parent company announced the appointment and cited his ongoing Grusch coverage.",
+          "source": "https://www.nexstar.tv/newsnation-signs-ross-coulthart-as-special-correspondent/"
+        },
+        {
+          "date": "13 June 2026",
+          "title": "Road to Disclosure special",
+          "detail": "NewsNation published a documentary-style programme featuring historical cases, interviews and commentary.",
+          "source": "https://www.youtube.com/watch?v=wAur0awdEjw"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Official NewsNation appointment and biography",
+          "publisher": "Nexstar",
+          "date": "2023-11-14",
+          "url": "https://www.nexstar.tv/newsnation-signs-ross-coulthart-as-special-correspondent/"
+        },
+        {
+          "label": "Road to Disclosure — full investigation special",
+          "publisher": "NewsNation",
+          "date": "2026-06-13",
+          "url": "https://www.youtube.com/watch?v=wAur0awdEjw"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Road to Disclosure — full TV special",
+          "youtubeId": "wAur0awdEjw",
+          "type": "Journalistic documentary and interviews",
+          "publisher": "NewsNation",
+          "date": "2026-06-13",
+          "context": "Combines interviews, historical reporting and commentary; imagery is not automatically independently verified incident footage."
+        },
+        {
+          "title": "Reality Check — viewer questions on UAP reporting",
+          "youtubeId": "cd-ZsjeuZ64",
+          "type": "Journalistic discussion and Q&A",
+          "publisher": "NewsNation",
+          "date": "2025-03-30",
+          "context": "Coulthart discusses questions and claims; this is not an original recording of a sighting."
+        }
+      ],
+      "socialPages": [
+        {
+          "label": "NewsNation — official reporting and video channel",
+          "url": "https://www.youtube.com/@NewsNation",
+          "kind": "News outlet channel"
+        }
+      ]
     },
     {
       "id": "jeremy-corbell",
@@ -151,8 +408,10 @@
       ],
       "media": [
         {
-          "label": "Jeremy Corbell's YouTube channel — episodes and interviews",
-          "url": "https://www.youtube.com/JeremyCorbell"
+          "label": "Weaponized — Jeremy Corbell and George Knapp introduce the programme",
+          "url": "https://www.youtube.com/watch?v=tKP7Zzi1GrE",
+          "type": "Programme introduction and interview reporting",
+          "context": "This introduces an investigative programme; it is not direct eyewitness footage of any one incident."
         }
       ],
       "officialLinks": [
@@ -165,7 +424,78 @@
           "url": "https://www.youtube.com/JeremyCorbell"
         }
       ],
-      "photo": null
+      "photo": null,
+      "biography": [
+        "Jeremy Corbell is a documentary filmmaker and interviewer whose reporting covers UFO/UAP allegations, national-security topics and previously unreleased imagery. His work is often presented through public interviews, documentary projects and the Weaponized programme.",
+        "Corbell co-hosts Weaponized with investigative journalist George Knapp. The programme publishes interviews with people who describe UAP-related experiences, alongside selected recordings and source documents. A released clip's publisher, custody, recording date and surrounding context should be independently checked before interpreting what it shows.",
+        "Corbell is an influential figure in making particular claims and footage widely known; the fact that a documentary or video becomes prominent is not independent validation of the subject. This profile therefore points to his own programme and public publications without stating that every reported allegation is established."
+      ],
+      "milestones": [
+        {
+          "date": "Before 2023",
+          "title": "Documentary investigations and interviews",
+          "detail": "Corbell's professional biography describes films and interviews concerning UAP and government secrecy.",
+          "source": "https://www.weaponizedpodcast.com/about"
+        },
+        {
+          "date": "23 January 2023",
+          "title": "Weaponized video introduction",
+          "detail": "Corbell's YouTube channel published an introduction to the joint programme with George Knapp.",
+          "source": "https://www.youtube.com/watch?v=tKP7Zzi1GrE"
+        },
+        {
+          "date": "2023–2026",
+          "title": "Continued reporting and interview releases",
+          "detail": "The official programme carries ongoing material and episode archives.",
+          "source": "https://www.weaponizedpodcast.com/show"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Jeremy Corbell — official programme biography",
+          "publisher": "Weaponized",
+          "date": "Current",
+          "url": "https://www.weaponizedpodcast.com/about"
+        },
+        {
+          "label": "Weaponized — episode index and investigations",
+          "publisher": "Weaponized",
+          "date": "Ongoing",
+          "url": "https://www.weaponizedpodcast.com/show"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Weaponized — Jeremy Corbell and George Knapp introduce the programme",
+          "youtubeId": "tKP7Zzi1GrE",
+          "type": "Programme introduction and interview reporting",
+          "publisher": "Jeremy Corbell (verified channel)",
+          "date": "2023-01-23",
+          "context": "This introduces an investigative programme; it is not direct eyewitness footage of any one incident."
+        }
+      ],
+      "socialPages": [
+        {
+          "label": "Jeremy Corbell — X",
+          "url": "https://twitter.com/jeremycorbell",
+          "kind": "Public social page"
+        },
+        {
+          "label": "Jeremy Corbell — Instagram",
+          "url": "https://instagram.com/jeremycorbell",
+          "kind": "Public social page"
+        },
+        {
+          "label": "Jeremy Corbell — YouTube",
+          "url": "https://www.youtube.com/JeremyCorbell",
+          "kind": "Official video channel"
+        },
+        {
+          "label": "Weaponized — official programme",
+          "url": "https://www.weaponizedpodcast.com/",
+          "kind": "Official website"
+        }
+      ]
     },
     {
       "id": "george-knapp",
@@ -186,8 +516,16 @@
       ],
       "media": [
         {
-          "label": "Weaponized interviews and reports — official programme",
-          "url": "https://www.weaponizedpodcast.com/show"
+          "label": "Weaponized — investigative series introduction",
+          "url": "https://www.youtube.com/watch?v=tKP7Zzi1GrE",
+          "type": "Journalistic programme and interviews",
+          "context": "Hosted by Knapp and Corbell; documentary reporting, not an independently authenticated sighting recording."
+        },
+        {
+          "label": "Road to Disclosure — Knapp discusses earlier reporting",
+          "url": "https://www.youtube.com/watch?v=wAur0awdEjw",
+          "type": "Historical reporting interview",
+          "context": "Contains a segment on Knapp's work. Historical retelling and journalistic discussion, not original physical evidence."
         }
       ],
       "officialLinks": [
@@ -196,7 +534,86 @@
           "url": "https://www.weaponizedpodcast.com/"
         }
       ],
-      "photo": null
+      "photo": null,
+      "biography": [
+        "George Knapp is a long-serving investigative journalist based in Las Vegas and is widely associated with coverage of unusual claims connected to Nevada, Area 51 and Bob Lazar. His professional biography documents a broadcasting career that extends well beyond UAP subjects.",
+        "Knapp co-hosts Weaponized with Jeremy Corbell. In that role he presents interviews, archived stories, original recordings and discussions about government secrecy and witness claims. His earlier reports helped bring several UAP narratives to wider public attention, but the original reporting and the underlying allegation remain distinct forms of evidence.",
+        "A useful way to assess his contribution is to trace specific stories back to their earliest dated broadcast or document, identify whose claims were quoted, and then seek independent corroboration. The fact that an allegation is newsworthy does not make it physically verified."
+      ],
+      "milestones": [
+        {
+          "date": "Late 1980s onward",
+          "title": "Nevada and Area 51 investigative reporting",
+          "detail": "Weaponized's official biography identifies early reporting on Bob Lazar and Area 51 as part of his career.",
+          "source": "https://www.weaponizedpodcast.com/about"
+        },
+        {
+          "date": "23 January 2023",
+          "title": "Weaponized co-host",
+          "detail": "The shared programme was introduced on Jeremy Corbell's verified video channel.",
+          "source": "https://www.youtube.com/watch?v=tKP7Zzi1GrE"
+        },
+        {
+          "date": "2026",
+          "title": "Historical reporting revisited",
+          "detail": "NewsNation's Road to Disclosure programme includes Knapp discussing earlier reporting and its context.",
+          "source": "https://www.youtube.com/watch?v=wAur0awdEjw"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Official biography and reporting background",
+          "publisher": "Weaponized",
+          "date": "Current",
+          "url": "https://www.weaponizedpodcast.com/about"
+        },
+        {
+          "label": "Weaponized interviews and reporting archive",
+          "publisher": "Weaponized",
+          "date": "Ongoing",
+          "url": "https://www.weaponizedpodcast.com/show"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Weaponized — investigative series introduction",
+          "youtubeId": "tKP7Zzi1GrE",
+          "type": "Journalistic programme and interviews",
+          "publisher": "Jeremy Corbell",
+          "date": "2023-01-23",
+          "context": "Hosted by Knapp and Corbell; documentary reporting, not an independently authenticated sighting recording."
+        },
+        {
+          "title": "Road to Disclosure — Knapp discusses earlier reporting",
+          "youtubeId": "wAur0awdEjw",
+          "type": "Historical reporting interview",
+          "publisher": "NewsNation",
+          "date": "2026-06-13",
+          "context": "Contains a segment on Knapp's work. Historical retelling and journalistic discussion, not original physical evidence."
+        }
+      ],
+      "socialPages": [
+        {
+          "label": "George Knapp — X",
+          "url": "https://x.com/g_knapp",
+          "kind": "Public social page"
+        },
+        {
+          "label": "George Knapp — Instagram",
+          "url": "https://instagram.com/georgeknapp66",
+          "kind": "Public social page"
+        },
+        {
+          "label": "Weaponized — official programme",
+          "url": "https://www.weaponizedpodcast.com/",
+          "kind": "Official website"
+        },
+        {
+          "label": "Mystery Wire — reporting site",
+          "url": "https://www.mysterywire.com/",
+          "kind": "Public editorial website"
+        }
+      ]
     },
     {
       "id": "mick-west",
@@ -221,8 +638,16 @@
       ],
       "media": [
         {
-          "label": "Technical analysis and publications",
-          "url": "https://mickwest.com/"
+          "label": "Gimbal UFO — technical analysis",
+          "url": "https://www.youtube.com/watch?v=qsEjV8DdSbs",
+          "type": "Technical reconstruction / interpretation",
+          "context": "Analyses imagery and camera behaviour; the argument is a testable interpretation of source video, not newly filmed eyewitness footage."
+        },
+        {
+          "label": "Explained: the Navy UFO videos",
+          "url": "https://www.youtube.com/watch?v=Q7jcBGLIpus",
+          "type": "Technical video analysis",
+          "context": "Discusses likely interpretations of naval videos without claiming to identify every object."
         }
       ],
       "officialLinks": [
@@ -235,7 +660,97 @@
           "url": "https://www.metabunk.org/"
         }
       ],
-      "photo": null
+      "photo": null,
+      "biography": [
+        "Mick West is a writer, former video game developer and sceptical investigator who analyses unusual video, photography and claims using geometry, camera behaviour, environmental data and alternative explanations. He operates Metabunk, a public forum for investigating disputed material.",
+        "His UAP work has examined famous naval videos including Gimbal, GoFast and FLIR. In an analysis posted on Metabunk he argued that certain apparent rotations or movements can arise from sensor optics or viewing geometry, rather than directly revealing the physical movement of a craft. Such analyses are hypotheses to test against original data, not automatic identification of every object.",
+        "West's approach provides an important counterpoint to witness accounts and extraordinary interpretations. The most useful research comparison examines a specific observation, its source imagery, the assumptions in his reconstruction and the uncertainties that remain rather than treating scepticism or belief as a personal credibility score."
+      ],
+      "milestones": [
+        {
+          "date": "2018",
+          "title": "Publication of Escaping the Rabbit Hole",
+          "detail": "West's website describes the book and his interest in evaluating unusual beliefs and sources.",
+          "source": "https://mickwest.com/"
+        },
+        {
+          "date": "13 March 2022",
+          "title": "Technical Gimbal analysis",
+          "detail": "Metabunk published West's explanation of rotating glare and camera behaviour as a possible reading of the video.",
+          "source": "https://www.metabunk.org/threads/gimbal-ufo-a-new-analysis.12333/"
+        },
+        {
+          "date": "31 July 2024",
+          "title": "Interview on investigative methods",
+          "detail": "Popular Mechanics profiled his work with flight data, geometry and reconstruction tools.",
+          "source": "https://www.popularmechanics.com/science/a61701169/mick-west-ufo-sightings-debunker/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Gimbal UFO — technical analysis",
+          "publisher": "Metabunk / Mick West",
+          "date": "2022-03-13",
+          "url": "https://www.metabunk.org/threads/gimbal-ufo-a-new-analysis.12333/"
+        },
+        {
+          "label": "Investigation method profile",
+          "publisher": "Popular Mechanics",
+          "date": "2024-07-31",
+          "url": "https://www.popularmechanics.com/science/a61701169/mick-west-ufo-sightings-debunker/"
+        },
+        {
+          "label": "West's own biography and research links",
+          "publisher": "Mick West",
+          "date": "Current",
+          "url": "https://mickwest.com/"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Gimbal UFO — technical analysis",
+          "youtubeId": "qsEjV8DdSbs",
+          "type": "Technical reconstruction / interpretation",
+          "publisher": "Mick West",
+          "date": "2022-03-13",
+          "context": "Analyses imagery and camera behaviour; the argument is a testable interpretation of source video, not newly filmed eyewitness footage."
+        },
+        {
+          "title": "Explained: the Navy UFO videos",
+          "youtubeId": "Q7jcBGLIpus",
+          "type": "Technical video analysis",
+          "publisher": "Mick West / Metabunk",
+          "date": "2022-10-30",
+          "context": "Discusses likely interpretations of naval videos without claiming to identify every object."
+        }
+      ],
+      "socialPages": [
+        {
+          "label": "Mick West — X",
+          "url": "https://twitter.com/MickWest",
+          "kind": "Public social page"
+        },
+        {
+          "label": "Mick West — YouTube",
+          "url": "https://www.youtube.com/MickWest",
+          "kind": "Official video channel"
+        },
+        {
+          "label": "Mick West — Substack",
+          "url": "https://mickwest.substack.com/",
+          "kind": "Official writing platform"
+        },
+        {
+          "label": "Mick West — Reddit",
+          "url": "https://www.reddit.com/user/Metabunk/",
+          "kind": "Public account linked from his website"
+        },
+        {
+          "label": "Metabunk discussion forum",
+          "url": "https://www.metabunk.org/",
+          "kind": "Research community"
+        }
+      ]
     }
   ]
 }
