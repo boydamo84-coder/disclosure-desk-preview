@@ -44,6 +44,14 @@ if(!html.includes('id="r3BuildStamp"'))throw Error('Missing visible R3 build ide
 html=html.replace('R3 OFFLINE · NAV/PROMPT PATCH',
  'R3 NAV / PROMPT POLISH · BUILD '+build);
 fs.writeFileSync(htmlPath,html);
+fs.writeFileSync(path.join(out,'BUILD_INFO.txt'),
+ 'Disclosure Desk R3 NAV / PROMPT POLISH\\n'+
+ 'Build: '+build+'\\n'+
+ 'Correct interface: 14-tab original R2 dock, custom navy/gold confirmation.\\n'+
+ 'If Chrome displays a grey \\"127.0.0.1:4175 says\\" prompt, you are\\n'+
+ 'serving an OLD folder or an OLD server process, not this build.\\n'+
+ 'Stop old Termux server with CTRL+C; start Python from folder containing\\n'+
+ 'this file. Keep the same 127.0.0.1:4175 origin for encrypted vault.\\n');
 console.log('R3 version '+build+' with fingerprinted CSS/JS asset URLs');
 const published=fs.readFileSync(path.join(root,'scripts','build_public_release.cjs'),'utf8');
 if(published.includes('hypothesis-lab-preview.html')||published.includes('hypothesis-ui.js')||
