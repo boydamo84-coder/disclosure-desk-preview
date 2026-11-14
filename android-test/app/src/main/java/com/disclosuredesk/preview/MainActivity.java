@@ -76,7 +76,7 @@ public final class MainActivity extends Activity {
     private static final int DESK_GOLD = Color.rgb(242,215,162);
     private static final String SUPPORT_URL = "https://ko-fi.com/disclosuredesk";
     private static final Set<String> LEGAL_PAGES = new HashSet<>(java.util.Arrays.asList(
-            "guide", "terms", "privacy", "community-rules", "sources", "research-edition"));
+            "guide", "terms", "privacy", "community-rules", "sources", "research-edition", "who-is-who", "investigations", "rendlesham-forest-1980", "roswell-1947"));
     private ValueCallback<Uri[]> pendingFiles;
     private static final String HOME = "https://uapdisclosuredesk.com/";
     private ResearchInboxStore researchInbox;
