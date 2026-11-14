@@ -111,6 +111,15 @@ const BASE='http://127.0.0.1:4175';
     await dis.locator('[data-field="howToCheck"]').fill('Check the imaginary raw record');
     await page.locator('#addSourceBtn').click();
     const source=page.locator('#sourceEntries');
+    const sourceState=await page.evaluate(()=>({
+     sourceEntries:document.querySelectorAll('#sourceEntries .entry-card').length,
+     editorHidden:document.getElementById('editorForm').hidden,
+     dialogOpen:document.getElementById('ddConfirmDialog').open,
+     actionButton:document.getElementById('addSourceBtn').outerHTML.slice(0,450),
+     notice:document.getElementById('notice').textContent
+    }));
+    console.log('R3 source-entry state after Add source:',JSON.stringify(sourceState),'JS errors',errors);
+    assert.equal(sourceState.sourceEntries,1,'Add source must create exactly one citation input');
     await source.locator('[data-field="label"]').fill('Synthetic archive');
     await source.locator('[data-field="url"]').fill('javascript:alert(1)');
     await page.locator('#saveHypothesisBtn').click();
