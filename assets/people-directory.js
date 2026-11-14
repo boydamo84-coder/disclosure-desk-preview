@@ -116,6 +116,32 @@ function paintPortrait(host,person){
  },{once:true});
  picture.src=u.href;host.appendChild(picture);
 }
+// Restrict licence destinations to verified CC deed URLs; data can never
+// inject a third-party link into the attribution widget.
+const PHOTO_LICENSE_URLS=Object.freeze({
+ 'CC0 1.0':'https://creativecommons.org/publicdomain/zero/1.0/',
+ 'CC BY 2.0':'https://creativecommons.org/licenses/by/2.0/',
+ 'CC BY 3.0':'https://creativecommons.org/licenses/by/3.0/',
+ 'CC BY 4.0':'https://creativecommons.org/licenses/by/4.0/',
+ 'CC BY-SA 4.0':'https://creativecommons.org/licenses/by-sa/4.0/'
+});
+function appendPortraitCredit(host,photo){
+ if(!host||!photo?.credit||!safeUrl(photo.source))return false;
+ const link=(url,label)=>{
+  const a=document.createElement('a');
+  a.href=url;a.target='_blank';a.rel='noopener noreferrer';
+  a.textContent=label;return a;
+ };
+ // Visible author / source / licence / display change (TASL), not a title
+ // tooltip. CSS object-fit:cover crops the displayed photo, not source bytes.
+ host.appendChild(link(safeUrl(photo.source),'Photo: '+photo.credit));
+ const licenseUrl=PHOTO_LICENSE_URLS[photo.license];
+ host.appendChild(document.createTextNode(' · '));
+ if(licenseUrl)host.appendChild(link(licenseUrl,photo.license));
+ else host.appendChild(document.createTextNode(photo.license||'Rights at source'));
+ if(licenseUrl)host.appendChild(document.createTextNode(' · Display cropped to fit'));
+ return true;
+}
 const validLinks=(v)=>Array.isArray(v)?v.filter(x=>x&&safeUrl(x.url)).slice(0,30):[];
 function renderList(items,opts={}){
  const filtered=validLinks(items);
@@ -144,12 +170,7 @@ function openPerson(person,updateUrl=true){
  const credit=$('profilePhotoCredit');
  if(credit){
   credit.replaceChildren();
-  if(person.photo&&safeUrl(person.photo.source)&&person.photo.credit){
-   const anchor=document.createElement('a');anchor.href=safeUrl(person.photo.source);
-   anchor.target='_blank';anchor.rel='noopener noreferrer';
-   anchor.textContent='Portrait: '+person.photo.credit+' · '+person.photo.license;
-   credit.appendChild(anchor);
-  }
+  appendPortraitCredit(credit,person.photo);
  }
  $('profilePosition').textContent=person.position;
  $('profileContext').textContent=person.context;
@@ -277,11 +298,9 @@ function renderCards(){
    '<p>'+esc(person.short)+'</p><button type="button" class="btn">Read detailed profile</button>';
   paintPortrait(card.querySelector('.avatar'),person);
   if(person.photo&&safeUrl(person.photo.source)&&person.photo.credit){
-   const credit=document.createElement('a');credit.href=safeUrl(person.photo.source);
-   credit.className='card-photo-credit';credit.target='_blank';credit.rel='noopener noreferrer';
-   credit.textContent='Portrait credit · '+person.photo.license;
-   credit.title=person.photo.credit;
-   card.querySelector('.person-head > div').appendChild(credit);
+   const credit=document.createElement('span');credit.className='card-photo-credit';
+   if(appendPortraitCredit(credit,person.photo))
+    card.querySelector('.person-head > div').appendChild(credit);
   }
   card.querySelector('button').addEventListener('click',()=>openPerson(person));
   host.appendChild(card);
