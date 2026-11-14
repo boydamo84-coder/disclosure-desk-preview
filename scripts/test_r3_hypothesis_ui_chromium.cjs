@@ -306,6 +306,16 @@ const BASE='http://127.0.0.1:4175';
    assert.equal(await gapPage.locator('#caseInput').inputValue(),'featured-rendlesham-1980');
    await gapPage.locator('#workspaceInput').fill('gap-qa-'+width);
    await gapPage.locator('#createNotebookBtn').click();
+   const startup=await gapPage.evaluate(()=>({
+    caseId:document.getElementById('caseInput').value,
+    workspaceId:document.getElementById('workspaceInput').value,
+    title:document.getElementById('notebookInput').value,
+    notice:document.getElementById('notice').textContent,
+    setupHidden:document.getElementById('setupPanel').hidden,
+    workHidden:document.getElementById('workPanel').hidden
+   }));
+   console.log('R3 gap-case setup:',JSON.stringify(startup),'browser errors:',gapErrors);
+   assert.equal(startup.workHidden,false,'Curated case notebook must open: '+JSON.stringify(startup));
    await gapPage.locator('#gapsTab').click();
    await gapPage.locator('#gapsView').waitFor({state:'visible'});
    assert.match(await gapPage.locator('#gapSummary').innerText(),/tentative questions/);
