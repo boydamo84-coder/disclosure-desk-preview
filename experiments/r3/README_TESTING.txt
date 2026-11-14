@@ -10,10 +10,17 @@ TEST ON YOUR SAMSUNG GALAXY / TERMUX
 2. Stop the existing Termux Python server (CTRL + C).
 3. In Termux, run:
    cd ~/storage/downloads/HypothesisLab_R3_Nav_Polish
-   ls
+   pwd
+   cat BUILD_INFO.txt
+   grep -n 'ddConfirmDialog' index.html
    python -m http.server 4175 --bind 127.0.0.1
    (If you used a different folder name, update the cd line.)
-4. On your SAME Chrome profile, visit http://127.0.0.1:4175
+4. On your SAME Chrome profile, visit http://127.0.0.1:4175/?version=check
+   At the top of the page find the R3 NAV / PROMPT POLISH · BUILD identifier.
+   If you still see a GREY popup saying "127.0.0.1:4175 says", Chrome is
+   receiving the old index.html/scripts. Check the Termux working directory:
+   press CTRL+C, run pwd and cat BUILD_INFO.txt, then restart in the correct
+   extracted folder. DO NOT CLEAR CHROME SITE DATA or delete your vault.
 5. Tap "Load fictional demo". Tap "Enable encrypted local saving".
    Enter and confirm a UNIQUE passphrase at least 12 characters long.
 6. Download your encrypted backup JSON. Keep the passphrase safe.
