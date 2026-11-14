@@ -51,7 +51,7 @@ fs.writeFileSync(path.join(out,'BUILD_INFO.txt'),[
  'If you see a grey 127.0.0.1:4175 says popup: an OLD folder/server is active.',
  'Restart the Python server in the folder containing this BUILD_INFO.txt.',
  'Keep the same localhost origin to retain existing encrypted notebooks.'
-].join('\\n')+'\\n');
+].join(String.fromCharCode(10))+String.fromCharCode(10));
 console.log('R3 version '+build+' with fingerprinted CSS/JS asset URLs');
 const published=fs.readFileSync(path.join(root,'scripts','build_public_release.cjs'),'utf8');
 if(published.includes('hypothesis-lab-preview.html')||published.includes('hypothesis-ui.js')||
