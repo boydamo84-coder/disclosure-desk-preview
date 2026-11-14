@@ -7,7 +7,7 @@ const BASE='http://127.0.0.1:4173';
 const injection=fs.readFileSync('android-test/app/src/main/assets/editorial-secondary-nav.js','utf8');
 const getItems=()=>Array.from(document.querySelectorAll('nav.nav .nav-inner .tab')).map(button=>[
  button.dataset.tab,button.querySelector('.ico')?.textContent||'',
- Array.from(button.childNodes).filter(node=>node.nodeType===3).map(node=>node.textContent).join('').trim()
+ button.textContent.replace(button.querySelector('.ico')?.textContent||'','').trim()
 ]);
 (async()=>{
  const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,
@@ -22,7 +22,7 @@ const getItems=()=>Array.from(document.querySelectorAll('nav.nav .nav-inner .tab
    const home=await context.newPage();
    await home.goto(BASE+'/',{waitUntil:'domcontentloaded'});
    const reference=await home.evaluate(getItems);
-   assert.equal(reference.length,12,'Compare against all 12 actual website tabs');
+   assert.equal(reference.length,14,'Compare against all 14 actual website tabs including Discuss and Chat');
    const page=await context.newPage();
    await page.goto(BASE+'/who-is-who.html',{waitUntil:'domcontentloaded'});
    await page.locator('#peopleCards article.card').first().waitFor();
