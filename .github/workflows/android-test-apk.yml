@@ -1,10 +1,36 @@
-name: Build Disclosure Desk Android TEST APK
+name: Build Disclosure Desk M95 PRIVATE Android APK (NO Netlify)
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [android/m95-restore-editorial-layout-nov13]
     paths:
       - 'android-test/**'
+      - 'guide.html'
+      - 'scripts/test_m92_android_parity.cjs'
+      - 'scripts/test_m92_archive_bridge_chromium.cjs'
+      - 'scripts/test_m93_compact_header_chromium.cjs'
+      - 'scripts/test_m95_editorial_restore_chromium.cjs'
+      - 'index.html'
+      - 'assets/community-polish.css'
+      - 'assets/community-votes.js'
+      - 'assets/community-discussions.js'
+      - 'assets/inline-news-comments.js'
+      - 'assets/case-discussions.js'
+      - 'scripts/test_android_m75_source_contract.cjs'
+      - 'scripts/test_m77_android_mobile_contract.cjs'
+      - 'scripts/test_m77_android_mobile_chromium.cjs'
+      - 'scripts/test_m78_profile_notifications_contract.cjs'
+      - 'scripts/test_m78_profile_notifications_chromium.cjs'
+      - 'scripts/test_m79_mobile_comment_keyboard_contract.cjs'
+      - 'scripts/test_m79_mobile_comment_keyboard_chromium.cjs'
+      - 'scripts/android/ResearchLinkParserTest.java'
+      - 'scripts/test_m81_native_research_contract.cjs'
+      - 'scripts/test_m81_research_inbox_chromium.cjs'
+      - 'scripts/test_m82_research_inbox_dialog_contract.cjs'
+      - 'scripts/test_m85_research_inbox_rename_contract.cjs'
+      - 'scripts/stage_android_dev_snapshot.cjs'
+      - 'scripts/test_android_dev_snapshot_contract.cjs'
+      - 'scripts/build_public_release.cjs'
       - '.github/workflows/android-test-apk.yml'
 permissions:
   contents: read
@@ -17,6 +43,59 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare private dev website from approved public allowlist (NO deploy)
+        run: |
+          node scripts/test_m73_comment_owner_contract.cjs
+          node scripts/test_m74_confirmation_contract.cjs
+          node scripts/test_android_news_cadence_20261108.cjs
+          node scripts/build_public_release.cjs
+          node scripts/stage_android_dev_snapshot.cjs
+          node scripts/test_android_dev_snapshot_contract.cjs
+          node scripts/test_android_m75_source_contract.cjs
+          node scripts/test_m77_android_mobile_contract.cjs
+          node scripts/test_m78_profile_notifications_contract.cjs
+          node scripts/test_m79_mobile_comment_keyboard_contract.cjs
+          node scripts/test_m81_native_research_contract.cjs
+          node scripts/test_m82_research_inbox_dialog_contract.cjs
+          node scripts/test_m85_research_inbox_rename_contract.cjs
+          node scripts/test_m86_comments_on_demand_contract.cjs
+          node scripts/test_m87_terms_contract.cjs
+          node scripts/test_m89_global_discussions_contract.cjs
+          node scripts/test_m90_discussions_views_contract.cjs
+          node scripts/test_m92_android_parity.cjs
+      - name: Verify mobile comment threading and full-screen Chat in real Chromium (NO deploy)
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-m77-chrome.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          for i in $(seq 1 20); do
+            if curl -fsS --max-time 2 http://127.0.0.1:4173/assets/community-polish.css >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/test_m77_android_mobile_chromium.cjs
+          node scripts/test_m78_profile_notifications_chromium.cjs
+          node scripts/test_m79_mobile_comment_keyboard_chromium.cjs
+          node scripts/test_m81_research_inbox_chromium.cjs
+          node scripts/test_m86_comments_on_demand_chromium.cjs
+          node scripts/test_m89_global_discussions_chromium.cjs
+          node scripts/test_m90_discussions_views_chromium.cjs
+          node scripts/test_m92_archive_bridge_chromium.cjs
+          node scripts/test_m93_compact_header_chromium.cjs
+          node scripts/test_m95_editorial_restore_chromium.cjs
+          node scripts/test_m71_secondary_actions_chromium.cjs
+      - name: Verify safe Android Share-link parser (offline Java only)
+        run: |
+          CLASSES=$(mktemp -d)
+          trap 'rm -rf "$CLASSES"' EXIT
+          javac -encoding UTF-8 -d "$CLASSES" \
+            android-test/app/src/main/java/com/disclosuredesk/preview/ResearchLinkParser.java \
+            scripts/android/ResearchLinkParserTest.java
+          java -cp "$CLASSES" com.disclosuredesk.preview.ResearchLinkParserTest
       - name: Install Android SDK
         run: |
           SDKMANAGER="${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin/sdkmanager"
@@ -25,18 +104,22 @@ jobs:
           fi
           test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
           yes | "$SDKMANAGER" --licenses >/dev/null || true
-          "$SDKMANAGER" "platforms;android-35" "build-tools;35.0.0"
+          "$SDKMANAGER" "platforms;android-36" "build-tools;35.0.0"
       - name: Install Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.9'
-      - name: Build unsigned test APK
+          gradle-version: '8.13'
+      - name: Build parallel-install private beta APK
         working-directory: android-test
         run: gradle --no-daemon :app:assembleDebug
-      - name: Publish installable test APK
+      - name: Verify private beta output
+        run: |
+          test -s android-test/app/build/outputs/apk/debug/app-debug.apk
+          echo "Private APK built with embedded branch website. No Netlify deployment."
+      - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-Android-TEST
+          name: DisclosureDesk-M95-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
