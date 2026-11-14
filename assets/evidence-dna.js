@@ -171,6 +171,30 @@
       evidenceEdges:g.edges.filter(e=>e.status==='reviewed' && usedEdges.has(e.from+'>'+e.to))
     };
   }
+  // Contradiction Radar alpha: a source-context comparison, never an automated
+  // allegation of contradiction. These are editorial summaries, NOT quotations.
+  function compareClaims(rawGraph, firstId, secondId) {
+    const parsed=parseGraph(rawGraph);
+    if(!parsed.valid)return {valid:false,issues:parsed.issues};
+    const first=parsed.claims.find(c=>c.id===str(firstId));
+    const second=parsed.claims.find(c=>c.id===str(secondId));
+    if(!first||!second||first.id===second.id)
+      return {valid:false,issues:['Choose two distinct claims from the same source-reviewed case graph']};
+    if(!first.citations.length||!second.citations.length)
+      return {valid:false,issues:['Both statements require traceable original source citations']};
+    const firstUrls=[...new Set(first.citations.map(c=>canonicalUrl(c.url)).filter(Boolean))];
+    const secondUrls=new Set(second.citations.map(c=>canonicalUrl(c.url)).filter(Boolean));
+    const sharedSourceUrls=firstUrls.filter(url=>secondUrls.has(url));
+    return {
+      valid:true,status:'human-comparison-only',
+      first:{id:first.id,text:first.text,editorialStatus:first.editorialStatus,citations:first.citations},
+      second:{id:second.id,text:second.text,editorialStatus:second.editorialStatus,citations:second.citations},
+      sharedSourceUrls,
+      sourceRelationship:sharedSourceUrls.length?'same-cited-source-page':'different-cited-source-pages-unassessed',
+      contradictionEstablished:false,independentCorroborationEstablished:false,
+      caution:'Two research-draft summaries are shown for source comparison. They are not verbatim quotations. A difference in wording or source pages does not establish a contradiction, dishonesty or independent corroboration. Read the original passages and context before drawing conclusions.'
+    };
+  }
   function analyse(record, graph) {
     const inventory=sourceInventory(record);
     if(!graph)return {inventory,trace:null,claims:[],state:'source-inventory-only',
@@ -183,5 +207,5 @@
         result:traceClaim(graph,c.id)})),state:parsed.claims.length?'claim-lineage':'source-inventory-only',
       caution:'Only explicitly documented relationships are traced. Independent witness counts are never inferred from URL counts.'};
   }
-  return Object.freeze({version:'0.1',publicUrl,canonicalUrl,sourceInventory,parseGraph,traceClaim,analyse});
+  return Object.freeze({version:'0.2',publicUrl,canonicalUrl,sourceInventory,parseGraph,traceClaim,compareClaims,analyse});
 });
