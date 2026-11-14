@@ -205,6 +205,18 @@ public final class MainActivity extends Activity {
                 if(!mainPageFailed && isAppHomeUrl(url))showOnline();
             }
             @Override public void onPageFinished(WebView view,String url){
+                if(!mainPageFailed && isEmbeddedSecondaryPage(url) && isEmbeddedSecondaryPage(view.getUrl())){
+                    // Bundled research pages are part of the app, not external web destinations.
+                    // Keep the real premium bottom navigation mounted on secondary pages.
+                    nativeShell=true;
+                    nativeNewsSelected=false;
+                    shellModal=false;
+                    deskHome=false; // Their own branded header remains; do not overlay the home header.
+                    activeSection="more";
+                    bottomNav.update(activeSection,"","");
+                    showOnline();
+                    layoutDesk();
+                }
                 if(!mainPageFailed && isAppHomeUrl(url) && isAppHomeUrl(view.getUrl())){
                     installCompactHeader();
                     installNativeShell(url);
@@ -436,7 +448,14 @@ public final class MainActivity extends Activity {
         deskProfile.setPadding(inset,inset,inset,inset);
     }
     private void openNativeSection(String section){
-        if(!nativeShell || !isAppHomeUrl(web.getUrl()))return;
+        if(!nativeShell)return;
+        if(isEmbeddedSecondaryPage(web.getUrl())){
+            // A secondary document has no window.DDNativeShell.go; return through the
+            // app's own home router instead of silently ignoring the bottom tabs.
+            web.loadUrl(HOME+"?dd_tab="+Uri.encode(section));
+            return;
+        }
+        if(!isAppHomeUrl(web.getUrl()))return;
         int generation=documentGeneration;
         web.evaluateJavascript("window.DDNativeShell?.go("+JSONObject.quote(section)+")",value->{
             if(generation!=documentGeneration || !"true".equals(value))return;
@@ -560,6 +579,28 @@ public final class MainActivity extends Activity {
         Uri parsed=Uri.parse(url);
         return "https".equals(parsed.getScheme()) && "uapdisclosuredesk.com".equals(parsed.getHost())
             && "/".equals(parsed.getPath());
+    }
+    private boolean isEmbeddedSecondaryPage(String url){
+        if(url==null)return false;
+        Uri parsed=Uri.parse(url);
+        if(!"https".equals(parsed.getScheme()) || !"uapdisclosuredesk.com".equals(parsed.getHost()))return false;
+        String path=parsed.getPath();
+        if(path==null)return false;
+        // Explicit local HTML routes only. Never treat external links as app pages.
+        switch(path){
+            case "/who-is-who": case "/who-is-who.html":
+            case "/investigations": case "/investigations.html":
+            case "/guide": case "/guide.html":
+            case "/sources": case "/sources.html":
+            case "/research-edition": case "/research-edition.html":
+            case "/rendlesham-forest-1980": case "/rendlesham-forest-1980.html":
+            case "/roswell-1947": case "/roswell-1947.html":
+            case "/terms": case "/terms.html":
+            case "/privacy": case "/privacy.html":
+            case "/community-rules": case "/community-rules.html":
+                return true;
+            default: return false;
+        }
     }
     private void loadSnapshotManifest(){
         try(InputStream in=getAssets().open("dd-site/snapshot-manifest.json");
@@ -1099,8 +1140,25 @@ public final class MainActivity extends Activity {
             layoutDesk();
             return;
         }
+        if(isEmbeddedSecondaryPage(web.getUrl())){
+            // Profiles use same-document history; Android swipe must close a profile
+            // before it can return to the directory. Direct links need a safe fallback.
+            String secondaryBack="(function(){try{"
+              +"var profile=document.getElementById('personProfile');"
+              +"if((location.pathname==='/who-is-who'||location.pathname==='/who-is-who.html')"
+              +"&&profile&&!profile.classList.contains('hidden')"
+              +"&&typeof window.DDPeopleDirectoryBack==='function'){"
+              +"window.DDPeopleDirectoryBack();return 'handled';}"
+              +"return 'page'}catch(e){return 'page'}})()";
+            web.evaluateJavascript(secondaryBack,value->{
+                if("\"handled\"".equals(value))return;
+                if(web.canGoBack())web.goBack();
+                else web.loadUrl(HOME+"?dd_tab=hub");
+            });
+            return;
+        }
         // Back closes the current popover/dialog or nested Discussion before
-        // switching tabs. In W.NE or another actual document URL, use WebView history.
+        // switching tabs. The normal home page retains its existing behaviour.
         String script="(function(){try{"
           +"var url=new URL(location.href);"
           +"if(url.pathname!=='/'&&url.pathname!=='/index.html')return 'exit';"
