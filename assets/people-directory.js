@@ -18,7 +18,7 @@ function paintPortrait(host,person){
  host.replaceChildren(document.createTextNode(initials(person)));
  const photo=person.photo;
  if(!photo||!safeUrl(photo.url)||!safeUrl(photo.source)||!photo.credit||
-   !['Public domain (US federal government)','CC BY 4.0','CC BY-SA 4.0'].includes(photo.license))return;
+   !['Public domain (US federal government)','CC0 1.0','CC BY 3.0','CC BY 4.0','CC BY-SA 4.0'].includes(photo.license))return;
  const u=new URL(photo.url);
  if(!['commons.wikimedia.org','upload.wikimedia.org','images-assets.nasa.gov'].includes(u.hostname))return;
  const picture=document.createElement('img');
@@ -173,6 +173,13 @@ function renderCards(){
    '<div class="pills">'+(person.category||[]).map(c=>'<span class="pill">'+esc(c)+'</span>').join('')+'</div>'+
    '<p>'+esc(person.short)+'</p><button type="button" class="btn">Read detailed profile</button>';
   paintPortrait(card.querySelector('.avatar'),person);
+  if(person.photo&&safeUrl(person.photo.source)&&person.photo.credit){
+   const credit=document.createElement('a');credit.href=safeUrl(person.photo.source);
+   credit.className='card-photo-credit';credit.target='_blank';credit.rel='noopener noreferrer';
+   credit.textContent='Portrait credit · '+person.photo.license;
+   credit.title=person.photo.credit;
+   card.querySelector('.person-head > div').appendChild(credit);
+  }
   card.querySelector('button').addEventListener('click',()=>openPerson(person));
   host.appendChild(card);
  }
