@@ -45,8 +45,20 @@ const BASE='http://127.0.0.1:4173';
    assert(detailWidths.a<=detailWidths.b+3,'Detailed profile must not horizontally overflow '+width+'px');
    await page.goBack({waitUntil:'domcontentloaded'});
    await page.locator('#directoryPage').waitFor({state:'visible'});
-   await page.locator('#peopleSearch').fill('');
-   await page.waitForFunction(()=>document.querySelectorAll('#peopleCards article.card').length===50);
+   await page.locator('#peopleSearch').fill('zz-qa-no-match');
+   await page.locator('#peopleSearch').fill(''); // Forces a genuine clear/input event even after history form restore.
+   await page.waitForFunction(()=>document.querySelectorAll('#peopleCards article.card').length===50,undefined,{timeout:8000})
+    .catch(async error=>{
+     console.log('Directory after Back diagnostic',await page.evaluate(()=>({
+      url:location.href,query:document.getElementById('peopleSearch').value,
+      category:document.getElementById('peopleCategory').value,
+      status:document.getElementById('peopleStatus').textContent,
+      cards:document.querySelectorAll('#peopleCards article.card').length,
+      profileHidden:document.getElementById('personProfile').classList.contains('hidden'),
+      history:history.state,scrollY:window.scrollY
+     })));
+     throw error;
+    });
    await page.locator('#peopleCategory').selectOption('Congress');
    await page.waitForFunction(()=>document.querySelectorAll('#peopleCards article.card').length>=10);
    assert.equal(await page.locator('#peopleCards article.card').count()>=10,true,'Congressional oversight filter');
