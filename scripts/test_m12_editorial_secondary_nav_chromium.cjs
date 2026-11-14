@@ -43,6 +43,7 @@ const getItems=()=>Array.from(document.querySelectorAll('nav.nav .nav-inner .tab
    await page.locator('#peopleSearch').focus();
    assert.equal(await page.locator('#ddAndroidEditorialNav').isVisible(),false,'Keyboard focus hides the dock');
    await page.locator('h1').click();
+   await page.locator('#ddAndroidEditorialNav').waitFor({state:'visible'});
    assert.equal(await page.locator('#ddAndroidEditorialNav').isVisible(),true,'Dock restored after typing');
    await page.locator('#peopleSearch').fill('Mick West');
    await page.locator('#peopleSearch').press('Tab');
