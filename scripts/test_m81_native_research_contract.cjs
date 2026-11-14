@@ -9,6 +9,8 @@ const store=read('android-test/app/src/main/java/com/disclosuredesk/preview/Rese
 const parser=read('android-test/app/src/main/java/com/disclosuredesk/preview/ResearchLinkParser.java');
 const html=read('index.html'),guide=read('guide.html'),build=read('.github/workflows/android-test-apk.yml');
 const gradle=read('android-test/app/build.gradle.kts');
+const routes=read('android-test/app/src/main/java/com/disclosuredesk/preview/EmbeddedWebsiteRoutes.java');
+assert(routes.includes('"guide"')&&routes.includes('HTML_SLUGS.contains(name)'),'M11 secure clean guide route retained');
 for(const p of [
 'installResearchInboxControl();','ResearchInboxStore researchInbox;',
 'new ResearchInboxStore(this)','receiveSharedResearchLink(getIntent());',
@@ -17,7 +19,7 @@ for(const p of [
 'intent.setAction(Intent.ACTION_MAIN);','if(receiveSharedResearchLink(intent))return;',
 'open_research_inbox','runOnUiThread(this::showResearchInbox)',
 'open_research_inbox_help','runOnUiThread(this::showResearchInboxHelp)',
-'else if("/guide".equals(path))name="guide.html";',
+'EmbeddedWebsiteRoutes.resolve(path, snapshotFiles)',
 'web.loadUrl(HOME+"guide#android-research-inbox")',
 'private void showResearchInbox(){','new Intent(this,ResearchInboxActivity.class)',
 'Research Inbox · saved links',
