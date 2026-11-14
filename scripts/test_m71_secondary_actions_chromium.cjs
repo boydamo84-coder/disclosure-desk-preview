@@ -56,6 +56,29 @@ async function inspect(rail,label,required){
   assert.equal(await detail.locator('form button[type=submit]').textContent(),'Post reply');
   await detail.locator('.dd-inline-comments-toggle').click();
   await page.locator('#archiveCaseClose').click();
+  await page.waitForFunction(()=>!history.state?.ddArchiveCaseId);
+
+  const archiveUrl=page.url(),archiveSearch=page.locator('#archiveSearch');
+  await archiveSearch.fill('Fixture');
+  await archive.locator('[data-open-archive]').click();
+  await detail.locator('[data-archive-related="m67-archive-b"]').click();
+  const relatedBody=detail.locator('[data-archive-case-id="m67-archive-b"]');
+  await relatedBody.waitFor({state:'visible'});
+  await page.goBack();
+  await detail.waitFor({state:'hidden'});
+  assert.equal(page.url(),archiveUrl,'Back from a related case stays on the Archive URL');
+  assert.equal(await archiveSearch.inputValue(),'Fixture','Back preserves the Archive search');
+  assert(await archive.isVisible(),'Back returns to the Archive results');
+  await page.goForward();
+  await relatedBody.waitFor({state:'visible'});
+  await page.reload({waitUntil:'domcontentloaded'});
+  await relatedBody.waitFor({state:'visible'});
+  await page.evaluate(()=>window.__m67.user=true);
+  await page.keyboard.press('Escape');
+  await detail.waitFor({state:'hidden'});
+  await page.waitForFunction(()=>!history.state?.ddArchiveCaseId);
+  assert.equal(page.url(),archiveUrl,'Native cancel also returns to the Archive URL');
+  console.log('PASS Archive browser Back, Forward, Close and Escape at '+width+'px');
 
   await page.evaluate(()=>window.navigateTo('cases'));
   const featured=page.locator('#caseList article').first();await featured.waitFor();

@@ -96,6 +96,7 @@ async function checkRail(rail,kind,label,withComments=true){
   await page.locator('#ddCaseDiscussionClose').click();
   await page.goto(BASE+'/__m70-forum?view=discussionsPage',{waitUntil:'domcontentloaded'});
   await page.addScriptTag({url:BASE+'/assets/unified-action-rails.js'});
+  await page.getByRole('tab',{name:'Sections',exact:true}).click();
   await page.getByRole('button',{name:'Browse subject: UAP evidence',exact:true}).click();
   const post=page.locator('#ddForumPostList .dd-forum-post-card').first();await post.waitFor();
   const f=await checkRail(post.locator('.dd-forum-actions'),'post','Discussions original',true);

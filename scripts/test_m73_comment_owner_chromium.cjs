@@ -122,7 +122,8 @@ async function menuTest(card,label,{edit=true}={}){
     const qa=window.__SocialQA;qa.posts[0].is_mine=true;qa.posts[0].created_at=new Date().toISOString();
     qa.replies[0].is_mine=true;qa.replies[0].created_at=new Date().toISOString();
    });
-   await page.getByRole('button',{name:'Browse subject: UAP evidence',exact:true}).click();
+   await page.getByRole('tab',{name:'Sections',exact:true}).click();
+  await page.getByRole('button',{name:'Browse subject: UAP evidence',exact:true}).click();
    const ownPost=page.locator('#ddForumPostList .dd-forum-post-card').first();
    await ownPost.locator('.dd-forum-owner-more > summary').waitFor();
    await ownPost.locator('.dd-forum-owner-more > summary').click();

@@ -59,3 +59,32 @@ The largest next search opportunity is a small set of **substantive, source-link
 ## 6. Retained research phases
 
 Proceed incrementally through the original approved plan: **A** Case Intelligence, **B** possible sky explanations, **C** independent witness matching, **D** evidence completeness/status, **E** opt-in published investigations. Existing satellite-imagery links do not by themselves complete Phase B. Prioritise reliable saves, clear sources, privacy and a simple experience before additional external data feeds or AI features.
+
+
+## 7. AdSense-aligned research release (13 November 2026 addendum)
+
+The owner's authenticated AdSense screenshot shows **Needs attention: Low-value content**. Address original research and source transparency through existing approved research roadmap phases rather than building separate advertising-only features.
+
+**Prioritise now:** Phase A's sourced timelines and verified-vs-suggested relationship methodology; Phase D's evidence completeness and visible gaps; the public-read-only presentation part of Phase E. A standalone `investigations.html` with three source-linked evidence reviews and a six-part research method is **staged on** `audit/adsense-low-value-recovery-nov13` and linked from its homepage/About/footer. It is not deployed or editorially approved. Public page metadata/sitemap and release allowlist were prepared; full CI and live acceptance pending.
+
+**Build next in the same release candidate:** document-level original historical case pages with stable canonical URLs, transparent source provenance, research date and correction history; clearly distinguish official records from editorial analysis. Use case-level timelines, an evidence inventory and links to the current archive. Keep default browsing public without requiring a login.
+
+**Keep for later:** full member opt-in publishing (Phase E backend), Phase B aircraft/astronomy matching, Phase C witness matching, pinned Chat/Boards, profile reactions and automatic social syndication, except where an independent pre-existing release commitment explicitly requires them. None should delay or dilute the site-content improvements.
+
+Track each milestone in `MASTER_HANDOVER.md` and `docs/ADSENSE_RECOVERY_NEXT_DEPLOY_MATRIX_2026-11-13.md`; reconcile pending M86–M96 branches and new production fixes before the single authorised Netlify deployment. Google approval is **not guaranteed** by any particular implementation.
+
+
+## 8. Phase A Case Connections staged (13 November 2026)
+
+The owner approved full-archive related-case discovery from every public archive case (similar content, source-locality, approximate geographic distance when coordinates exist, supportive catalogue-year proximity and possible duplicates), with explanation and source links. **Implemented only on** `audit/adsense-low-value-recovery-nov13` as an indexed, read-only `assets/case-connections.js` plus four filter modes inside the existing archive modal. The previous title-only/year-only matcher is superseded on that branch. This is a Phase A improvement but is not a claim of verified relationship or corroboration.
+
+Local no-deploy CI run 43513005838 passed source/strict package/Chromium checks and a 12,000 synthetic-record regression. Real device and production loaded-data QA, editorial review and reconciliation with pending M86–M96 changes remain. Future Phase A: record-level geocoding with documented precision, distinguish true event timestamps from catalogue years, verified connections and a researcher-editable visual graph. Do not merge automatic duplicate suggestions into permanent source records without independent verification. All cases remain original source records.
+
+See `docs/CASE_CONNECTIONS_FULL_ARCHIVE_DESIGN_2026-11-13.md` and the consolidated release matrix. Netlify remains untouched; no AdSense re-review.
+
+
+## 9. Sequential release queue — owner approved 13 November 2026
+
+Adopt `docs/RELEASE_TRAIN_2026-11-13.md` as the version-specific release ledger. **R1** is the next integrated website/AdSense recovery + original case editorials + explainable Case Connections. **R2** is Evidence DNA, Contradiction Radar, a visual case relationship graph; **R3** is Hypothesis Lab and Research Gap Finder; **R4** is Living Investigations, Research Passport and W.NE professional citations/research export integration. All six newly suggested ideas approved as *roadmap targets*; R2–R4 are **not built or ready to deploy**.
+
+Version branches: `audit/adsense-low-value-recovery-nov13` for R1; `queue/dd-web-r2-evidence-intelligence`; `queue/dd-web-r3-hypothesis-discovery`; `queue/dd-web-r4-living-research`. Never publish queue branches or introduce new website build previews to test. Only after previous release passes production verification and owner approval is the next version rebased/reconciled onto its final live commit, tested and presented for a new deploy approval. Maintain exact-SHA manifests, rollback plans, original source provenance and private-research controls at each gate.

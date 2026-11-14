@@ -3,3 +3,11 @@
 [build]
   command = "node scripts/build_public_release.cjs"
   publish = ".release-staging/public-site"
+
+# Legacy browser/crawler fallback: preserve the verified navy-and-gold SVG emblem.
+# No favicon.ico binary is currently shipped in the strict public allowlist.
+# Exact path only; do not redirect other missing resources or hidden files.
+[[redirects]]
+  from = "/favicon.ico"
+  to = "/assets/disclosure-desk-mark.svg"
+  status = 302

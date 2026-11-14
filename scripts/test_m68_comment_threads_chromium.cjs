@@ -47,6 +47,7 @@ async function compactThread(list,selector,forum=false){
   }
   await page.evaluate(()=>window.ddOpenCaseDiscussion('case:fixture','Fixture discussion'));await page.locator('#ddCommentsToggle').click();await page.locator('#ddCaseDiscussionList .dd-comment-card').first().waitFor();await compactThread(page.locator('#ddCaseDiscussionList'),'.dd-comment-card');await page.locator('#ddCaseDiscussionClose').click();
   await page.goto(BASE+'/__m68-forum?view=discussionsPage',{waitUntil:'domcontentloaded'});
+  await page.getByRole('tab',{name:'Sections',exact:true}).click();
   await page.getByRole('button',{name:'Browse subject: UAP evidence',exact:true}).click();await page.getByRole('button',{name:/Read discussion: What should we check first/}).click();await page.locator('#ddForumReplies .dd-forum-reply-card').first().waitFor();
   await compactThread(page.locator('#ddForumReplies'),'.dd-forum-reply-card',true);
   const reply=page.locator('#ddForumReplies .dd-forum-reply-card').first();await reply.getByRole('button',{name:'↳ Reply',exact:true}).click();await page.getByRole('textbox',{name:'Write a comment or reply'}).fill('A compact forum reply.');await page.getByRole('button',{name:'Post reply',exact:true}).click();await page.getByText('A compact forum reply.',{exact:true}).waitFor();
