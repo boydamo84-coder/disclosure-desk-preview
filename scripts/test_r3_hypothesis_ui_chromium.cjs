@@ -30,7 +30,8 @@ const BASE='http://127.0.0.1:4175';
    const buildId=match[1],html=fs.readFileSync('.r3-lab-preview/index.html','utf8');
    assert.match(await page.locator('#r3BuildStamp').textContent(),
     new RegExp('R3 NAV / PROMPT POLISH . BUILD '+buildId));
-   for(const asset of ['hypothesis-engine.js','hypothesis-vault.js',
+   for(const asset of ['hypothesis-engine.js','research-gap-finder.js',
+    'research-gap-bridge.js','curated-public-cases.js','hypothesis-vault.js',
     'hypothesis-ui.js','hypothesis-ui.css','editorial-dock.css']){
     assert(html.includes('./'+asset+'?v='+buildId),
      'Fingerprint asset URL prevents stale Chrome cache for '+asset);
@@ -284,6 +285,111 @@ const BASE='http://127.0.0.1:4175';
     'No Chrome native prompt/confirm/alert dialogs: use the branded R3 dialog');
    console.log('PASS R3 UI '+width+'px: fictional research editor, encrypted vault backup/recovery at 393px, revision history, original 14-tab visual contract and no external requests');
    await context.close();
+
+   // Separate new browser profile for source-linked Gap Finder review;
+   // never let the baseline encrypted notebook leak into another project.
+   const gapContext=await browser.newContext({
+    viewport:{width,height:850},locale:'en-GB',acceptDownloads:true,serviceWorkers:'block'
+   });
+   const gapRequests=[];
+   await gapContext.route('**/*',route=>{
+    const origin=new URL(route.request().url()).origin;
+    if(origin===BASE)return route.continue();
+    gapRequests.push(route.request().url());return route.abort('blockedbyclient');
+   });
+   const gapPage=await gapContext.newPage(),gapErrors=[];
+   gapPage.on('pageerror',e=>gapErrors.push(String(e.message||e)));
+   await gapPage.goto(BASE+'/?r3-gaps=review',{waitUntil:'domcontentloaded'});
+   assert.equal(await gapPage.locator('#catalogueCaseSelect option').count(),4,
+    'Only three public incident investigations, plus a placeholder; do not scan guides');
+   await gapPage.locator('#catalogueCaseSelect').selectOption('featured-rendlesham-1980');
+   assert.equal(await gapPage.locator('#caseInput').inputValue(),'featured-rendlesham-1980');
+   await gapPage.locator('#workspaceInput').fill('gap-qa-'+width);
+   await gapPage.locator('#createNotebookBtn').click();
+   await gapPage.locator('#gapsTab').click();
+   await gapPage.locator('#gapsView').waitFor({state:'visible'});
+   assert.match(await gapPage.locator('#gapSummary').innerText(),/tentative questions/);
+   assert.equal(await gapPage.locator('#gapCandidateList .gap-card').count(),4);
+   assert.equal(await gapPage.locator('#gapReviewList .gap-recorded').count(),0);
+   assert.match(await gapPage.locator('#gapsView').innerText(),/catalogue/i);
+   assert.match(await gapPage.locator('#gapsView').innerText(),/not.*verified/i);
+   const firstGap=gapPage.locator('#gapCandidateList .gap-card').first();
+   assert.match(await firstGap.locator('a.gap-source-link').getAttribute('href'),
+    /^https:\/\/www\.nationalarchives\.gov\.uk\//);
+   assert.equal(await firstGap.locator('a.gap-source-link').getAttribute('rel'),
+    'noopener noreferrer');
+   fs.mkdirSync('.r3-lab-preview/screenshots',{recursive:true});
+   await gapPage.screenshot({
+    path:'.r3-lab-preview/screenshots/source-linked-gap-review-'+width+'px.png',
+    fullPage:false
+   });
+   await firstGap.locator('button[data-gap-record]').click();
+   assert.equal(await gapPage.locator('#gapReviewList .gap-recorded').count(),1,
+    'Only explicitly accepted research questions go into the notebook');
+   assert.equal(await firstGap.locator('button[data-gap-record]').isDisabled(),true);
+   assert.match(await gapPage.locator('#notice').innerText(),/session only/i);
+   await gapPage.locator('#writeTab').click();
+   await gapPage.locator('#newHypothesisBtn').click();
+   await gapPage.locator('#hypothesisTitle').fill('Fictional source hypothesis');
+   await gapPage.locator('#hypothesisExplanation').fill('An imagined testable explanation, never a claim that an event had this cause.');
+   await gapPage.locator('#assumptionsInput').fill('Published archive indexes may omit details.');
+   await gapPage.locator('#alternativesInput').fill('Other hypothetical explanations could fit.');
+   await gapPage.locator('#predictionEntries [data-field="predictedObservation"]')
+    .fill('An independently documented timestamp could be found.');
+   await gapPage.locator('#predictionEntries [data-field="ifObserved"]')
+    .fill('A source for a future test, not confirmation');
+   await gapPage.locator('#predictionEntries [data-field="ifNotObserved"]')
+    .fill('Review other archives before interpreting');
+   await gapPage.locator('#predictionEntries [data-field="howToTest"]')
+    .fill('Inspect original archival documentation');
+   await gapPage.locator('#disconfirmEntries [data-field="potentiallyDisconfirmingObservation"]')
+    .fill('A documented contradiction to this fictional account');
+   await gapPage.locator('#disconfirmEntries [data-field="howToCheck"]')
+    .fill('Compare independently published source context');
+   await gapPage.locator('#saveHypothesisBtn').click();
+   await gapPage.locator('#selectedPreview').waitFor({state:'visible'});
+   await gapPage.locator('#gapsTab').click();
+   const secondGap=gapPage.locator('#gapCandidateList .gap-card').nth(1);
+   await secondGap.locator('select').selectOption('h-fictional-source-hypothesis-1');
+   await secondGap.locator('button[data-gap-record]').click();
+   assert.equal(await gapPage.locator('#gapReviewList .gap-recorded').count(),2);
+   assert.match(await gapPage.locator('#gapReviewList').innerText(),/Linked to hypothesis: Fictional source hypothesis/);
+   // Encrypt the research-question ledger; it must persist without plaintext
+   // in IndexedDB or the export. Older notebooks without the ledger still work.
+   if(width===393){
+    await gapPage.locator('#vaultNewPassphrase').fill('R3 Gap vault synthetic passphrase strong 2026');
+    await gapPage.locator('#vaultConfirmPassphrase').fill('R3 Gap vault synthetic passphrase strong 2026');
+    await gapPage.locator('#enableVaultBtn').click();
+    await gapPage.waitForFunction(()=>document.getElementById('exportBtn').disabled===false);
+    const encrypted=await gapPage.evaluate(async()=>{
+     const db=await new Promise((resolve,reject)=>{
+      const request=indexedDB.open('dd-r3-hypothesis-vault-alpha-1',1);
+      request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);
+     });
+     const envelope=await new Promise((resolve,reject)=>{
+      const tx=db.transaction('encrypted','readonly'),r=tx.objectStore('encrypted').get('local-vault');
+      r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);
+     });
+     db.close();return JSON.stringify(envelope);
+    });
+    assert(!encrypted.includes('Fictional source hypothesis'));
+    assert(!encrypted.includes('event-date-precision-not-indexed'));
+    await gapPage.reload({waitUntil:'domcontentloaded'});
+    await gapPage.locator('#unlockVaultForm').waitFor({state:'visible'});
+    await gapPage.locator('#unlockPassphrase').fill('R3 Gap vault synthetic passphrase strong 2026');
+    await gapPage.locator('#unlockVaultBtn').click();
+    await gapPage.locator('#workPanel').waitFor({state:'visible'});
+    await gapPage.locator('#gapsTab').click();
+    assert.equal(await gapPage.locator('#gapReviewList .gap-recorded').count(),2,
+     'Source-linked research-question ledger must survive encrypted reload');
+    assert.match(await gapPage.locator('#gapReviewList').innerText(),/Fictional source hypothesis/);
+   }
+   const sizes=await gapPage.evaluate(()=>({body:document.documentElement.scrollWidth,viewport:innerWidth}));
+   assert(sizes.body<=sizes.viewport+3,'Gap tab causes horizontal scroll '+JSON.stringify(sizes));
+   assert.deepEqual(gapRequests,[],'Case bridge must not fetch source URLs or user data');
+   assert.deepEqual(gapErrors,[],'No R3 Gap Finder browser errors');
+   console.log('PASS R3 Gap Finder UI '+width+'px: three source-linked cases, explicit private question recording, optional hypothesis link, encrypted recovery, zero external requests');
+   await gapContext.close();
   }
  }finally{await browser.close()}
 })().catch(e=>{console.error('FAIL R3 browser UI prototype:',e.stack||e);process.exitCode=1});
