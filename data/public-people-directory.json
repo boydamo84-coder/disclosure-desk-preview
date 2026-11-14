@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "edition": "2026-11-14-podcast-film-research-draft",
+  "edition": "2026-11-14-50-profile-android-m12-editorial-draft",
   "status": "research-copy-edit-needed",
-  "ethics": "Public figures only. Roles and attributed public positions from linked sources. No personal phone numbers, addresses, subjective credibility rankings or fabricated social handles. Portraits require verified re-use permissions; current directory uses initials. Embeds load only after direct visitor interaction; third-party YouTube may set cookies when activated. Source links and dated claims need editorial signoff.",
+  "ethics": "Fifty public figures covering testimony, Congress, NASA science, FOIA research and journalism. New entries are structured research drafts, not individually fact-checked publication. Original sourced 17 retain rich episodes and credits; extra people do not claim unverified podcasts, film appearances or social handles. Portraits are only shown where license and official source are reviewed. Missing photos use initials; no guessed images or private contacts.",
   "people": [
     {
       "id": "david-grusch",
@@ -2244,6 +2244,2335 @@
           "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
       ]
+    },
+    {
+      "id": "david-spergel",
+      "name": "David Spergel",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "Astrophysicist and president of the Simons Foundation · NASA UAP study",
+      "short": "David Spergel contributed cosmology, planetary searches, large astrophysical surveys expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records David Spergel's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "David Spergel is a astrophysicist and president of the Simons Foundation. The expertise described by NASA includes cosmology, planetary searches, large astrophysical surveys. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, David Spergel's role involved chairing the 16-member independent NASA UAP study team. A useful research question is data quality, scientific uncertainty and reproducible tests; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace David Spergel's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. David Spergel's recorded expertise concerns cosmology, planetary searches, large astrophysical surveys; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "daniel-evans",
+      "name": "Daniel Evans",
+      "category": [
+        "NASA UAP study",
+        "Government official"
+      ],
+      "role": "NASA science official and coordinator of the independent UAP study · NASA UAP study",
+      "short": "Daniel Evans contributed research management, open-science policy and government scientific programmes expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records Daniel Evans's coordination of the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The organising role should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Daniel Evans is a NASA science official and coordinator of the independent UAP study. The expertise described by NASA includes research management, open-science policy and government scientific programmes. NASA identified him as the official organising the independent UAP study, rather than as one of its 16 outside panelists. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Daniel Evans's role involved organising the independent study as NASA's designated official. A useful research question is how an agency commissions transparent analysis without prejudging results; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace Daniel Evans's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA named Daniel Evans as the official coordinating the work, while the team was chaired by David Spergel.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. Daniel Evans's recorded expertise concerns research management, open-science policy and government scientific programmes; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "anamaria-berea",
+      "name": "Anamaria Berea",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "Computational and data-science scholar · NASA UAP study",
+      "short": "Anamaria Berea contributed complex living systems, astrobiology and searches for technosignatures expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records Anamaria Berea's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Anamaria Berea is a computational and data-science scholar. The expertise described by NASA includes complex living systems, astrobiology and searches for technosignatures. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Anamaria Berea's role involved contributing computational and complex-systems expertise. A useful research question is testing apparent patterns in observations against statistical and instrumental alternatives; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace Anamaria Berea's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. Anamaria Berea's recorded expertise concerns complex living systems, astrobiology and searches for technosignatures; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "federica-bianco",
+      "name": "Federica Bianco",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "Astrophysicist and data-intensive survey researcher · NASA UAP study",
+      "short": "Federica Bianco contributed time-domain astronomy, sky-survey analytics and astronomical instrumentation expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records Federica Bianco's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Federica Bianco is a astrophysicist and data-intensive survey researcher. The expertise described by NASA includes time-domain astronomy, sky-survey analytics and astronomical instrumentation. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Federica Bianco's role involved bringing large-survey data science into the UAP study. A useful research question is separating unfamiliar transient detections from artefacts using calibrated observations; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace Federica Bianco's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. Federica Bianco's recorded expertise concerns time-domain astronomy, sky-survey analytics and astronomical instrumentation; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "paula-bontempi",
+      "name": "Paula Bontempi",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "Oceanographer and former NASA Earth-science leader · NASA UAP study",
+      "short": "Paula Bontempi contributed ocean ecosystems, Earth observation, carbon cycles and satellite programmes expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records Paula Bontempi's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Paula Bontempi is a oceanographer and former NASA Earth-science leader. The expertise described by NASA includes ocean ecosystems, Earth observation, carbon cycles and satellite programmes. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Paula Bontempi's role involved bringing long-term Earth-observation research experience. A useful research question is calibration, environmental context and the value of comparing independent instruments; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace Paula Bontempi's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. Paula Bontempi's recorded expertise concerns ocean ecosystems, Earth observation, carbon cycles and satellite programmes; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "reggie-brothers",
+      "name": "Reggie Brothers",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "Science-and-technology policy executive and former federal official · NASA UAP study",
+      "short": "Reggie Brothers contributed emerging technologies, national-security research and public-sector innovation expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records Reggie Brothers's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Reggie Brothers is a science-and-technology policy executive and former federal official. The expertise described by NASA includes emerging technologies, national-security research and public-sector innovation. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Reggie Brothers's role involved contributing science policy and technology oversight experience. A useful research question is balancing national security requirements with transparent unclassified methods; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace Reggie Brothers's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. Reggie Brothers's recorded expertise concerns emerging technologies, national-security research and public-sector innovation; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "jen-buss",
+      "name": "Jen Buss",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "Science-and-technology policy specialist and institutional leader · NASA UAP study",
+      "short": "Jen Buss contributed NASA-related planning, science policy and technological trends expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records Jen Buss's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Jen Buss is a science-and-technology policy specialist and institutional leader. The expertise described by NASA includes NASA-related planning, science policy and technological trends. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Jen Buss's role involved representing science-policy planning on NASA's study team. A useful research question is building an actionable scientific roadmap rather than treating uncertainty as a conclusion; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace Jen Buss's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. Jen Buss's recorded expertise concerns NASA-related planning, science policy and technological trends; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "nadia-drake",
+      "name": "Nadia Drake",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "Science journalist specialising in astronomy and planetary science · NASA UAP study",
+      "short": "Nadia Drake contributed public communication of astronomy, planetary discoveries and uncertainty expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records Nadia Drake's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Nadia Drake is a science journalist specialising in astronomy and planetary science. The expertise described by NASA includes public communication of astronomy, planetary discoveries and uncertainty. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Nadia Drake's role involved bringing independent science journalism into the multidisciplinary panel. A useful research question is explaining what scientific measurements do and do not establish for readers; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace Nadia Drake's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. Nadia Drake's recorded expertise concerns public communication of astronomy, planetary discoveries and uncertainty; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "mike-gold",
+      "name": "Mike Gold",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "Former NASA space-policy executive and aerospace policy specialist · NASA UAP study",
+      "short": "Mike Gold contributed international space agreements, the Artemis Accords and civil-space governance expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records Mike Gold's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Mike Gold is a former NASA space-policy executive and aerospace policy specialist. The expertise described by NASA includes international space agreements, the Artemis Accords and civil-space governance. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Mike Gold's role involved participating in the NASA study and later giving congressional UAP testimony. A useful research question is distinguishing policy proposals and testimony from independently tested physical evidence; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace Mike Gold's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. Mike Gold's recorded expertise concerns international space agreements, the Artemis Accords and civil-space governance; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "david-grinspoon",
+      "name": "David Grinspoon",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "Planetary scientist and astrobiology researcher · NASA UAP study",
+      "short": "David Grinspoon contributed Venus missions, planetary habitability and comparative climate histories expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records David Grinspoon's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "David Grinspoon is a planetary scientist and astrobiology researcher. The expertise described by NASA includes Venus missions, planetary habitability and comparative climate histories. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, David Grinspoon's role involved bringing planetary-science methods to unexplained observational reports. A useful research question is using physical context and multiple hypotheses when interpreting unfamiliar phenomena; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace David Grinspoon's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. David Grinspoon's recorded expertise concerns Venus missions, planetary habitability and comparative climate histories; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "scott-kelly",
+      "name": "Scott Kelly",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "Former NASA astronaut and retired US Navy aviator · NASA UAP study",
+      "short": "Scott Kelly contributed human spaceflight, International Space Station operations and high-performance aviation expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records Scott Kelly's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Scott Kelly is a former NASA astronaut and retired US Navy aviator. The expertise described by NASA includes human spaceflight, International Space Station operations and high-performance aviation. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Scott Kelly's role involved bringing operational flight and astronaut experience to NASA's study. A useful research question is how trained observers, recording limitations and instrument conditions interact; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace Scott Kelly's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. Scott Kelly's recorded expertise concerns human spaceflight, International Space Station operations and high-performance aviation; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "matt-mountain",
+      "name": "Matt Mountain",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "Astronomer and observatory leader · NASA UAP study",
+      "short": "Matt Mountain contributed space telescopes, observatory operations and scientific instrumentation expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records Matt Mountain's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Matt Mountain is a astronomer and observatory leader. The expertise described by NASA includes space telescopes, observatory operations and scientific instrumentation. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Matt Mountain's role involved bringing observatory management and astronomical measurement experience. A useful research question is whether existing observing systems can gather the calibrated UAP datasets researchers need; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace Matt Mountain's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. Matt Mountain's recorded expertise concerns space telescopes, observatory operations and scientific instrumentation; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "warren-randolph",
+      "name": "Warren Randolph",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "FAA aviation safety and accident-prevention specialist · NASA UAP study",
+      "short": "Warren Randolph contributed civil-aviation hazard analysis and safety data management expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records Warren Randolph's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Warren Randolph is a FAA aviation safety and accident-prevention specialist. The expertise described by NASA includes civil-aviation hazard analysis and safety data management. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Warren Randolph's role involved representing aviation safety methods within the independent study. A useful research question is improving reportable observations and useful safety information without leaping to conclusions; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace Warren Randolph's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. Warren Randolph's recorded expertise concerns civil-aviation hazard analysis and safety data management; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "walter-scott",
+      "name": "Walter Scott",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "Satellite imagery and geospatial-technology executive · NASA UAP study",
+      "short": "Walter Scott contributed Earth-imaging platforms, geospatial imagery and remote-sensing systems expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records Walter Scott's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Walter Scott is a satellite imagery and geospatial-technology executive. The expertise described by NASA includes Earth-imaging platforms, geospatial imagery and remote-sensing systems. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Walter Scott's role involved contributing commercial and space imagery expertise. A useful research question is examining imagery provenance, resolution, metadata and cross-sensor corroboration; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace Walter Scott's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. Walter Scott's recorded expertise concerns Earth-imaging platforms, geospatial imagery and remote-sensing systems; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "joshua-semeter",
+      "name": "Joshua Semeter",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "Electrical engineer and space-physics professor · NASA UAP study",
+      "short": "Joshua Semeter contributed ionospheric science, optical sensing, radar and signal processing expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records Joshua Semeter's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Joshua Semeter is a electrical engineer and space-physics professor. The expertise described by NASA includes ionospheric science, optical sensing, radar and signal processing. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Joshua Semeter's role involved contributing sensor engineering and space-environment expertise. A useful research question is testing whether a signal survives independent calibration and physical modelling; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace Joshua Semeter's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. Joshua Semeter's recorded expertise concerns ionospheric science, optical sensing, radar and signal processing; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "karlin-toner",
+      "name": "Karlin Toner",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "FAA aviation policy leader and former NASA airspace researcher · NASA UAP study",
+      "short": "Karlin Toner contributed air-traffic systems, flight policy and international aviation strategy expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records Karlin Toner's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Karlin Toner is a FAA aviation policy leader and former NASA airspace researcher. The expertise described by NASA includes air-traffic systems, flight policy and international aviation strategy. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Karlin Toner's role involved bringing airspace systems and safety policy into the NASA review. A useful research question is collecting actionable flight data while protecting privacy and operational safety; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace Karlin Toner's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. Karlin Toner's recorded expertise concerns air-traffic systems, flight policy and international aviation strategy; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "shelley-wright",
+      "name": "Shelley Wright",
+      "category": [
+        "NASA UAP study",
+        "Scientist"
+      ],
+      "role": "Astrophysicist, SETI researcher and astronomical instrument builder · NASA UAP study",
+      "short": "Shelley Wright contributed optical and infrared telescopes, adaptive optics and instrument design expertise to NASA's independent UAP study and its approach to unclassified evidence.",
+      "position": "NASA's 2022 announcement records Shelley Wright's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.",
+      "context": "The study team seat should not be confused with a firsthand UAP encounter. The documented work concerns scientific methodology and sources that may help future investigations.",
+      "sources": [
+        {
+          "label": "NASA independent UAP study — team roster and role biographies",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA Science — independent UAP study FAQs",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "NASA Science UAP research",
+          "url": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Shelley Wright is a astrophysicist, SETI researcher and astronomical instrument builder. The expertise described by NASA includes optical and infrared telescopes, adaptive optics and instrument design. NASA named this person in its October 2022 roster of 16 independent-study participants. This is a documented professional appointment, not a finding that any reported aerial observation has an extraordinary explanation.",
+        "The NASA project examined what unclassified government, commercial and scientific data might help researchers study unidentified anomalous phenomena. In this setting, Shelley Wright's role involved contributing scientific instrumentation and SETI methods. A useful research question is exploring what repeatable optical measurements could actually rule in or rule out; each proposed interpretation must be assessed against the quality of the original measurements.",
+        "NASA published the independent study's findings in 2023 and has continued to explain its scientific approach and limits in public materials. Readers can trace Shelley Wright's connection through the original team announcement and NASA's study information. The public record establishes involvement in a scientific review; it does not make the person an eyewitness or prove a non-human origin."
+      ],
+      "milestones": [
+        {
+          "date": "21 October 2022",
+          "title": "Named in NASA's independent UAP study announcement",
+          "detail": "NASA's public roster identified this specialist as one of the 16 external participants chosen to examine scientific-data approaches to UAP.",
+          "source": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "date": "2022–2023",
+          "title": "Independent review of usable scientific data",
+          "detail": "The project focused on the possible use of unclassified data. Shelley Wright's recorded expertise concerns optical and infrared telescopes, adaptive optics and instrument design; specific views should not be attributed without a primary statement.",
+          "source": "https://science.nasa.gov/uap/faqs/"
+        },
+        {
+          "date": "September 2023",
+          "title": "NASA publishes its independent-study findings",
+          "detail": "NASA released the team's final report and outlined research recommendations. This records the study's findings, not a claim of proven extraterrestrial technology.",
+          "source": "https://science.nasa.gov/uap/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "NASA announces UAP independent study team members",
+          "publisher": "NASA",
+          "date": "2022-10-21",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/"
+        },
+        {
+          "label": "NASA's independent UAP study — questions and scientific scope",
+          "publisher": "NASA Science",
+          "date": "2023",
+          "url": "https://science.nasa.gov/uap/faqs/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "anna-paulina-luna",
+      "name": "Anna Paulina Luna",
+      "category": [
+        "Congress",
+        "Advocate"
+      ],
+      "role": "Task force chair and public-records advocate",
+      "short": "Anna Paulina Luna has a documented role in House transparency and declassification work, including the UAP debate.",
+      "position": "The US House Oversight Committee records Anna Paulina Luna's involvement in leading the task force and requesting records relating to UAP investigations. Those public records document the oversight activity, not proof of alleged covert programmes.",
+      "context": "The task force covers several declassification subjects; its existence does not validate every UAP allegation. Check signed letters, hearings, enacted legislation and actual record releases separately.",
+      "sources": [
+        {
+          "label": "House Oversight: task-force membership announcement",
+          "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "label": "House Oversight: task-force establishment",
+          "url": "https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Anna Paulina Luna is a US representative documented in House Oversight material on declassification and government transparency. In February 2025, the committee named Anna Paulina Luna among the members of the Task Force on the Declassification of Federal Secrets. The panel addresses several sets of federal records, not just reports of unidentified anomalous phenomena.",
+        "The relevant public involvement includes leading the task force and requesting records relating to UAP investigations. For researchers, the value of this record is that the House identifies the member, committee and remit; this is more reliable than inferring a lawmaker's actions from a video title or social-media clip. The exact content of any particular member's questions or views should be checked in the official hearing or statement.",
+        "In 2026 the task force publicly continued seeking material about UAP reporting and government record handling. That committee-wide development must not be misrepresented as a statement personally made by every member. Congressional scrutiny is an important part of disclosure policy, but allegations discussed in a hearing still require distinct documentary or physical corroboration."
+      ],
+      "milestones": [
+        {
+          "date": "11 February 2025",
+          "title": "House Oversight establishes declassification task force",
+          "detail": "The committee announced the task force's public-interest declassification remit and designated Anna Paulina Luna as chair.",
+          "source": "https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/"
+        },
+        {
+          "date": "18 February 2025",
+          "title": "Named on the House task-force membership list",
+          "detail": "The committee publicly listed Anna Paulina Luna among its task-force members. Membership does not imply a position on every UAP claim.",
+          "source": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "date": "1 April 2026",
+          "title": "The task force continues its UAP records inquiry",
+          "detail": "The chair publicly requested specific records as part of the panel's ongoing work; this is a committee development, not an attributed personal statement by each member.",
+          "source": "https://oversight.house.gov/release/luna-continues-transparency-investigation-into-uaps/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Official House committee appointment announcement",
+          "publisher": "US House Oversight",
+          "date": "2025-02-18",
+          "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "label": "Official 2026 update on the task force's UAP investigation",
+          "publisher": "US House Oversight",
+          "date": "2026-04-01",
+          "url": "https://oversight.house.gov/release/luna-continues-transparency-investigation-into-uaps/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "nancy-mace",
+      "name": "Nancy Mace",
+      "category": [
+        "Congress",
+        "Advocate"
+      ],
+      "role": "House oversight hearing leader",
+      "short": "Nancy Mace has a documented role in House transparency and declassification work, including the UAP debate.",
+      "position": "The US House Oversight Committee records Nancy Mace's involvement in co-leading a November 2024 public hearing examining UAP transparency. Those public records document the oversight activity, not proof of alleged covert programmes.",
+      "context": "The task force covers several declassification subjects; its existence does not validate every UAP allegation. Check signed letters, hearings, enacted legislation and actual record releases separately.",
+      "sources": [
+        {
+          "label": "House Oversight: task-force membership announcement",
+          "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "label": "House Oversight: task-force establishment",
+          "url": "https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Nancy Mace is a US representative documented in House Oversight material on declassification and government transparency. In February 2025, the committee named Nancy Mace among the members of the Task Force on the Declassification of Federal Secrets. The panel addresses several sets of federal records, not just reports of unidentified anomalous phenomena.",
+        "The relevant public involvement includes co-leading a November 2024 public hearing examining UAP transparency. For researchers, the value of this record is that the House identifies the member, committee and remit; this is more reliable than inferring a lawmaker's actions from a video title or social-media clip. The exact content of any particular member's questions or views should be checked in the official hearing or statement.",
+        "In 2026 the task force publicly continued seeking material about UAP reporting and government record handling. That committee-wide development must not be misrepresented as a statement personally made by every member. Congressional scrutiny is an important part of disclosure policy, but allegations discussed in a hearing still require distinct documentary or physical corroboration."
+      ],
+      "milestones": [
+        {
+          "date": "11 February 2025",
+          "title": "House Oversight establishes declassification task force",
+          "detail": "The committee announced the task force's public-interest declassification remit and designated Anna Paulina Luna as chair.",
+          "source": "https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/"
+        },
+        {
+          "date": "18 February 2025",
+          "title": "Named on the House task-force membership list",
+          "detail": "The committee publicly listed Nancy Mace among its task-force members. Membership does not imply a position on every UAP claim.",
+          "source": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "date": "1 April 2026",
+          "title": "The task force continues its UAP records inquiry",
+          "detail": "The chair publicly requested specific records as part of the panel's ongoing work; this is a committee development, not an attributed personal statement by each member.",
+          "source": "https://oversight.house.gov/release/luna-continues-transparency-investigation-into-uaps/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Official House committee appointment announcement",
+          "publisher": "US House Oversight",
+          "date": "2025-02-18",
+          "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "label": "Official 2026 update on the task force's UAP investigation",
+          "publisher": "US House Oversight",
+          "date": "2026-04-01",
+          "url": "https://oversight.house.gov/release/luna-continues-transparency-investigation-into-uaps/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "tim-burchett",
+      "name": "Tim Burchett",
+      "category": [
+        "Congress",
+        "Advocate"
+      ],
+      "role": "Congressional UAP oversight advocate",
+      "short": "Tim Burchett has a documented role in House transparency and declassification work, including the UAP debate.",
+      "position": "The US House Oversight Committee records Tim Burchett's involvement in publicly pushing for hearings, witness access and federal record transparency. Those public records document the oversight activity, not proof of alleged covert programmes.",
+      "context": "The task force covers several declassification subjects; its existence does not validate every UAP allegation. Check signed letters, hearings, enacted legislation and actual record releases separately.",
+      "sources": [
+        {
+          "label": "House Oversight: task-force membership announcement",
+          "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "label": "House Oversight: task-force establishment",
+          "url": "https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Tim Burchett is a US representative documented in House Oversight material on declassification and government transparency. In February 2025, the committee named Tim Burchett among the members of the Task Force on the Declassification of Federal Secrets. The panel addresses several sets of federal records, not just reports of unidentified anomalous phenomena.",
+        "The relevant public involvement includes publicly pushing for hearings, witness access and federal record transparency. For researchers, the value of this record is that the House identifies the member, committee and remit; this is more reliable than inferring a lawmaker's actions from a video title or social-media clip. The exact content of any particular member's questions or views should be checked in the official hearing or statement.",
+        "In 2026 the task force publicly continued seeking material about UAP reporting and government record handling. That committee-wide development must not be misrepresented as a statement personally made by every member. Congressional scrutiny is an important part of disclosure policy, but allegations discussed in a hearing still require distinct documentary or physical corroboration."
+      ],
+      "milestones": [
+        {
+          "date": "11 February 2025",
+          "title": "House Oversight establishes declassification task force",
+          "detail": "The committee announced the task force's public-interest declassification remit and designated Anna Paulina Luna as chair.",
+          "source": "https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/"
+        },
+        {
+          "date": "18 February 2025",
+          "title": "Named on the House task-force membership list",
+          "detail": "The committee publicly listed Tim Burchett among its task-force members. Membership does not imply a position on every UAP claim.",
+          "source": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "date": "1 April 2026",
+          "title": "The task force continues its UAP records inquiry",
+          "detail": "The chair publicly requested specific records as part of the panel's ongoing work; this is a committee development, not an attributed personal statement by each member.",
+          "source": "https://oversight.house.gov/release/luna-continues-transparency-investigation-into-uaps/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Official House committee appointment announcement",
+          "publisher": "US House Oversight",
+          "date": "2025-02-18",
+          "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "label": "Official 2026 update on the task force's UAP investigation",
+          "publisher": "US House Oversight",
+          "date": "2026-04-01",
+          "url": "https://oversight.house.gov/release/luna-continues-transparency-investigation-into-uaps/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "lauren-boebert",
+      "name": "Lauren Boebert",
+      "category": [
+        "Congress",
+        "Advocate"
+      ],
+      "role": "Declassification task-force member",
+      "short": "Lauren Boebert has a documented role in House transparency and declassification work, including the UAP debate.",
+      "position": "The US House Oversight Committee records Lauren Boebert's involvement in joining the House task force examining declassification of federal records. Those public records document the oversight activity, not proof of alleged covert programmes.",
+      "context": "The task force covers several declassification subjects; its existence does not validate every UAP allegation. Check signed letters, hearings, enacted legislation and actual record releases separately.",
+      "sources": [
+        {
+          "label": "House Oversight: task-force membership announcement",
+          "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "label": "House Oversight: task-force establishment",
+          "url": "https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Lauren Boebert is a US representative documented in House Oversight material on declassification and government transparency. In February 2025, the committee named Lauren Boebert among the members of the Task Force on the Declassification of Federal Secrets. The panel addresses several sets of federal records, not just reports of unidentified anomalous phenomena.",
+        "The relevant public involvement includes joining the House task force examining declassification of federal records. For researchers, the value of this record is that the House identifies the member, committee and remit; this is more reliable than inferring a lawmaker's actions from a video title or social-media clip. The exact content of any particular member's questions or views should be checked in the official hearing or statement.",
+        "In 2026 the task force publicly continued seeking material about UAP reporting and government record handling. That committee-wide development must not be misrepresented as a statement personally made by every member. Congressional scrutiny is an important part of disclosure policy, but allegations discussed in a hearing still require distinct documentary or physical corroboration."
+      ],
+      "milestones": [
+        {
+          "date": "11 February 2025",
+          "title": "House Oversight establishes declassification task force",
+          "detail": "The committee announced the task force's public-interest declassification remit and designated Anna Paulina Luna as chair.",
+          "source": "https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/"
+        },
+        {
+          "date": "18 February 2025",
+          "title": "Named on the House task-force membership list",
+          "detail": "The committee publicly listed Lauren Boebert among its task-force members. Membership does not imply a position on every UAP claim.",
+          "source": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "date": "1 April 2026",
+          "title": "The task force continues its UAP records inquiry",
+          "detail": "The chair publicly requested specific records as part of the panel's ongoing work; this is a committee development, not an attributed personal statement by each member.",
+          "source": "https://oversight.house.gov/release/luna-continues-transparency-investigation-into-uaps/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Official House committee appointment announcement",
+          "publisher": "US House Oversight",
+          "date": "2025-02-18",
+          "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "label": "Official 2026 update on the task force's UAP investigation",
+          "publisher": "US House Oversight",
+          "date": "2026-04-01",
+          "url": "https://oversight.house.gov/release/luna-continues-transparency-investigation-into-uaps/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "eric-burlison",
+      "name": "Eric Burlison",
+      "category": [
+        "Congress",
+        "Advocate"
+      ],
+      "role": "Congressional declassification advocate",
+      "short": "Eric Burlison has a documented role in House transparency and declassification work, including the UAP debate.",
+      "position": "The US House Oversight Committee records Eric Burlison's involvement in joining the task force and working on legislative oversight of unexplained observations. Those public records document the oversight activity, not proof of alleged covert programmes.",
+      "context": "The task force covers several declassification subjects; its existence does not validate every UAP allegation. Check signed letters, hearings, enacted legislation and actual record releases separately.",
+      "sources": [
+        {
+          "label": "House Oversight: task-force membership announcement",
+          "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "label": "House Oversight: task-force establishment",
+          "url": "https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Eric Burlison is a US representative documented in House Oversight material on declassification and government transparency. In February 2025, the committee named Eric Burlison among the members of the Task Force on the Declassification of Federal Secrets. The panel addresses several sets of federal records, not just reports of unidentified anomalous phenomena.",
+        "The relevant public involvement includes joining the task force and working on legislative oversight of unexplained observations. For researchers, the value of this record is that the House identifies the member, committee and remit; this is more reliable than inferring a lawmaker's actions from a video title or social-media clip. The exact content of any particular member's questions or views should be checked in the official hearing or statement.",
+        "In 2026 the task force publicly continued seeking material about UAP reporting and government record handling. That committee-wide development must not be misrepresented as a statement personally made by every member. Congressional scrutiny is an important part of disclosure policy, but allegations discussed in a hearing still require distinct documentary or physical corroboration."
+      ],
+      "milestones": [
+        {
+          "date": "11 February 2025",
+          "title": "House Oversight establishes declassification task force",
+          "detail": "The committee announced the task force's public-interest declassification remit and designated Anna Paulina Luna as chair.",
+          "source": "https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/"
+        },
+        {
+          "date": "18 February 2025",
+          "title": "Named on the House task-force membership list",
+          "detail": "The committee publicly listed Eric Burlison among its task-force members. Membership does not imply a position on every UAP claim.",
+          "source": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "date": "1 April 2026",
+          "title": "The task force continues its UAP records inquiry",
+          "detail": "The chair publicly requested specific records as part of the panel's ongoing work; this is a committee development, not an attributed personal statement by each member.",
+          "source": "https://oversight.house.gov/release/luna-continues-transparency-investigation-into-uaps/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Official House committee appointment announcement",
+          "publisher": "US House Oversight",
+          "date": "2025-02-18",
+          "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "label": "Official 2026 update on the task force's UAP investigation",
+          "publisher": "US House Oversight",
+          "date": "2026-04-01",
+          "url": "https://oversight.house.gov/release/luna-continues-transparency-investigation-into-uaps/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "eli-crane",
+      "name": "Eli Crane",
+      "category": [
+        "Congress",
+        "Advocate"
+      ],
+      "role": "Declassification task-force member",
+      "short": "Eli Crane has a documented role in House transparency and declassification work, including the UAP debate.",
+      "position": "The US House Oversight Committee records Eli Crane's involvement in participating in the task force's wider federal-secrets transparency remit. Those public records document the oversight activity, not proof of alleged covert programmes.",
+      "context": "The task force covers several declassification subjects; its existence does not validate every UAP allegation. Check signed letters, hearings, enacted legislation and actual record releases separately.",
+      "sources": [
+        {
+          "label": "House Oversight: task-force membership announcement",
+          "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "label": "House Oversight: task-force establishment",
+          "url": "https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Eli Crane is a US representative documented in House Oversight material on declassification and government transparency. In February 2025, the committee named Eli Crane among the members of the Task Force on the Declassification of Federal Secrets. The panel addresses several sets of federal records, not just reports of unidentified anomalous phenomena.",
+        "The relevant public involvement includes participating in the task force's wider federal-secrets transparency remit. For researchers, the value of this record is that the House identifies the member, committee and remit; this is more reliable than inferring a lawmaker's actions from a video title or social-media clip. The exact content of any particular member's questions or views should be checked in the official hearing or statement.",
+        "In 2026 the task force publicly continued seeking material about UAP reporting and government record handling. That committee-wide development must not be misrepresented as a statement personally made by every member. Congressional scrutiny is an important part of disclosure policy, but allegations discussed in a hearing still require distinct documentary or physical corroboration."
+      ],
+      "milestones": [
+        {
+          "date": "11 February 2025",
+          "title": "House Oversight establishes declassification task force",
+          "detail": "The committee announced the task force's public-interest declassification remit and designated Anna Paulina Luna as chair.",
+          "source": "https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/"
+        },
+        {
+          "date": "18 February 2025",
+          "title": "Named on the House task-force membership list",
+          "detail": "The committee publicly listed Eli Crane among its task-force members. Membership does not imply a position on every UAP claim.",
+          "source": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "date": "1 April 2026",
+          "title": "The task force continues its UAP records inquiry",
+          "detail": "The chair publicly requested specific records as part of the panel's ongoing work; this is a committee development, not an attributed personal statement by each member.",
+          "source": "https://oversight.house.gov/release/luna-continues-transparency-investigation-into-uaps/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Official House committee appointment announcement",
+          "publisher": "US House Oversight",
+          "date": "2025-02-18",
+          "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "label": "Official 2026 update on the task force's UAP investigation",
+          "publisher": "US House Oversight",
+          "date": "2026-04-01",
+          "url": "https://oversight.house.gov/release/luna-continues-transparency-investigation-into-uaps/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "brandon-gill",
+      "name": "Brandon Gill",
+      "category": [
+        "Congress",
+        "Advocate"
+      ],
+      "role": "Declassification task-force member",
+      "short": "Brandon Gill has a documented role in House transparency and declassification work, including the UAP debate.",
+      "position": "The US House Oversight Committee records Brandon Gill's involvement in participating in legislative scrutiny of the handling and disclosure of federal secrets. Those public records document the oversight activity, not proof of alleged covert programmes.",
+      "context": "The task force covers several declassification subjects; its existence does not validate every UAP allegation. Check signed letters, hearings, enacted legislation and actual record releases separately.",
+      "sources": [
+        {
+          "label": "House Oversight: task-force membership announcement",
+          "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "label": "House Oversight: task-force establishment",
+          "url": "https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Brandon Gill is a US representative documented in House Oversight material on declassification and government transparency. In February 2025, the committee named Brandon Gill among the members of the Task Force on the Declassification of Federal Secrets. The panel addresses several sets of federal records, not just reports of unidentified anomalous phenomena.",
+        "The relevant public involvement includes participating in legislative scrutiny of the handling and disclosure of federal secrets. For researchers, the value of this record is that the House identifies the member, committee and remit; this is more reliable than inferring a lawmaker's actions from a video title or social-media clip. The exact content of any particular member's questions or views should be checked in the official hearing or statement.",
+        "In 2026 the task force publicly continued seeking material about UAP reporting and government record handling. That committee-wide development must not be misrepresented as a statement personally made by every member. Congressional scrutiny is an important part of disclosure policy, but allegations discussed in a hearing still require distinct documentary or physical corroboration."
+      ],
+      "milestones": [
+        {
+          "date": "11 February 2025",
+          "title": "House Oversight establishes declassification task force",
+          "detail": "The committee announced the task force's public-interest declassification remit and designated Anna Paulina Luna as chair.",
+          "source": "https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/"
+        },
+        {
+          "date": "18 February 2025",
+          "title": "Named on the House task-force membership list",
+          "detail": "The committee publicly listed Brandon Gill among its task-force members. Membership does not imply a position on every UAP claim.",
+          "source": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "date": "1 April 2026",
+          "title": "The task force continues its UAP records inquiry",
+          "detail": "The chair publicly requested specific records as part of the panel's ongoing work; this is a committee development, not an attributed personal statement by each member.",
+          "source": "https://oversight.house.gov/release/luna-continues-transparency-investigation-into-uaps/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Official House committee appointment announcement",
+          "publisher": "US House Oversight",
+          "date": "2025-02-18",
+          "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/"
+        },
+        {
+          "label": "Official 2026 update on the task force's UAP investigation",
+          "publisher": "US House Oversight",
+          "date": "2026-04-01",
+          "url": "https://oversight.house.gov/release/luna-continues-transparency-investigation-into-uaps/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "chuck-schumer",
+      "name": "Chuck Schumer",
+      "category": [
+        "Congress",
+        "Advocate"
+      ],
+      "role": "US senator · bipartisan UAP records legislation",
+      "short": "Chuck Schumer co-led the 2023 Senate effort to create a structured system for identifying and releasing government UAP records.",
+      "position": "The 2023 UAP Disclosure Act proposal drew on the JFK assassination records system and proposed a government UAP records collection with disclosure review procedures.",
+      "context": "Legislative sponsorship establishes a public transparency initiative. Proposed language, amended provisions and law as finally enacted are different things; the original proposal should never be described as fully enacted without checking.",
+      "sources": [
+        {
+          "label": "Schumer–Rounds announcement of UAP Disclosure Act proposal",
+          "url": "https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa"
+        },
+        {
+          "label": "Senate floor discussion on UAP legislation",
+          "url": "https://www.democrats.senate.gov/newsroom/press-releases/majority-leader-schumer-and-republican-senator-mike-rounds-floor-colloquy-on-unidentified-anomalous-phenomena-provisions-in-the-ndaa-and-future-legislation-on-uaps"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Chuck Schumer is a United States senator whose role in UAP disclosure is documented through bipartisan legislative work. In July 2023, he introduced the proposed UAP Disclosure Act with Senator Mike Rounds, seeking a formal archival and review structure for records held by federal agencies.",
+        "The proposal was modelled on the JFK records collection process and would have directed the identification of records concerning unidentified anomalous phenomena, with a presumption of disclosure subject to review. This is chiefly an institutional and transparency contribution rather than a firsthand account of a UAP incident or a laboratory finding.",
+        "In December 2023 Schumer and Rounds discussed UAP provisions and the limits of the final legislative negotiations on the Senate floor. A careful profile separates their public policy goal from the specific provisions that survived and from any still-unproven underlying allegations. Official legislative texts are the right source for tracking the outcome."
+      ],
+      "milestones": [
+        {
+          "date": "14 July 2023",
+          "title": "Introduces bipartisan UAP records proposal",
+          "detail": "The Senate announcement set out a proposed records collection and review mechanism, inspired by the JFK disclosure approach.",
+          "source": "https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa"
+        },
+        {
+          "date": "2023",
+          "title": "Legislative debate and amendments",
+          "detail": "The original proposal was debated through the national-defense authorisation process; proposals and final enacted provisions should not be conflated.",
+          "source": "https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa"
+        },
+        {
+          "date": "13 December 2023",
+          "title": "Bipartisan Senate floor discussion",
+          "detail": "Schumer and Rounds discussed transparency provisions and the work they believed remained to be done.",
+          "source": "https://www.democrats.senate.gov/newsroom/press-releases/majority-leader-schumer-and-republican-senator-mike-rounds-floor-colloquy-on-unidentified-anomalous-phenomena-provisions-in-the-ndaa-and-future-legislation-on-uaps"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Official joint announcement: proposed UAP Disclosure Act",
+          "publisher": "Senate Democratic Caucus",
+          "date": "2023-07-14",
+          "url": "https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa"
+        },
+        {
+          "label": "Schumer–Rounds public Senate floor exchange",
+          "publisher": "Senate Democratic Caucus",
+          "date": "2023-12-13",
+          "url": "https://www.democrats.senate.gov/newsroom/press-releases/majority-leader-schumer-and-republican-senator-mike-rounds-floor-colloquy-on-unidentified-anomalous-phenomena-provisions-in-the-ndaa-and-future-legislation-on-uaps"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "mike-rounds",
+      "name": "Mike Rounds",
+      "category": [
+        "Congress",
+        "Advocate"
+      ],
+      "role": "US senator · bipartisan UAP records legislation",
+      "short": "Mike Rounds co-led the 2023 Senate effort to create a structured system for identifying and releasing government UAP records.",
+      "position": "The 2023 UAP Disclosure Act proposal drew on the JFK assassination records system and proposed a government UAP records collection with disclosure review procedures.",
+      "context": "Legislative sponsorship establishes a public transparency initiative. Proposed language, amended provisions and law as finally enacted are different things; the original proposal should never be described as fully enacted without checking.",
+      "sources": [
+        {
+          "label": "Schumer–Rounds announcement of UAP Disclosure Act proposal",
+          "url": "https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa"
+        },
+        {
+          "label": "Senate floor discussion on UAP legislation",
+          "url": "https://www.democrats.senate.gov/newsroom/press-releases/majority-leader-schumer-and-republican-senator-mike-rounds-floor-colloquy-on-unidentified-anomalous-phenomena-provisions-in-the-ndaa-and-future-legislation-on-uaps"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Mike Rounds is a United States senator whose role in UAP disclosure is documented through bipartisan legislative work. In July 2023, he introduced the proposed UAP Disclosure Act with Senator Chuck Schumer, seeking a formal archival and review structure for records held by federal agencies.",
+        "The proposal was modelled on the JFK records collection process and would have directed the identification of records concerning unidentified anomalous phenomena, with a presumption of disclosure subject to review. This is chiefly an institutional and transparency contribution rather than a firsthand account of a UAP incident or a laboratory finding.",
+        "In December 2023 Schumer and Rounds discussed UAP provisions and the limits of the final legislative negotiations on the Senate floor. A careful profile separates their public policy goal from the specific provisions that survived and from any still-unproven underlying allegations. Official legislative texts are the right source for tracking the outcome."
+      ],
+      "milestones": [
+        {
+          "date": "14 July 2023",
+          "title": "Introduces bipartisan UAP records proposal",
+          "detail": "The Senate announcement set out a proposed records collection and review mechanism, inspired by the JFK disclosure approach.",
+          "source": "https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa"
+        },
+        {
+          "date": "2023",
+          "title": "Legislative debate and amendments",
+          "detail": "The original proposal was debated through the national-defense authorisation process; proposals and final enacted provisions should not be conflated.",
+          "source": "https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa"
+        },
+        {
+          "date": "13 December 2023",
+          "title": "Bipartisan Senate floor discussion",
+          "detail": "Schumer and Rounds discussed transparency provisions and the work they believed remained to be done.",
+          "source": "https://www.democrats.senate.gov/newsroom/press-releases/majority-leader-schumer-and-republican-senator-mike-rounds-floor-colloquy-on-unidentified-anomalous-phenomena-provisions-in-the-ndaa-and-future-legislation-on-uaps"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Official joint announcement: proposed UAP Disclosure Act",
+          "publisher": "Senate Democratic Caucus",
+          "date": "2023-07-14",
+          "url": "https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa"
+        },
+        {
+          "label": "Schumer–Rounds public Senate floor exchange",
+          "publisher": "Senate Democratic Caucus",
+          "date": "2023-12-13",
+          "url": "https://www.democrats.senate.gov/newsroom/press-releases/majority-leader-schumer-and-republican-senator-mike-rounds-floor-colloquy-on-unidentified-anomalous-phenomena-provisions-in-the-ndaa-and-future-legislation-on-uaps"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "jared-moskowitz",
+      "name": "Jared Moskowitz",
+      "category": [
+        "Congress",
+        "Advocate"
+      ],
+      "role": "US representative · public UAP oversight hearings",
+      "short": "Congressional participant in public UAP hearings who has called for transparent and accountable treatment of government records.",
+      "position": "Congressional UAP hearings provide public testimony and oversight questioning; Moskowitz's role concerns government transparency and access to records.",
+      "context": "Questions put to a witness are evidence of oversight, not independent substantiation of the underlying claim. The exact statements should be read with the official hearing record.",
+      "sources": [
+        {
+          "label": "Official 2023 House UAP hearing",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/"
+        },
+        {
+          "label": "Official 2024 House UAP hearing",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Jared Moskowitz is a US representative who took part in the congressional examination of UAP-related government transparency. House hearing records document a bipartisan public discussion of what agencies know, what witnesses reported and why records and reporting pathways matter.",
+        "The 26 July 2023 House Oversight hearing brought witnesses David Grusch, Ryan Graves and David Fravor before lawmakers. The later November 2024 hearing continued scrutiny of allegations and information held by the federal government. Moskowitz's contribution should be tracked through actual hearing questions and filed statements, not interpreted as acceptance of every witness claim.",
+        "A legislator's public interest in transparency is distinct from a scientific conclusion about a reported object. Primary hearing records enable readers to identify who testified, what was said under oath and what information remained undisclosed or uncorroborated in public."
+      ],
+      "milestones": [
+        {
+          "date": "26 July 2023",
+          "title": "House UAP transparency hearing",
+          "detail": "House Oversight held a public hearing on aviation safety, national security, reporting and claims requiring investigation.",
+          "source": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/"
+        },
+        {
+          "date": "13 November 2024",
+          "title": "Further House UAP oversight hearing",
+          "detail": "The committee convened another formal public hearing on UAP transparency and evidence concerns.",
+          "source": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/"
+        },
+        {
+          "date": "2024",
+          "title": "Public record of continuing questions",
+          "detail": "The 2024 hearing material can be used to distinguish lawmakers' policy questions from the assertions made by individual witnesses.",
+          "source": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "House Oversight: 2023 UAP hearing",
+          "publisher": "US House Oversight",
+          "date": "2023-07-26",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/"
+        },
+        {
+          "label": "House Oversight: 2024 hearing",
+          "publisher": "US House Oversight",
+          "date": "2024-11-13",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "tim-gallaudet",
+      "name": "Tim Gallaudet",
+      "category": [
+        "Hearing witness",
+        "Advocate"
+      ],
+      "role": "Retired US Navy rear admiral; UAP congressional witness",
+      "short": "Tim Gallaudet's documented contribution to UAP research and transparency concerns naval service, marine environments and government transparency.",
+      "position": "Publicly documented work concerns naval service, marine environments and government transparency; the sources below provide the relevant institutional or publisher record.",
+      "context": "Investigate 2026 UAP advisory discussion; do not treat the person's involvement as independent verification of disputed underlying UAP claims.",
+      "sources": [
+        {
+          "label": "Primary hearing, institution or original publisher record",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/"
+        },
+        {
+          "label": "Additional original public source",
+          "url": "https://thesolfoundation.org/sol-foundation-co-founders-named-to-uap-science-advisory-council/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Tim Gallaudet is a retired us navy rear admiral; uap congressional witness. His or her documented work is relevant to naval service, marine environments and government transparency. The original sources linked here establish a public professional or research role; they do not establish that any particular extraordinary explanation for an observation is correct.",
+        "The public record includes work dated 13 November 2024, with an emphasis on 2026 UAP advisory discussion. Readers should distinguish an original document, a reported account, an analytical interpretation and a statement of belief. These are different forms of evidence and should not be collapsed into one claim.",
+        "The linked hearing, institutional or publisher material is the best entry point for checking what Tim Gallaudet actually contributed. The profile deliberately avoids guessing about private information or presenting social-media circulation as a scientific test. Further interviews, podcasts and screen credits should be added only when an attributable original link has been checked."
+      ],
+      "milestones": [
+        {
+          "date": "13 November 2024",
+          "title": "Documented public research or oversight activity",
+          "detail": "Original public records document Tim Gallaudet's contribution to naval service, marine environments and government transparency. These are not independent tests of extraordinary claims.",
+          "source": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/"
+        },
+        {
+          "date": "Research background",
+          "title": "Relevant professional expertise",
+          "detail": "The linked institutional or publisher record identifies work in naval service, marine environments and government transparency; job titles or other details should not be expanded beyond that record.",
+          "source": "https://thesolfoundation.org/sol-foundation-co-founders-named-to-uap-science-advisory-council/"
+        },
+        {
+          "date": "Through 2026",
+          "title": "Continuing public evidence and discussion",
+          "detail": "The referenced archive or institution provides a route to examine the original material. It should be checked for any later corrections, developments or retractions.",
+          "source": "https://thesolfoundation.org/sol-foundation-co-founders-named-to-uap-science-advisory-council/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Original publisher / institutional source",
+          "publisher": "Primary source",
+          "date": "13 November 2024",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/"
+        },
+        {
+          "label": "Further original reference for the public profile",
+          "publisher": "Institution or primary publisher",
+          "date": "Research record",
+          "url": "https://thesolfoundation.org/sol-foundation-co-founders-named-to-uap-science-advisory-council/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "michael-shellenberger",
+      "name": "Michael Shellenberger",
+      "category": [
+        "Hearing witness",
+        "Journalist"
+      ],
+      "role": "Journalist and 2024 House UAP hearing witness",
+      "short": "Michael Shellenberger's documented contribution to UAP research and transparency concerns public-interest reporting, whistleblower claims and government oversight.",
+      "position": "Publicly documented work concerns public-interest reporting, whistleblower claims and government oversight; the sources below provide the relevant institutional or publisher record.",
+      "context": "Investigate the public hearing's scrutiny of unattributed and classified allegations; do not treat the person's involvement as independent verification of disputed underlying UAP claims.",
+      "sources": [
+        {
+          "label": "Primary hearing, institution or original publisher record",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/"
+        },
+        {
+          "label": "Additional original public source",
+          "url": "https://oversight.house.gov/release/mace-grothman-announce-joint-hearing-on-unidentified-anomalous-phenomena%EF%BF%BC/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Michael Shellenberger is a journalist and 2024 house uap hearing witness. His or her documented work is relevant to public-interest reporting, whistleblower claims and government oversight. The original sources linked here establish a public professional or research role; they do not establish that any particular extraordinary explanation for an observation is correct.",
+        "The public record includes work dated 13 November 2024, with an emphasis on the public hearing's scrutiny of unattributed and classified allegations. Readers should distinguish an original document, a reported account, an analytical interpretation and a statement of belief. These are different forms of evidence and should not be collapsed into one claim.",
+        "The linked hearing, institutional or publisher material is the best entry point for checking what Michael Shellenberger actually contributed. The profile deliberately avoids guessing about private information or presenting social-media circulation as a scientific test. Further interviews, podcasts and screen credits should be added only when an attributable original link has been checked."
+      ],
+      "milestones": [
+        {
+          "date": "13 November 2024",
+          "title": "Documented public research or oversight activity",
+          "detail": "Original public records document Michael Shellenberger's contribution to public-interest reporting, whistleblower claims and government oversight. These are not independent tests of extraordinary claims.",
+          "source": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/"
+        },
+        {
+          "date": "Research background",
+          "title": "Relevant professional expertise",
+          "detail": "The linked institutional or publisher record identifies work in public-interest reporting, whistleblower claims and government oversight; job titles or other details should not be expanded beyond that record.",
+          "source": "https://oversight.house.gov/release/mace-grothman-announce-joint-hearing-on-unidentified-anomalous-phenomena%EF%BF%BC/"
+        },
+        {
+          "date": "Through 2026",
+          "title": "Continuing public evidence and discussion",
+          "detail": "The referenced archive or institution provides a route to examine the original material. It should be checked for any later corrections, developments or retractions.",
+          "source": "https://oversight.house.gov/release/mace-grothman-announce-joint-hearing-on-unidentified-anomalous-phenomena%EF%BF%BC/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Original publisher / institutional source",
+          "publisher": "Primary source",
+          "date": "13 November 2024",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/"
+        },
+        {
+          "label": "Further original reference for the public profile",
+          "publisher": "Institution or primary publisher",
+          "date": "Research record",
+          "url": "https://oversight.house.gov/release/mace-grothman-announce-joint-hearing-on-unidentified-anomalous-phenomena%EF%BF%BC/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "john-greenewald-jr",
+      "name": "John Greenewald Jr.",
+      "category": [
+        "Researcher",
+        "FOIA researcher"
+      ],
+      "role": "Founder of The Black Vault government documents archive",
+      "short": "John Greenewald Jr.'s documented contribution to UAP research and transparency concerns FOIA filing, historical archives and the provenance of government records.",
+      "position": "Publicly documented work concerns FOIA filing, historical archives and the provenance of government records; the sources below provide the relevant institutional or publisher record.",
+      "context": "Investigate direct release documents rather than secondhand headlines; do not treat the person's involvement as independent verification of disputed underlying UAP claims.",
+      "sources": [
+        {
+          "label": "Primary hearing, institution or original publisher record",
+          "url": "https://documents.theblackvault.com/documents/"
+        },
+        {
+          "label": "Additional original public source",
+          "url": "https://www.theblackvault.com/documentarchive/series/the-black-vault-radio-w-john-greenewald-jr/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "John Greenewald Jr. is a founder of the black vault government documents archive. His or her documented work is relevant to FOIA filing, historical archives and the provenance of government records. The original sources linked here establish a public professional or research role; they do not establish that any particular extraordinary explanation for an observation is correct.",
+        "The public record includes work dated 1996–present, with an emphasis on direct release documents rather than secondhand headlines. Readers should distinguish an original document, a reported account, an analytical interpretation and a statement of belief. These are different forms of evidence and should not be collapsed into one claim.",
+        "The linked hearing, institutional or publisher material is the best entry point for checking what John Greenewald Jr. actually contributed. The profile deliberately avoids guessing about private information or presenting social-media circulation as a scientific test. Further interviews, podcasts and screen credits should be added only when an attributable original link has been checked."
+      ],
+      "milestones": [
+        {
+          "date": "1996–present",
+          "title": "Documented public research or oversight activity",
+          "detail": "Original public records document John Greenewald Jr.'s contribution to FOIA filing, historical archives and the provenance of government records. These are not independent tests of extraordinary claims.",
+          "source": "https://documents.theblackvault.com/documents/"
+        },
+        {
+          "date": "Research background",
+          "title": "Relevant professional expertise",
+          "detail": "The linked institutional or publisher record identifies work in FOIA filing, historical archives and the provenance of government records; job titles or other details should not be expanded beyond that record.",
+          "source": "https://www.theblackvault.com/documentarchive/series/the-black-vault-radio-w-john-greenewald-jr/"
+        },
+        {
+          "date": "Through 2026",
+          "title": "Continuing public evidence and discussion",
+          "detail": "The referenced archive or institution provides a route to examine the original material. It should be checked for any later corrections, developments or retractions.",
+          "source": "https://www.theblackvault.com/documentarchive/series/the-black-vault-radio-w-john-greenewald-jr/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Original publisher / institutional source",
+          "publisher": "Primary source",
+          "date": "1996–present",
+          "url": "https://documents.theblackvault.com/documents/"
+        },
+        {
+          "label": "Further original reference for the public profile",
+          "publisher": "Institution or primary publisher",
+          "date": "Research record",
+          "url": "https://www.theblackvault.com/documentarchive/series/the-black-vault-radio-w-john-greenewald-jr/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "garry-nolan",
+      "name": "Garry Nolan",
+      "category": [
+        "Scientist",
+        "Researcher"
+      ],
+      "role": "Stanford pathology professor; co-founder of the Sol Foundation",
+      "short": "Garry Nolan's documented contribution to UAP research and transparency concerns single-cell biology, UAP research policy and interdisciplinary scientific debate.",
+      "position": "Publicly documented work concerns single-cell biology, UAP research policy and interdisciplinary scientific debate; the sources below provide the relevant institutional or publisher record.",
+      "context": "Investigate the separation of scientific expertise, public discussion and verified evidence; do not treat the person's involvement as independent verification of disputed underlying UAP claims.",
+      "sources": [
+        {
+          "label": "Primary hearing, institution or original publisher record",
+          "url": "https://thesolfoundation.org/launch-announcement/"
+        },
+        {
+          "label": "Additional original public source",
+          "url": "https://web.stanford.edu/group/nolan/nolan.html"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Garry Nolan is a stanford pathology professor; co-founder of the sol foundation. His or her documented work is relevant to single-cell biology, UAP research policy and interdisciplinary scientific debate. The original sources linked here establish a public professional or research role; they do not establish that any particular extraordinary explanation for an observation is correct.",
+        "The public record includes work dated 15 August 2023, with an emphasis on the separation of scientific expertise, public discussion and verified evidence. Readers should distinguish an original document, a reported account, an analytical interpretation and a statement of belief. These are different forms of evidence and should not be collapsed into one claim.",
+        "The linked hearing, institutional or publisher material is the best entry point for checking what Garry Nolan actually contributed. The profile deliberately avoids guessing about private information or presenting social-media circulation as a scientific test. Further interviews, podcasts and screen credits should be added only when an attributable original link has been checked."
+      ],
+      "milestones": [
+        {
+          "date": "15 August 2023",
+          "title": "Documented public research or oversight activity",
+          "detail": "Original public records document Garry Nolan's contribution to single-cell biology, UAP research policy and interdisciplinary scientific debate. These are not independent tests of extraordinary claims.",
+          "source": "https://thesolfoundation.org/launch-announcement/"
+        },
+        {
+          "date": "Research background",
+          "title": "Relevant professional expertise",
+          "detail": "The linked institutional or publisher record identifies work in single-cell biology, UAP research policy and interdisciplinary scientific debate; job titles or other details should not be expanded beyond that record.",
+          "source": "https://web.stanford.edu/group/nolan/nolan.html"
+        },
+        {
+          "date": "Through 2026",
+          "title": "Continuing public evidence and discussion",
+          "detail": "The referenced archive or institution provides a route to examine the original material. It should be checked for any later corrections, developments or retractions.",
+          "source": "https://web.stanford.edu/group/nolan/nolan.html"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Original publisher / institutional source",
+          "publisher": "Primary source",
+          "date": "15 August 2023",
+          "url": "https://thesolfoundation.org/launch-announcement/"
+        },
+        {
+          "label": "Further original reference for the public profile",
+          "publisher": "Institution or primary publisher",
+          "date": "Research record",
+          "url": "https://web.stanford.edu/group/nolan/nolan.html"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "leslie-kean",
+      "name": "Leslie Kean",
+      "category": [
+        "Journalist",
+        "Researcher"
+      ],
+      "role": "Investigative journalist and author covering UAP",
+      "short": "Leslie Kean's documented contribution to UAP research and transparency concerns documentary reporting, pilot testimony and published UAP journalism.",
+      "position": "Publicly documented work concerns documentary reporting, pilot testimony and published UAP journalism; the sources below provide the relevant institutional or publisher record.",
+      "context": "Investigate attribution of published reporting to the original interviewees and records; do not treat the person's involvement as independent verification of disputed underlying UAP claims.",
+      "sources": [
+        {
+          "label": "Primary hearing, institution or original publisher record",
+          "url": "https://www.lesliekean.com/author-leslie-kean/"
+        },
+        {
+          "label": "Additional original public source",
+          "url": "https://www.lesliekean.com/ufos-media/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Leslie Kean is a investigative journalist and author covering uap. His or her documented work is relevant to documentary reporting, pilot testimony and published UAP journalism. The original sources linked here establish a public professional or research role; they do not establish that any particular extraordinary explanation for an observation is correct.",
+        "The public record includes work dated 2017–2025, with an emphasis on attribution of published reporting to the original interviewees and records. Readers should distinguish an original document, a reported account, an analytical interpretation and a statement of belief. These are different forms of evidence and should not be collapsed into one claim.",
+        "The linked hearing, institutional or publisher material is the best entry point for checking what Leslie Kean actually contributed. The profile deliberately avoids guessing about private information or presenting social-media circulation as a scientific test. Further interviews, podcasts and screen credits should be added only when an attributable original link has been checked."
+      ],
+      "milestones": [
+        {
+          "date": "2017–2025",
+          "title": "Documented public research or oversight activity",
+          "detail": "Original public records document Leslie Kean's contribution to documentary reporting, pilot testimony and published UAP journalism. These are not independent tests of extraordinary claims.",
+          "source": "https://www.lesliekean.com/author-leslie-kean/"
+        },
+        {
+          "date": "Research background",
+          "title": "Relevant professional expertise",
+          "detail": "The linked institutional or publisher record identifies work in documentary reporting, pilot testimony and published UAP journalism; job titles or other details should not be expanded beyond that record.",
+          "source": "https://www.lesliekean.com/ufos-media/"
+        },
+        {
+          "date": "Through 2026",
+          "title": "Continuing public evidence and discussion",
+          "detail": "The referenced archive or institution provides a route to examine the original material. It should be checked for any later corrections, developments or retractions.",
+          "source": "https://www.lesliekean.com/ufos-media/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Original publisher / institutional source",
+          "publisher": "Primary source",
+          "date": "2017–2025",
+          "url": "https://www.lesliekean.com/author-leslie-kean/"
+        },
+        {
+          "label": "Further original reference for the public profile",
+          "publisher": "Institution or primary publisher",
+          "date": "Research record",
+          "url": "https://www.lesliekean.com/ufos-media/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
+    },
+    {
+      "id": "kevin-knuth",
+      "name": "Kevin Knuth",
+      "category": [
+        "Scientist",
+        "Researcher"
+      ],
+      "role": "University at Albany physics professor researching UAP instrumentation",
+      "short": "Kevin Knuth's documented contribution to UAP research and transparency concerns Bayesian data analysis, infrared imaging and multi-sensor UAP research.",
+      "position": "Publicly documented work concerns Bayesian data analysis, infrared imaging and multi-sensor UAP research; the sources below provide the relevant institutional or publisher record.",
+      "context": "Investigate falsifiable measurements from calibrated instruments and documented fieldwork; do not treat the person's involvement as independent verification of disputed underlying UAP claims.",
+      "sources": [
+        {
+          "label": "Primary hearing, institution or original publisher record",
+          "url": "https://www.albany.edu/news-center/news/2025-ualbany-physicists-test-scientific-approach-uap-research"
+        },
+        {
+          "label": "Additional original public source",
+          "url": "https://www.albany.edu/physics/faculty/kevin-knuth"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Kevin Knuth is a university at albany physics professor researching uap instrumentation. His or her documented work is relevant to Bayesian data analysis, infrared imaging and multi-sensor UAP research. The original sources linked here establish a public professional or research role; they do not establish that any particular extraordinary explanation for an observation is correct.",
+        "The public record includes work dated 2021–2025, with an emphasis on falsifiable measurements from calibrated instruments and documented fieldwork. Readers should distinguish an original document, a reported account, an analytical interpretation and a statement of belief. These are different forms of evidence and should not be collapsed into one claim.",
+        "The linked hearing, institutional or publisher material is the best entry point for checking what Kevin Knuth actually contributed. The profile deliberately avoids guessing about private information or presenting social-media circulation as a scientific test. Further interviews, podcasts and screen credits should be added only when an attributable original link has been checked."
+      ],
+      "milestones": [
+        {
+          "date": "2021–2025",
+          "title": "Documented public research or oversight activity",
+          "detail": "Original public records document Kevin Knuth's contribution to Bayesian data analysis, infrared imaging and multi-sensor UAP research. These are not independent tests of extraordinary claims.",
+          "source": "https://www.albany.edu/news-center/news/2025-ualbany-physicists-test-scientific-approach-uap-research"
+        },
+        {
+          "date": "Research background",
+          "title": "Relevant professional expertise",
+          "detail": "The linked institutional or publisher record identifies work in Bayesian data analysis, infrared imaging and multi-sensor UAP research; job titles or other details should not be expanded beyond that record.",
+          "source": "https://www.albany.edu/physics/faculty/kevin-knuth"
+        },
+        {
+          "date": "Through 2026",
+          "title": "Continuing public evidence and discussion",
+          "detail": "The referenced archive or institution provides a route to examine the original material. It should be checked for any later corrections, developments or retractions.",
+          "source": "https://www.albany.edu/physics/faculty/kevin-knuth"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Original publisher / institutional source",
+          "publisher": "Primary source",
+          "date": "2021–2025",
+          "url": "https://www.albany.edu/news-center/news/2025-ualbany-physicists-test-scientific-approach-uap-research"
+        },
+        {
+          "label": "Further original reference for the public profile",
+          "publisher": "Institution or primary publisher",
+          "date": "Research record",
+          "url": "https://www.albany.edu/physics/faculty/kevin-knuth"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": []
     }
   ]
 }
