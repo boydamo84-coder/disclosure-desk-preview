@@ -63,6 +63,14 @@ const BASE='http://127.0.0.1:4175';
    assert.match(await page.locator('#ddDialogTitle').innerText(),/Discard unsaved notebook/);
    assert.match(await page.locator('#ddDialogDescription').innerText(),/not been encrypted or saved/);
    assert.equal(await page.locator('#ddDialogAccept').textContent(),'Discard notebook');
+   fs.mkdirSync('.r3-lab-preview/screenshots',{recursive:true});
+   await page.screenshot({
+    path:'.r3-lab-preview/screenshots/fictional-branded-confirm-'+width+'px.png',
+    fullPage:false
+   });
+   const modalBounds=await page.locator('#ddConfirmDialog').boundingBox();
+   assert(modalBounds&&modalBounds.x>=-1&&modalBounds.x+modalBounds.width<=width+1,
+    'Premium modal must fit the '+width+'px viewport');
    await page.locator('#ddDialogCancel').click();
    await page.locator('#ddConfirmDialog').waitFor({state:'hidden'});
    assert.equal(await page.locator('#hypothesisList .hypothesis-item').count(),2,
@@ -109,27 +117,14 @@ const BASE='http://127.0.0.1:4175';
     await dis.locator('[data-field="potentiallyDisconfirmingObservation"]')
      .fill('A conflicting synthetic measurement');
     await dis.locator('[data-field="howToCheck"]').fill('Check the imaginary raw record');
-    await page.evaluate(()=>{
-     window.__r3ClickTrace=[];
-     const target=document.getElementById('addSourceBtn');
-     target.addEventListener('pointerdown',()=>window.__r3ClickTrace.push('pointerdown'),{capture:true});
-     target.addEventListener('click',()=>window.__r3ClickTrace.push('click'),{capture:true});
-     target.addEventListener('click',()=>window.__r3ClickTrace.push('click-bubble'));
-    });
+    // Regression: while the on-screen keyboard is in use, the premium
+    // nav must not steal a pointerup/click after an editor field loses focus.
+    assert.equal(await page.locator('#ddWebSecondaryNav').isVisible(),false,
+     'Mobile editing must hide the fixed nav until the editor closes');
     await page.locator('#addSourceBtn').click();
     const source=page.locator('#sourceEntries');
-    const sourceState=await page.evaluate(()=>({
-     sourceEntries:document.querySelectorAll('#sourceEntries .entry-card').length,
-     editorHidden:document.getElementById('editorForm').hidden,
-     dialogOpen:document.getElementById('ddConfirmDialog').open,
-     actionButton:document.getElementById('addSourceBtn').outerHTML.slice(0,450),
-     notice:document.getElementById('notice').textContent,
-     trace:window.__r3ClickTrace,
-     sourceHTML:document.getElementById('sourceEntries').outerHTML.slice(0,1200),
-     formHTML:document.getElementById('editorForm').outerHTML.slice(0,900)
-    }));
-    console.log('R3 source-entry state after Add source:',JSON.stringify(sourceState),'JS errors',errors);
-    assert.equal(sourceState.sourceEntries,1,'Add source must create exactly one citation input');
+    assert.equal(await source.locator('.entry-card').count(),1,
+     'A tap after editing text must actually add a citation entry');
     await source.locator('[data-field="label"]').fill('Synthetic archive');
     await source.locator('[data-field="url"]').fill('javascript:alert(1)');
     await page.locator('#saveHypothesisBtn').click();
