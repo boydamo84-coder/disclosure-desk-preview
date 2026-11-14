@@ -1,5 +1,5 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 14 November 2026 (Europe/London) — R3 source-verified local build ID and cache-busting tested; Samsung re-check pending, R2 live unchanged_
+_Last updated: 14 November 2026 (Europe/London) — R3 verified build opened successfully via correctly nested Termux directory; owner reports Perfect; R2 live unchanged_
 
 ## M96 — Legacy favicon fallback and Netlify 404 review (13 November 2026)
 
@@ -1694,4 +1694,14 @@ Separately prepared `release/dd-web-r2-integration-nov14` **website-only** from 
 - **Exact tested code/workflow SHA `0174a1369222b3b7dd7ede574daf172b1e5c5276`**; [GitHub Actions run 43653605928](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43653605928) **SUCCESS both jobs**, Gap Finder/Hypothesis engine and 393px/1280px local Chromium. Actual **build ID `17aadf8d3a00`** in CI logs. GitHub Actions ZIP artifact **`14137555571`**, downloadable through `https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43653605928/artifacts/14137555571`, metadata expiry 28 Nov 2026. Downloaded conversation ZIP `/mnt/data/R3_Lab_Verified_20261114.zip`; `unzip -t` passed and real extracted BUILD_INFO and HTML confirmed; SHA-256 `7c378e80f4ab73746dadec58e3ccd91f53e1f25917c8509ad7b7b1f439c7fdd7`.
 - Exact user instructions: stop *actual* older Termux server via Ctrl+C, `cd ~/storage/downloads/R3_Lab_Verified_20261114`, `cat BUILD_INFO.txt`, `grep -n 'ddConfirmDialog' index.html`, run `python -m http.server 4175 --bind 127.0.0.1`, open `http://127.0.0.1:4175/?version=check`. If the server cannot bind due to `Address already in use`, old server is still active. Owner should see **R3 NAV / PROMPT POLISH · BUILD 17aadf8d3a00**. **Physical Samsung acceptance of this new ZIP is still pending.**
 - Detail in `docs/R3_LOCALHOST_BUILD_IDENTIFICATION_2026-11-14.md` (doc-only commit `d4935778c55686c1f76a1261b3f371859d4fc5b8`). **No R3 production merge, Netlify deploy/preview, Android APK, Supabase/Auth operation, real account data or R4 work**; live R2 remains `8af0a5a`.
+
+
+
+## DD-WEB-R3 owner Samsung acceptance — correct extracted nested folder (14 November 2026)
+
+- The owner downloaded the verified `DisclosureDesk_R3_Confirmed_Android.zip` ZIP, identified its **nested folder layout** `DisclosureDesk_R3_Confirmed_Android/R3_Lab_Verified_20261114` and was given the corrected Termux command `cd ~/storage/downloads/DisclosureDesk_R3_Confirmed_Android/R3_Lab_Verified_20261114`, followed by `cat BUILD_INFO.txt` and `python -m http.server 4175 --bind 127.0.0.1`. Expected browser URL: `http://127.0.0.1:4175/?version=check`.
+- Owner responded **“Perfect”**. Record as **owner-reported success of the corrected nested-folder launch / build-serving instructions on their physical Samsung**. This is positive hands-on acceptance of the latest packaging and troubleshooting; **do not overclaim** a separately documented all-controls security audit, every dialog state, iPhone test or production acceptance from that short reply.
+- The tested package corresponds to visible build ID **`17aadf8d3a00`**, successful no-deploy GitHub Actions run **43653605928** (actual source SHA `0174a1369222b3b7dd7ede574daf172b1e5c5276`), artifact **14137555571**. Previous full automated checks covered R2 premium 14-tab styling and custom navy-gold confirmation dialog, encrypted local save and restore, and mobile/desktop Chromium. Correct nested folder was essential; Incognito still targets the same Termux server and alone would not fix the wrong working directory.
+- Retain current local encrypted vault origin `127.0.0.1:4175`; **do not clear Chrome storage**. This remains an **unaudited offline R3 alpha**, not real authenticated user access control, not a live R3 website release or Play Store APK.
+- Next controlled work may continue after this packaging milestone: account isolation threat model/secure permissions design, optional verified Research Gap Finder linking, or targeted physical Samsung feature smoke test. **No production merge, Netlify deploy/preview, Supabase account/write, or R4 changes**; live published R2 remains `8af0a5a`.
 
