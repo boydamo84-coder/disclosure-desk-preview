@@ -80,6 +80,41 @@ const BASE='http://127.0.0.1:4173';
    assert.match(await portrait.locator('#profilePhotoCredit').innerText(),/Portrait:/,'Portrait source attribution available');
    assert.match(await portrait.locator('#profileAvatar').textContent(),/AP/,'Blocked external images retain initials in offline browser QA');
    await portrait.close();
+
+   // When switching detailed profiles, a previous asynchronous portrait load
+   // must never hide the current person's initials, including on browser Back.
+   const photoSwitch=await ctx.newPage();
+   await photoSwitch.goto(BASE+'/who-is-who.html?person=david-grusch',{waitUntil:'domcontentloaded'});
+   await photoSwitch.locator('#personProfile').waitFor({state:'visible'});
+   assert.equal(await photoSwitch.evaluate(()=>{
+    window.__previousPortrait=document.querySelector('#profileAvatar img');
+    return !!window.__previousPortrait;
+   }),true,'David Grusch has a documented image reference');
+   await photoSwitch.locator('#directoryBack').click();
+   await photoSwitch.locator('#peopleSearch').fill('David Fravor');
+   await photoSwitch.locator('#peopleCards button').first().click();
+   assert.equal(await photoSwitch.locator('#profileName').textContent(),'David Fravor');
+   await photoSwitch.evaluate(()=>window.__previousPortrait.dispatchEvent(new Event('load')));
+   assert.equal(await photoSwitch.locator('#profileAvatar').evaluate(el=>el.classList.contains('has-photo')),false,
+    'Stale image load from previous profile cannot hide current initials');
+   assert.match(await photoSwitch.locator('#profileAvatar').textContent(),/DF/,'Fravor initials visible');
+   await photoSwitch.locator('#directoryBack').click();
+   await photoSwitch.locator('#peopleSearch').fill('Ryan Graves');
+   await photoSwitch.locator('#peopleCards button').first().click();
+   await photoSwitch.evaluate(()=>{
+    const img=document.querySelector('#profileAvatar img');
+    if(!img)throw new Error('Ryan portrait element missing');
+    img.dispatchEvent(new Event('load'));
+   });
+   assert.equal(await photoSwitch.locator('#profileAvatar').evaluate(el=>el.classList.contains('has-photo')),true,
+    'Current loaded portrait hides initials');
+   await photoSwitch.locator('#directoryBack').click();
+   await photoSwitch.locator('#peopleSearch').fill('David Fravor');
+   await photoSwitch.locator('#peopleCards button').first().click();
+   assert.equal(await photoSwitch.locator('#profileAvatar').evaluate(el=>el.classList.contains('has-photo')),false,
+    'Switching loaded photo to no-photo profile resets class');
+   assert.match(await photoSwitch.locator('#profileAvatar').textContent(),/DF/);
+   await photoSwitch.close();
    const legacy=await ctx.newPage();
    await legacy.goto(BASE+'/who-is-who.html?person=nick-pope',{waitUntil:'domcontentloaded'});
    await legacy.locator('#personProfile').waitFor({state:'visible'});
