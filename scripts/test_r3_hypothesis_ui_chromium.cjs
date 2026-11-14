@@ -109,6 +109,13 @@ const BASE='http://127.0.0.1:4175';
     await dis.locator('[data-field="potentiallyDisconfirmingObservation"]')
      .fill('A conflicting synthetic measurement');
     await dis.locator('[data-field="howToCheck"]').fill('Check the imaginary raw record');
+    await page.evaluate(()=>{
+     window.__r3ClickTrace=[];
+     const target=document.getElementById('addSourceBtn');
+     target.addEventListener('pointerdown',()=>window.__r3ClickTrace.push('pointerdown'),{capture:true});
+     target.addEventListener('click',()=>window.__r3ClickTrace.push('click'),{capture:true});
+     target.addEventListener('click',()=>window.__r3ClickTrace.push('click-bubble'));
+    });
     await page.locator('#addSourceBtn').click();
     const source=page.locator('#sourceEntries');
     const sourceState=await page.evaluate(()=>({
@@ -116,7 +123,10 @@ const BASE='http://127.0.0.1:4175';
      editorHidden:document.getElementById('editorForm').hidden,
      dialogOpen:document.getElementById('ddConfirmDialog').open,
      actionButton:document.getElementById('addSourceBtn').outerHTML.slice(0,450),
-     notice:document.getElementById('notice').textContent
+     notice:document.getElementById('notice').textContent,
+     trace:window.__r3ClickTrace,
+     sourceHTML:document.getElementById('sourceEntries').outerHTML.slice(0,1200),
+     formHTML:document.getElementById('editorForm').outerHTML.slice(0,900)
     }));
     console.log('R3 source-entry state after Add source:',JSON.stringify(sourceState),'JS errors',errors);
     assert.equal(sourceState.sourceEntries,1,'Add source must create exactly one citation input');
