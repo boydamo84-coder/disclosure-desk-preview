@@ -86,7 +86,7 @@ for(const deed of [
  'https://creativecommons.org/licenses/by/4.0/',
  'https://creativecommons.org/licenses/by-sa/4.0/'
 ])assert(app.includes(deed),'Link to required Creative Commons deed: '+deed);
-assert(app.includes('Display cropped to fit')&&app.includes('Photo: '+''+''+''),
+assert(app.includes('Display cropped to fit')&&app.includes("'Photo: '+photo.credit"),
  'Visible author/source credit and display crop acknowledgement');
 assert(page.includes('.card-photo-credit a{'),'Mobile directory credits have visible tappable links');
 assert(app.includes('DDPeopleDirectoryBack')&&app.includes('paintPortrait'),'Native Back and licensed portrait renderer present');
