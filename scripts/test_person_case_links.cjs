@@ -34,7 +34,7 @@ assert.equal(graph.caseCount,3,'Nimitz added as documented public role case, not
 assert.equal(graph.personCount,3);
 assert.equal(graph.claimCount,4,'No new unsupported historical claims');
 assert.equal(graph.documentCount,6,'Three previously cited sources plus three attribution sources');
-assert.equal(graph.edges.length,14,'Eight original claim edges and six cited involvement/source edges');
+assert.equal(graph.edges.length,15,'Eight claim edges, one checked NARA mention, six cited involvement/source edges');
 assert.equal(graph.nodes.length,16);
 assert.equal(graph.verifiedCaseToCaseEdges,0,'No two incidents connected just because a person is listed');
 assert.equal(graph.independentWitnessCount,null);
