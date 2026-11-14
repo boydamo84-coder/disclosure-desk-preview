@@ -184,7 +184,7 @@
  }
  function renderNotebook(){
   if(!book)return;
-  $('setupPanel').hidden=true;$('workPanel').hidden=false;
+  $('setupPanel').hidden=true;$('vaultAccessPanel').hidden=true;$('workPanel').hidden=false;
   $('notebookHeading').textContent=book.title;
   $('notebookMeta').textContent='Workspace '+book.workspaceId+' · Case '+book.caseId+' · Private session';
   renderList();renderSelected();showView(view);
@@ -345,6 +345,8 @@
   $('editorForm').reset();
   $('notebookHeading').textContent='';$('notebookMeta').textContent='';
   $('selectedTitle').textContent='';$('selectedExplanation').textContent='';
+  $('currentVersion').textContent='';
+  $('historyPerson').replaceChildren();
   $('workspaceInput').value='';$('caseInput').value='';$('notebookInput').value='';
   for(const id of ['vaultNewPassphrase','vaultConfirmPassphrase',
    'unlockPassphrase','importPassphrase'])$(id).value='';
