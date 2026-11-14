@@ -1,6 +1,6 @@
 # DD-WEB-R2 — Evidence Intelligence (queued)
 
-**Current status:** Evidence DNA alpha foundation coded and isolated QA green; still NOT DEPLOYABLE. Contradiction Radar and visual case graph are not implemented.
+**Current status (14 November 2026):** Evidence DNA claim-draft alpha, researcher-selected Contradiction Radar comparisons and a bounded source-relationship SVG/text graph have each passed isolated no-deploy CI. Only 2 curated cases / 4 draft claims are included. Full automatic discrepancy identification, reviewed case-to-case relationships and release integration are **NOT implemented**. R2 is NOT DEPLOYABLE.
 **Target branch:** `queue/dd-web-r2-evidence-intelligence`
 **Depends on:** DD-WEB-R1 successfully published, checked and accepted; rebase future R2 implementation on the **verified live production commit**, not the original branch snapshot.
 
@@ -15,7 +15,7 @@ Allow researchers to select statements in different documents and identify candi
 ### Interactive case relationship graph
 Visualise source-linked nodes for cases, documents, locations, events and claims. Show separate edge types “shared topic”, “same source”, “possible same event”, “reported by”, “contradicts” and “verified connection”. Reuse R1's explainable Case Connections but keep suggestions and independently confirmed links visually distinct. A limited, accessible graph view is preferable to thousands of illegible nodes; retain text alternative on mobile.
 
-## Implementation architecture (not yet implemented)
+## Implementation architecture (partially implemented; further work required)
 - Start with a typed provenance schema (case ID, source document, claim ID, exact provenance, relation type, review status and citation), an explicit manual review workflow and a local export format.
 - Use public-sourced metadata and document passages permitted by licence, not an unbounded full-text scraping pipeline.
 - Store private/unpublished claims only in the owner's research area, never as public cross-user graph edges.
@@ -80,3 +80,10 @@ Visualise source-linked nodes for cases, documents, locations, events and claims
 - **Source caution:** static/Chromium testing does not validate every external episode/streaming link or permission to embed; full human editorial fact-check and physical Samsung QA remain. No unlicensed headshots, private contacts, reputation-poll rankings or unapproved YouTube autoplay.
 - Documentation: `docs/R2_WHO_IS_WHO_EXPANSION_PODCAST_FILMS_2026-11-14.md`. Source JSON `data/public-people-directory.json`, page `who-is-who.html`, renderer `assets/people-directory.js`.
 - Next: verify every external attribution/film credit, consider person↔case source-based relationships and prepare Contradiction Radar. R2 remains **not a deployable release** until predecessor R1 is live and accepted, merged/rebased into verified production baseline and fully tested with explicit owner approval. No Netlify, production or AdSense mutation.
+
+
+## M6–M7 source comparison and reference graph (14 Nov 2026)
+- M6: human-chosen pairs from all currently curated source-linked draft claims; original section locators and source overlap exposed, no forced contradiction or independent-witness inference. CI [43586917276](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43586917276) successful.
+- M7: case → draft claim → original source-page diagram, de-duplicated URLs, accessible citation list, this-case / both-cases scope. 2 cases, 4 claims, 3 source pages, 8 catalogue/citation links, **0 documented cross-case edges**. CI [43587210762](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43587210762) successful at `433dca909e075890b07faf88dc43db1d0580a700`.
+- Details: `docs/R2_M6_RESEARCHER_SELECTED_COMPARISONS_2026-11-14.md`, `docs/R2_M7_EVIDENCE_RELATIONSHIP_GRAPH_2026-11-14.md`.
+- Still missing: source-passage editorial verification, reviewed provenance dependencies, evidence-backed person-to-case edges, arbitrary passage-level researcher comparison, large archive graph performance, physical Samsung and final merged R2 release QA. R1 must be accepted first; no deployment authorised.
