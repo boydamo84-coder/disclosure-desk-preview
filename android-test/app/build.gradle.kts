@@ -14,8 +14,8 @@ android {
         buildConfigField("String", "DD_FIREBASE_PROJECT_ID", "\"${System.getenv("DD_FIREBASE_PROJECT_ID") ?: ""}\"")
 
         buildConfigField("String", "DD_FIREBASE_SENDER_ID", "\"${System.getenv("DD_FIREBASE_SENDER_ID") ?: ""}\"")
-        versionCode = 30
-        versionName = "0.14.6-r2-m12-1-editorial-nav"
+        versionCode = 31
+        versionName = "0.14.7-r2-m12-2-scroll-return"
         manifestPlaceholders["ddAppLabel"] = "Disclosure Desk"
     }
     buildFeatures { buildConfig = true }
@@ -33,9 +33,9 @@ android {
     buildTypes {
         getByName("debug") {
             // Never uninstall or overwrite the owner's installed production package.
-            applicationIdSuffix = ".beta.m121"
+            applicationIdSuffix = ".beta.m122"
             versionNameSuffix = "-preview"
-            manifestPlaceholders["ddAppLabel"] = "Disclosure Desk Beta M12.1"
+            manifestPlaceholders["ddAppLabel"] = "Disclosure Desk Beta M12.2"
         }
         getByName("release") {
             isMinifyEnabled = false
