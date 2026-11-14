@@ -7,10 +7,9 @@ const BASE='http://127.0.0.1:4173';
 const injection=fs.readFileSync('android-test/app/src/main/assets/editorial-secondary-nav.js','utf8');
 const getItems=()=>Array.from(document.querySelectorAll('nav.nav .nav-inner .tab')).map(button=>[
  button.dataset.tab,button.querySelector('.ico')?.textContent||'',
- button.dataset.tab==='chatPage'
-  ?(button.querySelector(':scope > span:not(.ico):not(.dd-chat-unread-badge)')?.textContent||'').trim()
-  :Array.from(button.childNodes).filter(node=>node.nodeType===3)
-    .map(node=>node.textContent).join('').trim()
+ Array.from(button.childNodes).filter(node=>node.nodeType===3)
+  .map(node=>node.textContent).join('').trim()
+  ||(button.querySelector(':scope > span:not(.ico):not(.dd-chat-unread-badge)')?.textContent||'').trim()
 ]);
 (async()=>{
  const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,
