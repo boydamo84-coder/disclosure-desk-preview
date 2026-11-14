@@ -13,7 +13,10 @@ for(const rel of [
  'index.html','guide.html','assets/community-polish.css','assets/community-votes.js',
  'assets/confirmation-dialog.js','assets/community-discussions.js',
  'assets/inline-news-comments.js','assets/case-discussions.js','assets/unified-action-rails.js',
- 'research/wne.html','assets/research-hub.js']){
+ 'research/wne.html','assets/research-hub.js',
+ 'assets/page-help.js','assets/evidence-dna.js','assets/person-case-links.js',
+ 'data/evidence-dna-claim-drafts.json','data/public-people-directory.json','data/public-person-case-links.json',
+ 'who-is-who.html']){
  assert(manifest.files.includes(rel),'Critical pending UI file packaged: '+rel);
  const apkFile=path.join(target,rel),branchFile=path.join(root,rel);
  assert.equal(crypto.createHash('sha256').update(fs.readFileSync(apkFile)).digest('hex'),
@@ -28,9 +31,9 @@ assert.match(main,/"https"\.equals\(url\.getScheme\(\)\)/,'Only HTTPS origin int
 assert.match(main,/"uapdisclosuredesk\.com"\.equals\(url\.getHost\(\)\)/);
 assert.match(main,/DD_FIREBASE_APP_ID/,'Firebase groundwork preserved');
 assert.match(main,/PLAY_BILLING_APPROVED = false/,'Unverified paid purchase is disabled');
-assert.match(gradle,/applicationIdSuffix = "\.beta\.m95"/,'Private beta does not overwrite production app');
+assert.match(gradle,/applicationIdSuffix = "\.beta\.m10"/,'Private beta does not overwrite production app');
 assert.match(gradle,/targetSdk = 36/);
-assert.match(gradle,/versionCode = 27/);
+assert.match(gradle,/versionCode = 28/);
 assert(!manifest.files.some(p=>p.startsWith('.github/')||p.startsWith('supabase/')||p.startsWith('scripts/')||p.includes('SECRET')),
  'No source jobs, SQL or internal config distributed in APK');
-console.log('PASS M77 private beta uses exact M74 pending website snapshot, no Netlify dependency, protected origin and separate Android package');
+console.log('PASS M10 full private APK uses exact R2 pending website snapshot, no Netlify dependency, protected origin and separate Android package');
