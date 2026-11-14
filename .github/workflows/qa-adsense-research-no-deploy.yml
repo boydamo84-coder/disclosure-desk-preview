@@ -28,6 +28,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Validate R1 release boundary before any live promotion
+        run: |
+          # Release 1 must not leak unfinished R2 Who's Who or private research.
+          test -f investigations.html
+          test -f rendlesham-forest-1980.html
+          test -f roswell-1947.html
+          test -f assets/case-connections.js
+          test ! -f who-is-who.html
+          test ! -f data/public-people-directory.json
+          test ! -f data/evidence-dna-claim-drafts.json
+          node --check scripts/build_public_release.cjs
+          echo "PASS R1 independent release scope: source articles + case connections, no R2 data"
       - name: Validate editorial source, sitemap, AdSense and privacy contracts
         run: |
           node --check scripts/test_original_research_contract.cjs
