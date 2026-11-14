@@ -10,6 +10,7 @@ on:
       - experiments/r3/hypothesis-ui.js
       - experiments/r3/hypothesis-vault.js
       - experiments/r3/hypothesis-ui.css
+      - experiments/r3/README_TESTING.txt
       - scripts/test_r3_research_gap_finder.cjs
       - scripts/test_r3_hypothesis_lab.cjs
       - scripts/build_r3_lab_preview.cjs
