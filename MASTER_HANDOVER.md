@@ -1,5 +1,5 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 14 November 2026 (Europe/London) — R2 merged into GitHub production @8af0a5a; Netlify Published still requires dashboard proof_
+_Last updated: 14 November 2026 (Europe/London) — R2 Netlify production Published @8af0a5a confirmed by owner screenshot, 21:49 GMT; live device acceptance open_
 
 ## M96 — Legacy favicon fallback and Netlify 404 review (13 November 2026)
 
@@ -1586,4 +1586,16 @@ Separately prepared `release/dd-web-r2-integration-nov14` **website-only** from 
 4. R3 and R4 remain queued roadmap work and **are NOT deployed**. No claim of AdSense approval or Play Store release.
 
 **Post-merge handover maintenance:** this entry records the verified GitHub release boundary; it is documentation only and does not certify a Netlify production Published state. Preserve current production deploy screenshot evidence in the next handover checkpoint.
+
+
+
+## DD-WEB-R2 Netlify production Published — owner screenshot (14 November 2026, 21:52 GMT)
+
+**R2 PUBLISHED verified with direct owner dashboard evidence, clearing the production deployment gate.** At 21:52 GMT 14 November 2026, owner provided an actual Android Chrome screenshot of Netlify → `uap-disclosure-desk` → Deploys. The top Production row visibly reads **`Production: production @8af0a5a Published`**, with green check, timestamp **Today at 9:49 PM**. This matches R2 GitHub merge SHA `8af0a5a60c8282542154502e17d96177aade97d2` (PR #12, merged). Earlier successful R2 deploy preview rows are also visible but are not additional live releases. This screenshot is authoritative for R2 Netlify **Published**, not a guarantee of every route/function on real phones.
+
+- **Publication boundary:** R2 website release is now live (source-linked 50-person Who's Who, 20 source-linked photo candidates/30 initials; Evidence DNA and source/case graph; premium original 14-tab navy/gold Who's Who dock). Private M12.3 Android APK was **not** published or rebuilt in this website release. Original native five-tab News/Archive/Discuss/Chat/More layout remains explicitly rejected; do not regress the approved navigation.
+- **Read-only public smoke on 14 November:** public URL `https://uapdisclosuredesk.com/` was retrievable in the available public reader, showing the Disclosure Desk homepage, case archive, research and sources entry points. `/sources` also returned text, but the source snapshot reported it was **crawled 4 days earlier**, so that is **not a post-R2 independent confirmation**. The same reader could not access `/who-is-who`, `/investigations` or `/ads.txt`; these tool-level accessibility errors **do not prove site HTTP 404/500**. The owner needs actual direct Chrome/Samsung guest route checks for those. No sign-in, private account, monetisation or content mutations occurred.
+- **Outstanding QA:** owner live mobile review of original 14 tabs/swipe arrows with no duplicate or unwanted native five-tab bar, Who's Who search and one profile, profile → cited Archive case → Back/card scroll, W.NE resume, News/Chat, responsive keyboard and native ad space. Editorial quality and portrait permissions for all 50 public draft profiles remain open; all remain explicitly `research-copy-edit-needed`. The final additional integration browser suite had timing/test-harness failures; last clean *runtime-code* gate remained SHA `6fd3124b3a3972cccc56c94ef0dba7c5e297a921` (three no-deploy workflows green). The runtime assets did not change between that gate and R2 merge; do not falsely report the final extra CI as passed.
+- **Release queue status:** R3 Hypothesis & Discovery branch `queue/dd-web-r3-hypothesis-discovery` and R4 Living Research branch `queue/dd-web-r4-living-research` were inspected: they carry **older 13 November handover snapshots** with conceptual scopes, not an R2-based accepted release. They are **NOT** published or ready to merge. Next stage: confirm R2 live smoke and errors first, create/reconcile R3 onto exact verified R2 production revision, implement Hypothesis Lab + Research Gap Finder with citation/privacy discipline, run isolated CI and device tests, then seek distinct owner approval for R3 publication. **Do not auto-deploy R3 or R4.**
+- **Rollback:** retain verified R1 GitHub production commit `5f602cdcd832e84a6fee49bd1f7c29b1b7e99b21`; the current verified R2 published application code is `8af0a5a60c8282542154502e17d96177aade97d2`. Any subsequent `[skip ci]` master-handover documentation changes are not a new user-facing release. Preserve Netlify screenshot reference in the conversation, not as a public user data file.
 
