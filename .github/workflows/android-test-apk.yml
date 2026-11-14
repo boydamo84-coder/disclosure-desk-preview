@@ -1,11 +1,23 @@
-name: Build Disclosure Desk M95 PRIVATE Android APK (NO Netlify)
+name: Build Disclosure Desk M10 FULL PRIVATE Android APK (NO Netlify)
 on:
   workflow_dispatch:
   push:
-    branches: [android/m95-restore-editorial-layout-nov13]
+    branches: [android/full-experience-m10-r2-nov14]
     paths:
       - 'android-test/**'
       - 'guide.html'
+      - 'who-is-who.html'
+      - 'investigations.html'
+      - 'assets/page-help.js'
+      - 'assets/evidence-dna.js'
+      - 'assets/people-directory.js'
+      - 'assets/person-case-links.js'
+      - 'data/evidence-dna-claim-drafts.json'
+      - 'data/public-person-case-links.json'
+      - 'data/public-people-directory.json'
+      - 'scripts/test_page_help_chromium.cjs'
+      - 'scripts/test_page_help_contract.cjs'
+      - 'scripts/test_source_lineage.cjs'
       - 'scripts/test_m92_android_parity.cjs'
       - 'scripts/test_m92_archive_bridge_chromium.cjs'
       - 'scripts/test_m93_compact_header_chromium.cjs'
@@ -66,9 +78,16 @@ jobs:
           node scripts/test_m89_global_discussions_contract.cjs
           node scripts/test_m90_discussions_views_contract.cjs
           node scripts/test_m92_android_parity.cjs
+          node scripts/test_public_people_directory.cjs
+          node scripts/test_person_case_links.cjs
+          node scripts/test_source_lineage.cjs
+          node scripts/test_evidence_dna.cjs
+          node --check assets/page-help.js
+          node scripts/test_page_help_contract.cjs
+          node scripts/test_public_release_package.cjs
       - name: Verify mobile comment threading and full-screen Chat in real Chromium (NO deploy)
         run: |
-          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 leaflet@1.9.4
           test -x /usr/bin/google-chrome
           python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-m77-chrome.log 2>&1 &
           SERVER_PID=$!
@@ -87,6 +106,9 @@ jobs:
           node scripts/test_m92_archive_bridge_chromium.cjs
           node scripts/test_m93_compact_header_chromium.cjs
           node scripts/test_m95_editorial_restore_chromium.cjs
+          node scripts/test_original_research_chromium.cjs
+          node scripts/test_people_directory_chromium.cjs
+          node scripts/test_page_help_chromium.cjs
           node scripts/test_m71_secondary_actions_chromium.cjs
       - name: Verify safe Android Share-link parser (offline Java only)
         run: |
@@ -119,7 +141,7 @@ jobs:
       - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M95-PRIVATE-BETA
+          name: DisclosureDesk-M10-FULL-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
