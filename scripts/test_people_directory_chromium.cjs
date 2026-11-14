@@ -62,7 +62,7 @@ const BASE='http://127.0.0.1:4173';
    assert.match(await legacy.locator('#profileBiography').innerText(),/6 April 2026/,'Historical memorial biography');
    assert.equal(await legacy.locator('#profileFilms .source-entry').count()>=1,true);
    assert.equal(await legacy.locator('#profileRelatedCases .dd-person-case-link').count(),1,
-    'Pope's 2014 Rendlesham book authorship has a cited reference');
+    "Pope's 2014 Rendlesham book authorship has a cited reference");
    await legacy.close();
    const warren=await ctx.newPage();
    await warren.goto(BASE+'/who-is-who.html?person=larry-warren',{waitUntil:'domcontentloaded'});
