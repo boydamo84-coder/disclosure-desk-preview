@@ -2592,6 +2592,25 @@ function ddEvidenceDNAHtml(record){
    ).join('')+'</ul>':'<p class="muted small">No document-level citation supplied.</p>')+
   '</div></article>').join(''):
   '<p class="muted small">No claim-level dependency chain has been reviewed for this case. Open each original document before deciding whether reports are independent.</p>';
+ const sourceGraph=ddEvidenceDnaCaseGraphs.get(String(record.id));
+ const pair=sourceGraph&&evidence.claims.length>=2?
+  window.DDEvidenceDNA?.compareClaims?.(sourceGraph,evidence.claims[0].id,evidence.claims[1].id):null;
+ const renderRadarSide=(side,letter)=>'<article style="min-width:0;border:1px solid #54677c;border-radius:10px;padding:12px;background:#0b1b29">'+
+  '<p class="muted small"><strong>Statement '+letter+' · Editorial summary (not a direct quotation)</strong></p>'+
+  '<p>'+esc(side.text)+'</p><strong>Original sources and context</strong><ul>'+
+  side.citations.slice(0,5).map(c=>'<li><a href="'+esc(c.url)+'" target="_blank" rel="noopener noreferrer">Original document ↗</a>'+
+  '<p class="muted small"><strong>Find:</strong> '+esc(c.locator)+'</p>'+
+  '<p class="muted small"><strong>Limitation:</strong> '+esc(c.context||'Interpret with the source passage')+'</p></li>').join('')+
+  '</ul></article>';
+ const radar=pair?.valid?'<details class="dd-contradiction-radar" style="margin:14px 0;border:1px solid #7b6847;border-radius:11px;padding:13px">'+
+  '<summary style="color:#e9ca90;cursor:pointer;font-weight:750">◇ Contradiction Radar · Compare cited statements (R2 alpha)</summary>'+
+  '<p class="muted small">Side-by-side reading aid only. No contradiction or dishonest account is automatically identified.</p>'+
+  '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px">'+
+  renderRadarSide(pair.first,'A')+renderRadarSide(pair.second,'B')+'</div>'+
+  '<p class="muted small"><strong>Source relationship:</strong> '+
+  (pair.sharedSourceUrls.length?'These summaries cite at least one identical source page; this is not independent corroboration.':
+  'Different cited pages. Their independence has not been assessed.')+'</p>'+
+  '<p class="muted small">'+esc(pair.caution)+'</p></details>':'';
  return '<details class="dd-evidence-dna" style="border:1px solid #a88951;border-radius:12px;margin:16px 0;padding:13px;background:#122637">'+
   '<summary style="cursor:pointer;color:#e6c48e;font-weight:750">◇ Evidence DNA · Source lineage (R2 preview)</summary>'+
   '<p class="muted small">How many links refer to distinct source pages, and which claims can be traced to an original document? A source count is not a witness count.</p>'+
@@ -2599,7 +2618,7 @@ function ddEvidenceDNAHtml(record){
   ' repeated reference(s) · <strong>Independent accounts: not assessed</strong></p>'+
   '<p class="muted small">URLs are de-duplicated conservatively (e.g. tracking parameters removed). Different URLs may still repeat one account; we do not automatically call them independent.</p>'+
   (rows?'<ol style="padding-left:20px">'+rows+'</ol>':'<p class="muted small">No public source URLs are catalogued for this item yet.</p>')+
-  '<h4>Source-linked claim review</h4>'+lineage+
+  '<h4>Source-linked claim review</h4>'+lineage+radar+
   '<p class="muted small">'+esc(evidence.caution)+' This research preview does not publish private notes, witness data or personal research.</p>'+
   '</details>';
 }
