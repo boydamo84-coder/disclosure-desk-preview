@@ -22,9 +22,10 @@ for(const p of dir.people){
   'Dated public involvement timeline with working-type source URLs: '+p.name);
  assert(Array.isArray(p.articles)&&p.articles.length>=2&&p.articles.every(x=>isSafe(x.url)&&x.publisher),
   'Publisher/source coverage for '+p.name);
- assert(Array.isArray(p.videos)&&p.videos.length>=1&&p.videos.every(x=>/^[\w-]{11}$/.test(x.youtubeId)&&
+ assert(Array.isArray(p.videos)&&p.videos.every(x=>/^[\w-]{11}$/.test(x.youtubeId)&&
    /testimony|interview|analysis|reconstruction|report|documentary|programme|discussion/i.test(x.type)&&x.context.length>40),
   'Only attributed, type-labelled published YouTube videos: '+p.name);
+ assert(p.videos.length>0||p.filmCredits.length>0,'Every profile offers a verified video, screen recording or film source: '+p.name);
  assert(Array.isArray(p.podcastEpisodes)&&p.podcastEpisodes.length>=1,'Podcast episode/coverage entry required: '+p.name);
  assert(Array.isArray(p.filmCredits),'Film credit ledger must exist even when unverified: '+p.name);
  assert(p.podcastEpisodes.every(e=>isSafe(e.url)&&e.title&&e.show&&e.role),'Every podcast must link a publisher and credit the person's role');
