@@ -150,13 +150,15 @@ const BASE='http://127.0.0.1:4173';
    // When switching detailed profiles, a previous asynchronous portrait load
    // must never hide the current person's initials, including on browser Back.
    const photoSwitch=await ctx.newPage();
-   // Keep Commons images pending so synthetic load events can exercise both
-   // the current and detached-image handlers deterministically, even offline.
-   const releasePortraitRequests=[];
-   await photoSwitch.route('**/Special:FilePath/**',async route=>{
-    await new Promise(resolve=>releasePortraitRequests.push(resolve));
-    try{await route.abort('blockedbyclient')}catch{}
-   });
+   // Use a tiny local, synthetic PNG for Wikimedia portrait requests.
+   // External assets stay blocked in other pages. A real image error could
+   // otherwise remove Ryan's <img> before the race assertion runs.
+   const fixturePng=Buffer.from(
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Y9lFNcAAAAASUVORK5CYII=',
+    'base64');
+   await photoSwitch.route('**/Special:FilePath/**',route=>route.fulfill({
+    status:200,contentType:'image/png',body:fixturePng
+   }));
    await photoSwitch.goto(BASE+'/who-is-who.html?person=david-grusch',{waitUntil:'domcontentloaded'});
    await photoSwitch.locator('#personProfile').waitFor({state:'visible'});
    assert.equal(await photoSwitch.evaluate(()=>{
@@ -174,11 +176,11 @@ const BASE='http://127.0.0.1:4173';
    await photoSwitch.locator('#directoryBack').click();
    await photoSwitch.locator('#peopleSearch').fill('Ryan Graves');
    await photoSwitch.locator('#peopleCards button').first().click();
-   await photoSwitch.evaluate(()=>{
-    const img=document.querySelector('#profileAvatar img');
-    if(!img)throw new Error('Ryan portrait element missing');
-    img.dispatchEvent(new Event('load'));
-   });
+   await photoSwitch.locator('#profileAvatar img').waitFor({state:'attached'});
+   await photoSwitch.waitForFunction(()=>{
+    const avatar=document.getElementById('profileAvatar');
+    return avatar?.classList.contains('has-photo')===true;
+   },undefined,{timeout:3000});
    assert.equal(await photoSwitch.locator('#profileAvatar').evaluate(el=>el.classList.contains('has-photo')),true,
     'Current loaded portrait hides initials');
    await photoSwitch.locator('#directoryBack').click();
@@ -187,7 +189,6 @@ const BASE='http://127.0.0.1:4173';
    assert.equal(await photoSwitch.locator('#profileAvatar').evaluate(el=>el.classList.contains('has-photo')),false,
     'Switching loaded photo to no-photo profile resets class');
    assert.match(await photoSwitch.locator('#profileAvatar').textContent(),/DF/);
-   for(const release of releasePortraitRequests)release();
    await photoSwitch.close();
    const legacy=await ctx.newPage();
    await legacy.goto(BASE+'/who-is-who.html?person=nick-pope',{waitUntil:'domcontentloaded'});
