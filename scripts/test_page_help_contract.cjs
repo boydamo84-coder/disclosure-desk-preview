@@ -26,3 +26,5 @@ assert(!src.includes('localStorage')&&!src.includes('fetch(')&&!src.includes('if
 assert(src.includes('modal.showModal()')&&src.includes("modal.addEventListener('close'"),
  'Native keyboard-focused modal and return focus supported');
 console.log('PASS M10 contextual help: 18 main tabs, 10 public research pages, guide chapters and new evidence tour; no external access or tracking');
+
+// Runnable M10 acceptance suite. [skip netlify]
