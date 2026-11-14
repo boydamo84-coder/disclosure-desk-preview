@@ -190,6 +190,16 @@ const BASE='http://127.0.0.1:4175';
    const dimensions=await page.evaluate(()=>({
     body:document.documentElement.scrollWidth,viewport:window.innerWidth
    }));
+   if(dimensions.body>dimensions.viewport+3){
+    console.log('R3 viewport overflow diagnostic',await page.evaluate(()=>(
+     [...document.querySelectorAll('body *')].filter(el=>{
+      const r=el.getBoundingClientRect(),style=getComputedStyle(el);
+      return style.display!=='none'&&r.width>0&&r.right>innerWidth+3;
+     }).sort((a,b)=>b.getBoundingClientRect().right-a.getBoundingClientRect().right)
+      .slice(0,15).map(el=>({tag:el.tagName,id:el.id,cl:el.className,
+       right:Math.round(el.getBoundingClientRect().right),width:Math.round(el.getBoundingClientRect().width)}))
+    )));
+   }
    assert(dimensions.body<=dimensions.viewport+3,
     'No horizontal overflow at '+width+'px; actual='+JSON.stringify(dimensions));
    assert.deepEqual(requests,[],'Offline prototype must not request any external services');
