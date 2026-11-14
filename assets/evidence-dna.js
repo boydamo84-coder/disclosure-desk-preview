@@ -220,6 +220,65 @@
       contradictionEstablished:false,independentCorroborationEstablished:false,status:'human-comparison-only',
       caution:'These are editorial summaries, not verbatim quotations or verified competing eyewitness reports. The source pages may describe different questions, events or reporting scopes. A comparison cannot establish a contradiction, dishonesty or independent corroboration. Read the cited original context.'};
   }
+  // A bounded public-only graph of *catalogued* claims and cited pages.
+  // It does not infer physical events, independent witnesses or case agreement.
+  function buildRelationshipGraph(caseGraphs, selectedCaseId) {
+    const input=Array.isArray(caseGraphs)?caseGraphs.slice(0,20):[];
+    const cases=input.filter(g=>g&&str(g.caseId)&&(selectedCaseId==='all'||str(g.caseId)===str(selectedCaseId)));
+    const nodes=[],edges=[],sources=new Map(),edgeIds=new Set(),issues=[];
+    const title=id=>id==='featured-rendlesham-1980'?'Rendlesham Forest (1980)':
+      id==='featured-roswell-1947'?'Roswell (1947)':str(id).slice(0,80);
+    const addNode=node=>{if(nodes.length>=100)return false;nodes.push(node);return true;};
+    const addEdge=edge=>{
+      if(edges.length>=260)return;
+      const key=[edge.from,edge.to,edge.relation,edge.evidence?.locator||''].join('|');
+      if(!edgeIds.has(key)){edgeIds.add(key);edges.push(edge);}
+    };
+    for(const graph of cases){
+      const parsed=parseGraph(graph);
+      if(!parsed.valid){issues.push('Invalid case provenance graph: '+title(graph.caseId));continue;}
+      const caseNode='case:'+str(graph.caseId);
+      if(!addNode({id:caseNode,type:'case',label:title(graph.caseId),reviewStatus:'editorial-draft'}))break;
+      const documents=new Map(parsed.documents.map(d=>[d.id,d]));
+      const usedDocuments=new Map();
+      for(const claim of parsed.claims.slice(0,35)){
+        if(!claim.citations.length)continue;
+        const claimNode='claim:'+str(graph.caseId)+':'+claim.id;
+        if(!addNode({id:claimNode,type:'claim',label:claim.text.slice(0,100),
+           caseId:str(graph.caseId),reviewStatus:claim.editorialStatus}))break;
+        addEdge({from:caseNode,to:claimNode,relation:'catalogues-editorial-summary',
+         reviewStatus:'context-only',evidence:null});
+        for(const cite of claim.citations.slice(0,12)){
+          const doc=documents.get(cite.documentId);
+          const url=canonicalUrl(cite.url);
+          if(!doc||!url||url!==canonicalUrl(doc.url))continue;
+          let sourceId=sources.get(url);
+          if(!sourceId) {
+            sourceId='document:'+sources.size;
+            if(!addNode({id:sourceId,type:'document',label:doc.title,
+              url:doc.url,reviewStatus:'source-page-unassessed'}))break;
+            sources.set(url,sourceId);
+          }
+          usedDocuments.set(doc.id,sourceId);
+          addEdge({from:claimNode,to:sourceId,relation:'cites-source-page',
+            reviewStatus:cite.reviewStatus,evidence:{url:cite.url,locator:cite.locator,context:cite.context}});
+        }
+      }
+      // Preserve only actually cited and source-evidenced document relations.
+      for(const edge of parsed.edges){
+        const from=usedDocuments.get(edge.from),to=usedDocuments.get(edge.to);
+        if(!from||!to||from===to||!edge.evidence)continue;
+        addEdge({from,to,relation:edge.relation,reviewStatus:edge.status,evidence:edge.evidence});
+      }
+    }
+    const kinds=type=>nodes.filter(n=>n.type===type).length;
+    const caseNodes=kinds('case'),claimNodes=kinds('claim'),documentNodes=kinds('document');
+    return {valid:!issues.length,issues,nodes,edges,caseCount:caseNodes,claimCount:claimNodes,
+      documentCount:documentNodes,selectedCaseId:str(selectedCaseId||'all'),
+      verifiedCaseToCaseEdges:0,independentWitnessCount:null,
+      truncated:nodes.length>=100||edges.length>=260,
+      caution:'This is a map of draft case-to-claim and claim-to-source references, not a map of verified extraordinary events. A shared document shows common sourcing, not independent corroboration. No relationship between different incidents is established from these records.'};
+  }
   function analyse(record, graph) {
     const inventory=sourceInventory(record);
     if(!graph)return {inventory,trace:null,claims:[],state:'source-inventory-only',
@@ -232,5 +291,5 @@
         result:traceClaim(graph,c.id)})),state:parsed.claims.length?'claim-lineage':'source-inventory-only',
       caution:'Only explicitly documented relationships are traced. Independent witness counts are never inferred from URL counts.'};
   }
-  return Object.freeze({version:'0.2',publicUrl,canonicalUrl,sourceInventory,parseGraph,traceClaim,compareClaims,compareSelections,analyse});
+  return Object.freeze({version:'0.2',publicUrl,canonicalUrl,sourceInventory,parseGraph,traceClaim,compareClaims,compareSelections,buildRelationshipGraph,analyse});
 });
