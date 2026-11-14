@@ -81,7 +81,11 @@
   if(window.ResizeObserver)new ResizeObserver(update).observe(rail);
   const editing=el=>!!el&&(el.matches?.('input,textarea,select,[contenteditable=true]')||
    !!el.closest?.('[contenteditable=true]'));
-  const syncKeyboard=()=>document.body.classList.toggle('dd-web-keyboard-open',editing(document.activeElement));
+  // Keep the nav hidden throughout mobile editing, not just while a
+  // textarea has focus. Otherwise focusout between pointerdown and click
+  // makes the fixed dock reappear and steals taps on Add source/save.
+  const syncKeyboard=()=>document.body.classList.toggle('dd-web-keyboard-open',
+   editing(document.activeElement)||!$('editorForm').hidden);
   document.addEventListener('focusin',syncKeyboard);
   document.addEventListener('focusout',()=>setTimeout(syncKeyboard,50));
   document.body.classList.add('dd-web-secondary-nav');
