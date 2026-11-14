@@ -9,6 +9,7 @@
  <meta name="robots" content="noindex,nofollow,noarchive">
  <link rel="stylesheet" href="./hypothesis-ui.css">
  <script defer src="./hypothesis-engine.js"></script>
+ <script defer src="./hypothesis-vault.js"></script>
  <script defer src="./hypothesis-ui.js"></script>
 </head>
 <body>
@@ -17,7 +18,7 @@
    <div class="brand"><span class="brandmark" aria-hidden="true">DD</span><div>
     <strong>DISCLOSURE DESK</strong><span>RESEARCH EDITION · EXPERIMENTAL R3</span>
    </div></div>
-   <span class="private-chip">◉ Local session only</span>
+   <span class="private-chip" id="vaultBadge">◉ Session only · not saved</span>
   </header>
   <main id="mainContent">
    <section class="hero">
@@ -26,8 +27,15 @@
     <p>Compare competing explanations. Record what would support—or challenge—each one, without turning a possibility into a conclusion.</p>
     <div class="hero-pills"><span>✧ Testable predictions</span><span>▤ Version history</span><span>◎ Source references</span></div>
    </section>
-   <p class="security-note" id="privacyWarning"><strong>Prototype only — do not enter sensitive research.</strong> This standalone preview does not connect to your account, save in the browser or publish anything. Closing or refreshing loses this session. Export is optional and creates an <strong>unencrypted</strong> local file.</p>
+   <p class="security-note" id="privacyWarning"><strong>Research prototype — don't enter sensitive information yet.</strong> You can opt into encrypted local saving. It requires a passphrase to reopen and is tied to this browser/profile and <code>127.0.0.1:4175</code> origin. There is no account login, password recovery, cloud sync or independent security audit. Download your encrypted backup in case browser storage is cleared. Forgotten passphrases cannot be recovered.</p>
    <div id="notice" role="status" aria-live="polite" class="status-message" hidden></div>
+   <section class="panel vault-access" id="vaultAccessPanel" aria-labelledby="vaultAccessHeading" hidden>
+    <span class="eyebrow">PRIVATE ENCRYPTED STORAGE</span>
+    <h2 id="vaultAccessHeading">Recover a notebook</h2><p class="muted" id="vaultAccessStatus">Checking this browser for an encrypted notebook…</p>
+    <form id="unlockVaultForm" hidden><label>Passphrase to unlock saved notebook <input type="password" id="unlockPassphrase" autocomplete="off" minlength="12" required></label><button class="btn-primary" id="unlockVaultBtn" type="submit">Unlock local notebook</button></form>
+    <form id="importVaultForm" hidden><label>Encrypted backup file <input type="file" accept=".json,application/json" id="importVaultFile" required></label><label>Backup passphrase <input type="password" id="importPassphrase" autocomplete="off" minlength="12" required></label><button type="submit" class="btn-primary" id="importVaultBtn">Restore encrypted backup</button></form>
+    <button type="button" class="btn-danger" id="deleteVaultBtn" hidden>Delete local encrypted notebook</button>
+   </section>
    <section class="panel setup-panel" id="setupPanel" aria-labelledby="setupHeading">
     <div class="panel-top"><span class="eyebrow">01 / BEGIN PRIVATE WORKSPACE</span><span class="quiet-tag">No account connection</span></div>
     <h2 id="setupHeading">Create a research notebook</h2>
@@ -45,10 +53,14 @@
     <div class="workspace-heading panel">
      <div><span class="eyebrow">ACTIVE NOTEBOOK · SESSION ONLY</span><h2 id="notebookHeading">Research notebook</h2><p class="muted" id="notebookMeta"></p></div>
      <div class="workspace-actions">
-      <button type="button" class="btn-secondary" id="exportBtn">Export private JSON</button>
-      <button type="button" class="btn-quiet" id="resetBtn">Close notebook</button>
+      <button type="button" class="btn-secondary" id="exportBtn" disabled>Download encrypted backup</button>
+      <button type="button" class="btn-quiet" id="resetBtn">Close session</button>
      </div>
     </div>
+    <section class="panel vault-controls" aria-label="Encrypted local saving">
+     <div class="panel-top"><div><span class="eyebrow">LOCAL ENCRYPTED NOTEBOOK</span><p id="vaultSaveState" class="muted small">Session only — notebook not saved.</p></div><button type="button" id="lockVaultBtn" class="btn-secondary" hidden>Lock notebook</button></div>
+     <form id="enableVaultForm"><p class="muted small">Enable optional encrypted browser saving. Each completed revision is encrypted before it is saved. Choose a unique passphrase you will remember; it cannot be reset.</p><div class="field-grid"><label>Create passphrase (12+ characters) <input type="password" minlength="12" maxlength="1024" autocomplete="new-password" id="vaultNewPassphrase" required></label><label>Confirm passphrase <input type="password" minlength="12" maxlength="1024" autocomplete="new-password" id="vaultConfirmPassphrase" required></label></div><button type="submit" class="btn-primary" id="enableVaultBtn">Enable encrypted local saving</button></form>
+    </section>
     <div class="work-layout">
      <aside class="panel hypothesis-side">
       <div class="aside-title"><h2>Explanations</h2><span id="countTag" class="count-tag">0</span></div>
