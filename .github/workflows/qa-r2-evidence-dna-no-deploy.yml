@@ -11,6 +11,16 @@ on:
       - 'assets/people-directory.js'
       - 'assets/person-case-links.js'
       - 'who-is-who.html'
+      - 'guide.html'
+      - 'investigations.html'
+      - 'rendlesham-forest-1980.html'
+      - 'roswell-1947.html'
+      - 'sources.html'
+      - 'research-edition.html'
+      - 'community-rules.html'
+      - 'privacy.html'
+      - 'terms.html'
+      - 'assets/page-help.js'
       - 'sitemap.xml'
       - 'scripts/test_search_indexing.cjs'
       - 'scripts/test_public_people_directory.cjs'
@@ -18,6 +28,8 @@ on:
       - 'scripts/test_evidence_dna.cjs'
       - 'scripts/test_person_case_links.cjs'
       - 'scripts/test_source_lineage.cjs'
+      - 'scripts/test_page_help_contract.cjs'
+      - 'scripts/test_page_help_chromium.cjs'
       - 'scripts/test_original_research_chromium.cjs'
       - 'scripts/build_public_release.cjs'
       - 'scripts/test_public_release_package.cjs'
@@ -44,6 +56,8 @@ jobs:
           node scripts/test_person_case_links.cjs
           node --check scripts/test_source_lineage.cjs
           node scripts/test_source_lineage.cjs
+          node --check assets/page-help.js
+          node scripts/test_page_help_contract.cjs
           node scripts/test_evidence_dna.cjs
           node scripts/test_case_connections.cjs
           node scripts/test_original_research_contract.cjs
@@ -68,6 +82,10 @@ jobs:
         run: |
           node --check scripts/test_people_directory_chromium.cjs
           node scripts/test_people_directory_chromium.cjs
+      - name: Test contextual help and refreshed tours in Chromium (NO DEPLOY)
+        run: |
+          node --check scripts/test_page_help_chromium.cjs
+          node scripts/test_page_help_chromium.cjs
       - name: Stop local server
         if: always()
         run: |
