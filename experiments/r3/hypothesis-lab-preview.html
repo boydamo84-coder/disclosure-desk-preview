@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+ <meta name="theme-color" content="#0b131c">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+ <title>Hypothesis Lab · Disclosure Desk · R3 Offline Prototype</title>
+ <meta name="robots" content="noindex,nofollow,noarchive">
+ <link rel="stylesheet" href="./hypothesis-ui.css">
+ <script defer src="./hypothesis-engine.js"></script>
+ <script defer src="./hypothesis-ui.js"></script>
+</head>
+<body>
+ <div class="app-shell">
+  <header class="topbar">
+   <div class="brand"><span class="brandmark" aria-hidden="true">DD</span><div>
+    <strong>DISCLOSURE DESK</strong><span>RESEARCH EDITION · EXPERIMENTAL R3</span>
+   </div></div>
+   <span class="private-chip">◉ Local session only</span>
+  </header>
+  <main id="mainContent">
+   <section class="hero">
+    <div class="eyebrow">HYPOTHESIS &amp; DISCOVERY · PRIVATE RESEARCH</div>
+    <h1>Hypothesis Lab<span class="gold-dot">.</span></h1>
+    <p>Compare competing explanations. Record what would support—or challenge—each one, without turning a possibility into a conclusion.</p>
+    <div class="hero-pills"><span>✧ Testable predictions</span><span>▤ Version history</span><span>◎ Source references</span></div>
+   </section>
+   <p class="security-note" id="privacyWarning"><strong>Prototype only — do not enter sensitive research.</strong> This standalone preview does not connect to your account, save in the browser or publish anything. Closing or refreshing loses this session. Export is optional and creates an <strong>unencrypted</strong> local file.</p>
+   <div id="notice" role="status" aria-live="polite" class="status-message" hidden></div>
+   <section class="panel setup-panel" id="setupPanel" aria-labelledby="setupHeading">
+    <div class="panel-top"><span class="eyebrow">01 / BEGIN PRIVATE WORKSPACE</span><span class="quiet-tag">No account connection</span></div>
+    <h2 id="setupHeading">Create a research notebook</h2>
+    <p class="muted">Use a project and case identifier. Everything stays in the memory of this open page.</p>
+    <form id="setupForm" novalidate>
+     <div class="field-grid">
+      <label>Workspace ID <input id="workspaceInput" required pattern="[A-Za-z0-9][A-Za-z0-9_-]{1,79}" placeholder="my-research" autocomplete="off"></label>
+      <label>Case ID <input id="caseInput" required pattern="[A-Za-z0-9][A-Za-z0-9_-]{1,79}" placeholder="featured-rendlesham-1980" autocomplete="off"></label>
+     </div>
+     <label>Notebook name <input id="notebookInput" maxlength="160" required placeholder="Competing explanations for this case" autocomplete="off"></label>
+     <div class="action-row"><button type="submit" class="btn-primary" id="createNotebookBtn">Create private notebook</button><button type="button" id="sampleBtn" class="btn-secondary">Load fictional demo</button></div>
+    </form>
+   </section>
+   <section id="workPanel" hidden aria-label="Private research notebook">
+    <div class="workspace-heading panel">
+     <div><span class="eyebrow">ACTIVE NOTEBOOK · SESSION ONLY</span><h2 id="notebookHeading">Research notebook</h2><p class="muted" id="notebookMeta"></p></div>
+     <div class="workspace-actions">
+      <button type="button" class="btn-secondary" id="exportBtn">Export private JSON</button>
+      <button type="button" class="btn-quiet" id="resetBtn">Close notebook</button>
+     </div>
+    </div>
+    <div class="work-layout">
+     <aside class="panel hypothesis-side">
+      <div class="aside-title"><h2>Explanations</h2><span id="countTag" class="count-tag">0</span></div>
+      <p class="muted small">Working ideas, not ranked findings.</p>
+      <div id="hypothesisList" class="hypothesis-list" aria-label="Your private hypotheses"></div>
+      <button type="button" id="newHypothesisBtn" class="btn-primary full">+ Add explanation</button>
+     </aside>
+     <div class="work-main">
+      <div class="view-tabs" role="tablist" aria-label="Hypothesis Lab views">
+       <button type="button" id="writeTab" role="tab" aria-selected="true" aria-controls="writeView">Write</button>
+       <button type="button" id="compareTab" role="tab" aria-selected="false" aria-controls="compareView">Compare</button>
+       <button type="button" id="historyTab" role="tab" aria-selected="false" aria-controls="historyView">History</button>
+      </div>
+      <section class="panel content-panel" role="tabpanel" id="writeView" aria-labelledby="writeTab">
+       <div id="writeEmpty" class="empty-state"><span class="empty-symbol" aria-hidden="true">✎</span><h2>Start with an explanation</h2><p>Describe an idea, list assumptions, predict observations and identify what could challenge it.</p><button type="button" class="btn-primary" id="emptyStartBtn">Write first hypothesis</button></div>
+       <div id="selectedPreview" hidden>
+        <div class="panel-top"><span class="eyebrow">CURRENT RESEARCH DRAFT</span><span id="currentVersion" class="quiet-tag"></span></div>
+        <h2 id="selectedTitle"></h2><p class="muted" id="selectedExplanation"></p>
+        <div id="selectedSections" class="structured-preview"></div>
+        <button type="button" class="btn-primary" id="editSelectedBtn">Revise this hypothesis</button>
+       </div>
+       <form id="editorForm" novalidate hidden>
+        <div class="panel-top"><span id="formMode" class="eyebrow">NEW EXPLANATION</span><button type="button" id="cancelEditBtn" class="text-button">Cancel</button></div>
+        <label>Working title <input name="title" id="hypothesisTitle" required maxlength="160" placeholder="e.g. Misidentified conventional lights"></label>
+        <label>Explanation <textarea name="explanation" id="hypothesisExplanation" rows="3" maxlength="4000" required placeholder="State what this hypothesis proposes—not what it proves."></textarea></label>
+        <div class="field-grid"><label>Assumptions <span class="field-hint">One per line</span><textarea id="assumptionsInput" rows="4" required placeholder="The record's reported timing is approximately accurate"></textarea></label>
+         <label>Alternative interpretations <span class="field-hint">One per line</span><textarea id="alternativesInput" rows="4" required placeholder="Another mechanism could explain the same observation"></textarea></label></div>
+        <div class="form-section"><div class="section-heading"><div><h3>Predicted observations</h3><p class="muted small">What might we see, and how would we test it?</p></div><button type="button" class="btn-add" id="addPredictionBtn">+ Add prediction</button></div><div id="predictionEntries" class="entry-stack"></div></div>
+        <div class="form-section"><div class="section-heading"><div><h3>Potential disconfirming evidence</h3><p class="muted small">What would meaningfully challenge the explanation?</p></div><button type="button" class="btn-add" id="addDisconfirmBtn">+ Add test</button></div><div id="disconfirmEntries" class="entry-stack"></div></div>
+        <div class="form-section"><div class="section-heading"><div><h3>Sources &amp; citations</h3><p class="muted small">Optional. Only URLs you explicitly add; none are fetched.</p></div><button type="button" class="btn-add" id="addSourceBtn">+ Add source</button></div><div id="sourceEntries" class="entry-stack"></div></div>
+        <div class="action-row"><button type="submit" id="saveHypothesisBtn" class="btn-primary">Save as private draft</button><span class="muted small">Each revision preserves earlier predictions.</span></div>
+       </form>
+      </section>
+      <section class="panel content-panel" role="tabpanel" id="compareView" aria-labelledby="compareTab" hidden>
+       <div class="panel-top"><span class="eyebrow">UNRANKED COMPARISON</span><span class="quiet-tag">No probability scores</span></div>
+       <h2>Compare explanations</h2><p class="muted">Choose two or more hypotheses. Compare their assumptions, predicted evidence and disconfirming tests side by side.</p>
+       <div id="compareOptions" class="choice-grid"></div>
+       <button type="button" class="btn-primary" id="buildCompareBtn">Build comparison</button>
+       <div id="comparisonResult" class="compare-grid" aria-live="polite"></div>
+      </section>
+      <section class="panel content-panel" role="tabpanel" id="historyView" aria-labelledby="historyTab" hidden>
+       <div class="panel-top"><span class="eyebrow">REVISION HISTORY</span><span class="quiet-tag">Earlier versions retained</span></div>
+       <h2>Inspect past predictions</h2><p class="muted">Each saved revision is a snapshot. Inspect prior wording without changing it.</p>
+       <label for="historyPerson">Hypothesis <select id="historyPerson"><option value="">Select an explanation</option></select></label>
+       <div id="revisionList" class="revision-list"></div>
+       <div id="historySnapshot" class="structured-preview"></div>
+      </section>
+     </div>
+    </div>
+   </section>
+   <footer class="footer">Boyd Digital Studios · Disclosure Desk R3 isolated interface prototype · No automated conclusions</footer>
+  </main>
+ </div>
+ <nav class="preview-dock" aria-label="Original 14-tab design reference; disabled in standalone alpha" id="previewDock">
+  <button type="button" class="dock-arrow" id="dockPrev" aria-label="Scroll navigation preview left">‹</button>
+  <div class="dock-scroll" id="dockScroll" aria-label="Original premium navigation design"></div>
+  <button type="button" class="dock-arrow" id="dockNext" aria-label="Scroll navigation preview right">›</button>
+ </nav>
+</body>
+</html>
