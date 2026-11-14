@@ -149,30 +149,45 @@ const BASE='http://127.0.0.1:4173';
 
    // When switching detailed profiles, a previous asynchronous portrait load
    // must never hide the current person's initials, including on browser Back.
-   // External Wikimedia images are deliberately blocked for offline QA.
-   // Model both "loaded picture" and "image unavailable" by setting the
-   // visual state directly; real image loading remains a separate device test.
+   // Offline browser QA: blocked Commons images must not leave transparent
+   // initials behind. Wait for asynchronous history.popstate before opening
+   // the next person, otherwise test clicks can race the old profile.
    const photoSwitch=await ctx.newPage();
+   const waitDirectory=async()=>{
+    await photoSwitch.waitForFunction(()=>{
+     const directory=document.getElementById('directoryPage');
+     return directory&&!directory.classList.contains('hidden') &&
+      !new URL(location.href).searchParams.has('person');
+    },undefined,{timeout:5000});
+   };
+   const openFiltered=async(id,name)=>{
+    await photoSwitch.locator('#peopleSearch').fill(name);
+    const button=photoSwitch.locator('#peopleCards [data-person-id="'+id+'"] button');
+    await button.waitFor({state:'visible'});
+    await button.click();
+    await photoSwitch.waitForURL(url=>url.searchParams.get('person')===id,{timeout:5000});
+    await photoSwitch.locator('#personProfile').waitFor({state:'visible'});
+    assert.equal(await photoSwitch.locator('#profileName').textContent(),name,
+     'History and selected card agree on '+name);
+   };
    await photoSwitch.goto(BASE+'/who-is-who.html?person=david-grusch',{waitUntil:'domcontentloaded'});
    await photoSwitch.locator('#personProfile').waitFor({state:'visible'});
    await photoSwitch.evaluate(()=>document.getElementById('profileAvatar').classList.add('has-photo'));
    await photoSwitch.locator('#directoryBack').click();
-   await photoSwitch.locator('#peopleSearch').fill('David Fravor');
-   await photoSwitch.locator('#peopleCards button').first().click();
-   assert.equal(await photoSwitch.locator('#profileName').textContent(),'David Fravor');
+   await waitDirectory();
+   await openFiltered('david-fravor','David Fravor');
    assert.equal(await photoSwitch.locator('#profileAvatar').evaluate(el=>el.classList.contains('has-photo')),false,
     'Reused avatar drops prior photo state on no-photo profile');
    assert.match(await photoSwitch.locator('#profileAvatar').textContent(),/DF/,
     'Fravor initials remain accessible when Wikimedia photos are blocked');
    await photoSwitch.locator('#directoryBack').click();
-   await photoSwitch.locator('#peopleSearch').fill('Ryan Graves');
-   await photoSwitch.locator('#peopleCards button').first().click();
-   assert.equal(await photoSwitch.locator('#profileName').textContent(),'Ryan Graves');
-   // Simulate an already loaded photo state independently of external fetch.
+   await waitDirectory();
+   await openFiltered('ryan-graves','Ryan Graves');
+   // Simulate loaded visual state without depending on external image loading.
    await photoSwitch.evaluate(()=>document.getElementById('profileAvatar').classList.add('has-photo'));
    await photoSwitch.locator('#directoryBack').click();
-   await photoSwitch.locator('#peopleSearch').fill('David Fravor');
-   await photoSwitch.locator('#peopleCards button').first().click();
+   await waitDirectory();
+   await openFiltered('david-fravor','David Fravor');
    assert.equal(await photoSwitch.locator('#profileAvatar').evaluate(el=>el.classList.contains('has-photo')),false,
     'Switching from credited portrait to initials resets stale photo state');
    assert.match(await photoSwitch.locator('#profileAvatar').textContent(),/DF/);
