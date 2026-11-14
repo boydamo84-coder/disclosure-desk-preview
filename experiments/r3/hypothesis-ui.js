@@ -541,12 +541,16 @@
  }
  async function refreshVaultAccess(){
   const stored=await vault.readStored();
+  // Single encrypted notebook per browser profile in this standalone alpha.
+  // Do not offer a second unsaved notebook while a locked vault exists.
+  // This avoids accidental confusion over which project can be persisted.
+  if(!book)$('setupPanel').hidden=!!stored;
   $('vaultAccessPanel').hidden=!!book;
   $('unlockVaultForm').hidden=!stored;
   $('importVaultForm').hidden=!!stored;
   $('deleteVaultBtn').hidden=!stored;
   $('vaultAccessStatus').textContent=stored?
-   'An encrypted notebook was found in this Chrome profile. Enter its passphrase to recover it.':
+   'An encrypted notebook already exists in this browser. Unlock it or explicitly delete it before creating another. This alpha supports one encrypted notebook per browser profile.':
    'No local encrypted notebook found. You can restore a password-protected backup here, or start a fresh notebook.';
   if(!book)$('vaultBadge').textContent=stored?'◉ Encrypted notebook locked':'◉ Session only · not saved';
  }
