@@ -145,3 +145,4 @@ jobs:
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
+# M10: all M95 safety contracts retain assertions against the new separate private package identity.
