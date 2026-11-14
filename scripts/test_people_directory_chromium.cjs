@@ -154,7 +154,7 @@ const BASE='http://127.0.0.1:4173';
    // External assets stay blocked in other pages. A real image error could
    // otherwise remove Ryan's <img> before the race assertion runs.
    const fixturePng=Buffer.from(
-    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Y9lFNcAAAAASUVORK5CYII=',
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4//8/AAX+Av4N70a4AAAAAElFTkSuQmCC',
     'base64');
    await photoSwitch.route('**/Special:FilePath/**',route=>route.fulfill({
     status:200,contentType:'image/png',body:fixturePng
