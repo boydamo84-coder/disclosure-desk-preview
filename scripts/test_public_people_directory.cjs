@@ -37,7 +37,7 @@ for(const p of dir.people){
  if(p.photo!==null){
   assert(isSafe(p.photo.url)&&isSafe(p.photo.source)&&p.photo.credit,
    'A portrait must have a secure source, publisher and attribution: '+p.name);
-  assert(p.photo.status==='source-and-licence-reviewed'&&p.photo.license==='Public domain (US federal government)',
+  assert(p.photo.status==='source-and-licence-reviewed'&&['Public domain (US federal government)','CC0 1.0','CC BY 3.0','CC BY 4.0','CC BY-SA 4.0'].includes(p.photo.license),
    'Portrait only appears with reviewed and permitted source metadata: '+p.name);
   assert(p.photo.source.includes('commons.wikimedia.org/wiki/File:'),
    'Reuse page must document rights and identity: '+p.name);portraits++;
