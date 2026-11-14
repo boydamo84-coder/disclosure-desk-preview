@@ -92,19 +92,100 @@ const BASE='http://127.0.0.1:4175';
      'https://example.org/fictional-reference');
     assert.equal(await page.locator('#selectedSections a').first().getAttribute('rel'),
      'noopener noreferrer');
+    // Storage is explicit opt-in; no cleartext automatic browser storage.
+    assert.equal(await page.locator('#exportBtn').isDisabled(),true);
+    const testPassphrase='R3-fixture-strong-passphrase-2026!never-share';
+    await page.locator('#vaultNewPassphrase').fill(testPassphrase);
+    await page.locator('#vaultConfirmPassphrase').fill(testPassphrase);
+    await page.locator('#enableVaultBtn').click();
+    await page.waitForFunction(()=>!document.getElementById('exportBtn').disabled,{timeout:30000});
+    assert.match(await page.locator('#vaultSaveState').innerText(),/Encrypted autosave active/);
+    const encryptedRecord=await page.evaluate(async()=>{
+     const db=await new Promise((resolve,reject)=>{
+      const req=indexedDB.open('dd-r3-hypothesis-vault-alpha-1',1);
+      req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);
+     });
+     const record=await new Promise((resolve,reject)=>{
+      const tx=db.transaction('encrypted','readonly');
+      const request=tx.objectStore('encrypted').get('local-vault');
+      request.onsuccess=()=>resolve(request.result);
+      request.onerror=()=>reject(request.error);
+     });
+     db.close();return record;
+    });
+    assert.equal(encryptedRecord.format,'dd-r3-private-aes256gcm-v1');
+    assert.equal(encryptedRecord.kdf.iterations,310000);
+    assert.equal(encryptedRecord.cipher,'AES-256-GCM');
+    assert(!JSON.stringify(encryptedRecord).includes('Third synthetic idea'),
+     'No plaintext research labels may appear inside persistent storage');
+    // The next completed revision must be encrypted and survive tab reload.
+    await page.locator('#editSelectedBtn').click();
+    await page.locator('#hypothesisExplanation').fill('Third synthetic idea encrypted revision two.');
+    await page.locator('#saveHypothesisBtn').click();
+    await page.waitForFunction(()=>document.getElementById('currentVersion').textContent.includes('Revision 2'),
+     undefined,{timeout:20000});
     const ready=page.waitForEvent('download');
-    page.once('dialog',dialog=>dialog.accept());
     await page.locator('#exportBtn').click();
     const download=await ready;
-    assert.match(download.suggestedFilename(),/disclosure-desk-r3-demo-workspace/);
-    const snapshot=JSON.parse(fs.readFileSync(await download.path(),'utf8'));
-    assert.equal(snapshot.visibility,'private');
-    assert.equal(snapshot.hypotheses.length,3);
-    assert.equal(snapshot.hypotheses[0].revisions.length,2);
-    page.once('dialog',dialog=>dialog.accept());
-    await page.locator('#resetBtn').click();
-    await page.locator('#setupPanel').waitFor({state:'visible'});
+    assert.match(download.suggestedFilename(),/ENCRYPTED-backup/);
+    const backupText=fs.readFileSync(await download.path(),'utf8');
+    const backup=JSON.parse(backupText);
+    assert.equal(backup.format,'dd-r3-private-aes256gcm-v1');
+    assert(!backupText.includes('Third synthetic idea'));
+    assert(!backupText.includes('fictional-reference'));
+    assert(!backupText.includes('demo-workspace'));
+    await page.reload({waitUntil:'domcontentloaded'});
+    await page.locator('#unlockVaultForm').waitFor({state:'visible'});
+    assert.equal(await page.locator('#workPanel').isVisible(),false,
+     'No decrypted notebook should appear after refresh before unlock');
+    await page.locator('#unlockPassphrase').fill('incorrect-passphrase-value');
+    await page.locator('#unlockVaultBtn').click();
+    assert.match(await page.locator('#notice').innerText(),/Wrong passphrase|corrupted/);
     assert.equal(await page.locator('#workPanel').isVisible(),false);
+    await page.locator('#unlockPassphrase').fill(testPassphrase);
+    await page.locator('#unlockVaultBtn').click();
+    await page.locator('#workPanel').waitFor({state:'visible'});
+    assert.equal(await page.locator('#hypothesisList .hypothesis-item').count(),3);
+    await page.locator('#hypothesisList .hypothesis-item').last().click();
+    assert.match(await page.locator('#currentVersion').textContent(),/Revision 2/);
+    assert.match(await page.locator('#selectedExplanation').textContent(),/encrypted revision two/);
+    await page.locator('#historyTab').click();
+    assert.equal(await page.locator('#revisionList button').count(),2);
+    await page.locator('#revisionList button[data-revision="1"]').click();
+    assert.doesNotMatch(await page.locator('#historySnapshot').innerText(),/encrypted revision two/);
+    await page.locator('#revisionList button[data-revision="2"]').click();
+    assert.match(await page.locator('#historySnapshot').innerText(),/encrypted revision two/);
+    // Explicit lock, delete, tamper rejection, wrong passphrase, and restore.
+    page.once('dialog',dialog=>dialog.accept());
+    await page.locator('#lockVaultBtn').click();
+    await page.locator('#unlockVaultForm').waitFor({state:'visible'});
+    page.once('dialog',dialog=>dialog.accept('DELETE'));
+    await page.locator('#deleteVaultBtn').click();
+    await page.locator('#importVaultForm').waitFor({state:'visible'});
+    const setEncryptedFile=async text=>{
+     await page.locator('#importVaultFile').setInputFiles({
+      name:'r3-encrypted.json',mimeType:'application/json',buffer:Buffer.from(text,'utf8')
+     });
+    };
+    const tampered={...backup,ciphertext:backup.ciphertext.slice(0,18)+
+      (backup.ciphertext[18]==='A'?'B':'A')+backup.ciphertext.slice(19)};
+    await setEncryptedFile(JSON.stringify(tampered));
+    await page.locator('#importPassphrase').fill(testPassphrase);
+    await page.locator('#importVaultBtn').click();
+    assert.match(await page.locator('#notice').innerText(),/Wrong passphrase|corrupted/);
+    assert.equal(await page.locator('#workPanel').isVisible(),false);
+    await setEncryptedFile(backupText);
+    await page.locator('#importPassphrase').fill('incorrect-passphrase-value');
+    await page.locator('#importVaultBtn').click();
+    assert.match(await page.locator('#notice').innerText(),/Wrong passphrase|corrupted/);
+    await setEncryptedFile(backupText);
+    await page.locator('#importPassphrase').fill(testPassphrase);
+    await page.locator('#importVaultBtn').click();
+    await page.locator('#workPanel').waitFor({state:'visible'});
+    assert.equal(await page.locator('#hypothesisList .hypothesis-item').count(),3);
+    assert.equal(await page.locator('#exportBtn').isEnabled(),true);
+    // Import must not silently overwrite an existing local vault.
+    assert.equal(await page.locator('#importVaultForm').isVisible(),false);
    }
    const dimensions=await page.evaluate(()=>({
     body:document.documentElement.scrollWidth,viewport:window.innerWidth
@@ -113,7 +194,7 @@ const BASE='http://127.0.0.1:4175';
     'No horizontal overflow at '+width+'px; actual='+JSON.stringify(dimensions));
    assert.deepEqual(requests,[],'Offline prototype must not request any external services');
    assert.deepEqual(errors,[],'No browser JS errors at '+width+'px');
-   console.log('PASS R3 UI '+width+'px: fictional in-memory demo, unranked comparison, version history, original 14-tab visual contract and privacy');
+   console.log('PASS R3 UI '+width+'px: fictional research editor, encrypted vault backup/recovery at 393px, revision history, original 14-tab visual contract and no external requests');
    await context.close();
   }
  }finally{await browser.close()}
