@@ -10,6 +10,9 @@
  <link rel="stylesheet" href="./hypothesis-ui.css">
  <link rel="stylesheet" href="./editorial-dock.css">
  <script defer src="./hypothesis-engine.js"></script>
+ <script defer src="./research-gap-finder.js"></script>
+ <script defer src="./research-gap-bridge.js"></script>
+ <script defer src="./curated-public-cases.js"></script>
  <script defer src="./hypothesis-vault.js"></script>
  <script defer src="./hypothesis-ui.js"></script>
 </head>
@@ -27,7 +30,7 @@
     <p class="build-stamp" id="r3BuildStamp" aria-label="Offline preview build identifier">R3 OFFLINE · NAV/PROMPT PATCH</p>
     <h1>Hypothesis Lab<span class="gold-dot">.</span></h1>
     <p>Compare competing explanations. Record what would support—or challenge—each one, without turning a possibility into a conclusion.</p>
-    <div class="hero-pills"><span>✧ Testable predictions</span><span>▤ Version history</span><span>◎ Source references</span></div>
+    <div class="hero-pills"><span>✧ Testable predictions</span><span>▤ Version history</span><span>◎ Source references</span><span>⌕ Research gaps</span></div>
    </section>
    <p class="security-note" id="privacyWarning"><strong>Research prototype — don't enter sensitive information yet.</strong> You can opt into encrypted local saving. It requires a passphrase to reopen and is tied to this browser/profile and <code>127.0.0.1:4175</code> origin. There is no account login, password recovery, cloud sync or independent security audit. Download your encrypted backup in case browser storage is cleared. Forgotten passphrases cannot be recovered.</p>
    <div id="notice" role="status" aria-live="polite" class="status-message" hidden></div>
@@ -48,6 +51,9 @@
       <label>Case ID <input id="caseInput" required pattern="[A-Za-z0-9][A-Za-z0-9_-]{1,79}" placeholder="featured-rendlesham-1980" autocomplete="off"></label>
      </div>
      <label>Notebook name <input id="notebookInput" maxlength="160" required placeholder="Competing explanations for this case" autocomplete="off"></label>
+     <div class="catalogue-setup"><label for="catalogueCaseSelect">Start with a public curated investigation (optional)</label>
+      <select id="catalogueCaseSelect"><option value="">Select a case · or enter your own case ID above</option></select>
+      <p class="muted small">Only three featured incident entries are eligible. No case is automatically selected or accepted as evidence. A guide/index is not treated as an incident.</p></div>
      <div class="action-row"><button type="submit" class="btn-primary" id="createNotebookBtn">Create private notebook</button><button type="button" id="sampleBtn" class="btn-secondary">Load fictional demo</button></div>
     </form>
    </section>
@@ -75,6 +81,7 @@
        <button type="button" id="writeTab" role="tab" aria-selected="true" aria-controls="writeView">Write</button>
        <button type="button" id="compareTab" role="tab" aria-selected="false" aria-controls="compareView">Compare</button>
        <button type="button" id="historyTab" role="tab" aria-selected="false" aria-controls="historyView">History</button>
+       <button type="button" id="gapsTab" role="tab" aria-selected="false" aria-controls="gapsView">Gaps</button>
       </div>
       <section class="panel content-panel" role="tabpanel" id="writeView" aria-labelledby="writeTab">
        <div id="writeEmpty" class="empty-state"><span class="empty-symbol" aria-hidden="true">✎</span><h2>Start with an explanation</h2><p>Describe an idea, list assumptions, predict observations and identify what could challenge it.</p><button type="button" class="btn-primary" id="emptyStartBtn">Write first hypothesis</button></div>
@@ -109,6 +116,17 @@
        <label for="historyPerson">Hypothesis <select id="historyPerson"><option value="">Select an explanation</option></select></label>
        <div id="revisionList" class="revision-list"></div>
        <div id="historySnapshot" class="structured-preview"></div>
+      </section>
+      <section class="panel content-panel" role="tabpanel" id="gapsView" aria-labelledby="gapsTab" hidden>
+       <div class="panel-top"><span class="eyebrow">RESEARCH GAP FINDER · R3 ALPHA</span><span class="quiet-tag">Source-linked · unverified</span></div>
+       <h2>What should we investigate next?</h2>
+       <p class="muted">The Gap Finder examines missing <strong>structured fields in our current curated catalogue</strong>. This does not mean original records are missing or that a reported event has any particular cause.</p>
+       <div id="gapCaseDetails" class="gap-case-details"></div>
+       <p id="gapSummary" class="muted small" aria-live="polite"></p>
+       <div id="gapCandidateList" class="gap-candidate-list"></div>
+       <h3 class="gap-saved-title">Your saved research questions</h3>
+       <p class="muted small">Only questions you explicitly choose to keep appear here. They belong to your private notebook—not verified findings.</p>
+       <div id="gapReviewList" class="gap-review-list"></div>
       </section>
      </div>
     </div>
