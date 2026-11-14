@@ -11,6 +11,62 @@ const supportedVideoId=id=>typeof id==='string'&&/^[A-Za-z0-9_-]{11}$/.test(id);
 let people=[];
 let selected=null;
 let caseLinks={valid:true,links:[]};
+const CASE_RETURN_KEY='dd-who-case-return-v1';
+let restoreSequence=0;
+const numberY=value=>Number.isFinite(value)&&value>=0?Math.round(value):null;
+function scrollToArea(element,offset=12){
+ if(!element)return;
+ window.scrollTo({top:Math.max(0,window.scrollY+element.getBoundingClientRect().top-offset),behavior:'instant'});
+}
+function showProfileAtContent(person){
+ const token=++restoreSequence;
+ let saved=null;
+ try{
+  const raw=sessionStorage.getItem(CASE_RETURN_KEY);
+  if(raw){
+   const candidate=JSON.parse(raw);
+   if(candidate.personId===person.id && candidate.page===location.pathname+location.search &&
+      Date.now()-candidate.savedAt<30*60*1000)saved=numberY(candidate.y);
+   sessionStorage.removeItem(CASE_RETURN_KEY);
+  }
+ }catch{try{sessionStorage.removeItem(CASE_RETURN_KEY)}catch{}}
+ requestAnimationFrame(()=>{
+  if(token!==restoreSequence || !selected || selected.id!==person.id)return;
+  if(saved!==null)window.scrollTo({top:saved,behavior:'instant'});
+  else scrollToArea($('personProfile'));
+ });
+}
+function restoreDirectoryPosition(anchor){
+ const token=++restoreSequence;
+ const y=numberY(anchor?.y);
+ if(y===null && !anchor?.firstCard){window.scrollTo({top:0,behavior:'instant'});return;}
+ const id=String(anchor.personId||'');
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{
+  if(token!==restoreSequence || selected)return;
+  if(anchor.firstCard)scrollToArea($('peopleCards'),115);
+  else window.scrollTo({top:y,behavior:'instant'});
+  const card=[...$('peopleCards').querySelectorAll('[data-person-id]')]
+    .find(el=>el.dataset.personId===id);
+  if(card){
+   card.classList.add('dd-returned-card');
+   card.querySelector('button')?.focus({preventScroll:true});
+   window.setTimeout(()=>card.classList.remove('dd-returned-card'),2000);
+  }
+ }));
+}
+function rememberProfileCaseDeparture(event){
+ const link=event.target.closest?.('#profileRelatedCases a[href]');
+ if(!link || !selected)return;
+ try{
+  const dest=new URL(link.href,location.href);
+  if(dest.origin!==location.origin)return;
+  sessionStorage.setItem(CASE_RETURN_KEY,JSON.stringify({
+   personId:selected.id,page:location.pathname+location.search,
+   savedAt:Date.now(),y:window.scrollY
+  }));
+ }catch{}
+}
+
 const initials=p=>String(p.name||'').trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
 const shortDate=v=>String(v||'');
 function paintPortrait(host,person){
@@ -40,6 +96,12 @@ function renderList(items,opts={}){
 }
 function openPerson(person,updateUrl=true){
  if(!person)return;
+ if(updateUrl){
+  // Save the origin card's scroll position on the directory history entry.
+  history.replaceState({...history.state,ddDirectoryReturn:{
+   personId:person.id,y:Math.max(0,Math.round(window.scrollY))
+  }},'',location.href);
+ }
  selected=person;
  const show=$('personProfile'),directory=$('directoryPage');
  if(!show||!directory)return;
@@ -133,28 +195,31 @@ function openPerson(person,updateUrl=true){
  }
  if(!videoHost.childElementCount)videoHost.textContent='No independently verified, embeddable publisher video selected. Use the attributed links above.';
  directory.classList.add('hidden');show.classList.remove('hidden');
- $('directoryBack').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});
+ $('directoryBack').focus({preventScroll:true});
  if(updateUrl){
   const u=new URL(location.href);u.searchParams.set('person',person.id);
   history.pushState({directoryPerson:person.id,fromDirectory:true},'',u.pathname+u.search+u.hash);
  }
+ showProfileAtContent(person);
 }
-function showDirectory(updateUrl=true){
+function showDirectory(updateUrl=true,returnAnchor=null){
  $('personProfile').classList.add('hidden');$('directoryPage').classList.remove('hidden');
  selected=null;
  if(updateUrl){
   const u=new URL(location.href);u.searchParams.delete('person');
   history.pushState({directoryPerson:null},'',u.pathname+u.search+u.hash);
  }
- window.scrollTo({top:0,behavior:'instant'});
+ restoreDirectoryPosition(returnAnchor);
 }
 // Native Android Back and the on-screen Back button use identical history-aware logic.
 function backToDirectory(){
  if(!selected)return false;
  if(history.state?.fromDirectory){history.back();return true;}
+ const personId=selected.id;
  const u=new URL(location.href);u.searchParams.delete('person');
  history.replaceState({directoryPerson:null},'',u.pathname+u.search+u.hash);
- showDirectory(false);return true;
+ // A directly opened profile has no previous directory entry.
+ showDirectory(false,{personId,firstCard:true});return true;
 }
 window.DDPeopleDirectoryBack=backToDirectory;
 function renderCards(){
@@ -169,6 +234,7 @@ function renderCards(){
  const host=$('peopleCards');host.replaceChildren();
  for(const person of results){
   const card=document.createElement('article');card.className='card';
+  card.dataset.personId=person.id;
   card.innerHTML='<div class="person-head"><span aria-hidden="true" class="avatar"></span><div><h3>'+esc(person.name)+'</h3><p class="muted small compact">'+esc(person.role)+'</p></div></div>'+
    '<div class="pills">'+(person.category||[]).map(c=>'<span class="pill">'+esc(c)+'</span>').join('')+'</div>'+
    '<p>'+esc(person.short)+'</p><button type="button" class="btn">Read detailed profile</button>';
@@ -189,9 +255,10 @@ function fromLocation(){
  const id=new URL(location.href).searchParams.get('person');
  const record=people.find(p=>p.id===id);
  if(record)openPerson(record,false);
- else showDirectory(false);
+ else showDirectory(false,history.state?.ddDirectoryReturn||null);
 }
 $('directoryBack').addEventListener('click',backToDirectory);
+ $('profileRelatedCases').addEventListener('click',rememberProfileCaseDeparture);
 $('peopleSearch').addEventListener('input',renderCards);
 $('peopleCategory').addEventListener('change',renderCards);
 window.addEventListener('popstate',fromLocation);
