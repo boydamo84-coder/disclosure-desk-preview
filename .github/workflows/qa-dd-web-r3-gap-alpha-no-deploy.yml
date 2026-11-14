@@ -6,6 +6,7 @@ on:
     paths:
       - experiments/r3/research-gap-finder.cjs
       - experiments/r3/hypothesis-lab.cjs
+      - experiments/r3/research-gap-bridge.cjs
       - experiments/r3/hypothesis-lab-preview.html
       - experiments/r3/hypothesis-ui.js
       - experiments/r3/hypothesis-vault.js
@@ -13,6 +14,7 @@ on:
       - experiments/r3/README_TESTING.txt
       - scripts/test_r3_research_gap_finder.cjs
       - scripts/test_r3_hypothesis_lab.cjs
+      - scripts/test_r3_gap_bridge.cjs
       - scripts/build_r3_lab_preview.cjs
       - scripts/test_r3_hypothesis_ui_chromium.cjs
       - data/curated-historical-cases.json
@@ -37,12 +39,18 @@ jobs:
           node --check experiments/r3/hypothesis-lab.cjs
           node --check scripts/test_r3_hypothesis_lab.cjs
           node scripts/test_r3_hypothesis_lab.cjs
+          node --check experiments/r3/research-gap-bridge.cjs
+          node --check scripts/test_r3_gap_bridge.cjs
+          node scripts/test_r3_gap_bridge.cjs
       - name: Confirm this experimental code is absent from the public release allowlist
         run: |
           ! grep -q 'research-gap-finder.cjs' scripts/build_public_release.cjs
           ! grep -q 'test_r3_research_gap_finder.cjs' scripts/build_public_release.cjs
           ! grep -q 'hypothesis-lab.cjs' scripts/build_public_release.cjs
           ! grep -q 'hypothesis-vault.js' scripts/build_public_release.cjs
+          ! grep -q 'research-gap-bridge.cjs' scripts/build_public_release.cjs
+          ! grep -q 'research-gap-bridge.js' scripts/build_public_release.cjs
+          ! grep -q 'curated-public-cases.js' scripts/build_public_release.cjs
           ! grep -q 'test_r3_hypothesis_lab.cjs' scripts/build_public_release.cjs
   offline-browser-preview:
     runs-on: ubuntu-latest
