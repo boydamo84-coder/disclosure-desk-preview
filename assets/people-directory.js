@@ -10,6 +10,7 @@ const safeUrl=value=>{try{const u=new URL(String(value));return u.protocol==='ht
 const supportedVideoId=id=>typeof id==='string'&&/^[A-Za-z0-9_-]{11}$/.test(id);
 let people=[];
 let selected=null;
+let caseLinks={valid:true,links:[]};
 const initials=p=>String(p.name||'').trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
 const shortDate=v=>String(v||'');
 const validLinks=(v)=>Array.isArray(v)?v.filter(x=>x&&safeUrl(x.url)).slice(0,30):[];
@@ -65,12 +66,22 @@ function openPerson(person,updateUrl=true){
    esc(f.context||'Verify original credits and presentation')+'</p>'+
    '<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">Publisher / credit source ↗</a></article>';
  }).join(''):'<p class="muted small">No film or documentary appearance has yet been verified from a reliable source. This is not a claim that none exists.</p>';
- const related=(Array.isArray(person.relatedCases)?person.relatedCases:[]).filter(c=>c&&/^\/[a-z0-9-]+$/.test(c.url));
+ const related=window.DDPersonCaseLinks?.byPerson?.(caseLinks,person.id)||[];
+ const legacy=(Array.isArray(person.relatedCases)?person.relatedCases:[]).filter(c=>c&&/^\/[a-z0-9-]+$/.test(c.url));
  const relatedCard=$('profileRelatedCard');
  if(relatedCard){
-  relatedCard.classList.toggle('hidden',related.length===0);
-  $('profileRelatedCases').innerHTML=related.map(c=>'<p><a href="'+esc(c.url)+'">'+esc(c.label)+'</a>'+
-   '<span class="muted small"> · '+esc(c.context||'Check source documents')+'</span></p>').join('');
+  relatedCard.classList.toggle('hidden',related.length===0&&legacy.length===0);
+  $('profileRelatedCases').innerHTML=related.map(link=>{
+    const archive='/?dd_tab=archivePage&dd_archive_case='+encodeURIComponent(link.caseId);
+    const dossier=link.caseId==='featured-rendlesham-1980'?'/rendlesham-forest-1980':null;
+    return '<article class="source-entry dd-person-case-link" style="margin:12px 0">'+
+      '<strong>'+esc(link.caseLabel)+'</strong><p class="muted small">'+esc(link.roleLabel)+' · Editorial review pending</p>'+
+      '<p>'+esc(link.statement)+'</p><p class="muted small">'+esc(link.context)+'</p>'+
+      '<p><a href="'+esc(archive)+'">Open linked Archive case ↗</a>'+
+      (dossier?' · <a href="'+esc(dossier)+'">Read original research dossier ↗</a>':'')+'</p>'+
+      '<p class="muted small"><a href="'+esc(safeUrl(link.source.url))+'" target="_blank" rel="noopener noreferrer">Inspect original attributed source ↗</a> · '+
+      esc(link.source.publisher)+' · '+esc(link.source.locator)+'</p></article>';
+  }).join('')+(related.length?'':legacy.map(c=>'<p><a href="'+esc(c.url)+'">'+esc(c.label)+'</a> · '+esc(c.context||'Check source documentation')+'</p>').join(''));
  }
  const videoHost=$('profileVideoPlayers');videoHost.replaceChildren();
  for(const v of Array.isArray(person.videos)?person.videos.slice(0,8):[]){
@@ -143,16 +154,27 @@ $('directoryBack').addEventListener('click',()=>showDirectory());
 $('peopleSearch').addEventListener('input',renderCards);
 $('peopleCategory').addEventListener('change',renderCards);
 window.addEventListener('popstate',fromLocation);
-fetch('/data/public-people-directory.json',{cache:'no-store'}).then(resp=>{
+Promise.all([
+ fetch('/data/public-people-directory.json',{cache:'no-store'}).then(resp=>{
  if(!resp.ok)throw Error('Source directory '+resp.status);
- return resp.json();
-}).then(data=>{
+ return resp;
+}).then(resp=>resp.json()),
+ fetch('/data/public-person-case-links.json',{cache:'no-store'}).then(resp=>{
+  if(!resp.ok)throw Error('Public relationship ledger '+resp.status);
+  return resp.json();
+ }).catch(error=>{console.warn('Optional profile case links unavailable:',error);return null})
+]).then(([data,publicLinks])=>{
  if(data.version!==1||!Array.isArray(data.people))throw Error('Unsupported people schema');
  const ids=new Set();
  people=data.people.filter(p=>{
   if(!p||typeof p.id!=='string'||!(/^[a-z0-9-]{2,80}$/).test(p.id)||ids.has(p.id)||!p.name)return false;
   ids.add(p.id);return true;
  });
+ const parsed=window.DDPersonCaseLinks?.parse?.(publicLinks,{
+  personIds:people.map(p=>p.id),
+  caseIds:['featured-nimitz-2004','featured-rendlesham-1980']
+ });
+ caseLinks=parsed?.valid?parsed:{valid:true,links:[]};
  people.sort((a,b)=>a.name.localeCompare(b.name));
  renderCards();fromLocation();
 }).catch(error=>{
