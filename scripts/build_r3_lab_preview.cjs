@@ -19,11 +19,15 @@ for(const [from,to] of [
  ['hypothesis-ui.css','hypothesis-ui.css'],
  ['README_TESTING.txt','README_TESTING.txt']
 ])fs.copyFileSync(path.join(srcDir,from),path.join(out,to),fs.constants.COPYFILE_EXCL);
+// Use the EXACT approved R2 navigation CSS, not a hand-drawn approximation.
+// Script intentionally stays standalone; no public-site routing from localhost.
+fs.copyFileSync(path.join(root,'assets','secondary-editorial-nav.css'),
+ path.join(out,'editorial-dock.css'),fs.constants.COPYFILE_EXCL);
 const wrapped=`'use strict';(function(){const module={exports:{}};\n${src}\nObject.defineProperty(window,'DDHypothesisLab',{value:module.exports,configurable:false,writable:false});})();\n`;
 fs.writeFileSync(path.join(out,'hypothesis-engine.js'),wrapped,{flag:'wx'});
 const published=fs.readFileSync(path.join(root,'scripts','build_public_release.cjs'),'utf8');
 if(published.includes('hypothesis-lab-preview.html')||published.includes('hypothesis-ui.js')||
  published.includes('hypothesis-ui.css')||published.includes('hypothesis-engine.js')||
- published.includes('hypothesis-vault.js'))
+ published.includes('hypothesis-vault.js')||published.includes('editorial-dock.css'))
  throw Error('R3 prototype is unexpectedly listed in the production build');
 console.log('PASS offline R3 UI preview assembled into .r3-lab-preview (not public release)');
