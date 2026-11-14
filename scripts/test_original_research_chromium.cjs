@@ -78,6 +78,21 @@ const BASE='http://127.0.0.1:4173';
     assert.match(await radar.innerText(),/No contradiction or dishonest account is automatically identified/i);
     assert.match(await radar.innerText(),/independence has not been assessed|not independent corroboration/i);
     assert.equal(await page.evaluate(()=>typeof window.DDEvidenceDNA?.compareClaims),'function');
+    // Cross-case M6 choice is explicit and never alters the public claim dataset.
+    await radar.locator('select[data-radar-pick="b"]').selectOption('featured-roswell-1947::roswell-gao-review');
+    await radar.locator('button[data-radar-compare]').click();
+    assert.match(await radar.locator('[data-radar-output]').innerText(),/Roswell 1947/,'Different dossier selectable');
+    assert.match(await radar.locator('[data-radar-output]').innerText(),/Rendlesham Forest/,'Current dossier remains selected');
+    assert.equal(await radar.locator('[data-radar-output] article').count(),2,'Two selected citation panels render');
+    assert.equal(await radar.locator('[data-radar-output] a[href^="https://"]').count(),2,'Original URLs remain visible');
+    await radar.locator('select[data-radar-pick="a"]').selectOption('featured-roswell-1947::roswell-gao-review');
+    await radar.locator('button[data-radar-compare]').click();
+    assert.match(await radar.locator('[data-radar-output]').innerText(),/Choose two different cited statements/i,'Same statement selection rejected');
+    // Restore a meaningful cross-case comparison.
+    await radar.locator('select[data-radar-pick="a"]').selectOption('featured-rendlesham-1980::rendlesham-record-scope');
+    await radar.locator('button[data-radar-compare]').click();
+    assert.equal(await radar.locator('[data-radar-output] article').count(),2);
+
 
     const correctReturn=await page.locator('#archiveCaseBody a[href="/'+slug+'"]').count();
     assert(correctReturn===1,'Archive detail must return to same original article');
