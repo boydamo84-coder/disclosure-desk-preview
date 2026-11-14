@@ -18,11 +18,12 @@ function scrollToArea(element,offset=12){
  if(!element)return;
  window.scrollTo({top:Math.max(0,window.scrollY+element.getBoundingClientRect().top-offset),behavior:'instant'});
 }
-function showProfileAtContent(person){
+function showProfileAtContent(person,allowCaseReturn=false){
  const token=++restoreSequence;
  let saved=null;
  try{
-  const raw=sessionStorage.getItem(CASE_RETURN_KEY);
+  const raw=allowCaseReturn?sessionStorage.getItem(CASE_RETURN_KEY):null;
+  if(!allowCaseReturn)sessionStorage.removeItem(CASE_RETURN_KEY);
   if(raw){
    const candidate=JSON.parse(raw);
    if(candidate.personId===person.id && candidate.page===location.pathname+location.search &&
@@ -200,7 +201,7 @@ function openPerson(person,updateUrl=true){
   const u=new URL(location.href);u.searchParams.set('person',person.id);
   history.pushState({directoryPerson:person.id,fromDirectory:true},'',u.pathname+u.search+u.hash);
  }
- showProfileAtContent(person);
+ showProfileAtContent(person,!updateUrl);
 }
 function showDirectory(updateUrl=true,returnAnchor=null){
  $('personProfile').classList.add('hidden');$('directoryPage').classList.remove('hidden');
