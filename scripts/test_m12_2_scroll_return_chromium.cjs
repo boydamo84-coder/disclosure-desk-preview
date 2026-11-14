@@ -78,8 +78,10 @@ async function visible(page,selector){
     await visible(casePage,'#archiveCaseDialog[open]');
     // Archive uses its own history state for a case dialog. Traverse the
     // internal case history before reaching the original Who's Who document.
+    console.log('M12.2 linked-case Back history starts at',casePage.url());
     for(let step=0;step<4&&!new URL(casePage.url()).pathname.includes('who-is-who');step++){
      const navigated=await casePage.goBack({waitUntil:'domcontentloaded'});
+     console.log('M12.2 linked-case Back step',step+1,casePage.url(),'navigated',navigated!==null);
      if(navigated===null)break;
     }
     assert.equal(new URL(casePage.url()).searchParams.get('person'),'david-fravor',
