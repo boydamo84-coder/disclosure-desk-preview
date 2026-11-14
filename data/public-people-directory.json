@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "edition": "2026-11-14-detailed-editorial-draft",
+  "edition": "2026-11-14-expanded-eleven-draft",
   "status": "research-copy-edit-needed",
   "ethics": "Public figures only. Roles and attributed public positions from linked sources. No personal phone numbers, addresses, subjective credibility rankings or fabricated social handles. Portraits require verified re-use permissions; current directory uses initials. Embeds load only after direct visitor interaction; third-party YouTube may set cookies when activated. Source links and dated claims need editorial signoff.",
   "people": [
@@ -773,6 +773,467 @@
           "label": "Metabunk discussion forum",
           "url": "https://www.metabunk.org/",
           "kind": "Research community"
+        }
+      ]
+    },
+    {
+      "id": "bob-lazar",
+      "name": "Bob Lazar",
+      "category": [
+        "Claimant",
+        "Interview subject"
+      ],
+      "role": "1989 Area 51 / S-4 reverse-engineering claimant",
+      "short": "Central figure in the 1989 KLAS-TV reports alleging he worked on non-human craft near Area 51.",
+      "position": "Lazar told George Knapp on KLAS-TV in 1989 that he had worked at a site he called S-4 on propulsion systems he believed came from extraterrestrial craft.",
+      "context": "That is a documented public account, not a confirmed government assignment or verified technology. Reporting has found gaps and disputes over educational credentials and employment details, while the broadcaster and some interviewers described evidence of a Los Alamos association. Assess each specific claim separately.",
+      "sources": [
+        {
+          "label": "Original 1989 KLAS interview transcript and preserved source",
+          "url": "https://www.papooselake.org/interview-transcripts"
+        },
+        {
+          "label": "KNPR — George Knapp discusses what he did and did not verify",
+          "url": "https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real"
+        }
+      ],
+      "media": [
+        {
+          "label": "Bob Lazar — original 1989 KLAS-TV on-camera interview",
+          "url": "https://www.youtube.com/watch?v=D7raTtCIXqM",
+          "type": "Recorded interview (not alleged craft footage)",
+          "context": "Lazar describes S-4 in his own words; it is not independent evidence that such a programme existed."
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Historical interview and document index (independent archive)",
+          "url": "https://www.papooselake.org/interview-transcripts"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Bob Lazar became a major figure in UAP popular culture in May 1989 when Las Vegas reporter George Knapp introduced an anonymous source on KLAS-TV who described alleged work at a secret site near Area 51. In subsequent appearances, Lazar spoke openly about the facility he called S-4 and claimed he had participated in attempts to understand unconventional propulsion systems. His television interviews are important original records of his testimony, regardless of whether the underlying story can be independently substantiated.",
+        "In his accounts Lazar described craft inside hangars, an element he referred to as 115, and a propulsion arrangement he said involved gravity. Reporters and researchers examined where he studied and what work he performed. Knapp told KNPR that some elements of Lazar's background were hard to verify; the same interview recounts reasons Knapp believed Lazar had been associated with Los Alamos. Neither this dispute nor the later scientific identification of element 115 by itself establishes an extraordinary propulsion technology.",
+        "The lasting research question is how to distinguish a claim made on camera, an independently documented biographical fact, and a physical assertion about equipment that outsiders have not been able to examine. Disclosure Desk treats the earliest KLAS appearances as source material and links to both contemporary footage and more critical journalistic assessments without giving an unsupported final verdict about Lazar's motives."
+      ],
+      "milestones": [
+        {
+          "date": "May 1989",
+          "title": "Anonymous television interviews",
+          "detail": "Knapp's KLAS reports introduced a source later identified as Lazar discussing alleged Area 51-related work. The interviews establish what was said, not the physical nature of a claimed craft.",
+          "source": "https://www.papooselake.org/interview-transcripts"
+        },
+        {
+          "date": "December 1989",
+          "title": "On-the-record interview with George Knapp",
+          "detail": "Lazar discussed the alleged S-4 work, his background and claimed propulsion. The archived 9 December KLAS transcript provides contemporaneous wording.",
+          "source": "https://disclosdex.com/documents/1989-12-09-knapp-lazar-interview"
+        },
+        {
+          "date": "13 December 2018",
+          "title": "Nevada Public Radio reassesses the story",
+          "detail": "KNPR interviewed Knapp and colleagues about efforts to confirm aspects of Lazar's biography, with both supportive observations and unresolved gaps.",
+          "source": "https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real"
+        },
+        {
+          "date": "2026",
+          "title": "Further interview and documentary interest",
+          "detail": "A specialist historical archive indexes continuing interviews and a 2026 film; ongoing interest does not itself verify the original S-4 allegations.",
+          "source": "https://www.papooselake.org/interview-transcripts"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Bob Lazar 1989 interview archive and original-video links",
+          "publisher": "Papoose Lake (independent historical index)",
+          "date": "1989–2026 collection",
+          "url": "https://www.papooselake.org/interview-transcripts"
+        },
+        {
+          "label": "A new film focuses on Bob Lazar's Area 51 story — but is it for real?",
+          "publisher": "KNPR Nevada Public Radio",
+          "date": "2018-12-13",
+          "url": "https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real"
+        },
+        {
+          "label": "Lazar: original claims and source-record limitations",
+          "publisher": "Original 1989 KLAS transcript index",
+          "date": "1989-12-09",
+          "url": "https://disclosdex.com/documents/1989-12-09-knapp-lazar-interview"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Bob Lazar — original anonymous 1989 KLAS television interview",
+          "youtubeId": "5OHcJS7X6sc",
+          "type": "Historical television interview (not craft footage)",
+          "publisher": "Archival upload of KLAS interview",
+          "date": "1989 recording",
+          "context": "The interview establishes what Lazar said in 1989, not that the alleged propulsion research occurred."
+        },
+        {
+          "title": "Bob Lazar — On the Record with George Knapp",
+          "youtubeId": "D7raTtCIXqM",
+          "type": "Historical interview and claim explanation",
+          "publisher": "KLAS footage, archive upload",
+          "date": "1989-12-09",
+          "context": "A contemporary account of his asserted work and claimed observations; testimony should not be confused with independent verification."
+        }
+      ],
+      "socialPages": []
+    },
+    {
+      "id": "jake-barber",
+      "name": "Jake Barber",
+      "category": [
+        "Claimant",
+        "Military veteran",
+        "Interview subject"
+      ],
+      "role": "Former US Air Force airman and helicopter pilot; 2025 retrieval claimant",
+      "short": "Spoke publicly in January 2025 about alleged classified retrieval operations and an egg-shaped object.",
+      "position": "In NewsNation interviews hosted by Ross Coulthart, Barber said he had flown helicopters to move unusual objects, including a white egg-shaped item and a segmented disc he called an eightgon.",
+      "context": "NewsNation described its checks on parts of Barber's military and aviation history. The origins of objects he described, the authority and purpose of any covert programme, and the provenance of the displayed retrieval footage require separate scrutiny. Interviews and short footage are not proof of a non-human vehicle.",
+      "sources": [
+        {
+          "label": "NewsNation — first public retrieval-program interview",
+          "url": "https://www.newsnationnow.com/space/ufo/uap-whistleblower-ufo-retrieval-program/"
+        },
+        {
+          "label": "NewsNation — separate story about the egg-shaped-object video",
+          "url": "https://www.newsnationnow.com/space/ufo/uap-recovery-video-shows-egg-shaped-object-exclusive/"
+        },
+        {
+          "label": "NewsNation's original 19 January 2025 full special",
+          "url": "https://www.youtube.com/watch?v=3dtA9w5ldHw"
+        }
+      ],
+      "media": [
+        {
+          "label": "Jake Barber — full first NewsNation special",
+          "url": "https://www.youtube.com/watch?v=3dtA9w5ldHw",
+          "type": "Interview plus publisher-presented alleged retrieval footage",
+          "context": "NewsNation's video includes accounts and selected footage whose object origin has not been independently established."
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "NewsNation — source broadcaster and interview archive",
+          "url": "https://www.newsnationnow.com/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Jake Barber is a US military veteran and helicopter pilot who became the subject of widespread UAP reporting in January 2025 after a NewsNation interview with Ross Coulthart. Barber described aviation and security work, including operations he said involved transporting objects of unusual appearance. NewsNation said it had examined documents that supported portions of his service background; those checks did not themselves demonstrate the existence of a non-human recovery programme.",
+        "In the broadcast Barber described lifting a smooth white egg-shaped object while piloting a helicopter with an external load. He also discussed a disc-shaped object with multiple sections, and claimed that some participants had interpreted the missions as connected with non-human intelligence. The programme displayed footage the broadcaster associated with the story. The recording's contents, custody, date, full context and object identification remain matters for careful investigation, separate from Barber's descriptions.",
+        "Barber's account is a useful case study for Evidence DNA because it combines an identified interviewee, unnamed alleged programme participants, portions of independently checked biography and a dramatic recording whose provenance is contested. A responsible comparison needs original, unedited media and logistics records before making assertions about a craft's composition or origin. The public interviews record what the participants claimed; they do not establish an extraordinary explanation."
+      ],
+      "milestones": [
+        {
+          "date": "Late 1990s",
+          "title": "Air Force and aviation background",
+          "detail": "NewsNation said it reviewed records indicating service as an airman and aerospace mechanic; these are attributed to the broadcaster's review, not independently reproduced in this profile.",
+          "source": "https://www.youtube.com/watch?v=3dtA9w5ldHw"
+        },
+        {
+          "date": "2024",
+          "title": "Reported contact with congressional staff",
+          "detail": "The 2025 NewsNation documentary reports Barber met with staff connected to Senator Marco Rubio in 2024. This is sourced to the broadcast.",
+          "source": "https://www.youtube.com/watch?v=3dtA9w5ldHw"
+        },
+        {
+          "date": "16–19 January 2025",
+          "title": "First public interviews about recovery missions",
+          "detail": "NewsNation published Barber's claims about moving an egg-shaped object and presented footage associated with the account; origin unverified.",
+          "source": "https://www.newsnationnow.com/space/ufo/uap-recovery-video-shows-egg-shaped-object-exclusive/"
+        },
+        {
+          "date": "2025",
+          "title": "Technical analysis and public scrutiny",
+          "detail": "Independent observers discussed possible visual and scaling interpretations of the presented video; those are hypotheses and need original camera context.",
+          "source": "https://www.metabunk.org/threads/jake-barber-tells-ross-coulthart-about-non-human-technology-the-egg.13949/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "UAP whistleblower says retrieval programme exists (interview)",
+          "publisher": "NewsNation",
+          "date": "2025-01-16",
+          "url": "https://www.newsnationnow.com/space/ufo/uap-whistleblower-ufo-retrieval-program/"
+        },
+        {
+          "label": "UAP recovery video shows egg-shaped object: exclusive",
+          "publisher": "NewsNation",
+          "date": "2025-01-18",
+          "url": "https://www.newsnationnow.com/space/ufo/uap-recovery-video-shows-egg-shaped-object-exclusive/"
+        },
+        {
+          "label": "Technical discussion of Barber's 'egg' footage",
+          "publisher": "Metabunk (independent forum analysis)",
+          "date": "2025-01",
+          "url": "https://www.metabunk.org/threads/jake-barber-tells-ross-coulthart-about-non-human-technology-the-egg.13949/"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Jake Barber — NewsNation's original 2025 documentary interview",
+          "youtubeId": "3dtA9w5ldHw",
+          "type": "Interview with publisher-described alleged recovery video",
+          "publisher": "NewsNation",
+          "date": "2025-01-19",
+          "context": "Publisher footage and Barber's account are not authenticated proof of a non-human vehicle. The original source video remains linked for inspection."
+        },
+        {
+          "title": "Jake Barber — extended NewsNation interview",
+          "youtubeId": "t37-SKj4rtY",
+          "type": "Extended interview and statements",
+          "publisher": "NewsNation",
+          "date": "2025",
+          "context": "Long-form account presented by the original broadcaster; claims and any video evidence require independent source verification."
+        }
+      ],
+      "socialPages": []
+    },
+    {
+      "id": "steven-greer",
+      "name": "Steven Greer",
+      "category": [
+        "Disclosure advocate",
+        "Interviewer",
+        "Author"
+      ],
+      "role": "Physician and Disclosure Project organiser; CE-5 advocate",
+      "short": "Organised the 2001 National Press Club Disclosure Project event and continues public disclosure advocacy.",
+      "position": "Greer argues that governments hold information concerning non-human intelligence and promotes the Disclosure Project, witness presentations and CE-5 protocols.",
+      "context": "The 2001 and 2023 press events, interviews and related materials document Greer's advocacy and invited speakers; they do not independently establish that the most extraordinary claims are true. CE-5 experiences and purported energy technologies require separately testable evidence.",
+      "sources": [
+        {
+          "label": "Disclosure Project — event and first-party collection",
+          "url": "https://disclosureprojects.com/"
+        },
+        {
+          "label": "Dr Steven Greer — official archive and stated research programme",
+          "url": "https://drstevengreer.com/"
+        },
+        {
+          "label": "ABC News — contemporary coverage of 2001 disclosure event",
+          "url": "https://abcnews.go.com/Technology/story?id=98572&page=1"
+        }
+      ],
+      "media": [
+        {
+          "label": "Greer's 2001 National Press Club presentation",
+          "url": "https://www.youtube.com/watch?v=katZjHUmBh0",
+          "type": "Organiser's recording of witness presentations (not incident footage)",
+          "context": "Original recording of public statements: participation and claims, not proof of their alleged causes."
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Official Dr Steven Greer website",
+          "url": "https://drstevengreer.com/"
+        },
+        {
+          "label": "Disclosure Projects — original event programme",
+          "url": "https://disclosureprojects.com/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Steven M. Greer is a physician turned UFO/UAP disclosure advocate who founded and promoted the Disclosure Project. On 9 May 2001 he convened a National Press Club event in Washington, DC with speakers who described alleged UFO encounters, unusual programmes and government secrecy. Contemporary ABC News and UPI coverage documents the event and the group's call for formal congressional attention, while preserving the difference between the speakers' testimony and evidence verified outside the presentation.",
+        "Greer has also advocated a form of claimed human-initiated contact commonly called CE-5 and has produced books, films, witness presentations and additional press events. His own published materials describe these methods and his belief that some governments and corporations conceal advanced technology. Those positions are attributed to Greer and participating speakers, not statements confirmed by Disclosure Desk or by independent scientific testing.",
+        "His importance to the research history lies partly in organising and preserving large numbers of firsthand and secondhand accounts. The research challenge is to investigate each witness and document separately, distinguish independent testimony from shared source networks, and identify original observations or artefacts that could be assessed by outside investigators. An event with numerous speakers can be significant for public debate without settling the underlying physical claims."
+      ],
+      "milestones": [
+        {
+          "date": "1990s",
+          "title": "Disclosure Project organisation and witness outreach",
+          "detail": "Greer's project materials trace his organising of testimony and appeals for transparency; exact claim-level provenance requires separate records.",
+          "source": "https://drstevengreer.com/"
+        },
+        {
+          "date": "9 May 2001",
+          "title": "National Press Club disclosure event",
+          "detail": "Greer hosted a presentation involving former military, aviation and government participants; ABC News and UPI covered the event the following day.",
+          "source": "https://www.upi.com/Archives/2001/05/10/Private-project-pushes-for-UFO-hearings/2726989467200/"
+        },
+        {
+          "date": "12 June 2023",
+          "title": "Additional National Press Club presentation",
+          "detail": "The project's own public archive lists a 2023 press event with invited speakers and allegations.",
+          "source": "https://disclosureprojects.com/"
+        },
+        {
+          "date": "2026",
+          "title": "Ongoing advocacy and documentary releases",
+          "detail": "Greer's official site lists current documentary, archive, educational and contact-protocol projects.",
+          "source": "https://drstevengreer.com/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Group Calls for Disclosure of UFO Info",
+          "publisher": "ABC News",
+          "date": "2001-05-10",
+          "url": "https://abcnews.go.com/Technology/story?id=98572&page=1"
+        },
+        {
+          "label": "Private project pushes for UFO hearings",
+          "publisher": "UPI",
+          "date": "2001-05-10",
+          "url": "https://www.upi.com/Archives/2001/05/10/Private-project-pushes-for-UFO-hearings/2726989467200/"
+        },
+        {
+          "label": "Disclosure Project original programme and press conference archive",
+          "publisher": "Disclosure Projects",
+          "date": "2001–2023",
+          "url": "https://disclosureprojects.com/"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Steven Greer's 2001 National Press Club disclosure presentation",
+          "youtubeId": "katZjHUmBh0",
+          "type": "Recorded press conference / testimony",
+          "publisher": "Dr Steven Greer (verified first-party channel)",
+          "date": "2001 recording; posted 2021",
+          "context": "Documents what Greer and invited speakers said at the event, not independent proof that extraordinary claims were correct."
+        }
+      ],
+      "socialPages": [
+        {
+          "label": "Steven Greer — official website",
+          "url": "https://drstevengreer.com/",
+          "kind": "Verified public homepage"
+        },
+        {
+          "label": "Disclosure Project — official project page",
+          "url": "https://disclosureprojects.com/",
+          "kind": "Verified project page"
+        }
+      ]
+    },
+    {
+      "id": "larry-warren",
+      "name": "Larry Warren",
+      "category": [
+        "Claimant",
+        "Military veteran",
+        "Author"
+      ],
+      "role": "Former USAF security specialist; Rendlesham Forest claimant",
+      "short": "Co-author of Left at East Gate who describes an additional Rendlesham Forest encounter disputed by other witnesses.",
+      "position": "Warren has said he witnessed an extraordinary event associated with RAF Bentwaters/Woodbridge during the December 1980 Rendlesham Forest reports, and later described it in interviews and Left at East Gate.",
+      "context": "The base assignment and the reported Rendlesham event are distinct from the disputed details of Warren's alleged involvement. Charles Halt and others have challenged parts of the story; Warren has continued to give interviews. Competing accounts should be presented with their exact dates and original recordings rather than declaring personal wrongdoing.",
+      "sources": [
+        {
+          "label": "UK National Archives — original Rendlesham reports and correspondence",
+          "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/"
+        },
+        {
+          "label": "Warren & LaPlume — contemporary interview with their accounts",
+          "url": "https://www.thecosmicswitchboard.com/2023/06/06/rendlesham-forest-secrets/"
+        },
+        {
+          "label": "Larry Warren's book Left at East Gate — bibliographic context",
+          "url": "https://overclassified.org/essential-reading/left-at-east-gate/"
+        }
+      ],
+      "media": [
+        {
+          "label": "Larry Warren and Steve Longero — NewsNation discussion of Rendlesham",
+          "url": "https://www.youtube.com/watch?v=21yW_XZR2LU",
+          "type": "Interviews with witnesses and filmmaker (not 1980 footage)",
+          "context": "Participants describe remembered events decades later; these are interviews, not contemporary recording of a craft."
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Interview host The Cosmic Switchboard",
+          "url": "https://www.thecosmicswitchboard.com/2023/06/06/rendlesham-forest-secrets/"
+        },
+        {
+          "label": "Rendlesham original public sources — UK National Archives",
+          "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Larry Warren is a former US Air Force security specialist who has long spoken publicly about the December 1980 Rendlesham Forest events near the twin RAF Bentwaters and Woodbridge bases in Suffolk, England. With Peter Robbins he co-authored Left at East Gate, published in 1997, describing a further alleged encounter in which Warren said he was present. The book and later interviews became prominent in the wider Rendlesham story alongside better-documented accounts from other service personnel.",
+        "Important parts of Warren's personal narrative are contested. Other military participants, including Lt Col Charles Halt, have disputed his claimed presence or particular details of the incident; these criticisms are found in later interviews and case literature. Warren has continued to describe his experience in published discussions, including an interview with Steve LaPlume in 2023 and NewsNation coverage in 2025. A disagreement between witnesses should be examined at the level of specific claims, dates and original records, not treated as grounds for attacks on any person's character.",
+        "The UK National Archives preserves official correspondence and records concerning the reported Rendlesham incidents, including material associated with Halt. That material does not independently establish every later version of the event. For serious research, Warren's published account should be compared with contemporaneous military documents, the exact wording of different witnesses' statements, and the limitations of subsequent recollections. Disclosure Desk records the competing accounts without adopting a definitive personal credibility verdict."
+      ],
+      "milestones": [
+        {
+          "date": "December 1980",
+          "title": "Events reported near RAF Woodbridge",
+          "detail": "The National Archives documents reports by personnel at the base; Warren's later claim of involvement is separate and disputed.",
+          "source": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/"
+        },
+        {
+          "date": "1997",
+          "title": "Left at East Gate published",
+          "detail": "Warren and Peter Robbins published the book presenting Warren's account of Rendlesham and the alleged cover-up.",
+          "source": "https://overclassified.org/essential-reading/left-at-east-gate/"
+        },
+        {
+          "date": "6 June 2023",
+          "title": "Warren and Steve LaPlume interview",
+          "detail": "A published interview records how Warren recounts his experiences decades after the event; testimony alone does not establish its physical explanation.",
+          "source": "https://www.thecosmicswitchboard.com/2023/06/06/rendlesham-forest-secrets/"
+        },
+        {
+          "date": "2025",
+          "title": "Competing Rendlesham interviews revisited",
+          "detail": "NewsNation aired interviews with Warren and other participants and a separate response from Charles Halt; claims remain contested.",
+          "source": "https://www.youtube.com/watch?v=UfKwQgmHfII"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Left at East Gate — book and critical reception",
+          "publisher": "OverClassified historical book review",
+          "date": "1997 book; retrospective review",
+          "url": "https://overclassified.org/essential-reading/left-at-east-gate/"
+        },
+        {
+          "label": "Warren and Steve LaPlume — original interview",
+          "publisher": "The Cosmic Switchboard",
+          "date": "2023-06-06",
+          "url": "https://www.thecosmicswitchboard.com/2023/06/06/rendlesham-forest-secrets/"
+        },
+        {
+          "label": "UK National Archives — what the official Rendlesham papers cover",
+          "publisher": "The National Archives",
+          "date": "Government collection guide",
+          "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Rendlesham Forest: Larry Warren & Steve Longero discuss Capel Green",
+          "youtubeId": "21yW_XZR2LU",
+          "type": "News interview with participants",
+          "publisher": "NewsNation / Ross Coulthart",
+          "date": "2025",
+          "context": "Accounts are recorded decades after 1980. The interview does not constitute original footage of the reported event."
+        },
+        {
+          "title": "Charles Halt responds to Warren's claims",
+          "youtubeId": "UfKwQgmHfII",
+          "type": "Counter-account interview / documentary discussion",
+          "publisher": "NewsNation / Ross Coulthart",
+          "date": "2025-10-28",
+          "context": "Halt's account presents a competing perspective. The disagreement should be compared against original records rather than turned into personal accusations."
+        }
+      ],
+      "socialPages": [],
+      "relatedCases": [
+        {
+          "label": "Rendlesham Forest 1980 — original research dossier",
+          "url": "/rendlesham-forest-1980",
+          "context": "The source-linked case file covers documents and evidence gaps, not an endorsement of a specific witness's account."
         }
       ]
     }
