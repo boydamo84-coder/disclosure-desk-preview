@@ -10,8 +10,8 @@ const avatarBridge = fs.readFileSync(path.join(assets, 'native-shell.js'), 'utf8
 const compactHeader = fs.readFileSync(path.join(assets, 'compact-header.js'), 'utf8');
 const activity = fs.readFileSync('android-test/app/src/main/java/com/disclosuredesk/preview/MainActivity.java', 'utf8');
 const gradle = fs.readFileSync('android-test/app/build.gradle.kts', 'utf8');
-assert.ok(gradle.includes('applicationIdSuffix = ".beta.m122"'), 'M12 private test installs alongside main app and earlier M95/M94 variants');
-assert.match(gradle, /versionCode = 31/);
+assert.ok(gradle.includes('applicationIdSuffix = ".beta.m123"'), 'M12 private test installs alongside main app and earlier M95/M94 variants');
+assert.match(gradle, /versionCode = 32/);
 assert.ok(activity.includes('installCompactHeader();') && activity.includes('installNativeShell(url);'));
 assert.ok(!activity.includes('savedNews.setText("News and saved stories")'));
 const app = 'https://uapdisclosuredesk.com';
