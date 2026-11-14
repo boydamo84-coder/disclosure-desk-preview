@@ -45,10 +45,12 @@ async function selected(page,id){
   await page.goto(BASE+'/',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.nav .tab[data-tab="profilePage"]');
   const tabs=await page.locator('nav.nav .tab').count();
-  assert.equal(tabs,13,'Current public release keeps all thirteen approved navigation tabs');
+  assert.equal(tabs,14,'R2 adds a Who\'s Who tab while retaining the 13 previously approved tabs');
+  assert.equal(await page.locator('nav.nav .tab[data-tab="peopleDirectory"]').count(),1,
+    'Exactly one Who\'s Who directory tab is present');
   assert.equal(await selected(page,'discover'),'page');
   assert.equal(await hasVisibleSection(page,'discover'),true);
-  pass('all thirteen approved bottom tabs and visible News');
+  pass('all fourteen approved bottom tabs, including Who\'s Who, and visible News');
   const navRail=page.locator('.nav-inner');
   await page.locator('#ddNavNext').waitFor({state:'visible'});
   const initialDockScroll=await navRail.evaluate(el=>el.scrollLeft);
