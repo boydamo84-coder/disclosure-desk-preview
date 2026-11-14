@@ -50,7 +50,7 @@ for(const token of ['id="profileBiography"','id="profileTimeline"','id="profileA
  assert(page.includes(token),'Directory exposes '+token);
 assert(page.includes('analytics-consent.js')&&!page.includes('googletagmanager.com'),
  'Public profile entry uses consent-gated analytics');
-assert(page.includes('href="/"')&&home.includes('href="/who-is-who"'),'Visible Home and directory navigation');
+assert(page.includes('href="/"')&&home.includes('href="/who-is-who.html"'),'Visible Home and directory navigation');
 assert(page.includes('https://uapdisclosuredesk.com/who-is-who'),'Canonical public directory');
 assert(page.includes('Video')&&page.includes('Profiles'),'Accessible user-facing profile sections');
 assert(bundle.includes("'who-is-who.html'")&&bundle.includes("'public-people-directory.json'")&&
