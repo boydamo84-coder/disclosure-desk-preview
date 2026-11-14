@@ -1,5 +1,5 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 13 November 2026 (Europe/London) — M96 favicon fix staged_
+_Last updated: 14 November 2026 (Europe/London) — R2 production-gate and 50-profile audit checkpoint; R1 Netlify Published verification pending_
 
 ## M96 — Legacy favicon fallback and Netlify 404 review (13 November 2026)
 
