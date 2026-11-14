@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "edition": "2026-11-14-expanded-eleven-draft",
+  "edition": "2026-11-14-release2-podcast-and-films-editorial-draft",
   "status": "research-copy-edit-needed",
   "ethics": "Public figures only. Roles and attributed public positions from linked sources. No personal phone numbers, addresses, subjective credibility rankings or fabricated social handles. Portraits require verified re-use permissions; current directory uses initials. Embeds load only after direct visitor interaction; third-party YouTube may set cookies when activated. Source links and dated claims need editorial signoff.",
   "people": [
@@ -1234,6 +1234,593 @@
           "label": "Rendlesham Forest 1980 — original research dossier",
           "url": "/rendlesham-forest-1980",
           "context": "The source-linked case file covers documents and evidence gaps, not an endorsement of a specific witness's account."
+        }
+      ]
+    },
+    {
+      "id": "luis-elizondo",
+      "name": "Luis Elizondo",
+      "category": [
+        "Former intelligence official",
+        "Disclosure advocate",
+        "Interview subject"
+      ],
+      "role": "Former Department of Defense official and author of Imminent",
+      "short": "Public advocate for UAP reporting, known for his described involvement in AATIP and the History series Unidentified.",
+      "position": "Elizondo describes work associated with the US Department of Defense's UAP inquiry and has urged government transparency, sharing his account in the 2024 book Imminent and public interviews.",
+      "context": "His roles and public statements are documented, but claims of non-human origins or recovered technology require separate physical and documentary substantiation.",
+      "biography": [
+        "Luis Elizondo is a former US counterintelligence official who became a prominent public advocate for investigating UAP reports. The History Channel describes him as connected to the Advanced Aerospace Threat Identification Program. His own biography stresses disclosure and the need to treat unusual observations as a matter for investigation rather than dismissing witnesses.",
+        "He appeared in the History Channel's documentary series Unidentified: Inside America's UFO Investigation alongside Christopher Mellon and others. That programme follows investigations and interviews, mixing documentary material with interpretations supplied by participants; the programme itself is not independent proof of every anomaly discussed.",
+        "Elizondo published Imminent in August 2024 and has discussed his reported responsibilities and allegations in broadcast interviews and podcasts. Research should distinguish claims based on first-hand official roles, his later recollections and information attributed to other unnamed officials. Public statements are important historical sources but should not be treated as proof of a non-human explanation."
+      ],
+      "milestones": [
+        {
+          "date": "2017–2019",
+          "title": "Public discussion of Pentagon UAP work",
+          "detail": "Former officials and news reports publicly discussed government study of unusual military observations. His precise programme role should be assessed against documentary sources.",
+          "source": "https://www.history.com/shows/unidentified-inside-americas-ufo-investigation"
+        },
+        {
+          "date": "2019",
+          "title": "Unidentified documentary series",
+          "detail": "The History Channel featured Elizondo and other participants in two seasons of UAP reporting and investigations.",
+          "source": "https://www.history.com/shows/unidentified-inside-americas-ufo-investigation"
+        },
+        {
+          "date": "20 August 2024",
+          "title": "Imminent publication",
+          "detail": "His book described his account of sensitive government work and arguments for transparency; these remain author claims unless independently corroborated.",
+          "source": "https://luiselizondo-official.com/"
+        },
+        {
+          "date": "23 August 2024",
+          "title": "Joe Rogan podcast appearance",
+          "detail": "Discussed his career and book in recorded conversation.",
+          "source": "https://podcasts.apple.com/us/podcast/2194-luis-elizondo/id360084272?i=1000666389836"
+        }
+      ],
+      "articles": [
+        {
+          "label": "HISTORY — Elizondo and the Unidentified investigation series",
+          "publisher": "HISTORY",
+          "date": "2019–2020",
+          "url": "https://www.history.com/shows/unidentified-inside-americas-ufo-investigation"
+        },
+        {
+          "label": "Official Elizondo biography and publication links",
+          "publisher": "Luis Elizondo",
+          "date": "Current",
+          "url": "https://luiselizondo-official.com/"
+        },
+        {
+          "label": "Interview on his government UAP account",
+          "publisher": "ABC News",
+          "date": "2024-08-27",
+          "url": "https://abcnews.com/US/luis-elizondo-offers-window-us-governments-hunt-ufos/story?id=113152292"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Luis Elizondo — extensive interview on UAP programmes",
+          "youtubeId": "H5i7PeRl5ME",
+          "type": "Interview / personal account",
+          "publisher": "Shawn Ryan Show",
+          "date": "2025",
+          "context": "An extended account from the interview subject; the statements are not direct recordings of alleged physical recovered materials."
+        }
+      ],
+      "photo": null,
+      "sources": [
+        {
+          "label": "HISTORY — Elizondo and the Unidentified investigation series",
+          "url": "https://www.history.com/shows/unidentified-inside-americas-ufo-investigation"
+        },
+        {
+          "label": "Official Elizondo biography and publication links",
+          "url": "https://luiselizondo-official.com/"
+        }
+      ],
+      "media": [
+        {
+          "label": "Luis Elizondo — extensive interview on UAP programmes",
+          "url": "https://www.youtube.com/watch?v=H5i7PeRl5ME",
+          "type": "Interview / personal account",
+          "context": "An extended account from the interview subject; the statements are not direct recordings of alleged physical recovered materials."
+        }
+      ],
+      "socialPages": [
+        {
+          "label": "Luis Elizondo — official website",
+          "url": "https://luiselizondo-official.com/",
+          "kind": "Official site"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Luis Elizondo — official website",
+          "url": "https://luiselizondo-official.com/"
+        }
+      ]
+    },
+    {
+      "id": "christopher-mellon",
+      "name": "Christopher Mellon",
+      "category": [
+        "Former intelligence official",
+        "Disclosure advocate",
+        "Researcher"
+      ],
+      "role": "Former Deputy Assistant Secretary of Defense for Intelligence",
+      "short": "Former US defence intelligence official associated with public UAP transparency and aviation-reporting initiatives.",
+      "position": "Mellon has advocated for rigorous national-security review of unexplained aerial reports and publicly discussed Pentagon video releases and congressional oversight.",
+      "context": "His government career is documented by public speaker biographies; specific allegations about recovered materials or programmes require independently accessible sources.",
+      "biography": [
+        "Christopher Mellon served in senior US defence and intelligence roles, including as Deputy Assistant Secretary of Defense for Intelligence and a staff leader associated with Senate intelligence work. A public speaker biography documents this professional background and his later interest in UAP investigation.",
+        "Mellon appeared in the History documentary series Unidentified: Inside America's UFO Investigation alongside Luis Elizondo. His public writing and interviews have argued for a more coherent approach to collecting, analysing and publicly discussing unusual military aerial observations. He has also discussed the reporting of Navy UAP video and transparency debates.",
+        "The strongest research distinction is between his verifiable service and his analysis of what available government records imply. Policy advocacy, footage release and assertions about possible hidden programmes are separate kinds of evidence. His testimony and interviews provide valuable context but do not establish the physical identity or provenance of unidentified objects."
+      ],
+      "milestones": [
+        {
+          "date": "1990s–2000s",
+          "title": "Senior US intelligence and defence responsibilities",
+          "detail": "Professional biographies document his work in intelligence and defence oversight.",
+          "source": "https://vailsymposium.org/speaker/christopher-mellon/"
+        },
+        {
+          "date": "2019",
+          "title": "Featured in History's Unidentified series",
+          "detail": "Appeared with Elizondo discussing government UAP reporting, interviews and analysis.",
+          "source": "https://www.history.com/shows/unidentified-inside-americas-ufo-investigation"
+        },
+        {
+          "date": "12 September 2024",
+          "title": "Anomalous Review interview",
+          "detail": "Discussed UAP policy, national security and government accountability in a published podcast interview.",
+          "source": "https://podcasts.apple.com/gb/podcast/005-chris-mellon-on-uap-national-security-government/id1762690003?i=1000669232420"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Professional biography and programme credits",
+          "publisher": "Vail Symposium",
+          "date": "Current",
+          "url": "https://vailsymposium.org/speaker/christopher-mellon/"
+        },
+        {
+          "label": "HISTORY's Unidentified series",
+          "publisher": "HISTORY",
+          "date": "2019–2020",
+          "url": "https://www.history.com/shows/unidentified-inside-americas-ufo-investigation"
+        },
+        {
+          "label": "The Anomalous Review — full interview",
+          "publisher": "The Anomalous Review / Apple Podcasts",
+          "date": "2024-09-12",
+          "url": "https://podcasts.apple.com/gb/podcast/005-chris-mellon-on-uap-national-security-government/id1762690003?i=1000669232420"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Christopher Mellon — Sol Foundation discussion of disclosure consequences",
+          "youtubeId": "nifLdoJYamQ",
+          "type": "Research presentation / policy discussion",
+          "publisher": "Sol Foundation",
+          "date": "2024",
+          "context": "Discusses implications of government disclosure policy; not first-hand footage of a UAP sighting."
+        }
+      ],
+      "photo": null,
+      "sources": [
+        {
+          "label": "Professional biography and programme credits",
+          "url": "https://vailsymposium.org/speaker/christopher-mellon/"
+        },
+        {
+          "label": "HISTORY's Unidentified series",
+          "url": "https://www.history.com/shows/unidentified-inside-americas-ufo-investigation"
+        }
+      ],
+      "media": [
+        {
+          "label": "Christopher Mellon — Sol Foundation discussion of disclosure consequences",
+          "url": "https://www.youtube.com/watch?v=nifLdoJYamQ",
+          "type": "Research presentation / policy discussion",
+          "context": "Discusses implications of government disclosure policy; not first-hand footage of a UAP sighting."
+        }
+      ],
+      "socialPages": [
+        {
+          "label": "Christopher Mellon — X (attributed by podcast host)",
+          "url": "https://x.com/ChrisKMellon",
+          "kind": "Public professional profile"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Christopher Mellon — X (attributed by podcast host)",
+          "url": "https://x.com/ChrisKMellon"
+        }
+      ]
+    },
+    {
+      "id": "avi-loeb",
+      "name": "Avi Loeb",
+      "category": [
+        "Scientist",
+        "Researcher",
+        "Author"
+      ],
+      "role": "Harvard astrophysicist; Galileo Project co-founder",
+      "short": "Harvard scientist seeking observational data on interstellar objects and UAP using instruments and testable hypotheses.",
+      "position": "Loeb has argued that some unusual astronomical observations warrant open scientific investigation, and co-founded the Galileo Project in 2021.",
+      "context": "A proposal to investigate a possible technological explanation is not evidence that extraterrestrial technology has already been identified; the project's reported measurements and methods require ordinary scientific scrutiny.",
+      "biography": [
+        "Abraham (Avi) Loeb is an astrophysicist at Harvard University known for work on astrophysics and for openly discussing the possibility that unusual interstellar objects could have technological explanations. He has argued that scientific observations, rather than public fascination alone, should guide claims about unknown phenomena.",
+        "In July 2021 Loeb and Frank Laukien founded the Galileo Project. Harvard's project description states that it addresses both unidentified aerial phenomena and interstellar objects, with researchers pursuing instruments and analysis capable of generating new information. This is a scientific research programme; its existence does not demonstrate that any observation is of non-human origin.",
+        "Loeb has explored these questions in research articles, lectures and long-form podcasts. Disagreement with his interpretations should be approached by comparing physical measurements, model predictions and assumptions. His profiles are particularly useful to Disclosure Desk because Hypothesis Lab and Research Gap Finder are designed around this testable-evidence principle."
+      ],
+      "milestones": [
+        {
+          "date": "2017",
+          "title": "Interstellar object 1I/‘Oumuamua observed",
+          "detail": "Loeb later became associated with interpretations of this object's unusual observed behaviour, including speculative technological possibilities.",
+          "source": "https://galileo.hsites.harvard.edu/organization"
+        },
+        {
+          "date": "July 2021",
+          "title": "Galileo Project launched",
+          "detail": "Harvard's project states Loeb and Frank Laukien founded the initiative for systematic study of interstellar objects and UAP.",
+          "source": "https://galileo.hsites.harvard.edu/organization"
+        },
+        {
+          "date": "1 August 2022",
+          "title": "Scientific outreach and interviews",
+          "detail": "Discussed observational testability and search plans in public interview and research talks.",
+          "source": "https://www.youtube.com/watch?v=t9TI67BusQA"
+        },
+        {
+          "date": "9 September 2022",
+          "title": "Theories of Everything interview",
+          "detail": "Discussed UAP, AI and scientific hypotheses with Curt Jaimungal.",
+          "source": "https://podcasts.apple.com/gb/podcast/avi-loeb-on-consciousness-uaps-ai-ce5-jacques-vall%C3%A9e/id1521758802?i=1000578980831"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Galileo Project organisation and science aims",
+          "publisher": "Harvard University Galileo Project",
+          "date": "2021 onward",
+          "url": "https://galileo.hsites.harvard.edu/organization"
+        },
+        {
+          "label": "Avi Loeb — long-form astrophysics and interstellar objects discussion",
+          "publisher": "Lex Fridman Podcast",
+          "date": "2021-01-13",
+          "url": "https://www.youtube.com/watch?v=plcc6E-E1uU"
+        },
+        {
+          "label": "Galileo Project UAP research interview",
+          "publisher": "That UFO Podcast",
+          "date": "2022-04-18",
+          "url": "https://www.youtube.com/watch?v=t9TI67BusQA"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Avi Loeb — Aliens, black holes and the mystery of 'Oumuamua",
+          "youtubeId": "plcc6E-E1uU",
+          "type": "Scientific research interview",
+          "publisher": "Lex Fridman",
+          "date": "2021-01-13",
+          "context": "Interview about models and possibilities; it does not provide proof of extraterrestrial engineering."
+        }
+      ],
+      "photo": null,
+      "sources": [
+        {
+          "label": "Galileo Project organisation and science aims",
+          "url": "https://galileo.hsites.harvard.edu/organization"
+        },
+        {
+          "label": "Avi Loeb — long-form astrophysics and interstellar objects discussion",
+          "url": "https://www.youtube.com/watch?v=plcc6E-E1uU"
+        }
+      ],
+      "media": [
+        {
+          "label": "Avi Loeb — Aliens, black holes and the mystery of 'Oumuamua",
+          "url": "https://www.youtube.com/watch?v=plcc6E-E1uU",
+          "type": "Scientific research interview",
+          "context": "Interview about models and possibilities; it does not provide proof of extraterrestrial engineering."
+        }
+      ],
+      "socialPages": [
+        {
+          "label": "Galileo Project — Harvard",
+          "url": "https://galileo.hsites.harvard.edu/organization",
+          "kind": "Institutional research project"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Galileo Project — Harvard",
+          "url": "https://galileo.hsites.harvard.edu/organization"
+        }
+      ]
+    },
+    {
+      "id": "jacques-vallee",
+      "name": "Jacques Vallée",
+      "category": [
+        "Researcher",
+        "Author",
+        "Documentary participant"
+      ],
+      "role": "Computer scientist and long-standing UFO/UAP researcher",
+      "short": "Researcher and author whose work ranges from historical case catalogues to social, cultural and physical-evidence questions.",
+      "position": "Vallée has written extensively on reports of anomalous experiences, argued against overly simple explanations, and participated in source-based documentary investigations.",
+      "context": "His hypothesis-building and interviews should be distinguished from verified scientific findings. Film appearances establish his documented involvement, not the accuracy of every case portrayed.",
+      "biography": [
+        "Jacques Vallée is a computer scientist and author whose UFO research has extended across decades. He is known for investigating varied reports and for challenging the assumption that every anomalous experience can be explained by a single extraterrestrial-visitation hypothesis. His research work is documented on his own publications and media pages.",
+        "Vallée's film credits on his official media page include James Fox's The Phenomenon (2020) and the 2018 documentary Witness of Another World. His contributions include analysis of reports, cultural interpretation and discussion of evidence. Films record his contributions and those of other participants; the documentary format is not itself an independent verification.",
+        "Vallée has also participated in long-form interviews about his methods and archives, including a 2020 Joe Rogan appearance with filmmaker James Fox. Disclosure Desk can use those discussions as starting points for tracing sources, while maintaining separate labels for observational data, analytical theories and unconfirmed testimony."
+      ],
+      "milestones": [
+        {
+          "date": "1970s–1990s",
+          "title": "Research books and cataloguing work",
+          "detail": "His publication and media chronology records sustained investigation of UFO and anomalous experience reports.",
+          "source": "https://www.jacquesvallee.net/media/"
+        },
+        {
+          "date": "2018",
+          "title": "Witness of Another World documentary",
+          "detail": "Participated in Alan Stivelman's film exploring a reported encounter and its effects on a witness.",
+          "source": "https://www.jacquesvallee.net/media/"
+        },
+        {
+          "date": "2020",
+          "title": "The Phenomenon documentary",
+          "detail": "Participated in James Fox's documentary about historical UAP reporting.",
+          "source": "https://www.jacquesvallee.net/media/"
+        },
+        {
+          "date": "4 December 2020",
+          "title": "Joe Rogan appearance with James Fox",
+          "detail": "A three-hour podcast discussion of UAP cases and interpretation.",
+          "source": "https://podcasts.apple.com/gb/podcast/1574-jacques-vall%C3%A9e-james-fox/id360084272?i=1000644539319"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Jacques Vallée — own media, interviews and film credits",
+          "publisher": "Jacques Vallée",
+          "date": "Official source",
+          "url": "https://www.jacquesvallee.net/media/"
+        },
+        {
+          "label": "Joe Rogan Experience #1574 with James Fox",
+          "publisher": "The Joe Rogan Experience / Apple Podcasts",
+          "date": "2020-12-04",
+          "url": "https://podcasts.apple.com/gb/podcast/1574-jacques-vall%C3%A9e-james-fox/id360084272?i=1000644539319"
+        }
+      ],
+      "videos": [],
+      "photo": null,
+      "sources": [
+        {
+          "label": "Jacques Vallée — own media, interviews and film credits",
+          "url": "https://www.jacquesvallee.net/media/"
+        },
+        {
+          "label": "Joe Rogan Experience #1574 with James Fox",
+          "url": "https://podcasts.apple.com/gb/podcast/1574-jacques-vall%C3%A9e-james-fox/id360084272?i=1000644539319"
+        }
+      ],
+      "media": [],
+      "socialPages": [
+        {
+          "label": "Jacques Vallée — official published media",
+          "url": "https://www.jacquesvallee.net/media/",
+          "kind": "Official media page"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Jacques Vallée — official published media",
+          "url": "https://www.jacquesvallee.net/media/"
+        }
+      ]
+    },
+    {
+      "id": "james-fox",
+      "name": "James Fox",
+      "category": [
+        "Filmmaker",
+        "Documentary director",
+        "Interviewer"
+      ],
+      "role": "Director of The Phenomenon, Moment of Contact and The Program",
+      "short": "Documentary filmmaker whose UAP films focus on witness testimony, historical investigations and government transparency.",
+      "position": "Fox has directed several well-known documentaries; his work presents interviewed accounts and editorial arguments but does not itself independently establish each extraordinary allegation.",
+      "context": "Film credits are verified from industry listings and filmmaker interviews; a statement in a movie should still be traced to the person and original document concerned.",
+      "biography": [
+        "James Fox is a documentary filmmaker whose career in UFO and UAP reporting includes Out of the Blue, I Know What I Saw, The Phenomenon, Moment of Contact and The Program. Interviews with Fox describe his method of approaching witnesses and investigating controversial historical incidents.",
+        "His 2020 film The Phenomenon compiled historical material and interviews with officials and witnesses. Moment of Contact (2022) explored claims surrounding a 1996 incident in Varginha, Brazil, while The Program (2024) addressed government disclosure and congressional activity. These films are useful editorial syntheses, but do not substitute for independent examination of original interview recordings and physical evidence.",
+        "Fox has discussed his productions on podcasts including The Joe Rogan Experience, Astonishing Legends and Film School Radio. A useful Evidence DNA approach would link individual documentary statements to identified participants, dated versions and primary source records rather than treating repeated programme clips as separate confirmations."
+      ],
+      "milestones": [
+        {
+          "date": "2003",
+          "title": "Out of the Blue",
+          "detail": "Documentary about historical UFO reporting with Fox directing and producing.",
+          "source": "https://filmschoolradio.com/the-program-director-james-fox/"
+        },
+        {
+          "date": "2020",
+          "title": "The Phenomenon released",
+          "detail": "Film examining UAP reporting through archival material and filmed interviews.",
+          "source": "https://filmschoolradio.com/the-program-director-james-fox/"
+        },
+        {
+          "date": "2022",
+          "title": "Moment of Contact released",
+          "detail": "Documentary revisiting the 1996 Varginha reports in Brazil.",
+          "source": "https://filmschoolradio.com/the-program-director-james-fox/"
+        },
+        {
+          "date": "2024",
+          "title": "The Program released",
+          "detail": "Film examining congressional attempts to learn more about UAP activities.",
+          "source": "https://filmschoolradio.com/the-program-director-james-fox/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Director interview — The Program",
+          "publisher": "Film School Radio",
+          "date": "2025",
+          "url": "https://filmschoolradio.com/the-program-director-james-fox/"
+        },
+        {
+          "label": "James Fox films and credits",
+          "publisher": "Apple TV",
+          "date": "Filmography",
+          "url": "https://tv.apple.com/gb/person/james-fox/umc.cpc.6nn94fbb6henu22kyijnrv1p9"
+        },
+        {
+          "label": "Filmmaker Q&A on The Program",
+          "publisher": "Astonishing Legends / Apple Podcasts",
+          "date": "2024-12-15",
+          "url": "https://podcasts.apple.com/gb/podcast/the-program-with-director-james-fox/id923527373?i=1000680397754"
+        }
+      ],
+      "videos": [],
+      "photo": null,
+      "sources": [
+        {
+          "label": "Director interview — The Program",
+          "url": "https://filmschoolradio.com/the-program-director-james-fox/"
+        },
+        {
+          "label": "James Fox films and credits",
+          "url": "https://tv.apple.com/gb/person/james-fox/umc.cpc.6nn94fbb6henu22kyijnrv1p9"
+        }
+      ],
+      "media": [],
+      "socialPages": [],
+      "officialLinks": []
+    },
+    {
+      "id": "nick-pope",
+      "name": "Nick Pope",
+      "category": [
+        "Former government official",
+        "Author",
+        "TV documentary contributor"
+      ],
+      "role": "Former UK Ministry of Defence UFO desk officer (1965–2026)",
+      "short": "Former UK civil servant known for handling UFO-related enquiries and later working as an author and broadcaster.",
+      "position": "Pope served at the Ministry of Defence UFO desk from 1991 to 1994 and later contributed to books, podcasts and television documentaries.",
+      "context": "His official memorial records that he died on 6 April 2026. Accounts of specific cases should be checked against released MoD records rather than treating later interviews as definitive investigation results.",
+      "biography": [
+        "Nick Pope (1965–2026) was a British author and broadcaster who worked at the UK Ministry of Defence for 21 years. His official biographical memorial reports that he was assigned to the ministry's UFO desk between 1991 and 1994, where the role involved examining reports for defence significance and safety-of-flight concerns.",
+        "Pope wrote books about government UFO investigations and co-authored Encounter in Rendlesham Forest (2014) with witnesses John Burroughs and Jim Penniston. He later appeared in television programmes, documentary features and podcasts discussing UK cases such as Rendlesham and the 1993 Cosford wave. Documentary appearances record his commentary; the UK National Archives holds the original official government records that should be consulted alongside it.",
+        "His official website records his death on 6 April 2026, aged 60. Disclosure Desk preserves his public contributions as historical research rather than presenting him as a current spokesperson. His books, interviews and published recordings provide useful context, but particular conclusions about unexplained events remain subject to archival and scientific examination."
+      ],
+      "milestones": [
+        {
+          "date": "1985–2006",
+          "title": "UK Ministry of Defence career",
+          "detail": "Official memorial biography describes 21 years of civil service and later security work.",
+          "source": "https://www.nickpope.net/life"
+        },
+        {
+          "date": "1991–1994",
+          "title": "Assigned to MoD UFO desk",
+          "detail": "Handled UAP reports and reviewed files including Rendlesham, according to his published biography.",
+          "source": "https://www.nickpope.net/life"
+        },
+        {
+          "date": "2014",
+          "title": "Encounter in Rendlesham Forest published",
+          "detail": "Co-authored book with John Burroughs and Jim Penniston.",
+          "source": "https://www.nickpope.net/life"
+        },
+        {
+          "date": "28 August 2024",
+          "title": "Interview on UK UFO files",
+          "detail": "Discussed his MoD role in an episode of Last Podcast on the Left.",
+          "source": "https://podcasts.apple.com/gb/podcast/ufos-in-the-uk-an-interview-with-nick-pope/id437299706?i=1000666861672"
+        },
+        {
+          "date": "6 April 2026",
+          "title": "Death recorded",
+          "detail": "His official website published a memorial recording his death in Tucson, Arizona.",
+          "source": "https://www.nickpope.net/life"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Nick Pope — official memorial and career chronology",
+          "publisher": "Nick Pope official website",
+          "date": "2026",
+          "url": "https://www.nickpope.net/life"
+        },
+        {
+          "label": "UK National Archives — Ministry of Defence UFO records",
+          "publisher": "UK National Archives",
+          "date": "Archive guide",
+          "url": "https://www.nationalarchives.gov.uk/help-with-your-research/research-guides/ufos/"
+        },
+        {
+          "label": "Nick Pope — discussion of UK UFO files",
+          "publisher": "Last Podcast on the Left / Apple Podcasts",
+          "date": "2024-08-28",
+          "url": "https://podcasts.apple.com/gb/podcast/ufos-in-the-uk-an-interview-with-nick-pope/id437299706?i=1000666861672"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Nick Pope — UK MoD investigations and Rendlesham discussion",
+          "youtubeId": "B6WFLOIkyho",
+          "type": "Retrospective interview / case analysis",
+          "publisher": "Area52",
+          "date": "2025-04-18",
+          "context": "Nick Pope recounts his work and opinions; this is not contemporary footage of 1980 military sightings."
+        }
+      ],
+      "photo": null,
+      "sources": [
+        {
+          "label": "Nick Pope — official memorial and career chronology",
+          "url": "https://www.nickpope.net/life"
+        },
+        {
+          "label": "UK National Archives — Ministry of Defence UFO records",
+          "url": "https://www.nationalarchives.gov.uk/help-with-your-research/research-guides/ufos/"
+        }
+      ],
+      "media": [
+        {
+          "label": "Nick Pope — UK MoD investigations and Rendlesham discussion",
+          "url": "https://www.youtube.com/watch?v=B6WFLOIkyho",
+          "type": "Retrospective interview / case analysis",
+          "context": "Nick Pope recounts his work and opinions; this is not contemporary footage of 1980 military sightings."
+        }
+      ],
+      "socialPages": [
+        {
+          "label": "Nick Pope — official memorial and legacy research",
+          "url": "https://www.nickpope.net/life",
+          "kind": "Official biography (archival)"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Nick Pope — official memorial and legacy research",
+          "url": "https://www.nickpope.net/life"
         }
       ]
     }
