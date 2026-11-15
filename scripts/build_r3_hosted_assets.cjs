@@ -42,7 +42,7 @@ module.exports=function buildHostedR3(root,out,manifestFiles){
   '<link rel="stylesheet" href="./editorial-dock.css?v='+id+'">\n <link rel="stylesheet" href="./hypothesis-hosted.css?v='+id+'">');
  replaceOnce('<script defer src="./hypothesis-ui.js?v='+id+'"></script>',
   '<script defer src="../../assets/community-test-config.js"></script>\n'+
-  ' <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>\n'+
+  ' <script defer crossorigin="anonymous" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>\n'+
   ' <script defer src="./hypothesis-cloud.js?v='+id+'"></script>\n'+
   ' <script defer src="./hypothesis-ui.js?v='+id+'"></script>');
  const securityNote=/<p class="security-note" id="privacyWarning">[\s\S]*?<\/p>/;
