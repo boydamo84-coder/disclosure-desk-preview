@@ -1859,6 +1859,20 @@
                 "reviewNote": "AARO reported no verifiable evidence of extraterrestrial government reverse-engineering in its reviewed scope. This broad institutional assessment is neither personnel-specific proof nor a complete adjudication of Lazar's particular historical account."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://raids.org/files/mys3/lazar8.htm",
+              "locator": "ParaNet circulated 30 December 1989 transcription of KLAS-TV On the Record, broadcast-labelled 9 December 1989, opening S-4 employment exchange and later claimed gravitational propulsion discussion",
+              "assessment": "The historic ParaNet-distributed written transcript attributes to Lazar a claim that he was hired as a senior staff physicist at Area S-4 and encountered gravitational propulsion. The available archived text includes Knapp's questions and Lazar's first-person statements, but is a later electronic reproduction of a 1989 broadcast. A search-indexed copy was readable; its authenticity, omissions and exact wording have not been compared with original authenticated KLAS master tape in this pass. His asserted secret assignment and observed craft are not established as physical events by the transcript."
+            },
+            "independentEvidence": "The same broadcast appears on third-party archive indexes and later journalistic retellings. Reprints of one interview, Knapp's subsequent presentations and a chronological 1989 interview index are overlapping publication pathways, not distinct independent S-4 work records, engineering measurements or lab tests. Public references to Lazar around Los Alamos, even if independently authenticated, would answer a different question than placement at alleged S-4 on a recovered-craft programme.",
+            "competingRecord": "KNPR's 13 December 2018 interview with original KLAS reporting/editorial personnel discusses disputed education and work records, alongside limited background corroboration. These biography checks matter to documentation but do not decide an unrelated classified-craft allegation. AARO's March 2024 historical review reports no verified extraterrestrial reverse-engineering in the programmes it reviewed; it is a general scoped counterassessment rather than a direct authenticated S-4 personnel-file audit.",
+            "missingEvidence": "Original verifiable 9 December 1989 KLAS programme master with transcript comparison; attributable S-4 payroll, base-access and technical project records; contemporaneous independent coworkers and documentation; laboratory measurements or specimens with proven custody; a physically falsifiable propulsion mechanism; separate editorial review.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "lazar-knapp-1989-s4-single-interview-chain"
           }
         }
       ]
@@ -2073,6 +2087,20 @@
                 "reviewNote": "Earlier governmental review reports no verified recovered extraterrestrial craft in its examined material, but precedes Barber's public January 2025 story and cannot directly resolve the claimed particular retrieval."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://www.youtube.com/watch?v=PGOpHdHSjTE",
+              "locator": "NewsNation original Jake Barber interview, broadcast 18 January 2025; white egg-shaped object and helicopter retrieval segment, with a January 15 syndicated advance notice",
+              "assessment": "Barber states that, while conducting helicopter retrieval activity, he saw a white egg-shaped object that he considered extraordinary and later inferred was non-human. NewsNation's January 15 advance piece and January 18 special trace the same interview. The original broadcaster YouTube recording could not be played in full here; descriptions cross-checked against contemporaneous original-publisher/syndicated summaries and an unaffiliated transcript archive. The clip's appearance and the asserted previous recovery programme are not authenticated solely by a televised source package."
+            },
+            "independentEvidence": "NewsNation's reported background verification and separately interviewed associates relate to Barber's military/flight history or their own interactions, not proven recovery of a non-human craft. The Yahoo NewsNation reprint and initial NewsNation special are the SAME newsroom's work and do not constitute two independent recovered-object witnesses. The broadcast's video provenance, producer's access to raw metadata, equipment operators and the link to Barber's specific event require separate testing.",
+            "competingRecord": "Potential terrestrial classified test-range hardware, visual ambiguity under night vision and limited chain of custody remain untested alternatives, not established solutions. AARO's March 2024 historical review preceded this January 2025 disclosure and cannot be described as a case-specific government refutation or endorsement. Public investigation or inquiry into an allegation does not verify the object as non-human.",
+            "missingEvidence": "Full original NewsNation programme cross-checked against source media; authenticated unedited recording and metadata; location/date and flight/helicopter logs, identifiable lift crew, load/sling specifications, custody from recovery to secure facility, independent accessible sample tests, and second editorial reviewer.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "barber-2025-newsnation-one-egg-retrieval-package"
           }
         }
       ]
@@ -2578,6 +2606,20 @@
                 "reviewNote": "Bibliography supports existence and authorship of the published account, but is not a primary readable copy of its specific assertions and does not verify the 1980 event."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://www.youtube.com/watch?v=21yW_XZR2LU",
+              "locator": "NewsNation Reality Check, 19 August 2025, Larry Warren/Steve Longero Rendlesham discussion, Warren part indicated approximately 08:47–32:40; direct full source video not played here",
+              "assessment": "Warren's decades-later interview describes his claimed December 1980 participation in an extraordinary Rendlesham event. The reported original broadcaster programme and the 1997 Left at East Gate bibliography establish publication and attribution of a retrospective account; the interview was not directly transcribed against full video in this pass, and catalogue metadata does not establish the specific text of the book. This does not establish his presence at each scene or validate a landing as an independent physical observation."
+            },
+            "independentEvidence": "The UK National Archives' 2012 original briefing (PDF, printed page 13) confirms contemporaneous sightings, Halt's January 1981 Unexplained Lights report and locations of DEFE 24/1512, DEFE 24/1948/1 and DEFE 24/1995/1. Those documents support the historical report and some witness context, but not Warren's separate later first-person chronology. Other participants' interviews may be independent people yet contain shared reporting and inconsistent dates; a plurality of interviews is not identical to mutually independent contemporaneous records.",
+            "competingRecord": "A separately published 28 October 2025 NewsNation interview with Charles Halt disputes elements of Warren's later account. Its availability documents a competing eyewitness narrative, not proof that either interview resolves who stood where on each night. The MoD records distinguish at least two nights and a later Halt expedition; reconstructed timelines, lighthouse interpretations and base duty records are required for a specific claim-by-claim assessment.",
+            "missingEvidence": "Watch and transcribe both complete first-party NewsNation recordings with speaker/timestamp accuracy; original 1997 book passages; signed contemporaneous 1980–81 duty logs, personnel rosters, original witness statements and survey/photos; reconcile separate nights and military positions; independent second editor.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "rendlesham-1980-distinct-nights-halt-warren-claims"
           }
         }
       ]
@@ -3013,6 +3055,20 @@
                 "reviewNote": "The official review offers an institutional position and may have classified-source constraints; it does not provide a complete audit of Mellon's legal overclassification allegations."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://christopherkmellon.substack.com/p/the-us-government-is-sitting-on-a",
+              "locator": "Author's republished San Francisco Chronicle commentary of 11 October 2025, Substack 14 October 2025, paragraphs on post-2017 reclassification, overclassification, 1948 gun-camera photographs, and UAP archives",
+              "assessment": "Mellon expressly reports that radar/video UAP records were sometimes dismissed, buried or overclassified, says the intelligence community reclassified nearly everything after release of Navy videos, and advocates further records release. The article is a direct first-person claim grounded partly in his professional experience and linked documents, not an independently audited record-by-record inventory of classification decisions. He does not claim that authentic released Navy footage demonstrates non-human technology. His reprint describes 2023/2024 law and proposed future legislation; these must not be conflated."
+            },
+            "independentEvidence": "The DoD's 27 April 2020 release independently authenticates three historic Navy video recordings, but does not prove broader UAP records are legally overclassified. The US National Archives' statutory Record Group 615, its agency transfer requirements and its actual 24 April 2025 record release independently establish a real government records-transfer programme and public disclosures. Neither a continuing collection nor a finite current count alone demonstrates that withholding of every missing record is unlawful or deliberate.",
+            "competingRecord": "National Archives guidance recognises fully releasable, redacted, and legitimately postponed records, and requires agency review under statutory restrictions. National security and source/method considerations can lawfully limit publication of particular files; Mellon raises a genuine transparency and proportionality argument without presenting a comprehensive classification-by-classification legal case. AARO's conclusions on extraterrestrial recoveries do not directly adjudicate alleged excessive classification of unrelated radar/video files.",
+            "missingEvidence": "Original classification memoranda and versions for each claimed suppressed radar/video file, inventory of actual withheld versus released records, statutory FOIA/2241-1843 exceptions and lawful postponements, independent legal review, original 1948 photographs' existence/custody if asserted, and a separate editor with classification policy expertise.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "mellon-2025-records-classification-policy"
           }
         }
       ]
@@ -3701,6 +3757,20 @@
                 "reviewNote": "A reproduced official governmental letter explains inquiries into media/book allegations regarding military capture. Government records record an investigation and procedural status rather than validating the alleged creature."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://filmschoolradio.com/the-program-director-james-fox/",
+              "locator": "Film School Radio first-party filmmaker interview and biography for The Program (2024), referencing James Fox-directed Moment of Contact (2022) and the Varginha allegations; exact documentary witness footage not reviewed",
+              "assessment": "The filmmaker interview establishes Fox's role and the stated subject of his 2022 Varginha documentary, which showcases allegations of unusual beings and military handling in January 1996. The interview does NOT itself reproduce the original Brazilian witnesses' complete words or supply independently tested biological material. Notably the publisher's brief biography has an apparent '1966' Varginha year typo; the separate Brazilian Superior Tribunal Militar archive identifies allegations concerning 20 January 1996. Interpret that typo as an unresolved publisher error rather than shifting the incident date or silently converting marketing language to eyewitness evidence."
+            },
+            "independentEvidence": "The Brazilian Superior Tribunal Militar's official catalog indexes 1997 military police inquiry IPM 18/1997 (13 February–19 June 1997) prompted by allegations in the Pacaccini/Portes book about a supposed January 1996 capture and military transport. Official cataloguing verifies an investigation into *reported allegations*, not authentication of an extraterrestrial being. The director's later film interviews and documentary interviewees must be distinguished from underlying firsthand witnesses and from each other.",
+            "competingRecord": "A formal investigation is compatible with many factual outcomes; neither an inquiry's existence nor a military denial alone determines biological origin. The Brazilian original inquiry volumes and Portuguese-language conclusions were not fully directly opened, translated or independently interpreted here: an excerpted searchable catalogue does not warrant attributing definitive findings to a specific judge/prosecutor. Natural/medical/animal alternatives must be examined with original localized witness timelines and records.",
+            "missingEvidence": "Complete legally available Moment of Contact viewing with exact original Portuguese interviews, professional translations and consent/rights review; official 1997 STM original complete court papers including conclusion and evidentiary exhibits; independent local witness/date reconciliation, medical/hospital and army duty registers, physical specimen/custody examination, separate bilingual reviewer.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "varginha-1996-witness-film-1997-stm-inquiry"
           }
         }
       ]
@@ -3938,6 +4008,20 @@
                 "reviewNote": "A UK regulator addressed availability of job descriptions and book-clearance records, not the 1980 incident's physical nature. A missing historic job description is neither proof nor disproof of his reported case review."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://nickpope.net/wpte19/rendlesham-forest/",
+              "locator": "Nick Pope original first-person Rendlesham article; attributed 2013 summary delivered to a group of former US congressional representatives, paragraph 'In the course of my cold case review' through conclusions on conventional explanations",
+              "assessment": "Pope's first-party published article states that he retrospectively assessed proposed mundane explanations and found none fit the reported facts. He does NOT claim to have been present at the December 1980 scene: the essay is a later interpretation of testimony and records. The original article was discoverable through indexed first-party text but a direct web open redirected to a blocked mirror, so original page availability and historical revision date need an independent check. An inconclusive conventional explanation is not evidence by itself for a non-human object."
+            },
+            "independentEvidence": "The National Archives' official records guide separately verifies 1980 sightings, Lt Col Halt's January 1981 report, and exact DEFE file location. That archive is independent of Pope's later review, but it is the *same underlying historic case*, not an additional laboratory experiment. Pope's books, his web briefing and retellings of other personnel must not be counted as multiple distinct event measurements.",
+            "competingRecord": "Pope's own source acknowledges the Ministry of Defence described the incident as of no defence significance, even though reports remained unexplained. The 2012 National Archives research briefing describes lights, separate nights, and collected military correspondence, not a conclusively demonstrated landing or identified origin. Competing beacon/astronomical/aircraft hypotheses require original geometry, event-time and instrument records rather than dismissive labels.",
+            "missingEvidence": "Original 2013 briefing provenance and full historic text; original 1980/1981 witness signed statements, Halt tape and temporal metadata, base/radar logs, precise lighthouse/astronomical reconstruction, site marks and calibrated independent measurements; case-specific independent scientific review.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "rendlesham-1980-distinct-nights-halt-warren-claims"
           }
         }
       ]
@@ -8082,6 +8166,20 @@
                 "reviewNote": "Establishes continuity of reporting and authorship, not new independent proof of the separate 2023 craft-recovery account."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://thedebrief.org/intelligence-officials-say-u-s-has-retrieved-non-human-craft/",
+              "locator": "The Debrief, signed Leslie Kean / Ralph Blumenthal article, 5 June 2023, opening four paragraphs on other active/retired intelligence officials and sections quoting Grusch and Mellon",
+              "assessment": "The coauthored original June 2023 report says multiple intelligence officials independently provided reporters similar and corroborating accounts about alleged recovery programmes. It quotes Grusch and Mellon and describes confidential material not shown publicly. The text is a direct published journalistic assertion about reporter sourcing; it does not publish the identities or full primary statements of every unnamed official or permit a third party to verify independence and physical recoveries. It is not an assertion that Kean personally saw recovered material."
+            },
+            "independentEvidence": "Official 26 July 2023 House transcript independently confirms Grusch later gave sworn testimony on his own programme allegations. That strengthens attribution and chronology but is the same central source's reported programme information, not independent material examination. Mellon appears on record in the June article, but repeating his quote elsewhere is not a distinct retrieval. Confidential independently sourced interviews may exist, yet an external reviewer cannot presently inspect them to establish independence, scope or matching operational evidence.",
+            "competingRecord": "The public March 2024 DoD/AARO historical-record assessment found no verifiable extraterrestrial technology/reverse engineering in reviewed material; that is a differently sourced institutional conclusion but not a complete declassification of every named/anonymous witness. Questions about Grusch's representations to oversight bodies and separate source vetting should not be equated with accusations of reporter misconduct. Neither the article nor government statements provide publicly reproducible specimen data.",
+            "missingEvidence": "Editors' independently reviewable documentation of unnamed officials (respecting source confidentiality), separate dates and firsthand knowledge, original inspector-general complaint scope, programme authorization and materials custody, controlled scientific tests, resolution of classified sources and an independent second-editor assessment of the narrow *corroborating reporting* claim.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "grusch-coulthart-2023-recovery-reporting-not-independent"
           }
         }
       ]
