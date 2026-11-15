@@ -36,7 +36,7 @@ match(/pg_advisory_xact_lock/, 'User rating mutations serialised');
 match(/INTERVAL '3 minutes'/, 'Cooldown');
 match(/INTERVAL '24 hours'/, 'Rolling daily new-rating limit');
 match(/\) >= 30 THEN/, 'Daily new-rating maximum');
-match(/ON CONFLICT \(claim_id,voter_id\)/, 'Atomic account/claim upsert');
+match(/ON CONFLICT ON CONSTRAINT dd_who_claim_ratings_pkey/, 'Atomic account/claim upsert resolves named primary key without ambiguous OUT parameter');
 match(/REVOKE ALL ON FUNCTION public\.dd_who_claim_rating_summary\(TEXT\[\]\) FROM PUBLIC/, 'No default public summary execute');
 match(/REVOKE ALL ON FUNCTION public\.dd_who_claim_rating_set\(TEXT,SMALLINT\) FROM PUBLIC/, 'No default public write execute');
 match(/GRANT EXECUTE ON FUNCTION public\.dd_who_claim_rating_summary\(TEXT\[\]\) TO anon, authenticated/, 'Only bounded guest-safe summary');
