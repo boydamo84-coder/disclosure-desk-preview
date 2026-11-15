@@ -485,11 +485,13 @@
         }
       ],
       "photoRightsAudit": {
-        "status": "license_listing_recheck_pending",
-        "checkedAt": null,
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ryan_Graves_26_July_2023.png",
-        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
-        "finalRightsApproval": false
+        "detail": "Commons file lists an extracted still from the 26 July 2023 House Oversight hearing (webm), attributed to House committee, and US federal public-domain status. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "finalRightsApproval": false,
+        "independentRightsReviewer": "not_assigned",
+        "rightsFollowup": null
       }
     },
     {
@@ -1553,11 +1555,13 @@
         }
       ],
       "photoRightsAudit": {
-        "status": "license_listing_recheck_pending",
-        "checkedAt": null,
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:George_Knapp_(8221331696)_(cropped).jpg",
-        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
-        "finalRightsApproval": false
+        "detail": "Commons Peabody Awards/Flickr source credits Anders Krusberg and photo crop, CC BY 2.0, and expressly warns about personality/model rights. Its body dates conflict (event caption says 17 May 2010; upload/source header says May 2009), requiring primary Peabody/Flickr event date confirmation. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "finalRightsApproval": false,
+        "independentRightsReviewer": "not_assigned",
+        "rightsFollowup": "Resolve Peabody event date inconsistency between the photo caption and archive metadata; personal-rights caveat applies."
       }
     },
     {
@@ -1839,11 +1843,13 @@
         }
       ],
       "photoRightsAudit": {
-        "status": "license_listing_recheck_pending",
-        "checkedAt": null,
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mick_West_CSICon_2018_Debunking_9-11_Microsphere_Myths.jpg",
-        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
-        "finalRightsApproval": false
+        "detail": "Commons 19 October 2018 CSICon photograph lists photographer Karl Withakay, his own work, and CC BY-SA 4.0; attribution, cropped-display disclosure and share-alike obligations remain. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "finalRightsApproval": false,
+        "independentRightsReviewer": "not_assigned",
+        "rightsFollowup": null
       }
     },
     {
@@ -3179,11 +3185,13 @@
         }
       ],
       "photoRightsAudit": {
-        "status": "license_listing_recheck_pending",
-        "checkedAt": null,
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Luis_Elizondo.jpg",
-        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
-        "finalRightsApproval": false
+        "detail": "Commons identifies a screen capture from the 14 April 2021 Max Moszkowicz YouTube interview and applies YouTube CC BY 3.0 to that pre-August-2025 upload. Recheck the source's historical Creative Commons licence and permitted reuse of the precise frame. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "finalRightsApproval": false,
+        "independentRightsReviewer": "not_assigned",
+        "rightsFollowup": "Confirm original 2021 interview uploaded under the attributed CC BY 3.0 licence and screenshot editing rights."
       }
     },
     {
@@ -3703,11 +3711,13 @@
         }
       ],
       "photoRightsAudit": {
-        "status": "license_listing_recheck_pending",
-        "checkedAt": null,
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Abraham(Avi)_Loeb.jpg",
-        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
-        "finalRightsApproval": false
+        "detail": "Commons lists Avi Loeb's April 2020 photograph as own work uploaded by Aloeb with credit Lotem Loeb and CC BY-SA 4.0. Confirm the uploader is entitled to license the original photo; share-alike and cropped attribution apply. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "finalRightsApproval": false,
+        "independentRightsReviewer": "not_assigned",
+        "rightsFollowup": "Confirm the named photo creator's right to license the original image; satisfy share-alike for cropped reuse."
       }
     },
     {
@@ -3958,11 +3968,13 @@
         }
       ],
       "photoRightsAudit": {
-        "status": "license_listing_recheck_pending",
-        "checkedAt": null,
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jacques_Vall%C3%A9e_by_Christopher_Michel_12122024_01.jpg",
-        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
-        "finalRightsApproval": false
+        "detail": "Commons lists Christopher Michel (Cmichel67) as photographer, 12 December 2024 portrait from his original work, CC BY-SA 4.0. Keep proper attribution and crop/share-alike notice. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "finalRightsApproval": false,
+        "independentRightsReviewer": "not_assigned",
+        "rightsFollowup": null
       }
     },
     {
@@ -5997,11 +6009,13 @@
         ]
       },
       "photoRightsAudit": {
-        "status": "license_listing_recheck_pending",
-        "checkedAt": null,
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Scott_J_Kelly.jpg",
-        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
-        "finalRightsApproval": false
+        "detail": "Commons identifies NASA/JSC Scott J. Kelly official portrait photographed 27 May 1999, archive ID S99-05705; federal public-domain status declared. Check NASA identity/use policy for editorial illustration but do not imply NASA endorsement. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "finalRightsApproval": false,
+        "independentRightsReviewer": "not_assigned",
+        "rightsFollowup": null
       }
     },
     {
@@ -6894,11 +6908,13 @@
         ]
       },
       "photoRightsAudit": {
-        "status": "license_listing_recheck_pending",
-        "checkedAt": null,
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Anna_Paulina_Luna.jpg",
-        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
-        "finalRightsApproval": false
+        "detail": "Commons cites the Congresswoman's official House site, US House authorship, November 2022 image and federal public-domain licence statement. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "finalRightsApproval": false,
+        "independentRightsReviewer": "not_assigned",
+        "rightsFollowup": null
       }
     },
     {
@@ -7023,11 +7039,13 @@
         ]
       },
       "photoRightsAudit": {
-        "status": "license_listing_recheck_pending",
-        "checkedAt": null,
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nancy_Mace_portrait_(118th_Congress).jpg",
-        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
-        "finalRightsApproval": false
+        "detail": "Commons identifies the House Clerk original source and U.S. House authorship for Nancy Mace's 118th Congress portrait; marked federal public domain. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "finalRightsApproval": false,
+        "independentRightsReviewer": "not_assigned",
+        "rightsFollowup": null
       }
     },
     {
@@ -7158,11 +7176,13 @@
         ]
       },
       "photoRightsAudit": {
-        "status": "license_listing_recheck_pending",
-        "checkedAt": null,
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rep._Tim_Burchett_official_photo%2C_116th_congress.jpg",
-        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
-        "finalRightsApproval": false
+        "detail": "Commons identifies original Burchett House office site, 3 January 2019 116th Congress portrait, House authorship and US federal public-domain rationale. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "finalRightsApproval": false,
+        "independentRightsReviewer": "not_assigned",
+        "rightsFollowup": null
       }
     },
     {
@@ -7409,11 +7429,13 @@
         ]
       },
       "photoRightsAudit": {
-        "status": "license_listing_recheck_pending",
-        "checkedAt": null,
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eric_Burlison_portrait_118th.jpg",
-        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
-        "finalRightsApproval": false
+        "detail": "Commons original 2023/24 House representative portrait identifies House Creative Services and an original official site. Public-domain rationale is embedded under the Summary permission field rather than a separate Licensing heading; do not mark unlicensed because no dedicated heading exists. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "finalRightsApproval": false,
+        "independentRightsReviewer": "not_assigned",
+        "rightsFollowup": null
       }
     },
     {
@@ -7564,7 +7586,7 @@
       "photo": {
         "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Brandon_Gill%2C_official_portrait%2C_119th_Congress.jpg?width=250",
         "source": "https://commons.wikimedia.org/wiki/File:Brandon_Gill%2C_official_portrait%2C_119th_Congress.jpg",
-        "credit": "U.S. House of Representatives / House Creative Services",
+        "credit": "Nate Payne / U.S. House Creative Services",
         "license": "Public domain (US federal government)",
         "status": "source-and-licence-reviewed",
         "caption": "Official or NASA portrait of Brandon Gill — attributed public-domain source"
@@ -7660,11 +7682,13 @@
         ]
       },
       "photoRightsAudit": {
-        "status": "license_listing_recheck_pending",
-        "checkedAt": null,
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Brandon_Gill%2C_official_portrait%2C_119th_Congress.jpg",
-        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
-        "finalRightsApproval": false
+        "detail": "Commons explicitly credits photographer Nate Payne, House Creative Services in embedded EXIF as 'Official House Photographer, Nate Payne', and marks federal public domain. Office copyright linked page was 403 to the fetcher; do not independently assert its text was read. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "finalRightsApproval": false,
+        "independentRightsReviewer": "not_assigned",
+        "rightsFollowup": "Verify full office copyright permission and the exact 2024 Nate Payne photograph's rights from the original House source."
       }
     },
     {
@@ -7802,11 +7826,13 @@
         ]
       },
       "photoRightsAudit": {
-        "status": "license_listing_recheck_pending",
-        "checkedAt": null,
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chuck_Schumer_official_photo.jpg",
-        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
-        "finalRightsApproval": false
+        "detail": "Commons 2 March 2017 original US Senate official portrait credits U.S. Senate Photographic Studio/Jeff McEvoy, original schumer.senate.gov site and federal public-domain label. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "finalRightsApproval": false,
+        "independentRightsReviewer": "not_assigned",
+        "rightsFollowup": null
       }
     },
     {
@@ -7835,7 +7861,7 @@
       "photo": {
         "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Mike_Rounds_official_Senate_portrait.jpg?width=250",
         "source": "https://commons.wikimedia.org/wiki/File:Mike_Rounds_official_Senate_portrait.jpg",
-        "credit": "U.S. Senate Photographic Studio",
+        "credit": "United States Congress (Wikimedia Commons author listing)",
         "license": "Public domain (US federal government)",
         "status": "source-and-licence-reviewed",
         "caption": "Official or NASA portrait of Mike Rounds — attributed public-domain source"
@@ -7944,11 +7970,13 @@
         ]
       },
       "photoRightsAudit": {
-        "status": "license_listing_recheck_pending",
-        "checkedAt": null,
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mike_Rounds_official_Senate_portrait.jpg",
-        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
-        "finalRightsApproval": false
+        "detail": "Commons identifies Mike Rounds 114th Congress 2015 portrait, author United States Congress and federal public-domain label, but the original source link is an official-account Facebook URL rather than a currently verified Senate photo archive. Prior directory's 'US Senate Photographic Studio' credit lacked confirmation on the Commons author line; use the source's actual author attribution and seek independent Senate office provenance. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "finalRightsApproval": false,
+        "independentRightsReviewer": "not_assigned",
+        "rightsFollowup": "Obtain a directly verifiable Senate/official government photograph archive listing, rather than relying on the linked Facebook photo."
       }
     },
     {
@@ -8073,11 +8101,13 @@
         ]
       },
       "photoRightsAudit": {
-        "status": "license_listing_recheck_pending",
-        "checkedAt": null,
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jared_Moskowitz_portrait_(118th_Congress).jpg",
-        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
-        "finalRightsApproval": false
+        "detail": "Commons 15 November 2022 House Clerk 118th Congress portrait lists Office of the Clerk, U.S. House of Representatives as original source/author and federal public-domain label. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "finalRightsApproval": false,
+        "independentRightsReviewer": "not_assigned",
+        "rightsFollowup": null
       }
     },
     {
