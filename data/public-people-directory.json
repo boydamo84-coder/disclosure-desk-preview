@@ -1911,7 +1911,7 @@
         "title": "Rendlesham Forest participant account and conflicting historical records",
         "period": "1980 event, subsequent published accounts",
         "description": "Warren's subsequent personal account is part of contested retrospective Rendlesham reporting. The UK National Archives preserves a different contemporary government documentary trail, centred on Lt Col Charles Halt; do not imply it independently verifies Warren's detailed account.",
-        "openQuestions": "Locate the author/publisher primary text for his own account, confirm each historically attributed role and dates, compare genuinely independent witnesses and original MoD files, and avoid conflating different nights or reported locations. No incident evidence score approved.",
+        "openQuestions": "Locate the author/publisher primary text for his own account, confirm each historically attributed role and dates, compare genuinely independent witnesses and original MoD files, and avoid conflating different nights or reported locations. No incident evidence score approved. Compare Warren's 1997 authored account and 2025 on-camera retelling with Charles Halt's competing 2025 interview and contemporaneous DEFE records, keeping disputed accounts separate.",
         "sources": [
           {
             "title": "UK National Archives: contemporaneous Rendlesham government records",
@@ -1927,6 +1927,30 @@
             "locator": "DEFE/UFO case catalogue and guidance to browse original files",
             "note": "Official catalogue routes readers to original files and reminds them of incomplete preserved records. It is a second archival finding aid, not independent eyewitness corroboration.",
             "sourceClass": "institutional",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "Open British National Bibliography: Warren and Robbins, Left at East Gate (1997)",
+            "url": "https://obnb.uk/p12046414-left-at-east-gate-a-first-hand-account-of-the-bentwaters-woodbridge-ufo-incident-its-cover-up-and-investigation",
+            "locator": "Bibliographic data: authors, Michael O'Mara publisher, London 1997",
+            "note": "British national bibliographic entry confirms the named authors and the 1997 publication of Warren's account. Bibliographic registration does not authenticate the events described in the book.",
+            "sourceClass": "archive",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "NewsNation: Larry Warren and Steve Longero describe Rendlesham accounts",
+            "url": "https://www.youtube.com/watch?v=21yW_XZR2LU",
+            "locator": "19 August 2025 Reality Check interview; Larry's account about 8:47–32:40",
+            "note": "Original broadcaster interview preserves Warren's later first-person statements and a second person's account. Retellings decades after 1980 do not substitute for original field logs or prove both recollections are independent.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "NewsNation: Charles Halt's conflicting Rendlesham account",
+            "url": "https://www.youtube.com/watch?v=UfKwQgmHfII",
+            "locator": "28 October 2025 Reality Check interview, Holt/Halt disagreement from 2:40",
+            "note": "The broadcaster interviews another named military participant who disputes aspects of Warren's account. Both sides need to be compared with the actual contemporaneous MoD papers, not turned into attacks on either person.",
+            "sourceClass": "publisher",
             "indexedAt": "2026-11-15"
           }
         ]
