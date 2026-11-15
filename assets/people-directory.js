@@ -404,18 +404,70 @@ function renderPublicRoleEvidence(person){
   '<p class="muted small"><strong>Scoring:</strong> Not applicable to an official role or policy action. Separate specific public incident claims, where applicable, require their own sourced review.</p>'+
  '</article>';
 }
+// First-party publications and attributed testimony are not verified incidents.
+// Neither careers nor publications are person-wide credibility/voting categories.
+const PUBLIC_WORK_KINDS=Object.freeze({
+ journalism:'Journalistic reporting',
+ documentary_reporting:'Documentary and interviews',
+ technical_critique:'Published technical critique',
+ contested_first_person_claim:'Historical or first-person account',
+ organized_public_claim:'Public testimony event',
+ government_policy_reporting:'Policy reporting and documentaries',
+ academic_research:'Scientific research programme',
+ published_research:'Public research and books',
+ historical_public_work:'Historical archive and published work',
+ archive_research:'Records and FOIA research'
+});
+const PUBLIC_SOURCE_CLASSES=Object.freeze({
+ publisher:'Original publisher or distributor',
+ first_party:'First-party biography or publication index',
+ institutional:'Institutional or government source',
+ archive:'Historical source archive'
+});
+function renderPublicWorkEvidence(person){
+ const r=person?.publicWorkEvidence;
+ if(!r||r.status!=='research_links_indexed'||
+  !PUBLIC_WORK_KINDS[r.kind]||
+  typeof r.title!=='string'||r.title.trim().length<12||
+  typeof r.period!=='string'||r.period.trim().length<4||
+  typeof r.description!=='string'||r.description.trim().length<65||
+  typeof r.openQuestions!=='string'||r.openQuestions.trim().length<80||
+  !Array.isArray(r.sources)||r.sources.length<2||r.sources.length>8)return '';
+ const items=r.sources.filter(x=>x&&PUBLIC_SOURCE_CLASSES[x.sourceClass]&&
+   safeUrl(x.url)&&typeof x.title==='string'&&x.title.trim().length>=12&&
+   typeof x.locator==='string'&&x.locator.trim().length>=5&&
+   typeof x.note==='string'&&x.note.trim().length>=45&&
+   typeof x.indexedAt==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(x.indexedAt));
+ if(items.length!==r.sources.length)return '';
+ return '<article class="claim-work-card" aria-label="Original publication research records">'+
+  '<div class="claim-status">'+esc(PUBLIC_WORK_KINDS[r.kind])+' · '+esc(r.period)+'</div>'+
+  '<h4>'+esc(r.title)+'</h4><p>'+esc(r.description)+'</p>'+
+  '<p class="claim-draft-warning"><strong>Source index — NOT an approved case assessment.</strong> An original interview, book, broadcast or paper establishes what was published and by whom. It does not establish the truth of the reported event. Every source and relevant counterargument still requires case-specific editorial review.</p>'+
+  '<details class="claim-evidence-details"><summary>Inspect original publications &amp; source trail ('+items.length+')</summary>'+
+   '<p class="muted small"><strong>Research still needed:</strong> '+esc(r.openQuestions)+'</p>'+
+   '<ul class="claim-evidence-list">'+items.map(x=>'<li><strong>'+esc(x.title)+'</strong>'+
+    '<p class="muted small">'+esc(PUBLIC_SOURCE_CLASSES[x.sourceClass])+' · Find it: '+esc(x.locator)+' · Link indexed '+esc(x.indexedAt)+'</p>'+
+    '<p>'+esc(x.note)+'</p>'+
+    '<a href="'+esc(safeUrl(x.url))+'" target="_blank" rel="noopener noreferrer">Read source at original publisher or archive ↗</a></li>').join('')+'</ul>'+
+  '</details>'+
+  '<p class="muted small"><strong>Scoring:</strong> Not applicable to a professional career or publication list. Any specific UAP-event claim needs its own independent source review and explicit editorial approval before a 0–100 score or member ballot.</p>'+
+ '</article>';
+}
 function renderClaimEvidence(person){
  const host=$('profileEvidenceReviews');
  if(!host)return;
  const roleHtml=renderPublicRoleEvidence(person);
+ const workHtml=renderPublicWorkEvidence(person);
  const claims=Array.isArray(person.claimEvidence)?person.claimEvidence.slice(0,12):[];
  if(!claims.length){
   host.innerHTML=roleHtml?
    roleHtml+'<p class="note small"><strong>No event-claim score applies to this documented role.</strong> No separate public UAP incident claim has completed editorial review for this person. Official research service, institutional participation and legislation cannot be assigned 0/100 or a community incident rating.</p>':
+   workHtml?
+   workHtml+'<p class="note small"><strong>Disclosure Desk rating: Not assessed.</strong> Original work and public statements are indexed, but no specific UAP incident has received an approved evidence assessment. A publication list is not a person-wide credibility score and cannot be voted on.</p>':
    '<p class="note small"><strong>Disclosure Desk rating: Not assessed.</strong> There are no individually reviewed public claims for this profile yet. Community rating is not open on unreviewed statements. Biographies and citations do not constitute a personal score.</p>';
   return;
  }
- host.innerHTML=roleHtml+claims.map(claim=>{
+ host.innerHTML=roleHtml+workHtml+claims.map(claim=>{
   if(!claim||!claim.statement)return '';
   const advisory=claim.claimKind==='policy_recommendation';
   const r=publishedClaimReview(claim);
