@@ -31,6 +31,8 @@ jobs:
           test -f .release-staging/public-site/who-is-who.html
           test -f .release-staging/public-site/assets/people-directory.js
           test -f .release-staging/public-site/data/public-people-directory.json
+          node --check scripts/test_who_public_package_boundary.cjs
+          node scripts/test_who_public_package_boundary.cjs
           node -e "const fs=require('fs');const h=fs.readFileSync('.release-staging/public-site/who-is-who.html','utf8');if(!h.includes('profileEvidenceReviews'))process.exit(1);"
           echo "Strict static package contains Who's Who review. No Netlify deployment."
   offline-chromium:
