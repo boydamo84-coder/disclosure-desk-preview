@@ -1068,3 +1068,32 @@ dialog.dd-confirm-dialog::backdrop{background:rgba(1,10,17,.79);backdrop-filter:
  }
  #chatPage.dd-chat-designed:not(.hidden) .dd-chat-side{height:100%}
 }
+
+/* R3 release announcement: pinned editorial SITE NEWS on homepage, not an outside feed item.
+   Scoped navy/gold design, native accessible disclosure, no JS, no sticky overlay. */
+#discover .dd-r3-release{margin:18px 0 0;padding:20px 22px;background:linear-gradient(145deg,#20364a 0%,#142739 59%,#14212f 100%);border:1px solid #9d8559;border-left:3px solid #d8ba83;border-radius:16px;box-shadow:0 12px 30px #0003;color:#e9eef1;overflow-wrap:anywhere}
+#discover .dd-r3-release-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font:750 10px system-ui,sans-serif;letter-spacing:.7px;text-transform:uppercase;color:#e6c88e}
+#discover .dd-r3-release-pin{border:1px solid #b99d63;border-radius:20px;background:#3d382b;padding:5px 9px;color:#f1dab2}
+#discover .dd-r3-release-beta{border:1px solid #567b80;border-radius:20px;padding:5px 9px;color:#c7e5df}
+#discover .dd-r3-release-meta time{color:#b7c7d1;font-weight:550}
+#discover .dd-r3-release h2{font:750 clamp(20px,4vw,27px)/1.25 system-ui,sans-serif;letter-spacing:-.45px;margin:13px 0 9px;color:#fbebc5}
+#discover .dd-r3-release-lead{font:400 13px/1.7 system-ui,sans-serif;color:#c6d4dd;margin:0 0 16px}
+#discover .dd-r3-release-actions{display:flex;flex-wrap:wrap;gap:10px;margin:15px 0}
+#discover .dd-r3-release-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border-radius:10px;text-align:center;padding:10px 14px;text-decoration:none;font:750 12px/1.3 system-ui,sans-serif}
+#discover .dd-r3-release-primary{background:#e0c68e;border:1px solid #f3dcaa;color:#102331}
+#discover .dd-r3-release-secondary{background:#192c3d;border:1px solid #7d8a90;color:#e8d8b6}
+#discover .dd-r3-release details{border-top:1px solid #465b69;margin-top:13px;padding-top:8px}
+#discover .dd-r3-release summary{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:44px;padding:7px 0;color:#ebd09b;font:750 12px/1.5 system-ui,sans-serif;list-style:none}
+#discover .dd-r3-release summary::-webkit-details-marker{display:none}
+#discover .dd-r3-release summary span{font-size:20px;transition:transform .15s}
+#discover .dd-r3-release details[open] summary span{transform:rotate(180deg)}
+#discover .dd-r3-release-guide{border-top:1px solid #364b5b;padding-top:14px;color:#c5d3dc;font:400 12px/1.7 system-ui,sans-serif}
+#discover .dd-r3-release-guide h3{font:750 15px/1.4 system-ui,sans-serif;color:#f0d8a8;margin:12px 0 8px}
+#discover .dd-r3-release-guide li{margin:0 0 9px;padding-left:3px}
+#discover .dd-r3-release-guide ul,#discover .dd-r3-release-guide ol{padding-left:20px;margin:8px 0 18px}
+#discover .dd-r3-release-guide strong{color:#f3dfb6}
+#discover .dd-r3-release-guide a{color:#f1d79e;text-underline-offset:3px}
+#discover .dd-r3-release-safety{padding:12px 13px;border-left:2px solid #bca067;background:#252d2d;border-radius:8px}
+#discover .dd-r3-release-more{margin:15px 0 4px}
+#discover .dd-r3-release a:focus-visible,#discover .dd-r3-release summary:focus-visible{outline:2px solid #f5d89a;outline-offset:4px}
+@media(max-width:520px){#discover .dd-r3-release{padding:16px 14px}#discover .dd-r3-release-actions{display:grid;grid-template-columns:1fr}#discover .dd-r3-release-actions a{width:100%}}

@@ -31,6 +31,20 @@ if(production)
   'Production must not ship private QA helper code');
 else assert.ok(names.has('research/r3-lab/hypothesis-session-qa.js'),
   'Preview must include opt-in QA helper');
+// Public homepage editorial update: a real pinned site announcement, not a
+// fabricated source-news result. It must link the exact R3 route and explain
+// private backup limits on both Netlify production and deploy-preview builds.
+const homeHtml=fs.readFileSync(path.join(out,'index.html'),'utf8');
+assert.equal((homeHtml.match(/id="ddR3ReleaseAnnouncement"/g)||[]).length,1,
+ 'R3 announcement must be pinned exactly once on the homepage');
+const homePin=homeHtml.indexOf('id="ddR3ReleaseAnnouncement"');
+assert(homePin>homeHtml.indexOf('id="discover"')&&homePin<homeHtml.indexOf('My Investigation Boards'),
+ 'R3 pinned news must appear immediately under homepage hero, above Boards');
+assert.match(homeHtml,/id="ddR3ReleaseGuide"/);
+assert.match(homeHtml,/href="\/research\/r3-lab\/"/);
+for(const term of ['Research Gap Finder','Hypothesis Lab','Compare','History',
+ 'Enable encrypted saving','Save encrypted backup to account','manual',
+ 'independent security review'])assert(homeHtml.includes(term),'Pinned release news missing '+term);
 const r3Html=fs.readFileSync(path.join(out,'research/r3-lab/index.html'),'utf8');
 assert.match(r3Html,/data-r3-hosted="true"/);
 assert.match(r3Html,/noindex,nofollow,noarchive/);
