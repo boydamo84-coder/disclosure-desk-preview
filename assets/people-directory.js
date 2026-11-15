@@ -263,6 +263,44 @@ function sourceAuditDraftHtml(claim){
   '<p><strong>What remains unavailable or unverified:</strong> '+esc(d.missingEvidence)+'</p>'+
  '</section>';
 }
+// Claim-by-claim editorial triage explains whether an EVENT evidence metric
+// would be meaningful. It does not authorize scoring or create any real votes.
+const READINESS_ROUTES=Object.freeze({
+ incident_evidence_review_pending:'Incident evidence review still required',
+ documentary_source_review_pending:'Documentary source corroboration still required',
+ method_specific_review_pending:'Scientific or method-specific review still required',
+ not_applicable_to_incident_score:'Not applicable to an incident evidence percentage'
+});
+const READINESS_TYPES=Object.freeze([
+ 'incident_or_observation','institutional_programme_allegation',
+ 'reporting_or_source_claim','technical_or_scientific_analysis',
+ 'policy_or_records_access','retrospective_case_interpretation'
+]);
+const PRIMARY_ACCESS_STATUSES=Object.freeze({
+ official_written_record_first_pass:'Official written testimony — first pass only',
+ publisher_text_first_pass:'Original publisher text — first pass only',
+ original_master_or_full_video_not_verified:'Full original recording or master still unverified',
+ partial_original_or_abstract_only:'Original document or methods only partly accessible'
+});
+function ratingReadinessHtml(claim){
+ const d=claim?.ratingReadiness;
+ if(!d||d.status!=='first_pass_triage'||d.publicationApproval!=='withheld'||
+   d.secondEditor!=='not_assigned'||!/^\\d{4}-\\d{2}-\\d{2}$/.test(d.date||'')||
+   !READINESS_TYPES.includes(d.claimType)||
+   !Object.hasOwn(READINESS_ROUTES,d.scorePath)||
+   !Object.hasOwn(PRIMARY_ACCESS_STATUSES,d.primarySourceAccess)||
+   typeof d.reason!=='string'||d.reason.trim().length<90||
+   typeof d.requiredNextCheck!=='string'||d.requiredNextCheck.trim().length<70)return '';
+ return '<section class="claim-readiness-draft" aria-label="Editorial scoring suitability triage — pending">'+
+  '<h5>Is an evidence percentage appropriate for this claim?</h5>'+
+  '<p class="claim-draft-warning"><strong>'+esc(READINESS_ROUTES[d.scorePath])+'.</strong> Editorial triage only; no numerical claim assessment or community vote is approved.</p>'+
+  '<p><strong>What could be assessed:</strong> '+esc(d.reason)+'</p>'+
+  '<p class="muted small"><strong>Access to original:</strong> '+esc(PRIMARY_ACCESS_STATUSES[d.primarySourceAccess])+'</p>'+
+  '<p><strong>Before any rating:</strong> '+esc(d.requiredNextCheck)+'</p>'+
+  '<p class="muted small">Triage '+esc(d.date)+' · Independent reviewer: <strong>Not assigned</strong> · Approval: withheld. This is a classification of the research task, not of anyone’s honesty or reliability.</p>'+
+ '</section>';
+}
+
 function draftEvidenceTrailHtml(claim){
  const draft=claim?.researchEvidence;
  if(draft?.status!=='research_draft'||!Array.isArray(draft.items)||draft.items.length>20||
@@ -284,6 +322,7 @@ function draftEvidenceTrailHtml(claim){
  ).join('');
  return '<p class="claim-draft-warning"><strong>Research notes — NOT a completed evidence review.</strong> The links below include original reporting and broader context. Listing a document does not establish that the underlying event occurred, or that conflicting interpretations have been fully checked.</p>'+
   sourceAuditDraftHtml(claim)+
+  ratingReadinessHtml(claim)+
   '<p class="muted small"><strong>Open questions:</strong> '+esc(draft.editorialNote)+'</p>'+
   '<h5>Public materials consulted (provisional)</h5><ul class="claim-evidence-list">'+items+'</ul>'+
   '<p class="muted small">No criterion-by-criterion points or community votes are available until a separate source-and-editorial approval.</p>';
@@ -292,6 +331,8 @@ function publishedClaimReview(claim){
  // Research-policy recommendations and unknown claim categories must never
  // receive a fabricated 0–100 physical-evidence assessment.
  if(claim?.claimKind&&claim.claimKind!=='public_claim')return null;
+ if(claim?.ratingReadiness && (claim.ratingReadiness.status!=='independently_approved'||
+   claim.ratingReadiness.publicationApproval!=='granted'))return null;
  const r=claim?.review;
  if(!r||r.status!=='published'||r.methodology!=='dd-claim-evidence-v1')return null;
  if(typeof r.reviewer!=='string'||r.reviewer.trim().length<5||
@@ -524,6 +565,7 @@ function renderClaimEvidence(person){
  host.innerHTML=roleHtml+workHtml+claims.map(claim=>{
   if(!claim||!claim.statement)return '';
   const advisory=claim.claimKind==='policy_recommendation';
+  const nonEventMetric=advisory||claim.ratingReadiness?.scorePath==='not_applicable_to_incident_score';
   const r=publishedClaimReview(claim);
   const score=r?EVIDENCE_RUBRIC.reduce((a,row)=>a+r.points[row.key],0):null;
   const allowed=communityClaimEligible(claim);
@@ -534,7 +576,7 @@ function renderClaimEvidence(person){
   const evidence=r?publishedEvidenceTrail(claim):null;
   const detailedReview=r?evidenceTrailHtml(claim,r,evidence):'';
   const sitePanel='<section class="claim-dual-panel"><h5>Disclosure Desk rating</h5>'+
-   (advisory?'<span class="claim-not-assessed">Not applicable</span>'+
+   (nonEventMetric?'<span class="claim-not-assessed">Not applicable</span>'+
      '<p class="muted small">A proposal for better scientific research is not a measurable claim about an extraordinary event. Source links are provided for reference.</p>':
      r?'<div class="claim-score" aria-label="Public evidence support score '+score+' out of 100">'+score+
      '<small> /100 · Documented evidence support</small></div>'+
@@ -549,7 +591,7 @@ function renderClaimEvidence(person){
       '<input type="range" data-rating-slider min="0" max="100" step="5" value="50" aria-label="Community rating for evidence supporting this specific claim"></label>'+
       '<button type="button" class="btn" data-rating-save>Submit my rating</button></div>'+
       '<p class="muted small" data-rating-notice aria-live="polite">Checking sign-in and rating availability…</p></div>':
-     (advisory?'<span class="claim-not-assessed">Not applicable</span><p class="muted small">Member evidence scores do not apply to research recommendations.</p>':
+     (nonEventMetric?'<span class="claim-not-assessed">Not applicable</span><p class="muted small">Incident evidence votes do not apply to policy or record-release recommendations.</p>':
       '<span class="claim-not-assessed">Voting not open</span><p class="muted small">This claim is still awaiting source and context approval, so no member ratings are collected.</p>'))+
    '</section>';
   return '<article class="claim-review" aria-label="Individual public claim evidence review">'+
@@ -561,7 +603,7 @@ function renderClaimEvidence(person){
       'View evidence &amp; scoring breakdown':'View original evidence sources (review pending)')+'</summary>'+
       (r?detailedReview:draftEvidenceTrailHtml(claim)||'<p class="muted small">These are source references to what was publicly said or reported. No completed independent evidence assessment, corroboration audit or scoring conclusion has been published for this claim.</p>')+
     '</details>'+
-    (advisory?'<p class="muted small">This is an attributed research recommendation, not a scored incident or a claim about personal credibility.</p>':
+    (nonEventMetric?'<p class="muted small">This is a public policy or documentary-access claim, not a scored incident or a claim about personal credibility.</p>':
      '<p class="muted small">Both ratings concern supporting evidence for this specific claim, not this person’s trustworthiness or the probability that any extraordinary interpretation is true.</p>')+
     '<div class="claim-record"><strong>Original statement / public-source references</strong>'+
     (refs?'<ul class="link-list">'+refs+'</ul>':'<p class="muted small">No primary source has passed editorial review yet.</p>')+
