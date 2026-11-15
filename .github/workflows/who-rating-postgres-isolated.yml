@@ -1,0 +1,73 @@
+# M22: real PostgreSQL execution ONLY in a disposable GitHub Actions container.
+# No Supabase project, credentials, production schemas, Netlify or publishing.
+name: "Who Evidence M22 — ephemeral PostgreSQL security (NO DEPLOY)"
+on:
+  push:
+    branches:
+      - feature/who-evidence-score-framework-20261115
+    paths:
+      - .github/workflows/who-rating-postgres-isolated.yml
+      - scripts/who_rating_ephemeral_pg_bootstrap.sql
+      - scripts/who_rating_ephemeral_pg_assertions.sql
+      - docs/WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: who-evidence-m22-ephemeral-db-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ephemeral-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: '5432'
+      PGDATABASE: who_evidence_ci
+      PGUSER: postgres
+      PGPASSWORD: m22-ci-synthetic-only
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: who_evidence_ci
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: m22-ci-synthetic-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d who_evidence_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    steps:
+      - name: Checkout without repository write credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Assert exact isolated branch and test-only database
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/feature/who-evidence-score-framework-20261115"
+          test "$PGDATABASE" = "who_evidence_ci"
+          test "$PGHOST" = "127.0.0.1"
+          if ! command -v psql >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq postgresql-client
+          fi
+          psql -X -v ON_ERROR_STOP=1 -Atc "select current_database()" | grep -x who_evidence_ci
+      - name: Create minimal fake auth context in throwaway PostgreSQL
+        run: psql -X -v ON_ERROR_STOP=1 -f scripts/who_rating_ephemeral_pg_bootstrap.sql
+      - name: Execute the UNAPPLIED vote design against throwaway PostgreSQL only
+        run: psql -X -v ON_ERROR_STOP=1 -f docs/WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql
+      - name: Exercise guest, five synthetic identities, grants, cooldown and privacy
+        run: psql -X -v ON_ERROR_STOP=1 -f scripts/who_rating_ephemeral_pg_assertions.sql
+      - name: No deployment or real JWTs
+        if: always()
+        run: |
+          echo "Only temporary container PostgreSQL was used; all fixture IDs are synthetic."
+          echo "No Supabase account, signed JWT, real user, production database, Netlify, APK or deploy."
