@@ -8,10 +8,12 @@ const home=fs.readFileSync(path.join(root,'index.html'),'utf8');
 
 assert.match(html,/id="profileEvidenceReviews"/);
 assert.match(html,/id="claimReviewMethod"/);
-assert.match(html,/r2-evidence-ledger-v2-20261115/);
+assert.match(html,/r2-evidence-ledger-v3-20261115/);
 assert.match(html,/View evidence &amp; scoring breakdown/);
 assert.match(html,/claim-evidence-details/);
 assert.match(html,/Community rating/);
+assert.match(html,/Scientific and policy recommendations are Not applicable/);
+assert.match(home,/Seven source-linked profiles now contain/);
 assert.match(html,/community-test-config\.js/);
 assert.match(html,/supabase-js@2\.119\.0/);
 assert.match(home,/id="ddR3ReleaseAnnouncement"/);
