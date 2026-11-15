@@ -8,7 +8,7 @@ const home=fs.readFileSync(path.join(root,'index.html'),'utf8');
 
 assert.match(html,/id="profileEvidenceReviews"/);
 assert.match(html,/id="claimReviewMethod"/);
-assert.match(html,/r2-evidence-ledger-v7-20261115/);
+assert.match(html,/r2-evidence-ledger-v8-20261115/);
 assert.match(html,/claim-role-card/);
 assert.match(html,/claim-work-card/);
 assert.match(home,/all <strong>50 Who's Who people have an expanded source reader/);
@@ -17,7 +17,7 @@ assert.match(html,/View evidence &amp; scoring breakdown/);
 assert.match(html,/claim-evidence-details/);
 assert.match(html,/Community rating/);
 assert.match(html,/Scientific and policy recommendations are Not applicable/);
-assert.match(home,/Eighteen source-linked profiles now contain/);
+assert.match(home,/Twenty-three source-linked profiles now contain/);
 assert.match(home,/27 source-backed NASA and congressional role cards/);
 assert.match(html,/community-test-config\.js/);
 assert.match(html,/supabase-js@2\.119\.0/);
@@ -32,8 +32,8 @@ const roleEntries=data.people.filter(p=>p.roleEvidence);
 assert.equal(roleEntries.length,27,'17 NASA (16 members and a designated coordinator) plus 10 congressional roles');
 const workEntries=data.people.filter(p=>p.publicWorkEvidence);
 assert.equal(workEntries.length,17,'17 remaining named people must have original-publication source trails');
-assert.equal(workEntries.reduce((n,p)=>n+p.publicWorkEvidence.sources.length,0),37,
- '17 publisher and research source cards must include 37 directly inspectable source entries');
+assert.equal(workEntries.reduce((n,p)=>n+p.publicWorkEvidence.sources.length,0),39,
+ '17 publisher and research source cards now include 39 inspected/indexed entries, two official FOIA links newly added');
 assert.equal(new Set(data.people.filter(p=>p.roleEvidence||p.publicWorkEvidence||p.claimEvidence?.length).map(p=>p.id)).size,50,
  'All 50 original profiles must now have an expanded source reader');
 for(const p of workEntries){
@@ -74,9 +74,9 @@ for(const p of roleEntries){
 }
 
 const candidates=data.people.filter(p=>Array.isArray(p.claimEvidence)&&p.claimEvidence.length);
-assert.equal(candidates.length,18,'Twelve earlier drafts plus six further public statement and technical model drafts remain unassessed');
-assert.equal(candidates.reduce((n,p)=>n+(p.claimEvidence[0].researchEvidence?.items?.length||0),0),66,
- 'Eighteen claim drafts must retain sixty-six provisional evidence/context entries');
+assert.equal(candidates.length,23,'Eighteen earlier drafts plus five original-claim source reviews remain unassessed');
+assert.equal(candidates.reduce((n,p)=>n+(p.claimEvidence[0].researchEvidence?.items?.length||0),0),86,
+ 'Twenty-three claim drafts must retain eighty-six provisional evidence/context entries');
 const newCaseIds=['bob-lazar','jake-barber','larry-warren','mick-west','avi-loeb'];
 for(const caseId of newCaseIds){
  const person=data.people.find(p=>p.id===caseId);
@@ -110,11 +110,31 @@ assert(data.people.find(p=>p.id==='ross-coulthart').claimEvidence[0].researchEvi
 assert(data.people.find(p=>p.id==='jeremy-corbell').claimEvidence[0].researchEvidence.items.some(s=>s.reviewNote.includes('did not')||s.reviewNote.includes('not establish')),'Navy video provenance versus technology must be distinguished');
 assert(data.people.find(p=>p.id==='kevin-knuth').claimEvidence[0].researchEvidence.items.some(s=>s.url.includes('mdpi.com/1099-4300')),'Original accessible journal paper required');
 assert(!data.people.some(p=>(p.claimEvidence||[]).some(c=>c.review?.status==='published')),'No real scores are released');
+const milestone9Ids=['george-knapp','christopher-mellon','james-fox','nick-pope','leslie-kean'];
+for(const caseId of milestone9Ids){
+ const person=data.people.find(p=>p.id===caseId);
+ assert.equal(person.claimEvidence?.length,1,`${caseId}: one identifiable first-person or journalistic assertion`);
+ assert.equal(person.claimEvidence[0].status,'source_review_pending');
+ assert.equal(person.claimEvidence[0].researchEvidence?.status,'research_draft');
+ assert.equal(person.claimEvidence[0].researchEvidence.items.length,4);
+ assert(person.publicWorkEvidence,'Existing work/publisher reader must survive research expansion');
+ assert(!person.claimEvidence[0].review,'Unapproved real persons cannot receive a published numeric rating');
+ assert(person.claimEvidence[0].researchEvidence.items.some(e=>['challenges','alternative'].includes(e.stance)), 'Include contextual challenge or competing analysis');
+}
+const greenewald=data.people.find(p=>p.id==='john-greenewald-jr');
+assert(!greenewald.claimEvidence?.length,'Do not force a personal or UAP-event rating on records-only FOIA archivist work');
+assert.equal(greenewald.publicWorkEvidence.sources.length,4,'Retain two original and two official FOIA paper-trail records');
+assert(greenewald.publicWorkEvidence.sources.some(e=>e.url.includes('DODOIG-2023-000010.pdf')),'FOIA official Inspector General response included');
+assert(greenewald.publicWorkEvidence.sources.some(e=>e.url.includes('DF-2022-00013-MDR_Log')),'ODNI original request log included');
+assert(data.people.find(p=>p.id==='james-fox').claimEvidence[0].researchEvidence.items.some(e=>e.url.includes('arquimedes.stm.jus.br')),'Brazil original military tribunal evidence attached');
+assert(data.people.find(p=>p.id==='george-knapp').claimEvidence[0].researchEvidence.items.some(e=>e.url.includes('George-Knapp-Written-Testimony.pdf')),'Original 2025 House submission required');
+assert(data.people.find(p=>p.id==='leslie-kean').claimEvidence[0].researchEvidence.items.some(e=>e.url.includes('thedebrief.org')),'Actual author original article required');
+assert(data.people.filter(p=>p.claimEvidence?.some(c=>c.review?.status==='published')).length===0,'All 23 draft claims must remain unapproved');
 const advisory=data.people.find(p=>p.id==='mike-gold');
 assert.equal(advisory.claimEvidence[0].claimKind,'policy_recommendation');
 assert.equal(data.people.filter(p=>p.claimEvidence?.some(c=>c.claimKind==='policy_recommendation')).length,1);
 assert.deepEqual(candidates.map(p=>p.id).sort(),[
- 'avi-loeb','bob-lazar','david-fravor','david-grusch','garry-nolan','jacques-vallee','jake-barber','jeremy-corbell','kevin-knuth','larry-warren','luis-elizondo','michael-shellenberger','mick-west','mike-gold','ross-coulthart','ryan-graves','steven-greer','tim-gallaudet'
+ 'avi-loeb','bob-lazar','christopher-mellon','david-fravor','david-grusch','garry-nolan','george-knapp','jacques-vallee','jake-barber','james-fox','jeremy-corbell','kevin-knuth','larry-warren','leslie-kean','luis-elizondo','michael-shellenberger','mick-west','mike-gold','nick-pope','ross-coulthart','ryan-graves','steven-greer','tim-gallaudet'
 ]);
 for(const p of data.people){
  assert(!Object.hasOwn(p,'believability'),'No person-level believability rating permitted');
@@ -331,4 +351,4 @@ for(const mutation of [
  host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[bad]});
  assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
 }
-console.log('Who’s Who: 50 expanded profiles, 27 role cards, 18 draft claims, 17 work records, 159 source entries, zero personal or premature event scores (NO DEPLOY).');
+console.log('Who’s Who: 50 expanded profiles, 27 role cards, 23 draft claims, 17 work records, 181 source entries, zero personal or premature event scores (NO DEPLOY).');
