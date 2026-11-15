@@ -46,6 +46,7 @@ match(/v_session_text !~\*/, 'Malformed session IDs must fail closed');
 match(/FROM auth\.sessions AS sess/, 'Write requires live GoTrue Auth session row');
 match(/sess\.id=v_session_text::UUID AND sess\.user_id=v_uid/, 'Session must belong to the same JWT account');
 match(/Active sign-in session required/, 'Revoked/missing session cannot vote');
+match(/FOR SHARE -- serialize a vote against concurrent session deletion/, 'Vote holds session row lock during mutation');
 match(/NOT EXISTS \([\s\S]*?dd_who_reviewable_claims c[\s\S]*?c\.enabled/, 'Disabled claims cannot be rated');
 match(/pg_advisory_xact_lock/, 'User rating mutations serialised');
 match(/INTERVAL '3 minutes'/, 'Cooldown');
