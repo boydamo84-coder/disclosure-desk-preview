@@ -410,8 +410,9 @@ function renderClaimEvidence(person){
  const roleHtml=renderPublicRoleEvidence(person);
  const claims=Array.isArray(person.claimEvidence)?person.claimEvidence.slice(0,12):[];
  if(!claims.length){
-  host.innerHTML=roleHtml+
-   '<p class="note small"><strong>Disclosure Desk rating: Not assessed.</strong> No individually reviewed public incident claim is attached to this profile. Documented institutional roles and disclosure legislation are not personal UAP credibility scores. No member rating is available.</p>';
+  host.innerHTML=roleHtml?
+   roleHtml+'<p class="note small"><strong>No event-claim score applies to this documented role.</strong> No separate public UAP incident claim has completed editorial review for this person. Official research service, institutional participation and legislation cannot be assigned 0/100 or a community incident rating.</p>':
+   '<p class="note small"><strong>Disclosure Desk rating: Not assessed.</strong> There are no individually reviewed public claims for this profile yet. Community rating is not open on unreviewed statements. Biographies and citations do not constitute a personal score.</p>';
   return;
  }
  host.innerHTML=roleHtml+claims.map(claim=>{
