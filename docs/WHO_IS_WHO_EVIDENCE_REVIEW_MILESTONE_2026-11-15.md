@@ -30,6 +30,23 @@ These are proposed editorial weights, not validated statistical confidence or sc
 - No public voting, popularity rank, unmoderated accusations or automatically generated numerical scores; methodology remains open to corrections.
 - Add tests that check the scoring gate and prevent a `review_pending` entry or missing source from showing numbers. Preserve all 50 original profiles and public rights/attribution.
 
+## New: publicly inspectable evidence trail (15 Nov source milestone)
+
+The owner clarified: a visitor must be able to **open and independently examine all sources used to justify a conclusion**, not merely read a claim's numeric score. This is implemented on the same isolated source branch:
+
+- Inside each claim's responsive rating card, a keyboard-accessible, closed-by-default **View evidence & scoring breakdown** disclosure shows all five criterion points, an explanation of why those points were awarded, and direct references considered for **that specific criterion**.
+- An itemised **All material considered** ledger gives original publisher/source, link, type (primary record, measurements, analysis, reporting), stance (supports / challenges / alternative / context), page/section/timestamp locator, reviewed date, and an editorial description of how it bears on the claim.
+- Also display the scope of the editorial review, explicit limitations/uncertainty, editor, review date, methodology and revision. Review notes are paraphrases; the full source stays with the publisher and no copyrighted media are republished by this feature.
+- Both the independent editorial score and member rating appear adjacent to this shared source trail; guests can inspect the public evidence without an account. A community rating is an expression of what members think of those **same published sources**, not independent scientific validation.
+- All 50 original Who's Who profiles remain: three explicitly attributed statement drafts and remaining profiles show **Not assessed** until individually reviewed. Unscored claims offer **View original evidence sources (review pending)**, never misleading completed editorial conclusions.
+- `publishedEvidenceTrail(claim)` blocks a numerical editorial score unless every criterion lists linked public evidence IDs, each evidence item has a validated HTTPS source, type, relationship, reviewed date, location and substantive editorial explanation, the primary document URL matches an attributed primary source, and review scope/limitations/revision are recorded.
+- `communityClaimEligible(claim)` now also requires the **entire publishable editorial evidence review**, in addition to source-approved claim ID. Thus dropping one critical source or approval hides **both** the numerical editorial score and the member voting control.
+- For missing, private, restricted or inaccessible supporting material, do not invent a public citation or imply it was examined. Mark the gap in limitations and withhold scoring where needed. Published links may later rot; periodically recheck evidence links and revise/correct the assessment rather than silently preserving a possibly outdated number.
+- `who-is-who.html` adds mobile-friendly evidence expansion, criterion references and original-source links. `index.html` pinned research release announcement now explains how to inspect the evidence trail when the next release is published.
+- Source-level manual V8 checks on the exact feature-branch JavaScript: **43 passed** including a wholly fictional scored claim and nine mutations denying numeric scores/community voting. Added fixture-source tests in `scripts/test_who_claim_evidence_contract.cjs`. This does NOT establish full browser CI, independent fact-checking, functioning production RPCs or a published release.
+
+**Security and release boundary:** No Supabase schema application, real vote, personal data modification, new Netlify deployment or Android APK build. Live R3 owner-accepted site stays untouched. The first-pass 50-person source register remains an inventory, not 50 independently verified UAP claims.
+
 ## Release gate
 
 Before any public launch: separately fact-check every person-specific statement and all source links, obtain source editorial review for any numeric score, run strict allowlist packaging and viewport/navigation browser regressions, and require an explicit deployment decision. Do not change user notebooks, cloud backups, account records or database schema.
