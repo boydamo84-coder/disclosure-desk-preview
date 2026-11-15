@@ -1,6 +1,7 @@
 -- DISCLOSURE DESK WHO'S WHO — RESEARCH DRAFT ONLY.
 -- NOT A MIGRATION. DO NOT EXECUTE ON PRODUCTION BEFORE OWNER APPROVAL AND ISOLATED RLS TESTS.
 -- Community evidence ratings apply to individually approved public CLAIMS, never person reputation.
+-- M25: write RPC now validates JWT session_id against real auth.sessions row.
 -- If ever approved, deploy atomically: no time gap with privileged default PUBLIC EXECUTE.
 BEGIN;
 
@@ -87,12 +88,166 @@ LANGUAGE plpgsql VOLATILE SECURITY DEFINER SET search_path = ''
 AS $fn$
 DECLARE
  v_uid UUID := (SELECT auth.uid());
+ v_session_text TEXT := (SELECT auth.jwt()->>'session_id');
  v_existing public.dd_who_claim_ratings%ROWTYPE;
 BEGIN
  IF v_uid IS NULL OR coalesce((auth.jwt()->>'is_anonymous')::BOOLEAN,false) THEN
   RAISE EXCEPTION 'Sign-in required' USING ERRCODE = '28000';
  END IF;
- IF p_claim_id IS NULL OR p_claim_id !~ '^[a-z0-9][a-z0-9-]{6,85}$'
+ -- An otherwise valid signed JWT survives logout until its exp. Require
+ -- a currently stored GoTrue session for ALL voting mutations; fail closed.
+ -- This is NOT a replacement for verified bearer signatures at PostgREST.
+ IF v_session_text IS NULL
+    OR v_session_text !~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+   OR p_rating IS NULL OR p_rating < 0 OR p_rating > 100 THEN
+  RAISE EXCEPTION 'Invalid claim or evidence score' USING ERRCODE = '22023';
+ END IF;
+ -- Prevent races for same voter (including votes on different claims).
+ PERFORM pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(v_uid::TEXT,20261115));
+ IF NOT EXISTS (
+  SELECT 1 FROM public.dd_who_reviewable_claims c
+  WHERE c.claim_id=p_claim_id AND c.enabled
+ ) THEN
+  RAISE EXCEPTION 'This claim is not open for rating' USING ERRCODE = '22023';
+ END IF;
+ SELECT v.* INTO v_existing FROM public.dd_who_claim_ratings v
+ WHERE v.claim_id=p_claim_id AND v.voter_id=v_uid;
+ IF FOUND AND v_existing.updated_at > pg_catalog.clock_timestamp()-INTERVAL '3 minutes' THEN
+  RAISE EXCEPTION 'Please wait before changing this rating' USING ERRCODE = '22023';
+ END IF;
+ IF NOT FOUND AND (
+   SELECT count(*) FROM public.dd_who_claim_ratings v
+   WHERE v.voter_id=v_uid AND v.created_at>pg_catalog.clock_timestamp()-INTERVAL '24 hours'
+  ) >= 30 THEN
+  RAISE EXCEPTION 'Daily new-rating limit reached' USING ERRCODE = '22023';
+ END IF;
+ INSERT INTO public.dd_who_claim_ratings (claim_id,voter_id,score)
+ VALUES (p_claim_id,v_uid,p_rating)
+ ON CONFLICT ON CONSTRAINT dd_who_claim_ratings_pkey
+ DO UPDATE SET score=EXCLUDED.score, updated_at=pg_catalog.clock_timestamp();
+ RETURN QUERY SELECT s.claim_id,s.rating_count,s.community_mean,s.my_rating
+ FROM dd_who_private.dd_who_claim_rating_summary_impl(ARRAY[p_claim_id]) s;
+END
+$fn$;
+
+-- Only unprivileged public SECURiTY INVOKER wrappers are exposed to the Data API.
+-- Narrow permission to invoke PRIVATE worker functions; protected table grants
+-- remain revoked, and all identity/claim checks happen inside each worker.
+REVOKE ALL ON FUNCTION dd_who_private.dd_who_claim_rating_summary_impl(TEXT[]) FROM PUBLIC;
+REVOKE ALL ON FUNCTION dd_who_private.dd_who_claim_rating_set_impl(TEXT,SMALLINT) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION dd_who_private.dd_who_claim_rating_summary_impl(TEXT[]) TO anon,authenticated;
+GRANT EXECUTE ON FUNCTION dd_who_private.dd_who_claim_rating_set_impl(TEXT,SMALLINT) TO authenticated;
+
+CREATE OR REPLACE FUNCTION public.dd_who_claim_rating_summary(p_claim_ids TEXT[])
+RETURNS TABLE(claim_id TEXT,rating_count BIGINT,community_mean NUMERIC,my_rating SMALLINT)
+LANGUAGE SQL STABLE SECURITY INVOKER SET search_path = ''
+AS $wrap$
+ SELECT * FROM dd_who_private.dd_who_claim_rating_summary_impl(p_claim_ids);
+$wrap$;
+
+CREATE OR REPLACE FUNCTION public.dd_who_claim_rating_set(p_claim_id TEXT,p_rating SMALLINT)
+RETURNS TABLE(claim_id TEXT,rating_count BIGINT,community_mean NUMERIC,my_rating SMALLINT)
+LANGUAGE SQL VOLATILE SECURITY INVOKER SET search_path = ''
+AS $wrap$
+ SELECT * FROM dd_who_private.dd_who_claim_rating_set_impl(p_claim_id,p_rating);
+$wrap$;
+
+-- PostgreSQL defaults new function EXECUTE to PUBLIC: clear default and
+-- grant only precisely scoped privileges after security review.
+REVOKE ALL ON FUNCTION public.dd_who_claim_rating_summary(TEXT[]) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.dd_who_claim_rating_set(TEXT,SMALLINT) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.dd_who_claim_rating_summary(TEXT[]) TO anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.dd_who_claim_rating_set(TEXT,SMALLINT) TO authenticated;
+
+COMMIT;
+
+-- NO CLAIMS SEEDED HERE. The 3 initial source-linked entries are still
+-- unreviewed and must NOT be enabled without independent editorial signoff.
+-- TODO: in a separate, owner-approved migration, add approved claim IDs.
+-- TODO: run role/claim RLS+RPC tests and Supabase advisors before releasing.
+
+-- M21: Two distinct named editorial reviewers and source dates are metadata prerequisites only.
+-- Do not seed or enable real claims until human approvals and isolated DB/JWT/RLS tests succeed.
+-- The eventual approved migration should run DDL and grants in one transaction.
+
+    OR NOT EXISTS (
+      SELECT 1 FROM auth.sessions s
+      WHERE s.id = v_session_text::UUID AND s.user_id = v_uid
+    ) THEN
+  RAISE EXCEPTION 'Active sign-in session required' USING ERRCODE = '28000';
+ END IF;
+ IF p_claim_id IS NULL OR p_claim_id !~ '^[a-z0-9][a-z0-9-]{6,85}
+   OR p_rating IS NULL OR p_rating < 0 OR p_rating > 100 THEN
+  RAISE EXCEPTION 'Invalid claim or evidence score' USING ERRCODE = '22023';
+ END IF;
+ -- Prevent races for same voter (including votes on different claims).
+ PERFORM pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(v_uid::TEXT,20261115));
+ IF NOT EXISTS (
+  SELECT 1 FROM public.dd_who_reviewable_claims c
+  WHERE c.claim_id=p_claim_id AND c.enabled
+ ) THEN
+  RAISE EXCEPTION 'This claim is not open for rating' USING ERRCODE = '22023';
+ END IF;
+ SELECT v.* INTO v_existing FROM public.dd_who_claim_ratings v
+ WHERE v.claim_id=p_claim_id AND v.voter_id=v_uid;
+ IF FOUND AND v_existing.updated_at > pg_catalog.clock_timestamp()-INTERVAL '3 minutes' THEN
+  RAISE EXCEPTION 'Please wait before changing this rating' USING ERRCODE = '22023';
+ END IF;
+ IF NOT FOUND AND (
+   SELECT count(*) FROM public.dd_who_claim_ratings v
+   WHERE v.voter_id=v_uid AND v.created_at>pg_catalog.clock_timestamp()-INTERVAL '24 hours'
+  ) >= 30 THEN
+  RAISE EXCEPTION 'Daily new-rating limit reached' USING ERRCODE = '22023';
+ END IF;
+ INSERT INTO public.dd_who_claim_ratings (claim_id,voter_id,score)
+ VALUES (p_claim_id,v_uid,p_rating)
+ ON CONFLICT ON CONSTRAINT dd_who_claim_ratings_pkey
+ DO UPDATE SET score=EXCLUDED.score, updated_at=pg_catalog.clock_timestamp();
+ RETURN QUERY SELECT s.claim_id,s.rating_count,s.community_mean,s.my_rating
+ FROM dd_who_private.dd_who_claim_rating_summary_impl(ARRAY[p_claim_id]) s;
+END
+$fn$;
+
+-- Only unprivileged public SECURiTY INVOKER wrappers are exposed to the Data API.
+-- Narrow permission to invoke PRIVATE worker functions; protected table grants
+-- remain revoked, and all identity/claim checks happen inside each worker.
+REVOKE ALL ON FUNCTION dd_who_private.dd_who_claim_rating_summary_impl(TEXT[]) FROM PUBLIC;
+REVOKE ALL ON FUNCTION dd_who_private.dd_who_claim_rating_set_impl(TEXT,SMALLINT) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION dd_who_private.dd_who_claim_rating_summary_impl(TEXT[]) TO anon,authenticated;
+GRANT EXECUTE ON FUNCTION dd_who_private.dd_who_claim_rating_set_impl(TEXT,SMALLINT) TO authenticated;
+
+CREATE OR REPLACE FUNCTION public.dd_who_claim_rating_summary(p_claim_ids TEXT[])
+RETURNS TABLE(claim_id TEXT,rating_count BIGINT,community_mean NUMERIC,my_rating SMALLINT)
+LANGUAGE SQL STABLE SECURITY INVOKER SET search_path = ''
+AS $wrap$
+ SELECT * FROM dd_who_private.dd_who_claim_rating_summary_impl(p_claim_ids);
+$wrap$;
+
+CREATE OR REPLACE FUNCTION public.dd_who_claim_rating_set(p_claim_id TEXT,p_rating SMALLINT)
+RETURNS TABLE(claim_id TEXT,rating_count BIGINT,community_mean NUMERIC,my_rating SMALLINT)
+LANGUAGE SQL VOLATILE SECURITY INVOKER SET search_path = ''
+AS $wrap$
+ SELECT * FROM dd_who_private.dd_who_claim_rating_set_impl(p_claim_id,p_rating);
+$wrap$;
+
+-- PostgreSQL defaults new function EXECUTE to PUBLIC: clear default and
+-- grant only precisely scoped privileges after security review.
+REVOKE ALL ON FUNCTION public.dd_who_claim_rating_summary(TEXT[]) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.dd_who_claim_rating_set(TEXT,SMALLINT) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.dd_who_claim_rating_summary(TEXT[]) TO anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.dd_who_claim_rating_set(TEXT,SMALLINT) TO authenticated;
+
+COMMIT;
+
+-- NO CLAIMS SEEDED HERE. The 3 initial source-linked entries are still
+-- unreviewed and must NOT be enabled without independent editorial signoff.
+-- TODO: in a separate, owner-approved migration, add approved claim IDs.
+-- TODO: run role/claim RLS+RPC tests and Supabase advisors before releasing.
+
+-- M21: Two distinct named editorial reviewers and source dates are metadata prerequisites only.
+-- Do not seed or enable real claims until human approvals and isolated DB/JWT/RLS tests succeed.
+-- The eventual approved migration should run DDL and grants in one transaction.
+
    OR p_rating IS NULL OR p_rating < 0 OR p_rating > 100 THEN
   RAISE EXCEPTION 'Invalid claim or evidence score' USING ERRCODE = '22023';
  END IF;
