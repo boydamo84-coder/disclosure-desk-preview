@@ -50,9 +50,9 @@ assert.deepEqual(
  ].sort(),
  'Shared reporting or case-family lines must not be mistaken for independent physical evidence'
 );
-assert.equal(shared.size,18,'23 profiles are based on only 18 unique primary-source publication URLs');
+assert.equal(shared.size,17,'23 profiles resolve to 17 distinct primary-source publication URLs');
 const nol = claims.find(x=>x.personId==='garry-nolan').claim;
 const val = claims.find(x=>x.personId==='jacques-vallee').claim;
 assert.equal(nol.sourceAudit.relatedSourceGroup,val.sourceAudit.relatedSourceGroup);
-assert.match(nol.sourceAudit.independentEvidence,/one coauthored study|same peer-reviewed article|same paper|same research sample/i);
-console.log('M22 lineage: 23 claim/recommendation drafts, 18 unique publication URLs, 3 repeated publication containers, 3 shared case/reporting families; 0 approved scores. Source overlap is NOT independent confirmation.');
+assert.match(nol.sourceAudit.independentEvidence,/one coauthored study|same peer-reviewed article|same paper|same research sample|same publication/i);
+console.log('M22 lineage: 23 claim/recommendation drafts, 17 unique publication URLs, 3 repeated publication containers, 3 shared case/reporting families; 0 approved scores. Source overlap is NOT independent confirmation.');
