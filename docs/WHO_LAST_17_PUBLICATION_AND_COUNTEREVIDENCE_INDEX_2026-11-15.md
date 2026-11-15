@@ -156,7 +156,7 @@ This is not a verdict on anyone's honesty, nor a 0–100 score. First-person tes
    - **Source class:** `publisher`; **link indexed:** 2026-11-15
    - **Limit of inference:** Original broadcaster interview preserves Warren's later first-person statements and a second person's account. Retellings decades after 1980 do not substitute for original field logs or prove both recollections are independent.
 5. **NewsNation: Charles Halt's conflicting Rendlesham account** — https://www.youtube.com/watch?v=UfKwQgmHfII
-   - **Find it:** 28 October 2025 Reality Check interview, Holt/Halt disagreement from 2:40
+   - **Find it:** 28 October 2025 Reality Check interview, Halt's contrasting account from 2:40
    - **Source class:** `publisher`; **link indexed:** 2026-11-15
    - **Limit of inference:** The broadcaster interviews another named military participant who disputes aspects of Warren's account. Both sides need to be compared with the actual contemporaneous MoD papers, not turned into attacks on either person.
 
