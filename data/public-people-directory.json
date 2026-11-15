@@ -1286,7 +1286,63 @@
             "indexedAt": "2026-11-15"
           }
         ]
-      }
+      },
+      "claimEvidence": [
+        {
+          "id": "west-gimbal-2022-glare-interpretation",
+          "statement": "In a 2022 analysis, Mick West proposed that the apparent rotation in the publicly released Navy Gimbal video could be caused by sensor glare and camera motion rather than an object visibly rotating.",
+          "date": "2022-03-13",
+          "context": "This is a specific published technical hypothesis about what the imagery shows, not a statement that all UAP reports are explained or that the filmed object's identity is known.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "Mick West's original 2022 Gimbal technical analysis",
+              "url": "https://www.metabunk.org/threads/gimbal-ufo-a-new-analysis.12333/",
+              "context": "Original method, simulated geometry, assumptions and continuing technical challenges; not authenticated raw platform telemetry."
+            }
+          ],
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "Reconstruct original Gimbal clip frames with reproducible geometry and optical modelling; request original ATFLIR calibration, aircraft telemetry and source sensor recording. Compare technical objections and alternative aircraft/target models. Neither the officially released video nor a reproduction simulation proves the specific rotation cause or object's identity. Keep opinions about the investigator separate from the empirical test.",
+            "items": [
+              {
+                "id": "west-2022-metabunk-method",
+                "type": "primary",
+                "stance": "supports",
+                "access": "public",
+                "url": "https://www.metabunk.org/threads/gimbal-ufo-a-new-analysis.12333/",
+                "title": "Mick West: Gimbal UFO — a new analysis",
+                "locator": "13 March 2022 original post, glare/camera rotations and supporting simulations",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Original researcher explains and provides his model for why image rotation might be optical glare rather than physical movement. A model can fit image features without uniquely identifying the distant object."
+              },
+              {
+                "id": "west-dod-official-video",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.defense.gov/News/Releases/release/article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+                "title": "DoD authenticates and publishes historical US Navy videos",
+                "locator": "27 April 2020 release, January 2015 Navy Gimbal clip",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "The department authenticated the video as Navy material and retained unidentified status in the release. Authentication is not a sensor calibration record and does not establish either glare or extraordinary capabilities."
+              },
+              {
+                "id": "west-gimbal-2026-technical-dispute",
+                "type": "analysis",
+                "stance": "challenges",
+                "access": "public",
+                "url": "https://www.metabunk.org/threads/the-gimbal-ufo-marik-claims-new-findings-falsify-prosaic-explanations.14839/",
+                "title": "Metabunk: Marik's alternative Gimbal image-rotation arguments",
+                "locator": "2026 technical debate on early-frame rotation, downward pan and proposed glare limitations",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Technical critics dispute whether the model predicts every observed movement. These are competing interpretive analyses within a discussion forum, not independently released raw sensor metadata or a settled forensic determination."
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "bob-lazar",
@@ -1439,7 +1495,74 @@
             "indexedAt": "2026-11-15"
           }
         ]
-      }
+      },
+      "claimEvidence": [
+        {
+          "id": "lazar-1989-s4-alleged-reverse-engineering",
+          "statement": "In a December 1989 KLAS interview, Bob Lazar claimed that he had worked at a site he called S-4 near Groom Lake on propulsion associated with recovered craft.",
+          "date": "1989-12-09",
+          "context": "The reproduced interview documents the historical public assertion. Independent records verifying the alleged S-4 assignment, physical craft and propulsion are not established by the open sources reviewed here.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "1989 KLAS On the Record interview transcript, historical reproduction",
+              "url": "https://raids.org/files/mys3/lazar8.htm",
+              "context": "Contemporaneous transcript circulated through ParaNet; provenance of the archived copy and equivalence to original broadcast audio need checking."
+            }
+          ],
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "Seek original authenticated KLAS broadcast master or newsroom archive, independent S-4 personnel/job records and inspectable physical/technical measurements. Check Los Alamos employment and education separately. Neither a contested biography nor element 115's existence establishes the craft claim; AARO's general historical review does not specifically adjudicate Lazar's claimed 1988–89 assignment.",
+            "items": [
+              {
+                "id": "lazar-1989-paranet-transcript",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://raids.org/files/mys3/lazar8.htm",
+                "title": "ParaNet-preserved transcript of 9 December 1989 KLAS On the Record",
+                "locator": "On the Record; George Knapp / Robert Lazar opening exchange",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Reproduces Lazar's own claim about an S-4 job and propulsion. It is not an official personnel file; verify the preserved transcript against original video before treating quotations as definitive."
+              },
+              {
+                "id": "lazar-1989-archive-index",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.papooselake.org/interview-transcripts",
+                "title": "Chronological preservation index of early Bob Lazar broadcasts",
+                "locator": "15 May, 10 November and 9 December 1989 interviews",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "The third-party archive offers chronological interviews and recording pointers. Those materials can verify public attribution but do not independently verify the alleged recovered technology."
+              },
+              {
+                "id": "lazar-2018-knpr-review",
+                "type": "analysis",
+                "stance": "challenges",
+                "access": "public",
+                "url": "https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real",
+                "title": "Nevada Public Radio: original KLAS reporter's later verification account",
+                "locator": "13 December 2018; Knapp and Stoldal discuss schooling and Los Alamos",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Knapp describes unresolved MIT/Caltech and lab employment checks while also recounting people apparently recognising Lazar at Los Alamos. These are distinct background questions and do not independently establish an S-4 recovered-craft assignment."
+              },
+              {
+                "id": "lazar-aaro-2024-scope",
+                "type": "analysis",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.defense.gov/News/News-Stories/Article/Article/3701297/dod-report-discounts-sightings-of-extraterrestrial-technology/",
+                "title": "Department of Defense summary of AARO 2024 historical review",
+                "locator": "8 March 2024; general reported hidden-technology programme findings",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "AARO reported no verifiable evidence of extraterrestrial government reverse-engineering in its reviewed scope. This broad institutional assessment is neither personnel-specific proof nor a complete adjudication of Lazar's particular historical account."
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "jake-barber",
@@ -1597,7 +1720,63 @@
             "indexedAt": "2026-11-15"
           }
         ]
-      }
+      },
+      "claimEvidence": [
+        {
+          "id": "barber-2025-alleged-egg-shaped-retrieval",
+          "statement": "In a January 2025 NewsNation interview, Jake Barber said he had participated in retrieval activity involving an egg-shaped object which he interpreted as extraordinary.",
+          "date": "2025-01-18",
+          "context": "The original broadcaster account establishes that Barber publicly made this assertion. The available interview and news packaging do not independently authenticate the alleged object, its provenance, its composition or a non-human origin.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "Original NewsNation video interview with Jake Barber",
+              "url": "https://www.youtube.com/watch?v=PGOpHdHSjTE",
+              "context": "NewsNation original interview of Barber; witness claim and footage must be evaluated separately."
+            }
+          ],
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "Request original camera files and complete metadata, capture-to-publication chain of custody, named independent retrieval-team records, equipment logs and identifiable physical sample tests. NewsNation and its syndicated reprint are the same journalistic source, not two corroborating retrieval witnesses. A broader government historical review issued before January 2025 cannot resolve the later event.",
+            "items": [
+              {
+                "id": "barber-newsnation-2025-video",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.youtube.com/watch?v=PGOpHdHSjTE",
+                "title": "NewsNation publisher interview: Barber's alleged retrieval account",
+                "locator": "18 January 2025; interview and published video excerpt",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Shows what the interviewee asserts in a broadcaster-controlled production. Without independently released original footage and retrieval documentation, the video does not validate non-human origin."
+              },
+              {
+                "id": "barber-newsnation-yahoo",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.yahoo.com/news/air-force-veteran-whistleblower-claims-232514734.html",
+                "title": "NewsNation reporting redistributed by Yahoo",
+                "locator": "January 2025 NewsNation reporting; Barber's account",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "This is syndicated coverage from the same publisher, rather than independently collected evidence. Date/title and any edited source video require direct publisher crosscheck."
+              },
+              {
+                "id": "barber-aaro-prior-review",
+                "type": "analysis",
+                "stance": "alternative",
+                "access": "public",
+                "url": "https://www.defense.gov/News/News-Stories/Article/Article/3701297/dod-report-discounts-sightings-of-extraterrestrial-technology/",
+                "title": "DoD report on scope of AARO's earlier historical programme review",
+                "locator": "8 March 2024 general UAP recovery / reverse-engineering allegations",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Earlier governmental review reports no verified recovered extraterrestrial craft in its examined material, but precedes Barber's public January 2025 story and cannot directly resolve the claimed particular retrieval."
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "steven-greer",
@@ -1954,7 +2133,74 @@
             "indexedAt": "2026-11-15"
           }
         ]
-      }
+      },
+      "claimEvidence": [
+        {
+          "id": "warren-rendlesham-1980-retrospective-account",
+          "statement": "Larry Warren has publicly described participation in an extraordinary event at Rendlesham Forest in December 1980, including in a 2025 on-camera retelling.",
+          "date": "2025-08-19",
+          "context": "This is a retrospective first-person claim, not a contemporaneously verified description. UK MoD files independently establish that unusual lights were reported and investigated, but do not specifically substantiate Warren's full personal chronology.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "NewsNation interview: Larry Warren's own Rendlesham retelling",
+              "url": "https://www.youtube.com/watch?v=21yW_XZR2LU",
+              "context": "2025 first-person recorded claim, decades after the 1980 incident; compare with original files and other witnesses."
+            }
+          ],
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "Compare exact alleged dates, locations and eyewitness presence with military rosters, witness statements and the contemporary Halt memo, distinguishing the separate nights. Inspect Warren and Robbins' original 1997 text instead of equating a catalogue entry with its contents. Evaluate the opposing Halt interview carefully, without assigning a personal honesty verdict to either witness.",
+            "items": [
+              {
+                "id": "warren-2025-original-account",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.youtube.com/watch?v=21yW_XZR2LU",
+                "title": "NewsNation interview: Warren and Longero revisit Rendlesham",
+                "locator": "19 August 2025 Reality Check interview, Warren approximately 08:47–32:40",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "First-person retrospective testimony establishes Warren's published account, not a contemporaneous military record or physical validation of an extraordinary craft."
+              },
+              {
+                "id": "warren-uk-archives-1980",
+                "type": "records",
+                "stance": "supports",
+                "access": "public",
+                "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/",
+                "title": "UK National Archives: Rendlesham correspondence and Halt memo",
+                "locator": "December 1980 'Unexplained Lights'; DEFE 24/1948/1",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "The state archive independently confirms a historical military report about lights in Rendlesham Forest. That supports event context only, not Warren's claimed particular involvement or craft description."
+              },
+              {
+                "id": "warren-2025-halt-alternative",
+                "type": "primary",
+                "stance": "challenges",
+                "access": "public",
+                "url": "https://www.youtube.com/watch?v=UfKwQgmHfII",
+                "title": "NewsNation interviews Charles Halt on differing Rendlesham memories",
+                "locator": "28 October 2025 Reality Check, Halt approximately 02:40 onward",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "A named military participant gives a competing retrospective account. The dispute warrants direct comparison to dated 1980–81 records; an interview alone does not conclusively settle Warren's presence or events."
+              },
+              {
+                "id": "warren-1997-book-catalog",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://obnb.uk/p12046414-left-at-east-gate-a-first-hand-account-of-the-bentwaters-woodbridge-ufo-incident-its-cover-up-and-investigation",
+                "title": "British National Bibliography entry: Left at East Gate",
+                "locator": "1997; Warren and Robbins authors; book catalogue entry",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Bibliography supports existence and authorship of the published account, but is not a primary readable copy of its specific assertions and does not verify the 1980 event."
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "luis-elizondo",
@@ -2458,7 +2704,63 @@
             "indexedAt": "2026-11-15"
           }
         ]
-      }
+      },
+      "claimEvidence": [
+        {
+          "id": "loeb-2024-im1-spherule-origin-interpretation",
+          "statement": "Avi Loeb and colleagues published a 2024 geochemical classification of Pacific seafloor spherules recovered near the predicted IM1 trajectory, interpreting several compositions as cosmic or potentially unusual.",
+          "date": "2024-09-18",
+          "context": "The research documents physical samples and published laboratory classifications, but the link between those samples and the 2014 fireball, their extrasolar provenance and any artificial origin are disputed or unestablished. The claim under review is the material interpretation, not a blanket judgement of Loeb's scientific work.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "Loeb et al. original peer-reviewed Chemical Geology research article",
+              "url": "https://www.sciencedirect.com/science/article/pii/S0009254124004959",
+              "context": "Original 2024 research and methods; paper did not by itself prove extraterrestrial technology."
+            }
+          ],
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "Read the complete methods, sampling-control sites, material chemistry, calibration and chain of custody, including subsequent peer-reviewed contrary classification. Verify original IM1 source trajectory and whether the sampling path genuinely overlaps debris dispersal. Extrasolar natural composition and manufactured alien technology are different propositions; no numeric claim evidence score may be released without independent cross-review.",
+            "items": [
+              {
+                "id": "loeb-2024-chemgeo-original",
+                "type": "primary",
+                "stance": "supports",
+                "access": "public",
+                "url": "https://www.sciencedirect.com/science/article/pii/S0009254124004959",
+                "title": "Loeb and colleagues: 2024 Chemical Geology spherule classification",
+                "locator": "Volume 670, article 122415; abstract, methods and sample groups",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Original peer-reviewed article reports sampling and elemental analysis and interprets certain spherules as unusual. Publication and reported chemistry do not demonstrate a manufactured object or definitive IM1 origin."
+              },
+              {
+                "id": "loeb-2025-peer-critique",
+                "type": "analysis",
+                "stance": "challenges",
+                "access": "public",
+                "url": "https://www.sciencedirect.com/science/article/pii/S000925412500018X",
+                "title": "2025 Chemical Geology re-evaluation of the proposed IM1 spherule origin",
+                "locator": "Volume 677, article 122628; abstract and conclusions",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "An independent journal critique argues many spherules, including the disputed D-type category, have volcanic rather than extraterrestrial origins. This contests classification and requires scientific comparison of methods and samples."
+              },
+              {
+                "id": "loeb-galileo-2024-release",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://galileo.hsites.harvard.edu/news/new-paper-chemical-classification-im1-spherules-published-chemical-geology",
+                "title": "Galileo Project announcement of the team's published IM1 findings",
+                "locator": "23 September 2024 Harvard-hosted project press article",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Confirms how the researchers publicly framed their own journal publication. Same-team communication does not supply independent laboratory corroboration of sample provenance or extraterrestrial technology."
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "jacques-vallee",
