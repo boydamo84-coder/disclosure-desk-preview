@@ -31,6 +31,12 @@ for(const [id,patterns] of Object.entries(expected)){
   'Spot check is not complete investigation review: '+id);
  assert.equal(c.sourceAccessCheck.secondEditorSignoff,'not_obtained',
   'No second human editor has been supplied: '+id);
+ const photo=p.photoRightsAudit?.m26HouseFootageChainCheck;
+ assert(photo,'House hearing image original-chain caution must be recorded: '+id);
+ assert.equal(photo.groupFile,'https://commons.wikimedia.org/wiki/File:US_congressional_hearing_on_UAPs_on_26_July_2023_with_Grusch_Graves_and_Fravor.png');
+ assert.equal(photo.permissionToPublishNewPortrait,false,'Wikimedia Commons attribution alone does not clear a new portrait: '+id);
+ assert.equal(photo.independentFinalReviewer,'not_obtained','No independent image approval: '+id);
+ assert.equal(p.photoRightsAudit.finalRightsApproval,false,'Photographic metadata is not legal approval: '+id);
  assert.equal(c.ratingReadiness.publicationApproval,'withheld',
   'No source-only spot check can authorize a numeric rating: '+id);
  audited++;
