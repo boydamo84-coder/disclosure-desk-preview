@@ -12,6 +12,14 @@ CREATE ROLE anon NOLOGIN;
 CREATE ROLE authenticated NOLOGIN;
 CREATE SCHEMA auth;
 CREATE TABLE auth.users(id UUID PRIMARY KEY);
+-- Synthetic M22/M23 session store. IDs deliberately match each fixture user
+-- to keep the test harness transparent; real GoTrue sessions use separate UUIDs.
+CREATE TABLE auth.sessions (
+ id UUID PRIMARY KEY,
+ user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE
+);
+REVOKE ALL ON auth.sessions FROM PUBLIC;
+
 -- This shim reads PostgREST's actual request.jwt.claims JSON (or older M22
 -- synthetic request.jwt.claim.sub), but does not itself verify JWT signatures.
 -- M23 uses a separate PostgREST HTTP container for signed-JWT validation.
