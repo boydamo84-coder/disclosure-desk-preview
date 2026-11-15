@@ -503,6 +503,10 @@ host.innerHTML='';fns.renderClaimEvidence(data.people.find(p=>p.id==='mick-west'
 const fictional={
  statement:'Fictional evidence review example (this is not a statement by a real person)',
  date:'2026-11-15', context:'Synthetic test only.',
+ claimKind:'public_claim',
+ ratingReadiness:{status:'independently_approved',publicationApproval:'granted',
+  scorePath:'incident_evidence_review_approved',secondEditor:'approved'},
+ sourceAccessCheck:{fullOriginalReviewed:true,secondEditorSignoff:'approved'},
  sources:[{kind:'primary',label:'Fictional record',url:'https://example.org/fictional-record'}],
  review:{
   status:'published',methodology:'dd-claim-evidence-v1',reviewer:'Sample Review Editor',
@@ -573,6 +577,17 @@ const noIncidentFictional={...eligibleFictional,ratingReadiness:{...data.people.
 assert.equal(fns.publishedClaimReview(noIncidentFictional),null,'Not-applicable incident policy claims cannot publish a score');
 
 for(const mutation of [
+ c=>{delete c.claimKind},
+ c=>{c.claimKind='policy_recommendation'},
+ c=>{delete c.ratingReadiness},
+ c=>{c.ratingReadiness.status='first_pass_triage'},
+ c=>{c.ratingReadiness.publicationApproval='withheld'},
+ c=>{delete c.ratingReadiness.secondEditor},
+ c=>{c.ratingReadiness.scorePath='incident_evidence_review_pending'},
+ c=>{c.ratingReadiness.scorePath='not_applicable_to_incident_score'},
+ c=>{delete c.sourceAccessCheck},
+ c=>{c.sourceAccessCheck.fullOriginalReviewed=false},
+ c=>{c.sourceAccessCheck.secondEditorSignoff='not_obtained'},
  c=>{delete c.review.editorialChecks.secondEditorApproved},
  c=>{c.review.points.independent=31},
  c=>{c.review.rationale.direct='Too short'},
