@@ -11,6 +11,12 @@ const profiles=[
  {name:'Nick Pope',kind:'claim',text:'Rendlesham',minSources:4},
  {name:'Leslie Kean',kind:'claim',text:'June 2023',minSources:4},
  {name:'John Greenewald Jr.',kind:'work',text:'government',minSources:4},
+ {name:'David Spergel',kind:'role',text:'NASA',minSources:2},
+ {name:'Daniel Evans',kind:'role',text:'NASA',minSources:2},
+ {name:'Anna Paulina Luna',kind:'role',text:'House',minSources:3},
+ {name:'Tim Burchett',kind:'role',text:'House',minSources:3},
+ {name:'Chuck Schumer',kind:'role',text:'proposal',minSources:3},
+ {name:'Jared Moskowitz',kind:'role',text:'House',minSources:2},
  {name:'Mike Gold',kind:'policy',text:'NASA',minSources:4}
 ];
 (async()=>{
@@ -33,7 +39,7 @@ const profiles=[
    await dock.waitFor({state:'visible'});
    assert.equal(await dock.locator('.tab').count(),14,'Keep original premium fourteen-tab nav');
    assert.equal(await dock.locator('.tab[aria-current="page"]').getAttribute('data-tab'),'peopleDirectory');
-   let list=width===393?profiles:profiles.filter(p=>['George Knapp','James Fox','John Greenewald Jr.','Mike Gold'].includes(p.name));
+   let list=width===393?profiles:profiles.filter(p=>['George Knapp','James Fox','John Greenewald Jr.','David Spergel','Anna Paulina Luna','Chuck Schumer','Mike Gold'].includes(p.name));
    for(const test of list){
     await page.locator('#peopleSearch').fill(test.name);
     const cards=page.locator('#peopleCards article.card');
@@ -43,6 +49,19 @@ const profiles=[
     await page.locator('#personProfile').waitFor({state:'visible'});
     assert.equal(await page.locator('#profileName').innerText(),test.name);
     const host=page.locator('#profileEvidenceReviews');
+    if(test.kind==='role' || test.kind==='work'){
+     const scope=host.locator('.claim-scope-review');
+     assert.equal(await scope.count(),1,'Unscored role and FOIA sources have exactly one explicit research-scope explanation');
+     assert.match(await scope.innerText(),/Not applicable to the documented role or work/,'Not a personal 0\/100 rating');
+     assert.equal(await host.locator('.claim-score, [data-evidence-claim-id], [data-rating-save]').count(),0,
+      'Role-only/source-only record must never show real numerical score or interactive vote');
+     await scope.locator('summary').click();
+     assert.equal(await scope.locator('.claim-evidence-list li').count(),test.minSources,
+      'Reader sees the source locations used for this scope decision');
+     assert.equal(await scope.locator('a[href^="https://"]').count(),test.minSources);
+     assert.match(await scope.innerText(),/further evidence could change the scope/i,
+      'No-scoring policy must be revisitable for separate, genuinely attributable claim');
+    }
     if(test.kind==='claim'){
      assert.equal(await host.locator('.claim-review').count(),1,test.name+' gets one specifically attributed claim');
      assert.match(await host.innerText(),/Not assessed/,'No editor-approved real score');
@@ -57,6 +76,9 @@ const profiles=[
       'All source items expose original HTTPS links');
      assert.equal(await host.locator('[data-evidence-claim-id]').count(),0,
       'No community voting backend control for draft claim');
+    }else if(test.kind==='role'){
+     assert.equal(await host.locator('.claim-review').count(),0,'Documented government/science role does not fabricate event claim');
+     assert.equal(await host.locator('.claim-role-card').count(),2,'Original institution records plus independent scope decision');
     }else if(test.kind==='policy'){
      assert.match(await host.innerText(),/Not applicable/,'Policy proposals never receive UAP-event scores');
      assert.equal(await host.locator('[data-evidence-claim-id]').count(),0);
