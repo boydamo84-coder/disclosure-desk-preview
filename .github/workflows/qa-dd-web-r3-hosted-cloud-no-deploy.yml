@@ -33,6 +33,13 @@ jobs:
           node --check scripts/test_r3_hosted_browser_chromium.cjs
           node --check scripts/build_public_release.cjs
           node --check scripts/test_public_release_package.cjs
+      - name: Verify pinned Supabase browser SDK for reproducible secure loading
+        run: |
+          curl -fsSL --retry 2 --max-time 25 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js' -o /tmp/r3-supabase-sdk.js
+          test "$(wc -c </tmp/r3-supabase-sdk.js)" -gt 100000
+          printf 'R3_CLOUD_SDK_SRI=sha384-'
+          openssl dgst -sha384 -binary /tmp/r3-supabase-sdk.js | base64 -w 0
+          echo
       - name: Stage and inspect strict R3 website package without publishing
         run: |
           node scripts/build_public_release.cjs
