@@ -212,15 +212,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "official_hearing_transcript_retrieved",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "observation": "The original Government Publishing Office HTML hearing transcript is directly readable and contains Grusch's own testimony about what he says he was informed about, including a purported crash-retrieval programme. Hearing record is proof of attribution, not independent programme physical evidence.",
+            "nextAction": "Use the precisely located original government transcript to compare the narrow claim against witness questions and written submissions; independent source documents, separate witnesses, instrument/physical evidence and a named human editor must still validate any underlying-event assertion.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "GPO transcript lines about 746–818; 'STATEMENT OF DAVID GRUSCH' and description of what other officials informed him of"
           }
         }
       ],
@@ -472,15 +473,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "official_hearing_transcript_retrieved",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "observation": "The original GPO HTML hearing is directly accessible and records Graves describing first-person experiences and reports from other aviators; it does not expose the full independent flight/sensor dataset for each witness.",
+            "nextAction": "Use the precisely located original government transcript to compare the narrow claim against witness questions and written submissions; independent source documents, separate witnesses, instrument/physical evidence and a named human editor must still validate any underlying-event assertion.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "GPO transcript lines about 656–743; 'STATEMENT OF RYAN GRAVES' on aircrew concerns and reports"
           }
         }
       ],
@@ -700,15 +702,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "official_hearing_transcript_retrieved",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "observation": "The official 26 July 2023 hearing HTML directly records Fravor's firsthand description of the 2004 Nimitz event, not raw 2004 radar, complete FLIR source or calibrated aerial geometry.",
+            "nextAction": "Use the precisely located original government transcript to compare the narrow claim against witness questions and written submissions; independent source documents, separate witnesses, instrument/physical evidence and a named human editor must still validate any underlying-event assertion.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "GPO transcript lines about 822 onward; 'STATEMENT OF DAVID FRAVOR (RET.)' and 2004 Nimitz exercise"
           }
         }
       ],
@@ -3172,15 +3175,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "official_hearing_transcript_retrieved",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "observation": "The original government 13 November 2024 hearing HTML directly records Elizondo's on-record assertions. It does not release independently testable recovered-material samples or all classified programme authorizations.",
+            "nextAction": "Use the precisely located original government transcript to compare the narrow claim against witness questions and written submissions; independent source documents, separate witnesses, instrument/physical evidence and a named human editor must still validate any underlying-event assertion.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "GPO transcript lines about 800 onward; 'STATEMENT OF LUIS ELIZONDO', his UAP programme/oversight assertions"
           }
         }
       ],
@@ -5712,15 +5716,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "official_hearing_transcript_retrieved",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "observation": "The original GPO hearing HTML records Gold's policy recommendations and background. They remain recommendations, not a claim that an extraordinary incident or a non-human craft was empirically demonstrated.",
+            "nextAction": "Use the precisely located original government transcript to compare the narrow claim against witness questions and written submissions; independent source documents, separate witnesses, instrument/physical evidence and a named human editor must still validate any underlying-event assertion.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "GPO transcript lines about 1040 onward; 'STATEMENT OF MICHAEL GOLD', NASA scientist and research-policy advocacy"
           }
         }
       ],
@@ -8275,15 +8280,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "official_hearing_transcript_retrieved",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "observation": "The original GPO transcript records Gallaudet's later recollection of the Navy safety email and Go Fast footage, but does not include independently authenticated email headers, mailbox-retention data or proof of the deletion mechanism.",
+            "nextAction": "Use the precisely located original government transcript to compare the narrow claim against witness questions and written submissions; independent source documents, separate witnesses, instrument/physical evidence and a named human editor must still validate any underlying-event assertion.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "GPO transcript lines about 685 onward; 'STATEMENT OF TIM GALLAUDET, PH.D.' and January 2015 safety email"
           }
         }
       ],
@@ -8460,15 +8466,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "official_hearing_transcript_retrieved",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "observation": "The original government transcript records a written material entry about an allegedly named programme and Shellenberger's statements; entering an allegation into the record is not independent authentication of the claimed agency programme.",
+            "nextAction": "Use the precisely located original government transcript to compare the narrow claim against witness questions and written submissions; independent source documents, separate witnesses, instrument/physical evidence and a named human editor must still validate any underlying-event assertion.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "GPO transcript lines about 909 onward; 'STATEMENT OF MICHAEL SHELLENBERGER' and Immaculate Constellation discussion"
           }
         }
       ],
@@ -9021,15 +9028,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "publisher_original_article_retrieved",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://thedebrief.org/intelligence-officials-say-u-s-has-retrieved-non-human-craft/",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "observation": "The Debrief original signed Kean/Blumenthal article is directly accessible: byline/date 5 June 2023 and opening paragraphs report alleged craft recovery, plus additional unnamed active/retired officials said to corroborate elements of the programme story. This verifies the published reporting and words, not the identities, independence or physical knowledge of the confidential sources.",
+            "nextAction": "Seek source-provenance validation and appropriate independent confidential-source checking, separate Grusch reporting lineage and primary programme documents; arrange named independent editorial signoff.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "Original The Debrief opening paragraphs 1–5; Kean and Blumenthal byline, 5 June 2023."
           }
         }
       ],
@@ -9225,15 +9233,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "publisher_original_article_landing_retrieved",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://www.mdpi.com/1099-4300/21/10/939",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "observation": "MDPI's original Entropy paper landing page directly displays Knuth/Powell/Reali, publication 25 September 2019, DOI 10.3390/e21100939 and abstract describing conditional lower-bound acceleration estimates from reported UAP manoeuvres. The publicly rendered landing page does not show the 0.78-second specific model passage in this fetch; full article/PDF and raw radar data were NOT independently inspected here.",
+            "nextAction": "Obtain and inspect the full original publisher PDF/methods and its 0.78-second radar assumption, independent radar source/timing data, uncertainty and alternative computations; obtain named independent method reviewer.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "Entropy 2019, 21(10), 939; original publisher title, authors and abstract."
           }
         }
       ],
