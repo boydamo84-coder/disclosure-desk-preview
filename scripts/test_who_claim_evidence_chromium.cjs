@@ -58,13 +58,19 @@ const profiles=[
      directoryVisible:!document.querySelector('#directoryPage')?.classList.contains('hidden'),
      stamp:Math.round(performance.now())
     });
+    document.addEventListener('pointerdown',event=>{
+     const card=event.target?.closest?.('#peopleCards [data-person-id]');
+     record('capture-pointerdown',{tag:event.target?.tagName,id:event.target?.id,
+      targetClass:String(event.target?.className||'').slice(0,80),
+      card:card?.dataset.personId||null,x:Math.round(event.clientX),y:Math.round(event.clientY)});
+    },true);
     document.addEventListener('click',event=>{
      const button=event.target?.closest?.('#peopleCards [data-person-id] button');
-     if(button){
-      const id=button.closest('[data-person-id]')?.dataset.personId;
-      record('capture-card-click',{id});
-      queueMicrotask(()=>record('after-card-click-microtask',{id}));
-     }
+     const id=button?.closest('[data-person-id]')?.dataset.personId||null;
+     record('document-click',{id,tag:event.target?.tagName,targetId:event.target?.id,
+      targetClass:String(event.target?.className||'').slice(0,80),
+      x:Math.round(event.clientX),y:Math.round(event.clientY)});
+     if(button)queueMicrotask(()=>record('after-card-click-microtask',{id}));
     },true);
     window.addEventListener('popstate',()=>record('popstate-capture',{}),true);
    });
@@ -92,7 +98,12 @@ const profiles=[
       directoryVisible:await page.locator('#directoryPage').isVisible(),
       historyState:await page.evaluate(()=>history.state),
       cardCount:await page.locator('#peopleCards article.card').count(),
-      trace:await page.evaluate(()=>window.__whoProfileTrace?.slice(-35)),
+      trace:await page.evaluate(()=>window.__whoProfileTrace?.slice(-50)),
+      centerHit:await matching.locator('button').first().evaluate(btn=>{
+       const box=btn.getBoundingClientRect();const el=document.elementFromPoint(box.left+box.width/2,box.top+box.height/2);
+       return {button:{left:box.left,top:box.top,width:box.width,height:box.height},
+        hit:{tag:el?.tagName,id:el?.id,cls:String(el?.className||'').slice(0,100)}};
+      }),
       jsErrors:errors.slice(-8)
      }));
      throw error;
