@@ -1,5 +1,5 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 15 November 2026 (Europe/London) — owner-reported working R3 site; Who's Who dual claim-rating candidate and 50-profile first-pass research register staged only (not live)_
+_Last updated: 15 November 2026 (Europe/London) — Who's Who M19 explicit publication gates and no-deploy source checks complete; real Node/Chromium CI and independent review outstanding_
 
 ## M96 — Legacy favicon fallback and Netlify 404 review (13 November 2026)
 
@@ -2348,3 +2348,22 @@ Each structured `sourceAudit.status='original_record_comparison_draft'`, `review
 **Absolute no-deploy/non-interference:** Do not merge to GitHub `production`, run Netlify builds/spend credits, alter live Supabase tables/RLS/RPC/accounts/community scores, rebuild or publish Android APK/Play package, access or rewrite encrypted R3 Hypothesis Lab/W.NE data, change original 14-tab layout, buy portraits or create fabricated 0–100 scores/honesty ratings. User's last verified working live R3 site is NOT updated by M18.
 
 **Next responsible M19:** Confirm exact latest push-triggered GitHub Actions run with original logs/screenshots or rerun/test repairs without deploying; get independent original master videos for Coulthart/Barber/Lazar, direct original Pope/ScienceDirect pages and professionally translated original Brazilian STM inquiry; complete expert two-reviewer case-specific original empirical evidence and photo-rights signoff; then staged JWT/RLS anti-abuse member votes, user acceptance on Samsung/iOS, and separate explicit owner release approval. Nothing here authorises numerical ratings or live integration.
+
+## DD-WHO-EVIDENCE milestone 19 — fail-closed editorial approval gates, staged only (15 Nov 2026)
+
+**Owner instruction:** “Ok lets continue.” Continued M18 on the **same isolated branch**. Neither numerical claims nor Netlify/Play publication were approved.
+
+**Concrete app fix:** `publishedClaimReview` previously treated missing `claimKind` and `ratingReadiness` as permissible for a hypothetical published, source-linked review. This was a potential *future approval metadata bypass*, not an observed live vulnerability: all 23 real claims remain draft/withheld and have zero visible scores or votes. In `assets/people-directory.js`, both fields must now be explicitly present: `claimKind:'public_claim'`; independently approved readiness, granted publication, approved independent second editor and one of three explicitly approved score-path values; plus `sourceAccessCheck.fullOriginalReviewed:true` and independent source-access signoff. Pending, missing, role or policy records fail closed. Existing full attributed-primary-source trail, five-criterion reviewer checks and valid HTTPS link requirements remain. `communityClaimEligible` delegates to the same gate, preventing a partially approved record from opening **either** a numerical rating or a community ballot. Metadata flags are NOT cryptographic attestations or substitute human source review.
+
+**Committed branch work:**
+- App gate: `18183168a4df20d34d6d818bd3c994c1941d1cba`.
+- Expanded deterministic fictional positive/negative contract fixtures: `70664885f3bce385cc441bf5b8f199898f35b2a5`.
+- Full precise record: `docs/WHO_M19_FAIL_CLOSED_APPROVAL_GATES_2026-11-15.md` (`d0cbb374376886f828db0618ddc210a3fb3b4a81`).
+
+**Actually verified:** Re-fetched the exact GitHub source/data/test files and ran **22 targeted V8 test assertions** against the actual updated publish/vote code (fictional approved example passes; ten disqualifying missing/withheld metadata mutations block both outcomes). A second source-level read-back performed **221 assertions** across all 50 people, 23 claims, 27 unscored role/FOIA profiles and **89 researchEvidence.items**, checking source and readiness panels, no published numbers/vote controls in every real claim, full JS syntax parsing, and the unchanged pinned R3 research news and Who's Who cache key. V8 used an explicit conservative HTTPS shim, not the real browser `URL` implementation. The first tally incorrectly interpreted the 89 provisional *research items* as `claim.sources` and stopped; this was corrected after a fresh JSON count: there are 89 researchEvidence items but 25 claim source-attribution references, so the subsequent 221-check verification used the correct schema. **No actual Node/Chromium or GitHub Actions green result is claimed.**
+
+**CI limitation:** The isolated read-only workflow paths include the changed files. GitHub combined-status and connector PR-only workflow-run lookup both returned empty results on M19 exact source/test SHA `70664885...`; that is inconclusive, not green or red. External GitHub access from the local container failed DNS resolution; the web GitHub Actions page was also inaccessible. Next inspect push-triggered Actions jobs/logs or run Node + real Chrome in an authorised no-deploy CI environment, including 320/393/820/1280px. No rerun was claimed or bypassed.
+
+**Release safety:** All 23 original-access checks remain incomplete full-case reviews; 0 independently signed review cases, 0 real scores, 0 member votes, unchanged 50 directory profiles/pictures/nav and the existing live R3 site. No GitHub `production` merge, Netlify build/credits, Supabase SQL or member writes, Android/Play, encrypted personal notebook or W.NE change. External rights/original master footage/Portuguese STM and independent corroboration remain open. New code was staged ONLY on `feature/who-evidence-score-framework-20261115`.
+
+**Next M20:** Confirm exact-source GitHub push-triggered no-deploy Node/Chromium CI success (or repair any real failures), then pursue access to blocked original primary media/journals, independent source-lineage validation, qualified named reviewer and portrait rights review. Real-user rating backend requires separate secure JWT/RLS staging tests and owner-authorised release.
