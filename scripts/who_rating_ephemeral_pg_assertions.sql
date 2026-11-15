@@ -58,7 +58,7 @@ SELECT ci_test.expect_error('SELECT count(*) FROM public.dd_who_claim_ratings',
  '42501','guest cannot inspect raw votes');
 SELECT ci_test.expect_error('SELECT count(*) FROM public.dd_who_reviewable_claims',
  '42501','guest cannot inspect registry');
-SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',50)',
+SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',50::SMALLINT)',
  '42501','guest cannot invoke write RPC');
 DO $test$
 DECLARE s RECORD;
@@ -100,29 +100,29 @@ $bad$,'42501','member cannot impersonate someone via direct insert');
 DO $test$
 DECLARE s RECORD;
 BEGIN
- SELECT * INTO STRICT s FROM public.dd_who_claim_rating_set('claim-fixture-2026',80);
+ SELECT * INTO STRICT s FROM public.dd_who_claim_rating_set('claim-fixture-2026',80::SMALLINT);
  IF s.rating_count<>1 OR s.community_mean IS NOT NULL OR s.my_rating<>80 THEN
   RAISE EXCEPTION 'First vote should be one private member score with suppressed mean';
  END IF;
 END $test$;
-SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',75)',
+SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',75::SMALLINT)',
  '22023','editing too soon must reject');
-SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-disabled-2026'',55)',
+SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-disabled-2026'',55::SMALLINT)',
  '22023','disabled claim must reject');
-SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''missing-claim-2026'',55)',
+SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''missing-claim-2026'',55::SMALLINT)',
  '22023','unknown claim must reject');
-SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',101)',
+SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',101::SMALLINT)',
  '22023','greater than 100 must reject');
-SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',-1)',
+SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',-1::SMALLINT)',
  '22023','negative score must reject');
 
 -- Even with an authenticated Postgres role, anonymous Supabase sign-in cannot vote.
 SET request.jwt.claims = '{"is_anonymous":true}';
-SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',70)',
+SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',70::SMALLINT)',
  '28000','anonymous identity must reject');
 SET request.jwt.claim.sub = '';
 SET request.jwt.claims = '{"is_anonymous":false}';
-SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',70)',
+SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',70::SMALLINT)',
  '28000','missing authenticated subject must reject');
 
 -- Four more independent synthetic accounts. These prove only DB count/ownership,
@@ -134,20 +134,20 @@ SET request.jwt.claims = '{"is_anonymous":false}';
 DO $test$
 DECLARE s RECORD;
 BEGIN
- SELECT * INTO STRICT s FROM public.dd_who_claim_rating_set('claim-fixture-2026',100);
+ SELECT * INTO STRICT s FROM public.dd_who_claim_rating_set('claim-fixture-2026',100::SMALLINT);
  IF s.rating_count<>2 OR s.my_rating<>100 OR s.community_mean IS NOT NULL THEN
   RAISE EXCEPTION 'Second account must see only its own vote, no low-turnout average';
  END IF;
 END $test$;
 SET request.jwt.claim.sub = '33333333-3333-4333-8333-333333333333';
-SELECT * FROM public.dd_who_claim_rating_set('claim-fixture-2026',70);
+SELECT * FROM public.dd_who_claim_rating_set('claim-fixture-2026',70::SMALLINT);
 SET request.jwt.claim.sub = '44444444-4444-4444-8444-444444444444';
-SELECT * FROM public.dd_who_claim_rating_set('claim-fixture-2026',30);
+SELECT * FROM public.dd_who_claim_rating_set('claim-fixture-2026',30::SMALLINT);
 SET request.jwt.claim.sub = '55555555-5555-4555-8555-555555555555';
 DO $test$
 DECLARE s RECORD;
 BEGIN
- SELECT * INTO STRICT s FROM public.dd_who_claim_rating_set('claim-fixture-2026',20);
+ SELECT * INTO STRICT s FROM public.dd_who_claim_rating_set('claim-fixture-2026',20::SMALLINT);
  IF s.rating_count<>5 OR s.community_mean<>60.0 OR s.my_rating<>20 THEN
   RAISE EXCEPTION 'Five accounts must enable average 60, preserving current own rating';
  END IF;
@@ -184,7 +184,7 @@ UPDATE public.dd_who_reviewable_claims SET enabled=false WHERE claim_id='claim-f
 SET ROLE authenticated;
 SET request.jwt.claim.sub = '11111111-1111-4111-8111-111111111111';
 SET request.jwt.claims = '{"is_anonymous":false}';
-SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',80)',
+SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',80::SMALLINT)',
  '22023','moderator disabling a claim blocks votes immediately');
 DO $test$
 BEGIN
@@ -209,12 +209,12 @@ SELECT 'claim-batch-'||lpad(n::text,3,'0'),'11111111-1111-4111-8111-111111111111
 FROM generate_series(1,29) n;
 SET ROLE authenticated;
 SET request.jwt.claim.sub = '11111111-1111-4111-8111-111111111111';
-SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-batch-030'',50)',
+SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-batch-030'',50::SMALLINT)',
  '22023','more than 30 new daily ratings rejected');
 DO $test$
 DECLARE s RECORD;
 BEGIN
- SELECT * INTO STRICT s FROM public.dd_who_claim_rating_set('claim-fixture-2026',75);
+ SELECT * INTO STRICT s FROM public.dd_who_claim_rating_set('claim-fixture-2026',75::SMALLINT);
  IF s.rating_count<>4 OR s.my_rating<>75 THEN
   RAISE EXCEPTION 'Allowed old-vote edit duplicated a row or altered someone else';
  END IF;
