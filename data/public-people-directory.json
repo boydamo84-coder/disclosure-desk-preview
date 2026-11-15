@@ -139,7 +139,8 @@
               "url": "https://www.congress.gov/118/meeting/house/116282/witnesses/HHRG-118-GO06-Wstate-GruschD-20230726.pdf",
               "context": "Read the original statement and distinguish direct knowledge from what was reportedly told to him."
             }
-          ]
+          ],
+          "id": "grusch-2023-house-claims-briefing"
         }
       ]
     },
@@ -299,7 +300,8 @@
               "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/",
               "context": "Review the hearing record before treating attributed reports as corroborated physical events."
             }
-          ]
+          ],
+          "id": "graves-2023-house-aviation-safety"
         }
       ]
     },
@@ -431,7 +433,8 @@
               "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
               "context": "Source documents his public testimony; compare supporting records and alternative explanations separately."
             }
-          ]
+          ],
+          "id": "fravor-2023-house-2004-encounter"
         }
       ]
     },
