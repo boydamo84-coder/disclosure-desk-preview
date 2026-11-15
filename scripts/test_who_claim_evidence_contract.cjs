@@ -203,7 +203,7 @@ for(const id of ['garry-nolan','jacques-vallee']){
  assert(c.researchEvidence.items.some(e=>e.stance==='challenges'&&e.url.includes('metabunk.org')),'Public method criticism labelled as informal and contestable');
 }
 assert.equal(allAuditIds.length,23);
-assert.match(data.people.find(p=>p.id==='ross-coulthart').claimEvidence[0].sourceAudit.original.assessment,/video player was not accessible/);
+assert.match(data.people.find(p=>p.id==='ross-coulthart').claimEvidence[0].sourceAudit.original.assessment,/(?:video player|YouTube player) was not accessible/,'Original full footage inaccessible; ABC transcript access is not equivalent to viewing the player');
 assert.match(data.people.find(p=>p.id==='jeremy-corbell').claimEvidence[0].sourceAudit.original.assessment,/does NOT independently certify/);
 assert.match(data.people.find(p=>p.id==='steven-greer').claimEvidence[0].sourceAudit.independentEvidence,/NOT be counted as 420 confirmed/);
 assert.match(data.people.find(p=>p.id==='george-knapp').claimEvidence[0].sourceAudit.original.assessment,/not a UFO eyewitness/);
