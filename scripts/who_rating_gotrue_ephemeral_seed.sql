@@ -15,4 +15,7 @@ VALUES
  'ci-fictional-only','Not Real Editor One','Not Real Editor Two',
  now(),now(),true),
  ('m24-disabled-fixture','fictional-profile','https://example.org/no-real-claim',
- 'ci-fictional-only',NULL,NULL,NULL,NULL,false);
+ 'ci-fictional-only',NULL,NULL,NULL,NULL,false),
+ ('m25-revocation-fixture','fictional-profile','https://example.org/no-real-claim',
+ 'ci-fictional-only','Not Real Editor One','Not Real Editor Two',
+ now(),now(),true);
