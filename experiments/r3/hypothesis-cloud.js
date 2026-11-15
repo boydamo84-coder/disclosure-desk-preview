@@ -32,7 +32,7 @@
   initial=owner?{id:owner.id,email:String(owner.email||'').slice(0,200)}:null;
   initialized=true;
   if(client)client.auth.onAuthStateChange((event,session)=>{
-   if(!initialized||['INITIAL_SESSION','TOKEN_REFRESHED'].includes(event))return;
+   if(!initialized||event==='INITIAL_SESSION')return;
    const next=validUser(session?.user)?.id||null;
    if(next!==(initial?.id||null)){
     ++identityVersion;
@@ -62,8 +62,16 @@
    failure('Only a supported encrypted R3 notebook can enter cloud storage');
   return envelope;
  }
+ // Every pending response is invalidated if the browser identity changes
+ // during its network request. Never return another session's ciphertext.
+ async function verifyAfter(id,epoch){
+  if(identityVersion!==epoch)failure('Account changed during this request; encrypted data was not opened');
+  const now=await owner();
+  if(now!==id||identityVersion!==epoch)
+   failure('Account changed during this request; encrypted data was not opened');
+ }
  async function get(){
-  const id=await owner();
+  const id=await owner(),epoch=identityVersion;
   const {data,error}=await client.from(TABLE)
    .select('generation,encrypted_envelope,updated_at').eq('owner_user_id',id).maybeSingle();
   if(error)failure('Could not read your encrypted cloud backup: '+error.message);
@@ -72,10 +80,11 @@
    if(data.encrypted_envelope.generation!==data.generation)
     failure('Cloud backup version mismatch; nothing was changed');
   }
+  await verifyAfter(id,epoch);
   return data||null;
  }
  async function save(encryptedText,expectedCloudGeneration){
-  const id=await owner();
+  const id=await owner(),epoch=identityVersion;
   if(typeof encryptedText!=='string'||encryptedText.length>1900000)
    failure('Encrypted notebook exceeds the cloud backup limit');
   let envelope;
@@ -95,22 +104,22 @@
    if(error)failure('Cloud update failed: '+error.message);
    if(!data)failure('Cloud backup changed in another session. Nothing was overwritten.');
   }
-  await owner();
+  await verifyAfter(id,epoch);
   return envelope.generation;
  }
  async function remove(expectedCloudGeneration){
-  const id=await owner();
+  const id=await owner(),epoch=identityVersion;
   if(!HEX.test(expectedCloudGeneration))failure('No verified cloud backup to delete');
   const {data,error}=await client.from(TABLE).delete()
    .eq('owner_user_id',id).eq('generation',expectedCloudGeneration)
    .select('generation').maybeSingle();
   if(error)failure('Cloud deletion failed: '+error.message);
   if(!data)failure('Cloud backup changed; nothing was deleted');
-  await owner();
+  await verifyAfter(id,epoch);
   return true;
  }
  Object.defineProperty(window,'DDR3Cloud',{
-  value:Object.freeze({ready:()=>ready,readEncrypted:get,saveEncrypted:save,deleteEncrypted:remove}),
+  value:Object.freeze({ready:()=>ready,verifyCurrent:owner,readEncrypted:get,saveEncrypted:save,deleteEncrypted:remove}),
   configurable:false,writable:false
  });
 })();
