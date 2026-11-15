@@ -101,6 +101,7 @@ BEGIN
     OR NOT EXISTS (
       SELECT 1 FROM auth.sessions AS sess
       WHERE sess.id=v_session_text::UUID AND sess.user_id=v_uid
+      FOR SHARE -- serialize a vote against concurrent session deletion
     ) THEN
    RAISE EXCEPTION 'Active sign-in session required' USING ERRCODE = '28000';
  END IF;
