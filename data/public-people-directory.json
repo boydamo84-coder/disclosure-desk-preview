@@ -191,14 +191,24 @@
             "checkedAt": "2026-11-15",
             "original": {
               "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
-              "locator": "26 July 2023 transcript, Statement of David Grusch; Rep. Burlison questions about seeing alleged spacecraft or bodies",
+              "locator": "26 July 2023 transcript, Statement of David Grusch; Rep. Burlison questions about seeing alleged spacecraft or bodies; M26 cross-check: undefined",
               "assessment": "Official sworn transcript confirms Grusch reported interviews with people claiming direct knowledge of retrievals. He explicitly told Representative Burlison that he had not personally seen alleged bodies; he declined to describe what he had seen regarding craft in open session. Separate testimony that he viewed unexplained imagery is NOT a publicly presented recovered-craft sample."
             },
-            "independentEvidence": "Grusch interviewing a purported direct witness is secondhand for the physical recovery assertion. Congressional repetition of the same interview story and later reporter summaries are not independent physical corroboration; exact witnesses and material have not been disclosed for public inspection.",
+            "independentEvidence": "Grusch interviewing a purported direct witness is secondhand for the physical recovery assertion. Congressional repetition of the same interview story and later reporter summaries are not independent physical corroboration; exact witnesses and material have not been disclosed for public inspection. He said he had not personally seen alleged bodies; testimony also records that any disclosure about alleged craft firsthand observations was withheld in open session.",
             "competingRecord": "AARO's March 2024 historical review reached contrary findings for the programmes it examined. The 2024 committee chair also reported difficulty substantiating Grusch's prior allegations from responding agencies. Institutional findings are not a fully declassified check of each confidential allegation.",
             "missingEvidence": "Independently identifiable original insider evidence, unredacted chain of custody, publicly inspectable hardware/biological material, contemporaneous programme files and a named second-editor review of witness independence remain unavailable for this audit.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "us-house-2023-retrieval"
+            "relatedSourceGroup": "us-house-2023-retrieval",
+            "m26DirectHearingSpotCheck": {
+              "originalUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+              "checkedAt": "2026-11-15",
+              "method": "direct_first_party_public_hearing_text_spot_check_not_whole_case_review",
+              "locator": "GPO 26 July 2023 official hearing, Grusch opening statement lines 767–818, Rep. Burlison questions lines 2130–2140 and Rep. Garcia questions lines 1191–1198.",
+              "attribution": "Grusch's alleged recovery-programme narrative was expressly grounded in accounts collected from other people; he said he had not seen alleged bodies himself and reserved what he might describe of craft for closed session.",
+              "verificationLimit": "The public GPO transcript establishes sworn attribution and disclosures to oversight bodies, not verifiable public presentation of recovered material. Publicly undisclosed sources and AARO's contrary historical conclusion remain unresolved.",
+              "independentSecondHumanEditor": false,
+              "permissionToPublishPercentage": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -452,14 +462,24 @@
             "checkedAt": "2026-11-15",
             "original": {
               "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
-              "locator": "26 July 2023 transcript, opening Statement of Ryan Graves: 2014 Oceana radar upgrade, W-72 near-miss narrative and pilot safety reports",
+              "locator": "26 July 2023 transcript, opening Statement of Ryan Graves: 2014 Oceana radar upgrade, W-72 near-miss narrative and pilot safety reports; M26 cross-check: Graves answered he was not on the aircraft that nearly struck the cube-within-sphere object.",
               "assessment": "Graves testified to his own 2014 radar and sensor observations, and relayed a particularly close near-miss reported by OTHER Navy flight crew. The W-72 50-foot cube-inside-sphere near-miss must not be described as an event personally witnessed inside his own cockpit."
             },
-            "independentEvidence": "The hearing is a first-party source for Graves's testimony, not release of the original radar tracks, mission commander debrief or specific safety report. Repeated flight-safety reporting is relevant to risk management but does not independently establish an unknown object's anomalous physical origin.",
+            "independentEvidence": "The hearing is a first-party source for Graves's testimony, not release of the original radar tracks, mission commander debrief or specific safety report. Repeated flight-safety reporting is relevant to risk management but does not independently establish an unknown object's anomalous physical origin. Rep. Raskin expressly asked if Graves was aboard the near-miss aircraft; Graves replied that he was not and had spoken with the pilot on returning to the ready room.",
             "competingRecord": "NASA's general 2023 UAP study cautions about inadequate calibrated data and has no case-specific adjudication of the Graves W-72 near-miss. FAA reporting procedures demonstrate an administrative route, not incident corroboration.",
             "missingEvidence": "Obtain contemporaneous UAP/flight-safety reports, pilot identities and independent original first-person description of the near miss, sensor telemetry and radar-system calibration data to test distance/speed/shape.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "us-house-2023-flight-safety"
+            "relatedSourceGroup": "us-house-2023-flight-safety",
+            "m26DirectHearingSpotCheck": {
+              "originalUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+              "checkedAt": "2026-11-15",
+              "method": "direct_first_party_public_hearing_text_spot_check_not_whole_case_review",
+              "locator": "GPO 26 July 2023 official hearing, oral statement at transcript lines 700–708 and Rep. Raskin exchange lines 2725–2753; Graves answered he was not on the aircraft that nearly struck the cube-within-sphere object.",
+              "attribution": "Graves personally observed some sensor phenomena and interviewed colleagues, but the specific W-72 50-foot near-miss was narrated by the pilot on return, not personally witnessed by Graves.",
+              "verificationLimit": "The official hearing verifies that the report was made; neither the original safety report nor the other pilot's exact cockpit record or calibrated range data was retrieved in this spot-check.",
+              "independentSecondHumanEditor": false,
+              "permissionToPublishPercentage": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -681,14 +701,24 @@
             "checkedAt": "2026-11-15",
             "original": {
               "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
-              "locator": "26 July 2023 transcript, Statement of David Fravor and questions about the 14 November 2004 Nimitz Tic Tac",
+              "locator": "26 July 2023 transcript, Statement of David Fravor and questions about the 14 November 2004 Nimitz Tic Tac; M26 cross-check: Fravor described his firsthand visual sighting but stated another crew later obtained the 90-second video.",
               "assessment": "Fravor testified he personally saw an unidentified object in November 2004. Another named pilot from the same flight, Alex Dietrich, publicly described her own observation in an original CBS 60 Minutes interview; their testimony concerns the SAME event."
             },
-            "independentEvidence": "Dietrich provides a separate named firsthand eyewitness perspective on the shared encounter, not an independent second incident or validation of precise extraordinary velocity/acceleration. The later infrared video released by DoD was made on a subsequent sortie and must not be misrepresented as continuous footage of Fravor's initial encounter.",
+            "independentEvidence": "Dietrich provides a separate named firsthand eyewitness perspective on the shared encounter, not an independent second incident or validation of precise extraordinary velocity/acceleration. The later infrared video released by DoD was made on a subsequent sortie and must not be misrepresented as continuous footage of Fravor's initial encounter. Fravor specified his own jet did not acquire a fire-control radar track, while reporting tracking via Princeton, Nimitz and E2; his verbal account is not the underlying raw telemetry.",
             "competingRecord": "The 2020 DoD announcement authenticated three historic Navy clips and said depicted phenomena were unidentified. It did not publicly certify the object origin, all velocities, earlier ship radar data or the complete claimed encounter sequence. CBS is a publisher of interviews, not an independent radar laboratory.",
             "missingEvidence": "A contemporaneous complete USS Princeton tracking dataset, intact original FLIR metadata, flight logs, unedited eyewitness accounts and independently calculated positional uncertainties are not public in this review.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "nimitz-2004-cbs-dietrich"
+            "relatedSourceGroup": "nimitz-2004-cbs-dietrich",
+            "m26DirectHearingSpotCheck": {
+              "originalUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+              "checkedAt": "2026-11-15",
+              "method": "direct_first_party_public_hearing_text_spot_check_not_whole_case_review",
+              "locator": "GPO 26 July 2023 official hearing, Fravor opening statement lines 838–897 and Rep. Langworthy questions lines 2437–2454; Fravor described his firsthand visual sighting but stated another crew later obtained the 90-second video.",
+              "attribution": "Fravor is a first-person witness for the 2004 sighting; the later FLIR footage and alleged ship/airborne radar records are distinct evidence streams and should not be presented as continuous camera proof of his own flight.",
+              "verificationLimit": "Fravor stated that his aircraft's fire-control radar did not acquire the object. His testimony about Princeton/Nimitz/E2 tracking and jamming is not the same as public release of calibrated raw radar tracks.",
+              "independentSecondHumanEditor": false,
+              "permissionToPublishPercentage": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
