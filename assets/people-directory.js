@@ -152,6 +152,68 @@ function renderList(items,opts={}){
   (x.kind?'<span class="muted small"> · '+esc(x.kind)+'</span>':'')+'</li>').join('')+'</ul>':
   '<p class="muted small">'+(opts.empty||'No independently confirmed links in this research profile.')+'</p>';
 }
+// Evidence strength is attributed to an individual public claim, never a person.
+// All numeric output requires an explicit editor-reviewed, source-linked gate.
+const EVIDENCE_RUBRIC=Object.freeze([
+ {key:'original',label:'Original claim recorded in context',max:25},
+ {key:'independent',label:'Independent corroboration',max:30},
+ {key:'direct',label:'Inspectible supporting records / data',max:25},
+ {key:'testable',label:'Specificity and independent testability',max:10},
+ {key:'alternatives',label:'Alternative explanations and contrary evidence',max:10}
+]);
+function publishedClaimReview(claim){
+ const r=claim?.review;
+ if(!r||r.status!=='published'||r.methodology!=='dd-claim-evidence-v1')return null;
+ if(typeof r.reviewer!=='string'||r.reviewer.trim().length<5||
+    typeof r.reviewedAt!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(r.reviewedAt))return null;
+ if(!r.editorialChecks||!['sourceVerified','claimContextChecked','contraryEvidenceReviewed','secondEditorApproved'].every(k=>r.editorialChecks[k]===true))return null;
+ const sources=Array.isArray(claim.sources)?claim.sources:[];
+ if(!sources.some(s=>s?.kind==='primary'&&safeUrl(s.url)&&s.label))return null;
+ if(!r.points||!r.rationale)return null;
+ if(EVIDENCE_RUBRIC.some(row=>!Number.isInteger(r.points[row.key])||
+   r.points[row.key]<0||r.points[row.key]>row.max||
+   typeof r.rationale[row.key]!=='string'||r.rationale[row.key].trim().length<20))return null;
+ return r;
+}
+function renderClaimEvidence(person){
+ const host=$('profileEvidenceReviews');
+ if(!host)return;
+ const claims=Array.isArray(person.claimEvidence)?person.claimEvidence.slice(0,12):[];
+ if(!claims.length){
+  host.innerHTML='<p class="note small"><strong>Not assessed.</strong> There are no individually reviewed public claims for this profile yet. The biography and citations above do not constitute a numerical evidence rating.</p>';
+  return;
+ }
+ host.innerHTML=claims.map(claim=>{
+  if(!claim||!claim.statement)return '';
+  const r=publishedClaimReview(claim);
+  const score=r?EVIDENCE_RUBRIC.reduce((a,row)=>a+r.points[row.key],0):null;
+  const sources=validLinks(claim.sources);
+  const refs=sources.map(s=>'<li><a href="'+esc(safeUrl(s.url))+'" target="_blank" rel="noopener noreferrer">'+
+    esc(s.label||'Public reference')+' ↗</a> <span class="muted small">· '+esc(s.kind||'Attribution')+'</span>'+
+    (s.context?'<p class="muted small">'+esc(s.context)+'</p>':'')+'</li>').join('');
+  const metrics=r?EVIDENCE_RUBRIC.map(row=>
+    '<div class="claim-metric"><div class="claim-metric-head"><span>'+esc(row.label)+'</span><strong>'+
+    r.points[row.key]+' / '+row.max+'</strong></div>'+
+    '<div class="claim-track" role="img" aria-label="'+esc(row.label+': '+r.points[row.key]+' of '+row.max)+'">'+
+    '<span style="width:'+((r.points[row.key]/row.max)*100).toFixed(1)+'%"></span></div>'+
+    '<p class="muted small">'+esc(r.rationale[row.key])+'</p></div>').join(''):'';
+  return '<article class="claim-review" aria-label="Individual public claim evidence review">'+
+    '<div class="claim-status">PUBLIC CLAIM · '+esc(claim.date||'Date requires verification')+'</div>'+
+    '<h4>'+esc(claim.statement)+'</h4>'+
+    '<p class="muted small">'+esc(claim.context||'Attribution is not verification of the underlying claim.')+'</p>'+
+    (r?'<div class="claim-score" aria-label="Public evidence support score '+score+' out of 100">'+score+
+      '<small> /100 · Documented evidence support, NOT probability of truth</small></div>'+
+      '<details><summary>Examine the five criteria and reasoning</summary>'+metrics+
+      '<p class="muted small">Editorial review: '+esc(r.reviewer)+' · '+esc(r.reviewedAt)+
+      ' · Methodology: '+esc(r.methodology)+'</p></details>':
+      '<span class="claim-not-assessed">Not assessed</span>'+
+      '<p class="muted small">An original public statement is listed for research; the underlying allegation or interpretation has not been independently scored or endorsed.</p>')+
+    '<div class="claim-record"><strong>Original sources and research trail</strong>'+
+    (refs?'<ul class="link-list">'+refs+'</ul>':'<p class="muted small">No primary source has passed editorial review yet.</p>')+
+    '</div></article>';
+ }).join('')||'<p class="muted small">No reviewable claims available.</p>';
+}
+
 function openPerson(person,updateUrl=true){
  if(!person)return;
  let originAnchor=null;
@@ -173,6 +235,7 @@ function openPerson(person,updateUrl=true){
   appendPortraitCredit(credit,person.photo);
  }
  $('profilePosition').textContent=person.position;
+ renderClaimEvidence(person);
  $('profileContext').textContent=person.context;
  $('profileTags').innerHTML=(person.category||[]).map(c=>'<span class="pill">'+esc(c)+'</span>').join('');
  $('profileSources').innerHTML=validLinks(person.sources).map(x=>'<li><a target="_blank" rel="noopener noreferrer" href="'+esc(safeUrl(x.url))+'">'+esc(x.label)+' ↗</a></li>').join('')||'<li>Source documents awaiting review</li>';
