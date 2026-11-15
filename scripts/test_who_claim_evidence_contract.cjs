@@ -134,7 +134,7 @@ assert.equal(nolan.sourceAudit.original.url,vallee.sourceAudit.original.url,'Sha
 assert.match(nolan.sourceAudit.original.assessment,/terrestrial-normal isotope ratios/);
 assert.match(vallee.sourceAudit.independentEvidence,/NOT create two independently corroborated/i);
 const loeb=data.people.find(p=>p.id==='avi-loeb').claimEvidence[0],west=data.people.find(p=>p.id==='mick-west').claimEvidence[0],knuth=data.people.find(p=>p.id==='kevin-knuth').claimEvidence[0];
-assert.match(loeb.sourceAudit.original.assessment,/cannot be definitively attributed to IM1/i,'Do not equate 2023 seafloor collection with certified 2014 meteor debris');
+assert.match(loeb.sourceAudit.original.assessment,/no recovered material can be definitively attributed to IM1/i,'Do not equate 2023 seafloor collection with certified 2014 meteor debris');
 assert(loeb.researchEvidence.items.some(e=>e.id==='loeb-2025-team-morphology-reassessment'&&e.url.includes('S0009254125000178')),'2025 coauthor mixed/terrestrial re-evaluation linked to reader');
 assert(loeb.researchEvidence.items.some(e=>e.id==='loeb-2025-peer-critique'),'Independent critical 2025 Chemical Geology paper preserved');
 assert.match(loeb.sourceAudit.competingRecord,/not tallied as separate extraterrestrial confirmations/);
