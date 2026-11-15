@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="/assets/secondary-editorial-nav.css?v=r2-premium-nav01">
 <style>
 :root{color-scheme:dark;--base:#09131e;--pane:#132638;--line:#40566a;--gold:#e9cc93;--muted:#bccbd6;--bright:#eff3f7}
-*{box-sizing:border-box}body{background:radial-gradient(ellipse at 80% -22%,#253f57,var(--base) 43%);color:var(--bright);font:16px/1.67 system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
+*{box-sizing:border-box}html{scroll-padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}body{background:radial-gradient(ellipse at 80% -22%,#253f57,var(--base) 43%);color:var(--bright);font:16px/1.67 system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
 a{color:var(--gold);text-underline-offset:3px}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .wrap{max-width:1090px;margin:0 auto;padding:0 18px}.skip{position:absolute;top:-130px;left:12px;padding:8px;background:var(--gold);color:var(--base)}.skip:focus{top:8px}
 header{border-bottom:1px solid var(--line);background:#0b1826eb}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
@@ -28,7 +28,7 @@ input,select{background:#0c1926;color:#eff3f7;border:1px solid #57687a;padding:1
 .card p{margin:9px 0 16px}.btn,button{cursor:pointer}.btn{border-radius:10px;border:1px solid #a18450;background:#272d2c;color:#ffdfaa;padding:10px 14px;font:700 13px system-ui;display:inline-block;text-decoration:none}
 .link-list{margin:8px 0;padding-left:21px}.link-list li{padding:4px 0}.link-list a{overflow-wrap:anywhere}
 article.profile{margin:30px 0 42px}.profile-intro{display:flex;gap:16px;align-items:center}.profile-intro .avatar{width:76px;height:76px;font-size:30px}
-.profile-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:16px}.profile-grid .card{margin:0 0 15px}
+.profile-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:16px}.profile-grid>*{min-width:0}.profile-grid .card{margin:0 0 15px;overflow-wrap:anywhere}
 .section-title{color:var(--gold);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px}
 .note{border-left:3px solid var(--gold);background:#172a3b;padding:11px 16px}.compact{margin:0}.hidden{display:none!important}
 footer{border-top:1px solid var(--line);padding:24px 0 44px;color:var(--muted);font-size:13px;margin-top:38px}
@@ -44,7 +44,74 @@ footer a{margin-right:14px}
 .video-preview{background:#172d40;border:1px solid #476177;border-radius:10px;padding:14px;margin-top:12px;aspect-ratio:16/9;display:grid;align-content:center;justify-items:center;overflow:hidden}
 .video-preview iframe{width:100%;height:100%;aspect-ratio:16/9;border:0}
 @media(max-width:760px){.video-grid{grid-template-columns:1fr}.profile-timeline li{grid-template-columns:1fr;gap:5px}}
-@media(max-width:760px){.tools,.cards,.profile-grid{grid-template-columns:1fr}.hero{padding-top:27px}.card{padding:18px}}
+@media(max-width:760px){.tools,.cards{grid-template-columns:1fr}.profile-grid{grid-template-columns:minmax(0,1fr)}.hero{padding-top:27px}.card{padding:18px}}
+
+/* Claim-specific evidence assessments: not ratings of people. */
+.claim-review{border:1px solid #51677c;background:#101f30;border-radius:12px;padding:16px;margin:15px 0}
+.claim-review h4{font-size:17px;line-height:1.35;margin:0 0 8px}
+.claim-review .claim-status{font-size:12px;font-weight:800;letter-spacing:.25px;color:#e9cc93}
+.claim-review .claim-record{border-left:2px solid #ad8b53;padding-left:12px;margin-top:12px;overflow-wrap:anywhere}
+.claim-review .claim-score{font-weight:900;font-size:27px;color:#f0ce90;font-variant-numeric:tabular-nums}
+.claim-score small{font-size:12px;color:var(--muted);font-weight:500}
+.claim-metric{margin:12px 0}
+.claim-metric-head{display:flex;gap:12px;justify-content:space-between;align-items:start;font-size:12px}
+.claim-metric-head strong{font-variant-numeric:tabular-nums;white-space:nowrap}
+.claim-track{height:7px;background:#26384a;border-radius:10px;overflow:hidden;margin-top:5px}
+.claim-track span{display:block;height:100%;background:#cfa55f;border-radius:10px}
+.claim-review details{border-top:1px solid #415368;margin-top:13px;padding-top:10px}
+.claim-review summary,#claimReviewMethod summary{cursor:pointer;color:var(--gold);font-weight:700}
+#claimReviewMethod{background:#0b1c2c;border:1px solid #40566a;border-radius:12px;padding:12px 16px;margin:12px 0}
+#claimReviewMethod ul{padding-left:22px}
+#profileEvidenceReviews a{overflow-wrap:anywhere}
+.claim-review .claim-not-assessed{display:inline-block;border:1px solid #7a6748;color:#ffdfaa;border-radius:8px;padding:5px 10px;font-weight:750;font-size:12px}
+@media(max-width:420px){.claim-review{padding:13px}.claim-review .claim-score{font-size:23px}}
+
+.claim-dual{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}
+.claim-dual-panel{border:1px solid #52647a;border-radius:12px;padding:15px;background:#0a1a29;min-width:0}
+.claim-dual-panel h5{font-size:12px;line-height:1.4;color:#e7c88c;text-transform:uppercase;letter-spacing:.5px;margin:0 0 12px}
+.claim-community-rating [data-rating-control]{margin-top:12px}
+.claim-community-rating [data-rating-control][hidden]{display:none!important}
+.claim-community-rating input[type=range]{display:block;width:100%;height:24px;accent-color:#d0a761;cursor:pointer;touch-action:pan-y;margin:10px 0}
+.claim-community-rating [data-rating-save]{display:block;margin:6px 0;min-height:42px}
+.claim-community-rating [data-rating-summary]{font-weight:750;color:#ffdfaa}
+.claim-community-rating [data-rating-notice]{margin:8px 0 0}
+@media(max-width:670px){.claim-dual{grid-template-columns:1fr}.claim-dual-panel{padding:13px}}
+
+/* Publisher and first-person record index; visibly separate from scored cases. */
+.claim-work-card{border:1px solid #637789;border-radius:12px;background:#0d2333;padding:16px;margin:14px 0;overflow-wrap:anywhere}
+.claim-work-card h4{font-size:17px;line-height:1.4;margin:5px 0 10px}
+.claim-work-card .claim-evidence-details{background:#12283b}
+.claim-work-card .claim-draft-warning{margin:12px 0}
+@media(max-width:670px){.claim-work-card{padding:12px}}
+/* Documented NASA/legislative roles: readable, visibly non-scoreable. */
+.claim-role-card{border:1px solid #627d90;border-radius:12px;padding:15px;background:#0d2335;margin:12px 0 16px;overflow-wrap:anywhere}
+.claim-role-card h4{font-size:17px;line-height:1.4;margin:4px 0 9px}
+.claim-role-caution{border-left:3px solid #c7a166;background:#172b3b;padding:10px 12px;border-radius:6px;font-size:13px}
+.claim-role-card .claim-evidence-details{background:#10293c}
+@media(max-width:670px){.claim-role-card{padding:12px}}
+/* Clearly distinguish preliminary research from an approved score. */
+.claim-draft-warning{font-size:13px;padding:12px 14px;border:1px solid #6a7180;border-radius:9px;background:#17283a;color:#f3dbb1}
+/* Source-first, tap-to-expand evidence trail; no scores without checked links. */
+.claim-evidence-details{padding:13px 15px;margin:14px 0;border:1px solid #8a7049;border-radius:11px;background:#11273a}
+.claim-evidence-details>summary{font-size:14px;min-height:35px;display:list-item;list-style-position:inside}
+.claim-evidence-details[open]>summary{padding-bottom:11px;border-bottom:1px solid #40566a;margin-bottom:13px}
+.claim-evidence-details h5{color:var(--gold);font-size:12px;letter-spacing:.3px;margin:19px 0 9px}
+.claim-readiness-draft{margin:18px 0;padding:13px 14px;border:1px solid #657488;border-radius:10px;background:#112435;overflow-wrap:anywhere}
+.claim-readiness-draft .claim-draft-warning{margin:9px 0 13px}
+.claim-readiness-draft p{font-size:13px;line-height:1.6;margin:8px 0}
+.claim-readiness-draft h5{margin-top:2px}
+.claim-source-access{margin:14px 0;padding:12px 14px;border:1px solid #48647b;border-radius:10px;background:#102638;overflow-wrap:anywhere}
+.claim-source-access h5{margin:2px 0 9px}
+.claim-source-access p{font-size:13px;line-height:1.6;margin:8px 0}
+.claim-source-access a{overflow-wrap:anywhere}
+.claim-evidence-details .claim-metric{background:#101f2d;border:1px solid #3c5266;border-radius:10px;padding:12px}
+.claim-evidence-details .claim-metric p{margin:8px 0 5px;overflow-wrap:anywhere}
+.claim-evidence-group{margin:17px 0}
+.claim-evidence-list{list-style:none;padding:0;margin:0;display:grid;gap:9px}
+.claim-evidence-list li{border:1px solid #4b6276;border-radius:9px;padding:12px;background:#0d2030;overflow-wrap:anywhere}
+.claim-evidence-list p{margin:5px 0}
+.claim-evidence-details a{color:#f1d59f;text-underline-offset:3px}
+@media(max-width:670px){.claim-evidence-details{padding:11px}.claim-evidence-list li{padding:10px}}
 </style>
 <script defer src="/assets/analytics-consent.js?v=nov08-ga4-optin-m18"></script>
 </head><body>
@@ -72,6 +139,16 @@ footer a{margin-right:14px}
 <div class="profile-grid">
 <div>
 <section class="card"><div class="section-title">Public statements and perspective</div><h3>What they have publicly discussed</h3><p id="profilePosition"></p></section>
+<section class="card" id="profileClaimReviewSection">
+<div class="section-title">Claim-specific evidence · editorial assessment</div><h3>How well is each claim supported?</h3>
+<p class="muted small">Tap <strong>View evidence &amp; scoring breakdown</strong> on a reviewed claim to inspect every referenced document, what it supports or challenges, where to find the relevant passage and how it affected each criterion. Study-team participation, task-force membership and proposed legislation appear as separate <strong>original-source role records</strong> with no 0–100 score. Journalists, scientists, sceptical investigators, filmmakers and firsthand claimants have separate <strong>original-publication/source index</strong> panels where links are available; these show published work and explicitly identify remaining checks rather than inventing a person's score. A source can establish what someone publicly said without proving the underlying event. These assessments examine claims and supporting records, <strong>never someone's honesty or character</strong>. Scores are not probabilities of truth.</p>
+<div id="profileEvidenceReviews" aria-live="polite"><p class="muted small">Loading claim reviews…</p></div>
+<details id="claimReviewMethod"><summary>How evidence strength is assessed (0–100 points)</summary>
+<p class="muted small">Proposed transparent editorial rubric. Only separately sourced, individually reviewed claims may receive a number. A missing evidence assessment is <strong>Not assessed</strong>, not zero. <strong>Scientific and policy recommendations are Not applicable</strong> to extraordinary-event evidence scores; their source trails remain readable but are never opened for community evidence-rating votes.</p>
+<ul class="small"><li>Primary record of the claim in context — 25 points</li><li>Independent corroboration of its underlying assertion — 30 points</li><li>Inspectible supporting records or data — 25 points</li><li>Specificity and independent testability — 10 points</li><li>Other explanations and conflicting evidence considered — 10 points</li></ul>
+<p class="muted small">A score describes a published evidence review, not a scientific probability. Editorial methods and individual claims can be challenged or corrected using source links.</p></details>
+<p class="muted small">To suggest a primary source or challenge an assessment, <a href="mailto:support@uapdisclosuredesk.com?subject=Who%27s%20Who%20claim%20evidence%20review">contact the research desk</a>.</p>
+</section>
 <section class="card"><div class="section-title">Research context</div><h3>Evidence to examine and other interpretations</h3><p id="profileContext"></p><p class="note small">These notes are not a verdict on a person's character, credibility or motives. Interpretations should be tested against the cited record.</p></section>
 </div>
 <aside>
@@ -88,12 +165,14 @@ footer a{margin-right:14px}
 </article>
 <section class="card" id="editorialPolicy"><div class="section-title">Directory policy</div><h2>Profiles are evidence guides, not popularity contests</h2>
 <p>Statements are attributed to their speakers or published institutions. Reporting, first-hand testimony, technical analysis and alleged facts are different types of evidence. Inclusion is not an endorsement or accusation.</p>
-<p>We will not label real people as dishonest, part of a covert operation or otherwise malicious based on a popularity poll. A future optional evidence survey may ask neutral questions about the source material supporting a <em>specific claim</em>, with moderation and anti-manipulation safeguards. No live public polls or vote totals exist in this preview.</p>
+<p>We will not label real people as dishonest, part of a covert operation or otherwise malicious based on a popularity poll. The proposed evidence-strength review above applies only to a <em>specific, attributed public claim</em>, with a visible source trail and editorial checks. It is not a numerical rating of an individual, proof of extraordinary explanations or a public popularity poll. Community ratings will require an authenticated account and separately approved claim evidence; they are not available while editorial review and backend checks are pending. No personal believability scores are collected.</p>
 <p>To suggest a person, provide a public source supporting their work. To request a correction, <a href="mailto:support@uapdisclosuredesk.com?subject=Who%27s%20Who%20source%20correction">email the research desk</a> with the name, the disputed wording and a primary reference.</p>
 </section></main>
 <footer><div class="wrap">Disclosure Desk · Boyd Digital Studios · Public-source research directory<br><a href="/">Home</a><a href="/investigations">Original research</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></footer>
 <script defer src="/assets/person-case-links.js?v=r2-m8-alpha01"></script>
-<script defer src="/assets/people-directory.js?v=r2-photo-credit-tasl-20261114"></script>
+<script defer src="/assets/community-test-config.js?v=r2-claim-community-20261115"></script>
+<script defer crossorigin="anonymous" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>
+<script defer src="/assets/people-directory.js?v=r2-evidence-ledger-v18-20261115"></script>
 <script defer src="/assets/secondary-editorial-nav.js?v=r2-premium-nav01"></script>
 <script defer src="/assets/page-help.js?v=r2-m10-help01"></script>
 </body></html>
