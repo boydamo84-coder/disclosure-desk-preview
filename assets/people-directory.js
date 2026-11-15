@@ -175,18 +175,102 @@ function publishedClaimReview(claim){
    typeof r.rationale[row.key]!=='string'||r.rationale[row.key].trim().length<20))return null;
  return r;
 }
+const scoreableClaimId=id=>typeof id==='string'&&/^[a-z0-9][a-z0-9-]{6,85}$/.test(id);
+const communityClaimEligible=claim=>claim?.status==='source_verified'&&
+  claim?.sourceReviewApproved===true&&scoreableClaimId(claim.id)&&
+  Array.isArray(claim.sources)&&claim.sources.some(x=>x?.kind==='primary'&&safeUrl(x.url)&&x.label);
+let communityClient=null;
+function communityDb(){
+ const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
+ const active=window.DD_COMMUNITY_FEATURES?.voting===true&&
+   ['production','test'].includes(cfg.environment);
+ if(!active||!cfg.url||!cfg.publishableKey||!window.supabase?.createClient)return null;
+ return communityClient||(communityClient=window.supabase.createClient(cfg.url,cfg.publishableKey,{
+  auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}
+ }));
+}
+async function hydrateCommunityRatings(){
+ const roots=[...$('profileEvidenceReviews')?.querySelectorAll('[data-evidence-claim-id]')||[]];
+ if(!roots.length)return;
+ const db=communityDb();
+ if(!db){for(const root of roots)root.querySelector('[data-rating-summary]').textContent='Community voting is not available yet.';return;}
+ const ids=roots.map(n=>n.dataset.evidenceClaimId).filter(scoreableClaimId);
+ let rows=[];
+ try{
+  const {data,error}=await db.rpc('dd_who_claim_rating_summary',{p_claim_ids:ids});
+  if(error)throw error;
+  rows=Array.isArray(data)?data:[];
+ }catch{
+  for(const root of roots)if(root.isConnected)root.querySelector('[data-rating-summary]').textContent='Community rating unavailable. Your vote has not been changed.';
+  return;
+ }
+ let member=null;
+ try{const {data,error}=await db.auth.getUser();if(!error&&!data?.user?.is_anonymous)member=data?.user||null}catch{}
+ for(const root of roots){
+  if(!root.isConnected || !selected || !selected.claimEvidence?.some(c=>c.id===root.dataset.evidenceClaimId))continue;
+  const row=rows.find(r=>r.claim_id===root.dataset.evidenceClaimId);
+  const info=root.querySelector('[data-rating-summary]');
+  const count=Math.max(0,Math.floor(Number(row?.rating_count||0)));
+  const mean=Number(row?.community_mean);
+  const showMean=count>=5&&row?.community_mean!==null&&row?.community_mean!==undefined&&Number.isFinite(mean)&&mean>=0&&mean<=100;
+  info.textContent=showMean?mean.toFixed(1)+'/100 · '+count+' member ratings':
+    count>0?count+' rating'+(count===1?'':'s')+' · Average shown after 5 ratings':'No community ratings yet';
+  const label=root.querySelector('[data-rating-control]');
+  if(!member){label.hidden=true;root.querySelector('[data-rating-notice]').textContent='Sign in under Boards → Account to rate this claim’s supporting evidence.';continue;}
+  label.hidden=false;
+  const mine=Number(row?.my_rating);
+  if(row?.my_rating!==null&&row?.my_rating!==undefined&&Number.isFinite(mine)&&mine>=0&&mine<=100){
+   label.querySelector('[data-rating-slider]').value=String(mine);
+   label.querySelector('[data-rating-number]').textContent=String(mine);
+  }
+  root.querySelector('[data-rating-notice]').textContent='One rating per account and claim; updates are subject to a cooldown.';
+  const slider=label.querySelector('[data-rating-slider]'),amount=label.querySelector('[data-rating-number]');
+  slider.addEventListener('input',()=>{amount.textContent=String(slider.value)});
+  const button=label.querySelector('[data-rating-save]');
+  button.addEventListener('click',async()=>{
+   if(button.disabled)return;
+   button.disabled=true;
+   const notice=root.querySelector('[data-rating-notice]');
+   notice.textContent='Submitting rating…';
+   try{
+    const score=Number(slider.value);
+    if(!Number.isInteger(score)||score<0||score>100)throw Error('Invalid rating');
+    const verify=await db.auth.getUser();
+    if(verify.error||!verify.data?.user||verify.data.user.is_anonymous)throw Error('Sign in again before rating.');
+    const {error}=await db.rpc('dd_who_claim_rating_set',{
+     p_claim_id:root.dataset.evidenceClaimId,p_rating:score
+    });
+    if(error)throw error;
+    notice.textContent='Rating submitted. Refreshing community average…';
+    const refreshed=await db.rpc('dd_who_claim_rating_summary',{p_claim_ids:[root.dataset.evidenceClaimId]});
+    if(refreshed.error)throw refreshed.error;
+    const next=Array.isArray(refreshed.data)?refreshed.data[0]:null;
+    if(next&&root.isConnected){
+     const n=Math.max(0,Math.floor(Number(next.rating_count||0)));
+     const v=Number(next.community_mean);
+     info.textContent=n>=5&&next.community_mean!=null&&Number.isFinite(v)?v.toFixed(1)+'/100 · '+n+' member ratings':
+       n? n+' rating'+(n===1?'':'s')+' · Average shown after 5 ratings':'No community ratings yet';
+    }
+    notice.textContent='Your rating has been received. You can change it after the cooldown.';
+   }catch{
+    notice.textContent='Rating not confirmed. Check your connection and refresh the current vote before retrying.';
+   }finally{button.disabled=false}
+  });
+ }
+}
 function renderClaimEvidence(person){
  const host=$('profileEvidenceReviews');
  if(!host)return;
  const claims=Array.isArray(person.claimEvidence)?person.claimEvidence.slice(0,12):[];
  if(!claims.length){
-  host.innerHTML='<p class="note small"><strong>Not assessed.</strong> There are no individually reviewed public claims for this profile yet. The biography and citations above do not constitute a numerical evidence rating.</p>';
+  host.innerHTML='<p class="note small"><strong>Disclosure Desk rating: Not assessed.</strong> There are no individually reviewed public claims for this profile yet. Community rating is not open on unreviewed statements. Biographies and citations do not constitute a personal score.</p>';
   return;
  }
  host.innerHTML=claims.map(claim=>{
   if(!claim||!claim.statement)return '';
   const r=publishedClaimReview(claim);
   const score=r?EVIDENCE_RUBRIC.reduce((a,row)=>a+r.points[row.key],0):null;
+  const allowed=communityClaimEligible(claim);
   const sources=validLinks(claim.sources);
   const refs=sources.map(s=>'<li><a href="'+esc(safeUrl(s.url))+'" target="_blank" rel="noopener noreferrer">'+
     esc(s.label||'Public reference')+' ↗</a> <span class="muted small">· '+esc(s.kind||'Attribution')+'</span>'+
@@ -197,21 +281,35 @@ function renderClaimEvidence(person){
     '<div class="claim-track" role="img" aria-label="'+esc(row.label+': '+r.points[row.key]+' of '+row.max)+'">'+
     '<span style="width:'+((r.points[row.key]/row.max)*100).toFixed(1)+'%"></span></div>'+
     '<p class="muted small">'+esc(r.rationale[row.key])+'</p></div>').join(''):'';
+  const sitePanel='<section class="claim-dual-panel"><h5>Disclosure Desk rating</h5>'+
+   (r?'<div class="claim-score" aria-label="Public evidence support score '+score+' out of 100">'+score+
+     '<small> /100 · Documented evidence support</small></div>'+
+     '<details><summary>Review scoring criteria and reasoning</summary>'+metrics+
+     '<p class="muted small">Editor: '+esc(r.reviewer)+' · '+esc(r.reviewedAt)+
+     ' · Methodology: '+esc(r.methodology)+'</p></details>':
+     '<span class="claim-not-assessed">Not assessed</span>'+
+     '<p class="muted small">Original statement is catalogued; evidence-strength review is pending.</p>')+
+   '</section>';
+  const communityPanel='<section class="claim-dual-panel"><h5>Community rating</h5>'+
+   (allowed?'<div class="claim-community-rating" data-evidence-claim-id="'+esc(claim.id)+'">'+
+      '<p class="muted small" data-rating-summary role="status">Checking community rating…</p>'+
+      '<div data-rating-control hidden><label class="muted small">How strongly does the publicly available evidence support this claim? <strong data-rating-number>50</strong>/100'+
+      '<input type="range" data-rating-slider min="0" max="100" step="5" value="50" aria-label="Community rating for evidence supporting this specific claim"></label>'+
+      '<button type="button" class="btn" data-rating-save>Submit my rating</button></div>'+
+      '<p class="muted small" data-rating-notice aria-live="polite">Checking sign-in and rating availability…</p></div>':
+     '<span class="claim-not-assessed">Voting not open</span><p class="muted small">This claim is still awaiting source and context approval, so no member ratings are collected.</p>')+
+   '</section>';
   return '<article class="claim-review" aria-label="Individual public claim evidence review">'+
     '<div class="claim-status">PUBLIC CLAIM · '+esc(claim.date||'Date requires verification')+'</div>'+
     '<h4>'+esc(claim.statement)+'</h4>'+
     '<p class="muted small">'+esc(claim.context||'Attribution is not verification of the underlying claim.')+'</p>'+
-    (r?'<div class="claim-score" aria-label="Public evidence support score '+score+' out of 100">'+score+
-      '<small> /100 · Documented evidence support, NOT probability of truth</small></div>'+
-      '<details><summary>Examine the five criteria and reasoning</summary>'+metrics+
-      '<p class="muted small">Editorial review: '+esc(r.reviewer)+' · '+esc(r.reviewedAt)+
-      ' · Methodology: '+esc(r.methodology)+'</p></details>':
-      '<span class="claim-not-assessed">Not assessed</span>'+
-      '<p class="muted small">An original public statement is listed for research; the underlying allegation or interpretation has not been independently scored or endorsed.</p>')+
+    '<div class="claim-dual">'+sitePanel+communityPanel+'</div>'+
+    '<p class="muted small">Both ratings concern supporting evidence for this specific claim, not this person’s trustworthiness or the probability that any extraordinary interpretation is true.</p>'+
     '<div class="claim-record"><strong>Original sources and research trail</strong>'+
     (refs?'<ul class="link-list">'+refs+'</ul>':'<p class="muted small">No primary source has passed editorial review yet.</p>')+
     '</div></article>';
  }).join('')||'<p class="muted small">No reviewable claims available.</p>';
+ void hydrateCommunityRatings();
 }
 
 function openPerson(person,updateUrl=true){
