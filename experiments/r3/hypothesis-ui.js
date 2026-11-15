@@ -518,7 +518,7 @@
   finally{busy=false;$('saveHypothesisBtn').disabled=false;updateSecurityUI()}
  }
  function createNotebook(event){
-  event.preventDefault();if(!bootReady){status('Checking account and browser vault. Try again shortly.',true);return;}hideStatus();
+  event.preventDefault();if(!bootReady||revoked){status('Checking account and browser vault. Try again shortly.',true);return;}hideStatus();
   try{
    book=engine.createNotebook({
     workspaceId:$('workspaceInput').value.trim(),
@@ -543,7 +543,7 @@
   sources:[]
  });
  async function loadDemo(){
-  if(!bootReady){status('Checking account and browser vault. Try again shortly.',true);return;}
+  if(!bootReady||revoked){status('Checking account and browser vault. Try again shortly.',true);return;}
   if(unlockedVault){status('Lock your encrypted notebook before loading a different demo.',true);return;}
   if(book&&!(await confirmAction({
    title:'Replace this demonstration?',
@@ -878,11 +878,14 @@
   clearDecryptedDOM();book=null;unlockedVault=null;selectedId=null;editingId=null;
   $('workPanel').hidden=true;$('setupPanel').hidden=true;
   cloudOwner=null;updateSecurityUI();
+  $('r3CloudProfile').textContent='Account changed';
+  for(const id of ['r3CloudUpload','r3CloudDownload','r3CloudRestore','r3CloudDelete'])$(id).disabled=true;
+  document.documentElement.dataset.r3Boot='locked';
   $('r3CloudPassphrase').value='';
   $('r3CloudStatus').textContent='Account changed. Private research was locked before reloading.';
  });
  populateCatalogueCases();
  renderDock();
  updateSecurityUI();
- startR3().catch(err=>{bootReady=true;document.documentElement.dataset.r3Boot='ready';status('R3 startup failed: '+err.message,true)});
+ startR3().catch(err=>{if(revoked){document.documentElement.dataset.r3Boot='locked';return;}bootReady=true;document.documentElement.dataset.r3Boot='ready';status('R3 startup failed: '+err.message,true)});
 })();
