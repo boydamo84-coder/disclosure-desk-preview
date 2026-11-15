@@ -1,6 +1,8 @@
 -- DISCLOSURE DESK WHO'S WHO — RESEARCH DRAFT ONLY.
 -- NOT A MIGRATION. DO NOT EXECUTE ON PRODUCTION BEFORE OWNER APPROVAL AND ISOLATED RLS TESTS.
 -- Community evidence ratings apply to individually approved public CLAIMS, never person reputation.
+-- If ever approved, deploy atomically: no time gap with privileged default PUBLIC EXECUTE.
+BEGIN;
 
 CREATE TABLE IF NOT EXISTS public.dd_who_reviewable_claims (
  claim_id TEXT PRIMARY KEY CHECK (claim_id ~ '^[a-z0-9][a-z0-9-]{6,85}$'),
@@ -44,7 +46,13 @@ ALTER TABLE public.dd_who_claim_ratings ENABLE ROW LEVEL SECURITY;
 REVOKE ALL ON public.dd_who_reviewable_claims FROM PUBLIC, anon, authenticated;
 REVOKE ALL ON public.dd_who_claim_ratings FROM PUBLIC, anon, authenticated;
 
-CREATE OR REPLACE FUNCTION public.dd_who_claim_rating_summary(p_claim_ids TEXT[])
+-- Privileged workers are private, not RPCs in the Data API exposed public schema.
+-- This schema MUST be absent from Supabase's actual Data API 'Exposed schemas'.
+CREATE SCHEMA IF NOT EXISTS dd_who_private;
+REVOKE ALL ON SCHEMA dd_who_private FROM PUBLIC;
+GRANT USAGE ON SCHEMA dd_who_private TO anon, authenticated;
+
+CREATE OR REPLACE FUNCTION dd_who_private.dd_who_claim_rating_summary_impl(p_claim_ids TEXT[])
 RETURNS TABLE(claim_id TEXT,rating_count BIGINT,community_mean NUMERIC,my_rating SMALLINT)
 LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path = ''
 AS $fn$
@@ -73,7 +81,7 @@ BEGIN
 END
 $fn$;
 
-CREATE OR REPLACE FUNCTION public.dd_who_claim_rating_set(p_claim_id TEXT,p_rating SMALLINT)
+CREATE OR REPLACE FUNCTION dd_who_private.dd_who_claim_rating_set_impl(p_claim_id TEXT,p_rating SMALLINT)
 RETURNS TABLE(claim_id TEXT,rating_count BIGINT,community_mean NUMERIC,my_rating SMALLINT)
 LANGUAGE plpgsql VOLATILE SECURITY DEFINER SET search_path = ''
 AS $fn$
@@ -112,9 +120,31 @@ BEGIN
  ON CONFLICT ON CONSTRAINT dd_who_claim_ratings_pkey
  DO UPDATE SET score=EXCLUDED.score, updated_at=pg_catalog.clock_timestamp();
  RETURN QUERY SELECT s.claim_id,s.rating_count,s.community_mean,s.my_rating
- FROM public.dd_who_claim_rating_summary(ARRAY[p_claim_id]) s;
+ FROM dd_who_private.dd_who_claim_rating_summary_impl(ARRAY[p_claim_id]) s;
 END
 $fn$;
+
+-- Only unprivileged public SECURiTY INVOKER wrappers are exposed to the Data API.
+-- Narrow permission to invoke PRIVATE worker functions; protected table grants
+-- remain revoked, and all identity/claim checks happen inside each worker.
+REVOKE ALL ON FUNCTION dd_who_private.dd_who_claim_rating_summary_impl(TEXT[]) FROM PUBLIC;
+REVOKE ALL ON FUNCTION dd_who_private.dd_who_claim_rating_set_impl(TEXT,SMALLINT) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION dd_who_private.dd_who_claim_rating_summary_impl(TEXT[]) TO anon,authenticated;
+GRANT EXECUTE ON FUNCTION dd_who_private.dd_who_claim_rating_set_impl(TEXT,SMALLINT) TO authenticated;
+
+CREATE OR REPLACE FUNCTION public.dd_who_claim_rating_summary(p_claim_ids TEXT[])
+RETURNS TABLE(claim_id TEXT,rating_count BIGINT,community_mean NUMERIC,my_rating SMALLINT)
+LANGUAGE SQL STABLE SECURITY INVOKER SET search_path = ''
+AS $wrap$
+ SELECT * FROM dd_who_private.dd_who_claim_rating_summary_impl(p_claim_ids);
+$wrap$;
+
+CREATE OR REPLACE FUNCTION public.dd_who_claim_rating_set(p_claim_id TEXT,p_rating SMALLINT)
+RETURNS TABLE(claim_id TEXT,rating_count BIGINT,community_mean NUMERIC,my_rating SMALLINT)
+LANGUAGE SQL VOLATILE SECURITY INVOKER SET search_path = ''
+AS $wrap$
+ SELECT * FROM dd_who_private.dd_who_claim_rating_set_impl(p_claim_id,p_rating);
+$wrap$;
 
 -- PostgreSQL defaults new function EXECUTE to PUBLIC: clear default and
 -- grant only precisely scoped privileges after security review.
@@ -122,6 +152,8 @@ REVOKE ALL ON FUNCTION public.dd_who_claim_rating_summary(TEXT[]) FROM PUBLIC;
 REVOKE ALL ON FUNCTION public.dd_who_claim_rating_set(TEXT,SMALLINT) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.dd_who_claim_rating_summary(TEXT[]) TO anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.dd_who_claim_rating_set(TEXT,SMALLINT) TO authenticated;
+
+COMMIT;
 
 -- NO CLAIMS SEEDED HERE. The 3 initial source-linked entries are still
 -- unreviewed and must NOT be enabled without independent editorial signoff.
