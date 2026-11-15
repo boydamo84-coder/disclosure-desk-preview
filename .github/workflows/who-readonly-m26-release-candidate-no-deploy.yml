@@ -1,0 +1,99 @@
+# M26 scope: a production-derived 4-file read-only Who’s Who candidate.
+# Strictly local CI; no Netlify, Supabase, GitHub releases, or database changes.
+name: "Who Evidence M26 — production-based read-only RC (NO DEPLOY)"
+on:
+  push:
+    branches:
+      - prep/who-evidence-readonly-m26-20261115
+    paths:
+      - .github/workflows/who-readonly-m26-release-candidate-no-deploy.yml
+      - who-is-who.html
+      - index.html
+      - assets/people-directory.js
+      - data/public-people-directory.json
+      - scripts/test_who_claim_evidence_contract.cjs
+      - scripts/test_who_claim_evidence_chromium.cjs
+      - scripts/test_who_source_lineage.cjs
+      - scripts/test_who_public_package_boundary.cjs
+      - scripts/test_who_m26_hearing_spotchecks.cjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: who-m26-readonly-candidate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  exact-package-and-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Refuse any branch other than explicit production-based RC
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/prep/who-evidence-readonly-m26-20261115"
+          test ! -f docs/WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql
+          test ! -f scripts/test_who_rating_gotrue_e2e.cjs
+          test ! -f scripts/who_rating_signed_jwt_http_seed.sql
+          echo "Production-derived branch: no draft SQL/migrations or synthetic user fixtures."
+      - name: Read-only 50-profile original-source and approval gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check assets/people-directory.js
+          node --check scripts/test_who_claim_evidence_contract.cjs
+          node --check scripts/test_who_source_lineage.cjs
+          node --check scripts/test_who_m26_hearing_spotchecks.cjs
+          node scripts/test_who_claim_evidence_contract.cjs
+          node scripts/test_who_source_lineage.cjs
+          node scripts/test_who_m26_hearing_spotchecks.cjs
+      - name: Strict allowlisted local static site (NEVER deploy)
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/build_public_release.cjs
+          node --check scripts/test_who_public_package_boundary.cjs
+          node scripts/test_who_public_package_boundary.cjs
+          echo "Local SHA-256 audited candidate only; no Netlify CLI/action invoked."
+
+  full-browser-navigation:
+    needs: exact-package-and-source
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install browser driver in throwaway runner temp
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -x /usr/bin/google-chrome
+          node --check scripts/test_who_claim_evidence_chromium.cjs
+          npm install --prefix "$RUNNER_TEMP/who-m26-playwright" --no-save --ignore-scripts --no-audit --no-fund playwright-core@1.56.1
+      - name: Run 320/393/820/1280px profile/back-nav tests on loopback only
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 >"$RUNNER_TEMP/who-m26-local-http.log" 2>&1 &
+          http_pid=$!
+          trap 'kill "$http_pid" 2>/dev/null || true' EXIT
+          for i in $(seq 1 20); do
+            if curl -fsS --max-time 2 http://127.0.0.1:4173/who-is-who.html >/dev/null; then break; fi
+            sleep 1
+          done
+          NODE_PATH="$RUNNER_TEMP/who-m26-playwright/node_modules" node scripts/test_who_claim_evidence_chromium.cjs
+      - name: Never deploy: no credentials, Supabase, Netlify, or APK
+        if: always()
+        run: echo "M26 candidate is tested locally, not published. Existing 14-tab navy/gold site preserved."
