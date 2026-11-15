@@ -757,7 +757,74 @@
             "indexedAt": "2026-11-15"
           }
         ]
-      }
+      },
+      "claimEvidence": [
+        {
+          "id": "coulthart-2023-claimed-hidden-recoveries",
+          "statement": "In a 26 July 2023 7NEWS Australia video, Ross Coulthart presented the claim that the United States was concealing recovered non-human craft and bodies, while discussing accounts including David Grusch's.",
+          "date": "2023-07-26",
+          "context": "Coulthart's original broadcaster appearance verifies his public reporting and endorsement of the allegation, not a recovered object or a publicly demonstrated chain of custody. Grusch's sworn account is separate, largely secondhand programme reporting, not independent physical recovery proof.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "7NEWS Australia verified broadcaster interview with Ross Coulthart, 26 July 2023",
+              "url": "https://www.youtube.com/watch?v=x_9gTDXF9Vc",
+              "context": "Original published broadcaster video; the source verifies what Coulthart said. Grusch's statements, interview narrative and physical programme allegations must remain distinct."
+            }
+          ],
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "Identify which named sources personally saw physical samples, which information was secondhand, what documentation can be public, and what specific parts were independently checked. Neither the number of interviews nor government interest proves recovered non-human technology. Resolve the exact broadcast and original interview timeline and compare narrower official investigations rather than issuing a journalist-wide trust score.",
+            "items": [
+              {
+                "id": "coulthart-7news-2023",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.youtube.com/watch?v=x_9gTDXF9Vc",
+                "title": "7NEWS Australia: Coulthart discusses his Grusch reporting",
+                "locator": "26 July 2023; 07:30 supporting sources, 15:25 verification, 16:10 alleged bodies",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Original broadcaster video records Coulthart's own position and reporting descriptions. Broadcast narration does not include independently inspectable recovered craft, biological specimens or full named-source records."
+              },
+              {
+                "id": "coulthart-abc-mediawatch-2023",
+                "type": "reporting",
+                "stance": "challenges",
+                "access": "public",
+                "url": "https://www.abc.net.au/mediawatch/episodes/ufos/102785078",
+                "title": "ABC Australia Media Watch examines the Grusch interview's evidence",
+                "locator": "28 August 2023; transcript discusses Coulthart's July video and Grusch's hearing evidence",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Independent media analysis challenges the public availability of first-hand physical evidence for the recovery allegations, while confirming that those public statements were made. Its commentary is not proof a hidden programme does not exist."
+              },
+              {
+                "id": "coulthart-grusch-house-2023",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+                "title": "GovInfo official July 2023 House hearing transcript",
+                "locator": "26 July 2023; Statement of David Grusch and committee questions on firsthand knowledge",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Records Grusch's public sworn allegations and where he defers particulars to closed proceedings. A transcript establishes testimony, not the existence of recovered non-human objects; it is partly the same underlying source featured in Coulthart's reporting."
+              },
+              {
+                "id": "coulthart-aaro-historical-2024",
+                "type": "analysis",
+                "stance": "alternative",
+                "access": "public",
+                "url": "https://www.defense.gov/News/News-Stories/Article/Article/3701297/dod-report-discounts-sightings-of-extraterrestrial-technology/",
+                "title": "DoD summary of AARO's historical programme review",
+                "locator": "8 March 2024; scope of examined recovery and reverse-engineering allegations",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "An official broader assessment reported no verified extraterrestrial technology in examined reports. Its public scope and access limitations must be compared case by case; it does not by itself refute every confidential allegation."
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "jeremy-corbell",
@@ -928,7 +995,74 @@
             "indexedAt": "2026-11-15"
           }
         ]
-      }
+      },
+      "claimEvidence": [
+        {
+          "id": "corbell-2021-omaha-advanced-performance-interpretation",
+          "statement": "During a 31 May 2021 CNN interview, Jeremy Corbell said radar/video material released as USS Omaha footage recorded unidentified objects demonstrating technology beyond known capabilities.",
+          "date": "2021-05-31",
+          "context": "CNN's own transcript and independently reported Pentagon correspondence establish that published clips were attributed to Navy recordings and examined by the UAP Task Force. Navy origin does not authenticate alleged transmedium performance, object count, distance/speed calibration or non-human technology.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "CNN original 31 May 2021 Jeremy Corbell interview transcript",
+              "url": "https://transcripts.cnn.com/show/ebo/date/2021-05-31/segment/01",
+              "context": "The original broadcaster transcript attributes the interpretation and distinguishes government confirmation of recording provenance from Corbell's technical conclusions."
+            }
+          ],
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "Obtain entire unedited 2019 original recordings and ship radar logs, precise timestamps and lens/sensor calibration. Independently map each clip to the same incident and corroborating measurements before drawing transmedium conclusions. The Navy confirmation is not a Navy endorsement of unknown propulsion or object origins.",
+            "items": [
+              {
+                "id": "corbell-cnn-2021-statement",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://transcripts.cnn.com/show/ebo/date/2021-05-31/segment/01",
+                "title": "CNN Erin Burnett OutFront interview with Jeremy Corbell",
+                "locator": "31 May 2021; USS Omaha radar interview and discussion of 'beyond next generation' technology",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Direct public transcript records Corbell's interpretation of a reported swarm and advanced performance. It does not establish speeds, object count, water entry or propulsion with underlying instrument data."
+              },
+              {
+                "id": "corbell-debrief-pentagon-2021",
+                "type": "reporting",
+                "stance": "supports",
+                "access": "public",
+                "url": "https://thedebrief.org/pentagon-confirms-leaked-video-showing-transmedium-ufo-is-authentic/",
+                "title": "The Debrief quotes Pentagon spokesperson on the released video",
+                "locator": "14 May 2021; emailed Susan Gough response on Navy authorship and UAPTF examination",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Reported direct response supports Navy personnel recording and official investigation of a video. The Pentagon spokesperson did not corroborate the video's depicted object's transmedium capability, origin or alleged sensor metrics."
+              },
+              {
+                "id": "corbell-space-2021-limits",
+                "type": "analysis",
+                "stance": "challenges",
+                "access": "public",
+                "url": "https://www.space.com/ufo-flies-and-dives-navy-footage",
+                "title": "Space.com on limitations of USS Omaha spherical-video interpretation",
+                "locator": "27 May 2021; video attribution and Pentagon lack of comments on incident details",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Independent science reporting distinguishes footage confirmation from missing context of when/where recorded and alleged water entry. A visual apparent disappearance does not demonstrate underwater travel."
+              },
+              {
+                "id": "corbell-nasa-data-standard-2023",
+                "type": "analysis",
+                "stance": "alternative",
+                "access": "public",
+                "url": "https://science.nasa.gov/uap/faqs/",
+                "title": "NASA scientific standard for UAP video interpretation",
+                "locator": "2023 NASA independent-study FAQ, questions on lack of calibrated high-quality observations",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Agency guidance emphasizes scarcity of robust sensor data for inferring physical trajectories and origins. Broad methodological context, not a USS Omaha-specific sensor forensic report."
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "george-knapp",
@@ -1941,7 +2075,74 @@
             "indexedAt": "2026-11-15"
           }
         ]
-      }
+      },
+      "claimEvidence": [
+        {
+          "id": "greer-2001-disclosure-project-secret-recoveries",
+          "statement": "At the 9 May 2001 Disclosure Project press conference, Steven Greer asserted that witness accounts established extraterrestrial presence and longstanding government concealment.",
+          "date": "2001-05-09",
+          "context": "The National Press Club event and Greer's words are independently reported in contemporaneous ABC and Washington Post coverage. Those accounts confirm an organised press conference, not the independent truth of the approximately 400 alleged testimonies or technological claims.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "ABC News contemporary report of Steven Greer's National Press Club statements",
+              "url": "https://abcnews.go.com/Technology/story?id=98572&page=1",
+              "context": "Original contemporaneous publisher coverage quotes Greer's assertions and describes the press event. It does not itself authenticate the underlying alleged alien evidence."
+            }
+          ],
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "Request a comprehensive named/source-attributed witness inventory, original contemporaneous records and any reproducible primary material. Interviewing many people does not make their accounts independent, and the attendance of people with government roles does not certify extraordinary physical findings. Distinguish objective event verification from his broader assertions, and examine competing participant positions fairly.",
+            "items": [
+              {
+                "id": "greer-abc-2001",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://abcnews.go.com/Technology/story?id=98572&page=1",
+                "title": "ABC News on Greer's Disclosure Project and alleged testimony",
+                "locator": "10 May 2001 story; Greer quotes and his approximately 400-witness assertion",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Contemporary reporting confirms Greer publicly claimed extensive first-hand testimony and government concealment. Reported number is his assertion, not an audited witness roster or evidence that every testimony is accurate."
+              },
+              {
+                "id": "greer-wapo-2001",
+                "type": "reporting",
+                "stance": "challenges",
+                "access": "public",
+                "url": "https://www.washingtonpost.com/archive/lifestyle/2001/05/10/ufo-believers-sighted-here/f5b0fb0e-80f6-4d7e-8c25-e57d1aa69135/",
+                "title": "Washington Post contemporary National Press Club eyewitness coverage",
+                "locator": "10 May 2001; event scale, examples of claims, lack of exhibited scientific evidence",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Separate reporter attended the conference and described public evidence limitations. Confirms event and speakers rather than disproving every reported incident; also distinguishes impressive qualifications from demonstrated physical evidence."
+              },
+              {
+                "id": "greer-project-archive",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.disclosureprojectarchive.net/",
+                "title": "Disclosure Project archival collection of original conference material",
+                "locator": "Featured: National Press Club press conference, 9 May 2001; archived recordings and briefing documents",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "The curator preserves original-era event recordings and papers, but this is a personal collection not a government-authenticated record; clip fidelity, rights and complete witness identities need separate checks."
+              },
+              {
+                "id": "greer-nasa-general-data",
+                "type": "analysis",
+                "stance": "alternative",
+                "access": "public",
+                "url": "https://science.nasa.gov/uap/faqs/",
+                "title": "NASA FAQs: scientific evidence and the need for better data",
+                "locator": "NASA UAP independent study FAQ, scientific observations and extraterrestrial technology",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "NASA says available UAP observations generally lack enough quality to establish alien technologies; this is a contemporary general scientific assessment, not individual adjudication of the 2001 speakers."
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "larry-warren",
@@ -2905,7 +3106,63 @@
             "indexedAt": "2026-11-15"
           }
         ]
-      }
+      },
+      "claimEvidence": [
+        {
+          "id": "vallee-2022-council-bluffs-material-analysis",
+          "statement": "Jacques Vallée coauthored a 2022 journal study reporting heterogeneous elemental composition but ordinary terrestrial isotopic ratios in tested Council Bluffs specimen CB_JV-1 subsamples.",
+          "date": "2022-01-01",
+          "context": "This is the same four-author paper and Council Bluffs sample analysed in Garry Nolan's record. The published result is more limited than a claim that an alien-engineered artifact was chemically demonstrated, and research publication is not an eyewitness confirmation of the original 1977 account.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "Vallée and coauthors original peer-reviewed sample analysis",
+              "url": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+              "context": "Original journal and Council Bluffs case report; same study as Nolan's profile and therefore one scientific source, not independent confirmation."
+            }
+          ],
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "Review contemporaneous 1977 witness reports, the chain of custody from field collection, all sample treatment and contamination possibilities, and independent lab replications. Keep a shared canonical source ID with the Nolan profile to prevent evidence inflation. Interpret earth-normal isotope ratios accurately and avoid concluding proven spacecraft origin.",
+            "items": [
+              {
+                "id": "vallee-2022-original-paper",
+                "type": "primary",
+                "stance": "supports",
+                "access": "public",
+                "url": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+                "title": "Vallée coauthor: original 2022 Council Bluffs materials analysis",
+                "locator": "Progress in Aerospace Sciences volume 128, article 100788; CB_JV-1 subsamples and elemental/isotopic discussion",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Reports measurements published by the same team as the Garry Nolan profile. The journal article notes no significant isotopic differences from terrestrial normal in tested subsamples; unconfirmed provenance remains."
+              },
+              {
+                "id": "vallee-2022-doi-identity",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://doi.org/10.1016/j.paerosci.2021.100788",
+                "title": "Persistent DOI for the Nolan–Vallée–Jiang–Lemke joint paper",
+                "locator": "DOI 10.1016/j.paerosci.2021.100788; one coauthored study",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "This duplicate access route serves provenance, not a second investigation or laboratory replication. Counts once in any later evidence scoring methodology."
+              },
+              {
+                "id": "vallee-2023-nasa-methodology",
+                "type": "analysis",
+                "stance": "alternative",
+                "access": "public",
+                "url": "https://science.nasa.gov/uap/faqs/",
+                "title": "NASA public statement on scientific evidence limitations",
+                "locator": "NASA UAP FAQ on calibrated, high-quality observations and scientifically supported conclusions",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "General scientific standards require controls, provenance and reproducibility; the NASA summary is not a technical counter-analysis of these particular 1977 sample results."
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "james-fox",
@@ -6399,7 +6656,63 @@
             "indexedAt": "2026-11-15"
           }
         ]
-      }
+      },
+      "claimEvidence": [
+        {
+          "id": "nolan-2022-council-bluffs-material-analysis",
+          "statement": "In a jointly authored 2022 journal article, Garry Nolan and colleagues reported elemental variation but no significant deviations from terrestrial-normal isotopic ratios in examined subsamples of Council Bluffs sample CB_JV-1.",
+          "date": "2022-01-01",
+          "context": "The cited work reports technical measurements and unresolved provenance, not an independently identified non-human manufactured device. The publication is coauthored with Jacques Vallée; the same laboratory sample and study must not be counted as two independent empirical confirmations.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "Nolan, Vallée, Jiang and Lemke original 2022 Progress in Aerospace Sciences paper",
+              "url": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+              "context": "Original peer-reviewed publisher article, sample CB_JV-1 measurement and conclusions; scientific provenance and witness chain are separate questions."
+            }
+          ],
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "Verify instrument calibration and entire sample provenance from December 1977 to present, and repeat SIMS analysis with blind controls in independent laboratories. Assess local/industrial origins before extraordinary claims. Cross-reference the duplicate Jacques Vallée record as one coauthored study rather than treating two names as independent evidence; neither the paper nor 2023 NASA general study validates exotic manufacture.",
+            "items": [
+              {
+                "id": "nolan-2022-original-paper",
+                "type": "primary",
+                "stance": "supports",
+                "access": "public",
+                "url": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+                "title": "Nolan, Vallée, Jiang and Lemke: 2022 aerospace materials paper",
+                "locator": "Progress in Aerospace Sciences 128 (2022), article 100788; Council Bluffs section and isotope sub-sample result",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Primary coauthored journal article reports measured elemental inhomogeneity and no significant nonterrestrial isotope ratio difference in tested subsamples. Does not prove exotic manufacture or authenticate full source history."
+              },
+              {
+                "id": "nolan-2022-publisher-abstract",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://doi.org/10.1016/j.paerosci.2021.100788",
+                "title": "Publisher DOI registry entry for original 2022 forensic analysis",
+                "locator": "DOI 10.1016/j.paerosci.2021.100788; same paper, not a second independent study",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Persistent DOI identifies the exact journal article and authorship, but is the same research study as the publisher link. It should never count as new experimental corroboration."
+              },
+              {
+                "id": "nolan-2023-nasa-standards",
+                "type": "analysis",
+                "stance": "alternative",
+                "access": "public",
+                "url": "https://science.nasa.gov/uap/",
+                "title": "NASA 2023 independent UAP study methods and observation standards",
+                "locator": "NASA final UAP report and methodology, 14 September 2023",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "NASA calls for independently reproducible calibrated data. This is a broad scientific methodological benchmark, not a re-test of the Council Bluffs material or a direct refutation of its laboratory results."
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "leslie-kean",
@@ -6587,7 +6900,74 @@
             "indexedAt": "2026-11-15"
           }
         ]
-      }
+      },
+      "claimEvidence": [
+        {
+          "id": "knuth-2019-nimitz-acceleration-estimates",
+          "statement": "Kevin Knuth and coauthors published 2019 estimates of extreme minimum accelerations for reported UAP manoeuvres, including Nimitz encounter accounts, conditional on reported distances and time intervals.",
+          "date": "2019-09-25",
+          "context": "The paper's calculations are real published mathematical estimates. Their relevance to the actual object's dynamics depends on the accuracy of reported motion inputs; peer-reviewed publication is not access to raw 2004 radar telemetry or proof of extraterrestrial origin.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "Original 2019 Entropy paper, Knuth–Powell–Reali",
+              "url": "https://www.mdpi.com/1099-4300/21/10/939",
+              "context": "Publisher open-access research article and explicit modelling assumptions; computed accelerations should not be reported as directly calibrated sensor measurements."
+            }
+          ],
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "Audit exact source of each motion input, especially personally communicated radar recollections, and contrast reported geometry with full 2004 original timestamps, platform positioning, released tracks and independent reconstructions. Recompute interval-dependent g values and uncertainty ranges; do not treat a conditional calculation or a witness's professional standing as proof of physical acceleration.",
+            "items": [
+              {
+                "id": "knuth-2019-entropy-primary",
+                "type": "primary",
+                "stance": "supports",
+                "access": "public",
+                "url": "https://www.mdpi.com/1099-4300/21/10/939",
+                "title": "Knuth, Powell and Reali: Estimating Flight Characteristics",
+                "locator": "Entropy 21(10), 939, 25 September 2019; abstract, case studies, equations, references",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Original peer-reviewed model derives extreme accelerations using stated encounter inputs and assumptions. Arithmetic is conditional on contested/partly unverified timings and inferred travel distances, not a directly recovered aircraft radar trace."
+              },
+              {
+                "id": "knuth-unialbany-index",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://scholarsarchive.library.albany.edu/physics_fac_scholar/58/",
+                "title": "University at Albany faculty archive of the original model",
+                "locator": "Physics Faculty Scholarship 58, publication date September 2019 and DOI",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Institutional repository confirms the named authors and provides article access, but represents the same paper, not an independent replication of the flight characteristics."
+              },
+              {
+                "id": "knuth-fravor-2023-hearing",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+                "title": "Congressional public testimony regarding the 2004 Nimitz encounter",
+                "locator": "26 July 2023; Statement of David Fravor and relevant questions",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Records an eyewitness's later public account of reported 2004 events, not the original raw 2004 radar-derived descent/acceleration data needed to confirm precise numeric estimates."
+              },
+              {
+                "id": "knuth-nasa-sensor-limits",
+                "type": "analysis",
+                "stance": "alternative",
+                "access": "public",
+                "url": "https://science.nasa.gov/uap/faqs/",
+                "title": "NASA UAP independent study: calibrated metadata and caution",
+                "locator": "NASA UAP FAQ and links to September 2023 independent study findings",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "NASA reports limited high-quality UAP observations for physical inference. General warning about distance and sensor context; not a paper-by-paper rebuttal of Knuth's mathematical derivations."
+              }
+            ]
+          }
+        }
+      ]
     }
   ]
 }
