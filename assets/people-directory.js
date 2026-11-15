@@ -285,7 +285,7 @@ const PRIMARY_ACCESS_STATUSES=Object.freeze({
 function ratingReadinessHtml(claim){
  const d=claim?.ratingReadiness;
  if(!d||d.status!=='first_pass_triage'||d.publicationApproval!=='withheld'||
-   d.secondEditor!=='not_assigned'||!/^\\d{4}-\\d{2}-\\d{2}$/.test(d.date||'')||
+   d.secondEditor!=='not_assigned'||!/^\d{4}-\d{2}-\d{2}$/.test(d.date||'')||
    !READINESS_TYPES.includes(d.claimType)||
    !Object.hasOwn(READINESS_ROUTES,d.scorePath)||
    !Object.hasOwn(PRIMARY_ACCESS_STATUSES,d.primarySourceAccess)||
