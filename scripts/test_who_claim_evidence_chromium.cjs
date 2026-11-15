@@ -51,8 +51,21 @@ const profiles=[
     const cards=page.locator('#peopleCards article.card');
     const matching=cards.filter({has:page.getByRole('heading',{name:test.name,exact:true})});
     assert.equal(await matching.count(),1,'Search results include one exact named profile for '+test.name);
+    console.log('Opening Who evidence profile',width,test.name,'page',new URL(page.url()).search);
     await matching.locator('button').first().click();
-    await page.locator('#personProfile').waitFor({state:'visible'});
+    try{
+     await page.locator('#personProfile').waitFor({state:'visible',timeout:12000});
+    }catch(error){
+     console.error('Profile open diagnostics',JSON.stringify({
+      width,name:test.name,url:page.url(),
+      profileName:await page.locator('#profileName').textContent(),
+      hasHidden:await page.locator('#personProfile').evaluate(el=>el.classList.contains('hidden')),
+      directoryVisible:await page.locator('#directoryPage').isVisible(),
+      historyState:await page.evaluate(()=>history.state),
+      cardCount:await page.locator('#peopleCards article.card').count()
+     }));
+     throw error;
+    }
     assert.equal(await page.locator('#profileName').innerText(),test.name);
     const host=page.locator('#profileEvidenceReviews');
     if(test.kind==='role' || test.kind==='work'){
