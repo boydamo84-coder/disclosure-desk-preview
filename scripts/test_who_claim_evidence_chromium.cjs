@@ -112,6 +112,15 @@ const profiles=[
       assert.match(await triage.innerText(),/Approval: withheld/);
       assert.match(await triage.innerText(),/Before any rating/);
       assert.equal(await triage.locator('input,button,[data-rating-save]').count(),0,'Triage must not open voting');
+      const accessPanel=detail.locator('.claim-source-access');
+      assert.equal(await accessPanel.count(),1,'Reader exposes original-source accessibility check for '+test.name);
+      assert.match(await accessPanel.innerText(),/Full original reviewed: No/);
+      assert.match(await accessPanel.innerText(),/Independent approval: Pending/);
+      assert.equal(await accessPanel.locator('a[href^="https://"]').count()>=1,true,'Original source link retained');
+      assert.equal(await accessPanel.locator('button,input,[data-rating-save]').count(),0,'Original access check cannot create a vote');
+      if(test.name==='Larry Warren')assert.match(await accessPanel.innerText(),/Publisher video and chapter metadata checked/);
+      if(['Ross Coulthart','Jake Barber','Bob Lazar'].includes(test.name))
+       assert.match(await accessPanel.innerText(),/Original-source access unavailable/);
       if(test.name==='Christopher Mellon')assert.match(await triage.innerText(),/Not applicable to an incident evidence percentage/);
      }
      await detail.locator('.claim-evidence-list li').first().waitFor({state:'visible'});
@@ -143,6 +152,7 @@ const profiles=[
      assert.equal(await detail.locator('.claim-audit-draft').count(),1,'Policy source comparison still visible without a numerical rating');
      assert.match(await detail.locator('.claim-audit-draft').innerText(),/Unsigned research check/);
      assert.equal(await detail.locator('.claim-readiness-draft').count(),1,'Policy recommendation still exposes its evidence-scoring reason');
+     assert.equal(await detail.locator('.claim-source-access').count(),1,'Policy recommendation retains honest original access status');
      assert.match(await detail.locator('.claim-readiness-draft').innerText(),/Not applicable to an incident evidence percentage/);
      assert.equal(await host.locator('[data-evidence-claim-id]').count(),0);
     }else{
