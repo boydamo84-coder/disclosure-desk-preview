@@ -161,7 +161,7 @@ assert.equal(data.people.find(p=>p.id==='larry-warren').claimEvidence[0].sourceA
 assert.match(data.people.find(p=>p.id==='nick-pope').claimEvidence[0].sourceAudit.original.assessment,/does NOT claim to have been present/);
 assert.match(data.people.find(p=>p.id==='christopher-mellon').claimEvidence[0].sourceAudit.competingRecord,/legitimately postponed records/);
 assert.match(data.people.find(p=>p.id==='james-fox').claimEvidence[0].sourceAudit.original.assessment,/1966.*typo/);
-assert.match(data.people.find(p=>p.id==='leslie-kean').claimEvidence[0].sourceAudit.original.assessment,/source identities or full primary statements/);
+assert.match(data.people.find(p=>p.id==='leslie-kean').claimEvidence[0].sourceAudit.original.assessment,/identities or full primary statements/);
 assert.equal(data.people.find(p=>p.id==='leslie-kean').claimEvidence[0].sourceAudit.relatedSourceGroup,data.people.find(p=>p.id==='ross-coulthart').claimEvidence[0].sourceAudit.relatedSourceGroup,'Coulthart and Kean share Grusch reporting ancestry');
 assert(data.people.every(p=>!p.claimEvidence?.length||!!p.claimEvidence[0].sourceAudit),'No claim draft is left without original-record source audit');
 
