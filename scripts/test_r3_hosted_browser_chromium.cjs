@@ -148,6 +148,12 @@ const BASE='http://127.0.0.1:4173';
    await page.waitForFunction(()=>/Encrypted account backup deleted/.test(
     document.querySelector('#r3CloudStatus').textContent));
    assert.equal(await page.evaluate(()=>Object.keys(window.__r3HostedFakeRecords).length),0);
+   // The same event raised by sign-out/account switching must wipe the
+   // decrypted notebook immediately, even before the browser reload completes.
+   assert.equal(await page.locator('#workPanel').isVisible(),true);
+   await page.evaluate(()=>window.dispatchEvent(new Event('dd-r3-account-changed')));
+   assert.equal(await page.locator('#workPanel').isVisible(),false);
+   assert.equal(await page.locator('#notebookHeading').textContent(),'');
    assert.deepEqual(errors,[],'No hosted R3 runtime errors');
    assert.deepEqual(foreign,[],'No unapproved network traffic');
    const size=await page.evaluate(()=>({actual:document.documentElement.scrollWidth,width:innerWidth}));
