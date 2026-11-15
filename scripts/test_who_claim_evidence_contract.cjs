@@ -8,12 +8,15 @@ const home=fs.readFileSync(path.join(root,'index.html'),'utf8');
 
 assert.match(html,/id="profileEvidenceReviews"/);
 assert.match(html,/id="claimReviewMethod"/);
-assert.match(html,/r2-evidence-ledger-v3-20261115/);
+assert.match(html,/r2-evidence-ledger-v4-20261115/);
+assert.match(html,/claim-role-card/);
+assert.match(html,/original-source role records/);
 assert.match(html,/View evidence &amp; scoring breakdown/);
 assert.match(html,/claim-evidence-details/);
 assert.match(html,/Community rating/);
 assert.match(html,/Scientific and policy recommendations are Not applicable/);
 assert.match(home,/Seven source-linked profiles now contain/);
+assert.match(home,/27 source-backed NASA and congressional role cards/);
 assert.match(html,/community-test-config\.js/);
 assert.match(html,/supabase-js@2\.119\.0/);
 assert.match(home,/id="ddR3ReleaseAnnouncement"/);
@@ -23,6 +26,31 @@ assert.match(html,/Statements are attributed/);
 assert.match(html,/secondary-editorial-nav\.js/);
 assert.match(html,/source trail and editorial checks/);
 assert.equal(data.people.length,50,'Existing Who’s Who directory must retain all 50 public profiles');
+const roleEntries=data.people.filter(p=>p.roleEvidence);
+assert.equal(roleEntries.length,27,'17 NASA (16 members and a designated coordinator) plus 10 congressional roles');
+assert.equal(roleEntries.reduce((n,p)=>n+p.roleEvidence.sources.length,0),56,
+ 'All 27 role records must keep 56 openable official reference entries');
+assert.equal(roleEntries.filter(p=>p.roleEvidence.kind==='institutional_role').length,17);
+assert.equal(roleEntries.filter(p=>p.roleEvidence.kind==='legislative_role').length,7);
+assert.equal(roleEntries.filter(p=>p.roleEvidence.kind==='legislative_action').length,2);
+assert.equal(roleEntries.filter(p=>p.roleEvidence.kind==='congressional_oversight').length,1);
+assert.equal(data.people.find(p=>p.id==='jen-buss').roleEvidence.officialListedName,'Jennifer Buss');
+assert.match(data.people.find(p=>p.id==='daniel-evans').roleEvidence.title,/coordinat/);
+assert.match(data.people.find(p=>p.id==='jared-moskowitz').roleEvidence.description,/not one of the named task-force members/);
+assert.match(data.people.find(p=>p.id==='chuck-schumer').roleEvidence.description,/eventual enacted law/);
+for(const p of roleEntries){
+ const role=p.roleEvidence;
+ assert.equal(role.status,'official_source_crosscheck');
+ assert.match(role.eventDate,/^\d{4}-\d{2}-\d{2}$/);
+ assert(role.title.length>=12&&role.description.length>=60);
+ assert(role.sources.length>=2);
+ for(const e of role.sources){
+  assert(e.url.startsWith('https://'));
+  assert(e.title.length>=8&&e.note.length>=25&&e.locator.length>=6);
+  assert.match(e.checkedAt,/^\d{4}-\d{2}-\d{2}$/);
+ }
+}
+
 const candidates=data.people.filter(p=>Array.isArray(p.claimEvidence)&&p.claimEvidence.length);
 assert.equal(candidates.length,7,'Three 2023 and four 2024 witness notes must be present, still unassessed');
 assert.equal(candidates.reduce((n,p)=>n+(p.claimEvidence[0].researchEvidence?.items?.length||0),0),27,
@@ -62,8 +90,38 @@ const safeUrl=value=>{try{const u=new URL(String(value));return u.protocol==='ht
 const esc=v=>String(v??'').replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
 const validLinks=v=>Array.isArray(v)?v.filter(x=>x&&safeUrl(x.url)).slice(0,30):[];
 const ctx={safeUrl,esc,validLinks,$:()=>host};
-const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceTrail,draftEvidenceTrailHtml,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
+const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceTrail,draftEvidenceTrailHtml,renderPublicRoleEvidence,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
 assert.equal(fns.EVIDENCE_RUBRIC.reduce((n,r)=>n+r.max,0),100);
+for(const person of roleEntries){
+ const sourceHtml=fns.renderPublicRoleEvidence(person);
+ assert.match(sourceHtml,/Inspect original role &amp; legislative records/);
+ assert.match(sourceHtml,/Read official source/);
+ assert.match(sourceHtml,/Not an incident evidence score/);
+ assert.doesNotMatch(sourceHtml,/class="claim-score"/);
+ assert.doesNotMatch(sourceHtml,/data-rating-save/);
+ for(const s of person.roleEvidence.sources){
+  assert(sourceHtml.includes(esc(s.title)),'Every public source is in reader-facing HTML');
+  assert(sourceHtml.includes(esc(s.locator)),'Reader sees original-page locator');
+ }
+ host.innerHTML='';
+ fns.renderClaimEvidence(person);
+ assert.match(host.innerHTML,/Read official source/);
+ assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
+ assert.doesNotMatch(host.innerHTML,/data-rating-save/);
+}
+const intactRole=JSON.parse(JSON.stringify(roleEntries[0]));
+intactRole.roleEvidence.sources[0].url='javascript:alert(1)';
+assert.equal(fns.renderPublicRoleEvidence(intactRole),'',
+ 'A role with an invalid source fails closed rather than showing partial citations');
+const escapedRole=JSON.parse(JSON.stringify(roleEntries[0]));
+escapedRole.roleEvidence.title='<img src=x onerror=alert(1)>';
+assert.match(fns.renderPublicRoleEvidence(escapedRole),/&lt;img/);
+assert.doesNotMatch(fns.renderPublicRoleEvidence(escapedRole),/<img/);
+host.innerHTML='';fns.renderClaimEvidence(data.people.find(p=>p.id==='mike-gold'));
+assert.match(host.innerHTML,/PUBLIC RESEARCH RECOMMENDATION/);
+assert.match(host.innerHTML,/Not applicable/);
+assert.match(host.innerHTML,/Read official source/);
+
 for(const p of candidates){
  host.innerHTML='';fns.renderClaimEvidence(p);
  if(p.id==='mike-gold'){
@@ -178,4 +236,4 @@ for(const mutation of [
  host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[bad]});
  assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
 }
-console.log('Who’s Who 7 source-linked entries, 27 provisional references, policy-claim exclusion and 50-profile editorial gate passed (NO deploy).');
+console.log('Who’s Who: 50 profiles, 7 research claims, 27 roles and 83 item-source references; no personal or premature event scores (NO DEPLOY).');
