@@ -318,7 +318,8 @@ const SOURCE_ACCESS_LABELS=Object.freeze({
  contemporaneous_reporting_full_text_retrieved:'Contemporaneous publisher report accessible (allegations unverified)',
  original_film_director_interview_pages_retrieved:'Original filmmaker interviews accessible (film witness footage not viewed)',
  journal_original_page_indexed_direct_fetch_blocked:'Journal article indexed, original publisher direct access blocked',
- original_author_page_indexed_direct_fetch_blocked:'Original author essay indexed, canonical page directly blocked'
+ original_author_page_indexed_direct_fetch_blocked:'Original author essay indexed, canonical page directly blocked',
+ original_author_page_text_retrieved:'Original author essay directly accessible (historic case independently unverified)'
 });
 function sourceAccessCheckHtml(claim){
  const r=claim?.sourceAccessCheck;
