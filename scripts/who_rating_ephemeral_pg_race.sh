@@ -12,11 +12,13 @@ cleanup() {
 trap cleanup EXIT
 psql -X -v ON_ERROR_STOP=1 -c \
   "INSERT INTO auth.users(id) VALUES('66666666-6666-4666-8666-666666666666')"
+psql -X -v ON_ERROR_STOP=1 -c \
+  "INSERT INTO auth.sessions(id,user_id) VALUES('66666666-6666-4666-8666-666666666666','66666666-6666-4666-8666-666666666666')"
 cat >"$dir/first.sql" <<'SQL'
 BEGIN;
 SET LOCAL ROLE authenticated;
 SET LOCAL request.jwt.claim.sub = '66666666-6666-4666-8666-666666666666';
-SET LOCAL request.jwt.claims = '{"is_anonymous":false}';
+SET LOCAL request.jwt.claims = '{"is_anonymous":false,"session_id":"66666666-6666-4666-8666-666666666666"}';
 SELECT * FROM public.dd_who_claim_rating_set('claim-fixture-2026',33::SMALLINT);
 \echo FIRST_VOTE_DONE
 SELECT pg_sleep(4);
@@ -26,7 +28,7 @@ cat >"$dir/second.sql" <<'SQL'
 BEGIN;
 SET LOCAL ROLE authenticated;
 SET LOCAL request.jwt.claim.sub = '66666666-6666-4666-8666-666666666666';
-SET LOCAL request.jwt.claims = '{"is_anonymous":false}';
+SET LOCAL request.jwt.claims = '{"is_anonymous":false,"session_id":"66666666-6666-4666-8666-666666666666"}';
 SELECT * FROM public.dd_who_claim_rating_set('claim-fixture-2026',99::SMALLINT);
 COMMIT;
 SQL
