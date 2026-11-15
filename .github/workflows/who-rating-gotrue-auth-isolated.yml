@@ -1,0 +1,139 @@
+# M24 real GoTrue Auth in throwaway PostgreSQL; never uses connected Supabase.
+# The production branch, data, keys, and Netlify are wholly out of scope.
+name: "Who Evidence M24 — GoTrue Auth + real JWT RPC (NO DEPLOY)"
+on:
+  push:
+    branches:
+      - feature/who-evidence-score-framework-20261115
+    paths:
+      - .github/workflows/who-rating-gotrue-auth-isolated.yml
+      - scripts/who_rating_gotrue_ephemeral_bootstrap.sql
+      - scripts/who_rating_gotrue_ephemeral_seed.sql
+      - scripts/test_who_rating_gotrue_e2e.cjs
+      - docs/WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: who-m24-auth-isolated-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  isolated-auth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: '5432'
+      PGDATABASE: who_evidence_ci
+      PGUSER: postgres
+      PGPASSWORD: m22-ci-synthetic-only
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: who_evidence_ci
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: m22-ci-synthetic-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d who_evidence_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Refuse wrong branch or database
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/feature/who-evidence-score-framework-20261115"
+          test "$PGHOST" = "127.0.0.1"
+          test "$PGDATABASE" = "who_evidence_ci"
+          node --check scripts/test_who_rating_gotrue_e2e.cjs
+          if ! command -v psql >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq postgresql-client
+          fi
+          psql -X -v ON_ERROR_STOP=1 -Atc "select current_database()" | grep -x who_evidence_ci
+      - name: Start pinned Supabase GoTrue 2.197.0 with authentic auth.users
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run -d --name who-m24-gotrue --network host \
+            -e GOTRUE_API_HOST=127.0.0.1 \
+            -e GOTRUE_API_PORT=9999 \
+            -e API_EXTERNAL_URL=http://127.0.0.1:9999 \
+            -e GOTRUE_DB_DRIVER=postgres \
+            -e "GOTRUE_DB_DATABASE_URL=postgres://postgres:m22-ci-synthetic-only@127.0.0.1:5432/who_evidence_ci?sslmode=disable" \
+            -e GOTRUE_SITE_URL=http://127.0.0.1:3207 \
+            -e GOTRUE_DISABLE_SIGNUP=false \
+            -e GOTRUE_EXTERNAL_EMAIL_ENABLED=true \
+            -e GOTRUE_MAILER_AUTOCONFIRM=true \
+            -e GOTRUE_EXTERNAL_ANONYMOUS_USERS_ENABLED=true \
+            -e GOTRUE_JWT_DEFAULT_GROUP_NAME=authenticated \
+            -e GOTRUE_JWT_AUD=authenticated \
+            -e GOTRUE_JWT_EXP=3600 \
+            -e GOTRUE_JWT_SECRET=m24-CI-test-local-GoTrue-only-jwt-key-9271f568-d17e \
+            supabase/gotrue:v2.197.0 >/dev/null
+          ready=0
+          for n in $(seq 1 50); do
+            if curl -fsS --max-time 2 http://127.0.0.1:9999/health >/dev/null 2>&1; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          if test "$ready" -ne 1; then
+            docker logs who-m24-gotrue --tail 90
+            exit 1
+          fi
+          echo "Genuine GoTrue migrations healthy on disposable local PostgreSQL."
+      - name: Configure role helpers and unseeded vote schema in disposable DB
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -f scripts/who_rating_gotrue_ephemeral_bootstrap.sql
+          psql -X -v ON_ERROR_STOP=1 -f docs/WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql
+          psql -X -v ON_ERROR_STOP=1 -f scripts/who_rating_gotrue_ephemeral_seed.sql
+      - name: Start temporary PostgREST with matching GoTrue JWT secret
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run -d --name who-m24-pgrst --network host \
+            -e PGRST_DB_URI="postgres://authenticator:m24-GOTRUE-only-pgrst-local@127.0.0.1:5432/who_evidence_ci" \
+            -e PGRST_DB_SCHEMAS=public \
+            -e PGRST_DB_ANON_ROLE=anon \
+            -e PGRST_SERVER_HOST=127.0.0.1 \
+            -e PGRST_SERVER_PORT=3207 \
+            -e PGRST_JWT_AUD=authenticated \
+            -e PGRST_JWT_SECRET=m24-CI-test-local-GoTrue-only-jwt-key-9271f568-d17e \
+            postgrest/postgrest:v14.18 >/dev/null
+          ready=0
+          for n in $(seq 1 40); do
+            if curl -fsS --max-time 2 http://127.0.0.1:3207/ >/dev/null 2>&1; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          if test "$ready" -ne 1; then
+            docker logs who-m24-pgrst --tail 90
+            exit 1
+          fi
+      - name: End-to-end real GoTrue signups, password JWTs and private claim voting
+        run: node scripts/test_who_rating_gotrue_e2e.cjs
+      - name: Destroy transient Auth and API containers
+        if: always()
+        shell: bash
+        run: |
+          docker rm -f who-m24-pgrst who-m24-gotrue 2>/dev/null || true
+          echo "M24 no deploy: all auth.users and test JWT keys are ephemeral container-only."
+          echo "Zero real Supabase project rows, credentials, Netlify credits or live votes."
