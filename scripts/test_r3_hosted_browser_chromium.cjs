@@ -1,0 +1,112 @@
+'use strict';
+// No real account writes. Tests the exact publish-staged hosted R3 route on
+// desktop/mobile Chromium, using a strict fake server returning ciphertext only.
+const {chromium}=require('playwright-core');
+const assert=require('node:assert/strict');
+const BASE='http://127.0.0.1:4173';
+(async()=>{
+ const browser=await chromium.launch({headless:true,
+  executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',
+  args:['--no-sandbox','--disable-dev-shm-usage']});
+ try{
+  for(const width of [393,1280]){
+   const context=await browser.newContext({viewport:{width,height:850},
+    acceptDownloads:true,serviceWorkers:'block'});
+   const errors=[],foreign=[];
+   await context.route('**/*',route=>{
+    const u=new URL(route.request().url());
+    if(u.origin===BASE)return route.continue();
+    if(u.hostname==='cdn.jsdelivr.net'&&
+      u.pathname.includes('supabase-js')){
+      const fake=`(function(){
+       const USER={id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+         email:'researcher.test@example.invalid',is_anonymous:false};
+       const records={};
+       window.__r3HostedFakeRecords=records;
+       window.supabase={createClient:function(){
+        return {
+         auth:{getUser:async()=>({data:{user:USER},error:null}),
+          onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}})},
+         from:function(table){
+          if(table!=='dd_r3_private_notebooks')throw Error('Unexpected cloud table');
+          const query={data:null,kind:'read',filters:{},select(){return this},
+           eq(k,v){this.filters[k]=v;return this},
+           insert(v){this.kind='insert';this.data=v;return this},
+           update(v){this.kind='update';this.data=v;return this},
+           delete(){this.kind='delete';return this},
+           async maybeSingle(){
+            const id=this.filters.owner_user_id||USER.id;
+            const entry=records[id]||null;
+            if(this.kind==='read')return {data:entry,error:null};
+            if(this.kind==='insert'){
+             if(entry)return {data:null,error:{message:'duplicate cloud slot'}};
+             records[id]={...this.data,updated_at:new Date().toISOString()};
+             return {data:{generation:this.data.generation},error:null};
+            }
+            if(!entry||entry.generation!==this.filters.generation)
+             return {data:null,error:null};
+            if(this.kind==='update'){
+             records[id]={...entry,...this.data};
+             return {data:{generation:this.data.generation},error:null};
+            }
+            if(this.kind==='delete'){
+             delete records[id];
+             return {data:{generation:entry.generation},error:null};
+            }
+           }};
+          return query;
+         }
+        };
+       }};
+      })();`;
+      return route.fulfill({status:200,contentType:'text/javascript',body:fake});
+    }
+    foreign.push(u.href);return route.abort();
+   });
+   const page=await context.newPage();
+   page.on('pageerror',e=>errors.push(String(e)));
+   await page.goto(BASE+'/research/r3-lab/',{waitUntil:'domcontentloaded'});
+   await page.waitForFunction(()=>document.documentElement.dataset.r3Boot==='ready');
+   assert.equal(await page.locator('#r3CloudPanel').isVisible(),true);
+   assert.match(await page.locator('#r3CloudProfile').textContent(),/researcher\.test/);
+   assert.equal(await page.locator('#ddWebSecondaryNav .tab').count(),14);
+   assert.equal(await page.locator('#ddWebSecondaryNav .tab[disabled]').count(),0);
+   assert.equal(await page.locator('#ddWebSecondaryNav .tab.active').getAttribute('data-tab'),'boards');
+   assert.equal(await page.locator('#r3CloudUpload').isDisabled(),true);
+   await page.locator('#sampleBtn').click();
+   await page.locator('#workPanel').waitFor({state:'visible'});
+   await page.locator('#vaultNewPassphrase').fill('Fake hosted account only - long passphrase 2026');
+   await page.locator('#vaultConfirmPassphrase').fill('Fake hosted account only - long passphrase 2026');
+   await page.locator('#enableVaultBtn').click();
+   await page.waitForFunction(()=>!document.querySelector('#r3CloudUpload').disabled,{timeout:25000});
+   await page.locator('#r3CloudUpload').click();
+   assert.match(await page.locator('#ddDialogTitle').textContent(),/Back up notebook/);
+   await page.locator('#ddDialogCancel').click();
+   assert.equal(await page.evaluate(()=>Object.keys(window.__r3HostedFakeRecords).length),0);
+   await page.locator('#r3CloudUpload').click();
+   await page.locator('#ddDialogAccept').click();
+   await page.waitForFunction(()=>/Encrypted cloud backup saved/.test(
+    document.querySelector('#r3CloudStatus').textContent),undefined,{timeout:20000});
+   const stored=await page.evaluate(()=>JSON.stringify(window.__r3HostedFakeRecords));
+   assert.match(stored,/dd-r3-private-aes256gcm-v1/);
+   assert.doesNotMatch(stored,/Environmental interpretation|fictional report/i);
+   const dl=page.waitForEvent('download');
+   await page.locator('#r3CloudDownload').click();
+   const output=await dl;
+   assert.match(output.suggestedFilename(),/CLOUD-ENCRYPTED/);
+   await page.locator('#r3CloudDelete').click();
+   assert.match(await page.locator('#ddDialogTitle').textContent(),/Delete encrypted account backup/);
+   await page.locator('#ddDialogVerify').fill('DELETE');
+   await page.locator('#ddDialogAccept').click();
+   await page.waitForFunction(()=>/Encrypted account backup deleted/.test(
+    document.querySelector('#r3CloudStatus').textContent));
+   assert.equal(await page.evaluate(()=>Object.keys(window.__r3HostedFakeRecords).length),0);
+   assert.deepEqual(errors,[],'No hosted R3 runtime errors');
+   assert.deepEqual(foreign,[],'No unapproved network traffic');
+   const size=await page.evaluate(()=>({actual:document.documentElement.scrollWidth,width:innerWidth}));
+   assert(size.actual<=size.width+3,'Hosted R3 horizontal overflow '+JSON.stringify(size));
+   await context.close();
+   console.log('PASS R3 hosted '+width+'px: signed-in profile, 14-nav, explicit ciphertext backup, cancel, download and delete; no plaintext');
+  }
+ }finally{await browser.close()}
+})().catch(error=>{console.error(error.stack||error);process.exitCode=1});
