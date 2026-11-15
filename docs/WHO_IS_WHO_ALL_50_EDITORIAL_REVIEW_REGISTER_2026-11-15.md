@@ -23,19 +23,21 @@ Every one of the 50 published draft directory profiles has an individual review 
 
 **Milestone 10, 15 November 2026:** All 27 remaining profiles now have individual `evidenceScope` source-scope decisions and openable source/locator reasoning. The 16 remaining NASA roles, 7 House task-force seats, 2 Senate legislative sponsors, 1 other House hearing participant and 1 FOIA curator total 27 profiles and 60 public source cross-references. No source-scope decision implies anyone is incapable of making a separately assessable UAP claim; only their already documented role/record is presently not a physical-event allegation. Detailed person-specific records: `docs/WHO_M10_ALL_27_UNSCORED_ROLE_SCOPE_LEDGER_2026-11-15.md`. Before a future approved rating, independently verify a specific assertion, underlying primary evidence, contrary interpretations, rights and signed editorial reviewers. **23 provisional claim cases and 27 role-only scope decisions are research drafts, not 50 fact-checked people or 50 public numeric ratings.**
 
+**Milestone 11, 15 November 2026:** Seven original 2023/2024 House hearing statements have first-pass publicly inspectable record comparisons (Grusch, Graves, Fravor, Gallaudet, Elizondo, Shellenberger, Gold), each separating attribution from physical proof, repeated underlying sources, contrary agency methodology and missing original sensor/custody records. **No independent second-editor approval and zero real numerical scores or member ballots.** The original 50-person register also reconciles all **23** per-person claim candidates with the actual directory JSON; several historical sections incorrectly retained a stale “0 claim candidate” after later milestone additions. These labels were corrected from the committed source records, not by declaring any unverified claim true. See `docs/WHO_M11_SEVEN_ORIGINAL_HEARING_RECORD_COMPARISONS_2026-11-15.md`.
+
 ### Per-person editorial acceptance checklist
 
 To mark a review COMPLETE, record a dated editor decision for: (1) biographical role in primary context; (2) each material public statement in its original transcript/publisher recording; (3) source availability and independence; (4) supporting and contrary documents/alternative interpretations; (5) photo identity and reuse licence; (6) correction route; (7) an explicit statement of *not applicable* when no scoreable public claim exists. Only then consider numerical claim-level site scoring. Community ratings must be tied to a verified source-context claim and never to the person's character.
 
 ### 01. David Grusch (`david-grusch`)
 
-**Review status:** Unscored claim draft; primary context must be checked. **Role:** 2023 congressional UAP hearing witness
+**Review status:** Specific attributed draft proposition indexed; original source comparisons and independent signoff still required. **Role:** 2023 congressional UAP hearing witness
 
 **Published draft position (NOT independently authenticated):** In his July 2023 opening statement, Grusch described allegations relayed to him by other individuals about classified UAP-related programmes. His statement expressly described much of this information as second-hand.
 
 **Review route:** Transcribe specific attributed statement; separate firsthand report from underlying interpretation.
 
-**Current metadata:** 2 profile source(s), 3 milestones, 3 articles; portrait recorded (verify licence and identity); 1 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 3 milestones, 3 articles; portrait recorded (verify licence and identity); 1 provisional source-linked specific-claim or recommendation draft (not approved).
 
 **Source links currently listed (must verify):**
 
@@ -44,17 +46,19 @@ To mark a review COMPLETE, record a dated editor decision for: (1) biographical 
 
 **Outstanding checks:** Candidate claim(s) remain Not assessed pending editor verification.
 
+**Milestone 11 hearing-record check (15 November 2026, unsigned):** Original statement location: [primary transcript](https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm), 26 July 2023 transcript, Statement of David Grusch; Rep. Burlison questions about seeing alleged spacecraft or bodies. **Independence distinction:** Grusch interviewing a purported direct witness is secondhand for the physical recovery assertion. Congressional repetition of the same interview story and later reporter summaries are not independent physical corroboration; exact witnesses and material have not been disclosed for public inspection. **Open limitation:** Independently identifiable original insider evidence, unredacted chain of custody, publicly inspectable hardware/biological material, contemporaneous programme files and a named second-editor review of witness independence remain unavailable for this audit. **Second editor:** not obtained. The earlier candidate inventory count is updated to reflect the actual source-linked claim; this does **not** amount to a verified extraordinary event or a numeric rating.
+
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
 ### 02. Ryan Graves (`ryan-graves`)
 
-**Review status:** Unscored claim draft; primary context must be checked. **Role:** Former US Navy pilot; Americans for Safe Aerospace
+**Review status:** Specific attributed draft proposition indexed; original source comparisons and independent signoff still required. **Role:** Former US Navy pilot; Americans for Safe Aerospace
 
 **Published draft position (NOT independently authenticated):** Graves testified to Congress in July 2023 about pilot experiences and shortcomings in UAP reporting systems. Americans for Safe Aerospace describes its mission as safety, research and de-identified reporting.
 
 **Review route:** Confirm hearing, legislation or oversight role; assess only individually attributed statements.
 
-**Current metadata:** 2 profile source(s), 4 milestones, 4 articles; portrait recorded (verify licence and identity); 1 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 4 milestones, 4 articles; portrait recorded (verify licence and identity); 1 provisional source-linked specific-claim or recommendation draft (not approved).
 
 **Source links currently listed (must verify):**
 
@@ -63,17 +67,19 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Outstanding checks:** Candidate claim(s) remain Not assessed pending editor verification.
 
+**Milestone 11 hearing-record check (15 November 2026, unsigned):** Original statement location: [primary transcript](https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm), 26 July 2023 transcript, opening Statement of Ryan Graves: 2014 Oceana radar upgrade, W-72 near-miss narrative and pilot safety reports. **Independence distinction:** The hearing is a first-party source for Graves's testimony, not release of the original radar tracks, mission commander debrief or specific safety report. Repeated flight-safety reporting is relevant to risk management but does not independently establish an unknown object's anomalous physical origin. **Open limitation:** Obtain contemporaneous UAP/flight-safety reports, pilot identities and independent original first-person description of the near miss, sensor telemetry and radar-system calibration data to test distance/speed/shape. **Second editor:** not obtained. The earlier candidate inventory count is updated to reflect the actual source-linked claim; this does **not** amount to a verified extraordinary event or a numeric rating.
+
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
 ### 03. David Fravor (`david-fravor`)
 
-**Review status:** Unscored claim draft; primary context must be checked. **Role:** Retired US Navy commander and aviator
+**Review status:** Specific attributed draft proposition indexed; original source comparisons and independent signoff still required. **Role:** Retired US Navy commander and aviator
 
 **Published draft position (NOT independently authenticated):** Fravor appeared before Congress in July 2023 and described his firsthand naval aviation experience concerning an unidentified observation.
 
 **Review route:** Confirm hearing, legislation or oversight role; assess only individually attributed statements.
 
-**Current metadata:** 2 profile source(s), 3 milestones, 3 articles; portrait not selected; 1 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 3 milestones, 3 articles; portrait not selected; 1 provisional source-linked specific-claim or recommendation draft (not approved).
 
 **Source links currently listed (must verify):**
 
@@ -81,6 +87,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - Official hearing record (GovInfo) — https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Candidate claim(s) remain Not assessed pending editor verification.
+
+**Milestone 11 hearing-record check (15 November 2026, unsigned):** Original statement location: [primary transcript](https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm), 26 July 2023 transcript, Statement of David Fravor and questions about the 14 November 2004 Nimitz Tic Tac. **Independence distinction:** Dietrich provides a separate named firsthand eyewitness perspective on the shared encounter, not an independent second incident or validation of precise extraordinary velocity/acceleration. The later infrared video released by DoD was made on a subsequent sortie and must not be misrepresented as continuous footage of Fravor's initial encounter. **Open limitation:** A contemporaneous complete USS Princeton tracking dataset, intact original FLIR metadata, flight logs, unedited eyewitness accounts and independently calculated positional uncertainties are not public in this review. **Second editor:** not obtained. The earlier candidate inventory count is updated to reflect the actual source-linked claim; this does **not** amount to a verified extraordinary event or a numeric rating.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -238,20 +246,22 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 12. Luis Elizondo (`luis-elizondo`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Former Department of Defense official and author of Imminent
+**Review status:** Specific attributed draft proposition indexed, independent original-evidence verification and scoring still pending. **Role:** Former Department of Defense official and author of Imminent
 
 **Published draft position (NOT independently authenticated):** Elizondo describes work associated with the US Department of Defense's UAP inquiry and has urged government transparency, sharing his account in the 2024 book Imminent and public interviews.
 
 **Review route:** Role/history/source context; locate individually attributable claims before scoring.
 
-**Current metadata:** 2 profile source(s), 4 milestones, 3 articles; portrait recorded (verify licence and identity); 0 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 4 milestones, 3 articles; portrait recorded (verify licence and identity); 1 provisional source-linked specific-claim or research recommendation draft (not approved).
 
 **Source links currently listed (must verify):**
 
 - HISTORY — Elizondo and the Unidentified investigation series — https://www.history.com/shows/unidentified-inside-americas-ufo-investigation (initial inventory link; live reachability not yet confirmed)
 - Official Elizondo biography and publication links — https://luiselizondo-official.com/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** Individual unscored draft now indexed; source/context and independent reviewer verification still required.
+
+**Milestone 11 hearing-record check (15 November 2026, unsigned):** Original statement location: [primary transcript](https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm), 13 November 2024 transcript, Statement of Luis Elizondo; assertions about government possession of UAP-related technology and undisclosed activities. **Independence distinction:** Repeated reporting of Elizondo's testimony is not independent corroboration of the particular recovery assertion. Hearing participation is a record of testimony, not a scientific test, and no named original programme chain of custody was independently verified in this research. **Open limitation:** Detailed first-party declassified recovery documents, material evidence, dated chain of custody, independent technical analysis and a named second reviewer are pending; do not conflate his government employment with extraordinary programme authentication. **Second editor:** not obtained. The earlier candidate inventory count is updated to reflect the actual source-linked claim; this does **not** amount to a verified extraordinary event or a numeric rating.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -521,20 +531,22 @@ Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented ro
 
 ### 26. Mike Gold (`mike-gold`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Former NASA space-policy executive and aerospace policy specialist · NASA UAP study
+**Review status:** Specific attributed draft proposition indexed, independent original-evidence verification and scoring still pending. **Role:** Former NASA space-policy executive and aerospace policy specialist · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records Mike Gold's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
 **Review route:** Confirm panel role from NASA primary record; no personal UAP-claim score implied.
 
-**Current metadata:** 2 profile source(s), 3 milestones, 2 articles; portrait not selected; 0 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 3 milestones, 2 articles; portrait not selected; 1 provisional source-linked specific-claim or research recommendation draft (not approved).
 
 **Source links currently listed (must verify):**
 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Individual unscored draft now indexed; source/context and independent reviewer verification still required.
+
+**Milestone 11 hearing-record check (15 November 2026, unsigned):** Original statement location: [primary transcript](https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm), 13 November 2024 transcript, Statement of Michael Gold, explicit declaration that he spoke personally and recommended UAP science without stigma. **Independence distinction:** The NASA 2023 UAP independent-study report discusses scientific data limitations and methods, aligning with a general policy direction; an institutional methodology and Gold's separate proposal should not be scored as two verified physical UAP incidents. **Open limitation:** To evaluate feasibility, obtain specifications, data access conditions, validation studies, instrument budgets and proposed oversight; a personal/UAP-event percentage remains Not applicable regardless of how good the recommendation is. **Second editor:** not obtained. The earlier candidate inventory count is updated to reflect the actual source-linked claim; this does **not** amount to a verified extraordinary event or a numeric rating.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -918,39 +930,43 @@ Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented ro
 
 ### 45. Tim Gallaudet (`tim-gallaudet`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Retired US Navy rear admiral; UAP congressional witness
+**Review status:** Specific attributed draft proposition indexed, independent original-evidence verification and scoring still pending. **Role:** Retired US Navy rear admiral; UAP congressional witness
 
 **Published draft position (NOT independently authenticated):** Publicly documented work concerns naval service, marine environments and government transparency; the sources below provide the relevant institutional or publisher record.
 
 **Review route:** Transcribe specific attributed statement; separate firsthand report from underlying interpretation.
 
-**Current metadata:** 2 profile source(s), 3 milestones, 2 articles; portrait recorded (verify licence and identity); 0 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 3 milestones, 2 articles; portrait recorded (verify licence and identity); 1 provisional source-linked specific-claim or research recommendation draft (not approved).
 
 **Source links currently listed (must verify):**
 
 - Primary hearing, institution or original publisher record — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/ (initial inventory link; live reachability not yet confirmed)
 - Additional original public source — https://thesolfoundation.org/sol-foundation-co-founders-named-to-uap-science-advisory-council/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** Individual unscored draft now indexed; source/context and independent reviewer verification still required.
+
+**Milestone 11 hearing-record check (15 November 2026, unsigned):** Original statement location: [primary transcript](https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm), 13 November 2024 transcript, Statement of Tim Gallaudet, opening account of 2015 URGENT SAFETY OF FLIGHT ISSUE email and claimed following-day deletion. **Independence distinction:** The Navy's release of Go Fast footage confirms a genuine military-recorded video, not that the asserted safety email was sent or removed. No original message headers, mail-server retention/audit log or independently verifiable recipient account record is supplied publicly in these sources. **Open limitation:** Original Fleet Forces message, exact time/recipient routing, system access and retention audit logs, named witness receipts, complete FLIR original file and independent Navy mailbox review remain necessary to verify the deletion proposition. **Second editor:** not obtained. The earlier candidate inventory count is updated to reflect the actual source-linked claim; this does **not** amount to a verified extraordinary event or a numeric rating.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
 ### 46. Michael Shellenberger (`michael-shellenberger`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Journalist and 2024 House UAP hearing witness
+**Review status:** Specific attributed draft proposition indexed, independent original-evidence verification and scoring still pending. **Role:** Journalist and 2024 House UAP hearing witness
 
 **Published draft position (NOT independently authenticated):** Publicly documented work concerns public-interest reporting, whistleblower claims and government oversight; the sources below provide the relevant institutional or publisher record.
 
 **Review route:** Transcribe specific attributed statement; separate firsthand report from underlying interpretation.
 
-**Current metadata:** 2 profile source(s), 3 milestones, 2 articles; portrait recorded (verify licence and identity); 0 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 3 milestones, 2 articles; portrait recorded (verify licence and identity); 1 provisional source-linked specific-claim or research recommendation draft (not approved).
 
 **Source links currently listed (must verify):**
 
 - Primary hearing, institution or original publisher record — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/ (initial inventory link; live reachability not yet confirmed)
 - Additional original public source — https://oversight.house.gov/release/mace-grothman-announce-joint-hearing-on-unidentified-anomalous-phenomena%EF%BF%BC/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** Individual unscored draft now indexed; source/context and independent reviewer verification still required.
+
+**Milestone 11 hearing-record check (15 November 2026, unsigned):** Original statement location: [primary transcript](https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm), 13 November 2024 transcript, Statement of Michael Shellenberger, first description of unnamed-source Immaculate Constellation paper. **Independence distinction:** The same anonymous whistleblower document appears through original reporter narration and a House-submitted version. Two copies or retellings of that same document are not independent agency programme confirmation; no original classified programme authorization or sensor imagery was supplied publicly. **Open limitation:** Official programme authorization/registry entry, identifiable independent source testimony, intact purported sensor data and the original agency response to the programme name remain unverified publicly. A second editor and source identity review are still required. **Second editor:** not obtained. The earlier candidate inventory count is updated to reflect the actual source-linked claim; this does **not** amount to a verified extraordinary event or a numeric rating.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
