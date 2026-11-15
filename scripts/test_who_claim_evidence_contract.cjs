@@ -8,7 +8,7 @@ const home=fs.readFileSync(path.join(root,'index.html'),'utf8');
 
 assert.match(html,/id="profileEvidenceReviews"/);
 assert.match(html,/id="claimReviewMethod"/);
-assert.match(html,/r2-evidence-ledger-v16-20261115/);
+assert.match(html,/r2-evidence-ledger-v17-20261115/);
 assert.match(html,/claim-role-card/);
 assert.match(html,/claim-work-card/);
 assert.match(home,/all <strong>50 Who's Who people have an expanded source reader/);
@@ -112,13 +112,28 @@ const finalAuditIds=['bob-lazar','jake-barber','larry-warren','nick-pope','chris
 const allAuditIds=[...originalAuditIds,...technicalAuditIds,...reportingAuditIds,...finalAuditIds];
 const sourceAccess=data.people.filter(p=>p.claimEvidence?.[0]?.sourceAccessCheck).map(p=>p.claimEvidence[0].sourceAccessCheck);
 assert.equal(sourceAccess.length,23,'M16 source accessibility status for every one of 23 claims');
-assert.equal(sourceAccess.filter(a=>a.status==='full_original_recheck_pending').length,10);
+assert.equal(sourceAccess.filter(a=>a.status==='full_original_recheck_pending').length,3,'Three distinct source-original rechecks remain: Nolan, Vallee, Pope');
 assert.equal(sourceAccess.filter(a=>a.status==='original_page_fetch_unavailable').length,3);
 assert.equal(sourceAccess.filter(a=>a.status==='publisher_video_metadata_verified').length,1);
 assert.equal(sourceAccess.filter(a=>a.status==='official_hearing_transcript_retrieved').length,7,'Seven actual original GPO hearing witness text sections reachable');
 assert.equal(sourceAccess.filter(a=>a.status==='publisher_original_article_retrieved').length,1,'Original signed Kean article reachable');
 assert.equal(sourceAccess.filter(a=>a.status==='publisher_original_article_landing_retrieved').length,1,'Original Knuth abstract reachable; full mathematical paper not read');
-assert.equal(sourceAccess.filter(a=>a.locator).length,9,'Nine observed original record locations recorded accurately');
+const M18_SOURCE_STATES=[
+ 'publisher_original_interview_transcript_retrieved',
+ 'official_written_testimony_pdf_selected_pages_inspected',
+ 'original_technical_analysis_post_retrieved',
+ 'original_author_opinion_text_retrieved',
+ 'original_peer_reviewed_paper_pdf_selected_pages_inspected',
+ 'contemporaneous_reporting_full_text_retrieved',
+ 'original_film_director_interview_pages_retrieved'
+];
+for(const state of M18_SOURCE_STATES)assert.equal(sourceAccess.filter(a=>a.status===state).length,1,'Exactly one distinctly reviewed original source of type '+state);
+assert.equal(sourceAccess.filter(a=>a.locator).length,16,'Nine earlier original locators and seven new M18 original source locators');
+assert.deepEqual(data.people.filter(p=>p.claimEvidence?.[0]?.sourceAccessCheck.status==='full_original_recheck_pending').map(p=>p.id).sort(),['garry-nolan','jacques-vallee','nick-pope'],'Do not invent fresh access to blocked source masters');
+assert.match(data.people.find(p=>p.id==='avi-loeb').claimEvidence[0].sourceAccessCheck.observation,/page 11 figures\/sections/,'M18 Loeb paper visual page comparison captured');
+assert.match(data.people.find(p=>p.id==='george-knapp').claimEvidence[0].sourceAccessCheck.observation,/first two pages visually examined/,'Knapp official PDF only inspected p1–2, not all seven');
+assert.match(data.people.find(p=>p.id==='james-fox').claimEvidence[0].sourceAccessCheck.observation,/1966/,'Conflicting filmmaker publicity typo kept visible');
+assert.match(data.people.find(p=>p.id==='jeremy-corbell').claimEvidence[0].sourceAccessCheck.observation,/does not authenticate object identity/,'Navy metadata does not prove nonhuman origin');
 assert(sourceAccess.every(a=>a.status!=='full_original_recheck_pending'||a.checkedAt===null),'Unopened originals never receive a fabricated recent checked date');
 assert(sourceAccess.every(x=>x.fullOriginalReviewed===false&&x.secondEditorSignoff==='not_obtained'));
 assert.equal(data.people.filter(p=>p.photoRightsAudit).length,50,'Photo/initials reuse triage covers every profile');
