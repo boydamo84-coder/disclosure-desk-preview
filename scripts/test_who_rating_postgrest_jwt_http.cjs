@@ -58,8 +58,8 @@ const rate=(claim_id,p_rating,auth)=>call('/rpc/dd_who_claim_rating_set',{p_clai
  denied(await call('/dd_who_reviewable_claims?select=claim_id'),'No guest registry read');
  denied(await call('/rpc/dd_who_claim_rating_set_impl',{p_claim_id:claim,p_rating:55}),
   'Privileged worker is not exposed as public RPC');
- denied(await call('/rpc/dd_who_claim_rating_summary',{p_claim_ids:[claim]},null,{'accept-profile':'dd_who_private'}),
-  'Private schema cannot be requested with Accept-Profile');
+ denied(await call('/rpc/dd_who_claim_rating_summary',{p_claim_ids:[claim]},null,{'content-profile':'dd_who_private'}),
+  'Private schema cannot be requested as POST Content-Profile');
  denied(await rate(claim,50,token(0,{badSignature:true})),'Wrong signature JWT rejected');
  denied(await rate(claim,50,token(0,{expired:true})),'Expired JWT rejected');
  denied(await rate(claim,50,token(0,{aud:'not-this-audience'})),'Wrong audience JWT rejected');
