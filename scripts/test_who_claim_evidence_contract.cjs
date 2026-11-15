@@ -157,6 +157,18 @@ const injectedWork=JSON.parse(JSON.stringify(workEntries[0]));
 injectedWork.publicWorkEvidence.title='<img src=x onerror=alert(1)>';
 assert.match(fns.renderPublicWorkEvidence(injectedWork),/&lt;img/);
 assert.doesNotMatch(fns.renderPublicWorkEvidence(injectedWork),/<img/);
+const inheritedKindWork=JSON.parse(JSON.stringify(workEntries[0]));
+inheritedKindWork.publicWorkEvidence.kind='constructor';
+assert.equal(fns.renderPublicWorkEvidence(inheritedKindWork),'',
+ 'Inherited JavaScript prototype names are not valid source-category kinds');
+const inheritedSource=JSON.parse(JSON.stringify(workEntries[0]));
+inheritedSource.publicWorkEvidence.sources[0].sourceClass='toString';
+assert.equal(fns.renderPublicWorkEvidence(inheritedSource),'',
+ 'Inherited JavaScript prototype names are not source classes');
+const inheritedRole=JSON.parse(JSON.stringify(roleEntries[0]));
+inheritedRole.roleEvidence.kind='constructor';
+assert.equal(fns.renderPublicRoleEvidence(inheritedRole),'',
+ 'Inherited property names are not official NASA/congressional role types');
 const emptyLinksWork=JSON.parse(JSON.stringify(workEntries[0]));
 emptyLinksWork.publicWorkEvidence.sources=[];
 assert.equal(fns.renderPublicWorkEvidence(emptyLinksWork),'');
