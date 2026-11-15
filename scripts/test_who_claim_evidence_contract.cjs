@@ -8,7 +8,7 @@ const home=fs.readFileSync(path.join(root,'index.html'),'utf8');
 
 assert.match(html,/id="profileEvidenceReviews"/);
 assert.match(html,/id="claimReviewMethod"/);
-assert.match(html,/r2-evidence-ledger-v13-20261115/);
+assert.match(html,/r2-evidence-ledger-v14-20261115/);
 assert.match(html,/claim-role-card/);
 assert.match(html,/claim-work-card/);
 assert.match(home,/all <strong>50 Who's Who people have an expanded source reader/);
@@ -110,6 +110,14 @@ const technicalAuditIds=['mick-west','avi-loeb','garry-nolan','jacques-vallee','
 const reportingAuditIds=['ross-coulthart','jeremy-corbell','steven-greer','george-knapp'];
 const finalAuditIds=['bob-lazar','jake-barber','larry-warren','nick-pope','christopher-mellon','james-fox','leslie-kean'];
 const allAuditIds=[...originalAuditIds,...technicalAuditIds,...reportingAuditIds,...finalAuditIds];
+const scoreReadiness=data.people.filter(p=>p.claimEvidence?.[0]?.ratingReadiness).map(p=>p.claimEvidence[0].ratingReadiness);
+assert.equal(scoreReadiness.length,23,'All 23 claim drafts must have one first-pass scoring suitability decision');
+assert.equal(scoreReadiness.filter(r=>r.scorePath==='incident_evidence_review_pending').length,6);
+assert.equal(scoreReadiness.filter(r=>r.scorePath==='documentary_source_review_pending').length,9);
+assert.equal(scoreReadiness.filter(r=>r.scorePath==='method_specific_review_pending').length,6);
+assert.equal(scoreReadiness.filter(r=>r.scorePath==='not_applicable_to_incident_score').length,2);
+assert(scoreReadiness.every(r=>r.status==='first_pass_triage'&&r.publicationApproval==='withheld'&&r.secondEditor==='not_assigned'));
+assert.deepEqual(data.people.filter(p=>p.claimEvidence?.[0]?.ratingReadiness?.scorePath==='not_applicable_to_incident_score').map(p=>p.id).sort(),['christopher-mellon','mike-gold']);
 assert.equal(data.people.filter(p=>p.claimEvidence?.some(c=>c.sourceAudit)).length,23,'All 23 original-source drafts cover 7 congressional, 5 technical, 4 reporting and 7 final-case sources; no scores');
 for(const id of allAuditIds){
  const person=data.people.find(p=>p.id===id),audit=person?.claimEvidence?.[0]?.sourceAudit;
@@ -257,7 +265,7 @@ const safeUrl=value=>{try{const u=new URL(String(value));return u.protocol==='ht
 const esc=v=>String(v??'').replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
 const validLinks=v=>Array.isArray(v)?v.filter(x=>x&&safeUrl(x.url)).slice(0,30):[];
 const ctx={safeUrl,esc,validLinks,$:()=>host};
-const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceTrail,sourceAuditDraftHtml,draftEvidenceTrailHtml,renderPublicRoleEvidence,renderPublicWorkEvidence,renderEvidenceScope,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
+const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceTrail,sourceAuditDraftHtml,ratingReadinessHtml,draftEvidenceTrailHtml,renderPublicRoleEvidence,renderPublicWorkEvidence,renderEvidenceScope,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
 assert.equal(fns.EVIDENCE_RUBRIC.reduce((n,r)=>n+r.max,0),100);
 for(const id of allAuditIds){
  const claim=data.people.find(p=>p.id===id).claimEvidence[0];
@@ -269,6 +277,12 @@ for(const id of allAuditIds){
  assert.doesNotMatch(html,/class="claim-score"|data-evidence-claim-id|data-rating-save/);
  assert(html.includes(esc(claim.sourceAudit.original.assessment)),'All original-attribution limitations visible');
  assert.match(fns.draftEvidenceTrailHtml(claim),/claim-audit-draft/,'Audit should appear in same expandable public evidence reader');
+ const triage=fns.ratingReadinessHtml(claim);
+ assert.match(triage,/Is an evidence percentage appropriate for this claim\?/);
+ assert.match(triage,/Independent reviewer: <strong>Not assigned/);
+ assert.match(triage,/Approval: withheld/);
+ assert.doesNotMatch(triage,/class="claim-score"|data-evidence-claim-id|data-rating-save/);
+ assert.match(fns.draftEvidenceTrailHtml(claim),/claim-readiness-draft/,'Triage should appear in the same expandable source panel');
 }
 const badAudit=JSON.parse(JSON.stringify(data.people.find(p=>p.id==='david-grusch').claimEvidence[0]));
 badAudit.sourceAudit.original.url='javascript:alert(1)';
@@ -281,6 +295,13 @@ escapedAudit.sourceAudit.missingEvidence+=' <script>alert(1)</script>';
 const safeAudit=fns.sourceAuditDraftHtml(escapedAudit);
 assert.match(safeAudit,/&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
 assert(!safeAudit.includes('<script>'));
+const badTriage=JSON.parse(JSON.stringify(data.people.find(p=>p.id==='david-grusch').claimEvidence[0]));
+badTriage.ratingReadiness.status='independently_approved';
+assert.equal(fns.ratingReadinessHtml(badTriage),'','Public draft reader must not falsely render an approved triage state');
+const injectedTriage=JSON.parse(JSON.stringify(data.people.find(p=>p.id==='david-grusch').claimEvidence[0]));
+injectedTriage.ratingReadiness.reason+=' <script>alert(1)</script>';
+assert.match(fns.ratingReadinessHtml(injectedTriage),/&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
+assert.doesNotMatch(fns.ratingReadinessHtml(injectedTriage),/<script>/);
 
 for(const person of scopes){
  const html=fns.renderEvidenceScope(person);
@@ -380,7 +401,7 @@ assert.match(host.innerHTML,/Read official source/);
 
 for(const p of candidates){
  host.innerHTML='';fns.renderClaimEvidence(p);
- if(p.id==='mike-gold'){
+ if(['mike-gold','christopher-mellon'].includes(p.id)){
   assert.match(host.innerHTML,/PUBLIC RESEARCH RECOMMENDATION/);
   assert.match(host.innerHTML,/Not applicable/);
   assert.doesNotMatch(host.innerHTML,/Voting not open/);
@@ -472,6 +493,11 @@ assert.match(host.innerHTML,/data-evidence-claim-id="fictional-example-2026"/);
 assert.match(host.innerHTML,/data-rating-save/);
 assert(!fns.communityClaimEligible({...eligibleFictional,sourceReviewApproved:false}));
 assert(!fns.communityClaimEligible({...eligibleFictional,id:'javascript:alert(1)'}));
+const withheldFictional={...eligibleFictional,ratingReadiness:{...data.people.find(p=>p.id==='david-grusch').claimEvidence[0].ratingReadiness}};
+assert.equal(fns.publishedClaimReview(withheldFictional),null,'First-pass triage must never be bypassed by synthetic published review flags');
+assert.equal(fns.communityClaimEligible(withheldFictional),false);
+const noIncidentFictional={...eligibleFictional,ratingReadiness:{...data.people.find(p=>p.id==='mike-gold').claimEvidence[0].ratingReadiness}};
+assert.equal(fns.publishedClaimReview(noIncidentFictional),null,'Not-applicable incident policy claims cannot publish a score');
 
 for(const mutation of [
  c=>{delete c.review.editorialChecks.secondEditorApproved},
@@ -492,4 +518,4 @@ for(const mutation of [
  host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[bad]});
  assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
 }
-console.log('Who’s Who: 50 profiles, 23 claim drafts with 89 sources, 23 original-record comparisons (7 House + 5 technical + 4 reporting + 7 final), 27 nonclaim scopes; no published numbers or votes (NO DEPLOY).');
+console.log('Who’s Who: 50 profiles, 23 claim drafts with 89 sources, 23 source audits and 23 unapproved scoring-readiness decisions, 27 nonclaim scopes; no published numbers or votes (NO DEPLOY).');
