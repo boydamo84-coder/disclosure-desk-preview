@@ -11,6 +11,11 @@ const profiles=[
  {name:'Tim Gallaudet',kind:'claim',text:'November 2024',minSources:4,audit:true},
  {name:'Luis Elizondo',kind:'claim',text:'November 2024',minSources:4,audit:true},
  {name:'Michael Shellenberger',kind:'claim',text:'November 2024',minSources:4,audit:true},
+ {name:'Mick West',kind:'claim',text:'2022',minSources:3,audit:true},
+ {name:'Avi Loeb',kind:'claim',text:'2024',minSources:4,audit:true},
+ {name:'Garry Nolan',kind:'claim',text:'2022',minSources:4,audit:true},
+ {name:'Jacques Vallée',kind:'claim',text:'2022',minSources:4,audit:true},
+ {name:'Kevin Knuth',kind:'claim',text:'2019',minSources:4,audit:true},
  {name:'George Knapp',kind:'claim',text:'September 2025',minSources:4},
  {name:'Christopher Mellon',kind:'claim',text:'October 2025',minSources:4},
  {name:'James Fox',kind:'claim',text:'Moment of Contact',minSources:4},
@@ -45,7 +50,7 @@ const profiles=[
    await dock.waitFor({state:'visible'});
    assert.equal(await dock.locator('.tab').count(),14,'Keep original premium fourteen-tab nav');
    assert.equal(await dock.locator('.tab[aria-current="page"]').getAttribute('data-tab'),'peopleDirectory');
-   let list=width===393?profiles:profiles.filter(p=>['David Grusch','David Fravor','Tim Gallaudet','Michael Shellenberger','George Knapp','John Greenewald Jr.','David Spergel','Mike Gold'].includes(p.name));
+   let list=width===393?profiles:profiles.filter(p=>['David Grusch','David Fravor','Tim Gallaudet','Mick West','Avi Loeb','Garry Nolan','Jacques Vallée','Kevin Knuth','George Knapp','John Greenewald Jr.','David Spergel','Mike Gold'].includes(p.name));
    for(const test of list){
     await page.locator('#peopleSearch').fill(test.name);
     const cards=page.locator('#peopleCards article.card');
@@ -103,6 +108,18 @@ const profiles=[
       'All source items expose original HTTPS links');
      assert.equal(await host.locator('[data-evidence-claim-id]').count(),0,
       'No community voting backend control for draft claim');
+     if(test.name==='Avi Loeb'){
+      const links=await detail.locator('.claim-evidence-list a[href]').evaluateAll(nodes=>nodes.map(n=>n.href));
+      assert(links.some(x=>x.includes('S0009254125000178')),'Readers see 2025 Loeb coauthored response');
+      assert(links.some(x=>x.includes('S000925412500018X')),'Readers see different author independent 2025 volcanic challenge');
+      assert.match(await detail.innerText(),/cannot be definitively attributed to IM1/i);
+     }
+     if(test.name==='Garry Nolan'||test.name==='Jacques Vallée'){
+      assert.match(await detail.innerText(),/terrestrial-normal isotope ratios|terrestrial values|terrestrial normal/i,
+       'Same study displays limits of isotope observations');
+     }
+     if(test.name==='Kevin Knuth')assert.match(await detail.innerText(),/0\.78 seconds/i,'Conditional time assumption visible');
+
     }else if(test.kind==='role'){
      assert.equal(await host.locator('.claim-review').count(),0,'Documented government/science role does not fabricate event claim');
      assert.equal(await host.locator('.claim-role-card').count(),2,'Original institution records plus independent scope decision');
