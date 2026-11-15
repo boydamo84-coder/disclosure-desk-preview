@@ -478,7 +478,8 @@ assert.match(host.innerHTML,/Read official source/);
 for(const p of candidates){
  host.innerHTML='';fns.renderClaimEvidence(p);
  if(['mike-gold','christopher-mellon'].includes(p.id)){
-  assert.match(host.innerHTML,/PUBLIC RESEARCH RECOMMENDATION/);
+  assert.match(host.innerHTML,p.id==='mike-gold'?/PUBLIC RESEARCH RECOMMENDATION/:/PUBLIC POLICY \/ RECORDS-ACCESS CLAIM/,
+   'A policy recommendation and a public records-access allegation should be labelled according to their actual scope');
   assert.match(host.innerHTML,/Not applicable/);
   assert.doesNotMatch(host.innerHTML,/Voting not open/);
  }else{
