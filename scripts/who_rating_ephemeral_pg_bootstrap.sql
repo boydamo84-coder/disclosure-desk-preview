@@ -12,11 +12,16 @@ CREATE ROLE anon NOLOGIN;
 CREATE ROLE authenticated NOLOGIN;
 CREATE SCHEMA auth;
 CREATE TABLE auth.users(id UUID PRIMARY KEY);
--- This shim mimics the request metadata passed by PostgREST, not JWT verification.
+-- This shim reads PostgREST's actual request.jwt.claims JSON (or older M22
+-- synthetic request.jwt.claim.sub), but does not itself verify JWT signatures.
+-- M23 uses a separate PostgREST HTTP container for signed-JWT validation.
 CREATE FUNCTION auth.uid() RETURNS UUID
 LANGUAGE SQL STABLE SET search_path = ''
 AS $$
- SELECT nullif(pg_catalog.current_setting('request.jwt.claim.sub',true),'')::UUID;
+ SELECT coalesce(
+   nullif(pg_catalog.current_setting('request.jwt.claim.sub',true),''),
+   (nullif(pg_catalog.current_setting('request.jwt.claims',true),'')::JSONB ->> 'sub')
+ )::UUID;
 $$;
 CREATE FUNCTION auth.jwt() RETURNS JSONB
 LANGUAGE SQL STABLE SET search_path = ''
