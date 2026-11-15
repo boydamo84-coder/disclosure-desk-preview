@@ -14,7 +14,8 @@ module.exports=function buildHostedR3(root,out,manifestFiles){
   'curated-public-cases.js','hypothesis-vault.js','hypothesis-ui.js',
   'hypothesis-ui.css','editorial-dock.css','BUILD_INFO.txt'];
  const supplementary=[['experiments/r3/hypothesis-cloud.js','hypothesis-cloud.js'],
-  ['experiments/r3/hypothesis-hosted.css','hypothesis-hosted.css']];
+  ['experiments/r3/hypothesis-hosted.css','hypothesis-hosted.css'],
+  ['experiments/r3/hypothesis-session-qa.js','hypothesis-session-qa.js']];
  function add(outputName,data){
   const dest=path.join(siteDir,outputName);
   if(!dest.startsWith(siteDir+path.sep))throw Error('Unsafe R3 public file');
@@ -44,7 +45,8 @@ module.exports=function buildHostedR3(root,out,manifestFiles){
   '<script defer src="../../assets/community-test-config.js"></script>\n'+
   ' <script defer crossorigin="anonymous" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>\n'+
   ' <script defer src="./hypothesis-cloud.js?v='+id+'"></script>\n'+
-  ' <script defer src="./hypothesis-ui.js?v='+id+'"></script>');
+  ' <script defer src="./hypothesis-ui.js?v='+id+'"></script>\n'+
+  ' <script defer src="./hypothesis-session-qa.js?v='+id+'"></script>');
  const securityNote=/<p class="security-note" id="privacyWarning">[\s\S]*?<\/p>/;
  if(!securityNote.test(html))throw Error('R3 privacy notice missing');
  html=html.replace(securityNote,
@@ -71,7 +73,24 @@ module.exports=function buildHostedR3(root,out,manifestFiles){
  '<button type="button" class="btn-danger" id="r3CloudDelete" disabled>Delete account backup</button></div>'+
  '<p class="muted small">Not signed in? <a href="/?dd_tab=boards">Go to Boards to sign in</a>, '+
  'then return to Hypothesis Lab. Guest research remains local to this browser.</p></section>';
- replaceOnce('<section class="panel setup-panel" id="setupPanel"',cloudPanel+
+ const qaPanel='<section class="panel" id="r3QaPanel" aria-labelledby="r3QaHeading" hidden>'+
+ '<span class="eyebrow">DRAFT PREVIEW ONLY · READ-ONLY QA</span>'+
+ '<h2 id="r3QaHeading">Check signed-in account isolation</h2>'+
+ '<p class="muted small">Use only fictional encrypted test notebooks. Sign in from <a href="/?dd_tab=boards">Boards</a> '+
+ 'on THIS preview first. These checks use the current real Supabase session but never send credentials or research text elsewhere.</p>'+
+ '<p id="r3QaStatus" role="status" aria-live="polite">Waiting for your verification.</p>'+
+ '<div class="r3-qa-actions"><button type="button" id="r3QaVerify" class="btn-primary">Verify real signed-in session</button></div>'+
+ '<label for="r3QaOwnId">Your account testing ID (not a password or token)</label>'+
+ '<input id="r3QaOwnId" type="text" readonly autocomplete="off" aria-label="Your account testing ID">'+
+ '<div class="r3-qa-actions"><button type="button" id="r3QaCopyId" class="btn-secondary" disabled>Copy my test ID</button></div>'+
+ '<label for="r3QaOtherId">Other account test ID (paste from its own verified preview session)</label>'+
+ '<input id="r3QaOtherId" type="text" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx">'+
+ '<div class="r3-qa-actions"><button type="button" id="r3QaOtherCheck" class="btn-secondary" disabled>Check other account read access</button></div>'+
+ '<p class="muted small">A denied read only proves isolation if the other account has separately confirmed '+
+ 'its own fictional encrypted backup already exists. This does not attempt any cross-account update or deletion.</p>'+
+ '<pre id="r3QaResults" aria-label="Privacy-safe QA results"></pre>'+
+ '<div class="r3-qa-actions"><button type="button" id="r3QaCopyResults" class="btn-secondary">Copy safe test results</button></div></section>';
+ replaceOnce('<section class="panel setup-panel" id="setupPanel"',cloudPanel+qaPanel+
   '<section class="panel setup-panel" id="setupPanel"');
  add('index.html',html);
  const forbidden=/\b(?:service_role|sb_secret_|private[_-]key|auth\.users)\b/i;
