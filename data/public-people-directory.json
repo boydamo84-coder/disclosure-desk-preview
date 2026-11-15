@@ -3230,7 +3230,7 @@
         "kind": "institutional_role",
         "title": "Member of NASA's 16-person independent UAP study team",
         "eventDate": "2022-10-21",
-        "description": "NASA's original roster lists this person among the 16 selected study participants. Participation verifies a research/technical role, not individual acceptance of any extraordinary explanation or personal endorsement of every report recommendation.",
+        "description": "NASA's original roster lists this person among the 16 selected study participants. Participation verifies a research/technical role, not individual acceptance of any extraordinary explanation or personal endorsement of every report recommendation. NASA's final report lists the fuller name Jennifer Buss; the directory uses Jen Buss. This name difference is recorded for source matching, not treated as a second person.",
         "sources": [
           {
             "title": "NASA's original 16-member team announcement",
@@ -3246,7 +3246,8 @@
             "note": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting.",
             "checkedAt": "2026-11-15"
           }
-        ]
+        ],
+        "officialListedName": "Jennifer Buss"
       }
     },
     {
