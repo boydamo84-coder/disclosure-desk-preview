@@ -316,7 +316,9 @@ const SOURCE_ACCESS_LABELS=Object.freeze({
  original_author_opinion_text_retrieved:'Original author policy opinion accessible (not legal finding)',
  original_peer_reviewed_paper_pdf_selected_pages_inspected:'Original peer-reviewed PDF — selected pages visually inspected, no replication',
  contemporaneous_reporting_full_text_retrieved:'Contemporaneous publisher report accessible (allegations unverified)',
- original_film_director_interview_pages_retrieved:'Original filmmaker interviews accessible (film witness footage not viewed)'
+ original_film_director_interview_pages_retrieved:'Original filmmaker interviews accessible (film witness footage not viewed)',
+ journal_original_page_indexed_direct_fetch_blocked:'Journal article indexed, original publisher direct access blocked',
+ original_author_page_indexed_direct_fetch_blocked:'Original author essay indexed, canonical page directly blocked'
 });
 function sourceAccessCheckHtml(claim){
  const r=claim?.sourceAccessCheck;
