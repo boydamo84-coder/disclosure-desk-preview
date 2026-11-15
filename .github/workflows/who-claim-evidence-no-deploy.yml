@@ -1,0 +1,31 @@
+name: Who's Who claim-evidence editorial gate (NO DEPLOY)
+on:
+  push:
+    branches:
+      - feature/who-evidence-score-framework-20261115
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-and-package:
+    runs-on: ubuntu-latest
+    env:
+      CONTEXT: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Source syntax and mock-reviewed editorial checks
+        run: |
+          node --check assets/people-directory.js
+          node --check scripts/test_who_claim_evidence_contract.cjs
+          node scripts/test_who_claim_evidence_contract.cjs
+      - name: Build PUBLIC allowlisted website locally without publishing
+        run: |
+          node scripts/build_public_release.cjs
+          test -f .release-staging/public-site/who-is-who.html
+          test -f .release-staging/public-site/assets/people-directory.js
+          test -f .release-staging/public-site/data/public-people-directory.json
+          node -e "const fs=require('fs');const h=fs.readFileSync('.release-staging/public-site/who-is-who.html','utf8');if(!h.includes('profileEvidenceReviews'))process.exit(1);"
+          echo "Strict static package contains Who's Who review. No Netlify deployment."
