@@ -234,6 +234,24 @@ BEGIN
 END $test$;
 RESET ROLE;
 
+-- M25: deleting ONLY the Auth session (not the user) must block further
+-- writes even if the previously issued user JWT is still cryptographically
+-- valid. The old rating row remains until normal user/account deletion.
+DELETE FROM auth.sessions WHERE id='44444444-4444-4444-8444-444444444444';
+SET ROLE authenticated;
+SET request.jwt.claim.sub = '44444444-4444-4444-8444-444444444444';
+SET request.jwt.claims = '{"is_anonymous":false,"session_id":"44444444-4444-4444-8444-444444444444"}';
+SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',30::SMALLINT)',
+ '28000','Deleted Auth session prevents further writes before cooldown');
+RESET ROLE;
+DO $test$
+BEGIN
+ IF (SELECT count(*) FROM public.dd_who_claim_ratings
+     WHERE claim_id='claim-fixture-2026' AND voter_id='44444444-4444-4444-8444-444444444444')<>1 THEN
+  RAISE EXCEPTION 'Session logout must not silently erase an existing public vote';
+ END IF;
+END $test$;
+
 -- Disabled claim must disappear from summary and reject new votes.
 UPDATE public.dd_who_reviewable_claims SET enabled=false WHERE claim_id='claim-fixture-2026';
 SET ROLE authenticated;
