@@ -62,6 +62,8 @@ INSERT INTO auth.users(id) VALUES
  ('33333333-3333-4333-8333-333333333333'),
  ('44444444-4444-4444-8444-444444444444'),
  ('55555555-5555-4555-8555-555555555555');
+INSERT INTO auth.sessions(id,user_id) SELECT id,id FROM auth.users;
+
 
 -- No claim may become reviewable with incomplete or same-person signoffs.
 SELECT ci_test.expect_error($bad$
@@ -121,7 +123,8 @@ END $test$;
 RESET ROLE;
 SET ROLE authenticated;
 SET request.jwt.claim.sub = '11111111-1111-4111-8111-111111111111';
-SET request.jwt.claims = '{"is_anonymous":false}';
+SET request.jwt.claims = '{"is_anonymous":false,"session_id":"11111111-1111-4111-8111-111111111111"}';
+SET request.jwt.claims = '{"is_anonymous":false,"session_id":"11111111-1111-4111-8111-111111111111"}';
 SELECT ci_test.expect_error('SELECT count(*) FROM public.dd_who_claim_ratings',
  '42501','member cannot query raw vote table');
 SELECT ci_test.expect_error($bad$
@@ -147,8 +150,25 @@ SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''clai
 SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',-1::SMALLINT)',
  '22023','negative score must reject');
 
+-- M25: a valid account but absent/mismatched/malformed session must fail closed.
+SET ROLE authenticated;
+SET request.jwt.claim.sub = '11111111-1111-4111-8111-111111111111';
+SET request.jwt.claims = '{"is_anonymous":false}';
+SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',77::SMALLINT)',
+ '28000','Signed member missing session_id denied');
+SET request.jwt.claims = '{"is_anonymous":false,"session_id":"22222222-2222-4222-8222-222222222222"}';
+SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',77::SMALLINT)',
+ '28000','Other member session_id denied');
+SET request.jwt.claims = '{"is_anonymous":false,"session_id":"not-a-uuid"}';
+SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',77::SMALLINT)',
+ '28000','Malformed session_id denied');
+SET request.jwt.claims = '{"is_anonymous":false,"session_id":"aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"}';
+SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',77::SMALLINT)',
+ '28000','Missing session row denied');
+RESET ROLE;
+
 -- Even with an authenticated Postgres role, anonymous Supabase sign-in cannot vote.
-SET request.jwt.claims = '{"is_anonymous":true}';
+SET request.jwt.claims = '{"is_anonymous":true,"session_id":"11111111-1111-4111-8111-111111111111"}';
 SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',70::SMALLINT)',
  '28000','anonymous identity must reject');
 SET request.jwt.claim.sub = '';
@@ -161,7 +181,8 @@ SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''clai
 RESET ROLE;
 SET ROLE authenticated;
 SET request.jwt.claim.sub = '22222222-2222-4222-8222-222222222222';
-SET request.jwt.claims = '{"is_anonymous":false}';
+SET request.jwt.claims = '{"is_anonymous":false,"session_id":"22222222-2222-4222-8222-222222222222"}';
+SET request.jwt.claims = '{"is_anonymous":false,"session_id":"22222222-2222-4222-8222-222222222222"}';
 DO $test$
 DECLARE s RECORD;
 BEGIN
@@ -171,10 +192,13 @@ BEGIN
  END IF;
 END $test$;
 SET request.jwt.claim.sub = '33333333-3333-4333-8333-333333333333';
+SET request.jwt.claims = '{"is_anonymous":false,"session_id":"33333333-3333-4333-8333-333333333333"}';
 SELECT * FROM public.dd_who_claim_rating_set('claim-fixture-2026',70::SMALLINT);
 SET request.jwt.claim.sub = '44444444-4444-4444-8444-444444444444';
+SET request.jwt.claims = '{"is_anonymous":false,"session_id":"44444444-4444-4444-8444-444444444444"}';
 SELECT * FROM public.dd_who_claim_rating_set('claim-fixture-2026',30::SMALLINT);
 SET request.jwt.claim.sub = '55555555-5555-4555-8555-555555555555';
+SET request.jwt.claims = '{"is_anonymous":false,"session_id":"55555555-5555-4555-8555-555555555555"}';
 DO $test$
 DECLARE s RECORD;
 BEGIN
@@ -214,7 +238,8 @@ RESET ROLE;
 UPDATE public.dd_who_reviewable_claims SET enabled=false WHERE claim_id='claim-fixture-2026';
 SET ROLE authenticated;
 SET request.jwt.claim.sub = '11111111-1111-4111-8111-111111111111';
-SET request.jwt.claims = '{"is_anonymous":false}';
+SET request.jwt.claims = '{"is_anonymous":false,"session_id":"11111111-1111-4111-8111-111111111111"}';
+SET request.jwt.claims = '{"is_anonymous":false,"session_id":"11111111-1111-4111-8111-111111111111"}';
 SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-fixture-2026'',80::SMALLINT)',
  '22023','moderator disabling a claim blocks votes immediately');
 DO $test$
@@ -240,6 +265,7 @@ SELECT 'claim-batch-'||lpad(n::text,3,'0'),'11111111-1111-4111-8111-111111111111
 FROM generate_series(1,29) n;
 SET ROLE authenticated;
 SET request.jwt.claim.sub = '11111111-1111-4111-8111-111111111111';
+SET request.jwt.claims = '{"is_anonymous":false,"session_id":"11111111-1111-4111-8111-111111111111"}';
 SELECT ci_test.expect_error('SELECT * FROM public.dd_who_claim_rating_set(''claim-batch-030'',50::SMALLINT)',
  '22023','more than 30 new daily ratings rejected');
 DO $test$
