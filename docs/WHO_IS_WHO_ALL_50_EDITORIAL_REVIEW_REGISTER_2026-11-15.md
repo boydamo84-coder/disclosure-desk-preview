@@ -970,3 +970,12 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
+
+
+## Milestone 5: institutional/legislative documentary source trails — 27 records (15 November 2026)
+
+**Staged-only checkpoint, not final source/portrait/biography signoff.** The original 50-person register remains unchanged as the baseline. Added **27 roleEvidence records** with **56 primary/public institutional document-source entries** for the 17 NASA 2022–23 study people (16 actual panel members including David Spergel plus **separate designated official** Daniel Evans) and 10 congressional figures (7 House 2025 task-force appointees, 2 Senate 2023 disclosure-amendment sponsors, and Jared Moskowitz's documented UAP hearings participation). One NASA member, Mike Gold, already has an independently sourced 2024 scientific-policy recommendation card: **27 role cards plus 7 previous claim cards cover 33 distinct named people**, not 34.
+
+Read the full original URL/locator/person-specific role register in `docs/WHO_NASA_AND_CONGRESS_27_DOCUMENTED_ROLES_2026-11-15.md` and `data/public-people-directory.json > people[].roleEvidence`. NASA source distinctions: 16 selected panel members, Daniel Evans as coordinator; the final NASA report lists directory's Jen Buss as **Jennifer Buss**. 2025 House source distinguishes the Republican member appointments from other bipartisan attendees; 2023 Senate amendment differs from enacted 2024 National Archives Record Group 615; Jared Moskowitz is a hearing participant and not on the official seven-person task-force roster. Every role card has at least two outbound public-source entries and is **non-scoreable** by construction.
+
+**Editorial boundaries:** 50/50 source links inventoried, 50/50 first-pass role/attribution checkpoints already documented; 33/50 people now have individual expanded source-trail cards, but these are **not 33 fully fact-checked biographies**. Remaining 17 profiles require individually interpreted sources and case/claim evidence, while 33 also still require independent detailed biographical correction, image rights checks and second-editor approval. 0 real numerical claim scores or permitted real votes. Do not compute trustworthiness from role, credentials, political affiliation, endorsements, news popularity or number of source links.
