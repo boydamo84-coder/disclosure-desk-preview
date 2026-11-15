@@ -22,9 +22,16 @@ assert.match(html,/secondary-editorial-nav\.js/);
 assert.match(html,/source trail and editorial checks/);
 assert.equal(data.people.length,50,'Existing Who’s Who directory must retain all 50 public profiles');
 const candidates=data.people.filter(p=>Array.isArray(p.claimEvidence)&&p.claimEvidence.length);
-assert.equal(candidates.length,3,'Only three explicitly attributed, unassessed test entries belong in this milestone');
-assert.equal(candidates.reduce((n,p)=>n+(p.claimEvidence[0].researchEvidence?.items?.length||0),0),11,
- 'Three candidate public claims have eleven provisional source/context records');
+assert.equal(candidates.length,7,'Three 2023 and four 2024 witness notes must be present, still unassessed');
+assert.equal(candidates.reduce((n,p)=>n+(p.claimEvidence[0].researchEvidence?.items?.length||0),0),27,
+ 'Seven witness/research notes must retain twenty-seven provisional source/context entries');
+const advisory=data.people.find(p=>p.id==='mike-gold');
+assert.equal(advisory.claimEvidence[0].claimKind,'policy_recommendation');
+assert.equal(data.people.filter(p=>p.claimEvidence?.some(c=>c.claimKind==='policy_recommendation')).length,1);
+assert.deepEqual(candidates.map(p=>p.id).sort(),[
+ 'david-fravor','david-grusch','luis-elizondo','michael-shellenberger',
+ 'mike-gold','ryan-graves','tim-gallaudet'
+]);
 for(const p of data.people){
  assert(!Object.hasOwn(p,'believability'),'No person-level believability rating permitted');
  for(const c of p.claimEvidence||[]){
@@ -57,7 +64,14 @@ const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceT
 assert.equal(fns.EVIDENCE_RUBRIC.reduce((n,r)=>n+r.max,0),100);
 for(const p of candidates){
  host.innerHTML='';fns.renderClaimEvidence(p);
- assert.match(host.innerHTML,/Not assessed/);
+ if(p.id==='mike-gold'){
+  assert.match(host.innerHTML,/PUBLIC RESEARCH RECOMMENDATION/);
+  assert.match(host.innerHTML,/Not applicable/);
+  assert.doesNotMatch(host.innerHTML,/Voting not open/);
+ }else{
+  assert.match(host.innerHTML,/Not assessed/);
+  assert.match(host.innerHTML,/Voting not open/);
+ }
  assert.match(host.innerHTML,/Research notes — NOT a completed evidence review/);
  assert.match(host.innerHTML,/Read original source/);
  assert.match(host.innerHTML,/Link consulted/);
@@ -123,6 +137,18 @@ assert.match(host.innerHTML,/Evidence considered/);
 assert.match(host.innerHTML,/Disclosure Desk rating/);
 assert.match(host.innerHTML,/Community rating/);
 assert.match(host.innerHTML,/Voting not open/);
+const unscoreablePolicy={
+ ...fictional,id:'synthetic-policy-example',status:'source_verified',
+ sourceReviewApproved:true,claimKind:'policy_recommendation'
+};
+assert.equal(fns.publishedClaimReview(unscoreablePolicy),null,
+ 'Even an editor-labelled published review must never score a policy recommendation');
+assert.equal(fns.communityClaimEligible(unscoreablePolicy),false);
+host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[unscoreablePolicy]});
+assert.match(host.innerHTML,/PUBLIC RESEARCH RECOMMENDATION/);
+assert.match(host.innerHTML,/Not applicable/);
+assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
+assert.doesNotMatch(host.innerHTML,/data-rating-save/);
 const eligibleFictional={...fictional,id:'fictional-example-2026',status:'source_verified',sourceReviewApproved:true};
 assert(fns.communityClaimEligible(eligibleFictional));
 host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[eligibleFictional]});
@@ -150,4 +176,4 @@ for(const mutation of [
  host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[bad]});
  assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
 }
-console.log('Who’s Who source-first claim scoring and 50-profile preservation tests passed (NO deploy).');
+console.log('Who’s Who 7 source-linked entries, 27 provisional references, policy-claim exclusion and 50-profile editorial gate passed (NO deploy).');
