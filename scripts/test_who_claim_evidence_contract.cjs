@@ -106,14 +106,17 @@ assert(data.people.find(p=>p.id==='chuck-schumer').evidenceScope.sourceChecks.so
 assert(!data.people.find(p=>p.id==='john-greenewald-jr').claimEvidence?.length,'FOIA request never manufactured into event claim');
 
 const originalAuditIds=['david-grusch','ryan-graves','david-fravor','tim-gallaudet','luis-elizondo','michael-shellenberger','mike-gold'];
-assert.equal(data.people.filter(p=>p.claimEvidence?.some(c=>c.sourceAudit)).length,7,'Only seven first-pass original record comparisons, NOT 23 approved reviews');
-for(const id of originalAuditIds){
+const technicalAuditIds=['mick-west','avi-loeb','garry-nolan','jacques-vallee','kevin-knuth'];
+const allAuditIds=[...originalAuditIds,...technicalAuditIds];
+assert.equal(data.people.filter(p=>p.claimEvidence?.some(c=>c.sourceAudit)).length,12,'Seven original hearing records plus five original scientific/technical audits, no approved scores');
+for(const id of allAuditIds){
  const person=data.people.find(p=>p.id===id),audit=person?.claimEvidence?.[0]?.sourceAudit;
  assert(audit, 'Missing original-record audit draft '+id);
  assert.equal(audit.status,'original_record_comparison_draft');
  assert.equal(audit.reviewerSignoff,'not_obtained','No original comparison impersonates a second editor');
  assert.match(audit.checkedAt,/^\d{4}-\d{2}-\d{2}$/);
- assert(audit.original.url.startsWith('https://www.govinfo.gov/content/pkg/CHRG-'));
+ if(originalAuditIds.includes(id))assert(audit.original.url.startsWith('https://www.govinfo.gov/content/pkg/CHRG-'));
+ else assert(audit.original.url.startsWith('https://'),'Science/video records must originate from first-party public analytical source');
  assert(audit.original.locator.length>=25&&audit.original.assessment.length>=75);
  assert(audit.independentEvidence.length>=75&&audit.competingRecord.length>=75&&audit.missingEvidence.length>=75);
  assert(!person.claimEvidence[0].review&&!person.claimEvidence[0].sourceReviewApproved,'No rating approval');
@@ -125,10 +128,31 @@ assert.match(data.people.find(p=>p.id==='tim-gallaudet').claimEvidence[0].source
 assert.match(data.people.find(p=>p.id==='michael-shellenberger').claimEvidence[0].sourceAudit.independentEvidence,/not independent agency programme confirmation/i);
 assert.match(data.people.find(p=>p.id==='mike-gold').claimEvidence[0].sourceAudit.original.assessment,/not for NASA/);
 
+const nolan=data.people.find(p=>p.id==='garry-nolan').claimEvidence[0],vallee=data.people.find(p=>p.id==='jacques-vallee').claimEvidence[0];
+assert.equal(nolan.sourceAudit.relatedSourceGroup,vallee.sourceAudit.relatedSourceGroup,'Nolan and Vallee are one study/sample, never two independent replications');
+assert.equal(nolan.sourceAudit.original.url,vallee.sourceAudit.original.url,'Shared DOI article link identical');
+assert.match(nolan.sourceAudit.original.assessment,/terrestrial-normal isotope ratios/);
+assert.match(vallee.sourceAudit.independentEvidence,/NOT create two independently corroborated/i);
+const loeb=data.people.find(p=>p.id==='avi-loeb').claimEvidence[0],west=data.people.find(p=>p.id==='mick-west').claimEvidence[0],knuth=data.people.find(p=>p.id==='kevin-knuth').claimEvidence[0];
+assert.match(loeb.sourceAudit.original.assessment,/cannot be definitively attributed to IM1/i,'Do not equate 2023 seafloor collection with certified 2014 meteor debris');
+assert(loeb.researchEvidence.items.some(e=>e.id==='loeb-2025-team-morphology-reassessment'&&e.url.includes('S0009254125000178')),'2025 coauthor mixed/terrestrial re-evaluation linked to reader');
+assert(loeb.researchEvidence.items.some(e=>e.id==='loeb-2025-peer-critique'),'Independent critical 2025 Chemical Geology paper preserved');
+assert.match(loeb.sourceAudit.competingRecord,/not tallied as separate extraterrestrial confirmations/);
+assert.match(west.sourceAudit.original.assessment,/camera\/pod rotation/);
+assert.match(west.sourceAudit.competingRecord,/2026 technical debate/,'Recorded forum counterarguments remain exploratory, not forensic certainty');
+assert.match(knuth.sourceAudit.original.assessment,/0\.78 seconds/);
+assert.match(knuth.sourceAudit.missingEvidence,/78-second retelling/);
+for(const id of ['garry-nolan','jacques-vallee']){
+ const c=data.people.find(p=>p.id===id).claimEvidence[0];
+ assert(c.researchEvidence.items.some(e=>e.stance==='challenges'&&e.url.includes('metabunk.org')),'Public method criticism labelled as informal and contestable');
+}
+assert.equal(allAuditIds.length,12);
+
+
 const candidates=data.people.filter(p=>Array.isArray(p.claimEvidence)&&p.claimEvidence.length);
 assert.equal(candidates.length,23,'Eighteen earlier drafts plus five original-claim source reviews remain unassessed');
-assert.equal(candidates.reduce((n,p)=>n+(p.claimEvidence[0].researchEvidence?.items?.length||0),0),86,
- 'Twenty-three claim drafts must retain eighty-six provisional evidence/context entries');
+assert.equal(candidates.reduce((n,p)=>n+(p.claimEvidence[0].researchEvidence?.items?.length||0),0),89,
+ 'Twenty-three claim drafts must retain eighty-nine provisional evidence/context entries including 2025 author reply and shared-paper critique');
 const newCaseIds=['bob-lazar','jake-barber','larry-warren','mick-west','avi-loeb'];
 for(const caseId of newCaseIds){
  const person=data.people.find(p=>p.id===caseId);
@@ -218,7 +242,7 @@ const validLinks=v=>Array.isArray(v)?v.filter(x=>x&&safeUrl(x.url)).slice(0,30):
 const ctx={safeUrl,esc,validLinks,$:()=>host};
 const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceTrail,sourceAuditDraftHtml,draftEvidenceTrailHtml,renderPublicRoleEvidence,renderPublicWorkEvidence,renderEvidenceScope,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
 assert.equal(fns.EVIDENCE_RUBRIC.reduce((n,r)=>n+r.max,0),100);
-for(const id of originalAuditIds){
+for(const id of allAuditIds){
  const claim=data.people.find(p=>p.id===id).claimEvidence[0];
  const html=fns.sourceAuditDraftHtml(claim);
  assert.match(html,/Original-record comparison/);
@@ -451,4 +475,4 @@ for(const mutation of [
  host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[bad]});
  assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
 }
-console.log('Who’s Who: 50 profiles, 23 claim drafts, 7 original public-record comparisons without signoff, 27 nonclaim scopes (60 source crossrefs), no published numbers or votes (NO DEPLOY).');
+console.log('Who’s Who: 50 profiles, 23 claim drafts with 89 sources, 12 original-record comparisons (7 House + 5 technical), 27 nonclaim scopes; no published numbers or votes (NO DEPLOY).');
