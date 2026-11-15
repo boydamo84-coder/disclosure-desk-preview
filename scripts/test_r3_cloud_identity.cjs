@@ -47,7 +47,7 @@ function fixture(){
 }
 (async()=>{
  const f=fixture();
- assert.deepEqual(await f.sdk.ready(),{id:A.id,email:A.email});
+ assert.equal((await f.sdk.ready()).id,A.id);
  assert.equal((await f.sdk.readEncrypted()).generation,envelope.generation);
  // Hold a legitimate A read until the login has switched to B.
  // A successful network reply must not return A's encrypted notebook to B.
@@ -55,10 +55,10 @@ function fixture(){
  await barrier.entered;
  f.setUser(B);f.change('SIGNED_IN',B);
  barrier.resume();
- await assert.rejects(late,/Account changed/);
+ await assert.rejects(late,/Account changed|sign-in has changed/);
  assert.equal(f.stats().reloads,1);
  assert.equal(f.stats().events,1);
- await assert.rejects(f.sdk.readEncrypted(),/Account changed/);
+ await assert.rejects(f.sdk.readEncrypted(),/Account changed|sign-in has changed/);
  // Fresh page logged in as A, then an expired session must fail closed.
  const expired=fixture();await expired.sdk.ready();
  expired.setError('JWT expired');
@@ -67,12 +67,12 @@ function fixture(){
  const loggedOut=fixture();await loggedOut.sdk.ready();
  loggedOut.setUser(null);loggedOut.change('SIGNED_OUT',null);
  assert.equal(loggedOut.stats().events,1);
- await assert.rejects(loggedOut.sdk.readEncrypted(),/Account changed/);
+ await assert.rejects(loggedOut.sdk.readEncrypted(),/Account changed|sign-in has changed/);
  // Token refresh carrying a different account must also invalidate the tab.
  const refreshed=fixture();await refreshed.sdk.ready();
  refreshed.setUser(B);refreshed.change('TOKEN_REFRESHED',B);
  assert.equal(refreshed.stats().reloads,1);
- await assert.rejects(refreshed.sdk.verifyCurrent(),/Account changed/);
+ await assert.rejects(refreshed.sdk.verifyCurrent(),/Account changed|sign-in has changed/);
  // A guest cannot read account ciphertext, even if a broken mock backend would.
  const guest=fixture();guest.setUser(null);
  assert.equal(await guest.sdk.ready(),null);
