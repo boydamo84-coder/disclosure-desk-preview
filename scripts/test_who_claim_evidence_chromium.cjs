@@ -94,7 +94,7 @@ const profiles=[
     }
     if(test.kind==='claim'){
      assert.equal(await host.locator('.claim-review').count(),1,test.name+' gets one specifically attributed claim');
-     assert.match(await host.innerText(),/Not assessed/,'No editor-approved real score');
+     assert.match(await host.innerText(),test.name==='Christopher Mellon'?/Not applicable/:/Not assessed/,'No editor-approved real incident score');
      assert.match(await host.innerText(),/Voting not open/,'No unapproved member vote');
      assert.match(await host.innerText(),new RegExp(test.text,'i'),'Exact claim is present in profile');
      const detail=host.locator('.claim-review .claim-evidence-details');
@@ -106,6 +106,13 @@ const profiles=[
       assert.match(await audit.innerText(),/Independent second-editor signoff: Pending/);
       assert.match(await audit.innerText(),/What remains unavailable or unverified/);
       assert.equal(await audit.locator('a[href^="https://"]').count(),1,'Original document available to readers');
+      const triage=detail.locator('.claim-readiness-draft');
+      assert.equal(await triage.count(),1,'Individual scoring readiness classification visible');
+      assert.match(await triage.innerText(),/Independent reviewer: Not assigned/);
+      assert.match(await triage.innerText(),/Approval: withheld/);
+      assert.match(await triage.innerText(),/Before any rating/);
+      assert.equal(await triage.locator('input,button,[data-rating-save]').count(),0,'Triage must not open voting');
+      if(test.name==='Christopher Mellon')assert.match(await triage.innerText(),/Not applicable to an incident evidence percentage/);
      }
      await detail.locator('.claim-evidence-list li').first().waitFor({state:'visible'});
      assert.equal(await detail.locator('.claim-evidence-list li').count()>=test.minSources,true,
@@ -135,6 +142,8 @@ const profiles=[
      await detail.locator('summary').click();
      assert.equal(await detail.locator('.claim-audit-draft').count(),1,'Policy source comparison still visible without a numerical rating');
      assert.match(await detail.locator('.claim-audit-draft').innerText(),/Unsigned research check/);
+     assert.equal(await detail.locator('.claim-readiness-draft').count(),1,'Policy recommendation still exposes its evidence-scoring reason');
+     assert.match(await detail.locator('.claim-readiness-draft').innerText(),/Not applicable to an incident evidence percentage/);
      assert.equal(await host.locator('[data-evidence-claim-id]').count(),0);
     }else{
      assert.equal(await host.locator('.claim-review').count(),0,'FOIA archivist has no forced event claim');
