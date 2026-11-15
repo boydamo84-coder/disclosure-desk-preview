@@ -12,7 +12,7 @@ Every one of the 50 published draft directory profiles has an individual review 
 
 - **50/50** directory entries inventoried; **50/50** have at least one source citation in current JSON (source reachability/context not independently checked).
 - **20/50** currently have photo objects; reuse/identity still requires individual editorial signoff.
-- **23** unscored, source-attributed claim/recommendation/technical research drafts now seeded (7 hearing records + 5 early case analyses + 6 reporter/science drafts + 5 specific historical/reporting/records assertions); **27** people have no individually constructed claim review. All 50 still have original-source readers. FOIA requests, committee memberships, careers and publications alone are not claims that non-human craft exist.
+- **All 50** have an explicit preliminary **source-scope disposition:** **23** claims/recommendations/technical analyses with attributed, unapproved draft evidence trails, and **27** person-specific research-scope decisions that documented scientific roles, lawmaking or FOIA work do not themselves constitute extraordinary-event claims. These 27 dispositions are source-linked (60 original/context references), **not** numeric 0/100 for the individual; a separate individually attributable UAP-event assertion can be investigated at any point.
 - **0** non-HTTPS/malformed linked citation(s) identified by this inventory; this is not a live HTTP health check.
 
 **15 Nov 2026 milestone 7 addendum:** Five remaining public-work entries now also have a claim-specific research draft with primary/publication and contrary/context links: Bob Lazar, Jake Barber, Larry Warren, Mick West and Avi Loeb. The newly opened source trails are recorded in `docs/WHO_FIVE_CASE_CLAIM_EVIDENCE_LEDGER_2026-11-15.md`. Together there are 44 **provisional item references** across twelve drafts. Original source archive, primary statement, independently testable object/event evidence and competing explanations are separate checks. These are NOT 12 approved public percentages, and 38 other profiles are not personal 0/100 ratings.
@@ -20,6 +20,8 @@ Every one of the 50 published draft directory profiles has an individual review 
 **Milestone 8, 15 November 2026:** Six additional specific claims with original and counter/context sources were staged for Ross Coulthart, Jeremy Corbell, Steven Greer, Garry Nolan, Jacques Vallée and Kevin Knuth. This brings the total to 18 source-linked unapproved research drafts / 66 item references, with no real editor-approved 0–100 rating and no user vote. The new scientific paper is a *joint* Nolan–Vallée source and must not be counted twice; original video filmed by Navy personnel is not proof of alleged anomalous propulsion. Details and original links: `docs/WHO_SIX_PUBLIC_CLAIMS_EVIDENCE_LEDGER_2026-11-15.md`. Remaining 32 profiles are not scored or penalised for lacking an event-specific public assertion.
 
 **Milestone 9, 15 November 2026:** Five additional public claim/source drafts for George Knapp, Christopher Mellon, James Fox, Nick Pope and Leslie Kean, each supported by original claimant/publication material and differentiated contrary/context. John Greenewald Jr.'s professional FOIA reader instead gains two first-party, government-issued response/log records, with **no incident score** invented from filing requests. Now 23 tentative individual claim panels / 86 provisional item-level research links. Full original references, statement scopes, national-archive provenance and outstanding checks: `docs/WHO_M9_SIX_PROFILE_CLAIMS_AND_FOIA_LEDGER_2026-11-15.md`. No named second reviewer or score publication.
+
+**Milestone 10, 15 November 2026:** All 27 remaining profiles now have individual `evidenceScope` source-scope decisions and openable source/locator reasoning. The 16 remaining NASA roles, 7 House task-force seats, 2 Senate legislative sponsors, 1 other House hearing participant and 1 FOIA curator total 27 profiles and 60 public source cross-references. No source-scope decision implies anyone is incapable of making a separately assessable UAP claim; only their already documented role/record is presently not a physical-event allegation. Detailed person-specific records: `docs/WHO_M10_ALL_27_UNSCORED_ROLE_SCOPE_LEDGER_2026-11-15.md`. Before a future approved rating, independently verify a specific assertion, underlying primary evidence, contrary interpretations, rights and signed editorial reviewers. **23 provisional claim cases and 27 role-only scope decisions are research drafts, not 50 fact-checked people or 50 public numeric ratings.**
 
 ### Per-person editorial acceptance checklist
 
@@ -351,7 +353,7 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 18. David Spergel (`david-spergel`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Astrophysicist and president of the Simons Foundation · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Astrophysicist and president of the Simons Foundation · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records David Spergel's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -364,13 +366,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Named NASA 2022–2023 independent UAP study participant. **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 19. Daniel Evans (`daniel-evans`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** NASA science official and coordinator of the independent UAP study · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** NASA science official and coordinator of the independent UAP study · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records Daniel Evans's coordination of the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -383,13 +387,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** NASA study-designated federal official and coordinator (not one of sixteen selected panelists). **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 20. Anamaria Berea (`anamaria-berea`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Computational and data-science scholar · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Computational and data-science scholar · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records Anamaria Berea's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -402,13 +408,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Named NASA 2022–2023 independent UAP study participant. **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 21. Federica Bianco (`federica-bianco`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Astrophysicist and data-intensive survey researcher · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Astrophysicist and data-intensive survey researcher · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records Federica Bianco's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -421,13 +429,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Named NASA 2022–2023 independent UAP study participant. **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 22. Paula Bontempi (`paula-bontempi`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Oceanographer and former NASA Earth-science leader · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Oceanographer and former NASA Earth-science leader · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records Paula Bontempi's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -440,13 +450,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Named NASA 2022–2023 independent UAP study participant. **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 23. Reggie Brothers (`reggie-brothers`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Science-and-technology policy executive and former federal official · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Science-and-technology policy executive and former federal official · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records Reggie Brothers's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -459,13 +471,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Named NASA 2022–2023 independent UAP study participant. **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 24. Jen Buss (`jen-buss`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Science-and-technology policy specialist and institutional leader · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Science-and-technology policy specialist and institutional leader · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records Jen Buss's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -478,13 +492,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Named NASA 2022–2023 independent UAP study participant. **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 25. Nadia Drake (`nadia-drake`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Science journalist specialising in astronomy and planetary science · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Science journalist specialising in astronomy and planetary science · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records Nadia Drake's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -497,9 +513,11 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Named NASA 2022–2023 independent UAP study participant. **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 26. Mike Gold (`mike-gold`)
 
@@ -522,7 +540,7 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 27. David Grinspoon (`david-grinspoon`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Planetary scientist and astrobiology researcher · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Planetary scientist and astrobiology researcher · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records David Grinspoon's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -535,13 +553,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Named NASA 2022–2023 independent UAP study participant. **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 28. Scott Kelly (`scott-kelly`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Former NASA astronaut and retired US Navy aviator · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Former NASA astronaut and retired US Navy aviator · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records Scott Kelly's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -554,13 +574,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Named NASA 2022–2023 independent UAP study participant. **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 29. Matt Mountain (`matt-mountain`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Astronomer and observatory leader · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Astronomer and observatory leader · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records Matt Mountain's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -573,13 +595,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Named NASA 2022–2023 independent UAP study participant. **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 30. Warren Randolph (`warren-randolph`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** FAA aviation safety and accident-prevention specialist · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** FAA aviation safety and accident-prevention specialist · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records Warren Randolph's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -592,13 +616,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Named NASA 2022–2023 independent UAP study participant. **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 31. Walter Scott (`walter-scott`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Satellite imagery and geospatial-technology executive · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Satellite imagery and geospatial-technology executive · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records Walter Scott's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -611,13 +637,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Named NASA 2022–2023 independent UAP study participant. **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 32. Joshua Semeter (`joshua-semeter`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Electrical engineer and space-physics professor · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Electrical engineer and space-physics professor · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records Joshua Semeter's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -630,13 +658,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Named NASA 2022–2023 independent UAP study participant. **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 33. Karlin Toner (`karlin-toner`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** FAA aviation policy leader and former NASA airspace researcher · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** FAA aviation policy leader and former NASA airspace researcher · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records Karlin Toner's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -649,13 +679,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Named NASA 2022–2023 independent UAP study participant. **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 34. Shelley Wright (`shelley-wright`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Astrophysicist, SETI researcher and astronomical instrument builder · NASA UAP study
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Astrophysicist, SETI researcher and astronomical instrument builder · NASA UAP study
 
 **Published draft position (NOT independently authenticated):** NASA's 2022 announcement records Shelley Wright's appointment to the independent UAP study. Its scope was scientific data collection and analysis, not a determination of unexplained objects' origin.
 
@@ -668,13 +700,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
 - NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Named NASA 2022–2023 independent UAP study participant. **Why the recorded work is not event-scoreable:** NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 35. Anna Paulina Luna (`anna-paulina-luna`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Task force chair and public-records advocate
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Task force chair and public-records advocate
 
 **Published draft position (NOT independently authenticated):** The US House Oversight Committee records Anna Paulina Luna's involvement in leading the task force and requesting records relating to UAP investigations. Those public records document the oversight activity, not proof of alleged covert programmes.
 
@@ -687,13 +721,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (initial inventory link; live reachability not yet confirmed)
 - House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Member of the 2025 House declassification task force with public hearings and oversight responsibilities. **Why the recorded work is not event-scoreable:** The 2025 House task-force appointment and hearing attendance are documented institutional activity. Voting to investigate allegations, asking questions or repeating a witness statement is not eyewitness proof of an exotic object or a direct, independently verified physical recovery. **Source checks:** 3, with traceable original locations in the milestone 10 ledger. **Potential further check:** Extract any separate personally asserted UAP-event statement from an original dated hearing transcript; verify whose observation it describes and locate original logs, physical measurements and counterevidence before creating a new claim.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 36. Nancy Mace (`nancy-mace`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** House oversight hearing leader
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** House oversight hearing leader
 
 **Published draft position (NOT independently authenticated):** The US House Oversight Committee records Nancy Mace's involvement in co-leading a November 2024 public hearing examining UAP transparency. Those public records document the oversight activity, not proof of alleged covert programmes.
 
@@ -706,13 +742,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (initial inventory link; live reachability not yet confirmed)
 - House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Member of the 2025 House declassification task force with public hearings and oversight responsibilities. **Why the recorded work is not event-scoreable:** The 2025 House task-force appointment and hearing attendance are documented institutional activity. Voting to investigate allegations, asking questions or repeating a witness statement is not eyewitness proof of an exotic object or a direct, independently verified physical recovery. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** Extract any separate personally asserted UAP-event statement from an original dated hearing transcript; verify whose observation it describes and locate original logs, physical measurements and counterevidence before creating a new claim.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 37. Tim Burchett (`tim-burchett`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Congressional UAP oversight advocate
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Congressional UAP oversight advocate
 
 **Published draft position (NOT independently authenticated):** The US House Oversight Committee records Tim Burchett's involvement in publicly pushing for hearings, witness access and federal record transparency. Those public records document the oversight activity, not proof of alleged covert programmes.
 
@@ -725,13 +763,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (initial inventory link; live reachability not yet confirmed)
 - House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Member of the 2025 House declassification task force with public hearings and oversight responsibilities. **Why the recorded work is not event-scoreable:** The 2025 House task-force appointment and hearing attendance are documented institutional activity. Voting to investigate allegations, asking questions or repeating a witness statement is not eyewitness proof of an exotic object or a direct, independently verified physical recovery. **Source checks:** 3, with traceable original locations in the milestone 10 ledger. **Potential further check:** Extract any separate personally asserted UAP-event statement from an original dated hearing transcript; verify whose observation it describes and locate original logs, physical measurements and counterevidence before creating a new claim.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 38. Lauren Boebert (`lauren-boebert`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Declassification task-force member
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Declassification task-force member
 
 **Published draft position (NOT independently authenticated):** The US House Oversight Committee records Lauren Boebert's involvement in joining the House task force examining declassification of federal records. Those public records document the oversight activity, not proof of alleged covert programmes.
 
@@ -744,13 +784,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (initial inventory link; live reachability not yet confirmed)
 - House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Member of the 2025 House declassification task force with public hearings and oversight responsibilities. **Why the recorded work is not event-scoreable:** The 2025 House task-force appointment and hearing attendance are documented institutional activity. Voting to investigate allegations, asking questions or repeating a witness statement is not eyewitness proof of an exotic object or a direct, independently verified physical recovery. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** Extract any separate personally asserted UAP-event statement from an original dated hearing transcript; verify whose observation it describes and locate original logs, physical measurements and counterevidence before creating a new claim.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 39. Eric Burlison (`eric-burlison`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Congressional declassification advocate
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Congressional declassification advocate
 
 **Published draft position (NOT independently authenticated):** The US House Oversight Committee records Eric Burlison's involvement in joining the task force and working on legislative oversight of unexplained observations. Those public records document the oversight activity, not proof of alleged covert programmes.
 
@@ -763,13 +805,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (initial inventory link; live reachability not yet confirmed)
 - House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Member of the 2025 House declassification task force with public hearings and oversight responsibilities. **Why the recorded work is not event-scoreable:** The 2025 House task-force appointment and hearing attendance are documented institutional activity. Voting to investigate allegations, asking questions or repeating a witness statement is not eyewitness proof of an exotic object or a direct, independently verified physical recovery. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** Extract any separate personally asserted UAP-event statement from an original dated hearing transcript; verify whose observation it describes and locate original logs, physical measurements and counterevidence before creating a new claim.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 40. Eli Crane (`eli-crane`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Declassification task-force member
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Declassification task-force member
 
 **Published draft position (NOT independently authenticated):** The US House Oversight Committee records Eli Crane's involvement in participating in the task force's wider federal-secrets transparency remit. Those public records document the oversight activity, not proof of alleged covert programmes.
 
@@ -782,13 +826,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (initial inventory link; live reachability not yet confirmed)
 - House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Member of the 2025 House declassification task force with public hearings and oversight responsibilities. **Why the recorded work is not event-scoreable:** The 2025 House task-force appointment and hearing attendance are documented institutional activity. Voting to investigate allegations, asking questions or repeating a witness statement is not eyewitness proof of an exotic object or a direct, independently verified physical recovery. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** Extract any separate personally asserted UAP-event statement from an original dated hearing transcript; verify whose observation it describes and locate original logs, physical measurements and counterevidence before creating a new claim.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 41. Brandon Gill (`brandon-gill`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Declassification task-force member
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** Declassification task-force member
 
 **Published draft position (NOT independently authenticated):** The US House Oversight Committee records Brandon Gill's involvement in participating in legislative scrutiny of the handling and disclosure of federal secrets. Those public records document the oversight activity, not proof of alleged covert programmes.
 
@@ -801,13 +847,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (initial inventory link; live reachability not yet confirmed)
 - House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Member of the 2025 House declassification task force with public hearings and oversight responsibilities. **Why the recorded work is not event-scoreable:** The 2025 House task-force appointment and hearing attendance are documented institutional activity. Voting to investigate allegations, asking questions or repeating a witness statement is not eyewitness proof of an exotic object or a direct, independently verified physical recovery. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** Extract any separate personally asserted UAP-event statement from an original dated hearing transcript; verify whose observation it describes and locate original logs, physical measurements and counterevidence before creating a new claim.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 42. Chuck Schumer (`chuck-schumer`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** US senator · bipartisan UAP records legislation
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** US senator · bipartisan UAP records legislation
 
 **Published draft position (NOT independently authenticated):** The 2023 UAP Disclosure Act proposal drew on the JFK assassination records system and proposed a government UAP records collection with disclosure review procedures.
 
@@ -820,13 +868,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - Schumer–Rounds announcement of UAP Disclosure Act proposal — https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa (initial inventory link; live reachability not yet confirmed)
 - Senate floor discussion on UAP legislation — https://www.democrats.senate.gov/newsroom/press-releases/majority-leader-schumer-and-republican-senator-mike-rounds-floor-colloquy-on-unidentified-anomalous-phenomena-provisions-in-the-ndaa-and-future-legislation-on-uaps (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Coauthor/sponsor of the 2023 UAP records-disclosure legislative proposal; compare with actual enacted archival law. **Why the recorded work is not event-scoreable:** Cosponsoring the 2023 proposed UAP records amendment and promoting disclosure are legislative actions. Statutory references to unidentified phenomena or 'non-human intelligence' define records policy scope; they do not prove recovered technology or show either senator personally observed it. **Source checks:** 3, with traceable original locations in the milestone 10 ledger. **Potential further check:** Preserve distinction between 2023 SA 797 proposed review mechanisms and the narrower archival 2024 NDAA final enactment; if a distinct personal event assertion appears, document its precise original statement and supporting record separately.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 43. Mike Rounds (`mike-rounds`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** US senator · bipartisan UAP records legislation
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** US senator · bipartisan UAP records legislation
 
 **Published draft position (NOT independently authenticated):** The 2023 UAP Disclosure Act proposal drew on the JFK assassination records system and proposed a government UAP records collection with disclosure review procedures.
 
@@ -839,13 +889,15 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - Schumer–Rounds announcement of UAP Disclosure Act proposal — https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa (initial inventory link; live reachability not yet confirmed)
 - Senate floor discussion on UAP legislation — https://www.democrats.senate.gov/newsroom/press-releases/majority-leader-schumer-and-republican-senator-mike-rounds-floor-colloquy-on-unidentified-anomalous-phenomena-provisions-in-the-ndaa-and-future-legislation-on-uaps (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Coauthor/sponsor of the 2023 UAP records-disclosure legislative proposal; compare with actual enacted archival law. **Why the recorded work is not event-scoreable:** Cosponsoring the 2023 proposed UAP records amendment and promoting disclosure are legislative actions. Statutory references to unidentified phenomena or 'non-human intelligence' define records policy scope; they do not prove recovered technology or show either senator personally observed it. **Source checks:** 3, with traceable original locations in the milestone 10 ledger. **Potential further check:** Preserve distinction between 2023 SA 797 proposed review mechanisms and the narrower archival 2024 NDAA final enactment; if a distinct personal event assertion appears, document its precise original statement and supporting record separately.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 44. Jared Moskowitz (`jared-moskowitz`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** US representative · public UAP oversight hearings
+**Review status:** Individual source-scope disposition indexed: official role/record is not itself a claim of an extraordinary UAP event; any distinct claim remains subject to review. **Role:** US representative · public UAP oversight hearings
 
 **Published draft position (NOT independently authenticated):** Congressional UAP hearings provide public testimony and oversight questioning; Moskowitz's role concerns government transparency and access to records.
 
@@ -858,9 +910,11 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - Official 2023 House UAP hearing — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/ (initial inventory link; live reachability not yet confirmed)
 - Official 2024 House UAP hearing — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** Original documented activity is not itself an assessable UAP-event claim; a separately attributable assertion requires its own source review.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Participant in House UAP oversight hearings, not one of the seven Republican task-force appointees. **Why the recorded work is not event-scoreable:** The original House hearing records show the representative participated in questions and was listed as 'also present' at the 2025 hearing, not among the seven original task-force appointments. Hearing attendance is not corroboration of witnesses' alleged objects. **Source checks:** 2, with traceable original locations in the milestone 10 ledger. **Potential further check:** Review specific dated questions and assertions in their full hearing context before attributing a claim. Do not treat committee presence, concern about classified data or questioning a witness as a verified UAP incident.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 45. Tim Gallaudet (`tim-gallaudet`)
 
@@ -902,7 +956,7 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 47. John Greenewald Jr. (`john-greenewald-jr`)
 
-**Review status:** Documented government records/FOIA provenance expanded; no specific extraordinary-event assertion identified for separate scoring. **Role:** Founder of The Black Vault government documents archive
+**Review status:** FOIA-only source-scope documented with actual agency correspondence; no separate extraordinary-event assertion has been reviewed. **Role:** Founder of The Black Vault government documents archive
 
 **Published draft position (NOT independently authenticated):** Publicly documented work concerns FOIA filing, historical archives and the provenance of government records; the sources below provide the relevant institutional or publisher record.
 
@@ -917,7 +971,9 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; New agency-issued Inspector General and ODNI request/log references supplement his document-archive reader. This is non-scoreable professional/records work, not a failed or discredited event claim.
 
-Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
+**Research scope (unsigned, 15 November 2026):** Founder of a UAP-related government documents archive and requester of FOIA/declassification records. **Why the recorded work is not event-scoreable:** First-party Black Vault archive metadata, a government FOIA response and an ODNI declassification-request log establish documentary work and agency processing, not the physical truth of claims contained in requested or released files. **Source checks:** 4, with traceable original locations in the milestone 10 ledger. **Potential further check:** For any future particular UAP event assertion, inspect the complete released agency document, contemporaneous records, redactions and independent physical corroboration. Do not expose private contact data in agency request letters or penalize an archivist for merely requesting records.
+
+Reviewer: _unassigned_ · Full case fact-check: _not applicable to documented role alone_ · Independent source/portrait verification: _pending_ · Distinct incident assertion: _not yet researched_ · **Score for this role: Not applicable (not 0/100).**
 
 ### 48. Garry Nolan (`garry-nolan`)
 
