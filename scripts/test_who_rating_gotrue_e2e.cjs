@@ -33,7 +33,7 @@ function claims(jwt){
  const guest=ok(await summary(),'Guest can inspect reviewable synthetic claim');
  assert(Array.isArray(guest)&&guest.length===1&&guest[0].rating_count===0);checks++;
  deny(await vote(null,50),'Guest cannot create rating');
- const tokens=[],ids=[];
+ const tokens=[],ids=[],refreshes=[];
  for(let n=1;n<=2;n++){
   const profile=member(n);
   const newUser=ok(await send(auth+'/signup','POST',profile),'GoTrue signup '+n);
@@ -46,11 +46,28 @@ function claims(jwt){
   assert.equal(c.aud,'authenticated','GoTrue audience');checks++;
   assert(c.exp>Math.floor(Date.now()/1000),'GoTrue signed unexpired token');checks++;
   assert.equal(c.sub,login.user.id,'JWT sub matches authenticated user');checks++;
-  ids.push(c.sub);tokens.push(login.access_token);
+  ids.push(c.sub);tokens.push(login.access_token);refreshes.push(login.refresh_token);
   const authenticated=ok(await send(auth+'/user','GET',undefined,login.access_token),'GoTrue validates user '+n);
   assert.equal(authenticated.id,c.sub,'User endpoint verifies JWT belongs to account');checks++;
  }
  assert.notEqual(ids[0],ids[1],'Two genuinely separate local GoTrue users');checks++;
+ // GoTrue anonymous sign-in creates a REAL auth.users row but cannot vote,
+ // despite bearing Postgres role authenticated.
+ const anonymous=ok(await send(auth+'/signup','POST',{data:{}}),
+  'Real GoTrue anonymous sign-in');
+ assert(typeof anonymous.access_token==='string','Real GoTrue anonymous access JWT');checks++;
+ assert.equal(claims(anonymous.access_token).is_anonymous,true,'Anonymous JWT claim is server-issued');checks++;
+ assert.equal(claims(anonymous.access_token).role,'authenticated','Anonymous user carries authenticated SQL role');checks++;
+ deny(await vote(anonymous.access_token,70),'GoTrue-authenticated anonymous user cannot vote');
+ // Rotate a genuine password-authenticated refresh token and retain identity.
+ const renewed=ok(await send(auth+'/token?grant_type=refresh_token','POST',
+  {refresh_token:refreshes[1]}),'GoTrue refresh-token exchange');
+ assert.equal(claims(renewed.access_token).sub,ids[1],'Refreshed access token preserves account identity');checks++;
+ assert(typeof renewed.refresh_token==='string'&&renewed.refresh_token.length>=8,
+  'GoTrue rotated the refresh token');checks++;
+ const refreshedUser=ok(await send(auth+'/user','GET',undefined,renewed.access_token),
+  'GoTrue recognises refreshed access token');
+ assert.equal(refreshedUser.id,ids[1]);checks++;
  deny(await send(auth+'/token?grant_type=password','POST',
   {...member(1),password:'WRONG-PASSWORD-9!'}),'GoTrue rejects incorrect account password');
  deny(await send(auth+'/user','GET',undefined,tokens[0].slice(0,-1)+'x'),
