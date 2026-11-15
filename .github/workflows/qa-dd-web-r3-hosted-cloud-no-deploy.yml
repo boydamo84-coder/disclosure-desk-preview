@@ -1,0 +1,75 @@
+name: DD-WEB-R3 authenticated encrypted cloud release candidate (NO DEPLOY)
+on:
+  push:
+    branches: [queue/dd-web-r3-from-r2-nov14]
+    paths:
+      - 'experiments/r3/**'
+      - 'scripts/build_public_release.cjs'
+      - 'scripts/build_r3_hosted_assets.cjs'
+      - 'scripts/test_r3_hosted_browser_chromium.cjs'
+      - 'scripts/test_public_release_package.cjs'
+      - 'index.html'
+      - 'privacy.html'
+      - 'supabase/migrations/20261115003000_r3_private_encrypted_notebooks.sql'
+      - '.github/workflows/qa-dd-web-r3-hosted-cloud-no-deploy.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check hosted, offline and cloud JavaScript syntax
+        run: |
+          node --check experiments/r3/hypothesis-ui.js
+          node --check experiments/r3/hypothesis-vault.js
+          node --check experiments/r3/hypothesis-cloud.js
+          node --check scripts/build_r3_hosted_assets.cjs
+          node --check scripts/test_r3_hosted_browser_chromium.cjs
+          node --check scripts/build_public_release.cjs
+          node --check scripts/test_public_release_package.cjs
+      - name: Stage and inspect strict R3 website package without publishing
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          node scripts/test_search_indexing.cjs
+          node scripts/audit_public_pages_20261108.cjs
+          grep -F 'publish = ".release-staging/public-site"' netlify.toml
+          test ! -f .release-staging/public-site/supabase/migrations/20261115003000_r3_private_encrypted_notebooks.sql
+      - name: Document release scope (not a deploy)
+        run: |
+          grep -F 'privateChat:enabled' assets/community-test-config.js
+          grep -F 'researchPublishing:false' assets/community-test-config.js
+  hosted-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Create exact hosted public artifact locally
+        run: |
+          node scripts/build_public_release.cjs
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+      - name: Check encrypted account UI on phone and desktop with mocked RLS server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .release-staging/public-site > /tmp/dd-r3-hosted.log 2>&1 &
+          echo $! > /tmp/dd-r3-hosted.pid
+          for i in $(seq 1 20); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/research/r3-lab/ >/dev/null && break
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:4173/research/r3-lab/ >/dev/null
+          node scripts/test_r3_hosted_browser_chromium.cjs
+      - name: Stop test server
+        if: always()
+        run: |
+          if test -f /tmp/dd-r3-hosted.pid; then kill "$(cat /tmp/dd-r3-hosted.pid)" || true; fi
+# NO Netlify build, database migration, real-account writes, public APK, or deploy.
