@@ -152,6 +152,518 @@ function renderList(items,opts={}){
   (x.kind?'<span class="muted small"> · '+esc(x.kind)+'</span>':'')+'</li>').join('')+'</ul>':
   '<p class="muted small">'+(opts.empty||'No independently confirmed links in this research profile.')+'</p>';
 }
+// Evidence strength is attributed to an individual public claim, never a person.
+// All numeric output requires an explicit editor-reviewed, source-linked gate.
+const EVIDENCE_RUBRIC=Object.freeze([
+ {key:'original',label:'Original claim recorded in context',max:25},
+ {key:'independent',label:'Independent corroboration',max:30},
+ {key:'direct',label:'Inspectible supporting records / data',max:25},
+ {key:'testable',label:'Specificity and independent testability',max:10},
+ {key:'alternatives',label:'Alternative explanations and contrary evidence',max:10}
+]);
+// Every scored criterion must point to named, publicly inspectable evidence.
+// A source's publication proves only what the source reports; review notes
+// explicitly distinguish this from proof of the underlying UAP explanation.
+const EVIDENCE_STANCES=Object.freeze({
+ supports:'Supports an aspect of the claim',
+ challenges:'Challenges or conflicts with the claim',
+ alternative:'Alternative interpretation',
+ context:'Establishes context or what was said'
+});
+const EVIDENCE_TYPES=Object.freeze({
+ primary:'Original statement, testimony or document',
+ records:'Independent records / measurements',
+ analysis:'Published technical analysis',
+ reporting:'Attributable reporting'
+});
+function publishedEvidenceTrail(claim){
+ const r=claim?.review;
+ const entries=r?.evidenceTrail;
+ if(!Array.isArray(entries)||entries.length===0||entries.length>35||
+    typeof r.scopeNote!=='string'||r.scopeNote.trim().length<35||
+    typeof r.limitations!=='string'||r.limitations.trim().length<35||
+    typeof r.revision!=='string'||r.revision.trim().length<3)return null;
+ const ids=new Set(),linked=new Set();
+ for(const e of entries){
+  if(!e||typeof e.id!=='string'||!/^[a-z0-9][a-z0-9-]{2,65}$/.test(e.id)||ids.has(e.id)||
+   !EVIDENCE_STANCES[e.stance]||!EVIDENCE_TYPES[e.type]||
+   e.access!=='public'||!safeUrl(e.url)||
+   typeof e.title!=='string'||e.title.trim().length<8||
+   typeof e.locator!=='string'||e.locator.trim().length<3||
+   typeof e.reviewNote!=='string'||e.reviewNote.trim().length<25||
+   typeof e.checkedAt!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(e.checkedAt))return null;
+  ids.add(e.id);
+  if(e.type==='primary')linked.add(safeUrl(e.url));
+ }
+ const original=Array.isArray(claim?.sources)?claim.sources.filter(s=>s?.kind==='primary'&&safeUrl(s.url)).map(s=>safeUrl(s.url)):[];
+ if(!original.some(url=>linked.has(url)))return null;
+ if(!r.criterionSources||EVIDENCE_RUBRIC.some(row=>{
+  const refs=r.criterionSources[row.key];
+  return !Array.isArray(refs)||!refs.length||refs.length>15||
+   refs.some(id=>typeof id!=='string'||!ids.has(id));
+ }))return null;
+ return entries;
+}
+function evidenceTrailHtml(claim,review,entries){
+ const byId=new Map(entries.map(e=>[e.id,e]));
+ const criterion=EVIDENCE_RUBRIC.map(row=>{
+  const points=review.points[row.key];
+  const refs=review.criterionSources[row.key].map(id=>byId.get(id)).filter(Boolean);
+  return '<div class="claim-metric"><div class="claim-metric-head"><span>'+esc(row.label)+'</span>'+
+    '<strong>'+points+' / '+row.max+'</strong></div>'+
+    '<div class="claim-track" role="img" aria-label="'+esc(row.label+': '+points+' of '+row.max)+'">'+
+    '<span style="width:'+((points/row.max)*100).toFixed(1)+'%"></span></div>'+
+    '<p>'+esc(review.rationale[row.key])+'</p>'+
+    '<p class="muted small">Evidence considered: '+refs.map(e=>'<a href="'+esc(safeUrl(e.url))+
+      '" target="_blank" rel="noopener noreferrer">'+esc(e.title)+' ('+esc(e.locator)+') ↗</a>').join(' · ')+'</p></div>';
+ }).join('');
+ const groups=[
+  ['supports','Supporting material'],
+  ['challenges','Conflicting or challenging material'],
+  ['alternative','Alternative interpretations'],
+  ['context','Original statements and context']
+ ].map(([type,label])=>{
+  const group=entries.filter(e=>e.stance===type);
+  if(!group.length)return '';
+  return '<section class="claim-evidence-group"><h5>'+label+'</h5><ul class="claim-evidence-list">'+
+   group.map(e=>'<li><strong>'+esc(e.title)+'</strong>'+
+    '<span class="muted small"> · '+esc(EVIDENCE_TYPES[e.type])+' · '+esc(EVIDENCE_STANCES[e.stance])+'</span>'+
+    '<p class="muted small">Find it: '+esc(e.locator)+' · Source checked '+esc(e.checkedAt)+'</p>'+
+    '<p>'+esc(e.reviewNote)+'</p>'+
+    '<a href="'+esc(safeUrl(e.url))+'" target="_blank" rel="noopener noreferrer">Inspect original evidence ↗</a></li>').join('')+
+   '</ul></section>';
+ }).join('');
+ return '<p class="muted small"><strong>Review scope:</strong> '+esc(review.scopeNote)+'</p>'+
+  '<p class="muted small"><strong>What remains uncertain:</strong> '+esc(review.limitations)+'</p>'+
+  '<h5>How each criterion was scored</h5>'+criterion+
+  '<h5>All material considered</h5>'+groups+
+  '<p class="muted small">Review: '+esc(review.reviewer)+' · '+esc(review.reviewedAt)+
+  ' · Edition '+esc(review.revision)+' · Method: '+esc(review.methodology)+'</p>'+
+  '<p class="muted small">Records are classified by how they relate to this specific claim, not as proof of a particular explanation. Original publishers control access and copyright; a link may change or become unavailable later.</p>';
+}
+function sourceAuditDraftHtml(claim){
+ const d=claim?.sourceAudit;
+ if(!d||d.status!=='original_record_comparison_draft'||d.reviewerSignoff!=='not_obtained'||
+   !/^\d{4}-\d{2}-\d{2}$/.test(d.checkedAt||'')||
+   !d.original||!safeUrl(d.original.url)||
+   typeof d.original.locator!=='string'||d.original.locator.trim().length<25||
+   typeof d.original.assessment!=='string'||d.original.assessment.trim().length<75||
+   [d.independentEvidence,d.competingRecord,d.missingEvidence].some(v=>typeof v!=='string'||v.trim().length<75)||
+   (d.relatedSourceGroup!==null && d.relatedSourceGroup!==undefined &&
+    (typeof d.relatedSourceGroup!=='string'||!/^[a-z0-9-]{8,80}$/.test(d.relatedSourceGroup))))return '';
+ return '<section class="claim-audit-draft" aria-label="Original-record source comparison, review pending">'+
+  '<h5>Original-record comparison · first pass</h5>'+
+  '<p class="claim-draft-warning"><strong>Unsigned research check — not a scored or independently approved finding.</strong> This compares what is in the public record with what the underlying evidence can actually establish. It does not calculate a probability or rate anyone’s honesty.</p>'+
+  '<p class="muted small">Record consulted '+esc(d.checkedAt)+' · Independent second-editor signoff: <strong>Pending</strong></p>'+
+  '<p><strong>What the original record establishes:</strong> '+esc(d.original.assessment)+'</p>'+
+  '<p class="muted small"><strong>Exact record location:</strong> '+esc(d.original.locator)+
+   ' · <a href="'+esc(safeUrl(d.original.url))+'" target="_blank" rel="noopener noreferrer">Read original record ↗</a></p>'+
+  '<p><strong>Independent evidence versus repeat reporting:</strong> '+esc(d.independentEvidence)+'</p>'+
+  '<p><strong>What alternative or challenging material establishes:</strong> '+esc(d.competingRecord)+'</p>'+
+  '<p><strong>What remains unavailable or unverified:</strong> '+esc(d.missingEvidence)+'</p>'+
+ '</section>';
+}
+// Claim-by-claim editorial triage explains whether an EVENT evidence metric
+// would be meaningful. It does not authorize scoring or create any real votes.
+const READINESS_ROUTES=Object.freeze({
+ incident_evidence_review_pending:'Incident evidence review still required',
+ documentary_source_review_pending:'Documentary source corroboration still required',
+ method_specific_review_pending:'Scientific or method-specific review still required',
+ not_applicable_to_incident_score:'Not applicable to an incident evidence percentage'
+});
+const READINESS_TYPES=Object.freeze([
+ 'incident_or_observation','institutional_programme_allegation',
+ 'reporting_or_source_claim','technical_or_scientific_analysis',
+ 'policy_or_records_access','retrospective_case_interpretation'
+]);
+const PRIMARY_ACCESS_STATUSES=Object.freeze({
+ official_written_record_first_pass:'Official written testimony — first pass only',
+ publisher_text_first_pass:'Original publisher text — first pass only',
+ original_master_or_full_video_not_verified:'Full original recording or master still unverified',
+ partial_original_or_abstract_only:'Original document or methods only partly accessible'
+});
+function ratingReadinessHtml(claim){
+ const d=claim?.ratingReadiness;
+ if(!d||d.status!=='first_pass_triage'||d.publicationApproval!=='withheld'||
+   d.secondEditor!=='not_assigned'||!/^\d{4}-\d{2}-\d{2}$/.test(d.date||'')||
+   !READINESS_TYPES.includes(d.claimType)||
+   !Object.hasOwn(READINESS_ROUTES,d.scorePath)||
+   !Object.hasOwn(PRIMARY_ACCESS_STATUSES,d.primarySourceAccess)||
+   typeof d.reason!=='string'||d.reason.trim().length<90||
+   typeof d.requiredNextCheck!=='string'||d.requiredNextCheck.trim().length<70)return '';
+ return '<section class="claim-readiness-draft" aria-label="Editorial scoring suitability triage — pending">'+
+  '<h5>Is an evidence percentage appropriate for this claim?</h5>'+
+  '<p class="claim-draft-warning"><strong>'+esc(READINESS_ROUTES[d.scorePath])+'.</strong> Editorial triage only; no numerical claim assessment or community vote is approved.</p>'+
+  '<p><strong>What could be assessed:</strong> '+esc(d.reason)+'</p>'+
+  '<p class="muted small"><strong>Access to original:</strong> '+esc(PRIMARY_ACCESS_STATUSES[d.primarySourceAccess])+'</p>'+
+  '<p><strong>Before any rating:</strong> '+esc(d.requiredNextCheck)+'</p>'+
+  '<p class="muted small">Triage '+esc(d.date)+' · Independent reviewer: <strong>Not assigned</strong> · Approval: withheld. This is a classification of the research task, not of anyone’s honesty or reliability.</p>'+
+ '</section>';
+}
+
+// M16 original-source access is a reader-facing transparency log, NOT
+// independent corroboration or a signed editorial verification.
+const SOURCE_ACCESS_LABELS=Object.freeze({
+ full_original_recheck_pending:'Full original recheck still pending',
+ original_page_fetch_unavailable:'Original-source access unavailable in this check',
+ publisher_video_metadata_verified:'Publisher video and chapter metadata checked (not full footage)',
+ official_hearing_transcript_retrieved:'Government hearing transcript text accessible (not event confirmation)',
+ publisher_original_article_retrieved:'Original signed publisher article accessible (not independent source validation)',
+ publisher_original_article_landing_retrieved:'Original paper abstract accessible (complete methods not reviewed)',
+ publisher_original_interview_transcript_retrieved:'Original broadcast interview transcript accessible (footage/data not fully checked)',
+ official_written_testimony_pdf_selected_pages_inspected:'Original House written testimony PDF — selected pages visually inspected',
+ original_technical_analysis_post_retrieved:'Original technical analysis post and model links accessible (model not independently run)',
+ original_author_opinion_text_retrieved:'Original author policy opinion accessible (not legal finding)',
+ original_peer_reviewed_paper_pdf_selected_pages_inspected:'Original peer-reviewed PDF — selected pages visually inspected, no replication',
+ contemporaneous_reporting_full_text_retrieved:'Contemporaneous publisher report accessible (allegations unverified)',
+ original_film_director_interview_pages_retrieved:'Original filmmaker interviews accessible (film witness footage not viewed)',
+ journal_original_page_indexed_direct_fetch_blocked:'Journal article indexed, original publisher direct access blocked',
+ original_author_page_indexed_direct_fetch_blocked:'Original author essay indexed, canonical page directly blocked',
+ original_author_page_text_retrieved:'Original author essay directly accessible (historic case independently unverified)'
+});
+function sourceAccessCheckHtml(claim){
+ const r=claim?.sourceAccessCheck;
+ if(!r || r.reviewStage!=='m16_source_access_only' || r.fullOriginalReviewed!==false ||
+    r.secondEditorSignoff!=='not_obtained' ||
+    !Object.hasOwn(SOURCE_ACCESS_LABELS,r.status) ||
+    !safeUrl(r.primaryUrl) || r.primaryUrl!==claim?.sourceAudit?.original?.url ||
+    (r.checkedAt!==null && !/^\d{4}-\d{2}-\d{2}$/.test(r.checkedAt||'')) ||
+    (r.status==='full_original_recheck_pending' ? r.checkedAt!==null : r.checkedAt===null) ||
+    (r.referenceUrl!==null && !safeUrl(r.referenceUrl)) ||
+    (r.locator!==undefined&&(typeof r.locator!=='string'||r.locator.trim().length<20)) ||
+    typeof r.observation!=='string' || r.observation.trim().length<85 ||
+    typeof r.nextAction!=='string' || r.nextAction.trim().length<75)return '';
+ return '<section class="claim-source-access" aria-label="Original-source access status">'+
+  '<h5>Original source access &amp; verification status</h5>'+
+  '<p class="muted small"><strong>'+esc(SOURCE_ACCESS_LABELS[r.status])+'</strong> · Full original reviewed: <strong>No</strong> · Independent approval: <strong>Pending</strong></p>'+
+  '<p>'+esc(r.observation)+'</p>'+
+  (r.locator?'<p class="muted small"><strong>Where in source:</strong> '+esc(r.locator)+'</p>':'')+
+  '<p><strong>What to verify next:</strong> '+esc(r.nextAction)+'</p>'+
+  '<p class="muted small"><a href="'+esc(safeUrl(r.primaryUrl))+'" target="_blank" rel="noopener noreferrer">Inspect linked original source ↗</a>'+
+   (r.referenceUrl?' · <a href="'+esc(safeUrl(r.referenceUrl))+'" target="_blank" rel="noopener noreferrer">Supporting access or context record ↗</a>':'')+
+   (r.checkedAt?' · Checked '+esc(r.checkedAt):' · New direct-access check pending')+'</p>'+
+ '</section>';
+}
+
+function draftEvidenceTrailHtml(claim){
+ const draft=claim?.researchEvidence;
+ if(draft?.status!=='research_draft'||!Array.isArray(draft.items)||draft.items.length>20||
+    typeof draft.editorialNote!=='string'||draft.editorialNote.trim().length<35)return '';
+ const entries=draft.items.filter(e=>e&&
+   typeof e.id==='string'&&/^[a-z0-9][a-z0-9-]{2,65}$/.test(e.id)&&
+   EVIDENCE_STANCES[e.stance]&&EVIDENCE_TYPES[e.type]&&e.access==='public'&&
+   safeUrl(e.url)&&typeof e.title==='string'&&e.title.trim().length>=8&&
+   typeof e.locator==='string'&&e.locator.trim().length>=3&&
+   typeof e.reviewNote==='string'&&e.reviewNote.trim().length>=25&&
+   typeof e.checkedAt==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(e.checkedAt));
+ if(!entries.length)return '';
+ const items=entries.map(e=>
+   '<li><strong>'+esc(e.title)+'</strong>'+
+   '<span class="muted small"> · '+esc(EVIDENCE_TYPES[e.type])+' · '+esc(EVIDENCE_STANCES[e.stance])+'</span>'+
+   '<p class="muted small">Find it: '+esc(e.locator)+' · Link consulted '+esc(e.checkedAt)+'</p>'+
+   '<p>'+esc(e.reviewNote)+'</p>'+
+   '<a href="'+esc(safeUrl(e.url))+'" target="_blank" rel="noopener noreferrer">Read original source ↗</a></li>'
+ ).join('');
+ return '<p class="claim-draft-warning"><strong>Research notes — NOT a completed evidence review.</strong> The links below include original reporting and broader context. Listing a document does not establish that the underlying event occurred, or that conflicting interpretations have been fully checked.</p>'+
+  sourceAuditDraftHtml(claim)+
+  ratingReadinessHtml(claim)+
+  sourceAccessCheckHtml(claim)+
+  '<p class="muted small"><strong>Open questions:</strong> '+esc(draft.editorialNote)+'</p>'+
+  '<h5>Public materials consulted (provisional)</h5><ul class="claim-evidence-list">'+items+'</ul>'+
+  '<p class="muted small">No criterion-by-criterion points or community votes are available until a separate source-and-editorial approval.</p>';
+}
+function publishedClaimReview(claim){
+ // Research-policy recommendations and unknown claim categories must never
+ // receive a fabricated 0–100 physical-evidence assessment.
+ // Explicitly signed approval records are mandatory; missing metadata is NOT approval.
+ // A pending, policy-only or unverified-original claim must never display points or voting.
+ if(claim?.claimKind!=='public_claim')return null;
+ const readiness=claim?.ratingReadiness;
+ if(!readiness||readiness.status!=='independently_approved'||
+    readiness.publicationApproval!=='granted'||readiness.secondEditor!=='approved'||
+    !['incident_evidence_review_approved','documentary_source_review_approved','method_specific_review_approved'].includes(readiness.scorePath))return null;
+ const originalAccess=claim?.sourceAccessCheck;
+ if(!originalAccess||originalAccess.fullOriginalReviewed!==true||
+    originalAccess.secondEditorSignoff!=='approved')return null;
+ const r=claim?.review;
+ if(!r||r.status!=='published'||r.methodology!=='dd-claim-evidence-v1')return null;
+ if(typeof r.reviewer!=='string'||r.reviewer.trim().length<5||
+    typeof r.reviewedAt!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(r.reviewedAt))return null;
+ if(!r.editorialChecks||!['sourceVerified','claimContextChecked','contraryEvidenceReviewed','secondEditorApproved'].every(k=>r.editorialChecks[k]===true))return null;
+ const sources=Array.isArray(claim.sources)?claim.sources:[];
+ if(!sources.some(s=>s?.kind==='primary'&&safeUrl(s.url)&&s.label))return null;
+ if(!r.points||!r.rationale)return null;
+ if(!publishedEvidenceTrail(claim))return null;
+ if(EVIDENCE_RUBRIC.some(row=>!Number.isInteger(r.points[row.key])||
+   r.points[row.key]<0||r.points[row.key]>row.max||
+   typeof r.rationale[row.key]!=='string'||r.rationale[row.key].trim().length<20))return null;
+ return r;
+}
+const scoreableClaimId=id=>typeof id==='string'&&/^[a-z0-9][a-z0-9-]{6,85}$/.test(id);
+const communityClaimEligible=claim=>publishedClaimReview(claim)!==null&&claim?.status==='source_verified'&&
+  claim?.sourceReviewApproved===true&&scoreableClaimId(claim.id)&&
+  Array.isArray(claim.sources)&&claim.sources.some(x=>x?.kind==='primary'&&safeUrl(x.url)&&x.label);
+let communityClient=null;
+function communityDb(){
+ const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
+ const active=window.DD_COMMUNITY_FEATURES?.voting===true&&
+   ['production','test'].includes(cfg.environment);
+ if(!active||!cfg.url||!cfg.publishableKey||!window.supabase?.createClient)return null;
+ return communityClient||(communityClient=window.supabase.createClient(cfg.url,cfg.publishableKey,{
+  auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}
+ }));
+}
+async function hydrateCommunityRatings(){
+ const target=$('profileEvidenceReviews');
+ if(!target?.querySelectorAll)return;
+ const roots=[...target.querySelectorAll('[data-evidence-claim-id]')];
+ if(!roots.length)return;
+ const db=communityDb();
+ if(!db){for(const root of roots)root.querySelector('[data-rating-summary]').textContent='Community voting is not available yet.';return;}
+ const ids=roots.map(n=>n.dataset.evidenceClaimId).filter(scoreableClaimId);
+ let rows=[];
+ try{
+  const {data,error}=await db.rpc('dd_who_claim_rating_summary',{p_claim_ids:ids});
+  if(error)throw error;
+  rows=Array.isArray(data)?data:[];
+ }catch{
+  for(const root of roots)if(root.isConnected)root.querySelector('[data-rating-summary]').textContent='Community rating unavailable. Your vote has not been changed.';
+  return;
+ }
+ let member=null;
+ try{const {data,error}=await db.auth.getUser();if(!error&&!data?.user?.is_anonymous)member=data?.user||null}catch{}
+ for(const root of roots){
+  if(!root.isConnected || !selected || !selected.claimEvidence?.some(c=>c.id===root.dataset.evidenceClaimId))continue;
+  const row=rows.find(r=>r.claim_id===root.dataset.evidenceClaimId);
+  const info=root.querySelector('[data-rating-summary]');
+  const count=Math.max(0,Math.floor(Number(row?.rating_count||0)));
+  const mean=Number(row?.community_mean);
+  const showMean=count>=5&&row?.community_mean!==null&&row?.community_mean!==undefined&&Number.isFinite(mean)&&mean>=0&&mean<=100;
+  info.textContent=showMean?mean.toFixed(1)+'/100 · '+count+' member ratings':
+    count>0?count+' rating'+(count===1?'':'s')+' · Average shown after 5 ratings':'No community ratings yet';
+  const label=root.querySelector('[data-rating-control]');
+  if(!member){label.hidden=true;root.querySelector('[data-rating-notice]').textContent='Sign in under Boards → Account to rate this claim’s supporting evidence.';continue;}
+  label.hidden=false;
+  const mine=Number(row?.my_rating);
+  if(row?.my_rating!==null&&row?.my_rating!==undefined&&Number.isFinite(mine)&&mine>=0&&mine<=100){
+   label.querySelector('[data-rating-slider]').value=String(mine);
+   label.querySelector('[data-rating-number]').textContent=String(mine);
+  }
+  root.querySelector('[data-rating-notice]').textContent='One rating per account and claim; updates are subject to a cooldown.';
+  const slider=label.querySelector('[data-rating-slider]'),amount=label.querySelector('[data-rating-number]');
+  slider.addEventListener('input',()=>{amount.textContent=String(slider.value)});
+  const button=label.querySelector('[data-rating-save]');
+  button.addEventListener('click',async()=>{
+   if(button.disabled)return;
+   button.disabled=true;
+   const notice=root.querySelector('[data-rating-notice]');
+   notice.textContent='Submitting rating…';
+   try{
+    const score=Number(slider.value);
+    if(!Number.isInteger(score)||score<0||score>100)throw Error('Invalid rating');
+    const verify=await db.auth.getUser();
+    if(verify.error||!verify.data?.user||verify.data.user.is_anonymous)throw Error('Sign in again before rating.');
+    const {error}=await db.rpc('dd_who_claim_rating_set',{
+     p_claim_id:root.dataset.evidenceClaimId,p_rating:score
+    });
+    if(error)throw error;
+    notice.textContent='Rating submitted. Refreshing community average…';
+    const refreshed=await db.rpc('dd_who_claim_rating_summary',{p_claim_ids:[root.dataset.evidenceClaimId]});
+    if(refreshed.error)throw refreshed.error;
+    const next=Array.isArray(refreshed.data)?refreshed.data[0]:null;
+    if(next&&root.isConnected){
+     const n=Math.max(0,Math.floor(Number(next.rating_count||0)));
+     const v=Number(next.community_mean);
+     info.textContent=n>=5&&next.community_mean!=null&&Number.isFinite(v)?v.toFixed(1)+'/100 · '+n+' member ratings':
+       n? n+' rating'+(n===1?'':'s')+' · Average shown after 5 ratings':'No community ratings yet';
+    }
+    notice.textContent='Your rating has been received. You can change it after the cooldown.';
+   }catch{
+    notice.textContent='Rating not confirmed. Check your connection and refresh the current vote before retrying.';
+   }finally{button.disabled=false}
+  });
+ }
+}
+// Source-backed role or legislative record, deliberately independent from
+// extraordinary-event claim scoring and any member rating controls.
+const PUBLIC_ROLE_KINDS=Object.freeze({
+ institutional_role:'NASA study role',
+ legislative_role:'Congressional task-force role',
+ legislative_action:'Legislative action',
+ congressional_oversight:'Congressional oversight'
+});
+function renderPublicRoleEvidence(person){
+ const role=person?.roleEvidence;
+ if(!role||role.status!=='official_source_crosscheck'||
+    !Object.hasOwn(PUBLIC_ROLE_KINDS,role.kind)||
+    typeof role.title!=='string'||role.title.trim().length<12||
+    typeof role.description!=='string'||role.description.trim().length<60||
+    !/^\d{4}-\d{2}-\d{2}$/.test(role.eventDate||'')||
+    !Array.isArray(role.sources)||role.sources.length<2||role.sources.length>8)return '';
+ const sources=role.sources.filter(s=>s&&safeUrl(s.url)&&
+   typeof s.title==='string'&&s.title.trim().length>=8&&
+   typeof s.locator==='string'&&s.locator.trim().length>=6&&
+   typeof s.note==='string'&&s.note.trim().length>=25&&
+   /^\d{4}-\d{2}-\d{2}$/.test(s.checkedAt||''));
+ if(sources.length<2)return '';
+ return '<article class="claim-role-card" aria-label="Public documentary role evidence">'+
+  '<div class="claim-status">'+esc(PUBLIC_ROLE_KINDS[role.kind])+' · '+esc(role.eventDate)+'</div>'+
+  '<h4>'+esc(role.title)+'</h4>'+
+  '<p>'+esc(role.description)+'</p>'+
+  '<p class="claim-role-caution"><strong>Not an incident evidence score.</strong> Official records establish the role or legislative action; they do not independently verify reported UAP events, endorsements of every argument or the origins of unidentified objects. This source cross-check is not a completed biography/portrait-rights review.</p>'+
+  '<details class="claim-evidence-details"><summary>Inspect original role &amp; legislative records ('+sources.length+')</summary>'+
+   '<ul class="claim-evidence-list">'+sources.map(x=>'<li><strong>'+esc(x.title)+'</strong>'+
+    '<p class="muted small">Where to look: '+esc(x.locator)+' · Checked '+esc(x.checkedAt)+'</p>'+
+    '<p>'+esc(x.note)+'</p>'+
+    '<a href="'+esc(safeUrl(x.url))+'" target="_blank" rel="noopener noreferrer">Read official source ↗</a></li>').join('')+'</ul>'+
+  '</details>'+
+  '<p class="muted small"><strong>Scoring:</strong> Not applicable to an official role or policy action. Separate specific public incident claims, where applicable, require their own sourced review.</p>'+
+ '</article>';
+}
+// First-party publications and attributed testimony are not verified incidents.
+// Neither careers nor publications are person-wide credibility/voting categories.
+const PUBLIC_WORK_KINDS=Object.freeze({
+ journalism:'Journalistic reporting',
+ documentary_reporting:'Documentary and interviews',
+ technical_critique:'Published technical critique',
+ contested_first_person_claim:'Historical or first-person account',
+ organized_public_claim:'Public testimony event',
+ government_policy_reporting:'Policy reporting and documentaries',
+ academic_research:'Scientific research programme',
+ published_research:'Public research and books',
+ historical_public_work:'Historical archive and published work',
+ archive_research:'Records and FOIA research'
+});
+const PUBLIC_SOURCE_CLASSES=Object.freeze({
+ publisher:'Original publisher or syndicated reporting',
+ first_party:'First-party biography or publication index',
+ institutional:'Institutional or government source',
+ archive:'Historical source archive'
+});
+function renderPublicWorkEvidence(person){
+ const r=person?.publicWorkEvidence;
+ if(!r||r.status!=='research_links_indexed'||
+  !Object.hasOwn(PUBLIC_WORK_KINDS,r.kind)||
+  typeof r.title!=='string'||r.title.trim().length<12||
+  typeof r.period!=='string'||r.period.trim().length<4||
+  typeof r.description!=='string'||r.description.trim().length<65||
+  typeof r.openQuestions!=='string'||r.openQuestions.trim().length<80||
+  !Array.isArray(r.sources)||r.sources.length<2||r.sources.length>8)return '';
+ const items=r.sources.filter(x=>x&&Object.hasOwn(PUBLIC_SOURCE_CLASSES,x.sourceClass)&&
+   safeUrl(x.url)&&typeof x.title==='string'&&x.title.trim().length>=12&&
+   typeof x.locator==='string'&&x.locator.trim().length>=5&&
+   typeof x.note==='string'&&x.note.trim().length>=45&&
+   typeof x.indexedAt==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(x.indexedAt));
+ if(items.length!==r.sources.length)return '';
+ return '<article class="claim-work-card" aria-label="Original publication research records">'+
+  '<div class="claim-status">'+esc(PUBLIC_WORK_KINDS[r.kind])+' · '+esc(r.period)+'</div>'+
+  '<h4>'+esc(r.title)+'</h4><p>'+esc(r.description)+'</p>'+
+  '<p class="claim-draft-warning"><strong>Source index — NOT an approved case assessment.</strong> An original interview, book, broadcast or paper establishes what was published and by whom. It does not establish the truth of the reported event. Every source and relevant counterargument still requires case-specific editorial review.</p>'+
+  '<details class="claim-evidence-details"><summary>Inspect original publications &amp; source trail ('+items.length+')</summary>'+
+   '<p class="muted small"><strong>Research still needed:</strong> '+esc(r.openQuestions)+'</p>'+
+   '<ul class="claim-evidence-list">'+items.map(x=>'<li><strong>'+esc(x.title)+'</strong>'+
+    '<p class="muted small">'+esc(PUBLIC_SOURCE_CLASSES[x.sourceClass])+' · Find it: '+esc(x.locator)+' · Link indexed '+esc(x.indexedAt)+'</p>'+
+    '<p>'+esc(x.note)+'</p>'+
+    '<a href="'+esc(safeUrl(x.url))+'" target="_blank" rel="noopener noreferrer">Open cited publication or archive ↗</a></li>').join('')+'</ul>'+
+  '</details>'+
+  '<p class="muted small"><strong>Scoring:</strong> Not applicable to a professional career or publication list. Any specific UAP-event claim needs its own independent source review and explicit editorial approval before a 0–100 score or member ballot.</p>'+
+ '</article>';
+}
+// Explain source-limited no-score decisions, not personal credibility judgements.
+function renderEvidenceScope(person){
+ const d=person?.evidenceScope;
+ if(!d||d.status!=='research_scope_draft'||
+  d.classification!=='documented_role_or_publication_only'||
+  d.applicability!=='not_applicable_to_documented_role'||
+  !/^\d{4}-\d{2}-\d{2}$/.test(d.reviewDate||'')||
+  [d.originalRole,d.scope,d.reason,d.nextEvidenceNeeded].some(v=>typeof v!=='string'||v.trim().length<30)||
+  !Array.isArray(d.sourceChecks)||d.sourceChecks.length<2||d.sourceChecks.length>6)return '';
+ const refs=d.sourceChecks.filter(s=>s&&safeUrl(s.url)&&
+  typeof s.title==='string'&&s.title.trim().length>10&&
+  typeof s.locator==='string'&&s.locator.trim().length>=6&&
+  typeof s.interpretation==='string'&&s.interpretation.trim().length>=30);
+ if(refs.length!==d.sourceChecks.length)return '';
+ return '<section class="claim-role-card claim-scope-review" aria-label="Evidence scope and scoring eligibility decision">'+
+  '<div class="claim-status">Research scope check · '+esc(d.reviewDate)+'</div>'+
+  '<h4>Why no event-claim percentage?</h4>'+
+  '<p><strong>Not applicable to the documented role or work.</strong> This is not a 0/100 score for the person. A separate, specific event assertion can still be examined if a suitable primary source is found.</p>'+
+  '<p><strong>What was reviewed:</strong> '+esc(d.scope)+'</p>'+
+  '<p>'+esc(d.reason)+'</p>'+
+  '<details class="claim-evidence-details"><summary>Inspect why this role is not scored ('+refs.length+' source checks)</summary>'+
+   '<p class="muted small"><strong>What further evidence could change the scope:</strong> '+esc(d.nextEvidenceNeeded)+'</p>'+
+   '<ul class="claim-evidence-list">'+refs.map(x=>'<li><strong>'+esc(x.title)+'</strong>'+
+    '<p class="muted small">Locate: '+esc(x.locator)+'</p>'+
+    '<p>'+esc(x.interpretation)+'</p>'+
+    '<a href="'+esc(safeUrl(x.url))+'" target="_blank" rel="noopener noreferrer">Inspect original source ↗</a></li>').join('')+'</ul>'+
+  '</details>'+
+  '<p class="muted small">This is an unsigned research-scoping decision, not a completed independent fact-check, a permanent exclusion or a statement about personal honesty.</p>'+
+ '</section>';
+}
+function renderClaimEvidence(person){
+ const host=$('profileEvidenceReviews');
+ if(!host)return;
+ const roleHtml=renderPublicRoleEvidence(person);
+ const workHtml=renderPublicWorkEvidence(person);
+ const scopeHtml=renderEvidenceScope(person);
+ const claims=Array.isArray(person.claimEvidence)?person.claimEvidence.slice(0,12):[];
+ if(!claims.length){
+  host.innerHTML=roleHtml?
+   roleHtml+scopeHtml+'<p class="note small"><strong>No event-claim score applies to this documented role.</strong> No separate public UAP incident claim has completed editorial review for this person. Official research service, institutional participation and legislation cannot be assigned 0/100 or a community incident rating.</p>':
+   workHtml?
+   workHtml+scopeHtml+'<p class="note small"><strong>Disclosure Desk rating: Not assessed.</strong> Original work and public statements are indexed, but no specific UAP incident has received an approved evidence assessment. A publication list is not a person-wide credibility score and cannot be voted on.</p>':
+   '<p class="note small"><strong>Disclosure Desk rating: Not assessed.</strong> There are no individually reviewed public claims for this profile yet. Community rating is not open on unreviewed statements. Biographies and citations do not constitute a personal score.</p>';
+  return;
+ }
+ host.innerHTML=roleHtml+workHtml+claims.map(claim=>{
+  if(!claim||!claim.statement)return '';
+  const advisory=claim.claimKind==='policy_recommendation';
+  const nonEventMetric=advisory||claim.ratingReadiness?.scorePath==='not_applicable_to_incident_score';
+  const r=publishedClaimReview(claim);
+  const score=r?EVIDENCE_RUBRIC.reduce((a,row)=>a+r.points[row.key],0):null;
+  const allowed=communityClaimEligible(claim);
+  const sources=validLinks(claim.sources);
+  const refs=sources.map(s=>'<li><a href="'+esc(safeUrl(s.url))+'" target="_blank" rel="noopener noreferrer">'+
+    esc(s.label||'Public reference')+' ↗</a> <span class="muted small">· '+esc(s.kind||'Attribution')+'</span>'+
+    (s.context?'<p class="muted small">'+esc(s.context)+'</p>':'')+'</li>').join('');
+  const evidence=r?publishedEvidenceTrail(claim):null;
+  const detailedReview=r?evidenceTrailHtml(claim,r,evidence):'';
+  const sitePanel='<section class="claim-dual-panel"><h5>Disclosure Desk rating</h5>'+
+   (nonEventMetric?'<span class="claim-not-assessed">Not applicable</span>'+
+     '<p class="muted small">This research-policy or records-access assertion is not evidence of an extraordinary incident. The original documents can be inspected below.</p>':
+     r?'<div class="claim-score" aria-label="Public evidence support score '+score+' out of 100">'+score+
+     '<small> /100 · Documented evidence support</small></div>'+
+     '<p class="muted small">Detailed evidence, point-by-point reasoning and original records can be opened below.</p>':
+     '<span class="claim-not-assessed">Not assessed</span>'+
+     '<p class="muted small">Original statement is catalogued; evidence-strength review is pending.</p>')+
+   '</section>';
+  const communityPanel='<section class="claim-dual-panel"><h5>Community rating</h5>'+
+   (allowed?'<div class="claim-community-rating" data-evidence-claim-id="'+esc(claim.id)+'">'+
+      '<p class="muted small" data-rating-summary role="status">Checking community rating…</p>'+
+      '<div data-rating-control hidden><label class="muted small">How strongly does the publicly available evidence support this claim? <strong data-rating-number>50</strong>/100'+
+      '<input type="range" data-rating-slider min="0" max="100" step="5" value="50" aria-label="Community rating for evidence supporting this specific claim"></label>'+
+      '<button type="button" class="btn" data-rating-save>Submit my rating</button></div>'+
+      '<p class="muted small" data-rating-notice aria-live="polite">Checking sign-in and rating availability…</p></div>':
+     (nonEventMetric?'<span class="claim-not-assessed">Not applicable</span><p class="muted small">Incident evidence votes do not apply to policy or record-release recommendations.</p>':
+      '<span class="claim-not-assessed">Voting not open</span><p class="muted small">This claim is still awaiting source and context approval, so no member ratings are collected.</p>'))+
+   '</section>';
+  return '<article class="claim-review" aria-label="Individual public claim evidence review">'+
+    '<div class="claim-status">'+(advisory?'PUBLIC RESEARCH RECOMMENDATION':nonEventMetric?'PUBLIC POLICY / RECORDS-ACCESS CLAIM':'PUBLIC CLAIM')+' · '+esc(claim.date||'Date requires verification')+'</div>'+
+    '<h4>'+esc(claim.statement)+'</h4>'+
+    '<p class="muted small">'+esc(claim.context||'Attribution is not verification of the underlying claim.')+'</p>'+
+    '<div class="claim-dual">'+sitePanel+communityPanel+'</div>'+
+    '<details class="claim-evidence-details"><summary>'+ (r?
+      'View evidence &amp; scoring breakdown':'View original evidence sources (review pending)')+'</summary>'+
+      (r?detailedReview:draftEvidenceTrailHtml(claim)||'<p class="muted small">These are source references to what was publicly said or reported. No completed independent evidence assessment, corroboration audit or scoring conclusion has been published for this claim.</p>')+
+    '</details>'+
+    (nonEventMetric?'<p class="muted small">This is a public policy or documentary-access claim, not a scored incident or a claim about personal credibility.</p>':
+     '<p class="muted small">Both ratings concern supporting evidence for this specific claim, not this person’s trustworthiness or the probability that any extraordinary interpretation is true.</p>')+
+    '<div class="claim-record"><strong>Original statement / public-source references</strong>'+
+    (refs?'<ul class="link-list">'+refs+'</ul>':'<p class="muted small">No primary source has passed editorial review yet.</p>')+
+    '</div></article>';
+ }).join('')||'<p class="muted small">No reviewable claims available.</p>';
+ void hydrateCommunityRatings();
+}
+
 function openPerson(person,updateUrl=true){
  if(!person)return;
  let originAnchor=null;
@@ -173,6 +685,7 @@ function openPerson(person,updateUrl=true){
   appendPortraitCredit(credit,person.photo);
  }
  $('profilePosition').textContent=person.position;
+ renderClaimEvidence(person);
  $('profileContext').textContent=person.context;
  $('profileTags').innerHTML=(person.category||[]).map(c=>'<span class="pill">'+esc(c)+'</span>').join('');
  $('profileSources').innerHTML=validLinks(person.sources).map(x=>'<li><a target="_blank" rel="noopener noreferrer" href="'+esc(safeUrl(x.url))+'">'+esc(x.label)+' ↗</a></li>').join('')||'<li>Source documents awaiting review</li>';
@@ -315,8 +828,12 @@ function fromLocation(){
 }
 $('directoryBack').addEventListener('click',backToDirectory);
  $('profileRelatedCases').addEventListener('click',rememberProfileCaseDeparture);
-$('peopleSearch').addEventListener('input',renderCards);
-$('peopleCategory').addEventListener('change',renderCards);
+// A Back-to-directory return scroll is scheduled over two animation frames.
+// If the visitor immediately types or changes filters, their new interaction wins:
+// never let the stale return animation refocus an old card or jump the list.
+function onDirectoryFilterChanged(){++restoreSequence;renderCards();}
+$('peopleSearch').addEventListener('input',onDirectoryFilterChanged);
+$('peopleCategory').addEventListener('change',onDirectoryFilterChanged);
 window.addEventListener('popstate',fromLocation);
 Promise.all([
  fetch('/data/public-people-directory.json',{cache:'no-store'}).then(resp=>{
