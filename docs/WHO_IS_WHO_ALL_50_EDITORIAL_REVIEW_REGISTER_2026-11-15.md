@@ -110,6 +110,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Outstanding checks:** Only one profile source; seek independent cross-check; Specific draft assertion now documented in milestone 8 ledger; no completed independent evidence signoff.
 
+**Milestone 13 first-pass original-record audit (unsigned):** ABC Australia Media Watch's 28 August 2023 transcript reproduces Coulthart's 26 July 7NEWS public assertion of concealed non-human craft and bodies; the original 7NEWS YouTube player was not directly accessible for full audiovisual verification this pass. Grusch's own reporting/hearing account, Coulthart's re-telling and ABC quoting the clip share source chains and are not separate verified sample recoveries. An AARO historical review offers a scoped official contrary assessment, not conclusive exclusion of every allegation. **Needs:** actual unedited broadcaster video, named firsthand material/programme records, distinct sample chain, second editor. **Rating:** Not assessed.
+
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
 ### 05. Jeremy Corbell (`jeremy-corbell`)
@@ -128,6 +130,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Outstanding checks:** Only one profile source; seek independent cross-check; Initials fallback; suitable verified portrait not yet selected; Specific draft assertion now documented in milestone 8 ledger; no completed independent evidence signoff.
 
+**Milestone 13 first-pass original-record audit (unsigned):** CNN's 31 May 2021 primary broadcast transcript attributes Corbell's more-than-14 USS Omaha object account and beyond-next-generation/transmedium interpretation. CNN separately quoted the Pentagon confirming Navy personnel filmed reference photos/video and UAPTF examined incidents; that did NOT confirm unusual measured capabilities, raw sensor metrics or water entry. Scott Kelly's optical/UAV alternative remains a suggestion, not a forensic finding; related radar and IR clips must not be assumed synchronised. **Needs:** original 2019 ship radar/video/metadata, calibrated time/geometry, second editor. **Rating:** Not assessed.
+
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
 ### 06. George Knapp (`george-knapp`)
@@ -145,6 +149,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - Weaponized — About George Knapp — https://www.weaponizedpodcast.com/about (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Only one profile source; seek independent cross-check; Provisional claim and competing/context evidence are now in the milestone 9 ledger; still no completed scoring review.
+
+**Milestone 13 first-pass original-record audit (unsigned):** The original 9 September 2025 House PDF was visually inspected on pages 1–3; Knapp says he is a journalist, not a UAP eyewitness or whistleblower. His crash-retrieval programme assertion relies on his 1989 Lazar/S-4 reporting, multiple source contacts and accounts of Reid/Cannon/Goldwater conversations, without a public recovered craft or programme authorization. KNPR's 2018 background checks and AARO's earlier, scoped 2024 historical finding are relevant counter/context records, not proof that any particular hidden source never existed. **Needs:** original broadcast and notes, verifiable source independence, programme documentation/material samples and second editor. **Rating:** Not assessed.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -225,6 +231,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - ABC News — contemporary coverage of 2001 disclosure event — https://abcnews.go.com/Technology/story?id=98572&page=1 (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Specific draft assertion now documented in milestone 8 ledger; no completed independent evidence signoff.
+
+**Milestone 13 first-pass original-record audit (unsigned):** Contemporary ABC News and a separately reported Washington Post on-scene report document Greer's 9 May 2001 National Press Club presentation and assertion that attendees' testimony established alien presence. The approximately 400 potential witnesses are Greer's claimed roster, not an independently verified 400-case dataset; WorldCat catalogues the edited 2001 recording but full footage was not reviewed. The Post reported no forensic evidence exhibited at the event. **Needs:** complete original recording, original named witness data and independent incident corroboration, physical records, second editor. **Rating:** Not assessed.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
