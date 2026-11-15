@@ -240,7 +240,17 @@
         "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:David_Grusch_giving_testimony_on_26_July_2023_before_the_US_House_Subcommittee_on_National_Security_the_Border_and_Foreign_Affairs.png",
         "detail": "Wikimedia Commons file metadata identifies the July 2023 House Oversight hearing still as extracted from a US federal House hearing broadcast and declares public-domain federal status. Recheck whether any embedded third-party material changes reuse treatment.",
-        "finalRightsApproval": false
+        "finalRightsApproval": false,
+        "m26HouseFootageChainCheck": {
+          "groupFile": "https://commons.wikimedia.org/wiki/File:US_congressional_hearing_on_UAPs_on_26_July_2023_with_Grusch_Graves_and_Fravor.png",
+          "checkedAt": "2026-11-15",
+          "originalMedium": "U.S. House Oversight committee hearing video 26 July 2023; Commons says group screenshot was extracted from original WebM.",
+          "commonsListedRight": "Public domain in US: Commons lists federal-government-authored hearing still, citing 17 USC 105.",
+          "legalQualification": "Wikimedia metadata is evidence of a claimed licence, not an independent determination that all video frames/crops/derivative portrait and non-US/personality rights are cleared.",
+          "independentFinalReviewer": "not_obtained",
+          "permissionToPublishNewPortrait": false,
+          "finding": "The individual David Grusch Commons file identifies House-subcommittee recorded footage, 26 July 2023, with US-federal public-domain metadata; its publication chain was directly inspected, but this is not a signed legal/photo approval."
+        }
       }
     },
     {
@@ -513,7 +523,17 @@
         "detail": "Commons file lists an extracted still from the 26 July 2023 House Oversight hearing (webm), attributed to House committee, and US federal public-domain status. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
         "finalRightsApproval": false,
         "independentRightsReviewer": "not_assigned",
-        "rightsFollowup": null
+        "rightsFollowup": null,
+        "m26HouseFootageChainCheck": {
+          "groupFile": "https://commons.wikimedia.org/wiki/File:US_congressional_hearing_on_UAPs_on_26_July_2023_with_Grusch_Graves_and_Fravor.png",
+          "checkedAt": "2026-11-15",
+          "originalMedium": "U.S. House Oversight committee hearing video 26 July 2023; Commons says group screenshot was extracted from original WebM.",
+          "commonsListedRight": "Public domain in US: Commons lists federal-government-authored hearing still, citing 17 USC 105.",
+          "legalQualification": "Wikimedia metadata is evidence of a claimed licence, not an independent determination that all video frames/crops/derivative portrait and non-US/personality rights are cleared.",
+          "independentFinalReviewer": "not_obtained",
+          "permissionToPublishNewPortrait": false,
+          "finding": "Commons group image links to a Ryan Graves cropped still. Its individual source page was not directly retrievable in this review; do not treat the group listing as independent verification of the crop licence/chain."
+        }
       }
     },
     {
@@ -750,7 +770,18 @@
         "checkedAt": null,
         "sourceUrl": null,
         "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
-        "finalRightsApproval": false
+        "finalRightsApproval": false,
+        "m26HouseFootageChainCheck": {
+          "groupFile": "https://commons.wikimedia.org/wiki/File:US_congressional_hearing_on_UAPs_on_26_July_2023_with_Grusch_Graves_and_Fravor.png",
+          "checkedAt": "2026-11-15",
+          "originalMedium": "U.S. House Oversight committee hearing video 26 July 2023; Commons says group screenshot was extracted from original WebM.",
+          "commonsListedRight": "Public domain in US: Commons lists federal-government-authored hearing still, citing 17 USC 105.",
+          "legalQualification": "Wikimedia metadata is evidence of a claimed licence, not an independent determination that all video frames/crops/derivative portrait and non-US/personality rights are cleared.",
+          "independentFinalReviewer": "not_obtained",
+          "permissionToPublishNewPortrait": false,
+          "finding": "The group still identifies Fravor, but NO standalone crop or source/master reuse identity/legal audit was completed. Keep initials fallback; consider a separately documented crop only after a rights reviewer signs off."
+        },
+        "rightsFollowup": "Possible government-source hearing still: Commons group screenshot from 26 July 2023 House hearing is listed US-federal public domain. Check original WebM frame provenance, actual camera copyright, identity/crop and personality rights; independent photo signoff before changing initials."
       }
     },
     {
