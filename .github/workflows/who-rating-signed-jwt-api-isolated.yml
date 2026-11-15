@@ -1,0 +1,109 @@
+# M23 Who's Who: disposable Postgres + real local PostgREST JWT verification only.
+# No connected Supabase project, Netlify deployment, production account or secrets.
+name: "Who Evidence M23 — signed JWT & PostgREST HTTP (NO DEPLOY)"
+on:
+  push:
+    branches:
+      - feature/who-evidence-score-framework-20261115
+    paths:
+      - .github/workflows/who-rating-signed-jwt-api-isolated.yml
+      - scripts/who_rating_ephemeral_pg_bootstrap.sql
+      - scripts/who_rating_signed_jwt_http_seed.sql
+      - scripts/test_who_rating_postgrest_jwt_http.cjs
+      - docs/WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: who-m23-signed-jwt-http-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  isolated-signed-http:
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: '5432'
+      PGDATABASE: who_evidence_ci
+      PGUSER: postgres
+      PGPASSWORD: m22-ci-synthetic-only
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: who_evidence_ci
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: m22-ci-synthetic-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d who_evidence_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    steps:
+      - name: Source checkout (no persistent GitHub credentials)
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Node 22 and Postgres client
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify isolated branch, loopback and ephemeral database
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/feature/who-evidence-score-framework-20261115"
+          test "$PGHOST" = "127.0.0.1"
+          test "$PGDATABASE" = "who_evidence_ci"
+          node --check scripts/test_who_rating_postgrest_jwt_http.cjs
+          if ! command -v psql >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq postgresql-client
+          fi
+          psql -X -v ON_ERROR_STOP=1 -Atc "select current_database()" | grep -x who_evidence_ci
+      - name: Initialise synthetic auth and UNAPPLIED draft in temporary Postgres
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -f scripts/who_rating_ephemeral_pg_bootstrap.sql
+          psql -X -v ON_ERROR_STOP=1 -f docs/WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql
+          psql -X -v ON_ERROR_STOP=1 -f scripts/who_rating_signed_jwt_http_seed.sql
+      - name: Start pinned PostgREST solely on runner loopback
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run -d --name who-m23-pgrst --network host \
+            -e PGRST_DB_URI="postgres://authenticator:m23-ephemeral-only-pgrst@127.0.0.1:5432/who_evidence_ci" \
+            -e PGRST_DB_SCHEMAS=public \
+            -e PGRST_DB_ANON_ROLE=anon \
+            -e PGRST_SERVER_HOST=127.0.0.1 \
+            -e PGRST_SERVER_PORT=3207 \
+            -e PGRST_JWT_AUD=authenticated \
+            -e PGRST_JWT_SECRET=m23-CI-TEST-only-LOCAL-key-not-a-real-secret-832adc7896 \
+            postgrest/postgrest:v14.18 >/dev/null
+          ready=0
+          for i in $(seq 1 40); do
+            if curl -fsS --max-time 2 -o /dev/null http://127.0.0.1:3207/ ; then
+              ready=1; break
+            fi
+            sleep 1
+          done
+          if test "$ready" -ne 1; then
+            docker logs who-m23-pgrst --tail 100
+            exit 1
+          fi
+          echo "Isolated PostgREST ready with test signing key; public schema only."
+      - name: Verify signed JWT, expired/forged token denial and private RPC permissions
+        run: node scripts/test_who_rating_postgrest_jwt_http.cjs
+      - name: Stop isolated API container
+        if: always()
+        shell: bash
+        run: |
+          docker rm -f who-m23-pgrst 2>/dev/null || true
+          echo "Synthetic signing key and user UUIDs only; no real Supabase/GoTrue account used."
+          echo "Not a live database migration, production deployment or public rating activation."
