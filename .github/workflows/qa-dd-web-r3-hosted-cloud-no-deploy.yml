@@ -55,6 +55,13 @@ jobs:
           node scripts/audit_public_pages_20261108.cjs
           grep -F 'publish = ".release-staging/public-site"' netlify.toml
           test ! -f .release-staging/public-site/supabase/migrations/20261115003000_r3_private_encrypted_notebooks.sql
+      - name: Independently build production artifact and verify preview-only QA is omitted
+        run: |
+          rm -rf .release-staging .r3-lab-preview
+          CONTEXT=production node scripts/build_public_release.cjs
+          CONTEXT=production node scripts/test_public_release_package.cjs
+          test ! -e .release-staging/public-site/research/r3-lab/hypothesis-session-qa.js
+          ! grep -q 'r3QaPanel' .release-staging/public-site/research/r3-lab/index.html
       - name: Document release scope (not a deploy)
         run: |
           grep -F 'privateChat:enabled' assets/community-test-config.js

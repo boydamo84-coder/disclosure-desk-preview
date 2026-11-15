@@ -23,16 +23,26 @@ for(const f of ['index.html','guide.html','sources.html','investigations.html','
 // server-side engine, SQL schema, private profile, file export or account data.
 for(const f of ['research/r3-lab/index.html','research/r3-lab/hypothesis-ui.js',
  'research/r3-lab/hypothesis-cloud.js','research/r3-lab/hypothesis-vault.js',
- 'research/r3-lab/curated-public-cases.js','research/r3-lab/hypothesis-hosted.css',
- 'research/r3-lab/hypothesis-session-qa.js'])
+ 'research/r3-lab/curated-public-cases.js','research/r3-lab/hypothesis-hosted.css'])
  assert.ok(names.has(f),'Hosted R3 reviewed dependency missing: '+f);
+const production=process.env.CONTEXT==='production';
+if(production)
+ assert.ok(!names.has('research/r3-lab/hypothesis-session-qa.js'),
+  'Production must not ship private QA helper code');
+else assert.ok(names.has('research/r3-lab/hypothesis-session-qa.js'),
+  'Preview must include opt-in QA helper');
 const r3Html=fs.readFileSync(path.join(out,'research/r3-lab/index.html'),'utf8');
 assert.match(r3Html,/data-r3-hosted="true"/);
 assert.match(r3Html,/noindex,nofollow,noarchive/);
 assert.match(r3Html,/\/assets\/community-test-config\.js|\.\.\/\.\.\/assets\/community-test-config\.js/);
 assert.match(r3Html,/r3CloudPanel/);
-assert.match(r3Html,/r3QaPanel/);
-assert.ok(r3Html.includes('hypothesis-session-qa.js'),'Hosted R3 QA script link missing');
+if(production){
+ assert.doesNotMatch(r3Html,/r3QaPanel|r3QaOwnId|hypothesis-session-qa\.js|dd_r3_qa/,
+  'Production must not contain the preview-only account QA UI');
+}else{
+ assert.match(r3Html,/r3QaPanel/);
+ assert.ok(r3Html.includes('hypothesis-session-qa.js'),'Hosted R3 QA script link missing');
+}
 assert.match(r3Html,/integrity="sha384-uteMfOloLDGt042uDz\+xHGF3ym63\/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O"/);
 assert.match(r3Html,/@supabase\/supabase-js@2\.119\.0/,'R3 cloud SDK must stay pinned');
 assert.doesNotMatch(r3Html,/127\.0\.0\.1:4175/,'Hosted R3 must not claim localhost origin');

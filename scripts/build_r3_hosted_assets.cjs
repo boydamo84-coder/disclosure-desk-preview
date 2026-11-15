@@ -13,9 +13,13 @@ module.exports=function buildHostedR3(root,out,manifestFiles){
  const assets=['hypothesis-engine.js','research-gap-finder.js','research-gap-bridge.js',
   'curated-public-cases.js','hypothesis-vault.js','hypothesis-ui.js',
   'hypothesis-ui.css','editorial-dock.css','BUILD_INFO.txt'];
+ // Netlify exposes CONTEXT=production for the published site. Strip all
+ // internal test UI and QA JavaScript from the production artifact; keep it
+ // exclusively for PR deploy previews and local no-deploy verification.
+ const production=process.env.CONTEXT==='production';
  const supplementary=[['experiments/r3/hypothesis-cloud.js','hypothesis-cloud.js'],
   ['experiments/r3/hypothesis-hosted.css','hypothesis-hosted.css'],
-  ['experiments/r3/hypothesis-session-qa.js','hypothesis-session-qa.js']];
+  ...(!production?[['experiments/r3/hypothesis-session-qa.js','hypothesis-session-qa.js']]:[])];
  function add(outputName,data){
   const dest=path.join(siteDir,outputName);
   if(!dest.startsWith(siteDir+path.sep))throw Error('Unsafe R3 public file');
@@ -45,8 +49,8 @@ module.exports=function buildHostedR3(root,out,manifestFiles){
   '<script defer src="../../assets/community-test-config.js"></script>\n'+
   ' <script defer crossorigin="anonymous" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>\n'+
   ' <script defer src="./hypothesis-cloud.js?v='+id+'"></script>\n'+
-  ' <script defer src="./hypothesis-ui.js?v='+id+'"></script>\n'+
-  ' <script defer src="./hypothesis-session-qa.js?v='+id+'"></script>');
+  ' <script defer src="./hypothesis-ui.js?v='+id+'"></script>'+(
+   production?'':'\n <script defer src="./hypothesis-session-qa.js?v='+id+'"></script>'));
  const securityNote=/<p class="security-note" id="privacyWarning">[\s\S]*?<\/p>/;
  if(!securityNote.test(html))throw Error('R3 privacy notice missing');
  html=html.replace(securityNote,
@@ -73,7 +77,7 @@ module.exports=function buildHostedR3(root,out,manifestFiles){
  '<button type="button" class="btn-danger" id="r3CloudDelete" disabled>Delete account backup</button></div>'+
  '<p class="muted small">Not signed in? <a href="/?dd_tab=boards">Go to Boards to sign in</a>, '+
  'then return to Hypothesis Lab. Guest research remains local to this browser.</p></section>';
- const qaPanel='<section class="panel" id="r3QaPanel" aria-labelledby="r3QaHeading" hidden>'+
+ const qaPanel=production?'':'<section class="panel" id="r3QaPanel" aria-labelledby="r3QaHeading" hidden>'+
  '<span class="eyebrow">DRAFT PREVIEW ONLY · READ-ONLY QA</span>'+
  '<h2 id="r3QaHeading">Check signed-in account isolation</h2>'+
  '<p class="muted small">Use only fictional encrypted test notebooks. Sign in from <a href="/?dd_tab=boards">Boards</a> '+
