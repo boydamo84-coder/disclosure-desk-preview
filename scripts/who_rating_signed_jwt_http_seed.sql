@@ -18,6 +18,8 @@ INSERT INTO auth.users(id) VALUES
  ('33333333-3333-4333-8333-333333333333'),
  ('44444444-4444-4444-8444-444444444444'),
  ('55555555-5555-4555-8555-555555555555');
+INSERT INTO auth.sessions(id,user_id) SELECT id,id FROM auth.users;
+
 
 INSERT INTO public.dd_who_reviewable_claims (
  claim_id,person_id,primary_source_url,editorial_version,
