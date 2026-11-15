@@ -12,8 +12,10 @@ Every one of the 50 published draft directory profiles has an individual review 
 
 - **50/50** directory entries inventoried; **50/50** have at least one source citation in current JSON (source reachability/context not independently checked).
 - **20/50** currently have photo objects; reuse/identity still requires individual editorial signoff.
-- **3** unscored, source-attributed claim candidates currently seeded; **47** people have no specific candidate yet.
+- **12** unscored, source-attributed claim/recommendation drafts now seeded (7 hearing records plus 5 focused case/technical papers); **38** people do not have an individual claim-review draft. Source readers exist for all 50; roles/publications alone are not UAP physical-event claims.
 - **0** non-HTTPS/malformed linked citation(s) identified by this inventory; this is not a live HTTP health check.
+
+**15 Nov 2026 milestone 7 addendum:** Five remaining public-work entries now also have a claim-specific research draft with primary/publication and contrary/context links: Bob Lazar, Jake Barber, Larry Warren, Mick West and Avi Loeb. The newly opened source trails are recorded in `docs/WHO_FIVE_CASE_CLAIM_EVIDENCE_LEDGER_2026-11-15.md`. Together there are 44 **provisional item references** across twelve drafts. Original source archive, primary statement, independently testable object/event evidence and competing explanations are separate checks. These are NOT 12 approved public percentages, and 38 other profiles are not personal 0/100 ratings.
 
 ### Per-person editorial acceptance checklist
 
@@ -31,8 +33,8 @@ To mark a review COMPLETE, record a dated editor decision for: (1) biographical 
 
 **Source links currently listed (must verify):**
 
-- US House Oversight hearing & witness statements — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/ (INVALID)
-- Grusch opening statement (Congress.gov PDF) — https://www.congress.gov/118/meeting/house/116282/witnesses/HHRG-118-GO06-Wstate-GruschD-20230726.pdf (INVALID)
+- US House Oversight hearing & witness statements — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/ (initial inventory link; live reachability not yet confirmed)
+- Grusch opening statement (Congress.gov PDF) — https://www.congress.gov/118/meeting/house/116282/witnesses/HHRG-118-GO06-Wstate-GruschD-20230726.pdf (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Candidate claim(s) remain Not assessed pending editor verification.
 
@@ -50,8 +52,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- US House hearing and testimony — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/ (INVALID)
-- Americans for Safe Aerospace — official organisation — https://www.safeaerospace.org/ (INVALID)
+- US House hearing and testimony — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/ (initial inventory link; live reachability not yet confirmed)
+- Americans for Safe Aerospace — official organisation — https://www.safeaerospace.org/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Candidate claim(s) remain Not assessed pending editor verification.
 
@@ -69,8 +71,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- US House hearing and Fravor written witness material — https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=116282 (INVALID)
-- Official hearing record (GovInfo) — https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm (INVALID)
+- US House hearing and Fravor written witness material — https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=116282 (initial inventory link; live reachability not yet confirmed)
+- Official hearing record (GovInfo) — https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Candidate claim(s) remain Not assessed pending editor verification.
 
@@ -88,7 +90,7 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NewsNation appointment — Nexstar Media Group — https://www.nexstar.tv/newsnation-signs-ross-coulthart-as-special-correspondent/ (INVALID)
+- NewsNation appointment — Nexstar Media Group — https://www.nexstar.tv/newsnation-signs-ross-coulthart-as-special-correspondent/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Only one profile source; seek independent cross-check; No individually attributed claim review drafted.
 
@@ -106,7 +108,7 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Weaponized — About and host background — https://www.weaponizedpodcast.com/about (INVALID)
+- Weaponized — About and host background — https://www.weaponizedpodcast.com/about (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Only one profile source; seek independent cross-check; Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -124,7 +126,7 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Weaponized — About George Knapp — https://www.weaponizedpodcast.com/about (INVALID)
+- Weaponized — About George Knapp — https://www.weaponizedpodcast.com/about (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Only one profile source; seek independent cross-check; No individually attributed claim review drafted.
 
@@ -132,59 +134,59 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 07. Mick West (`mick-west`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Writer and sceptical investigator
+**Review status:** Individual claim/hypothesis now identified and documented in a provisional source trail; editorial signoff pending. **Role:** Writer and sceptical investigator
 
 **Published draft position (NOT independently authenticated):** West describes his work as sceptical investigation and technical image/video analysis, with Metabunk as his principal discussion and research website.
 
 **Review route:** Identify published hypothesis or analysis and testable sources; do not conflate skepticism/advocacy with truth.
 
-**Current metadata:** 2 profile source(s), 3 milestones, 4 articles; portrait recorded (verify licence and identity); 0 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 3 milestones, 4 articles; portrait recorded (verify licence and identity); 1 provisional source-linked claim candidate (15 Nov 2026; unapproved).
 
 **Source links currently listed (must verify):**
 
-- Mick West — own biography and investigation methods — https://mickwest.com/ (INVALID)
-- Metabunk — discussion and investigations — https://www.metabunk.org/ (INVALID)
+- Mick West — own biography and investigation methods — https://mickwest.com/ (initial inventory link; live reachability not yet confirmed)
+- Metabunk — discussion and investigations — https://www.metabunk.org/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** No completed independent evidence assessment; new claim draft is linked in the milestone 7 ledger.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
 ### 08. Bob Lazar (`bob-lazar`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** 1989 Area 51 / S-4 reverse-engineering claimant
+**Review status:** Individual claim/hypothesis now identified and documented in a provisional source trail; editorial signoff pending. **Role:** 1989 Area 51 / S-4 reverse-engineering claimant
 
 **Published draft position (NOT independently authenticated):** Lazar told George Knapp on KLAS-TV in 1989 that he had worked at a site he called S-4 on propulsion systems he believed came from extraterrestrial craft.
 
 **Review route:** Transcribe specific attributed statement; separate firsthand report from underlying interpretation.
 
-**Current metadata:** 2 profile source(s), 4 milestones, 3 articles; portrait not selected; 0 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 4 milestones, 3 articles; portrait not selected; 1 provisional source-linked claim candidate (15 Nov 2026; unapproved).
 
 **Source links currently listed (must verify):**
 
-- Original 1989 KLAS interview transcript and preserved source — https://www.papooselake.org/interview-transcripts (INVALID)
-- KNPR — George Knapp discusses what he did and did not verify — https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real (INVALID)
+- Original 1989 KLAS interview transcript and preserved source — https://www.papooselake.org/interview-transcripts (initial inventory link; live reachability not yet confirmed)
+- KNPR — George Knapp discusses what he did and did not verify — https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No completed independent evidence assessment; new claim draft is linked in the milestone 7 ledger.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
 ### 09. Jake Barber (`jake-barber`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Former US Air Force airman and helicopter pilot; 2025 retrieval claimant
+**Review status:** Individual claim/hypothesis now identified and documented in a provisional source trail; editorial signoff pending. **Role:** Former US Air Force airman and helicopter pilot; 2025 retrieval claimant
 
 **Published draft position (NOT independently authenticated):** In NewsNation interviews hosted by Ross Coulthart, Barber said he had flown helicopters to move unusual objects, including a white egg-shaped item and a segmented disc he called an eightgon.
 
 **Review route:** Transcribe specific attributed statement; separate firsthand report from underlying interpretation.
 
-**Current metadata:** 3 profile source(s), 4 milestones, 3 articles; portrait not selected; 0 source-linked claim candidate(s).
+**Current metadata:** 3 profile source(s), 4 milestones, 3 articles; portrait not selected; 1 provisional source-linked claim candidate (15 Nov 2026; unapproved).
 
 **Source links currently listed (must verify):**
 
-- NewsNation — first public retrieval-program interview — https://www.newsnationnow.com/space/ufo/uap-whistleblower-ufo-retrieval-program/ (INVALID)
-- NewsNation — separate story about the egg-shaped-object video — https://www.newsnationnow.com/space/ufo/uap-recovery-video-shows-egg-shaped-object-exclusive/ (INVALID)
-- NewsNation's original 19 January 2025 full special — https://www.youtube.com/watch?v=3dtA9w5ldHw (INVALID)
+- NewsNation — first public retrieval-program interview — https://www.newsnationnow.com/space/ufo/uap-whistleblower-ufo-retrieval-program/ (initial inventory link; live reachability not yet confirmed)
+- NewsNation — separate story about the egg-shaped-object video — https://www.newsnationnow.com/space/ufo/uap-recovery-video-shows-egg-shaped-object-exclusive/ (initial inventory link; live reachability not yet confirmed)
+- NewsNation's original 19 January 2025 full special — https://www.youtube.com/watch?v=3dtA9w5ldHw (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No completed independent evidence assessment; new claim draft is linked in the milestone 7 ledger.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -200,9 +202,9 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Disclosure Project — event and first-party collection — https://disclosureprojects.com/ (INVALID)
-- Dr Steven Greer — official archive and stated research programme — https://drstevengreer.com/ (INVALID)
-- ABC News — contemporary coverage of 2001 disclosure event — https://abcnews.go.com/Technology/story?id=98572&page=1 (INVALID)
+- Disclosure Project — event and first-party collection — https://disclosureprojects.com/ (initial inventory link; live reachability not yet confirmed)
+- Dr Steven Greer — official archive and stated research programme — https://drstevengreer.com/ (initial inventory link; live reachability not yet confirmed)
+- ABC News — contemporary coverage of 2001 disclosure event — https://abcnews.go.com/Technology/story?id=98572&page=1 (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -210,21 +212,21 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 11. Larry Warren (`larry-warren`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Former USAF security specialist; Rendlesham Forest claimant
+**Review status:** Individual claim/hypothesis now identified and documented in a provisional source trail; editorial signoff pending. **Role:** Former USAF security specialist; Rendlesham Forest claimant
 
 **Published draft position (NOT independently authenticated):** Warren has said he witnessed an extraordinary event associated with RAF Bentwaters/Woodbridge during the December 1980 Rendlesham Forest reports, and later described it in interviews and Left at East Gate.
 
 **Review route:** Transcribe specific attributed statement; separate firsthand report from underlying interpretation.
 
-**Current metadata:** 3 profile source(s), 4 milestones, 3 articles; portrait not selected; 0 source-linked claim candidate(s).
+**Current metadata:** 3 profile source(s), 4 milestones, 3 articles; portrait not selected; 1 provisional source-linked claim candidate (15 Nov 2026; unapproved).
 
 **Source links currently listed (must verify):**
 
-- UK National Archives — original Rendlesham reports and correspondence — https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/ (INVALID)
-- Warren & LaPlume — contemporary interview with their accounts — https://www.thecosmicswitchboard.com/2023/06/06/rendlesham-forest-secrets/ (INVALID)
-- Larry Warren's book Left at East Gate — bibliographic context — https://overclassified.org/essential-reading/left-at-east-gate/ (INVALID)
+- UK National Archives — original Rendlesham reports and correspondence — https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/ (initial inventory link; live reachability not yet confirmed)
+- Warren & LaPlume — contemporary interview with their accounts — https://www.thecosmicswitchboard.com/2023/06/06/rendlesham-forest-secrets/ (initial inventory link; live reachability not yet confirmed)
+- Larry Warren's book Left at East Gate — bibliographic context — https://overclassified.org/essential-reading/left-at-east-gate/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No completed independent evidence assessment; new claim draft is linked in the milestone 7 ledger.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -240,8 +242,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- HISTORY — Elizondo and the Unidentified investigation series — https://www.history.com/shows/unidentified-inside-americas-ufo-investigation (INVALID)
-- Official Elizondo biography and publication links — https://luiselizondo-official.com/ (INVALID)
+- HISTORY — Elizondo and the Unidentified investigation series — https://www.history.com/shows/unidentified-inside-americas-ufo-investigation (initial inventory link; live reachability not yet confirmed)
+- Official Elizondo biography and publication links — https://luiselizondo-official.com/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** No individually attributed claim review drafted.
 
@@ -259,8 +261,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Professional biography and programme credits — https://vailsymposium.org/speaker/christopher-mellon/ (INVALID)
-- HISTORY's Unidentified series — https://www.history.com/shows/unidentified-inside-americas-ufo-investigation (INVALID)
+- Professional biography and programme credits — https://vailsymposium.org/speaker/christopher-mellon/ (initial inventory link; live reachability not yet confirmed)
+- HISTORY's Unidentified series — https://www.history.com/shows/unidentified-inside-americas-ufo-investigation (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -268,20 +270,20 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 14. Avi Loeb (`avi-loeb`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Harvard astrophysicist; Galileo Project co-founder
+**Review status:** Individual claim/hypothesis now identified and documented in a provisional source trail; editorial signoff pending. **Role:** Harvard astrophysicist; Galileo Project co-founder
 
 **Published draft position (NOT independently authenticated):** Loeb has argued that some unusual astronomical observations warrant open scientific investigation, and co-founded the Galileo Project in 2021.
 
 **Review route:** Identify published hypothesis or analysis and testable sources; do not conflate skepticism/advocacy with truth.
 
-**Current metadata:** 2 profile source(s), 4 milestones, 3 articles; portrait recorded (verify licence and identity); 0 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 4 milestones, 3 articles; portrait recorded (verify licence and identity); 1 provisional source-linked claim candidate (15 Nov 2026; unapproved).
 
 **Source links currently listed (must verify):**
 
-- Galileo Project organisation and science aims — https://galileo.hsites.harvard.edu/organization (INVALID)
-- Avi Loeb — long-form astrophysics and interstellar objects discussion — https://www.youtube.com/watch?v=plcc6E-E1uU (INVALID)
+- Galileo Project organisation and science aims — https://galileo.hsites.harvard.edu/organization (initial inventory link; live reachability not yet confirmed)
+- Avi Loeb — long-form astrophysics and interstellar objects discussion — https://www.youtube.com/watch?v=plcc6E-E1uU (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** No completed independent evidence assessment; new claim draft is linked in the milestone 7 ledger.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -297,8 +299,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Jacques Vallée — own media, interviews and film credits — https://www.jacquesvallee.net/media/ (INVALID)
-- Joe Rogan Experience #1574 with James Fox — https://podcasts.apple.com/gb/podcast/1574-jacques-vall%C3%A9e-james-fox/id360084272?i=1000644539319 (INVALID)
+- Jacques Vallée — own media, interviews and film credits — https://www.jacquesvallee.net/media/ (initial inventory link; live reachability not yet confirmed)
+- Joe Rogan Experience #1574 with James Fox — https://podcasts.apple.com/gb/podcast/1574-jacques-vall%C3%A9e-james-fox/id360084272?i=1000644539319 (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** No individually attributed claim review drafted.
 
@@ -316,8 +318,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Director interview — The Program — https://filmschoolradio.com/the-program-director-james-fox/ (INVALID)
-- James Fox films and credits — https://tv.apple.com/gb/person/james-fox/umc.cpc.6nn94fbb6henu22kyijnrv1p9 (INVALID)
+- Director interview — The Program — https://filmschoolradio.com/the-program-director-james-fox/ (initial inventory link; live reachability not yet confirmed)
+- James Fox films and credits — https://tv.apple.com/gb/person/james-fox/umc.cpc.6nn94fbb6henu22kyijnrv1p9 (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** No individually attributed claim review drafted.
 
@@ -335,9 +337,9 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Nick Pope — official memorial and career chronology — https://www.nickpope.net/life (INVALID)
-- UK National Archives — Ministry of Defence UFO records — https://www.nationalarchives.gov.uk/help-with-your-research/research-guides/ufos/ (INVALID)
-- Nick Pope — official published books archive (Rendlesham 2014) — https://www.nickpope.net/archive (INVALID)
+- Nick Pope — official memorial and career chronology — https://www.nickpope.net/life (initial inventory link; live reachability not yet confirmed)
+- UK National Archives — Ministry of Defence UFO records — https://www.nationalarchives.gov.uk/help-with-your-research/research-guides/ufos/ (initial inventory link; live reachability not yet confirmed)
+- Nick Pope — official published books archive (Rendlesham 2014) — https://www.nickpope.net/archive (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -355,8 +357,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -374,8 +376,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -393,8 +395,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -412,8 +414,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -431,8 +433,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -450,8 +452,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -469,8 +471,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -488,8 +490,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -507,8 +509,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -526,8 +528,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -545,8 +547,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** No individually attributed claim review drafted.
 
@@ -564,8 +566,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -583,8 +585,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -602,8 +604,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -621,8 +623,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -640,8 +642,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -659,8 +661,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (INVALID)
-- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (INVALID)
+- NASA independent UAP study — team roster and role biographies — https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/ (initial inventory link; live reachability not yet confirmed)
+- NASA Science — independent UAP study FAQs — https://science.nasa.gov/uap/faqs/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -678,8 +680,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (INVALID)
-- House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (INVALID)
+- House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (initial inventory link; live reachability not yet confirmed)
+- House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** No individually attributed claim review drafted.
 
@@ -697,8 +699,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (INVALID)
-- House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (INVALID)
+- House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (initial inventory link; live reachability not yet confirmed)
+- House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** No individually attributed claim review drafted.
 
@@ -716,8 +718,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (INVALID)
-- House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (INVALID)
+- House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (initial inventory link; live reachability not yet confirmed)
+- House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** No individually attributed claim review drafted.
 
@@ -735,8 +737,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (INVALID)
-- House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (INVALID)
+- House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (initial inventory link; live reachability not yet confirmed)
+- House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -754,8 +756,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (INVALID)
-- House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (INVALID)
+- House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (initial inventory link; live reachability not yet confirmed)
+- House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** No individually attributed claim review drafted.
 
@@ -773,8 +775,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (INVALID)
-- House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (INVALID)
+- House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (initial inventory link; live reachability not yet confirmed)
+- House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -792,8 +794,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (INVALID)
-- House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (INVALID)
+- House Oversight: task-force membership announcement — https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/ (initial inventory link; live reachability not yet confirmed)
+- House Oversight: task-force establishment — https://oversight.house.gov/release/chairman-comer-taps-luna-to-lead-task-force-on-declassification-and-transparency/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** No individually attributed claim review drafted.
 
@@ -811,8 +813,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Schumer–Rounds announcement of UAP Disclosure Act proposal — https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa (INVALID)
-- Senate floor discussion on UAP legislation — https://www.democrats.senate.gov/newsroom/press-releases/majority-leader-schumer-and-republican-senator-mike-rounds-floor-colloquy-on-unidentified-anomalous-phenomena-provisions-in-the-ndaa-and-future-legislation-on-uaps (INVALID)
+- Schumer–Rounds announcement of UAP Disclosure Act proposal — https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa (initial inventory link; live reachability not yet confirmed)
+- Senate floor discussion on UAP legislation — https://www.democrats.senate.gov/newsroom/press-releases/majority-leader-schumer-and-republican-senator-mike-rounds-floor-colloquy-on-unidentified-anomalous-phenomena-provisions-in-the-ndaa-and-future-legislation-on-uaps (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** No individually attributed claim review drafted.
 
@@ -830,8 +832,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Schumer–Rounds announcement of UAP Disclosure Act proposal — https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa (INVALID)
-- Senate floor discussion on UAP legislation — https://www.democrats.senate.gov/newsroom/press-releases/majority-leader-schumer-and-republican-senator-mike-rounds-floor-colloquy-on-unidentified-anomalous-phenomena-provisions-in-the-ndaa-and-future-legislation-on-uaps (INVALID)
+- Schumer–Rounds announcement of UAP Disclosure Act proposal — https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa (initial inventory link; live reachability not yet confirmed)
+- Senate floor discussion on UAP legislation — https://www.democrats.senate.gov/newsroom/press-releases/majority-leader-schumer-and-republican-senator-mike-rounds-floor-colloquy-on-unidentified-anomalous-phenomena-provisions-in-the-ndaa-and-future-legislation-on-uaps (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** No individually attributed claim review drafted.
 
@@ -849,8 +851,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Official 2023 House UAP hearing — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/ (INVALID)
-- Official 2024 House UAP hearing — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/ (INVALID)
+- Official 2023 House UAP hearing — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/ (initial inventory link; live reachability not yet confirmed)
+- Official 2024 House UAP hearing — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** No individually attributed claim review drafted.
 
@@ -868,8 +870,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Primary hearing, institution or original publisher record — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/ (INVALID)
-- Additional original public source — https://thesolfoundation.org/sol-foundation-co-founders-named-to-uap-science-advisory-council/ (INVALID)
+- Primary hearing, institution or original publisher record — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/ (initial inventory link; live reachability not yet confirmed)
+- Additional original public source — https://thesolfoundation.org/sol-foundation-co-founders-named-to-uap-science-advisory-council/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** No individually attributed claim review drafted.
 
@@ -887,8 +889,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Primary hearing, institution or original publisher record — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/ (INVALID)
-- Additional original public source — https://oversight.house.gov/release/mace-grothman-announce-joint-hearing-on-unidentified-anomalous-phenomena%EF%BF%BC/ (INVALID)
+- Primary hearing, institution or original publisher record — https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-exposing-the-truth/ (initial inventory link; live reachability not yet confirmed)
+- Additional original public source — https://oversight.house.gov/release/mace-grothman-announce-joint-hearing-on-unidentified-anomalous-phenomena%EF%BF%BC/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** No individually attributed claim review drafted.
 
@@ -906,8 +908,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Primary hearing, institution or original publisher record — https://documents.theblackvault.com/documents/ (INVALID)
-- Additional original public source — https://www.theblackvault.com/documentarchive/series/the-black-vault-radio-w-john-greenewald-jr/ (INVALID)
+- Primary hearing, institution or original publisher record — https://documents.theblackvault.com/documents/ (initial inventory link; live reachability not yet confirmed)
+- Additional original public source — https://www.theblackvault.com/documentarchive/series/the-black-vault-radio-w-john-greenewald-jr/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -925,8 +927,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Primary hearing, institution or original publisher record — https://thesolfoundation.org/launch-announcement/ (INVALID)
-- Additional original public source — https://web.stanford.edu/group/nolan/nolan.html (INVALID)
+- Primary hearing, institution or original publisher record — https://thesolfoundation.org/launch-announcement/ (initial inventory link; live reachability not yet confirmed)
+- Additional original public source — https://web.stanford.edu/group/nolan/nolan.html (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -944,8 +946,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Primary hearing, institution or original publisher record — https://www.lesliekean.com/author-leslie-kean/ (INVALID)
-- Additional original public source — https://www.lesliekean.com/ufos-media/ (INVALID)
+- Primary hearing, institution or original publisher record — https://www.lesliekean.com/author-leslie-kean/ (initial inventory link; live reachability not yet confirmed)
+- Additional original public source — https://www.lesliekean.com/ufos-media/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
@@ -963,8 +965,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Source links currently listed (must verify):**
 
-- Primary hearing, institution or original publisher record — https://www.albany.edu/news-center/news/2025-ualbany-physicists-test-scientific-approach-uap-research (INVALID)
-- Additional original public source — https://www.albany.edu/physics/faculty/kevin-knuth (INVALID)
+- Primary hearing, institution or original publisher record — https://www.albany.edu/news-center/news/2025-ualbany-physicists-test-scientific-approach-uap-research (initial inventory link; live reachability not yet confirmed)
+- Additional original public source — https://www.albany.edu/physics/faculty/kevin-knuth (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
 
