@@ -431,7 +431,10 @@ for(const person of workEntries){
   assert(htmlWork.includes(esc(src.note)));
  }
  host.innerHTML='';fns.renderClaimEvidence(person);
- assert.match(host.innerHTML,/Not assessed/);
+ // Policy and records-access claims are correctly marked N/A, not incident evidence scores.
+ const policyOnly=person.claimEvidence?.some(c=>c.ratingReadiness?.scorePath==='not_applicable_to_incident_score');
+ assert.match(host.innerHTML,policyOnly?/Not applicable/:/Not assessed/,
+  'Original-publication researchers remain unscored; policy proposals are not incident claims');
  assert.match(host.innerHTML,/Open cited publication or archive/);
  assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
  assert.doesNotMatch(host.innerHTML,/data-rating-save/);
