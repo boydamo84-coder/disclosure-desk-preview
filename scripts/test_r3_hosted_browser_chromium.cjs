@@ -111,6 +111,32 @@ const BASE='http://127.0.0.1:4173';
    await page.locator('#r3CloudDownload').click();
    const output=await dl;
    assert.match(output.suggestedFilename(),/CLOUD-ENCRYPTED/);
+   // A cloud restore may not overwrite a live local notebook.
+   assert.equal(await page.locator('#r3CloudRestore').isDisabled(),true);
+   await page.locator('#lockVaultBtn').click();
+   await page.locator('#ddConfirmDialog').waitFor({state:'visible'});
+   await page.locator('#ddDialogAccept').click();
+   await page.locator('#vaultAccessPanel').waitFor({state:'visible'});
+   await page.locator('#deleteVaultBtn').click();
+   await page.locator('#ddConfirmDialog').waitFor({state:'visible'});
+   await page.locator('#ddDialogVerify').fill('DELETE');
+   await page.locator('#ddDialogAccept').click();
+   await page.waitForFunction(()=>document.getElementById('r3CloudRestore').disabled===false);
+   await page.locator('#r3CloudPassphrase').fill('Wrong fictional passphrase for negative test');
+   await page.locator('#r3CloudRestore').click();
+   await page.locator('#ddConfirmDialog').waitFor({state:'visible'});
+   await page.locator('#ddDialogAccept').click();
+   await page.waitForFunction(()=>/Cloud restore failed/.test(
+    document.querySelector('#r3CloudStatus').textContent),undefined,{timeout:20000});
+   assert.equal(await page.locator('#workPanel').isVisible(),false,
+    'Wrong passphrase must not reveal or import any cloud notebook');
+   await page.locator('#r3CloudPassphrase').fill('Fake hosted account only - long passphrase 2026');
+   await page.locator('#r3CloudRestore').click();
+   await page.locator('#ddConfirmDialog').waitFor({state:'visible'});
+   await page.locator('#ddDialogAccept').click();
+   await page.locator('#workPanel').waitFor({state:'visible'});
+   assert.match(await page.locator('#notebookHeading').innerText(),/Fictional case/);
+   assert.match(await page.locator('#r3CloudStatus').innerText(),/restored to this browser/i);
    await page.locator('#r3CloudDelete').click();
    await page.locator('#ddConfirmDialog').waitFor({state:'visible'});
    assert.match(await page.locator('#ddDialogTitle').textContent(),/Delete encrypted account backup/);
