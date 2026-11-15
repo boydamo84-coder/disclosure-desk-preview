@@ -190,7 +190,9 @@ function communityDb(){
  }));
 }
 async function hydrateCommunityRatings(){
- const roots=[...$('profileEvidenceReviews')?.querySelectorAll('[data-evidence-claim-id]')||[]];
+ const target=$('profileEvidenceReviews');
+ if(!target?.querySelectorAll)return;
+ const roots=[...target.querySelectorAll('[data-evidence-claim-id]')];
  if(!roots.length)return;
  const db=communityDb();
  if(!db){for(const root of roots)root.querySelector('[data-rating-summary]').textContent='Community voting is not available yet.';return;}
