@@ -21,6 +21,8 @@ jobs:
           node --check assets/people-directory.js
           node --check scripts/test_who_claim_evidence_contract.cjs
           node scripts/test_who_claim_evidence_contract.cjs
+          node --check scripts/test_who_rating_backend_draft_static.cjs
+          node scripts/test_who_rating_backend_draft_static.cjs
       - name: Build PUBLIC allowlisted website locally without publishing
         run: |
           node scripts/build_public_release.cjs
