@@ -9,6 +9,9 @@
  const vault=window.DDPrivateVault;
  const gapBridge=window.DDResearchGapBridge;
  const publicCases=window.DDPublicCuratedCases;
+ const hosted=document.documentElement.dataset.r3Hosted==='true';
+ const cloud=hosted?window.DDR3Cloud:null;
+ let cloudOwner=null,bootReady=!hosted;
  const $=id=>document.getElementById(id);
  if(!engine||!vault||!gapBridge||!Array.isArray(publicCases)){$('notice').hidden=false;$('notice').textContent='Secure hypothesis engine unavailable; no notebook was loaded.';return;}
  let book=null,selectedId=null,editingId=null,view='write';
@@ -59,9 +62,16 @@
   };
   for(const [id,symbol,label] of tabs){
    const btn=elt('button','tab');btn.type='button';btn.dataset.tab=id;
-   btn.disabled=true;
-   btn.title=label+' — not available in the offline prototype';
-   btn.setAttribute('aria-label',label+' (design preview only)');
+   btn.disabled=!hosted;
+   btn.title=hosted?label:label+' — not available in the offline prototype';
+   if(hosted)btn.addEventListener('click',async()=>{
+    if(!$('editorForm').hidden&&!(await confirmAction({
+     title:'Leave unfinished research?',message:'Your editor has unsaved text. Save a revision before navigating or these edits will be lost.',
+     confirmText:'Leave editor',cancelText:'Keep editing',destructive:true
+    })))return;
+    location.assign('/?dd_tab='+encodeURIComponent(id));
+   });
+   btn.setAttribute('aria-label',hosted?label:label+' (design preview only)');
    if(id==='boards'){btn.classList.add('active');btn.setAttribute('aria-current','page');}
    const icon=elt('span','ico');icon.setAttribute('aria-hidden','true');
    if(id==='chatPage')icon.appendChild(chatGlyph());else icon.textContent=symbol;
@@ -104,6 +114,15 @@
   });
   document.addEventListener('focusout',deferredKeyboardSync);
   document.body.classList.add('dd-web-secondary-nav');
+  if(hosted){
+   const suppress=()=>{
+    if($('ddAndroidEditorialNav')){ $('ddWebSecondaryNav').hidden=true;
+     $('ddWebSecondaryNav').style.display='none';document.body.classList.remove('dd-web-secondary-nav');observer.disconnect();}
+   };
+   const observer=new MutationObserver(suppress);
+   observer.observe(document.body,{childList:true});
+   suppress();
+  }
   requestAnimationFrame(update);
  }
  function confirmAction({title,message,confirmText='Continue',
@@ -495,7 +514,7 @@
   finally{busy=false;$('saveHypothesisBtn').disabled=false}
  }
  function createNotebook(event){
-  event.preventDefault();hideStatus();
+  event.preventDefault();if(!bootReady){status('Checking account and browser vault. Try again shortly.',true);return;}hideStatus();
   try{
    book=engine.createNotebook({
     workspaceId:$('workspaceInput').value.trim(),
@@ -520,6 +539,7 @@
   sources:[]
  });
  async function loadDemo(){
+  if(!bootReady){status('Checking account and browser vault. Try again shortly.',true);return;}
   if(unlockedVault){status('Lock your encrypted notebook before loading a different demo.',true);return;}
   if(book&&!(await confirmAction({
    title:'Replace this demonstration?',
@@ -570,6 +590,7 @@
   $('enableVaultForm').hidden=!!unlockedVault;
   $('lockVaultBtn').hidden=!unlockedVault;
   $('exportBtn').disabled=!unlockedVault;
+  if($('r3CloudUpload'))$('r3CloudUpload').disabled=!unlockedVault||!cloudOwner||busy;
   $('vaultSaveState').textContent=unlockedVault?
    'Encrypted autosave active for completed revisions. Download a separate encrypted backup in case Chrome data is cleared.':
    'Session-only: this notebook is NOT stored. Closing or refreshing will lose it.';
@@ -646,6 +667,130 @@
   }catch(err){status('Backup download failed: '+err.message,true)}
   finally{busy=false;$('exportBtn').disabled=!unlockedVault}
  }
+ // Hosted website only: Supabase stores ciphertext under verified account RLS.
+ // This manual backup workflow deliberately never uploads editor plaintext.
+ const cloudStatus=(text,error=false)=>{
+  const target=$('r3CloudStatus');if(!target)return;
+  target.textContent=text;target.classList.toggle('error',error);
+ };
+ async function refreshCloudView(){
+  if(!hosted||!$('r3CloudPanel'))return;
+  $('r3CloudPanel').hidden=false;
+  $('r3CloudUpload').disabled=!cloudOwner||!unlockedVault||busy;
+  for(const id of ['r3CloudDownload','r3CloudRestore','r3CloudDelete'])
+   $(id).disabled=!cloudOwner||busy;
+  if(!cloudOwner){
+   $('r3CloudProfile').textContent='Not signed in';
+   cloudStatus('Sign in from the main Disclosure Desk Boards tab to link an encrypted backup. Local notebooks work without an account.');
+   return;
+  }
+  $('r3CloudProfile').textContent=cloudOwner.email||'Verified Disclosure Desk account';
+  try{
+   const data=await cloud.readEncrypted();
+   $('r3CloudRestore').disabled=!!book||!!(await vault.readStored())||busy;
+   cloudStatus(data?'Your account contains an encrypted backup. You can restore it to a new device or explicitly replace it from this device.':
+    'Connected to your account. No encrypted cloud backup exists yet.');
+  }catch(err){cloudStatus(err.message,true)}
+ }
+ async function uploadCloud(){
+  if(!cloudOwner||!unlockedVault||busy)return;
+  busy=true;$('r3CloudUpload').disabled=true;
+  try{
+   const payload=await vault.encryptedExport(unlockedVault.generation);
+   const previous=await cloud.readEncrypted();
+   if(previous?.generation===unlockedVault.generation){
+    cloudStatus('This exact encrypted version is already backed up to your account.');return;
+   }
+   const message=previous?
+    'Replace the previous encrypted cloud backup for this account with the currently saved local revisions? This removes the previous cloud copy. Download that copy first if you want to keep it. Your local notebook will not be deleted.':
+    'Save your current locally encrypted revisions to your signed-in account? The passphrase and readable research stay on this device. The account stores ciphertext only.';
+   if(!(await confirmAction({title:previous?'Replace cloud backup?':'Back up notebook to your account?',
+     message,confirmText:previous?'Replace encrypted backup':'Back up encrypted copy',
+     cancelText:'Not now',icon:'☁'})))return;
+   await cloud.saveEncrypted(payload,previous?.generation||null);
+   cloudStatus('Encrypted cloud backup saved to your verified account. Your passphrase never left the browser.');
+  }catch(err){cloudStatus('Cloud backup was NOT saved: '+err.message,true)}
+  finally{busy=false;updateSecurityUI()}
+ }
+ async function downloadCloud(){
+  if(!cloudOwner||busy)return;
+  busy=true;
+  try{
+   const row=await cloud.readEncrypted();
+   if(!row)throw new Error('No encrypted account backup was found');
+   const json=JSON.stringify(row.encrypted_envelope,null,2);
+   const url=URL.createObjectURL(new Blob([json],{type:'application/json'}));
+   const link=elt('a');link.href=url;link.download='disclosure-desk-R3-CLOUD-ENCRYPTED-backup.json';
+   document.body.appendChild(link);link.click();link.remove();
+   setTimeout(()=>URL.revokeObjectURL(url),1500);
+   cloudStatus('Encrypted account backup download requested. Store it safely with your recovery passphrase.');
+  }catch(err){cloudStatus('Backup download failed: '+err.message,true)}
+  finally{busy=false}
+ }
+ async function restoreCloud(){
+  if(!cloudOwner||busy)return;
+  const passphrase=$('r3CloudPassphrase').value;
+  if(!passphrase||passphrase.length<12){cloudStatus('Enter the original notebook passphrase (at least 12 characters).',true);return}
+  busy=true;$('r3CloudRestore').disabled=true;
+  try{
+   if(book||await vault.readStored())
+    throw new Error('A local notebook already exists. Export a backup and use another browser profile or explicitly delete the local copy before restoring. Nothing was overwritten.');
+   const row=await cloud.readEncrypted();
+   if(!row)throw new Error('No encrypted account backup is available');
+   if(!(await confirmAction({
+    title:'Restore account backup?',
+    message:'Restore this encrypted account backup into this browser? An empty local vault is required. You must know the original passphrase. No other device will be changed.',
+    confirmText:'Restore encrypted backup',cancelText:'Not now',icon:'☁'
+   })))return;
+   const session=await vault.importBackup(JSON.stringify(row.encrypted_envelope),passphrase);
+   book=session.book;unlockedVault={key:session.key,generation:session.generation};
+   selectedId=book.hypotheses[0]?.id||null;editingId=null;view='write';
+   renderNotebook();updateSecurityUI();await refreshVaultAccess();
+   cloudStatus('Encrypted notebook restored to this browser. Your account backup remains unchanged.');
+  }catch(err){cloudStatus('Cloud restore failed without changing existing work: '+err.message,true)}
+  finally{$('r3CloudPassphrase').value='';busy=false;updateSecurityUI()}
+ }
+ async function deleteCloud(){
+  if(!cloudOwner||busy)return;
+  busy=true;$('r3CloudDelete').disabled=true;
+  try{
+   const row=await cloud.readEncrypted();
+   if(!row)throw new Error('There is no encrypted cloud copy to delete');
+   if(!(await confirmAction({
+    title:'Delete encrypted account backup?',
+    message:'This permanently deletes the encrypted cloud backup in your Disclosure Desk account. Any local notebook or downloaded backup stays unchanged. Type DELETE to confirm.',
+    confirmText:'Delete account backup',cancelText:'Keep backup',destructive:true,verifyDelete:true
+   })))return;
+   await cloud.deleteEncrypted(row.generation);
+   cloudStatus('Encrypted account backup deleted. Local notebooks and downloaded files were not touched.');
+  }catch(err){cloudStatus('Cloud backup was not deleted: '+err.message,true)}
+  finally{busy=false;$('r3CloudDelete').disabled=false}
+ }
+ async function startR3(){
+  if(hosted){
+   $('setupPanel').hidden=true;
+   $('r3CloudPanel').hidden=false;
+   try{
+    cloudOwner=cloud?await cloud.ready():null;
+    vault.configureScope(cloudOwner?.id||null);
+   }catch(err){
+    vault.configureScope(null);cloudOwner=null;
+    cloudStatus('Account connection unavailable; continuing in isolated guest-only local mode. '+err.message,true);
+   }
+  }
+  bootReady=true;
+  try{await refreshVaultAccess()}catch(err){status('Browser vault unavailable: '+err.message,true)}
+  if(hosted){
+   await refreshCloudView();
+   if($('r3CloudUpload')){
+    $('r3CloudUpload').addEventListener('click',uploadCloud);
+    $('r3CloudDownload').addEventListener('click',downloadCloud);
+    $('r3CloudRestore').addEventListener('click',restoreCloud);
+    $('r3CloudDelete').addEventListener('click',deleteCloud);
+   }
+  }
+  document.documentElement.dataset.r3Boot='ready';
+ }
  async function closeSession(){
   if(!book||busy)return;
   if(!(await confirmAction(unlockedVault?{
@@ -713,5 +858,5 @@
  populateCatalogueCases();
  renderDock();
  updateSecurityUI();
- refreshVaultAccess().catch(err=>status('Browser vault unavailable: '+err.message,true));
+ startR3().catch(err=>{bootReady=true;document.documentElement.dataset.r3Boot='ready';status('R3 startup failed: '+err.message,true)});
 })();
