@@ -23,6 +23,7 @@ jobs:
           node scripts/test_who_claim_evidence_contract.cjs
           node --check scripts/test_who_source_lineage.cjs
           node scripts/test_who_source_lineage.cjs
+          node scripts/test_who_m26_hearing_spotchecks.cjs
           node --check scripts/test_who_rating_backend_draft_static.cjs
           node scripts/test_who_rating_backend_draft_static.cjs
       - name: Build PUBLIC allowlisted website locally without publishing
