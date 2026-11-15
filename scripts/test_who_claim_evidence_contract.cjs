@@ -8,8 +8,10 @@ const home=fs.readFileSync(path.join(root,'index.html'),'utf8');
 
 assert.match(html,/id="profileEvidenceReviews"/);
 assert.match(html,/id="claimReviewMethod"/);
-assert.match(html,/r2-evidence-ledger-v4-20261115/);
+assert.match(html,/r2-evidence-ledger-v5-20261115/);
 assert.match(html,/claim-role-card/);
+assert.match(html,/claim-work-card/);
+assert.match(home,/all <strong>50 Who's Who people have an expanded source reader/);
 assert.match(html,/original-source role records/);
 assert.match(html,/View evidence &amp; scoring breakdown/);
 assert.match(html,/claim-evidence-details/);
@@ -28,6 +30,26 @@ assert.match(html,/source trail and editorial checks/);
 assert.equal(data.people.length,50,'Existing Who’s Who directory must retain all 50 public profiles');
 const roleEntries=data.people.filter(p=>p.roleEvidence);
 assert.equal(roleEntries.length,27,'17 NASA (16 members and a designated coordinator) plus 10 congressional roles');
+const workEntries=data.people.filter(p=>p.publicWorkEvidence);
+assert.equal(workEntries.length,17,'17 remaining named people must have original-publication source trails');
+assert.equal(workEntries.reduce((n,p)=>n+p.publicWorkEvidence.sources.length,0),37,
+ '17 publisher and research source cards must include 37 directly inspectable source entries');
+assert.equal(new Set(data.people.filter(p=>p.roleEvidence||p.publicWorkEvidence||p.claimEvidence?.length).map(p=>p.id)).size,50,
+ 'All 50 original profiles must now have an expanded source reader');
+for(const p of workEntries){
+ const work=p.publicWorkEvidence;
+ assert.equal(work.status,'research_links_indexed');
+ assert(work.title.length>=12&&work.description.length>=65&&work.openQuestions.length>=80);
+ assert(work.sources.length>=2);
+ for(const src of work.sources){
+  assert(src.url.startsWith('https://'));
+  assert(src.title.length>=12&&src.locator.length>=5&&src.note.length>=45);
+  assert.match(src.indexedAt,/^\d{4}-\d{2}-\d{2}$/);
+ }
+}
+assert.match(data.people.find(p=>p.id==='larry-warren').publicWorkEvidence.openQuestions,/Halt/);
+assert.equal(data.people.find(p=>p.id==='larry-warren').publicWorkEvidence.sources.length,5);
+
 assert.equal(roleEntries.reduce((n,p)=>n+p.roleEvidence.sources.length,0),56,
  'All 27 role records must keep 56 openable official reference entries');
 assert.equal(roleEntries.filter(p=>p.roleEvidence.kind==='institutional_role').length,17);
@@ -90,7 +112,7 @@ const safeUrl=value=>{try{const u=new URL(String(value));return u.protocol==='ht
 const esc=v=>String(v??'').replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
 const validLinks=v=>Array.isArray(v)?v.filter(x=>x&&safeUrl(x.url)).slice(0,30):[];
 const ctx={safeUrl,esc,validLinks,$:()=>host};
-const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceTrail,draftEvidenceTrailHtml,renderPublicRoleEvidence,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
+const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceTrail,draftEvidenceTrailHtml,renderPublicRoleEvidence,renderPublicWorkEvidence,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
 assert.equal(fns.EVIDENCE_RUBRIC.reduce((n,r)=>n+r.max,0),100);
 for(const person of roleEntries){
  const sourceHtml=fns.renderPublicRoleEvidence(person);
@@ -109,6 +131,35 @@ for(const person of roleEntries){
  assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
  assert.doesNotMatch(host.innerHTML,/data-rating-save/);
 }
+for(const person of workEntries){
+ const htmlWork=fns.renderPublicWorkEvidence(person);
+ assert.match(htmlWork,/Inspect original publications &amp; source trail/);
+ assert.match(htmlWork,/NOT an approved case assessment/);
+ assert.match(htmlWork,/Read source at original publisher or archive/);
+ assert.doesNotMatch(htmlWork,/class="claim-score"/);
+ assert.doesNotMatch(htmlWork,/data-rating-save/);
+ for(const src of person.publicWorkEvidence.sources){
+  assert(htmlWork.includes(esc(src.title)));
+  assert(htmlWork.includes(esc(src.locator)));
+  assert(htmlWork.includes(esc(src.note)));
+ }
+ host.innerHTML='';fns.renderClaimEvidence(person);
+ assert.match(host.innerHTML,/Not assessed/);
+ assert.match(host.innerHTML,/Read source at original publisher or archive/);
+ assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
+ assert.doesNotMatch(host.innerHTML,/data-rating-save/);
+}
+const invalidWork=JSON.parse(JSON.stringify(workEntries[0]));
+invalidWork.publicWorkEvidence.sources[0].url='javascript:alert(1)';
+assert.equal(fns.renderPublicWorkEvidence(invalidWork),'',
+ 'Work source records with one invalid source fail closed, not rendered as verified');
+const injectedWork=JSON.parse(JSON.stringify(workEntries[0]));
+injectedWork.publicWorkEvidence.title='<img src=x onerror=alert(1)>';
+assert.match(fns.renderPublicWorkEvidence(injectedWork),/&lt;img/);
+assert.doesNotMatch(fns.renderPublicWorkEvidence(injectedWork),/<img/);
+const emptyLinksWork=JSON.parse(JSON.stringify(workEntries[0]));
+emptyLinksWork.publicWorkEvidence.sources=[];
+assert.equal(fns.renderPublicWorkEvidence(emptyLinksWork),'');
 const intactRole=JSON.parse(JSON.stringify(roleEntries[0]));
 intactRole.roleEvidence.sources[0].url='javascript:alert(1)';
 assert.equal(fns.renderPublicRoleEvidence(intactRole),'',
@@ -236,4 +287,4 @@ for(const mutation of [
  host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[bad]});
  assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
 }
-console.log('Who’s Who: 50 profiles, 7 research claims, 27 roles and 83 item-source references; no personal or premature event scores (NO DEPLOY).');
+console.log('Who’s Who: 50 expanded profiles, 27 role cards, 7 draft claims, 17 work records, 120 source entries, zero personal or premature event scores (NO DEPLOY).');
