@@ -109,7 +109,7 @@ BEGIN
  END IF;
  INSERT INTO public.dd_who_claim_ratings (claim_id,voter_id,score)
  VALUES (p_claim_id,v_uid,p_rating)
- ON CONFLICT (claim_id,voter_id)
+ ON CONFLICT ON CONSTRAINT dd_who_claim_ratings_pkey
  DO UPDATE SET score=EXCLUDED.score, updated_at=pg_catalog.clock_timestamp();
  RETURN QUERY SELECT s.claim_id,s.rating_count,s.community_mean,s.my_rating
  FROM public.dd_who_claim_rating_summary(ARRAY[p_claim_id]) s;
