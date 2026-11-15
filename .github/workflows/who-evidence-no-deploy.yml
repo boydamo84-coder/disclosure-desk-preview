@@ -1,0 +1,76 @@
+# WHO’S WHO EVIDENCE — read-only CI. Absolutely no deploy, Netlify or Supabase writes.
+# Scope only the isolated research branch; does not touch production.
+name: "Who Evidence — NO DEPLOY / source + Chromium"
+on:
+  push:
+    branches:
+      - feature/who-evidence-score-framework-20261115
+    paths:
+      - .github/workflows/who-evidence-no-deploy.yml
+      - assets/people-directory.js
+      - data/public-people-directory.json
+      - who-is-who.html
+      - index.html
+      - scripts/test_who_claim_evidence_contract.cjs
+      - scripts/test_who_claim_evidence_chromium.cjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: who-evidence-readonly-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    name: "Static evidence contract + loopback-only Chromium (never publish)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CI: "true"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          check-latest: false
+      - name: Ensure Google Chrome is present on the runner
+        shell: bash
+        run: |
+          command -v google-chrome
+          test -x /usr/bin/google-chrome
+      - name: Syntax checks (no site build)
+        shell: bash
+        run: |
+          node --check assets/people-directory.js
+          node --check scripts/test_who_claim_evidence_contract.cjs
+          node --check scripts/test_who_claim_evidence_chromium.cjs
+      - name: Run original source and no-score contract assertions
+        shell: bash
+        run: |
+          node scripts/test_who_claim_evidence_contract.cjs
+      - name: Install browser automation only in ephemeral runner temp folder
+        shell: bash
+        run: |
+          npm install --prefix "$RUNNER_TEMP/dd-who-playwright" --no-save --no-audit --no-fund playwright-core@1.56.1
+      - name: Run real browser against localhost only, four responsive viewports
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 >"$RUNNER_TEMP/dd-who-http.log" 2>&1 &
+          http_pid=$!
+          trap 'kill "$http_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:4173/who-is-who.html >/dev/null; then break; fi
+            sleep 1
+          done
+          curl --fail --silent --output /dev/null http://127.0.0.1:4173/data/public-people-directory.json
+          NODE_PATH="$RUNNER_TEMP/dd-who-playwright/node_modules" node scripts/test_who_claim_evidence_chromium.cjs
+      - name: Safety invariant — no publication action in this job
+        if: always()
+        shell: bash
+        run: |
+          echo "Read-only CI. No Netlify, Supabase, GitHub release, APK, deployment, or production workflow invoked."
