@@ -459,7 +459,7 @@ function renderEvidenceScope(person){
  if(!d||d.status!=='research_scope_draft'||
   d.classification!=='documented_role_or_publication_only'||
   d.applicability!=='not_applicable_to_documented_role'||
-  !/^\\d{4}-\\d{2}-\\d{2}$/.test(d.reviewDate||'')||
+  !/^\d{4}-\d{2}-\d{2}$/.test(d.reviewDate||'')||
   [d.originalRole,d.scope,d.reason,d.nextEvidenceNeeded].some(v=>typeof v!=='string'||v.trim().length<30)||
   !Array.isArray(d.sourceChecks)||d.sourceChecks.length<2||d.sourceChecks.length>6)return '';
  const refs=d.sourceChecks.filter(s=>s&&safeUrl(s.url)&&
