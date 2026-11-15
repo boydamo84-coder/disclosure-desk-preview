@@ -64,6 +64,7 @@ jobs:
           fi
           psql -X -v ON_ERROR_STOP=1 -Atc "select current_database()" | grep -x who_evidence_ci
           psql -X -v ON_ERROR_STOP=1 -c "CREATE SCHEMA auth;"
+          psql -X -v ON_ERROR_STOP=1 -c "ALTER ROLE postgres IN DATABASE who_evidence_ci SET search_path TO auth, public;"
       - name: Start pinned Supabase GoTrue 2.197.0 with authentic auth.users
         shell: bash
         run: |
