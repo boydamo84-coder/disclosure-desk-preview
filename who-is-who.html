@@ -45,6 +45,26 @@ footer a{margin-right:14px}
 .video-preview iframe{width:100%;height:100%;aspect-ratio:16/9;border:0}
 @media(max-width:760px){.video-grid{grid-template-columns:1fr}.profile-timeline li{grid-template-columns:1fr;gap:5px}}
 @media(max-width:760px){.tools,.cards,.profile-grid{grid-template-columns:1fr}.hero{padding-top:27px}.card{padding:18px}}
+
+/* Claim-specific evidence assessments: not ratings of people. */
+.claim-review{border:1px solid #51677c;background:#101f30;border-radius:12px;padding:16px;margin:15px 0}
+.claim-review h4{font-size:17px;line-height:1.35;margin:0 0 8px}
+.claim-review .claim-status{font-size:12px;font-weight:800;letter-spacing:.25px;color:#e9cc93}
+.claim-review .claim-record{border-left:2px solid #ad8b53;padding-left:12px;margin-top:12px;overflow-wrap:anywhere}
+.claim-review .claim-score{font-weight:900;font-size:27px;color:#f0ce90;font-variant-numeric:tabular-nums}
+.claim-score small{font-size:12px;color:var(--muted);font-weight:500}
+.claim-metric{margin:12px 0}
+.claim-metric-head{display:flex;gap:12px;justify-content:space-between;align-items:start;font-size:12px}
+.claim-metric-head strong{font-variant-numeric:tabular-nums;white-space:nowrap}
+.claim-track{height:7px;background:#26384a;border-radius:10px;overflow:hidden;margin-top:5px}
+.claim-track span{display:block;height:100%;background:#cfa55f;border-radius:10px}
+.claim-review details{border-top:1px solid #415368;margin-top:13px;padding-top:10px}
+.claim-review summary,#claimReviewMethod summary{cursor:pointer;color:var(--gold);font-weight:700}
+#claimReviewMethod{background:#0b1c2c;border:1px solid #40566a;border-radius:12px;padding:12px 16px;margin:12px 0}
+#claimReviewMethod ul{padding-left:22px}
+#profileEvidenceReviews a{overflow-wrap:anywhere}
+.claim-review .claim-not-assessed{display:inline-block;border:1px solid #7a6748;color:#ffdfaa;border-radius:8px;padding:5px 10px;font-weight:750;font-size:12px}
+@media(max-width:420px){.claim-review{padding:13px}.claim-review .claim-score{font-size:23px}}
 </style>
 <script defer src="/assets/analytics-consent.js?v=nov08-ga4-optin-m18"></script>
 </head><body>
@@ -72,6 +92,16 @@ footer a{margin-right:14px}
 <div class="profile-grid">
 <div>
 <section class="card"><div class="section-title">Public statements and perspective</div><h3>What they have publicly discussed</h3><p id="profilePosition"></p></section>
+<section class="card" id="profileClaimReviewSection">
+<div class="section-title">Claim-specific evidence · editorial assessment</div><h3>How well is each claim supported?</h3>
+<p class="muted small">A source can establish what someone publicly said without proving the underlying event. These assessments examine claims and supporting records, <strong>never someone's honesty or character</strong>. Scores are not probabilities of truth.</p>
+<div id="profileEvidenceReviews" aria-live="polite"><p class="muted small">Loading claim reviews…</p></div>
+<details id="claimReviewMethod"><summary>How evidence strength is assessed (0–100 points)</summary>
+<p class="muted small">Proposed transparent editorial rubric. Only separately sourced, individually reviewed claims may receive a number. A missing assessment is <strong>Not assessed</strong>, not zero.</p>
+<ul class="small"><li>Primary record of the claim in context — 25 points</li><li>Independent corroboration of its underlying assertion — 30 points</li><li>Inspectible supporting records or data — 25 points</li><li>Specificity and independent testability — 10 points</li><li>Other explanations and conflicting evidence considered — 10 points</li></ul>
+<p class="muted small">A score describes a published evidence review, not a scientific probability. Editorial methods and individual claims can be challenged or corrected using source links.</p></details>
+<p class="muted small">To suggest a primary source or challenge an assessment, <a href="mailto:support@uapdisclosuredesk.com?subject=Who%27s%20Who%20claim%20evidence%20review">contact the research desk</a>.</p>
+</section>
 <section class="card"><div class="section-title">Research context</div><h3>Evidence to examine and other interpretations</h3><p id="profileContext"></p><p class="note small">These notes are not a verdict on a person's character, credibility or motives. Interpretations should be tested against the cited record.</p></section>
 </div>
 <aside>
@@ -88,12 +118,12 @@ footer a{margin-right:14px}
 </article>
 <section class="card" id="editorialPolicy"><div class="section-title">Directory policy</div><h2>Profiles are evidence guides, not popularity contests</h2>
 <p>Statements are attributed to their speakers or published institutions. Reporting, first-hand testimony, technical analysis and alleged facts are different types of evidence. Inclusion is not an endorsement or accusation.</p>
-<p>We will not label real people as dishonest, part of a covert operation or otherwise malicious based on a popularity poll. A future optional evidence survey may ask neutral questions about the source material supporting a <em>specific claim</em>, with moderation and anti-manipulation safeguards. No live public polls or vote totals exist in this preview.</p>
+<p>We will not label real people as dishonest, part of a covert operation or otherwise malicious based on a popularity poll. The proposed evidence-strength review above applies only to a <em>specific, attributed public claim</em>, with a visible source trail and editorial checks. It is not a numerical rating of an individual, proof of extraordinary explanations or a public popularity poll. No public votes or personal believability scores are collected.</p>
 <p>To suggest a person, provide a public source supporting their work. To request a correction, <a href="mailto:support@uapdisclosuredesk.com?subject=Who%27s%20Who%20source%20correction">email the research desk</a> with the name, the disputed wording and a primary reference.</p>
 </section></main>
 <footer><div class="wrap">Disclosure Desk · Boyd Digital Studios · Public-source research directory<br><a href="/">Home</a><a href="/investigations">Original research</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></footer>
 <script defer src="/assets/person-case-links.js?v=r2-m8-alpha01"></script>
-<script defer src="/assets/people-directory.js?v=r2-photo-credit-tasl-20261114"></script>
+<script defer src="/assets/people-directory.js?v=r2-claim-evidence-v1-20261115"></script>
 <script defer src="/assets/secondary-editorial-nav.js?v=r2-premium-nav01"></script>
 <script defer src="/assets/page-help.js?v=r2-m10-help01"></script>
 </body></html>
