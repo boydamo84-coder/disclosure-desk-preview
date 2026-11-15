@@ -1264,15 +1264,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "publisher_original_interview_transcript_retrieved",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://transcripts.cnn.com/show/ebo/date/2021-05-31/segment/01",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "observation": "The original CNN broadcast transcript is accessible and directly attributes to Corbell claims about USS Omaha footage, apparent radar objects and technological performance. The Pentagon statement quoted by CNN confirms Navy personnel captured the referenced imagery and that UAPTF reviewed it; it does not authenticate object identity, claimed >14 count, transmedium flight or exotic propulsion. CNN also quotes astronaut Scott Kelly's optical illusion/military UAV alternative. Publisher transcript accessed, not full original video or naval sensor records.",
+            "nextAction": "Review archived original CNN complete broadcast and military full radar/IR telemetry, timestamps, naval records and independent geometry; distinguish Corbell's inferential capability claims from the Navy's narrower photo/video-authenticity confirmation.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "CNN OutFront transcript for 31 May 2021, from 'newly-released video' introduction through Corbell's 14-object, radar and technological-capability exchange"
           }
         }
       ],
@@ -1545,15 +1546,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "official_written_testimony_pdf_selected_pages_inspected",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "observation": "The original 7-page House Oversight hearing PDF was directly opened and the first two pages visually examined. Knapp explicitly describes himself as an investigative journalist, not a UFO eyewitness; the second page attributes asserted recoveries to his reporting and sources including Lazar. Hearing-file authenticity and public attribution are documented; this is not physical verification of his referenced crash programmes. Remaining five pages and individual source records were not visually reviewed in this milestone.",
+            "nextAction": "Visually inspect the remaining five pages, separate each alleged governmental paper and third-party informant, compare named original 1989 news transcripts and scientific source custody, and obtain named independent editorial review.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "Original signed House Oversight 9 Sept 2025 PDF, visually inspected pages 1–2 of 7 (0-index 0–1); page 1 says 'not a UFO witness'; page 2 discusses the Lazar/S-4 story and claims newsroom-source contacts"
           }
         }
       ],
@@ -1833,15 +1835,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "original_technical_analysis_post_retrieved",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://www.metabunk.org/threads/gimbal-ufo-a-new-analysis.12333/",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "observation": "West's March 2022 original Metabunk analysis post is directly accessible and includes a 3D simulation description, supporting threads, and model/source code. It presents infrared glare and camera derotation as an interpretation of Gimbal motion, explicitly not a positive identification of the unknown source object. The linked simulator/source-code files were not downloaded or run, and raw ATFLIR/pod telemetry was not independently inspected. Original article access is not peer-reviewed validation of the technical hypothesis.",
+            "nextAction": "Reproduce the published source code and input camera/sensor geometry under a controlled offline method review; independently check conflicting 2015 raw sensor constraints and alternative models. Name a technically qualified second editor.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "Metabunk 'Gimbal UFO – A New Analysis', original thread starter Mick West, 13 Mar 2022, post #1, four observable arguments, glare/pod rotation proposal and provided source-code/data links"
           }
         }
       ],
@@ -2630,15 +2633,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "contemporaneous_reporting_full_text_retrieved",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://abcnews.go.com/Technology/story?id=98572&page=1",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "observation": "The original contemporary ABC News article is directly readable and documents the 9 May 2001 Disclosure Project press event with approximately twenty attendees giving claims and Greer's own assertion about around 400 prospective witnesses. The ~400 are his reported potential source pool, not independently verified alien-recovery cases. Other contemporary newspaper reporting likewise documents an event, not proof of extraordinary interpretation. Full organizer film/master and individual witness/source rosters still need independent verification.",
+            "nextAction": "Authenticate and watch original unedited 9 May 2001 National Press Club video, compare the organizer's witness-list claims with named original military/FAA papers, and independently audit each claimed direct observation before any event score.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "ABC News, 'Group Calls for Disclosure of UFO Info', contemporary 9/10 May 2001 article, opening event/date report, Greer quotes and a claim about ~400 prospective witnesses"
           }
         }
       ],
@@ -3442,15 +3446,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "original_author_opinion_text_retrieved",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://christopherkmellon.substack.com/p/the-us-government-is-sitting-on-a",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "observation": "The full author-published Substack republication is directly accessible, dated 14 Oct 2025, explicitly identifying the 11 Oct 2025 original Chronicle article. Mellon personally asserts records were routinely buried or overclassified, while conceding his own quantitative estimate is unknown and advocating additional release. This confirms his published policy position, NOT that each absent document was unlawfully classified or contains unusual craft. NARA and DoD records-law counterchecks remain separate and unchanged.",
+            "nextAction": "Obtain original classification decisions/FOIA logs per identified UAP record, inspect enacted RG 615 rules and lawful postponement exceptions and secure independent legal/information-security review; never assign an extraordinary incident percentage to this policy claim.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "Christopher Mellon's own 14 Oct 2025 Substack republication of 11 Oct 2025 San Francisco Chronicle op-ed; opening personal intelligence claims, post-2017 classification discussion, 1948 'Flying Discs' record and NARA collection paragraphs"
           }
         }
       ],
@@ -3702,15 +3707,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "original_peer_reviewed_paper_pdf_selected_pages_inspected",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://galileo.hsites.harvard.edu/sites/g/files/omnuum6371/files/chemical_classification_of_spherules_1-s2.0-s0009254124004959-main.pdf",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "observation": "The original 2024 Chemical Geology paper PDF is publicly accessible from Harvard; page 1 directly shows the author list, publication, measurements and the abstract's ~850 recovered spherules, ~78% primitive and some putative terrestrial D-type compositions. PDF page 11 figures/sections compare the spherules with meteorite/terrestrial igneous contexts and discuss unresolved origins. This is a partial visual source inspection, not independent laboratory replication, full 20-page methods reading, raw data custody or a demonstrated unique IM1 connection. The article is open-access CC BY 4.0.",
+            "nextAction": "Inspect all 20 paper pages and supplemental tables, independent sample provenance/control methods, 2025 independent volcanic critique and authors' response; do not treat unusual chemical ratios or sampling near predicted track as proof of a recovered interstellar object.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "Chemical Geology 670 (2024) 122415, original open PDF 20 pages: visually inspected PDF pages 1 and 11 (0-index 0 and 10), abstract, elemental-ratio figures 15–16 and sections 6.2–6.4"
           }
         }
       ],
@@ -4235,15 +4241,16 @@
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "full_original_recheck_pending",
+            "status": "original_film_director_interview_pages_retrieved",
             "reviewStage": "m16_source_access_only",
-            "checkedAt": null,
+            "checkedAt": "2026-11-15",
             "primaryUrl": "https://filmschoolradio.com/the-program-director-james-fox/",
-            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
-            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
-            "referenceUrl": null,
+            "observation": "Both original Film School Radio director-interview landing pages are accessible. The 2022 project interview explicitly places Moment of Contact's Varginha story in 1996, while the 2024 The Program interview biography incorrectly says '1966'. The discrepancy is a publisher biography typo, not an alternative dated extraordinary event. These pages verify Fox's documentary, authorship/promotion and that 1996 Varginha accusations were the film's subject; no full film interview playback, official 1997 Brazilian STM inquiry translation or biological material analysis was done.",
+            "nextAction": "Review original Moment of Contact footage/interviews against verbatim Portuguese transcription and independently translated court/inquiry records; verify each witness's independence, date, military custody and any physical specimen before concluding an extraordinary entity existed.",
+            "referenceUrl": "https://filmschoolradio.com/moment-of-contact-director-james-fox/",
             "fullOriginalReviewed": false,
-            "secondEditorSignoff": "not_obtained"
+            "secondEditorSignoff": "not_obtained",
+            "locator": "Film School Radio original 'The Program – Director James Fox' page, paragraphs 'About the filmmaker' and his director statement; plus original 2022 'Moment of Contact – Director James Fox' interview/promotional page"
           }
         }
       ],
