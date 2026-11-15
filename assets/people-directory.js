@@ -419,7 +419,7 @@ const PUBLIC_WORK_KINDS=Object.freeze({
  archive_research:'Records and FOIA research'
 });
 const PUBLIC_SOURCE_CLASSES=Object.freeze({
- publisher:'Original publisher or distributor',
+ publisher:'Original publisher or syndicated reporting',
  first_party:'First-party biography or publication index',
  institutional:'Institutional or government source',
  archive:'Historical source archive'
@@ -448,7 +448,7 @@ function renderPublicWorkEvidence(person){
    '<ul class="claim-evidence-list">'+items.map(x=>'<li><strong>'+esc(x.title)+'</strong>'+
     '<p class="muted small">'+esc(PUBLIC_SOURCE_CLASSES[x.sourceClass])+' · Find it: '+esc(x.locator)+' · Link indexed '+esc(x.indexedAt)+'</p>'+
     '<p>'+esc(x.note)+'</p>'+
-    '<a href="'+esc(safeUrl(x.url))+'" target="_blank" rel="noopener noreferrer">Read source at original publisher or archive ↗</a></li>').join('')+'</ul>'+
+    '<a href="'+esc(safeUrl(x.url))+'" target="_blank" rel="noopener noreferrer">Open cited publication or archive ↗</a></li>').join('')+'</ul>'+
   '</details>'+
   '<p class="muted small"><strong>Scoring:</strong> Not applicable to a professional career or publication list. Any specific UAP-event claim needs its own independent source review and explicit editorial approval before a 0–100 score or member ballot.</p>'+
  '</article>';
