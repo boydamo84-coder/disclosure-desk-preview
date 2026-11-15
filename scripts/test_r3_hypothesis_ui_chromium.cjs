@@ -186,9 +186,24 @@ const BASE='http://127.0.0.1:4175';
     await page.locator('#saveHypothesisBtn').click();
     await page.waitForFunction(()=>document.getElementById('currentVersion').textContent.includes('Revision 2'),
      undefined,{timeout:20000});
+    // Branded encrypted-backup confirmation: dismissing must not download.
+    let downloadCount=0;
+    page.on('download',()=>{downloadCount++;});
+    await page.locator('#exportBtn').click();
+    await page.locator('#ddConfirmDialog').waitFor({state:'visible'});
+    assert.match(await page.locator('#ddDialogTitle').innerText(),/Download encrypted backup/);
+    assert.match(await page.locator('#ddDialogDescription').innerText(),/Unfinished edits are not included/);
+    assert.match(await page.locator('#ddDialogDescription').innerText(),/passphrase/i);
+    assert.equal(await page.locator('#ddDialogAccept').textContent(),'Download backup');
+    assert.equal(await page.locator('#ddDialogCancel').textContent(),'Not now');
+    await page.locator('#ddDialogCancel').click();
+    await page.locator('#ddConfirmDialog').waitFor({state:'hidden'});
+    assert.equal(downloadCount,0,'Cancelling the backup must not start a download');
     const ready=page.waitForEvent('download');
     await page.locator('#exportBtn').click();
+    await page.locator('#ddDialogAccept').click();
     const download=await ready;
+    assert.equal(downloadCount,1,'Confirming downloads exactly once');
     assert.match(download.suggestedFilename(),/ENCRYPTED-backup/);
     const backupText=fs.readFileSync(await download.path(),'utf8');
     const backup=JSON.parse(backupText);
