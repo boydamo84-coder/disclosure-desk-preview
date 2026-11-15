@@ -13,53 +13,56 @@ const BASE='http://127.0.0.1:4173';
    const context=await browser.newContext({viewport:{width,height:850},
     acceptDownloads:true,serviceWorkers:'block'});
    const errors=[],foreign=[];
+   const fake=`(function(){
+    const USER={id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+      email:'researcher.test@example.invalid',is_anonymous:false};
+    const records={};
+    window.__r3HostedFakeRecords=records;
+    window.supabase={createClient:function(){
+     return {
+      auth:{getUser:async()=>({data:{user:USER},error:null}),
+       onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}})},
+      from:function(table){
+       if(table!=='dd_r3_private_notebooks')throw Error('Unexpected cloud table');
+       const query={data:null,kind:'read',filters:{},select(){return this},
+        eq(k,v){this.filters[k]=v;return this},
+        insert(v){this.kind='insert';this.data=v;return this},
+        update(v){this.kind='update';this.data=v;return this},
+        delete(){this.kind='delete';return this},
+        async maybeSingle(){
+         const id=this.filters.owner_user_id||USER.id;
+         const entry=records[id]||null;
+         if(this.kind==='read')return {data:entry,error:null};
+         if(this.kind==='insert'){
+          if(entry)return {data:null,error:{message:'duplicate cloud slot'}};
+          records[id]={...this.data,updated_at:new Date().toISOString()};
+          return {data:{generation:this.data.generation},error:null};
+         }
+         if(!entry||entry.generation!==this.filters.generation)
+          return {data:null,error:null};
+         if(this.kind==='update'){
+          records[id]={...entry,...this.data};
+          return {data:{generation:this.data.generation},error:null};
+         }
+         if(this.kind==='delete'){
+          delete records[id];
+          return {data:{generation:entry.generation},error:null};
+         }
+        }};
+       return query;
+      }
+     };
+    }};
+   })();`;
+   await context.addInitScript({content:fake});
    await context.route('**/*',route=>{
     const u=new URL(route.request().url());
     if(u.origin===BASE)return route.continue();
     if(u.hostname==='cdn.jsdelivr.net'&&
       u.pathname.includes('supabase-js')){
-      const fake=`(function(){
-       const USER={id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
-         email:'researcher.test@example.invalid',is_anonymous:false};
-       const records={};
-       window.__r3HostedFakeRecords=records;
-       window.supabase={createClient:function(){
-        return {
-         auth:{getUser:async()=>({data:{user:USER},error:null}),
-          onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}})},
-         from:function(table){
-          if(table!=='dd_r3_private_notebooks')throw Error('Unexpected cloud table');
-          const query={data:null,kind:'read',filters:{},select(){return this},
-           eq(k,v){this.filters[k]=v;return this},
-           insert(v){this.kind='insert';this.data=v;return this},
-           update(v){this.kind='update';this.data=v;return this},
-           delete(){this.kind='delete';return this},
-           async maybeSingle(){
-            const id=this.filters.owner_user_id||USER.id;
-            const entry=records[id]||null;
-            if(this.kind==='read')return {data:entry,error:null};
-            if(this.kind==='insert'){
-             if(entry)return {data:null,error:{message:'duplicate cloud slot'}};
-             records[id]={...this.data,updated_at:new Date().toISOString()};
-             return {data:{generation:this.data.generation},error:null};
-            }
-            if(!entry||entry.generation!==this.filters.generation)
-             return {data:null,error:null};
-            if(this.kind==='update'){
-             records[id]={...entry,...this.data};
-             return {data:{generation:this.data.generation},error:null};
-            }
-            if(this.kind==='delete'){
-             delete records[id];
-             return {data:{generation:entry.generation},error:null};
-            }
-           }};
-          return query;
-         }
-        };
-       }};
-      })();`;
-      return route.fulfill({status:200,contentType:'text/javascript',body:fake});
+      // The production SDK has SHA-384 SRI, so a fake response cannot replace it.
+      // Block CDN; the controlled mock is injected by the test harness before scripts run.
+      return route.abort();
     }
     foreign.push(u.href);return route.abort();
    });
