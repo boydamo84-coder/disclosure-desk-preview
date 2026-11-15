@@ -130,9 +130,13 @@ const M18_SOURCE_STATES=[
 for(const state of M18_SOURCE_STATES)assert.equal(sourceAccess.filter(a=>a.status===state).length,1,'Exactly one distinctly reviewed original source of type '+state);
 assert.equal(sourceAccess.filter(a=>a.locator).length,19,'Nine earlier source locators, seven verified M18 source locators, three indexed/direct-blocked source locators');
 assert.equal(sourceAccess.filter(a=>a.status==='journal_original_page_indexed_direct_fetch_blocked').length,2);
-assert.equal(sourceAccess.filter(a=>a.status==='original_author_page_indexed_direct_fetch_blocked').length,1);
+assert.equal(sourceAccess.filter(a=>a.status==='original_author_page_indexed_direct_fetch_blocked').length,0,'M21 direct original author webpage now read');
+assert.equal(sourceAccess.filter(a=>a.status==='original_author_page_text_retrieved').length,1,'One original author essay directly retrievable');
 assert.deepEqual(data.people.filter(p=>p.claimEvidence?.[0]?.sourceAccessCheck.status==='journal_original_page_indexed_direct_fetch_blocked').map(p=>p.id).sort(),['garry-nolan','jacques-vallee'],'One original paper shared by both researcher profiles, not two material studies');
-assert.equal(data.people.find(p=>p.id==='nick-pope').claimEvidence[0].sourceAccessCheck.status,'original_author_page_indexed_direct_fetch_blocked','Nick Pope original author page indexed but direct canonical fetch blocked');
+assert.equal(data.people.find(p=>p.id==='nick-pope').claimEvidence[0].sourceAccessCheck.status,'original_author_page_text_retrieved','Nick Pope first-party article was actually opened and read in M21');
+assert.match(data.people.find(p=>p.id==='nick-pope').claimEvidence[0].sourceAccessCheck.observation,/1980 sightings took place before his MoD service/);
+assert.equal(data.people.find(p=>p.id==='nick-pope').claimEvidence[0].ratingReadiness.primarySourceAccess,'publisher_text_first_pass');
+assert.match(data.people.find(p=>p.id==='george-knapp').photoRightsAudit.detail,/the day of the 68th awards/,'Do not conceal conflicting original photograph metadata');
 assert(sourceAccess.every(a=>a.checkedAt==='2026-11-15'),'All 23 first-pass access statuses now dated; date denotes access attempt/index status not factual claim validation');
 assert.match(data.people.find(p=>p.id==='avi-loeb').claimEvidence[0].sourceAccessCheck.observation,/page 11 figures\/sections/,'M18 Loeb paper visual page comparison captured');
 assert.match(data.people.find(p=>p.id==='george-knapp').claimEvidence[0].sourceAccessCheck.observation,/first two pages visually examined/,'Knapp official PDF only inspected p1–2, not all seven');
