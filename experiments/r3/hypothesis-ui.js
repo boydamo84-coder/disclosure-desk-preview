@@ -15,7 +15,8 @@
  const $=id=>document.getElementById(id);
  if(!engine||!vault||!gapBridge||!Array.isArray(publicCases)){$('notice').hidden=false;$('notice').textContent='Secure hypothesis engine unavailable; no notebook was loaded.';return;}
  let book=null,selectedId=null,editingId=null,view='write';
- let unlockedVault=null, busy=false;
+ let unlockedVault=null,busy=false,revoked=false;
+ const ensureActive=()=>{if(hosted&&revoked)throw new Error('Account changed: reload before continuing')};
  const selected=()=>book?.hypotheses.find(h=>h.id===selectedId)||null;
  const latest=h=>h?.revisions[h.revisions.length-1]||null;
  const curatedCases=gapBridge.caseCatalogue(publicCases);
@@ -26,6 +27,7 @@
   return node;
  };
  const status=(msg,error=false)=>{
+  if(revoked)return;
   const node=$('notice');node.textContent=msg;node.classList.toggle('error',error);node.hidden=false;
  };
  const hideStatus=()=>{$('notice').hidden=true;$('notice').textContent=''};
@@ -206,6 +208,7 @@
   if(next==='gaps')renderGaps();
  }
  function renderList(){
+  if(revoked)return;
   const host=$('hypothesisList');host.replaceChildren();
   $('countTag').textContent=String(book.hypotheses.length);
   if(!book.hypotheses.length)host.appendChild(elt('p','muted small','None yet. Add your first working explanation.'));
@@ -221,6 +224,7 @@
   }
  }
  function renderSelected(){
+  if(revoked)return;
   const h=selected();
   $('editorForm').hidden=true;editingId=null;
   $('writeEmpty').hidden=!!h;
@@ -373,9 +377,9 @@
     records:publicCases,gapId:id,relatedHypothesisId,at:time()});
    if(unlockedVault){
     const generation=await vault.save(next,unlockedVault.key,unlockedVault.generation);
-    unlockedVault.generation=generation;
+    ensureActive();unlockedVault.generation=generation;
    }
-   book=next;renderGaps();updateSecurityUI();
+   ensureActive();book=next;renderGaps();updateSecurityUI();
    status(unlockedVault?
     'Research question accepted and saved in your encrypted notebook; it remains unverified.':
     'Research question added to this session only. Enable encrypted saving to keep it.');
@@ -397,7 +401,7 @@
   });
  }
  function renderNotebook(){
-  if(!book)return;
+  if(revoked||!book)return;
   $('setupPanel').hidden=true;$('vaultAccessPanel').hidden=true;$('workPanel').hidden=false;
   $('notebookHeading').textContent=book.title;
   $('notebookMeta').textContent='Workspace '+book.workspaceId+' · Case '+book.caseId+' · Private session';
@@ -503,9 +507,9 @@
     engine.addHypothesis(book,{workspaceId:book.workspaceId,id,content,at:time()});
    if(unlockedVault){
     const generation=await vault.save(next,unlockedVault.key,unlockedVault.generation);
-    unlockedVault.generation=generation;
+    ensureActive();unlockedVault.generation=generation;
    }
-   book=next;selectedId=id;editingId=null;
+   ensureActive();book=next;selectedId=id;editingId=null;
    renderList();renderSelected();
    updateSecurityUI();
    status(unlockedVault?'Encrypted local save complete. Previous revisions preserved.':
@@ -546,7 +550,7 @@
    message:'The current notebook is not encrypted or saved. Loading a new fictional example will discard its changes.',
    confirmText:'Replace demo',cancelText:'Keep current notebook',destructive:true
   })))return;
-  book=engine.createNotebook({workspaceId:'demo-workspace',caseId:'fictional-case',
+  ensureActive();book=engine.createNotebook({workspaceId:'demo-workspace',caseId:'fictional-case',
    title:'Fictional case — demonstration only',at:new Date().toISOString()});
   book=engine.addHypothesis(book,{workspaceId:book.workspaceId,id:'h-environmental',
    content:demoContent('Environmental interpretation','A hypothetical environmental mechanism might match the fictional report.',
@@ -573,6 +577,7 @@
  }
  async function refreshVaultAccess(){
   const stored=await vault.readStored();
+  ensureActive();
   // Single encrypted notebook per browser profile in this standalone alpha.
   // Do not offer a second unsaved notebook while a locked vault exists.
   // This avoids accidental confusion over which project can be persisted.
@@ -604,7 +609,7 @@
   busy=true;$('enableVaultBtn').disabled=true;hideStatus();
   try{
    const session=await vault.create(book,pass);
-   unlockedVault=session;
+   ensureActive();unlockedVault=session;
    updateSecurityUI();
    status('Encrypted notebook saved in this browser. Reopen with your passphrase and download a separate encrypted backup.');
    await refreshVaultAccess();
@@ -618,7 +623,7 @@
   event.preventDefault();if(busy)return;busy=true;$('unlockVaultBtn').disabled=true;
   try{
    const session=await vault.unlock($('unlockPassphrase').value);
-   book=session.book;unlockedVault={key:session.key,generation:session.generation};
+   ensureActive();book=session.book;unlockedVault={key:session.key,generation:session.generation};
    selectedId=book.hypotheses[0]?.id||null;editingId=null;view='write';
    renderNotebook();updateSecurityUI();await refreshVaultAccess();
    status('Encrypted notebook unlocked locally. All saved revisions recovered.');
@@ -634,7 +639,7 @@
   busy=true;$('importVaultBtn').disabled=true;hideStatus();
   try{
    const session=await vault.importBackup(await file.text(),$('importPassphrase').value);
-   book=session.book;unlockedVault={key:session.key,generation:session.generation};
+   ensureActive();book=session.book;unlockedVault={key:session.key,generation:session.generation};
    selectedId=book.hypotheses[0]?.id||null;editingId=null;view='write';
    renderNotebook();updateSecurityUI();await refreshVaultAccess();
    status('Encrypted backup restored to browser storage. Previous revisions preserved.');
@@ -670,6 +675,7 @@
  // Hosted website only: Supabase stores ciphertext under verified account RLS.
  // This manual backup workflow deliberately never uploads editor plaintext.
  const cloudStatus=(text,error=false)=>{
+  if(revoked)return;
   const target=$('r3CloudStatus');if(!target)return;
   target.textContent=text;target.classList.toggle('error',error);
  };
@@ -865,11 +871,13 @@
  $('importVaultForm').addEventListener('submit',importEncrypted);
  $('deleteVaultBtn').addEventListener('click',deleteSaved);
  if(hosted)window.addEventListener('dd-r3-account-changed',()=>{
+  revoked=true;bootReady=false;
   // Immediately wipe private content before browser navigation can occur.
   clearDecryptedDOM();book=null;unlockedVault=null;selectedId=null;editingId=null;
   $('workPanel').hidden=true;$('setupPanel').hidden=true;
   cloudOwner=null;updateSecurityUI();
-  cloudStatus('Account changed. Private research was locked before reloading.');
+  $('r3CloudPassphrase').value='';
+  $('r3CloudStatus').textContent='Account changed. Private research was locked before reloading.';
  });
  populateCatalogueCases();
  renderDock();
