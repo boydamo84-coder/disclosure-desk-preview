@@ -9,6 +9,8 @@ on:
       - .github/workflows/who-rating-postgres-isolated.yml
       - scripts/who_rating_ephemeral_pg_bootstrap.sql
       - scripts/who_rating_ephemeral_pg_assertions.sql
+      - scripts/who_rating_ephemeral_pg_race.sh
+      - scripts/test_who_source_lineage.cjs
       - docs/WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql
   workflow_dispatch:
 
@@ -66,6 +68,11 @@ jobs:
         run: psql -X -v ON_ERROR_STOP=1 -f docs/WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql
       - name: Exercise guest, five synthetic identities, grants, cooldown and privacy
         run: psql -X -v ON_ERROR_STOP=1 -f scripts/who_rating_ephemeral_pg_assertions.sql
+      - name: Exercise concurrent writes from two independent SQL sessions
+        shell: bash
+        run: bash scripts/who_rating_ephemeral_pg_race.sh
+      - name: Verify shared source containers are not counted as independent findings
+        run: node scripts/test_who_source_lineage.cjs
       - name: No deployment or real JWTs
         if: always()
         run: |
