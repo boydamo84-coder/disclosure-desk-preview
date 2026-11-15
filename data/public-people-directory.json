@@ -210,9 +210,27 @@
             "requiredNextCheck": "Independently identify programme records or authorized firsthand corroboration; separate his testimony from Coulthart/Kean reports and complete second-editor verification.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:David_Grusch_giving_testimony_on_26_July_2023_before_the_US_House_Subcommittee_on_National_Security_the_Border_and_Foreign_Affairs.png",
+        "detail": "Wikimedia Commons file metadata identifies the July 2023 House Oversight hearing still as extracted from a US federal House hearing broadcast and declares public-domain federal status. Recheck whether any embedded third-party material changes reuse treatment.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "ryan-graves",
@@ -452,9 +470,27 @@
             "requiredNextCheck": "Review original flight incidents and independent radar/aircrew reports case-by-case; do not mistake several accounts in one hearing for calibrated corroboration.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "license_listing_recheck_pending",
+        "checkedAt": null,
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ryan_Graves_26_July_2023.png",
+        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "david-fravor",
@@ -660,9 +696,27 @@
             "requiredNextCheck": "Cross-check co-observers, dated mission logs, separately released radar/IR recordings and alternative range/geometry reconstructions.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "ross-coulthart",
@@ -922,9 +976,27 @@
             "requiredNextCheck": "Verify the complete original 7NEWS broadcast, identifiable first-hand source independence and inspectable original programme/material records.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "original_page_fetch_unavailable",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": "2026-11-15",
+            "primaryUrl": "https://www.youtube.com/watch?v=x_9gTDXF9Vc",
+            "observation": "The linked 7NEWS Australia YouTube watch page could not be fetched in the research environment. Independent published bibliographies and discussion of the same video ID confirm a source was cited, but do not provide a complete authenticated recording or original transcript.",
+            "nextAction": "Open the publisher video in a normal browser, verify exact attributed claim with timecodes and preserve permitted citation metadata; do not substitute third-party quotation for a full recording.",
+            "referenceUrl": "https://www.youtube.com/watch?v=x_9gTDXF9Vc",
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ross_Coulthart_(cropped).jpg",
+        "detail": "Wikimedia Commons traces the cropped portrait to Mosman Library's 5 December 2012 Flickr photo and CC BY 2.0. Its cropped status and credit/license link should remain visibly attributed.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "jeremy-corbell",
@@ -1185,9 +1257,27 @@
             "requiredNextCheck": "Secure unedited Navy recordings and timestamps, independent range/speed reconstruction, sensor metadata and original source custody.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://transcripts.cnn.com/show/ebo/date/2021-05-31/segment/01",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "george-knapp",
@@ -1448,9 +1538,27 @@
             "requiredNextCheck": "Validate named 1989–2025 original interviews and independent documents, programme authorization, physical artefacts and source chronology.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "license_listing_recheck_pending",
+        "checkedAt": null,
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:George_Knapp_(8221331696)_(cropped).jpg",
+        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "mick-west",
@@ -1716,9 +1824,27 @@
             "requiredNextCheck": "Independent reproduction against sensor geometry and raw ATFLIR calibration plus review of current critical alternative models.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://www.metabunk.org/threads/gimbal-ufo-a-new-analysis.12333/",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "license_listing_recheck_pending",
+        "checkedAt": null,
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mick_West_CSICon_2018_Debunking_9-11_Microsphere_Myths.jpg",
+        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "bob-lazar",
@@ -1961,9 +2087,27 @@
             "requiredNextCheck": "Check original broadcaster footage, verifiable S-4 employment/access records, project instrumentation and physical evidence independently of Knapp retellings.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "original_page_fetch_unavailable",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": "2026-11-15",
+            "primaryUrl": "https://raids.org/files/mys3/lazar8.htm",
+            "observation": "The currently catalogued ParaNet/raids.org transcript URL returned a 502 fetch error. An independently indexed third-party transcription of the December 1989 KLAS interview repeats the recorded S-4 statement; neither text is an authenticated original broadcaster master.",
+            "nextAction": "Obtain a playable original KLAS recording or authenticated newsroom archive and compare the complete speech, timestamps and changes against retyped copies.",
+            "referenceUrl": "https://disclosdex.com/documents/1989-12-09-knapp-lazar-interview",
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "jake-barber",
@@ -2200,9 +2344,27 @@
             "requiredNextCheck": "Authenticate full video and location/date, flight logs, retrieval-team identities and any available cargo or materials custody/test data.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "original_page_fetch_unavailable",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": "2026-11-15",
+            "primaryUrl": "https://www.youtube.com/watch?v=PGOpHdHSjTE",
+            "observation": "The NewsNation original YouTube watch link could not be fetched directly. The NewsNation-produced 15 January 2025 advance interview text syndicated on Yahoo records the white egg-shaped object allegation and says the full special aired 18 January; this is one publisher chain, not a second recovery witness.",
+            "nextAction": "Verify the entire original NewsNation special/video, timecodes and unedited source footage before upgrading source access; inspect independent recovery records separately.",
+            "referenceUrl": "https://www.yahoo.com/news/air-force-veteran-whistleblower-claims-232514734.html",
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "steven-greer",
@@ -2457,9 +2619,27 @@
             "requiredNextCheck": "Watch complete event masters and independently test separately identifiable witnesses/incidents, contemporaneous records and sample provenance.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://abcnews.go.com/Technology/story?id=98572&page=1",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "larry-warren",
@@ -2741,9 +2921,27 @@
             "requiredNextCheck": "Reconstruct the distinct December 1980 nights using duty rosters, original Halt material and complete unedited interviews/book passages.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "publisher_video_metadata_verified",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": "2026-11-15",
+            "primaryUrl": "https://www.youtube.com/watch?v=21yW_XZR2LU",
+            "observation": "NewsNation's original YouTube item identifies its 19 August 2025 Reality Check episode, Warren's witness account at 08:47–23:45, his presence dispute at 23:46–28:01 and forest description at 28:02–32:40. A separate NewsNation 28 October 2025 chapter list presents Halt's response. These are publisher metadata and chapter labels, NOT a full watched and transcribed interview; official UK National Archives July 2012 briefing p.13 confirms the Halt memo and referenced file series, not Warren's specific observations.",
+            "nextAction": "Review the complete primary videos against chapter timecodes and eyewitness/military records; independently match the December 1980 nights and Halt recording.",
+            "referenceUrl": "https://cdn.nationalarchives.gov.uk/documents/briefing-guide-12-07-12.pdf",
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "luis-elizondo",
@@ -2966,9 +3164,27 @@
             "requiredNextCheck": "Confirm purported agency programmes, dated authorizations, sources, exact classified/public records and counterevidence under appropriate rules.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "license_listing_recheck_pending",
+        "checkedAt": null,
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Luis_Elizondo.jpg",
+        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "christopher-mellon",
@@ -3212,9 +3428,27 @@
             "requiredNextCheck": "Perform per-record classification and statutory exemption comparisons with NARA/DoD responses; consider a separately labelled records-transparency assessment, not an incident percentage.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://christopherkmellon.substack.com/p/the-us-government-is-sitting-on-a",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "avi-loeb",
@@ -3454,9 +3688,27 @@
             "requiredNextCheck": "Independently review full methods, provenance and control samples and the separate 2025 volcanic critique and authors' follow-up.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://galileo.hsites.harvard.edu/sites/g/files/omnuum6371/files/chemical_classification_of_spherules_1-s2.0-s0009254124004959-main.pdf",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "license_listing_recheck_pending",
+        "checkedAt": null,
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Abraham(Avi)_Loeb.jpg",
+        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "jacques-vallee",
@@ -3691,9 +3943,27 @@
             "requiredNextCheck": "Review complete original paper, chain of custody, raw methods and blinded independent laboratory replication; never double-count the coauthor profile.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "license_listing_recheck_pending",
+        "checkedAt": null,
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jacques_Vall%C3%A9e_by_Christopher_Michel_12122024_01.jpg",
+        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "james-fox",
@@ -3947,9 +4217,27 @@
             "requiredNextCheck": "Watch original subtitled witness interviews; obtain bilingual independent review of complete STM inquiry, contemporaneous hospital/military records and samples.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://filmschoolradio.com/the-program-director-james-fox/",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:James-Fox.png",
+        "detail": "Wikimedia Commons File:James-Fox.png credits Rosully as author, lists a CC0 1.0 dedication and cross-links the filmmaker's Wikipedia entry. This is a metadata/licence crosscheck, not an independently obtained model release or forensic photo-identity signoff.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "nick-pope",
@@ -4209,9 +4497,27 @@
             "requiredNextCheck": "Verify full original briefing, separate the incident nights and model documented conventional hypotheses against contemporaneous records.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://nickpope.net/wpte19/rendlesham-forest/",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "david-spergel",
@@ -4331,6 +4637,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -4451,6 +4764,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -4571,6 +4891,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -4691,6 +5018,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -4811,6 +5145,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -4931,6 +5272,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -5052,6 +5400,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -5172,6 +5527,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -5336,6 +5698,17 @@
             "requiredNextCheck": "Verify recommendation attribution and subsequent adoption separately, but do not offer an extraordinary-event evidence rating or community incident ballot.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
       ],
@@ -5361,6 +5734,13 @@
             "checkedAt": "2026-11-15"
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -5481,6 +5861,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -5608,6 +5995,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "license_listing_recheck_pending",
+        "checkedAt": null,
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Scott_J_Kelly.jpg",
+        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -5728,6 +6122,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -5848,6 +6249,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -5968,6 +6376,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -6088,6 +6503,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -6208,6 +6630,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -6328,6 +6757,13 @@
             "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -6456,6 +6892,13 @@
             "interpretation": "The public record contains Luna's statements about leads and alleged pilot reports; treat these as an additional specific source-extraction candidate, not evidence she personally witnessed a craft."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "license_listing_recheck_pending",
+        "checkedAt": null,
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Anna_Paulina_Luna.jpg",
+        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -6578,6 +7021,13 @@
             "interpretation": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "license_listing_recheck_pending",
+        "checkedAt": null,
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nancy_Mace_portrait_(118th_Congress).jpg",
+        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -6706,6 +7156,13 @@
             "interpretation": "A hearing participant is named in an account of reported incidents and follow-up; this is not independently authenticated pilot sensor data or an admission that recovered craft exist."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "license_listing_recheck_pending",
+        "checkedAt": null,
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rep._Tim_Burchett_official_photo%2C_116th_congress.jpg",
+        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -6821,6 +7278,13 @@
             "interpretation": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -6943,6 +7407,13 @@
             "interpretation": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "license_listing_recheck_pending",
+        "checkedAt": null,
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eric_Burlison_portrait_118th.jpg",
+        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -7058,6 +7529,13 @@
             "interpretation": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -7180,6 +7658,13 @@
             "interpretation": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "license_listing_recheck_pending",
+        "checkedAt": null,
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Brandon_Gill%2C_official_portrait%2C_119th_Congress.jpg",
+        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -7315,6 +7800,13 @@
             "interpretation": "This is the enacted archive-management framework, distinct from the broader 2023 Senate amendment's original proposed language. It does not prove non-human craft."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "license_listing_recheck_pending",
+        "checkedAt": null,
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chuck_Schumer_official_photo.jpg",
+        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -7450,6 +7942,13 @@
             "interpretation": "This is the enacted archive-management framework, distinct from the broader 2023 Senate amendment's original proposed language. It does not prove non-human craft."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "license_listing_recheck_pending",
+        "checkedAt": null,
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mike_Rounds_official_Senate_portrait.jpg",
+        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -7572,6 +8071,13 @@
             "interpretation": "The official hearing categorises the representative as also present, not a member of the named panel. Avoid inflating congressional participation into committee membership."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "license_listing_recheck_pending",
+        "checkedAt": null,
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jared_Moskowitz_portrait_(118th_Congress).jpg",
+        "detail": "An existing Commons/agency licensing claim and credit are listed, but this specific photo's authoritative metadata and identity were not independently rechecked in M16. Do not imply the final photo-rights audit has been completed.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -7737,9 +8243,27 @@
             "requiredNextCheck": "Seek original dated mail headers, custodial copies, server retention and independent Navy records while distinguishing Go Fast footage provenance.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Timothy_Gallaudet_official_photo.jpg",
+        "detail": "Wikimedia Commons identifies 2017 NOAA/US Department of Commerce official portrait and public-domain federal classification. Confirm any alternate thumbnail crop, identity and reuse obligations before final signoff.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "michael-shellenberger",
@@ -7904,9 +8428,27 @@
             "requiredNextCheck": "Corroborate original documents, named authorized witnesses and origin of the programme label independently of repeated testimony.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "license_metadata_crosschecked",
+        "checkedAt": "2026-11-15",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:ShellenbergerNov2024.jpg",
+        "detail": "Wikimedia Commons identifies original public.news/civilizationworks source and CC BY 4.0; a Commons reviewer states the original publisher displayed the license on 13 July 2025. Preserve author/source credit and indication of crop.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "john-greenewald-jr",
@@ -8052,6 +8594,13 @@
             "interpretation": "An original government log documents the existence and requested scope of Greenewald's records application, not disclosure of the classified annex or proof of non-human craft. This is a procedural records review, deliberately non-scoreable as an UAP-event assertion."
           }
         ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
       }
     },
     {
@@ -8236,9 +8785,27 @@
             "requiredNextCheck": "Independently review material custody, isotopic/elemental controls and complete instrument methods, with unrelated replicated laboratory sampling.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "leslie-kean",
@@ -8422,9 +8989,27 @@
             "requiredNextCheck": "Separate journalist source corroboration from recovery-programme facts; confidential source validation and primary documentary/physical records require secure independent review.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://thedebrief.org/intelligence-officials-say-u-s-has-retrieved-non-human-craft/",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
+      }
     },
     {
       "id": "kevin-knuth",
@@ -8608,9 +9193,27 @@
             "requiredNextCheck": "Check original radar timings, geometry, error distribution and alternative models before making a claim about physical acceleration.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
+          },
+          "sourceAccessCheck": {
+            "status": "full_original_recheck_pending",
+            "reviewStage": "m16_source_access_only",
+            "checkedAt": null,
+            "primaryUrl": "https://www.mdpi.com/1099-4300/21/10/939",
+            "observation": "This particular original source was not independently re-opened to its full original audio, video or complete manuscript in Milestone 16. Earlier indexed/first-pass references remain research leads, not a newly certified full-source inspection.",
+            "nextAction": "Re-open the exact publisher or official original, verify substantive quotation/location and complete file access, then have a separately named reviewer approve any source-status change.",
+            "referenceUrl": null,
+            "fullOriginalReviewed": false,
+            "secondEditorSignoff": "not_obtained"
           }
         }
-      ]
+      ],
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": null,
+        "sourceUrl": null,
+        "detail": "The directory intentionally shows initials rather than borrowing a portrait without a defensible source, identity and image-use licence.",
+        "finalRightsApproval": false
+      }
     }
   ]
 }
