@@ -205,8 +205,8 @@ const profiles=[
       return {tag:node.tagName,id:node.id,cls:String(node.className||'').slice(0,90),
        left:Math.round(rect.left),right:Math.round(rect.right),width:Math.round(rect.width),
        scrollWidth:node.scrollWidth,clientWidth:node.clientWidth,text:String(node.textContent||'').trim().slice(0,80)};
-     }).filter(e=>e.right>window.innerWidth+4 && e.width>0)
-      .sort((a,b)=>b.right-a.right).slice(0,12));
+     }).filter(e=>e.right>window.innerWidth+4 && e.width>0 && e.left<window.innerWidth+4)
+      .sort((a,b)=>b.right-a.right).slice(0,35));
      console.error('HORIZONTAL OVERFLOW DIAGNOSTICS',JSON.stringify({width,name:test.name,extent,offenders}));
     }
     assert(extent.scroll<=extent.inner+4,'No horizontal mobile overflow at '+width+'px on '+test.name);
