@@ -379,7 +379,7 @@ const PUBLIC_ROLE_KINDS=Object.freeze({
 function renderPublicRoleEvidence(person){
  const role=person?.roleEvidence;
  if(!role||role.status!=='official_source_crosscheck'||
-    !PUBLIC_ROLE_KINDS[role.kind]||
+    !Object.hasOwn(PUBLIC_ROLE_KINDS,role.kind)||
     typeof role.title!=='string'||role.title.trim().length<12||
     typeof role.description!=='string'||role.description.trim().length<60||
     !/^\d{4}-\d{2}-\d{2}$/.test(role.eventDate||'')||
@@ -427,13 +427,13 @@ const PUBLIC_SOURCE_CLASSES=Object.freeze({
 function renderPublicWorkEvidence(person){
  const r=person?.publicWorkEvidence;
  if(!r||r.status!=='research_links_indexed'||
-  !PUBLIC_WORK_KINDS[r.kind]||
+  !Object.hasOwn(PUBLIC_WORK_KINDS,r.kind)||
   typeof r.title!=='string'||r.title.trim().length<12||
   typeof r.period!=='string'||r.period.trim().length<4||
   typeof r.description!=='string'||r.description.trim().length<65||
   typeof r.openQuestions!=='string'||r.openQuestions.trim().length<80||
   !Array.isArray(r.sources)||r.sources.length<2||r.sources.length>8)return '';
- const items=r.sources.filter(x=>x&&PUBLIC_SOURCE_CLASSES[x.sourceClass]&&
+ const items=r.sources.filter(x=>x&&Object.hasOwn(PUBLIC_SOURCE_CLASSES,x.sourceClass)&&
    safeUrl(x.url)&&typeof x.title==='string'&&x.title.trim().length>=12&&
    typeof x.locator==='string'&&x.locator.trim().length>=5&&
    typeof x.note==='string'&&x.note.trim().length>=45&&
