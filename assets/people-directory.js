@@ -309,7 +309,14 @@ const SOURCE_ACCESS_LABELS=Object.freeze({
  publisher_video_metadata_verified:'Publisher video and chapter metadata checked (not full footage)',
  official_hearing_transcript_retrieved:'Government hearing transcript text accessible (not event confirmation)',
  publisher_original_article_retrieved:'Original signed publisher article accessible (not independent source validation)',
- publisher_original_article_landing_retrieved:'Original paper abstract accessible (complete methods not reviewed)'
+ publisher_original_article_landing_retrieved:'Original paper abstract accessible (complete methods not reviewed)',
+ publisher_original_interview_transcript_retrieved:'Original broadcast interview transcript accessible (footage/data not fully checked)',
+ official_written_testimony_pdf_selected_pages_inspected:'Original House written testimony PDF — selected pages visually inspected',
+ original_technical_analysis_post_retrieved:'Original technical analysis post and model links accessible (model not independently run)',
+ original_author_opinion_text_retrieved:'Original author policy opinion accessible (not legal finding)',
+ original_peer_reviewed_paper_pdf_selected_pages_inspected:'Original peer-reviewed PDF — selected pages visually inspected, no replication',
+ contemporaneous_reporting_full_text_retrieved:'Contemporaneous publisher report accessible (allegations unverified)',
+ original_film_director_interview_pages_retrieved:'Original filmmaker interviews accessible (film witness footage not viewed)'
 });
 function sourceAccessCheckHtml(claim){
  const r=claim?.sourceAccessCheck;
