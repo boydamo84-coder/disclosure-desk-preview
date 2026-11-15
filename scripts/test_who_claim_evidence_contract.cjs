@@ -4,10 +4,17 @@ const root=path.resolve(__dirname,'..');
 const html=fs.readFileSync(path.join(root,'who-is-who.html'),'utf8');
 const js=fs.readFileSync(path.join(root,'assets/people-directory.js'),'utf8');
 const data=JSON.parse(fs.readFileSync(path.join(root,'data/public-people-directory.json'),'utf8'));
+const home=fs.readFileSync(path.join(root,'index.html'),'utf8');
 
 assert.match(html,/id="profileEvidenceReviews"/);
 assert.match(html,/id="claimReviewMethod"/);
-assert.match(html,/r2-claim-evidence-v1-20261115/);
+assert.match(html,/r2-claim-community-v1-20261115/);
+assert.match(html,/Community rating/);
+assert.match(html,/community-test-config\.js/);
+assert.match(html,/supabase-js@2\.119\.0/);
+assert.match(home,/id="ddR3ReleaseAnnouncement"/);
+assert.match(home,/Who's Who — how the two ratings work/);
+assert.match(home,/once voting has passed its account-security/);
 assert.match(html,/Statements are attributed/);
 assert.match(html,/secondary-editorial-nav\.js/);
 assert.match(html,/source trail and editorial checks/);
@@ -18,6 +25,8 @@ for(const p of data.people){
  assert(!Object.hasOwn(p,'believability'),'No person-level believability rating permitted');
  for(const c of p.claimEvidence||[]){
   assert.equal(c.status,'source_review_pending');
+  assert.match(c.id,/^[a-z0-9-]+$/);
+  assert.notEqual(c.sourceReviewApproved,true);
   assert.equal(c.review,undefined,'Never silently ship person-specific score drafts');
   assert(Array.isArray(c.sources)&&c.sources.some(s=>s.kind==='primary'&&s.url.startsWith('https://')));
  }
@@ -30,7 +39,7 @@ const safeUrl=value=>{try{const u=new URL(String(value));return u.protocol==='ht
 const esc=v=>String(v??'').replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
 const validLinks=v=>Array.isArray(v)?v.filter(x=>x&&safeUrl(x.url)).slice(0,30):[];
 const ctx={safeUrl,esc,validLinks,$:()=>host};
-const fns=vm.runInNewContext(snippet+';({publishedClaimReview,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
+const fns=vm.runInNewContext(snippet+';({publishedClaimReview,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
 assert.equal(fns.EVIDENCE_RUBRIC.reduce((n,r)=>n+r.max,0),100);
 for(const p of candidates){host.innerHTML='';fns.renderClaimEvidence(p);assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);}
 host.innerHTML='';fns.renderClaimEvidence(data.people.find(p=>p.id==='mick-west'));assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
@@ -50,6 +59,17 @@ const fictional={
 assert(fns.publishedClaimReview(fictional));
 host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[fictional]});
 assert.match(host.innerHTML,/class="claim-score"/);assert.match(host.innerHTML,/72<small>/);
+assert.match(host.innerHTML,/Disclosure Desk rating/);
+assert.match(host.innerHTML,/Community rating/);
+assert.match(host.innerHTML,/Voting not open/);
+const eligibleFictional={...fictional,id:'fictional-example-2026',status:'source_verified',sourceReviewApproved:true};
+assert(fns.communityClaimEligible(eligibleFictional));
+host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[eligibleFictional]});
+assert.match(host.innerHTML,/data-evidence-claim-id="fictional-example-2026"/);
+assert.match(host.innerHTML,/data-rating-save/);
+assert(!fns.communityClaimEligible({...eligibleFictional,sourceReviewApproved:false}));
+assert(!fns.communityClaimEligible({...eligibleFictional,id:'javascript:alert(1)'}));
+
 for(const mutation of [
  c=>{delete c.review.editorialChecks.secondEditorApproved},
  c=>{c.review.points.independent=31},
