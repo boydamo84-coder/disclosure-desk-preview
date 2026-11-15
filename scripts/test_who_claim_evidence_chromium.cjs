@@ -112,7 +112,7 @@ const profiles=[
       const links=await detail.locator('.claim-evidence-list a[href]').evaluateAll(nodes=>nodes.map(n=>n.href));
       assert(links.some(x=>x.includes('S0009254125000178')),'Readers see 2025 Loeb coauthored response');
       assert(links.some(x=>x.includes('S000925412500018X')),'Readers see different author independent 2025 volcanic challenge');
-      assert.match(await detail.innerText(),/cannot be definitively attributed to IM1/i);
+      assert.match(await detail.innerText(),/no recovered material can be definitively attributed to IM1/i);
      }
      if(test.name==='Garry Nolan'||test.name==='Jacques Vallée'){
       assert.match(await detail.innerText(),/terrestrial-normal isotope ratios|terrestrial values|terrestrial normal/i,
