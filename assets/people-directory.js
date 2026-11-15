@@ -374,9 +374,16 @@ function draftEvidenceTrailHtml(claim){
 function publishedClaimReview(claim){
  // Research-policy recommendations and unknown claim categories must never
  // receive a fabricated 0–100 physical-evidence assessment.
- if(claim?.claimKind&&claim.claimKind!=='public_claim')return null;
- if(claim?.ratingReadiness && (claim.ratingReadiness.status!=='independently_approved'||
-   claim.ratingReadiness.publicationApproval!=='granted'))return null;
+ // Explicitly signed approval records are mandatory; missing metadata is NOT approval.
+ // A pending, policy-only or unverified-original claim must never display points or voting.
+ if(claim?.claimKind!=='public_claim')return null;
+ const readiness=claim?.ratingReadiness;
+ if(!readiness||readiness.status!=='independently_approved'||
+    readiness.publicationApproval!=='granted'||readiness.secondEditor!=='approved'||
+    !['incident_evidence_review_approved','documentary_source_review_approved','method_specific_review_approved'].includes(readiness.scorePath))return null;
+ const originalAccess=claim?.sourceAccessCheck;
+ if(!originalAccess||originalAccess.fullOriginalReviewed!==true||
+    originalAccess.secondEditorSignoff!=='approved')return null;
  const r=claim?.review;
  if(!r||r.status!=='published'||r.methodology!=='dd-claim-evidence-v1')return null;
  if(typeof r.reviewer!=='string'||r.reviewer.trim().length<5||
