@@ -5,6 +5,12 @@ const assert=require('node:assert/strict');
 const {chromium}=require('playwright-core');
 const BASE='http://127.0.0.1:4173';
 const profiles=[
+ {name:'David Grusch',kind:'claim',text:'July 2023',minSources:3,audit:true},
+ {name:'Ryan Graves',kind:'claim',text:'July 2023',minSources:4,audit:true},
+ {name:'David Fravor',kind:'claim',text:'July 2023',minSources:4,audit:true},
+ {name:'Tim Gallaudet',kind:'claim',text:'November 2024',minSources:4,audit:true},
+ {name:'Luis Elizondo',kind:'claim',text:'November 2024',minSources:4,audit:true},
+ {name:'Michael Shellenberger',kind:'claim',text:'November 2024',minSources:4,audit:true},
  {name:'George Knapp',kind:'claim',text:'September 2025',minSources:4},
  {name:'Christopher Mellon',kind:'claim',text:'October 2025',minSources:4},
  {name:'James Fox',kind:'claim',text:'Moment of Contact',minSources:4},
@@ -17,7 +23,7 @@ const profiles=[
  {name:'Tim Burchett',kind:'role',text:'House',minSources:3},
  {name:'Chuck Schumer',kind:'role',text:'proposal',minSources:3},
  {name:'Jared Moskowitz',kind:'role',text:'House',minSources:2},
- {name:'Mike Gold',kind:'policy',text:'NASA',minSources:4}
+ {name:'Mike Gold',kind:'policy',text:'NASA',minSources:4,audit:true}
 ];
 (async()=>{
  const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,
@@ -39,7 +45,7 @@ const profiles=[
    await dock.waitFor({state:'visible'});
    assert.equal(await dock.locator('.tab').count(),14,'Keep original premium fourteen-tab nav');
    assert.equal(await dock.locator('.tab[aria-current="page"]').getAttribute('data-tab'),'peopleDirectory');
-   let list=width===393?profiles:profiles.filter(p=>['George Knapp','James Fox','John Greenewald Jr.','David Spergel','Anna Paulina Luna','Chuck Schumer','Mike Gold'].includes(p.name));
+   let list=width===393?profiles:profiles.filter(p=>['David Grusch','David Fravor','Tim Gallaudet','Michael Shellenberger','George Knapp','John Greenewald Jr.','David Spergel','Mike Gold'].includes(p.name));
    for(const test of list){
     await page.locator('#peopleSearch').fill(test.name);
     const cards=page.locator('#peopleCards article.card');
@@ -69,6 +75,14 @@ const profiles=[
      assert.match(await host.innerText(),new RegExp(test.text,'i'),'Exact claim is present in profile');
      const detail=host.locator('.claim-review .claim-evidence-details');
      await detail.locator('summary').click();
+     if(test.audit){
+      const audit=detail.locator('.claim-audit-draft');
+      assert.equal(await audit.count(),1,'Original government record comparison is visible for '+test.name);
+      assert.match(await audit.innerText(),/Unsigned research check/);
+      assert.match(await audit.innerText(),/Independent second-editor signoff: Pending/);
+      assert.match(await audit.innerText(),/What remains unavailable or unverified/);
+      assert.equal(await audit.locator('a[href^="https://"]').count(),1,'Original document available to readers');
+     }
      await detail.locator('.claim-evidence-list li').first().waitFor({state:'visible'});
      assert.equal(await detail.locator('.claim-evidence-list li').count()>=test.minSources,true,
       'Readers can inspect '+test.minSources+' source locations');
@@ -81,6 +95,10 @@ const profiles=[
      assert.equal(await host.locator('.claim-role-card').count(),2,'Original institution records plus independent scope decision');
     }else if(test.kind==='policy'){
      assert.match(await host.innerText(),/Not applicable/,'Policy proposals never receive UAP-event scores');
+     const detail=host.locator('.claim-review .claim-evidence-details');
+     await detail.locator('summary').click();
+     assert.equal(await detail.locator('.claim-audit-draft').count(),1,'Policy source comparison still visible without a numerical rating');
+     assert.match(await detail.locator('.claim-audit-draft').innerText(),/Unsigned research check/);
      assert.equal(await host.locator('[data-evidence-claim-id]').count(),0);
     }else{
      assert.equal(await host.locator('.claim-review').count(),0,'FOIA archivist has no forced event claim');
