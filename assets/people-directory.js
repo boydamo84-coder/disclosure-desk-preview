@@ -241,6 +241,30 @@ function evidenceTrailHtml(claim,review,entries){
   ' · Edition '+esc(review.revision)+' · Method: '+esc(review.methodology)+'</p>'+
   '<p class="muted small">Records are classified by how they relate to this specific claim, not as proof of a particular explanation. Original publishers control access and copyright; a link may change or become unavailable later.</p>';
 }
+function draftEvidenceTrailHtml(claim){
+ const draft=claim?.researchEvidence;
+ if(draft?.status!=='research_draft'||!Array.isArray(draft.items)||draft.items.length>20||
+    typeof draft.editorialNote!=='string'||draft.editorialNote.trim().length<35)return '';
+ const entries=draft.items.filter(e=>e&&
+   typeof e.id==='string'&&/^[a-z0-9][a-z0-9-]{2,65}$/.test(e.id)&&
+   EVIDENCE_STANCES[e.stance]&&EVIDENCE_TYPES[e.type]&&e.access==='public'&&
+   safeUrl(e.url)&&typeof e.title==='string'&&e.title.trim().length>=8&&
+   typeof e.locator==='string'&&e.locator.trim().length>=3&&
+   typeof e.reviewNote==='string'&&e.reviewNote.trim().length>=25&&
+   typeof e.checkedAt==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(e.checkedAt));
+ if(!entries.length)return '';
+ const items=entries.map(e=>
+   '<li><strong>'+esc(e.title)+'</strong>'+
+   '<span class="muted small"> · '+esc(EVIDENCE_TYPES[e.type])+' · '+esc(EVIDENCE_STANCES[e.stance])+'</span>'+
+   '<p class="muted small">Find it: '+esc(e.locator)+' · Link consulted '+esc(e.checkedAt)+'</p>'+
+   '<p>'+esc(e.reviewNote)+'</p>'+
+   '<a href="'+esc(safeUrl(e.url))+'" target="_blank" rel="noopener noreferrer">Read original source ↗</a></li>'
+ ).join('');
+ return '<p class="claim-draft-warning"><strong>Research notes — NOT a completed evidence review.</strong> The links below include original reporting and broader context. Listing a document does not establish that the underlying event occurred, or that conflicting interpretations have been fully checked.</p>'+
+  '<p class="muted small"><strong>Open questions:</strong> '+esc(draft.editorialNote)+'</p>'+
+  '<h5>Public materials consulted (provisional)</h5><ul class="claim-evidence-list">'+items+'</ul>'+
+  '<p class="muted small">No criterion-by-criterion points or community votes are available until a separate source-and-editorial approval.</p>';
+}
 function publishedClaimReview(claim){
  const r=claim?.review;
  if(!r||r.status!=='published'||r.methodology!=='dd-claim-evidence-v1')return null;
@@ -383,7 +407,7 @@ function renderClaimEvidence(person){
     '<div class="claim-dual">'+sitePanel+communityPanel+'</div>'+
     '<details class="claim-evidence-details"><summary>'+ (r?
       'View evidence &amp; scoring breakdown':'View original evidence sources (review pending)')+'</summary>'+
-      (r?detailedReview:'<p class="muted small">These are source references to what was publicly said or reported. No completed independent evidence assessment, corroboration audit or scoring conclusion has been published for this claim.</p>')+
+      (r?detailedReview:draftEvidenceTrailHtml(claim)||'<p class="muted small">These are source references to what was publicly said or reported. No completed independent evidence assessment, corroboration audit or scoring conclusion has been published for this claim.</p>')+
     '</details>'+
     '<p class="muted small">Both ratings concern supporting evidence for this specific claim, not this person’s trustworthiness or the probability that any extraordinary interpretation is true.</p>'+
     '<div class="claim-record"><strong>Original statement / public-source references</strong>'+
