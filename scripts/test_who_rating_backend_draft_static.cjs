@@ -40,6 +40,12 @@ match(/CASE WHEN a\.rating_count >= 5 THEN round\(a\.mean_score,1\) ELSE NULL::N
 match(/mine\.voter_id=\(SELECT auth\.uid\(\)\)/, 'Own rating derived from server JWT');
 match(/v_uid UUID := \(SELECT auth\.uid\(\)\)/, 'Member identity from server JWT');
 match(/auth\.jwt\(\)->>'is_anonymous'/, 'Anonymous account cannot vote');
+match(/v_session_text TEXT := \(SELECT auth\.jwt\(\)->>'session_id'\)/, 'Session ID must come from server-verified JWT');
+match(/v_session_text IS NULL/, 'Missing session ID must be rejected');
+match(/v_session_text !~\*/, 'Malformed session IDs must fail closed');
+match(/FROM auth\.sessions AS sess/, 'Write requires live GoTrue Auth session row');
+match(/sess\.id=v_session_text::UUID AND sess\.user_id=v_uid/, 'Session must belong to the same JWT account');
+match(/Active sign-in session required/, 'Revoked/missing session cannot vote');
 match(/NOT EXISTS \([\s\S]*?dd_who_reviewable_claims c[\s\S]*?c\.enabled/, 'Disabled claims cannot be rated');
 match(/pg_advisory_xact_lock/, 'User rating mutations serialised');
 match(/INTERVAL '3 minutes'/, 'Cooldown');
