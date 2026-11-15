@@ -720,7 +720,7 @@
    ensureActive();
    $('r3CloudDownload').disabled=false;$('r3CloudDelete').disabled=false;
    cloudStatus('Encrypted cloud backup saved to your verified account. Your passphrase never left the browser.');
-  }catch(err){cloudStatus('Cloud backup was NOT saved: '+err.message,true)}
+  }catch(err){cloudStatus('Encrypted cloud backup not confirmed: '+err.message,true)}
   finally{busy=false;updateSecurityUI()}
  }
  async function downloadCloud(){
@@ -780,7 +780,7 @@
    ensureActive();await cloud.deleteEncrypted(row.generation);
    ensureActive();$('r3CloudDownload').disabled=true;$('r3CloudRestore').disabled=true;
    cloudStatus('Encrypted account backup deleted. Local notebooks and downloaded files were not touched.');
-  }catch(err){cloudStatus('Cloud backup was not deleted: '+err.message,true)}
+  }catch(err){cloudStatus('Cloud deletion not confirmed: '+err.message,true)}
   finally{busy=false;$('r3CloudDelete').disabled=false}
  }
  async function startR3(){

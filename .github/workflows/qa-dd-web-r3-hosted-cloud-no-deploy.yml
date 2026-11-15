@@ -8,6 +8,7 @@ on:
       - 'scripts/build_r3_hosted_assets.cjs'
       - 'scripts/test_r3_hosted_browser_chromium.cjs'
       - 'scripts/test_r3_cloud_identity.cjs'
+      - 'scripts/test_r3_cloud_uncertain_writes.cjs'
       - 'scripts/test_public_release_package.cjs'
       - 'index.html'
       - 'privacy.html'
@@ -35,6 +36,8 @@ jobs:
           node --check scripts/test_r3_hosted_browser_chromium.cjs
           node --check scripts/test_r3_cloud_identity.cjs
           node scripts/test_r3_cloud_identity.cjs
+          node --check scripts/test_r3_cloud_uncertain_writes.cjs
+          node scripts/test_r3_cloud_uncertain_writes.cjs
           node --check scripts/build_public_release.cjs
           node --check scripts/test_public_release_package.cjs
       - name: Verify pinned Supabase browser SDK for reproducible secure loading

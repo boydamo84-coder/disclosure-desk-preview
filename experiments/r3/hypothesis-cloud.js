@@ -18,6 +18,8 @@
  const HEX=/^[0-9a-f]{32}$/;
  let initial=null,initialized=false,identityVersion=0;
  const failure=text=>{throw new Error(text)};
+ const SAVE_UNKNOWN='Encrypted cloud save could not be confirmed. The server may have accepted it before the connection failed. Keep your local encrypted copy, reconnect and check the cloud backup before trying again.';
+ const DELETE_UNKNOWN='Encrypted cloud deletion could not be confirmed. The server may already have deleted it. Reconnect and check your account before trying again.';
  function validUser(user){
   return user&&!user.is_anonymous&&UUID.test(String(user.id||''))?user:null;
  }
@@ -94,14 +96,15 @@
    const {data,error}=await client.from(TABLE)
     .insert({owner_user_id:id,encrypted_envelope:envelope,generation:envelope.generation})
     .select('generation').maybeSingle();
-   if(error||!data)failure('A cloud backup already exists, or cloud storage is unavailable. Nothing was overwritten.');
+   if(error?.code==='23505')failure('An encrypted cloud backup already exists. Nothing was overwritten. Check the saved version before replacing it.');
+   if(error||!data)failure(SAVE_UNKNOWN);
   }else{
    if(!HEX.test(expectedCloudGeneration))failure('Cloud backup version must be verified first');
    const {data,error}=await client.from(TABLE)
     .update({encrypted_envelope:envelope,generation:envelope.generation,updated_at:new Date().toISOString()})
     .eq('owner_user_id',id).eq('generation',expectedCloudGeneration)
     .select('generation').maybeSingle();
-   if(error)failure('Cloud update failed: '+error.message);
+   if(error)failure(SAVE_UNKNOWN);
    if(!data)failure('Cloud backup changed in another session. Nothing was overwritten.');
   }
   await verifyAfter(id,epoch);
@@ -113,7 +116,7 @@
   const {data,error}=await client.from(TABLE).delete()
    .eq('owner_user_id',id).eq('generation',expectedCloudGeneration)
    .select('generation').maybeSingle();
-  if(error)failure('Cloud deletion failed: '+error.message);
+  if(error)failure(DELETE_UNKNOWN);
   if(!data)failure('Cloud backup changed; nothing was deleted');
   await verifyAfter(id,epoch);
   return true;
