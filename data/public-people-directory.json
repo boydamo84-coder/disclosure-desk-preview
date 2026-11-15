@@ -1563,10 +1563,10 @@
         "status": "license_metadata_crosschecked",
         "checkedAt": "2026-11-15",
         "sourceUrl": "https://commons.wikimedia.org/wiki/File:George_Knapp_(8221331696)_(cropped).jpg",
-        "detail": "Commons Peabody Awards/Flickr source credits Anders Krusberg and photo crop, CC BY 2.0, and expressly warns about personality/model rights. Its body dates conflict (event caption says 17 May 2010; upload/source header says May 2009), requiring primary Peabody/Flickr event date confirmation. This is a public metadata/licence listing verification only; final editorial legal and image identity approval remains withheld.",
+        "detail": "Commons' cropped Peabody Awards photo lists Anders Krusberg / Peabody Awards credit and CC BY 2.0, but also warns about personality/model rights. The Peabody organisers' original 69th annual ceremony record dates the event to 17 May 2010, matching the Flickr caption, whereas the photo's Commons/Flickr taken-date metadata says 18 May 2009 (the day of the 68th awards). This narrows the discrepancy but does NOT establish which event this precise image captures or fix the camera clock, caption or 2012 upload metadata. Final attribution, exact image provenance, modification licence and personality rights remain for a named human rights reviewer; final approval withheld.",
         "finalRightsApproval": false,
         "independentRightsReviewer": "not_assigned",
-        "rightsFollowup": "Resolve Peabody event date inconsistency between the photo caption and archive metadata; personal-rights caveat applies."
+        "rightsFollowup": "Compare the precise original Peabody Flickr item and crop chain against organiser 69th event listing https://peabodyawards.com/stories/complete-69th-annual-peabody-awards-may-17th-2010/; resolve original image taken-date 18 May 2009 vs 17 May 2010 caption without guessing; get image/legal reviewer signoff."
       }
     },
     {
@@ -4503,7 +4503,7 @@
             "original": {
               "url": "https://nickpope.net/wpte19/rendlesham-forest/",
               "locator": "Nick Pope original first-person Rendlesham article; attributed 2013 summary delivered to a group of former US congressional representatives, paragraph 'In the course of my cold case review' through conclusions on conventional explanations",
-              "assessment": "Pope's first-party published article states that he retrospectively assessed proposed mundane explanations and found none fit the reported facts. He does NOT claim to have been present at the December 1980 scene: the essay is a later interpretation of testimony and records. The original article was discoverable through indexed first-party text but a direct web open redirected to a blocked mirror, so original page availability and historical revision date need an independent check. An inconclusive conventional explanation is not evidence by itself for a non-human object."
+              "assessment": "Pope's first-party published article states that he retrospectively assessed proposed mundane explanations and found none fit his version of the reported facts. He expressly says the 1980 events preceded his 1991–1994 MoD UFO-desk work; he was not a firsthand observer. The original authored HTML briefing is directly readable in a 15 November 2026 web check, but its original 2013 revision state, underlying documents and reported incident evidence have not been independently authenticated. His conclusion that proposed conventional explanations were unconvincing does not by itself establish an extraordinary craft."
             },
             "independentEvidence": "The National Archives' official records guide separately verifies 1980 sightings, Lt Col Halt's January 1981 report, and exact DEFE file location. That archive is independent of Pope's later review, but it is the *same underlying historic case*, not an additional laboratory experiment. Pope's books, his web briefing and retellings of other personnel must not be counted as multiple distinct event measurements.",
             "competingRecord": "Pope's own source acknowledges the Ministry of Defence described the incident as of no defence significance, even though reports remained unexplained. The 2012 National Archives research briefing describes lights, separate nights, and collected military correspondence, not a conclusively demonstrated landing or identified origin. Competing beacon/astronomical/aircraft hypotheses require original geometry, event-time and instrument records rather than dismissive labels.",
@@ -4516,23 +4516,23 @@
             "date": "2026-11-15",
             "claimType": "retrospective_case_interpretation",
             "scorePath": "method_specific_review_pending",
-            "primarySourceAccess": "partial_original_or_abstract_only",
+            "primarySourceAccess": "publisher_text_first_pass",
             "reason": "A retrospective Rendlesham analysis rejecting proposed mundane explanations is not firsthand 1980 observation or proof of an extraordinary craft.",
-            "requiredNextCheck": "Verify full original briefing, separate the incident nights and model documented conventional hypotheses against contemporaneous records.",
+            "requiredNextCheck": "Compare the directly accessible retrospective author article with an original 2013 publication/version record and independently examine each 1980 witness and documentary source, separate incidents and conventional alternatives before deciding on any incident score.",
             "secondEditor": "not_assigned",
             "publicationApproval": "withheld"
           },
           "sourceAccessCheck": {
-            "status": "original_author_page_indexed_direct_fetch_blocked",
+            "status": "original_author_page_text_retrieved",
             "reviewStage": "m16_source_access_only",
             "checkedAt": "2026-11-15",
             "primaryUrl": "https://nickpope.net/wpte19/rendlesham-forest/",
-            "observation": "Search-engine index of Pope's own published Rendlesham summary is readable and attributes the 2013 retrospective briefing to him. It describes his later MoD cold-case interpretation and says proposed ordinary explanations did not fit his account; it also acknowledges the ministry's no-defence-significance position. Direct original nickpope.net page fetch failed at a www redirect in this environment. Indexed excerpts are not a verified complete first-party page or independent original 1980 witness observation.",
-            "nextAction": "Open the authentic original canonical Pope page in a regular browser, preserve lawful full text and revision date, compare the 2013 Citizen Hearing recording and contemporaneous MoD notes/night-by-night evidence, and obtain named independent reviewer verification before any metric.",
+            "observation": "The original author-published 2013 Rendlesham Forest briefing on nickpope.net was directly retrieved as public HTML on 15 November 2026. Pope states the 1980 sightings took place before his MoD service, describes his later 1991–1994 UFO-desk inquiries and retrospective review, and gives his interpretation of alternative explanations. The same page acknowledges the MoD's 'no defense significance' position and says Pope did not know the results of US investigations. Reading his article verifies attribution and his retrospective opinion, not any object, radar return, physical landing, unaltered 2013 presentation version or independent 1980 observation.",
+            "nextAction": "Obtain a dated 2013 archival snapshot/recorded presentation to compare revisions and wording, then check the separate 1980 witness documents, Halt tape, aircraft and beacon timelines and original radar/measurement claims with an independent qualified reviewer before any assessment.",
             "referenceUrl": null,
             "fullOriginalReviewed": false,
             "secondEditorSignoff": "not_obtained",
-            "locator": "Original Nick Pope authored Rendlesham Forest case summary labelled 2013: paragraphs on his MoD cold-case review, conventional hypotheses and the 'no defence significance' MoD finding (indexed public page; direct canonical URL 500 redirect error in fetcher)"
+            "locator": "Original Nick Pope first-party Rendlesham Forest HTML briefing at nickpope.net/wpte19/rendlesham-forest/: introductory 2013 presentation context; 'Though these events happened some time before I joined the MoD'; 'My cold case review'; MoD 'no defense significance' paragraphs"
           }
         }
       ],
