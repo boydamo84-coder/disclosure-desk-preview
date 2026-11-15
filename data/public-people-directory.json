@@ -1855,6 +1855,73 @@
           "type": "Docuseries",
           "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
+      ],
+      "claimEvidence": [
+        {
+          "id": "elizondo-2024-advanced-uap-claims",
+          "statement": "Luis Elizondo alleged in November 2024 House testimony that US authorities possess advanced UAP technology and that certain UAP-related activities lacked adequate public or congressional oversight.",
+          "date": "2024-11-13",
+          "context": "This is an accurately attributed public allegation, not an independently established fact about recovered objects, their origin or the legality of particular classified programmes.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "GovInfo: 13 November 2024 congressional hearing transcript",
+              "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+              "context": "Search for the individual statement in the hearing. This records testimony, not independent proof of its underlying assertion."
+            }
+          ],
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "The written and oral statements authenticate that Elizondo made these assertions. Underlying programme identifiers, physical materials, chain of custody and independent technical tests were not accessible in these sources. AARO's March 2024 historical findings are a contrary institution-level assessment published before this testimony, not an individual finding that Elizondo fabricated claims. Separately verify any sources he identifies and do not infer extraterrestrial origin from an unresolved sighting.",
+            "items": [
+              {
+                "id": "elizondo-gpo-2024",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+                "title": "GovInfo: Elizondo oral testimony, 2024 House hearing",
+                "locator": "Statement of Luis Elizondo, printed page 11; opening discussion of possession and oversight",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Elizondo testified publicly that governments hold advanced UAP technology and asserted undisclosed programmes. The hearing transcript records his words without presenting publicly inspectable physical sample evidence."
+              },
+              {
+                "id": "elizondo-written-2024",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Elizondo.pdf",
+                "title": "Luis Elizondo's written 2024 congressional statement",
+                "locator": "Opening statement, first page, paragraphs on UAP technology and governmental secrecy",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "The prepared witness statement confirms his allegations in his own words. It is not an independent second witness or laboratory examination of recovered materials."
+              },
+              {
+                "id": "elizondo-aaro-history-2024",
+                "type": "analysis",
+                "stance": "challenges",
+                "access": "public",
+                "url": "https://www.defense.gov/News/News-Stories/Article/Article/3701297/dod-report-discounts-sightings-of-extraterrestrial-technology/",
+                "title": "Department of Defense: AARO historical-record report findings",
+                "locator": "DoD News, March 8, 2024: government/industry extraterrestrial technology and programme records",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "The Department said AARO had found no verifiable evidence of extraterrestrial technology or secret reverse-engineering findings in its historical review. This is a competing official institutional assessment, not conclusive adjudication of every confidential claim raised later."
+              },
+              {
+                "id": "elizondo-committee-witness-2024",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventId=117722",
+                "title": "Official House repository for the 2024 UAP hearing",
+                "locator": "Luis Elizondo witness section, statement and November 20 testimony addendum",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "The House repository confirms appearance, prepared testimony and a later addendum. All these arise from the same witness and do not independently validate extraordinary technological claims."
+              }
+            ]
+          }
+        }
       ]
     },
     {
@@ -3165,7 +3232,75 @@
       "videos": [],
       "socialPages": [],
       "podcastEpisodes": [],
-      "filmCredits": []
+      "filmCredits": [],
+      "claimEvidence": [
+        {
+          "id": "gold-2024-nasa-uap-research-proposals",
+          "statement": "Mike Gold recommended in November 2024 testimony that NASA encourage open scientific study, improve UAP data collection and consider dedicated analysis methods and instruments.",
+          "date": "2024-11-13",
+          "claimKind": "policy_recommendation",
+          "context": "This is an attributed scientific-policy recommendation, not a testable assertion that a nonhuman craft was detected. It should be source-linked but never assigned an extraordinary-claim evidence-strength score.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "GovInfo: 13 November 2024 congressional hearing transcript",
+              "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+              "context": "Search for the individual statement in the hearing. This records testimony, not independent proof of its underlying assertion."
+            }
+          ],
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "Gold stated his testimony was personal, not a statement on behalf of NASA or his employer. The congressional transcript and filed statement establish his recommendations. NASA independently published a UAP independent-study report, but that does not make every subsequent individual Gold suggestion an official NASA policy or proof of extraterrestrial technology. Treat recommendations as not applicable to a 0–100 UAP-event evidence score.",
+            "items": [
+              {
+                "id": "gold-gpo-2024",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+                "title": "GovInfo: Mike Gold oral testimony, 2024 House hearing",
+                "locator": "Statement of Michael Gold, printed page 16; science/data and stigma",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Gold advocated systematic observation, data collection and reducing stigma. He explicitly testified on his own behalf and not for NASA or Redwire."
+              },
+              {
+                "id": "gold-written-2024",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Gold.pdf",
+                "title": "Mike Gold original written testimony filed with Congress",
+                "locator": "Sections III and IV: possible NASA activities; dedicated instruments; conclusion",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "The original written recommendations include better reporting, archival research, scientific methods and specialised instruments. They constitute advocacy for a research approach, not an occurrence claim."
+              },
+              {
+                "id": "gold-nasa-report-2023",
+                "type": "analysis",
+                "stance": "context",
+                "access": "public",
+                "url": "https://science.nasa.gov/uap/",
+                "title": "NASA UAP independent study and final report landing page",
+                "locator": "NASA UAP page, Final Report September 14, 2023 and the study task description",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "NASA's official work shows that a study team examined scientific data and recommended improved observations. This is institutional scientific context, not validation of any particular extraordinary aerial encounter."
+              },
+              {
+                "id": "gold-nasa-team-2022",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+                "title": "NASA official list of UAP independent study team members",
+                "locator": "NASA October 21, 2022 announcement, Mike Gold listed among study members",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "The original agency roster supports Gold's participation in the independent study team. It does not imply he spoke for NASA in his later individual congressional testimony."
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "david-grinspoon",
@@ -4567,7 +4702,74 @@
       "videos": [],
       "socialPages": [],
       "podcastEpisodes": [],
-      "filmCredits": []
+      "filmCredits": [],
+      "claimEvidence": [
+        {
+          "id": "gallaudet-2024-navy-safety-email",
+          "statement": "Tim Gallaudet testified in November 2024 that he received a January 2015 Navy safety-of-flight email with the Go Fast video attached, and that the email later disappeared from his account.",
+          "date": "2024-11-13",
+          "context": "Gallaudet's account is a firsthand description of receiving and later losing an email. The original email and administrative records have not been independently inspected here. His interpretation of the video is distinct from the 2025 government technical analysis.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "GovInfo: 13 November 2024 congressional hearing transcript",
+              "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+              "context": "Search for the individual statement in the hearing. This records testimony, not independent proof of its underlying assertion."
+            }
+          ],
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "Locate the original Navy email and deletion/audit trail, identify other recipients and contemporaneous reports, and distinguish the specific Go Fast video analysis from the separate allegation that safety messages were suppressed. AARO's 2025 speed/altitude assessment challenges claims of extraordinary motion in that video but does not prove the email was never received or that all other aviation reports are explained.",
+            "items": [
+              {
+                "id": "gallaudet-gpo-2024",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+                "title": "GovInfo: Gallaudet oral testimony, 2024 House hearing",
+                "locator": "Statement of Tim Gallaudet, opening statement, printed page 9; search 'URGENT SAFETY OF FLIGHT ISSUE'",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "His sworn public account states that he received a naval safety email, describes Go Fast as an attachment and says the email disappeared. The original message itself is not reproduced in the transcript."
+              },
+              {
+                "id": "gallaudet-written-2024",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.congress.gov/118/meeting/house/117721/witnesses/HHRG-118-GO12-Wstate-GallaudetPhDRearAdmiralUSNavyRetT-20241113.pdf",
+                "title": "Gallaudet original written testimony filed with Congress",
+                "locator": "First page and safety-of-flight email narrative; testimony November 13, 2024",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "The author's prepared account offers more detail about the claimed email and his interpretation. It remains the same witness's account, not an independent corroborating email."
+              },
+              {
+                "id": "gallaudet-aaro-gofast-2025",
+                "type": "analysis",
+                "stance": "challenges",
+                "access": "public",
+                "url": "https://www.aaro.mil/Portals/136/PDFs/case_resolution_reports/AARO_GoFast_Case_Resolution_Card_Methodology_Final.pdf",
+                "title": "AARO technical case-resolution methodology: Go Fast",
+                "locator": "February 6, 2025, page 1: assessed altitude and wind-adjusted speed; page 3: motion parallax",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "AARO concludes with high confidence that the Go Fast video object did not show anomalous speed, estimating approximately 13,000 feet altitude and 5 to 92 mph wind-adjusted speed. It does not identify the object or adjudicate any missing email."
+              },
+              {
+                "id": "gallaudet-dod-videos-2020",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+                "title": "US Department of Defense release of three historical Navy videos",
+                "locator": "April 27, 2020 public release statement: FLIR, GIMBAL, GOFAST recordings",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "DoD authenticates the public Navy recordings and says the depicted phenomena remained unidentified in that release. Authentication of footage is not confirmation of exceptional performance, a removed email or deliberate concealment."
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "michael-shellenberger",
@@ -4642,7 +4844,74 @@
       "videos": [],
       "socialPages": [],
       "podcastEpisodes": [],
-      "filmCredits": []
+      "filmCredits": [],
+      "claimEvidence": [
+        {
+          "id": "shellenberger-2024-immaculate-constellation",
+          "statement": "Michael Shellenberger told Congress in November 2024 that sources had provided an unverified report alleging a concealed US government UAP programme called Immaculate Constellation.",
+          "date": "2024-11-13",
+          "context": "A public House-filed report and hearing testimony establish that the allegation was submitted, not that the claimed special access programme or its imagery intelligence database exists.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "GovInfo: 13 November 2024 congressional hearing transcript",
+              "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+              "context": "Search for the individual statement in the hearing. This records testimony, not independent proof of its underlying assertion."
+            }
+          ],
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "The 12-page document filed with Congress is an anonymous-source allegation, not an independently authenticated government programme record. Shellenberger's submitted testimony quotes the Department of Defense saying it has no record of a programme by this name; the quote is reproduced in his document, not separately source-verified here as an independent DoD release. No underlying sensor files, classified programme authorisations or verified database extracts have been provided in this research trail. The testimony PDF cover prints 'November 13, 2023' despite official hearing records giving November 13, 2024; treat it as a cover-date discrepancy, not a 2023 hearing.",
+            "items": [
+              {
+                "id": "shellenberger-gpo-2024",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+                "title": "GovInfo: Shellenberger oral testimony, 2024 House hearing",
+                "locator": "Statement of Michael Shellenberger, printed page 13; discussion of submitted report",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Shellenberger describes sources' allegations concerning a database and an unacknowledged programme. His own oral testimony is evidence that the allegations were stated, not confirmation the named programme exists."
+              },
+              {
+                "id": "shellenberger-written-2024",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Shellenberger.pdf",
+                "title": "Shellenberger original written testimony with embedded DoD response",
+                "locator": "Textual page labelled 'Shellenberger Testimony 7': quoted DoD no-record denial",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "This publisher-hosted testimony records both the allegation and a quotation attributed to a DoD spokesperson denying any such programme record. It is the journalist's document, not a standalone original DoD communication; the PDF cover has a conflicting 2023 date."
+              },
+              {
+                "id": "shellenberger-house-report-2024",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://docs.house.gov/meetings/GO/GO06/20241113/117722/HHRG-118-GO06-20241113-SD003.pdf",
+                "title": "US House repository: submitted Immaculate Constellation document",
+                "locator": "Page 1: Introduction and section 1, Immaculate Constellation",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "This publicly filed 12-page document gives the underlying allegation's wording. Filing a document with Congress does not make its anonymous author's access, underlying records or conclusions verified."
+              },
+              {
+                "id": "shellenberger-aaro-history-2024",
+                "type": "analysis",
+                "stance": "challenges",
+                "access": "public",
+                "url": "https://www.defense.gov/News/News-Stories/Article/Article/3701297/dod-report-discounts-sightings-of-extraterrestrial-technology/",
+                "title": "DoD AARO historical-record findings on concealed UAP projects",
+                "locator": "March 8, 2024: secret UAP recovery and extraterrestrial reverse-engineering allegations",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "AARO reported no verified evidence of extraterrestrial retrieval or reverse-engineering programmes in its historic review. It was published before the later named Immaculate Constellation allegation and should not be labelled as a programme-specific investigation or definitive refutation."
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "john-greenewald-jr",
