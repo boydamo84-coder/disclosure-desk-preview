@@ -217,7 +217,7 @@ assert.match(data.people.find(p=>p.id==='bob-lazar').claimEvidence[0].sourceAudi
 assert.match(data.people.find(p=>p.id==='jake-barber').claimEvidence[0].sourceAudit.independentEvidence,/SAME newsroom/);
 assert.match(data.people.find(p=>p.id==='larry-warren').claimEvidence[0].sourceAudit.independentEvidence,/UK National Archives/);
 assert.equal(data.people.find(p=>p.id==='larry-warren').claimEvidence[0].sourceAudit.relatedSourceGroup,data.people.find(p=>p.id==='nick-pope').claimEvidence[0].sourceAudit.relatedSourceGroup,'Warren and Pope refer to one historical incident, not two independently corroborated events');
-assert.match(data.people.find(p=>p.id==='nick-pope').claimEvidence[0].sourceAudit.original.assessment,/he was not a firsthand observer/,'Author's retrospective 1990s review must never be recast as firsthand 1980 sighting');
+assert.match(data.people.find(p=>p.id==='nick-pope').claimEvidence[0].sourceAudit.original.assessment,/he was not a firsthand observer/,"The retrospective 1990s review must never be recast as firsthand 1980 sighting");
 assert.match(data.people.find(p=>p.id==='christopher-mellon').claimEvidence[0].sourceAudit.competingRecord,/legitimately postponed records/);
 assert.match(data.people.find(p=>p.id==='james-fox').claimEvidence[0].sourceAudit.original.assessment,/1966.*typo/);
 assert.match(data.people.find(p=>p.id==='leslie-kean').claimEvidence[0].sourceAudit.original.assessment,/identities or full primary statements/);
