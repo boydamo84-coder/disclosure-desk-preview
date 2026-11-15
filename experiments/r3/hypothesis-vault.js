@@ -9,6 +9,15 @@
  const DB_NAME='dd-r3-hypothesis-vault-alpha-1';
  const STORE='encrypted';
  const ENTRY='local-vault';
+ // Offline Termux keeps its original storage slot. Hosted R3 explicitly scopes
+ // a separate encrypted browser slot to the verified Supabase account UUID.
+ let storageEntry=ENTRY;
+ function configureScope(ownerId){
+  if(ownerId===null){storageEntry='guest-local-v1';return;}
+  if(typeof ownerId!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(ownerId))
+   err('Authenticated account ID is invalid');
+  storageEntry='account-'+ownerId.toLowerCase();
+ }
  const ITERATIONS=310000;
  const MAX_BYTES=1024*1024;
  const MAX_FILE_BYTES=2*1024*1024;
@@ -178,7 +187,7 @@
   const db=await database();
   return new Promise((resolve,reject)=>{
    const tx=db.transaction(STORE,'readonly');
-   const request=tx.objectStore(STORE).get(ENTRY);
+   const request=tx.objectStore(STORE).get(storageEntry);
    let value=null;
    request.onsuccess=()=>{value=request.result||null};
    tx.oncomplete=()=>{db.close();resolve(value)};
@@ -190,7 +199,7 @@
   const db=await database();
   return new Promise((resolve,reject)=>{
    const tx=db.transaction(STORE,'readwrite');
-   tx.objectStore(STORE).add(envelope,ENTRY);
+   tx.objectStore(STORE).add(envelope,storageEntry);
    tx.oncomplete=()=>{db.close();resolve(envelope)};
    tx.onerror=()=>{db.close();reject(new Error('A saved vault already exists; unlock or delete it first'))};
    tx.onabort=()=>{db.close();reject(new Error('Cannot replace an existing vault without explicit deletion'))};
@@ -218,12 +227,12 @@
   const db=await database();
   return new Promise((resolve,reject)=>{
    const tx=db.transaction(STORE,'readwrite'),store=tx.objectStore(STORE);
-   const req=store.get(ENTRY);
+   const req=store.get(storageEntry);
    req.onsuccess=()=>{
     if(req.result?.generation!==expectedGeneration){
      tx.abort();return;
     }
-    store.put(next,ENTRY);
+    store.put(next,storageEntry);
    };
    tx.oncomplete=()=>{db.close();resolve(next.generation)};
    tx.onerror=()=>{db.close();reject(new Error('Encrypted save failed'))};
@@ -252,14 +261,14 @@
   const db=await database();
   await new Promise((resolve,reject)=>{
    const tx=db.transaction(STORE,'readwrite');
-   tx.objectStore(STORE).delete(ENTRY);
+   tx.objectStore(STORE).delete(storageEntry);
    tx.oncomplete=resolve;
    tx.onerror=()=>reject(new Error('Local vault deletion failed'));
    tx.onabort=()=>reject(new Error('Local vault deletion aborted'));
   }).finally(()=>db.close());
  }
  Object.defineProperty(window,'DDPrivateVault',{
-  value:Object.freeze({create,unlock,save,readStored,encryptedExport,importBackup,deleteLocalVault,validateBook}),
+  value:Object.freeze({create,unlock,save,readStored,encryptedExport,importBackup,deleteLocalVault,validateBook,configureScope}),
   configurable:false,writable:false
  });
 })();
