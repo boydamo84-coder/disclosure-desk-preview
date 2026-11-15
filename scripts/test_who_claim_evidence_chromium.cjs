@@ -202,8 +202,9 @@ const profiles=[
        assert.match(await accessPanel.innerText(),/one coauthored paper and one parent sample/,'Nolan and Vallee material not independently duplicated');
       }
       if(test.name==='Nick Pope'){
-       assert.match(await accessPanel.innerText(),/Original author essay indexed, canonical page directly blocked/,'Canonical Nick Pope first-party URL blocked despite search index');
-       assert.match(await accessPanel.innerText(),/Full original reviewed: No/,'Nick Pope full first party case not independently viewed');
+       assert.match(await accessPanel.innerText(),/Original author essay directly accessible/,'M21 direct Nick Pope original essay now readable');
+       assert.match(await accessPanel.innerText(),/1980 sightings took place before his MoD service/,'Access does not convert Pope into 1980 eyewitness');
+       assert.match(await accessPanel.innerText(),/Full original reviewed: No/,'Nick Pope authored page opened but original 1980 case not independently verified');
       }
       if(['Ross Coulthart','Jake Barber','Bob Lazar'].includes(test.name))
        assert.match(await accessPanel.innerText(),/Original-source access unavailable/);
