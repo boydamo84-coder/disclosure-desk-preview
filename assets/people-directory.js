@@ -368,15 +368,53 @@ async function hydrateCommunityRatings(){
   });
  }
 }
+// Source-backed role or legislative record, deliberately independent from
+// extraordinary-event claim scoring and any member rating controls.
+const PUBLIC_ROLE_KINDS=Object.freeze({
+ institutional_role:'NASA study role',
+ legislative_role:'Congressional task-force role',
+ legislative_action:'Legislative action',
+ congressional_oversight:'Congressional oversight'
+});
+function renderPublicRoleEvidence(person){
+ const role=person?.roleEvidence;
+ if(!role||role.status!=='official_source_crosscheck'||
+    !PUBLIC_ROLE_KINDS[role.kind]||
+    typeof role.title!=='string'||role.title.trim().length<12||
+    typeof role.description!=='string'||role.description.trim().length<60||
+    !/^\\d{4}-\\d{2}-\\d{2}$/.test(role.eventDate||'')||
+    !Array.isArray(role.sources)||role.sources.length<2||role.sources.length>8)return '';
+ const sources=role.sources.filter(s=>s&&safeUrl(s.url)&&
+   typeof s.title==='string'&&s.title.trim().length>=8&&
+   typeof s.locator==='string'&&s.locator.trim().length>=6&&
+   typeof s.note==='string'&&s.note.trim().length>=25&&
+   /^\\d{4}-\\d{2}-\\d{2}$/.test(s.checkedAt||''));
+ if(sources.length<2)return '';
+ return '<article class="claim-role-card" aria-label="Public documentary role evidence">'+
+  '<div class="claim-status">'+esc(PUBLIC_ROLE_KINDS[role.kind])+' · '+esc(role.eventDate)+'</div>'+
+  '<h4>'+esc(role.title)+'</h4>'+
+  '<p>'+esc(role.description)+'</p>'+
+  '<p class="claim-role-caution"><strong>Not an incident evidence score.</strong> Official records establish the role or legislative action; they do not independently verify reported UAP events, endorsements of every argument or the origins of unidentified objects. This source cross-check is not a completed biography/portrait-rights review.</p>'+
+  '<details class="claim-evidence-details"><summary>Inspect original role &amp; legislative records ('+sources.length+')</summary>'+
+   '<ul class="claim-evidence-list">'+sources.map(x=>'<li><strong>'+esc(x.title)+'</strong>'+
+    '<p class="muted small">Where to look: '+esc(x.locator)+' · Checked '+esc(x.checkedAt)+'</p>'+
+    '<p>'+esc(x.note)+'</p>'+
+    '<a href="'+esc(safeUrl(x.url))+'" target="_blank" rel="noopener noreferrer">Read official source ↗</a></li>').join('')+'</ul>'+
+  '</details>'+
+  '<p class="muted small"><strong>Scoring:</strong> Not applicable to an official role or policy action. Separate specific public incident claims, where applicable, require their own sourced review.</p>'+
+ '</article>';
+}
 function renderClaimEvidence(person){
  const host=$('profileEvidenceReviews');
  if(!host)return;
+ const roleHtml=renderPublicRoleEvidence(person);
  const claims=Array.isArray(person.claimEvidence)?person.claimEvidence.slice(0,12):[];
  if(!claims.length){
-  host.innerHTML='<p class="note small"><strong>Disclosure Desk rating: Not assessed.</strong> There are no individually reviewed public claims for this profile yet. Community rating is not open on unreviewed statements. Biographies and citations do not constitute a personal score.</p>';
+  host.innerHTML=roleHtml+
+   '<p class="note small"><strong>Disclosure Desk rating: Not assessed.</strong> No individually reviewed public incident claim is attached to this profile. Documented institutional roles and disclosure legislation are not personal UAP credibility scores. No member rating is available.</p>';
   return;
  }
- host.innerHTML=claims.map(claim=>{
+ host.innerHTML=roleHtml+claims.map(claim=>{
   if(!claim||!claim.statement)return '';
   const advisory=claim.claimKind==='policy_recommendation';
   const r=publishedClaimReview(claim);
