@@ -15,6 +15,7 @@ on:
       - scripts/test_who_claim_evidence_chromium.cjs
       - scripts/test_who_rating_backend_draft_static.cjs
       - scripts/test_who_source_lineage.cjs
+      - scripts/test_who_m26_hearing_spotchecks.cjs
       - docs/WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql
       - docs/WHO_COMMUNITY_EVIDENCE_RATINGS_BACKEND_CONTRACT_2026-11-15.md
   workflow_dispatch:
@@ -54,12 +55,14 @@ jobs:
           node --check scripts/test_who_claim_evidence_chromium.cjs
           node --check scripts/test_who_rating_backend_draft_static.cjs
           node --check scripts/test_who_source_lineage.cjs
+          node --check scripts/test_who_m26_hearing_spotchecks.cjs
       - name: Run original source and no-score contract assertions
         shell: bash
         run: |
           node scripts/test_who_claim_evidence_contract.cjs
           node scripts/test_who_rating_backend_draft_static.cjs
           node scripts/test_who_source_lineage.cjs
+          node scripts/test_who_m26_hearing_spotchecks.cjs
       - name: Install browser automation only in ephemeral runner temp folder
         shell: bash
         run: |
