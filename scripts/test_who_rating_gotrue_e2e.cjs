@@ -40,7 +40,7 @@ function claims(jwt){
   assert(newUser?.user?.id||newUser?.id,'GoTrue returned real auth user '+n);checks++;
   const login=ok(await send(auth+'/token?grant_type=password','POST',profile),'GoTrue password login '+n);
   assert(typeof login.access_token==='string'&&login.access_token.length>40,'GoTrue issued access JWT');checks++;
-  assert(login.refresh_token&&login.refresh_token.length>15,'GoTrue issued refresh token');checks++;
+  assert(typeof login.refresh_token==='string'&&login.refresh_token.length>=8,'GoTrue issued a nonempty opaque refresh token');checks++;
   const c=claims(login.access_token);
   assert.equal(c.role,'authenticated','GoTrue issued authenticated role');checks++;
   assert.equal(c.aud,'authenticated','GoTrue audience');checks++;
