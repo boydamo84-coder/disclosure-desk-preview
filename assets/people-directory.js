@@ -453,17 +453,48 @@ function renderPublicWorkEvidence(person){
   '<p class="muted small"><strong>Scoring:</strong> Not applicable to a professional career or publication list. Any specific UAP-event claim needs its own independent source review and explicit editorial approval before a 0–100 score or member ballot.</p>'+
  '</article>';
 }
+// Explain source-limited no-score decisions, not personal credibility judgements.
+function renderEvidenceScope(person){
+ const d=person?.evidenceScope;
+ if(!d||d.status!=='research_scope_draft'||
+  d.classification!=='documented_role_or_publication_only'||
+  d.applicability!=='not_applicable_to_documented_role'||
+  !/^\\d{4}-\\d{2}-\\d{2}$/.test(d.reviewDate||'')||
+  [d.originalRole,d.scope,d.reason,d.nextEvidenceNeeded].some(v=>typeof v!=='string'||v.trim().length<30)||
+  !Array.isArray(d.sourceChecks)||d.sourceChecks.length<2||d.sourceChecks.length>6)return '';
+ const refs=d.sourceChecks.filter(s=>s&&safeUrl(s.url)&&
+  typeof s.title==='string'&&s.title.trim().length>10&&
+  typeof s.locator==='string'&&s.locator.trim().length>=6&&
+  typeof s.interpretation==='string'&&s.interpretation.trim().length>=30);
+ if(refs.length!==d.sourceChecks.length)return '';
+ return '<section class="claim-role-card claim-scope-review" aria-label="Evidence scope and scoring eligibility decision">'+
+  '<div class="claim-status">Research scope check · '+esc(d.reviewDate)+'</div>'+
+  '<h4>Why no event-claim percentage?</h4>'+
+  '<p><strong>Not applicable to the documented role or work.</strong> This is not a 0/100 score for the person. A separate, specific event assertion can still be examined if a suitable primary source is found.</p>'+
+  '<p><strong>What was reviewed:</strong> '+esc(d.scope)+'</p>'+
+  '<p>'+esc(d.reason)+'</p>'+
+  '<details class="claim-evidence-details"><summary>Inspect why this role is not scored ('+refs.length+' source checks)</summary>'+
+   '<p class="muted small"><strong>What further evidence could change the scope:</strong> '+esc(d.nextEvidenceNeeded)+'</p>'+
+   '<ul class="claim-evidence-list">'+refs.map(x=>'<li><strong>'+esc(x.title)+'</strong>'+
+    '<p class="muted small">Locate: '+esc(x.locator)+'</p>'+
+    '<p>'+esc(x.interpretation)+'</p>'+
+    '<a href="'+esc(safeUrl(x.url))+'" target="_blank" rel="noopener noreferrer">Inspect original source ↗</a></li>').join('')+'</ul>'+
+  '</details>'+
+  '<p class="muted small">This is an unsigned research-scoping decision, not a completed independent fact-check, a permanent exclusion or a statement about personal honesty.</p>'+
+ '</section>';
+}
 function renderClaimEvidence(person){
  const host=$('profileEvidenceReviews');
  if(!host)return;
  const roleHtml=renderPublicRoleEvidence(person);
  const workHtml=renderPublicWorkEvidence(person);
+ const scopeHtml=renderEvidenceScope(person);
  const claims=Array.isArray(person.claimEvidence)?person.claimEvidence.slice(0,12):[];
  if(!claims.length){
   host.innerHTML=roleHtml?
-   roleHtml+'<p class="note small"><strong>No event-claim score applies to this documented role.</strong> No separate public UAP incident claim has completed editorial review for this person. Official research service, institutional participation and legislation cannot be assigned 0/100 or a community incident rating.</p>':
+   roleHtml+scopeHtml+'<p class="note small"><strong>No event-claim score applies to this documented role.</strong> No separate public UAP incident claim has completed editorial review for this person. Official research service, institutional participation and legislation cannot be assigned 0/100 or a community incident rating.</p>':
    workHtml?
-   workHtml+'<p class="note small"><strong>Disclosure Desk rating: Not assessed.</strong> Original work and public statements are indexed, but no specific UAP incident has received an approved evidence assessment. A publication list is not a person-wide credibility score and cannot be voted on.</p>':
+   workHtml+scopeHtml+'<p class="note small"><strong>Disclosure Desk rating: Not assessed.</strong> Original work and public statements are indexed, but no specific UAP incident has received an approved evidence assessment. A publication list is not a person-wide credibility score and cannot be voted on.</p>':
    '<p class="note small"><strong>Disclosure Desk rating: Not assessed.</strong> There are no individually reviewed public claims for this profile yet. Community rating is not open on unreviewed statements. Biographies and citations do not constitute a personal score.</p>';
   return;
  }
