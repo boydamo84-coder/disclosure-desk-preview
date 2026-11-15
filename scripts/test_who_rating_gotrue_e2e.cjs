@@ -46,6 +46,7 @@ function claims(jwt){
   assert.equal(c.aud,'authenticated','GoTrue audience');checks++;
   assert(c.exp>Math.floor(Date.now()/1000),'GoTrue signed unexpired token');checks++;
   assert.equal(c.sub,login.user.id,'JWT sub matches authenticated user');checks++;
+  assert.match(c.session_id,/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i,'Actual GoTrue token carries a session UUID');checks++;
   ids.push(c.sub);tokens.push(login.access_token);refreshes.push(login.refresh_token);
   const authenticated=ok(await send(auth+'/user','GET',undefined,login.access_token),'GoTrue validates user '+n);
   assert.equal(authenticated.id,c.sub,'User endpoint verifies JWT belongs to account');checks++;
@@ -109,6 +110,16 @@ function claims(jwt){
  const jwtAfterLogout=ok(await summary(renewed.access_token),
   'Unexpired signed access JWT can still reach read-only summary after logout');
  assert.equal(jwtAfterLogout[0].my_rating,95,
-  'Signed-out access JWT remains valid until expiry; voting will require explicit session-aware review');checks++;
- console.log('M24 GoTrue: '+checks+' real local Auth signup/password/JWT/owner-private vote assertions passed; real anonymous and refresh rotation; logout revokes refresh but existing JWT persists until expiry. NO PRODUCTION USERS.');
+  'Read-only summary can remain accessible to unexpired signed JWT after logout');checks++;
+ // A SECOND fictional claim avoids cooldown being confused with session
+ // revocation. The signed-out account must get SQLSTATE 28000 even with a
+ // cryptographically valid, unexpired bearer token.
+ const loggedOutAttempt=await vote(renewed.access_token,45,'m25-revocation-fixture');
+ deny(loggedOutAttempt,'Signed-out GoTrue session cannot cast a new vote');
+ assert.equal(loggedOutAttempt.data?.code,'28000',
+  'Logout denial must be Auth session revocation, NOT vote cooldown or claim absence');checks++;
+ const stillSignedIn=ok(await vote(tokens[0],60,'m25-revocation-fixture'),
+  'Separate still-active GoTrue session can vote on the same synthetic claim');
+ assert.equal(stillSignedIn[0].my_rating,60);checks++;
+ console.log('M25 GoTrue: '+checks+' real local Auth/JWT/vote checks; logout blocks NEW votes despite still-valid JWT, while read-only JWT remains valid until expiry. NO PRODUCTION USERS.');
 })().catch(error=>{console.error('M24 GOTRUE FAILURE: '+error.message);process.exitCode=1;});
