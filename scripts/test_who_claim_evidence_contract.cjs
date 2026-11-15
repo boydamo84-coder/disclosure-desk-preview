@@ -135,7 +135,7 @@ for(const person of workEntries){
  const htmlWork=fns.renderPublicWorkEvidence(person);
  assert.match(htmlWork,/Inspect original publications &amp; source trail/);
  assert.match(htmlWork,/NOT an approved case assessment/);
- assert.match(htmlWork,/Read source at original publisher or archive/);
+ assert.match(htmlWork,/Open cited publication or archive/);
  assert.doesNotMatch(htmlWork,/class="claim-score"/);
  assert.doesNotMatch(htmlWork,/data-rating-save/);
  for(const src of person.publicWorkEvidence.sources){
@@ -145,7 +145,7 @@ for(const person of workEntries){
  }
  host.innerHTML='';fns.renderClaimEvidence(person);
  assert.match(host.innerHTML,/Not assessed/);
- assert.match(host.innerHTML,/Read source at original publisher or archive/);
+ assert.match(host.innerHTML,/Open cited publication or archive/);
  assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
  assert.doesNotMatch(host.innerHTML,/data-rating-save/);
 }
