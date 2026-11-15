@@ -608,6 +608,10 @@ for(const mutation of [
  const bad=JSON.parse(JSON.stringify(fictional));mutation(bad);
  assert.equal(fns.publishedClaimReview(bad),null,'Missing editorial gate must block numerical score');
  host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[bad]});
- assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
+ const notIncident=bad.claimKind==='policy_recommendation'||bad.ratingReadiness?.scorePath==='not_applicable_to_incident_score';
+ assert.match(host.innerHTML,notIncident?/Not applicable/:/Not assessed/,
+  'All rejected fixture variants must be unscored; policy proposals receive Not applicable');
+ assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
+ assert.doesNotMatch(host.innerHTML,/data-rating-save/);
 }
 console.log('Who’s Who: 50 profiles, 23 claim drafts with 89 sources, 23 source audits, 23 scoreability drafts, 23 access checks, 50 portrait-rights scope records, 27 nonclaim scopes; no published numbers or votes (NO DEPLOY).');
