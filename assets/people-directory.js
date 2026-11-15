@@ -827,8 +827,12 @@ function fromLocation(){
 }
 $('directoryBack').addEventListener('click',backToDirectory);
  $('profileRelatedCases').addEventListener('click',rememberProfileCaseDeparture);
-$('peopleSearch').addEventListener('input',renderCards);
-$('peopleCategory').addEventListener('change',renderCards);
+// A Back-to-directory return scroll is scheduled over two animation frames.
+// If the visitor immediately types or changes filters, their new interaction wins:
+// never let the stale return animation refocus an old card or jump the list.
+function onDirectoryFilterChanged(){++restoreSequence;renderCards();}
+$('peopleSearch').addEventListener('input',onDirectoryFilterChanged);
+$('peopleCategory').addEventListener('change',onDirectoryFilterChanged);
 window.addEventListener('popstate',fromLocation);
 Promise.all([
  fetch('/data/public-people-directory.json',{cache:'no-store'}).then(resp=>{
