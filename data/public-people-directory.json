@@ -185,6 +185,20 @@
                 "reviewNote": "The official committee lists Grusch as a witness and links written material. A second link to the same hearing is not independent corroboration of the allegation."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+              "locator": "26 July 2023 transcript, Statement of David Grusch; Rep. Burlison questions about seeing alleged spacecraft or bodies",
+              "assessment": "Official sworn transcript confirms Grusch reported interviews with people claiming direct knowledge of retrievals. He explicitly told Representative Burlison that he had not personally seen alleged bodies; he declined to describe what he had seen regarding craft in open session. Separate testimony that he viewed unexplained imagery is NOT a publicly presented recovered-craft sample."
+            },
+            "independentEvidence": "Grusch interviewing a purported direct witness is secondhand for the physical recovery assertion. Congressional repetition of the same interview story and later reporter summaries are not independent physical corroboration; exact witnesses and material have not been disclosed for public inspection.",
+            "competingRecord": "AARO's March 2024 historical review reached contrary findings for the programmes it examined. The 2024 committee chair also reported difficulty substantiating Grusch's prior allegations from responding agencies. Institutional findings are not a fully declassified check of each confidential allegation.",
+            "missingEvidence": "Independently identifiable original insider evidence, unredacted chain of custody, publicly inspectable hardware/biological material, contemporaneous programme files and a named second-editor review of witness independence remain unavailable for this audit.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "us-house-2023-retrieval"
           }
         }
       ]
@@ -402,6 +416,20 @@
                 "reviewNote": "This official listing corroborates hearing participation and access to the original written statement, not independent evidence for each reported flight event."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+              "locator": "26 July 2023 transcript, opening Statement of Ryan Graves: 2014 Oceana radar upgrade, W-72 near-miss narrative and pilot safety reports",
+              "assessment": "Graves testified to his own 2014 radar and sensor observations, and relayed a particularly close near-miss reported by OTHER Navy flight crew. The W-72 50-foot cube-inside-sphere near-miss must not be described as an event personally witnessed inside his own cockpit."
+            },
+            "independentEvidence": "The hearing is a first-party source for Graves's testimony, not release of the original radar tracks, mission commander debrief or specific safety report. Repeated flight-safety reporting is relevant to risk management but does not independently establish an unknown object's anomalous physical origin.",
+            "competingRecord": "NASA's general 2023 UAP study cautions about inadequate calibrated data and has no case-specific adjudication of the Graves W-72 near-miss. FAA reporting procedures demonstrate an administrative route, not incident corroboration.",
+            "missingEvidence": "Obtain contemporaneous UAP/flight-safety reports, pilot identities and independent original first-person description of the near miss, sensor telemetry and radar-system calibration data to test distance/speed/shape.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "us-house-2023-flight-safety"
           }
         }
       ]
@@ -585,6 +613,20 @@
                 "reviewNote": "NASA notes that definitive UAP conclusions require better data. This general methodological warning does not resolve or disprove the Nimitz episode."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+              "locator": "26 July 2023 transcript, Statement of David Fravor and questions about the 14 November 2004 Nimitz Tic Tac",
+              "assessment": "Fravor testified he personally saw an unidentified object in November 2004. Another named pilot from the same flight, Alex Dietrich, publicly described her own observation in an original CBS 60 Minutes interview; their testimony concerns the SAME event."
+            },
+            "independentEvidence": "Dietrich provides a separate named firsthand eyewitness perspective on the shared encounter, not an independent second incident or validation of precise extraordinary velocity/acceleration. The later infrared video released by DoD was made on a subsequent sortie and must not be misrepresented as continuous footage of Fravor's initial encounter.",
+            "competingRecord": "The 2020 DoD announcement authenticated three historic Navy clips and said depicted phenomena were unidentified. It did not publicly certify the object origin, all velocities, earlier ship radar data or the complete claimed encounter sequence. CBS is a publisher of interviews, not an independent radar laboratory.",
+            "missingEvidence": "A contemporaneous complete USS Princeton tracking dataset, intact original FLIR metadata, flight logs, unedited eyewitness accounts and independently calculated positional uncertainties are not public in this review.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "nimitz-2004-cbs-dietrich"
           }
         }
       ]
@@ -2666,6 +2708,20 @@
                 "reviewNote": "The House repository confirms appearance, prepared testimony and a later addendum. All these arise from the same witness and do not independently validate extraordinary technological claims."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+              "locator": "13 November 2024 transcript, Statement of Luis Elizondo; assertions about government possession of UAP-related technology and undisclosed activities",
+              "assessment": "The primary hearing records Elizondo's own public allegations about UAP technology and secrecy; the transcript does not provide publicly inspectable recovered hardware or declassified data identifying non-human origin."
+            },
+            "independentEvidence": "Repeated reporting of Elizondo's testimony is not independent corroboration of the particular recovery assertion. Hearing participation is a record of testimony, not a scientific test, and no named original programme chain of custody was independently verified in this research.",
+            "competingRecord": "AARO's March 2024 report described a contrary institutional historical analysis of programmes examined, before the November hearing. It is an important competing record but is not a conclusive case-by-case analysis of every classified event alluded to by Elizondo.",
+            "missingEvidence": "Detailed first-party declassified recovery documents, material evidence, dated chain of custody, independent technical analysis and a named second reviewer are pending; do not conflate his government employment with extraordinary programme authentication.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "us-house-2024-programmes"
           }
         }
       ]
@@ -4864,6 +4920,20 @@
                 "reviewNote": "The original agency roster supports Gold's participation in the independent study team. It does not imply he spoke for NASA in his later individual congressional testimony."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+              "locator": "13 November 2024 transcript, Statement of Michael Gold, explicit declaration that he spoke personally and recommended UAP science without stigma",
+              "assessment": "Gold publicly argued for more rigorous evidence gathering, scientific study and data-sharing. He specifically stated he spoke for himself, not for NASA or his then employer; the hearing does not convert his recommendations into a claim to have witnessed recovered non-human hardware."
+            },
+            "independentEvidence": "The NASA 2023 UAP independent-study report discusses scientific data limitations and methods, aligning with a general policy direction; an institutional methodology and Gold's separate proposal should not be scored as two verified physical UAP incidents.",
+            "competingRecord": "Alternative scientific approaches and implementation costs can be debated, but his role and advocacy are not an adjudicable anomalous-object encounter. No purported unknown-origin physical data should be inferred from this policy testimony.",
+            "missingEvidence": "To evaluate feasibility, obtain specifications, data access conditions, validation studies, instrument budgets and proposed oversight; a personal/UAP-event percentage remains Not applicable regardless of how good the recommendation is.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "us-house-2024-scientific-policy"
           }
         }
       ],
@@ -7240,6 +7310,20 @@
                 "reviewNote": "DoD authenticates the public Navy recordings and says the depicted phenomena remained unidentified in that release. Authentication of footage is not confirmation of exceptional performance, a removed email or deliberate concealment."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+              "locator": "13 November 2024 transcript, Statement of Tim Gallaudet, opening account of 2015 URGENT SAFETY OF FLIGHT ISSUE email and claimed following-day deletion",
+              "assessment": "Gallaudet's own sworn statement confirms he publicly asserted receiving the 2015 email with Go Fast footage and that it later disappeared from recipients' accounts. The official transcript is evidence of the claim being made, not direct forensic proof that a particular message was remotely deleted."
+            },
+            "independentEvidence": "The Navy's release of Go Fast footage confirms a genuine military-recorded video, not that the asserted safety email was sent or removed. No original message headers, mail-server retention/audit log or independently verifiable recipient account record is supplied publicly in these sources.",
+            "competingRecord": "AARO's 6 February 2025 Go Fast technical report assessed approximately 13,000-foot object altitude and wind-adjusted approximate 5–92 mph speed with no anomalous speed. That challenges speed/origin interpretation, NOT the alleged email receipt, deletion or classification mechanism. AARO noted original source file/metadata were unavailable and lacked aircrew interviews.",
+            "missingEvidence": "Original Fleet Forces message, exact time/recipient routing, system access and retention audit logs, named witness receipts, complete FLIR original file and independent Navy mailbox review remain necessary to verify the deletion proposition.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "gofast-2015-video-versus-mail"
           }
         }
       ]
@@ -7382,6 +7466,20 @@
                 "reviewNote": "AARO reported no verified evidence of extraterrestrial retrieval or reverse-engineering programmes in its historic review. It was published before the later named Immaculate Constellation allegation and should not be labelled as a programme-specific investigation or definitive refutation."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+              "locator": "13 November 2024 transcript, Statement of Michael Shellenberger, first description of unnamed-source Immaculate Constellation paper",
+              "assessment": "Shellenberger described an unnamed-source report alleging a programme called Immaculate Constellation and summarized the report's claims. The submitted report and testimony are evidence that a document was supplied to Congress, not proof the named programme exists as described."
+            },
+            "independentEvidence": "The same anonymous whistleblower document appears through original reporter narration and a House-submitted version. Two copies or retellings of that same document are not independent agency programme confirmation; no original classified programme authorization or sensor imagery was supplied publicly.",
+            "competingRecord": "The DoD/AARO March 2024 historical-record report predates this publicly introduced programme name, so it cannot be described as a direct rebuttal of the later submitted Immaculate Constellation document. Any DoD no-record response in written testimony is a separate attributed counter-position requiring primary agency letter provenance.",
+            "missingEvidence": "Official programme authorization/registry entry, identifiable independent source testimony, intact purported sensor data and the original agency response to the programme name remain unverified publicly. A second editor and source identity review are still required.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "immaculate-constellation-2024-unknown-source"
           }
         }
       ]
