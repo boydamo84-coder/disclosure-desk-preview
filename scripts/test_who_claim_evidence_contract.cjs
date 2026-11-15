@@ -8,7 +8,7 @@ const home=fs.readFileSync(path.join(root,'index.html'),'utf8');
 
 assert.match(html,/id="profileEvidenceReviews"/);
 assert.match(html,/id="claimReviewMethod"/);
-assert.match(html,/r2-evidence-ledger-v5-20261115/);
+assert.match(html,/r2-evidence-ledger-v6-20261115/);
 assert.match(html,/claim-role-card/);
 assert.match(html,/claim-work-card/);
 assert.match(home,/all <strong>50 Who's Who people have an expanded source reader/);
@@ -17,7 +17,7 @@ assert.match(html,/View evidence &amp; scoring breakdown/);
 assert.match(html,/claim-evidence-details/);
 assert.match(html,/Community rating/);
 assert.match(html,/Scientific and policy recommendations are Not applicable/);
-assert.match(home,/Seven source-linked profiles now contain/);
+assert.match(home,/Twelve source-linked profiles now contain/);
 assert.match(home,/27 source-backed NASA and congressional role cards/);
 assert.match(html,/community-test-config\.js/);
 assert.match(html,/supabase-js@2\.119\.0/);
@@ -74,9 +74,23 @@ for(const p of roleEntries){
 }
 
 const candidates=data.people.filter(p=>Array.isArray(p.claimEvidence)&&p.claimEvidence.length);
-assert.equal(candidates.length,7,'Three 2023 and four 2024 witness notes must be present, still unassessed');
-assert.equal(candidates.reduce((n,p)=>n+(p.claimEvidence[0].researchEvidence?.items?.length||0),0),27,
- 'Seven witness/research notes must retain twenty-seven provisional source/context entries');
+assert.equal(candidates.length,12,'Seven earlier claims plus five additional case-claim research drafts must remain unassessed');
+assert.equal(candidates.reduce((n,p)=>n+(p.claimEvidence[0].researchEvidence?.items?.length||0),0),44,
+ 'Twelve witness/case drafts must retain forty-four provisional source/context entries');
+const newCaseIds=['bob-lazar','jake-barber','larry-warren','mick-west','avi-loeb'];
+for(const caseId of newCaseIds){
+ const person=data.people.find(p=>p.id===caseId);
+ assert.equal(person.claimEvidence?.length,1,`${caseId}: exactly one review-pending event or analysis claim`);
+ assert.equal(person.claimEvidence[0].status,'source_review_pending');
+ assert.equal(person.claimEvidence[0].researchEvidence?.status,'research_draft');
+ assert(person.claimEvidence[0].researchEvidence.items.length>=3);
+ assert(person.publicWorkEvidence,'Retain original publications panel alongside claim-specific review');
+ assert(!person.claimEvidence[0].review,'No real numeric review allowed before separate editorial sign-off');
+}
+assert(data.people.find(p=>p.id==='avi-loeb').claimEvidence[0].researchEvidence.items.some(e=>e.stance==='challenges'),'Loeb chemistry must include independent 2025 chemical critique');
+assert(data.people.find(p=>p.id==='larry-warren').claimEvidence[0].researchEvidence.items.some(e=>/Halt/i.test(e.title)),'Rendlesham opposing account preserved');
+assert(data.people.find(p=>p.id==='mick-west').claimEvidence[0].researchEvidence.items.some(e=>e.stance==='challenges'),'Gimbal alternate interpretation preserved');
+assert(data.people.filter(p=>p.claimEvidence?.some(c=>c.review?.status==='published')).length===0,'Never display a real-person editorial percentage before review');
 const advisory=data.people.find(p=>p.id==='mike-gold');
 assert.equal(advisory.claimEvidence[0].claimKind,'policy_recommendation');
 assert.equal(data.people.filter(p=>p.claimEvidence?.some(c=>c.claimKind==='policy_recommendation')).length,1);
@@ -299,4 +313,4 @@ for(const mutation of [
  host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[bad]});
  assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
 }
-console.log('Who’s Who: 50 expanded profiles, 27 role cards, 7 draft claims, 17 work records, 120 source entries, zero personal or premature event scores (NO DEPLOY).');
+console.log('Who’s Who: 50 expanded profiles, 27 role cards, 12 draft claims, 17 work records, 137 source entries, zero personal or premature event scores (NO DEPLOY).');
