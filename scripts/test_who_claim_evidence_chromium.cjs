@@ -141,6 +141,14 @@ const profiles=[
        assert.match(await accessPanel.innerText(),/Full original reviewed: No/,'Full original case not wrongly approved');
       }
       if(test.name==='Avi Loeb')assert.match(await accessPanel.innerText(),/figures 15–16/,'Loeb chart and original paper scope cited');
+      if(['Garry Nolan','Jacques Vallée'].includes(test.name)){
+       assert.match(await accessPanel.innerText(),/Journal article indexed, original publisher direct access blocked/,'Honest ScienceDirect blocking');
+       assert.match(await accessPanel.innerText(),/one coauthored paper and one parent sample/,'Nolan and Vallee material not independently duplicated');
+      }
+      if(test.name==='Nick Pope'){
+       assert.match(await accessPanel.innerText(),/Original author essay indexed, canonical page directly blocked/,'Canonical Nick Pope first-party URL blocked despite search index');
+       assert.match(await accessPanel.innerText(),/Full original reviewed: No/,'Nick Pope full first party case not independently viewed');
+      }
       if(['Ross Coulthart','Jake Barber','Bob Lazar'].includes(test.name))
        assert.match(await accessPanel.innerText(),/Original-source access unavailable/);
       if(test.name==='Christopher Mellon')assert.match(await triage.innerText(),/Not applicable to an incident evidence percentage/);
