@@ -16,7 +16,10 @@ const profiles=[
  {name:'Garry Nolan',kind:'claim',text:'2022',minSources:4,audit:true},
  {name:'Jacques Vallée',kind:'claim',text:'2022',minSources:4,audit:true},
  {name:'Kevin Knuth',kind:'claim',text:'2019',minSources:4,audit:true},
- {name:'George Knapp',kind:'claim',text:'September 2025',minSources:4},
+ {name:'Ross Coulthart',kind:'claim',text:'July 2023',minSources:4,audit:true},
+ {name:'Jeremy Corbell',kind:'claim',text:'2021',minSources:4,audit:true},
+ {name:'Steven Greer',kind:'claim',text:'2001',minSources:4,audit:true},
+ {name:'George Knapp',kind:'claim',text:'September 2025',minSources:4,audit:true},
  {name:'Christopher Mellon',kind:'claim',text:'October 2025',minSources:4},
  {name:'James Fox',kind:'claim',text:'Moment of Contact',minSources:4},
  {name:'Nick Pope',kind:'claim',text:'Rendlesham',minSources:4},
@@ -50,7 +53,7 @@ const profiles=[
    await dock.waitFor({state:'visible'});
    assert.equal(await dock.locator('.tab').count(),14,'Keep original premium fourteen-tab nav');
    assert.equal(await dock.locator('.tab[aria-current="page"]').getAttribute('data-tab'),'peopleDirectory');
-   let list=width===393?profiles:profiles.filter(p=>['David Grusch','David Fravor','Tim Gallaudet','Mick West','Avi Loeb','Garry Nolan','Jacques Vallée','Kevin Knuth','George Knapp','John Greenewald Jr.','David Spergel','Mike Gold'].includes(p.name));
+   let list=width===393?profiles:profiles.filter(p=>['David Grusch','David Fravor','Tim Gallaudet','Mick West','Avi Loeb','Garry Nolan','Jacques Vallée','Kevin Knuth','Ross Coulthart','Jeremy Corbell','Steven Greer','George Knapp','John Greenewald Jr.','David Spergel','Mike Gold'].includes(p.name));
    for(const test of list){
     await page.locator('#peopleSearch').fill(test.name);
     const cards=page.locator('#peopleCards article.card');
