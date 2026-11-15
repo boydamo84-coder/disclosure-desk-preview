@@ -24,6 +24,37 @@ END $test$;
 GRANT USAGE ON SCHEMA ci_test TO anon,authenticated;
 GRANT EXECUTE ON FUNCTION ci_test.expect_error(TEXT,TEXT,TEXT) TO anon,authenticated;
 
+-- A public SECURITY DEFINER RPC is a release-blocking privilege boundary.
+-- The privileged SQL is kept behind invoker RPC wrappers in a private schema,
+-- and that schema MUST also be absent from deployed Data API Exposed schemas.
+DO $security$
+DECLARE public_definers INT;
+        private_definers INT;
+BEGIN
+ SELECT count(*) INTO public_definers FROM pg_catalog.pg_proc p
+ JOIN pg_catalog.pg_namespace ns ON ns.oid=p.pronamespace
+ WHERE ns.nspname='public'
+   AND p.proname IN('dd_who_claim_rating_summary','dd_who_claim_rating_set')
+   AND p.prosecdef;
+ IF public_definers<>0 THEN
+  RAISE EXCEPTION 'Exposed public RPC must never be SECURITY DEFINER';
+ END IF;
+ SELECT count(*) INTO private_definers FROM pg_catalog.pg_proc p
+ JOIN pg_catalog.pg_namespace ns ON ns.oid=p.pronamespace
+ WHERE ns.nspname='dd_who_private'
+   AND p.proname IN('dd_who_claim_rating_summary_impl','dd_who_claim_rating_set_impl')
+   AND p.prosecdef;
+ IF private_definers<>2 THEN
+  RAISE EXCEPTION 'Two privileged worker implementations required in private schema, got %', private_definers;
+ END IF;
+ IF pg_catalog.has_function_privilege('anon','dd_who_private.dd_who_claim_rating_set_impl(text,smallint)','EXECUTE') THEN
+  RAISE EXCEPTION 'Guests must not execute private write worker';
+ END IF;
+ IF NOT pg_catalog.has_function_privilege('authenticated','dd_who_private.dd_who_claim_rating_set_impl(text,smallint)','EXECUTE') THEN
+  RAISE EXCEPTION 'Authenticated writer lacks explicitly scoped private worker EXECUTE';
+ END IF;
+END $security$;
+
 -- Both roles exist only in this throwaway runner. NO production accounts.
 INSERT INTO auth.users(id) VALUES
  ('11111111-1111-4111-8111-111111111111'),
