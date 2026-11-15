@@ -66,7 +66,22 @@ const BASE='http://127.0.0.1:4173';
    const page=await context.newPage();
    page.on('pageerror',e=>errors.push(String(e)));
    await page.goto(BASE+'/research/r3-lab/',{waitUntil:'domcontentloaded'});
-   await page.waitForFunction(()=>document.documentElement.dataset.r3Boot==='ready');
+   try{
+    await page.waitForFunction(()=>document.documentElement.dataset.r3Boot==='ready',undefined,{timeout:9000});
+   }catch(error){
+    console.error('R3 BOOT DIAGNOSTIC',await page.evaluate(()=>({
+     state:document.documentElement.dataset.r3Boot,
+     readyState:document.readyState,
+     status:document.getElementById('notice')?.textContent,
+     cloud:document.getElementById('r3CloudStatus')?.textContent,
+     cloudPresent:!!window.DDR3Cloud,
+     vaultPresent:!!window.DDPrivateVault,
+     gapBridgePresent:!!window.DDResearchGapBridge,
+     supabasePresent:!!window.supabase,
+     scripts:[...document.querySelectorAll('script[src]')].map(x=>x.src)
+    })), 'errors',errors,'blocked',foreign);
+    throw error;
+   }
    assert.equal(await page.locator('#r3CloudPanel').isVisible(),true);
    assert.match(await page.locator('#r3CloudProfile').textContent(),/researcher\.test/);
    assert.equal(await page.locator('#ddWebSecondaryNav .tab').count(),14);
