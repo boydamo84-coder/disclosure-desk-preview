@@ -98,5 +98,17 @@ function claims(jwt){
  deny(await send(api+'/rpc/dd_who_claim_rating_set','POST',
   {p_claim_id:'m24-claim-fixture',p_rating:45},'bogus.jwt.signature'),
   'PostgREST rejects arbitrary bearer');
- console.log('M24 GoTrue: '+checks+' real local Auth signup/password/JWT/owner-private vote assertions passed; two actual ephemeral auth.users; NO PRODUCTION USERS.');
+ // Critical auth lifecycle distinction: sign-out revokes refresh grants, but
+ // self-contained bearer JWTs can remain usable until expiry. Do not claim
+ // immediate access-token revocation without session_id enforcement.
+ ok(await send(auth+'/logout','POST',{},renewed.access_token),
+  'Actual GoTrue sign-out invalidates the member session refresh grants');
+ deny(await send(auth+'/token?grant_type=refresh_token','POST',
+  {refresh_token:renewed.refresh_token}),
+  'GoTrue rejects refresh after signed-out session');
+ const jwtAfterLogout=ok(await summary(renewed.access_token),
+  'Unexpired signed access JWT can still reach read-only summary after logout');
+ assert.equal(jwtAfterLogout[0].my_rating,95,
+  'Signed-out access JWT remains valid until expiry; voting will require explicit session-aware review');checks++;
+ console.log('M24 GoTrue: '+checks+' real local Auth signup/password/JWT/owner-private vote assertions passed; real anonymous and refresh rotation; logout revokes refresh but existing JWT persists until expiry. NO PRODUCTION USERS.');
 })().catch(error=>{console.error('M24 GOTRUE FAILURE: '+error.message);process.exitCode=1;});
