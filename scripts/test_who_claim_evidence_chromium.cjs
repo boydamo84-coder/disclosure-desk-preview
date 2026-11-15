@@ -91,17 +91,26 @@ const profiles=[
     // Ensure the automated pointer gesture targets that same unobscured area.
     const profileButton=matching.locator('button').first();
     await profileButton.evaluate(button=>{
+     button.scrollIntoView({block:'center',inline:'nearest',behavior:'instant'});
      const dock=document.querySelector('#ddWebSecondaryNav');
      if(!dock||getComputedStyle(dock).display==='none')return;
-     const safeBottom=dock.getBoundingClientRect().top-16;
+     const safeBottom=dock.getBoundingClientRect().top-18;
      const rect=button.getBoundingClientRect();
      if(rect.bottom>safeBottom)window.scrollBy({top:rect.bottom-safeBottom,behavior:'instant'});
     });
-    assert.equal(await profileButton.evaluate(button=>{
-     const r=button.getBoundingClientRect();
-     const hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);
-     return hit===button||button.contains(hit);
-    }),true,'Profile action needs a usable tap area above the fixed dock');
+    await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+    const tap=await profileButton.evaluate(button=>{
+     const rect=button.getBoundingClientRect();
+     const x=rect.left+rect.width/2,y=rect.top+rect.height/2;
+     const hit=document.elementFromPoint(x,y),dock=document.querySelector('#ddWebSecondaryNav');
+     return {ok:hit===button||button.contains(hit),
+      button:{left:rect.left,top:rect.top,right:rect.right,bottom:rect.bottom},
+      hit:{tag:hit?.tagName,id:hit?.id,cls:String(hit?.className||'').slice(0,100)},
+      dockTop:dock?.getBoundingClientRect().top,scrollY,viewportHeight:innerHeight,
+      totalScrollHeight:document.documentElement.scrollHeight};
+    });
+    if(!tap.ok)console.error('UNSAFE PROFILE TAP DIAGNOSTICS',JSON.stringify({width,name:test.name,...tap}));
+    assert.equal(tap.ok,true,'Profile action needs a usable tap area above the fixed dock');
     await profileButton.click();
     try{
      await page.locator('#personProfile').waitFor({state:'visible',timeout:12000});
