@@ -864,6 +864,20 @@
                 "reviewNote": "An official broader assessment reported no verified extraterrestrial technology in examined reports. Its public scope and access limitations must be compared case by case; it does not by itself refute every confidential allegation."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://www.youtube.com/watch?v=x_9gTDXF9Vc",
+              "locator": "7NEWS Australia original broadcaster item dated 26 July 2023; Coulthart's recovery/body assertions; cross-referenced to ABC Media Watch transcript, 28 August 2023",
+              "assessment": "Coulthart publicly reported that the United States concealed recovery of non-human craft, technology and alleged bodies; ABC Australia's archived Media Watch transcript reproduces his 7NEWS assertions and distinguishes his June NewsNation Grusch interview from July House testimony. The original 7NEWS YouTube player was not accessible for a full audiovisual review in this pass; broadcast quotes are corroborated by the separate ABC transcript. Attribution is supported, but neither reporting nor testimony constitutes a demonstrated specimen or authenticated recovery chain."
+            },
+            "independentEvidence": "ABC Media Watch separately records the 7NEWS statements but references the very same interview/reporting; it is independent confirmation of attribution, not an independent recovery witness. Grusch's July 2023 congressional account repeats the underlying allegations and describes secondhand reported programmes, so cross-linking Grusch, Coulthart and the broadcaster does NOT create three independently verified material recoveries.",
+            "competingRecord": "ABC Media Watch challenged the absence of available first-hand proof in published reporting. AARO's March 2024 historical review reported no verified extraterrestrial recovery programmes among records examined and warned about circular reporting. This is an official scoped counterassessment, not conclusive proof about every alleged classified record or unexamined witness.",
+            "missingEvidence": "Full accessible original 7NEWS segment and unedited Grusch source interview; inspectable named firsthand recovery records, sample chain of custody, authenticated programme documentation and corroboration outside the Grusch/Coulthart reporting network; item-specific government response and independent second-editor verification.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "grusch-coulthart-2023-recovery-reporting-not-independent"
           }
         }
       ]
@@ -1102,6 +1116,20 @@
                 "reviewNote": "Agency guidance emphasizes scarcity of robust sensor data for inferring physical trajectories and origins. Broad methodological context, not a USS Omaha-specific sensor forensic report."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://transcripts.cnn.com/show/ebo/date/2021-05-31/segment/01",
+              "locator": "CNN Erin Burnett OutFront (Poppy Harlow hosting), 31 May 2021, segment after 19:50:35; Corbell USS Omaha radar account and 'beyond next generation' interpretation",
+              "assessment": "Corbell told CNN that USS Omaha was surrounded by more than 14 unidentified objects and that footage demonstrated technology beyond known next-generation capabilities, citing a separate apparently water-entering clip. CNN quoted a Pentagon spokesperson confirming reference photos/video were taken by Navy personnel and incidents were under UAPTF review. The confirmation authenticates Navy recording provenance and examination only: it does NOT independently certify object counts, measured extraordinary speed, a transmedium transition or non-human propulsion. CNN describes this as a rush transcript subject to correction."
+            },
+            "independentEvidence": "CNN's reported Susan Gough response is a second reporting channel on origin of Navy imagery, not a released raw sensor data package or independent instrument calculation. Corbell and George Knapp publicised parts of the same 2019 USS Omaha-associated collection, which must not be multiplied into independent physical experiments. Radar-display clips and thermal video need rigorous time/target correlation before any cross-sensor inference.",
+            "competingRecord": "CNN included astronaut Scott Kelly's proposed optical-illusion or military UAV possibility; it was a hypothesis rather than a forensic conclusion. Science reporting questioned whether the visible disappearance shows anything actually entering water. Navy footage remaining unidentified and the official UAPTF examination do not exclude conventional targets, range ambiguities, sensor effects or stitched footage.",
+            "missingEvidence": "Unedited time-synchronised 2019 ship radar tracks and bridge/operational logs, source camera/video masters, raw range/velocity data, ship location and sensor calibrations, water-entry confirmation from independent instruments, chain of source custody and expert optical/radar reconstruction. Second-editor signoff not obtained.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "omaha-2019-navy-clips-uncalibrated-public-release"
           }
         }
       ]
@@ -1340,6 +1368,20 @@
                 "reviewNote": "AARO reported finding no verified recovered extraterrestrial technology within its historical review; it predates Knapp's 2025 testimony and is not necessarily a source-by-source adjudication of each assertion."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf",
+              "locator": "House task-force signed written testimony, 9 September 2025, pp. 1–3, opening disclaimer, 'Topic One: The Paper Trail' and 'Topic Two: Crash Retrievals and Reverse Engineering Programs (They're Real)'",
+              "assessment": "Knapp's original written House testimony describes his 1989 Lazar/S-4 investigations, reports that more than two dozen sources spoke to him, and asserts real retrieval/reverse-engineering programmes. He expressly identifies himself as a journalist, not a UFO eyewitness or whistleblower. Testimony page 2 describes six alleged next-day intimidation episodes; page 3 recounts Reid/Cannon/Goldwater and Al O'Donnell discussions. These are his accounts of interviews and historical conversations, NOT a published recovered craft, original programme authorization or independent observation by Knapp."
+            },
+            "independentEvidence": "The House hearing's official docket independently authenticates filing and identifies Knapp as a journalist, not the underlying physical programme. His historic KLAS Lazar story and later congressional retelling are largely the same information chain; anonymous sources cannot yet be tested for independence. Knapp's account of Senator Reid's belief, Alan Cannon's retelling, and his own conversations should not be converted into first-person experimental evidence of craft recovery.",
+            "competingRecord": "His text acknowledges disputes over Lazar and says he will not litigate them anew; the 2018 KNPR conversation includes unresolved schooling/employment checks and nonidentical historical evidence questions. AARO's 2024 historical review concluded that it found no verified extraterrestrial reverse-engineering in programmes it investigated, while remaining limited by its reviewed record and predating this 2025 filed account. Broad institutional findings cannot silently settle every Knapp-specific historical assertion.",
+            "missingEvidence": "Identifiable original 1989 newsroom tapes and interview notes, authenticated source identities and dated contact records with permission, independent specific recovery-authorization documents, sample custody, complete published Reid/Cannon/Goldwater records and evidence of claimed witness intimidation, expert cross-examination and separate editorial second signoff.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "knapp-lazar-1989-and-2025-retold-retrieval-sources"
           }
         }
       ]
@@ -2263,6 +2305,20 @@
                 "reviewNote": "NASA says available UAP observations generally lack enough quality to establish alien technologies; this is a contemporary general scientific assessment, not individual adjudication of the 2001 speakers."
               }
             ]
+          },
+          "sourceAudit": {
+            "status": "original_record_comparison_draft",
+            "checkedAt": "2026-11-15",
+            "original": {
+              "url": "https://abcnews.go.com/Technology/story?id=98572&page=1",
+              "locator": "ABC News contemporary report dated 9/10 May 2001, Greer's press-conference claim that testimony establishes alien presence; related original 2001 meeting VHS listed at WorldCat OCLC 52741633",
+              "assessment": "ABC News reported Greer's 9 May 2001 National Press Club Disclosure Project event and quoted his assertion that the testimonies established humanity was not alone. He claimed some 400 potential firsthand witnesses; this is his stated inventory, not an independently audited set of 400 depositions. The original edited event recording is independently catalogued by WorldCat but was not watched in full here. The factual event and quotation are supported by contemporary publisher records, while the purported extraterrestrial and secrecy conclusions require separate evidence."
+            },
+            "independentEvidence": "ABC News and Washington Post reporters independently witnessed and documented the same press event. That supports event occurrence and the public attribution, not an independent verification of each attendee's decades-old experience. The approximately 20 on-stage witnesses and claimed 400 potential witnesses must NOT be counted as 420 confirmed, independent UFO incidents; testimony about one another or shared archival stories may overlap.",
+            "competingRecord": "The Washington Post's contemporaneous on-scene report said no forensic physical evidence was exhibited at the event and differentiated witness credentials from confirmed object origins. ABC News quoted NASA-experienced critic James Oberg noting that unexplained observations warrant documentation but should not be conflated with Greer's overarching cover-up theory. Neither reporter determined every witness's underlying incident false.",
+            "missingEvidence": "Unedited original May 2001 recording and complete named witness roster with interview dates, verifiable contemporaneous service/duty records, item-by-item independent witnesses and radar/physical data, preserved sample provenance, opportunity for each witness to respond, and a second trained editorial reviewer.",
+            "reviewerSignoff": "not_obtained",
+            "relatedSourceGroup": "disclosure-project-2001-one-press-event-many-unverified-accounts"
           }
         }
       ]
