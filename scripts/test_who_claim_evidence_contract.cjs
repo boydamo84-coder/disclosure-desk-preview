@@ -23,6 +23,8 @@ assert.match(html,/source trail and editorial checks/);
 assert.equal(data.people.length,50,'Existing Who’s Who directory must retain all 50 public profiles');
 const candidates=data.people.filter(p=>Array.isArray(p.claimEvidence)&&p.claimEvidence.length);
 assert.equal(candidates.length,3,'Only three explicitly attributed, unassessed test entries belong in this milestone');
+assert.equal(candidates.reduce((n,p)=>n+(p.claimEvidence[0].researchEvidence?.items?.length||0),0),11,
+ 'Three candidate public claims have eleven provisional source/context records');
 for(const p of data.people){
  assert(!Object.hasOwn(p,'believability'),'No person-level believability rating permitted');
  for(const c of p.claimEvidence||[]){
@@ -30,6 +32,16 @@ for(const p of data.people){
   assert.match(c.id,/^[a-z0-9-]+$/);
   assert.notEqual(c.sourceReviewApproved,true);
   assert.equal(c.review,undefined,'Never silently ship person-specific score drafts');
+  assert.equal(c.researchEvidence?.status,'research_draft');
+  assert.match(c.researchEvidence.editorialNote,/\w/);
+  assert(c.researchEvidence.items.length>=3);
+  for(const e of c.researchEvidence.items){
+   assert.match(e.id,/^[a-z0-9][a-z0-9-]+$/);
+   assert.equal(e.access,'public');
+   assert(e.url.startsWith('https://'));
+   assert(e.locator.length>=3&&e.reviewNote.length>=25);
+   assert.match(e.checkedAt,/^\d{4}-\d{2}-\d{2}$/);
+  }
   assert(Array.isArray(c.sources)&&c.sources.some(s=>s.kind==='primary'&&s.url.startsWith('https://')));
  }
 }
@@ -41,9 +53,27 @@ const safeUrl=value=>{try{const u=new URL(String(value));return u.protocol==='ht
 const esc=v=>String(v??'').replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
 const validLinks=v=>Array.isArray(v)?v.filter(x=>x&&safeUrl(x.url)).slice(0,30):[];
 const ctx={safeUrl,esc,validLinks,$:()=>host};
-const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceTrail,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
+const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceTrail,draftEvidenceTrailHtml,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
 assert.equal(fns.EVIDENCE_RUBRIC.reduce((n,r)=>n+r.max,0),100);
-for(const p of candidates){host.innerHTML='';fns.renderClaimEvidence(p);assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);}
+for(const p of candidates){
+ host.innerHTML='';fns.renderClaimEvidence(p);
+ assert.match(host.innerHTML,/Not assessed/);
+ assert.match(host.innerHTML,/Research notes — NOT a completed evidence review/);
+ assert.match(host.innerHTML,/Read original source/);
+ assert.match(host.innerHTML,/Link consulted/);
+ assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
+ assert.doesNotMatch(host.innerHTML,/data-rating-save/);
+}
+const tamperedDraft=JSON.parse(JSON.stringify(candidates[0].claimEvidence[0]));
+tamperedDraft.researchEvidence.items.push({
+ id:'bad-link',type:'primary',stance:'supports',access:'public',
+ url:'javascript:alert(1)',title:'Unsafe injected script',locator:'Page 3',
+ reviewNote:'This is a synthetic unsafe link and must not appear in public HTML.',checkedAt:'2026-11-15'
+});
+const blockedHtml=fns.draftEvidenceTrailHtml(tamperedDraft);
+assert.doesNotMatch(blockedHtml,/Unsafe injected script/);
+assert.doesNotMatch(blockedHtml,/javascript:alert/);
+assert.equal(fns.publishedClaimReview(tamperedDraft),null);
 host.innerHTML='';fns.renderClaimEvidence(data.people.find(p=>p.id==='mick-west'));assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
 
 const fictional={
