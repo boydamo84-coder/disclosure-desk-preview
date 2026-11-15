@@ -192,6 +192,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No completed independent evidence assessment; new claim draft is linked in the milestone 7 ledger.
 
+**M14 unsigned source audit:** The ParaNet copy of KLAS's 9 December 1989 *On the Record* interview attributes Lazar's S-4 employment and claimed gravity-propulsion observations, but it is an electronic reproduction rather than an authenticated KLAS tape. KNPR's 2018 Knapp/Stoldal source check discusses narrower education/work-record questions, not verified recovery of craft. Multiple copies and Knapp's retellings are one reporting chain. Requires original broadcast comparison, dated personnel/technical files, physical experimental data and independent editor. **No percentage or vote approved.**
+
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
 ### 09. Jake Barber (`jake-barber`)
@@ -211,6 +213,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - NewsNation's original 19 January 2025 full special — https://www.youtube.com/watch?v=3dtA9w5ldHw (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No completed independent evidence assessment; new claim draft is linked in the milestone 7 ledger.
+
+**M14 unsigned source audit:** NewsNation's January 2025 first-person Barber interview describes a white egg-shaped alleged helicopter retrieval; its 15 January Yahoo-syndicated advance and 18 January programme are the **same broadcaster chain**, not independent recovered-material confirmations. Available service-background checking does not validate object identity. Original YouTube master, raw footage/date/location metadata, load records, custody, samples and second reviewer are missing; the March 2024 AARO report is earlier than the public claim and no case-specific determination. **No percentage or vote approved.**
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -254,6 +258,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No completed independent evidence assessment; new claim draft is linked in the milestone 7 ledger.
 
+**M14 unsigned source audit:** Warren's original indexed 19 August 2025 NewsNation retrospective interview and 1997 *Left at East Gate* bibliographic record establish publication of his Rendlesham account but not the truth of every detail; complete interview and book passage need direct verification. UK National Archives original 2012 guide, printed p.13, verifies Halt's 1981 memo and DEFE file paths for the historical sightings, not Warren's specific claimed role. Halt's separate 28 October 2025 interview disputes aspects; compare duty rosters, separate nights and original tape before deciding event claims. Shares one Rendlesham case with Nick Pope. **No percentage or vote approved.**
+
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
 ### 12. Luis Elizondo (`luis-elizondo`)
@@ -293,6 +299,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - HISTORY's Unidentified series — https://www.history.com/shows/unidentified-inside-americas-ufo-investigation (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Provisional claim and competing/context evidence are now in the milestone 9 ledger; still no completed scoring review.
+
+**M14 unsigned source audit:** His 11 October 2025 *San Francisco Chronicle* commentary, first-person republished 14 October on Substack, asserts UAP imagery was overclassified or suppressed. Official DoD 2020 video release and NARA 2024 NDAA archive-transfer rules plus April 2025 transferred material verify real government video and records handling, not improper classification of each missing document. Enacted RG615 law must not be confused with proposed disclosure amendments; classified-source restrictions remain possible and require per-item independent legal review. This is a records-policy/empirical-access question, not a personal alien-belief score. **No percentage or vote approved.**
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -355,6 +363,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 **Outstanding checks:** Provisional claim and competing/context evidence are now in the milestone 9 ledger; still no completed scoring review.
 
+**M14 unsigned source audit:** Fox's original interview confirms his 2022 *Moment of Contact* documentary revisits 1996 Varginha allegations. It does **not** authenticate film interviewee witness testimony or alien biology. Brazil Superior Tribunal Militar's official index confirms **IPM 18/1997 (13 February–19 June 1997)** investigating allegations involving a purported 20 January 1996 capture; an inquiry is not proof of capture. The filmmaker interview biography inconsistently gives '1966' in one line (likely typo) and should not overwrite the tribunal's 1996 event year. Full film/Portuguese official court documents and bilingual review remain outstanding. **No percentage or vote approved.**
+
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
 ### 17. Nick Pope (`nick-pope`)
@@ -374,6 +384,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - Nick Pope — official published books archive (Rendlesham 2014) — https://www.nickpope.net/archive (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Provisional claim and competing/context evidence are now in the milestone 9 ledger; still no completed scoring review.
+
+**M14 unsigned source audit:** Pope's publicly indexed original 2013 historical case briefing says conventional theories failed to fit his later assessment; he was **not an eyewitness in 1980**. His article separately acknowledges MoD's no-defence-significance classification and lost-document limits. The UK National Archives original briefing lists documentary evidence of reports and multiple nights, but no confirmed non-human craft. Same underlying Rendlesham case as Warren; independent geometric, radar, witness and timeline reconstruction, original full Pope publication and separate editorial approval remain missing. **No percentage or vote approved.**
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -1044,6 +1056,8 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - Additional original public source — https://www.lesliekean.com/ufos-media/ (initial inventory link; live reachability not yet confirmed)
 
 **Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Provisional claim and competing/context evidence are now in the milestone 9 ledger; still no completed scoring review.
+
+**M14 unsigned source audit:** The original Kean/Blumenthal 5 June 2023 *The Debrief* article says additional active/retired intelligence officials corroborated recovery-programme allegations. The byline and printed sourcing assertion are public; identities and firsthand material evidence of some unnamed officials remain confidential and not independently auditable here. Grusch's later 26 July official House testimony and Coulthart interview are overlapping main-source chains, not additional independent recovered objects. AARO's scoped contrary 2024 review likewise cannot disclose all confidential data. Require source-independence/legal handling and second editor before any scoring. **No percentage or vote approved.**
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
