@@ -199,6 +199,17 @@
             "missingEvidence": "Independently identifiable original insider evidence, unredacted chain of custody, publicly inspectable hardware/biological material, contemporaneous programme files and a named second-editor review of witness independence remain unavailable for this audit.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "us-house-2023-retrieval"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "institutional_programme_allegation",
+            "scorePath": "documentary_source_review_pending",
+            "primarySourceAccess": "official_written_record_first_pass",
+            "reason": "An official hearing establishes that Grusch reported allegations and distinguished information from other people; it does not authenticate the purported recovery programme or specimens.",
+            "requiredNextCheck": "Independently identify programme records or authorized firsthand corroboration; separate his testimony from Coulthart/Kean reports and complete second-editor verification.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -430,6 +441,17 @@
             "missingEvidence": "Obtain contemporaneous UAP/flight-safety reports, pilot identities and independent original first-person description of the near miss, sensor telemetry and radar-system calibration data to test distance/speed/shape.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "us-house-2023-flight-safety"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "incident_or_observation",
+            "scorePath": "incident_evidence_review_pending",
+            "primarySourceAccess": "official_written_record_first_pass",
+            "reason": "Aviation safety concerns and other pilots' reports are attributable, but each distinct encounter requires its own witness and sensor timeline before measuring extraordinary performance.",
+            "requiredNextCheck": "Review original flight incidents and independent radar/aircrew reports case-by-case; do not mistake several accounts in one hearing for calibrated corroboration.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -627,6 +649,17 @@
             "missingEvidence": "A contemporaneous complete USS Princeton tracking dataset, intact original FLIR metadata, flight logs, unedited eyewitness accounts and independently calculated positional uncertainties are not public in this review.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "nimitz-2004-cbs-dietrich"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "incident_or_observation",
+            "scorePath": "incident_evidence_review_pending",
+            "primarySourceAccess": "official_written_record_first_pass",
+            "reason": "Fravor describes a direct 2004 encounter; the official transcript records his testimony, while publicly accessible original target sensor/range data do not validate every inferred manoeuvre.",
+            "requiredNextCheck": "Cross-check co-observers, dated mission logs, separately released radar/IR recordings and alternative range/geometry reconstructions.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -878,6 +911,17 @@
             "missingEvidence": "Full accessible original 7NEWS segment and unedited Grusch source interview; inspectable named firsthand recovery records, sample chain of custody, authenticated programme documentation and corroboration outside the Grusch/Coulthart reporting network; item-specific government response and independent second-editor verification.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "grusch-coulthart-2023-recovery-reporting-not-independent"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "reporting_or_source_claim",
+            "scorePath": "documentary_source_review_pending",
+            "primarySourceAccess": "original_master_or_full_video_not_verified",
+            "reason": "The 7NEWS reporting and its ABC reproduction establish the public allegation, not independently released biological or recovered-craft evidence; portions share Grusch's information chain.",
+            "requiredNextCheck": "Verify the complete original 7NEWS broadcast, identifiable first-hand source independence and inspectable original programme/material records.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -1130,6 +1174,17 @@
             "missingEvidence": "Unedited time-synchronised 2019 ship radar tracks and bridge/operational logs, source camera/video masters, raw range/velocity data, ship location and sensor calibrations, water-entry confirmation from independent instruments, chain of source custody and expert optical/radar reconstruction. Second-editor signoff not obtained.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "omaha-2019-navy-clips-uncalibrated-public-release"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "retrospective_case_interpretation",
+            "scorePath": "incident_evidence_review_pending",
+            "primarySourceAccess": "publisher_text_first_pass",
+            "reason": "CNN attributed Corbell's USS Omaha interpretation and a Pentagon statement on recording provenance; raw calibrated radar/infrared data cannot yet validate transmedium or high-performance claims.",
+            "requiredNextCheck": "Secure unedited Navy recordings and timestamps, independent range/speed reconstruction, sensor metadata and original source custody.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -1382,6 +1437,17 @@
             "missingEvidence": "Identifiable original 1989 newsroom tapes and interview notes, authenticated source identities and dated contact records with permission, independent specific recovery-authorization documents, sample custody, complete published Reid/Cannon/Goldwater records and evidence of claimed witness intimidation, expert cross-examination and separate editorial second signoff.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "knapp-lazar-1989-and-2025-retold-retrieval-sources"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "reporting_or_source_claim",
+            "scorePath": "documentary_source_review_pending",
+            "primarySourceAccess": "official_written_record_first_pass",
+            "reason": "Filed 2025 House testimony establishes Knapp's investigation and his conclusions, not the independently verified existence of recovered craft; historical Lazar reporting is overlapping sourcing.",
+            "requiredNextCheck": "Validate named 1989–2025 original interviews and independent documents, programme authorization, physical artefacts and source chronology.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -1639,6 +1705,17 @@
             "missingEvidence": "Original uncompressed Gimbal sensor recording, ATFLIR calibration and detailed gimbal-angle logs, range/aspect metadata, environmental cloud motion measurements, independent reproduction and second expert review are still needed to adjudicate the optical rotation and any target identity.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "gimbal-2015-single-video"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "technical_or_scientific_analysis",
+            "scorePath": "method_specific_review_pending",
+            "primarySourceAccess": "publisher_text_first_pass",
+            "reason": "An optical glare/camera simulation is a testable technical explanation of image rotation, not definitive identification of the filmed object or calibrated proof of the sensor state.",
+            "requiredNextCheck": "Independent reproduction against sensor geometry and raw ATFLIR calibration plus review of current critical alternative models.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -1873,6 +1950,17 @@
             "missingEvidence": "Original verifiable 9 December 1989 KLAS programme master with transcript comparison; attributable S-4 payroll, base-access and technical project records; contemporaneous independent coworkers and documentation; laboratory measurements or specimens with proven custody; a physically falsifiable propulsion mechanism; separate editorial review.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "lazar-knapp-1989-s4-single-interview-chain"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "institutional_programme_allegation",
+            "scorePath": "incident_evidence_review_pending",
+            "primarySourceAccess": "original_master_or_full_video_not_verified",
+            "reason": "The archived retranscription records a claimed firsthand S-4 assignment and propulsion description; original KLAS master and independent work/project records have not been authenticated.",
+            "requiredNextCheck": "Check original broadcaster footage, verifiable S-4 employment/access records, project instrumentation and physical evidence independently of Knapp retellings.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -2101,6 +2189,17 @@
             "missingEvidence": "Full original NewsNation programme cross-checked against source media; authenticated unedited recording and metadata; location/date and flight/helicopter logs, identifiable lift crew, load/sling specifications, custody from recovery to secure facility, independent accessible sample tests, and second editorial reviewer.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "barber-2025-newsnation-one-egg-retrieval-package"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "incident_or_observation",
+            "scorePath": "incident_evidence_review_pending",
+            "primarySourceAccess": "original_master_or_full_video_not_verified",
+            "reason": "The NewsNation interview attributes an egg-shaped retrieval account; its syndication is not a second independent recovery and unedited cargo/flight evidence is absent.",
+            "requiredNextCheck": "Authenticate full video and location/date, flight logs, retrieval-team identities and any available cargo or materials custody/test data.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -2347,6 +2446,17 @@
             "missingEvidence": "Unedited original May 2001 recording and complete named witness roster with interview dates, verifiable contemporaneous service/duty records, item-by-item independent witnesses and radar/physical data, preserved sample provenance, opportunity for each witness to respond, and a second trained editorial reviewer.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "disclosure-project-2001-one-press-event-many-unverified-accounts"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "reporting_or_source_claim",
+            "scorePath": "documentary_source_review_pending",
+            "primarySourceAccess": "original_master_or_full_video_not_verified",
+            "reason": "Contemporaneous press coverage documents Greer's 2001 event and overarching claims, not a verified independent roster of hundreds of extraordinary encounters.",
+            "requiredNextCheck": "Watch complete event masters and independently test separately identifiable witnesses/incidents, contemporaneous records and sample provenance.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -2620,6 +2730,17 @@
             "missingEvidence": "Watch and transcribe both complete first-party NewsNation recordings with speaker/timestamp accuracy; original 1997 book passages; signed contemporaneous 1980–81 duty logs, personnel rosters, original witness statements and survey/photos; reconcile separate nights and military positions; independent second editor.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "rendlesham-1980-distinct-nights-halt-warren-claims"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "incident_or_observation",
+            "scorePath": "incident_evidence_review_pending",
+            "primarySourceAccess": "original_master_or_full_video_not_verified",
+            "reason": "Warren's later Rendlesham account is attributable but official UK documents do not independently establish his precise role, and Halt's separate recollection differs.",
+            "requiredNextCheck": "Reconstruct the distinct December 1980 nights using duty rosters, original Halt material and complete unedited interviews/book passages.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -2834,6 +2955,17 @@
             "missingEvidence": "Detailed first-party declassified recovery documents, material evidence, dated chain of custody, independent technical analysis and a named second reviewer are pending; do not conflate his government employment with extraordinary programme authentication.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "us-house-2024-programmes"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "institutional_programme_allegation",
+            "scorePath": "documentary_source_review_pending",
+            "primarySourceAccess": "official_written_record_first_pass",
+            "reason": "His official 2024 congressional statements allege technology and oversight concerns; the hearing itself is not independently inspectable recovered technology.",
+            "requiredNextCheck": "Confirm purported agency programmes, dated authorizations, sources, exact classified/public records and counterevidence under appropriate rules.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -3069,6 +3201,17 @@
             "missingEvidence": "Original classification memoranda and versions for each claimed suppressed radar/video file, inventory of actual withheld versus released records, statutory FOIA and Public Law 118-31 §§1841–1843 exceptions and lawful postponements, independent legal review, original 1948 photographs' existence/custody if asserted, and a separate editor with classification policy expertise.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "mellon-2025-records-classification-policy"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "policy_or_records_access",
+            "scorePath": "not_applicable_to_incident_score",
+            "primarySourceAccess": "publisher_text_first_pass",
+            "reason": "His 2025 article concerns classification and records release. Whether files are overclassified is a policy/legal and document-specific question, not a claim that an incident proves non-human technology.",
+            "requiredNextCheck": "Perform per-record classification and statutory exemption comparisons with NARA/DoD responses; consider a separately labelled records-transparency assessment, not an incident percentage.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -3300,6 +3443,17 @@
             "missingEvidence": "Publicly validated IM1 strewn-field trajectory uncertainties, contamination and industrial/volcanic background sampling, blinded cross-laboratory sample analyses and original chain of custody linking any given spherule directly to IM1 are not established in the cited work. No independently established physical artefact or non-human engineering demonstrated.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "im1-2023-single-expedition"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "technical_or_scientific_analysis",
+            "scorePath": "method_specific_review_pending",
+            "primarySourceAccess": "partial_original_or_abstract_only",
+            "reason": "Published spherule chemistry describes measured samples and contested cosmic interpretations; material recovered from the seafloor is not definitively attributable to IM1.",
+            "requiredNextCheck": "Independently review full methods, provenance and control samples and the separate 2025 volcanic critique and authors' follow-up.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -3526,6 +3680,17 @@
             "missingEvidence": "End-to-end chain of custody from alleged 1977 recovery, unaltered sample records and photographs, modern calibrated isotope datasets and independent blind laboratory verification of origin are not available as a completed editor-reviewed evidence package.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "council-bluffs-1977-one-paper-100788"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "technical_or_scientific_analysis",
+            "scorePath": "method_specific_review_pending",
+            "primarySourceAccess": "partial_original_or_abstract_only",
+            "reason": "The 2022 Council Bluffs article documents elemental variations but terrestrial-normal tested isotopes; it shares one underlying study/sample with Garry Nolan.",
+            "requiredNextCheck": "Review complete original paper, chain of custody, raw methods and blinded independent laboratory replication; never double-count the coauthor profile.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -3771,6 +3936,17 @@
             "missingEvidence": "Complete legally available Moment of Contact viewing with exact original Portuguese interviews, professional translations and consent/rights review; official 1997 STM original complete court papers including conclusion and evidentiary exhibits; independent local witness/date reconciliation, medical/hospital and army duty registers, physical specimen/custody examination, separate bilingual reviewer.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "varginha-1996-witness-film-1997-stm-inquiry"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "reporting_or_source_claim",
+            "scorePath": "documentary_source_review_pending",
+            "primarySourceAccess": "original_master_or_full_video_not_verified",
+            "reason": "A filmmaker interview confirms the 2022 Varginha documentary's subject; official 1997 Brazilian inquiry records allegations, not authenticated biological findings.",
+            "requiredNextCheck": "Watch original subtitled witness interviews; obtain bilingual independent review of complete STM inquiry, contemporaneous hospital/military records and samples.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -4022,6 +4198,17 @@
             "missingEvidence": "Original 2013 briefing provenance and full historic text; original 1980/1981 witness signed statements, Halt tape and temporal metadata, base/radar logs, precise lighthouse/astronomical reconstruction, site marks and calibrated independent measurements; case-specific independent scientific review.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "rendlesham-1980-distinct-nights-halt-warren-claims"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "retrospective_case_interpretation",
+            "scorePath": "method_specific_review_pending",
+            "primarySourceAccess": "partial_original_or_abstract_only",
+            "reason": "A retrospective Rendlesham analysis rejecting proposed mundane explanations is not firsthand 1980 observation or proof of an extraordinary craft.",
+            "requiredNextCheck": "Verify full original briefing, separate the incident nights and model documented conventional hypotheses against contemporaneous records.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -5138,6 +5325,17 @@
             "missingEvidence": "To evaluate feasibility, obtain specifications, data access conditions, validation studies, instrument budgets and proposed oversight; a personal/UAP-event percentage remains Not applicable regardless of how good the recommendation is.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "us-house-2024-scientific-policy"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "policy_or_records_access",
+            "scorePath": "not_applicable_to_incident_score",
+            "primarySourceAccess": "official_written_record_first_pass",
+            "reason": "Gold's 2024 testimony advocates better scientific UAP study and collection; a recommendation is not a measurable incident claim.",
+            "requiredNextCheck": "Verify recommendation attribution and subsequent adoption separately, but do not offer an extraordinary-event evidence rating or community incident ballot.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ],
@@ -7528,6 +7726,17 @@
             "missingEvidence": "Original Fleet Forces message, exact time/recipient routing, system access and retention audit logs, named witness receipts, complete FLIR original file and independent Navy mailbox review remain necessary to verify the deletion proposition.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "gofast-2015-video-versus-mail"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "incident_or_observation",
+            "scorePath": "documentary_source_review_pending",
+            "primarySourceAccess": "official_written_record_first_pass",
+            "reason": "The 2024 hearing records Gallaudet's recollection of a safety email/video and later absence, not the preserved original email or an authenticated causal explanation of deletion.",
+            "requiredNextCheck": "Seek original dated mail headers, custodial copies, server retention and independent Navy records while distinguishing Go Fast footage provenance.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -7684,6 +7893,17 @@
             "missingEvidence": "Official programme authorization/registry entry, identifiable independent source testimony, intact purported sensor data and the original agency response to the programme name remain unverified publicly. A second editor and source identity review are still required.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "immaculate-constellation-2024-unknown-source"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "reporting_or_source_claim",
+            "scorePath": "documentary_source_review_pending",
+            "primarySourceAccess": "official_written_record_first_pass",
+            "reason": "His 2024 testimony reports an allegedly classified programme from informants; the official hearing validates the attribution, not independent programme authorization.",
+            "requiredNextCheck": "Corroborate original documents, named authorized witnesses and origin of the programme label independently of repeated testimony.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -8005,6 +8225,17 @@
             "missingEvidence": "Complete 1977-to-present specimen transfers/handling, authentic raw NanoSIMS and MIBI error/calibration details, blinded control specimens, source-identification tests and a truly independent outside-laboratory replication are still needed before conclusions about origin or engineering.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "council-bluffs-1977-one-paper-100788"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "technical_or_scientific_analysis",
+            "scorePath": "method_specific_review_pending",
+            "primarySourceAccess": "partial_original_or_abstract_only",
+            "reason": "His original paper shares the same Council Bluffs parent specimen and tested isotopic findings with coauthor Vallée; two profiles do not make two independent experiments.",
+            "requiredNextCheck": "Independently review material custody, isotopic/elemental controls and complete instrument methods, with unrelated replicated laboratory sampling.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -8180,6 +8411,17 @@
             "missingEvidence": "Editors' independently reviewable documentation of unnamed officials (respecting source confidentiality), separate dates and firsthand knowledge, original inspector-general complaint scope, programme authorization and materials custody, controlled scientific tests, resolution of classified sources and an independent second-editor assessment of the narrow *corroborating reporting* claim.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "grusch-coulthart-2023-recovery-reporting-not-independent"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "reporting_or_source_claim",
+            "scorePath": "documentary_source_review_pending",
+            "primarySourceAccess": "publisher_text_first_pass",
+            "reason": "Her coauthored June 2023 report describes other intelligence officials, but all anonymous source identities and recovery evidence cannot be independently inspected by an external reviewer.",
+            "requiredNextCheck": "Separate journalist source corroboration from recovery-programme facts; confidential source validation and primary documentary/physical records require secure independent review.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
@@ -8355,6 +8597,17 @@
             "missingEvidence": "Declassified 2004 original radar tracks and time stamps, independent source validation of the estimated 0.78-second drop, reconciled ship/platform geometry, error and sensitivity analysis under alternative motion models, and second-editor physical-data check remain missing. A 78-second retelling, if encountered in media, must not silently replace the paper's 0.78-second input.",
             "reviewerSignoff": "not_obtained",
             "relatedSourceGroup": "nimitz-2004-day-secondhand-model"
+          },
+          "ratingReadiness": {
+            "status": "first_pass_triage",
+            "date": "2026-11-15",
+            "claimType": "technical_or_scientific_analysis",
+            "scorePath": "method_specific_review_pending",
+            "primarySourceAccess": "publisher_text_first_pass",
+            "reason": "The 2019 paper calculates conditional acceleration estimates from reported trajectories and timing, not independently measured 5,370-g manoeuvres.",
+            "requiredNextCheck": "Check original radar timings, geometry, error distribution and alternative models before making a claim about physical acceleration.",
+            "secondEditor": "not_assigned",
+            "publicationApproval": "withheld"
           }
         }
       ]
