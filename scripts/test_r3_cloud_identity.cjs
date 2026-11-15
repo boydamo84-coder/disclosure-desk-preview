@@ -7,8 +7,8 @@ const A={id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',email:'a@example.invalid',is_
 const B={id:'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',email:'b@example.invalid',is_anonymous:false};
 const envelope={format:'dd-r3-private-aes256gcm-v1',cipher:'AES-256-GCM',
  generation:'a'.repeat(32),ciphertext:'X'.repeat(384)};
-function fixture(){
- let current=A,error=null,changed=null,pause=null,entered=null,enteredResolve=null,reloads=0,events=0;
+function fixture(initialUser=A){
+ let current=initialUser,error=null,changed=null,pause=null,entered=null,enteredResolve=null,reloads=0,events=0;
  const row={generation:envelope.generation,encrypted_envelope:envelope,updated_at:'2026-11-15T00:00:00Z'};
  const client={
   auth:{
@@ -74,7 +74,7 @@ function fixture(){
  assert.equal(refreshed.stats().reloads,1);
  await assert.rejects(refreshed.sdk.verifyCurrent(),/Account changed|sign-in has changed/);
  // A guest cannot read account ciphertext, even if a broken mock backend would.
- const guest=fixture();guest.setUser(null);
+ const guest=fixture(null);
  assert.equal(await guest.sdk.ready(),null);
  await assert.rejects(guest.sdk.readEncrypted(),/Sign in/);
  console.log('PASS R3 cloud identity: pending response revoked on A→B, signed-out & expired token denied, refresh identity switch rejected, guest denied');
