@@ -1,5 +1,5 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 15 November 2026 (Europe/London) — Who's Who M21 authored primary-source recheck, portrait provenance and 38 static draft vote safeguards; two exact-code NO DEPLOY CI suites GREEN, actual evidence signoff/JWT-RLS live release outstanding_
+_Last updated: 15 November 2026 (Europe/London) — Who's Who M22 disposable PostgreSQL vote/concurrency tests GREEN, source lineage checked, private privileged workers staged; real signed JWT/source/rights approvals still outstanding_
 
 ## M96 — Legacy favicon fallback and Netlify 404 review (13 November 2026)
 
@@ -2405,3 +2405,27 @@ Each structured `sourceAudit.status='original_record_comparison_draft'`, `review
 **M21 full record:** `docs/WHO_M21_PRIMARY_SOURCE_PORTRAIT_AND_VOTING_SECURITY_2026-11-15.md` (source links, known rights contradictions, exact green test runs, remaining obligations).
 
 **Next M22:** continue independent first-party evidence/sensor/media provenance and genuine photo/legal signoffs; only after explicit approval test authenticated vote RPCs in isolated Supabase/Postgres with two separate signed-in accounts, guests, anonymous login, JWT/RLS, race/cooldown and registry tampering. No scores or release before these gates.
+
+
+## DD-WHO-EVIDENCE Milestone 22 — real ephemeral Postgres voting/race tests and evidence lineage (15 Nov 2026)
+
+**Owner:** “Lets do it.” Continued M21 on the same isolated `feature/who-evidence-score-framework-20261115` branch, with **no approval to publish ratings, merge `production`, use Netlify credits or mutate the live database**.
+
+**Actual verified successful CI:**
+- [Ephemeral PostgreSQL 17 security, privilege and two-client race test run 43741083401](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43741083401) **SUCCESS** on exact tested SQL/PG-test SHA `ce67458f8fa76c17a9c080394fde8fe56f025c38`. The GitHub runner created fresh disposable `who_evidence_ci` inside `postgres:17-alpine`. It executed the otherwise **unapplied draft SQL only in that throwaway database**, with fabricated role/JWT request-context functions and 6 synthetic user IDs. No user-provided credentials or Supabase access were used.
+- [Independent source/package and Chromium run 43741147297](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43741147297) **SUCCESS** at `bb3cc3ebc2800ec71359ccdc3f040299b694b6ae` (50 static backend contract checks, 23 claim/50 roster checks, 17-source lineage checks, and real 320/393/820/1280px browser coverage with the original 14-tab premium nav).
+- [Second no-deploy source + Chromium run 43741147246](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43741147246) **SUCCESS**, same `bb3cc3e...` SHA. The last changed files after these tested commits were documentation-only and did not alter runtime/SQL.
+
+**A real Postgres failure was found and fixed:** A PL/pgSQL `RETURNS TABLE claim_id` output name conflicted with the original `ON CONFLICT (claim_id,voter_id)` column name. Replaced with `ON CONFLICT ON CONSTRAINT dd_who_claim_ratings_pkey`. Initial test fixture also required explicit `SMALLINT` arguments; that was corrected in the test harness. Tests subsequently passed. No problematic original SQL was applied to the user’s database.
+
+**Further draft security correction:** The previous SQL put `SECURITY DEFINER` RPCs in exposed `public`, contrary to current Supabase guidance. Draft now places the privileged fixed-search-path implementations in `dd_who_private`, with narrowly granted role rights, and exposes only **`SECURITY INVOKER` public wrappers**. One transaction encloses create/grants to avoid transient PUBLIC EXECUTE exposure; registry disabled/no seeds; raw tables retain RLS plus denied direct privileges. In ephemeral PG, catalog introspection confirmed exactly two privileged private workers, zero privileged public wrappers and guest denial of privileged writer. **CRITICAL LIVE RELEASE BLOCKER:** verify actual Supabase Data API “Exposed schemas” does NOT list `dd_who_private`, and test real GoTrue/PostgREST signed JWTs, expired/revoked sessions and RLS in an owner-authorised isolated environment. Synthetic `SET ROLE` and custom GUC contexts in a throwaway DB do **not** cryptographically validate a bearer token.
+
+**Actually passed PostgreSQL scenarios:** guest raw table/select/writes denied, simulated anonymous sign-in and missing user denied, invalid/disabled/unknown claims and invalid rating/arrays rejected; one account cannot change another’s raw row; low-turnout community mean suppressed until 5 *synthetic* voters, then account-specific `my_rating` separated from anonymous summary; deletion cascades and suppresses mean again; 3-minute cooldown; 30 new votes/day cap; same-account updating one row; two real concurrent psql connections racing on the same synthetic claim, retaining first score **33** and rejecting the concurrent **99** (no duplicate/overwrite).
+
+**Independence audit:** `scripts/test_who_source_lineage.cjs` proves current **23** public-claim drafts use **17 unique original publication URLs**, with three shared publication containers (2023 House hearing 3 profiles; 2024 House hearing 4 profiles; Nolan/Vallée same published 2022 study) and three distinct explicit related-source families (Coulthart/Kean reporting chain; Warren/Pope Rendlesham; Nolan/Vallée coauthored paper). These are source lineage flags, **not a claim that there are only 17 independent witnesses or 17 proven physical events**. Distinct statements in the same transcript can be independent testimonies; multiple profiles citing the same study cannot become new replications by repetition. 50 people, 23 claim/recommendation drafts, 27 unscored documented-role scopes, 89 research evidence items unchanged.
+
+**Unresolved:** `fullOriginalReviewed:false` and `secondEditorSignoff:'not_obtained'` on all 23; `finalRightsApproval:false` for all 50; no real public editorial percentages, no member ballots, no real OAuth/JWT/RLS integration, photo-rights legal approval or source-master scientific verification. This is not a website deployment or Supabase project change. `production` remained `6b602324d14b834b0ef5ac222d3cae3acbf53a56` at independent M22 read-back. No Netlify credits, Android/Play, private R3 notebooks, Hypothesis Lab encrypted files or W.NE modifications.
+
+**Full M22 report:** `docs/WHO_M22_POSTGRES_RACE_SOURCE_LINEAGE_AND_PRIVILEGED_RPC_SECURITY_2026-11-15.md`.
+
+**Next M23:** get explicit owner approval and a dedicated disposable **real** Supabase Auth/PostgREST staging setup (two genuine test accounts, signed JWTs, schema exposure, account deletion, concurrency and abuse), plus named qualified independent primary-source review and image-rights signoff. Until those happen, keep the public scores and community votes disabled and source-traceable.
