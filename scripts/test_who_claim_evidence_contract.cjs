@@ -8,7 +8,7 @@ const home=fs.readFileSync(path.join(root,'index.html'),'utf8');
 
 assert.match(html,/id="profileEvidenceReviews"/);
 assert.match(html,/id="claimReviewMethod"/);
-assert.match(html,/r2-evidence-ledger-v11-20261115/);
+assert.match(html,/r2-evidence-ledger-v12-20261115/);
 assert.match(html,/claim-role-card/);
 assert.match(html,/claim-work-card/);
 assert.match(home,/all <strong>50 Who's Who people have an expanded source reader/);
@@ -19,7 +19,7 @@ assert.match(html,/Community rating/);
 assert.match(html,/Scientific and policy recommendations are Not applicable/);
 assert.match(home,/Twenty-three source-linked profiles now contain/);
 assert.match(home,/27 people now have individual, source-linked research-scope decisions/);
-assert.match(home,/Twelve of the 23 claim\/recommendation research panels now include/);
+assert.match(home,/Sixteen of the 23 claim\/recommendation research panels now include/);
 assert.match(home,/27 source-backed NASA and congressional role cards/);
 assert.match(html,/community-test-config\.js/);
 assert.match(html,/supabase-js@2\.119\.0/);
@@ -107,8 +107,9 @@ assert(!data.people.find(p=>p.id==='john-greenewald-jr').claimEvidence?.length,'
 
 const originalAuditIds=['david-grusch','ryan-graves','david-fravor','tim-gallaudet','luis-elizondo','michael-shellenberger','mike-gold'];
 const technicalAuditIds=['mick-west','avi-loeb','garry-nolan','jacques-vallee','kevin-knuth'];
-const allAuditIds=[...originalAuditIds,...technicalAuditIds];
-assert.equal(data.people.filter(p=>p.claimEvidence?.some(c=>c.sourceAudit)).length,12,'Seven original hearing records plus five original scientific/technical audits, no approved scores');
+const reportingAuditIds=['ross-coulthart','jeremy-corbell','steven-greer','george-knapp'];
+const allAuditIds=[...originalAuditIds,...technicalAuditIds,...reportingAuditIds];
+assert.equal(data.people.filter(p=>p.claimEvidence?.some(c=>c.sourceAudit)).length,16,'Seven hearing, five scientific/technical and four original reporting audits, no approved scores');
 for(const id of allAuditIds){
  const person=data.people.find(p=>p.id===id),audit=person?.claimEvidence?.[0]?.sourceAudit;
  assert(audit, 'Missing original-record audit draft '+id);
@@ -146,7 +147,12 @@ for(const id of ['garry-nolan','jacques-vallee']){
  const c=data.people.find(p=>p.id===id).claimEvidence[0];
  assert(c.researchEvidence.items.some(e=>e.stance==='challenges'&&e.url.includes('metabunk.org')),'Public method criticism labelled as informal and contestable');
 }
-assert.equal(allAuditIds.length,12);
+assert.equal(allAuditIds.length,16);
+assert.match(data.people.find(p=>p.id==='ross-coulthart').claimEvidence[0].sourceAudit.original.assessment,/video player was not accessible/);
+assert.match(data.people.find(p=>p.id==='jeremy-corbell').claimEvidence[0].sourceAudit.original.assessment,/does NOT independently certify/);
+assert.match(data.people.find(p=>p.id==='steven-greer').claimEvidence[0].sourceAudit.independentEvidence,/NOT be counted as 420 confirmed/);
+assert.match(data.people.find(p=>p.id==='george-knapp').claimEvidence[0].sourceAudit.original.assessment,/not a UFO eyewitness/);
+assert.equal(data.people.find(p=>p.id==='george-knapp').claimEvidence[0].sourceAudit.original.url,'https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf');
 
 
 const candidates=data.people.filter(p=>Array.isArray(p.claimEvidence)&&p.claimEvidence.length);
@@ -475,4 +481,4 @@ for(const mutation of [
  host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[bad]});
  assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
 }
-console.log('Who’s Who: 50 profiles, 23 claim drafts with 89 sources, 12 original-record comparisons (7 House + 5 technical), 27 nonclaim scopes; no published numbers or votes (NO DEPLOY).');
+console.log('Who’s Who: 50 profiles, 23 claim drafts with 89 sources, 16 original-record comparisons (7 House + 5 technical + 4 reporting), 27 nonclaim scopes; no published numbers or votes (NO DEPLOY).');
