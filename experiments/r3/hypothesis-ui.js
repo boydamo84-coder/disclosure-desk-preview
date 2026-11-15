@@ -511,7 +511,7 @@
    status(unlockedVault?'Encrypted local save complete. Previous revisions preserved.':
     'Draft saved in memory ONLY. Enable encryption before closing the page.');
   }catch(err){status('Save was NOT completed: '+err.message,true)}
-  finally{busy=false;$('saveHypothesisBtn').disabled=false}
+  finally{busy=false;$('saveHypothesisBtn').disabled=false;updateSecurityUI()}
  }
  function createNotebook(event){
   event.preventDefault();if(!bootReady){status('Checking account and browser vault. Try again shortly.',true);return;}hideStatus();
@@ -611,7 +611,7 @@
   }catch(err){status('Encryption was NOT enabled: '+err.message,true)}
   finally{
    $('vaultNewPassphrase').value='';$('vaultConfirmPassphrase').value='';
-   busy=false;$('enableVaultBtn').disabled=false;
+   busy=false;$('enableVaultBtn').disabled=false;updateSecurityUI();
   }
  }
  async function unlockEncrypted(event){
@@ -623,7 +623,7 @@
    renderNotebook();updateSecurityUI();await refreshVaultAccess();
    status('Encrypted notebook unlocked locally. All saved revisions recovered.');
   }catch(err){status('Unlock failed: '+err.message,true)}
-  finally{$('unlockPassphrase').value='';$('unlockVaultBtn').disabled=false;busy=false}
+  finally{$('unlockPassphrase').value='';$('unlockVaultBtn').disabled=false;busy=false;updateSecurityUI()}
  }
  async function importEncrypted(event){
   event.preventDefault();if(busy)return;
@@ -641,7 +641,7 @@
   }catch(err){status('Restore failed; no existing data was replaced: '+err.message,true)}
   finally{
    $('importPassphrase').value='';$('importVaultFile').value='';
-   $('importVaultBtn').disabled=false;busy=false;
+   $('importVaultBtn').disabled=false;busy=false;updateSecurityUI();
   }
  }
  async function exportEncrypted(){
@@ -805,8 +805,8 @@
   clearDecryptedDOM();
   book=null;unlockedVault=null;selectedId=null;editingId=null;view='write';
   $('workPanel').hidden=true;$('setupPanel').hidden=false;
-  hideStatus();
-  try{await refreshVaultAccess()}catch(err){status(err.message,true)}
+  hideStatus();updateSecurityUI();
+  try{await refreshVaultAccess();if(hosted)await refreshCloudView()}catch(err){status(err.message,true)}
  }
  async function deleteSaved(){
   if(busy||unlockedVault){
