@@ -125,6 +125,22 @@
           "type": "Hearing recording",
           "context": "Official hearing recording, not a film production credit."
         }
+      ],
+      "claimEvidence": [
+        {
+          "statement": "David Grusch told Congress in July 2023 that he had received accounts from others alleging concealed UAP crash-retrieval and reverse-engineering activity.",
+          "date": "2023-07-26",
+          "context": "The public record documents his testimony and the reporting of allegations. It does not by itself establish that the alleged programmes or recovered objects exist.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "David Grusch's written opening statement to the US House",
+              "url": "https://www.congress.gov/118/meeting/house/116282/witnesses/HHRG-118-GO06-Wstate-GruschD-20230726.pdf",
+              "context": "Read the original statement and distinguish direct knowledge from what was reportedly told to him."
+            }
+          ]
+        }
       ]
     },
     {
@@ -269,6 +285,22 @@
           "type": "Hearing recording",
           "context": "Official hearing recording, not a film production credit."
         }
+      ],
+      "claimEvidence": [
+        {
+          "statement": "Ryan Graves publicly testified in July 2023 about aviation safety concerns and reports of unidentified objects from aircrew.",
+          "date": "2023-07-26",
+          "context": "The hearing documents what Graves said about reports and safety; the details of individual observations need separate independent assessment.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "US House Oversight UAP hearing and witness material",
+              "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/",
+              "context": "Review the hearing record before treating attributed reports as corroborated physical events."
+            }
+          ]
+        }
       ]
     },
     {
@@ -384,6 +416,22 @@
           "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/",
           "type": "Hearing recording",
           "context": "Official hearing recording, not a film production credit."
+        }
+      ],
+      "claimEvidence": [
+        {
+          "statement": "David Fravor told Congress in July 2023 about a firsthand 2004 military aviation encounter with an unidentified object.",
+          "date": "2023-07-26",
+          "context": "His account is first-person testimony. It does not alone establish the object's origin or any specific extraordinary explanation.",
+          "status": "source_review_pending",
+          "sources": [
+            {
+              "kind": "primary",
+              "label": "Official congressional hearing record (GovInfo)",
+              "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+              "context": "Source documents his public testimony; compare supporting records and alternative explanations separately."
+            }
+          ]
         }
       ]
     },
