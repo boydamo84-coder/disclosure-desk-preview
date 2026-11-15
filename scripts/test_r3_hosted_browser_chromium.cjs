@@ -32,7 +32,8 @@ const BASE='http://127.0.0.1:4173';
         async maybeSingle(){
          const id=this.filters.owner_user_id||USER.id;
          const entry=records[id]||null;
-         if(this.kind==='read')return {data:entry,error:null};
+         // Simulate server RLS: other owner exists but must be invisible.
+         if(this.kind==='read')return {data:id===USER.id?entry:null,error:null};
          if(this.kind==='insert'){
           if(entry)return {data:null,error:{message:'duplicate cloud slot'}};
           records[id]={...this.data,updated_at:new Date().toISOString()};
@@ -68,7 +69,7 @@ const BASE='http://127.0.0.1:4173';
    });
    const page=await context.newPage();
    page.on('pageerror',e=>errors.push(String(e)));
-   await page.goto(BASE+'/research/r3-lab/',{waitUntil:'domcontentloaded'});
+   await page.goto(BASE+'/research/r3-lab/?dd_r3_qa=1',{waitUntil:'domcontentloaded'});
    try{
     await page.waitForFunction(()=>document.documentElement.dataset.r3Boot==='ready',undefined,{timeout:9000});
    }catch(error){
@@ -86,6 +87,11 @@ const BASE='http://127.0.0.1:4173';
     throw error;
    }
    assert.equal(await page.locator('#r3CloudPanel').isVisible(),true);
+   assert.equal(await page.locator('#r3QaPanel').isVisible(),true);
+   await page.locator('#r3QaVerify').click();
+   await page.waitForFunction(()=>/Verified a real Supabase session/.test(document.querySelector('#r3QaStatus').textContent));
+   assert.equal(await page.locator('#r3QaOwnId').inputValue(),'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa');
+   assert.match(await page.locator('#r3QaResults').textContent(),/Own encrypted notebook backup present: NO/);
    assert.match(await page.locator('#r3CloudProfile').textContent(),/researcher\.test/);
    assert.equal(await page.locator('#ddWebSecondaryNav .tab').count(),14);
    assert.equal(await page.locator('#ddWebSecondaryNav .tab[disabled]').count(),0);
@@ -110,6 +116,23 @@ const BASE='http://127.0.0.1:4173';
    const stored=await page.evaluate(()=>JSON.stringify(window.__r3HostedFakeRecords));
    assert.match(stored,/dd-r3-private-aes256gcm-v1/);
    assert.doesNotMatch(stored,/Environmental interpretation|fictional report/i);
+   // A real-looking second owner has a row in the fake DB, but the mocked
+   // RLS SELECT must return no row to A's authenticated browser session.
+   await page.evaluate(()=>{
+    const id='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+    window.__r3HostedFakeRecords[id]={owner_user_id:id,generation:'b'.repeat(32),
+     encrypted_envelope:{format:'dd-r3-private-aes256gcm-v1',cipher:'AES-256-GCM',
+      generation:'b'.repeat(32),ciphertext:'B'.repeat(384)}};
+   });
+   await page.locator('#r3QaVerify').click();
+   await page.waitForFunction(()=>/Own encrypted notebook backup present: YES/.test(
+    document.querySelector('#r3QaResults').textContent));
+   await page.locator('#r3QaOtherId').fill('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb');
+   await page.locator('#r3QaOtherCheck').click();
+   await page.waitForFunction(()=>/DENIED – ZERO OTHER-ACCOUNT ROWS/.test(
+    document.querySelector('#r3QaResults').textContent));
+   assert.doesNotMatch(await page.locator('#r3QaResults').textContent(),/aaaaaaaa|bbbbbbbb|researcher.test/);
+   await page.evaluate(()=>delete window.__r3HostedFakeRecords['bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb']);
    const dl=page.waitForEvent('download');
    await page.locator('#r3CloudDownload').click();
    const output=await dl;
