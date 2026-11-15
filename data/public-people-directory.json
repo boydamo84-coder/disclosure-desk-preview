@@ -138,9 +138,54 @@
               "label": "David Grusch's written opening statement to the US House",
               "url": "https://www.congress.gov/118/meeting/house/116282/witnesses/HHRG-118-GO06-Wstate-GruschD-20230726.pdf",
               "context": "Read the original statement and distinguish direct knowledge from what was reportedly told to him."
+            },
+            {
+              "kind": "primary",
+              "label": "US Government Publishing Office: full 26 July 2023 hearing transcript",
+              "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+              "context": "Jump to the individual witness opening statement; the record authenticates public testimony, not the underlying event."
             }
           ],
-          "id": "grusch-2023-house-claims-briefing"
+          "id": "grusch-2023-house-claims-briefing",
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "The hearing directly establishes what Grusch testified, not that an undisclosed recovery programme exists. The DoD/AARO statement is a broader contrary official assessment, not an independently resolved adjudication of his individual allegations. Public original programme records, named interviewee statements and inspectable recoveries have not been verified here.",
+            "items": [
+              {
+                "id": "grusch-house-transcript",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+                "title": "2023 House sworn testimony by David Grusch",
+                "locator": "Statement of David Grusch; discussion of UAP retrieval allegations",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Original public words distinguish secondhand programme descriptions from direct observations; testimony alone cannot establish the described programmes."
+              },
+              {
+                "id": "grusch-aaro-review",
+                "type": "analysis",
+                "stance": "challenges",
+                "access": "public",
+                "url": "https://www.defense.gov/News/Releases/Release/Article/3700894/statement-by-pentagon-press-secretary-maj-gen-pat-ryder-on-the-historical-recor/",
+                "title": "Department of Defense summary of AARO historical review",
+                "locator": "8 March 2024 release; findings on reported hidden reverse-engineering programmes",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "AARO publicly reports no verified extraterrestrial reverse engineering in its historical review. This is a broad government assessment, not direct examination of every confidential Grusch source."
+              },
+              {
+                "id": "grusch-house-witness-material",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/",
+                "title": "House Oversight official 26 July 2023 witness listing",
+                "locator": "Witnesses and testimonies: David Grusch; linked written statement",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "The official committee lists Grusch as a witness and links written material. A second link to the same hearing is not independent corroboration of the allegation."
+              }
+            ]
+          }
         }
       ]
     },
@@ -299,9 +344,65 @@
               "label": "US House Oversight UAP hearing and witness material",
               "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/",
               "context": "Review the hearing record before treating attributed reports as corroborated physical events."
+            },
+            {
+              "kind": "primary",
+              "label": "US Government Publishing Office: full 26 July 2023 hearing transcript",
+              "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+              "context": "Jump to the individual witness opening statement; the record authenticates public testimony, not the underlying event."
             }
           ],
-          "id": "graves-2023-house-aviation-safety"
+          "id": "graves-2023-house-aviation-safety",
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "The hearing is strong evidence of Graves's own reported experiences and aviation-safety advocacy, but it cannot alone authenticate each secondhand aircrew report, sensor recording or reported near miss. The FAA policy documents reporting procedures, not that each encounter occurred as described.",
+            "items": [
+              {
+                "id": "graves-house-transcript",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+                "title": "2023 House sworn testimony by Ryan Graves",
+                "locator": "Statement of Ryan Graves; account of 2014 radar observations and flight safety",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Graves describes his own operational experience and conveys additional aircrew reports. Claims about particular objects must be separated from his testimony that reports were made."
+              },
+              {
+                "id": "graves-faa-procedure",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.faa.gov/air_traffic/publications/atpubs/foa_html/chap4_section_7.html",
+                "title": "FAA current UAP air-traffic reporting procedure",
+                "locator": "Paragraph 4-7-4: Unidentified Anomalous Phenomena reports",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "The published operational instructions require reporting pilot and ATC observations to security coordinators. They do not independently prove any specific 2014 sighting or air collision risk."
+              },
+              {
+                "id": "graves-nasa-data-limit",
+                "type": "analysis",
+                "stance": "context",
+                "access": "public",
+                "url": "https://science.nasa.gov/uap/faqs/",
+                "title": "NASA science UAP frequently asked questions",
+                "locator": "Questions 4-7: observational data limitations and scientific conclusions",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "NASA explains that limited calibrated observations make definitive explanations difficult. This is methodological context, not a refutation of the specific pilot accounts."
+              },
+              {
+                "id": "graves-committee-record",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/",
+                "title": "House Oversight 2023 witness records",
+                "locator": "Witnesses and testimonies: Ryan Graves; linked written statement",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "This official listing corroborates hearing participation and access to the original written statement, not independent evidence for each reported flight event."
+              }
+            ]
+          }
         }
       ]
     },
@@ -434,7 +535,57 @@
               "context": "Source documents his public testimony; compare supporting records and alternative explanations separately."
             }
           ],
-          "id": "fravor-2023-house-2004-encounter"
+          "id": "fravor-2023-house-2004-encounter",
+          "researchEvidence": {
+            "status": "research_draft",
+            "editorialNote": "The congressional transcript is firsthand testimony of a 2004 encounter. Dietrich independently described related observations in a separate on-record interview, but this does not independently establish extraordinary speeds or origin. DoD acknowledges the video as genuine Navy footage recorded in November 2004, while Fravor said another crew made the recording. The underlying radar tapes are not supplied in this public research set.",
+            "items": [
+              {
+                "id": "fravor-house-transcript",
+                "type": "primary",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+                "title": "2023 House sworn testimony by David Fravor",
+                "locator": "Statement of David Fravor; 2004 Nimitz encounter and follow-on footage",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Fravor's firsthand account describes observing a white object with other aircrew; the record attributes descriptions and reported radar details, not a verified non-human origin."
+              },
+              {
+                "id": "fravor-dietrich-interview",
+                "type": "reporting",
+                "stance": "supports",
+                "access": "public",
+                "url": "https://www.cbsnews.com/news/ufo-military-intelligence-60-minutes-2021-08-29/",
+                "title": "CBS 60 Minutes interview with Alex Dietrich and Fravor",
+                "locator": "2021 interview; Dietrich describes the same 2004 flight experience",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "Dietrich separately describes observing an unidentified object in the same episode, adding an eyewitness account. This does not verify calculations of extraordinary acceleration or identity."
+              },
+              {
+                "id": "fravor-dod-video-release",
+                "type": "records",
+                "stance": "context",
+                "access": "public",
+                "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+                "title": "DoD official release of historic US Navy UAP videos",
+                "locator": "27 April 2020 release; three unclassified videos, one from November 2004",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "The department confirms that one released video was Navy footage from November 2004 and remained unidentified. It does not confirm the object's origin or that Fravor's aircraft captured the clip."
+              },
+              {
+                "id": "fravor-nasa-data-limit",
+                "type": "analysis",
+                "stance": "context",
+                "access": "public",
+                "url": "https://science.nasa.gov/uap/faqs/",
+                "title": "NASA science UAP frequently asked questions",
+                "locator": "Questions 4-7: limited measurements and uncertainty",
+                "checkedAt": "2026-11-15",
+                "reviewNote": "NASA notes that definitive UAP conclusions require better data. This general methodological warning does not resolve or disprove the Nimitz episode."
+              }
+            ]
+          }
         }
       ]
     },
