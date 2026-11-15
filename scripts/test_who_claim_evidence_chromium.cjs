@@ -87,7 +87,22 @@ const profiles=[
     const matching=cards.filter({has:page.getByRole('heading',{name:test.name,exact:true})});
     assert.equal(await matching.count(),1,'Search results include one exact named profile for '+test.name);
     console.log('Opening Who evidence profile',width,test.name,'page',new URL(page.url()).search);
-    await matching.locator('button').first().click();
+    // A human must scroll a button clear of the fixed bottom dock to tap it.
+    // Ensure the automated pointer gesture targets that same unobscured area.
+    const profileButton=matching.locator('button').first();
+    await profileButton.evaluate(button=>{
+     const dock=document.querySelector('#ddWebSecondaryNav');
+     if(!dock||getComputedStyle(dock).display==='none')return;
+     const safeBottom=dock.getBoundingClientRect().top-16;
+     const rect=button.getBoundingClientRect();
+     if(rect.bottom>safeBottom)window.scrollBy({top:rect.bottom-safeBottom,behavior:'instant'});
+    });
+    assert.equal(await profileButton.evaluate(button=>{
+     const r=button.getBoundingClientRect();
+     const hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);
+     return hit===button||button.contains(hit);
+    }),true,'Profile action needs a usable tap area above the fixed dock');
+    await profileButton.click();
     try{
      await page.locator('#personProfile').waitFor({state:'visible',timeout:12000});
     }catch(error){
