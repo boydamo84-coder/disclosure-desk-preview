@@ -241,6 +241,28 @@ function evidenceTrailHtml(claim,review,entries){
   ' · Edition '+esc(review.revision)+' · Method: '+esc(review.methodology)+'</p>'+
   '<p class="muted small">Records are classified by how they relate to this specific claim, not as proof of a particular explanation. Original publishers control access and copyright; a link may change or become unavailable later.</p>';
 }
+function sourceAuditDraftHtml(claim){
+ const d=claim?.sourceAudit;
+ if(!d||d.status!=='original_record_comparison_draft'||d.reviewerSignoff!=='not_obtained'||
+   !/^\d{4}-\d{2}-\d{2}$/.test(d.checkedAt||'')||
+   !d.original||!safeUrl(d.original.url)||
+   typeof d.original.locator!=='string'||d.original.locator.trim().length<25||
+   typeof d.original.assessment!=='string'||d.original.assessment.trim().length<75||
+   [d.independentEvidence,d.competingRecord,d.missingEvidence].some(v=>typeof v!=='string'||v.trim().length<75)||
+   (d.relatedSourceGroup!==null && d.relatedSourceGroup!==undefined &&
+    (typeof d.relatedSourceGroup!=='string'||!/^[a-z0-9-]{8,80}$/.test(d.relatedSourceGroup))))return '';
+ return '<section class="claim-audit-draft" aria-label="Original-record source comparison, review pending">'+
+  '<h5>Original-record comparison · first pass</h5>'+
+  '<p class="claim-draft-warning"><strong>Unsigned research check — not a scored or independently approved finding.</strong> This compares what is in the public record with what the underlying evidence can actually establish. It does not calculate a probability or rate anyone’s honesty.</p>'+
+  '<p class="muted small">Record consulted '+esc(d.checkedAt)+' · Independent second-editor signoff: <strong>Pending</strong></p>'+
+  '<p><strong>What the original record establishes:</strong> '+esc(d.original.assessment)+'</p>'+
+  '<p class="muted small"><strong>Exact record location:</strong> '+esc(d.original.locator)+
+   ' · <a href="'+esc(safeUrl(d.original.url))+'" target="_blank" rel="noopener noreferrer">Read original record ↗</a></p>'+
+  '<p><strong>Independent evidence versus repeat reporting:</strong> '+esc(d.independentEvidence)+'</p>'+
+  '<p><strong>What alternative or challenging material establishes:</strong> '+esc(d.competingRecord)+'</p>'+
+  '<p><strong>What remains unavailable or unverified:</strong> '+esc(d.missingEvidence)+'</p>'+
+ '</section>';
+}
 function draftEvidenceTrailHtml(claim){
  const draft=claim?.researchEvidence;
  if(draft?.status!=='research_draft'||!Array.isArray(draft.items)||draft.items.length>20||
@@ -261,6 +283,7 @@ function draftEvidenceTrailHtml(claim){
    '<a href="'+esc(safeUrl(e.url))+'" target="_blank" rel="noopener noreferrer">Read original source ↗</a></li>'
  ).join('');
  return '<p class="claim-draft-warning"><strong>Research notes — NOT a completed evidence review.</strong> The links below include original reporting and broader context. Listing a document does not establish that the underlying event occurred, or that conflicting interpretations have been fully checked.</p>'+
+  sourceAuditDraftHtml(claim)+
   '<p class="muted small"><strong>Open questions:</strong> '+esc(draft.editorialNote)+'</p>'+
   '<h5>Public materials consulted (provisional)</h5><ul class="claim-evidence-list">'+items+'</ul>'+
   '<p class="muted small">No criterion-by-criterion points or community votes are available until a separate source-and-editorial approval.</p>';
