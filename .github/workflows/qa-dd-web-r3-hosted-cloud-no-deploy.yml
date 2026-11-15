@@ -30,6 +30,7 @@ jobs:
           node --check experiments/r3/hypothesis-ui.js
           node --check experiments/r3/hypothesis-vault.js
           node --check experiments/r3/hypothesis-cloud.js
+          node --check experiments/r3/hypothesis-session-qa.js
           node --check scripts/build_r3_hosted_assets.cjs
           node --check scripts/test_r3_hosted_browser_chromium.cjs
           node --check scripts/test_r3_cloud_identity.cjs
