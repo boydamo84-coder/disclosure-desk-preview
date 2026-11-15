@@ -107,7 +107,7 @@
   requestAnimationFrame(update);
  }
  function confirmAction({title,message,confirmText='Continue',
-   cancelText='Keep working',destructive=false,verifyDelete=false}){
+   cancelText='Keep working',destructive=false,verifyDelete=false,icon}){
   return new Promise(resolve=>{
    const dialog=$('ddConfirmDialog');
    if(dialog.open){resolve(false);return;}
@@ -118,7 +118,7 @@
    $('ddDialogCancel').textContent=cancelText;
    confirm.textContent=confirmText;
    confirm.className=destructive?'btn-danger':'btn-primary';
-   $('ddDialogIcon').textContent=destructive?'!':'✓';
+   $('ddDialogIcon').textContent=icon||(destructive?'!':'✓');
    dialog.classList.toggle('destructive',destructive);
    $('ddDialogVerifyWrap').hidden=!verifyDelete;
    verify.value='';confirm.disabled=verifyDelete;
@@ -624,6 +624,14 @@
   }
  }
  async function exportEncrypted(){
+  if(!unlockedVault||busy)return;
+  // Use the same branded navy-and-gold confirmation as other lab actions.
+  // This can style our own prompt, not Chrome/Android's download UI.
+  if(!(await confirmAction({
+   title:'Download encrypted backup?',
+   message:'This downloads your latest saved encrypted notebook as a JSON file. Unfinished edits are not included. Keep the file somewhere safe: you will need your original passphrase to restore it, and that passphrase cannot be recovered.',
+   confirmText:'Download backup',cancelText:'Not now',icon:'↓'
+  })))return;
   if(!unlockedVault||busy)return;
   busy=true;$('exportBtn').disabled=true;
   try{
