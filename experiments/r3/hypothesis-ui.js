@@ -752,7 +752,11 @@
    $('r3CloudRestore').disabled=true;
    cloudStatus('Encrypted notebook restored to this browser. Your account backup remains unchanged.');
   }catch(err){cloudStatus('Cloud restore failed without changing existing work: '+err.message,true)}
-  finally{$('r3CloudPassphrase').value='';busy=false;updateSecurityUI()}
+  finally{
+   $('r3CloudPassphrase').value='';busy=false;updateSecurityUI();
+   try{$('r3CloudRestore').disabled=!cloudOwner||!!book||!!(await vault.readStored())}
+   catch{$('r3CloudRestore').disabled=true}
+  }
  }
  async function deleteCloud(){
   if(!cloudOwner||busy)return;
