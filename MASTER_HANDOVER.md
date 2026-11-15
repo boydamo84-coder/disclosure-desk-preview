@@ -1,5 +1,5 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 14 November 2026 (Europe/London) — R3 source-linked Gap Finder/Hypothesis Lab offline milestone and privacy design green; Android ZIP ready; owner test pending, R2 live unchanged_
+_Last updated: 15 November 2026 (Europe/London) — owner-reported working R3 site; Who's Who dual claim-rating candidate and 50-profile first-pass research register staged only (not live)_
 
 ## M96 — Legacy favicon fallback and Netlify 404 review (13 November 2026)
 
