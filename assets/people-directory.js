@@ -266,6 +266,9 @@ function draftEvidenceTrailHtml(claim){
   '<p class="muted small">No criterion-by-criterion points or community votes are available until a separate source-and-editorial approval.</p>';
 }
 function publishedClaimReview(claim){
+ // Research-policy recommendations and unknown claim categories must never
+ // receive a fabricated 0–100 physical-evidence assessment.
+ if(claim?.claimKind&&claim.claimKind!=='public_claim')return null;
  const r=claim?.review;
  if(!r||r.status!=='published'||r.methodology!=='dd-claim-evidence-v1')return null;
  if(typeof r.reviewer!=='string'||r.reviewer.trim().length<5||
@@ -375,6 +378,7 @@ function renderClaimEvidence(person){
  }
  host.innerHTML=claims.map(claim=>{
   if(!claim||!claim.statement)return '';
+  const advisory=claim.claimKind==='policy_recommendation';
   const r=publishedClaimReview(claim);
   const score=r?EVIDENCE_RUBRIC.reduce((a,row)=>a+r.points[row.key],0):null;
   const allowed=communityClaimEligible(claim);
@@ -385,7 +389,9 @@ function renderClaimEvidence(person){
   const evidence=r?publishedEvidenceTrail(claim):null;
   const detailedReview=r?evidenceTrailHtml(claim,r,evidence):'';
   const sitePanel='<section class="claim-dual-panel"><h5>Disclosure Desk rating</h5>'+
-   (r?'<div class="claim-score" aria-label="Public evidence support score '+score+' out of 100">'+score+
+   (advisory?'<span class="claim-not-assessed">Not applicable</span>'+
+     '<p class="muted small">A proposal for better scientific research is not a measurable claim about an extraordinary event. Source links are provided for reference.</p>':
+     r?'<div class="claim-score" aria-label="Public evidence support score '+score+' out of 100">'+score+
      '<small> /100 · Documented evidence support</small></div>'+
      '<p class="muted small">Detailed evidence, point-by-point reasoning and original records can be opened below.</p>':
      '<span class="claim-not-assessed">Not assessed</span>'+
@@ -398,10 +404,11 @@ function renderClaimEvidence(person){
       '<input type="range" data-rating-slider min="0" max="100" step="5" value="50" aria-label="Community rating for evidence supporting this specific claim"></label>'+
       '<button type="button" class="btn" data-rating-save>Submit my rating</button></div>'+
       '<p class="muted small" data-rating-notice aria-live="polite">Checking sign-in and rating availability…</p></div>':
-     '<span class="claim-not-assessed">Voting not open</span><p class="muted small">This claim is still awaiting source and context approval, so no member ratings are collected.</p>')+
+     (advisory?'<span class="claim-not-assessed">Not applicable</span><p class="muted small">Member evidence scores do not apply to research recommendations.</p>':
+      '<span class="claim-not-assessed">Voting not open</span><p class="muted small">This claim is still awaiting source and context approval, so no member ratings are collected.</p>'))+
    '</section>';
   return '<article class="claim-review" aria-label="Individual public claim evidence review">'+
-    '<div class="claim-status">PUBLIC CLAIM · '+esc(claim.date||'Date requires verification')+'</div>'+
+    '<div class="claim-status">'+(advisory?'PUBLIC RESEARCH RECOMMENDATION':'PUBLIC CLAIM')+' · '+esc(claim.date||'Date requires verification')+'</div>'+
     '<h4>'+esc(claim.statement)+'</h4>'+
     '<p class="muted small">'+esc(claim.context||'Attribution is not verification of the underlying claim.')+'</p>'+
     '<div class="claim-dual">'+sitePanel+communityPanel+'</div>'+
@@ -409,7 +416,8 @@ function renderClaimEvidence(person){
       'View evidence &amp; scoring breakdown':'View original evidence sources (review pending)')+'</summary>'+
       (r?detailedReview:draftEvidenceTrailHtml(claim)||'<p class="muted small">These are source references to what was publicly said or reported. No completed independent evidence assessment, corroboration audit or scoring conclusion has been published for this claim.</p>')+
     '</details>'+
-    '<p class="muted small">Both ratings concern supporting evidence for this specific claim, not this person’s trustworthiness or the probability that any extraordinary interpretation is true.</p>'+
+    (advisory?'<p class="muted small">This is an attributed research recommendation, not a scored incident or a claim about personal credibility.</p>':
+     '<p class="muted small">Both ratings concern supporting evidence for this specific claim, not this person’s trustworthiness or the probability that any extraordinary interpretation is true.</p>')+
     '<div class="claim-record"><strong>Original statement / public-source references</strong>'+
     (refs?'<ul class="link-list">'+refs+'</ul>':'<p class="muted small">No primary source has passed editorial review yet.</p>')+
     '</div></article>';
