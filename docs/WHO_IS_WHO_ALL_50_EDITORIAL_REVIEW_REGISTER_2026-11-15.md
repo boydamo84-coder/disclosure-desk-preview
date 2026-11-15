@@ -12,12 +12,14 @@ Every one of the 50 published draft directory profiles has an individual review 
 
 - **50/50** directory entries inventoried; **50/50** have at least one source citation in current JSON (source reachability/context not independently checked).
 - **20/50** currently have photo objects; reuse/identity still requires individual editorial signoff.
-- **18** unscored, source-attributed claim/recommendation/technical research drafts now seeded (7 hearing records + 5 case analyses + 6 reporter/filmmaker/science claim reviews); **32** people do not have an individually constructed claim review. All 50 still have original-source readers; a committee appointment, journalist's occupation or scientific-policy role alone is not a claim that non-human objects exist.
+- **23** unscored, source-attributed claim/recommendation/technical research drafts now seeded (7 hearing records + 5 early case analyses + 6 reporter/science drafts + 5 specific historical/reporting/records assertions); **27** people have no individually constructed claim review. All 50 still have original-source readers. FOIA requests, committee memberships, careers and publications alone are not claims that non-human craft exist.
 - **0** non-HTTPS/malformed linked citation(s) identified by this inventory; this is not a live HTTP health check.
 
 **15 Nov 2026 milestone 7 addendum:** Five remaining public-work entries now also have a claim-specific research draft with primary/publication and contrary/context links: Bob Lazar, Jake Barber, Larry Warren, Mick West and Avi Loeb. The newly opened source trails are recorded in `docs/WHO_FIVE_CASE_CLAIM_EVIDENCE_LEDGER_2026-11-15.md`. Together there are 44 **provisional item references** across twelve drafts. Original source archive, primary statement, independently testable object/event evidence and competing explanations are separate checks. These are NOT 12 approved public percentages, and 38 other profiles are not personal 0/100 ratings.
 
 **Milestone 8, 15 November 2026:** Six additional specific claims with original and counter/context sources were staged for Ross Coulthart, Jeremy Corbell, Steven Greer, Garry Nolan, Jacques Vallée and Kevin Knuth. This brings the total to 18 source-linked unapproved research drafts / 66 item references, with no real editor-approved 0–100 rating and no user vote. The new scientific paper is a *joint* Nolan–Vallée source and must not be counted twice; original video filmed by Navy personnel is not proof of alleged anomalous propulsion. Details and original links: `docs/WHO_SIX_PUBLIC_CLAIMS_EVIDENCE_LEDGER_2026-11-15.md`. Remaining 32 profiles are not scored or penalised for lacking an event-specific public assertion.
+
+**Milestone 9, 15 November 2026:** Five additional public claim/source drafts for George Knapp, Christopher Mellon, James Fox, Nick Pope and Leslie Kean, each supported by original claimant/publication material and differentiated contrary/context. John Greenewald Jr.'s professional FOIA reader instead gains two first-party, government-issued response/log records, with **no incident score** invented from filing requests. Now 23 tentative individual claim panels / 86 provisional item-level research links. Full original references, statement scopes, national-archive provenance and outstanding checks: `docs/WHO_M9_SIX_PROFILE_CLAIMS_AND_FOIA_LEDGER_2026-11-15.md`. No named second reviewer or score publication.
 
 ### Per-person editorial acceptance checklist
 
@@ -118,19 +120,19 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 06. George Knapp (`george-knapp`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Investigative journalist; Weaponized co-host
+**Review status:** One individually attributable publication or claim now has source comparison; evidence-strength/editorial approval pending. **Role:** Investigative journalist; Weaponized co-host
 
 **Published draft position (NOT independently authenticated):** Weaponized identifies Knapp as its co-host and highlights his reporting about Bob Lazar, Area 51 and Skinwalker Ranch.
 
 **Review route:** Verify original reporting/interview attribution; do not score an interviewee's claim as reporter's.
 
-**Current metadata:** 1 profile source(s), 3 milestones, 2 articles; portrait recorded (verify licence and identity); 0 source-linked claim candidate(s).
+**Current metadata:** 1 profile source(s), 3 milestones, 2 articles; portrait recorded (verify licence and identity); 1 individual, sourced claim draft (15 November 2026; not approved).
 
 **Source links currently listed (must verify):**
 
 - Weaponized — About George Knapp — https://www.weaponizedpodcast.com/about (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Only one profile source; seek independent cross-check; No individually attributed claim review drafted.
+**Outstanding checks:** Only one profile source; seek independent cross-check; Provisional claim and competing/context evidence are now in the milestone 9 ledger; still no completed scoring review.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -253,20 +255,20 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 13. Christopher Mellon (`christopher-mellon`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Former Deputy Assistant Secretary of Defense for Intelligence
+**Review status:** One individually attributable publication or claim now has source comparison; evidence-strength/editorial approval pending. **Role:** Former Deputy Assistant Secretary of Defense for Intelligence
 
 **Published draft position (NOT independently authenticated):** Mellon has advocated for rigorous national-security review of unexplained aerial reports and publicly discussed Pentagon video releases and congressional oversight.
 
 **Review route:** Confirm hearing, legislation or oversight role; assess only individually attributed statements.
 
-**Current metadata:** 2 profile source(s), 3 milestones, 3 articles; portrait not selected; 0 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 3 milestones, 3 articles; portrait not selected; 1 individual, sourced claim draft (15 November 2026; not approved).
 
 **Source links currently listed (must verify):**
 
 - Professional biography and programme credits — https://vailsymposium.org/speaker/christopher-mellon/ (initial inventory link; live reachability not yet confirmed)
 - HISTORY's Unidentified series — https://www.history.com/shows/unidentified-inside-americas-ufo-investigation (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Provisional claim and competing/context evidence are now in the milestone 9 ledger; still no completed scoring review.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -310,32 +312,32 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 16. James Fox (`james-fox`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Director of The Phenomenon, Moment of Contact and The Program
+**Review status:** One individually attributable publication or claim now has source comparison; evidence-strength/editorial approval pending. **Role:** Director of The Phenomenon, Moment of Contact and The Program
 
 **Published draft position (NOT independently authenticated):** Fox has directed several well-known documentaries; his work presents interviewed accounts and editorial arguments but does not itself independently establish each extraordinary allegation.
 
 **Review route:** Transcribe specific attributed statement; separate firsthand report from underlying interpretation.
 
-**Current metadata:** 2 profile source(s), 4 milestones, 3 articles; portrait recorded (verify licence and identity); 0 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 4 milestones, 3 articles; portrait recorded (verify licence and identity); 1 individual, sourced claim draft (15 November 2026; not approved).
 
 **Source links currently listed (must verify):**
 
 - Director interview — The Program — https://filmschoolradio.com/the-program-director-james-fox/ (initial inventory link; live reachability not yet confirmed)
 - James Fox films and credits — https://tv.apple.com/gb/person/james-fox/umc.cpc.6nn94fbb6henu22kyijnrv1p9 (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** Provisional claim and competing/context evidence are now in the milestone 9 ledger; still no completed scoring review.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
 ### 17. Nick Pope (`nick-pope`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Former UK Ministry of Defence UFO desk officer (1965–2026)
+**Review status:** One individually attributable publication or claim now has source comparison; evidence-strength/editorial approval pending. **Role:** Former UK Ministry of Defence UFO desk officer (1965–2026)
 
 **Published draft position (NOT independently authenticated):** Pope served at the Ministry of Defence UFO desk from 1991 to 1994 and later contributed to books, podcasts and television documentaries.
 
 **Review route:** Role/history/source context; locate individually attributable claims before scoring.
 
-**Current metadata:** 3 profile source(s), 5 milestones, 3 articles; portrait not selected; 0 source-linked claim candidate(s).
+**Current metadata:** 3 profile source(s), 5 milestones, 3 articles; portrait not selected; 1 individual, sourced claim draft (15 November 2026; not approved).
 
 **Source links currently listed (must verify):**
 
@@ -343,7 +345,7 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - UK National Archives — Ministry of Defence UFO records — https://www.nationalarchives.gov.uk/help-with-your-research/research-guides/ufos/ (initial inventory link; live reachability not yet confirmed)
 - Nick Pope — official published books archive (Rendlesham 2014) — https://www.nickpope.net/archive (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Provisional claim and competing/context evidence are now in the milestone 9 ledger; still no completed scoring review.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -900,7 +902,7 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 47. John Greenewald Jr. (`john-greenewald-jr`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Founder of The Black Vault government documents archive
+**Review status:** Documented government records/FOIA provenance expanded; no specific extraordinary-event assertion identified for separate scoring. **Role:** Founder of The Black Vault government documents archive
 
 **Published draft position (NOT independently authenticated):** Publicly documented work concerns FOIA filing, historical archives and the provenance of government records; the sources below provide the relevant institutional or publisher record.
 
@@ -913,7 +915,7 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - Primary hearing, institution or original publisher record — https://documents.theblackvault.com/documents/ (initial inventory link; live reachability not yet confirmed)
 - Additional original public source — https://www.theblackvault.com/documentarchive/series/the-black-vault-radio-w-john-greenewald-jr/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; New agency-issued Inspector General and ODNI request/log references supplement his document-archive reader. This is non-scoreable professional/records work, not a failed or discredited event claim.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -938,20 +940,20 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 49. Leslie Kean (`leslie-kean`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Investigative journalist and author covering UAP
+**Review status:** One individually attributable publication or claim now has source comparison; evidence-strength/editorial approval pending. **Role:** Investigative journalist and author covering UAP
 
 **Published draft position (NOT independently authenticated):** Publicly documented work concerns documentary reporting, pilot testimony and published UAP journalism; the sources below provide the relevant institutional or publisher record.
 
 **Review route:** Verify original reporting/interview attribution; do not score an interviewee's claim as reporter's.
 
-**Current metadata:** 2 profile source(s), 3 milestones, 2 articles; portrait not selected; 0 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 3 milestones, 2 articles; portrait not selected; 1 individual, sourced claim draft (15 November 2026; not approved).
 
 **Source links currently listed (must verify):**
 
 - Primary hearing, institution or original publisher record — https://www.lesliekean.com/author-leslie-kean/ (initial inventory link; live reachability not yet confirmed)
 - Additional original public source — https://www.lesliekean.com/ufos-media/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Provisional claim and competing/context evidence are now in the milestone 9 ledger; still no completed scoring review.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
