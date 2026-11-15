@@ -382,13 +382,13 @@ function renderPublicRoleEvidence(person){
     !PUBLIC_ROLE_KINDS[role.kind]||
     typeof role.title!=='string'||role.title.trim().length<12||
     typeof role.description!=='string'||role.description.trim().length<60||
-    !/^\\d{4}-\\d{2}-\\d{2}$/.test(role.eventDate||'')||
+    !/^\d{4}-\d{2}-\d{2}$/.test(role.eventDate||'')||
     !Array.isArray(role.sources)||role.sources.length<2||role.sources.length>8)return '';
  const sources=role.sources.filter(s=>s&&safeUrl(s.url)&&
    typeof s.title==='string'&&s.title.trim().length>=8&&
    typeof s.locator==='string'&&s.locator.trim().length>=6&&
    typeof s.note==='string'&&s.note.trim().length>=25&&
-   /^\\d{4}-\\d{2}-\\d{2}$/.test(s.checkedAt||''));
+   /^\d{4}-\d{2}-\d{2}$/.test(s.checkedAt||''));
  if(sources.length<2)return '';
  return '<article class="claim-role-card" aria-label="Public documentary role evidence">'+
   '<div class="claim-status">'+esc(PUBLIC_ROLE_KINDS[role.kind])+' · '+esc(role.eventDate)+'</div>'+
