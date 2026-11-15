@@ -1,0 +1,97 @@
+DISCLOSURE DESK — R3 GAP FINDER + ENCRYPTED HYPOTHESIS LAB
+==================================================================
+This test ZIP is NOT the live website or an installed APK. There is no
+account login or cloud copy. This is an experimental passphrase-protected
+single-browser LOCAL vault. Please use fictional/example data, not
+sensitive research, until a full security audit has been completed.
+
+TEST ON YOUR SAMSUNG GALAXY / TERMUX
+1. Extract the new ZIP into Downloads/R3_Research_Gaps_Android.
+2. Stop the existing Termux Python server (CTRL + C).
+3. In Termux, run:
+   cd ~/storage/downloads/R3_Research_Gaps_Android
+   pwd
+   cat BUILD_INFO.txt
+   grep -n 'ddConfirmDialog' index.html
+   python -m http.server 4175 --bind 127.0.0.1
+   If you see "Address already in use", a previous server is STILL active
+   and must be stopped in its original Termux session (CTRL+C).
+   (If you used a different folder name, update the cd line.)
+4. On your SAME Chrome profile, visit http://127.0.0.1:4175/?version=check
+   At the top of the page find the R3 NAV / PROMPT POLISH · BUILD identifier.
+   If you still see a GREY popup saying "127.0.0.1:4175 says", Chrome is
+   receiving the old index.html/scripts. Check the Termux working directory:
+   press CTRL+C, run pwd and cat BUILD_INFO.txt, then restart in the correct
+   extracted folder. DO NOT CLEAR CHROME SITE DATA or delete your vault.
+5. Tap "Load fictional demo". Tap "Enable encrypted local saving".
+   Enter and confirm a UNIQUE passphrase at least 12 characters long.
+6. Download your encrypted backup JSON. Keep the passphrase safe.
+7. Edit a hypothesis and save its next revision.
+8. Close the browser tab, reopen the same local URL and unlock using
+   the passphrase. Inspect the saved comparison/revision history.
+9. Test importing your encrypted backup on a separate fresh browser
+   profile OR, after confirming you have a usable backup, explicitly
+   delete the current local encrypted vault and import it again.
+
+DESKTOP
+Run from the extracted directory:
+   python3 -m http.server 4175 --bind 127.0.0.1
+and open http://127.0.0.1:4175.
+
+NEW: SOURCE-LINKED RESEARCH GAPS (PRIVATE ALPHA)
+- On a fresh notebook, choose one of 3 featured investigations from the
+  public case dropdown. Other 9 entries are guide/catalogue references,
+  not individual incident case scans.
+- Open the Gaps tab. A gap means a structured field is NOT INDEXED in
+  THIS catalogue entry; it is NOT evidence that the original documents
+  lack that information, and it is never proof of any explanation.
+- Each suggestion explains the catalogue field, possible next action
+  and original linked public source. Nothing is fetched unless YOU
+  explicitly tap the external source link.
+- Tap Record research question to add it to your private notebook.
+  You may optionally link it to an existing hypothesis. This DOES NOT
+  alter that hypothesis or produce evidence or a truth score.
+- With encrypted saving enabled, accepted research questions become
+  part of the ciphertext and survive refresh/unlock and backups.
+- For a first test use Incognito with fictional notes: it is a
+  SEPARATE TEMPORARY profile and won't overwrite your regular Chrome
+  encrypted vault. Incognito data may disappear when closed.
+- Normal Chrome currently supports ONE encrypted notebook per
+  localhost browser profile. If an older encrypted vault exists,
+  unlock it. Do NOT delete a real notebook to test another public case.
+  Keep an encrypted backup separately before deliberate deletion.
+
+ENCRYPTION / SAVING BEHAVIOUR
+- Opt-in browser IndexedDB storage, encrypted with AES-256-GCM and a
+  PBKDF2-SHA256-derived key (310,000 iterations; 16-byte random salt).
+- Passphrase is not written to browser storage. Unlock is required each
+  time the page reloads. The derived key remains only in tab memory
+  while unlocked; it is cleared from app references when locking.
+- Each completed saved revision is encrypted before the local write.
+  Unsubmitted text in the editor is NOT autosaved.
+- The encrypted JSON backup is user-initiated and is NOT plain text.
+  Import authenticates/decrypts before writing, and refuses to overwrite
+  an existing vault. A changed/tampered backup or wrong passphrase fails.
+- Local storage is tied to the Chrome profile + URL origin
+  (http://127.0.0.1:4175). Changing the port, clearing browser data,
+  using Incognito, or browser removal can make the saved copy unavailable.
+  Always keep an encrypted backup separately.
+- Anyone with your passphrase AND access to the saved data can open it.
+  There is NO passphrase recovery, encrypted cloud sync, remote account
+  isolation or multi-user permission enforcement.
+- This is an unaudited prototype. Do NOT claim it has a production
+  security certification or guarantees against device compromise.
+- The original 14-tab premium dock now uses the EXACT approved R2 source
+  stylesheet, tab order, labels and glyphs (including correct Chat icon).
+  This is a DISABLED design reference in the offline prototype, not a
+  link to the live website. Scroll with the premium arrows.
+  When editing on mobile, it hides to avoid covering inputs and to
+  prevent keyboard focus transitions stealing Add source/save taps.
+- Closing a session, locking a notebook, navigating away from unsaved
+  edits or deleting a vault now shows a branded navy-and-gold confirmation
+  modal. Cancel leaves research unchanged. Permanent deletion requires
+  typing DELETE in the modal; it never uses Chrome's grey prompt.
+- No research is uploaded, no Netlify deploy is performed and no site
+  account or Supabase table has been modified.
+- Browser Back and refresh discard any unsaved in-form edits. Only
+  completed, successfully encrypted revisions persist.

@@ -58,6 +58,9 @@ function websiteDir(dir){
 top.forEach(copy);websiteDir('assets');websiteDir('research');
 data.forEach(p=>copy('data/'+p));
 copy('research/data/curated-public-cases.json');
+// R3: a separately scoped, noindex browser page with opt-in account-backed
+// ciphertext only. Original website bundle and navigation stay intact.
+require('./build_r3_hosted_assets.cjs')(root,out,files);
 const cfg=fs.readFileSync(path.join(out,'assets/community-test-config.js'),'utf8');
 for(const flag of ['privateChat:enabled','discussions:enabled','profileAvatars:enabled','researchPublishing:false'])
  if(!cfg.includes(flag))throw Error('Unapproved feature activation detected: '+flag);

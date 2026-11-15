@@ -57,11 +57,16 @@ const BASE='http://127.0.0.1:4173';
 
     await page.locator('#archiveCaseClose').click();
     await dialog.waitFor({state:'hidden',timeout:10000});
+    // Closing a case schedules history.back() asynchronously. The old test
+    // immediately reopened another case before that popstate completed,
+    // allowing the delayed popstate to close the newly opened case.
+    await page.waitForFunction(()=>!history.state?.ddArchiveCaseId,{timeout:10000});
     await page.evaluate(()=>archiveCaseOpen('featured-roswell-1947'));
     await page.waitForTimeout(70);
     assert(await shell.evaluate(el=>el.scrollTop)<=3,'Re-opening after Close starts at top');
     await page.locator('#archiveCaseClose').click();
     await dialog.waitFor({state:'hidden',timeout:10000});
+    await page.waitForFunction(()=>!history.state?.ddArchiveCaseId,{timeout:10000});
 
     // The missing Who's Who control must be a real labelled navigation entry,
     // not merely an off-screen article link.

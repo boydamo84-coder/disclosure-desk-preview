@@ -6,7 +6,7 @@ else console.log('Verifying existing immutable public staging from Android snaps
 const m=JSON.parse(fs.readFileSync(path.join(out,'release-manifest.json'),'utf8'));
 const paths=m.files.map(f=>f.path),names=new Set(paths);
 assert.equal(names.size,paths.length);
-assert.ok(paths.length>=35&&paths.length<=105,'Unexpected package count '+paths.length);
+assert.ok(paths.length>=35&&paths.length<=125,'Unexpected package count '+paths.length);
 for(const f of m.files){
  const bytes=fs.readFileSync(path.join(out,f.path));
  assert.equal(bytes.length,f.bytes,f.path);
@@ -19,6 +19,50 @@ for(const f of ['index.html','guide.html','sources.html','investigations.html','
  'assets/community-polish.css','assets/media-submissions.js','assets/community-test-config.js','assets/profile-private-chat.js',
  'assets/community-discussions.js','assets/page-help.js','assets/evidence-dna.js','assets/person-case-links.js','assets/people-directory.js','data/public-people-directory.json','data/evidence-dna-claim-drafts.json','data/public-person-case-links.json','data/approved-live-events.json','data/historical-news-archive.json'])
  assert.ok(names.has(f),'Required site dependency missing: '+f);
+// R3 public route is an explicit, allowlisted browser interface, never a
+// server-side engine, SQL schema, private profile, file export or account data.
+for(const f of ['research/r3-lab/index.html','research/r3-lab/hypothesis-ui.js',
+ 'research/r3-lab/hypothesis-cloud.js','research/r3-lab/hypothesis-vault.js',
+ 'research/r3-lab/curated-public-cases.js','research/r3-lab/hypothesis-hosted.css'])
+ assert.ok(names.has(f),'Hosted R3 reviewed dependency missing: '+f);
+const production=process.env.CONTEXT==='production';
+if(production)
+ assert.ok(!names.has('research/r3-lab/hypothesis-session-qa.js'),
+  'Production must not ship private QA helper code');
+else assert.ok(names.has('research/r3-lab/hypothesis-session-qa.js'),
+  'Preview must include opt-in QA helper');
+// Public homepage editorial update: a real pinned site announcement, not a
+// fabricated source-news result. It must link the exact R3 route and explain
+// private backup limits on both Netlify production and deploy-preview builds.
+const homeHtml=fs.readFileSync(path.join(out,'index.html'),'utf8');
+assert.equal((homeHtml.match(/id="ddR3ReleaseAnnouncement"/g)||[]).length,1,
+ 'R3 announcement must be pinned exactly once on the homepage');
+const homePin=homeHtml.indexOf('id="ddR3ReleaseAnnouncement"');
+assert(homePin>homeHtml.indexOf('id="discover"')&&homePin<homeHtml.indexOf('My Investigation Boards'),
+ 'R3 pinned news must appear immediately under homepage hero, above Boards');
+assert.match(homeHtml,/id="ddR3ReleaseGuide"/);
+assert.match(homeHtml,/href="\/research\/r3-lab\/"/);
+for(const term of ['Research Gap Finder','Hypothesis Lab','Compare','History',
+ 'Enable encrypted saving','Save encrypted backup to account','manual',
+ 'independent security review'])assert(homeHtml.includes(term),'Pinned release news missing '+term);
+const r3Html=fs.readFileSync(path.join(out,'research/r3-lab/index.html'),'utf8');
+assert.match(r3Html,/data-r3-hosted="true"/);
+assert.match(r3Html,/noindex,nofollow,noarchive/);
+assert.match(r3Html,/\/assets\/community-test-config\.js|\.\.\/\.\.\/assets\/community-test-config\.js/);
+assert.match(r3Html,/r3CloudPanel/);
+if(production){
+ assert.doesNotMatch(r3Html,/r3QaPanel|r3QaOwnId|hypothesis-session-qa\.js|dd_r3_qa/,
+  'Production must not contain the preview-only account QA UI');
+}else{
+ assert.match(r3Html,/r3QaPanel/);
+ assert.ok(r3Html.includes('hypothesis-session-qa.js'),'Hosted R3 QA script link missing');
+}
+assert.match(r3Html,/integrity="sha384-uteMfOloLDGt042uDz\+xHGF3ym63\/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O"/);
+assert.match(r3Html,/@supabase\/supabase-js@2\.119\.0/,'R3 cloud SDK must stay pinned');
+assert.doesNotMatch(r3Html,/127\.0\.0\.1:4175/,'Hosted R3 must not claim localhost origin');
+assert.ok(!paths.some(p=>p.startsWith('experiments/')||
+ p.startsWith('supabase/')||p.endsWith('.cjs')||p.endsWith('.sql')),
+ 'No R3 experiments/SQL/server/test files in public output');
 for(const f of ['MASTER_HANDOVER.md','finance_local/vault.py','supabase/PRIVATE_CHAT_CONSENT_REVIEW.sql',
  'data/gep-2026-09-preflight-summary.json','data/news-feed-health.json','data/modern-official-uap-seed.json'])
  assert.ok(!names.has(f),'Internal file leaked: '+f);
