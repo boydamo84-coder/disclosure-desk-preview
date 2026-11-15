@@ -76,6 +76,20 @@ footer a{margin-right:14px}
 .claim-community-rating [data-rating-summary]{font-weight:750;color:#ffdfaa}
 .claim-community-rating [data-rating-notice]{margin:8px 0 0}
 @media(max-width:670px){.claim-dual{grid-template-columns:1fr}.claim-dual-panel{padding:13px}}
+
+/* Source-first, tap-to-expand evidence trail; no scores without checked links. */
+.claim-evidence-details{padding:13px 15px;margin:14px 0;border:1px solid #8a7049;border-radius:11px;background:#11273a}
+.claim-evidence-details>summary{font-size:14px;min-height:35px;display:list-item;list-style-position:inside}
+.claim-evidence-details[open]>summary{padding-bottom:11px;border-bottom:1px solid #40566a;margin-bottom:13px}
+.claim-evidence-details h5{color:var(--gold);font-size:12px;letter-spacing:.3px;margin:19px 0 9px}
+.claim-evidence-details .claim-metric{background:#101f2d;border:1px solid #3c5266;border-radius:10px;padding:12px}
+.claim-evidence-details .claim-metric p{margin:8px 0 5px;overflow-wrap:anywhere}
+.claim-evidence-group{margin:17px 0}
+.claim-evidence-list{list-style:none;padding:0;margin:0;display:grid;gap:9px}
+.claim-evidence-list li{border:1px solid #4b6276;border-radius:9px;padding:12px;background:#0d2030;overflow-wrap:anywhere}
+.claim-evidence-list p{margin:5px 0}
+.claim-evidence-details a{color:#f1d59f;text-underline-offset:3px}
+@media(max-width:670px){.claim-evidence-details{padding:11px}.claim-evidence-list li{padding:10px}}
 </style>
 <script defer src="/assets/analytics-consent.js?v=nov08-ga4-optin-m18"></script>
 </head><body>
@@ -105,7 +119,7 @@ footer a{margin-right:14px}
 <section class="card"><div class="section-title">Public statements and perspective</div><h3>What they have publicly discussed</h3><p id="profilePosition"></p></section>
 <section class="card" id="profileClaimReviewSection">
 <div class="section-title">Claim-specific evidence · editorial assessment</div><h3>How well is each claim supported?</h3>
-<p class="muted small">A source can establish what someone publicly said without proving the underlying event. These assessments examine claims and supporting records, <strong>never someone's honesty or character</strong>. Scores are not probabilities of truth.</p>
+<p class="muted small">Tap <strong>View evidence &amp; scoring breakdown</strong> on a reviewed claim to inspect every referenced document, what it supports or challenges, where to find the relevant passage and how it affected each criterion. A source can establish what someone publicly said without proving the underlying event. These assessments examine claims and supporting records, <strong>never someone's honesty or character</strong>. Scores are not probabilities of truth.</p>
 <div id="profileEvidenceReviews" aria-live="polite"><p class="muted small">Loading claim reviews…</p></div>
 <details id="claimReviewMethod"><summary>How evidence strength is assessed (0–100 points)</summary>
 <p class="muted small">Proposed transparent editorial rubric. Only separately sourced, individually reviewed claims may receive a number. A missing assessment is <strong>Not assessed</strong>, not zero.</p>
@@ -136,7 +150,7 @@ footer a{margin-right:14px}
 <script defer src="/assets/person-case-links.js?v=r2-m8-alpha01"></script>
 <script defer src="/assets/community-test-config.js?v=r2-claim-community-20261115"></script>
 <script defer crossorigin="anonymous" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>
-<script defer src="/assets/people-directory.js?v=r2-claim-community-v1-20261115"></script>
+<script defer src="/assets/people-directory.js?v=r2-evidence-ledger-v2-20261115"></script>
 <script defer src="/assets/secondary-editorial-nav.js?v=r2-premium-nav01"></script>
 <script defer src="/assets/page-help.js?v=r2-m10-help01"></script>
 </body></html>
