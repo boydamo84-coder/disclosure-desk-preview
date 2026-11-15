@@ -30,6 +30,8 @@ assert.match(r3Html,/data-r3-hosted="true"/);
 assert.match(r3Html,/noindex,nofollow,noarchive/);
 assert.match(r3Html,/\/assets\/community-test-config\.js|\.\.\/\.\.\/assets\/community-test-config\.js/);
 assert.match(r3Html,/r3CloudPanel/);
+assert.match(r3Html,/integrity="sha384-uteMfOloLDGt042uDz\+xHGF3ym63\/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O"/);
+assert.match(r3Html,/@supabase\/supabase-js@2\.119\.0/,'R3 cloud SDK must stay pinned');
 assert.doesNotMatch(r3Html,/127\.0\.0\.1:4175/,'Hosted R3 must not claim localhost origin');
 assert.ok(!paths.some(p=>p.startsWith('experiments/')||
  p.startsWith('supabase/')||p.endsWith('.cjs')||p.endsWith('.sql')),
