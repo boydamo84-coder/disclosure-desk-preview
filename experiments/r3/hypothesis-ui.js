@@ -693,7 +693,8 @@
   $('r3CloudProfile').textContent=cloudOwner.email||'Verified Disclosure Desk account';
   try{
    const data=await cloud.readEncrypted();
-   $('r3CloudRestore').disabled=!data||!!book||!!(await vault.readStored())||busy;
+   const stored=await vault.readStored();ensureActive();
+   $('r3CloudRestore').disabled=!data||!!book||!!stored||busy;
    $('r3CloudDownload').disabled=!data||busy;
    $('r3CloudDelete').disabled=!data||busy;
    cloudStatus(data?'Your account contains an encrypted backup. You can restore it to a new device or explicitly replace it from this device.':
@@ -706,7 +707,7 @@
   try{
    const payload=await vault.encryptedExport(unlockedVault.generation);
    const previous=await cloud.readEncrypted();
-   if(previous?.generation===unlockedVault.generation){
+   ensureActive();if(previous?.generation===unlockedVault.generation){
     cloudStatus('This exact encrypted version is already backed up to your account.');return;
    }
    const message=previous?
@@ -715,7 +716,8 @@
    if(!(await confirmAction({title:previous?'Replace cloud backup?':'Back up notebook to your account?',
      message,confirmText:previous?'Replace encrypted backup':'Back up encrypted copy',
      cancelText:'Not now',icon:'☁'})))return;
-   await cloud.saveEncrypted(payload,previous?.generation||null);
+   ensureActive();await cloud.saveEncrypted(payload,previous?.generation||null);
+   ensureActive();
    $('r3CloudDownload').disabled=false;$('r3CloudDelete').disabled=false;
    cloudStatus('Encrypted cloud backup saved to your verified account. Your passphrase never left the browser.');
   }catch(err){cloudStatus('Cloud backup was NOT saved: '+err.message,true)}
@@ -726,7 +728,7 @@
   busy=true;
   try{
    const row=await cloud.readEncrypted();
-   if(!row)throw new Error('No encrypted account backup was found');
+   ensureActive();if(!row)throw new Error('No encrypted account backup was found');
    const json=JSON.stringify(row.encrypted_envelope,null,2);
    const url=URL.createObjectURL(new Blob([json],{type:'application/json'}));
    const link=elt('a');link.href=url;link.download='disclosure-desk-R3-CLOUD-ENCRYPTED-backup.json';
@@ -745,14 +747,14 @@
    if(book||await vault.readStored())
     throw new Error('A local notebook already exists. Export a backup and use another browser profile or explicitly delete the local copy before restoring. Nothing was overwritten.');
    const row=await cloud.readEncrypted();
-   if(!row)throw new Error('No encrypted account backup is available');
+   ensureActive();if(!row)throw new Error('No encrypted account backup is available');
    if(!(await confirmAction({
     title:'Restore account backup?',
     message:'Restore this encrypted account backup into this browser? An empty local vault is required. You must know the original passphrase. No other device will be changed.',
     confirmText:'Restore encrypted backup',cancelText:'Not now',icon:'☁'
    })))return;
-   const session=await vault.importBackup(JSON.stringify(row.encrypted_envelope),passphrase);
-   book=session.book;unlockedVault={key:session.key,generation:session.generation};
+   ensureActive();const session=await vault.importBackup(JSON.stringify(row.encrypted_envelope),passphrase);
+   ensureActive();book=session.book;unlockedVault={key:session.key,generation:session.generation};
    selectedId=book.hypotheses[0]?.id||null;editingId=null;view='write';
    renderNotebook();updateSecurityUI();await refreshVaultAccess();
    $('r3CloudRestore').disabled=true;
@@ -769,14 +771,14 @@
   busy=true;$('r3CloudDelete').disabled=true;
   try{
    const row=await cloud.readEncrypted();
-   if(!row)throw new Error('There is no encrypted cloud copy to delete');
+   ensureActive();if(!row)throw new Error('There is no encrypted cloud copy to delete');
    if(!(await confirmAction({
     title:'Delete encrypted account backup?',
     message:'This permanently deletes the encrypted cloud backup in your Disclosure Desk account. Any local notebook or downloaded backup stays unchanged. Type DELETE to confirm.',
     confirmText:'Delete account backup',cancelText:'Keep backup',destructive:true,verifyDelete:true
    })))return;
-   await cloud.deleteEncrypted(row.generation);
-   $('r3CloudDownload').disabled=true;$('r3CloudRestore').disabled=true;
+   ensureActive();await cloud.deleteEncrypted(row.generation);
+   ensureActive();$('r3CloudDownload').disabled=true;$('r3CloudRestore').disabled=true;
    cloudStatus('Encrypted account backup deleted. Local notebooks and downloaded files were not touched.');
   }catch(err){cloudStatus('Cloud backup was not deleted: '+err.message,true)}
   finally{busy=false;$('r3CloudDelete').disabled=false}
@@ -787,13 +789,13 @@
    $('r3CloudPanel').hidden=false;
    try{
     cloudOwner=cloud?await cloud.ready():null;
-    vault.configureScope(cloudOwner?.id||null);
+    ensureActive();vault.configureScope(cloudOwner?.id||null);
    }catch(err){
     vault.configureScope(null);cloudOwner=null;
     cloudStatus('Account connection unavailable; continuing in isolated guest-only local mode. '+err.message,true);
    }
   }
-  bootReady=true;
+  ensureActive();bootReady=true;
   try{await refreshVaultAccess()}catch(err){status('Browser vault unavailable: '+err.message,true)}
   if(hosted){
    await refreshCloudView();
@@ -804,7 +806,7 @@
     $('r3CloudDelete').addEventListener('click',deleteCloud);
    }
   }
-  document.documentElement.dataset.r3Boot='ready';
+  ensureActive();document.documentElement.dataset.r3Boot='ready';
  }
  async function closeSession(){
   if(!book||busy)return;
@@ -817,7 +819,7 @@
    message:'This notebook has not been encrypted or saved. Closing it now will permanently discard the changes in this session.',
    confirmText:'Discard notebook',cancelText:'Keep notebook open',destructive:true
   })))return;
-  clearDecryptedDOM();
+  ensureActive();clearDecryptedDOM();
   book=null;unlockedVault=null;selectedId=null;editingId=null;view='write';
   $('workPanel').hidden=true;$('setupPanel').hidden=false;
   hideStatus();updateSecurityUI();
@@ -833,7 +835,7 @@
    confirmText:'Delete local copy',cancelText:'Keep encrypted copy',
    destructive:true,verifyDelete:true
   })))return;
-  busy=true;$('deleteVaultBtn').disabled=true;
+  ensureActive();busy=true;$('deleteVaultBtn').disabled=true;
   try{
    await vault.deleteLocalVault();
    await refreshVaultAccess();
