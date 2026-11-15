@@ -628,7 +628,7 @@ function renderClaimEvidence(person){
   const detailedReview=r?evidenceTrailHtml(claim,r,evidence):'';
   const sitePanel='<section class="claim-dual-panel"><h5>Disclosure Desk rating</h5>'+
    (nonEventMetric?'<span class="claim-not-assessed">Not applicable</span>'+
-     '<p class="muted small">A proposal for better scientific research is not a measurable claim about an extraordinary event. Source links are provided for reference.</p>':
+     '<p class="muted small">This research-policy or records-access assertion is not evidence of an extraordinary incident. The original documents can be inspected below.</p>':
      r?'<div class="claim-score" aria-label="Public evidence support score '+score+' out of 100">'+score+
      '<small> /100 · Documented evidence support</small></div>'+
      '<p class="muted small">Detailed evidence, point-by-point reasoning and original records can be opened below.</p>':
@@ -646,7 +646,7 @@ function renderClaimEvidence(person){
       '<span class="claim-not-assessed">Voting not open</span><p class="muted small">This claim is still awaiting source and context approval, so no member ratings are collected.</p>'))+
    '</section>';
   return '<article class="claim-review" aria-label="Individual public claim evidence review">'+
-    '<div class="claim-status">'+(advisory?'PUBLIC RESEARCH RECOMMENDATION':'PUBLIC CLAIM')+' · '+esc(claim.date||'Date requires verification')+'</div>'+
+    '<div class="claim-status">'+(advisory?'PUBLIC RESEARCH RECOMMENDATION':nonEventMetric?'PUBLIC POLICY / RECORDS-ACCESS CLAIM':'PUBLIC CLAIM')+' · '+esc(claim.date||'Date requires verification')+'</div>'+
     '<h4>'+esc(claim.statement)+'</h4>'+
     '<p class="muted small">'+esc(claim.context||'Attribution is not verification of the underlying claim.')+'</p>'+
     '<div class="claim-dual">'+sitePanel+communityPanel+'</div>'+
