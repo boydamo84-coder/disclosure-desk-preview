@@ -1,0 +1,15 @@
+/* Hosted R3 supplementary chrome; isolated offline prototype is untouched. */
+#r3BootBanner{margin:12px 0 18px;padding:12px 15px;border:1px solid #8f774b;
+ background:#2b302d;color:#f4deb7;border-radius:12px;font-size:12px}
+html[data-r3-boot="checking"] #mainContent{opacity:.7;pointer-events:none}
+html[data-r3-boot="ready"] #r3BootBanner{display:none}
+#r3CloudPanel .r3-cloud-actions{display:flex;flex-wrap:wrap;gap:10px;margin:15px 0}
+#r3CloudPanel .r3-cloud-actions button{margin:0;flex:1 0 165px}
+#r3CloudPanel .r3-cloud-passphrase{margin:14px 0 6px;max-width:520px}
+#r3CloudPanel .r3-cloud-account{margin:8px 0;line-height:1.5}
+#r3CloudPanel #r3CloudProfile{color:#f5d79f;overflow-wrap:anywhere}
+#r3CloudPanel #r3CloudStatus{line-height:1.7;color:#c5d8e2;overflow-wrap:anywhere}
+#r3CloudPanel #r3CloudStatus.error{color:#ffd1cb}
+#r3CloudPanel .r3-cloud-reminder{font-size:12px;color:#e9d2a6;line-height:1.7}
+@media(max-width:560px){#r3CloudPanel .r3-cloud-actions{display:grid;grid-template-columns:1fr}
+ #r3CloudPanel .r3-cloud-actions button{width:100%;min-width:0}}
