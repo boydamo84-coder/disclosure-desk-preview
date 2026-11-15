@@ -1135,3 +1135,12 @@ All **20 of the selected Commons photo file pages** now have directly inspected 
 Seven primary House hearing testimony passages plus Leslie Kean's signed original published article and Kevin Knuth's original publisher abstract are directly reachable. The source reader now displays their actual original locators while explicitly distinguishing accessible original *text* from a completed physical-event or programme verification. Ten of 23 claim source originals still need fresh verification; three publisher/reprint links are blocked by the research fetcher; Warren's chapter metadata remains a published programme index only. No claim score or signed-in vote has been released, and no named second editor has signed any review.
 
 Full 15-person Commons table and nine source locators: `docs/WHO_M17_15_COMMONS_LICENSES_AND_ORIGINAL_DOCUMENT_ACCESS_2026-11-15.md`. Source- and rights-evaluation gates in `docs/WHO_M15_SCORE_READINESS_AND_EDITORIAL_RELEASE_GATES_2026-11-15.md` remain necessary.
+
+
+## Milestone 18 — complete 23-of-23 source-access check, not completed empirical verification (15 November 2026)
+
+All **23 attributed claim/recommendation panels** now have a specific, dated first-pass ORIGINAL SOURCE ACCESS status and an original link, including seven newly inspected original publisher or official materials (Corbell/CNN, Knapp/House PDF pages 1–2, West/Metabunk model, Mellon/Substack policy, Loeb/Chemical Geology PDF pages 1 and 11, Greer/ABC, James Fox/film interviews), and three additional journal/author first-party page search-index accessible but directly blocked (Nolan/Vallée one paper, Nick Pope authored briefing). **Access verified** is NOT the same as the claim's physical assertion independently substantiated; the last three original pages were not directly fetched or read in full.
+
+All have `sourceAccessCheck.fullOriginalReviewed:false`, `secondEditorSignoff:'not_obtained'`. No public 0–100 per-claim percentage, community vote, or general person-level belief score is permitted. 50 profiles (27 role/archive-only), 20 photo/catalogue licences checked but awaiting human final approval and 30 initials unchanged.
+
+Separate full source/link/rights/checklist: `docs/WHO_M18_PRIMARY_SOURCE_ACCESS_AND_READONLY_CI_2026-11-15.md`. A read-only, feature-branch-only GitHub Actions workflow has been added for real Chrome testing; successful run status remains unverified. No Netlify/backend/live changes were made.
