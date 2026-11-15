@@ -38,3 +38,35 @@ jobs:
           node scripts/build_public_release.cjs
           node scripts/test_who_public_package_boundary.cjs
           echo "No deploy, Netlify or Supabase credentials used"
+
+  chromium-phone-tablet-desktop:
+    needs: source-and-package
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install isolated browser test driver
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+          node --check scripts/test_who_claim_evidence_chromium.cjs
+      - name: Run real Chrome against local Who reader
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/who-m26-readonly-http.log 2>&1 &
+          echo $! > /tmp/who-m26-readonly-http.pid
+          for i in $(seq 1 20); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/who-is-who.html >/dev/null && break
+            sleep 1
+          done
+          node scripts/test_who_claim_evidence_chromium.cjs
+      - name: Stop local-only web server
+        if: always()
+        run: |
+          if test -f /tmp/who-m26-readonly-http.pid; then
+            kill "$(cat /tmp/who-m26-readonly-http.pid)" 2>/dev/null || true
+          fi
