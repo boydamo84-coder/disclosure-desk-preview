@@ -120,7 +120,7 @@ for(const id of originalAuditIds){
 }
 assert.match(data.people.find(p=>p.id==='david-grusch').claimEvidence[0].sourceAudit.original.assessment,/not personally seen alleged bodies/);
 assert.match(data.people.find(p=>p.id==='ryan-graves').claimEvidence[0].sourceAudit.original.assessment,/OTHER Navy flight crew/);
-assert.match(data.people.find(p=>p.id==='david-fravor').claimEvidence[0].sourceAudit.independentEvidence,/same event/i);
+assert.match(data.people.find(p=>p.id==='david-fravor').claimEvidence[0].sourceAudit.independentEvidence,/shared encounter/i);
 assert.match(data.people.find(p=>p.id==='tim-gallaudet').claimEvidence[0].sourceAudit.competingRecord,/NOT the alleged email/i);
 assert.match(data.people.find(p=>p.id==='michael-shellenberger').claimEvidence[0].sourceAudit.independentEvidence,/not independent agency programme confirmation/i);
 assert.match(data.people.find(p=>p.id==='mike-gold').claimEvidence[0].sourceAudit.original.assessment,/not for NASA/);
