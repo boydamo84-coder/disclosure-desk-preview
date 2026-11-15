@@ -37,8 +37,9 @@ const profiles=[
    for(const test of list){
     await page.locator('#peopleSearch').fill(test.name);
     const cards=page.locator('#peopleCards article.card');
-    assert.equal(await cards.count(),1,'Search uniquely locates '+test.name);
-    await cards.locator('button').first().click();
+    const matching=cards.filter({has:page.getByRole('heading',{name:test.name,exact:true})});
+    assert.equal(await matching.count(),1,'Search results include one exact named profile for '+test.name);
+    await matching.locator('button').first().click();
     await page.locator('#personProfile').waitFor({state:'visible'});
     assert.equal(await page.locator('#profileName').innerText(),test.name);
     const host=page.locator('#profileEvidenceReviews');
