@@ -119,6 +119,12 @@ const profiles=[
       assert.equal(await accessPanel.locator('a[href^="https://"]').count()>=1,true,'Original source link retained');
       assert.equal(await accessPanel.locator('button,input,[data-rating-save]').count(),0,'Original access check cannot create a vote');
       if(test.name==='Larry Warren')assert.match(await accessPanel.innerText(),/Publisher video and chapter metadata checked/);
+      if(['David Grusch','Ryan Graves','David Fravor','Luis Elizondo','Tim Gallaudet','Michael Shellenberger'].includes(test.name)){
+       assert.match(await accessPanel.innerText(),/Government hearing transcript text accessible/);
+       assert.match(await accessPanel.innerText(),/Where in source/);
+      }
+      if(test.name==='Leslie Kean')assert.match(await accessPanel.innerText(),/Original signed publisher article accessible/);
+      if(test.name==='Kevin Knuth')assert.match(await accessPanel.innerText(),/Original paper abstract accessible/);
       if(['Ross Coulthart','Jake Barber','Bob Lazar'].includes(test.name))
        assert.match(await accessPanel.innerText(),/Original-source access unavailable/);
       if(test.name==='Christopher Mellon')assert.match(await triage.innerText(),/Not applicable to an incident evidence percentage/);
