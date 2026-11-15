@@ -65,6 +65,17 @@ footer a{margin-right:14px}
 #profileEvidenceReviews a{overflow-wrap:anywhere}
 .claim-review .claim-not-assessed{display:inline-block;border:1px solid #7a6748;color:#ffdfaa;border-radius:8px;padding:5px 10px;font-weight:750;font-size:12px}
 @media(max-width:420px){.claim-review{padding:13px}.claim-review .claim-score{font-size:23px}}
+
+.claim-dual{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}
+.claim-dual-panel{border:1px solid #52647a;border-radius:12px;padding:15px;background:#0a1a29;min-width:0}
+.claim-dual-panel h5{font-size:12px;line-height:1.4;color:#e7c88c;text-transform:uppercase;letter-spacing:.5px;margin:0 0 12px}
+.claim-community-rating [data-rating-control]{margin-top:12px}
+.claim-community-rating [data-rating-control][hidden]{display:none!important}
+.claim-community-rating input[type=range]{display:block;width:100%;height:24px;accent-color:#d0a761;cursor:pointer;touch-action:pan-y;margin:10px 0}
+.claim-community-rating [data-rating-save]{display:block;margin:6px 0;min-height:42px}
+.claim-community-rating [data-rating-summary]{font-weight:750;color:#ffdfaa}
+.claim-community-rating [data-rating-notice]{margin:8px 0 0}
+@media(max-width:670px){.claim-dual{grid-template-columns:1fr}.claim-dual-panel{padding:13px}}
 </style>
 <script defer src="/assets/analytics-consent.js?v=nov08-ga4-optin-m18"></script>
 </head><body>
@@ -118,12 +129,14 @@ footer a{margin-right:14px}
 </article>
 <section class="card" id="editorialPolicy"><div class="section-title">Directory policy</div><h2>Profiles are evidence guides, not popularity contests</h2>
 <p>Statements are attributed to their speakers or published institutions. Reporting, first-hand testimony, technical analysis and alleged facts are different types of evidence. Inclusion is not an endorsement or accusation.</p>
-<p>We will not label real people as dishonest, part of a covert operation or otherwise malicious based on a popularity poll. The proposed evidence-strength review above applies only to a <em>specific, attributed public claim</em>, with a visible source trail and editorial checks. It is not a numerical rating of an individual, proof of extraordinary explanations or a public popularity poll. No public votes or personal believability scores are collected.</p>
+<p>We will not label real people as dishonest, part of a covert operation or otherwise malicious based on a popularity poll. The proposed evidence-strength review above applies only to a <em>specific, attributed public claim</em>, with a visible source trail and editorial checks. It is not a numerical rating of an individual, proof of extraordinary explanations or a public popularity poll. Community ratings will require an authenticated account and separately approved claim evidence; they are not available while editorial review and backend checks are pending. No personal believability scores are collected.</p>
 <p>To suggest a person, provide a public source supporting their work. To request a correction, <a href="mailto:support@uapdisclosuredesk.com?subject=Who%27s%20Who%20source%20correction">email the research desk</a> with the name, the disputed wording and a primary reference.</p>
 </section></main>
 <footer><div class="wrap">Disclosure Desk · Boyd Digital Studios · Public-source research directory<br><a href="/">Home</a><a href="/investigations">Original research</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></footer>
 <script defer src="/assets/person-case-links.js?v=r2-m8-alpha01"></script>
-<script defer src="/assets/people-directory.js?v=r2-claim-evidence-v1-20261115"></script>
+<script defer src="/assets/community-test-config.js?v=r2-claim-community-20261115"></script>
+<script defer crossorigin="anonymous" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>
+<script defer src="/assets/people-directory.js?v=r2-claim-community-v1-20261115"></script>
 <script defer src="/assets/secondary-editorial-nav.js?v=r2-premium-nav01"></script>
 <script defer src="/assets/page-help.js?v=r2-m10-help01"></script>
 </body></html>
