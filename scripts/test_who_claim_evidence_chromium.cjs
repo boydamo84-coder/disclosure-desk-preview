@@ -50,6 +50,24 @@ const profiles=[
    const page=await ctx.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(String(e.message||e)));
    await page.goto(BASE+'/who-is-who.html',{waitUntil:'domcontentloaded',timeout:30000});
+   // Track real pointer/click delivery and Back events when a rapid browse cycle fails.
+   await page.evaluate(()=>{
+    window.__whoProfileTrace=[];
+    const record=(what,extra)=>window.__whoProfileTrace.push({
+     what,...extra,url:location.search,selected:document.querySelector('#profileName')?.textContent,
+     directoryVisible:!document.querySelector('#directoryPage')?.classList.contains('hidden'),
+     stamp:Math.round(performance.now())
+    });
+    document.addEventListener('click',event=>{
+     const button=event.target?.closest?.('#peopleCards [data-person-id] button');
+     if(button){
+      const id=button.closest('[data-person-id]')?.dataset.personId;
+      record('capture-card-click',{id});
+      queueMicrotask(()=>record('after-card-click-microtask',{id}));
+     }
+    },true);
+    window.addEventListener('popstate',()=>record('popstate-capture',{}),true);
+   });
    await page.locator('#peopleCards article.card').first().waitFor({timeout:30000});
    assert.equal(await page.locator('#peopleCards article.card').count(),50,'Directory retains 50 original people');
    const dock=page.locator('#ddWebSecondaryNav');
@@ -73,7 +91,9 @@ const profiles=[
       hasHidden:await page.locator('#personProfile').evaluate(el=>el.classList.contains('hidden')),
       directoryVisible:await page.locator('#directoryPage').isVisible(),
       historyState:await page.evaluate(()=>history.state),
-      cardCount:await page.locator('#peopleCards article.card').count()
+      cardCount:await page.locator('#peopleCards article.card').count(),
+      trace:await page.evaluate(()=>window.__whoProfileTrace?.slice(-35)),
+      jsErrors:errors.slice(-8)
      }));
      throw error;
     }
