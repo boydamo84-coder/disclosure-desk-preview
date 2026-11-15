@@ -125,6 +125,22 @@ const profiles=[
       }
       if(test.name==='Leslie Kean')assert.match(await accessPanel.innerText(),/Original signed publisher article accessible/);
       if(test.name==='Kevin Knuth')assert.match(await accessPanel.innerText(),/Original paper abstract accessible/);
+      const newM18=[
+       ['Jeremy Corbell',/Original broadcast interview transcript accessible/],
+       ['George Knapp',/Original House written testimony PDF — selected pages visually inspected/],
+       ['Mick West',/Original technical analysis post and model links accessible/],
+       ['Christopher Mellon',/Original author policy opinion accessible/],
+       ['Avi Loeb',/Original peer-reviewed PDF — selected pages visually inspected/],
+       ['Steven Greer',/Contemporaneous publisher report accessible/],
+       ['James Fox',/Original filmmaker interviews accessible/]
+      ];
+      const expectation=newM18.find(([name])=>name===test.name);
+      if(expectation){
+       assert.match(await accessPanel.innerText(),expectation[1],'M18 exact source-access scope displayed');
+       assert.match(await accessPanel.innerText(),/Where in source/,'Exact original text/page locator visible');
+       assert.match(await accessPanel.innerText(),/Full original reviewed: No/,'Full original case not wrongly approved');
+      }
+      if(test.name==='Avi Loeb')assert.match(await accessPanel.innerText(),/figures 15–16/,'Loeb chart and original paper scope cited');
       if(['Ross Coulthart','Jake Barber','Bob Lazar'].includes(test.name))
        assert.match(await accessPanel.innerText(),/Original-source access unavailable/);
       if(test.name==='Christopher Mellon')assert.match(await triage.innerText(),/Not applicable to an incident evidence percentage/);
