@@ -13,3 +13,13 @@ html[data-r3-boot="ready"] #r3BootBanner{display:none}
 #r3CloudPanel .r3-cloud-reminder{font-size:12px;color:#e9d2a6;line-height:1.7}
 @media(max-width:560px){#r3CloudPanel .r3-cloud-actions{display:grid;grid-template-columns:1fr}
  #r3CloudPanel .r3-cloud-actions button{width:100%;min-width:0}}
+
+/* Preview-only manual, read-only RLS verification. Hidden for ordinary users. */
+#r3QaPanel{margin-top:22px}
+#r3QaPanel label{display:block;font-size:13px;font-weight:600;margin:12px 0 5px;color:#efdeb8}
+#r3QaPanel input{display:block;width:100%;box-sizing:border-box;max-width:640px;padding:12px;border-radius:9px;border:1px solid #88734c;background:#12202d;color:#f7e4c1;font:inherit}
+#r3QaPanel .r3-qa-actions{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 16px}
+#r3QaPanel .r3-qa-actions button{min-height:44px}
+#r3QaPanel #r3QaResults{white-space:pre-wrap;overflow-wrap:anywhere;background:#101c2b;border:1px solid #665535;padding:12px;border-radius:9px;color:#dde5f0;font-size:12px;line-height:1.7}
+#r3QaPanel #r3QaStatus.error{color:#ffb5b0}
+@media(max-width:560px){#r3QaPanel .r3-qa-actions{display:grid;grid-template-columns:1fr}#r3QaPanel .r3-qa-actions button{width:100%}}
