@@ -199,6 +199,16 @@ const profiles=[
      assert.equal(await host.locator('[data-evidence-claim-id]').count(),0);
     }
     let extent=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,inner:window.innerWidth}));
+    if(extent.scroll>extent.inner+4){
+     const offenders=await page.evaluate(()=>[...document.querySelectorAll('body *')].map(node=>{
+      const rect=node.getBoundingClientRect();
+      return {tag:node.tagName,id:node.id,cls:String(node.className||'').slice(0,90),
+       left:Math.round(rect.left),right:Math.round(rect.right),width:Math.round(rect.width),
+       scrollWidth:node.scrollWidth,clientWidth:node.clientWidth,text:String(node.textContent||'').trim().slice(0,80)};
+     }).filter(e=>e.right>window.innerWidth+4 && e.width>0)
+      .sort((a,b)=>b.right-a.right).slice(0,12));
+     console.error('HORIZONTAL OVERFLOW DIAGNOSTICS',JSON.stringify({width,name:test.name,extent,offenders}));
+    }
     assert(extent.scroll<=extent.inner+4,'No horizontal mobile overflow at '+width+'px on '+test.name);
     await page.locator('#directoryBack').click();
     await page.locator('#directoryPage').waitFor({state:'visible'});
