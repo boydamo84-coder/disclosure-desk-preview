@@ -73,6 +73,36 @@ for(const p of roleEntries){
  }
 }
 
+const scopes=data.people.filter(p=>p.evidenceScope);
+assert.equal(scopes.length,27,'All 27 remaining profiles must have explicit evidence-scope source decisions');
+assert.equal(scopes.filter(p=>p.roleEvidence).length,26,'16 NASA, 10 Congress role-only profiles');
+assert.equal(scopes.filter(p=>p.publicWorkEvidence && !p.roleEvidence).length,1,'One FOIA archivist source-scope decision');
+assert.equal(scopes.reduce((n,p)=>n+p.evidenceScope.sourceChecks.length,0),60,'Exactly 60 original-source scope cross-references, not independent corroborations');
+assert(scopes.every(p=>!p.claimEvidence?.length),'No role-only profile may hide a reviewed individual claim');
+assert.equal(data.people.filter(p=>p.evidenceScope&&p.evidenceScope.applicability==='not_applicable_to_documented_role').length,27);
+for(const p of scopes){
+ const d=p.evidenceScope;
+ assert.equal(d.status,'research_scope_draft','Role source-scope review must remain unsigned and explicitly draft');
+ assert.equal(d.classification,'documented_role_or_publication_only');
+ assert.equal(d.applicability,'not_applicable_to_documented_role','No zero or invented incident score for roles');
+ assert.match(d.reviewDate,/^\d{4}-\d{2}-\d{2}$/);
+ assert(d.originalRole.length>=30&&d.reason.length>=80&&d.nextEvidenceNeeded.length>=80);
+ assert(d.sourceChecks.length>=2&&d.sourceChecks.length<=6);
+ for(const src of d.sourceChecks){
+  assert(src.url.startsWith('https://'));
+  assert(src.title.length>10&&src.locator.length>=6&&src.interpretation.length>=30);
+ }
+ assert(!Object.hasOwn(p,'believability') && !Object.hasOwn(d,'score'));
+}
+assert.equal(data.people.find(p=>p.id==='mike-gold').evidenceScope,undefined,'Keep reviewed individual research recommendation separate from all role-only decisions');
+assert.equal(scopes.filter(p=>p.roleEvidence?.kind==='institutional_role').length,16,'Mike Gold separately has a policy review plus role');
+assert.equal(scopes.filter(p=>p.roleEvidence?.kind==='legislative_role').length,7);
+assert.equal(scopes.filter(p=>p.roleEvidence?.kind==='legislative_action').length,2);
+assert.equal(scopes.filter(p=>p.roleEvidence?.kind==='congressional_oversight').length,1);
+assert(data.people.find(p=>p.id==='anna-paulina-luna').evidenceScope.sourceChecks.some(s=>s.url.includes('luna-opens-hearing')),'Luna future Eglin assertion candidate indexed, not yet scored');
+assert(data.people.find(p=>p.id==='chuck-schumer').evidenceScope.sourceChecks.some(s=>s.url.includes('archives.gov')),'Enacted archival law distinguished from 2023 Senate proposal');
+assert(!data.people.find(p=>p.id==='john-greenewald-jr').claimEvidence?.length,'FOIA request never manufactured into event claim');
+
 const candidates=data.people.filter(p=>Array.isArray(p.claimEvidence)&&p.claimEvidence.length);
 assert.equal(candidates.length,23,'Eighteen earlier drafts plus five original-claim source reviews remain unassessed');
 assert.equal(candidates.reduce((n,p)=>n+(p.claimEvidence[0].researchEvidence?.items?.length||0),0),86,
@@ -164,8 +194,33 @@ const safeUrl=value=>{try{const u=new URL(String(value));return u.protocol==='ht
 const esc=v=>String(v??'').replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
 const validLinks=v=>Array.isArray(v)?v.filter(x=>x&&safeUrl(x.url)).slice(0,30):[];
 const ctx={safeUrl,esc,validLinks,$:()=>host};
-const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceTrail,draftEvidenceTrailHtml,renderPublicRoleEvidence,renderPublicWorkEvidence,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
+const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceTrail,draftEvidenceTrailHtml,renderPublicRoleEvidence,renderPublicWorkEvidence,renderEvidenceScope,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
 assert.equal(fns.EVIDENCE_RUBRIC.reduce((n,r)=>n+r.max,0),100);
+for(const person of scopes){
+ const html=fns.renderEvidenceScope(person);
+ assert.match(html,/Why no event-claim percentage\?/);
+ assert.match(html,/Not applicable to the documented role or work/);
+ assert.match(html,/Inspect why this role is not scored/);
+ assert.match(html,/Inspect original source/);
+ assert.doesNotMatch(html,/class="claim-score"|data-evidence-claim-id|data-rating-save/);
+ assert(html.includes(esc(person.evidenceScope.reason)),'Original rationale must be visible and HTML escaped');
+ host.innerHTML='';
+ fns.renderClaimEvidence(person);
+ assert.match(host.innerHTML,/claim-scope-review/,'Source-only roles show their written no-score decision');
+ assert.doesNotMatch(host.innerHTML,/class="claim-score"|data-rating-save/);
+}
+const invalidScope=JSON.parse(JSON.stringify(scopes[0]));
+invalidScope.evidenceScope.sourceChecks[0].url='javascript:alert(1)';
+assert.equal(fns.renderEvidenceScope(invalidScope),'','Unsafe URLs must not render evidence scope card');
+const badScopeStatus=JSON.parse(JSON.stringify(scopes[0]));
+badScopeStatus.evidenceScope.status='published';
+assert.equal(fns.renderEvidenceScope(badScopeStatus),'','No falsely approved role-only scope status');
+const escapeScope=JSON.parse(JSON.stringify(scopes[0]));
+escapeScope.evidenceScope.reason+='<script>alert(1)</script>';
+const escapedScopeHtml=fns.renderEvidenceScope(escapeScope);
+assert(escapedScopeHtml.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));
+assert(!escapedScopeHtml.includes('<script>'));
+
 for(const person of roleEntries){
  const sourceHtml=fns.renderPublicRoleEvidence(person);
  assert.match(sourceHtml,/Inspect original role &amp; legislative records/);
@@ -351,4 +406,4 @@ for(const mutation of [
  host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[bad]});
  assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
 }
-console.log('Who’s Who: 50 expanded profiles, 27 role cards, 23 draft claims, 17 work records, 181 source entries, zero personal or premature event scores (NO DEPLOY).');
+console.log('Who’s Who: 50 profiles, 23 pending claim drafts, 27 sourced no-role-score scoping decisions (60 crossrefs), 27 official roles, 17 work readers; no real scores/votes (NO DEPLOY).');
