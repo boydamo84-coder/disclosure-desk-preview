@@ -3860,6 +3860,30 @@
             "checkedAt": "2026-11-15"
           }
         ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Chair of NASA's UAP independent study team",
+        "scope": "Named NASA 2022–2023 independent UAP study participant.",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The agency identified the chair."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
+          }
+        ]
       }
     },
     {
@@ -3954,6 +3978,30 @@
             "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
             "note": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting.",
             "checkedAt": "2026-11-15"
+          }
+        ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Designated NASA official who coordinated the study (not a panelist)",
+        "scope": "NASA study-designated federal official and coordinator (not one of sixteen selected panelists).",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The coordinator is explicitly outside the 16-member list."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
       }
@@ -4052,6 +4100,30 @@
             "checkedAt": "2026-11-15"
           }
         ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Member of NASA's 16-person independent UAP study team",
+        "scope": "Named NASA 2022–2023 independent UAP study participant.",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The roster confirms study participation."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
+          }
+        ]
       }
     },
     {
@@ -4146,6 +4218,30 @@
             "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
             "note": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting.",
             "checkedAt": "2026-11-15"
+          }
+        ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Member of NASA's 16-person independent UAP study team",
+        "scope": "Named NASA 2022–2023 independent UAP study participant.",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The roster confirms study participation."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
       }
@@ -4244,6 +4340,30 @@
             "checkedAt": "2026-11-15"
           }
         ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Member of NASA's 16-person independent UAP study team",
+        "scope": "Named NASA 2022–2023 independent UAP study participant.",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The roster confirms study participation."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
+          }
+        ]
       }
     },
     {
@@ -4338,6 +4458,30 @@
             "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
             "note": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting.",
             "checkedAt": "2026-11-15"
+          }
+        ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Member of NASA's 16-person independent UAP study team",
+        "scope": "Named NASA 2022–2023 independent UAP study participant.",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The roster confirms study participation."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
       }
@@ -4437,6 +4581,30 @@
           }
         ],
         "officialListedName": "Jennifer Buss"
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Member of NASA's 16-person independent UAP study team",
+        "scope": "Named NASA 2022–2023 independent UAP study participant.",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The roster confirms study participation."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
+          }
+        ]
       }
     },
     {
@@ -4531,6 +4699,30 @@
             "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
             "note": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting.",
             "checkedAt": "2026-11-15"
+          }
+        ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Member of NASA's 16-person independent UAP study team",
+        "scope": "Named NASA 2022–2023 independent UAP study participant.",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The roster confirms study participation."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
       }
@@ -4793,6 +4985,30 @@
             "checkedAt": "2026-11-15"
           }
         ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Member of NASA's 16-person independent UAP study team",
+        "scope": "Named NASA 2022–2023 independent UAP study participant.",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The roster confirms study participation."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
+          }
+        ]
       }
     },
     {
@@ -4896,6 +5112,30 @@
             "checkedAt": "2026-11-15"
           }
         ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Member of NASA's 16-person independent UAP study team",
+        "scope": "Named NASA 2022–2023 independent UAP study participant.",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The roster confirms study participation."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
+          }
+        ]
       }
     },
     {
@@ -4990,6 +5230,30 @@
             "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
             "note": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting.",
             "checkedAt": "2026-11-15"
+          }
+        ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Member of NASA's 16-person independent UAP study team",
+        "scope": "Named NASA 2022–2023 independent UAP study participant.",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The roster confirms study participation."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
       }
@@ -5088,6 +5352,30 @@
             "checkedAt": "2026-11-15"
           }
         ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Member of NASA's 16-person independent UAP study team",
+        "scope": "Named NASA 2022–2023 independent UAP study participant.",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The roster confirms study participation."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
+          }
+        ]
       }
     },
     {
@@ -5182,6 +5470,30 @@
             "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
             "note": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting.",
             "checkedAt": "2026-11-15"
+          }
+        ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Member of NASA's 16-person independent UAP study team",
+        "scope": "Named NASA 2022–2023 independent UAP study participant.",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The roster confirms study participation."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
       }
@@ -5280,6 +5592,30 @@
             "checkedAt": "2026-11-15"
           }
         ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Member of NASA's 16-person independent UAP study team",
+        "scope": "Named NASA 2022–2023 independent UAP study participant.",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The roster confirms study participation."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
+          }
+        ]
       }
     },
     {
@@ -5376,6 +5712,30 @@
             "checkedAt": "2026-11-15"
           }
         ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Member of NASA's 16-person independent UAP study team",
+        "scope": "Named NASA 2022–2023 independent UAP study participant.",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The roster confirms study participation."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
+          }
+        ]
       }
     },
     {
@@ -5470,6 +5830,30 @@
             "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
             "note": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting.",
             "checkedAt": "2026-11-15"
+          }
+        ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Member of NASA's 16-person independent UAP study team",
+        "scope": "Named NASA 2022–2023 independent UAP study participant.",
+        "reason": "NASA's named study participation, chairmanship or coordination documents a scientific method and public-service role. The study was limited to unclassified data and recommended future evidence collection; it did not establish any named member's direct observation of a specific non-human object.",
+        "nextEvidenceNeeded": "If a separate, dated, publicly attributed claim by this individual is found, review the original statement, its observational inputs and relevant independent challenges as a NEW distinct claim; never convert group membership or a collective report into personal evidence support.",
+        "sourceChecks": [
+          {
+            "title": "NASA's original 16-member team announcement",
+            "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+            "locator": "21 October 2022 team biographies; find this person's name",
+            "interpretation": "NASA named the individual in the study and explained the remit: assess available data and recommend methods, not prove alien craft. The roster confirms study participation."
+          },
+          {
+            "title": "NASA final Independent Study Team Report — official roster and science remit",
+            "url": "https://science.nasa.gov/wp-content/uploads/2023/09/uap-independent-study-team-final-report.pdf",
+            "locator": "PDF page 2: full named chair, designated official and panelists; pages 4–10: study purpose",
+            "interpretation": "The 14 September 2023 NASA report reproduces the study's roster and calls for better calibrated evidence; it is a collective technical report, not an individually scored personal UAP sighting."
           }
         ]
       }
@@ -5570,6 +5954,36 @@
             "checkedAt": "2026-11-15"
           }
         ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Chair of the House declassification and transparency task force",
+        "scope": "Member of the 2025 House declassification task force with public hearings and oversight responsibilities.",
+        "reason": "The 2025 House task-force appointment and hearing attendance are documented institutional activity. Voting to investigate allegations, asking questions or repeating a witness statement is not eyewitness proof of an exotic object or a direct, independently verified physical recovery.",
+        "nextEvidenceNeeded": "Extract any separate personally asserted UAP-event statement from an original dated hearing transcript; verify whose observation it describes and locate original logs, physical measurements and counterevidence before creating a new claim.",
+        "sourceChecks": [
+          {
+            "title": "US House original appointment announcement for the task force",
+            "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/",
+            "locator": "18 February 2025: named Republican members and chair",
+            "interpretation": "The committee's published roster records membership at the time of appointment. This is a legislative/institutional fact, not an independent UAP phenomenon observation."
+          },
+          {
+            "title": "Government Publishing Office: task force 2025 UAP hearing transcript",
+            "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61718/html/CHRG-119hhrg61718.htm",
+            "locator": "9 September 2025: Task Force members; Present list; opening statement",
+            "interpretation": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action."
+          },
+          {
+            "title": "House hearing chair Luna's own 2025 opening statement",
+            "url": "https://oversight.house.gov/release/luna-opens-hearing-on-restoring-public-trust-through-uap-transparency/",
+            "locator": "9 September 2025 opening remarks and reference to Eglin Air Force Base",
+            "interpretation": "The public record contains Luna's statements about leads and alleged pilot reports; treat these as an additional specific source-extraction candidate, not evidence she personally witnessed a craft."
+          }
+        ]
       }
     },
     {
@@ -5666,6 +6080,30 @@
             "locator": "9 September 2025: Task Force members; Present list; opening statement",
             "note": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action.",
             "checkedAt": "2026-11-15"
+          }
+        ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Named House declassification task-force member",
+        "scope": "Member of the 2025 House declassification task force with public hearings and oversight responsibilities.",
+        "reason": "The 2025 House task-force appointment and hearing attendance are documented institutional activity. Voting to investigate allegations, asking questions or repeating a witness statement is not eyewitness proof of an exotic object or a direct, independently verified physical recovery.",
+        "nextEvidenceNeeded": "Extract any separate personally asserted UAP-event statement from an original dated hearing transcript; verify whose observation it describes and locate original logs, physical measurements and counterevidence before creating a new claim.",
+        "sourceChecks": [
+          {
+            "title": "US House original appointment announcement for the task force",
+            "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/",
+            "locator": "18 February 2025: named Republican members and chair",
+            "interpretation": "The committee's published roster records membership at the time of appointment. This is a legislative/institutional fact, not an independent UAP phenomenon observation."
+          },
+          {
+            "title": "Government Publishing Office: task force 2025 UAP hearing transcript",
+            "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61718/html/CHRG-119hhrg61718.htm",
+            "locator": "9 September 2025: Task Force members; Present list; opening statement",
+            "interpretation": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action."
           }
         ]
       }
@@ -5766,6 +6204,36 @@
             "checkedAt": "2026-11-15"
           }
         ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Named House declassification task-force member",
+        "scope": "Member of the 2025 House declassification task force with public hearings and oversight responsibilities.",
+        "reason": "The 2025 House task-force appointment and hearing attendance are documented institutional activity. Voting to investigate allegations, asking questions or repeating a witness statement is not eyewitness proof of an exotic object or a direct, independently verified physical recovery.",
+        "nextEvidenceNeeded": "Extract any separate personally asserted UAP-event statement from an original dated hearing transcript; verify whose observation it describes and locate original logs, physical measurements and counterevidence before creating a new claim.",
+        "sourceChecks": [
+          {
+            "title": "US House original appointment announcement for the task force",
+            "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/",
+            "locator": "18 February 2025: named Republican members and chair",
+            "interpretation": "The committee's published roster records membership at the time of appointment. This is a legislative/institutional fact, not an independent UAP phenomenon observation."
+          },
+          {
+            "title": "Government Publishing Office: task force 2025 UAP hearing transcript",
+            "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61718/html/CHRG-119hhrg61718.htm",
+            "locator": "9 September 2025: Task Force members; Present list; opening statement",
+            "interpretation": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action."
+          },
+          {
+            "title": "Official 2025 hearing transcript: 2023/2025 Eglin allegations context",
+            "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61718/html/CHRG-119hhrg61718.htm",
+            "locator": "9 September 2025, Chairwoman Luna's opening mention of former Representative Gaetz and Representative Burchett",
+            "interpretation": "A hearing participant is named in an account of reported incidents and follow-up; this is not independently authenticated pilot sensor data or an admission that recovered craft exist."
+          }
+        ]
       }
     },
     {
@@ -5855,6 +6323,30 @@
             "locator": "9 September 2025: Task Force members; Present list; opening statement",
             "note": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action.",
             "checkedAt": "2026-11-15"
+          }
+        ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Named House declassification task-force member",
+        "scope": "Member of the 2025 House declassification task force with public hearings and oversight responsibilities.",
+        "reason": "The 2025 House task-force appointment and hearing attendance are documented institutional activity. Voting to investigate allegations, asking questions or repeating a witness statement is not eyewitness proof of an exotic object or a direct, independently verified physical recovery.",
+        "nextEvidenceNeeded": "Extract any separate personally asserted UAP-event statement from an original dated hearing transcript; verify whose observation it describes and locate original logs, physical measurements and counterevidence before creating a new claim.",
+        "sourceChecks": [
+          {
+            "title": "US House original appointment announcement for the task force",
+            "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/",
+            "locator": "18 February 2025: named Republican members and chair",
+            "interpretation": "The committee's published roster records membership at the time of appointment. This is a legislative/institutional fact, not an independent UAP phenomenon observation."
+          },
+          {
+            "title": "Government Publishing Office: task force 2025 UAP hearing transcript",
+            "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61718/html/CHRG-119hhrg61718.htm",
+            "locator": "9 September 2025: Task Force members; Present list; opening statement",
+            "interpretation": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action."
           }
         ]
       }
@@ -5955,6 +6447,30 @@
             "checkedAt": "2026-11-15"
           }
         ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Named House declassification task-force member",
+        "scope": "Member of the 2025 House declassification task force with public hearings and oversight responsibilities.",
+        "reason": "The 2025 House task-force appointment and hearing attendance are documented institutional activity. Voting to investigate allegations, asking questions or repeating a witness statement is not eyewitness proof of an exotic object or a direct, independently verified physical recovery.",
+        "nextEvidenceNeeded": "Extract any separate personally asserted UAP-event statement from an original dated hearing transcript; verify whose observation it describes and locate original logs, physical measurements and counterevidence before creating a new claim.",
+        "sourceChecks": [
+          {
+            "title": "US House original appointment announcement for the task force",
+            "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/",
+            "locator": "18 February 2025: named Republican members and chair",
+            "interpretation": "The committee's published roster records membership at the time of appointment. This is a legislative/institutional fact, not an independent UAP phenomenon observation."
+          },
+          {
+            "title": "Government Publishing Office: task force 2025 UAP hearing transcript",
+            "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61718/html/CHRG-119hhrg61718.htm",
+            "locator": "9 September 2025: Task Force members; Present list; opening statement",
+            "interpretation": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action."
+          }
+        ]
       }
     },
     {
@@ -6044,6 +6560,30 @@
             "locator": "9 September 2025: Task Force members; Present list; opening statement",
             "note": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action.",
             "checkedAt": "2026-11-15"
+          }
+        ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Named House declassification task-force member",
+        "scope": "Member of the 2025 House declassification task force with public hearings and oversight responsibilities.",
+        "reason": "The 2025 House task-force appointment and hearing attendance are documented institutional activity. Voting to investigate allegations, asking questions or repeating a witness statement is not eyewitness proof of an exotic object or a direct, independently verified physical recovery.",
+        "nextEvidenceNeeded": "Extract any separate personally asserted UAP-event statement from an original dated hearing transcript; verify whose observation it describes and locate original logs, physical measurements and counterevidence before creating a new claim.",
+        "sourceChecks": [
+          {
+            "title": "US House original appointment announcement for the task force",
+            "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/",
+            "locator": "18 February 2025: named Republican members and chair",
+            "interpretation": "The committee's published roster records membership at the time of appointment. This is a legislative/institutional fact, not an independent UAP phenomenon observation."
+          },
+          {
+            "title": "Government Publishing Office: task force 2025 UAP hearing transcript",
+            "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61718/html/CHRG-119hhrg61718.htm",
+            "locator": "9 September 2025: Task Force members; Present list; opening statement",
+            "interpretation": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action."
           }
         ]
       }
@@ -6142,6 +6682,30 @@
             "locator": "9 September 2025: Task Force members; Present list; opening statement",
             "note": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action.",
             "checkedAt": "2026-11-15"
+          }
+        ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Named House declassification task-force member",
+        "scope": "Member of the 2025 House declassification task force with public hearings and oversight responsibilities.",
+        "reason": "The 2025 House task-force appointment and hearing attendance are documented institutional activity. Voting to investigate allegations, asking questions or repeating a witness statement is not eyewitness proof of an exotic object or a direct, independently verified physical recovery.",
+        "nextEvidenceNeeded": "Extract any separate personally asserted UAP-event statement from an original dated hearing transcript; verify whose observation it describes and locate original logs, physical measurements and counterevidence before creating a new claim.",
+        "sourceChecks": [
+          {
+            "title": "US House original appointment announcement for the task force",
+            "url": "https://oversight.house.gov/release/chairman-comer-and-rep-luna-announce-republican-appointments-to-declassification-and-transparency-task-force/",
+            "locator": "18 February 2025: named Republican members and chair",
+            "interpretation": "The committee's published roster records membership at the time of appointment. This is a legislative/institutional fact, not an independent UAP phenomenon observation."
+          },
+          {
+            "title": "Government Publishing Office: task force 2025 UAP hearing transcript",
+            "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61718/html/CHRG-119hhrg61718.htm",
+            "locator": "9 September 2025: Task Force members; Present list; opening statement",
+            "interpretation": "The congressional transcript independently documents formal committee proceedings and which representatives attended. It does not validate every witness allegation or subsequent action."
           }
         ]
       }
@@ -6249,6 +6813,36 @@
             "checkedAt": "2026-11-15"
           }
         ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Senate co-sponsor of proposed 2023 UAP records-disclosure legislation",
+        "scope": "Coauthor/sponsor of the 2023 UAP records-disclosure legislative proposal; compare with actual enacted archival law.",
+        "reason": "Cosponsoring the 2023 proposed UAP records amendment and promoting disclosure are legislative actions. Statutory references to unidentified phenomena or 'non-human intelligence' define records policy scope; they do not prove recovered technology or show either senator personally observed it.",
+        "nextEvidenceNeeded": "Preserve distinction between 2023 SA 797 proposed review mechanisms and the narrower archival 2024 NDAA final enactment; if a distinct personal event assertion appears, document its precise original statement and supporting record separately.",
+        "sourceChecks": [
+          {
+            "title": "Original Congressional Record: Schumer/Rounds amendment SA 797",
+            "url": "https://www.govinfo.gov/content/pkg/CREC-2023-07-13/html/CREC-2023-07-13-pt1-PgS2953.htm",
+            "locator": "13 July 2023 Senate Record S2953–S2959; SA 797 cosponsors",
+            "interpretation": "Primary legislative record lists the submitted 2023 records-disclosure amendment and both senators among its sponsors. Its full proposed text is not the same thing as the later enacted law."
+          },
+          {
+            "title": "Senate caucus original press statement on proposed UAP Disclosure Act",
+            "url": "https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa",
+            "locator": "14 July 2023: introduction and proposed record-review measures",
+            "interpretation": "Explains the proponents' public proposal and its intended disclosure and review mechanisms; an announcement of a proposed provision is not evidence of enactment."
+          },
+          {
+            "title": "NARA identifies the enacted 2024 UAP Records Collection as Record Group 615",
+            "url": "https://www.archives.gov/research/topics/uaps",
+            "locator": "Record Group 615; 2024 NDAA sections 1841–1843",
+            "interpretation": "This is the enacted archive-management framework, distinct from the broader 2023 Senate amendment's original proposed language. It does not prove non-human craft."
+          }
+        ]
       }
     },
     {
@@ -6354,6 +6948,36 @@
             "checkedAt": "2026-11-15"
           }
         ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "Senate co-sponsor of proposed 2023 UAP records-disclosure legislation",
+        "scope": "Coauthor/sponsor of the 2023 UAP records-disclosure legislative proposal; compare with actual enacted archival law.",
+        "reason": "Cosponsoring the 2023 proposed UAP records amendment and promoting disclosure are legislative actions. Statutory references to unidentified phenomena or 'non-human intelligence' define records policy scope; they do not prove recovered technology or show either senator personally observed it.",
+        "nextEvidenceNeeded": "Preserve distinction between 2023 SA 797 proposed review mechanisms and the narrower archival 2024 NDAA final enactment; if a distinct personal event assertion appears, document its precise original statement and supporting record separately.",
+        "sourceChecks": [
+          {
+            "title": "Original Congressional Record: Schumer/Rounds amendment SA 797",
+            "url": "https://www.govinfo.gov/content/pkg/CREC-2023-07-13/html/CREC-2023-07-13-pt1-PgS2953.htm",
+            "locator": "13 July 2023 Senate Record S2953–S2959; SA 797 cosponsors",
+            "interpretation": "Primary legislative record lists the submitted 2023 records-disclosure amendment and both senators among its sponsors. Its full proposed text is not the same thing as the later enacted law."
+          },
+          {
+            "title": "Senate caucus original press statement on proposed UAP Disclosure Act",
+            "url": "https://www.democrats.senate.gov/newsroom/press-releases/schumer-rounds-introduce-new-legislation-to-declassify-government-records-related-to-unidentified-anomalous-phenomena-and-ufos_modeled-after-jfk-assassination-records-collection-act--as-an-amendment-to-ndaa",
+            "locator": "14 July 2023: introduction and proposed record-review measures",
+            "interpretation": "Explains the proponents' public proposal and its intended disclosure and review mechanisms; an announcement of a proposed provision is not evidence of enactment."
+          },
+          {
+            "title": "NARA identifies the enacted 2024 UAP Records Collection as Record Group 615",
+            "url": "https://www.archives.gov/research/topics/uaps",
+            "locator": "Record Group 615; 2024 NDAA sections 1841–1843",
+            "interpretation": "This is the enacted archive-management framework, distinct from the broader 2023 Senate amendment's original proposed language. It does not prove non-human craft."
+          }
+        ]
       }
     },
     {
@@ -6450,6 +7074,30 @@
             "locator": "Opening 'Also present: ... Moskowitz'; separately listed from task-force members",
             "note": "The official hearing categorises the representative as also present, not a member of the named panel. Avoid inflating congressional participation into committee membership.",
             "checkedAt": "2026-11-15"
+          }
+        ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "House representative participating in public UAP oversight hearings",
+        "scope": "Participant in House UAP oversight hearings, not one of the seven Republican task-force appointees.",
+        "reason": "The original House hearing records show the representative participated in questions and was listed as 'also present' at the 2025 hearing, not among the seven original task-force appointments. Hearing attendance is not corroboration of witnesses' alleged objects.",
+        "nextEvidenceNeeded": "Review specific dated questions and assertions in their full hearing context before attributing a claim. Do not treat committee presence, concern about classified data or questioning a witness as a verified UAP incident.",
+        "sourceChecks": [
+          {
+            "title": "GovInfo: 26 July 2023 House UAP hearing transcript",
+            "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+            "locator": "Opening congressional attendance, 'Present: ... Moskowitz'; House questioning",
+            "interpretation": "The original transcript documents his attendance and congressional questioning about transparency. Unlike the named witnesses, a participating legislator is not thereby an eyewitness or a corroborating source."
+          },
+          {
+            "title": "GovInfo: 9 September 2025 House task force UAP hearing transcript",
+            "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61718/html/CHRG-119hhrg61718.htm",
+            "locator": "Opening 'Also present: ... Moskowitz'; separately listed from task-force members",
+            "interpretation": "The official hearing categorises the representative as also present, not a member of the named panel. Avoid inflating congressional participation into committee membership."
           }
         ]
       }
@@ -6844,6 +7492,42 @@
             "note": "An original government log documents the existence and requested scope of Greenewald's records application, not disclosure of the classified annex or proof of non-human craft. This is a procedural records review, deliberately non-scoreable as an UAP-event assertion.",
             "sourceClass": "institutional",
             "indexedAt": "2026-11-15"
+          }
+        ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-15",
+        "originalRole": "FOIA document repository and public-record investigation",
+        "scope": "Founder of a UAP-related government documents archive and requester of FOIA/declassification records.",
+        "reason": "First-party Black Vault archive metadata, a government FOIA response and an ODNI declassification-request log establish documentary work and agency processing, not the physical truth of claims contained in requested or released files.",
+        "nextEvidenceNeeded": "For any future particular UAP event assertion, inspect the complete released agency document, contemporaneous records, redactions and independent physical corroboration. Do not expose private contact data in agency request letters or penalize an archivist for merely requesting records.",
+        "sourceChecks": [
+          {
+            "title": "The Black Vault — founder and investigations team history",
+            "url": "https://www.theblackvault.com/casefiles/tbv-investigations-team/",
+            "locator": "TBV Investigations Founder: John Greenewald Jr; archive history",
+            "interpretation": "First-party project identifies its founder and 2017 investigations activity. A forum/project description is not equivalent to independent verification of every archive upload."
+          },
+          {
+            "title": "The Black Vault — original FOIA document archive",
+            "url": "https://www.theblackvault.com/documentarchive/",
+            "locator": "Archive introduction and FOIA document collection",
+            "interpretation": "Original curator provides access to numerous released records. Readers need the particular agency PDF/response and document context to assess any case."
+          },
+          {
+            "title": "DoD Office of Inspector General: FOIA response to Greenewald, February 2023",
+            "url": "https://documents2.theblackvault.com/documents/dod/DODOIG-2023-000010.pdf",
+            "locator": "9 February 2023, DODOIG-2023-000010 / 000018 / 000019, response pages 1–2",
+            "interpretation": "Government-issued response documents Greenewald's specific records requests and the agency's partly released pages. Redactions and government acknowledgement of a request do not independently establish the underlying allegations or disclose protected private identities."
+          },
+          {
+            "title": "ODNI official 2021 mandatory declassification-review request log",
+            "url": "https://www.dni.gov/files/documents/FOIA/DF-2022-00013-MDR_Log_January_1_-_October_19_2021.pdf",
+            "locator": "ODNI log entry naming John Greenewald; June 2021 MDR request for the classified UAP preliminary assessment",
+            "interpretation": "An original government log documents the existence and requested scope of Greenewald's records application, not disclosure of the classified annex or proof of non-human craft. This is a procedural records review, deliberately non-scoreable as an UAP-event assertion."
           }
         ]
       }
