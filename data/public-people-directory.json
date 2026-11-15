@@ -731,7 +731,33 @@
           "type": "TV special",
           "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
-      ]
+      ],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "journalism",
+        "title": "Investigative reporting and UAP broadcast coverage",
+        "period": "2023 onwards",
+        "description": "Nexstar's original announcement documents Coulthart's appointment as a NewsNation special correspondent in November 2023. His reporting on alleged UAP recovery programmes is journalism attributed to sources, not independent disclosure of a recovered vehicle.",
+        "openQuestions": "Assess the individual programme allegation, the original interview, underlying source independence and any inspectable records before scoring. A broadcaster's staff appointment cannot corroborate extraordinary reports it broadcasts.",
+        "sources": [
+          {
+            "title": "Nexstar / NewsNation — original 2023 correspondent announcement",
+            "url": "https://www.nexstar.tv/newsnation-signs-ross-coulthart-as-special-correspondent/",
+            "locator": "14 November 2023; appointment and planned coverage",
+            "note": "Original broadcaster/parent company confirms the special-correspondent role and discusses intended UAP reporting; the same announcement explicitly describes the recovery programme as an allegation.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "ICIJ professional journalist biography — earlier independent journalism",
+            "url": "https://www.icij.org/journalists/ross-coulthart/",
+            "locator": "Journalist profile; Australian investigative television work",
+            "note": "Independent journalism organisation documents his earlier reporting career. This corroborates occupation/background only, not the substance of particular UAP allegations.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "jeremy-corbell",
@@ -876,7 +902,33 @@
           "type": "Docuseries",
           "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
-      ]
+      ],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "documentary_reporting",
+        "title": "Documentary filmmaking and WEAPONIZED reporting",
+        "period": "2023 onward",
+        "description": "Corbell's programme website identifies him as a documentary maker and co-host of WEAPONIZED with George Knapp, publishing interviews, video and purported documents. Publication is not source-chain authentication.",
+        "openQuestions": "For individual images or leaks, locate original capture provenance, chain of custody, sensor metadata and independent interpretations before assigning a case-specific evidence rating.",
+        "sources": [
+          {
+            "title": "WEAPONIZED — original co-host and show description",
+            "url": "https://www.weaponizedpodcast.com/about",
+            "locator": "YOUR HOSTS: JEREMY CORBELL; THE SHOW",
+            "note": "The programme's first-party about page confirms his participation and the programme's stated format; its claims about evidence are publisher descriptions, not independent verification.",
+            "sourceClass": "first_party",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "WEAPONIZED — publisher's original episodes and released reporting",
+            "url": "https://www.weaponizedpodcast.com/episodes-5",
+            "locator": "Episodes and supplemental reports including 'Jellyfish' UAP",
+            "note": "Original publisher lists selected reporting and media releases. A video or official-sounding designation requires item-by-item provenance and technical review.",
+            "sourceClass": "first_party",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "george-knapp",
@@ -1021,7 +1073,33 @@
           "type": "Docuseries",
           "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
-      ]
+      ],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "journalism",
+        "title": "KLAS reporting, historical Lazar interviews and WEAPONIZED",
+        "period": "1989 onward",
+        "description": "The co-host's programme biography documents Knapp's reporting, while a retrospective interview with Knapp and his original editor explains efforts and limits in verifying Bob Lazar's 1989 assertions.",
+        "openQuestions": "Keep Knapp's journalistic decisions and reporting distinct from whether the public interviewee's S-4 employment, educational claims or recovered technology have been independently established.",
+        "sources": [
+          {
+            "title": "WEAPONIZED — George Knapp's original programme biography",
+            "url": "https://www.weaponizedpodcast.com/about",
+            "locator": "YOUR HOSTS: GEORGE KNAPP",
+            "note": "First-party current programme identifies Knapp as investigative reporter/co-host and discusses his KLAS coverage; a show biography is not proof of UFO allegations.",
+            "sourceClass": "first_party",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "Nevada Public Radio — Knapp and editor discuss original Lazar investigation",
+            "url": "https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real",
+            "locator": "13 December 2018 interview; verification and gaps",
+            "note": "Original reporter and his then-news director describe their investigation and distinguish what could and could not be established, including absent MIT graduation records. This is first-person reporting context.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "mick-west",
@@ -1182,7 +1260,33 @@
           "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
         }
       ],
-      "filmCredits": []
+      "filmCredits": [],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "technical_critique",
+        "title": "Sceptical investigations and technical video analysis",
+        "period": "Public research archive",
+        "description": "West identifies himself as a sceptical investigator using visual reconstruction and technical interpretation of claimed anomalies. Publishing a proposed explanation does not automatically prove it is uniquely correct.",
+        "openQuestions": "For each reconstruction compare the original recording, sensor geometry, calibration, timestamps, model assumptions and credible contradictory interpretations. No score should be assigned to personal scepticism.",
+        "sources": [
+          {
+            "title": "Mick West's original professional and methods page",
+            "url": "https://mickwest.com/",
+            "locator": "About section; investigative subjects and technical photo/video analysis",
+            "note": "First-party description confirms his role and methods; it establishes his published analytical approach, not the truth of any particular video explanation.",
+            "sourceClass": "first_party",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "Metabunk — original technical discussion and source debates",
+            "url": "https://www.metabunk.org/",
+            "locator": "Investigations and technical discussion forum",
+            "note": "Original publication venue for investigations and evidence discussions. Forum posts are analyses and conversation, not independently calibrated sensor readings.",
+            "sourceClass": "first_party",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "bob-lazar",
@@ -1309,7 +1413,33 @@
           "type": "Documentary",
           "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
-      ]
+      ],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "contested_first_person_claim",
+        "title": "1989 S-4 reverse-engineering story, in original interview context",
+        "period": "1989–2026 archive",
+        "description": "The surviving 1989 KLAS interview material records Lazar's own claims about S-4, propulsion and recovered craft; independent records validating the extraordinary allegations are not established by the interviews. Contemporary reporter George Knapp later described limits in verifying portions of Lazar's educational background.",
+        "openQuestions": "Verify the earliest recordings, transcription fidelity, employment records and academic claims using original records, separate evidence for any S-4 craft/technology, and original contemporary counter-sources before approving a score. A programme transcript proves what he said, not physical origin.",
+        "sources": [
+          {
+            "title": "Papoose Lake historical interview index, 1989 KLAS first-person records",
+            "url": "https://www.papooselake.org/interview-transcripts",
+            "locator": "1989 interviews and 9 December 1989 'On the Record' transcript",
+            "note": "Unofficial chronological preservation index links early broadcaster material. It is a third-party archive, not original KLAS-hosted metadata or independent validation of S-4 stories.",
+            "sourceClass": "archive",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "Nevada Public Radio's interview with original KLAS reporter and editor",
+            "url": "https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real",
+            "locator": "Reporter verification and education-claim disputes, 13 December 2018",
+            "note": "The original reporter explicitly recounts unresolved education/background checks. He also describes facts he believed worth investigating; his perspective must not be converted into total acceptance or rejection.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "jake-barber",
@@ -1441,7 +1571,33 @@
           "type": "TV interview special",
           "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
-      ]
+      ],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "contested_first_person_claim",
+        "title": "2025 alleged recovery programme, first-person broadcaster interviews",
+        "period": "January 2025",
+        "description": "NewsNation's original programme interviews Barber describing an alleged retrieval of an egg-shaped object. The original video and the interview are attributed, but independently authenticated recovered material and a complete sensor/chain-of-custody record are not available in this source group.",
+        "openQuestions": "Confirm which footage is original to an alleged recovery, who captured it, whether the interviewed witnesses are independent, and original military/contract records. Validate original broadcast timestamps and avoid treating media narration or interviewee conviction as a verified non-human object.",
+        "sources": [
+          {
+            "title": "Verified NewsNation publisher — Jake Barber first-person video segment",
+            "url": "https://www.youtube.com/watch?v=PGOpHdHSjTE",
+            "locator": "18 January 2025 'Whistleblower says he recovered egg-shaped craft'",
+            "note": "Direct broadcaster-published interview records what Barber says about retrievals. A first-person account is not instrument-verified extraordinary origin.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "NewsNation original reporting redistributed by Yahoo",
+            "url": "https://www.yahoo.com/news/air-force-veteran-whistleblower-claims-232514734.html",
+            "locator": "15 January 2025 original NewsNation reporting and early account",
+            "note": "Syndicated NewsNation reporting documents the original broadcaster's introduction of his claims; it is not an independently corroborating source of recovered craft.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "steven-greer",
@@ -1580,7 +1736,33 @@
           "type": "Press conference recording",
           "context": "Original recorded public event, not a documentary feature."
         }
-      ]
+      ],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "organized_public_claim",
+        "title": "2001 Disclosure Project National Press Club event",
+        "period": "May 2001",
+        "description": "Contemporary independent news reports document Greer's organising the National Press Club disclosure press event with multiple people asserting extraordinary experiences. Journalism confirms the conference and attribution, not the truth of its assertions.",
+        "openQuestions": "Review each named witness, their primary contemporaneous records and independent checks separately. A multi-witness press conference does not make every statement an independently corroborated scientific finding.",
+        "sources": [
+          {
+            "title": "ABC News contemporary May 2001 event coverage",
+            "url": "https://abcnews.go.com/Technology/story?id=98572&page=1",
+            "locator": "10 May 2001 report, event organiser and stated witness claims",
+            "note": "Contemporaneous independent coverage records event attendance, Greer's organising role and witnesses' claims, without verifying alleged aliens or programmes.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "Washington Post contemporary report on the same press conference",
+            "url": "https://www.washingtonpost.com/archive/lifestyle/2001/05/10/ufo-believers-sighted-here/f5b0fb0e-80f6-4d7e-8c25-e57d1aa69135/",
+            "locator": "10 May 2001, National Press Club and speakers",
+            "note": "Separately reported public event and descriptions. This corroborates the event occurred, not physical UFO incidents described by the speakers.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "larry-warren",
@@ -1722,7 +1904,33 @@
           "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
         }
       ],
-      "filmCredits": []
+      "filmCredits": [],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "contested_first_person_claim",
+        "title": "Rendlesham Forest participant account and conflicting historical records",
+        "period": "1980 event, subsequent published accounts",
+        "description": "Warren's subsequent personal account is part of contested retrospective Rendlesham reporting. The UK National Archives preserves a different contemporary government documentary trail, centred on Lt Col Charles Halt; do not imply it independently verifies Warren's detailed account.",
+        "openQuestions": "Locate the author/publisher primary text for his own account, confirm each historically attributed role and dates, compare genuinely independent witnesses and original MoD files, and avoid conflating different nights or reported locations. No incident evidence score approved.",
+        "sources": [
+          {
+            "title": "UK National Archives: contemporaneous Rendlesham government records",
+            "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/",
+            "locator": "Rendlesham Forest: December 1980 'Unexplained Lights' memo; DEFE 24/1948/1",
+            "note": "Public government records document Halt's report, subsequent correspondence and the MoD's case handling, not independently certify all later or disputed eyewitness narratives.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "UK National Archives: UFO research guidance, named DEFE archive holdings",
+            "url": "https://www.nationalarchives.gov.uk/help-with-your-research/research-guides/ufos/",
+            "locator": "DEFE/UFO case catalogue and guidance to browse original files",
+            "note": "Official catalogue routes readers to original files and reminds them of incomplete preserved records. It is a second archival finding aid, not independent eyewitness corroboration.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "luis-elizondo",
@@ -2050,7 +2258,33 @@
           "type": "Documentary",
           "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
-      ]
+      ],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "government_policy_reporting",
+        "title": "Former US intelligence official and documentary UAP advocacy",
+        "period": "2019–2026 documentary records",
+        "description": "HISTORY's official programme materials identify Mellon as a former Deputy Assistant Secretary of Defense for Intelligence and participant in the documentary series Unidentified. Documentary appearances and a former government role do not establish claims about extraordinary technology.",
+        "openQuestions": "Verify any specific first-hand knowledge assertion in its original document. For national security policy proposals, use a non-scoreable research role; for events, require independent original evidence and competing assessments.",
+        "sources": [
+          {
+            "title": "HISTORY original cast biography: Chris Mellon",
+            "url": "https://www.history.com/shows/unidentified-inside-americas-ufo-investigation/cast/chris-mellon",
+            "locator": "Chris Mellon cast biography; documented prior intelligence role",
+            "note": "Distributor biography documents his stated former intelligence appointment and appearances; publisher material is not a declassified proof of recovered objects.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "HISTORY original Unidentified programme credits and description",
+            "url": "https://www.history.com/shows/unidentified-inside-americas-ufo-investigation",
+            "locator": "Season descriptions, show team and listed episodes",
+            "note": "Official programme page confirms documentary participation and its editorial goals; production claims are not individually authenticated incidents.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "avi-loeb",
@@ -2174,7 +2408,33 @@
           "context": "First-person interview or presentation; recorded statements are not independent verification of extraordinary claims."
         }
       ],
-      "filmCredits": []
+      "filmCredits": [],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "academic_research",
+        "title": "Galileo Project open-science research programme",
+        "period": "July 2021 onward",
+        "description": "Harvard-hosted Galileo Project sources name Avi Loeb as co-founder and leader of research on unidentified aerial phenomena and interstellar objects. Seeking measurable data or discussing hypotheses does not establish a discovered extraterrestrial artifact.",
+        "openQuestions": "For individual material or telescope claims link peer-reviewed original paper, raw observations, calibration/chain of custody and independent critical analyses. Avoid inferring scientific confirmation from university affiliation.",
+        "sources": [
+          {
+            "title": "Harvard-hosted Galileo Project organisation and founding history",
+            "url": "https://galileo.hsites.harvard.edu/organization",
+            "locator": "Organisation: founded July 2021 by Avi Loeb and Frank Laukien",
+            "note": "Project's institutional page describes aims and research group structure. Establishes a programme exists, not extraterrestrial engineering.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "Harvard-hosted Galileo Project: Avi Loeb lead researcher profile",
+            "url": "https://galileo.hsites.harvard.edu/people/avi-loeb",
+            "locator": "Professor Avi Loeb / project lead",
+            "note": "Original university-hosted staff listing identifies his role; it is not peer review of any conjecture about an interstellar object's origin.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "jacques-vallee",
@@ -2293,7 +2553,33 @@
           "type": "Documentary",
           "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
-      ]
+      ],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "published_research",
+        "title": "Historical UAP books, interviews and multidisciplinary research",
+        "period": "1965 onward",
+        "description": "Vallée's own archive indexes his authored UFO publications, professional research and interviews. The bibliography demonstrates research and public theories, not scientific validation of the claims in every book.",
+        "openQuestions": "Cross-check any precise incident discussed with original archives, witness chronology, physical records and fair independent critiques. An author's catalogue is a first-party reference, not independent incident corroboration.",
+        "sources": [
+          {
+            "title": "Jacques Vallée official bibliography and professional biography",
+            "url": "https://www.jacquesvallee.net/archive/about/",
+            "locator": "Ufology bibliography: Anatomy of a Phenomenon, Passport to Magonia and later works",
+            "note": "Author's firsthand bibliography establishes the works he presents as authored and his stated research career. Publisher's metadata require separate independent checking.",
+            "sourceClass": "first_party",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "Jacques Vallée original interviews and media index",
+            "url": "https://www.jacquesvallee.net/media/",
+            "locator": "Interviews, articles and film appearances indexed by subject",
+            "note": "Own catalogue links recordings and authored media. These establish availability of his viewpoints, not evidence of extraordinary encounter causes.",
+            "sourceClass": "first_party",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "james-fox",
@@ -2431,7 +2717,33 @@
           "type": "Documentary",
           "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
-      ]
+      ],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "documentary_reporting",
+        "title": "Film director: The Program and earlier UAP documentaries",
+        "period": "2003–2024 film releases",
+        "description": "The distributor credits Fox as director of The Program, and an original interview records his description of the documentary's reporting. Filmed interviews capture testimony but are not independent technical verification of everything claimed.",
+        "openQuestions": "Link original interview tapes and production/source notes where obtainable; assess each featured witness, edit context, documentary footage provenance and alternative reporting separately before scoring a claim.",
+        "sources": [
+          {
+            "title": "Apple TV original distributor credits: The Program (2024)",
+            "url": "https://tv.apple.com/gb/movie/the-program/umc.cmc.o1nsjudjqe5lwmr48wdrloo6",
+            "locator": "Film information: Director James Fox; © 2024",
+            "note": "Distributor listing verifies the documentary director credit and release, not the underlying extraordinary claims asserted in the film.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "Film School Radio — original interview with director James Fox",
+            "url": "https://filmschoolradio.com/the-program-director-james-fox/",
+            "locator": "Original filmmaker interview; discussion of The Program and earlier work",
+            "note": "Interview directly attributes Fox's own description of investigative intentions and film subjects; it is publicity/interview evidence rather than independent UAP verification.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "nick-pope",
@@ -2575,7 +2887,33 @@
           "type": "Documentary television",
           "context": "The publisher or professional credit documents participation, not independent confirmation of claims."
         }
-      ]
+      ],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "historical_public_work",
+        "title": "Former UK MoD UFO desk officer, books and case commentary",
+        "period": "1991–1994 desk service; 1965–2026",
+        "description": "Pope's memorial site describes his time handling the MoD UFO desk from 1991–94 and his later publishing career. The UK National Archives independently preserves MoD case records but does not by itself prove every claim he made about particular encounters.",
+        "openQuestions": "Distinguish the contemporaneous MoD files from later retellings, original witness statements and retrospective commentary. Historical work and the death notice should be attributed to memorial publisher; check independently where needed.",
+        "sources": [
+          {
+            "title": "Nick Pope official memorial life and career chronology",
+            "url": "https://www.nickpope.net/life",
+            "locator": "UFO desk, 1991–1994; memorial death 6 April 2026",
+            "note": "First-party memorial records professional chronology and death; it does not make every personal view scientific fact.",
+            "sourceClass": "first_party",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "UK National Archives: MoD UFO case files and research advice",
+            "url": "https://www.nationalarchives.gov.uk/help-with-your-research/research-guides/ufos/",
+            "locator": "Original DEFE catalogues, transfer details and public access guidance",
+            "note": "Independent official archive shows the government UFO records and available primary case documents, not a corroboration of extraordinary origins or every recollection.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "david-spergel",
@@ -5615,7 +5953,33 @@
       "videos": [],
       "socialPages": [],
       "podcastEpisodes": [],
-      "filmCredits": []
+      "filmCredits": [],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "archive_research",
+        "title": "FOIA document repository and public-record investigation",
+        "period": "1996 onward",
+        "description": "The Black Vault identifies Greenewald as its founder and publishes government documents obtained via information-access laws. An official agency document may verify what an agency recorded without proving all claims in that document.",
+        "openQuestions": "For each cited FOIA item link the original agency response ID and full released PDF, date, context and any redactions. Avoid treating archive volume, publication or FOIA approval as validation of UAP hypotheses.",
+        "sources": [
+          {
+            "title": "The Black Vault — founder and investigations team history",
+            "url": "https://www.theblackvault.com/casefiles/tbv-investigations-team/",
+            "locator": "TBV Investigations Founder: John Greenewald Jr; archive history",
+            "note": "First-party project identifies its founder and 2017 investigations activity. A forum/project description is not equivalent to independent verification of every archive upload.",
+            "sourceClass": "first_party",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "The Black Vault — original FOIA document archive",
+            "url": "https://www.theblackvault.com/documentarchive/",
+            "locator": "Archive introduction and FOIA document collection",
+            "note": "Original curator provides access to numerous released records. Readers need the particular agency PDF/response and document context to assess any case.",
+            "sourceClass": "archive",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "garry-nolan",
@@ -5683,7 +6047,33 @@
       "videos": [],
       "socialPages": [],
       "podcastEpisodes": [],
-      "filmCredits": []
+      "filmCredits": [],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "academic_research",
+        "title": "Stanford pathology work and Sol Foundation UAP research advocacy",
+        "period": "2023 research programme",
+        "description": "Stanford's institutional directory verifies Nolan's academic pathology research; the Sol Foundation's original 2023 launch statement names him as leading its UAP scientific and policy effort. This documents affiliations, not proof of recovered extraordinary materials.",
+        "openQuestions": "Separately assess any claimed physical specimens using custody records, laboratory methods, publicly available data, replicable tests and competing interpretations. UAP foundation association and peer-reviewed immunology are different bodies of evidence.",
+        "sources": [
+          {
+            "title": "Stanford Medicine — Garry Nolan institutional faculty profile",
+            "url": "https://med.stanford.edu/profiles/4713",
+            "locator": "Pathology affiliation and peer-reviewed biomedicine publications",
+            "note": "University-hosted directory establishes academic and publication background; unrelated medical expertise does not prove anomalous-origin claims.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "Sol Foundation original launch announcement, Nolan leadership",
+            "url": "https://thesolfoundation.org/launch-announcement/",
+            "locator": "15 August 2023 launch statement, named executive director and research programme",
+            "note": "Original nonprofit press statement confirms its stated mission, activities and Nolan's founding leadership at launch, not a scientific determination of UAP origins.",
+            "sourceClass": "first_party",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "leslie-kean",
@@ -5751,7 +6141,33 @@
       "videos": [],
       "socialPages": [],
       "podcastEpisodes": [],
-      "filmCredits": []
+      "filmCredits": [],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "journalism",
+        "title": "Published UAP reporting, books and documentary collaborations",
+        "period": "2010–2025 publication archive",
+        "description": "Kean's authored biography and UAP media archive list her books, reporting and contributions to documentary investigations. Publication establishes that reporting was produced and credited, not that all sources' claims have been substantiated.",
+        "openQuestions": "For each quoted whistleblower or UFO case, obtain original record, source independence, correction history and available counter-reporting. A journalist's byline is not itself evidence of a recovered object.",
+        "sources": [
+          {
+            "title": "Leslie Kean's original author biography and publication history",
+            "url": "https://www.lesliekean.com/author-leslie-kean/",
+            "locator": "2010 UFOs book; 2017 articles; 2023 Grusch reporting",
+            "note": "Author's archive describes her own journalism and credits. Claims reported in an article require independent case-specific evidence checks.",
+            "sourceClass": "first_party",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "Leslie Kean original UAP media and interview index",
+            "url": "https://www.lesliekean.com/ufos-media/",
+            "locator": "Original on-air appearances and 2024–25 presentations",
+            "note": "First-party index makes interviews traceable to publishers; it is not independent corroboration of testimony discussed in those recordings.",
+            "sourceClass": "first_party",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     },
     {
       "id": "kevin-knuth",
@@ -5819,7 +6235,33 @@
       "videos": [],
       "socialPages": [],
       "podcastEpisodes": [],
-      "filmCredits": []
+      "filmCredits": [],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "academic_research",
+        "title": "UAlbany UAP instrumentation and research-method publications",
+        "period": "June 2025",
+        "description": "The university documents Knuth's role in a 2025 multi-instrument UAP methodology research effort. The study identified one unresolved observation but reported no evidence that the measurements implied non-human intelligence.",
+        "openQuestions": "Link the original peer-reviewed paper and instrument metadata before assessing an individual ambiguous observation. Independently scrutinise calibration, known objects, alternative hypotheses and reproduction. Do not score the researcher as a person.",
+        "sources": [
+          {
+            "title": "University at Albany — original 2025 UAP instrumentation research report",
+            "url": "https://www.albany.edu/news-center/news/2025-ualbany-physicists-test-scientific-approach-uap-research",
+            "locator": "4 June 2025 article; field equipment, detection methodology and limitations",
+            "note": "University release identifies Knuth as coauthor and describes tests; it says most anomalies were plausibly explained, one remained ambiguous and none demonstrated non-human intelligence.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-15"
+          },
+          {
+            "title": "University at Albany — Kevin Knuth physics faculty profile",
+            "url": "https://www.albany.edu/physics/faculty/kevin-knuth",
+            "locator": "Faculty listing and professional/degree chronology",
+            "note": "Independent university staff directory confirms physics professorship and expertise, not an extraordinary scientific conclusion.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-15"
+          }
+        ]
+      }
     }
   ]
 }
