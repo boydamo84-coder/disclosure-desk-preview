@@ -157,7 +157,8 @@ assert.equal(data.people.find(p=>p.id==='larry-warren').claimEvidence[0].sourceA
 assert.equal(data.people.find(p=>p.id==='bob-lazar').claimEvidence[0].sourceAccessCheck.status,'original_page_fetch_unavailable');
 assert.match(data.people.find(p=>p.id==='brandon-gill').photo.credit,/Nate Payne/,'Correct Gill portrait credit to Commons EXIF photographer');
 assert.equal(data.people.find(p=>p.id==='mike-rounds').photo.credit,'United States Congress (Wikimedia Commons author listing)','Do not invent a US Senate photographer unsupported by the Commons author field');
-assert.match(data.people.find(p=>p.id==='george-knapp').photoRightsAudit.detail,/event caption says 17 May 2010/,'Retain an honest contradictory photo-date caveat');
+assert.match(data.people.find(p=>p.id==='george-knapp').photoRightsAudit.detail,/69th annual ceremony record dates the event to 17 May 2010/,'Organiser confirms 69th ceremony date without assigning exact photo date');
+assert.match(data.people.find(p=>p.id==='george-knapp').photoRightsAudit.detail,/18 May 2009/,'Original Commons EXIF conflict remains unresolved');
 assert.match(data.people.find(p=>p.id==='luis-elizondo').photoRightsAudit.detail,/YouTube CC BY 3.0/,'Original 2021 licence historical condition documented');
 assert(data.people.every(p=>p.photoRightsAudit.finalRightsApproval===false),'All final photo-rights human reviewer approvals still withheld');
 const scoreReadiness=data.people.filter(p=>p.claimEvidence?.[0]?.ratingReadiness).map(p=>p.claimEvidence[0].ratingReadiness);
