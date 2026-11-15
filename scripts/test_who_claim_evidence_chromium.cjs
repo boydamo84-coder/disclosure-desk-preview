@@ -95,7 +95,8 @@ const profiles=[
     if(test.kind==='claim'){
      assert.equal(await host.locator('.claim-review').count(),1,test.name+' gets one specifically attributed claim');
      assert.match(await host.innerText(),test.name==='Christopher Mellon'?/Not applicable/:/Not assessed/,'No editor-approved real incident score');
-     assert.match(await host.innerText(),/Voting not open/,'No unapproved member vote');
+     assert.match(await host.innerText(),test.name==='Christopher Mellon'?/Incident evidence votes do not apply/:/Voting not open/,
+      'Records-access and policy claims must have no incident ballot; other pending claims must disable voting');
      assert.match(await host.innerText(),new RegExp(test.text,'i'),'Exact claim is present in profile');
      const detail=host.locator('.claim-review .claim-evidence-details');
      await detail.locator('summary').click();
