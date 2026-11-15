@@ -20,10 +20,13 @@ const profiles=[
  {name:'Jeremy Corbell',kind:'claim',text:'2021',minSources:4,audit:true},
  {name:'Steven Greer',kind:'claim',text:'2001',minSources:4,audit:true},
  {name:'George Knapp',kind:'claim',text:'September 2025',minSources:4,audit:true},
- {name:'Christopher Mellon',kind:'claim',text:'October 2025',minSources:4},
- {name:'James Fox',kind:'claim',text:'Moment of Contact',minSources:4},
- {name:'Nick Pope',kind:'claim',text:'Rendlesham',minSources:4},
- {name:'Leslie Kean',kind:'claim',text:'June 2023',minSources:4},
+ {name:'Bob Lazar',kind:'claim',text:'1989',minSources:4,audit:true},
+ {name:'Jake Barber',kind:'claim',text:'2025',minSources:3,audit:true},
+ {name:'Larry Warren',kind:'claim',text:'Rendlesham',minSources:4,audit:true},
+ {name:'Christopher Mellon',kind:'claim',text:'October 2025',minSources:4,audit:true},
+ {name:'James Fox',kind:'claim',text:'Moment of Contact',minSources:4,audit:true},
+ {name:'Nick Pope',kind:'claim',text:'Rendlesham',minSources:4,audit:true},
+ {name:'Leslie Kean',kind:'claim',text:'June 2023',minSources:4,audit:true},
  {name:'John Greenewald Jr.',kind:'work',text:'government',minSources:4},
  {name:'David Spergel',kind:'role',text:'NASA',minSources:2},
  {name:'Daniel Evans',kind:'role',text:'NASA',minSources:2},
@@ -53,7 +56,7 @@ const profiles=[
    await dock.waitFor({state:'visible'});
    assert.equal(await dock.locator('.tab').count(),14,'Keep original premium fourteen-tab nav');
    assert.equal(await dock.locator('.tab[aria-current="page"]').getAttribute('data-tab'),'peopleDirectory');
-   let list=width===393?profiles:profiles.filter(p=>['David Grusch','David Fravor','Tim Gallaudet','Mick West','Avi Loeb','Garry Nolan','Jacques Vallée','Kevin Knuth','Ross Coulthart','Jeremy Corbell','Steven Greer','George Knapp','John Greenewald Jr.','David Spergel','Mike Gold'].includes(p.name));
+   let list=width===393?profiles:profiles.filter(p=>['David Grusch','David Fravor','Tim Gallaudet','Mick West','Avi Loeb','Garry Nolan','Jacques Vallée','Kevin Knuth','Ross Coulthart','Jeremy Corbell','Steven Greer','George Knapp','Bob Lazar','Jake Barber','Larry Warren','Nick Pope','Christopher Mellon','James Fox','Leslie Kean','John Greenewald Jr.','David Spergel','Mike Gold'].includes(p.name));
    for(const test of list){
     await page.locator('#peopleSearch').fill(test.name);
     const cards=page.locator('#peopleCards article.card');
