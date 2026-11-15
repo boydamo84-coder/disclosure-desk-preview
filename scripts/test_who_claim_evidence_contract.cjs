@@ -8,7 +8,7 @@ const home=fs.readFileSync(path.join(root,'index.html'),'utf8');
 
 assert.match(html,/id="profileEvidenceReviews"/);
 assert.match(html,/id="claimReviewMethod"/);
-assert.match(html,/r2-evidence-ledger-v10-20261115/);
+assert.match(html,/r2-evidence-ledger-v11-20261115/);
 assert.match(html,/claim-role-card/);
 assert.match(html,/claim-work-card/);
 assert.match(home,/all <strong>50 Who's Who people have an expanded source reader/);
@@ -19,7 +19,7 @@ assert.match(html,/Community rating/);
 assert.match(html,/Scientific and policy recommendations are Not applicable/);
 assert.match(home,/Twenty-three source-linked profiles now contain/);
 assert.match(home,/27 people now have individual, source-linked research-scope decisions/);
-assert.match(home,/Seven of the 23 claim\/recommendation research panels now include/);
+assert.match(home,/Twelve of the 23 claim\/recommendation research panels now include/);
 assert.match(home,/27 source-backed NASA and congressional role cards/);
 assert.match(html,/community-test-config\.js/);
 assert.match(html,/supabase-js@2\.119\.0/);
