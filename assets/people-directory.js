@@ -301,6 +301,35 @@ function ratingReadinessHtml(claim){
  '</section>';
 }
 
+// M16 original-source access is a reader-facing transparency log, NOT
+// independent corroboration or a signed editorial verification.
+const SOURCE_ACCESS_LABELS=Object.freeze({
+ full_original_recheck_pending:'Full original recheck still pending',
+ original_page_fetch_unavailable:'Original-source access unavailable in this check',
+ publisher_video_metadata_verified:'Publisher video and chapter metadata checked (not full footage)'
+});
+function sourceAccessCheckHtml(claim){
+ const r=claim?.sourceAccessCheck;
+ if(!r || r.reviewStage!=='m16_source_access_only' || r.fullOriginalReviewed!==false ||
+    r.secondEditorSignoff!=='not_obtained' ||
+    !Object.hasOwn(SOURCE_ACCESS_LABELS,r.status) ||
+    !safeUrl(r.primaryUrl) || r.primaryUrl!==claim?.sourceAudit?.original?.url ||
+    (r.checkedAt!==null && !/^\d{4}-\d{2}-\d{2}$/.test(r.checkedAt||'')) ||
+    (r.status==='full_original_recheck_pending' ? r.checkedAt!==null : r.checkedAt===null) ||
+    (r.referenceUrl!==null && !safeUrl(r.referenceUrl)) ||
+    typeof r.observation!=='string' || r.observation.trim().length<85 ||
+    typeof r.nextAction!=='string' || r.nextAction.trim().length<75)return '';
+ return '<section class="claim-source-access" aria-label="Original-source access status">'+
+  '<h5>Original source access &amp; verification status</h5>'+
+  '<p class="muted small"><strong>'+esc(SOURCE_ACCESS_LABELS[r.status])+'</strong> · Full original reviewed: <strong>No</strong> · Independent approval: <strong>Pending</strong></p>'+
+  '<p>'+esc(r.observation)+'</p>'+
+  '<p><strong>What to verify next:</strong> '+esc(r.nextAction)+'</p>'+
+  '<p class="muted small"><a href="'+esc(safeUrl(r.primaryUrl))+'" target="_blank" rel="noopener noreferrer">Inspect linked original source ↗</a>'+
+   (r.referenceUrl?' · <a href="'+esc(safeUrl(r.referenceUrl))+'" target="_blank" rel="noopener noreferrer">Supporting access or context record ↗</a>':'')+
+   (r.checkedAt?' · Checked '+esc(r.checkedAt):' · New direct-access check pending')+'</p>'+
+ '</section>';
+}
+
 function draftEvidenceTrailHtml(claim){
  const draft=claim?.researchEvidence;
  if(draft?.status!=='research_draft'||!Array.isArray(draft.items)||draft.items.length>20||
@@ -323,6 +352,7 @@ function draftEvidenceTrailHtml(claim){
  return '<p class="claim-draft-warning"><strong>Research notes — NOT a completed evidence review.</strong> The links below include original reporting and broader context. Listing a document does not establish that the underlying event occurred, or that conflicting interpretations have been fully checked.</p>'+
   sourceAuditDraftHtml(claim)+
   ratingReadinessHtml(claim)+
+  sourceAccessCheckHtml(claim)+
   '<p class="muted small"><strong>Open questions:</strong> '+esc(draft.editorialNote)+'</p>'+
   '<h5>Public materials consulted (provisional)</h5><ul class="claim-evidence-list">'+items+'</ul>'+
   '<p class="muted small">No criterion-by-criterion points or community votes are available until a separate source-and-editorial approval.</p>';
