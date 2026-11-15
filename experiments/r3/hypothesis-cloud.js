@@ -36,6 +36,7 @@
    const next=validUser(session?.user)?.id||null;
    if(next!==(initial?.id||null)){
     ++identityVersion;
+    window.dispatchEvent(new Event('dd-r3-account-changed'));
     // A change of account MUST remove the old decrypted notebook and key.
     // Reload before showing the new owner's local vault and cloud controls.
     location.reload();
