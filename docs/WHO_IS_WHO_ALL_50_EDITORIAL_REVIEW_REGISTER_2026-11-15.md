@@ -1117,3 +1117,12 @@ This **does not change** the 50 original public identities or alter/approve the 
 Detailed person-by-person original-source, next action and reviewer-gate checklist: `docs/WHO_M15_SCORE_READINESS_AND_EDITORIAL_RELEASE_GATES_2026-11-15.md`.
 
 **Scope must stay clear:** Completeness of a public reporting trail is not the same as verified existence of recovered craft or alien biology; formal investigations establish that an allegation was investigated, not necessarily that it was substantiated; coauthored samples and retold eyewitness cases are shared sources and cannot be multiplied into independent measurements. Scientific methods can be assessed on their own assumptions and reproducibility without estimating the chance of extraterrestrial origin. Neither editorial percentages nor signed-in community ratings may appear before independent claim-specific review and explicit later publication/security authorization.
+
+
+## Milestone 16 — auditable original-source access and portrait-rights gaps (15 Nov 2026)
+
+The additional M16 source-access and image reuse ledgers are **still research draft only**. All 50 profiles keep their existing attribution/role records; all 23 specific claim/recommendation panels now carry an explicit `sourceAccessCheck`, each saying full original not reviewed and second-editor signoff pending. The tally is 19 original full-source rechecks pending, 3 direct source-fetch failures, and one original NewsNation publisher chapter-metadata confirmation (Larry Warren) without full viewing. The UK National Archives original 2012 source was visually read on printed p.13 for the Rendlesham file references and event-night distinctions; original complete master witness recordings and time-synchronised underlying data remain outstanding.
+
+Across all 50 people, `photoRightsAudit` differentiates 5 independently opened Wikimedia Commons catalogue/licence descriptions, 15 previously attributed but not freshly inspected licensed portraits, and 30 initials without a selected portrait. The five observed licence descriptions concern Grusch, Coulthart, James Fox, Gallaudet and Shellenberger, and are **not** final rights clearances. No new photo was substituted or published.
+
+Exact source-by-source limitations, rights descriptions and links are documented in `docs/WHO_M16_ORIGINAL_ACCESS_AND_PHOTO_RIGHTS_RECHECK_2026-11-15.md`. Keep final approvals, claim evidence points, community voting, biography correction and media permissions locked pending independent human review.
