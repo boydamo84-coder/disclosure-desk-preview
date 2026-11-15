@@ -95,8 +95,8 @@ const advisory=data.people.find(p=>p.id==='mike-gold');
 assert.equal(advisory.claimEvidence[0].claimKind,'policy_recommendation');
 assert.equal(data.people.filter(p=>p.claimEvidence?.some(c=>c.claimKind==='policy_recommendation')).length,1);
 assert.deepEqual(candidates.map(p=>p.id).sort(),[
- 'david-fravor','david-grusch','luis-elizondo','michael-shellenberger',
- 'mike-gold','ryan-graves','tim-gallaudet'
+ 'avi-loeb','bob-lazar','david-fravor','david-grusch','jake-barber','larry-warren',
+ 'luis-elizondo','michael-shellenberger','mick-west','mike-gold','ryan-graves','tim-gallaudet'
 ]);
 for(const p of data.people){
  assert(!Object.hasOwn(p,'believability'),'No person-level believability rating permitted');
