@@ -864,6 +864,13 @@
  $('unlockVaultForm').addEventListener('submit',unlockEncrypted);
  $('importVaultForm').addEventListener('submit',importEncrypted);
  $('deleteVaultBtn').addEventListener('click',deleteSaved);
+ if(hosted)window.addEventListener('dd-r3-account-changed',()=>{
+  // Immediately wipe private content before browser navigation can occur.
+  clearDecryptedDOM();book=null;unlockedVault=null;selectedId=null;editingId=null;
+  $('workPanel').hidden=true;$('setupPanel').hidden=true;
+  cloudOwner=null;updateSecurityUI();
+  cloudStatus('Account changed. Private research was locked before reloading.');
+ });
  populateCatalogueCases();
  renderDock();
  updateSecurityUI();
