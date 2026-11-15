@@ -8,7 +8,7 @@ const home=fs.readFileSync(path.join(root,'index.html'),'utf8');
 
 assert.match(html,/id="profileEvidenceReviews"/);
 assert.match(html,/id="claimReviewMethod"/);
-assert.match(html,/r2-evidence-ledger-v14-20261115/);
+assert.match(html,/r2-evidence-ledger-v15-20261115/);
 assert.match(html,/claim-role-card/);
 assert.match(html,/claim-work-card/);
 assert.match(home,/all <strong>50 Who's Who people have an expanded source reader/);
@@ -110,6 +110,20 @@ const technicalAuditIds=['mick-west','avi-loeb','garry-nolan','jacques-vallee','
 const reportingAuditIds=['ross-coulthart','jeremy-corbell','steven-greer','george-knapp'];
 const finalAuditIds=['bob-lazar','jake-barber','larry-warren','nick-pope','christopher-mellon','james-fox','leslie-kean'];
 const allAuditIds=[...originalAuditIds,...technicalAuditIds,...reportingAuditIds,...finalAuditIds];
+const sourceAccess=data.people.filter(p=>p.claimEvidence?.[0]?.sourceAccessCheck).map(p=>p.claimEvidence[0].sourceAccessCheck);
+assert.equal(sourceAccess.length,23,'M16 source accessibility status for every one of 23 claims');
+assert.equal(sourceAccess.filter(a=>a.status==='full_original_recheck_pending').length,19);
+assert.equal(sourceAccess.filter(a=>a.status==='original_page_fetch_unavailable').length,3);
+assert.equal(sourceAccess.filter(a=>a.status==='publisher_video_metadata_verified').length,1);
+assert(sourceAccess.every(x=>x.fullOriginalReviewed===false&&x.secondEditorSignoff==='not_obtained'));
+assert.equal(data.people.filter(p=>p.photoRightsAudit).length,50,'Photo/initials reuse triage covers every profile');
+assert.equal(data.people.filter(p=>p.photoRightsAudit.status==='license_metadata_crosschecked').length,5);
+assert.equal(data.people.filter(p=>p.photoRightsAudit.status==='license_listing_recheck_pending').length,15);
+assert.equal(data.people.filter(p=>p.photoRightsAudit.status==='initials_fallback_no_licensed_photo_selected').length,30);
+assert(data.people.every(p=>p.photoRightsAudit.finalRightsApproval===false),'No rights signoff invented');
+assert.equal(data.people.filter(p=>p.photo?.url).length,20,'No previously selected portrait removed');
+assert.equal(data.people.find(p=>p.id==='larry-warren').claimEvidence[0].sourceAccessCheck.status,'publisher_video_metadata_verified');
+assert.equal(data.people.find(p=>p.id==='bob-lazar').claimEvidence[0].sourceAccessCheck.status,'original_page_fetch_unavailable');
 const scoreReadiness=data.people.filter(p=>p.claimEvidence?.[0]?.ratingReadiness).map(p=>p.claimEvidence[0].ratingReadiness);
 assert.equal(scoreReadiness.length,23,'All 23 claim drafts must have one first-pass scoring suitability decision');
 assert.equal(scoreReadiness.filter(r=>r.scorePath==='incident_evidence_review_pending').length,6);
@@ -265,7 +279,7 @@ const safeUrl=value=>{try{const u=new URL(String(value));return u.protocol==='ht
 const esc=v=>String(v??'').replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
 const validLinks=v=>Array.isArray(v)?v.filter(x=>x&&safeUrl(x.url)).slice(0,30):[];
 const ctx={safeUrl,esc,validLinks,$:()=>host};
-const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceTrail,sourceAuditDraftHtml,ratingReadinessHtml,draftEvidenceTrailHtml,renderPublicRoleEvidence,renderPublicWorkEvidence,renderEvidenceScope,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
+const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceTrail,sourceAuditDraftHtml,ratingReadinessHtml,sourceAccessCheckHtml,draftEvidenceTrailHtml,renderPublicRoleEvidence,renderPublicWorkEvidence,renderEvidenceScope,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
 assert.equal(fns.EVIDENCE_RUBRIC.reduce((n,r)=>n+r.max,0),100);
 for(const id of allAuditIds){
  const claim=data.people.find(p=>p.id===id).claimEvidence[0];
@@ -283,6 +297,12 @@ for(const id of allAuditIds){
  assert.match(triage,/Approval: withheld/);
  assert.doesNotMatch(triage,/class="claim-score"|data-evidence-claim-id|data-rating-save/);
  assert.match(fns.draftEvidenceTrailHtml(claim),/claim-readiness-draft/,'Triage should appear in the same expandable source panel');
+ const access=fns.sourceAccessCheckHtml(claim);
+ assert.match(access,/Original source access &amp; verification status/);
+ assert.match(access,/Full original reviewed: <strong>No/);
+ assert.match(access,/Independent approval: <strong>Pending/);
+ assert.match(fns.draftEvidenceTrailHtml(claim),/claim-source-access/,'Original-access status appears in the same source panel');
+ assert.doesNotMatch(access,/class="claim-score"|data-evidence-claim-id|data-rating-save/);
 }
 const badAudit=JSON.parse(JSON.stringify(data.people.find(p=>p.id==='david-grusch').claimEvidence[0]));
 badAudit.sourceAudit.original.url='javascript:alert(1)';
@@ -302,6 +322,16 @@ const injectedTriage=JSON.parse(JSON.stringify(data.people.find(p=>p.id==='david
 injectedTriage.ratingReadiness.reason+=' <script>alert(1)</script>';
 assert.match(fns.ratingReadinessHtml(injectedTriage),/&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
 assert.doesNotMatch(fns.ratingReadinessHtml(injectedTriage),/<script>/);
+const badAccess=JSON.parse(JSON.stringify(data.people.find(p=>p.id==='larry-warren').claimEvidence[0]));
+badAccess.sourceAccessCheck.referenceUrl='javascript:alert(1)';
+assert.equal(fns.sourceAccessCheckHtml(badAccess),'','M16 must not render dangerous source URLs');
+badAccess.sourceAccessCheck.referenceUrl='https://cdn.nationalarchives.gov.uk/documents/briefing-guide-12-07-12.pdf';
+badAccess.sourceAccessCheck.fullOriginalReviewed=true;
+assert.equal(fns.sourceAccessCheckHtml(badAccess),'','Full original cannot be silently declared reviewed');
+const escapedAccess=JSON.parse(JSON.stringify(data.people.find(p=>p.id==='ross-coulthart').claimEvidence[0]));
+escapedAccess.sourceAccessCheck.observation+=' <script>alert(1)</script>';
+assert.match(fns.sourceAccessCheckHtml(escapedAccess),/&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
+assert.doesNotMatch(fns.sourceAccessCheckHtml(escapedAccess),/<script>/);
 
 for(const person of scopes){
  const html=fns.renderEvidenceScope(person);
@@ -518,4 +548,4 @@ for(const mutation of [
  host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[bad]});
  assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
 }
-console.log('Who’s Who: 50 profiles, 23 claim drafts with 89 sources, 23 source audits and 23 unapproved scoring-readiness decisions, 27 nonclaim scopes; no published numbers or votes (NO DEPLOY).');
+console.log('Who’s Who: 50 profiles, 23 claim drafts with 89 sources, 23 source audits, 23 scoreability drafts, 23 access checks, 50 portrait-rights scope records, 27 nonclaim scopes; no published numbers or votes (NO DEPLOY).');
