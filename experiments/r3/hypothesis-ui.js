@@ -687,7 +687,9 @@
   $('r3CloudProfile').textContent=cloudOwner.email||'Verified Disclosure Desk account';
   try{
    const data=await cloud.readEncrypted();
-   $('r3CloudRestore').disabled=!!book||!!(await vault.readStored())||busy;
+   $('r3CloudRestore').disabled=!data||!!book||!!(await vault.readStored())||busy;
+   $('r3CloudDownload').disabled=!data||busy;
+   $('r3CloudDelete').disabled=!data||busy;
    cloudStatus(data?'Your account contains an encrypted backup. You can restore it to a new device or explicitly replace it from this device.':
     'Connected to your account. No encrypted cloud backup exists yet.');
   }catch(err){cloudStatus(err.message,true)}
@@ -708,6 +710,7 @@
      message,confirmText:previous?'Replace encrypted backup':'Back up encrypted copy',
      cancelText:'Not now',icon:'☁'})))return;
    await cloud.saveEncrypted(payload,previous?.generation||null);
+   $('r3CloudDownload').disabled=false;$('r3CloudDelete').disabled=false;
    cloudStatus('Encrypted cloud backup saved to your verified account. Your passphrase never left the browser.');
   }catch(err){cloudStatus('Cloud backup was NOT saved: '+err.message,true)}
   finally{busy=false;updateSecurityUI()}
@@ -746,6 +749,7 @@
    book=session.book;unlockedVault={key:session.key,generation:session.generation};
    selectedId=book.hypotheses[0]?.id||null;editingId=null;view='write';
    renderNotebook();updateSecurityUI();await refreshVaultAccess();
+   $('r3CloudRestore').disabled=true;
    cloudStatus('Encrypted notebook restored to this browser. Your account backup remains unchanged.');
   }catch(err){cloudStatus('Cloud restore failed without changing existing work: '+err.message,true)}
   finally{$('r3CloudPassphrase').value='';busy=false;updateSecurityUI()}
@@ -762,6 +766,7 @@
     confirmText:'Delete account backup',cancelText:'Keep backup',destructive:true,verifyDelete:true
    })))return;
    await cloud.deleteEncrypted(row.generation);
+   $('r3CloudDownload').disabled=true;$('r3CloudRestore').disabled=true;
    cloudStatus('Encrypted account backup deleted. Local notebooks and downloaded files were not touched.');
   }catch(err){cloudStatus('Cloud backup was not deleted: '+err.message,true)}
   finally{busy=false;$('r3CloudDelete').disabled=false}
@@ -824,7 +829,7 @@
    await refreshVaultAccess();
    status('Local encrypted notebook deleted. No encrypted backups elsewhere were changed.');
   }catch(err){status(err.message,true)}
-  finally{busy=false;$('deleteVaultBtn').disabled=false}
+  finally{busy=false;$('deleteVaultBtn').disabled=false;if(hosted)void refreshCloudView()}
  }
  $('setupForm').addEventListener('submit',createNotebook);
  $('sampleBtn').addEventListener('click',loadDemo);
