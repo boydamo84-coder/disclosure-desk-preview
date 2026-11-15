@@ -12,10 +12,12 @@ Every one of the 50 published draft directory profiles has an individual review 
 
 - **50/50** directory entries inventoried; **50/50** have at least one source citation in current JSON (source reachability/context not independently checked).
 - **20/50** currently have photo objects; reuse/identity still requires individual editorial signoff.
-- **12** unscored, source-attributed claim/recommendation drafts now seeded (7 hearing records plus 5 focused case/technical papers); **38** people do not have an individual claim-review draft. Source readers exist for all 50; roles/publications alone are not UAP physical-event claims.
+- **18** unscored, source-attributed claim/recommendation/technical research drafts now seeded (7 hearing records + 5 case analyses + 6 reporter/filmmaker/science claim reviews); **32** people do not have an individually constructed claim review. All 50 still have original-source readers; a committee appointment, journalist's occupation or scientific-policy role alone is not a claim that non-human objects exist.
 - **0** non-HTTPS/malformed linked citation(s) identified by this inventory; this is not a live HTTP health check.
 
 **15 Nov 2026 milestone 7 addendum:** Five remaining public-work entries now also have a claim-specific research draft with primary/publication and contrary/context links: Bob Lazar, Jake Barber, Larry Warren, Mick West and Avi Loeb. The newly opened source trails are recorded in `docs/WHO_FIVE_CASE_CLAIM_EVIDENCE_LEDGER_2026-11-15.md`. Together there are 44 **provisional item references** across twelve drafts. Original source archive, primary statement, independently testable object/event evidence and competing explanations are separate checks. These are NOT 12 approved public percentages, and 38 other profiles are not personal 0/100 ratings.
+
+**Milestone 8, 15 November 2026:** Six additional specific claims with original and counter/context sources were staged for Ross Coulthart, Jeremy Corbell, Steven Greer, Garry Nolan, Jacques Vallée and Kevin Knuth. This brings the total to 18 source-linked unapproved research drafts / 66 item references, with no real editor-approved 0–100 rating and no user vote. The new scientific paper is a *joint* Nolan–Vallée source and must not be counted twice; original video filmed by Navy personnel is not proof of alleged anomalous propulsion. Details and original links: `docs/WHO_SIX_PUBLIC_CLAIMS_EVIDENCE_LEDGER_2026-11-15.md`. Remaining 32 profiles are not scored or penalised for lacking an event-specific public assertion.
 
 ### Per-person editorial acceptance checklist
 
@@ -80,37 +82,37 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 04. Ross Coulthart (`ross-coulthart`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Investigative journalist and NewsNation correspondent
+**Review status:** Individual statement/research hypothesis identified and given a provisional source comparison; independent editorial review pending. **Role:** Investigative journalist and NewsNation correspondent
 
 **Published draft position (NOT independently authenticated):** NewsNation announced Coulthart as a special correspondent in November 2023. His public reporting includes interviews with witnesses and discussion of alleged government programmes.
 
 **Review route:** Transcribe specific attributed statement; separate firsthand report from underlying interpretation.
 
-**Current metadata:** 1 profile source(s), 4 milestones, 2 articles; portrait recorded (verify licence and identity); 0 source-linked claim candidate(s).
+**Current metadata:** 1 profile source(s), 4 milestones, 2 articles; portrait recorded (verify licence and identity); 1 provisional, separately sourced claim candidate (15 Nov 2026; not approved).
 
 **Source links currently listed (must verify):**
 
 - NewsNation appointment — Nexstar Media Group — https://www.nexstar.tv/newsnation-signs-ross-coulthart-as-special-correspondent/ (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Only one profile source; seek independent cross-check; No individually attributed claim review drafted.
+**Outstanding checks:** Only one profile source; seek independent cross-check; Specific draft assertion now documented in milestone 8 ledger; no completed independent evidence signoff.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
 ### 05. Jeremy Corbell (`jeremy-corbell`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Documentary filmmaker; Weaponized co-host
+**Review status:** Individual statement/research hypothesis identified and given a provisional source comparison; independent editorial review pending. **Role:** Documentary filmmaker; Weaponized co-host
 
 **Published draft position (NOT independently authenticated):** The Weaponized programme describes Corbell's work as investigative journalism and documentary filmmaking related to UAP claims and public source material.
 
 **Review route:** Verify original reporting/interview attribution; do not score an interviewee's claim as reporter's.
 
-**Current metadata:** 1 profile source(s), 3 milestones, 2 articles; portrait not selected; 0 source-linked claim candidate(s).
+**Current metadata:** 1 profile source(s), 3 milestones, 2 articles; portrait not selected; 1 provisional, separately sourced claim candidate (15 Nov 2026; not approved).
 
 **Source links currently listed (must verify):**
 
 - Weaponized — About and host background — https://www.weaponizedpodcast.com/about (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Only one profile source; seek independent cross-check; Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Only one profile source; seek independent cross-check; Initials fallback; suitable verified portrait not yet selected; Specific draft assertion now documented in milestone 8 ledger; no completed independent evidence signoff.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -192,13 +194,13 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 10. Steven Greer (`steven-greer`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Physician and Disclosure Project organiser; CE-5 advocate
+**Review status:** Individual statement/research hypothesis identified and given a provisional source comparison; independent editorial review pending. **Role:** Physician and Disclosure Project organiser; CE-5 advocate
 
 **Published draft position (NOT independently authenticated):** Greer argues that governments hold information concerning non-human intelligence and promotes the Disclosure Project, witness presentations and CE-5 protocols.
 
 **Review route:** Verify original reporting/interview attribution; do not score an interviewee's claim as reporter's.
 
-**Current metadata:** 3 profile source(s), 4 milestones, 3 articles; portrait not selected; 0 source-linked claim candidate(s).
+**Current metadata:** 3 profile source(s), 4 milestones, 3 articles; portrait not selected; 1 provisional, separately sourced claim candidate (15 Nov 2026; not approved).
 
 **Source links currently listed (must verify):**
 
@@ -206,7 +208,7 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 - Dr Steven Greer — official archive and stated research programme — https://drstevengreer.com/ (initial inventory link; live reachability not yet confirmed)
 - ABC News — contemporary coverage of 2001 disclosure event — https://abcnews.go.com/Technology/story?id=98572&page=1 (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Specific draft assertion now documented in milestone 8 ledger; no completed independent evidence signoff.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -289,20 +291,20 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 15. Jacques Vallée (`jacques-vallee`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Computer scientist and long-standing UFO/UAP researcher
+**Review status:** Individual statement/research hypothesis identified and given a provisional source comparison; independent editorial review pending. **Role:** Computer scientist and long-standing UFO/UAP researcher
 
 **Published draft position (NOT independently authenticated):** Vallée has written extensively on reports of anomalous experiences, argued against overly simple explanations, and participated in source-based documentary investigations.
 
 **Review route:** Identify published hypothesis or analysis and testable sources; do not conflate skepticism/advocacy with truth.
 
-**Current metadata:** 2 profile source(s), 4 milestones, 2 articles; portrait recorded (verify licence and identity); 0 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 4 milestones, 2 articles; portrait recorded (verify licence and identity); 1 provisional, separately sourced claim candidate (15 Nov 2026; not approved).
 
 **Source links currently listed (must verify):**
 
 - Jacques Vallée — own media, interviews and film credits — https://www.jacquesvallee.net/media/ (initial inventory link; live reachability not yet confirmed)
 - Joe Rogan Experience #1574 with James Fox — https://podcasts.apple.com/gb/podcast/1574-jacques-vall%C3%A9e-james-fox/id360084272?i=1000644539319 (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** No individually attributed claim review drafted.
+**Outstanding checks:** Specific draft assertion now documented in milestone 8 ledger; no completed independent evidence signoff.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -917,20 +919,20 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 48. Garry Nolan (`garry-nolan`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** Stanford pathology professor; co-founder of the Sol Foundation
+**Review status:** Individual statement/research hypothesis identified and given a provisional source comparison; independent editorial review pending. **Role:** Stanford pathology professor; co-founder of the Sol Foundation
 
 **Published draft position (NOT independently authenticated):** Publicly documented work concerns single-cell biology, UAP research policy and interdisciplinary scientific debate; the sources below provide the relevant institutional or publisher record.
 
 **Review route:** Identify published hypothesis or analysis and testable sources; do not conflate skepticism/advocacy with truth.
 
-**Current metadata:** 2 profile source(s), 3 milestones, 2 articles; portrait not selected; 0 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 3 milestones, 2 articles; portrait not selected; 1 provisional, separately sourced claim candidate (15 Nov 2026; not approved).
 
 **Source links currently listed (must verify):**
 
 - Primary hearing, institution or original publisher record — https://thesolfoundation.org/launch-announcement/ (initial inventory link; live reachability not yet confirmed)
 - Additional original public source — https://web.stanford.edu/group/nolan/nolan.html (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Specific draft assertion now documented in milestone 8 ledger; no completed independent evidence signoff.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
@@ -955,20 +957,20 @@ Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent 
 
 ### 50. Kevin Knuth (`kevin-knuth`)
 
-**Review status:** Profile sources inventoried; individual public-claim extraction pending. **Role:** University at Albany physics professor researching UAP instrumentation
+**Review status:** Individual statement/research hypothesis identified and given a provisional source comparison; independent editorial review pending. **Role:** University at Albany physics professor researching UAP instrumentation
 
 **Published draft position (NOT independently authenticated):** Publicly documented work concerns Bayesian data analysis, infrared imaging and multi-sensor UAP research; the sources below provide the relevant institutional or publisher record.
 
 **Review route:** Identify published hypothesis or analysis and testable sources; do not conflate skepticism/advocacy with truth.
 
-**Current metadata:** 2 profile source(s), 3 milestones, 2 articles; portrait not selected; 0 source-linked claim candidate(s).
+**Current metadata:** 2 profile source(s), 3 milestones, 2 articles; portrait not selected; 1 provisional, separately sourced claim candidate (15 Nov 2026; not approved).
 
 **Source links currently listed (must verify):**
 
 - Primary hearing, institution or original publisher record — https://www.albany.edu/news-center/news/2025-ualbany-physicists-test-scientific-approach-uap-research (initial inventory link; live reachability not yet confirmed)
 - Additional original public source — https://www.albany.edu/physics/faculty/kevin-knuth (initial inventory link; live reachability not yet confirmed)
 
-**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; No individually attributed claim review drafted.
+**Outstanding checks:** Initials fallback; suitable verified portrait not yet selected; Specific draft assertion now documented in milestone 8 ledger; no completed independent evidence signoff.
 
 Reviewer: _unassigned_ · Primary-source verification: _pending_ · Independent corroboration: _pending_ · Contrary evidence: _pending_ · Portrait rights: _pending_ · Date reviewed: _pending_ · Claim rating: **Not assessed**.
 
