@@ -17,7 +17,8 @@ let checks=0;
 function token(index,opts={}){
  const now=Math.floor(Date.now()/1000);
  const body={role:opts.role||'authenticated',aud:opts.aud||'authenticated',
-  sub:id[index],iat:now-2,exp:now+900,is_anonymous:opts.anon===true};
+  sub:id[index],iat:now-2,exp:now+900,is_anonymous:opts.anon===true,
+  ...(opts.noSession?{}:{session_id:opts.otherSession?id[(index+1)%id.length]:id[index]})};
  if(opts.expired)body.exp=now-90;
  const header=Buffer.from(JSON.stringify({alg:'HS256',typ:'JWT'})).toString('base64url');
  const payload=Buffer.from(JSON.stringify(body)).toString('base64url');
@@ -64,6 +65,11 @@ const rate=(claim_id,p_rating,auth)=>call('/rpc/dd_who_claim_rating_set',{p_clai
  denied(await rate(claim,50,token(0,{expired:true})),'Expired JWT rejected');
  denied(await rate(claim,50,token(0,{aud:'not-this-audience'})),'Wrong audience JWT rejected');
  denied(await rate(claim,50,'not.a.jwt'),'Malformed bearer rejected');
+ denied(await rate(claim,50,token(0,{noSession:true})),
+  'Validly signed JWT missing session ID rejected by vote RPC');
+ denied(await rate(claim,50,token(0,{otherSession:true})),
+  'Validly signed JWT with another member session ID rejected');
+
  const anonToken=token(0,{anon:true});
  denied(await rate(claim,90,anonToken),'Signed anonymous-account claim cannot vote');
  denied(await summary([]),'Empty claim list rejected');
