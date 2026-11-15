@@ -306,7 +306,10 @@ function ratingReadinessHtml(claim){
 const SOURCE_ACCESS_LABELS=Object.freeze({
  full_original_recheck_pending:'Full original recheck still pending',
  original_page_fetch_unavailable:'Original-source access unavailable in this check',
- publisher_video_metadata_verified:'Publisher video and chapter metadata checked (not full footage)'
+ publisher_video_metadata_verified:'Publisher video and chapter metadata checked (not full footage)',
+ official_hearing_transcript_retrieved:'Government hearing transcript text accessible (not event confirmation)',
+ publisher_original_article_retrieved:'Original signed publisher article accessible (not independent source validation)',
+ publisher_original_article_landing_retrieved:'Original paper abstract accessible (complete methods not reviewed)'
 });
 function sourceAccessCheckHtml(claim){
  const r=claim?.sourceAccessCheck;
@@ -317,12 +320,14 @@ function sourceAccessCheckHtml(claim){
     (r.checkedAt!==null && !/^\d{4}-\d{2}-\d{2}$/.test(r.checkedAt||'')) ||
     (r.status==='full_original_recheck_pending' ? r.checkedAt!==null : r.checkedAt===null) ||
     (r.referenceUrl!==null && !safeUrl(r.referenceUrl)) ||
+    (r.locator!==undefined&&(typeof r.locator!=='string'||r.locator.trim().length<20)) ||
     typeof r.observation!=='string' || r.observation.trim().length<85 ||
     typeof r.nextAction!=='string' || r.nextAction.trim().length<75)return '';
  return '<section class="claim-source-access" aria-label="Original-source access status">'+
   '<h5>Original source access &amp; verification status</h5>'+
   '<p class="muted small"><strong>'+esc(SOURCE_ACCESS_LABELS[r.status])+'</strong> · Full original reviewed: <strong>No</strong> · Independent approval: <strong>Pending</strong></p>'+
   '<p>'+esc(r.observation)+'</p>'+
+  (r.locator?'<p class="muted small"><strong>Where in source:</strong> '+esc(r.locator)+'</p>':'')+
   '<p><strong>What to verify next:</strong> '+esc(r.nextAction)+'</p>'+
   '<p class="muted small"><a href="'+esc(safeUrl(r.primaryUrl))+'" target="_blank" rel="noopener noreferrer">Inspect linked original source ↗</a>'+
    (r.referenceUrl?' · <a href="'+esc(safeUrl(r.referenceUrl))+'" target="_blank" rel="noopener noreferrer">Supporting access or context record ↗</a>':'')+
