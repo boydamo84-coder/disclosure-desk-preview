@@ -104,6 +104,26 @@ assert(data.people.find(p=>p.id==='anna-paulina-luna').evidenceScope.sourceCheck
 assert(data.people.find(p=>p.id==='chuck-schumer').evidenceScope.sourceChecks.some(s=>s.url.includes('archives.gov')),'Enacted archival law distinguished from 2023 Senate proposal');
 assert(!data.people.find(p=>p.id==='john-greenewald-jr').claimEvidence?.length,'FOIA request never manufactured into event claim');
 
+const originalAuditIds=['david-grusch','ryan-graves','david-fravor','tim-gallaudet','luis-elizondo','michael-shellenberger','mike-gold'];
+assert.equal(data.people.filter(p=>p.claimEvidence?.some(c=>c.sourceAudit)).length,7,'Only seven first-pass original record comparisons, NOT 23 approved reviews');
+for(const id of originalAuditIds){
+ const person=data.people.find(p=>p.id===id),audit=person?.claimEvidence?.[0]?.sourceAudit;
+ assert(audit, 'Missing original-record audit draft '+id);
+ assert.equal(audit.status,'original_record_comparison_draft');
+ assert.equal(audit.reviewerSignoff,'not_obtained','No original comparison impersonates a second editor');
+ assert.match(audit.checkedAt,/^\d{4}-\d{2}-\d{2}$/);
+ assert(audit.original.url.startsWith('https://www.govinfo.gov/content/pkg/CHRG-'));
+ assert(audit.original.locator.length>=25&&audit.original.assessment.length>=75);
+ assert(audit.independentEvidence.length>=75&&audit.competingRecord.length>=75&&audit.missingEvidence.length>=75);
+ assert(!person.claimEvidence[0].review&&!person.claimEvidence[0].sourceReviewApproved,'No rating approval');
+}
+assert.match(data.people.find(p=>p.id==='david-grusch').claimEvidence[0].sourceAudit.original.assessment,/not personally seen alleged bodies/);
+assert.match(data.people.find(p=>p.id==='ryan-graves').claimEvidence[0].sourceAudit.original.assessment,/OTHER Navy flight crew/);
+assert.match(data.people.find(p=>p.id==='david-fravor').claimEvidence[0].sourceAudit.independentEvidence,/same event/i);
+assert.match(data.people.find(p=>p.id==='tim-gallaudet').claimEvidence[0].sourceAudit.competingRecord,/NOT the alleged email/i);
+assert.match(data.people.find(p=>p.id==='michael-shellenberger').claimEvidence[0].sourceAudit.independentEvidence,/not independent agency programme confirmation/i);
+assert.match(data.people.find(p=>p.id==='mike-gold').claimEvidence[0].sourceAudit.original.assessment,/not for NASA/);
+
 const candidates=data.people.filter(p=>Array.isArray(p.claimEvidence)&&p.claimEvidence.length);
 assert.equal(candidates.length,23,'Eighteen earlier drafts plus five original-claim source reviews remain unassessed');
 assert.equal(candidates.reduce((n,p)=>n+(p.claimEvidence[0].researchEvidence?.items?.length||0),0),86,
@@ -195,8 +215,31 @@ const safeUrl=value=>{try{const u=new URL(String(value));return u.protocol==='ht
 const esc=v=>String(v??'').replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
 const validLinks=v=>Array.isArray(v)?v.filter(x=>x&&safeUrl(x.url)).slice(0,30):[];
 const ctx={safeUrl,esc,validLinks,$:()=>host};
-const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceTrail,draftEvidenceTrailHtml,renderPublicRoleEvidence,renderPublicWorkEvidence,renderEvidenceScope,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
+const fns=vm.runInNewContext(snippet+';({publishedClaimReview,publishedEvidenceTrail,sourceAuditDraftHtml,draftEvidenceTrailHtml,renderPublicRoleEvidence,renderPublicWorkEvidence,renderEvidenceScope,communityClaimEligible,renderClaimEvidence,EVIDENCE_RUBRIC})',ctx,{timeout:1000});
 assert.equal(fns.EVIDENCE_RUBRIC.reduce((n,r)=>n+r.max,0),100);
+for(const id of originalAuditIds){
+ const claim=data.people.find(p=>p.id===id).claimEvidence[0];
+ const html=fns.sourceAuditDraftHtml(claim);
+ assert.match(html,/Original-record comparison/);
+ assert.match(html,/Read original record/);
+ assert.match(html,/Independent second-editor signoff: <strong>Pending/);
+ assert.match(html,/What remains unavailable or unverified/);
+ assert.doesNotMatch(html,/class="claim-score"|data-evidence-claim-id|data-rating-save/);
+ assert(html.includes(esc(claim.sourceAudit.original.assessment)),'All original-attribution limitations visible');
+ assert.match(fns.draftEvidenceTrailHtml(claim),/claim-audit-draft/,'Audit should appear in same expandable public evidence reader');
+}
+const badAudit=JSON.parse(JSON.stringify(data.people.find(p=>p.id==='david-grusch').claimEvidence[0]));
+badAudit.sourceAudit.original.url='javascript:alert(1)';
+assert.equal(fns.sourceAuditDraftHtml(badAudit),'','Original record audit fails closed on unsafe URLs');
+badAudit.sourceAudit.original.url='https://www.govinfo.gov/';
+badAudit.sourceAudit.reviewerSignoff='approved';
+assert.equal(fns.sourceAuditDraftHtml(badAudit),'','Never falsely indicate independent second-editor approval');
+const escapedAudit=JSON.parse(JSON.stringify(data.people.find(p=>p.id==='david-grusch').claimEvidence[0]));
+escapedAudit.sourceAudit.missingEvidence+=' <script>alert(1)</script>';
+const safeAudit=fns.sourceAuditDraftHtml(escapedAudit);
+assert.match(safeAudit,/&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
+assert(!safeAudit.includes('<script>'));
+
 for(const person of scopes){
  const html=fns.renderEvidenceScope(person);
  assert.match(html,/Why no event-claim percentage\?/);
@@ -407,4 +450,4 @@ for(const mutation of [
  host.innerHTML='';fns.renderClaimEvidence({claimEvidence:[bad]});
  assert.match(host.innerHTML,/Not assessed/);assert.doesNotMatch(host.innerHTML,/class="claim-score"/);
 }
-console.log('Who’s Who: 50 profiles, 23 pending claim drafts, 27 sourced no-role-score scoping decisions (60 crossrefs), 27 official roles, 17 work readers; no real scores/votes (NO DEPLOY).');
+console.log('Who’s Who: 50 profiles, 23 claim drafts, 7 original public-record comparisons without signoff, 27 nonclaim scopes (60 source crossrefs), no published numbers or votes (NO DEPLOY).');
