@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-11-16T01:25:17.104660+00:00",
+  "checkedAt": "2026-11-16T08:36:19.633738+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 22,
+      "items": 20,
       "latestArticleAt": "2026-11-15T21:00:46+00:00"
     },
     {
@@ -16,7 +16,7 @@
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 15,
+      "items": 14,
       "latestArticleAt": "2026-11-15T07:00:00+00:00"
     },
     {
@@ -57,9 +57,9 @@
     },
     {
       "source": "Search: UFO UAP Australia New Zealand when:7d",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-11-12T14:22:05+00:00"
     },
     {
       "source": "Search: UFO UAP Africa Middle East when:7d",
