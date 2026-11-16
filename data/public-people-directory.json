@@ -1141,7 +1141,48 @@
             "competingRecord": "ABC Media Watch challenged the absence of available first-hand proof in published reporting. AARO's March 2024 historical review reported no verified extraterrestrial recovery programmes among records examined and warned about circular reporting. This is an official scoped counterassessment, not conclusive proof about every alleged classified record or unexamined witness.",
             "missingEvidence": "Full accessible original 7NEWS segment and unedited Grusch source interview; inspectable named firsthand recovery records, sample chain of custody, authenticated programme documentation and corroboration outside the Grusch/Coulthart reporting network; item-specific government response and independent second-editor verification.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "grusch-coulthart-2023-recovery-reporting-not-independent"
+            "relatedSourceGroup": "grusch-coulthart-2023-recovery-reporting-not-independent",
+            "m28dBroadcastLineageCheck": {
+              "checkedAt": "2026-11-16",
+              "status": "source_chain_access_comparison_not_full_original_audio_video_review",
+              "fullOriginalBroadcastReviewed": false,
+              "underlyingIncidentVerified": false,
+              "secondIndependentHumanEditor": "not_obtained",
+              "permissionToPublishScoreOrVotes": false,
+              "newPortraitRightsApproval": false,
+              "primaryRecord": {
+                "url": "https://www.youtube.com/watch?v=x_9gTDXF9Vc",
+                "title": "7NEWS Australia, Ross Coulthart Grusch reporting, 26 July 2023",
+                "access": "original_broadcaster_video_not_played",
+                "observation": "The 7NEWS original watch link could not be fetched as a complete video. No exact video timecodes or full source transcript were independently checked."
+              },
+              "scope": "Investigative reporter's own public allegations, quotation preserved in another broadcaster's editorial transcript; not an independently photographed recovery or directly authenticated non-human artefact.",
+              "checks": [
+                {
+                  "url": "https://www.abc.net.au/mediawatch/episodes/ufos/102785078",
+                  "locator": "ABC Media Watch transcript, 28 August 2023, lines 82–96 reproducing the 26 July 7NEWS report",
+                  "access": "independent_broadcaster_attribution_transcript",
+                  "finding": "ABC Media Watch quotes Coulthart's 7NEWS presentation of claims that US government bodies had concealed recovered nonhuman craft and biological remains.",
+                  "limit": "ABC confirms and critiques public attribution through a quotation from the original programme; this is not full direct examination of 7NEWS video or evidence of an actual recovered object."
+                },
+                {
+                  "url": "https://www.abc.net.au/mediawatch/episodes/ufos/102785078",
+                  "locator": "ABC Media Watch transcript, 28 August 2023, lines 68–90 and 107–126",
+                  "access": "independent_editorial_comparison",
+                  "finding": "ABC explicitly distinguishes Coulthart's June 2023 NewsNation interview with Grusch, his July 7NEWS recap and Grusch's subsequent July House testimony.",
+                  "limit": "Three publications discussing overlapping Grusch claims are not three separate, publicly inspectable firsthand recovery sources; ABC criticism is not conclusive proof secret programmes cannot exist."
+                },
+                {
+                  "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+                  "locator": "Original GPO 26 July 2023 Grusch testimony and Rep. Burlison questions about personal sight of alleged bodies",
+                  "access": "official_public_testimony_same_source_lineage",
+                  "finding": "The congressional primary record documents Grusch's attributed account and that he did not personally see alleged bodies; it is the underlying testimony discussed by Coulthart and ABC.",
+                  "limit": "A later sworn hearing corroborates that the witness asserted an allegation; it does not independently authenticate a spacecraft, bodies or interview source independence."
+                }
+              ],
+              "lineage": "ABC's commentary, the 7NEWS 2023 recap and the NewsNation Grusch interview are different reporting outlets/appearances around overlapping allegations. Treat Grusch and Coulthart reports as interlinked source chains, not multiple physical recoveries.",
+              "missing": "Obtain the complete original 7NEWS recording and permitted transcript with precise speaker timecodes, distinct named firsthand recovery documents, forensic custody and second editor with source-overlap review."
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -2292,7 +2333,48 @@
             "competingRecord": "KNPR's 13 December 2018 interview with original KLAS reporting/editorial personnel discusses disputed education and work records, alongside limited background corroboration. These biography checks matter to documentation but do not decide an unrelated classified-craft allegation. AARO's March 2024 historical review reports no verified extraterrestrial reverse-engineering in the programmes it reviewed; it is a general scoped counterassessment rather than a direct authenticated S-4 personnel-file audit.",
             "missingEvidence": "Original verifiable 9 December 1989 KLAS programme master with transcript comparison; attributable S-4 payroll, base-access and technical project records; contemporaneous independent coworkers and documentation; laboratory measurements or specimens with proven custody; a physically falsifiable propulsion mechanism; separate editorial review.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "lazar-knapp-1989-s4-single-interview-chain"
+            "relatedSourceGroup": "lazar-knapp-1989-s4-single-interview-chain",
+            "m28dBroadcastLineageCheck": {
+              "checkedAt": "2026-11-16",
+              "status": "source_chain_access_comparison_not_full_original_audio_video_review",
+              "fullOriginalBroadcastReviewed": false,
+              "underlyingIncidentVerified": false,
+              "secondIndependentHumanEditor": "not_obtained",
+              "permissionToPublishScoreOrVotes": false,
+              "newPortraitRightsApproval": false,
+              "primaryRecord": {
+                "url": "https://raids.org/files/mys3/lazar8.htm",
+                "title": "ParaNet retyped 1989 KLAS On the Record interview transcript",
+                "access": "historical_transcript_original_url_502_and_original_broadcast_not_played",
+                "observation": "The catalogued ParaNet URL returned 502 again and no authenticated 1989 KLAS broadcaster master was reviewed; a later website reproduces typed interview text."
+              },
+              "scope": "Retrospective interview assertions of S-4 employment and exotic propulsion attributed to Lazar; the available source is a secondary retyping of a television interview, not verified payroll or laboratory evidence.",
+              "checks": [
+                {
+                  "url": "https://disclosdex.com/documents/1989-12-09-knapp-lazar-interview",
+                  "locator": "Disclosdex retyped KLAS On the Record transcript, 9 December 1989, lines 15–37",
+                  "access": "third_party_retyped_transcript_not_original_master",
+                  "finding": "The publicly readable typed interview attributes to Lazar a self-description of senior staff physics work at S-4 near Groom Lake and claimed gravitational-propulsion briefing work.",
+                  "limit": "A third-party copy is not an authenticated original TV recording, independently corroborated S-4 employment record, engineering measurement or direct proof recovered craft exist."
+                },
+                {
+                  "url": "https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real",
+                  "locator": "Nevada Public Radio, 13 December 2018, reporter George Knapp and former KLAS news director Bob Stoldal discussion",
+                  "access": "original_interview_of_original_reporters_separate_biography_question",
+                  "finding": "Original KLAS journalist Knapp and news director Stoldal discuss their attempts to check Lazar's educational and work history, which yielded disputed or incomplete background records.",
+                  "limit": "Even genuine evidence of an unrelated Los Alamos connection or newsworthiness would not establish a secret S-4 assignment, a particular craft or propulsion systems."
+                },
+                {
+                  "url": "https://disclosdex.com/documents/1989-12-09-knapp-lazar-interview",
+                  "locator": "Third-party copied 1989 KLAS dialogue, Knapp and Lazar on work assignment and technical details",
+                  "access": "same_1989_interview_repeated_not_independent",
+                  "finding": "The later transcript and paraphrased retellings describe only one original December 1989 broadcast interview and alleged experiences, not additional test results or new programme documents.",
+                  "limit": "Do not use the archive website's arbitrary personal disclosure rating as a score, and do not count second hosting of the transcript as independent corroboration."
+                }
+              ],
+              "lineage": "KLAS TV 1989 interview, a ParaNet typed circulation and Disclosdex republication represent the same historical conversation. KNPR's later journalist interview addresses the editorial investigation of biography, not direct verification of claimed S-4 exotic technology.",
+              "missing": "Obtain the original KLAS broadcast master or an independently authenticated broadcaster archive, compare complete speech against retypings, inspect dated S-4 personnel/access and payroll evidence, replicate any technical claims and commission a second editor."
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -2549,7 +2631,48 @@
             "competingRecord": "Potential terrestrial classified test-range hardware, visual ambiguity under night vision and limited chain of custody remain untested alternatives, not established solutions. AARO's March 2024 historical review preceded this January 2025 disclosure and cannot be described as a case-specific government refutation or endorsement. Public investigation or inquiry into an allegation does not verify the object as non-human.",
             "missingEvidence": "Full original NewsNation programme cross-checked against source media; authenticated unedited recording and metadata; location/date and flight/helicopter logs, identifiable lift crew, load/sling specifications, custody from recovery to secure facility, independent accessible sample tests, and second editorial reviewer.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "barber-2025-newsnation-one-egg-retrieval-package"
+            "relatedSourceGroup": "barber-2025-newsnation-one-egg-retrieval-package",
+            "m28dBroadcastLineageCheck": {
+              "checkedAt": "2026-11-16",
+              "status": "source_chain_access_comparison_not_full_original_audio_video_review",
+              "fullOriginalBroadcastReviewed": false,
+              "underlyingIncidentVerified": false,
+              "secondIndependentHumanEditor": "not_obtained",
+              "permissionToPublishScoreOrVotes": false,
+              "newPortraitRightsApproval": false,
+              "primaryRecord": {
+                "url": "https://www.youtube.com/watch?v=PGOpHdHSjTE",
+                "title": "NewsNation Ross Coulthart Jake Barber retrieval interview, January 2025",
+                "access": "original_broadcaster_video_not_played",
+                "observation": "Direct NewsNation YouTube video could not be retrieved as a full record in this research environment. Programme performance, editing and raw footage were not inspected."
+              },
+              "scope": "Barber directly alleges seeing and retrieving a white egg-shaped object during an operation, but the physical origin, nature and provenance have not been independently established.",
+              "checks": [
+                {
+                  "url": "https://www.yahoo.com/news/air-force-veteran-whistleblower-claims-232514734.html",
+                  "locator": "NewsNation clip redistributed on Yahoo, 15 January 2025, original publisher line describing white egg-shaped sighting",
+                  "access": "same_publisher_syndicated_original_clip_description",
+                  "finding": "NewsNation's own January 15 advance report and clip, redistributed by Yahoo, attributes to Barber an account of direct participation and a white egg-shaped object.",
+                  "limit": "Yahoo hosts NewsNation material; it is not a second investigative reporting team, a separately verified eyewitness or an unedited direct recovery video."
+                },
+                {
+                  "url": "https://www.yahoo.com/news/air-force-veteran-whistleblower-claims-232514734.html",
+                  "locator": "NewsNation/Yahoo advance item, 15 January 2025, announcement of 18 January special",
+                  "access": "same_publisher_broadcast_schedule_not_full_programme",
+                  "finding": "The publisher's advance coverage advertised a longer Ross Coulthart NewsNation interview special on 18 January 2025; the advance clip is not the complete televised programme.",
+                  "limit": "The short distributed clip cannot establish the full interview context, filming provenance, sensor metadata, helicopter lift circumstances or the original object's destination."
+                },
+                {
+                  "url": "https://www.defense.gov/News/News-Stories/Article/Article/3701297/dod-report-discounts-sightings-of-extraterrestrial-technology/",
+                  "locator": "Department of Defense 8 March 2024 report about AARO historical program review",
+                  "access": "official_preclaim_general_context",
+                  "finding": "The department published a broad 2024 historical review of reported recovery programmes before Barber publicly presented this specific account in January 2025.",
+                  "limit": "An institutional report issued before the alleged Barber disclosures is not a case-specific investigation, endorsement or refutation of his later television claims."
+                }
+              ],
+              "lineage": "NewsNation's advance clip, special, publisher website and syndicated Yahoo copy belong to the same newsroom content chain; they do not independently establish hardware or create multiple physical observers.",
+              "missing": "Review complete original NewsNation special with allowed timestamps, raw unedited footage, original source metadata, date/location/helicopter logs, lift crew and chain of custody, independently inspectable material samples and separate qualified editor."
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -3127,7 +3250,48 @@
             "competingRecord": "A separately published 28 October 2025 NewsNation interview with Charles Halt disputes elements of Warren's later account. Its availability documents a competing eyewitness narrative, not proof that either interview resolves who stood where on each night. The MoD records distinguish at least two nights and a later Halt expedition; reconstructed timelines, lighthouse interpretations and base duty records are required for a specific claim-by-claim assessment.",
             "missingEvidence": "Watch and transcribe both complete first-party NewsNation recordings with speaker/timestamp accuracy; original 1997 book passages; signed contemporaneous 1980–81 duty logs, personnel rosters, original witness statements and survey/photos; reconcile separate nights and military positions; independent second editor.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "rendlesham-1980-distinct-nights-halt-warren-claims"
+            "relatedSourceGroup": "rendlesham-1980-distinct-nights-halt-warren-claims",
+            "m28dBroadcastLineageCheck": {
+              "checkedAt": "2026-11-16",
+              "status": "source_chain_access_comparison_not_full_original_audio_video_review",
+              "fullOriginalBroadcastReviewed": false,
+              "underlyingIncidentVerified": false,
+              "secondIndependentHumanEditor": "not_obtained",
+              "permissionToPublishScoreOrVotes": false,
+              "newPortraitRightsApproval": false,
+              "primaryRecord": {
+                "url": "https://www.youtube.com/watch?v=21yW_XZR2LU",
+                "title": "NewsNation Reality Check: Rendlesham UFO incident: Does new film Capel Green have new evidence? (19 August 2025)",
+                "access": "original_publisher_title_chapters_only_full_video_not_reviewed",
+                "observation": "Original NewsNation programme title, publication date and chapter boundaries are indexed. The full footage/audio was not watched or transcribed in this pass."
+              },
+              "scope": "A retrospective firsthand account of claimed presence at a December 1980 Rendlesham-related event, with disputed individual chronology; contemporaneous archive materials support some incident context, not this precise account.",
+              "checks": [
+                {
+                  "url": "https://www.youtube.com/watch?v=21yW_XZR2LU",
+                  "locator": "NewsNation original 19 August 2025 Reality Check episode metadata; chapters 08:47–23:45 and 23:46–32:40",
+                  "access": "publisher_video_chapter_metadata_only",
+                  "finding": "NewsNation publishes a programme with Larry Warren and Steve Longero discussing a Rendlesham incident, Warren's claimed witness experience and questions about whether he was in the forest.",
+                  "limit": "Chapter titles and publisher summaries demonstrate recorded interview subject and existence, not exact spoken dialogue, eyewitness authenticity or Warren's physical location on each night."
+                },
+                {
+                  "url": "https://www.youtube.com/watch?v=UfKwQgmHfII",
+                  "locator": "NewsNation 28 October 2025 original episode metadata; Halt rebuttal chapter at 02:40 and scene chronology at 04:00",
+                  "access": "publisher_alternative_interview_metadata_only",
+                  "finding": "NewsNation published a separate interview with Charles Halt expressly addressing Warren's disputed recollections, with indexed chapters on the original nights and surviving military records.",
+                  "limit": "A different witness account supplies a competing narrative for eventual comparison, but the original 2025 footage was not watched and chapter descriptions alone cannot settle a 1980 duty roster or timeline."
+                },
+                {
+                  "url": "https://cdn.nationalarchives.gov.uk/documents/briefing-guide-12-07-12.pdf",
+                  "locator": "The National Archives July 2012 original guidance, printed page 13 (PDF page index 12), visually inspected 16 November 2026",
+                  "access": "official_archive_briefing_page_visually_inspected",
+                  "finding": "The official archival briefing describes separate nights of RAF Woodbridge lights in December 1980, Halt's January 1981 report and the relevant DEFE 24/1512, DEFE 24/1948/1 and DEFE 24/1995/1 file series.",
+                  "limit": "This is a later archival briefing identifying historical reports and files, not direct confirmation of Larry Warren's whereabouts, the Capel Green story or nonhuman technology."
+                }
+              ],
+              "lineage": "The Warren and Halt 2025 NewsNation videos are separate accounts carried by the same programme family. Archived 1980–81 military records can test some history, but neither a producer's chapters nor an official archive index independently documents Warren at the claimed scene.",
+              "missing": "Watch and source-transcribe both full programmes with timestamps; inspect actual DEFE 24/1512 and DEFE 24/1995/1 materials, December 1980 duty rosters, witness accounts, timing and maps; commission independent second-editor chronology review."
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
