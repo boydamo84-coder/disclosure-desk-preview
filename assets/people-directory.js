@@ -450,6 +450,76 @@ function m28dBroadcastLineageHtml(claim){
   '<p class="muted small">Underlying incident verification: incomplete · Independent human editor: not obtained · Numeric scores, community votes and new portrait approvals: withheld.</p>'+
   '</details>';
 }
+// M28e: Seven source-graded public readings; never promote research to scored approvals.
+function m28eFinalSevenSourceHtml(claim){
+ const r=claim?.sourceAudit?.m28eFinalSevenSourceCheck;
+ const grades=Object.freeze({
+  original_publisher_broadcast_transcript_full_audiovisual_not_reviewed:'Original broadcaster transcript read; full video and sensor records not inspected',
+  official_original_pdf_selected_pages_visually_checked:'Original government PDF: selected pages visually examined',
+  contemporaneous_original_newsroom_article_not_press_conference_master:'Contemporaneous original reporting read; complete press-event recording not inspected',
+  publisher_indexed_abstract_direct_article_403_shared_study:'Original publisher full text blocked (403); indexed abstract/sections only — ONE shared coauthor study',
+  original_film_director_publisher_pages_full_film_not_played:'Original filmmaker-publisher interview pages read; documentary not watched',
+  author_page_search_indexed_live_redirect_inaccessible:'Original author page indexed; current direct site redirect inaccessible; historical page not fully checked'
+ });
+ const kinds=Object.freeze({
+  speaker_attribution_and_publisher_quoted_agency_confirmation:'Original speaker and quoted agency response',
+  disputed_technical_inference:'Claim and competing interpretation',
+  published_record_limit:'Publisher transcript limitations',
+  explicit_witness_scope_limit:'Speaker explicitly not an eyewitness',
+  reported_confidential_informant_chain:'Journalist account of unreviewed informants',
+  reported_third_party_agreement:'Journalist account of uncompleted arrangement',
+  asserted_historical_archive_access:'Reported historical archive transfers',
+  original_contemporary_event_attribution:'Contemporaneous newsroom event record',
+  organizer_asserted_witness_count:'Organizer-stated witness number, not verified cases',
+  independent_catalogue_not_authentication_of_testimony:'Library catalogue, not recorded testimony proof',
+  publisher_abstract_methods:'Original publisher indexed methods and abstract',
+  published_isotope_limit:'Terrestrial-normal isotopic measurements reported',
+  publisher_indexed_conclusion_context:'Publisher conclusion excerpt, not full-paper methods',
+  original_publisher_project_description:'Original filmmaker interview page, not eyewitness master',
+  publisher_publication_date_discrepancy:'Conflicting publication years',
+  official_inquiry_catalogue_not_its_final_finding:'Official institutional case index, not final finding',
+  author_acknowledged_not_eyewitness:'Author acknowledges later retrospective role',
+  attributed_retrospective_interpretation:'Author’s interpretation, not 1980 observation',
+  official_position_described_by_author_not_independently_reevaluated:'Official response as quoted by later author'
+ });
+ if(!r||r.status!=='targeted_publication_or_indexed_access_comparison_not_editorially_approved'||
+    r.checkedAt!=='2026-11-16'||!safeUrl(r.primaryUrl)||
+    !Object.hasOwn(grades,r.accessGrade)||
+    r.fullUnderlyingClaimVerification!==false||
+    r.secondIndependentHumanEditor!=='not_obtained'||
+    r.permissionToPublishScoreOrCommunityVote!==false||
+    r.permissionToApproveNewPortrait!==false||
+    claim?.ratingReadiness?.publicationApproval!=='withheld'||
+    claim?.sourceAccessCheck?.secondEditorSignoff!=='not_obtained'||
+    typeof r.sourceTitle!=='string'||r.sourceTitle.length<32||
+    typeof r.sourceMethod!=='string'||r.sourceMethod.length<105||
+    typeof r.scope!=='string'||r.scope.length<115||
+    typeof r.sourceLineage!=='string'||r.sourceLineage.length<115||
+    typeof r.missingEvidence!=='string'||r.missingEvidence.length<110||
+    !Array.isArray(r.passages)||r.passages.length<3||r.passages.length>4)return '';
+ const valid=q=>q&&Object.hasOwn(kinds,q.kind)&&
+   typeof q.locator==='string'&&q.locator.length>=45&&
+   typeof q.finding==='string'&&q.finding.length>=105&&
+   typeof q.limit==='string'&&q.limit.length>=115;
+ if(!r.passages.every(valid))return '';
+ const checks=r.passages.map(q=>
+  '<li><strong>'+esc(kinds[q.kind])+'</strong><p class="muted small">Find it: '+esc(q.locator)+'</p>'+
+  '<p>'+esc(q.finding)+'</p>'+
+  '<p class="muted small"><strong>What it does NOT prove:</strong> '+esc(q.limit)+'</p></li>').join('');
+ return '<details class="claim-m28e-check" data-m28e-final-source>'+
+  '<summary>Original publication and source limits · 16 Nov 2026</summary>'+
+  '<p class="claim-draft-warning"><strong>Research comparison, NOT approval.</strong> A publisher quote, library listing, archival index or author statement does not independently verify the underlying UAP claim or the person’s overall believability.</p>'+
+  '<p><strong>Original access grade:</strong> '+esc(grades[r.accessGrade])+'</p>'+
+  '<p><strong>What this check covers:</strong> '+esc(r.scope)+'</p>'+
+  '<p class="muted small"><strong>Publication:</strong> '+esc(r.sourceTitle)+
+  ' · <a href="'+esc(safeUrl(r.primaryUrl))+'" rel="noopener noreferrer" target="_blank">Inspect original publication ↗</a></p>'+
+  '<p class="muted small"><strong>Inspection method:</strong> '+esc(r.sourceMethod)+'</p>'+
+  '<h5>Attributed passages and their limits</h5><ul class="claim-evidence-list">'+checks+'</ul>'+
+  '<p><strong>Shared-source warning:</strong> '+esc(r.sourceLineage)+'</p>'+
+  '<p><strong>Missing independent checks:</strong> '+esc(r.missingEvidence)+'</p>'+
+  '<p class="muted small">Underlying claim verification: incomplete · Independent human editor: not obtained · Claim scores, community voting and new portrait permission: withheld.</p>'+
+  '</details>';
+}
 function sourceAuditDraftHtml(claim){
  const d=claim?.sourceAudit;
  if(!d||d.status!=='original_record_comparison_draft'||d.reviewerSignoff!=='not_obtained'||
@@ -583,6 +653,7 @@ function draftEvidenceTrailHtml(claim){
   m28bOriginalSourceCheckHtml(claim)+
   m28cFirstPartyCheckHtml(claim)+
   m28dBroadcastLineageHtml(claim)+
+  m28eFinalSevenSourceHtml(claim)+
   '<p class="muted small">No criterion-by-criterion points or community votes are available until a separate source-and-editorial approval.</p>';
 }
 function publishedClaimReview(claim){
