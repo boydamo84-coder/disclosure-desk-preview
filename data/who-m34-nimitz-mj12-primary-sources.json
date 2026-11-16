@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "edition": "m34-nimitz-2020-media-release-and-mj12-1987-archive",
+  "status": "research_only_unverified_unsigned_no_deploy",
+  "checkedDate": "2026-11-16",
+  "navyOriginal": {
+    "id": "navy-nasa-brief-redacted",
+    "url": "https://www.secnav.navy.mil/foia/readingroom/CaseFiles/UAP%20INFO/UAP%20DOCUMENTS/NASA%20Brief%20Redacted.pdf",
+    "indexUrl": "https://www.secnav.navy.mil/foia/readingroom/CaseFiles/Forms/AllItems.aspx?RootFolder=%2Ffoia%2Freadingroom%2FCaseFiles%2FUAP%20INFO%2FUAP%20DOCUMENTS",
+    "indexedListingDate": "2024-10-09",
+    "thisTurnAccess": "direct_open_request_rejected_download_connection_failed",
+    "originalPDFAccessible": false,
+    "originalBytesRetrieved": false,
+    "originalSHA256": null,
+    "visualOriginalReviewed": false,
+    "houseCopyBytesCompared": false,
+    "sameSourceFamilyAsHouseAppendix": true,
+    "note": "Previous M33 compared selected indexed text with the House appendix, not original PDF bytes or all page images."
+  },
+  "nimitz": {
+    "navyPublicAffairs": {
+      "id": "navy-pao-uap-briefing-2020",
+      "url": "https://www.secnav.navy.mil/foia/readingroom/CaseFiles/UAP%20INFO/UAP%20DOCUMENTS/PAO%20Briefing%20Card%202020-012022%20and%202022-006563.pdf",
+      "headerDate": "2020-07-24",
+      "documentPages": 3,
+      "htmlTextRead": true,
+      "pdfScreenshotAvailable": false,
+      "pdfSHA256": null,
+      "reportClaims": [
+        {
+          "id": "video-shared-aboard",
+          "claim": "Navy public affairs recounts 2004 video shared widely aboard Nimitz",
+          "kind": "agency_retrospective_not_original_custody_data"
+        },
+        {
+          "id": "2007-web-post",
+          "claim": "Navy public affairs says crew member posted video online in 2007; original uploader not established by public document",
+          "kind": "agency_release_history"
+        },
+        {
+          "id": "2009-review",
+          "claim": "Navy officials learned of post in 2009 and reportedly did not pursue uploader identification",
+          "kind": "reported_institutional_response"
+        },
+        {
+          "id": "original-vs-unclassified",
+          "claim": "Navy distinguishes video being unclassified from receiving public release authorisation",
+          "kind": "public_release_governance"
+        }
+      ]
+    },
+    "dodVideoRelease": {
+      "id": "dod-video-release-2020",
+      "url": "https://www.defense.gov/News/Releases/release/article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+      "releaseDate": "2020-04-27",
+      "numberOfNavyVideos": 3,
+      "yearOf2004Video": 2004,
+      "yearOfOtherTwoVideos": 2015,
+      "assertion": "DoD authenticated three clips as Navy footage and said contents remained unidentified; not a finding of extraordinary technology.",
+      "directPageThisTurn": "web_search_indexed_direct_open_403"
+    },
+    "navairVideo": {
+      "id": "navair-public-flir-copy",
+      "url": "https://www.navair.navy.mil/foia/sites/g/files/jejdrs566/files/2020-04/1%20-%20FLIR.mp4",
+      "urlListedIn": "https://media.defense.gov/2024/Sep/30/2003555596/-1/-1/1/20240822%20UAP%20RECORDS%20RELEASE.PDF",
+      "releasedCopyBytesRetrieved": false,
+      "videoSHA256": null,
+      "originalCameraMasterAccessible": false,
+      "completeSystemMetadataAccessible": false,
+      "raw2004RadarAccessible": false,
+      "clipIdentityAsDescribedByGov": "Navy-origin 2004 infrared video, publicly released 2020",
+      "nonhumanOriginEstablished": false,
+      "anomalousPerformanceEstablished": false
+    }
+  },
+  "mj12": {
+    "originalNaraReport": {
+      "id": "nara-1987-reference-original",
+      "url": "https://reaganlibrary.archives.gov/public/2021-06/40-654-209237726-004-008-2021.pdf",
+      "date": "1987-07-22",
+      "title": "National Archives Military Reference Branch: Reference Report on MJ-12",
+      "indexedLines": "2670-2834",
+      "accessibleText": true,
+      "pdfVisualScreenshotAvailable": false,
+      "pdfSHA256": null,
+      "targetMemo": "Cutler to Twining memorandum dated 14 July 1954",
+      "specificFindings": [
+        {
+          "key": "record-book",
+          "finding": "Located in RG341 entry 267, folder T4-1846; missing expected top-secret register number"
+        },
+        {
+          "key": "security-stamp",
+          "finding": "Security phrase reported by NARA/NSC as not used until Nixon administration"
+        },
+        {
+          "key": "july-meeting",
+          "finding": "No July 16 1954 NSC meeting recorded in archives searched"
+        },
+        {
+          "key": "cutler-travel",
+          "finding": "Cutler reported overseas when memo purportedly issued July 14 1954"
+        },
+        {
+          "key": "custody-distinction",
+          "finding": "Archive custody and faithful reproduction do not authenticate document content"
+        }
+      ]
+    },
+    "modernNara": {
+      "id": "nara-modern-web-reprint",
+      "url": "https://www.archives.gov/research/military/air-force/ufos",
+      "reviewDate": "2024-06-25",
+      "sameSourceAs1987Report": true,
+      "independentCorroboration": false,
+      "discrepancy": {
+        "subject": "civil-defence-folder-year",
+        "original1987Text": "Special Meeting July 16 1954",
+        "modernWebText": "Special Meeting July 16 1956",
+        "status": "needs_scan_and_version_reconciliation_not_claim_evidence"
+      }
+    },
+    "scopeLimits": {
+      "cutlerTwiningMemoExamined": true,
+      "hillenkoetter1947MemoExamined": false,
+      "som101ManualExamined": false,
+      "reason": "Specific 1954 archival objections cannot be generalized to individual forensic investigation of separate alleged MJ-12 variants."
+    }
+  },
+  "releaseGate": {
+    "allHumanEditorialSignoffsAbsent": true,
+    "claimScoresUnpublished": true,
+    "personalBelievabilityProhibited": true,
+    "memberVotingDisabled": true,
+    "noNewPhotoRights": true,
+    "noNetlifyOrProductionChange": true,
+    "internalResearchNotInPublicBundle": true,
+    "noRaw2004DataInvented": true,
+    "noBinaryMatchClaimed": true,
+    "noDuplicatedPublicationAsIndependentSource": true
+  }
+}
