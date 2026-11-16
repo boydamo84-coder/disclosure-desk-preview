@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "edition": "m37-distinguish-osd-20-f-1095-from-navy-007231-referred-151-pages",
+  "checkedDate": "2026-11-16",
+  "status": "research_only_no_verified_referral_resolution_or_human_editorial_approval",
+  "parentEdition": "m36-1988-revised-nara-scanned-pages-and-navair-foia-release-decision",
+  "foiaTracks": [
+    {
+      "id": "navy-release-process-007231",
+      "requestAgency": "Naval Air Systems Command",
+      "caseNumber": "DON-NAVY-2020-007231",
+      "sourceUrl": "https://documents2.theblackvault.com/documents/navy/2020-007231.pdf",
+      "printedOriginalRequestDate": "2020-04-08",
+      "respondedOn": "2025-07-08",
+      "host": "documents2.theblackvault.com",
+      "authorship": "NAVAIR response mirrored by FOIA requester",
+      "seenAsPdfScreenshotPagesZeroBased": [
+        0,
+        1
+      ],
+      "requestFocus": "records for reviewing and adding the FLIR1 Gimbal and GoFast Navy videos to NAVAIR FOIA website",
+      "responsiveCounts": {
+        "partiallyReleasedEmailGroups": 4,
+        "partiallyReleasedPages": 34,
+        "fullyWithheldEmailItems": 59,
+        "fullyWithheldLegalMemos": 3,
+        "fullyWithheldPages": 498,
+        "referredDocumentsToOSD": 7,
+        "referredPagesToOSD": 151
+      },
+      "referralStatement": "NAVAIR says seven documents totalling 151 pages were forwarded to OSD FOIA coordinator for review and direct response to requester.",
+      "publicStatusOf151Pages": "NOT_VERIFIED_AS_OF_M37",
+      "lastGroundedPublicStatus": "The Black Vault article dated 2025-07-09 stated review remained pending on that article date; no later case-specific decision letter or 151-page released set established in this audit.",
+      "cannotInfer": [
+        "The 151 pages were released",
+        "The 151 pages were withheld",
+        "The 151 pages are the same as an unrelated 263-page OSD FOIA release",
+        "Exemptions prove advanced/nonhuman technology"
+      ]
+    },
+    {
+      "id": "osd-spokesperson-20-f-1095",
+      "requestAgency": "Office of the Secretary of Defense/Joint Staff",
+      "caseNumber": "20-F-1095",
+      "sourceUrl": "https://documents2.theblackvault.com/documents/osd/20-F-1095.pdf",
+      "originalRequestDate": "2020-05-16",
+      "receivedOn": "2020-05-18",
+      "respondedOn": "2025-06-18",
+      "pdfExtractedTextReviewed": true,
+      "pdfScreenshotAttempt": "FAILED_pdf_42mb_content_length_exceeds_screenshot_service_limit",
+      "documentOriginalFederalHostConfirmed": false,
+      "host": "documents2.theblackvault.com",
+      "respondingOffice": "OSD/JS with search by Office of Assistant to Secretary of Defense for Public Affairs",
+      "responsivePages": 263,
+      "requestFocus": "correspondence about GIMBAL FLIR1 GO FAST involving Pentagon spokesperson; not a request for disposition of Navy July 2025 seven-document referral",
+      "mentionsOtherCaseNumber": "DON-NAVY-2020-007231",
+      "specificMentionContext": "2020-10-14 Navy-to-OSD correspondence attached a DON-NAVY-2020-007231 case file to coordinate FOIA redactions and proposed responses",
+      "printedPagesContainingOtherCase": "PDF text lines 1250-1289; original page numbering within large release not visually authenticated",
+      "independentFromReferralDisposition": true,
+      "sameAsSevenReferredDocumentsConfirmed": false,
+      "equalsReferred151Pages": false,
+      "note": "Cross-reference to Navy case shows administrative correspondence, not proof this 263-page OSD package fulfils the separate seven-document referral. The 18 June 2025 OSD response predates the Navy's 8 July 2025 letter, but the differing FOIA case number and request scope are the decisive separation."
+    },
+    {
+      "id": "navy-video-custody-007330",
+      "requestAgency": "NAVAIR/related Navy commands",
+      "caseNumber": "DON-NAVY-2020-007330",
+      "sourceUrl": "https://documents2.theblackvault.com/documents/osd/20-F-1095.pdf",
+      "date": "2020-06-16",
+      "surfacedInsideFoiaCase": "20-F-1095",
+      "requestFocus": "records about video history and custody, connected in text to VFA-11/CSG-8 and AFOSI file number 3290517356125; likely 2015 Gimbal context, not established Nimitz 2004 footage",
+      "observation": "A Navy N2N6 correspondent wrote that videos appeared to have moved from squadron/fleet via Jay Stratton to PAX without a releasable paper trail; the same discussion says some search locations could not find responsive records.",
+      "exactIndexLines": [
+        "2255-2258",
+        "2630-2643",
+        "2661-2672"
+      ],
+      "pdfScreenshotAttempt": "UNAVAILABLE_large_container_screenshot_error",
+      "scope": "secondary_quoted_admin_chain_about_specific_video_custody_request_not_broad_2004_video_master_proof",
+      "establishes2004CameraMasterChain": false,
+      "provesNoRecordsExistAnywhereInDoD": false,
+      "separateFOIARequestNotAdditionalIndependentSighting": true
+    }
+  ],
+  "matchedComparisons": [
+    {
+      "id": "different-foia-cases",
+      "left": "navy-release-process-007231",
+      "right": "osd-spokesperson-20-f-1095",
+      "conclusion": "distinct_request_numbers_and_request_scopes",
+      "isResponseTo151Referral": false
+    },
+    {
+      "id": "cross-reference-is-not-case-closure",
+      "left": "osd-spokesperson-20-f-1095",
+      "right": "navy-release-process-007231",
+      "conclusion": "the_263_page_OSD_release_contains_some_correspondence_referencing_007231_but_not_verified_151_page_OSD_referral_resolution",
+      "isResponseTo151Referral": false
+    },
+    {
+      "id": "video-custody-request-is-specific",
+      "left": "navy-video-custody-007330",
+      "right": "navy-release-process-007231",
+      "conclusion": "the_custody_request_focus_does_not_establish_original_2004_master_or_release_decision_chain",
+      "isResponseTo151Referral": false
+    }
+  ],
+  "archivalResearch": {
+    "officialGuide": {
+      "id": "reagan-topic-guide-mj12",
+      "url": "https://www.reaganlibrary.gov/public/archives/textual/topics/operamaj.pdf",
+      "agency": "Ronald Reagan Presidential Library — National Archives",
+      "documentHeading": "Reagan Library Topic Guide — Operation Majestic 12 (MJ-12 Document)",
+      "screenshotPdfPageZeroBased": 0,
+      "extractedDisplayDate": "6/1/2026",
+      "visualFooterDate": "2/12/2024",
+      "documentDateReconciliationStatus": "SOURCE_TEXT_AND_RENDERED_FOOTER_DISAGREE_UNVERIFIED",
+      "officialArchiveFindingAidNotProgrammeAuthentication": true,
+      "whiteHouseOfficeOfRecordsManagement": {
+        "FE010_01": [
+          "094780",
+          "502752",
+          "517937"
+        ],
+        "OS": [
+          "052606",
+          "055537",
+          "157693",
+          "495613"
+        ],
+        "PR014_08": [
+          "446832"
+        ]
+      },
+      "whiteHouseScienceAdvisor": {
+        "name": "George A. Keyworth III",
+        "filesRange": "1981-85",
+        "racBox": 16,
+        "folders": [
+          "U & V Miscellaneous (1)",
+          "U & V Miscellaneous (2)"
+        ]
+      },
+      "doesNotDirectlyReferenceMay1988Revision": true,
+      "sourceFunction": "specific_archival_file_identifiers_for_followup_not_independent_extraterrestrial_event_verification"
+    },
+    "revisedMJ12": {
+      "original1987ReportIndexedFromGovernment": true,
+      "may1988RevisedScanVisualFoundInPrivateArchive": true,
+      "revisedReportDirectGovernmentHostedCopyFound": false,
+      "naraConfirmationObtained": false,
+      "historicVersionDifference": "1987 item 9 1954; revised May 1988 underlined 1956; present NARA page 1956",
+      "yearChangeDisclosesNothingAboutTruthOfMJ12Programme": true
+    }
+  },
+  "outreachDrafts": [
+    {
+      "id": "nara-1988-version-and-guide",
+      "status": "DRAFT_ONLY_NOT_SENT",
+      "recipientOffice": "National Archives textual reference / Reagan Presidential Library archival reference",
+      "sourceReferenceUrls": [
+        "https://www.archives.gov/college-park/researcher-info",
+        "https://www.reaganlibrary.gov/public/archives/textual/topics/operamaj.pdf"
+      ],
+      "question": "Please advise official custody/index location for Jo Ann Williamson's 'Reference Report on MJ-12 (revised)' dated 9 May 1988 and whether it amended 1987 item 9 from 1954 to 1956; does any listed WHORM case or Keyworth folder hold an authenticated copy?",
+      "notRequestingGovernmentEndorsementOfMJ12": true
+    },
+    {
+      "id": "osd-seven-document-referral",
+      "status": "DRAFT_ONLY_NOT_SENT",
+      "recipientOffice": "Office of the Secretary of Defense/Joint Staff FOIA Requester Service Center",
+      "sourceReferenceUrls": [
+        "https://documents2.theblackvault.com/documents/navy/2020-007231.pdf"
+      ],
+      "question": "Please identify the OSD tracking number, disposition date and any publicly released portions associated with seven documents totaling 151 pages referred by NAVAIR under DON-NAVY-2020-007231 in its 8 July 2025 letter; clarify whether an independent OSD response has issued and how to locate its publicly releasable portion.",
+      "notSeekingProtectedPersonalData": true
+    }
+  ],
+  "noOriginalsRecovered": {
+    "newNavyMP4Bytes": false,
+    "newNavyDeckPDFBytes": false,
+    "raw2004SensorMaster": false,
+    "originalUSSPrincetonRadar": false,
+    "originalPDFHashes": null,
+    "complete151ReferralRelease": false
+  },
+  "guardrails": {
+    "noPersonalBelievability": true,
+    "noEditorialClaimScores": true,
+    "noPublicVoting": true,
+    "noFakedSecondHumanApproval": true,
+    "noPortraitLicenseExpansion": true,
+    "noSQLOrUserMutation": true,
+    "noNetlifyOrProductionDeployment": true,
+    "noResearchCatalogueInPublicPackage": true,
+    "doNotConflateFOIACases": true,
+    "doNotTreatSourceReuseAsIndependentCorroboration": true,
+    "doNotInferRedactedDocumentContents": true
+  }
+}
