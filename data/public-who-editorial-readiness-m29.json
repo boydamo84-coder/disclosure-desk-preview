@@ -1,0 +1,905 @@
+{
+  "version": 1,
+  "milestone": "M29",
+  "checkedAt": "2026-11-16",
+  "state": "public_read_only_editorial_handoff_not_approved",
+  "purpose": "Explains which original records, source overlaps and independent checks must be resolved before any claim-specific numerical evidence appraisal. Not an honesty score or UAP truth probability.",
+  "rubric": {
+    "status": "unweighted_editorial_readiness_checklist_not_a_scoring_formula",
+    "numericWeightsApproved": false,
+    "independentHumanDecisionRequired": true,
+    "dimensions": [
+      {
+        "key": "claim_scope",
+        "label": "Exact claim and firsthand scope",
+        "required": "Identify the attributable speaker, date, bounded assertion, firsthand versus relayed elements, and whether an incident metric is meaningful."
+      },
+      {
+        "key": "original_record",
+        "label": "Original-source access and provenance",
+        "required": "Check the actual original document/video/methods and exact passage; record access denials, edits, custody gaps and source rights without upgrading partial access."
+      },
+      {
+        "key": "source_independence",
+        "label": "Source independence and reporting lineage",
+        "required": "Separate distinct firsthand witnesses, independent measurements, repeated broadcasts, shared specimen studies, hearing containers and syndicated reporting."
+      },
+      {
+        "key": "competing_records",
+        "label": "Contrary sources and alternative interpretations",
+        "required": "Inspect the strongest accessible competing original records and accurately record limits; neither silence nor a broad official summary decides a case."
+      },
+      {
+        "key": "measurement_or_documentary_test",
+        "label": "Technical replication or documented custody",
+        "required": "For incident claims inspect raw calibrated measurements, material custody or programme originals; for policy claims explicitly mark incident scoring not applicable."
+      },
+      {
+        "key": "human_editorial_review",
+        "label": "Independent human editorial decision",
+        "required": "Record an actual qualified human editor, conflict declaration, signed dated case-specific decision and revisions; never auto-generate signoff."
+      },
+      {
+        "key": "publication_safety",
+        "label": "Source rights, privacy and vote-security gate",
+        "required": "Confirm public citation rights, original portrait licences, publication approval and separate account-based community vote security before any score or ballot."
+      }
+    ]
+  },
+  "publications": [
+    {
+      "id": "council-bluffs-2022-one-coauthored-paper",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+      "personIds": [
+        "garry-nolan",
+        "jacques-vallee"
+      ]
+    },
+    {
+      "id": "original-avi-loeb",
+      "url": "https://galileo.hsites.harvard.edu/sites/g/files/omnuum6371/files/chemical_classification_of_spherules_1-s2.0-s0009254124004959-main.pdf",
+      "personIds": [
+        "avi-loeb"
+      ]
+    },
+    {
+      "id": "original-bob-lazar",
+      "url": "https://raids.org/files/mys3/lazar8.htm",
+      "personIds": [
+        "bob-lazar"
+      ]
+    },
+    {
+      "id": "original-christopher-mellon",
+      "url": "https://christopherkmellon.substack.com/p/the-us-government-is-sitting-on-a",
+      "personIds": [
+        "christopher-mellon"
+      ]
+    },
+    {
+      "id": "original-george-knapp",
+      "url": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf",
+      "personIds": [
+        "george-knapp"
+      ]
+    },
+    {
+      "id": "original-jake-barber",
+      "url": "https://www.youtube.com/watch?v=PGOpHdHSjTE",
+      "personIds": [
+        "jake-barber"
+      ]
+    },
+    {
+      "id": "original-james-fox",
+      "url": "https://filmschoolradio.com/the-program-director-james-fox/",
+      "personIds": [
+        "james-fox"
+      ]
+    },
+    {
+      "id": "original-jeremy-corbell",
+      "url": "https://transcripts.cnn.com/show/ebo/date/2021-05-31/segment/01",
+      "personIds": [
+        "jeremy-corbell"
+      ]
+    },
+    {
+      "id": "original-kevin-knuth",
+      "url": "https://www.mdpi.com/1099-4300/21/10/939",
+      "personIds": [
+        "kevin-knuth"
+      ]
+    },
+    {
+      "id": "original-larry-warren",
+      "url": "https://www.youtube.com/watch?v=21yW_XZR2LU",
+      "personIds": [
+        "larry-warren"
+      ]
+    },
+    {
+      "id": "original-leslie-kean",
+      "url": "https://thedebrief.org/intelligence-officials-say-u-s-has-retrieved-non-human-craft/",
+      "personIds": [
+        "leslie-kean"
+      ]
+    },
+    {
+      "id": "original-mick-west",
+      "url": "https://www.metabunk.org/threads/gimbal-ufo-a-new-analysis.12333/",
+      "personIds": [
+        "mick-west"
+      ]
+    },
+    {
+      "id": "original-nick-pope",
+      "url": "https://nickpope.net/wpte19/rendlesham-forest/",
+      "personIds": [
+        "nick-pope"
+      ]
+    },
+    {
+      "id": "original-ross-coulthart",
+      "url": "https://www.youtube.com/watch?v=x_9gTDXF9Vc",
+      "personIds": [
+        "ross-coulthart"
+      ]
+    },
+    {
+      "id": "original-steven-greer",
+      "url": "https://abcnews.go.com/Technology/story?id=98572&page=1",
+      "personIds": [
+        "steven-greer"
+      ]
+    },
+    {
+      "id": "us-house-2023-published-hearing",
+      "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+      "personIds": [
+        "david-fravor",
+        "david-grusch",
+        "ryan-graves"
+      ]
+    },
+    {
+      "id": "us-house-2024-published-hearing",
+      "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+      "personIds": [
+        "luis-elizondo",
+        "michael-shellenberger",
+        "mike-gold",
+        "tim-gallaudet"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "published-house-2023",
+      "kind": "shared_publication_not_equivalent_testimony",
+      "personIds": [
+        "david-grusch",
+        "ryan-graves",
+        "david-fravor"
+      ],
+      "description": "All three original statements appear in one 26 July 2023 government hearing transcript. Three witnesses and different underlying events do not mean three independently published government investigations.",
+      "nextCheck": "Compare each witness's firsthand scope and separately authenticated original underlying records."
+    },
+    {
+      "id": "published-house-2024",
+      "kind": "shared_publication_not_equivalent_testimony",
+      "personIds": [
+        "tim-gallaudet",
+        "luis-elizondo",
+        "michael-shellenberger",
+        "mike-gold"
+      ],
+      "description": "Four profiles cite one 13 November 2024 hearing transcript. Publishing different testimonies together is not four independent physical corroborations, and Gold's scientific policy recommendation is not an incident.",
+      "nextCheck": "Separate each attributed statement from independent original incident data and any programme documentation."
+    },
+    {
+      "id": "nolan-vallee-same-paper",
+      "kind": "same_empirical_study_and_parent_sample",
+      "personIds": [
+        "garry-nolan",
+        "jacques-vallee"
+      ],
+      "description": "Both coauthored one 2022 journal paper, DOI 10.1016/j.paerosci.2021.100788, using the same Council Bluffs CB_JV-1 parent sample. This is ONE lab study, not two independent replications.",
+      "nextCheck": "Secure original methods and independent blinded laboratory testing with proven specimen custody."
+    },
+    {
+      "id": "grusch-coverage-shared-sources",
+      "kind": "overlapping_reporting_not_separate_physical_proof",
+      "personIds": [
+        "david-grusch",
+        "ross-coulthart",
+        "leslie-kean"
+      ],
+      "description": "Coulthart and Kean reported Grusch-related programme allegations through distinct journalistic work, while Grusch repeated his own account under oath. Outlet and interview counts alone cannot authenticate separate recovered objects or unknown source independence.",
+      "nextCheck": "Document each original confidential source's scope and relationship under appropriate confidentiality protections; seek independently inspectable programme and material records."
+    },
+    {
+      "id": "lazar-knapp-reporter-lineage",
+      "kind": "shared_historic_interview_reporting",
+      "personIds": [
+        "bob-lazar",
+        "george-knapp"
+      ],
+      "description": "Lazar's 1989 public S-4 interview was conducted by Knapp, who later described his reporting on that subject. Reprints and the later congressional account draw on one historic source relationship, not necessarily independent employment or technical evidence.",
+      "nextCheck": "Authenticate the original broadcast, contemporaneous personnel and access records and any independently testable propulsion evidence."
+    },
+    {
+      "id": "rendlesham-shared-event",
+      "kind": "same_historical_event_distinct_account_roles",
+      "personIds": [
+        "larry-warren",
+        "nick-pope"
+      ],
+      "description": "Warren gives a contested retrospective firsthand account, whereas Pope describes a later cold-case interpretation of the same 1980 Rendlesham reports. Sharing the historical case does not make Pope an additional eyewitness.",
+      "nextCheck": "Reconcile exact original 1980–81 duty rosters, Halt documents, separate nights and original participant testimony."
+    },
+    {
+      "id": "nimitz-model-and-sighting",
+      "kind": "same_case_distinct_observation_and_model",
+      "personIds": [
+        "david-fravor",
+        "kevin-knuth"
+      ],
+      "description": "Fravor's firsthand 2004 visual testimony and Knuth's later 2019 acceleration model relate to the Nimitz event, but Knuth's specific rapid-descent timing comes from reported radar observations rather than independent released raw telemetry.",
+      "nextCheck": "Retrieve authentic radar timing/tracks and evaluate models separately from pilot visual testimony."
+    }
+  ],
+  "claims": [
+    {
+      "claimId": "grusch-2023-house-claims-briefing",
+      "personId": "david-grusch",
+      "personName": "David Grusch",
+      "sourceFamilyId": "us-house-2023-published-hearing",
+      "reportedCaseLineage": "us-house-2023-retrieval",
+      "claimCategory": "institutional_programme_allegation",
+      "incidentScorePath": "documentary_source_review_pending",
+      "sourceAccessStatus": "official_hearing_transcript_retrieved",
+      "originalSourceUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+      "nextHumanSourceCheck": "Independently identify programme records or authorized firsthand corroboration; separate his testimony from Coulthart/Kean reports and complete second-editor verification.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "graves-2023-house-aviation-safety",
+      "personId": "ryan-graves",
+      "personName": "Ryan Graves",
+      "sourceFamilyId": "us-house-2023-published-hearing",
+      "reportedCaseLineage": "us-house-2023-flight-safety",
+      "claimCategory": "incident_or_observation",
+      "incidentScorePath": "incident_evidence_review_pending",
+      "sourceAccessStatus": "official_hearing_transcript_retrieved",
+      "originalSourceUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+      "nextHumanSourceCheck": "Review original flight incidents and independent radar/aircrew reports case-by-case; do not mistake several accounts in one hearing for calibrated corroboration.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "fravor-2023-house-2004-encounter",
+      "personId": "david-fravor",
+      "personName": "David Fravor",
+      "sourceFamilyId": "us-house-2023-published-hearing",
+      "reportedCaseLineage": "nimitz-2004-cbs-dietrich",
+      "claimCategory": "incident_or_observation",
+      "incidentScorePath": "incident_evidence_review_pending",
+      "sourceAccessStatus": "official_hearing_transcript_retrieved",
+      "originalSourceUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+      "nextHumanSourceCheck": "Cross-check co-observers, dated mission logs, separately released radar/IR recordings and alternative range/geometry reconstructions.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "coulthart-2023-claimed-hidden-recoveries",
+      "personId": "ross-coulthart",
+      "personName": "Ross Coulthart",
+      "sourceFamilyId": "original-ross-coulthart",
+      "reportedCaseLineage": "grusch-coulthart-2023-recovery-reporting-not-independent",
+      "claimCategory": "reporting_or_source_claim",
+      "incidentScorePath": "documentary_source_review_pending",
+      "sourceAccessStatus": "original_page_fetch_unavailable",
+      "originalSourceUrl": "https://www.youtube.com/watch?v=x_9gTDXF9Vc",
+      "nextHumanSourceCheck": "Verify the complete original 7NEWS broadcast, identifiable first-hand source independence and inspectable original programme/material records.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "corbell-2021-omaha-advanced-performance-interpretation",
+      "personId": "jeremy-corbell",
+      "personName": "Jeremy Corbell",
+      "sourceFamilyId": "original-jeremy-corbell",
+      "reportedCaseLineage": "omaha-2019-navy-clips-uncalibrated-public-release",
+      "claimCategory": "retrospective_case_interpretation",
+      "incidentScorePath": "incident_evidence_review_pending",
+      "sourceAccessStatus": "publisher_original_interview_transcript_retrieved",
+      "originalSourceUrl": "https://transcripts.cnn.com/show/ebo/date/2021-05-31/segment/01",
+      "nextHumanSourceCheck": "Secure unedited Navy recordings and timestamps, independent range/speed reconstruction, sensor metadata and original source custody.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "knapp-2025-house-retrieval-programme-assertion",
+      "personId": "george-knapp",
+      "personName": "George Knapp",
+      "sourceFamilyId": "original-george-knapp",
+      "reportedCaseLineage": "knapp-lazar-1989-and-2025-retold-retrieval-sources",
+      "claimCategory": "reporting_or_source_claim",
+      "incidentScorePath": "documentary_source_review_pending",
+      "sourceAccessStatus": "official_written_testimony_pdf_selected_pages_inspected",
+      "originalSourceUrl": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf",
+      "nextHumanSourceCheck": "Validate named 1989–2025 original interviews and independent documents, programme authorization, physical artefacts and source chronology.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "west-gimbal-2022-glare-interpretation",
+      "personId": "mick-west",
+      "personName": "Mick West",
+      "sourceFamilyId": "original-mick-west",
+      "reportedCaseLineage": "gimbal-2015-single-video",
+      "claimCategory": "technical_or_scientific_analysis",
+      "incidentScorePath": "method_specific_review_pending",
+      "sourceAccessStatus": "original_technical_analysis_post_retrieved",
+      "originalSourceUrl": "https://www.metabunk.org/threads/gimbal-ufo-a-new-analysis.12333/",
+      "nextHumanSourceCheck": "Independent reproduction against sensor geometry and raw ATFLIR calibration plus review of current critical alternative models.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "lazar-1989-s4-alleged-reverse-engineering",
+      "personId": "bob-lazar",
+      "personName": "Bob Lazar",
+      "sourceFamilyId": "original-bob-lazar",
+      "reportedCaseLineage": "lazar-knapp-1989-s4-single-interview-chain",
+      "claimCategory": "institutional_programme_allegation",
+      "incidentScorePath": "incident_evidence_review_pending",
+      "sourceAccessStatus": "original_page_fetch_unavailable",
+      "originalSourceUrl": "https://raids.org/files/mys3/lazar8.htm",
+      "nextHumanSourceCheck": "Check original broadcaster footage, verifiable S-4 employment/access records, project instrumentation and physical evidence independently of Knapp retellings.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "barber-2025-alleged-egg-shaped-retrieval",
+      "personId": "jake-barber",
+      "personName": "Jake Barber",
+      "sourceFamilyId": "original-jake-barber",
+      "reportedCaseLineage": "barber-2025-newsnation-one-egg-retrieval-package",
+      "claimCategory": "incident_or_observation",
+      "incidentScorePath": "incident_evidence_review_pending",
+      "sourceAccessStatus": "original_page_fetch_unavailable",
+      "originalSourceUrl": "https://www.youtube.com/watch?v=PGOpHdHSjTE",
+      "nextHumanSourceCheck": "Authenticate full video and location/date, flight logs, retrieval-team identities and any available cargo or materials custody/test data.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "greer-2001-disclosure-project-secret-recoveries",
+      "personId": "steven-greer",
+      "personName": "Steven Greer",
+      "sourceFamilyId": "original-steven-greer",
+      "reportedCaseLineage": "disclosure-project-2001-one-press-event-many-unverified-accounts",
+      "claimCategory": "reporting_or_source_claim",
+      "incidentScorePath": "documentary_source_review_pending",
+      "sourceAccessStatus": "contemporaneous_reporting_full_text_retrieved",
+      "originalSourceUrl": "https://abcnews.go.com/Technology/story?id=98572&page=1",
+      "nextHumanSourceCheck": "Watch complete event masters and independently test separately identifiable witnesses/incidents, contemporaneous records and sample provenance.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "warren-rendlesham-1980-retrospective-account",
+      "personId": "larry-warren",
+      "personName": "Larry Warren",
+      "sourceFamilyId": "original-larry-warren",
+      "reportedCaseLineage": "rendlesham-1980-distinct-nights-halt-warren-claims",
+      "claimCategory": "incident_or_observation",
+      "incidentScorePath": "incident_evidence_review_pending",
+      "sourceAccessStatus": "publisher_video_metadata_verified",
+      "originalSourceUrl": "https://www.youtube.com/watch?v=21yW_XZR2LU",
+      "nextHumanSourceCheck": "Reconstruct the distinct December 1980 nights using duty rosters, original Halt material and complete unedited interviews/book passages.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "elizondo-2024-advanced-uap-claims",
+      "personId": "luis-elizondo",
+      "personName": "Luis Elizondo",
+      "sourceFamilyId": "us-house-2024-published-hearing",
+      "reportedCaseLineage": "us-house-2024-programmes",
+      "claimCategory": "institutional_programme_allegation",
+      "incidentScorePath": "documentary_source_review_pending",
+      "sourceAccessStatus": "official_hearing_transcript_retrieved",
+      "originalSourceUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+      "nextHumanSourceCheck": "Confirm purported agency programmes, dated authorizations, sources, exact classified/public records and counterevidence under appropriate rules.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "mellon-2025-uap-records-overclassification-assertion",
+      "personId": "christopher-mellon",
+      "personName": "Christopher Mellon",
+      "sourceFamilyId": "original-christopher-mellon",
+      "reportedCaseLineage": "mellon-2025-records-classification-policy",
+      "claimCategory": "policy_or_records_access",
+      "incidentScorePath": "not_applicable_to_incident_score",
+      "sourceAccessStatus": "original_author_opinion_text_retrieved",
+      "originalSourceUrl": "https://christopherkmellon.substack.com/p/the-us-government-is-sitting-on-a",
+      "nextHumanSourceCheck": "Perform per-record classification and statutory exemption comparisons with NARA/DoD responses; consider a separately labelled records-transparency assessment, not an incident percentage.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "loeb-2024-im1-spherule-origin-interpretation",
+      "personId": "avi-loeb",
+      "personName": "Avi Loeb",
+      "sourceFamilyId": "original-avi-loeb",
+      "reportedCaseLineage": "im1-2023-single-expedition",
+      "claimCategory": "technical_or_scientific_analysis",
+      "incidentScorePath": "method_specific_review_pending",
+      "sourceAccessStatus": "original_peer_reviewed_paper_pdf_selected_pages_inspected",
+      "originalSourceUrl": "https://galileo.hsites.harvard.edu/sites/g/files/omnuum6371/files/chemical_classification_of_spherules_1-s2.0-s0009254124004959-main.pdf",
+      "nextHumanSourceCheck": "Independently review full methods, provenance and control samples and the separate 2025 volcanic critique and authors' follow-up.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "vallee-2022-council-bluffs-material-analysis",
+      "personId": "jacques-vallee",
+      "personName": "Jacques Vallée",
+      "sourceFamilyId": "council-bluffs-2022-one-coauthored-paper",
+      "reportedCaseLineage": "council-bluffs-1977-one-paper-100788",
+      "claimCategory": "technical_or_scientific_analysis",
+      "incidentScorePath": "method_specific_review_pending",
+      "sourceAccessStatus": "journal_original_page_indexed_direct_fetch_blocked",
+      "originalSourceUrl": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+      "nextHumanSourceCheck": "Review complete original paper, chain of custody, raw methods and blinded independent laboratory replication; never double-count the coauthor profile.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "fox-2022-varginha-witness-and-military-retrieval-account",
+      "personId": "james-fox",
+      "personName": "James Fox",
+      "sourceFamilyId": "original-james-fox",
+      "reportedCaseLineage": "varginha-1996-witness-film-1997-stm-inquiry",
+      "claimCategory": "reporting_or_source_claim",
+      "incidentScorePath": "documentary_source_review_pending",
+      "sourceAccessStatus": "original_film_director_interview_pages_retrieved",
+      "originalSourceUrl": "https://filmschoolradio.com/the-program-director-james-fox/",
+      "nextHumanSourceCheck": "Watch original subtitled witness interviews; obtain bilingual independent review of complete STM inquiry, contemporaneous hospital/military records and samples.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "pope-2013-rendlesham-conventional-explanations-account",
+      "personId": "nick-pope",
+      "personName": "Nick Pope",
+      "sourceFamilyId": "original-nick-pope",
+      "reportedCaseLineage": "rendlesham-1980-distinct-nights-halt-warren-claims",
+      "claimCategory": "retrospective_case_interpretation",
+      "incidentScorePath": "method_specific_review_pending",
+      "sourceAccessStatus": "original_author_page_text_retrieved",
+      "originalSourceUrl": "https://nickpope.net/wpte19/rendlesham-forest/",
+      "nextHumanSourceCheck": "Compare the directly accessible retrospective author article with an original 2013 publication/version record and independently examine each 1980 witness and documentary source, separate incidents and conventional alternatives before deciding on any incident score.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "gold-2024-nasa-uap-research-proposals",
+      "personId": "mike-gold",
+      "personName": "Mike Gold",
+      "sourceFamilyId": "us-house-2024-published-hearing",
+      "reportedCaseLineage": "us-house-2024-scientific-policy",
+      "claimCategory": "policy_or_records_access",
+      "incidentScorePath": "not_applicable_to_incident_score",
+      "sourceAccessStatus": "official_hearing_transcript_retrieved",
+      "originalSourceUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+      "nextHumanSourceCheck": "Verify recommendation attribution and subsequent adoption separately, but do not offer an extraordinary-event evidence rating or community incident ballot.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "gallaudet-2024-navy-safety-email",
+      "personId": "tim-gallaudet",
+      "personName": "Tim Gallaudet",
+      "sourceFamilyId": "us-house-2024-published-hearing",
+      "reportedCaseLineage": "gofast-2015-video-versus-mail",
+      "claimCategory": "incident_or_observation",
+      "incidentScorePath": "documentary_source_review_pending",
+      "sourceAccessStatus": "official_hearing_transcript_retrieved",
+      "originalSourceUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+      "nextHumanSourceCheck": "Seek original dated mail headers, custodial copies, server retention and independent Navy records while distinguishing Go Fast footage provenance.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "shellenberger-2024-immaculate-constellation",
+      "personId": "michael-shellenberger",
+      "personName": "Michael Shellenberger",
+      "sourceFamilyId": "us-house-2024-published-hearing",
+      "reportedCaseLineage": "immaculate-constellation-2024-unknown-source",
+      "claimCategory": "reporting_or_source_claim",
+      "incidentScorePath": "documentary_source_review_pending",
+      "sourceAccessStatus": "official_hearing_transcript_retrieved",
+      "originalSourceUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+      "nextHumanSourceCheck": "Corroborate original documents, named authorized witnesses and origin of the programme label independently of repeated testimony.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "nolan-2022-council-bluffs-material-analysis",
+      "personId": "garry-nolan",
+      "personName": "Garry Nolan",
+      "sourceFamilyId": "council-bluffs-2022-one-coauthored-paper",
+      "reportedCaseLineage": "council-bluffs-1977-one-paper-100788",
+      "claimCategory": "technical_or_scientific_analysis",
+      "incidentScorePath": "method_specific_review_pending",
+      "sourceAccessStatus": "journal_original_page_indexed_direct_fetch_blocked",
+      "originalSourceUrl": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+      "nextHumanSourceCheck": "Independently review material custody, isotopic/elemental controls and complete instrument methods, with unrelated replicated laboratory sampling.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "kean-2023-grusch-source-corroboration-report",
+      "personId": "leslie-kean",
+      "personName": "Leslie Kean",
+      "sourceFamilyId": "original-leslie-kean",
+      "reportedCaseLineage": "grusch-coulthart-2023-recovery-reporting-not-independent",
+      "claimCategory": "reporting_or_source_claim",
+      "incidentScorePath": "documentary_source_review_pending",
+      "sourceAccessStatus": "publisher_original_article_retrieved",
+      "originalSourceUrl": "https://thedebrief.org/intelligence-officials-say-u-s-has-retrieved-non-human-craft/",
+      "nextHumanSourceCheck": "Separate journalist source corroboration from recovery-programme facts; confidential source validation and primary documentary/physical records require secure independent review.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    },
+    {
+      "claimId": "knuth-2019-nimitz-acceleration-estimates",
+      "personId": "kevin-knuth",
+      "personName": "Kevin Knuth",
+      "sourceFamilyId": "original-kevin-knuth",
+      "reportedCaseLineage": "nimitz-2004-day-secondhand-model",
+      "claimCategory": "technical_or_scientific_analysis",
+      "incidentScorePath": "method_specific_review_pending",
+      "sourceAccessStatus": "publisher_original_article_landing_retrieved",
+      "originalSourceUrl": "https://www.mdpi.com/1099-4300/21/10/939",
+      "nextHumanSourceCheck": "Check original radar timings, geometry, error distribution and alternative models before making a claim about physical acceleration.",
+      "researchScope": "published_original_or_access_limited_first_pass_only",
+      "rubricStatuses": {
+        "claim_scope": "first_pass_only",
+        "original_record": "not_signed_off",
+        "source_independence": "not_signed_off",
+        "competing_records": "not_signed_off",
+        "measurement_or_documentary_test": "not_signed_off",
+        "human_editorial_review": "not_signed_off",
+        "publication_safety": "not_signed_off"
+      },
+      "assignment": "unassigned",
+      "secondHumanEditorSignoff": "not_obtained",
+      "publicationApproval": false,
+      "editorialScoreEnabled": false,
+      "communityVoteEnabled": false,
+      "portraitPermission": false
+    }
+  ],
+  "publicationGates": {
+    "allClaimRatingsWithheld": true,
+    "allCommunityVotingWithheld": true,
+    "allPortraitRightsUnapproved": true,
+    "noAutomatedHumanSignoff": true,
+    "roleOnlyProfilesHaveNoIncidentPercentage": true
+  }
+}
