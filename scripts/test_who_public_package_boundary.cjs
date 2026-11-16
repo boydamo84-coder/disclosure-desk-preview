@@ -10,7 +10,7 @@ const man=JSON.parse(fs.readFileSync(path.join(out,'release-manifest.json'),'utf
 assert.match(man.type,/NOT DEPLOYED/);
 assert(Array.isArray(man.files)&&man.files.length>50,'Expected strict allowlisted public package');
 const approved=new Set(man.files.map(f=>f.path));
-assert(approved.has('who-is-who.html')&&approved.has('data/public-people-directory.json')&&approved.has('assets/people-directory.js'),'Required Who reader missing');
+assert(approved.has('who-is-who.html')&&approved.has('data/public-people-directory.json')&&approved.has('assets/people-directory.js')&&approved.has('data/public-who-editorial-readiness-m29.json'),'Required Who and M29 unsigned editorial ledger missing from allowlist');
 const forbidden=/^(?:\.github|docs|scripts|supabase|\.git|node_modules|tests?|private|internal)(?:\/|$)|(?:\.sql|\.env|\.pem|\.key|\.sqlite3?|\.bak|\.map)$/i;
 const internalNames=['who_rating_ephemeral_pg_bootstrap.sql','who_rating_signed_jwt_http_seed.sql','test_who_rating_postgrest_jwt_http.cjs','WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql'];
 let verified=0;
@@ -41,4 +41,18 @@ assert.equal(claims.length,23,'Keep 23 attributed individual claim/recommendatio
 assert(claims.every(c=>c.ratingReadiness?.publicationApproval==='withheld'),'Unapproved claim must not become public percentage');
 assert(claims.every(c=>c.sourceAccessCheck?.secondEditorSignoff==='not_obtained'),'No invented human signoffs');
 assert(data.people.every(p=>p.photoRightsAudit?.finalRightsApproval===false),'No synthetic portrait rights signoffs');
-console.log('Who M23 package: '+verified+' allowlisted public files verified by SHA-256; 0 internal SQL/tests/fixtures, 50 people, 23 unapproved claims, 0 photo rights approvals. NO DEPLOY.');
+const editorial=JSON.parse(fs.readFileSync(path.join(out,'data/public-who-editorial-readiness-m29.json'),'utf8'));
+assert.equal(editorial.version,1);
+assert.equal(editorial.milestone,'M29');
+assert.equal(editorial.state,'public_read_only_editorial_handoff_not_approved');
+assert.equal(editorial.rubric.status,'unweighted_editorial_readiness_checklist_not_a_scoring_formula');
+assert.equal(editorial.rubric.numericWeightsApproved,false);
+assert.equal(editorial.publications.length,17);
+assert.equal(editorial.relationships.length,7);
+assert.equal(editorial.claims.length,23);
+assert(editorial.claims.every(x=>x.publicationApproval===false&&x.editorialScoreEnabled===false&&
+ x.communityVoteEnabled===false&&x.portraitPermission===false&&
+ x.assignment==='unassigned'&&x.secondHumanEditorSignoff==='not_obtained'));
+assert(editorial.claims.every(x=>!('reviewerName' in x)&&!('reviewerEmail' in x)&&
+ !('voteCount' in x)&&!('score' in x)&&!('points' in x)));
+console.log('Who M29 package: '+verified+' allowlisted public files verified by SHA-256; 23 unsigned rubric entries, 17 source families, 7 cross-links, 0 ratings, 0 internal fixtures. NO DEPLOY.');
