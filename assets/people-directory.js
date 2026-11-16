@@ -524,7 +524,8 @@ function m28eFinalSevenSourceHtml(claim){
 }
 // M29 read-only editor handoff. This presentation cannot create, record or infer human approval.
 function m29EditorialHandoffHtml(claim){
- const r=claim&&m29Dockets.get(claim.id),rubric=m29Rubric;
+ const r=claim&&typeof m29Dockets!=='undefined'&&m29Dockets?.get?.(claim.id),
+  rubric=typeof m29Rubric==='undefined'?null:m29Rubric;
  if(!r||!rubric||r.claimId!==claim.id||
   r.originalSourceUrl!==claim?.sourceAudit?.original?.url||
   r.sourceLineageGroup!==claim?.sourceAudit?.relatedSourceGroup||
