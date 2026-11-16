@@ -58,7 +58,7 @@ assert.equal(nara.sameSourceAs1987Report,true);
 assert.equal(nara.independentCorroboration,false);
 assert.equal(nara.discrepancy.original1987Text,'Special Meeting July 16 1954');
 assert.equal(nara.discrepancy.modernWebText,'Special Meeting July 16 1956');
-assert(nara.discrepancy.status.includes('unresolved'));
+assert(nara.discrepancy.status.includes('reconciliation'));
 assert.equal(m34.mj12.scopeLimits.cutlerTwiningMemoExamined,true);
 assert.equal(m34.mj12.scopeLimits.hillenkoetter1947MemoExamined,false);
 assert.equal(m34.mj12.scopeLimits.som101ManualExamined,false);
