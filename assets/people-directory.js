@@ -565,6 +565,7 @@ function m29EditorialReadinessHtml(claim){
    !p.checklist||Object.keys(p.checklist).length!==checklistKeys.length||
    checklistKeys.some(k=>p.checklist[k]!==false)||
    typeof p.note!=='string'||p.note.length<175||
+   typeof people==='undefined'||!Array.isArray(people)||
    !Array.isArray(p.samePublicationContainerPeers)||p.samePublicationContainerPeers.length>8||
    !Array.isArray(p.sameClaimFamilyPeers)||p.sameClaimFamilyPeers.length>8||
    !Array.isArray(p.relatedClaimCautions)||p.relatedClaimCautions.length>8||
