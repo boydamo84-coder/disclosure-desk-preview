@@ -388,6 +388,68 @@ function m28cFirstPartyCheckHtml(claim){
   '<p class="muted small">Not a completed full-case review · Independent human editor: not obtained · Scores, community voting and new portrait approvals remain withheld.</p>'+
   '</details>';
 }
+// M28d: provenance and access-label gate for broadcasters and historical archives.
+// Metadata/secondary quotation is never silently promoted to a played original video.
+function m28dBroadcastLineageHtml(claim){
+ const r=claim?.sourceAudit?.m28dBroadcastLineageCheck;
+ const originals=Object.freeze({
+  original_broadcaster_video_not_played:'Original broadcaster video NOT played in this review',
+  historical_transcript_original_url_502_and_original_broadcast_not_played:'Original transcript URL unavailable; authenticated original TV tape NOT reviewed',
+  original_publisher_title_chapters_only_full_video_not_reviewed:'Original publisher metadata and chapters; complete video NOT reviewed'
+ });
+ const grades=Object.freeze({
+  independent_broadcaster_attribution_transcript:'Independent broadcaster quoting another original',
+  independent_editorial_comparison:'Independent publisher editorial analysis',
+  official_public_testimony_same_source_lineage:'Official testimony of underlying interviewee; overlapping account',
+  same_publisher_syndicated_original_clip_description:'Original newsroom clip redistributed by another website',
+  same_publisher_broadcast_schedule_not_full_programme:'Original newsroom advance notice, not full programme',
+  official_preclaim_general_context:'Earlier official agency review, NOT case-specific',
+  third_party_retyped_transcript_not_original_master:'Third-party retyped interview, original master unaudited',
+  original_interview_of_original_reporters_separate_biography_question:'Later original interview of broadcasters, separate biographical question',
+  same_1989_interview_repeated_not_independent:'Repeat of same retyped broadcast, not corroboration',
+  publisher_video_chapter_metadata_only:'Publisher video chapter titles/metadata, NOT a watched transcript',
+  publisher_alternative_interview_metadata_only:'Separate competing broadcaster interview, metadata only',
+  official_archive_briefing_page_visually_inspected:'Official archival briefing, specified original PDF page visually checked'
+ });
+ if(!r||r.status!=='source_chain_access_comparison_not_full_original_audio_video_review'||
+    r.checkedAt!=='2026-11-16'||r.fullOriginalBroadcastReviewed!==false||
+    r.underlyingIncidentVerified!==false||r.secondIndependentHumanEditor!=='not_obtained'||
+    r.permissionToPublishScoreOrVotes!==false||r.newPortraitRightsApproval!==false||
+    claim?.ratingReadiness?.publicationApproval!=='withheld'||
+    claim?.sourceAccessCheck?.fullOriginalReviewed!==false||
+    !r.primaryRecord||!safeUrl(r.primaryRecord.url)||
+    !Object.hasOwn(originals,r.primaryRecord.access)||
+    typeof r.primaryRecord.title!=='string'||r.primaryRecord.title.length<30||
+    typeof r.primaryRecord.observation!=='string'||r.primaryRecord.observation.length<95||
+    typeof r.scope!=='string'||r.scope.length<110||
+    typeof r.lineage!=='string'||r.lineage.length<115||
+    typeof r.missing!=='string'||r.missing.length<120||
+    !Array.isArray(r.checks)||r.checks.length!==3)return '';
+ const valid=e=>e&&safeUrl(e.url)&&Object.hasOwn(grades,e.access)&&
+  typeof e.locator==='string'&&e.locator.length>=45&&
+  typeof e.finding==='string'&&e.finding.length>=100&&
+  typeof e.limit==='string'&&e.limit.length>=110;
+ if(!r.checks.every(valid))return '';
+ const rows=r.checks.map(e=>'<li><strong>'+esc(grades[e.access])+'</strong>'+
+   '<p class="muted small">Where this source can be checked: '+esc(e.locator)+'</p>'+
+   '<p>'+esc(e.finding)+'</p>'+
+   '<p class="muted small"><strong>What it does NOT verify:</strong> '+esc(e.limit)+'</p>'+
+   '<a href="'+esc(safeUrl(e.url))+'" target="_blank" rel="noopener noreferrer">Inspect linked source ↗</a></li>').join('');
+ return '<details class="claim-m28d-check" data-m28d-accesscheck>'+
+  '<summary>Broadcast/source access and cross-check · 16 Nov 2026</summary>'+
+  '<p class="claim-draft-warning"><strong>Publication and source-chain research only — NOT an approved UAP finding, personal believability score, or completed video review.</strong> Third-party transcripts, news redistribution and chapter labels have different evidential limits.</p>'+
+  '<p><strong>What is assessed:</strong> '+esc(r.scope)+'</p>'+
+  '<p class="muted small"><strong>Original broadcaster source:</strong> '+esc(r.primaryRecord.title)+
+  ' · <a href="'+esc(safeUrl(r.primaryRecord.url))+
+  '" target="_blank" rel="noopener noreferrer">Open original listing ↗</a></p>'+
+  '<p><strong>Original-source access:</strong> '+esc(originals[r.primaryRecord.access])+'</p>'+
+  '<p class="muted small">'+esc(r.primaryRecord.observation)+'</p>'+
+  '<h5>Attribution and linked records (not independent proof)</h5><ul class="claim-evidence-list">'+rows+'</ul>'+
+  '<p><strong>Source overlap:</strong> '+esc(r.lineage)+'</p>'+
+  '<p><strong>Further independent checks required:</strong> '+esc(r.missing)+'</p>'+
+  '<p class="muted small">Underlying incident verification: incomplete · Independent human editor: not obtained · Numeric scores, community votes and new portrait approvals: withheld.</p>'+
+  '</details>';
+}
 function sourceAuditDraftHtml(claim){
  const d=claim?.sourceAudit;
  if(!d||d.status!=='original_record_comparison_draft'||d.reviewerSignoff!=='not_obtained'||
@@ -520,6 +582,7 @@ function draftEvidenceTrailHtml(claim){
   m28HearingCrosscheckHtml(claim)+
   m28bOriginalSourceCheckHtml(claim)+
   m28cFirstPartyCheckHtml(claim)+
+  m28dBroadcastLineageHtml(claim)+
   '<p class="muted small">No criterion-by-criterion points or community votes are available until a separate source-and-editorial approval.</p>';
 }
 function publishedClaimReview(claim){
