@@ -101,7 +101,7 @@ assert(Object.values(m35.reviewGate).every(Boolean));
 const text=memo.replace(/[*]/g,'').toLowerCase();
 for(const phrase of ['9 may 1988','22 july 1987','1954','1956','revision',
  'not obtained','not a second','webm','vp9','byte','not a numerical rating',
- 'no netlify deployment','no mp4 bytes','not a new archival investigation']) {
+ 'no netlify deployment','no mp4 bytes','not itself a new archival investigation']) {
  assert(text.includes(phrase.toLowerCase()),'Missing scope/provenance warning: '+phrase);
 }
 assert(!Object.hasOwn(m35,'humanEditorialScore'));
