@@ -263,7 +263,7 @@ function m28HearingCrosscheckHtml(claim){
   '<li><strong>'+esc(e.locator)+'</strong><p>'+esc(e.finding)+'</p>'+
   '<p class="muted small"><strong>Limit:</strong> '+esc(e.limit)+'</p>'+
   '<a href="'+esc(safeUrl(e.url))+'" target="_blank" rel="noopener noreferrer">Read contrasting original record ↗</a></li>').join('');
- return '<details class="claim-evidence-details" data-m28-crosscheck>'+
+ return '<details class="claim-m28-check" data-m28-crosscheck>'+
   '<summary>Additional original-source cross-check · 16 Nov 2026</summary>'+
   '<p class="claim-draft-warning"><strong>Source-passage check only.</strong> This verifies narrow attributed statements and notes competing evidence. No underlying event is independently verified; no separate editor, score or community ballot is approved.</p>'+
   '<p class="muted small">Original public congressional hearing: 13 November 2024 · '+
@@ -293,8 +293,7 @@ function sourceAuditDraftHtml(claim){
   '<p><strong>Independent evidence versus repeat reporting:</strong> '+esc(d.independentEvidence)+'</p>'+
   '<p><strong>What alternative or challenging material establishes:</strong> '+esc(d.competingRecord)+'</p>'+
   '<p><strong>What remains unavailable or unverified:</strong> '+esc(d.missingEvidence)+'</p>'+
-  m28HearingCrosscheckHtml(claim)+
- '</section>';
+  '</section>';
 }
 // Claim-by-claim editorial triage explains whether an EVENT evidence metric
 // would be meaningful. It does not authorize scoring or create any real votes.
@@ -399,6 +398,7 @@ function draftEvidenceTrailHtml(claim){
  ).join('');
  return '<p class="claim-draft-warning"><strong>Research notes — NOT a completed evidence review.</strong> The links below include original reporting and broader context. Listing a document does not establish that the underlying event occurred, or that conflicting interpretations have been fully checked.</p>'+
   sourceAuditDraftHtml(claim)+
+  m28HearingCrosscheckHtml(claim)+
   ratingReadinessHtml(claim)+
   sourceAccessCheckHtml(claim)+
   '<p class="muted small"><strong>Open questions:</strong> '+esc(draft.editorialNote)+'</p>'+
