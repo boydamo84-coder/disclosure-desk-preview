@@ -520,6 +520,108 @@ function m28eFinalSevenSourceHtml(claim){
   '<p class="muted small">Underlying claim verification: incomplete · Independent human editor: not obtained · Claim scores, community voting and new portrait permission: withheld.</p>'+
   '</details>';
 }
+// M29: transparent research handoff and source-lineage map — NOT a sign-off or score.
+// M29 can only render an entirely unapproved shape. Never infer independent votes.
+function m29EditorialReadinessHtml(claim){
+ const p=claim?.m29EditorialPreparation;
+ const expectedCriteria=['original','independent','direct','testable','alternatives'];
+ const checklistKeys=['primaryRecordFullyAuthenticated','witnessOrPublicationLineageAudited',
+  'independentCorroborationEstablished','contraryRecordsEvaluated','methodAndSourceUncertaintyReviewed',
+  'qualifiedIndependentHumanEditorSigned','editorialPublicationApprovalGranted',
+  'authenticatedCommunityVotingSecurityVerified'];
+ const scopes=Object.freeze({
+  incident_and_sensor_observations:'Incident and observed sensor evidence',
+  published_reporting_or_programme_claim:'Investigative reporting and attributed programme claims',
+  published_scientific_or_interpretive_method:'Published scientific or interpretive method',
+  public_policy_or_records_only:'Policy or public-record access — NOT a physical-incident score'
+ });
+ const reviews=['m28OfficialHearingCheck','m28bOriginalSourceCheck','m28cFirstPartyCheck',
+  'm28dBroadcastLineageCheck','m28eFinalSevenSourceCheck'];
+ const relationLabels=Object.freeze({
+  overlapping_original_reporting:'Overlapping original reporting',
+  same_broadcaster_interview_chain:'Same broadcaster/interview chain',
+  same_case_different_evidence_stream:'Same case, distinct evidence streams',
+  same_historical_case_distinct_sources:'Same historical case, different source perspectives',
+  one_shared_study:'ONE shared scientific study'
+ });
+ if(!p||p.status!=='research_compiled_human_editor_not_assigned'||p.preparedAt!=='2026-11-16'||
+   p.rubricVersion!=='dd-claim-evidence-v1-draft-human-review'||p.claimId!==claim?.id||
+   !Object.hasOwn(scopes,p.claimedScope)||!reviews.includes(p.researchReviewRef)||
+   !claim?.sourceAudit?.[p.researchReviewRef]||
+   !p.primarySource||!safeUrl(p.primarySource.url)||
+   p.primarySource.url!==claim?.sourceAudit?.original?.url||
+   p.primarySource.reviewStatus!==claim?.sourceAccessCheck?.status||
+   p.primarySource.publicationContainerNotEventProof!==true||
+   p.sourceFamilyId!==claim?.sourceAudit?.relatedSourceGroup||
+   p.countedIndependentConfirmations!==null||
+   p.publicationEvidenceItemCount!==claim?.researchEvidence?.items?.length||
+   p.publicationGate!=='withheld'||p.permissionToPublishNumericEvidenceRating!==false||
+   p.permissionToAcceptCommunityVotes!==false||p.permissionToPublishNewPortrait!==false||
+   !p.editorialSignoff||p.editorialSignoff.firstHumanEditor!=='not_signed'||
+   p.editorialSignoff.independentSecondHumanEditor!=='not_assigned'||
+   p.editorialSignoff.signedAt!==null||p.editorialSignoff.approvalRecordUrl!==null||
+   !p.criteriaReview||Object.keys(p.criteriaReview).length!==expectedCriteria.length||
+   expectedCriteria.some(k=>p.criteriaReview[k]!=='independent_editor_review_not_completed')||
+   !p.checklist||Object.keys(p.checklist).length!==checklistKeys.length||
+   checklistKeys.some(k=>p.checklist[k]!==false)||
+   typeof p.note!=='string'||p.note.length<175||
+   !Array.isArray(p.samePublicationContainerPeers)||p.samePublicationContainerPeers.length>8||
+   !Array.isArray(p.sameClaimFamilyPeers)||p.sameClaimFamilyPeers.length>8||
+   !Array.isArray(p.relatedClaimCautions)||p.relatedClaimCautions.length>8||
+   claim?.ratingReadiness?.publicationApproval!=='withheld'||
+   claim?.sourceAccessCheck?.secondEditorSignoff!=='not_obtained')return '';
+ const peerLinks=(ids,label)=>{
+  const unique=new Set();
+  const linked=ids.map(id=>{
+    if(typeof id!=='string'||!/^[a-z0-9-]{2,80}$/.test(id)||unique.has(id))return '';
+    unique.add(id);
+    const target=people.find(x=>x.id===id);
+    if(!target||!target.claimEvidence?.some(c=>c.id!==claim.id))return '';
+    return '<a href="/who-is-who.html?person='+encodeURIComponent(target.id)+'">'+esc(target.name)+' ↗</a>';
+  }).filter(Boolean);
+  return '<p class="muted small"><strong>'+label+':</strong> '+
+   (linked.length?linked.join(' · '):'None within the indexed 23 dossiers; independence is not established')+'</p>';
+ };
+ const edges=p.relatedClaimCautions.map(edge=>{
+  if(!edge||typeof edge.personId!=='string'||!/^[a-z0-9-]{2,80}$/.test(edge.personId)||
+   !Object.hasOwn(relationLabels,edge.type)||typeof edge.note!=='string'||edge.note.length<115)return '';
+  const person=people.find(x=>x.id===edge.personId);
+  if(!person||!person.claimEvidence?.length)return '';
+  return '<li><strong>'+esc(relationLabels[edge.type])+'</strong> · <a href="/who-is-who.html?person='+
+   encodeURIComponent(person.id)+'">'+esc(person.name)+' ↗</a>'+
+   '<p>'+esc(edge.note)+'</p></li>';
+ }).filter(Boolean);
+ if(edges.length!==p.relatedClaimCautions.length)return '';
+ const rubric=EVIDENCE_RUBRIC.map(row=>
+  '<li><strong>'+esc(row.label)+'</strong> · Not independently assessed'+
+  '<p class="muted small">This category remains unscored until its original records, independence and limitations are examined by separate editors.</p></li>').join('');
+ const steps=[
+  'Authenticate and read all appropriate original documents or source recordings',
+  'Trace same-publication, same-witness and coauthor overlap without double-counting',
+  'Assess genuinely independent supporting and conflicting source records',
+  'Review original measurements, context and uncertainty where relevant',
+  'Obtain a separate qualified human editor’s documented decision',
+  'Verify any later authenticated community-voting backend before enabling ballots'
+ ];
+ return '<details class="claim-m29-queue" data-m29-editorial-queue>'+
+  '<summary>Editorial evidence-readiness queue · all ratings withheld</summary>'+
+  '<p class="claim-draft-warning"><strong>Human review required — NOT scored, not signed and not eligible for community voting.</strong> Source references are publication evidence, not independent physical verification or a judgement of personal honesty.</p>'+
+  '<p><strong>Review scope:</strong> '+esc(scopes[p.claimedScope])+'</p>'+
+  '<p class="muted small">Original-publication source: <a href="'+esc(safeUrl(p.primarySource.url))+
+    '" rel="noopener noreferrer" target="_blank">Inspect cited original ↗</a></p>'+
+  '<p><strong>Source-access grade:</strong> '+esc(p.primarySource.reviewStatus.replaceAll('_',' '))+
+  ' · '+esc(p.publicationEvidenceItemCount)+' indexed bibliography entries, not a count of independent confirmations</p>'+
+  '<p class="muted small"><strong>Source family:</strong> '+esc(p.sourceFamilyId)+
+  ' · Confirmed independent-corroboration count: <strong>Not determined</strong></p>'+
+  peerLinks(p.samePublicationContainerPeers,'Shared publication container (may contain distinct witnesses)')+
+  peerLinks(p.sameClaimFamilyPeers,'Same indexed claim/case family')+
+  (edges.length?'<h5>Source relationships requiring deduplication</h5><ul class="claim-evidence-list">'+edges.join('')+'</ul>':'')+
+  '<h5>Five criterion checks awaiting human assessment</h5><ul class="claim-evidence-list">'+rubric+'</ul>'+
+  '<h5>Required approval steps — none completed</h5><ol>'+steps.map(s=>'<li>'+esc(s)+'</li>').join('')+'</ol>'+
+  '<p class="muted small">Research pack prepared '+esc(p.preparedAt)+
+  ' · First human editor: no signed approval · Independent second editor: not assigned · No public evidence percentage, no member ballot, no portrait approval.</p>'+
+  '</details>';
+}
 function sourceAuditDraftHtml(claim){
  const d=claim?.sourceAudit;
  if(!d||d.status!=='original_record_comparison_draft'||d.reviewerSignoff!=='not_obtained'||
@@ -654,6 +756,7 @@ function draftEvidenceTrailHtml(claim){
   m28cFirstPartyCheckHtml(claim)+
   m28dBroadcastLineageHtml(claim)+
   m28eFinalSevenSourceHtml(claim)+
+  m29EditorialReadinessHtml(claim)+
   '<p class="muted small">No criterion-by-criterion points or community votes are available until a separate source-and-editorial approval.</p>';
 }
 function publishedClaimReview(claim){
