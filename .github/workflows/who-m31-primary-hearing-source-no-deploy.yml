@@ -56,6 +56,9 @@ jobs:
         run: |
           node scripts/build_public_release.cjs
           node scripts/test_who_public_package_boundary.cjs
+          test ! -f .release-staging/public-site/data/who-m31-house-source-comparison.json
+          test ! -f .release-staging/public-site/docs/WHO_M31_PRIMARY_HEARING_COMPARISON_2026-11-16.md
+          echo 'M31 internal testimony audit remains outside public release allowlist'
           echo "No deploy, Netlify or Supabase credentials used"
 
   chromium-phone-tablet-desktop:
