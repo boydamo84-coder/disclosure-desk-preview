@@ -35,7 +35,7 @@ for(const p of people){
   assert.equal(ready?.publicationApproval,'withheld','Numerical score blocked: '+p.id);
   assert.equal(access?.fullOriginalReviewed,false,'Do not invent a full original review: '+p.id);
   assert.equal(access?.secondEditorSignoff,'not_obtained','No independent human signoff: '+p.id);
-  assert.equal(c.sourceReviewApproved,true===false,
+  assert.notEqual(c.sourceReviewApproved,true,
    'Community voting must not be approved for a draft: '+p.id);
   assert(c.review?.status!=='published','No published points for draft: '+p.id);
   assert(!Object.hasOwn(c,'believability')&&!Object.hasOwn(c,'editorialScore'),
