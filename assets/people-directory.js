@@ -398,11 +398,11 @@ function draftEvidenceTrailHtml(claim){
  ).join('');
  return '<p class="claim-draft-warning"><strong>Research notes — NOT a completed evidence review.</strong> The links below include original reporting and broader context. Listing a document does not establish that the underlying event occurred, or that conflicting interpretations have been fully checked.</p>'+
   sourceAuditDraftHtml(claim)+
-  m28HearingCrosscheckHtml(claim)+
   ratingReadinessHtml(claim)+
   sourceAccessCheckHtml(claim)+
   '<p class="muted small"><strong>Open questions:</strong> '+esc(draft.editorialNote)+'</p>'+
   '<h5>Public materials consulted (provisional)</h5><ul class="claim-evidence-list">'+items+'</ul>'+
+  m28HearingCrosscheckHtml(claim)+
   '<p class="muted small">No criterion-by-criterion points or community votes are available until a separate source-and-editorial approval.</p>';
 }
 function publishedClaimReview(claim){
