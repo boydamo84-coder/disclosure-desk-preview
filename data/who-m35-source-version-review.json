@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "edition": "m35-nara-1987-vs-1988-mj12-edition-discovery-and-flir-access",
+  "checkedDate": "2026-11-16",
+  "status": "source_document_version_hypothesis_supported_not_officially_authenticated_no_deploy",
+  "previousEdition": "m34-nimitz-2020-media-release-and-mj12-1987-archive",
+  "mj12": {
+    "centralClaimId": "shellenberger-2024-immaculate-constellation",
+    "historicalTopic": "NARA 1987/1988 reference-report point 9 on unrelated civil-defence meeting folder",
+    "records": [
+      {
+        "id": "nara-mj12-report-1987",
+        "sourceClass": "original_official_archival_reproduction",
+        "agency": "National Archives and Records Administration Military Reference Branch",
+        "date": "1987-07-22",
+        "title": "Reference Report on MJ-12",
+        "url": "https://reaganlibrary.archives.gov/public/2021-06/40-654-209237726-004-008-2021.pdf",
+        "hostIsFederal": true,
+        "statement9": "Special Meeting July 16, 1954",
+        "pdfSearchLines": "2670-2834; item 9 lines 2777-2781",
+        "pdfScreenAttempt": "redirect_to_inaccessible_www_domain",
+        "actualPageVisualChecked": false,
+        "binaryDownloaded": false,
+        "sha256": null,
+        "sourceFunction": "earlier_edition_reference_not_programme_authentication"
+      },
+      {
+        "id": "nara-mj12-report-1988-revised",
+        "sourceClass": "historical_scan_of_apparent_official_revised_reference_report_on_private_archival_host",
+        "agency": "Document presents National Archives Military Reference Branch",
+        "date": "1988-05-09",
+        "title": "Reference Report on MJ-12 (revised)",
+        "url": "https://files.bluebookfiles.org/pdfs/15124.pdf",
+        "hostIsFederal": false,
+        "documentProvenance": "Fax header dated 1996-12-09 NNR-A/JFK pp.004–005 in publicly accessible Carter-themed third-party PDF compilation",
+        "statement9": "Special Meeting July 16, 1956",
+        "pdfSearchLines": "1888-1928; item 9 lines 1911-1915",
+        "ownRevisionNotice": "Portions of the Reference Report of July 22, 1987 on this subject which have been revised are underlined.",
+        "pdfScreenAttempt": "source_40mb_screenshot_rejected_size",
+        "actualPageVisualChecked": false,
+        "binaryDownloaded": false,
+        "sha256": null,
+        "sourceFunction": "apparent_revised_edition_not_yet_directly_authenticated_by_nara"
+      },
+      {
+        "id": "nara-mj12-revised-mufon-copy",
+        "sourceClass": "secondary_archival_collection_of_same_1988_document",
+        "agency": "Attributed to National Archives within collected scan",
+        "date": "1988-05-09",
+        "title": "Reference Report on MJ-12 (revised) in correspondence collection",
+        "url": "https://projectaquarius.mufon.com/wp-content/uploads/pcg-bill-moore-files-collection/ARCHIVES-NATL.pdf",
+        "hostIsFederal": false,
+        "statement9": "Special Meeting July 16, 1956",
+        "pdfSearchLines": "May 9 1988 report in searchable contents, page range not confirmed",
+        "pdfScreenAttempt": "not_attempted_document_part_of_large_heterogeneous_collection",
+        "actualPageVisualChecked": false,
+        "binaryDownloaded": false,
+        "sha256": null,
+        "sourceFunction": "same_source_family_as_1988_revised_report_not_independent_research"
+      },
+      {
+        "id": "nara-mj12-web-summary",
+        "sourceClass": "current_official_website_republishing_archival_investigation",
+        "agency": "National Archives and Records Administration",
+        "date": "webpage_current_2026-11-16",
+        "title": "Project BLUE BOOK: Majestic 12 Reference Report",
+        "url": "https://www.archives.gov/research/military/air-force/ufos",
+        "hostIsFederal": true,
+        "statement9": "Special Meeting July 16, 1956",
+        "webLines": "63-87; item 9 line 79",
+        "pdfScreenAttempt": "not_pdf",
+        "actualPageVisualChecked": null,
+        "binaryDownloaded": null,
+        "sha256": null,
+        "sourceFunction": "summary_matches_1988_revision_not_independent_second_mj12_investigation"
+      }
+    ],
+    "comparison": {
+      "1987": "1954",
+      "1988": "1956",
+      "comparisonId": "1987_1954_vs_1988_1956_vs_current_1956",
+      "current": "1956",
+      "probableExplanation": "An explicitly titled May 9 1988 NARA revised reference report appears to change item 9 from 1954 to 1956; the present official NARA webpage follows the revision, rather than necessarily introducing a recent transcription error.",
+      "authoritativelyReconciled": false,
+      "publicNARA1988OriginalConfirmed": false,
+      "conclusionStatus": "revision_hypothesis_supported_but_original_1988_version_not_custody_authenticated",
+      "yearDiscrepancyAffectsSubstantiveClaimVerdict": false,
+      "independentCaseEvidenceCount": 0,
+      "sameResearchFamilyAcrossAllFour": true,
+      "nextStep": "Ask National Archives reference staff to confirm May 9 1988 revision, marked-up original point 9 and published website version history; do not assert precise change was only year until marked-up originals visually inspected."
+    }
+  },
+  "nimitz": {
+    "sourceClaimId": "fravor-2023-house-2004-encounter",
+    "originals": [
+      {
+        "id": "dod-2020-release",
+        "sourceRole": "original_government_authorized_public_release",
+        "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+        "status": "official_release_text_accessed",
+        "releaseDate": "2020-04-27",
+        "finding": "One video from November 2004 and two from January 2015 formally released; phenomena characterised as unidentified.",
+        "videoHash": null,
+        "physicalObjectVerified": false
+      },
+      {
+        "id": "navair-flir-direct",
+        "sourceRole": "official_published_encoded_public_copy_not_camera_original",
+        "url": "https://www.navair.navy.mil/foia/sites/g/files/jejdrs566/files/2020-04/1%20-%20FLIR.mp4",
+        "status": "website_video_url_web_reader_unsupported_content_type_and_binary_download_failed",
+        "byteRetrieved": false,
+        "videoHash": null,
+        "originalCameraMaster": false,
+        "rawRadar": false,
+        "fullTelemetry": false,
+        "objectIdentityDetermined": false
+      },
+      {
+        "id": "navair-document-list",
+        "sourceRole": "current_official_document_library_listing",
+        "url": "https://www.navair.navy.mil/foia/documents",
+        "status": "page_opened_and_searched_for_flir_no_match_in_page_text",
+        "observation": "Current dynamic NAVAIR FOIA document listing includes GOFAST and GIMBAL but no matching FLIR label in retrievable page text; absence from listing text is not proof of removal from site.",
+        "videoHash": null
+      },
+      {
+        "id": "wikimedia-flir1-webm",
+        "sourceRole": "user_uploaded_transcoded_public_derivative_not_original_mp4",
+        "url": "https://commons.wikimedia.org/wiki/File:FLIR1_Official_UAP_Footage_from_the_USG_for_Public_Release.webm",
+        "status": "page_accessible_file_binary_not_downloaded",
+        "dateOfListedReplacementUpload": "2020-04-27",
+        "format": "WebM VP9/Opus",
+        "nominalWidth": 352,
+        "nominalHeight": 264,
+        "durationSeconds": 76,
+        "listedSizeMB": 4.77,
+        "claimedSourceOriginalNAVAIR": true,
+        "originalMP4HashEquivalent": false,
+        "originalCameraMaster": false,
+        "sourceIndependenceCount": 0,
+        "rights": "Wikimedia community marks U.S. government public domain in United States; independent license check still needed before reuse"
+      }
+    ],
+    "lineageSafeguards": {
+      "publicFOIAMP4NotOriginal2004CameraMaster": true,
+      "webmTranscodeNotByteEquivalentMP4": true,
+      "userUploadNotSecondWitness": true,
+      "doDConfirmationNotObjectIdentification": true,
+      "unavailableMP4MustNotGetInventedHash": true,
+      "originalRadarAndCalibrationUninspected": true
+    }
+  },
+  "navyDeck": {
+    "id": "navy-nasa-brief-redacted",
+    "url": "https://www.secnav.navy.mil/foia/readingroom/CaseFiles/UAP%20INFO/UAP%20DOCUMENTS/NASA%20Brief%20Redacted.pdf",
+    "latestAttempt": "official_direct_web_open_request_rejected",
+    "originalBytesRetrieved": false,
+    "originalHash": null,
+    "houseSourceBinaryCompared": false,
+    "originalPageVisualAudit": false,
+    "noFalseIndependentHouseCopy": true
+  },
+  "reviewGate": {
+    "whoProfilesRemain50": true,
+    "claimDossiersRemain23Unsigned": true,
+    "roleProfilesRemain27": true,
+    "noNumericalEditorialScores": true,
+    "noMemberVoting": true,
+    "noPersonalBelievabilityMetrics": true,
+    "noHumanApprovalFabricated": true,
+    "noPortraitApprovals": true,
+    "noPublicAuditPackaging": true,
+    "noNetlifyBuild": true,
+    "noProductionChange": true,
+    "noSQLOrAccountMutation": true
+  }
+}
