@@ -100,7 +100,7 @@ for(const group of m29.sourceGraph.sharedResearchFamilies){
  const members=originalFamily.get(group.familyId);
  assert(members&&members.size>1,'No invented shared-study connections');
  assert.deepEqual(group.claimIds.slice().sort(),[...members].sort());
- assert.match(group.meaning,/not independent/i);
+ assert.match(group.meaning,/source independence before counting corroboration/i);
 }
 const over=[...originalItems.entries()].filter(([,set])=>set.size>1);
 assert.equal(over.length,14);
