@@ -3232,7 +3232,7 @@
               "checkedAt": "2026-11-16",
               "firstPartyUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
               "hearingDate": "2024-11-13",
-              "method": "direct_read_of_official_government_publishing_office_html_plus_selected_aaro_pdf_pages",
+              "method": "direct_official_GPO_HTML_selected_2024_hearing_passages_only",
               "classification": "public_programme_assertion_not_physical_authentication",
               "passageChecks": [
                 {
@@ -5803,7 +5803,7 @@
               "checkedAt": "2026-11-16",
               "firstPartyUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
               "hearingDate": "2024-11-13",
-              "method": "direct_read_of_official_government_publishing_office_html_plus_selected_aaro_pdf_pages",
+              "method": "direct_official_GPO_HTML_selected_2024_hearing_passages_only",
               "classification": "scientific_policy_recommendation_not_incident_claim",
               "passageChecks": [
                 {
@@ -8392,7 +8392,7 @@
               "checkedAt": "2026-11-16",
               "firstPartyUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
               "hearingDate": "2024-11-13",
-              "method": "direct_read_of_official_government_publishing_office_html_plus_selected_aaro_pdf_pages",
+              "method": "direct_official_GPO_HTML_testimony_plus_AARO_PDF_selected_pages_1_and_4",
               "classification": "first_person_email_recollection_with_separate_video_interpretation",
               "passageChecks": [
                 {
@@ -8616,7 +8616,7 @@
               "checkedAt": "2026-11-16",
               "firstPartyUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
               "hearingDate": "2024-11-13",
-              "method": "direct_read_of_official_government_publishing_office_html_plus_selected_aaro_pdf_pages",
+              "method": "direct_official_GPO_HTML_selected_2024_hearing_passages_only",
               "classification": "source_report_and_anonymous_document_not_official_programme_confirmation",
               "passageChecks": [
                 {
