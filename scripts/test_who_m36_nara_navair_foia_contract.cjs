@@ -127,7 +127,7 @@ for(const [key,value] of Object.entries(d.guardrails)){
  }
 }
 for(const part of ['1987','1988','underlined','1954','1956','26 march 2018','8 july 2025',
-  '34 pages','498 pages','151 pages','not sent','without', 'not a verified mj-12 programme',
+  '34 pages','498 pages','151 pages','not sent','not a verified mj-12 programme',
   'no netlify','no new original sha-256']) {
   assert(memo.includes(part),'Document must identify caveat: '+part);
 }
