@@ -37,7 +37,7 @@ assert.deepEqual(m33.navy.slideMatches.map(x=>x.originalDeckPage),[1,2,4,8,10]);
 assert(m33.navy.slideMatches.every(x=>x.originalDeckPage===x.houseEmbeddedDeckPage));
 assert(m33.navy.slideMatches.some(x=>x.key.includes('Tic Tac 14 Nov 2004')));
 assert(m33.navy.slideMatches.some(x=>x.key.includes('Unknown Weather or other Natural Phenomena')));
-assert(m33.navy.slideMatches.some(x=>x.finding.includes('limited technical-analysis data')));
+assert(m33.navy.slideMatches.some(x=>x.key.includes('limited technical-analysis data')));
 assert(m33.navy.limitations.length>=5);
 assert(m33.navy.limitations.join(' ').includes('SHA-256'));
 assert(m33.navy.limitations.join(' ').includes('not extra independent corroboration'));
