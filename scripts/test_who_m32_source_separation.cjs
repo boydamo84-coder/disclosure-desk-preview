@@ -90,7 +90,7 @@ assert.equal(orig.reviewerHandoff.independentSecondHumanSignoff,'not_obtained');
 assert.equal(orig.reviewerHandoff.editorialPublicationPermission,false);
 assert.equal(orig.reviewerHandoff.communityVotingPermission,false);
 assert.equal(directory.people.find(x=>x.id===orig.personId).claimEvidence[0].ratingReadiness.publicationApproval,'withheld');
-const normalizedDoc=doc.replace(/\\*/g,'').toLowerCase();
+const normalizedDoc=doc.replace(/[*]/g,'').toLowerCase();
 for(const phrase of ['212-page','12-page','ODNI','Sue Gough',
  'not a verdict','not a public rating','source', 'not a 212-page continuous',
  'not authentication','no Supabase','not a whole-file visual audit']){
