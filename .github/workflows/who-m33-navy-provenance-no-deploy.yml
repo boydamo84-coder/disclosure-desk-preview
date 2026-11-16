@@ -1,0 +1,114 @@
+name: "Who M33 Navy source verification and historical source QA NO DEPLOY"
+on:
+  push:
+    branches:
+      - prep/who-m33-navy-source-originals-20261116
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check the four public reader files, original source and withheld ratings
+        run: |
+          node --check assets/people-directory.js
+          node --check scripts/test_who_claim_evidence_contract.cjs
+          node --check scripts/test_who_source_lineage.cjs
+          node --check scripts/test_who_m26_hearing_spotchecks.cjs
+          node --check scripts/test_who_m27_readonly_launch_gate.cjs
+          node --check scripts/test_who_m28_hearing_crosschecks.cjs
+          node --check scripts/test_who_m28b_original_sources.cjs
+          node --check scripts/test_who_m28c_firstparty_lineage.cjs
+          node --check scripts/test_who_m28d_broadcast_provenance.cjs
+          node --check scripts/test_who_m28e_final_seven_sources.cjs
+          node --check scripts/test_who_m29_editorial_handoff.cjs
+          node --check scripts/test_who_m30_editorial_adversarial.cjs
+          node --check scripts/test_who_m31_house_source_comparison.cjs
+          node --check scripts/test_who_m32_source_separation.cjs
+          node --check scripts/test_who_m33_navy_historical_provenance.cjs
+          node --check assets/people-directory.js
+          node scripts/test_who_claim_evidence_contract.cjs
+          node scripts/test_who_source_lineage.cjs
+          node scripts/test_who_m26_hearing_spotchecks.cjs
+          node scripts/test_who_m27_readonly_launch_gate.cjs
+          node scripts/test_who_m28_hearing_crosschecks.cjs
+          node scripts/test_who_m28b_original_sources.cjs
+          node scripts/test_who_m28c_firstparty_lineage.cjs
+          node scripts/test_who_m28d_broadcast_provenance.cjs
+          node scripts/test_who_m28e_final_seven_sources.cjs
+          node scripts/test_who_m29_editorial_handoff.cjs
+          node scripts/test_who_m30_editorial_adversarial.cjs
+          node scripts/test_who_m31_house_source_comparison.cjs
+          node scripts/test_who_m32_source_separation.cjs
+          node scripts/test_who_m33_navy_historical_provenance.cjs
+      - name: Assert private rating SQL and synthetic accounts not copied to release candidate
+        run: |
+          test ! -f docs/WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql
+          test ! -f scripts/test_who_rating_gotrue_e2e.cjs
+          test ! -f scripts/who_rating_signed_jwt_http_seed.sql
+      - name: Build public allowlist locally and verify manifest SHA-256 hashes
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_who_public_package_boundary.cjs
+          test ! -f .release-staging/public-site/data/who-m31-house-source-comparison.json
+          test ! -f .release-staging/public-site/docs/WHO_M31_PRIMARY_HEARING_COMPARISON_2026-11-16.md
+          test ! -f .release-staging/public-site/data/who-m32-immaculate-source-lineage.json
+          test ! -f .release-staging/public-site/docs/WHO_M32_IMMACULATE_SOURCE_LINEAGE_2026-11-16.md
+          test ! -f .release-staging/public-site/data/who-m33-navy-historical-source-audit.json
+          test ! -f .release-staging/public-site/docs/WHO_M33_NAVY_ORIGINAL_AND_TIMELINE_AUDIT_2026-11-16.md
+          echo 'M31–M33 source audit material remains outside the public allowlist'
+          echo "No deploy, Netlify or Supabase credentials used"
+
+  chromium-phone-tablet-desktop:
+    needs: source-and-package
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install isolated browser test driver
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+          node --check scripts/test_who_claim_evidence_chromium.cjs
+          node --check scripts/test_who_m28_hearing_crosschecks_chromium.cjs
+          node --check scripts/test_who_m28b_original_sources_chromium.cjs
+          node --check scripts/test_who_m28c_firstparty_lineage_chromium.cjs
+          node --check scripts/test_who_m28d_broadcast_provenance_chromium.cjs
+          node --check scripts/test_who_m28e_final_seven_sources_chromium.cjs
+          node --check scripts/test_who_m29_editorial_handoff_chromium.cjs
+      - name: Run real Chrome against local Who reader with M33 non-publishing Navy and historical source safeguards
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/who-m29-readonly-http.log 2>&1 &
+          echo $! > /tmp/who-m29-readonly-http.pid
+          for i in $(seq 1 20); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/who-is-who.html >/dev/null && break
+            sleep 1
+          done
+          node scripts/test_who_claim_evidence_chromium.cjs
+          node scripts/test_who_m28_hearing_crosschecks_chromium.cjs
+          node scripts/test_who_m28b_original_sources_chromium.cjs
+          node scripts/test_who_m28c_firstparty_lineage_chromium.cjs
+          node scripts/test_who_m28d_broadcast_provenance_chromium.cjs
+          node scripts/test_who_m28e_final_seven_sources_chromium.cjs
+          node scripts/test_who_m29_editorial_handoff_chromium.cjs
+      - name: Stop local-only web server
+        if: always()
+        run: |
+          if test -f /tmp/who-m29-readonly-http.pid; then
+            kill "$(cat /tmp/who-m29-readonly-http.pid)" 2>/dev/null || true
+          fi
