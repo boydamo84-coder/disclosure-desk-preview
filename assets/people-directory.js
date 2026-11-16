@@ -603,7 +603,8 @@ function parseM29Readiness(payload,directory){
  return payload; // Validated public non-permission record, never used by publishedClaimReview().
 }
 function m29EditorialReadinessHtml(person,claim){
- const ledger=editorialM29;
+ // Older isolated rendering tests do not initialise optional public ledger state.
+ const ledger=typeof editorialM29==='undefined'?null:editorialM29;
  if(!ledger||!person||!claim)return '';
  const row=ledger.claims.find(r=>r.personId===person.id&&r.claimId===claim.id);
  if(!row||row.publicationApproval!==false||row.editorialScoreEnabled!==false||
