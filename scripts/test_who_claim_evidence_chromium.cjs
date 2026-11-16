@@ -154,7 +154,7 @@ const profiles=[
       'Records-access and policy claims must have no incident ballot; other pending claims must disable voting');
      assert.match(await host.innerText(),new RegExp(test.text,'i'),'Exact claim is present in profile');
      const detail=host.locator('.claim-review .claim-evidence-details');
-     await detail.locator('summary').click();
+     await detail.locator(':scope > summary').click();
      if(test.audit){
       const audit=detail.locator('.claim-audit-draft');
       assert.equal(await audit.count(),1,'Original government record comparison is visible for '+test.name);
@@ -235,7 +235,7 @@ const profiles=[
     }else if(test.kind==='policy'){
      assert.match(await host.innerText(),/Not applicable/,'Policy proposals never receive UAP-event scores');
      const detail=host.locator('.claim-review .claim-evidence-details');
-     await detail.locator('summary').click();
+     await detail.locator(':scope > summary').click();
      assert.equal(await detail.locator('.claim-audit-draft').count(),1,'Policy source comparison still visible without a numerical rating');
      assert.match(await detail.locator('.claim-audit-draft').innerText(),/Unsigned research check/);
      assert.equal(await detail.locator('.claim-readiness-draft').count(),1,'Policy recommendation still exposes its evidence-scoring reason');
