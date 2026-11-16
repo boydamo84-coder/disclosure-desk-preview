@@ -1,0 +1,2465 @@
+{
+  "schemaVersion": 1,
+  "edition": "2026-11-16-m29-provisional",
+  "status": "research_handoff_readonly_no_human_approval",
+  "policy": {
+    "noPersonBelievabilityRating": true,
+    "noClaimScorePublished": true,
+    "noMemberBallotsEnabled": true,
+    "noHumanSignoffCreatedByAutomation": true,
+    "caseFamiliesAreNotProofOfIndependence": true,
+    "reusedWebpagesAreNotSeparateWitnesses": true,
+    "governingMethodology": "dd-claim-evidence-v1-future-proposal-only",
+    "policyRoleNotScored": true
+  },
+  "proposedRubric": {
+    "status": "criteria_defined_no_scores_assigned",
+    "maxTotalPoints": 100,
+    "criteria": [
+      {
+        "id": "original",
+        "maxPoints": 25,
+        "title": "Original claim recorded accurately and in context",
+        "reviewEvidence": "Inspect the precise original spoken or written statement, speaker, date, provenance and missing surrounding context.",
+        "blocker": "Attribution alone verifies only what was said, never the extraordinary interpretation."
+      },
+      {
+        "id": "independent",
+        "maxPoints": 30,
+        "title": "Corroboration from demonstrably independent evidence",
+        "reviewEvidence": "Trace unique people, instruments, ownership, raw data and production lineage; do not count republished media, one interview or a shared experiment twice.",
+        "blocker": "Different URLs or coauthors do not by themselves constitute independent evidence."
+      },
+      {
+        "id": "direct",
+        "maxPoints": 25,
+        "title": "Accessible original records, measurements and custody",
+        "reviewEvidence": "Inspect full source originals, unedited files, calibration, timestamps, specimen identifiers and chain of custody as relevant.",
+        "blocker": "Selected pages, blocked publishers, chapter labels and indexed abstracts cannot be represented as full direct data audits."
+      },
+      {
+        "id": "testable",
+        "maxPoints": 10,
+        "title": "Specific claim scope, methodology and testability",
+        "reviewEvidence": "Define the precise physical/policy/journalistic assertion, predictions, uncertainty and expert replication where feasible.",
+        "blocker": "A mathematical model cannot validate unverified reported instrument inputs."
+      },
+      {
+        "id": "alternatives",
+        "maxPoints": 10,
+        "title": "Contradictions, alternatives and uncertainty",
+        "reviewEvidence": "Inspect the strongest relevant alternative records and explain where they apply and where their scope is limited.",
+        "blocker": "General reports do not automatically refute a later or unrelated allegation."
+      }
+    ]
+  },
+  "sourceGraph": {
+    "sharedResearchFamilies": [
+      {
+        "familyId": "grusch-coulthart-2023-recovery-reporting-not-independent",
+        "claimIds": [
+          "coulthart-2023-claimed-hidden-recoveries",
+          "kean-2023-grusch-source-corroboration-report"
+        ],
+        "meaning": "Shared incident, reporting network or one study; inspect specific source independence before counting corroboration."
+      },
+      {
+        "familyId": "rendlesham-1980-distinct-nights-halt-warren-claims",
+        "claimIds": [
+          "warren-rendlesham-1980-retrospective-account",
+          "pope-2013-rendlesham-conventional-explanations-account"
+        ],
+        "meaning": "Shared incident, reporting network or one study; inspect specific source independence before counting corroboration."
+      },
+      {
+        "familyId": "council-bluffs-1977-one-paper-100788",
+        "claimIds": [
+          "vallee-2022-council-bluffs-material-analysis",
+          "nolan-2022-council-bluffs-material-analysis"
+        ],
+        "meaning": "Shared incident, reporting network or one study; inspect specific source independence before counting corroboration."
+      }
+    ],
+    "repeatedPublicReferenceUrls": [
+      {
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+        "claimIds": [
+          "grusch-2023-house-claims-briefing",
+          "graves-2023-house-aviation-safety",
+          "fravor-2023-house-2004-encounter",
+          "coulthart-2023-claimed-hidden-recoveries",
+          "kean-2023-grusch-source-corroboration-report",
+          "knuth-2019-nimitz-acceleration-estimates"
+        ],
+        "meaning": "Identical public URL reused; not an additional independent source. Different firsthand speakers in a shared hearing must still be considered separately."
+      },
+      {
+        "url": "https://www.defense.gov/News/Releases/Release/Article/3700894/statement-by-pentagon-press-secretary-maj-gen-pat-ryder-on-the-historical-recor/",
+        "claimIds": [
+          "grusch-2023-house-claims-briefing",
+          "knapp-2025-house-retrieval-programme-assertion",
+          "mellon-2025-uap-records-overclassification-assertion",
+          "kean-2023-grusch-source-corroboration-report"
+        ],
+        "meaning": "Identical public URL reused; not an additional independent source. Different firsthand speakers in a shared hearing must still be considered separately."
+      },
+      {
+        "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/",
+        "claimIds": [
+          "grusch-2023-house-claims-briefing",
+          "graves-2023-house-aviation-safety"
+        ],
+        "meaning": "Identical public URL reused; not an additional independent source. Different firsthand speakers in a shared hearing must still be considered separately."
+      },
+      {
+        "url": "https://science.nasa.gov/uap/faqs/",
+        "claimIds": [
+          "graves-2023-house-aviation-safety",
+          "fravor-2023-house-2004-encounter",
+          "corbell-2021-omaha-advanced-performance-interpretation",
+          "greer-2001-disclosure-project-secret-recoveries",
+          "vallee-2022-council-bluffs-material-analysis",
+          "knuth-2019-nimitz-acceleration-estimates"
+        ],
+        "meaning": "Identical public URL reused; not an additional independent source. Different firsthand speakers in a shared hearing must still be considered separately."
+      },
+      {
+        "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+        "claimIds": [
+          "fravor-2023-house-2004-encounter",
+          "mellon-2025-uap-records-overclassification-assertion",
+          "gallaudet-2024-navy-safety-email"
+        ],
+        "meaning": "Identical public URL reused; not an additional independent source. Different firsthand speakers in a shared hearing must still be considered separately."
+      },
+      {
+        "url": "https://www.defense.gov/News/News-Stories/Article/Article/3701297/dod-report-discounts-sightings-of-extraterrestrial-technology/",
+        "claimIds": [
+          "coulthart-2023-claimed-hidden-recoveries",
+          "lazar-1989-s4-alleged-reverse-engineering",
+          "barber-2025-alleged-egg-shaped-retrieval",
+          "elizondo-2024-advanced-uap-claims",
+          "shellenberger-2024-immaculate-constellation"
+        ],
+        "meaning": "Identical public URL reused; not an additional independent source. Different firsthand speakers in a shared hearing must still be considered separately."
+      },
+      {
+        "url": "https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real",
+        "claimIds": [
+          "knapp-2025-house-retrieval-programme-assertion",
+          "lazar-1989-s4-alleged-reverse-engineering"
+        ],
+        "meaning": "Identical public URL reused; not an additional independent source. Different firsthand speakers in a shared hearing must still be considered separately."
+      },
+      {
+        "url": "https://raids.org/files/mys3/lazar8.htm",
+        "claimIds": [
+          "knapp-2025-house-retrieval-programme-assertion",
+          "lazar-1989-s4-alleged-reverse-engineering"
+        ],
+        "meaning": "Identical public URL reused; not an additional independent source. Different firsthand speakers in a shared hearing must still be considered separately."
+      },
+      {
+        "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/",
+        "claimIds": [
+          "warren-rendlesham-1980-retrospective-account",
+          "pope-2013-rendlesham-conventional-explanations-account"
+        ],
+        "meaning": "Identical public URL reused; not an additional independent source. Different firsthand speakers in a shared hearing must still be considered separately."
+      },
+      {
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+        "claimIds": [
+          "elizondo-2024-advanced-uap-claims",
+          "gold-2024-nasa-uap-research-proposals",
+          "gallaudet-2024-navy-safety-email",
+          "shellenberger-2024-immaculate-constellation"
+        ],
+        "meaning": "Identical public URL reused; not an additional independent source. Different firsthand speakers in a shared hearing must still be considered separately."
+      },
+      {
+        "url": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+        "claimIds": [
+          "vallee-2022-council-bluffs-material-analysis",
+          "nolan-2022-council-bluffs-material-analysis"
+        ],
+        "meaning": "Identical public URL reused; not an additional independent source. Different firsthand speakers in a shared hearing must still be considered separately."
+      },
+      {
+        "url": "https://doi.org/10.1016/j.paerosci.2021.100788",
+        "claimIds": [
+          "vallee-2022-council-bluffs-material-analysis",
+          "nolan-2022-council-bluffs-material-analysis"
+        ],
+        "meaning": "Identical public URL reused; not an additional independent source. Different firsthand speakers in a shared hearing must still be considered separately."
+      },
+      {
+        "url": "https://www.metabunk.org/threads/is-improved-instrumental-techniques-nolan-vallee-jiang-lemke-2022-a-useful-paper.13286/",
+        "claimIds": [
+          "vallee-2022-council-bluffs-material-analysis",
+          "nolan-2022-council-bluffs-material-analysis"
+        ],
+        "meaning": "Identical public URL reused; not an additional independent source. Different firsthand speakers in a shared hearing must still be considered separately."
+      },
+      {
+        "url": "https://science.nasa.gov/uap/",
+        "claimIds": [
+          "gold-2024-nasa-uap-research-proposals",
+          "nolan-2022-council-bluffs-material-analysis"
+        ],
+        "meaning": "Identical public URL reused; not an additional independent source. Different firsthand speakers in a shared hearing must still be considered separately."
+      }
+    ]
+  },
+  "dockets": [
+    {
+      "personId": "david-grusch",
+      "personName": "David Grusch",
+      "claimId": "grusch-2023-house-claims-briefing",
+      "claimText": "David Grusch told Congress in July 2023 that he had received accounts from others alleging concealed UAP crash-retrieval and reverse-engineering activity.",
+      "claimType": "institutional_programme_allegation",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+      "primarySourceAccessStatus": "official_hearing_transcript_retrieved",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "us-house-2023-retrieval",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "grusch-house-transcript",
+          "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+          "title": "2023 House sworn testimony by David Grusch",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 6,
+          "reusedAcrossClaims": [
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "coulthart-2023-claimed-hidden-recoveries",
+            "kean-2023-grusch-source-corroboration-report",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        },
+        {
+          "id": "grusch-aaro-review",
+          "url": "https://www.defense.gov/News/Releases/Release/Article/3700894/statement-by-pentagon-press-secretary-maj-gen-pat-ryder-on-the-historical-recor/",
+          "title": "Department of Defense summary of AARO historical review",
+          "type": "analysis",
+          "stance": "challenges",
+          "sourceOccurrences": 4,
+          "reusedAcrossClaims": [
+            "knapp-2025-house-retrieval-programme-assertion",
+            "mellon-2025-uap-records-overclassification-assertion",
+            "kean-2023-grusch-source-corroboration-report"
+          ]
+        },
+        {
+          "id": "grusch-house-witness-material",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/",
+          "title": "House Oversight official 26 July 2023 witness listing",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "graves-2023-house-aviation-safety"
+          ]
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "grusch-aaro-review"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "grusch-house-transcript",
+          "otherClaimIds": [
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "coulthart-2023-claimed-hidden-recoveries",
+            "kean-2023-grusch-source-corroboration-report",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        },
+        {
+          "id": "grusch-aaro-review",
+          "otherClaimIds": [
+            "knapp-2025-house-retrieval-programme-assertion",
+            "mellon-2025-uap-records-overclassification-assertion",
+            "kean-2023-grusch-source-corroboration-report"
+          ]
+        },
+        {
+          "id": "grusch-house-witness-material",
+          "otherClaimIds": [
+            "graves-2023-house-aviation-safety"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "ryan-graves",
+      "personName": "Ryan Graves",
+      "claimId": "graves-2023-house-aviation-safety",
+      "claimText": "Ryan Graves publicly testified in July 2023 about aviation safety concerns and reports of unidentified objects from aircrew.",
+      "claimType": "incident_or_observation",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+      "primarySourceAccessStatus": "official_hearing_transcript_retrieved",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "us-house-2023-flight-safety",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "graves-house-transcript",
+          "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+          "title": "2023 House sworn testimony by Ryan Graves",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 6,
+          "reusedAcrossClaims": [
+            "grusch-2023-house-claims-briefing",
+            "fravor-2023-house-2004-encounter",
+            "coulthart-2023-claimed-hidden-recoveries",
+            "kean-2023-grusch-source-corroboration-report",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        },
+        {
+          "id": "graves-faa-procedure",
+          "url": "https://www.faa.gov/air_traffic/publications/atpubs/foa_html/chap4_section_7.html",
+          "title": "FAA current UAP air-traffic reporting procedure",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "graves-nasa-data-limit",
+          "url": "https://science.nasa.gov/uap/faqs/",
+          "title": "NASA science UAP frequently asked questions",
+          "type": "analysis",
+          "stance": "context",
+          "sourceOccurrences": 6,
+          "reusedAcrossClaims": [
+            "fravor-2023-house-2004-encounter",
+            "corbell-2021-omaha-advanced-performance-interpretation",
+            "greer-2001-disclosure-project-secret-recoveries",
+            "vallee-2022-council-bluffs-material-analysis",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        },
+        {
+          "id": "graves-committee-record",
+          "url": "https://oversight.house.gov/hearing/unidentified-anomalous-phenomena-implications-on-national-security-public-safety-and-government-transparency/",
+          "title": "House Oversight 2023 witness records",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "grusch-2023-house-claims-briefing"
+          ]
+        }
+      ],
+      "contextualOrContraryReferenceIds": [],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "graves-house-transcript",
+          "otherClaimIds": [
+            "grusch-2023-house-claims-briefing",
+            "fravor-2023-house-2004-encounter",
+            "coulthart-2023-claimed-hidden-recoveries",
+            "kean-2023-grusch-source-corroboration-report",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        },
+        {
+          "id": "graves-nasa-data-limit",
+          "otherClaimIds": [
+            "fravor-2023-house-2004-encounter",
+            "corbell-2021-omaha-advanced-performance-interpretation",
+            "greer-2001-disclosure-project-secret-recoveries",
+            "vallee-2022-council-bluffs-material-analysis",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        },
+        {
+          "id": "graves-committee-record",
+          "otherClaimIds": [
+            "grusch-2023-house-claims-briefing"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "david-fravor",
+      "personName": "David Fravor",
+      "claimId": "fravor-2023-house-2004-encounter",
+      "claimText": "David Fravor told Congress in July 2023 about a firsthand 2004 military aviation encounter with an unidentified object.",
+      "claimType": "incident_or_observation",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+      "primarySourceAccessStatus": "official_hearing_transcript_retrieved",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "nimitz-2004-cbs-dietrich",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "fravor-house-transcript",
+          "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+          "title": "2023 House sworn testimony by David Fravor",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 6,
+          "reusedAcrossClaims": [
+            "grusch-2023-house-claims-briefing",
+            "graves-2023-house-aviation-safety",
+            "coulthart-2023-claimed-hidden-recoveries",
+            "kean-2023-grusch-source-corroboration-report",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        },
+        {
+          "id": "fravor-dietrich-interview",
+          "url": "https://www.cbsnews.com/news/ufo-military-intelligence-60-minutes-2021-08-29/",
+          "title": "CBS 60 Minutes interview with Alex Dietrich and Fravor",
+          "type": "reporting",
+          "stance": "supports",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "fravor-dod-video-release",
+          "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+          "title": "DoD official release of historic US Navy UAP videos",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 3,
+          "reusedAcrossClaims": [
+            "mellon-2025-uap-records-overclassification-assertion",
+            "gallaudet-2024-navy-safety-email"
+          ]
+        },
+        {
+          "id": "fravor-nasa-data-limit",
+          "url": "https://science.nasa.gov/uap/faqs/",
+          "title": "NASA science UAP frequently asked questions",
+          "type": "analysis",
+          "stance": "context",
+          "sourceOccurrences": 6,
+          "reusedAcrossClaims": [
+            "graves-2023-house-aviation-safety",
+            "corbell-2021-omaha-advanced-performance-interpretation",
+            "greer-2001-disclosure-project-secret-recoveries",
+            "vallee-2022-council-bluffs-material-analysis",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        }
+      ],
+      "contextualOrContraryReferenceIds": [],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "fravor-house-transcript",
+          "otherClaimIds": [
+            "grusch-2023-house-claims-briefing",
+            "graves-2023-house-aviation-safety",
+            "coulthart-2023-claimed-hidden-recoveries",
+            "kean-2023-grusch-source-corroboration-report",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        },
+        {
+          "id": "fravor-dod-video-release",
+          "otherClaimIds": [
+            "mellon-2025-uap-records-overclassification-assertion",
+            "gallaudet-2024-navy-safety-email"
+          ]
+        },
+        {
+          "id": "fravor-nasa-data-limit",
+          "otherClaimIds": [
+            "graves-2023-house-aviation-safety",
+            "corbell-2021-omaha-advanced-performance-interpretation",
+            "greer-2001-disclosure-project-secret-recoveries",
+            "vallee-2022-council-bluffs-material-analysis",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "ross-coulthart",
+      "personName": "Ross Coulthart",
+      "claimId": "coulthart-2023-claimed-hidden-recoveries",
+      "claimText": "In a 26 July 2023 7NEWS Australia video, Ross Coulthart presented the claim that the United States was concealing recovered non-human craft and bodies, while discussing accounts including David Grusch's.",
+      "claimType": "reporting_or_source_claim",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://www.youtube.com/watch?v=x_9gTDXF9Vc",
+      "primarySourceAccessStatus": "original_page_fetch_unavailable",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "grusch-coulthart-2023-recovery-reporting-not-independent",
+      "linkedClaimsSameResearchFamily": [
+        "kean-2023-grusch-source-corroboration-report"
+      ],
+      "bibliography": [
+        {
+          "id": "coulthart-7news-2023",
+          "url": "https://www.youtube.com/watch?v=x_9gTDXF9Vc",
+          "title": "7NEWS Australia: Coulthart discusses his Grusch reporting",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "coulthart-abc-mediawatch-2023",
+          "url": "https://www.abc.net.au/mediawatch/episodes/ufos/102785078",
+          "title": "ABC Australia Media Watch examines the Grusch interview's evidence",
+          "type": "reporting",
+          "stance": "challenges",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "coulthart-grusch-house-2023",
+          "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+          "title": "GovInfo official July 2023 House hearing transcript",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 6,
+          "reusedAcrossClaims": [
+            "grusch-2023-house-claims-briefing",
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "kean-2023-grusch-source-corroboration-report",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        },
+        {
+          "id": "coulthart-aaro-historical-2024",
+          "url": "https://www.defense.gov/News/News-Stories/Article/Article/3701297/dod-report-discounts-sightings-of-extraterrestrial-technology/",
+          "title": "DoD summary of AARO's historical programme review",
+          "type": "analysis",
+          "stance": "alternative",
+          "sourceOccurrences": 5,
+          "reusedAcrossClaims": [
+            "lazar-1989-s4-alleged-reverse-engineering",
+            "barber-2025-alleged-egg-shaped-retrieval",
+            "elizondo-2024-advanced-uap-claims",
+            "shellenberger-2024-immaculate-constellation"
+          ]
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "coulthart-abc-mediawatch-2023",
+        "coulthart-aaro-historical-2024"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "coulthart-grusch-house-2023",
+          "otherClaimIds": [
+            "grusch-2023-house-claims-briefing",
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "kean-2023-grusch-source-corroboration-report",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        },
+        {
+          "id": "coulthart-aaro-historical-2024",
+          "otherClaimIds": [
+            "lazar-1989-s4-alleged-reverse-engineering",
+            "barber-2025-alleged-egg-shaped-retrieval",
+            "elizondo-2024-advanced-uap-claims",
+            "shellenberger-2024-immaculate-constellation"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "jeremy-corbell",
+      "personName": "Jeremy Corbell",
+      "claimId": "corbell-2021-omaha-advanced-performance-interpretation",
+      "claimText": "During a 31 May 2021 CNN interview, Jeremy Corbell said radar/video material released as USS Omaha footage recorded unidentified objects demonstrating technology beyond known capabilities.",
+      "claimType": "retrospective_case_interpretation",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://transcripts.cnn.com/show/ebo/date/2021-05-31/segment/01",
+      "primarySourceAccessStatus": "publisher_original_interview_transcript_retrieved",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "omaha-2019-navy-clips-uncalibrated-public-release",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "corbell-cnn-2021-statement",
+          "url": "https://transcripts.cnn.com/show/ebo/date/2021-05-31/segment/01",
+          "title": "CNN Erin Burnett OutFront interview with Jeremy Corbell",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "corbell-debrief-pentagon-2021",
+          "url": "https://thedebrief.org/pentagon-confirms-leaked-video-showing-transmedium-ufo-is-authentic/",
+          "title": "The Debrief quotes Pentagon spokesperson on the released video",
+          "type": "reporting",
+          "stance": "supports",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "corbell-space-2021-limits",
+          "url": "https://www.space.com/ufo-flies-and-dives-navy-footage",
+          "title": "Space.com on limitations of USS Omaha spherical-video interpretation",
+          "type": "analysis",
+          "stance": "challenges",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "corbell-nasa-data-standard-2023",
+          "url": "https://science.nasa.gov/uap/faqs/",
+          "title": "NASA scientific standard for UAP video interpretation",
+          "type": "analysis",
+          "stance": "alternative",
+          "sourceOccurrences": 6,
+          "reusedAcrossClaims": [
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "greer-2001-disclosure-project-secret-recoveries",
+            "vallee-2022-council-bluffs-material-analysis",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "corbell-space-2021-limits",
+        "corbell-nasa-data-standard-2023"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "corbell-nasa-data-standard-2023",
+          "otherClaimIds": [
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "greer-2001-disclosure-project-secret-recoveries",
+            "vallee-2022-council-bluffs-material-analysis",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "george-knapp",
+      "personName": "George Knapp",
+      "claimId": "knapp-2025-house-retrieval-programme-assertion",
+      "claimText": "In September 2025 written testimony to a US House UAP task force, George Knapp asserted that crash-retrieval and reverse-engineering programmes were real, recounting historical sources and investigations.",
+      "claimType": "reporting_or_source_claim",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf",
+      "primarySourceAccessStatus": "official_written_testimony_pdf_selected_pages_inspected",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "knapp-lazar-1989-and-2025-retold-retrieval-sources",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "knapp-house-2025",
+          "url": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf",
+          "title": "George Knapp original testimony to the House task force",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "knapp-knpr-2018",
+          "url": "https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real",
+          "title": "KNPR interview with George Knapp and KLAS editor Robert Stoldal",
+          "type": "reporting",
+          "stance": "challenges",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "lazar-1989-s4-alleged-reverse-engineering"
+          ]
+        },
+        {
+          "id": "knapp-klas-1989",
+          "url": "https://raids.org/files/mys3/lazar8.htm",
+          "title": "ParaNet reproduction of Knapp's 9 December 1989 KLAS interview",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "lazar-1989-s4-alleged-reverse-engineering"
+          ]
+        },
+        {
+          "id": "knapp-aaro-2024",
+          "url": "https://www.defense.gov/News/Releases/Release/Article/3700894/statement-by-pentagon-press-secretary-maj-gen-pat-ryder-on-the-historical-recor/",
+          "title": "DoD statement summarising AARO's historical UAP review",
+          "type": "analysis",
+          "stance": "alternative",
+          "sourceOccurrences": 4,
+          "reusedAcrossClaims": [
+            "grusch-2023-house-claims-briefing",
+            "mellon-2025-uap-records-overclassification-assertion",
+            "kean-2023-grusch-source-corroboration-report"
+          ]
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "knapp-knpr-2018",
+        "knapp-aaro-2024"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "knapp-knpr-2018",
+          "otherClaimIds": [
+            "lazar-1989-s4-alleged-reverse-engineering"
+          ]
+        },
+        {
+          "id": "knapp-klas-1989",
+          "otherClaimIds": [
+            "lazar-1989-s4-alleged-reverse-engineering"
+          ]
+        },
+        {
+          "id": "knapp-aaro-2024",
+          "otherClaimIds": [
+            "grusch-2023-house-claims-briefing",
+            "mellon-2025-uap-records-overclassification-assertion",
+            "kean-2023-grusch-source-corroboration-report"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "mick-west",
+      "personName": "Mick West",
+      "claimId": "west-gimbal-2022-glare-interpretation",
+      "claimText": "In a 2022 analysis, Mick West proposed that the apparent rotation in the publicly released Navy Gimbal video could be caused by sensor glare and camera motion rather than an object visibly rotating.",
+      "claimType": "technical_or_scientific_analysis",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://www.metabunk.org/threads/gimbal-ufo-a-new-analysis.12333/",
+      "primarySourceAccessStatus": "original_technical_analysis_post_retrieved",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "gimbal-2015-single-video",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "west-2022-metabunk-method",
+          "url": "https://www.metabunk.org/threads/gimbal-ufo-a-new-analysis.12333/",
+          "title": "Mick West: Gimbal UFO — a new analysis",
+          "type": "primary",
+          "stance": "supports",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "west-dod-official-video",
+          "url": "https://www.defense.gov/News/Releases/release/article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+          "title": "DoD authenticates and publishes historical US Navy videos",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "west-gimbal-2026-technical-dispute",
+          "url": "https://www.metabunk.org/threads/the-gimbal-ufo-marik-claims-new-findings-falsify-prosaic-explanations.14839/",
+          "title": "Metabunk: Marik's alternative Gimbal image-rotation arguments",
+          "type": "analysis",
+          "stance": "challenges",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "west-gimbal-2026-technical-dispute"
+      ],
+      "sameUrlReferenceReuses": [],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "bob-lazar",
+      "personName": "Bob Lazar",
+      "claimId": "lazar-1989-s4-alleged-reverse-engineering",
+      "claimText": "In a December 1989 KLAS interview, Bob Lazar claimed that he had worked at a site he called S-4 near Groom Lake on propulsion associated with recovered craft.",
+      "claimType": "institutional_programme_allegation",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://raids.org/files/mys3/lazar8.htm",
+      "primarySourceAccessStatus": "original_page_fetch_unavailable",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "lazar-knapp-1989-s4-single-interview-chain",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "lazar-1989-paranet-transcript",
+          "url": "https://raids.org/files/mys3/lazar8.htm",
+          "title": "ParaNet-preserved transcript of 9 December 1989 KLAS On the Record",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "knapp-2025-house-retrieval-programme-assertion"
+          ]
+        },
+        {
+          "id": "lazar-1989-archive-index",
+          "url": "https://www.papooselake.org/interview-transcripts",
+          "title": "Chronological preservation index of early Bob Lazar broadcasts",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "lazar-2018-knpr-review",
+          "url": "https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real",
+          "title": "Nevada Public Radio: original KLAS reporter's later verification account",
+          "type": "analysis",
+          "stance": "challenges",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "knapp-2025-house-retrieval-programme-assertion"
+          ]
+        },
+        {
+          "id": "lazar-aaro-2024-scope",
+          "url": "https://www.defense.gov/News/News-Stories/Article/Article/3701297/dod-report-discounts-sightings-of-extraterrestrial-technology/",
+          "title": "Department of Defense summary of AARO 2024 historical review",
+          "type": "analysis",
+          "stance": "context",
+          "sourceOccurrences": 5,
+          "reusedAcrossClaims": [
+            "coulthart-2023-claimed-hidden-recoveries",
+            "barber-2025-alleged-egg-shaped-retrieval",
+            "elizondo-2024-advanced-uap-claims",
+            "shellenberger-2024-immaculate-constellation"
+          ]
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "lazar-2018-knpr-review"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "lazar-1989-paranet-transcript",
+          "otherClaimIds": [
+            "knapp-2025-house-retrieval-programme-assertion"
+          ]
+        },
+        {
+          "id": "lazar-2018-knpr-review",
+          "otherClaimIds": [
+            "knapp-2025-house-retrieval-programme-assertion"
+          ]
+        },
+        {
+          "id": "lazar-aaro-2024-scope",
+          "otherClaimIds": [
+            "coulthart-2023-claimed-hidden-recoveries",
+            "barber-2025-alleged-egg-shaped-retrieval",
+            "elizondo-2024-advanced-uap-claims",
+            "shellenberger-2024-immaculate-constellation"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "jake-barber",
+      "personName": "Jake Barber",
+      "claimId": "barber-2025-alleged-egg-shaped-retrieval",
+      "claimText": "In a January 2025 NewsNation interview, Jake Barber said he had participated in retrieval activity involving an egg-shaped object which he interpreted as extraordinary.",
+      "claimType": "incident_or_observation",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://www.youtube.com/watch?v=PGOpHdHSjTE",
+      "primarySourceAccessStatus": "original_page_fetch_unavailable",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "barber-2025-newsnation-one-egg-retrieval-package",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "barber-newsnation-2025-video",
+          "url": "https://www.youtube.com/watch?v=PGOpHdHSjTE",
+          "title": "NewsNation publisher interview: Barber's alleged retrieval account",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "barber-newsnation-yahoo",
+          "url": "https://www.yahoo.com/news/air-force-veteran-whistleblower-claims-232514734.html",
+          "title": "NewsNation reporting redistributed by Yahoo",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "barber-aaro-prior-review",
+          "url": "https://www.defense.gov/News/News-Stories/Article/Article/3701297/dod-report-discounts-sightings-of-extraterrestrial-technology/",
+          "title": "DoD report on scope of AARO's earlier historical programme review",
+          "type": "analysis",
+          "stance": "alternative",
+          "sourceOccurrences": 5,
+          "reusedAcrossClaims": [
+            "coulthart-2023-claimed-hidden-recoveries",
+            "lazar-1989-s4-alleged-reverse-engineering",
+            "elizondo-2024-advanced-uap-claims",
+            "shellenberger-2024-immaculate-constellation"
+          ]
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "barber-aaro-prior-review"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "barber-aaro-prior-review",
+          "otherClaimIds": [
+            "coulthart-2023-claimed-hidden-recoveries",
+            "lazar-1989-s4-alleged-reverse-engineering",
+            "elizondo-2024-advanced-uap-claims",
+            "shellenberger-2024-immaculate-constellation"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "steven-greer",
+      "personName": "Steven Greer",
+      "claimId": "greer-2001-disclosure-project-secret-recoveries",
+      "claimText": "At the 9 May 2001 Disclosure Project press conference, Steven Greer asserted that witness accounts established extraterrestrial presence and longstanding government concealment.",
+      "claimType": "reporting_or_source_claim",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://abcnews.go.com/Technology/story?id=98572&page=1",
+      "primarySourceAccessStatus": "contemporaneous_reporting_full_text_retrieved",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "disclosure-project-2001-one-press-event-many-unverified-accounts",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "greer-abc-2001",
+          "url": "https://abcnews.go.com/Technology/story?id=98572&page=1",
+          "title": "ABC News on Greer's Disclosure Project and alleged testimony",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "greer-wapo-2001",
+          "url": "https://www.washingtonpost.com/archive/lifestyle/2001/05/10/ufo-believers-sighted-here/f5b0fb0e-80f6-4d7e-8c25-e57d1aa69135/",
+          "title": "Washington Post contemporary National Press Club eyewitness coverage",
+          "type": "reporting",
+          "stance": "challenges",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "greer-project-archive",
+          "url": "https://www.disclosureprojectarchive.net/",
+          "title": "Disclosure Project archival collection of original conference material",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "greer-nasa-general-data",
+          "url": "https://science.nasa.gov/uap/faqs/",
+          "title": "NASA FAQs: scientific evidence and the need for better data",
+          "type": "analysis",
+          "stance": "alternative",
+          "sourceOccurrences": 6,
+          "reusedAcrossClaims": [
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "corbell-2021-omaha-advanced-performance-interpretation",
+            "vallee-2022-council-bluffs-material-analysis",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "greer-wapo-2001",
+        "greer-nasa-general-data"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "greer-nasa-general-data",
+          "otherClaimIds": [
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "corbell-2021-omaha-advanced-performance-interpretation",
+            "vallee-2022-council-bluffs-material-analysis",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "larry-warren",
+      "personName": "Larry Warren",
+      "claimId": "warren-rendlesham-1980-retrospective-account",
+      "claimText": "Larry Warren has publicly described participation in an extraordinary event at Rendlesham Forest in December 1980, including in a 2025 on-camera retelling.",
+      "claimType": "incident_or_observation",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://www.youtube.com/watch?v=21yW_XZR2LU",
+      "primarySourceAccessStatus": "publisher_video_metadata_verified",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "rendlesham-1980-distinct-nights-halt-warren-claims",
+      "linkedClaimsSameResearchFamily": [
+        "pope-2013-rendlesham-conventional-explanations-account"
+      ],
+      "bibliography": [
+        {
+          "id": "warren-2025-original-account",
+          "url": "https://www.youtube.com/watch?v=21yW_XZR2LU",
+          "title": "NewsNation interview: Warren and Longero revisit Rendlesham",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "warren-uk-archives-1980",
+          "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/",
+          "title": "UK National Archives: Rendlesham correspondence and Halt memo",
+          "type": "records",
+          "stance": "supports",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "pope-2013-rendlesham-conventional-explanations-account"
+          ]
+        },
+        {
+          "id": "warren-2025-halt-alternative",
+          "url": "https://www.youtube.com/watch?v=UfKwQgmHfII",
+          "title": "NewsNation interviews Charles Halt on differing Rendlesham memories",
+          "type": "primary",
+          "stance": "challenges",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "warren-1997-book-catalog",
+          "url": "https://obnb.uk/p12046414-left-at-east-gate-a-first-hand-account-of-the-bentwaters-woodbridge-ufo-incident-its-cover-up-and-investigation",
+          "title": "British National Bibliography entry: Left at East Gate",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "warren-2025-halt-alternative"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "warren-uk-archives-1980",
+          "otherClaimIds": [
+            "pope-2013-rendlesham-conventional-explanations-account"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "luis-elizondo",
+      "personName": "Luis Elizondo",
+      "claimId": "elizondo-2024-advanced-uap-claims",
+      "claimText": "Luis Elizondo alleged in November 2024 House testimony that US authorities possess advanced UAP technology and that certain UAP-related activities lacked adequate public or congressional oversight.",
+      "claimType": "institutional_programme_allegation",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+      "primarySourceAccessStatus": "official_hearing_transcript_retrieved",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "us-house-2024-programmes",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "elizondo-gpo-2024",
+          "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+          "title": "GovInfo: Elizondo oral testimony, 2024 House hearing",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 4,
+          "reusedAcrossClaims": [
+            "gold-2024-nasa-uap-research-proposals",
+            "gallaudet-2024-navy-safety-email",
+            "shellenberger-2024-immaculate-constellation"
+          ]
+        },
+        {
+          "id": "elizondo-written-2024",
+          "url": "https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Elizondo.pdf",
+          "title": "Luis Elizondo's written 2024 congressional statement",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "elizondo-aaro-history-2024",
+          "url": "https://www.defense.gov/News/News-Stories/Article/Article/3701297/dod-report-discounts-sightings-of-extraterrestrial-technology/",
+          "title": "Department of Defense: AARO historical-record report findings",
+          "type": "analysis",
+          "stance": "challenges",
+          "sourceOccurrences": 5,
+          "reusedAcrossClaims": [
+            "coulthart-2023-claimed-hidden-recoveries",
+            "lazar-1989-s4-alleged-reverse-engineering",
+            "barber-2025-alleged-egg-shaped-retrieval",
+            "shellenberger-2024-immaculate-constellation"
+          ]
+        },
+        {
+          "id": "elizondo-committee-witness-2024",
+          "url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventId=117722",
+          "title": "Official House repository for the 2024 UAP hearing",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "elizondo-aaro-history-2024"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "elizondo-gpo-2024",
+          "otherClaimIds": [
+            "gold-2024-nasa-uap-research-proposals",
+            "gallaudet-2024-navy-safety-email",
+            "shellenberger-2024-immaculate-constellation"
+          ]
+        },
+        {
+          "id": "elizondo-aaro-history-2024",
+          "otherClaimIds": [
+            "coulthart-2023-claimed-hidden-recoveries",
+            "lazar-1989-s4-alleged-reverse-engineering",
+            "barber-2025-alleged-egg-shaped-retrieval",
+            "shellenberger-2024-immaculate-constellation"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "christopher-mellon",
+      "personName": "Christopher Mellon",
+      "claimId": "mellon-2025-uap-records-overclassification-assertion",
+      "claimText": "In an October 2025 published commentary, Christopher Mellon asserted that UAP radar/video records had been routinely suppressed or excessively classified and argued that additional non-sensitive UAP data should be released.",
+      "claimType": "policy_or_records_access",
+      "suitability": "not_applicable_to_incident_evidence_score",
+      "originalSourceUrl": "https://christopherkmellon.substack.com/p/the-us-government-is-sitting-on-a",
+      "primarySourceAccessStatus": "original_author_opinion_text_retrieved",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "mellon-2025-records-classification-policy",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "mellon-original-oct2025",
+          "url": "https://christopherkmellon.substack.com/p/the-us-government-is-sitting-on-a",
+          "title": "Mellon: The U.S. government is sitting on a trove of UFO records",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "mellon-dod-release2020",
+          "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+          "title": "DoD public release of three historical Navy UAP videos",
+          "type": "records",
+          "stance": "supports",
+          "sourceOccurrences": 3,
+          "reusedAcrossClaims": [
+            "fravor-2023-house-2004-encounter",
+            "gallaudet-2024-navy-safety-email"
+          ]
+        },
+        {
+          "id": "mellon-national-archives-uap",
+          "url": "https://www.archives.gov/research/topics/uaps",
+          "title": "US National Archives official UAP collection and transfer programme",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "mellon-aaro-historical",
+          "url": "https://www.defense.gov/News/Releases/Release/Article/3700894/statement-by-pentagon-press-secretary-maj-gen-pat-ryder-on-the-historical-recor/",
+          "title": "DoD/AARO public UAP historical record-review response",
+          "type": "analysis",
+          "stance": "alternative",
+          "sourceOccurrences": 4,
+          "reusedAcrossClaims": [
+            "grusch-2023-house-claims-briefing",
+            "knapp-2025-house-retrieval-programme-assertion",
+            "kean-2023-grusch-source-corroboration-report"
+          ]
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "mellon-aaro-historical"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "mellon-dod-release2020",
+          "otherClaimIds": [
+            "fravor-2023-house-2004-encounter",
+            "gallaudet-2024-navy-safety-email"
+          ]
+        },
+        {
+          "id": "mellon-aaro-historical",
+          "otherClaimIds": [
+            "grusch-2023-house-claims-briefing",
+            "knapp-2025-house-retrieval-programme-assertion",
+            "kean-2023-grusch-source-corroboration-report"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "avi-loeb",
+      "personName": "Avi Loeb",
+      "claimId": "loeb-2024-im1-spherule-origin-interpretation",
+      "claimText": "Avi Loeb and colleagues published a 2024 geochemical classification of Pacific seafloor spherules recovered near the predicted IM1 trajectory, interpreting several compositions as cosmic or potentially unusual.",
+      "claimType": "technical_or_scientific_analysis",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://galileo.hsites.harvard.edu/sites/g/files/omnuum6371/files/chemical_classification_of_spherules_1-s2.0-s0009254124004959-main.pdf",
+      "primarySourceAccessStatus": "original_peer_reviewed_paper_pdf_selected_pages_inspected",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "im1-2023-single-expedition",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "loeb-2024-chemgeo-original",
+          "url": "https://www.sciencedirect.com/science/article/pii/S0009254124004959",
+          "title": "Loeb and colleagues: 2024 Chemical Geology spherule classification",
+          "type": "primary",
+          "stance": "supports",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "loeb-2025-peer-critique",
+          "url": "https://www.sciencedirect.com/science/article/pii/S000925412500018X",
+          "title": "2025 Chemical Geology re-evaluation of the proposed IM1 spherule origin",
+          "type": "analysis",
+          "stance": "challenges",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "loeb-galileo-2024-release",
+          "url": "https://galileo.hsites.harvard.edu/news/new-paper-chemical-classification-im1-spherules-published-chemical-geology",
+          "title": "Galileo Project announcement of the team's published IM1 findings",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "loeb-2025-team-morphology-reassessment",
+          "url": "https://www.sciencedirect.com/science/article/pii/S0009254125000178",
+          "title": "Hyung, Cherston, Jacobsen and Loeb: 2025 D-type particle morphology re-analysis",
+          "type": "analysis",
+          "stance": "alternative",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "loeb-2025-peer-critique",
+        "loeb-2025-team-morphology-reassessment"
+      ],
+      "sameUrlReferenceReuses": [],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "jacques-vallee",
+      "personName": "Jacques Vallée",
+      "claimId": "vallee-2022-council-bluffs-material-analysis",
+      "claimText": "Jacques Vallée coauthored a 2022 journal study reporting heterogeneous elemental composition but ordinary terrestrial isotopic ratios in tested Council Bluffs specimen CB_JV-1 subsamples.",
+      "claimType": "technical_or_scientific_analysis",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+      "primarySourceAccessStatus": "journal_original_page_indexed_direct_fetch_blocked",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "council-bluffs-1977-one-paper-100788",
+      "linkedClaimsSameResearchFamily": [
+        "nolan-2022-council-bluffs-material-analysis"
+      ],
+      "bibliography": [
+        {
+          "id": "vallee-2022-original-paper",
+          "url": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+          "title": "Vallée coauthor: original 2022 Council Bluffs materials analysis",
+          "type": "primary",
+          "stance": "supports",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "nolan-2022-council-bluffs-material-analysis"
+          ]
+        },
+        {
+          "id": "vallee-2022-doi-identity",
+          "url": "https://doi.org/10.1016/j.paerosci.2021.100788",
+          "title": "Persistent DOI for the Nolan–Vallée–Jiang–Lemke joint paper",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "nolan-2022-council-bluffs-material-analysis"
+          ]
+        },
+        {
+          "id": "vallee-2023-nasa-methodology",
+          "url": "https://science.nasa.gov/uap/faqs/",
+          "title": "NASA public statement on scientific evidence limitations",
+          "type": "analysis",
+          "stance": "alternative",
+          "sourceOccurrences": 6,
+          "reusedAcrossClaims": [
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "corbell-2021-omaha-advanced-performance-interpretation",
+            "greer-2001-disclosure-project-secret-recoveries",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        },
+        {
+          "id": "vallee-2023-public-method-critique",
+          "url": "https://www.metabunk.org/threads/is-improved-instrumental-techniques-nolan-vallee-jiang-lemke-2022-a-useful-paper.13286/",
+          "title": "Independent public technical discussion of the 2022 Nolan–Vallée specimen method",
+          "type": "analysis",
+          "stance": "challenges",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "nolan-2022-council-bluffs-material-analysis"
+          ]
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "vallee-2023-nasa-methodology",
+        "vallee-2023-public-method-critique"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "vallee-2022-original-paper",
+          "otherClaimIds": [
+            "nolan-2022-council-bluffs-material-analysis"
+          ]
+        },
+        {
+          "id": "vallee-2022-doi-identity",
+          "otherClaimIds": [
+            "nolan-2022-council-bluffs-material-analysis"
+          ]
+        },
+        {
+          "id": "vallee-2023-nasa-methodology",
+          "otherClaimIds": [
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "corbell-2021-omaha-advanced-performance-interpretation",
+            "greer-2001-disclosure-project-secret-recoveries",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        },
+        {
+          "id": "vallee-2023-public-method-critique",
+          "otherClaimIds": [
+            "nolan-2022-council-bluffs-material-analysis"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "james-fox",
+      "personName": "James Fox",
+      "claimId": "fox-2022-varginha-witness-and-military-retrieval-account",
+      "claimText": "James Fox's 2022 documentary Moment of Contact presents and revisits claims that witnesses saw an unusual creature and that Brazilian personnel handled an alleged being around Varginha in January 1996.",
+      "claimType": "reporting_or_source_claim",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://filmschoolradio.com/the-program-director-james-fox/",
+      "primarySourceAccessStatus": "original_film_director_interview_pages_retrieved",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "varginha-1996-witness-film-1997-stm-inquiry",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "fox-director-interview",
+          "url": "https://filmschoolradio.com/the-program-director-james-fox/",
+          "title": "James Fox original filmmaker interview: earlier Moment of Contact project",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "fox-stm-ipm-1997",
+          "url": "https://arquimedes.stm.jus.br/index.php/informationobject/browse?collection=4908&genres=439&languages=pt_BR&places=14570&sf_culture=pt_BR&showAdvanced=1&sort=startDate&sortDir=asc&subjects=16446&topLod=0&view=table",
+          "title": "Brazil Superior Tribunal Militar official archive: IPM 18/1997",
+          "type": "records",
+          "stance": "challenges",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "fox-stm-original-inquiry",
+          "url": "https://arquimedes.stm.jus.br/uploads/r/superior-tribunal-militar-in/c/b/5/cb5788ae000fe5405b8bf96a7e1ebe5eaa87adefb4d9633801dbec25f1de28a7/Autos_Findos_908_-_vol._2_OT.pdf",
+          "title": "STM archive scan: second volume of 1997 Varginha military-police inquiry",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "fox-2010-brazil-army",
+          "url": "https://ufotransparency.com/files/intl-br-resposta-ric-4470-2009-fab-resposta-ric-4470-2009",
+          "title": "Brazil Ministry of Defence archival response on original 1996/1997 investigations",
+          "type": "analysis",
+          "stance": "alternative",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "fox-stm-ipm-1997",
+        "fox-2010-brazil-army"
+      ],
+      "sameUrlReferenceReuses": [],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "nick-pope",
+      "personName": "Nick Pope",
+      "claimId": "pope-2013-rendlesham-conventional-explanations-account",
+      "claimText": "In a public Rendlesham case briefing presented in 2013, Nick Pope said that his retrospective review found no proposed conventional explanation satisfactory for the December 1980 military reports.",
+      "claimType": "retrospective_case_interpretation",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://nickpope.net/wpte19/rendlesham-forest/",
+      "primarySourceAccessStatus": "original_author_page_text_retrieved",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "rendlesham-1980-distinct-nights-halt-warren-claims",
+      "linkedClaimsSameResearchFamily": [
+        "warren-rendlesham-1980-retrospective-account"
+      ],
+      "bibliography": [
+        {
+          "id": "pope-own-briefing-2013",
+          "url": "https://nickpope.net/wpte19/rendlesham-forest/",
+          "title": "Nick Pope: original Rendlesham Forest case briefing",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "pope-tna-rendlesham",
+          "url": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/",
+          "title": "UK National Archives: Rendlesham 'Unexplained Lights' record",
+          "type": "records",
+          "stance": "supports",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "warren-rendlesham-1980-retrospective-account"
+          ]
+        },
+        {
+          "id": "pope-uk-mod-position",
+          "url": "https://www.nationalarchives.gov.uk/help-with-your-research/research-guides/ufos/",
+          "title": "The National Archives: original MoD policy record research guidance",
+          "type": "analysis",
+          "stance": "challenges",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "pope-ico-role-context",
+          "url": "https://ico.org.uk/media2/migrated/decision-notices/4019229/ic-80931-x2x9.pdf",
+          "title": "UK Information Commissioner decision on requests for Pope's MoD role records",
+          "type": "records",
+          "stance": "alternative",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "pope-uk-mod-position",
+        "pope-ico-role-context"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "pope-tna-rendlesham",
+          "otherClaimIds": [
+            "warren-rendlesham-1980-retrospective-account"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "mike-gold",
+      "personName": "Mike Gold",
+      "claimId": "gold-2024-nasa-uap-research-proposals",
+      "claimText": "Mike Gold recommended in November 2024 testimony that NASA encourage open scientific study, improve UAP data collection and consider dedicated analysis methods and instruments.",
+      "claimType": "policy_or_records_access",
+      "suitability": "not_applicable_to_incident_evidence_score",
+      "originalSourceUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+      "primarySourceAccessStatus": "official_hearing_transcript_retrieved",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "us-house-2024-scientific-policy",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "gold-gpo-2024",
+          "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+          "title": "GovInfo: Mike Gold oral testimony, 2024 House hearing",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 4,
+          "reusedAcrossClaims": [
+            "elizondo-2024-advanced-uap-claims",
+            "gallaudet-2024-navy-safety-email",
+            "shellenberger-2024-immaculate-constellation"
+          ]
+        },
+        {
+          "id": "gold-written-2024",
+          "url": "https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Gold.pdf",
+          "title": "Mike Gold original written testimony filed with Congress",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "gold-nasa-report-2023",
+          "url": "https://science.nasa.gov/uap/",
+          "title": "NASA UAP independent study and final report landing page",
+          "type": "analysis",
+          "stance": "context",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "nolan-2022-council-bluffs-material-analysis"
+          ]
+        },
+        {
+          "id": "gold-nasa-team-2022",
+          "url": "https://www.nasa.gov/general/nasa-announces-unidentified-aerial-phenomena-study-team-members/",
+          "title": "NASA official list of UAP independent study team members",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        }
+      ],
+      "contextualOrContraryReferenceIds": [],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "gold-gpo-2024",
+          "otherClaimIds": [
+            "elizondo-2024-advanced-uap-claims",
+            "gallaudet-2024-navy-safety-email",
+            "shellenberger-2024-immaculate-constellation"
+          ]
+        },
+        {
+          "id": "gold-nasa-report-2023",
+          "otherClaimIds": [
+            "nolan-2022-council-bluffs-material-analysis"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "tim-gallaudet",
+      "personName": "Tim Gallaudet",
+      "claimId": "gallaudet-2024-navy-safety-email",
+      "claimText": "Tim Gallaudet testified in November 2024 that he received a January 2015 Navy safety-of-flight email with the Go Fast video attached, and that the email later disappeared from his account.",
+      "claimType": "incident_or_observation",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+      "primarySourceAccessStatus": "official_hearing_transcript_retrieved",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "gofast-2015-video-versus-mail",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "gallaudet-gpo-2024",
+          "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+          "title": "GovInfo: Gallaudet oral testimony, 2024 House hearing",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 4,
+          "reusedAcrossClaims": [
+            "elizondo-2024-advanced-uap-claims",
+            "gold-2024-nasa-uap-research-proposals",
+            "shellenberger-2024-immaculate-constellation"
+          ]
+        },
+        {
+          "id": "gallaudet-written-2024",
+          "url": "https://www.congress.gov/118/meeting/house/117721/witnesses/HHRG-118-GO12-Wstate-GallaudetPhDRearAdmiralUSNavyRetT-20241113.pdf",
+          "title": "Gallaudet original written testimony filed with Congress",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "gallaudet-aaro-gofast-2025",
+          "url": "https://www.aaro.mil/Portals/136/PDFs/case_resolution_reports/AARO_GoFast_Case_Resolution_Card_Methodology_Final.pdf",
+          "title": "AARO technical case-resolution methodology: Go Fast",
+          "type": "analysis",
+          "stance": "challenges",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "gallaudet-dod-videos-2020",
+          "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+          "title": "US Department of Defense release of three historical Navy videos",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 3,
+          "reusedAcrossClaims": [
+            "fravor-2023-house-2004-encounter",
+            "mellon-2025-uap-records-overclassification-assertion"
+          ]
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "gallaudet-aaro-gofast-2025"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "gallaudet-gpo-2024",
+          "otherClaimIds": [
+            "elizondo-2024-advanced-uap-claims",
+            "gold-2024-nasa-uap-research-proposals",
+            "shellenberger-2024-immaculate-constellation"
+          ]
+        },
+        {
+          "id": "gallaudet-dod-videos-2020",
+          "otherClaimIds": [
+            "fravor-2023-house-2004-encounter",
+            "mellon-2025-uap-records-overclassification-assertion"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "michael-shellenberger",
+      "personName": "Michael Shellenberger",
+      "claimId": "shellenberger-2024-immaculate-constellation",
+      "claimText": "Michael Shellenberger told Congress in November 2024 that sources had provided an unverified report alleging a concealed US government UAP programme called Immaculate Constellation.",
+      "claimType": "reporting_or_source_claim",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+      "primarySourceAccessStatus": "official_hearing_transcript_retrieved",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "immaculate-constellation-2024-unknown-source",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "shellenberger-gpo-2024",
+          "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+          "title": "GovInfo: Shellenberger oral testimony, 2024 House hearing",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 4,
+          "reusedAcrossClaims": [
+            "elizondo-2024-advanced-uap-claims",
+            "gold-2024-nasa-uap-research-proposals",
+            "gallaudet-2024-navy-safety-email"
+          ]
+        },
+        {
+          "id": "shellenberger-written-2024",
+          "url": "https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Shellenberger.pdf",
+          "title": "Shellenberger original written testimony with embedded DoD response",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "shellenberger-house-report-2024",
+          "url": "https://docs.house.gov/meetings/GO/GO06/20241113/117722/HHRG-118-GO06-20241113-SD003.pdf",
+          "title": "US House repository: submitted Immaculate Constellation document",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "shellenberger-aaro-history-2024",
+          "url": "https://www.defense.gov/News/News-Stories/Article/Article/3701297/dod-report-discounts-sightings-of-extraterrestrial-technology/",
+          "title": "DoD AARO historical-record findings on concealed UAP projects",
+          "type": "analysis",
+          "stance": "challenges",
+          "sourceOccurrences": 5,
+          "reusedAcrossClaims": [
+            "coulthart-2023-claimed-hidden-recoveries",
+            "lazar-1989-s4-alleged-reverse-engineering",
+            "barber-2025-alleged-egg-shaped-retrieval",
+            "elizondo-2024-advanced-uap-claims"
+          ]
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "shellenberger-aaro-history-2024"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "shellenberger-gpo-2024",
+          "otherClaimIds": [
+            "elizondo-2024-advanced-uap-claims",
+            "gold-2024-nasa-uap-research-proposals",
+            "gallaudet-2024-navy-safety-email"
+          ]
+        },
+        {
+          "id": "shellenberger-aaro-history-2024",
+          "otherClaimIds": [
+            "coulthart-2023-claimed-hidden-recoveries",
+            "lazar-1989-s4-alleged-reverse-engineering",
+            "barber-2025-alleged-egg-shaped-retrieval",
+            "elizondo-2024-advanced-uap-claims"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "garry-nolan",
+      "personName": "Garry Nolan",
+      "claimId": "nolan-2022-council-bluffs-material-analysis",
+      "claimText": "In a jointly authored 2022 journal article, Garry Nolan and colleagues reported elemental variation but no significant deviations from terrestrial-normal isotopic ratios in examined subsamples of Council Bluffs sample CB_JV-1.",
+      "claimType": "technical_or_scientific_analysis",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+      "primarySourceAccessStatus": "journal_original_page_indexed_direct_fetch_blocked",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "council-bluffs-1977-one-paper-100788",
+      "linkedClaimsSameResearchFamily": [
+        "vallee-2022-council-bluffs-material-analysis"
+      ],
+      "bibliography": [
+        {
+          "id": "nolan-2022-original-paper",
+          "url": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+          "title": "Nolan, Vallée, Jiang and Lemke: 2022 aerospace materials paper",
+          "type": "primary",
+          "stance": "supports",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "vallee-2022-council-bluffs-material-analysis"
+          ]
+        },
+        {
+          "id": "nolan-2022-publisher-abstract",
+          "url": "https://doi.org/10.1016/j.paerosci.2021.100788",
+          "title": "Publisher DOI registry entry for original 2022 forensic analysis",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "vallee-2022-council-bluffs-material-analysis"
+          ]
+        },
+        {
+          "id": "nolan-2023-nasa-standards",
+          "url": "https://science.nasa.gov/uap/",
+          "title": "NASA 2023 independent UAP study methods and observation standards",
+          "type": "analysis",
+          "stance": "alternative",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "gold-2024-nasa-uap-research-proposals"
+          ]
+        },
+        {
+          "id": "nolan-2023-public-method-critique",
+          "url": "https://www.metabunk.org/threads/is-improved-instrumental-techniques-nolan-vallee-jiang-lemke-2022-a-useful-paper.13286/",
+          "title": "Independent public technical discussion of the 2022 Nolan–Vallée specimen method",
+          "type": "analysis",
+          "stance": "challenges",
+          "sourceOccurrences": 2,
+          "reusedAcrossClaims": [
+            "vallee-2022-council-bluffs-material-analysis"
+          ]
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "nolan-2023-nasa-standards",
+        "nolan-2023-public-method-critique"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "nolan-2022-original-paper",
+          "otherClaimIds": [
+            "vallee-2022-council-bluffs-material-analysis"
+          ]
+        },
+        {
+          "id": "nolan-2022-publisher-abstract",
+          "otherClaimIds": [
+            "vallee-2022-council-bluffs-material-analysis"
+          ]
+        },
+        {
+          "id": "nolan-2023-nasa-standards",
+          "otherClaimIds": [
+            "gold-2024-nasa-uap-research-proposals"
+          ]
+        },
+        {
+          "id": "nolan-2023-public-method-critique",
+          "otherClaimIds": [
+            "vallee-2022-council-bluffs-material-analysis"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "leslie-kean",
+      "personName": "Leslie Kean",
+      "claimId": "kean-2023-grusch-source-corroboration-report",
+      "claimText": "In June 2023 reporting coauthored with Ralph Blumenthal, Leslie Kean reported that other intelligence officials had supplied corroborating accounts of David Grusch's alleged non-human craft retrieval programmes.",
+      "claimType": "reporting_or_source_claim",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://thedebrief.org/intelligence-officials-say-u-s-has-retrieved-non-human-craft/",
+      "primarySourceAccessStatus": "publisher_original_article_retrieved",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "grusch-coulthart-2023-recovery-reporting-not-independent",
+      "linkedClaimsSameResearchFamily": [
+        "coulthart-2023-claimed-hidden-recoveries"
+      ],
+      "bibliography": [
+        {
+          "id": "kean-debrief-2023-original",
+          "url": "https://thedebrief.org/intelligence-officials-say-u-s-has-retrieved-non-human-craft/",
+          "title": "Leslie Kean and Ralph Blumenthal: original June 2023 reported claims",
+          "type": "primary",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "kean-gpo-2023-hearing",
+          "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+          "title": "GPO complete Grusch, Graves and Fravor House testimony",
+          "type": "records",
+          "stance": "supports",
+          "sourceOccurrences": 6,
+          "reusedAcrossClaims": [
+            "grusch-2023-house-claims-briefing",
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "coulthart-2023-claimed-hidden-recoveries",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        },
+        {
+          "id": "kean-aaro-2024-review",
+          "url": "https://www.defense.gov/News/Releases/Release/Article/3700894/statement-by-pentagon-press-secretary-maj-gen-pat-ryder-on-the-historical-recor/",
+          "title": "Department of Defense/AARO March 2024 historical recovery-programme findings",
+          "type": "analysis",
+          "stance": "challenges",
+          "sourceOccurrences": 4,
+          "reusedAcrossClaims": [
+            "grusch-2023-house-claims-briefing",
+            "knapp-2025-house-retrieval-programme-assertion",
+            "mellon-2025-uap-records-overclassification-assertion"
+          ]
+        },
+        {
+          "id": "kean-2017-times-authorship",
+          "url": "https://www.lesliekean.com/2017/12/16/new-york-times-glowing-auras-and-black-money-the-pentagons-mysterious-u-f-o-program-by-helene-cooper-ralph-blumenthal-and-leslie-kean/",
+          "title": "Leslie Kean author archive: 2017 Pentagon UAP reporting",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "kean-aaro-2024-review"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "kean-gpo-2023-hearing",
+          "otherClaimIds": [
+            "grusch-2023-house-claims-briefing",
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "coulthart-2023-claimed-hidden-recoveries",
+            "knuth-2019-nimitz-acceleration-estimates"
+          ]
+        },
+        {
+          "id": "kean-aaro-2024-review",
+          "otherClaimIds": [
+            "grusch-2023-house-claims-briefing",
+            "knapp-2025-house-retrieval-programme-assertion",
+            "mellon-2025-uap-records-overclassification-assertion"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    },
+    {
+      "personId": "kevin-knuth",
+      "personName": "Kevin Knuth",
+      "claimId": "knuth-2019-nimitz-acceleration-estimates",
+      "claimText": "Kevin Knuth and coauthors published 2019 estimates of extreme minimum accelerations for reported UAP manoeuvres, including Nimitz encounter accounts, conditional on reported distances and time intervals.",
+      "claimType": "technical_or_scientific_analysis",
+      "suitability": "requires_separate_method_review",
+      "originalSourceUrl": "https://www.mdpi.com/1099-4300/21/10/939",
+      "primarySourceAccessStatus": "publisher_original_article_landing_retrieved",
+      "fullOriginalInspected": false,
+      "firstPassCoverage": "m28_selected_original_or_explicitly_limited_source_review_complete",
+      "sourceLineageGroup": "nimitz-2004-day-secondhand-model",
+      "linkedClaimsSameResearchFamily": [],
+      "bibliography": [
+        {
+          "id": "knuth-2019-entropy-primary",
+          "url": "https://www.mdpi.com/1099-4300/21/10/939",
+          "title": "Knuth, Powell and Reali: Estimating Flight Characteristics",
+          "type": "primary",
+          "stance": "supports",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "knuth-unialbany-index",
+          "url": "https://scholarsarchive.library.albany.edu/physics_fac_scholar/58/",
+          "title": "University at Albany faculty archive of the original model",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 1,
+          "reusedAcrossClaims": []
+        },
+        {
+          "id": "knuth-fravor-2023-hearing",
+          "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+          "title": "Congressional public testimony regarding the 2004 Nimitz encounter",
+          "type": "records",
+          "stance": "context",
+          "sourceOccurrences": 6,
+          "reusedAcrossClaims": [
+            "grusch-2023-house-claims-briefing",
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "coulthart-2023-claimed-hidden-recoveries",
+            "kean-2023-grusch-source-corroboration-report"
+          ]
+        },
+        {
+          "id": "knuth-nasa-sensor-limits",
+          "url": "https://science.nasa.gov/uap/faqs/",
+          "title": "NASA UAP independent study: calibrated metadata and caution",
+          "type": "analysis",
+          "stance": "alternative",
+          "sourceOccurrences": 6,
+          "reusedAcrossClaims": [
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "corbell-2021-omaha-advanced-performance-interpretation",
+            "greer-2001-disclosure-project-secret-recoveries",
+            "vallee-2022-council-bluffs-material-analysis"
+          ]
+        }
+      ],
+      "contextualOrContraryReferenceIds": [
+        "knuth-nasa-sensor-limits"
+      ],
+      "sameUrlReferenceReuses": [
+        {
+          "id": "knuth-fravor-2023-hearing",
+          "otherClaimIds": [
+            "grusch-2023-house-claims-briefing",
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "coulthart-2023-claimed-hidden-recoveries",
+            "kean-2023-grusch-source-corroboration-report"
+          ]
+        },
+        {
+          "id": "knuth-nasa-sensor-limits",
+          "otherClaimIds": [
+            "graves-2023-house-aviation-safety",
+            "fravor-2023-house-2004-encounter",
+            "corbell-2021-omaha-advanced-performance-interpretation",
+            "greer-2001-disclosure-project-secret-recoveries",
+            "vallee-2022-council-bluffs-material-analysis"
+          ]
+        }
+      ],
+      "checklist": {
+        "originalRecordAndFullContext": "requires_separate_editorial_recheck",
+        "sourceIndependenceAndLineage": "requires_separate_editorial_recheck",
+        "rawRecordsOrCustody": "requires_separate_editorial_recheck",
+        "strongestRelevantContraryEvidence": "requires_separate_editorial_recheck",
+        "reproducibilityAndUncertainty": "requires_separate_editorial_recheck",
+        "rightsAndPrivacy": "requires_separate_editorial_recheck"
+      },
+      "reviewerHandoff": {
+        "status": "unassigned_requires_independent_human",
+        "leadEditor": null,
+        "independentSecondEditor": null,
+        "signedDecisionDate": null,
+        "humanConflictOfInterestAssessment": "not_completed",
+        "independentSecondHumanSignoff": "not_obtained",
+        "editorialPublicationPermission": false,
+        "communityVotingPermission": false,
+        "newPortraitRightsPermission": false
+      }
+    }
+  ]
+}
