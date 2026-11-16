@@ -1,0 +1,74 @@
+name: "Who Evidence M27 source-integrity release gate NO DEPLOY"
+on:
+  push:
+    branches:
+      - prep/who-evidence-readonly-m27-20261116
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check the four public reader files, original source and withheld ratings
+        run: |
+          node --check assets/people-directory.js
+          node --check scripts/test_who_claim_evidence_contract.cjs
+          node --check scripts/test_who_source_lineage.cjs
+          node --check scripts/test_who_m26_hearing_spotchecks.cjs
+          node --check scripts/test_who_m27_readonly_launch_gate.cjs
+          node scripts/test_who_claim_evidence_contract.cjs
+          node scripts/test_who_source_lineage.cjs
+          node scripts/test_who_m26_hearing_spotchecks.cjs
+          node scripts/test_who_m27_readonly_launch_gate.cjs
+      - name: Assert private rating SQL and synthetic accounts not copied to release candidate
+        run: |
+          test ! -f docs/WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql
+          test ! -f scripts/test_who_rating_gotrue_e2e.cjs
+          test ! -f scripts/who_rating_signed_jwt_http_seed.sql
+      - name: Build public allowlist locally and verify manifest SHA-256 hashes
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_who_public_package_boundary.cjs
+          echo "No deploy, Netlify or Supabase credentials used"
+
+  chromium-phone-tablet-desktop:
+    needs: source-and-package
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install isolated browser test driver
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+          node --check scripts/test_who_claim_evidence_chromium.cjs
+      - name: Run real Chrome against local Who reader
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/who-m27-readonly-http.log 2>&1 &
+          echo $! > /tmp/who-m27-readonly-http.pid
+          for i in $(seq 1 20); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/who-is-who.html >/dev/null && break
+            sleep 1
+          done
+          node scripts/test_who_claim_evidence_chromium.cjs
+      - name: Stop local-only web server
+        if: always()
+        run: |
+          if test -f /tmp/who-m27-readonly-http.pid; then
+            kill "$(cat /tmp/who-m27-readonly-http.pid)" 2>/dev/null || true
+          fi
