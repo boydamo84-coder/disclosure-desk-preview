@@ -3226,7 +3226,32 @@
             "competingRecord": "AARO's March 2024 report described a contrary institutional historical analysis of programmes examined, before the November hearing. It is an important competing record but is not a conclusive case-by-case analysis of every classified event alluded to by Elizondo.",
             "missingEvidence": "Detailed first-party declassified recovery documents, material evidence, dated chain of custody, independent technical analysis and a named second reviewer are pending; do not conflate his government employment with extraordinary programme authentication.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "us-house-2024-programmes"
+            "relatedSourceGroup": "us-house-2024-programmes",
+            "m28OfficialHearingCheck": {
+              "status": "primary_hearing_passages_spot_checked_not_whole_case_audit",
+              "checkedAt": "2026-11-16",
+              "firstPartyUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+              "hearingDate": "2024-11-13",
+              "method": "direct_read_of_official_government_publishing_office_html_plus_selected_aaro_pdf_pages",
+              "classification": "public_programme_assertion_not_physical_authentication",
+              "passageChecks": [
+                {
+                  "locator": "13 Nov 2024 GPO hearing, Statement of Luis Elizondo (HTML lines 814–841)",
+                  "finding": "Elizondo alleged that the United States possessed UAP technologies and asserted that programme oversight and public disclosure were inadequate.",
+                  "limit": "The official transcript independently records his testimony; it does not make any publicly inspectable recovered material or authorization file available."
+                },
+                {
+                  "locator": "13 Nov 2024 GPO hearing, same statement (HTML lines 836–858)",
+                  "finding": "Elizondo separately described his own claimed experiences of secrecy and retaliation, while referring to other classified reports and colleagues.",
+                  "limit": "Personal accounts of institutional treatment and statements about alleged nonhuman technology are different propositions requiring different corroboration."
+                }
+              ],
+              "contrastingRecords": [],
+              "secondIndependentHumanEditor": "not_obtained",
+              "fullUnderlyingClaimVerification": false,
+              "permissionToPublishScoreOrCommunityVote": false,
+              "permissionToPublishNewPortrait": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -5772,7 +5797,32 @@
             "competingRecord": "Alternative scientific approaches and implementation costs can be debated, but his role and advocacy are not an adjudicable anomalous-object encounter. No purported unknown-origin physical data should be inferred from this policy testimony.",
             "missingEvidence": "To evaluate feasibility, obtain specifications, data access conditions, validation studies, instrument budgets and proposed oversight; a personal/UAP-event percentage remains Not applicable regardless of how good the recommendation is.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "us-house-2024-scientific-policy"
+            "relatedSourceGroup": "us-house-2024-scientific-policy",
+            "m28OfficialHearingCheck": {
+              "status": "primary_hearing_passages_spot_checked_not_whole_case_audit",
+              "checkedAt": "2026-11-16",
+              "firstPartyUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+              "hearingDate": "2024-11-13",
+              "method": "direct_read_of_official_government_publishing_office_html_plus_selected_aaro_pdf_pages",
+              "classification": "scientific_policy_recommendation_not_incident_claim",
+              "passageChecks": [
+                {
+                  "locator": "13 Nov 2024 GPO hearing, Statement of Michael Gold (HTML lines 1058–1077)",
+                  "finding": "Gold expressly said he spoke on his own behalf, not for NASA or Redwire, and advocated scientific evidence gathering and reducing stigma.",
+                  "limit": "His prior NASA affiliation does not convert this 2024 personal testimony into an institutional NASA finding."
+                },
+                {
+                  "locator": "13 Nov 2024 GPO hearing, Gold's proposals (HTML lines 1087–1095 onward)",
+                  "finding": "Gold proposed public dialogue, archival/data searches and scientific methods for studying UAP.",
+                  "limit": "Policy and research recommendations are not evidence of an extraordinary observed event and must remain Not applicable to incident scoring."
+                }
+              ],
+              "contrastingRecords": [],
+              "secondIndependentHumanEditor": "not_obtained",
+              "fullUnderlyingClaimVerification": false,
+              "permissionToPublishScoreOrCommunityVote": false,
+              "permissionToPublishNewPortrait": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -8336,7 +8386,45 @@
             "competingRecord": "AARO's 6 February 2025 Go Fast technical report assessed approximately 13,000-foot object altitude and wind-adjusted approximate 5–92 mph speed with no anomalous speed. That challenges speed/origin interpretation, NOT the alleged email receipt, deletion or classification mechanism. AARO noted original source file/metadata were unavailable and lacked aircrew interviews.",
             "missingEvidence": "Original Fleet Forces message, exact time/recipient routing, system access and retention audit logs, named witness receipts, complete FLIR original file and independent Navy mailbox review remain necessary to verify the deletion proposition.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "gofast-2015-video-versus-mail"
+            "relatedSourceGroup": "gofast-2015-video-versus-mail",
+            "m28OfficialHearingCheck": {
+              "status": "primary_hearing_passages_spot_checked_not_whole_case_audit",
+              "checkedAt": "2026-11-16",
+              "firstPartyUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+              "hearingDate": "2024-11-13",
+              "method": "direct_read_of_official_government_publishing_office_html_plus_selected_aaro_pdf_pages",
+              "classification": "first_person_email_recollection_with_separate_video_interpretation",
+              "passageChecks": [
+                {
+                  "locator": "13 Nov 2024 GPO hearing, Statement of Tim Gallaudet, email recollection (HTML lines 695–735)",
+                  "finding": "Gallaudet testified from his own recollection that he received a January 2015 naval safety-of-flight email containing the Go Fast clip and later found it absent from recipients' inboxes.",
+                  "limit": "The hearing does not supply the source email, headers, server logs, deletion command, or an independent account audit."
+                },
+                {
+                  "locator": "13 Nov 2024 GPO hearing, Gallaudet's characterization of Go Fast (HTML lines 713–726)",
+                  "finding": "He characterized the clip as depicting unusual performance, which is an interpretation distinct from his direct account of receiving an email.",
+                  "limit": "Do not combine alleged mailbox disappearance, a Navy video, object motion and a claim about origin into one proven incident."
+                }
+              ],
+              "contrastingRecords": [
+                {
+                  "url": "https://www.aaro.mil/Portals/136/PDFs/case_resolution_reports/AARO_GoFast_Case_Resolution_Card_Methodology_Final.pdf",
+                  "locator": "AARO Go Fast Case Resolution, 6 Feb 2025, printed page 1 (overview and findings)",
+                  "finding": "AARO assessed with high confidence that Go Fast did not exhibit anomalous speed; wind-corrected speed 5–92 mph, estimated altitude about 13,000 feet, identity undetermined.",
+                  "limit": "This case-specific assessment challenges video-speed interpretation, not whether Gallaudet received or subsequently lost a Navy email."
+                },
+                {
+                  "url": "https://www.aaro.mil/Portals/136/PDFs/case_resolution_reports/AARO_GoFast_Case_Resolution_Card_Methodology_Final.pdf",
+                  "locator": "AARO Go Fast methodology, printed page 4 (Data Quality and Methodology; 20 Feb 2025 editor's note)",
+                  "finding": "AARO says the original video/metadata were unavailable; aircraft heading/location were unknown and the aircrew account could not be obtained for its analysis.",
+                  "limit": "Those data gaps limit precision and completeness; they are not evidence the 2015 email was remotely deleted."
+                }
+              ],
+              "secondIndependentHumanEditor": "not_obtained",
+              "fullUnderlyingClaimVerification": false,
+              "permissionToPublishScoreOrCommunityVote": false,
+              "permissionToPublishNewPortrait": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -8522,7 +8610,37 @@
             "competingRecord": "The DoD/AARO March 2024 historical-record report predates this publicly introduced programme name, so it cannot be described as a direct rebuttal of the later submitted Immaculate Constellation document. Any DoD no-record response in written testimony is a separate attributed counter-position requiring primary agency letter provenance.",
             "missingEvidence": "Official programme authorization/registry entry, identifiable independent source testimony, intact purported sensor data and the original agency response to the programme name remain unverified publicly. A second editor and source identity review are still required.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "immaculate-constellation-2024-unknown-source"
+            "relatedSourceGroup": "immaculate-constellation-2024-unknown-source",
+            "m28OfficialHearingCheck": {
+              "status": "primary_hearing_passages_spot_checked_not_whole_case_audit",
+              "checkedAt": "2026-11-16",
+              "firstPartyUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+              "hearingDate": "2024-11-13",
+              "method": "direct_read_of_official_government_publishing_office_html_plus_selected_aaro_pdf_pages",
+              "classification": "source_report_and_anonymous_document_not_official_programme_confirmation",
+              "passageChecks": [
+                {
+                  "locator": "13 Nov 2024 GPO hearing, Statement of Michael Shellenberger (HTML lines 939–959)",
+                  "finding": "Shellenberger reported allegations from a government-connected source and a document describing the alleged Immaculate Constellation programme.",
+                  "limit": "A document read into a congressional hearing proves presentation and attribution, not the authenticity of an alleged covert programme."
+                },
+                {
+                  "locator": "13 Nov 2024 GPO hearing, exchange with Rep. Grothman (HTML lines 1518–1544)",
+                  "finding": "Shellenberger stated he had checked his source's identity and said additional sources had confirmed the programme's name to him.",
+                  "limit": "Names, source materials and verification details were not disclosed for public cross-check; claimed multiple private sources are not publicly confirmed independent evidence."
+                },
+                {
+                  "locator": "13 Nov 2024 GPO hearing, exchange with Rep. Higgins (HTML lines 1696–1749)",
+                  "finding": "Shellenberger expressly said he was not the author of the anonymous submitted report and declined to disclose his informants.",
+                  "limit": "Do not describe the anonymous report as government-authored or verified merely because it was handed to the House; authorship and source independence remain unconfirmed."
+                }
+              ],
+              "contrastingRecords": [],
+              "secondIndependentHumanEditor": "not_obtained",
+              "fullUnderlyingClaimVerification": false,
+              "permissionToPublishScoreOrCommunityVote": false,
+              "permissionToPublishNewPortrait": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
