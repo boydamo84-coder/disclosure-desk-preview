@@ -323,6 +323,71 @@ function m28bOriginalSourceCheckHtml(claim){
   '<p class="muted small">Underlying-claim verification: incomplete · Second human editorial approval: not obtained · Scores, member voting and new image permissions: withheld.</p>'+
   '</details>';
 }
+// M28c: source-only first-hand/relayed/policy distinctions; no unapproved findings.
+function m28cFirstPartyCheckHtml(claim){
+ const r=claim?.sourceAudit?.m28cFirstPartyCheck;
+ if(!r||r.status!=='selected_original_statement_published_scope_check_not_full_incident_review'||
+  r.checkedAt!=='2026-11-16'||!safeUrl(r.originalUrl)||
+  !/^\d{4}-\d{2}-\d{2}$/.test(r.publicationDate||'')||
+  r.fullUnderlyingClaimVerification!==false||
+  r.independentSecondHumanEditor!=='not_obtained'||
+  r.scorePublicationPermission!==false||r.communityVotePermission!==false||
+  r.newImageRightsPermission!==false||
+  claim?.ratingReadiness?.publicationApproval!=='withheld'||
+  claim?.sourceAccessCheck?.secondEditorSignoff!=='not_obtained'||
+  typeof r.documentTitle!=='string'||r.documentTitle.length<20||
+  typeof r.method!=='string'||r.method.length<80||
+  typeof r.claimScope!=='string'||r.claimScope.length<90||
+  typeof r.sourceLineageNote!=='string'||r.sourceLineageNote.length<100||
+  typeof r.nextValidation!=='string'||r.nextValidation.length<95||
+  !Array.isArray(r.passageChecks)||r.passageChecks.length<2||r.passageChecks.length>5||
+  !Array.isArray(r.contextSources)||r.contextSources.length>4)return '';
+ const kinds={
+  secondhand_claim:'Information attributed to another source',
+  first_hand_context:'First-person operational context',
+  firsthand_context:'First-person operational context',
+  firsthand_visual_account:'First-person visual testimony',
+  firsthand_scope_limit:'Explicit firsthand-evidence limitation',
+  separate_source_chain:'Other crew or controller evidence',
+  attributed_opinion:'Signed personal perspective',
+  attributed_policy_argument:'Published legal/policy argument',
+  policy_recommendation:'Published recommendation'
+ };
+ const validPassage=e=>e&&Object.hasOwn(kinds,e.evidenceKind)&&
+  typeof e.locator==='string'&&e.locator.length>=35&&
+  typeof e.finding==='string'&&e.finding.length>=85&&
+  typeof e.limit==='string'&&e.limit.length>=90;
+ const validContext=e=>e&&safeUrl(e.url)&&e.accessLevel==='official_administrative_context_only'&&
+  typeof e.title==='string'&&e.title.length>=18&&
+  typeof e.locator==='string'&&e.locator.length>=40&&
+  typeof e.finding==='string'&&e.finding.length>=95&&
+  typeof e.limit==='string'&&e.limit.length>=90;
+ if(!r.passageChecks.every(validPassage)||!r.contextSources.every(validContext))return '';
+ const rows=r.passageChecks.map(e=>
+  '<li><strong>'+esc(kinds[e.evidenceKind])+'</strong>'+
+  '<p class="muted small">Find in original: '+esc(e.locator)+'</p>'+
+  '<p>'+esc(e.finding)+'</p>'+
+  '<p class="muted small"><strong>Limitation:</strong> '+esc(e.limit)+'</p></li>').join('');
+ const contexts=r.contextSources.map(e=>
+  '<li><strong>'+esc(e.title)+'</strong><p class="muted small">'+
+  esc(e.locator)+'</p><p>'+esc(e.finding)+'</p>'+
+  '<p class="muted small"><strong>Does not establish:</strong> '+esc(e.limit)+'</p>'+
+  '<a href="'+esc(safeUrl(e.url))+'" rel="noopener noreferrer" target="_blank">Inspect agency original ↗</a></li>').join('');
+ return '<details class="claim-m28c-check" data-m28c-sourcecheck>'+
+  '<summary>Firsthand vs reported sources · 16 Nov 2026</summary>'+
+  '<p class="claim-draft-warning"><strong>Selected original-publication passages only — not independently verified UAP events, personal credibility or approved percentages.</strong> These distinctions must be retained when assessing evidence.</p>'+
+  '<p><strong>Scope:</strong> '+esc(r.claimScope)+'</p>'+
+  '<p class="muted small"><strong>Original record:</strong> '+esc(r.documentTitle)+
+  ' · '+esc(r.publicationDate)+' · <a href="'+esc(safeUrl(r.originalUrl))+
+  '" rel="noopener noreferrer" target="_blank">Read first-party source ↗</a></p>'+
+  '<p class="muted small"><strong>What was actually inspected:</strong> '+esc(r.method)+'</p>'+
+  '<h5>Attribution, firsthand scope and missing evidence</h5><ul class="claim-evidence-list">'+rows+'</ul>'+
+  (contexts?'<h5>Independent institutional context, not physical corroboration</h5><ul class="claim-evidence-list">'+contexts+'</ul>':'')+
+  '<p><strong>Repeated-source caution:</strong> '+esc(r.sourceLineageNote)+'</p>'+
+  '<p><strong>Further verification required:</strong> '+esc(r.nextValidation)+'</p>'+
+  '<p class="muted small">Not a completed full-case review · Independent human editor: not obtained · Scores, community voting and new portrait approvals remain withheld.</p>'+
+  '</details>';
+}
 function sourceAuditDraftHtml(claim){
  const d=claim?.sourceAudit;
  if(!d||d.status!=='original_record_comparison_draft'||d.reviewerSignoff!=='not_obtained'||
@@ -454,6 +519,7 @@ function draftEvidenceTrailHtml(claim){
   '<h5>Public materials consulted (provisional)</h5><ul class="claim-evidence-list">'+items+'</ul>'+
   m28HearingCrosscheckHtml(claim)+
   m28bOriginalSourceCheckHtml(claim)+
+  m28cFirstPartyCheckHtml(claim)+
   '<p class="muted small">No criterion-by-criterion points or community votes are available until a separate source-and-editorial approval.</p>';
 }
 function publishedClaimReview(claim){
