@@ -241,6 +241,38 @@ function evidenceTrailHtml(claim,review,entries){
   ' · Edition '+esc(review.revision)+' · Method: '+esc(review.methodology)+'</p>'+
   '<p class="muted small">Records are classified by how they relate to this specific claim, not as proof of a particular explanation. Original publishers control access and copyright; a link may change or become unavailable later.</p>';
 }
+// M28: exact original-hearing passage checks, still unsigned and unscored.
+function m28HearingCrosscheckHtml(claim){
+ const check=claim?.sourceAudit?.m28OfficialHearingCheck;
+ if(!check||check.status!=='primary_hearing_passages_spot_checked_not_whole_case_audit'||
+   check.checkedAt!=='2026-11-16'||check.hearingDate!=='2024-11-13'||
+   check.secondIndependentHumanEditor!=='not_obtained'||
+   check.fullUnderlyingClaimVerification!==false||
+   check.permissionToPublishScoreOrCommunityVote!==false||
+   check.permissionToPublishNewPortrait!==false||!safeUrl(check.firstPartyUrl)||
+   !Array.isArray(check.passageChecks)||check.passageChecks.length<2||check.passageChecks.length>4||
+   !Array.isArray(check.contrastingRecords)||check.contrastingRecords.length>3)return '';
+ const validEntry=e=>e&&typeof e.locator==='string'&&e.locator.length>=25&&
+   typeof e.finding==='string'&&e.finding.length>=65&&
+   typeof e.limit==='string'&&e.limit.length>=60;
+ if(!check.passageChecks.every(validEntry)||!check.contrastingRecords.every(e=>validEntry(e)&&safeUrl(e.url)))return '';
+ const primary=check.passageChecks.map(e=>
+  '<li><strong>'+esc(e.locator)+'</strong><p>'+esc(e.finding)+'</p>'+
+  '<p class="muted small"><strong>Limit:</strong> '+esc(e.limit)+'</p></li>').join('');
+ const contrary=check.contrastingRecords.map(e=>
+  '<li><strong>'+esc(e.locator)+'</strong><p>'+esc(e.finding)+'</p>'+
+  '<p class="muted small"><strong>Limit:</strong> '+esc(e.limit)+'</p>'+
+  '<a href="'+esc(safeUrl(e.url))+'" target="_blank" rel="noopener noreferrer">Read contrasting original record ↗</a></li>').join('');
+ return '<details class="claim-evidence-details" data-m28-crosscheck>'+
+  '<summary>Additional original-source cross-check · 16 Nov 2026</summary>'+
+  '<p class="claim-draft-warning"><strong>Source-passage check only.</strong> This verifies narrow attributed statements and notes competing evidence. No underlying event is independently verified; no separate editor, score or community ballot is approved.</p>'+
+  '<p class="muted small">Original public congressional hearing: 13 November 2024 · '+
+  '<a href="'+esc(safeUrl(check.firstPartyUrl))+'" target="_blank" rel="noopener noreferrer">Open GPO transcript ↗</a></p>'+
+  '<h5>Passages checked and their limits</h5><ul class="claim-evidence-list">'+primary+'</ul>'+
+  (contrary?'<h5>Case-specific contrasting record</h5><ul class="claim-evidence-list">'+contrary+'</ul>':'')+
+  '<p class="muted small">Scope: original-publication comparisons, not original secret programmes or complete incident verification. Second independent human review pending.</p>'+
+  '</details>';
+}
 function sourceAuditDraftHtml(claim){
  const d=claim?.sourceAudit;
  if(!d||d.status!=='original_record_comparison_draft'||d.reviewerSignoff!=='not_obtained'||
@@ -261,6 +293,7 @@ function sourceAuditDraftHtml(claim){
   '<p><strong>Independent evidence versus repeat reporting:</strong> '+esc(d.independentEvidence)+'</p>'+
   '<p><strong>What alternative or challenging material establishes:</strong> '+esc(d.competingRecord)+'</p>'+
   '<p><strong>What remains unavailable or unverified:</strong> '+esc(d.missingEvidence)+'</p>'+
+  m28HearingCrosscheckHtml(claim)+
  '</section>';
 }
 // Claim-by-claim editorial triage explains whether an EVENT evidence metric
