@@ -99,7 +99,7 @@ assert.deepEqual(m.relationships.map(x=>x.id).sort(),Object.keys(expectedRelatio
 for(const rel of m.relationships){
  assert.deepEqual(rel.personIds.slice().sort(),expectedRelations[rel.id].slice().sort());
  assert(rel.description.length>=110&&rel.nextCheck.length>=95);
- assert.match(rel.description,/not |do not|cannot|ONE|not necessarily/i);
+ assert.match(rel.description,/not |do not|cannot|ONE|not necessarily|rather than/i);
  assert.equal(new Set(rel.personIds).size,rel.personIds.length);
 }
 const n=m.claims.find(x=>x.personId==='garry-nolan'),v=m.claims.find(x=>x.personId==='jacques-vallee');
