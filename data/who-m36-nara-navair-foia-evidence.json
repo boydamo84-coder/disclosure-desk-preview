@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "edition": "m36-1988-revised-nara-scanned-pages-and-navair-foia-release-decision",
+  "checkedDate": "2026-11-16",
+  "status": "research_only_scanned_private_revisions_and_official_navy_document_attribution_no_approval",
+  "researchThreads": [
+    "mj12_reference_report_version_history",
+    "nimitz_film_release_review"
+  ],
+  "mj12": {
+    "sourceFamilyId": "nara-military-reference-1987-and-1988-version-not-independent-claims",
+    "scannedThirdPartyCollection": "https://projectaquarius.mufon.com/wp-content/uploads/pcg-bill-moore-files-collection/ARCHIVES-NATL.pdf",
+    "scannedPdfOriginalHostIsNara": false,
+    "scannedPageIndexIsZeroBased": true,
+    "comparedVersionPages": [
+      {
+        "edition": "1987-07-22",
+        "source": "historical scan of NARA-authored report hosted at MUFON",
+        "pdfPageIndices": [
+          54,
+          55,
+          56
+        ],
+        "headerImagePage": 54,
+        "yearInItemNine": "1954",
+        "yearPage": 55,
+        "visualPageRead": true,
+        "verifiedDirectNaraOriginal": false,
+        "sourceFunction": "historical_statement_of_what_original_reference_report_said"
+      },
+      {
+        "edition": "1988-05-09",
+        "source": "historical scan of NARA-attributed revised report hosted at MUFON",
+        "pdfPageIndices": [
+          57,
+          58,
+          59
+        ],
+        "headerImagePage": 57,
+        "yearInItemNine": "1956",
+        "yearPage": 58,
+        "yearIsVisiblyUnderlined": true,
+        "visualPageRead": true,
+        "verifiedDirectNaraOriginal": false,
+        "sourceFunction": "documented_historical_revision_in_a_private_archive_not_a_government_certified_copy"
+      }
+    ],
+    "modernNara": {
+      "url": "https://www.archives.gov/research/military/air-force/ufos",
+      "itemNineYear": "1956",
+      "documentKind": "official_webpage_derived_from_same_nara_reference_research",
+      "separateIndependentInvestigation": false
+    },
+    "supportedVersionInference": "The 1988 scanned revision visibly underlines 1956 in item 9, explaining the 1987 1954 versus modern 1956 wording more directly than text-only comparisons.",
+    "noConclusiveNaraCustodyCertification": true,
+    "versionComparisonAuthenticatesMJ12Programme": false,
+    "officialReferenceProcess": {
+      "contactSource": "https://www.archives.gov/college-park/researcher-info",
+      "textualReferenceEmail": "archives2reference@nara.gov",
+      "permissionStatus": "research_question_draft_only_not_sent",
+      "question": "Please confirm that a Military Reference Branch report titled Reference Report on MJ-12 (revised), dated 9 May 1988 and attributed to Jo Ann Williamson, was issued by NARA, and whether item 9 officially corrected the civilian-defense folder date from 1954 to 1956. Please advise any catalog identifier and how to obtain a direct NARA-certified page scan with the marked revisions.",
+      "practicalValue": "NARA can identify a certified copy or correct provenance without asking it to opine on the alleged MJ-12 programme."
+    }
+  },
+  "navy": {
+    "directlyViewedFirstPartyFOIA": {
+      "id": "navair-2018-eoir-review",
+      "url": "https://www.navair.navy.mil/foia/sites/g/files/jejdrs566/files/document/%5Bfilename%5D/2020-006828%20email%202%20AFOSI.pdf",
+      "originatingDate": "2018-03-26",
+      "viewedPdfPagesZeroBased": [
+        0,
+        1
+      ],
+      "sourceHostOfficialNAVAIR": true,
+      "documentText": "An official email reviews two Navy cockpit videos FLIR1 and GoFast and concludes each was unclassified from an electro-optical/infrared (EO/IR) viewpoint; other details and caveats are redacted.",
+      "evidenceClass": "technical_security_classification_scope_not_aircraft_or_object_flight_performance",
+      "EOIRReviewConfirmsVideoNavyOrigin": false,
+      "flightPhysicsTested": false,
+      "aircraftPerformanceEstablished": false,
+      "fullSecurityReviewAvailable": false,
+      "redactionsPresent": true,
+      "originalVideoBytesSupplied": false,
+      "independentWitnessCountFromThisDocument": 0
+    },
+    "laterReleaseRecords": {
+      "id": "navy-2025-foia-response-to-video-publishing-request",
+      "sourceUrl": "https://documents2.theblackvault.com/documents/navy/2020-007231.pdf",
+      "recordCase": "DON-NAVY-2020-007231",
+      "originatingDocumentDate": "2025-07-08",
+      "originalFOIARequestDate": "2020-04-08",
+      "responseIssuedBy": "Naval Air Systems Command (NAVAIR) FOIA",
+      "sourceHostOfficialNavy": false,
+      "delivery": "Government-authored released response mirrored by The Black Vault; visible letter first two PDF pages and searchable annex; original agency copy link not verified.",
+      "visuallyCheckedCoverAndSecondPage": true,
+      "responsiveDisclosures": {
+        "releasedEmailGroups": 4,
+        "releasedEmailPages": 34,
+        "withheldEmailItems": 59,
+        "withheldLegalMemoranda": 3,
+        "withheldPages": 498,
+        "referredToOSDDocuments": 7,
+        "referredToOSDPages": 151
+      },
+      "releasedScope": "Email 1, 2, 3, 18; other material withheld or sent to separate OSD review",
+      "sourceCautions": [
+        "These are NAVAIR processing counts in one FOIA response, not independently audited totals of all correspondence.",
+        "FOIA withholdings invoke attorney/client, deliberative or privacy exemptions; no implication of extraterrestrial information or concealed physics.",
+        "The seven OSD referral documents were not included as independently inspected exhibits and their later release status was not checked.",
+        "A mirrored official government letter is first-party authorship, but not verified as directly served from navair.navy.mil."
+      ],
+      "snapshotInspectedTranscriptRanges": [
+        "0-34",
+        "85-131",
+        "992-1045"
+      ],
+      "authorisationDispute": false,
+      "anomalyConclusionFromFOIA": false
+    },
+    "releaseProcess": [
+      {
+        "id": "eoir-classification-2018",
+        "date": "2018-03-26",
+        "supports": "classification disposition from the electro-optical/infrared perspective",
+        "limits": "Not an original 2004 sensor master or object-performance measurement."
+      },
+      {
+        "id": "navy-foia-conversation-2019",
+        "date": "2019-06-12",
+        "supports": "Navy FOIA legal/release correspondence discussed further classification review and what channel should handle a video",
+        "limits": "Document does not establish the exact same clip or classification aspect was being considered as in March 2018; no manufactured contradiction."
+      },
+      {
+        "id": "website-test-2020",
+        "date": "2020-04-13",
+        "supports": "Navy employees discussed using a separate test video to prepare the FOIA webpage, before actual video release",
+        "limits": "Public site preparation process, not proof of original imagery properties."
+      },
+      {
+        "id": "dod-release-2020",
+        "date": "2020-04-27",
+        "supports": "DoD authorised release of one 2004 and two 2015 Navy-origin clips",
+        "limits": "Officially unidentified does not mean nonhuman or anomalous speed."
+      },
+      {
+        "id": "release-foia-response-2025",
+        "date": "2025-07-08",
+        "supports": "Responded to FOIA on website-release process; released four email groups, withheld other material and referred others to OSD",
+        "limits": "FOIA processing and redaction activity not a second independent sighting."
+      }
+    ],
+    "missingOriginals": {
+      "originalNAVAIRMP4Bytes": false,
+      "originalNAVAIRMP4SHA256": null,
+      "originalNavyNASADeckPDFBytes": false,
+      "houseToNavyDeckBinaryMatch": false,
+      "original2004SensorMaster": false,
+      "original2004PrincetonRadar": false,
+      "uncensoredOfficialReleaseDecisionRecord": false
+    },
+    "thirdPartyMirrorsAreNotNewWitnesses": true
+  },
+  "guardrails": {
+    "humanEditorialSecondReviewer": false,
+    "claimScoresPublished": false,
+    "communityBallotsEnabled": false,
+    "personHonestyOrBelievabilityRating": false,
+    "portraitRightsGranted": false,
+    "productionUpdated": false,
+    "netlifyDeployStarted": false,
+    "supabaseAltered": false,
+    "publicSourceCatalogueEnabled": false,
+    "governmentAuthenticityNotEquivalentToUapOrigin": true,
+    "foiaExemptionsNotProofOfExtraordinaryClaims": true,
+    "versionsNotIndependentCorroboration": true
+  }
+}
