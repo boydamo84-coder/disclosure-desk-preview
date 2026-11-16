@@ -1,0 +1,261 @@
+{
+  "schemaVersion": 1,
+  "edition": "m31-prepared-house-testimony-selected-page-comparison",
+  "status": "source_research_only_no_editorial_approval",
+  "checkedDate": "2026-11-16",
+  "hearingIndexes": [
+    {
+      "year": 2023,
+      "eventId": 116282,
+      "url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=116282",
+      "transcript": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm"
+    },
+    {
+      "year": 2024,
+      "eventId": 117721,
+      "url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=117721",
+      "transcript": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm"
+    }
+  ],
+  "scope": "Seven public House witness PDFs and two separately titled addenda; PDF text and selected-page images inspected. Not a full visual or appendix audit and not a full oral hearing audit.",
+  "independentCounterevidence": [
+    {
+      "id": "aaro-2024-historical-review",
+      "url": "https://www.defense.gov/News/Releases/Release/Article/3700894/statement-by-pentagon-press-secretary-maj-gen-pat-ryder-on-the-historical-recor/",
+      "publicationDate": "2024-03-08",
+      "scope": "Institutional historical review of alleged reverse-engineering; no verifiable evidence found as stated by DoD. Broad report, not conclusive item-by-item access to nonpublic material; predates November 2024 Shellenberger testimony.",
+      "claimIds": [
+        "grusch-2023-house-claims-briefing",
+        "elizondo-2024-advanced-uap-claims",
+        "shellenberger-2024-immaculate-constellation"
+      ],
+      "evidenceKind": "official_contrary_institutional_assessment_not_primary_underlying_case_data"
+    },
+    {
+      "id": "aaro-2025-gofast-performance",
+      "url": "https://www.aaro.mil/Portals/136/PDFs/case_resolution_reports/AARO_GoFast_Case_Resolution_Card_Methodology_Final.pdf",
+      "publicationDate": "2025-02-06",
+      "scope": "Specific video: AARO says object remained unidentified but no anomalous speed, modelled intrinsic range 5–92 mph; raw original plus metadata unavailable, so analysis uses public FLIR clip. Does not settle Gallaudet email provenance or Graves W-72 close encounter.",
+      "claimIds": [
+        "gallaudet-2024-navy-safety-email",
+        "graves-2023-house-aviation-safety"
+      ],
+      "evidenceKind": "specific_case_performance_analysis_with_data_limitations"
+    }
+  ],
+  "recordCount": 7,
+  "records": [
+    {
+      "personId": "david-fravor",
+      "claimId": "fravor-2023-house-2004-encounter",
+      "writtenUrl": "https://docs.house.gov/meetings/GO/GO06/20230726/116282/HHRG-118-GO06-Wstate-FravorD-20230726.pdf",
+      "writtenPages": 3,
+      "oralTranscriptUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+      "oralLines": "822–906",
+      "writtenLocators": [
+        "PDF p.1: Nimitz/Princeton and visual encounter",
+        "PDF p.2: CAP-point radar claim and later aircrew FLIR"
+      ],
+      "observationClass": "personal_visual_encounter_plus_controller_relay_and_other_aircrew_video",
+      "comparison": "Written and oral statements both describe Fravor's own visual Tic Tac encounter, while Princeton radar position reports were relayed by controller and the FLIR clip was recorded by a later crew; do not label FLIR as his firsthand cockpit footage.",
+      "missingUnderlying": "Original Princeton radar logs, time synchronisation, calibration, original 2004 FLIR file/metadata and chain of custody not available in this source audit.",
+      "opposingEvidenceScope": "No case-specific independent instrument adjudication completed; later analyses of other Navy clips do not resolve the earlier personal visual encounter.",
+      "reviewStatus": "source_excerpt_comparison_only_unapproved",
+      "writtenMaterialReadScope": "extracted_text_consulted_with_selected_page_visual_verification",
+      "fullWrittenVisualAudit": false,
+      "fullOralTranscriptReviewed": false,
+      "fullUnderlyingClaimVerification": false,
+      "secondHumanReview": false,
+      "editorialScore": null,
+      "communityVotingEnabled": false,
+      "personBelievabilityMetric": null
+    },
+    {
+      "personId": "ryan-graves",
+      "claimId": "graves-2023-house-aviation-safety",
+      "writtenUrl": "https://docs.house.gov/meetings/GO/GO06/20230726/116282/HHRG-118-GO06-Wstate-GravesR-20230726.pdf",
+      "writtenPages": 5,
+      "oralTranscriptUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+      "oralLines": "656–744",
+      "writtenLocators": [
+        "PDF p.2: personally described squadron radar/IR contacts",
+        "PDF p.2: cube-in-sphere close approach reported by other pilots",
+        "PDF pp.2–3: Gallaudet email account sourced from Gallaudet"
+      ],
+      "observationClass": "personal_sensor_experience_plus_secondhand_near_miss_and_sourced_admiral_account",
+      "comparison": "Graves personally describes radar/infrared observations and safety concerns; he does not claim to have personally piloted the cube-in-sphere near-miss. Gallaudet's email account is an attributed third-party statement, not a second original email supplied here.",
+      "missingUnderlying": "Original W-72 sensor exports, near-miss pilot statements and squadron safety report not available in inspected source; no independent calibration review.",
+      "opposingEvidenceScope": "AARO's 2025 Go Fast video performance assessment addresses that single video, not all Graves squadron tracks or the separate reported near-miss.",
+      "reviewStatus": "source_excerpt_comparison_only_unapproved",
+      "writtenMaterialReadScope": "extracted_text_consulted_with_selected_page_visual_verification",
+      "fullWrittenVisualAudit": false,
+      "fullOralTranscriptReviewed": false,
+      "fullUnderlyingClaimVerification": false,
+      "secondHumanReview": false,
+      "editorialScore": null,
+      "communityVotingEnabled": false,
+      "personBelievabilityMetric": null
+    },
+    {
+      "personId": "david-grusch",
+      "claimId": "grusch-2023-house-claims-briefing",
+      "writtenUrl": "https://docs.house.gov/meetings/GO/GO06/20230726/116282/HHRG-118-GO06-Wstate-GruschD-20230726.pdf",
+      "writtenPages": 3,
+      "oralTranscriptUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+      "oralLines": "746–822",
+      "writtenLocators": [
+        "PDF p.1: accounts and alleged photos/documents from other individuals",
+        "PDF pp.1–2: crash-retrieval program described as information received, access denied"
+      ],
+      "observationClass": "firsthand_duties_and_reporting_of_secondhand_programme_allegations",
+      "comparison": "Both statements attribute allegations of a retrieval/reverse-engineering programme to other individuals and explicitly distinguish his own official duties and reporting from physical access to the alleged programme.",
+      "missingUnderlying": "Underlying classified records, alleged physical craft, source identities, complete investigative materials, compartment read-ons and independent inspection not publicly available here.",
+      "opposingEvidenceScope": "AARO 2024 institutional review contradicts programme conclusions but does not disclose evidence sufficient to adjudicate each nonpublic allegation independently.",
+      "reviewStatus": "source_excerpt_comparison_only_unapproved",
+      "writtenMaterialReadScope": "extracted_text_consulted_with_selected_page_visual_verification",
+      "fullWrittenVisualAudit": false,
+      "fullOralTranscriptReviewed": false,
+      "fullUnderlyingClaimVerification": false,
+      "secondHumanReview": false,
+      "editorialScore": null,
+      "communityVotingEnabled": false,
+      "personBelievabilityMetric": null
+    },
+    {
+      "personId": "tim-gallaudet",
+      "claimId": "gallaudet-2024-navy-safety-email",
+      "writtenUrl": "https://docs.house.gov/meetings/GO/GO12/20241113/117721/HHRG-118-GO12-Wstate-GallaudetPhDRearAdmiralUSNavyRetT-20241113.pdf",
+      "writtenPages": 7,
+      "oralTranscriptUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+      "oralLines": "685–800",
+      "writtenLocators": [
+        "PDF pp.1–2: first-person recollection of 2015 Navy email and attached Go Fast clip",
+        "PDF p.2: inference that disappearance may involve special-access handling"
+      ],
+      "observationClass": "personal_recollection_of_email_plus_inference_about_classification_and_video",
+      "comparison": "Written and oral accounts describe receiving a safety-of-flight email with Go Fast attachment; the alleged deletion/classification rationale is an inference, not independently demonstrated by the original email in this audit.",
+      "missingUnderlying": "Original secure email, server/audit logs, exact attachment provenance, source sensor file and separate witness accounts unavailable in the reviewed public record.",
+      "opposingEvidenceScope": "AARO's February 2025 case-specific Go Fast analysis assesses non-anomalous object speed but neither establishes why a Navy email disappeared nor settles all 2015 safety reports.",
+      "reviewStatus": "source_excerpt_comparison_only_unapproved",
+      "writtenMaterialReadScope": "extracted_text_consulted_with_selected_page_visual_verification",
+      "fullWrittenVisualAudit": false,
+      "fullOralTranscriptReviewed": false,
+      "fullUnderlyingClaimVerification": false,
+      "secondHumanReview": false,
+      "editorialScore": null,
+      "communityVotingEnabled": false,
+      "personBelievabilityMetric": null
+    },
+    {
+      "personId": "luis-elizondo",
+      "claimId": "elizondo-2024-advanced-uap-claims",
+      "writtenUrl": "https://docs.house.gov/meetings/GO/GO12/20241113/117721/HHRG-118-GO12-Wstate-ElizondoL-20241113.pdf",
+      "writtenPages": 3,
+      "oralTranscriptUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+      "oralLines": "800–909",
+      "writtenLocators": [
+        "PDF pp.1–2: UAP technology and programme assertions",
+        "PDF pp.2–3: claimed confidential work and whistleblower protection proposals"
+      ],
+      "observationClass": "direct_public_assertions_with_classified_underlying_basis_unavailable",
+      "comparison": "Written and oral statements assert advanced UAP technologies and government programme concerns; this comparison confirms attribution to the speaker, not the asserted physical or classified facts.",
+      "missingUnderlying": "Inspectable original technology, programme documents, independent sensor evidence and classified inspector general submissions unavailable in this public pass.",
+      "opposingEvidenceScope": "AARO 2024 historical review reports no verified reverse-engineering evidence; its broad scope and publication date must be stated, not counted as an automatically resolved judgement on each claim.",
+      "reviewStatus": "source_excerpt_comparison_only_unapproved",
+      "writtenMaterialReadScope": "extracted_text_consulted_with_selected_page_visual_verification",
+      "fullWrittenVisualAudit": false,
+      "fullOralTranscriptReviewed": false,
+      "fullUnderlyingClaimVerification": false,
+      "secondHumanReview": false,
+      "editorialScore": null,
+      "communityVotingEnabled": false,
+      "personBelievabilityMetric": null
+    },
+    {
+      "personId": "michael-shellenberger",
+      "claimId": "shellenberger-2024-immaculate-constellation",
+      "writtenUrl": "https://docs.house.gov/meetings/GO/GO12/20241113/117721/HHRG-118-GO12-Wstate-ShellenbergerM-20241113.pdf",
+      "writtenPages": 212,
+      "oralTranscriptUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+      "oralLines": "909–1040",
+      "writtenLocators": [
+        "PDF p.1: written testimony cover",
+        "PDF pp.2 and 5: cited reporting/source and claimed programme",
+        "PDF remaining 206+ pages: attachment corpus NOT individually audited"
+      ],
+      "observationClass": "journalistic_reporting_of_unidentified_source_allegations",
+      "comparison": "Written testimony and oral transcript attribute Immaculate Constellation to reporting and an unidentified source; Congress receiving the document does not authenticate the alleged programme. The 212-page public PDF was only selectively inspected, not a full appendix audit.",
+      "missingUnderlying": "Original source access, independent programme registry, underlying sensor database, raw footage provenance and case-by-case verification not available in this pass.",
+      "opposingEvidenceScope": "AARO 2024 historical report predates the November 2024 named allegation; cannot be a programme-specific investigation of material subsequently submitted.",
+      "reviewStatus": "source_excerpt_comparison_only_unapproved",
+      "writtenMaterialReadScope": "selected_indexed_pages_only",
+      "fullWrittenVisualAudit": false,
+      "fullOralTranscriptReviewed": false,
+      "fullUnderlyingClaimVerification": false,
+      "secondHumanReview": false,
+      "editorialScore": null,
+      "communityVotingEnabled": false,
+      "personBelievabilityMetric": null
+    },
+    {
+      "personId": "mike-gold",
+      "claimId": "gold-2024-nasa-uap-research-proposals",
+      "writtenUrl": "https://docs.house.gov/meetings/GO/GO12/20241113/117721/HHRG-118-GO12-Wstate-GoldM-20241113.pdf",
+      "writtenPages": 5,
+      "oralTranscriptUrl": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+      "oralLines": "1040–1128",
+      "writtenLocators": [
+        "PDF p.1: declares he speaks for himself, not NASA/Redwire",
+        "PDF pp.2–3: NASA UAP scientific research and archival-data recommendations"
+      ],
+      "observationClass": "firsthand_public_policy_and_research_recommendations_not_incident_claim",
+      "comparison": "Written and oral statements advocate scientific investigation and data transparency; the hearing is not a claim that Gold personally encountered a specific extraordinary craft. Written opening expressly disclaims representing NASA or Redwire.",
+      "missingUnderlying": "No physical UAP event asserted in this dossier and no incident corroboration is appropriate.",
+      "opposingEvidenceScope": "Not applicable to incident-performance evidence scoring; evaluate only attribution and reasonableness of research recommendations.",
+      "reviewStatus": "source_excerpt_comparison_only_unapproved",
+      "writtenMaterialReadScope": "extracted_text_consulted_with_selected_page_visual_verification",
+      "fullWrittenVisualAudit": false,
+      "fullOralTranscriptReviewed": false,
+      "fullUnderlyingClaimVerification": false,
+      "secondHumanReview": false,
+      "editorialScore": null,
+      "communityVotingEnabled": false,
+      "personBelievabilityMetric": null
+    }
+  ],
+  "addenda": [
+    {
+      "repositoryAttachmentOwner": "luis-elizondo",
+      "publicLabel": "Testimony Addendum #1",
+      "url": "https://docs.house.gov/meetings/GO/GO12/20241113/117721/HHRG-118-GO12-Wstate-ElizondoL-20241113-SD001.pdf",
+      "pdfPages": 2,
+      "documentTitle": "Written Statement of Matthew Ford",
+      "actualNamedAuthor": "Matthew Ford",
+      "actualDocumentDate": "2024-11-18",
+      "repositoryUploadDate": "2024-11-20",
+      "relationship": "third_party_statement_filed_beneath_witness_attachment",
+      "safety": "Do not attribute Ford's narrative to Elizondo as if written or verified by Elizondo, or imply that the committee authenticated its extraordinary programme allegations."
+    },
+    {
+      "repositoryAttachmentOwner": "tim-gallaudet",
+      "publicLabel": "Testimony Addendum #1",
+      "url": "https://docs.house.gov/meetings/GO/GO12/20241113/117721/HHRG-118-GO12-Wstate-GallaudetPhDRearAdmiralUSNavyRetT-20241113-SD001.pdf",
+      "pdfPages": 3,
+      "documentTitle": "UAP Disclosure Fund Expert Letter",
+      "actualNamedAuthor": "UAP Disclosure Fund (collective signatory letter)",
+      "actualDocumentDate": "2024-11-12",
+      "repositoryUploadDate": "2024-11-12",
+      "relationship": "external_advocacy_letter_filed_beneath_witness_attachment",
+      "safety": "Do not present this letter as a firsthand Gallaudet incident account or independent scientific corroboration."
+    }
+  ],
+  "policy": {
+    "noNumericalEvidenceScores": true,
+    "noCommunityRatings": true,
+    "noPersonBelievabilityMetric": true,
+    "noHumanEditorialSignoff": true,
+    "noNewPortraitPermission": true,
+    "noProductionChange": true,
+    "noOriginalUnderlyingPhysicalProof": true
+  }
+}
