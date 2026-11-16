@@ -273,6 +273,56 @@ function m28HearingCrosscheckHtml(claim){
   '<p class="muted small">Scope: original-publication comparisons, not original secret programmes or complete incident verification. Second independent human review pending.</p>'+
   '</details>';
 }
+// M28b: public-source attribution reader only; NEVER silently enable numbers or votes.
+function m28bOriginalSourceCheckHtml(claim){
+ const check=claim?.sourceAudit?.m28bOriginalSourceCheck;
+ if(!check||check.status!=='selected_original_publication_passages_checked_not_complete_independent_claim_review'||
+    check.checkedAt!=='2026-11-16'||!safeUrl(check.primaryUrl)||
+    check.fullUnderlyingClaimVerification!==false||
+    check.secondIndependentHumanEditor!=='not_obtained'||
+    check.permissionToPublishScoreOrCommunityVote!==false||
+    check.permissionToPublishNewPortrait!==false||
+    claim?.ratingReadiness?.publicationApproval!=='withheld'||
+    claim?.sourceAccessCheck?.secondEditorSignoff!=='not_obtained'||
+    !/^\d{4}-\d{2}-\d{2}$/.test(check.publicationDate||'')||
+    typeof check.publicationTitle!=='string'||check.publicationTitle.trim().length<15||
+    typeof check.method!=='string'||check.method.trim().length<55||
+    typeof check.sourceLineageNote!=='string'||check.sourceLineageNote.trim().length<90||
+    typeof check.remainingGap!=='string'||check.remainingGap.trim().length<90||
+    !Array.isArray(check.passageChecks)||check.passageChecks.length<2||check.passageChecks.length>6||
+    !Array.isArray(check.contrastChecks)||check.contrastChecks.length>4)return '';
+ const validPassage=e=>e&&typeof e.locator==='string'&&e.locator.trim().length>=30&&
+  typeof e.finding==='string'&&e.finding.trim().length>=75&&
+  typeof e.limit==='string'&&e.limit.trim().length>=75;
+ const validContrast=e=>validPassage(e)&&safeUrl(e.url)&&
+  ['publisher_indexed_abstract_direct_fulltext_blocked','direct_original_public_record'].includes(e.accessStatus);
+ if(!check.passageChecks.every(validPassage)||!check.contrastChecks.every(validContrast))return '';
+ const rows=check.passageChecks.map(e=>
+   '<li><strong>'+esc(e.locator)+'</strong><p>'+esc(e.finding)+'</p>'+
+   '<p class="muted small"><strong>Verification limit:</strong> '+esc(e.limit)+'</p></li>').join('');
+ const contrasting=check.contrastChecks.map(e=>
+   '<li><strong>'+esc(e.locator)+'</strong>'+
+   '<p>'+esc(e.finding)+'</p>'+
+   '<p class="muted small"><strong>Source accessibility:</strong> '+
+    (e.accessStatus==='publisher_indexed_abstract_direct_fulltext_blocked'
+     ?'Publisher abstract/highlights indexed; full text not directly accessible in this review'
+     :'Original public record directly accessible')+'</p>'+
+   '<p class="muted small"><strong>Verification limit:</strong> '+esc(e.limit)+'</p>'+
+   '<a href="'+esc(safeUrl(e.url))+'" target="_blank" rel="noopener noreferrer">Inspect cited publication ↗</a></li>').join('');
+ return '<details class="claim-m28b-check" data-m28b-sourcecheck>'+
+  '<summary>New original-publication source checks · 16 Nov 2026</summary>'+
+  '<p class="claim-draft-warning"><strong>Research comparison — not an approved finding or rating.</strong> The passages below establish what was published or calculated, not independent proof of the underlying UAP interpretation.</p>'+
+  '<p class="muted small"><strong>Original publication:</strong> '+esc(check.publicationTitle)+
+  ' · '+esc(check.publicationDate)+' · <a href="'+esc(safeUrl(check.primaryUrl))+
+  '" target="_blank" rel="noopener noreferrer">Read original source ↗</a></p>'+
+  '<p class="muted small"><strong>What was actually inspected:</strong> '+esc(check.method)+'</p>'+
+  '<h5>Original passages and precisely what they establish</h5><ul class="claim-evidence-list">'+rows+'</ul>'+
+  (contrasting?'<h5>Separate interpretations and their accessibility</h5><ul class="claim-evidence-list">'+contrasting+'</ul>':'')+
+  '<p><strong>Repeated-source warning:</strong> '+esc(check.sourceLineageNote)+'</p>'+
+  '<p><strong>Still needed:</strong> '+esc(check.remainingGap)+'</p>'+
+  '<p class="muted small">Underlying-claim verification: incomplete · Second human editorial approval: not obtained · Scores, member voting and new image permissions: withheld.</p>'+
+  '</details>';
+}
 function sourceAuditDraftHtml(claim){
  const d=claim?.sourceAudit;
  if(!d||d.status!=='original_record_comparison_draft'||d.reviewerSignoff!=='not_obtained'||
@@ -403,6 +453,7 @@ function draftEvidenceTrailHtml(claim){
   '<p class="muted small"><strong>Open questions:</strong> '+esc(draft.editorialNote)+'</p>'+
   '<h5>Public materials consulted (provisional)</h5><ul class="claim-evidence-list">'+items+'</ul>'+
   m28HearingCrosscheckHtml(claim)+
+  m28bOriginalSourceCheckHtml(claim)+
   '<p class="muted small">No criterion-by-criterion points or community votes are available until a separate source-and-editorial approval.</p>';
 }
 function publishedClaimReview(claim){
