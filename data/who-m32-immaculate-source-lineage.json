@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "edition": "m32-immaculate-constellation-public-source-lineage",
+  "status": "research_only_no_claim_verification_or_editorial_signoff",
+  "checkedDate": "2026-11-16",
+  "primaryClaimId": "shellenberger-2024-immaculate-constellation",
+  "context": "Public availability and correct source attribution, not verification of an alleged classified programme.",
+  "sources": [
+    {
+      "id": "house-2024-event-index",
+      "kind": "official_repository_event_index",
+      "institution": "U.S. House Committee Repository",
+      "url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=117721",
+      "sourceRole": "submission_registry_not_claim_authentication",
+      "pageCount": null,
+      "observed": "Lists Shellenberger witness statement separately from the Mace Immaculate Constellation support document, which was added 13 November 2024.",
+      "inspectedPages": [],
+      "fullVisualAudit": false
+    },
+    {
+      "id": "shellenberger-212-page-submission",
+      "kind": "original_congressional_witness_written_submission_with_attachments",
+      "institution": "House Repository — uploaded by hearing staff on witness record",
+      "url": "https://docs.house.gov/meetings/GO/GO12/20241113/117721/HHRG-118-GO12-Wstate-ShellenbergerM-20241113.pdf",
+      "sourceRole": "speaker_attribution_plus_attached_secondary_sources_not_independent_case_authentication",
+      "pageCount": 212,
+      "observed": "Title page names Michael Shellenberger, dated November 13 2024. First pages describe his allegations, with end notes and attached separately originated Navy UAP Task Force redacted slides and historical timeline.",
+      "inspectedPages": [
+        0,
+        6,
+        17,
+        18,
+        19,
+        20,
+        24,
+        29,
+        32,
+        33,
+        34,
+        35,
+        36,
+        40,
+        50,
+        90,
+        150,
+        210,
+        211
+      ],
+      "fullVisualAudit": false
+    },
+    {
+      "id": "mace-12-page-unnamed-report",
+      "kind": "separate_house_support_document_scanned_pdf",
+      "institution": "U.S. House Committee Repository (introduced into hearing by Rep. Mace)",
+      "url": "https://docs.house.gov/meetings/GO/GO12/20241113/117721/HHRG-118-GO12-20241113-SD003.pdf",
+      "sourceRole": "unsigned_allegation_submitted_to_congress_not_authenticated_by_house",
+      "pageCount": 12,
+      "observed": "Separate scan titled by House index UC - Mace - Report - Immaculate Constellation - Pentagon; report asserts a programme and describes alleged observations without providing public sensor datasets or author authentication in the document itself.",
+      "inspectedPages": [
+        0,
+        3,
+        6,
+        10,
+        11
+      ],
+      "fullVisualAudit": false
+    },
+    {
+      "id": "gpo-2024-hearing-transcript",
+      "kind": "official_published_oral_testimony",
+      "institution": "U.S. Government Publishing Office",
+      "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+      "sourceRole": "evidence_of_what_was_said_and_entered_into_record_not_truth_of_assertion",
+      "pageCount": null,
+      "observed": "Printed record identifies report submitted by Rep. Mace. At lines 1698–1737 Shellenberger testified he did not author the submitted report, said he knew the author, and did not identify public access to the nonpublic version.",
+      "inspectedPages": [],
+      "reviewedTranscriptLineRanges": [
+        "161-183",
+        "630-646",
+        "1698-1737",
+        "1520-1545"
+      ],
+      "fullOralProceedingAudit": false
+    },
+    {
+      "id": "odni-foia-2024-press-summary",
+      "kind": "official_odnI_FOIA_release_of_press_summary",
+      "institution": "Office of the Director of National Intelligence",
+      "url": "https://archive.dni.gov/files/documents/FOIA/DF-2025-00021-Immaculate-Constellation-descrp-from-UNCLASS-Press-22-Oct-2024.pdf",
+      "sourceRole": "government_record_of_press_allegation_and_dod_denial_not_an_independent_programme_investigation",
+      "pageCount": 1,
+      "observed": "Approved for release 6 November 2024, FOIA DF-2025-00021. Summarises October press reporting and documents DoD spokesperson Sue Gough denying any present or historical SAP with that name. Deliberative material redacted.",
+      "inspectedPages": [
+        0
+      ],
+      "fullVisualAudit": true
+    }
+  ],
+  "components": [
+    {
+      "id": "testimony-prose-and-endnotes",
+      "parentSourceId": "shellenberger-212-page-submission",
+      "pdfPagesZeroBased": [
+        0,
+        17
+      ],
+      "authorship": "Michael Shellenberger",
+      "status": "attributed_written_testimony_with_cited_reporting",
+      "limitation": "An attributed writer's summary and bibliography do not independently establish the unnamed source's allegations."
+    },
+    {
+      "id": "navy-foia-correspondence-and-uaptf-slides",
+      "parentSourceId": "shellenberger-212-page-submission",
+      "pdfPagesZeroBased": [
+        18,
+        34
+      ],
+      "authorship": "Navy correspondence and an appended redacted 31 August 2020 UAP Task Force briefing; uploaded inside witness package",
+      "status": "supporting_historical_documents_not_immaculate_programme_records",
+      "limitation": "Shows historical UAP reporting/research, not evidence for a programme alleged to have been established in 2017. The direct Navy source file and version lineage have not been independently re-checked."
+    },
+    {
+      "id": "uap-timeline-appendix",
+      "parentSourceId": "shellenberger-212-page-submission",
+      "pdfPagesZeroBased": [
+        35,
+        211
+      ],
+      "authorship": "compiled historical chronology; individual cited items originate with multiple sources",
+      "status": "mixed_provenance_research_compilation_not_an_independent_primary_source",
+      "limitation": "Chronology includes linked government records, media articles, anecdotal reports, disputed MJ-12 documents and author's PUBLIC DOMAIN classifications. Neither cited URL count nor historic timeline length equals new direct corroboration. Sampled page images only."
+    }
+  ],
+  "comparisons": [
+    {
+      "id": "two-house-documents-distinct",
+      "left": "shellenberger-212-page-submission",
+      "right": "mace-12-page-unnamed-report",
+      "relation": "separate_congressional_files_common_allegation_family_not_independent_corroboration",
+      "finding": "House received a named witness's 212-page document plus a distinct unnamed-source 12-page report. Being uploaded and entered into hearing record does not authenticate claimed classified facts.",
+      "underlyingIndependentEvidence": false
+    },
+    {
+      "id": "gpo-speaker-authorship",
+      "left": "gpo-2024-hearing-transcript",
+      "right": "mace-12-page-unnamed-report",
+      "relation": "speaker_distanced_self_from_authorship",
+      "finding": "Shellenberger said he was not author; his access to the author was asserted but reporter identification, underlying programme records and original classified source were not publicly inspected.",
+      "underlyingIndependentEvidence": false
+    },
+    {
+      "id": "odni-contemporaneous-denial",
+      "left": "odni-foia-2024-press-summary",
+      "right": "mace-12-page-unnamed-report",
+      "relation": "official_documented_denial_and_reporting_not_external_adjudication",
+      "finding": "ODNI's release repeats press allegations and quotes the DoD denial. The ODNI press summary is not its own independent investigation nor an additional confirming whistleblower. Both the allegation and the denial remain distinct statements.",
+      "underlyingIndependentEvidence": false
+    },
+    {
+      "id": "briefing-not-programme-proof",
+      "left": "shellenberger-212-page-submission",
+      "right": "mace-12-page-unnamed-report",
+      "relation": "historical_uaptf_slides_do_not_confirm_newly_alleged_programme",
+      "finding": "The attached 2020 redacted UAPTF slides establish contemporaneous official activity on UAP reports but do not show a 2017-started SAP named Immaculate Constellation or validate report examples.",
+      "underlyingIndependentEvidence": false
+    }
+  ],
+  "unresolvedQuestions": [
+    "Who originally produced the twelve-page report and what exact version/custody trail reaches the House repository?",
+    "What original imagery, raw telemetry, programme identifiers and internal records can be legally inspected?",
+    "Could alleged journalists' confidential sources have common upstream sources or access to the same written report?",
+    "Can Navy FOIA cover correspondence and the appended 2020 slide deck be matched to their original Navy reading-room release and version?",
+    "Which primary records, if any, independently support individual entries in the chronology rather than just its citations?",
+    "What was redacted from the ODNI memo cannot be inferred from the visible version."
+  ],
+  "guardrails": {
+    "allScoresWithheld": true,
+    "noHumanSecondReview": true,
+    "noCommunityVoting": true,
+    "noPersonalBelievability": true,
+    "noPublicReleaseOfThisAudit": true,
+    "noNewPortraitRights": true,
+    "neverTreatFilingAsVerification": true,
+    "neverTreatPressSummaryAsCorroboration": true
+  }
+}
