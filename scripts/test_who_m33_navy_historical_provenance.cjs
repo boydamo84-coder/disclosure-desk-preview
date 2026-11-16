@@ -61,7 +61,7 @@ assert.equal(timeline.size,3);
 const hill=timeline.get('historical-mj12-1947-hillenkoetter');
 assert(hill&&hill.claimClassification==='disputed_document_allegation');
 assert.equal(hill.supportingOriginalAuthenticated,false);
-assert(hill.counterevidenceFit.includes('not a direct forensic test'));
+assert(hill.counterevidenceFit.includes('do not claim they individually forensically examined'));
 assert(hill.applicableContrarySources.includes('nara-mj12-reference'));
 const manual=timeline.get('historical-som1-1954-manual');
 assert(manual&&manual.claimClassification==='unverified_document_and_repeated_reporting');
