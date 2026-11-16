@@ -1,5 +1,19 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 14 November 2026 (Europe/London) — R3 source-linked Gap Finder/Hypothesis Lab offline milestone and privacy design green; Android ZIP ready; owner test pending, R2 live unchanged_
+_Last updated: 16 November 2026 (Europe/London) — M30 Who’s Who adversarial provenance QA GREEN; no ratings/ballots/production changes_
+
+## M30 — Who’s Who evidence provenance and independent-editor operations (16 November 2026)
+
+**Verified GREEN for M30 code SHA `06d3199a1d41199269b8d9d8cc28909fbbfdf559`:** [GitHub NO DEPLOY workflow 43903389619](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/43903389619) completed successfully, including source/packaging and actual Chromium phone/tablet/desktop checks inherited from M29. This is a **research-preparation milestone**, not independent incident verification or owner/editorial approval.
+
+- **Development branch only:** `prep/who-m30-editorial-provenance-20261116`, forked from M29 completed commit `666cb45f50085bc0cb087323824f2ebc0e20e5ab`. `production` inspected separately at `6b602324d14b834b0ef5ac222d3cae3acbf53a56` and not changed by this milestone.
+- New [M30 provenance/operational handover](docs/WHO_M30_EDITORIAL_PROVENANCE_AND_HANDOVER_2026-11-16.md) establishes original-source follow-up for House Committee Repository 2023 Event 116282, 2024 Event 117721 and the 2022 Nolan/Vallée Council Bluffs original journal page. Specific **prepared witness PDFs and raw underlying military/experiment data have NOT been inspected in full**; this does not alter M29 `fullOriginalInspected=false` for all 23 cases.
+- New `scripts/test_who_m30_editorial_adversarial.cjs` exercises literal/tracking-aliased URLs, **23 unsigned research dockets / 89 references / 59 literal URLs / 14 repeated links / 3 related research families**, 2023 distinct witnesses sharing a GPO transcript, one journal paper shared across Nolan/Vallée, repeated Grusch reporting, Rendlesham source lineage, AARO 2024 vs alleged Barber 2025 chronology, and Mellon/Gold policy roles remaining not scoreable incidents.
+- New `.github/workflows/who-m30-editorial-provenance-no-deploy.yml` runs M29 source/package and Chromium regressions plus M30. It uses no Netlify, Supabase, OAuth or real account mutation.
+- Suggested confidential second-human reviewer process, source-version provenance, rights/access flags and operational **review reminders only** (not evidence expiration or auto-verdicts). No genuine human review assignment, signed decision, personal credibility rating, numerical **claim** rating, portrait permission or community voting published.
+- **Next M31:** inspect 2023/2024 prepared witness originals and addenda with page-specific citations, check against actual oral record; pursue source custody, missing original videos, contradictory case records and independent review. Do not automatically infer evidence independence from a distinct URL or a shared event; do not invent inaccessible records.
+
+**HARD RELEASE GATE:** NO production move, no Netlify build/deploy, no Supabase/SQL changes, no active member voting or ratings, no APK release without separate owner-approved integration/security/legal/editorial checks. M30 GitHub QA does not override those requirements.
+
 
 ## M96 — Legacy favicon fallback and Netlify 404 review (13 November 2026)
 
