@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "edition": "m33-navy-original-release-and-historical-timeline-samples",
+  "status": "source_provenance_only_unsigned_no_release",
+  "checkedDate": "2026-11-16",
+  "parentMilestone": "m32-immaculate-constellation-public-source-lineage",
+  "navy": {
+    "originalDocument": {
+      "id": "navy-nasa-brief-redacted",
+      "publisher": "United States Department of the Navy FOIA Reading Room",
+      "url": "https://www.secnav.navy.mil/foia/readingroom/CaseFiles/UAP%20INFO/UAP%20DOCUMENTS/NASA%20Brief%20Redacted.pdf",
+      "title": "NASA Brief Redacted",
+      "documentIdentity": "2020 UAPTF briefing and interagency email correspondence released via Navy FOIA",
+      "briefingDate": "2020-08-31",
+      "relatedEmailDates": [
+        "2020-09-14",
+        "2020-09-16",
+        "2020-09-18"
+      ],
+      "access": "search_index_text_and_official_host_pdf_opened_screenshot_and_binary_download_blocked",
+      "originalFileByteHash": null,
+      "sourceVisualAudit": false,
+      "fullOriginalReviewed": false,
+      "claimProofStatus": "not_case_or_special_access_programme_verification"
+    },
+    "foiaLetters": [
+      {
+        "caseNumber": "DON-NAVY-2021-008741",
+        "requestDate": "2021-07-19",
+        "navyResponseDate": "2024-10-10",
+        "housePacketPdfPageZeroBased": 18,
+        "subject": "interagency correspondence between UAPTF and NASA concerning briefing",
+        "pointsToOriginalFileId": "navy-nasa-brief-redacted"
+      },
+      {
+        "caseNumber": "DON-NAVY-2022-004904",
+        "requestDate": "2022-02-23",
+        "navyResponseDate": "2024-10-10",
+        "housePacketPdfPageZeroBased": 19,
+        "subject": "UAP slide deck briefed to NASA",
+        "pointsToOriginalFileId": "navy-nasa-brief-redacted"
+      }
+    ],
+    "houseEmbeddedCopy": {
+      "id": "house-embedded-nasa-brief",
+      "url": "https://docs.house.gov/meetings/GO/GO12/20241113/117721/HHRG-118-GO12-Wstate-ShellenbergerM-20241113.pdf",
+      "relationship": "same_navy_release_embedded_inside_witness_packet",
+      "independentFromNavyOriginal": false,
+      "fullBinaryEqualityConfirmed": false,
+      "exactHashMatch": false,
+      "access": "House-hosted packet indexed text and selected page images available"
+    },
+    "slideMatches": [
+      {
+        "id": "brief-cover",
+        "originalDeckPage": 1,
+        "houseEmbeddedDeckPage": 1,
+        "key": "31 August 2020 and Naval Intelligence Activity UAP Task Force header",
+        "finding": "Same identifying title/date/agency in original Navy index text and embedded House packet"
+      },
+      {
+        "id": "uaptf-scope",
+        "originalDeckPage": 2,
+        "houseEmbeddedDeckPage": 2,
+        "key": "UAP reporting, flight safety, and reducing stigma",
+        "finding": "Matching visible briefing theme, including agency partner list and safety-of-flight mission"
+      },
+      {
+        "id": "nimitz-2004",
+        "originalDeckPage": 4,
+        "houseEmbeddedDeckPage": 4,
+        "key": "Tic Tac 14 Nov 2004 and limited technical-analysis data",
+        "finding": "Government-authored retrospective case summary, not unedited 2004 aircraft or ship radar record"
+      },
+      {
+        "id": "multiple-sensors",
+        "originalDeckPage": 8,
+        "houseEmbeddedDeckPage": 8,
+        "key": "Multiple Sensors, Worldwide Reporting",
+        "finding": "Visible black (b)(1) redactions and one bright green image; no public calibration or independent case metadata"
+      },
+      {
+        "id": "assessments",
+        "originalDeckPage": 10,
+        "houseEmbeddedDeckPage": 10,
+        "key": "Current Assessment and Unknown Weather or other Natural Phenomena",
+        "finding": "The Navy itself listed possible natural/weather explanations alongside classified/redacted categories"
+      }
+    ],
+    "limitations": [
+      "Official Navy PDF was accessible via indexed text but screenshot endpoint rejected and binary download failed; a full visual page comparison, byte-for-byte SHA-256 equivalence and exact release provenance hash were NOT completed.",
+      "FOIA correspondence and deck are one Navy source family; reproducing them in a House witness packet is not extra independent corroboration.",
+      "The 2020 deck documents an actual UAP Task Force briefing, not an independently documented 2017-started SAP named Immaculate Constellation.",
+      "2020 Navy Nimitz summary acknowledges very limited technical data; eyewitness accounts and original 2004 sensor records remain distinct.",
+      "DoD creation notice confirms formal August 2020 task force, not extraterrestrial origin of observations."
+    ]
+  },
+  "independentInstitutionalContext": [
+    {
+      "id": "dod-2020-taskforce",
+      "url": "https://www.navy.mil/Press-Office/Press-Releases/display-pressreleases/Article/2314280/establishment-of-unidentified-aerial-phenomena-task-force/",
+      "institution": "U.S. Navy",
+      "date": "2020-08-14",
+      "finding": "Navy reports August 4 approval to establish UAPTF and its operational threat-assessment mission.",
+      "scope": "official_organisation_creation_not_case_validation"
+    },
+    {
+      "id": "nara-mj12-reference",
+      "url": "https://www.archives.gov/research/military/air-force/ufos",
+      "institution": "U.S. National Archives",
+      "date": null,
+      "finding": "Archive records identify problems with the Cutler-Twining MJ-12 memo; search did not substantiate programme; holding/certification does not authenticate contents.",
+      "scope": "archival_search_and_document_anomalies_not_definitive_proof_about_every_purported_mj12_artifact"
+    },
+    {
+      "id": "gao-mj12-comments",
+      "url": "https://www.gao.gov/products/154832",
+      "institution": "U.S. Government Accountability Office",
+      "date": "1995-07-28",
+      "finding": "Agencies reported no evidence the examined MJ-12 materials originated as genuine executive-branch documents; a different 1980 message containing 'MJ Twelve' was assessed as a forgery.",
+      "scope": "agency_consultation_report_on_mj12_material_not_original_authentication_of_all_later_variants"
+    },
+    {
+      "id": "fbi-mj12-vault",
+      "url": "https://vault.fbi.gov/unexplained-phenomenon/search",
+      "institution": "FBI Vault",
+      "date": null,
+      "finding": "FBI catalog says two offices received versions of alleged MJ-12 memo in 1988 and that an Air Force investigation found the document fake.",
+      "scope": "official_case_catalog_description_about_1988_document_not_scientific_testimony"
+    }
+  ],
+  "selectedTimelineAudit": [
+    {
+      "id": "historical-mj12-1947-hillenkoetter",
+      "timelinePeriod": "1947",
+      "housePacketUrl": "https://docs.house.gov/meetings/GO/GO12/20241113/117721/HHRG-118-GO12-Wstate-ShellenbergerM-20241113.pdf",
+      "timelineClaim": "A disputed 19 September 1947 memorandum attributed to Roscoe Hillenkoetter relating to a MAJIC or MJ-12 committee is included by the private chronology.",
+      "claimClassification": "disputed_document_allegation",
+      "supportingOriginalAuthenticated": false,
+      "applicableContrarySources": [
+        "nara-mj12-reference",
+        "gao-mj12-comments",
+        "fbi-mj12-vault"
+      ],
+      "counterevidenceFit": "These institutions discuss other MJ-12 materials and broader provenance problems; do not claim they individually forensically examined the specific Hillenkoetter memo.",
+      "limitation": "Only timeline and governmental provenance context compared; purported source memo original paper, ink, custody or institutional register not inspected."
+    },
+    {
+      "id": "historical-som1-1954-manual",
+      "timelinePeriod": "1954",
+      "housePacketUrl": "https://docs.house.gov/meetings/GO/GO12/20241113/117721/HHRG-118-GO12-Wstate-ShellenbergerM-20241113.pdf",
+      "timelineClaim": "A purported SOM1-01 manual describing extraterrestrial recovery practices appears in chronology as a disputed/leak and disinformation allegation.",
+      "claimClassification": "unverified_document_and_repeated_reporting",
+      "supportingOriginalAuthenticated": false,
+      "applicableContrarySources": [
+        "nara-mj12-reference",
+        "gao-mj12-comments"
+      ],
+      "counterevidenceFit": "Archival MJ-12 and agency authenticity findings warn against assuming provenance; they are not direct item-specific testing of every SOM1 page.",
+      "limitation": "No primary authenticated government issuance, version trail or physical artefact inspected."
+    },
+    {
+      "id": "nimitz-2004-recap-in-2020",
+      "timelinePeriod": "2004 reported in 2020",
+      "housePacketUrl": "https://docs.house.gov/meetings/GO/GO12/20241113/117721/HHRG-118-GO12-Wstate-ShellenbergerM-20241113.pdf",
+      "timelineClaim": "A 2020 UAPTF slide recaps the November 2004 Nimitz incident and acknowledges little technical evidence for analysis.",
+      "claimClassification": "authentic_released_government_retrospective_of_attributed_encounter",
+      "supportingOriginalAuthenticated": true,
+      "applicableContrarySources": [
+        "dod-2020-taskforce"
+      ],
+      "counterevidenceFit": "DoD official Task Force creation notice is contextual, not a separate 2004 case investigation.",
+      "limitation": "Official released summary does not provide full 2004 radar tracks, raw FLIR or third-party reconstruction."
+    }
+  ],
+  "releaseGuardrails": {
+    "noPersonBelievabilityPercentage": true,
+    "noPublishedClaimScores": true,
+    "noMemberBallots": true,
+    "noFabricatedHumanEditorialApproval": true,
+    "noPortraitRightsExpansion": true,
+    "noProductionDeployment": true,
+    "noPublicResearchCataloguePackaging": true,
+    "noNavyHouseDoubleCounting": true,
+    "noGovernmentArchiveEqualsAuthenticity": true
+  }
+}
