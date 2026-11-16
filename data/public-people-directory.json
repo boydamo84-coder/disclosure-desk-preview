@@ -1882,7 +1882,40 @@
             "competingRecord": "In the 2026 technical debate, critics challenge the model's account of early-frame rotation and cloud-camera pan, while West disputes their interpretation; these are competing analyses of the same public video and not peer-reviewed conclusive raw-calibration findings. Neither a glare hypothesis nor unexplained footage alone establishes the object's precise identity or extraterrestrial origin.",
             "missingEvidence": "Original uncompressed Gimbal sensor recording, ATFLIR calibration and detailed gimbal-angle logs, range/aspect metadata, environmental cloud motion measurements, independent reproduction and second expert review are still needed to adjudicate the optical rotation and any target identity.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "gimbal-2015-single-video"
+            "relatedSourceGroup": "gimbal-2015-single-video",
+            "m28bOriginalSourceCheck": {
+              "status": "selected_original_publication_passages_checked_not_complete_independent_claim_review",
+              "checkedAt": "2026-11-16",
+              "primaryUrl": "https://www.metabunk.org/threads/gimbal-ufo-a-new-analysis.12333/",
+              "publicationTitle": "Gimbal UFO — A New Analysis",
+              "publicationDate": "2022-03-13",
+              "method": "direct original author forum post and publication/attachment links; simulator/model not independently executed",
+              "category": "published_optical_hypothesis_not_object_identification",
+              "passageChecks": [
+                {
+                  "locator": "Original Metabunk thread, 13 March 2022, Mick West post #1, first three paragraphs",
+                  "finding": "West proposes that infrared glare from a hot target can explain apparent image rotation as the tracking camera rotates, rather than requiring the target itself to rotate.",
+                  "limit": "A matching visual explanation is a model for the published footage, not calibrated proof of the target's physical identity or a full analysis of all radar tracks."
+                },
+                {
+                  "locator": "Original author's post #1, simulator and Source code section, links to gimbal simulator, index.html ZIP and project data ZIP",
+                  "finding": "The original post links to a publicly described interactive simulation, related analyses, and code/data packages so other readers can inspect the proposed geometry.",
+                  "limit": "The present review read the author's links and description but did not execute the simulator, audit the downloaded code, or reproduce the model with independent instrument calibration."
+                },
+                {
+                  "locator": "Original author post #1, explicit caveat following glare hypothesis",
+                  "finding": "West qualifies his explanation as addressing whether apparent rotation shows extraordinary performance, not as proving there was no unidentified aerial object or naming the source.",
+                  "limit": "Treating this Gimbal-specific explanation as a general dismissal of all UAP reports would exceed the reviewed author's stated scope."
+                }
+              ],
+              "contrastChecks": [],
+              "sourceLineageNote": "The author's original post, linked simulator, video and ZIP code are multiple presentations of related analysis, not multiple independent sensor measurements; other forum contributors' models need separate reproducibility assessment.",
+              "remainingGap": "Obtain original uncompressed Gimbal capture, targeting-pod calibration and orientation data, sensor metadata and independently reproduced model outputs; evaluate contrary frame-by-frame interpretations by a separate qualified method reviewer.",
+              "fullUnderlyingClaimVerification": false,
+              "secondIndependentHumanEditor": "not_obtained",
+              "permissionToPublishScoreOrCommunityVote": false,
+              "permissionToPublishNewPortrait": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -3779,7 +3812,55 @@
             "competingRecord": "An independently authored 2025 Chemical Geology re-evaluation (122628) argues that most claimed cosmic particles, especially the debated D-types, are terrestrial volcanic rather than meteoritic. The Loeb-coauthored 2025 companion article (122627) offers a more mixed morphological classification; competing publications disagree on origin and should be compared with sample-level data, not tallied as separate extraterrestrial confirmations.",
             "missingEvidence": "Publicly validated IM1 strewn-field trajectory uncertainties, contamination and industrial/volcanic background sampling, blinded cross-laboratory sample analyses and original chain of custody linking any given spherule directly to IM1 are not established in the cited work. No independently established physical artefact or non-human engineering demonstrated.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "im1-2023-single-expedition"
+            "relatedSourceGroup": "im1-2023-single-expedition",
+            "m28bOriginalSourceCheck": {
+              "status": "selected_original_publication_passages_checked_not_complete_independent_claim_review",
+              "checkedAt": "2026-11-16",
+              "primaryUrl": "https://galileo.hsites.harvard.edu/sites/g/files/omnuum6371/files/chemical_classification_of_spherules_1-s2.0-s0009254124004959-main.pdf",
+              "publicationTitle": "Chemical classification of spherules recovered from the Pacific Ocean site of the CNEOS 2014-01-08 (IM1) bolide",
+              "publicationDate": "2024-09-18",
+              "method": "direct original Harvard-hosted 20-page Chemical Geology PDF; visually inspected pages 1, 3 and 11; selected text sections, not all 20 pages, supplements or lab replication",
+              "category": "physical_sample_chemistry_with_unproven_event_attribution",
+              "passageChecks": [
+                {
+                  "locator": "Chemical Geology 670 (2024) 122415, printed page 1, abstract, sample count and D-type elemental observations",
+                  "finding": "The original paper documents a collection of approximately 850 small seafloor spherules and chemical classification; its abstract reports some likely terrestrial D-type particles and other groups of uncertain provenance.",
+                  "limit": "Published analytical results on collected particles are not proof that any specific spherule came from the 2014 IM1 fireball or was manufactured."
+                },
+                {
+                  "locator": "Chemical Geology 670 (2024) 122415, printed page 3, section 3 Spherule samples and location",
+                  "finding": "The authors explicitly state they cannot prove that any of the recovered seafloor material is directly attributable to IM1, despite surveying around a modelled trajectory.",
+                  "limit": "Sampling near an estimated impact region cannot substitute for a validated specimen-to-fireball chain of custody or suitable controls outside the region."
+                },
+                {
+                  "locator": "Chemical Geology 670 (2024) 122415, printed page 11, Figures 15–16 and sections 6.2–6.4",
+                  "finding": "The paper compares elemental signatures against meteorite and terrestrial igneous compositions and discusses multiple origins for D-type and BeLaU-enriched particles.",
+                  "limit": "Chemical novelty relative to selected reference compositions does not establish an extrasolar parent, a technological origin or a definitive link to the specific bolide."
+                }
+              ],
+              "contrastChecks": [
+                {
+                  "url": "https://www.sciencedirect.com/science/article/pii/S000925412500018X",
+                  "accessStatus": "publisher_indexed_abstract_direct_fulltext_blocked",
+                  "locator": "Rudraswami, Singh & Pandey, Chemical Geology 677 (2025) 122628, abstract/highlights",
+                  "finding": "The independently authored 2025 critique argues that most disputed D-type spherules could be volcanic and recommends applying standard meteorite-identification protocols.",
+                  "limit": "The original publisher's abstract/highlights were indexed but direct full-text opening returned 403; no complete independent sample-by-sample critique was audited here."
+                },
+                {
+                  "url": "https://www.sciencedirect.com/science/article/pii/S0009254125000178",
+                  "accessStatus": "publisher_indexed_abstract_direct_fulltext_blocked",
+                  "locator": "Hyung, Cherston, Jacobsen & Loeb, Chemical Geology 677 (2025) 122627, abstract/highlights",
+                  "finding": "The Loeb-coauthored follow-up identifies blocky and vesicular D-type particles as terrestrial and suggests that other morphologies may have mixed origins.",
+                  "limit": "This second paper re-examines material associated with the original expedition and is not a separate independent sample recovery; only the accessible indexed abstract/highlights were consulted."
+                }
+              ],
+              "sourceLineageNote": "The 2024 expedition and Loeb coauthored 2025 morphology study concern overlapping sample material; do not count them as two independent collection events. The separately authored 2025 volcanic reinterpretation is a competing interpretation, not independently reproduced measurements verified in this pass.",
+              "remainingGap": "Validate chain of custody, background volcanic/industrial controls, precise strewn-field uncertainties, complete 20-page main paper and supplements, 2025 full opposing analysis, and blinded external sample/chemical measurement replication.",
+              "fullUnderlyingClaimVerification": false,
+              "secondIndependentHumanEditor": "not_obtained",
+              "permissionToPublishScoreOrCommunityVote": false,
+              "permissionToPublishNewPortrait": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -9203,7 +9284,40 @@
             "competingRecord": "The public March 2024 DoD/AARO historical-record assessment found no verifiable extraterrestrial technology/reverse engineering in reviewed material; that is a differently sourced institutional conclusion but not a complete declassification of every named/anonymous witness. Questions about Grusch's representations to oversight bodies and separate source vetting should not be equated with accusations of reporter misconduct. Neither the article nor government statements provide publicly reproducible specimen data.",
             "missingEvidence": "Editors' independently reviewable documentation of unnamed officials (respecting source confidentiality), separate dates and firsthand knowledge, original inspector-general complaint scope, programme authorization and materials custody, controlled scientific tests, resolution of classified sources and an independent second-editor assessment of the narrow *corroborating reporting* claim.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "grusch-coulthart-2023-recovery-reporting-not-independent"
+            "relatedSourceGroup": "grusch-coulthart-2023-recovery-reporting-not-independent",
+            "m28bOriginalSourceCheck": {
+              "status": "selected_original_publication_passages_checked_not_complete_independent_claim_review",
+              "checkedAt": "2026-11-16",
+              "primaryUrl": "https://thedebrief.org/intelligence-officials-say-u-s-has-retrieved-non-human-craft/",
+              "publicationTitle": "Intelligence Officials Say U.S. Has Retrieved Craft of Non-Human Origin",
+              "publicationDate": "2023-06-05",
+              "method": "direct original signed publisher article and opening original-source assertions; confidential source records not accessible",
+              "category": "journalistic_multiple_source_assertion_not_independently_tested_physical_claim",
+              "passageChecks": [
+                {
+                  "locator": "The Debrief, 5 June 2023, byline Leslie Kean and Ralph Blumenthal; opening paragraphs 1–4",
+                  "finding": "The signed original article reports that additional active and retired intelligence officials supplied the authors with similar or corroborating accounts of alleged recovery programmes.",
+                  "limit": "The publisher describes the sources as independent; their underlying statements, firsthand scope and relationship to one another were not released for an external audit."
+                },
+                {
+                  "locator": "The Debrief, 5 June 2023, paragraphs quoting David Grusch and Christopher Mellon",
+                  "finding": "The article attributes programme and retrieved-craft allegations to Grusch and records Mellon's description of contacts and a need for further validation.",
+                  "limit": "Attributable quotations and a later hearing record document statements made, not separate independently examined recovered objects or chain-of-custody records."
+                },
+                {
+                  "locator": "The Debrief, 5 June 2023, paragraph describing DoD prepublication clearance of Grusch's on-record statements",
+                  "finding": "The authors report that Grusch's intended public statements went through the Department of Defense prepublication and security review process.",
+                  "limit": "Security clearance for public release is not departmental authentication or endorsement of an extraordinary physical allegation."
+                }
+              ],
+              "contrastChecks": [],
+              "sourceLineageNote": "The Debrief's report, subsequent coverage and Grusch's own public hearing may re-cite the same source accounts; the reported additional confidential officials cannot yet be tallied as independently vetted public programme records.",
+              "remainingGap": "Document individual anonymous sources' basis of knowledge under appropriate confidentiality arrangements, independent source overlap, date-stamped official programme records, unbroken physical custody and an independent second editor.",
+              "fullUnderlyingClaimVerification": false,
+              "secondIndependentHumanEditor": "not_obtained",
+              "permissionToPublishScoreOrCommunityVote": false,
+              "permissionToPublishNewPortrait": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -9408,7 +9522,40 @@
             "competingRecord": "The 2019 paper explicitly recognises alternative possibilities of observation fabrication or serious error versus unusual technology, while also favouring the technology interpretation. The NASA 2023 UAP scientific report emphasises instrument calibration and distance context but does not independently reconstruct this specific reported descent. A mathematical calculation's validity cannot establish that its input observations occurred as described.",
             "missingEvidence": "Declassified 2004 original radar tracks and time stamps, independent source validation of the estimated 0.78-second drop, reconciled ship/platform geometry, error and sensitivity analysis under alternative motion models, and second-editor physical-data check remain missing. A 78-second retelling, if encountered in media, must not silently replace the paper's 0.78-second input.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "nimitz-2004-day-secondhand-model"
+            "relatedSourceGroup": "nimitz-2004-day-secondhand-model",
+            "m28bOriginalSourceCheck": {
+              "status": "selected_original_publication_passages_checked_not_complete_independent_claim_review",
+              "checkedAt": "2026-11-16",
+              "primaryUrl": "https://www.mdpi.com/1099-4300/21/10/939",
+              "publicationTitle": "Estimating Flight Characteristics of Anomalous Unidentified Aerial Vehicles",
+              "publicationDate": "2019-09-25",
+              "method": "direct full original publisher HTML passages, 2.4.1 and Figure 3; calculations/measurement sources not independently replicated",
+              "category": "conditional_motion_calculation_not_radar_verified_acceleration",
+              "passageChecks": [
+                {
+                  "locator": "Entropy 21(10):939, section 2.4.1, Senior Chief Kevin Day (RADAR), paragraph on reported 28,000-ft descent",
+                  "finding": "The authors attribute the Nimitz rapid-descent report to radar-operator Kevin Day and explicitly say detailed radar data were unavailable to reconstruct the changing acceleration.",
+                  "limit": "The described 0.78-second descent is an input from a reported observation, not a raw timestamped radar trace published for independent reproduction."
+                },
+                {
+                  "locator": "Entropy 21(10):939, section 2.4.1, reported altitude/time input model immediately after the descent paragraph",
+                  "finding": "The calculation assumes a vertical change of 8,530 ± 90 metres over 0.78 ± 0.08 seconds, with equal acceleration and deceleration phases as a simplified lower-bound motion model.",
+                  "limit": "Uncertainty around those assumed values does not itself independently validate that the reported time interval, altitude, platform geometry or motion path were observed correctly."
+                },
+                {
+                  "locator": "Entropy 21(10):939, Figure 3B and corresponding results text, plus introductory discussion of possibilities",
+                  "finding": "The reported simulation gives a modal acceleration near 5,370 g with a +1,430/-820 g interval and mean near 5,950 g; the paper itself acknowledges report error or fabrication as alternative classes of explanation.",
+                  "limit": "A conditional statistical result cannot be reported as a directly verified 5,370-g flight event or as evidence proving a nonhuman origin."
+                }
+              ],
+              "contrastChecks": [],
+              "sourceLineageNote": "The University at Albany index and MDPI publisher page identify the same 2019 paper; Fravor's later firsthand sighting does not independently certify Day's particular radar-descent timing.",
+              "remainingGap": "Retrieve original 2004 radar logs and timestamp calibration; test geometry, alternative temporal and measurement models and independently reproduce Figure 3 against actual instrument-derived inputs with expert review.",
+              "fullUnderlyingClaimVerification": false,
+              "secondIndependentHumanEditor": "not_obtained",
+              "permissionToPublishScoreOrCommunityVote": false,
+              "permissionToPublishNewPortrait": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
