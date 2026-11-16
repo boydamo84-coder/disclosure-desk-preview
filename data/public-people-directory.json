@@ -1463,7 +1463,43 @@
             "competingRecord": "CNN included astronaut Scott Kelly's proposed optical-illusion or military UAV possibility; it was a hypothesis rather than a forensic conclusion. Science reporting questioned whether the visible disappearance shows anything actually entering water. Navy footage remaining unidentified and the official UAPTF examination do not exclude conventional targets, range ambiguities, sensor effects or stitched footage.",
             "missingEvidence": "Unedited time-synchronised 2019 ship radar tracks and bridge/operational logs, source camera/video masters, raw range/velocity data, ship location and sensor calibrations, water-entry confirmation from independent instruments, chain of source custody and expert optical/radar reconstruction. Second-editor signoff not obtained.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "omaha-2019-navy-clips-uncalibrated-public-release"
+            "relatedSourceGroup": "omaha-2019-navy-clips-uncalibrated-public-release",
+            "m28eFinalSevenSourceCheck": {
+              "status": "targeted_publication_or_indexed_access_comparison_not_editorially_approved",
+              "checkedAt": "2026-11-16",
+              "primaryUrl": "https://transcripts.cnn.com/show/ebo/date/2021-05-31/segment/01",
+              "sourceTitle": "CNN Erin Burnett OutFront — 31 May 2021 publisher rush transcript",
+              "accessGrade": "original_publisher_broadcast_transcript_full_audiovisual_not_reviewed",
+              "sourceMethod": "Direct CNN publisher rush transcript of 31 May 2021 after the 19:50:35 time marker; visual footage and original naval full radar/sensor files not separately reviewed.",
+              "scope": "Direct attributed television interview statement about USS Omaha radar and apparent transmedium imagery, not authenticated technical performance, craft identity, exact track count or physical origin.",
+              "passages": [
+                {
+                  "locator": "CNN 31 May 2021, lines 206–219, Harlow introduction, DoD quotation and Corbell reply",
+                  "kind": "speaker_attribution_and_publisher_quoted_agency_confirmation",
+                  "finding": "CNN records Corbell's claim that USS Omaha radar showed a swarm of more than fourteen objects and quotes a DoD spokesperson confirming that referenced imagery was recorded by Navy personnel and included in UAPTF examination.",
+                  "limit": "The quoted Pentagon response authenticates a recording's Navy provenance and review status, not a calibrated fourteen-track dataset, object classification, propulsion or any claimed anomalous water entry."
+                },
+                {
+                  "locator": "CNN 31 May 2021, lines 224–229, Harlow, astronaut Scott Kelly and Corbell exchange",
+                  "kind": "disputed_technical_inference",
+                  "finding": "After Harlow cites Scott Kelly's optical illusion or military-drone possibility, Corbell asserts the footage showed technology beyond known next-generation capabilities and refers to a separate clip appearing to enter water.",
+                  "limit": "The competing possibility is a hypothesis, not a definitive identification. Corbell's capabilities and transmedium claims are interpretations; original range, time, sea surface and sensor telemetry were not provided."
+                },
+                {
+                  "locator": "CNN original full-show transcript, header lines 6–7 and opening 19:50:35 clip cue lines 206–215",
+                  "kind": "published_record_limit",
+                  "finding": "The original CNN publisher marks the document as a rush transcript subject to updates, while the radar clip includes unidentified crew voices and a shown speed reference without independently supplied underlying data.",
+                  "limit": "A live broadcast transcript and an edited radar video are not a time-correlated ship log or full targeting-sensor archive, and transcript wording may be corrected in later publisher editions."
+                }
+              ],
+              "sourceLineage": "CNN's transcript, Corbell/Knapp releases and subsequent coverage all relate to the same 2019 Navy data package; the Pentagon quotation confirms Navy filming, not the independent performance claims. Repeated distribution is not new instrument corroboration.",
+              "missingEvidence": "Obtain original USS Omaha deck and radar logs, range/geometry metadata, raw video with checksum, vessel and wind conditions, time-correlated sensor tracks, independent nautical analysis, and second expert-editor verification.",
+              "sourceLineageGroup": "omaha-2019-navy-clips-uncalibrated-public-release",
+              "fullUnderlyingClaimVerification": false,
+              "secondIndependentHumanEditor": "not_obtained",
+              "permissionToPublishScoreOrCommunityVote": false,
+              "permissionToApproveNewPortrait": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -1745,7 +1781,49 @@
             "competingRecord": "His text acknowledges disputes over Lazar and says he will not litigate them anew; the 2018 KNPR conversation includes unresolved schooling/employment checks and nonidentical historical evidence questions. AARO's 2024 historical review concluded that it found no verified extraterrestrial reverse-engineering in programmes it investigated, while remaining limited by its reviewed record and predating this 2025 filed account. Broad institutional findings cannot silently settle every Knapp-specific historical assertion.",
             "missingEvidence": "Identifiable original 1989 newsroom tapes and interview notes, authenticated source identities and dated contact records with permission, independent specific recovery-authorization documents, sample custody, complete published Reid/Cannon/Goldwater records and evidence of claimed witness intimidation, expert cross-examination and separate editorial second signoff.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "knapp-lazar-1989-and-2025-retold-retrieval-sources"
+            "relatedSourceGroup": "knapp-lazar-1989-and-2025-retold-retrieval-sources",
+            "m28eFinalSevenSourceCheck": {
+              "status": "targeted_publication_or_indexed_access_comparison_not_editorially_approved",
+              "checkedAt": "2026-11-16",
+              "primaryUrl": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf",
+              "sourceTitle": "House Oversight original signed written testimony, 9 September 2025, seven pages",
+              "accessGrade": "official_original_pdf_selected_pages_visually_checked",
+              "sourceMethod": "Direct original seven-page House Oversight PDF text inspected; original PDF pages 1, 3, 5 and 7 visually inspected (zero-index 0, 2, 4, 6); underlying source papers and classified material not reproduced.",
+              "scope": "Journalist's own signed first-person account of his reporting and interviews, not a first-person eyewitness recovery or independent proof that any named crash-retrieval programme exists.",
+              "passages": [
+                {
+                  "locator": "House written testimony, PDF printed page 1, first two paragraphs",
+                  "kind": "explicit_witness_scope_limit",
+                  "finding": "Knapp introduces himself as KLAS-TV's chief investigative reporter and expressly says he is not a whistleblower or UFO eyewitness, characterising the topic as a long-running journalism investigation.",
+                  "limit": "Public testimony about professional reporting cannot be counted as Knapp personally viewing a crashed craft or participating in military retrieval activity."
+                },
+                {
+                  "locator": "House written testimony, PDF printed page 2, Topic Two and 1989 Lazar/S-4 paragraphs",
+                  "kind": "reported_confidential_informant_chain",
+                  "finding": "Knapp states he sought more than Lazar's original 1989 story, alleges that more than two dozen sources contacted him and says six informants described intimidation after newsroom telephone calls.",
+                  "limit": "The signed document establishes his stated journalistic experiences, but it does not publish the original source testimony, independent informant chronology, complete employment records or any physical-recovery evidence."
+                },
+                {
+                  "locator": "House written testimony, PDF printed page 5, description of claimed Bigelow–Lockheed material negotiations",
+                  "kind": "reported_third_party_agreement",
+                  "finding": "Knapp says an informant alleged negotiations for transfer of unusual material to BAASS; the passage explicitly states that the alleged agreement was not completed and material was not produced by this submission.",
+                  "limit": "Reported discussions and an asserted uncompleted transaction do not establish existence, tested composition, origin or custodial transfer of recovered non-human material."
+                },
+                {
+                  "locator": "House written testimony, PDF printed page 7, final Russia-files discussion and signature",
+                  "kind": "asserted_historical_archive_access",
+                  "finding": "Knapp describes interviews with Russian sources and says supporting witness statements and translated documents were submitted to the task force, ending as an attributed signed report.",
+                  "limit": "The public testimony does not itself make each alleged Russian original, chain of custody, translation, classification record or reported technological finding independently inspectable."
+                }
+              ],
+              "sourceLineage": "Knapp's 1989 reporting, later Lazar interviews and this 2025 retrospective refer to overlapping source networks, including one original reporter's source claims. House hosting certifies the signed statement was submitted, not its underlying material assertions.",
+              "missingEvidence": "Acquire the original documents Knapp says he supplied, reporter/interview records with lawful protection for confidential sources, dated release provenance, unaffiliated source comparisons, material chain of custody and independent editorial review.",
+              "sourceLineageGroup": "knapp-lazar-1989-and-2025-retold-retrieval-sources",
+              "fullUnderlyingClaimVerification": false,
+              "secondIndependentHumanEditor": "not_obtained",
+              "permissionToPublishScoreOrCommunityVote": false,
+              "permissionToApproveNewPortrait": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -2947,7 +3025,43 @@
             "competingRecord": "The Washington Post's contemporaneous on-scene report said no forensic physical evidence was exhibited at the event and differentiated witness credentials from confirmed object origins. ABC News quoted NASA-experienced critic James Oberg noting that unexplained observations warrant documentation but should not be conflated with Greer's overarching cover-up theory. Neither reporter determined every witness's underlying incident false.",
             "missingEvidence": "Unedited original May 2001 recording and complete named witness roster with interview dates, verifiable contemporaneous service/duty records, item-by-item independent witnesses and radar/physical data, preserved sample provenance, opportunity for each witness to respond, and a second trained editorial reviewer.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "disclosure-project-2001-one-press-event-many-unverified-accounts"
+            "relatedSourceGroup": "disclosure-project-2001-one-press-event-many-unverified-accounts",
+            "m28eFinalSevenSourceCheck": {
+              "status": "targeted_publication_or_indexed_access_comparison_not_editorially_approved",
+              "checkedAt": "2026-11-16",
+              "primaryUrl": "https://abcnews.go.com/Technology/story?id=98572&page=1",
+              "sourceTitle": "ABC News contemporaneous article on National Press Club event, dated 9–10 May 2001",
+              "accessGrade": "contemporaneous_original_newsroom_article_not_press_conference_master",
+              "sourceMethod": "Direct original ABC News 9–10 May 2001 contemporaneous reporting and original WorldCat catalogue listing of edited 2001 VHS; no full National Press Club event tape or 400 witness depositions watched.",
+              "scope": "Organizer's 2001 public claims about extraterrestrial presence and government secrecy, as attributed by independent press; not confirmed 400 original statements or a laboratory demonstration of extraordinary hardware.",
+              "passages": [
+                {
+                  "locator": "ABC News Group Calls for Disclosure of UFO Info, 9–10 May 2001, lines 8–13",
+                  "kind": "original_contemporary_event_attribution",
+                  "finding": "ABC's original report documents a National Press Club event involving roughly twenty former military/government workers and quotes organizer Steven Greer claiming the event proved humanity was not alone.",
+                  "limit": "An independent newsroom witnessing a press event establishes that the claims were presented and who presented them, not whether specific alien or government-secrecy allegations were empirically proven."
+                },
+                {
+                  "locator": "ABC News 9–10 May 2001, lines 13–15, organizer's claimed witness pool",
+                  "kind": "organizer_asserted_witness_count",
+                  "finding": "ABC reports Greer's assertion that approximately four hundred people with purported firsthand accounts were willing to testify before Congress, while the event itself hosted a far smaller set.",
+                  "limit": "The figure of about 400 is the organizer's asserted potential witness pool, not 400 independently published sworn depositions or verified extraterrestrial recoveries."
+                },
+                {
+                  "locator": "WorldCat OCLC 52741633 original library entry for Disclosure Project National Press Club 9 May 2001 VHS",
+                  "kind": "independent_catalogue_not_authentication_of_testimony",
+                  "finding": "A published library catalogue identifies an edited video record of the 9 May 2001 conference, listing the organizer, production and more than twenty participants.",
+                  "limit": "Bibliographic listing confirms edited recording exists as a publication, not that the edited tape was fully inspected or that the statements in it were independently corroborated."
+                }
+              ],
+              "sourceLineage": "ABC contemporary journalism and the WorldCat record are different custodians confirming the event and published recording; their independence does not imply each interview or witness is independent physical proof. Repeated Greer briefing documents are organizer-controlled.",
+              "missingEvidence": "Review original complete event video and edited-versus-unedited differences, individually audit witness date/provenance and original contemporaneous technical records, separate identities and claims, and obtain a named second editor.",
+              "sourceLineageGroup": "disclosure-project-2001-one-press-event-many-unverified-accounts",
+              "fullUnderlyingClaimVerification": false,
+              "secondIndependentHumanEditor": "not_obtained",
+              "permissionToPublishScoreOrCommunityVote": false,
+              "permissionToApproveNewPortrait": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -4439,7 +4553,43 @@
             "competingRecord": "Critics raise provenance and specimen-identification questions and note the terrestrial-compatible isotope conclusion; an informal technical discussion is different from peer-reviewed repeat measurement. The original paper itself says exact sample function/provenance remain unknown and is not a laboratory proof of a UAP craft.",
             "missingEvidence": "End-to-end chain of custody from alleged 1977 recovery, unaltered sample records and photographs, modern calibrated isotope datasets and independent blind laboratory verification of origin are not available as a completed editor-reviewed evidence package.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "council-bluffs-1977-one-paper-100788"
+            "relatedSourceGroup": "council-bluffs-1977-one-paper-100788",
+            "m28eFinalSevenSourceCheck": {
+              "status": "targeted_publication_or_indexed_access_comparison_not_editorially_approved",
+              "checkedAt": "2026-11-16",
+              "primaryUrl": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+              "sourceTitle": "Nolan, Vallée, Jiang and Lemke, Progress in Aerospace Sciences 128 (2022) article 100788",
+              "accessGrade": "publisher_indexed_abstract_direct_article_403_shared_study",
+              "sourceMethod": "Direct publisher full-text access returned HTTP 403; publisher-indexed abstract and selected journal section snippets read through search, with third-party full-text copies treated as unverified mirrors, not an author or publisher hosted original.",
+              "scope": "Coauthored physical-material laboratory study of the same Council Bluffs parent sample CB_JV-1 as Garry Nolan's directory record, NOT a second independent specimen experiment or established nonhuman manufactured artifact.",
+              "passages": [
+                {
+                  "locator": "Progress in Aerospace Sciences 128, 2022, article 100788, publisher indexed abstract, first half",
+                  "kind": "publisher_abstract_methods",
+                  "finding": "The indexed original journal abstract describes mass spectrometry and elemental/spatial analysis of five subsample grains from CB_JV-1 with elemental heterogeneity across the parent specimen.",
+                  "limit": "Indexed publisher text documents the authors' claimed measurements but direct 2022 publisher full-text access failed; neither specimens nor original measurement files were examined in this pass."
+                },
+                {
+                  "locator": "Same publisher abstract, last section describing isotope results and specimen origins",
+                  "kind": "published_isotope_limit",
+                  "finding": "The paper's abstract reports no statistically significant isotope ratios outside terrestrial-normal values in tested subsamples and explicitly allows terrestrial-derived material, with origin and function unresolved.",
+                  "limit": "Heterogeneous elemental chemistry and unresolved chain of custody cannot be represented as demonstrated nonhuman engineering, extraterrestrial isotopes or verified origin from a specific observed aerial object."
+                },
+                {
+                  "locator": "Publisher indexed conclusion section, Summary and Speculative conclusions snippets",
+                  "kind": "publisher_indexed_conclusion_context",
+                  "finding": "The indexed concluding material emphasises that establishing origin and purpose remains difficult; sample composition analysis does not independently resolve alleged witness observations or material custody.",
+                  "limit": "A publisher search-index excerpt is not a fully audited 2022 paper, blinded independent laboratory replication, full sample transfer log or a personally witnessed craft by Vallée."
+                }
+              ],
+              "sourceLineage": "IMPORTANT: This is EXACTLY the same DOI and Council Bluffs parent sample as Garry Nolan's Who's Who profile, under lineage group council-bluffs-1977-one-paper-100788. Two coauthors' pages count as ONE empirical study, not two independent recoveries.",
+              "missingEvidence": "Obtain lawful original publisher-authorised full text, raw NanoSIMS/MIBI spectra, complete 1977-to-present custody, sample identifiers and terrestrial controls, blinded outside-laboratory replication and one independent technical editor across both coauthors.",
+              "sourceLineageGroup": "council-bluffs-1977-one-paper-100788",
+              "fullUnderlyingClaimVerification": false,
+              "secondIndependentHumanEditor": "not_obtained",
+              "permissionToPublishScoreOrCommunityVote": false,
+              "permissionToApproveNewPortrait": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -4716,7 +4866,43 @@
             "competingRecord": "A formal investigation is compatible with many factual outcomes; neither an inquiry's existence nor a military denial alone determines biological origin. The Brazilian original inquiry volumes and Portuguese-language conclusions were not fully directly opened, translated or independently interpreted here: an excerpted searchable catalogue does not warrant attributing definitive findings to a specific judge/prosecutor. Natural/medical/animal alternatives must be examined with original localized witness timelines and records.",
             "missingEvidence": "Complete legally available Moment of Contact viewing with exact original Portuguese interviews, professional translations and consent/rights review; official 1997 STM original complete court papers including conclusion and evidentiary exhibits; independent local witness/date reconciliation, medical/hospital and army duty registers, physical specimen/custody examination, separate bilingual reviewer.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "varginha-1996-witness-film-1997-stm-inquiry"
+            "relatedSourceGroup": "varginha-1996-witness-film-1997-stm-inquiry",
+            "m28eFinalSevenSourceCheck": {
+              "status": "targeted_publication_or_indexed_access_comparison_not_editorially_approved",
+              "checkedAt": "2026-11-16",
+              "primaryUrl": "https://filmschoolradio.com/the-program-director-james-fox/",
+              "sourceTitle": "Film School Radio The Program director James Fox interview and biography",
+              "accessGrade": "original_film_director_publisher_pages_full_film_not_played",
+              "sourceMethod": "Direct 2022 Film School Radio original Moment of Contact interview-page description, 2024 The Program director interview/biography and indexed Brazil STM military inquiry catalogue; no full original film witness audio or complete Brazilian 1997 inquiry inspected.",
+              "scope": "Published documentary description of claimed 1996 Varginha sightings and alleged military handling, not an independent 1996 biological specimen, military custody record or physical extraterrestrial finding.",
+              "passages": [
+                {
+                  "locator": "Film School Radio original Moment of Contact – Director James Fox page, paragraphs 12–15",
+                  "kind": "original_publisher_project_description",
+                  "finding": "The 2022 filmmaker interview page dates the reported Brazilian Varginha incident to 1996 and describes a documentary built around alleged witnesses, former military personnel and filmmaker reporting.",
+                  "limit": "A programme synopsis confirms the film's subject and attribution but not a full unedited original witness interview, independent testimony reliability or any authenticated nonhuman remains."
+                },
+                {
+                  "locator": "Film School Radio The Program – Director James Fox page, About the filmmaker paragraph 22",
+                  "kind": "publisher_publication_date_discrepancy",
+                  "finding": "The later biographical description apparently dates Varginha to 1966, in direct conflict with the same publisher's original 2022 page placing the alleged event in 1996.",
+                  "limit": "The 1966 entry is best flagged as an apparent publisher typo, not silently copied as a new incident date or reinterpreted as a separate verified event."
+                },
+                {
+                  "locator": "Brazil Superior Tribunal Militar ARQUIMEDES catalogue, IPM 18/1997, indexed 1997 investigation summary",
+                  "kind": "official_inquiry_catalogue_not_its_final_finding",
+                  "finding": "The public official STM archive indexes military police inquiry 18/1997 and refers to published allegations concerning 20 January 1996 in Varginha; a selected STM archive results page could not be opened directly.",
+                  "limit": "An institutional catalogue confirms an inquiry index and historical allegation date, not that military capture claims were established or that the court's full evidence and conclusions were reviewed."
+                }
+              ],
+              "sourceLineage": "The same film maker's film, promotional biography and director interviews are repeated publication formats, not independent 1996 witnesses. An official archive catalogue is an independent administrative record of the inquiry, not confirmation the alleged entity existed.",
+              "missingEvidence": "Read the complete IPM 18/1997 volumes including Brazilian-Portuguese testimony and final findings, independently translate witness passages with dates, inspect the documentary's original interviews and production edits, trace military records and independently test any alleged samples.",
+              "sourceLineageGroup": "varginha-1996-witness-film-1997-stm-inquiry",
+              "fullUnderlyingClaimVerification": false,
+              "secondIndependentHumanEditor": "not_obtained",
+              "permissionToPublishScoreOrCommunityVote": false,
+              "permissionToApproveNewPortrait": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -4997,7 +5183,43 @@
             "competingRecord": "Pope's own source acknowledges the Ministry of Defence described the incident as of no defence significance, even though reports remained unexplained. The 2012 National Archives research briefing describes lights, separate nights, and collected military correspondence, not a conclusively demonstrated landing or identified origin. Competing beacon/astronomical/aircraft hypotheses require original geometry, event-time and instrument records rather than dismissive labels.",
             "missingEvidence": "Original 2013 briefing provenance and full historic text; original 1980/1981 witness signed statements, Halt tape and temporal metadata, base/radar logs, precise lighthouse/astronomical reconstruction, site marks and calibrated independent measurements; case-specific independent scientific review.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "rendlesham-1980-distinct-nights-halt-warren-claims"
+            "relatedSourceGroup": "rendlesham-1980-distinct-nights-halt-warren-claims",
+            "m28eFinalSevenSourceCheck": {
+              "status": "targeted_publication_or_indexed_access_comparison_not_editorially_approved",
+              "checkedAt": "2026-11-16",
+              "primaryUrl": "https://nickpope.net/wpte19/rendlesham-forest/",
+              "sourceTitle": "Nick Pope author-published Rendlesham Forest case briefing, associated with 2013 presentation",
+              "accessGrade": "author_page_search_indexed_live_redirect_inaccessible",
+              "sourceMethod": "Original nickpope.net author article was publisher-indexed and its own passages read via search; direct website fetch currently redirects to an inaccessible host, so exact original HTML full-page review and a 2013 historical snapshot could not be completed.",
+              "scope": "Retrospective review and personal interpretation by a later MoD UFO desk worker, not eyewitness testimony to December 1980 phenomena, documented nonhuman craft or final official MOD incident finding.",
+              "passages": [
+                {
+                  "locator": "Nick Pope original author article Rendlesham Forest, indexed passage beginning 'Though these events happened some time before I joined the MoD'",
+                  "kind": "author_acknowledged_not_eyewitness",
+                  "finding": "Pope explicitly states that the 1980 Rendlesham events happened before he joined the British Ministry of Defence UFO desk, where he worked in 1991–1994, and that his role was retrospective case review.",
+                  "limit": "A later official desk role and conversations with witnesses do not transform Pope into a 1980 eyewitness or prove the accuracy of individual claims reported to him."
+                },
+                {
+                  "locator": "Pope author article indexed passage 'In the course of my cold case review', discussion of conventional theories",
+                  "kind": "attributed_retrospective_interpretation",
+                  "finding": "Pope states he re-examined conventional explanations including misidentification, hoax, delusion and secret aircraft, and concluded none satisfied his reading of the historical account.",
+                  "limit": "The article proves he made an evaluative argument; rejected explanations do not establish a spacecraft, nonhuman intelligence or that independently calibrated historical evidence was collected."
+                },
+                {
+                  "locator": "Same author article indexed section on UK MoD 'no defense significance' and US inquiries",
+                  "kind": "official_position_described_by_author_not_independently_reevaluated",
+                  "finding": "Pope recounts the Ministry's no-defense-significance public response and says he does not know the results of US government inquiries into the case.",
+                  "limit": "An author describing official messaging cannot replace original MoD case files, full US material, separate December duty logs or a dated archived 2013 copy of the passage."
+                }
+              ],
+              "sourceLineage": "Pope's 2013 presentation text, later book/publicity and interviews repeat the same retrospective analysis, not an additional firsthand December 1980 encounter. Existing National Archives guidance confirms archival documentation but not his physical interpretation.",
+              "missingEvidence": "Retrieve verified 2013 snapshot of the author's original page and actual presentation, review primary Halt report, tape, independent site timeline and original MoD/US records, reconcile lighthouse aircraft/drone scenarios with measured constraints, and obtain a second human case editor.",
+              "sourceLineageGroup": "rendlesham-1980-distinct-nights-halt-warren-claims",
+              "fullUnderlyingClaimVerification": false,
+              "secondIndependentHumanEditor": "not_obtained",
+              "permissionToPublishScoreOrCommunityVote": false,
+              "permissionToApproveNewPortrait": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
@@ -9400,7 +9622,43 @@
             "competingRecord": "A public critical methodology thread queries the photographed specimen identification, representation of grains and missing complete chain of custody. That thread is an informal critique and not an independently performed laboratory analysis. The paper itself reports terrestrial-compatible isotopes, which is the most important scientific limit; NASA-wide measurement advice is not direct sample refutation.",
             "missingEvidence": "Complete 1977-to-present specimen transfers/handling, authentic raw NanoSIMS and MIBI error/calibration details, blinded control specimens, source-identification tests and a truly independent outside-laboratory replication are still needed before conclusions about origin or engineering.",
             "reviewerSignoff": "not_obtained",
-            "relatedSourceGroup": "council-bluffs-1977-one-paper-100788"
+            "relatedSourceGroup": "council-bluffs-1977-one-paper-100788",
+            "m28eFinalSevenSourceCheck": {
+              "status": "targeted_publication_or_indexed_access_comparison_not_editorially_approved",
+              "checkedAt": "2026-11-16",
+              "primaryUrl": "https://www.sciencedirect.com/science/article/pii/S0376042121000907",
+              "sourceTitle": "Nolan, Vallée, Jiang and Lemke, Progress in Aerospace Sciences 128 (2022) article 100788",
+              "accessGrade": "publisher_indexed_abstract_direct_article_403_shared_study",
+              "sourceMethod": "Direct original ScienceDirect article access returned HTTP 403; publisher-indexed abstract and selected section snippets read; linked third-party reproductions are not independently authenticated original publisher PDFs.",
+              "scope": "Scientist coauthor's analysis of Council Bluffs CB_JV-1 subsamples, identical DOI and source material to Vallée's dossier: one shared physical sample investigation, no independent origin/engineering confirmation.",
+              "passages": [
+                {
+                  "locator": "Progress in Aerospace Sciences 128 article 100788, indexed original publisher abstract, sample composition",
+                  "kind": "publisher_abstract_methods",
+                  "finding": "The coauthored paper documents modern mass-spectrometry comparison of five CB_JV-1 grains, reporting varying elemental ratios among separate particles and fairly homogeneous small-scale depth profiles.",
+                  "limit": "These are reported tests from a single research team, not a second independent laboratory reproducing the findings with a blinded control and validated full custody chain."
+                },
+                {
+                  "locator": "Original publisher indexed abstract, final result on no isotope deviations",
+                  "kind": "published_isotope_limit",
+                  "finding": "The researchers explicitly conclude tested subsample isotopic ratios are not significantly different from terrestrial normal and acknowledge the sample could have been formed from Earth-derived materials.",
+                  "limit": "A lack of measured nonterrestrial isotope anomaly does not decide the exact historical deposition, and the publication does not establish a functional alien-engineered component."
+                },
+                {
+                  "locator": "Original publisher indexed Speculative conclusions and Summary excerpts, 2022",
+                  "kind": "publisher_indexed_conclusion_context",
+                  "finding": "Selected indexed sections acknowledge that determining the recovered sample's origin and function is an unresolved forensic question requiring suitable comparison methods and complete provenance.",
+                  "limit": "The publisher full article was blocked, and extracted snippet text is not a full methods audit or independent inspection of the original 1977 event evidence."
+                }
+              ],
+              "sourceLineage": "Same DOI 10.1016/j.paerosci.2021.100788, same four coauthors, same parent specimen CB_JV-1 and same controls as Jacques Vallée's profile; this is ONE study, not two independent corroborations or independent test sets.",
+              "missingEvidence": "Acquire original sanctioned full study and supplemental datasets, instrument calibration/error files, custody evidence and blind control materials; compare a truly independent laboratory reproduction and obtain a single named technical reviewer for the shared study.",
+              "sourceLineageGroup": "council-bluffs-1977-one-paper-100788",
+              "fullUnderlyingClaimVerification": false,
+              "secondIndependentHumanEditor": "not_obtained",
+              "permissionToPublishScoreOrCommunityVote": false,
+              "permissionToApproveNewPortrait": false
+            }
           },
           "ratingReadiness": {
             "status": "first_pass_triage",
