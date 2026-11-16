@@ -35,7 +35,8 @@ for(const s of m32.sources){
  assert(['docs.house.gov','www.govinfo.gov','archive.dni.gov'].includes(u.hostname),
  'Original government source only');
  assert(s.sourceRole.length>30,'Careful source relationship text required');
- assert.equal(s.fullVisualAudit,true===s.fullVisualAudit?true:false);
+ if(s.pageCount!==null) assert.equal(typeof s.fullVisualAudit,'boolean','PDF image audit flag mandatory');
+ else assert.equal(s.fullVisualAudit,undefined,'HTML record has no PDF visual audit flag');
 }
 assert.equal(byId.get('shellenberger-212-page-submission').pageCount,212);
 assert.equal(byId.get('mace-12-page-unnamed-report').pageCount,12);
