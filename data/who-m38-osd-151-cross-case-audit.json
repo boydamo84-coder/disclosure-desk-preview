@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "edition": "m38-distinct-151-page-foia-publication-and-referral-track",
+  "checkedDate": "2026-11-16",
+  "status": "research_only_no_referral_disposition_authenticated_no_emails_sent_no_deploy",
+  "parentEdition": "m37-distinguish-osd-20-f-1095-from-navy-007231-referred-151-pages",
+  "crossCaseRegisters": [
+    {
+      "id": "navy-2020-007231",
+      "foiaCase": "DON-NAVY-2020-007231",
+      "agency": "NAVAIR",
+      "dateOfRequest": "2020-04-08",
+      "dateOfDecision": "2025-07-08",
+      "originalLetterUrl": "https://documents2.theblackvault.com/documents/navy/2020-007231.pdf",
+      "host": "documents2.theblackvault.com",
+      "sourceKind": "government-authored navy response hosted by FOIA requester",
+      "visuallyInspectedPagesZeroBased": [
+        0,
+        1
+      ],
+      "describedNumbers": {
+        "releasedEmailGroups": 4,
+        "releasedPages": 34,
+        "withheldEmails": 59,
+        "withheldLegalMemos": 3,
+        "withheldPages": 498,
+        "referredDocuments": 7,
+        "referredPages": 151
+      },
+      "dispositionOf151Referral": "NOT_LOCATED_IN_PUBLIC_SOURCES_CHECKED_AS_OF_2026_11_16",
+      "referralResponseNumberKnown": false,
+      "specificReferralContactFromNavyLetter": "osd.mc-alex.oatsd-pclt.mbx.pcld-correspondence@mail.mil",
+      "firstPartyContactAsOf2025NotVerifiedCurrent": true,
+      "supportingNewsUrl": "https://www.theblackvault.com/documentarchive/navy-withheld-nearly-500-pages-about-uap-video-release-decision-records-show-foia-pressure-drove-disclosure/",
+      "supportingNewsPublication": "2025-07-09",
+      "newsOnDateSaysPending": true,
+      "newsCannotProveStillPending2026": true,
+      "appealAtDateSaysFiledByRequester": true,
+      "appealPresentOutcomeNotVerified": true,
+      "missingDispositionMustNotBeReportedAsRefusal": true
+    },
+    {
+      "id": "osd-19-f-1420",
+      "foiaCase": "19-F-1420",
+      "agency": "OSD/JS (public affairs searches)",
+      "dateOfRequest": "2019-06-25",
+      "dateOfDecision": "2025-07-01",
+      "originalLetterUrl": "https://documents2.theblackvault.com/documents/osd/19-F-1420.pdf",
+      "host": "documents2.theblackvault.com",
+      "sourceKind": "government-authored OSD decision mirrored by FOIA requester",
+      "originalResponsePages": 154,
+      "publishedDownloadLabelPages": 156,
+      "newsStoryCallsPages": 151,
+      "sourceForNewsPageCount": "https://www.theblackvault.com/documentarchive/do-not-respond-pentagon-staff-instructed-to-ignore-the-black-vaults-uap-inquiry/",
+      "sourceForPublishedFilePageCount": "https://www.theblackvault.com/documentarchive/do-not-respond-pentagon-staff-instructed-to-ignore-the-black-vaults-uap-inquiry/",
+      "pdfExtractedTextRead": true,
+      "pdfScreenshotAttempt": "FAILED_due_19_875_896_byte_viewer_limit",
+      "originalDocumentHashSHA256": null,
+      "scanNotVisuallyChecked": true,
+      "subject": "2019 press questions concerning UAP videos, classification and DOPSR/agency answers",
+      "exhibitsContext": {
+        "reportedInternalEmailDate": "2019-08-19",
+        "summary": "An internal DoD email instructed staff to route requester queries to public affairs and said the Navy had not responded to a DOPSR-related question.",
+        "notScientificOrObjectIdentityProof": true,
+        "doNotTreatPressInterpretationAsOfficialFinding": true
+      },
+      "isDocumentaryProofThat151NavyReferralClosed": false,
+      "sameUnderlyingSevenDocumentsDemonstrated": false,
+      "crossCaseNumberToNavyReferral": "NO_ORIGINAL_REFERRAL_IDENTIFIER_OR_DISPOSITION_IN_OFFICIAL_COVER_LETTER",
+      "countsExplanationUnverified": true,
+      "publishedUnderSeparateRequestBeforeNavyLetter": true
+    },
+    {
+      "id": "osd-20-f-1095",
+      "foiaCase": "20-F-1095",
+      "agency": "OSD/JS (public affairs searches)",
+      "dateOfRequest": "2020-05-16",
+      "dateOfDecision": "2025-06-18",
+      "originalLetterUrl": "https://documents2.theblackvault.com/documents/osd/20-F-1095.pdf",
+      "originalResponsePages": 263,
+      "mentionsNavy007231": true,
+      "sameAs151ReferralProven": false,
+      "sourceKind": "government-authored separate FOIA response hosted by requester",
+      "originalDocumentHashSHA256": null,
+      "pdfScreenshotAttempt": "FAILED_due_42MB_viewer_limit"
+    }
+  ],
+  "relatedSources": [
+    {
+      "id": "osd-foia-official-contact-2026",
+      "url": "https://www.esd.whs.mil/FOID/Contact-Us/",
+      "value": "whs.mc-alex.esd.mbx.osd-js-foia-requester-service-center@mail.mil",
+      "role": "OSD/JS FOIA Requester Service Center current agency website",
+      "verified": "official_page_indexed_and_exposed_by_current_search_direct_open_403",
+      "doNotConflateWith2025ReferralAddress": true
+    },
+    {
+      "id": "nara-college-park-current-reference",
+      "url": "https://www.archives.gov/college-park/researcher-info",
+      "value": "archives2reference@nara.gov",
+      "role": "Textual Research Reference",
+      "verified": "current_official_html_direct_page_text"
+    },
+    {
+      "id": "nara-mj12-current-1956",
+      "url": "https://www.archives.gov/research/military/air-force/ufos",
+      "value": "1956",
+      "role": "Current NARA Reference Report item 9",
+      "verified": "current_official_html_direct_page_text"
+    },
+    {
+      "id": "1988-revised-source-on-third-party-pdf",
+      "url": "https://projectaquarius.mufon.com/wp-content/uploads/pcg-bill-moore-files-collection/ARCHIVES-NATL.pdf",
+      "value": "1988-05-09",
+      "role": "Scanned historically revised NARA-attributed report",
+      "verified": "M36_visual_six_page_audit_not_official_custody"
+    },
+    {
+      "id": "osd-foia-regulation",
+      "url": "https://www.esd.whs.mil/FOID/FOIA-FAQs/",
+      "value": "FOIA status enquiry procedure",
+      "role": "FOIA administrative inquiry context",
+      "verified": "official_website_search_index"
+    }
+  ],
+  "evidenceComparisons": [
+    {
+      "id": "count-is-not-identity",
+      "left": "navy-2020-007231",
+      "right": "osd-19-f-1420",
+      "relation": "same_151_number_in_two_unlinked_foia_contexts",
+      "sharedDocumentsVerified": false,
+      "referredSevenDocumentClosureProven": false,
+      "reason": "2019 original OSD request with 154 identified responsive pages is distinct from 2020 Navy 7-document referral; match in media shorthand is not source-specific linking evidence."
+    },
+    {
+      "id": "additional-263-case",
+      "left": "navy-2020-007231",
+      "right": "osd-20-f-1095",
+      "relation": "third_separate_osd_request_with_reference_to_navy_case",
+      "sharedDocumentsVerified": false,
+      "referredSevenDocumentClosureProven": false,
+      "reason": "OSD 20-F-1095 was a separate 2020 request with 263 pages, despite administrative references to Navy case."
+    },
+    {
+      "id": "two-osd-cases",
+      "left": "osd-19-f-1420",
+      "right": "osd-20-f-1095",
+      "relation": "separate_requests_original_request_dates_agencies_and_page_counts",
+      "sharedDocumentsVerified": false,
+      "referredSevenDocumentClosureProven": false,
+      "reason": "Government authorship/repeated UAP video subject alone does not turn two FOIA response packages into independent sensor reports."
+    }
+  ],
+  "originalDataAccess": {
+    "sameAsOfficiallyReleasedNavy2004CameraMaster": false,
+    "originalNavyMP4Downloaded": false,
+    "originalNavyMP4SHA256": null,
+    "originalNavyNASADeckDownloaded": false,
+    "originalNavyNASADeckSHA256": null,
+    "original2004RadarRecordsInspected": false,
+    "may1988NARACertifiedRevisionObtained": false
+  },
+  "outreach": [
+    {
+      "id": "osd-referral-status-question",
+      "mode": "draft_only",
+      "sent": false,
+      "appropriateRecipientHint": "Specific 2025 Navy letter contact for the referred OSD documents; current official OSD/JS FOIA Requester Service Center contact as fallback",
+      "noOriginalRequesterIdentityClaim": true,
+      "subject": "Clarification of seven OSD-referred documents / 151 pages — DON-NAVY-2020-007231",
+      "body": "I am researching the public records history of NAVAIR case DON-NAVY-2020-007231. The Navy's 8 July 2025 letter states that seven responsive documents totalling 151 pages were referred to OSD for separate review and direct response to the original requester. Could you identify the OSD tracking number, decision date, or publicly releasable disposition, if any? I have seen separate OSD cases 19-F-1420 and 20-F-1095, which discuss the same public videos, but cannot confirm that either answers the seven-document referral. I do not seek private requester details or withheld material. Thank you."
+    },
+    {
+      "id": "nara-revision-custody-question",
+      "mode": "draft_only",
+      "sent": false,
+      "appropriateRecipientHint": "archives2reference@nara.gov — official NARA College Park textual reference",
+      "noOriginalRequesterIdentityClaim": true,
+      "subject": "Reference enquiry — 9 May 1988 revised MJ-12 Reference Report",
+      "body": "I am researching the provenance of a report attributed to NARA Military Reference Branch, titled 'Reference Report on MJ-12 (revised)', dated 9 May 1988 and signed by Jo Ann Williamson. Its item 9 appears to correct a civil-defence meeting folder year from '1954' in the July 1987 report to an underlined '1956'; the current NARA website uses 1956. Could you confirm whether NARA issued the revised document and provide its archival series or a directly NARA-hosted scanned copy, if available? I am asking about the documentary version history, not seeking confirmation of the alleged MJ-12 programme. Thank you."
+    }
+  ],
+  "guardrails": {
+    "neverTreatMatchingPageCountAsFOIACaseResolution": true,
+    "unknown151ReferralStatusRemainsUnknown": true,
+    "noFalse2026PendingClaim": true,
+    "noThirdPartyReportAsOfficialInquiryResponse": true,
+    "noInventedPDFHash": true,
+    "noIndependentlyAuthenticatedMJ12Programme": true,
+    "noHumanSecondEditorApproval": true,
+    "noPublishedScores": true,
+    "noPersonalHonestyBelievability": true,
+    "noCommunityVotes": true,
+    "noNewPortraitRights": true,
+    "noEmailsOrFOIARequestsSent": true,
+    "noSupabaseOrAccountChanges": true,
+    "noNetlifyDeploy": true,
+    "noProductionChange": true,
+    "noPublicResearchPackaging": true
+  }
+}
