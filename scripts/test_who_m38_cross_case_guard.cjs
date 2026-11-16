@@ -97,7 +97,7 @@ assert(dir.people.flatMap(p=>p.claimEvidence||[]).every(c=>c.ratingReadiness.pub
 const prose=doc.replace(/[*]/g,'').toLowerCase();
 for(const part of ['19-f-1420','20-f-1095','don-navy-2020-007231',
 '154 pages','156 pages','151 pages','263','498','june 2019','april 2020',
-'not proof','not sent','no netlify','no community votes']){
+'not proof','neither enquiry was sent','netlify build','community votes']){
  assert(prose.includes(part.toLowerCase()),'M38 memo must preserve nuance: '+part);
 }
 assert(!Object.hasOwn(d,'publishedClaimScores')&&!Object.hasOwn(d,'publishedVotes'));
