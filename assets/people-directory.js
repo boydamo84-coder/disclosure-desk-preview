@@ -616,7 +616,9 @@ function m29EditorialReadinessHtml(claim){
   peerLinks(p.samePublicationContainerPeers,'Shared publication container (may contain distinct witnesses)')+
   peerLinks(p.sameClaimFamilyPeers,'Same indexed claim/case family')+
   (edges.length?'<h5>Source relationships requiring deduplication</h5><ul class="claim-evidence-list">'+edges.join('')+'</ul>':'')+
-  '<h5>Five criterion checks awaiting human assessment</h5><ul class="claim-evidence-list">'+rubric+'</ul>'+
+  (p.claimedScope==='public_policy_or_records_only'?
+   '<p><strong>Physical-incident evidence percentage: Not applicable.</strong> This policy/records-access record receives source and legal-context review only, not numerical incident scoring.</p>':
+   '<h5>Five criterion checks awaiting human assessment</h5><ul class="claim-evidence-list">'+rubric+'</ul>')+
   '<h5>Required approval steps — none completed</h5><ol>'+steps.map(s=>'<li>'+esc(s)+'</li>').join('')+'</ol>'+
   '<p class="muted small">Research pack prepared '+esc(p.preparedAt)+
   ' · First human editor: no signed approval · Independent second editor: not assigned · No public evidence percentage, no member ballot, no portrait approval.</p>'+
@@ -760,6 +762,10 @@ function draftEvidenceTrailHtml(claim){
   '<p class="muted small">No criterion-by-criterion points or community votes are available until a separate source-and-editorial approval.</p>';
 }
 function publishedClaimReview(claim){
+ // M29 additional fail-closed embargo: source-readiness queue is never a signed release.
+ // Even legacy flags cannot publish a score while the M29 human approval gate is closed.
+ if(claim?.m29EditorialPreparation &&
+    claim.m29EditorialPreparation.publicationGate!=='approved_after_dual_human_review')return null;
  // Research-policy recommendations and unknown claim categories must never
  // receive a fabricated 0–100 physical-evidence assessment.
  // Explicitly signed approval records are mandatory; missing metadata is NOT approval.
