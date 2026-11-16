@@ -9,6 +9,7 @@ const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;
 const safeUrl=value=>{try{const u=new URL(String(value));return u.protocol==='https:'&&!u.username&&!u.password?u.href:null}catch{return null}};
 const supportedVideoId=id=>typeof id==='string'&&/^[A-Za-z0-9_-]{11}$/.test(id);
 let people=[];
+let editorialM29=null; // Optional read-only public review ledger, never a score or human signoff.
 let selected=null;
 let caseLinks={valid:true,links:[]};
 const CASE_RETURN_KEY='dd-who-case-return-v1';
@@ -520,6 +521,132 @@ function m28eFinalSevenSourceHtml(claim){
   '<p class="muted small">Underlying claim verification: incomplete · Independent human editor: not obtained · Claim scores, community voting and new portrait permission: withheld.</p>'+
   '</details>';
 }
+// M29: testable public process ledger. This cannot authorise scoring:
+// publication is still exclusively controlled by independent claim approvals.
+const M29_DIMENSIONS=Object.freeze([
+ 'claim_scope','original_record','source_independence','competing_records',
+ 'measurement_or_documentary_test','human_editorial_review','publication_safety'
+]);
+const M29_RELATIONS=Object.freeze([
+ 'shared_publication_not_equivalent_testimony','same_empirical_study_and_parent_sample',
+ 'overlapping_reporting_not_separate_physical_proof','shared_historic_interview_reporting',
+ 'same_historical_event_distinct_account_roles','same_case_distinct_observation_and_model'
+]);
+function parseM29Readiness(payload,directory){
+ if(!payload||payload.version!==1||payload.milestone!=='M29'||
+    payload.state!=='public_read_only_editorial_handoff_not_approved'||
+    payload.checkedAt!=='2026-11-16'||!payload.publicationGates||
+    !Object.values(payload.publicationGates).every(x=>x===true)||
+    !payload.rubric||payload.rubric.status!=='unweighted_editorial_readiness_checklist_not_a_scoring_formula'||
+    payload.rubric.numericWeightsApproved!==false||
+    payload.rubric.independentHumanDecisionRequired!==true||
+    !Array.isArray(payload.rubric.dimensions)||payload.rubric.dimensions.length!==M29_DIMENSIONS.length||
+    !Array.isArray(payload.claims)||payload.claims.length!==23||
+    !Array.isArray(payload.publications)||payload.publications.length!==17||
+    !Array.isArray(payload.relationships)||payload.relationships.length!==7)return null;
+ const peopleMap=new Map(directory.map(p=>[p.id,p]));
+ const claimIds=new Set(),personIds=new Set(),pubIds=new Set(),relationIds=new Set();
+ if(payload.rubric.dimensions.some((d,i)=>!d||d.key!==M29_DIMENSIONS[i]||
+    typeof d.label!=='string'||d.label.length<16||
+    typeof d.required!=='string'||d.required.length<65))return null;
+ for(const rec of payload.claims){
+  const person=peopleMap.get(rec?.personId),claim=person?.claimEvidence?.find(c=>c.id===rec?.claimId);
+  if(!person||!claim||personIds.has(rec.personId)||claimIds.has(rec.claimId)||
+   claim.ratingReadiness?.publicationApproval!=='withheld'||
+   claim.sourceAccessCheck?.secondEditorSignoff!=='not_obtained'||
+   rec.originalSourceUrl!==claim.sourceAudit?.original?.url||!safeUrl(rec.originalSourceUrl)||
+   rec.reportedCaseLineage!==claim.sourceAudit?.relatedSourceGroup||
+   rec.sourceAccessStatus!==claim.sourceAccessCheck?.status||
+   rec.incidentScorePath!==claim.ratingReadiness?.scorePath||
+   rec.claimCategory!==claim.ratingReadiness?.claimType||
+   rec.researchScope!=='published_original_or_access_limited_first_pass_only'||
+   rec.assignment!=='unassigned'||rec.secondHumanEditorSignoff!=='not_obtained'||
+   rec.publicationApproval!==false||rec.editorialScoreEnabled!==false||
+   rec.communityVoteEnabled!==false||rec.portraitPermission!==false||
+   typeof rec.nextHumanSourceCheck!=='string'||rec.nextHumanSourceCheck.length<70||
+   rec.nextHumanSourceCheck!==claim.ratingReadiness?.requiredNextCheck||
+   !rec.rubricStatuses||M29_DIMENSIONS.some((key,i)=>
+       rec.rubricStatuses[key]!== (i===0?'first_pass_only':'not_signed_off')))return null;
+  claimIds.add(rec.claimId);personIds.add(rec.personId);
+ }
+ if(directory.filter(p=>p.claimEvidence?.length).length!==23)return null;
+ for(const family of payload.publications){
+  if(!family||typeof family.id!=='string'||!/^[a-z0-9-]{10,90}$/.test(family.id)||
+     pubIds.has(family.id)||!safeUrl(family.url)||
+     !Array.isArray(family.personIds)||family.personIds.length<1)return null;
+  const members=new Set();
+  for(const id of family.personIds){
+   const rec=payload.claims.find(c=>c.personId===id);
+   if(!rec||members.has(id)||rec.sourceFamilyId!==family.id||rec.originalSourceUrl!==family.url)return null;
+   members.add(id);
+  }
+  if(payload.claims.some(c=>c.sourceFamilyId===family.id&&!members.has(c.personId)))return null;
+  pubIds.add(family.id);
+ }
+ if(payload.claims.some(c=>!pubIds.has(c.sourceFamilyId)))return null;
+ for(const rel of payload.relationships){
+  if(!rel||typeof rel.id!=='string'||rel.id.length<10||relationIds.has(rel.id)||
+     !M29_RELATIONS.includes(rel.kind)||
+     !Array.isArray(rel.personIds)||rel.personIds.length<2||
+     new Set(rel.personIds).size!==rel.personIds.length||
+     rel.personIds.some(id=>!personIds.has(id))||
+     typeof rel.description!=='string'||rel.description.length<110||
+     typeof rel.nextCheck!=='string'||rel.nextCheck.length<95)return null;
+  relationIds.add(rel.id);
+ }
+ const nolan=payload.claims.find(c=>c.personId==='garry-nolan');
+ const vallee=payload.claims.find(c=>c.personId==='jacques-vallee');
+ if(!nolan||!vallee||nolan.sourceFamilyId!==vallee.sourceFamilyId||
+    nolan.sourceFamilyId!=='council-bluffs-2022-one-coauthored-paper'||
+    !payload.relationships.some(r=>r.id==='nolan-vallee-same-paper'&&
+       r.personIds.includes('garry-nolan')&&r.personIds.includes('jacques-vallee')))return null;
+ return payload; // Validated public non-permission record, never used by publishedClaimReview().
+}
+function m29EditorialReadinessHtml(person,claim){
+ const ledger=editorialM29;
+ if(!ledger||!person||!claim)return '';
+ const row=ledger.claims.find(r=>r.personId===person.id&&r.claimId===claim.id);
+ if(!row||row.publicationApproval!==false||row.editorialScoreEnabled!==false||
+    row.communityVoteEnabled!==false||row.assignment!=='unassigned')return '';
+ const publication=ledger.publications.find(p=>p.id===row.sourceFamilyId);
+ if(!publication)return '';
+ const peers=publication.personIds.filter(id=>id!==person.id);
+ const profileLink=id=>'/who-is-who.html?person='+encodeURIComponent(id);
+ const peerName=id=>people.find(p=>p.id===id)?.name||id;
+ const linkedNames=peers.map(id=>'<a href="'+esc(profileLink(id))+'">'+
+     esc(peerName(id))+'</a>').join(' · ');
+ const relatives=ledger.relationships.filter(r=>r.personIds.includes(person.id));
+ const rowHtml=ledger.rubric.dimensions.map(item=>
+  '<li><strong>'+esc(item.label)+'</strong>'+
+  '<p class="muted small"><strong>Status:</strong> '+
+    (row.rubricStatuses[item.key]==='first_pass_only'?'First publication pass only':'Independent check outstanding')+
+  '</p><p>'+esc(item.required)+'</p></li>').join('');
+ const relatedHtml=relatives.map(relation=>
+  '<li><strong>'+esc(relation.kind.replaceAll('_',' '))+'</strong>'+
+  '<p>'+esc(relation.description)+'</p>'+
+  '<p class="muted small"><strong>Check next:</strong> '+esc(relation.nextCheck)+'</p>'+
+  '<p>'+relation.personIds.filter(id=>id!==person.id).map(id=>
+    '<a href="'+esc(profileLink(id))+'">'+esc(peerName(id))+'</a>').join(' · ')+'</p></li>').join('');
+ return '<details class="claim-m29-readiness" data-m29-readiness>'+
+  '<summary>Editorial evidence checklist &amp; shared-source map · not rated</summary>'+
+  '<p class="claim-draft-warning"><strong>Preparation for independent editorial review only.</strong> No human editor is assigned, no criterion is signed off, no numerical evidence score is approved and community voting is disabled.</p>'+
+  '<p class="muted small"><strong>Original publication family:</strong> '+esc(publication.id)+
+  ' · <a href="'+esc(safeUrl(row.originalSourceUrl))+'" rel="noopener noreferrer" target="_blank">Inspect first-party source ↗</a></p>'+
+  (peers.length?'<p><strong>Same publication, other profiles:</strong> '+linkedNames+
+   '. Different witnesses or named authors in one published document are not independent document releases.</p>':
+   '<p class="muted small">Original publication URL is unique to this profile in the present directory; this does NOT establish independent corroboration.</p>')+
+  '<p class="muted small"><strong>Current original access:</strong> '+esc(row.sourceAccessStatus)+
+   ' · <strong>Claim category:</strong> '+esc(row.claimCategory)+'</p>'+
+  (row.incidentScorePath==='not_applicable_to_incident_score'?
+    '<p><strong>Incident scoring:</strong> Not applicable to this public-policy or record-release recommendation.</p>':'')+
+  '<h5>What an independent editor must actually verify</h5>'+
+  '<ul class="claim-evidence-list claim-m29-criteria">'+rowHtml+'</ul>'+
+  (relatedHtml?'<h5>Connected accounts and source reuse (not independent proof)</h5>'+
+   '<ul class="claim-evidence-list claim-m29-relations">'+relatedHtml+'</ul>':'')+
+  '<p><strong>Most immediate next evidence check:</strong> '+esc(row.nextHumanSourceCheck)+'</p>'+
+  '<p class="muted small">Reviewer assignment: unassigned · Human sign-off: not obtained · Editorial assessment: withheld · Member voting: withheld · New portrait rights: unapproved. A source link is not an evidence-strength percentage or a judgement of a person.</p>'+
+  '</details>';
+}
 function sourceAuditDraftHtml(claim){
  const d=claim?.sourceAudit;
  if(!d||d.status!=='original_record_comparison_draft'||d.reviewerSignoff!=='not_obtained'||
@@ -935,6 +1062,7 @@ function renderClaimEvidence(person){
     '<h4>'+esc(claim.statement)+'</h4>'+
     '<p class="muted small">'+esc(claim.context||'Attribution is not verification of the underlying claim.')+'</p>'+
     '<div class="claim-dual">'+sitePanel+communityPanel+'</div>'+
+    m29EditorialReadinessHtml(person,claim)+
     '<details class="claim-evidence-details"><summary>'+ (r?
       'View evidence &amp; scoring breakdown':'View original evidence sources (review pending)')+'</summary>'+
       (r?detailedReview:draftEvidenceTrailHtml(claim)||'<p class="muted small">These are source references to what was publicly said or reported. No completed independent evidence assessment, corroboration audit or scoring conclusion has been published for this claim.</p>')+
@@ -1127,8 +1255,12 @@ Promise.all([
  fetch('/data/public-person-case-links.json',{cache:'no-store'}).then(resp=>{
   if(!resp.ok)throw Error('Public relationship ledger '+resp.status);
   return resp.json();
- }).catch(error=>{console.warn('Optional profile case links unavailable:',error);return null})
-]).then(([data,publicLinks])=>{
+ }).catch(error=>{console.warn('Optional profile case links unavailable:',error);return null}),
+ fetch('/data/public-who-editorial-readiness-m29.json',{cache:'no-store'}).then(resp=>{
+  if(!resp.ok)throw Error('Editorial readiness ledger '+resp.status);
+  return resp.json();
+ }).catch(error=>{console.warn('Optional M29 research readiness ledger unavailable:',error);return null})
+]).then(([data,publicLinks,readiness])=>{
  if(data.version!==1||!Array.isArray(data.people))throw Error('Unsupported people schema');
  const ids=new Set();
  people=data.people.filter(p=>{
@@ -1140,6 +1272,8 @@ Promise.all([
   caseIds:['featured-nimitz-2004','featured-rendlesham-1980']
  });
  caseLinks=parsed?.valid?parsed:{valid:true,links:[]};
+ editorialM29=parseM29Readiness(readiness,people);
+ if(readiness&&!editorialM29)console.warn('M29 ledger rejected by editorial safety checks; all rating gates remain closed');
  people.sort((a,b)=>a.name.localeCompare(b.name));
  renderCards();fromLocation();
 }).catch(error=>{
