@@ -10,7 +10,7 @@ const man=JSON.parse(fs.readFileSync(path.join(out,'release-manifest.json'),'utf
 assert.match(man.type,/NOT DEPLOYED/);
 assert(Array.isArray(man.files)&&man.files.length>50,'Expected strict allowlisted public package');
 const approved=new Set(man.files.map(f=>f.path));
-assert(approved.has('who-is-who.html')&&approved.has('data/public-people-directory.json')&&approved.has('assets/people-directory.js'),'Required Who reader missing');
+assert(approved.has('who-is-who.html')&&approved.has('data/public-people-directory.json')&&approved.has('assets/people-directory.js')&&approved.has('assets/who-archive-return.js'),'Who and contextual return reader missing from public staging');
 assert(approved.has('data/who-editorial-handoff-m29.json'),'Public M29 reviewer transparency queue must be packaged alongside the reader');
 const forbidden=/^(?:\.github|docs|scripts|supabase|\.git|node_modules|tests?|private|internal)(?:\/|$)|(?:\.sql|\.env|\.pem|\.key|\.sqlite3?|\.bak|\.map)$/i;
 const internalNames=['who_rating_ephemeral_pg_bootstrap.sql','who_rating_signed_jwt_http_seed.sql','test_who_rating_postgrest_jwt_http.cjs','WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql'];
