@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "recordId": "who-m56-fravor-nimitz-first-pass",
+  "asOf": "2026-11-17",
+  "status": "internal_provisional_first_pass_requires_two_human_editors",
+  "visibility": "NOT_FOR_PUBLIC_RELEASE",
+  "claimId": "fravor-2023-house-2004-encounter",
+  "personId": "david-fravor",
+  "caseId": "featured-nimitz-2004",
+  "reviewScope": {
+    "question": "How strongly do presently accessible, separately attributable records substantiate the reported 2004 Nimitz visual encounter and associated physical manoeuvres?",
+    "claim": "David Fravor publicly described a firsthand 2004 naval aviation encounter with a white elongated object that appeared to manoeuvre unusually.",
+    "distinctAssertions": [
+      {
+        "id": "a",
+        "assertion": "Fravor gave this account in official 2023 House testimony.",
+        "finding": "Documented by official record; this alone confirms attribution, not the occurrence or physical properties of the reported object.",
+        "sources": [
+          "gpo-2023"
+        ]
+      },
+      {
+        "id": "b",
+        "assertion": "Multiple aircrew observed an unusual object during a November 2004 flight.",
+        "finding": "Fravor and named pilot Alex Dietrich gave distinct firsthand descriptions relating to one shared sortie. The publicly inspected sources do not validate every inferred size, distance or speed.",
+        "sources": [
+          "gpo-2023",
+          "cbs-dietrich-2021"
+        ]
+      },
+      {
+        "id": "c",
+        "assertion": "The object traversed roughly sixty miles in less than a minute.",
+        "finding": "Fravor attributed this to an air controller's report to him. The contemporaneous radar tracks and calibrated chronology were not reviewed or accessible here; numerical motion remains unverified.",
+        "sources": [
+          "gpo-2023"
+        ]
+      },
+      {
+        "id": "d",
+        "assertion": "FLIR1 is a continuous recording of Fravor's original visual sighting.",
+        "finding": "Not supported: Fravor explicitly described a different crew obtaining the infrared video later. The DoD acknowledged a Navy video from November 2004, not that it was recorded by Fravor.",
+        "sources": [
+          "gpo-2023",
+          "underwood-2019",
+          "dod-2020"
+        ]
+      },
+      {
+        "id": "e",
+        "assertion": "The target had physically exceptional acceleration or a nonhuman origin.",
+        "finding": "Not established by this draft; no verified original time-aligned Princeton/Nimitz/E-2 tracks and sensor-calibrated range or metadata were available for independent kinematic reconstruction.",
+        "sources": [
+          "gpo-2023",
+          "dod-2020",
+          "nasa-method-2023",
+          "west-alt-2019"
+        ]
+      }
+    ],
+    "excludes": [
+      "No general rating of Fravor's honesty, integrity, reliability or character.",
+      "No claim that a score is the probability of any event or alien hypothesis being true.",
+      "No extrapolation from other UAP videos or cases to the 2004 Nimitz event."
+    ]
+  },
+  "rubricVersion": "dd-claim-evidence-v1-future-proposal-only",
+  "scoreState": "provisional_internal_editorial_working_points_not_an_approved_score",
+  "criteria": [
+    {
+      "id": "original",
+      "title": "Original claim recorded accurately and in context",
+      "maxPoints": 25,
+      "provisionalWorkingPoints": 25,
+      "finding": "The official GPO House transcript documents Fravor's attributed 2023 first-person account, including that his aircraft did not get a fire-control radar return and that a later crew filmed the video.",
+      "whyNotFull": "",
+      "limits": "This is a measure of accurate attribution only; it does not validate the unusual performance.",
+      "sourceIds": [
+        "gpo-2023"
+      ],
+      "nextAudit": "Second human editor independently checks full 2023 official transcript, written statement and chronology without accepting the extraordinary interpretation."
+    },
+    {
+      "id": "independent",
+      "title": "Corroboration from demonstrably independent evidence",
+      "maxPoints": 30,
+      "provisionalWorkingPoints": 13,
+      "finding": "Named pilot Alex Dietrich gave a separately attributable account of the same sortie; another witness is a distinct person, not a second incident or independent verified velocity measurement.",
+      "whyNotFull": "No independent, time-aligned original sensor reconstruction; same-flight pilots share event context and later coverage reuses that testimony.",
+      "limits": "Publisher interviews and different webpage URLs are not additional eyewitnesses; DoD acknowledgement of later video is a distinct provenance statement.",
+      "sourceIds": [
+        "cbs-dietrich-2021",
+        "gpo-2023",
+        "underwood-2019"
+      ],
+      "nextAudit": "Locate separately preserved statements from other aircrew and original mission logs, then evaluate independence and shared recollection/publication lineage."
+    },
+    {
+      "id": "direct",
+      "title": "Accessible original records, measurements and custody",
+      "maxPoints": 25,
+      "provisionalWorkingPoints": 5,
+      "finding": "DoD's public 2020 announcement establishes official release of one Navy video from November 2004; this is not the complete original video dataset or raw radar tape for Fravor's first sortie.",
+      "whyNotFull": "No underlying original, time-synchronised Princeton/Nimitz/E-2 radar, complete flight log, first-generation FLIR metadata, calibration or custody audit reviewed.",
+      "limits": "Do not count FLIR1 as the in-cockpit recording of Fravor's visual observation. The public DoD page returned HTTP 403 on direct fetch here; official indexed statement was available.",
+      "sourceIds": [
+        "dod-2020",
+        "gpo-2023",
+        "underwood-2019"
+      ],
+      "nextAudit": "Request/locate original video master, radar logs, sensor calibration and contemporaneous flight documentation; audit chain of custody and time alignment."
+    },
+    {
+      "id": "testable",
+      "title": "Specific claim scope, methodology and testability",
+      "maxPoints": 10,
+      "provisionalWorkingPoints": 6,
+      "finding": "Reported incident timing, location, relative altitude, object appearance and purported sixty-mile displacement permit falsifiable measurement questions if original sensor inputs become available.",
+      "whyNotFull": "Range and motion geometry cannot be reproduced from the statements and later clip alone, without validated metadata and uncertainty bounds.",
+      "limits": "A later mathematical model that takes reported ranges/timings as inputs is not a new observation or independent sensor validation.",
+      "sourceIds": [
+        "gpo-2023",
+        "nasa-method-2023"
+      ],
+      "nextAudit": "Define trajectory ranges, time-source uncertainty, radar calibration, aircraft positions and test multiple mundane/extraordinary models on shared inputs."
+    },
+    {
+      "id": "alternatives",
+      "title": "Contradictions, alternatives and uncertainty",
+      "maxPoints": 10,
+      "provisionalWorkingPoints": 5,
+      "finding": "Published alternate FLIR1 interpretations include tracking-lock, zoom and camera-motion effects; NASA cautions that sparse data can obstruct identification.",
+      "whyNotFull": "Alternatives were identified but not independently reconstructed against original metadata; a FLIR1 explanation need not explain the separate visual observations.",
+      "limits": "Mick West's analysis is a competing hypothesis, not an official resolution of the complete Nimitz account; NASA's guidance is general, not a Nimitz-specific verdict.",
+      "sourceIds": [
+        "west-alt-2019",
+        "nasa-method-2023",
+        "gpo-2023"
+      ],
+      "nextAudit": "Independently test imaging and ordinary-object hypotheses using source imagery, calibrated sensor modes, weather/flight geometry and separate eyewitness claims."
+    }
+  ],
+  "workingTotalPoints": 54,
+  "workingMaximumPoints": 100,
+  "workingTotalInterpretation": "Unapproved working rubric total for current publicly accessible evidence documentation. NOT an approved evidence score, a person score, a likelihood/probability, an identification, or a finding of alien technology.",
+  "decision": "NOT_APPROVED_NOT_PUBLISHED",
+  "independentWitnessCount": null,
+  "claimOfVerifiedExtraordinaryPerformance": false,
+  "humanEditorialReview": {
+    "leadHumanEditor": null,
+    "independentSecondHumanEditor": null,
+    "conflictOfInterestReview": "not_completed",
+    "fullOriginalRecordAudit": "not_completed",
+    "sourceRecheck": "not_completed",
+    "leadHumanSigned": false,
+    "secondHumanSigned": false,
+    "approvedForPublicScore": false,
+    "approvedForCommunityVote": false,
+    "approvedForPortraitUse": false
+  },
+  "sourceRecords": [
+    {
+      "id": "gpo-2023",
+      "kind": "official_primary_testimony",
+      "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+      "locator": "Statement of David Fravor, HTML lines ~830–901; Rep. Langworthy questioning ~2413–2473",
+      "access": "original_official_html_selected_passages_checked",
+      "establishes": "Fravor's attributable testimony, his own visually described observation, a radar account relayed from ship/controller, and a later video from another crew.",
+      "doesNotEstablish": "2004 radar track data, calibrated acceleration, target identity or nonhuman origin.",
+      "independenceFamily": "fravor-2023-house-hearing"
+    },
+    {
+      "id": "cbs-dietrich-2021",
+      "kind": "publisher_interview_with_named_firsthand_witness",
+      "url": "https://www.cbsnews.com/news/ufo-military-intelligence-60-minutes-2021-05-16/",
+      "locator": "60 Minutes, 16 May 2021; Fravor and Alex Dietrich direct interview and same-flight narrative",
+      "access": "publisher_article_text_checked",
+      "establishes": "Dietrich's own publicly attributed account from the same encounter as Fravor.",
+      "doesNotEstablish": "Independent radar measurement, second incident, complete flight record or verified velocity.",
+      "independenceFamily": "nimitz-2004-same-flight-witnesses"
+    },
+    {
+      "id": "dod-2020",
+      "kind": "official_video_provenance_statement",
+      "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+      "locator": "27 April 2020 release; one video from November 2004, two from January 2015",
+      "access": "official_search_index_entry_confirmed_original_fetch_403",
+      "establishes": "Department's authorization and origin statement about published Navy recordings.",
+      "doesNotEstablish": "Raw radar or video master, exact object identity, Fravor's initial visual event filmed, or measured extreme speed.",
+      "independenceFamily": "dod-2020-three-navy-videos"
+    },
+    {
+      "id": "underwood-2019",
+      "kind": "firsthand_later_recorder_interview",
+      "url": "https://nymag.com/intelligencer/2019/12/tic-tac-ufo-video-q-and-a-with-navy-pilot-chad-underwood.html",
+      "locator": "19 December 2019 original Intelligencer Q&A; later sortie ~one hour after Fravor",
+      "access": "publisher_article_selected_text_checked",
+      "establishes": "Underwood separately identifies himself as recording a later infrared target.",
+      "doesNotEstablish": "Same object independently matched across sorties or all claimed extraordinary manoeuvres.",
+      "independenceFamily": "underwood-2019-later-sortie"
+    },
+    {
+      "id": "nasa-method-2023",
+      "kind": "scientific_general_methodology_not_case_adjudication",
+      "url": "https://science.nasa.gov/uap/faqs/",
+      "locator": "NASA UAP FAQs question 4, 5 and 7",
+      "access": "agency_original_html_checked",
+      "establishes": "Scientific need for adequate observational data and calibrated measurements; NASA's report did not review earlier incidents individually.",
+      "doesNotEstablish": "A resolution, disproof or verification of Nimitz.",
+      "independenceFamily": "nasa-2023-general-method"
+    },
+    {
+      "id": "west-alt-2019",
+      "kind": "named_independent_analyst_competing_video_hypothesis",
+      "url": "https://www.metabunk.org/threads/are-the-navy-ufos-real-or-just-in-the-low-information-zone-the-liz.10921/",
+      "locator": "Mick West, 17 September 2019 opening analysis; FLIR1 tracking/zoom explanation",
+      "access": "original_analyst_forum_post_checked",
+      "establishes": "A testable competing interpretation for apparent motion in the separate FLIR1 sequence.",
+      "doesNotEstablish": "A conclusive refutation or explanation of all named visual witnesses and original ship radar claims.",
+      "independenceFamily": "west-2019-flir1-interpretation"
+    }
+  ],
+  "reviewTasks": [
+    "Independent human editor verifies the original government transcript and written witness statement word for word against claim wording.",
+    "Second reviewer checks the separately published Dietrich interview and whether each quoted aircrew person is truly independent, without treating repeated reporting as new corroboration.",
+    "Seek contemporaneous ship radar log files, aircraft mission records, first-generation FLIR1 and EXIF/telemetry/calibration and documented custody; mark unavailable material as unavailable, not proof of nonexistence.",
+    "Obtain independently reproducible motion estimates with target range/time uncertainty bounds and camera-state corrections.",
+    "Document what a camera-tracking explanation does and does not explain, separately from initial aircrew visual observations.",
+    "Reviewer records conflict-of-interest declaration, any contested findings, signed date and publication approval through an authorised process."
+  ],
+  "releaseGate": {
+    "includedInPublicSiteAllowlist": false,
+    "publicPointsAllowed": false,
+    "communityVotingAllowed": false,
+    "publishedPercentAllowed": false
+  }
+}
