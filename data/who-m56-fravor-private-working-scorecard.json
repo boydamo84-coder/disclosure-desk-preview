@@ -2,13 +2,13 @@
   "schemaVersion": 1,
   "recordId": "who-m56-fravor-nimitz-first-pass",
   "asOf": "2026-11-17",
-  "status": "internal_provisional_first_pass_requires_two_human_editors",
+  "status": "internal_first_pass_withdrawn_pending_scope_separation_and_independent_review",
   "visibility": "NOT_FOR_PUBLIC_RELEASE",
   "claimId": "fravor-2023-house-2004-encounter",
   "personId": "david-fravor",
   "caseId": "featured-nimitz-2004",
   "reviewScope": {
-    "question": "How strongly do presently accessible, separately attributable records substantiate the reported 2004 Nimitz visual encounter and associated physical manoeuvres?",
+    "question": "Evaluate separately: (1) published firsthand accounts of a 2004 visual encounter; (2) independent radar-operator reports and raw-sensor access; (3) the provenance of the later official infrared video and its connection to the encounter; (4) quantitative speed/acceleration claims; and (5) object origin. Avoid a single blanket 0–100 case or personal believability score.",
     "claim": "David Fravor publicly described a firsthand 2004 naval aviation encounter with a white elongated object that appeared to manoeuvre unusually.",
     "distinctAssertions": [
       {
@@ -65,56 +65,59 @@
     ]
   },
   "rubricVersion": "dd-claim-evidence-v1-future-proposal-only",
-  "scoreState": "provisional_internal_editorial_working_points_not_an_approved_score",
+  "scoreState": "WITHDRAWN_COMPOUND_SCORING_UNIT_REQUIRES_CLAIM_SEPARATION",
   "criteria": [
     {
       "id": "original",
       "title": "Original claim recorded accurately and in context",
       "maxPoints": 25,
-      "provisionalWorkingPoints": 25,
       "finding": "The official GPO House transcript documents Fravor's attributed 2023 first-person account, including that his aircraft did not get a fire-control radar return and that a later crew filmed the video.",
       "whyNotFull": "",
       "limits": "This is a measure of accurate attribution only; it does not validate the unusual performance.",
       "sourceIds": [
         "gpo-2023"
       ],
-      "nextAudit": "Second human editor independently checks full 2023 official transcript, written statement and chronology without accepting the extraordinary interpretation."
+      "nextAudit": "Second human editor independently checks full 2023 official transcript, written statement and chronology without accepting the extraordinary interpretation.",
+      "provisionalWorkingPoints": null,
+      "pointsStatus": "unassigned_pending_distinct_claim_unit_calibration"
     },
     {
       "id": "independent",
       "title": "Corroboration from demonstrably independent evidence",
       "maxPoints": 30,
-      "provisionalWorkingPoints": 13,
-      "finding": "Named pilot Alex Dietrich gave a separately attributable account of the same sortie; another witness is a distinct person, not a second incident or independent verified velocity measurement.",
+      "finding": "At least two separately attributable named pilots, Fravor and Alex Dietrich, report the same flight encounter; additional aircrew and shipboard operators are reported, but must be identified and source-chain audited separately. Radar operator Kevin Day's later account is described in a peer-reviewed analysis, not an available first-generation radar dataset.",
       "whyNotFull": "No independent, time-aligned original sensor reconstruction; same-flight pilots share event context and later coverage reuses that testimony.",
-      "limits": "Publisher interviews and different webpage URLs are not additional eyewitnesses; DoD acknowledgement of later video is a distinct provenance statement.",
+      "limits": "Two independent people describe one shared incident, not a second independent incident. Shared interviews, multiple mentions, and a model constructed from later radar-operator statements cannot each count as a separate instrument trace or proof of measured extreme acceleration.",
       "sourceIds": [
         "cbs-dietrich-2021",
         "gpo-2023",
-        "underwood-2019"
+        "knuth-model-2019"
       ],
-      "nextAudit": "Locate separately preserved statements from other aircrew and original mission logs, then evaluate independence and shared recollection/publication lineage."
+      "nextAudit": "Locate separately preserved statements from other aircrew and original mission logs, then evaluate independence and shared recollection/publication lineage.",
+      "provisionalWorkingPoints": null,
+      "pointsStatus": "unassigned_pending_distinct_claim_unit_calibration"
     },
     {
       "id": "direct",
       "title": "Accessible original records, measurements and custody",
       "maxPoints": 25,
-      "provisionalWorkingPoints": 5,
-      "finding": "DoD's public 2020 announcement establishes official release of one Navy video from November 2004; this is not the complete original video dataset or raw radar tape for Fravor's first sortie.",
-      "whyNotFull": "No underlying original, time-synchronised Princeton/Nimitz/E-2 radar, complete flight log, first-generation FLIR metadata, calibration or custody audit reviewed.",
-      "limits": "Do not count FLIR1 as the in-cockpit recording of Fravor's visual observation. The public DoD page returned HTTP 403 on direct fetch here; official indexed statement was available.",
+      "finding": "A DoD-authenticated November 2004 Navy infrared clip is real public instrument evidence recorded on a later sortie. Navy public-affairs records describe the clip's circulation aboard Nimitz. Separately, Fravor attests that Princeton, Nimitz and E-2 systems tracked targets; the original synchronised radar plots are not included in this public review set.",
+      "whyNotFull": "The raw first-generation video master, FLIR camera-state metadata, original time-aligned radar tracks, radar calibration, flight logs, and independent same-target linkage between two sorties are not publicly audited here.",
+      "limits": "The official release establishes authenticity as Navy footage, not validation of the exact target's physical acceleration or its identity. Reported radar tracking deserves its own source ledger, not a blanket zero because raw logs were not produced publicly. The Navy FOIA briefing is publicly indexed, but its original PDF could not be inspected visually in this pass.",
       "sourceIds": [
         "dod-2020",
+        "navy-foia-briefing",
         "gpo-2023",
         "underwood-2019"
       ],
-      "nextAudit": "Request/locate original video master, radar logs, sensor calibration and contemporaneous flight documentation; audit chain of custody and time alignment."
+      "nextAudit": "Request/locate original video master, radar logs, sensor calibration and contemporaneous flight documentation; audit chain of custody and time alignment.",
+      "provisionalWorkingPoints": null,
+      "pointsStatus": "unassigned_pending_distinct_claim_unit_calibration"
     },
     {
       "id": "testable",
       "title": "Specific claim scope, methodology and testability",
       "maxPoints": 10,
-      "provisionalWorkingPoints": 6,
       "finding": "Reported incident timing, location, relative altitude, object appearance and purported sixty-mile displacement permit falsifiable measurement questions if original sensor inputs become available.",
       "whyNotFull": "Range and motion geometry cannot be reproduced from the statements and later clip alone, without validated metadata and uncertainty bounds.",
       "limits": "A later mathematical model that takes reported ranges/timings as inputs is not a new observation or independent sensor validation.",
@@ -122,13 +125,14 @@
         "gpo-2023",
         "nasa-method-2023"
       ],
-      "nextAudit": "Define trajectory ranges, time-source uncertainty, radar calibration, aircraft positions and test multiple mundane/extraordinary models on shared inputs."
+      "nextAudit": "Define trajectory ranges, time-source uncertainty, radar calibration, aircraft positions and test multiple mundane/extraordinary models on shared inputs.",
+      "provisionalWorkingPoints": null,
+      "pointsStatus": "unassigned_pending_distinct_claim_unit_calibration"
     },
     {
       "id": "alternatives",
       "title": "Contradictions, alternatives and uncertainty",
       "maxPoints": 10,
-      "provisionalWorkingPoints": 5,
       "finding": "Published alternate FLIR1 interpretations include tracking-lock, zoom and camera-motion effects; NASA cautions that sparse data can obstruct identification.",
       "whyNotFull": "Alternatives were identified but not independently reconstructed against original metadata; a FLIR1 explanation need not explain the separate visual observations.",
       "limits": "Mick West's analysis is a competing hypothesis, not an official resolution of the complete Nimitz account; NASA's guidance is general, not a Nimitz-specific verdict.",
@@ -137,13 +141,15 @@
         "nasa-method-2023",
         "gpo-2023"
       ],
-      "nextAudit": "Independently test imaging and ordinary-object hypotheses using source imagery, calibrated sensor modes, weather/flight geometry and separate eyewitness claims."
+      "nextAudit": "Independently test imaging and ordinary-object hypotheses using source imagery, calibrated sensor modes, weather/flight geometry and separate eyewitness claims.",
+      "provisionalWorkingPoints": null,
+      "pointsStatus": "unassigned_pending_distinct_claim_unit_calibration"
     }
   ],
-  "workingTotalPoints": 54,
+  "workingTotalPoints": null,
   "workingMaximumPoints": 100,
-  "workingTotalInterpretation": "Unapproved working rubric total for current publicly accessible evidence documentation. NOT an approved evidence score, a person score, a likelihood/probability, an identification, or a finding of alien technology.",
-  "decision": "NOT_APPROVED_NOT_PUBLISHED",
+  "workingTotalInterpretation": "No active numeric assessment: the previous combined draft (54/100) was withdrawn after an explicit scope and weighting challenge. The observed-event, reported radar, later official video, extraordinary kinematics and origin propositions require separate reviewed evidence units. Missing raw radar limits precise physics verification; it does not nullify independently attributable pilot testimony or the official video.",
+  "decision": "NO_CURRENT_SCORE_REVIEW_SCOPE_RECALIBRATION_REQUIRED",
   "independentWitnessCount": null,
   "claimOfVerifiedExtraordinaryPerformance": false,
   "humanEditorialReview": {
@@ -218,6 +224,26 @@
       "establishes": "A testable competing interpretation for apparent motion in the separate FLIR1 sequence.",
       "doesNotEstablish": "A conclusive refutation or explanation of all named visual witnesses and original ship radar claims.",
       "independenceFamily": "west-2019-flir1-interpretation"
+    },
+    {
+      "id": "knuth-model-2019",
+      "kind": "peer_reviewed_conditional_kinematics_analysis_not_independent_sensor_measurement",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7514271/",
+      "locator": "2019 Entropy paper, section 2.4 Nimitz Encounters and 2.4.1 Kevin Day (RADAR)",
+      "access": "published_fulltext_checked_section_2_4",
+      "establishes": "Knuth, Powell and Reali document radar-operator Kevin Day's later account and estimate motion from reported timings, ranges and flight paths; their derivation openly relies on recalled sensor values.",
+      "doesNotEstablish": "Original radar plots, calibrated independent sensor measurements, instrument-derived physical acceleration, a separate independently confirmed incident, or an extraterrestrial explanation.",
+      "independenceFamily": "knuth-powell-reali-2019-modelling_from_later_reports"
+    },
+    {
+      "id": "navy-foia-briefing",
+      "kind": "navy_public_affairs_provenance_indexed_pdf_unverified_visual",
+      "url": "https://www.secnav.navy.mil/foia/readingroom/CaseFiles/UAP%20INFO/UAP%20DOCUMENTS/PAO%20Briefing%20Card%202020-012022%20and%202022-006563.pdf",
+      "locator": "U.S. Navy UAP Questions and Answers, Q2 (November 2004 USS Nimitz video circulation)",
+      "access": "official_pdf_indexed_text_excerpt_only_visual_retrieval_blocked",
+      "establishes": "Indexed official Navy public-affairs briefing describes the 2004 video as widely distributed on the ship and its later online publication history.",
+      "doesNotEstablish": "First-generation infrared sensor metadata, an uninterrupted video of Fravor's original sighting, independently validated radar acceleration, or nonhuman technology.",
+      "independenceFamily": "navy-public-affairs-video-release-provenance"
     }
   ],
   "reviewTasks": [
@@ -226,12 +252,113 @@
     "Seek contemporaneous ship radar log files, aircraft mission records, first-generation FLIR1 and EXIF/telemetry/calibration and documented custody; mark unavailable material as unavailable, not proof of nonexistence.",
     "Obtain independently reproducible motion estimates with target range/time uncertainty bounds and camera-state corrections.",
     "Document what a camera-tracking explanation does and does not explain, separately from initial aircrew visual observations.",
-    "Reviewer records conflict-of-interest declaration, any contested findings, signed date and publication approval through an authorised process."
+    "Reviewer records conflict-of-interest declaration, any contested findings, signed date and publication approval through an authorised process.",
+    "Editorial calibration: separate visual observation, radar testimony, later official FLIR footage, quantitative motion and origin into distinct claim scopes; assign no points to a blended case-level question.",
+    "Source-lineage audit: check original Kevin Day accounts and Navy FOIA briefing provenance. Count distinct reported shipboard sensors accurately without treating repeated interviews, a journal modelling paper or official video release as original radar tracks."
   ],
   "releaseGate": {
     "includedInPublicSiteAllowlist": false,
     "publicPointsAllowed": false,
     "communityVotingAllowed": false,
     "publishedPercentAllowed": false
-  }
+  },
+  "withdrawnFirstPass": {
+    "pointTotal": 54,
+    "pointMaximum": 100,
+    "initialAllocation": [
+      {
+        "id": "original",
+        "points": 25,
+        "maxPoints": 25
+      },
+      {
+        "id": "independent",
+        "points": 13,
+        "maxPoints": 30
+      },
+      {
+        "id": "direct",
+        "points": 5,
+        "maxPoints": 25
+      },
+      {
+        "id": "testable",
+        "points": 6,
+        "maxPoints": 10
+      },
+      {
+        "id": "alternatives",
+        "points": 5,
+        "maxPoints": 10
+      }
+    ],
+    "withdrawnOn": "2026-11-17",
+    "withdrawnReason": "Bundled whether a documented visual observation was reported, distinct shipboard radar reports, official later FLIR footage, precise extraordinary acceleration and object origin into one score. Misleadingly weighted public raw-data accessibility against firsthand and official recording evidence; unjustified as a single case strength percentage.",
+    "prohibitedUse": "Do not display as current score, probability, editorial conclusion or community vote target"
+  },
+  "evidenceUnits": [
+    {
+      "id": "nimitz-visual-encounter",
+      "question": "Were visual observations of an unidentified object reported by distinct named aircrew on the same sortie?",
+      "status": "separate_review_pending",
+      "sourceIds": [
+        "gpo-2023",
+        "cbs-dietrich-2021"
+      ],
+      "finding": "Two named direct pilot accounts are separately attributable and deserve substantial weight for an observed, not-yet-identified encounter.",
+      "limits": "A genuine report of an unidentified object is not by itself a validated physical performance estimate or proof of an exotic origin.",
+      "editorialScore": null
+    },
+    {
+      "id": "nimitz-radar-reports",
+      "question": "What reported tracking was observed by shipboard/airborne radar teams?",
+      "status": "separate_review_pending",
+      "sourceIds": [
+        "gpo-2023",
+        "knuth-model-2019"
+      ],
+      "finding": "Fravor testified that Princeton, Nimitz and E-2 systems tracked the target(s); later Kevin Day interviews were used in a peer-reviewed trajectory study. This is credible source material that must not be silently discarded.",
+      "limits": "Accounts of radar detections are not the same as independent access to the original raw returns, sensor calibration or synchronized time/target identification.",
+      "editorialScore": null
+    },
+    {
+      "id": "nimitz-later-navy-video",
+      "question": "What does the officially released infrared video establish?",
+      "status": "separate_review_pending",
+      "sourceIds": [
+        "dod-2020",
+        "navy-foia-briefing",
+        "underwood-2019"
+      ],
+      "finding": "A real Navy infrared recording from November 2004 was officially released and its history discussed in Navy public-affairs materials.",
+      "limits": "Filmed by a later crew; identity with the earlier sighting and range/acceleration claims cannot be assumed from the official release alone.",
+      "editorialScore": null
+    },
+    {
+      "id": "nimitz-extraordinary-kinematics",
+      "question": "Do the reviewed records verify the claimed speed, rapid acceleration or the alleged sixty-mile displacement?",
+      "status": "separate_review_pending",
+      "sourceIds": [
+        "gpo-2023",
+        "knuth-model-2019",
+        "west-alt-2019"
+      ],
+      "finding": "Specific flight-dynamics claims are reported and modelled under assumptions; multiple competing interpretations deserve independent investigation.",
+      "limits": "No original complete synchronized radar or FLIR range/geometry record was independently checked; conditional model outputs are not new physical measurements.",
+      "editorialScore": null
+    },
+    {
+      "id": "nimitz-object-origin",
+      "question": "Do the materials identify nonhuman or extraterrestrial origin?",
+      "status": "not_established_not_a_default_evidence_score",
+      "sourceIds": [
+        "gpo-2023",
+        "dod-2020",
+        "nasa-method-2023"
+      ],
+      "finding": "The sources reviewed do not identify an origin.",
+      "limits": "Unidentified does not imply nonhuman or extraterrestrial, and an absent conclusive explanation does not yield a numerical probability for a specific origin.",
+      "editorialScore": null
+    }
+  ]
 }
