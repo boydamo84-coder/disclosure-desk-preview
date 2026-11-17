@@ -1887,16 +1887,28 @@
             "locator": "Original signed House Oversight 9 Sept 2025 PDF, visually inspected pages 1–2 of 7 (0-index 0–1); page 1 says 'not a UFO witness'; page 2 discusses the Lazar/S-4 story and claims newsroom-source contacts"
           },
           "evidenceReviewSummary": {
-            "finding": "The House written statement attributes the reported BAASS–Lockheed discussions to a source Knapp describes as having been present. He says the reported deal was never completed. The statement also refers back to Grusch’s 2023 testimony.",
-            "remaining": "Find a dated agreement, inventory, correspondence or an on-record participant who can independently substantiate the specific talks and the reported material’s provenance.",
+            "finding": "Knapp told the House in 2025 that Bigelow’s company negotiated to receive material from Lockheed Martin. His written statement says the deal was never completed. DIA records document the BAASS research contract. AARO’s 2024 report describes a similar allegation of a transfer to the US government and records a signed denial from the former official accused of stopping it.",
+            "remaining": "The public AARO report leaves the relationship between its account and Knapp’s account unresolved. A dated agreement, meeting record or inventory could substantiate the specific negotiation. Custody and laboratory records would be needed to test the material’s claimed origin.",
             "links": [
               {
-                "title": "Knapp’s House testimony, Topic Two and Topic Three",
+                "title": "September 2025 House transcript · Knapp’s opening statement",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61718/html/CHRG-119hhrg61718.htm"
+              },
+              {
+                "title": "Knapp’s written testimony · Topic Two",
                 "url": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf"
               },
               {
-                "title": "AARO historical report, KONA BLUE and the transfer record",
-                "url": "https://media.defense.gov/2024/Mar/08/2003409233/-1/-1/0/DOPSR-CLEARED-508-COMPLIANT-HRRV1-08-MAR-2024-FINAL.PDF"
+                "title": "DIA FOIA reading room · AAWSAP contractor and deliverables memo",
+                "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170015/"
+              },
+              {
+                "title": "AARO historical report · alleged transfer and signed denial",
+                "url": "https://www.aaro.mil/Portals/136/PDFs/AARO_Historical_Record_Report_Volume_1_2024.pdf"
+              },
+              {
+                "title": "AARO history of the separate DHS KONA BLUE proposal",
+                "url": "https://www.aaro.mil/Portals/136/PDFs/UAP_RECORDS_RESEARCH/History_and_Origin_of_KONA_BLUE_FINAL_508.pdf"
               }
             ]
           }
@@ -3803,8 +3815,18 @@
             "locator": "GPO transcript lines about 800 onward; 'STATEMENT OF LUIS ELIZONDO', his UAP programme/oversight assertions"
           },
           "evidenceReviewSummary": {
-            "finding": "Elizondo’s oral and written House statements record his allegations about advanced UAP technology and government oversight. They come from the same witness and hearing.",
-            "remaining": "Trace a specific programme or technology assertion to inspectable records, stated custody and an independently attributable first-hand account."
+            "finding": "Elizondo told the House in 2024 that an aerospace company sought to transfer material and the transfer did not occur. Rep. Burlison introduced Lockheed Martin’s name in the exchange. In a published copy of later written answers, Elizondo names Lockheed and says he lacks direct knowledge of how Lockheed’s alleged possession of non-human technology was established.",
+            "remaining": "A dated Air Force memorandum, correspondence or inventory could establish whether the proposed transfer was formally documented. The material’s origin would require a traceable specimen and independently inspectable measurements.",
+            "links": [
+              {
+                "title": "November 2024 House transcript · Burlison’s exchange with Elizondo",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm"
+              },
+              {
+                "title": "Published copy of Elizondo’s December 2024 written answers · questions 6–8",
+                "url": "https://douglasjohnson.ghost.io/content/files/2025/02/House-Oversight-QFR-Elizondo--Dec.-2024-.pdf"
+              }
+            ]
           }
         }
       ],
