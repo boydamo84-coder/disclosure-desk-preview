@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "edition": "M57-2026-11-17",
+  "status": "owner_selected_design_not_live",
+  "principle": "Disclosure Desk publishes inspectable research and evidence provenance, not editorial numerical ratings. Eligible signed-in members independently assess specific documented claims using the original five metrics.",
+  "siteEditorialScore": "retired_do_not_publish",
+  "personBelievability": "never_score_people",
+  "claimScores": "member_only_pending_security_and_sourcing_gates",
+  "metricScale": "integer_points_inclusive",
+  "criteria": [
+    {
+      "id": "original",
+      "label": "Original record and exact claim context",
+      "max": 25,
+      "prompt": "Is the original statement accurately recorded, dated, sourced and shown in its relevant context?",
+      "instructions": "A documented quotation confirms what was said; it does not establish the underlying event.",
+      "evidencePointers": [
+        "original statement",
+        "dated transcript",
+        "source provenance"
+      ],
+      "missingOption": true
+    },
+    {
+      "id": "independent",
+      "label": "Independent corroboration",
+      "max": 30,
+      "prompt": "How well is the specific underlying assertion independently corroborated by witnesses, instruments or other records?",
+      "instructions": "Multiple webpages or witnesses to one shared event are not automatically independent confirmation of every claimed physical feature.",
+      "evidencePointers": [
+        "separate witness accounts",
+        "source lineage",
+        "independent instrument records"
+      ],
+      "missingOption": true
+    },
+    {
+      "id": "direct",
+      "label": "Original measurements, records and provenance",
+      "max": 25,
+      "prompt": "What original material can be inspected, and are its custody, completeness and measurement limitations known?",
+      "instructions": "Recognise authenticated original footage and official records, but distinguish them from uninspected raw radar, calibrated range or inferred dynamics.",
+      "evidencePointers": [
+        "original public records",
+        "instrument data and metadata",
+        "chain of custody"
+      ],
+      "missingOption": true
+    },
+    {
+      "id": "testable",
+      "label": "Specificity and testability",
+      "max": 10,
+      "prompt": "Is the claim specific enough to be checked, and have its measurements or predictions been independently reproduced?",
+      "instructions": "A model based on reported numbers is not a newly observed sensor result.",
+      "evidencePointers": [
+        "reconstructible methods",
+        "uncertainty bounds",
+        "repeatable tests"
+      ],
+      "missingOption": true
+    },
+    {
+      "id": "alternatives",
+      "label": "Alternative explanations and contradictions",
+      "max": 10,
+      "prompt": "How thoroughly were relevant alternatives and genuinely contradictory records considered?",
+      "instructions": "An alternative explanation for video motion may not address a separate witness observation; consider scope.",
+      "evidencePointers": [
+        "alternative analyses",
+        "contrary original records",
+        "unresolved uncertainty"
+      ],
+      "missingOption": true
+    }
+  ],
+  "scoringPolicy": {
+    "individualAnswer": "integer_from_zero_to_max_or_null_for_not_enough_information",
+    "nullMeaning": "not_enough_information_to_score_not_zero",
+    "displayPersonalSumOnlyWhenAllFiveAnswered": true,
+    "partialResponse": "show subtotal of answered criteria and count of unanswered; never extrapolate to 100",
+    "communityPresentation": "criterion_distributions_not_a_headline_mean_or_truth_probability",
+    "communityMetricDenominator": "only members actually answering that criterion, excluding not_enough_information; show not_enough_information count separately",
+    "zeroIsValidAnswer": true,
+    "cannotConflate": "An evidence judgement does not represent odds the report is true, an object's origin, or a person's honesty.",
+    "votesAreOpinions": true
+  },
+  "eligibility": {
+    "approvedClaimOnly": true,
+    "requiresReadableOriginalSourceAndClaimScope": true,
+    "rolesAndInstitutionalParticipation": "source_index_only",
+    "policyOrScientificRecommendations": "source_index_only_unless_separately_approved_relevant_question",
+    "noVoteOnPeople": true,
+    "claimVersionPinned": true,
+    "currentEligibleLiveClaims": 0
+  },
+  "securityGates": [
+    "Use authenticated, non-anonymous accounts; server-held user ID rather than client-provided voter identity",
+    "Server-enforced uniqueness by account and claim version, with one ballot containing the five criterion answers",
+    "Server-side numeric bounds, valid claim ID, membership status and claim version eligibility; clients cannot approve their own claims",
+    "Supabase row-level security: per-user ballot read/update only; public receives coarse approved aggregates, never voter identity or raw ballots",
+    "Rate limits, cooldown, anti-brigading detection and audit logs; do not claim one account equals one unique human",
+    "Only active evidence-vote feature flag after penetration and abuse checks and owner-approved major release",
+    "Methodology, corrections, appeal mechanism and per-criterion vote count displayed"
+  ],
+  "researchPolicy": {
+    "keepAll50Profiles": true,
+    "keepAll23ClaimDossiers": true,
+    "keepAll84EvidenceSummaryLinks": true,
+    "sourceLinksAndFullResearchRetained": true,
+    "clearDistinction": "primary testimony / same-event witness / independent underlying sensor / later analysis / opposing claims / unavailable data",
+    "neverInventSocialOrPortrait": "only link verified official accounts, image rights reviewed before use",
+    "profileEnrichment": "expand research for all existing 50 people; each claim/source must include original locator, provenance, contextual limits and optional podcasts/films/socials when verifiable",
+    "archiveConnection": "link related curated cases with the exact documented person's role; don't invent case chains",
+    "editorialCorrectionsRemain": true
+  },
+  "releaseGates": {
+    "liveWebsiteChanged": false,
+    "votesEnabled": false,
+    "backendMigrationDeployed": false,
+    "editorialScoresVisible": false,
+    "previewOnly": true
+  }
+}
