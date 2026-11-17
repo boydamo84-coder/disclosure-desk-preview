@@ -1,0 +1,88 @@
+'use strict';
+// M39 source verification: safe PUBLIC status evidence, not account/email/FOIA automation.
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const root=path.resolve(__dirname,'..');
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const d=JSON.parse(read('data/public-source-verification.json'));
+const m38=JSON.parse(read('data/who-m38-osd-151-cross-case-audit.json'));
+const queue=JSON.parse(read('data/who-editorial-handoff-m29.json'));
+const people=JSON.parse(read('data/public-people-directory.json'));
+const html=read('sources.html'),who=read('who-is-who.html'),script=read('assets/source-verification.js');
+const builder=read('scripts/build_public_release.cjs');
+assert.equal(d.schemaVersion,1);
+assert.equal(d.edition,'m39-public-source-verification-tracker');
+assert.equal(d.publicationStatus,'candidate_not_deployed');
+assert.equal(d.lastUpdated,'2026-11-17');
+assert(d.methodology.includes('not proof'));
+assert(d.methodology.includes('manually'));
+assert.equal(d.records.length,2);
+assert.deepEqual(d.records.map(x=>x.id),['osd-151-pages','nara-mj12-revision']);
+const titles=new Set(),links=new Set();
+for(const r of d.records){
+ assert(!titles.has(r.title));titles.add(r.title);
+ assert.equal(r.status,'sent_unacknowledged');
+ assert.equal(r.statusLabel,'Enquiry sent · acknowledgement not verified');
+ assert.equal(r.dateSent,'2026-11-17');
+ assert.equal(r.lastVerified,'2026-11-17');
+ assert(r.statusDetail.includes('delivery')&&r.statusDetail.includes('acknowledgement'));
+ assert(r.statusDetail.includes('not been verified'));
+ assert(r.evidenceRequirement.length>55&&r.question.length>70);
+ assert(r.timeline.length>=2&&r.timeline.length<=5);
+ assert(r.timeline.some(x=>x.kind==='sent'&&x.date==='2026-11-17'));
+ assert(r.timeline.every(x=>/^\d{4}-\d{2}-\d{2}$/.test(x.date)));
+ assert(r.publicSources.length>=2);
+ for(const src of r.publicSources){
+  const url=new URL(src.url);assert.equal(url.protocol,'https:');
+  assert(!url.username&&!url.password);
+  assert(['official','mirror'].includes(src.hostType));
+  assert(src.purpose.length>35);
+  links.add(url.href);
+ }
+}
+const osd=d.records[0],nara=d.records[1];
+assert.equal(osd.originalCase,'DON-NAVY-2020-007231');
+assert.equal(osd.publicSources[0].url,m38.crossCaseRegisters[0].originalLetterUrl);
+assert(osd.sourceWarning.includes('19-F-1420')&&osd.sourceWarning.includes('20-F-1095'));
+assert.equal(nara.originalCase,'NARA Military Reference Branch, Reference Report on MJ-12');
+assert(nara.publicSources.some(x=>x.hostType==='official'));
+assert(nara.publicSources.some(x=>x.hostType==='mirror'));
+assert(nara.sourceWarning.includes('not'));
+assert.equal(d.disclosure.noFeeAuthorised,true);
+assert.equal(d.disclosure.noFormalFOIAFilingEstablished,true);
+assert.equal(d.disclosure.outgoingMailAcceptedNotAgencyReceipt,true);
+assert.equal(d.disclosure.agencyResponseConfirmed,false);
+assert.equal(d.disclosure.automaticInboxPolling,false);
+assert.equal(d.disclosure.publicSenderAddress,false);
+assert.equal(d.disclosure.privateMessageIdsPublished,false);
+assert.equal(d.disclosure.personalBelievabilityScores,false);
+assert.equal(d.disclosure.extraordinaryUAPConclusion,false);
+assert.equal(d.disclosure.claimSpecificPercentagesPublished,false);
+assert.equal(d.disclosure.ownerApprovalRequiredForLiveDeploy,true);
+assert.equal(Object.hasOwn(d,'emails'),false);
+assert.equal(Object.hasOwn(d,'messageIds'),false);
+assert(!/garyboyd@|boyddigitalstudios@gmail.com|1a1e890/i.test(JSON.stringify(d)),'No personal mail IDs or addresses in public feed');
+assert(html.includes('id="sourceVerification"'));
+assert(html.includes('id="ddVerificationList"'));
+assert(html.includes('id="ddVerificationUpdated"'));
+assert(html.includes('assets/source-verification.js'));
+assert(html.includes('does <strong>not</strong> establish delivery'));
+assert(html.includes('No fees have been authorised'));
+assert(who.includes('id="ddWhoSourceTracker"'));
+assert(who.includes('href="/sources#sourceVerification"'));
+assert(!html.includes('We received a response'));
+assert(builder.includes("'public-source-verification.json'"));
+assert(builder.includes("'source-verification.js'"));
+assert(script.includes('textContent=String(text)'));
+assert(script.includes('new URL(String(url))'));
+assert(script.includes('noopener noreferrer'));
+assert(script.includes('sent_unacknowledged'));
+assert(script.includes('agencyResponseConfirmed!==false'));
+assert(script.includes("fetch('/data/public-source-verification.json'"));
+assert(!/\binnerHTML\s*=|insertAdjacentHTML/.test(script),'Untrusted JSON must never be parsed as HTML');
+assert.equal(queue.dockets.length,23);
+assert.equal(people.people.length,50);
+assert.equal(people.people.filter(p=>p.evidenceScope).length,27);
+assert(queue.dockets.every(d=>d.reviewerHandoff.independentSecondHumanSignoff==='not_obtained'&&
+ d.reviewerHandoff.editorialPublicationPermission===false&&
+ d.reviewerHandoff.communityVotingPermission===false));
+console.log('M39 PASS: 2 dated publicly auditable enquiries, source links, sent != delivered, no FOIA acceptance/agency reply, no fees or private email, 50/23/27 claims unapproved, staged only.');
