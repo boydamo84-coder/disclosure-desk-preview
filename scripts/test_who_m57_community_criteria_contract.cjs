@@ -55,9 +55,9 @@ assert(html.includes('nothing has been submitted')||html.includes('Nothing submi
 assert(html.includes('DDWhoMemberEvidenceWorksheet'));
 assert(html.includes('aria-live="polite"'));
 assert(html.includes('Reset my worksheet'));
-assert(!/<form\\b/i.test(html),'No submission form');
-assert(!/localStorage|sessionStorage|navigator\\.sendBeacon|XMLHttpRequest|fetch\\s*\\(/.test(moduleSource+html),'Prototype must not store or transmit user answers');
-assert(!/\\.rpc\\(|supabase|\\.upsert\\(/i.test(moduleSource),'Worksheet never invokes Supabase');
+assert(!/<form\b/i.test(html),'No submission form');
+assert(!/localStorage|sessionStorage|navigator\.sendBeacon|XMLHttpRequest|fetch\s*\(/.test(moduleSource+html),'Prototype must not store or transmit user answers');
+assert(!/\.rpc\(|supabase|\.upsert\(/i.test(moduleSource),'Worksheet never invokes Supabase');
 assert(!build.includes('who-community-worksheet-m57.js'));
 assert(!build.includes('who-community-m57-design.json'));
 assert(!build.includes('who-community-five-criteria-m57.html'));
