@@ -741,7 +741,7 @@ function evidenceReviewSummaryHtml(summary){
     typeof summary.remaining!=='string'||!summary.remaining.trim())return '';
  const links=(Array.isArray(summary.links)?summary.links:[]).filter(link=>
   link&&typeof link.title==='string'&&link.title.trim()&&safeUrl(link.url));
- return '<section class="claim-source-access" aria-label="Evidence review summary">'+
+ return '<section class="claim-evidence-summary" aria-label="Evidence review summary">'+
   '<h5>Evidence review summary</h5>'+
   '<p>'+esc(summary.finding)+'</p>'+
   '<p><strong>Still to verify:</strong> '+esc(summary.remaining)+'</p>'+
