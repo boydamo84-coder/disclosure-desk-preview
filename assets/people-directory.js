@@ -741,13 +741,25 @@ function evidenceReviewSummaryHtml(summary){
     typeof summary.remaining!=='string'||!summary.remaining.trim())return '';
  const links=(Array.isArray(summary.links)?summary.links:[]).filter(link=>
   link&&typeof link.title==='string'&&link.title.trim()&&safeUrl(link.url));
+ const hostKinds={
+  agency_hosted:'Agency-hosted page or filing',
+  publisher_page:'Publisher or author page',
+  independent_archive:'Archival or third-party host',
+  research_publication:'Research publication or institution',
+  video_platform:'Video platform'
+ };
  return '<section class="claim-evidence-summary" aria-label="Evidence review summary">'+
   '<h5>Evidence review summary</h5>'+
   '<p>'+esc(summary.finding)+'</p>'+
   '<p><strong>Still to verify:</strong> '+esc(summary.remaining)+'</p>'+
+  '<p class="muted small">Source labels identify the hosting location, not proof of a claim or independent corroboration. An agency website can host an unverified submission; reports and recordings may share one originating source.</p>'+
   (links.length?'<ul class="link-list">'+links.map(link=>
    '<li><a href="'+esc(safeUrl(link.url))+'" target="_blank" rel="noopener noreferrer">'+
-   esc(link.title)+'</a></li>').join('')+'</ul>':'')+
+   esc(link.title)+'</a>'+
+   '<span class="claim-source-kind muted small"> · '+esc(hostKinds[link.hostKind]||'External source')+'</span>'+
+   (typeof link.accessNote==='string'&&link.accessNote.trim()?
+    '<p class="claim-source-note muted small">Access note: '+esc(link.accessNote)+'</p>':'')+
+   '</li>').join('')+'</ul>':'')+
   '</section>';
 }
 
