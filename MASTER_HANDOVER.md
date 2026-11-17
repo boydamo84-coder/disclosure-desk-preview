@@ -3,6 +3,8 @@ _Last updated: 17 November 2026 (Europe/London) — M55 full local Who↔Archive
 
 ## M55 — Real-site Who ↔ Archive navigation QA, conditional local website ZIP (17 November 2026)
 
+**Confirmed GitHub Actions failure and fix (owner-supplied logs, 17 Nov 2026):** The **source-and-package** job failed during `node --check scripts/test_who_m55_site_flow_contract.cjs`: Node 22 CommonJS reports `SyntaxError: Identifier 'module' has already been declared` at `const module=read('assets/who-archive-return.js');`. Corrected the test variable to `returnModule` and its four `*.includes()` uses in commit `f097eff4d11224923b1a4944da554385e9f7374e`. This is an exact confirmed cause of the red job, unlike earlier speculative diagnostics. **The fix is committed; a green rerun, browser tests and ZIP artifact have NOT yet been verified.**
+
 **M55 red-run follow-up (17 Nov 2026, owner reports Actions RED):** No push-run logs were available from the connected API. Source inspection identified a deterministic M54 contract mismatch: cross-origin synthetic Archive URLs were expected to be rejected but a relative marker did not record its original site origin. Corrected `assets/people-directory.js` marker to save `origin:location.origin`, guarded `assets/who-archive-return.js` on `marker.origin===here.origin`, and updated M54 static + Chromium fixtures and M55 contract. Stale marker without origin fails closed. This is a **code-backed likely CI blocker**, not a claim that the exact red job is diagnosed or now green. GitHub M55 push reruns should be examined; no ZIP or Android pass asserted. See `docs/WHO_M55_ANDROID_TEST_KIT_2026-11-17.md`.
 
 
