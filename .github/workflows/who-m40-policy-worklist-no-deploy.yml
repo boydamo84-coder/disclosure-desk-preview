@@ -10,6 +10,7 @@ on:
       - prep/who-m45-im1-spherule-evidence-20261117
       - prep/who-m46-grusch-whistleblower-record-20261117
       - prep/who-m47-navy-aircrew-records-20261117
+      - prep/who-m48-omaha-and-nimitz-analysis-20261117
   workflow_dispatch:
 
 permissions:

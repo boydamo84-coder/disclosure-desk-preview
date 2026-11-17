@@ -1613,8 +1613,30 @@
             "locator": "CNN OutFront transcript for 31 May 2021, from 'newly-released video' introduction through Corbell's 14-object, radar and technological-capability exchange"
           },
           "evidenceReviewSummary": {
-            "finding": "CNN’s original transcript documents Corbell’s description of the released Omaha material. Reporting on the Pentagon’s acknowledgement establishes Navy provenance for the imagery.",
-            "remaining": "Identify the original radar exports, video timestamps and sensor geometry, then check whether the public radar and video clips can be tied to the same tracked object."
+            "finding": "Corbell published the radar-screen recording and the infrared clip separately. A Pentagon spokesperson confirmed Navy personnel recorded the material referred to CNN. Deck logs from other ships document reports of drones on 15 July 2019. A 2021 Navy FOIA response says its searches did not locate Omaha’s deck logs for the encounter date.",
+            "remaining": "The public records reviewed here leave the connection between the radar contacts and the infrared target open. Original files with synchronised time, range and track information would help test whether the recordings show the same object and whether it entered the water.",
+            "links": [
+              {
+                "title": "CNN interview · Corbell’s Omaha account and Pentagon response",
+                "url": "https://transcripts.cnn.com/show/ebo/date/2021-05-31/segment/01"
+              },
+              {
+                "title": "Corbell’s May 2021 release · radar-screen recording",
+                "url": "https://www.extraordinarybeliefs.com/news4/navy-ufo-radar-data"
+              },
+              {
+                "title": "Corbell’s May 2021 release · infrared recording",
+                "url": "https://www.extraordinarybeliefs.com/news4/navy-filmed-spherical-ufos"
+              },
+              {
+                "title": "Navy FOIA DON-NAVY-2021-005821 · deck-log search response",
+                "url": "https://documents2.theblackvault.com/documents/navy/DON-NAVY-2021-005821.pdf"
+              },
+              {
+                "title": "15 July 2019 Navy deck-log excerpts · scans hosted by The War Zone",
+                "url": "https://www.twz.com/39913/multiple-destroyers-were-swarmed-by-mysterious-drones-off-california-over-numerous-nights"
+              }
+            ]
           }
         }
       ],
@@ -10434,8 +10456,22 @@
             "locator": "Entropy 2019, 21(10), 939; original publisher title, authors and abstract."
           },
           "evidenceReviewSummary": {
-            "finding": "The paper estimates accelerations using reported distances and time intervals. The journal article and university copy are the same model, with results conditional on their inputs.",
-            "remaining": "Recalculate estimates with traceable original distance, timing and uncertainty data from the same encounter. Until then the model describes the implications of the assumed inputs."
+            "finding": "Knuth and colleagues reported separate Nimitz estimates. The roughly 5,370 g result models a reported 8.53 km descent in 0.78 seconds. The roughly 150 g estimate uses assumptions about Fravor’s visual account. The roughly 76 g result models image motion in the later infrared clip, using an assumed object size to constrain its range.",
+            "remaining": "The descent calculation depends strongly on the elapsed time. The video result depends on the range and on how the camera and target moved. The original timed radar tracks, camera data and an independently measured range would help test the inputs to these models.",
+            "links": [
+              {
+                "title": "Knuth, Powell and Reali (2019) · §2.4 and Tables 1–2",
+                "url": "https://www.mdpi.com/1099-4300/21/10/939"
+              },
+              {
+                "title": "2023 House hearing · Fravor’s eyewitness account",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm"
+              },
+              {
+                "title": "2019 Intelligencer interview · Underwood on the later infrared clip",
+                "url": "https://nymag.com/intelligencer/2019/12/tic-tac-ufo-video-q-and-a-with-navy-pilot-chad-underwood.html"
+              }
+            ]
           }
         }
       ],
