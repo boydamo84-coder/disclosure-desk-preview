@@ -271,8 +271,30 @@
             "locator": "GPO transcript lines about 746–818; 'STATEMENT OF DAVID GRUSCH' and description of what other officials informed him of"
           },
           "evidenceReviewSummary": {
-            "finding": "The House transcript records Grusch’s allegation and attributes key recovery details to people he interviewed. AARO’s 2024 historical review reports that it found no verifiable evidence of off-world technology.",
-            "remaining": "A traceable programme or procurement record, an inspectable item with custody documentation, or on-record testimony from someone with direct access to the alleged programme."
+            "finding": "Grusch attributed key crash-retrieval details to people he interviewed. His former lawyers said the inspector general’s “urgent and credible” assessment concerned alleged withholding from Congress. Their statement puts the classified specifics outside the scope of the disclosure they filed. Released AARO correspondence documents interview invitations and Grusch’s concerns about sharing classified information.",
+            "remaining": "A programme record, traceable physical evidence or an independently checkable account from someone with direct access could support the recovery claim. The public whistleblower and interview records establish the scope and history of the disclosures.",
+            "links": [
+              {
+                "title": "July 2023 House hearing · Grusch’s public testimony",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/pdf/CHRG-118hhrg53022.pdf"
+              },
+              {
+                "title": "Grusch’s written statement to the House",
+                "url": "https://www.congress.gov/118/meeting/house/116282/witnesses/HHRG-118-GO06-Wstate-GruschD-20230726.pdf"
+              },
+              {
+                "title": "Unclassified May 2022 filing · publicly hosted copy",
+                "url": "https://www.theblackvault.com/documentarchive/wp-content/uploads/2024/03/David-Grusch-PPD-19-Procedural-Filing.pdf"
+              },
+              {
+                "title": "Compass Rose’s June 2023 statement, reproduced by The Debrief",
+                "url": "https://thedebrief.org/compass-rose-attorneys-formally-end-association-with-uap-whistleblower-david-grusch/"
+              },
+              {
+                "title": "AARO FOIA 24-F-0266 · interview memo and correspondence",
+                "url": "https://www.aaro.mil/Portals/136/PDFs/FOIA/2024%20FOIAs/24-F-0266.pdf"
+              }
+            ]
           }
         }
       ],

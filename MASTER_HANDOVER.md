@@ -1,5 +1,20 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 17 November 2026 (Europe/London) — M45 IM1 spherule evidence; staged_
+_Last updated: 17 November 2026 (Europe/London) — M46 Grusch whistleblower record; staged_
+
+## M46 — Grusch’s public testimony, ICIG filing and AARO correspondence (17 November 2026)
+
+**Branch** `prep/who-m46-grusch-whistleblower-record-20261117`, based on M45 `a9f353a`. The Who’s Who evidence summary now links the public hearing, lawyers’ filing and statement, and the released interview records.
+
+| Record | What the public material supports |
+| --- | --- |
+| 25 May 2022 procedural filing | The [unclassified text hosted by The Black Vault](https://www.theblackvault.com/documentarchive/wp-content/uploads/2024/03/David-Grusch-PPD-19-Procedural-Filing.pdf), paragraphs 4–8, alleges information withholding from Congress, requests a protected route to share classified specifics, and requests a reprisal investigation. The hosted document is the filing text. The ICIG’s underlying disposition and classified submissions were not retrieved. |
+| 9 June 2023 Compass Rose statement | The firm’s [statement reproduced by The Debrief](https://thedebrief.org/compass-rose-attorneys-formally-end-association-with-uap-whistleblower-david-grusch/) attributes the “urgent and credible” determination to the alleged congressional withholding. The firm describes the classified specifics as outside the scope of the filed disclosure and its representation. Attribute the account of the determination to counsel. The [public U.S. Code, §3033(k)(5)](https://uscode.house.gov/us/usc/t50/s3033/) describes the initial credibility and transmission procedure separately from a merits finding. |
+| 26 July 2023 House hearing | [Grusch’s filed opening statement](https://www.congress.gov/118/meeting/house/116282/witnesses/HHRG-118-GO06-Wstate-GruschD-20230726.pdf) says he was informed of the programme and denied access. The [public hearing transcript](https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/pdf/CHRG-118hhrg53022.pdf) records him describing his own inquiry and attributing the assessment of alleged biological material to others. His oral and written statements document the same witness appearance. |
+| 15 September 2023 ICIG reply | The [publicly hosted agency letter](https://www.disclosurediaries.com/content/files/2023/09/ICIG_Response_Sep162023.pdf) limits its response to what the office can disclose and says it had not undertaken an audit, inspection, evaluation or review that would enable it to fully answer the members’ questions. Its wording leaves any separately scoped investigation or disposition unresolved. |
+| AARO interview correspondence | [FOIA 24-F-0266](https://www.aaro.mil/Portals/136/PDFs/FOIA/2024%20FOIAs/24-F-0266.pdf) includes an 8 January 2024 memo and November 2023 correspondence. AARO reports repeated invitations. Grusch’s 13 November email describes limits he believed applied to information adjacent to classified UAP programmes. Paragraph H of the memo prints November 14, 2024. Paragraph I and the contemporaneous November 13–14, 2023 emails support 2023 for that planned interview. The [24-F-0250 release](https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/UFOsandUAPs/24-F-0250_Final_Product.pdf) contains overlapping records. The public material documents efforts to secure an interview and a disagreement over its conditions. |
+
+The underlying recovery allegation still needs independently inspectable evidence tied to a specific programme or object. This update adds one profile summary and links, records the source limits, and runs the existing no-deploy validation workflow. The rating remains at its draft state.
+
 
 ## M45 — IM1 fireball, search area and recovered spherules (17 November 2026)
 
