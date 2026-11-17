@@ -8,7 +8,7 @@ const back=require('../assets/who-archive-return.js');
 const here='http://127.0.0.1:4173/?dd_tab=archivePage&dd_archive_case=featured-nimitz-2004&dd_from=who';
 const now=1800000000000;
 const marker={
- personId:'kevin-knuth',personName:'Kevin Knuth',page:'/who-is-who.html?person=kevin-knuth',
+ personId:'kevin-knuth',personName:'Kevin Knuth',origin:'http://127.0.0.1:4173',page:'/who-is-who.html?person=kevin-knuth',
  target:'archive',caseId:'featured-nimitz-2004',savedAt:now-1000,
  directoryReturn:null,y:1500
 };
@@ -27,6 +27,8 @@ assert.equal(resolved(marker,here,'featured-rendlesham-1980'),null,'Hide return 
 assert.equal(resolved({...marker,personId:'larry-warren'}),null,'Profile route must match the marker identity');
 assert.equal(resolved({...marker,personId:'../../google.com'}),null,'No path injection');
 assert.equal(resolved({...marker,target:'dossier'}),null,'Dossier navigation is not an Archive visit');
+assert.equal(resolved({...marker,origin:'https://another.example'}),null,'Reject foreign saved origin');
+assert.equal(resolved({...marker,origin:undefined}),null,'Reject legacy marker missing origin');
 assert.equal(resolved({...marker,page:'https://evil.example/who-is-who.html?person=kevin-knuth'}),null,'Reject cross-origin URL');
 assert.equal(resolved({...marker,page:'//evil.example/who-is-who.html?person=kevin-knuth'}),null,'Reject protocol-relative redirect');
 assert.equal(resolved({...marker,page:'/who-is-who.html?person=kevin-knuth&next=https://evil.example'}),null,'Reject extra query parameters');
