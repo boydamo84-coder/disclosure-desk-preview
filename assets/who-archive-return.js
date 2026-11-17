@@ -18,6 +18,7 @@
   try{
    const here=new URL(currentHref);
    if(!['http:','https:'].includes(here.protocol)||
+      marker.origin!==here.origin||
       !['/','/index.html'].includes(here.pathname)||
       here.searchParams.get('dd_tab')!=='archivePage'||
       here.searchParams.get('dd_from')!=='who')return null;
