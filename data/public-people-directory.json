@@ -10660,6 +10660,12 @@
           "publisher": "Institution or primary publisher",
           "date": "Research record",
           "url": "https://www.albany.edu/physics/faculty/kevin-knuth"
+        },
+        {
+          "label": "Knuth, Powell and Reali — original 2019 Nimitz acceleration modelling paper",
+          "publisher": "Entropy (MDPI), volume 21, article 939",
+          "date": "2019",
+          "url": "https://www.mdpi.com/1099-4300/21/10/939"
         }
       ],
       "videos": [],
