@@ -19,12 +19,8 @@ const base='http://127.0.0.1:4173';
     return route.abort('blockedbyclient');
    });
    const page=await ctx.newPage();
-   await page.goto(base+'/assets/who-archive-return.js',{waitUntil:'domcontentloaded'});
-   await page.setContent('<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1">'+
-     '<main style="max-width:95%;margin:auto;padding:8px;background:#101d2b;color:#f0d8ad">'+
-     '<dialog id="archiveCaseDialog" open><h2>Archive case return fixture</h2>'+
-     '<div id="ddWhoArchiveReturnWrap" hidden><button type="button" id="ddWhoArchiveReturn" hidden>← Back to Who’s Who profile</button></div>'+
-     '<p>Evidence case information</p></dialog></main>');
+   await page.goto(base+'/scripts/fixtures/who-archive-return-m54.html',{waitUntil:'domcontentloaded',timeout:10000});
+   assert.equal(await page.locator('#ddWhoArchiveReturnWrap').isVisible(),false,'Fixture starts hidden');
    await page.addScriptTag({url:base+'/assets/who-archive-return.js'});
    const original={
     personId:'kevin-knuth',personName:'Kevin Knuth',target:'archive',
