@@ -1,5 +1,18 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 17 November 2026 (Europe/London) — M49 Rendlesham police and Defence Intelligence records_
+_Last updated: 17 November 2026 (Europe/London) — M50 complete source links for all 23 claim-specific Who’s Who dossiers; NO DEPLOY_
+
+## M50 — Complete the Who’s Who source-linked claim evidence summaries (17 November 2026)
+
+**New prep branch:** `prep/who-m50-complete-evidence-summary-links-20261117`, forked from M49 `prep/who-m49-rendlesham-records-20261117`. **No production/Netlify, Android, Supabase/SQL, voting, portrait or account changes.**
+
+- All **50 Who’s Who profiles** retain their source audits, partitioned into **23 claim-specific research dossiers** and **27 role/activity profiles**. M41 created 23 brief evidence explanations; M42–M49 linked 15. M50 adds original/context/contrary source links to the remaining **8**: **Mick West, Steven Greer, Christopher Mellon, James Fox, Mike Gold, Tim Gallaudet, Michael Shellenberger and Leslie Kean**. Result: **23/23 summaries now have direct clickable evidence links, totalling 83**, inside the existing expandable **View original evidence sources (review pending)** reader. The reader already renders these links; the premium layout and navigation are untouched.
+- Source principles: URLs help readers inspect the actual published evidence, *not* a certificate that the extraordinary claim is true. Greer's multiple press accounts concern one event; Kean and Grusch share reporting lineage; Gold and Mellon are **policy/records proposals**, not incident-proof score candidates; the House-filed anonymous Immaculate Constellation document establishes a submission, not its factual authenticity. Recorded contrary evidence and missing independent primary data are retained. **No overall personal honesty/believability ranking.**
+- First-pass refreshed-access checks: available original West discussion, 2001 ABC/collector press-record pages, Mellon original column, Fox filmmaker interview, GPO 2024 transcript, NARA RG 615, NASA UAP study, and Kean original report. **Gold's House written testimony PDF page 1** and **House-filed Immaculate Constellation scan page 1** visually checked. **Brazil's STM archive index returned Request Rejected** and **AARO's Go Fast methodology PDF returned HTTP 403** in automated retrieval; available links are labelled with their limits, not falsely certified as full underlying-record audits. M40–M49 audit details remain intact.
+- Committed: `data/public-people-directory.json` (only the eight missing `evidenceReviewSummary.links` arrays); `scripts/test_who_m50_summary_links.cjs` (50/23/27, 23/23, 83 links, HTTPS, reviewer and publication gates); `docs/WHO_M50_COMPLETE_SUMMARY_LINKS_2026-11-17.md` (individual sources/limitations); and the inherited `.github/workflows/who-m40-policy-worklist-no-deploy.yml` with an M50 push trigger and contract test. Existing packaging/source/real Chromium phone/tablet/desktop checks are carried forward. **Check the final exact-HEAD workflow before claiming CI green.**
+- Safety/release: all `source_review_pending`, `research_draft`, `not_obtained` second-human signoff and `withheld` publication approvals remain unchanged; no numeric score publication or real-user community rating controls. M39 Pentagon/NARA outreach stays **sent, not independently acknowledged**; no new email or agency response claimed.
+
+**Next M51:** verify the actual last M50 GitHub Actions run; then audit link behaviour, publisher attribution, failed/restricted original-source access, and apparent independent sources that are merely copies. Avoid inventing physical/raw-sensor corroboration to fill a gap. Keep production unchanged until the owner explicitly approves a significant deployment and independent editorial/security review is complete.
+
 
 ## M49 — Rendlesham chronology and radiation records (17 November 2026)
 
