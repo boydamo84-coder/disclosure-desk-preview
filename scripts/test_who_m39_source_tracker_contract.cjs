@@ -46,7 +46,7 @@ assert(osd.sourceWarning.includes('19-F-1420')&&osd.sourceWarning.includes('20-F
 assert.equal(nara.originalCase,'NARA Military Reference Branch, Reference Report on MJ-12');
 assert(nara.publicSources.some(x=>x.hostType==='official'));
 assert(nara.publicSources.some(x=>x.hostType==='mirror'));
-assert(nara.sourceWarning.includes('not'));
+assert(nara.sourceWarning.includes('Neither')&&nara.sourceWarning.includes('authenticates'));
 assert.equal(d.disclosure.noFeeAuthorised,true);
 assert.equal(d.disclosure.noFormalFOIAFilingEstablished,true);
 assert.equal(d.disclosure.outgoingMailAcceptedNotAgencyReceipt,true);
