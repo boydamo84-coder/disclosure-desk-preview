@@ -1,5 +1,20 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 17 November 2026 (Europe/London) — M42 original broadcast links; staged_
+_Last updated: 17 November 2026 (Europe/London) — M43 Council Bluffs specimen records; staged_
+
+## M43 — Council Bluffs collection, lab analysis and specimen custody (17 November 2026)
+
+**Branch** `prep/who-m43-council-bluffs-sample-records-20261117`, from M42 `0b8e786`. The Vallée and Nolan summaries in Who’s Who both cite the same 2022 study and distinguish the historical material from the specimen used for the later measurements.
+
+| Stage | Record checked | Scope and remaining questions |
+| --- | --- | --- |
+| Initial collection, December 1977 | [Daily Nonpareil, 18 December 1977](https://archive.org/details/UFO_Newsclipping_Service_1978_02_no_103/page/n6/mode/1up), reproduced in the *UFO Newsclipping Service*, no. 103 (February 1978), printed p. 7. Retrieved the 20-page scan and visually inspected physical page 7, lower-right clipping. | Assistant Fire Chief Jack Moore reported seeing hot metal on the ground, collecting pieces and keeping them in his office. The story attributes the report of something falling to witnesses. It supplies no sample identifier or subsequent transfer record. Public copy links to the scan without reproducing the clipping. |
+| Early laboratory analyses | [Vallée's 1998 paper](https://noufors.com/Documents/Books%2C%20Manuals%20and%20Published%20Papers/Specialty%20UFO%20Publications/Journal%20of%20Scientific%20Exploration/jse_12_3_vallee_2.pdf), Case 9 and “Analysis of the Council Bluffs Case”. [Nolan et al. (2022)](https://doi.org/10.1016/j.paerosci.2021.100788), §§3.2–3.3, §4.1 and Table 1. | The papers describe Griffin Pipe Products and Ames work on iron-rich material. The 2022 paper describes Robert Allen collecting ground samples the next morning and also says pieces, including those in the authors’ custody, were collected and catalogued. The next-day clipping gives an earlier account of Moore's initial collection. No original report or accession/transfer record was retrieved for either batch. [Iowa State's Ames Laboratory Administrative Records finding aid, RS 17/1/3](https://findingaids.lib.iastate.edu/spcl/arch/rgrp/17-1-3.html) identifies the archival collection and confirms Hansen’s institutional role. It does not list a case-specific accession. |
+| Modern material analysis | [Nolan et al. (2022)](https://doi.org/10.1016/j.paerosci.2021.100788), §§4.2–4.3 and Appendix A. | Vallée supplied retained parent specimen CB_JV-1. The authors describe its relationship to the historical Table 1 material as claimed, say the earlier samples were unavailable, and report terrestrial-consistent isotope ratios for the measured grains. NanoSIMS and MIBI are two measurement approaches in one published study of that retained material. The underlying specimen’s origin and function remain open. |
+
+The 2022 paper describes police photographs in its case file and points to a published figure and supplementary photographs. Section 4.3 says the raw run data is in supplementary spreadsheets and Appendix A directs readers to the DOI. This pass did not retrieve the raw spreadsheets or the complete supplementary bundle. The current [Council Bluffs Public Library local-history page](https://www.councilbluffslibrary.org/local-history) confirms local newspaper clippings, microfilm and photographs are held. The local history and Ames finding aids are leads for the original police/fire, foundry and lab files, with no case-specific custody or accession assertion. A follow-up should target dated collection inventories, specimen IDs at intake and handover, the original lab reports and the §4.3 raw data. No enquiries were sent in this pass.
+
+Only the two profile evidence summaries and this handover changed editorially. Source/package and Chromium regression checks run on the preparation branch. The 50-person directory still has 23 unsigned claim dossiers and 27 role or publication profiles.
+
 
 ## M42 — Original broadcast links for Coulthart, Barber and Lazar (17 November 2026)
 

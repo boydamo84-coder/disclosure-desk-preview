@@ -4741,11 +4741,19 @@
             "locator": "2022 Progress in Aerospace Sciences volume 128 article 100788, authors Nolan / Vallée / Jiang / Lemke; journal search-indexed summary and abstract on CB_JV-1 Council Bluffs five subsamples, element heterogeneity and isotope ratios; original ScienceDirect page returns 403"
           },
           "evidenceReviewSummary": {
-            "finding": "Sections 4.2–4.3 of the Nolan–Vallée paper report that the measured isotope ratios were consistent with terrestrial values. The authors describe elemental variation across grains taken from a retained specimen.",
-            "remaining": "Check the complete supporting data and custody records linking the surviving specimen to the 1977 event. The paper describes earlier material that was unavailable for retesting.",
+            "finding": "The Daily Nonpareil of 18 December 1977 quoted Assistant Fire Chief Jack Moore saying he had collected pieces at Big Lake Park. Vallée’s 1998 paper describes early laboratory work. The 2022 coauthored paper identifies CB_JV-1 as a separate retained piece supplied by Vallée and treats its link to the earlier lab material as a claim.",
+            "remaining": "Dated transfer records are needed to trace the recovered pieces through the early labs to the retained specimen. The published account of collection and the later measurements document different points in that chain.",
             "links": [
               {
-                "title": "Nolan, Vallée, Jiang and Lemke paper, DOI and supplements",
+                "title": "Daily Nonpareil, 18 December 1977 · clipping bulletin reprint, p. 7",
+                "url": "https://archive.org/details/UFO_Newsclipping_Service_1978_02_no_103/page/n6/mode/1up"
+              },
+              {
+                "title": "Vallée’s 1998 paper · Council Bluffs case and early lab account",
+                "url": "https://noufors.com/Documents/Books%2C%20Manuals%20and%20Published%20Papers/Specialty%20UFO%20Publications/Journal%20of%20Scientific%20Exploration/jse_12_3_vallee_2.pdf"
+              },
+              {
+                "title": "2022 Council Bluffs paper · §4.2, retained specimen CB_JV-1",
                 "url": "https://doi.org/10.1016/j.paerosci.2021.100788"
               }
             ]
@@ -9840,12 +9848,20 @@
             "locator": "2022 Progress in Aerospace Sciences volume 128 article 100788, authors Nolan / Vallée / Jiang / Lemke; journal search-indexed summary and abstract on CB_JV-1 Council Bluffs five subsamples, element heterogeneity and isotope ratios; original ScienceDirect page returns 403"
           },
           "evidenceReviewSummary": {
-            "finding": "Sections 4.2–4.3 of the coauthored Council Bluffs paper describe NanoSIMS and MIBI analyses of the same retained parent specimen and report terrestrial-consistent isotope measurements.",
-            "remaining": "Review the raw supplementary spreadsheets and specimen custody, then seek independent measurement of separately traceable material. Both directory entries refer to the same paper.",
+            "finding": "The 2022 paper reports terrestrial-consistent isotope ratios in grains from the one retained CB_JV-1 specimen. Its NanoSIMS and MIBI measurements concern that specimen. The paper describes earlier Griffin Pipe and Ames analyses separately and says the pieces used for its historical Table 1 were unavailable for retesting.",
+            "remaining": "The paper points to raw measurement spreadsheets in its supplement. They were not retrieved for this review. The lab accession records, a traceable specimen and the raw measurements would support independent checks of custody and results.",
             "links": [
               {
-                "title": "Nolan, Vallée, Jiang and Lemke paper, DOI and supplements",
+                "title": "2022 Council Bluffs paper · §§4.1–4.3 and Appendix A",
                 "url": "https://doi.org/10.1016/j.paerosci.2021.100788"
+              },
+              {
+                "title": "Daily Nonpareil, 18 December 1977 · clipping bulletin reprint, p. 7",
+                "url": "https://archive.org/details/UFO_Newsclipping_Service_1978_02_no_103/page/n6/mode/1up"
+              },
+              {
+                "title": "Iowa State University · Ames Laboratory records finding aid",
+                "url": "https://findingaids.lib.iastate.edu/spcl/arch/rgrp/17-1-3.html"
               }
             ]
           }

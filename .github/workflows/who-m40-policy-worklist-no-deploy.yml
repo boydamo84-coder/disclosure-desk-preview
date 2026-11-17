@@ -5,6 +5,7 @@ on:
       - prep/who-m40-policy-evidence-worklist-20261117
       - prep/who-m41-complete-directory-source-pass-20261117
       - prep/who-m42-original-broadcast-links-20261117
+      - prep/who-m43-council-bluffs-sample-records-20261117
   workflow_dispatch:
 
 permissions:
