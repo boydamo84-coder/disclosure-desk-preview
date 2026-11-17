@@ -615,8 +615,22 @@
             "locator": "GPO transcript lines about 656–743; 'STATEMENT OF RYAN GRAVES' on aircrew concerns and reports"
           },
           "evidenceReviewSummary": {
-            "finding": "The House testimony documents Graves’s flight-safety concerns and includes reports from other aircrew. The FAA reporting procedure separately documents a reporting route.",
-            "remaining": "Match a specific cockpit report to a dated air-traffic or aircraft record before assessing the nature or performance of the object."
+            "finding": "Graves told Congress he spoke to the pilot after landing. Navy records from his squadron describe radar and infrared observations in W-72 on 23 April 2014 and a near miss with a balloon-like object on 27 April. The FAA’s current order gives air traffic personnel a formal path for forwarding UAP reports.",
+            "remaining": "The 27 April record gives no cube description or passing distance. A dated cockpit account, report identifier or matching sortie record would help establish whether it documents the same incident Graves relayed.",
+            "links": [
+              {
+                "title": "2023 House hearing · Graves’s statement and Raskin’s questions",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm"
+              },
+              {
+                "title": "April 2014 Navy hazard reports · released scans hosted by The War Zone",
+                "url": "https://www.twz.com/33371/here-are-the-detailed-ufo-incident-reports-from-navy-pilots-flying-off-the-east-coast"
+              },
+              {
+                "title": "FAA JO 7210.3 · §4-7-4 UAP reporting procedure",
+                "url": "https://www.faa.gov/air_traffic/publications/atpubs/foa_html/chap4_section_7.html"
+              }
+            ]
           }
         }
       ],
@@ -905,8 +919,26 @@
             "locator": "GPO transcript lines about 822 onward; 'STATEMENT OF DAVID FRAVOR (RET.)' and 2004 Nimitz exercise"
           },
           "evidenceReviewSummary": {
-            "finding": "Fravor and Alex Dietrich described observing the Nimitz encounter from different aircraft. The Navy’s authorised FLIR release shows footage from a later flight.",
-            "remaining": "Time-aligned ship radar, aircraft telemetry and calibration data from the first encounter would allow readers to test estimates of distance, motion and speed."
+            "finding": "Fravor and Alex Dietrich described the November 2004 sighting from two aircraft on the same flight. Chad Underwood described recording the infrared footage on a later sortie. He said he could not see the target directly or confirm that its movement at the end of the clip represented rapid acceleration.",
+            "remaining": "Fravor says his aircraft’s fire-control radar never picked up the object. Time-aligned ship radar, aircraft telemetry and calibrated sensor data would help test the reported speeds and determine whether the later infrared target was the same object.",
+            "links": [
+              {
+                "title": "2023 House hearing · Fravor’s statement and Langworthy’s questions",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm"
+              },
+              {
+                "title": "CBS interview · Alex Dietrich and David Fravor",
+                "url": "https://www.cbsnews.com/news/ufo-military-intelligence-60-minutes-2021-08-29/"
+              },
+              {
+                "title": "2019 Intelligencer interview · Chad Underwood on recording FLIR",
+                "url": "https://nymag.com/intelligencer/2019/12/tic-tac-ufo-video-q-and-a-with-navy-pilot-chad-underwood.html"
+              },
+              {
+                "title": "April 2020 Pentagon statement · official release of Navy footage",
+                "url": "https://www.war.gov/News/Releases/article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/"
+              }
+            ]
           }
         }
       ],

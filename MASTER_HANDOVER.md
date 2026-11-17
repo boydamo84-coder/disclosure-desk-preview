@@ -1,5 +1,20 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 17 November 2026 (Europe/London) — M46 Grusch whistleblower record; staged_
+_Last updated: 17 November 2026 (Europe/London) — M47 Navy aircrew records_
+
+## M47 — W-72 hazard reports and Nimitz aircrew accounts (17 November 2026)
+
+**Branch** `prep/who-m47-navy-aircrew-records-20261117`, based on M46 `6f1f6ef`. Both Who’s Who evidence summaries now link directly to records readers can inspect.
+
+| Record | What the material establishes and where it stops |
+| --- | --- |
+| Graves’s 2023 House testimony | In the [official transcript](https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm), opening statement and Rep. Raskin’s questions, Graves describes his squadron’s radar and infrared experience and relays another pilot’s estimate of a roughly 50-foot pass near a cube inside a sphere. He says he spoke to the pilot after landing. |
+| VFA-11 W-72 reports, 23 and 27 April 2014 | The [released Navy scans hosted by The War Zone](https://www.twz.com/33371/here-are-the-detailed-ufo-incident-reports-from-navy-pilots-flying-off-the-east-coast), entries 5 and 7, record separate dated events from Graves’s squadron. The 23 April event narrative on p. 1 (WESS `1398374727732`) describes two radar tracks checked with onboard sensors and two other objects passing through the infrared field of view. The 27 April record (report `1399061379010`, local serial `11-14`, pp. 1–4) describes a near miss with a balloon-like object. The squadron, warning area and general near-miss circumstances overlap with Graves’s account. The visible pages give no cube description, passing distance or crew/sortie link to his testimony. The Navy host rejected retrieval of the listed 27 April PDF. The released page scans were inspected through the publisher. |
+| FAA reporting procedure | [Notice JO 7210.970](https://www.faa.gov/regulations_policies/orders_notices/index.cfm/go/document.information/documentID/1044304) introduced new reporting duties effective 26 October 2025. [JO 7210.3EE Change 2](https://www.faa.gov/documentLibrary/media/Order/7210.3EE_Bsc_w_Chg_1_and_2_dtd_1-22-26_Final.pdf) incorporated them on 22 January 2026. [Current §4-7-4](https://www.faa.gov/air_traffic/publications/atpubs/foa_html/chap4_section_7.html) specifies how air traffic facilities forward pilot reports and personnel observations. The administrative procedure supplies present-day reporting context. |
+| Nimitz visual encounter, 14 November 2004 | [Fravor’s House appearance](https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm) and [Dietrich’s CBS interview](https://www.cbsnews.com/news/ufo-military-intelligence-60-minutes-2021-08-29/) document two pilots’ perspectives from the same encounter. Fravor tells Rep. Langworthy his flight’s fire-control radars did not acquire the object. His account of detection near the CAP point follows a controller’s report. The original time-aligned radar data were not retrieved. |
+| Later Nimitz infrared sortie | In his [2019 first-person interview](https://nymag.com/intelligencer/2019/12/tic-tac-ufo-video-q-and-a-with-navy-pilot-chad-underwood.html), Underwood describes making the recording and says he did not see the target with his unaided eyes. Asked about the leftward movement at the end, he says he cannot confirm the object accelerated. The [2020 Pentagon release](https://www.war.gov/News/Releases/article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/) confirms Navy recording provenance and a November 2004 date. Connecting the two sorties to one object or measuring acceleration would require additional tracking data. |
+
+All 50 profiles retain their completed source audit. These edits supply additional evidence links to two of the 23 claim dossiers. The claim ratings are still pending editorial sign-off.
+
 
 ## M46 — Grusch’s public testimony, ICIG filing and AARO correspondence (17 November 2026)
 
