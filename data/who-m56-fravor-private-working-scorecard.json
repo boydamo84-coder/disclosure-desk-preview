@@ -148,7 +148,7 @@
   ],
   "workingTotalPoints": null,
   "workingMaximumPoints": 100,
-  "workingTotalInterpretation": "No active numeric assessment: the previous combined draft (54/100) was withdrawn after an explicit scope and weighting challenge. The observed-event, reported radar, later official video, extraordinary kinematics and origin propositions require separate reviewed evidence units. Missing raw radar limits precise physics verification; it does not nullify independently attributable pilot testimony or the official video.",
+  "workingTotalInterpretation": "No active numeric assessment: the previous combined draft (54/100) was withdrawn after an explicit scope and weighting challenge. The observed-event, reported radar, later official video, extraordinary kinematics and origin propositions require separate reviewed evidence units. Missing raw radar limits precise physics verification; it does not nullify independently attributable pilot testimony or the official video. The withdrawn 54 is not a probability of truth or a rating of the person.",
   "decision": "NO_CURRENT_SCORE_REVIEW_SCOPE_RECALIBRATION_REQUIRED",
   "independentWitnessCount": null,
   "claimOfVerifiedExtraordinaryPerformance": false,
@@ -356,7 +356,7 @@
         "dod-2020",
         "nasa-method-2023"
       ],
-      "finding": "The sources reviewed do not identify an origin.",
+      "finding": "None of the eight currently reviewed source records establishes a nonhuman or extraterrestrial origin for the reported object, and that claim has no assigned numeric evidence score.",
       "limits": "Unidentified does not imply nonhuman or extraterrestrial, and an absent conclusive explanation does not yield a numerical probability for a specific origin.",
       "editorialScore": null
     }
