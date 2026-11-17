@@ -1,5 +1,33 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 16 November 2026 (Europe/London) — M38 cross-case 151/154/156 FOIA lineage audited; no deployment_
+_Last updated: 17 November 2026 (Europe/London) — M39 public source tracker staged with verified outbound enquiries; NO DEPLOY_
+
+## M39 — Public Source Verification Tracker: show real enquiries and original records (17 November 2026)
+
+**SOURCE/PACKAGE + REAL CHROMIUM GREEN:** [M39 NO DEPLOY workflow run 44046367280](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44046367280), source commit `3cf9789c7c493fe5f805a5bf90fb69fe91274649`, passed inherited M26–M38 source/release-package security checks and real Chromium 320/393/820/1280 px layout and fail-closed data tests. The two preceding M39 runs failed due (a) over-strict string-length / wording assertions in an added static test and (b) a browser test expecting the page’s pre-fetch fallback wording after data loaded; fixed without changing safety claims. Subsequently `d45e5a15a7f6311870e5034dda2a046bbc7bac82` added documentation; check subsequent workflow and **final handover-commit exact HEAD CI** before claiming that final commit passed. **No Netlify or production changes.**
+
+**Requested feature:** User specifically wanted a publicly visible source tracker showing that Disclosure Desk has **really contacted the Pentagon and National Archives**, rather than simply asserting credibility. M39 implements the feature in the **existing [Sources & Archives](/sources#sourceVerification) page** using premium navy/gold styling, two agency timelines, original public records, a dated last-checked line, reason for enquiry, a clear “what would establish the answer” statement, and a visible safety note. A short linked callout is added on **Who’s Who** above the original directory. The original premium 14-tab mobile dock is **unchanged**; no new crowded bottom tab.
+
+**Important new status since M38 (17 November 2026):** The **two government reference enquiries were actually sent from the authenticated Boyd Digital Studios Gmail account** after explicit owner instruction and the sending tool confirmed separate sent message IDs:
+1. National Archives, `archives2reference@nara.gov`, subject “Research enquiry: 9 May 1988 revised NARA MJ-12 Reference Report” — requests confirmation of the revised 1988 report and archive/certified scan.
+2. OSD, referral-specific 2025 Navy letter address `osd.mc-alex.oatsd-pclt.mbx.pcld-correspondence@mail.mil`, cc the present official OSD/JS FOIA requester centre `whs.mc-alex.esd.mbx.osd-js-foia-requester-service-center@mail.mil`, subject “Status clarification: seven OSD-referred documents / 151 pages — DON-NAVY-2020-007231” — requests exact OSD tracking/disposition and public release of that referral, distinct from 19-F-1420 and 20-F-1095. **No fee authorised**; both mails expressly require prior written agreement before chargeable work. **A Gmail send confirmation is not proof of successful delivery, government acknowledgement, a formal FOIA filing or agency response.** No reply or acknowledgement has been verified. M38 “UNSENT” text is historical as of that milestone and is superseded by M39.
+
+**Public status is intentionally narrower than private Gmail:** Public `data/public-source-verification.json` contains agency names, a brief question, public links, status `sent_unacknowledged`, explicit “enquiry sent · acknowledgement not verified”, two simple dated timelines, last-verified **17 November 2026**, and evidence needed for an actual answer. **No outgoing email body, sender address, recipient mailboxes, account details, Gmail IDs, private requesters or recipient private info in the public data**. The provenance of M38 OSD case count remains unknown (Navy's seven documents/151 pages ≠ OSD 19-F-1420 reported 151 pages ≠ separate 20-F-1095 263 pages). NARA official 1988 report custody confirmation is outstanding. No fabricated NARA/MJ-12 authenticity, non-human UAP finding, government endorsement, personal believability ranking, editorial claim score, community vote, human signoff or case closure.
+
+**M39 files:**
+- `data/public-source-verification.json` — exactly two public, manual, date-stamped enquiry status records, all original links publicly attributed.
+- `assets/source-verification.js` — fetch/read-only status renderer, `textContent` not HTML injection, strict HTTPS public-source host policy, acknowledged vs response distinctions, no inbox automation or sensitive data.
+- `sources.html` — source tracker integrated before existing archive filters, mobile grid, accessible timelines and expandable details, no-JS fallback and fail-closed message.
+- `who-is-who.html` — small contextual link from profile directory to `/sources#sourceVerification`; no nav-bar redesign.
+- `scripts/build_public_release.cjs` — **explicit allowlist adds only the public JSON and JS** while internal M31–M38 reports, SQL and simulated users remain excluded from the package.
+- `scripts/test_who_m39_source_tracker_contract.cjs` — asserts 2 sent/unacknowledged statuses, 17 Nov date, no private addresses/IDs, no fee, no original claim authentication, 50/23/27 unsigned Who profile gates and allowlist.
+- `scripts/test_who_m39_source_tracker_chromium.cjs` — real Chrome checks at 320/393/820/1280; original 13-source archive filtering and original 14-tab dock intact; expand source links, safe domains, dated timelines and deliberately fail closed on JSON outage.
+- `.github/workflows/who-m39-source-verification-no-deploy.yml` — inherited regression and strict website package staging, no deployment.
+- `docs/WHO_M39_PUBLIC_SOURCE_VERIFICATION_TRACKER_2026-11-17.md` — staged release notes and update protocol.
+
+**Production/release:** **M39 is STAGED ONLY** in branch `prep/who-m39-source-verification-tracker-20261117` forked from verified M38 `c7ce80f1c4ffa8aa83b3d0f6c344a1960b0155f4`. Candidate package includes public tracker but **NOT published live**. Maintain source status dates and mark “reply verified” only after actually inspecting agency response. Respect original-publication copyright and never publish a private email unreviewed.
+
+**M40 recommendations:** Continue the **23 unsigned claim dossiers**, especially distinguishing 2 policy-only assertions from physical incident claims; prepare a source-only status panel on related cases without numerical personal ratings, but do not show false scores or pretend a second independent human reviewer approved. Owner can explicitly authorise a single controlled production release for the new tracker after final test/visual review. When genuinely deployed, add a pinned explanatory research news update with source transparency link. No approval to deploy was exercised in M39.
+
 
 ## M38 — Who’s Who: the *other* “151 pages” (OSD 19-F-1420) vs Navy seven-document referral (16 November 2026)
 
