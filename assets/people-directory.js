@@ -934,7 +934,8 @@ const PUBLIC_ROLE_KINDS=Object.freeze({
  institutional_role:'NASA study role',
  legislative_role:'Congressional task-force role',
  legislative_action:'Legislative action',
- congressional_oversight:'Congressional oversight'
+ congressional_oversight:'Congressional oversight',
+ government_office:'Government leadership record'
 });
 function renderPublicRoleEvidence(person){
  const role=person?.roleEvidence;
@@ -976,7 +977,8 @@ const PUBLIC_WORK_KINDS=Object.freeze({
  academic_research:'Scientific research programme',
  published_research:'Public research and books',
  historical_public_work:'Historical archive and published work',
- archive_research:'Records and FOIA research'
+ archive_research:'Records and FOIA research',
+ public_official_statements:'Official statements and post-tenure commentary'
 });
 const PUBLIC_SOURCE_CLASSES=Object.freeze({
  publisher:'Original publisher or syndicated reporting',
@@ -1052,7 +1054,7 @@ function renderClaimEvidence(person){
  const claims=Array.isArray(person.claimEvidence)?person.claimEvidence.slice(0,12):[];
  if(!claims.length){
   host.innerHTML=roleHtml?
-   roleHtml+scopeHtml+'<p class="note small"><strong>No event-claim score applies to this documented role.</strong> No separate public UAP incident claim has completed editorial review for this person. Official research service, institutional participation and legislation cannot be assigned 0/100 or a community incident rating.</p>':
+   roleHtml+workHtml+scopeHtml+'<p class="note small"><strong>No event-claim score applies to this documented role.</strong> No separate public UAP incident claim has completed editorial review for this person. Official research service, institutional participation and legislation cannot be assigned 0/100 or a community incident rating.</p>':
    workHtml?
    workHtml+scopeHtml+'<p class="note small"><strong>Disclosure Desk rating: Not assessed.</strong> Original work and public statements are indexed, but no specific UAP incident has received an approved evidence assessment. A publication list is not a person-wide credibility score and cannot be voted on.</p>':
    '<p class="note small"><strong>Disclosure Desk rating: Not assessed.</strong> There are no individually reviewed public claims for this profile yet. Community rating is not open on unreviewed statements. Biographies and citations do not constitute a personal score.</p>';
@@ -1289,14 +1291,26 @@ Promise.all([
   return resp.json();
  }).catch(error=>{console.warn('Optional profile case links unavailable:',error);return null}),
  fetch('/data/who-editorial-handoff-m29.json',{cache:'no-store'}).then(resp=>resp.ok?resp.json():null)
-  .catch(()=>null)
-]).then(([data,publicLinks,reviewQueue])=>{
+  .catch(()=>null),
+ fetch('/data/public-people-directory-additions-m58.json',{cache:'no-store'}).then(resp=>resp.ok?resp.json():null)
+  .catch(error=>{console.warn('Optional newly sourced profile index unavailable:',error);return null})
+]).then(([data,publicLinks,reviewQueue,stagedAdditions])=>{
  if(data.version!==1||!Array.isArray(data.people))throw Error('Unsupported people schema');
  const ids=new Set();
  people=data.people.filter(p=>{
   if(!p||typeof p.id!=='string'||!(/^[a-z0-9-]{2,80}$/).test(p.id)||ids.has(p.id)||!p.name)return false;
   ids.add(p.id);return true;
  });
+ // M59: only the separately reviewed founding AARO director is ready for
+ // trial display. Five other M58 additions stay staged for source checks.
+ const selectedAdditions=stagedAdditions?.schemaVersion===1&&Array.isArray(stagedAdditions.people)?
+  stagedAdditions.people.filter(p=>p?.id==='sean-kirkpatrick'):[];
+ for(const p of selectedAdditions){
+  if(!p||typeof p.id!=='string'||ids.has(p.id)||!Array.isArray(p.sources)||p.sources.length<2||
+     !Array.isArray(p.biography)||p.biography.length<2||p.photo!==null||
+     p.roleEvidence?.status!=='official_source_crosscheck')continue;
+  people.push(p);ids.add(p.id);
+ }
  const parsed=window.DDPersonCaseLinks?.parse?.(publicLinks,{
   personIds:people.map(p=>p.id),
   caseIds:['featured-nimitz-2004','featured-rendlesham-1980']
