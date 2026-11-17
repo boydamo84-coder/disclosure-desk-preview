@@ -25,7 +25,7 @@ const base='http://127.0.0.1:4173';
    assert(text.includes('National Archives'));
    assert(text.includes('Pentagon'));
    assert(text.includes('17 November 2026'));
-   assert.match(text,/not a live government status feed/i);
+   assert.match(text,/manually, not live government tracking/i);
    assert.match(text,/not\s+establish delivery|not establish delivery/i);
    assert.match(text,/no fees have been authorised/i);
    for(const item of await cards.all()){
