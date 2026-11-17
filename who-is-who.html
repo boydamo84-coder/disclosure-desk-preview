@@ -152,6 +152,20 @@ footer a{margin-right:14px}
 .claim-evidence-list p{margin:5px 0}
 .claim-evidence-details a{color:#f1d59f;text-underline-offset:3px}
 @media(max-width:670px){.claim-evidence-details{padding:11px}.claim-evidence-list li{padding:10px}}
+
+/* M40: research proposal and records-access lane. Absolutely no person or incident score. */
+#ddPolicyReviewGuide{background:#122538;border:1px solid #4e6275;border-radius:14px;padding:18px 20px;margin:13px 0 24px}
+#ddPolicyReviewGuide h2{font-size:20px;margin:6px 0 9px}
+#ddPolicyReviewGuide p{font-size:13px;line-height:1.7;color:#ccd9e1;margin:10px 0}
+#ddPolicyReviewGuide .dd-policy-method{border-left:3px solid #e9cc93;background:#0d1e2d;padding:11px 13px}
+#ddPolicyReviewGuide .dd-policy-items{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+#ddPolicyReviewGuide details{border:1px solid #52677b;border-radius:11px;padding:12px 14px;background:#0d2030;min-width:0}
+#ddPolicyReviewGuide details summary{cursor:pointer;color:#edd39e;font-weight:750;font-size:13px;line-height:1.5}
+#ddPolicyReviewGuide details p,#ddPolicyReviewGuide details li{font-size:12px;line-height:1.7;color:#c5d6df}
+#ddPolicyReviewGuide ul{margin:10px 0 5px;padding-left:18px}
+#ddPolicyReviewGuide a{overflow-wrap:anywhere}
+#ddPolicyReviewGuide .dd-policy-state{font-size:11px;letter-spacing:.3px;font-weight:700;color:#e9cc93}
+@media(max-width:700px){#ddPolicyReviewGuide .dd-policy-items{grid-template-columns:1fr}#ddPolicyReviewGuide{padding:15px}}
 </style>
 <script defer src="/assets/analytics-consent.js?v=nov08-ga4-optin-m18"></script>
 </head><body>
@@ -167,6 +181,37 @@ footer a{margin-right:14px}
   <a href="/sources#sourceVerification">See the dated Source Verification Tracker and original records</a>.
   Enquiries are about documents and claims—not rankings of people or proof of extraordinary explanations.
 </aside>
+<section id="ddPolicyReviewGuide" aria-labelledby="ddPolicyReviewTitle">
+  <span class="eyebrow">Research method · Not a rating</span>
+  <h2 id="ddPolicyReviewTitle">Different claims need different evidence</h2>
+  <p class="dd-policy-method">A proposal to improve UAP science or release government records should <strong>not</strong> be graded as proof of an extraordinary sighting. These entries are reviewed for attribution, legal or scientific context, and what agencies have actually done. An incident-evidence percentage is <strong>not applicable</strong>; no member voting or personal credibility score is available.</p>
+  <div class="dd-policy-items">
+    <details id="ddPolicyGold">
+      <summary>Mike Gold — scientific research proposals</summary>
+      <p>In his November 2024 congressional testimony, Gold proposed examining NASA archival data, improving civilian aviation reporting, involving international partners and considering specialised measurement instruments. He explicitly said he was speaking on his own behalf, <strong>not on behalf of NASA or his employer</strong>.</p>
+      <ul>
+        <li><a href="https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Gold.pdf" rel="noopener noreferrer" target="_blank">Original written testimony — House Oversight</a></li>
+        <li><a href="https://science.nasa.gov/uap/" rel="noopener noreferrer" target="_blank">NASA's independent UAP study and recommendations</a></li>
+      </ul>
+      <p><strong>Unresolved:</strong> Which of these specific proposals, if any, were subsequently implemented? The published testimony does not establish implementation or an unusual object's origin.</p>
+      <p class="dd-policy-state">Policy review · No incident evidence score</p>
+      <a href="/who-is-who?person=mike-gold">Open Mike Gold's attributed profile and full source trail</a>
+    </details>
+    <details id="ddPolicyMellon">
+      <summary>Christopher Mellon — UAP records-disclosure argument</summary>
+      <p>In October 2025, Mellon argued that government UAP records should be more openly released and challenged excessive classification. The National Archives separately confirms that <strong>Record Group 615</strong> receives UAP records under the 2024 NDAA framework.</p>
+      <ul>
+        <li><a href="https://christopherkmellon.substack.com/p/the-us-government-is-sitting-on-a" rel="noopener noreferrer" target="_blank">Mellon's original republished opinion</a></li>
+        <li><a href="https://www.archives.gov/research/topics/uaps/rg-615" rel="noopener noreferrer" target="_blank">National Archives Record Group 615</a></li>
+        <li><a href="https://www.archives.gov/records-mgmt/memos/ac-04-2025" rel="noopener noreferrer" target="_blank">Official federal UAP records-transfer guidance</a></li>
+      </ul>
+      <p><strong>Unresolved:</strong> A comprehensive, source-by-source check of which government records remain classified and why. An archive catalogue does not establish improper classification or nonhuman origins.</p>
+      <p class="dd-policy-state">Records-access review · No incident evidence score</p>
+      <a href="/who-is-who?person=christopher-mellon">Open Christopher Mellon's attributed profile and source trail</a>
+    </details>
+  </div>
+  <p class="muted small">This page explains the difference between verified publication of a statement and verification of its underlying assertion. All editorial claim reviews remain unsigned; the reader cannot submit a score.</p>
+</section>
 <section id="directoryPage" aria-label="People directory">
 <div class="tools"><label>Search people, roles and topics<input id="peopleSearch" type="search" maxlength="80" placeholder="e.g. pilot, Grusch, investigative journalist"></label><label>Filter roles<select id="peopleCategory"><option value="all">All roles</option><option value="Hearing witness">Hearing witnesses</option><option value="Pilot">Pilots</option><option value="Journalist">Journalists</option><option value="Interviewer">Interviewers</option><option value="Sceptical analyst">Sceptical analysts</option><option value="Filmmaker">Filmmakers</option><option value="Claimant">Public claimants</option><option value="Disclosure advocate">Disclosure advocates</option><option value="Scientist">Scientists</option><option value="NASA UAP study">NASA UAP study</option><option value="Congress">Congress &amp; oversight</option><option value="Advocate">Transparency advocates</option><option value="FOIA researcher">FOIA researchers</option><option value="Researcher">Researchers</option><option value="Documentary director">Documentary directors</option><option value="Former government official">Former government officials</option></select></label></div>
 <p id="peopleStatus" class="muted small" role="status">Loading source-linked profiles…</p>
