@@ -11,7 +11,21 @@
 
 This is **NOT** a rating of David Fravor's honesty, character, integrity, professional competence, or how likely an extraterrestrial origin is. A correctly reproduced witness statement does not by itself independently establish the described object, speed, acceleration or provenance. Distinct claims may require separate future scorecards; do not treat all aspects of the encounter as a single verified proposition.
 
-## First-pass working allocation — NOT APPROVED
+## Revised evidence units — separately review, do not infer one case score
+
+**Correction following a scope challenge (17 November 2026):** The initial blended **54/100** is **WITHDRAWN** as an active score. It measured public access to full radar/FLIR measurements alongside the quality of multiple original witness accounts and official Navy footage, and could be misread as claiming the whole 2004 reported event had weak support. It is retained **only as an obsolete private audit calculation** below, not as a rating to publish or a numerical conclusion.
+
+The source evidence must instead be assessed under **five separate propositions**, each with its own provenance, limits, independent-editor verification and (only if appropriate) a separately justified evidence-strength rating:
+
+1. **Visual encounter:** Fravor and Dietrich gave separately attributable first-person reports from the same sortie. Their combined testimony is substantial evidence of a reported unidentified encounter, but not an independently measured trajectory.
+2. **Radar accounts:** Fravor testified that Princeton, Nimitz and E-2 systems tracked an object; the same testimony says his own fire-control radar never picked it up. The 2019 Knuth/Powell/Reali article discusses Kevin Day's distinct radar-operator account and offers conditional estimates **without access to original radar tracks**. Reported distinct radar systems merit their own evidentiary analysis, not a dismissive score.
+3. **Later official FLIR footage:** The Navy's November 2004 footage was officially released by DoD. Navy public-affairs documents discuss circulation aboard Nimitz. This is genuine instrument footage, but recorded by another crew later and **not independently proven to depict the identical target** Fravor saw.
+4. **Quantitative extraordinary kinematics:** The reported sixty-mile movement, altitude changes and rapid apparent departures deserve precise technical research. Validation requires original range, time and sensor state/geometry data, uncertainty and independent replication. Conditional modelling or later video alone does not settle those inputs.
+5. **Nonhuman/extraterrestrial origin:** No current record here establishes that identification; it must not be inferred from the case remaining unexplained, and should not be assigned a default 0, 100 or probability figure.
+
+For now **all five active scoring units have `editorialScore: null`** in `data/who-m56-fravor-private-working-scorecard.json`. The initial rubric is retained for calibration and the number is auditable in a **withdrawnFirstPass** field, but not usable for a published badge, story, community ballot, or overall case ranking.
+
+## Withdrawn first-pass blended allocation — NOT A CURRENT SCORE
 
 | Criterion | Maximum | Internal proposed working points | Why |
 |---|---:|---:|---|
@@ -22,7 +36,7 @@ This is **NOT** a rating of David Fravor's honesty, character, integrity, profes
 | Alternative explanations and uncertainty | 10 | **5** | The review checks limits of the independent recording and includes a named competing camera-tracking/zoom explanation for FLIR1; this **does not resolve** the separate original visual encounter. No direct calibrated evaluation of all models has been completed. |
 | **Working sum only** | **100** | **54** | **Unapproved editorial training score; NOT a published 54%, probability of truth, or finding of nonhuman origin.** |
 
-These provisional values are *editorial judgments*, not statistical measurements. They may increase, decrease or be withdrawn after human review, and criteria weights themselves should be tested for sensitivity before any methodology is approved.
+**All allocations in this table are withdrawn and must NOT be reused to infer an overall case rating.** They were subjective first-pass training judgments, not statistical measurements. The original rubric weights and evidence units require calibration and human review.
 
 ## Original and contextual source ledger
 
@@ -43,6 +57,14 @@ These provisional values are *editorial judgments*, not statistical measurements
 
 **6. Competing camera-behaviour hypothesis, NOT a final incident determination**  
 [Mick West — original Metabunk September 2019 FLIR1 discussion](https://www.metabunk.org/threads/are-the-navy-ufos-real-or-just-in-the-low-information-zone-the-liz.10921/). **Access:** original named author's post checked. **Claim:** loss of tracking and camera zoom can explain seemingly abrupt end-of-clip target movement; test this against sensor modes and original imagery. **Does NOT establish:** a resolution of Fravor/Dietrich visual descriptions or any missing radar record. A competing model is evidence of an alternative interpretation, not proof that it is correct.
+
+## Additional sources brought into the scope recalibration
+
+**7. Peer-reviewed study that includes radar-operator reporting**  
+[Knuth, Powell and Reali, *Estimating Flight Characteristics of Anomalous Unidentified Aerial Vehicles* (2019), §2.4](https://pmc.ncbi.nlm.nih.gov/articles/PMC7514271/). The article reports Kevin Day's retrospective radar-operator data and estimates possible motion based on reported timings and assumptions. It acknowledges that without detailed radar data, acceleration cannot be directly reconstructed as a function of time. **A peer-reviewed model derived from witness accounts is not a new independent radar measurement**, but it is relevant supporting documentation and should be discussed alongside the visual testimony.
+
+**8. Navy public-affairs provenance briefing**  
+[U.S. Navy UAP FOIA briefing card, Q2](https://www.secnav.navy.mil/foia/readingroom/CaseFiles/UAP%20INFO/UAP%20DOCUMENTS/PAO%20Briefing%20Card%202020-012022%20and%202022-006563.pdf) discusses the 2004 video's circulation aboard Nimitz. **Access limit:** text was retrievable from an official indexed PDF; a subsequent page-image attempt was rejected, so a complete original PDF inspection is **not** claimed. This is documentary video provenance, not a sensor-calibrated analysis.
 
 ## Four critical distinctions for the future public reader
 
