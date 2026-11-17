@@ -1,0 +1,38 @@
+name: "Who M56 private evidence review NO DEPLOY"
+on:
+  push:
+    branches:
+      - prep/who-m56-fravor-claim-review-draft-20261117
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  private-review-and-package-boundary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout source only
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Run no-score-publication evidence scope and source checks
+        run: |
+          node --check scripts/test_who_m56_fravor_private_review_contract.cjs
+          node --check assets/people-directory.js
+          node scripts/test_who_m56_fravor_private_review_contract.cjs
+          node scripts/test_who_m29_editorial_handoff.cjs
+          echo 'Five unscored claim units verified; prior blended allocation withdrawn.'
+      - name: Enforce public release allowlist; never ship private worksheet
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_who_public_package_boundary.cjs
+          test ! -e .release-staging/public-site/data/who-m56-fravor-private-working-scorecard.json
+          test ! -e .release-staging/public-site/docs/WHO_M56_FRAVOR_PRIVATE_EVIDENCE_REVIEW_2026-11-17.md
+          echo 'Private claim-review data and internal report absent from public website candidate'
+          echo 'No deploy, Netlify, Supabase, account updates, Android APK, numeric public scores or member votes'
