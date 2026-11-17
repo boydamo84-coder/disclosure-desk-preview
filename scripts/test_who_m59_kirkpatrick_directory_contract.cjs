@@ -39,7 +39,7 @@ assert(kirk.articles.some(a=>a.date==='2026-11-01'));
 assert(kirk.publicWorkEvidence.sources.some(x=>/govinfo.gov/.test(x.url)));
 assert(kirk.publicWorkEvidence.sources.some(x=>/24-F-0266.pdf/.test(x.url)));
 assert(kirk.publicWorkEvidence.sources.some(x=>/media-roundtable/.test(x.url)));
-assert(kirk.publicWorkEvidence.openQuestions.includes('exact October 2023 wording'));
+assert(kirk.publicWorkEvidence.openQuestions.includes('precise October 2023 wording'));
 for(const s of kirk.publicWorkEvidence.sources){
  assert(/^https:\/\//.test(s.url)&&!/["<>]/.test(s.url));
  assert(s.title.length>=12&&s.locator.length>=5&&s.note.length>=45);
