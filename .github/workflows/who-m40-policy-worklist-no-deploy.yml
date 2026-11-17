@@ -13,6 +13,7 @@ on:
       - prep/who-m48-omaha-and-nimitz-analysis-20261117
       - prep/who-m49-rendlesham-records-20261117
       - prep/who-m50-complete-evidence-summary-links-20261117
+      - prep/who-m51-source-access-provenance-20261117
   workflow_dispatch:
 
 permissions:
@@ -54,6 +55,7 @@ jobs:
           node --check scripts/test_who_m39_source_tracker_contract.cjs
           node --check scripts/test_who_m40_policy_worklist.cjs
           node --check scripts/test_who_m50_summary_links.cjs
+          node --check scripts/test_who_m51_source_provenance.cjs
           node --check assets/source-verification.js
           node --check assets/people-directory.js
           node scripts/test_who_claim_evidence_contract.cjs
@@ -78,6 +80,7 @@ jobs:
           node scripts/test_who_m39_source_tracker_contract.cjs
           node scripts/test_who_m40_policy_worklist.cjs
           node scripts/test_who_m50_summary_links.cjs
+          node scripts/test_who_m51_source_provenance.cjs
       - name: Assert private rating SQL and synthetic accounts not copied to release candidate
         run: |
           test ! -f docs/WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql
@@ -107,7 +110,8 @@ jobs:
           test -f .release-staging/public-site/assets/source-verification.js
           test ! -f .release-staging/public-site/data/who-m40-policy-source-worklist.json
           test ! -f .release-staging/public-site/docs/WHO_M40_POLICY_RECORDS_SOURCE_TRIAGE_2026-11-17.md
-          echo 'M40 reader guide staged; M40 internal worklist and documentation excluded from strict public allowlist'
+          test ! -f .release-staging/public-site/docs/WHO_M51_SOURCE_PROVENANCE_AUDIT_2026-11-17.md
+          echo 'M51 source provenance staged; private research documentation excluded from strict public allowlist'
           echo "No deploy, Netlify or Supabase credentials used"
 
   chromium-phone-tablet-desktop:
@@ -134,6 +138,7 @@ jobs:
           node --check scripts/test_who_m29_editorial_handoff_chromium.cjs
           node --check scripts/test_who_m39_source_tracker_chromium.cjs
           node --check scripts/test_who_m40_policy_chromium.cjs
+          node --check scripts/test_who_m51_source_provenance_chromium.cjs
       - name: Run real Chrome on Who policy source guide and inherited M39 tracker safeguards
         run: |
           python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/who-m29-readonly-http.log 2>&1 &
@@ -151,6 +156,7 @@ jobs:
           node scripts/test_who_m29_editorial_handoff_chromium.cjs
           node scripts/test_who_m39_source_tracker_chromium.cjs
           node scripts/test_who_m40_policy_chromium.cjs
+          node scripts/test_who_m51_source_provenance_chromium.cjs
       - name: Stop local-only web server
         if: always()
         run: |
