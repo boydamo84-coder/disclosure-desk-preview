@@ -24,7 +24,7 @@ const base='http://127.0.0.1:4173';
    await page.addScriptTag({url:base+'/assets/who-archive-return.js'});
    const original={
     personId:'kevin-knuth',personName:'Kevin Knuth',target:'archive',
-    caseId:'featured-nimitz-2004',page:'/who-is-who.html?person=kevin-knuth',
+    caseId:'featured-nimitz-2004',origin:base,page:'/who-is-who.html?person=kevin-knuth',
     savedAt:Date.now()-1000,y:400
    };
    const result=await page.evaluate(marker=>{
