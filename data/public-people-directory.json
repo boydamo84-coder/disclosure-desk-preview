@@ -4455,16 +4455,28 @@
             "locator": "Chemical Geology 670 (2024) 122415, original open PDF 20 pages: visually inspected PDF pages 1 and 11 (0-index 0 and 10), abstract, elemental-ratio figures 15–16 and sections 6.2–6.4"
           },
           "evidenceReviewSummary": {
-            "finding": "The 2024 Chemical Geology paper reports unusual enrichment patterns in some recovered spherules and leaves their origin open. Fernando and colleagues independently question the seismic location used to connect the recovery area to IM1.",
-            "remaining": "A reproducible link between dated particles and the 2014 fireball requires sample provenance, distant control samples and an independently supported search location.",
+            "finding": "Loeb and colleagues measured unusual element ratios in the BeLaU subset and left its source open. Rudraswami and colleagues argue that many particles are volcanic or otherwise terrestrial. Expedition coauthors later reported that BeLaU chemistry differed from the Australasian tektite samples they compared. Fernando and colleagues questioned the seismic basis used to narrow the search area.",
+            "remaining": "The NASA/JPL notice documents the fireball. Linking a recovered grain to it still requires a defensible debris-fall area, dated sample provenance, distant background controls and independent testing of the recovered material.",
             "links": [
               {
-                "title": "Galileo Project host of the 2024 paper, Sections 2 and 6",
+                "title": "NASA/JPL record of the 2014 fireball and its light curve",
+                "url": "https://cneos.jpl.nasa.gov/fireballs/lc/bolide.2014.008.170534.pdf"
+              },
+              {
+                "title": "Loeb and colleagues · 2024 chemical classification, §§3 and 7",
                 "url": "https://galileo.hsites.harvard.edu/sites/g/files/omnuum6371/files/chemical_classification_of_spherules_1-s2.0-s0009254124004959-main.pdf"
               },
               {
-                "title": "Independent seismic and acoustic analysis by Fernando et al.",
-                "url": "https://arxiv.org/abs/2403.03966"
+                "title": "Rudraswami, Singh and Pandey · 2025 reassessment, journal preview",
+                "url": "https://www.sciencedirect.com/science/article/abs/pii/S000925412500018X"
+              },
+              {
+                "title": "Hyung and colleagues · published Australasian tektite comparison",
+                "url": "https://doi.org/10.3847/2515-5172/ae1448"
+              },
+              {
+                "title": "Fernando and colleagues · published seismic and acoustic analysis",
+                "url": "https://doi.org/10.1093/gji/ggae202"
               }
             ]
           }

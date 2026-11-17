@@ -1,5 +1,20 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 17 November 2026 (Europe/London) — M44 AAWSAP transfer records; staged_
+_Last updated: 17 November 2026 (Europe/London) — M45 IM1 spherule evidence; staged_
+
+## M45 — IM1 fireball, search area and recovered spherules (17 November 2026)
+
+**Branch** `prep/who-m45-im1-spherule-evidence-20261117`, based on M44 `4c38aa9`. Avi Loeb’s Who’s Who profile now links the documented fireball, the expedition study and independent or coauthor analyses with the remaining question of sample provenance.
+
+| Evidence | Checked source and scope |
+| --- | --- |
+| The atmospheric event | [NASA/JPL Bolide Detection Notification 2014-008](https://cneos.jpl.nasa.gov/fireballs/lc/bolide.2014.008.170534.pdf) records the U.S. government satellite detection and light curve at 17:05:34 UT. The [NASA/JPL API record for the date](https://ssd-api.jpl.nasa.gov/fireball.api?date-min=2014-01-08&date-max=2014-01-09&vel-comp=true) was retrieved and separately lists 17:05:33, 1.2° S, 147.1° E, altitude 18.7 km and speed 44.8 km/s. The one-second public timestamp difference is retained as a source detail. [JPL’s catalogue notes](https://cneos.jpl.nasa.gov/fireballs/) say CNEOS publishes furnished data without independently reanalysing it. |
+| The fireball’s proposed orbit | [Siraj and Loeb (2022)](https://doi.org/10.3847/1538-4357/ac8eac) infer an unbound orbit and rely on a U.S. Space Command letter supporting the accuracy of the velocity estimate. [Brown and Borovička (2023)](https://doi.org/10.3847/1538-4357/ace421) use other calibrated fireballs and the light curve to challenge the inference from public data. The underlying sensor uncertainties and the seafloor grain identities are separate questions. |
+| The search area | [Fernando et al. (2024), §§4–5 and Fig. 7](https://doi.org/10.1093/gji/ggae202) revisit the seismic and acoustic information. They find the two proposed seismic signals unsuitable for the original narrow localisation. Their acoustic best fit lies about 170 km from the catalogue location; its wide 90% uncertainty ellipse includes the catalogue location. This is an independent localisation challenge with broad uncertainty, without an exact confirmed fall site. |
+| Chemical measurements | [Loeb et al. (2024), §§3 and 7](https://galileo.hsites.harvard.edu/sites/g/files/omnuum6371/files/chemical_classification_of_spherules_1-s2.0-s0009254124004959-main.pdf) describe unusual enrichment patterns in the BeLaU subset. Section 3 explicitly says they cannot directly attribute recovered material to IM1. The conclusion leaves that subset’s source open and proposes further work using distant control regions. |
+| Competing interpretations | The [Rudraswami, Singh and Pandey journal preview (2025)](https://www.sciencedirect.com/science/article/abs/pii/S000925412500018X) argues for volcanic or other terrestrial origins for much of the collection. This review reached the publisher’s abstract and selected indexed passages; it did not independently access the full manuscript. [Desch’s 2025 conference abstract](https://www.hou.usra.edu/meetings/lpsc2025/pdf/2686.pdf) proposes a distinct terrestrial microtektite explanation for the BeLaU subset. [Hyung et al. (2025)](https://doi.org/10.3847/2515-5172/ae1448), including expedition coauthors, compare BeLaU with specific measured Australasian tektites and microtektites and find different composition patterns. The latter comparison uses tektite reference material and previously reported BeLaU data. It leaves other terrestrial sources and a link to IM1 open. The coauthors’ [separate morphology and chemistry paper](https://galileo.hsites.harvard.edu/publication/investigation-relationship-between-morphology-and-chemistry-d-type-spherules-recovery) examines material from the same expedition. |
+
+The remaining evidence gap is a reproducible connection between a dated, traceable grain and the 2014 atmospheric event. Matching sampling and distant controls, independently calibrated potential debris-fall locations and separate tests of the recovered material would address different parts of that question. The staged change updates one profile evidence summary plus this handover and the validation branch trigger.
+
 
 ## M44 — AAWSAP contract and the alleged transfer to Bigelow (17 November 2026)
 

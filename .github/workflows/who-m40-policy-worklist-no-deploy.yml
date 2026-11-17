@@ -7,6 +7,7 @@ on:
       - prep/who-m42-original-broadcast-links-20261117
       - prep/who-m43-council-bluffs-sample-records-20261117
       - prep/who-m44-aawsap-transfer-records-20261117
+      - prep/who-m45-im1-spherule-evidence-20261117
   workflow_dispatch:
 
 permissions:
