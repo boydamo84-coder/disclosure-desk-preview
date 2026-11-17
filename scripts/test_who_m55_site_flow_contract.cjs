@@ -46,6 +46,8 @@ assert(home.includes("archiveCaseOpen(linked.id)"));
 assert(home.includes('id="archiveCaseDialog"'));
 assert(home.includes('id="ddWhoArchiveReturn"'));
 assert(module.includes('marker.caseId!==caseId'));
+assert(who.includes('origin:location.origin'),'Return marker bound to Who origin');
+assert(module.includes('marker.origin!==here.origin'),'Reject mismatched or legacy origins');
 assert(module.includes('now-marker.savedAt>15*60*1000'));
 assert(module.includes("here.searchParams.get('dd_from')!=='who'"));
 assert(build.includes("'who-archive-return.js'"));
