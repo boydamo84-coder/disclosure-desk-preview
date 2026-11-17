@@ -48,7 +48,8 @@
         "Dr Sean M. Kirkpatrick is a physicist and former senior U.S. defence and intelligence official. The Department of Defense established AARO in July 2022; Kirkpatrick led the office as its inaugural director until his retirement from federal service in December 2023. His role was to organise investigations of UAP reports of potential national-security relevance.",
         "In an April 2023 public Senate briefing and in later media roundtables, Kirkpatrick described AARO's evidence standards, analysis, and the absence of verified extraterrestrial technology in the material evaluated by the office. This does not imply that all UAP reports were definitively explained, or that future evidence could not change an assessment.",
         "Statements concerning David Grusch, AARO's attempts to interview witnesses, and allegations of recovered technology became contested. A July 2023 House hearing documents Grusch's account; the October 2023 AARO media roundtable records Kirkpatrick's public position; FOIA correspondence later documented AARO invitations, Grusch's responses, and disputed questions about authority to receive sensitive information. The documents should be compared by date and exact wording, rather than assuming every disagreement is a lie.",
-        "After leaving the office, Kirkpatrick published a first-person analysis in Scientific American about his time at AARO and the rationale for its historical review. His later appearances are not official statements by the present AARO director, Jon Kosloski. The linked sources allow readers to assess the competing interpretations independently."
+        "After leaving the office, Kirkpatrick published a first-person analysis in Scientific American about his time at AARO and the rationale for its historical review. His later appearances are not official statements by the present AARO director, Jon Kosloski. The linked sources allow readers to assess the competing interpretations independently.",
+        "Kirkpatrick continued participating in public debate as a former AARO director in 2026. A 29 May 2026 UAP Files interview and October–November 2026 Fox News appearances describe him as the former director, not a current office spokesperson. Readers should compare his present commentary with the date and scope of the original AARO assessments rather than conflate a former official's interpretation with a new agency finding."
       ],
       "milestones": [
         {
@@ -86,6 +87,18 @@
           "title": "Former-director essay",
           "detail": "Kirkpatrick published his own assessment of UAP-related allegations and AARO investigative approaches after his departure.",
           "source": "https://www.scientificamerican.com/article/heres-what-i-learned-as-the-u-s-governments-ufo-hunter/"
+        },
+        {
+          "date": "29 May 2026",
+          "title": "Later UAP Files interview, speaking as former AARO director",
+          "detail": "A long-format publisher interview revisited AARO's investigation, sensor limitations, Nimitz and other recent UAP claims; it is his post-office commentary, not a new original AARO determination.",
+          "source": "https://www.youtube.com/watch?v=q-IncaY7zQ8"
+        },
+        {
+          "date": "31 October–1 November 2026",
+          "title": "Media reaction to later government UAP file releases",
+          "detail": "Fox News published an interview and related reporting identifying Kirkpatrick as a former AARO chief. He questioned whether newly published witness descriptions supported extraordinary conclusions; the interview is his interpretation, not the current office's case determination.",
+          "source": "https://www.foxnews.com/video/6407612320112"
         }
       ],
       "articles": [
@@ -112,11 +125,57 @@
           "publisher": "Scientific American",
           "date": "2024-01-19",
           "url": "https://www.scientificamerican.com/article/heres-what-i-learned-as-the-u-s-governments-ufo-hunter/"
+        },
+        {
+          "label": "Fox News — Former Pentagon UFO chief comments on newly released file claims",
+          "publisher": "Fox News Digital",
+          "date": "2026-11-01",
+          "url": "https://www.foxnews.com/us/former-pentagon-ufo-chief-disputes-fbi-black-triangle-sighting-says-reports-lack-evidence"
+        },
+        {
+          "label": "AARO — official congressional and press products archive",
+          "publisher": "All-domain Anomaly Resolution Office",
+          "date": "2026",
+          "url": "https://www.aaro.mil/Congressional-Press-Products/"
         }
       ],
-      "videos": [],
+      "videos": [
+        {
+          "title": "Sean Kirkpatrick — former Pentagon UFO chief answers questions",
+          "youtubeId": "q-IncaY7zQ8",
+          "type": "Long-form publisher interview; former AARO official",
+          "publisher": "UAP Files Podcast",
+          "date": "2026-05-29",
+          "context": "Interview gives Kirkpatrick's retrospective personal explanations; it does not replace publicly accessible original AARO case files."
+        }
+      ],
       "socialPages": [],
-      "podcastEpisodes": [],
+      "podcastEpisodes": [
+        {
+          "show": "UAP Files Podcast",
+          "title": "Former Pentagon UFO Chief Answers the Biggest Questions",
+          "date": "2026-05-29",
+          "url": "https://www.youtube.com/watch?v=q-IncaY7zQ8",
+          "role": "Interview guest — former AARO director",
+          "context": "Publisher-hosted interview; opinions expressed after his office tenure are not official current AARO findings."
+        },
+        {
+          "show": "Scientific American Science Quickly",
+          "title": "The Government's Former UFO Hunter Has a Lot to Say",
+          "date": "2024-02-05",
+          "url": "https://www.scientificamerican.com/podcast/episode/the-governments-former-ufo-hunter-has-a-lot-to-say/",
+          "role": "Interview subject",
+          "context": "Original publisher conversation about his AARO role and findings after leaving government service."
+        },
+        {
+          "show": "UAP Files Podcast",
+          "title": "Ex-Pentagon UFO Chief: ‘Nothing Credible’ About Skywatcher",
+          "date": "2026-10-29",
+          "url": "https://podcasts.apple.com/us/podcast/ex-pentagon-ufo-chief-nothing-credible-about-skywatcher/id1741618111?i=1000798770539",
+          "role": "Interview subject",
+          "context": "Short later publisher interview; the statement is Kirkpatrick's reported assessment, not independent verification about Skywatcher."
+        }
+      ],
       "filmCredits": [],
       "roleEvidence": {
         "status": "official_source_crosscheck",
@@ -154,6 +213,110 @@
         "sourceUrl": null,
         "detail": "Government biography has a portrait but no final US/UK image/crop rights verification completed. Show initials.",
         "finalRightsApproval": false
+      },
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "public_official_statements",
+        "title": "AARO-era testimony, disputed Grusch contact chronology and later interviews",
+        "period": "2022–2026",
+        "description": "Official congressional testimony, a 2023 Pentagon roundtable and later released AARO correspondence provide attributable but differently scoped records. Kirkpatrick's subsequent articles and interviews are his own assessments after leaving office, not current AARO policy.",
+        "openQuestions": "Compare the precise October 2023 wording with Grusch's July 2023 account and dated AARO FOIA communications. Distinguish an invitation, an email exchange, a completed interview and the actual transfer of evidence. Examine the source of each scientific conclusion rather than asserting a contradiction proves intent to mislead.",
+        "sources": [
+          {
+            "title": "AARO founding appointment in Department of Defense announcement",
+            "url": "https://www.defense.gov/News/Releases/Release/Article/3100053/dod-announces-the-establishment-of-the-all-domain-anomaly-resolution-office/",
+            "locator": "20 July 2022, named director and office remit",
+            "note": "Official first-party appointment record fixes authority and timing. Establishing an office to investigate reports does not establish any extraordinary technology.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "April 2023 Senate subcommittee testimony, DoD original summary",
+            "url": "https://www.defense.gov/News/News-Stories/Article/article/3368109/dod-working-to-better-understand-resolve-anomalous-phenomena/",
+            "locator": "19 April 2023 testimony and AARO reporting priorities",
+            "note": "Public official account presents Kirkpatrick's then-current position on evidence reviewed. Distinguish unresolved cases from verified extraordinary explanations.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "July 2023 sworn congressional account by David Grusch",
+            "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+            "locator": "26 July 2023; Grusch questions about Kirkpatrick and earlier contact",
+            "note": "A separately attributable witness statement can challenge an account of communications. It does not independently prove everything Grusch alleged or that Kirkpatrick intentionally misled anyone.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "October 2023 Kirkpatrick official DoD media roundtable transcript",
+            "url": "https://www.defense.gov/News/Transcripts/Transcript/Article/3575588/aaro-director-dr-sean-kirkpatrick-holds-an-off-camera-media-roundtable/",
+            "locator": "31 October 2023; exchange about Grusch and formal AARO contact",
+            "note": "Primary source establishes Kirkpatrick's words at that date. His answer about formal in-person reporting is not automatically contradicted by earlier informal contact or a later invitation.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "AARO FOIA published exchange and interview invitations",
+            "url": "https://www.aaro.mil/Portals/136/PDFs/FOIA/2024%20FOIAs/24-F-0266.pdf",
+            "locator": "FOIA case 24-F-0266; January 2024 memorandum and 2023 contacts",
+            "note": "Official FOIA-indexed communications supply a dated audit trail for disputed outreach. The full primary PDF was not independently page-inspected here; do not overclaim a complete chronology.",
+            "sourceClass": "archive",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "Kirkpatrick's own post-tenure opinion on AARO investigations",
+            "url": "https://www.scientificamerican.com/article/heres-what-i-learned-as-the-u-s-governments-ufo-hunter/",
+            "locator": "January 2024 original first-person article",
+            "note": "A former official's original published analysis explains his conclusions and criticisms; editorial opinion is not current agency policy or a separate sensor record.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "Former director's publisher-hosted 2026 long-form interview",
+            "url": "https://www.youtube.com/watch?v=q-IncaY7zQ8",
+            "locator": "29 May 2026, UAP Files interview listing and recording",
+            "note": "A primary interview link establishes what the former director publicly said in 2026. Repeated retellings of AARO conclusions are not independent case evidence.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "Fox News former-director interview on later UAP files",
+            "url": "https://www.foxnews.com/video/6407612320112",
+            "locator": "31 October 2026, publisher video",
+            "note": "Contemporary media interview frames his comments as those of a former official; any assessment of newly released reports should be checked against the underlying newly published original files.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          }
+        ]
+      },
+      "evidenceScope": {
+        "status": "research_scope_draft",
+        "classification": "documented_role_or_publication_only",
+        "applicability": "not_applicable_to_documented_role",
+        "reviewDate": "2026-11-17",
+        "originalRole": "Founding director of AARO and subsequent public analyst, not its current director or a firsthand witness for each referenced case.",
+        "scope": "Official leadership decisions, congressional testimony and later interviews are documented but not a person-level UAP-event score.",
+        "reason": "This record concerns AARO investigative statements and the provenance of interagency inquiries, some of which are publicly contested. A role or a media opinion cannot automatically be assigned an incident evidence percentage or an honesty score, and disagreement is not in itself proof of dishonesty.",
+        "nextEvidenceNeeded": "For each specific contested assertion select exact dated source passages, original data, independently attributable counterstatements and agency records, then separately evaluate scope and evidence limits. Never combine them into a numerical personal believability rating.",
+        "sourceChecks": [
+          {
+            "title": "DoD AARO appointment and remit",
+            "url": "https://www.defense.gov/News/Releases/Release/Article/3100053/dod-announces-the-establishment-of-the-all-domain-anomaly-resolution-office/",
+            "locator": "20 July 2022 announcement",
+            "interpretation": "Proves official appointment and historical office remit, not the identity or origin of any UAP."
+          },
+          {
+            "title": "Kirkpatrick official October 2023 roundtable",
+            "url": "https://www.defense.gov/News/Transcripts/Transcript/Article/3575588/aaro-director-dr-sean-kirkpatrick-holds-an-off-camera-media-roundtable/",
+            "locator": "31 October 2023, Grusch contact exchange",
+            "interpretation": "Records specific public statements with their date and context; requires comparison with FOIA chronology rather than character inferences."
+          },
+          {
+            "title": "Official current AARO director listing",
+            "url": "https://www.aaro.mil/About/Leaders/",
+            "locator": "Jon Kosloski director biography",
+            "interpretation": "Confirms the former/current distinction, preventing later independent commentary being mislabelled as authoritative agency findings."
+          }
+        ]
       }
     },
     {
