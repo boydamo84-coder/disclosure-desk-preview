@@ -1,5 +1,19 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 17 November 2026 (Europe/London) — M53 Who’s Who → Archive provenance and source return QA; NO DEPLOY_
+_Last updated: 17 November 2026 (Europe/London) — M54 guarded Who’s Who return from Archive case; NO DEPLOY_
+
+## M54 — Contextual Archive → Who’s Who return action (17 November 2026)
+
+**Prep branch:** `prep/who-m54-archive-context-back-20261117`, based on M53 `prep/who-m53-source-return-case-lineage-20261117`. **No live Netlify, production, Supabase/SQL, user account, votes, public scores, portrait permissions, or APK change.**
+
+- **Usability gap fixed in staged source:** M53 had a reliable Who → case return *marker* but the homepage Archive case view did not consume it into a visible action. M54 adds a discreet gold-on-navy **← Back to Who’s Who profile** button inside `#archiveCaseDialog` (above the case description). It is hidden by default and only shown for an explicit matching person/case origin; the existing Archive close button and Android/browser history behaviour were not intercepted or modified.
+- **Guarded module:** New `assets/who-archive-return.js` checks session key `dd-who-case-return-v1`, `target:archive`, matching case ID, same-site `/who-is-who.html?person=...` return route, `/?dd_tab=archivePage&dd_from=who`, valid timestamp not older than **15 minutes**, and rejects extra/foreign URLs. A user must tap the return action; no auto-navigation or network transmission. Re-renders hidden for another case or unrelated direct Archive browsing.
+- `index.html` loads the versioned safe module and triggers `DDWhoArchiveReturn.update` on each `archiveCaseOpen(r.id)`, preserving dialog scroll reset, existing case history, premium navigation and styling. `scripts/build_public_release.cjs` explicitly allowlists the new module, and `scripts/test_who_public_package_boundary.cjs` requires it in local staging with hash protections.
+- **Tests committed, not independently marked passed:** `scripts/test_who_m54_archive_return_contract.cjs` verifies direct vs contextual visits, wrong person/case, stale/future markers, cross-origin and injected query targets, plus 50 profiles / 23 unapproved claim reviews / 4 source-attributed draft case links. `scripts/test_who_m54_archive_return_chromium.cjs` verifies the shipped helper at 320/393/820/1280px using **an isolated DOM fixture and mocked local return destination**. This is not a full running Archive integration test and not an Android WebView/physical device test.
+- The inherited `.github/workflows/who-m40-policy-worklist-no-deploy.yml` now triggers for M54 and runs the new static + isolated-browser tests after the older source/package/Chrome checks. The detailed `docs/WHO_M54_ARCHIVE_CONTEXT_RETURN_2026-11-17.md` includes the complete **Samsung Android manual acceptance checklist**, is excluded from public staging and has no live deployment job. GitHub Actions **exact-head CI status remains unverified** unless an actual run can be inspected.
+- The unchanged public editorial model: **50 Who profiles, 23 claim-specific draft evidence reviews, 27 roles, 84 linked evidence sources, 23 source-lineage explanations, 28 repeated source references across 11 families, four public person/case relations** (Fravor + Knuth / Nimitz, Warren + Pope / Rendlesham), all `eventVerified:false`, zero published percentages, second-editor permission withheld, no validated independent witness count or fabricated case-to-case relationship. Prior source enquiries remain `sent_unacknowledged`.
+
+**M55 next:** obtain an exact GitHub Actions result or repair failing tests; check real Samsung/Android APK/Chrome/Internet case-return round trip using a separately approved local/staging build, including back-swipe and external source tabs. Do **not** claim device PASS from browser fixtures. Keep production unchanged until explicit release approval, editorial review and auth/RLS security gates.
+
 
 ## M53 — Add sourced Nimitz analysis and test contextual reader return (17 November 2026)
 
