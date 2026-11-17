@@ -1,5 +1,16 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 17 November 2026 (Europe/London) — M60 next six source-linked profiles; STAGED_
+_Last updated: 17 November 2026 (Europe/London) — M61 local five-criterion browser QA GREEN, no deploy_
+
+## M61 — Resume and verify the member evidence worksheet in real Chrome (17 November 2026)
+
+**Branch:** `prep/who-m61-community-form-browser-qa-20261117`, based on the verified M60 research branch at `cda7ed4ccd090d25b1de60ccd5d5696b0da4e3e5`. **No production or Netlify update, no Supabase writes, new vote tables, account activity, public numerical ratings, ballot activation or APK changes.**
+
+- **Exact-head CI:** GitHub Actions [run 44203945598](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44203945598) completed **success** on `58ffef35a00edce5891c6e26b95b52d3c9d8de9d`, with both `offline-worksheet-contract` and `isolated-chrome-phone-to-desktop` green. The M61 handover-only commit is written afterward; check the subsequent exact-head run before describing that final documentation commit as CI-green.
+- **Actual UI tests:** `scripts/test_who_m61_criteria_browser_chromium.cjs` drives Chrome against the *existing isolated M57 non-submitting fixture* at widths 320, 393, 820 and 1280 pixels. Five criterion caps remain 25/30/25/10/10; unanswered defaults to `null`, explicit zero is a valid answer, partial totals never become /100, a full worksheet can show 100/100 as **private self-assessment only**, and keyboard End/Home, unknown re-selection, reset, no horizontal overflow and no page errors passed.
+- **Privacy/release barriers tested:** no remote traffic, no auth/RPC requests, no `form` submission, no local/session storage, no synthetic account and no voting endpoint. The public candidate still excludes the worksheet script and local fixture. Existing M57 contract and M60 six-profile validations plus strict public-package checks also passed.
+- **Accurate limit:** This is **not** a signed-in, server-backed member ballot or a live-site Who’s Who browser test. The older inherited editorial-and-single-number community rating widgets and copy in `who-is-who.html`, `assets/people-directory.js` and the pinned homepage remain separate migration work. There is no new five-criterion ballot table in the connected live Disclosure Desk Supabase public schema (read-only inspection on 17 November); a prior development-session database test should not be treated as a deployed integration.
+- **Next milestone M62:** replace all inherited editorial score/legacy scalar voting UI and pinned references with source-first, community-owned per-criterion explanatory copy **without discarding any original research**. Then stage a claim-scoped authenticated ballot and public criterion distributions behind explicit feature flags, reviewed RLS, user-only private rows, strict server validation, corrections and abuse controls. Test a real browser on 320/393/820/1280 and physical Android; obtain separate owner release approval before any live migration/deployment. Keep the 57 staged profiles, 23 original claim dossiers and source links intact.
+
 
 ## M60 — Complete six Who’s Who research profiles (17 November 2026)
 
