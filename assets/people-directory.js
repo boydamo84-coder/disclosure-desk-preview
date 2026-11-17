@@ -78,6 +78,7 @@ function rememberProfileCaseDeparture(event){
   const directoryReturn=history.state?.ddDirectoryReturn;
   sessionStorage.setItem(CASE_RETURN_KEY,JSON.stringify({
    personId:selected.id,personName:selected.name.slice(0,120),
+   origin:location.origin,
    page:location.pathname+location.search,
    target:isArchive?'archive':'dossier',
    caseId:isArchive?dest.searchParams.get('dd_archive_case'):null,
