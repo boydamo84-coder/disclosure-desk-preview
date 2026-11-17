@@ -7,13 +7,15 @@ const fs=require('node:fs');
 const {chromium}=require('playwright-core');
 const root=path.resolve(__dirname,'..'),base='http://127.0.0.1:4173';
 const data=JSON.parse(fs.readFileSync(path.join(root,'data/who-editorial-handoff-m29.json'),'utf8'));
-const role=JSON.parse(fs.readFileSync(path.join(root,'data/public-people-directory.json'),'utf8'))
- .people.find(p=>p.evidenceScope&&!p.claimEvidence?.length);
-assert(role,'Need a role-only user case to test no percentage and no handoff panel');
+const {people}=JSON.parse(fs.readFileSync(path.join(root,'data/public-people-directory.json'),'utf8'));
+const peopleById=new Map(people.map(person=>[person.id,person]));
+const roleOnly=people.filter(person=>person.evidenceScope&&!person.claimEvidence?.length);
+assert.equal(peopleById.size,50);
+assert.equal(roleOnly.length,27);
 const samples=['david-fravor','garry-nolan','leslie-kean','larry-warren','mike-gold'];
 const expectedRubric=5,expectedChecklist=6;
 (async()=>{
- const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,
+ const browser=await chromium.launch({executablePath:process.env.DD_CHROMIUM_PATH||'/usr/bin/google-chrome',headless:true,
   args:['--no-sandbox','--disable-dev-shm-usage']});
  try{
   for(const width of [320,393,820,1280]){
@@ -23,7 +25,7 @@ const expectedRubric=5,expectedChecklist=6;
    });
    const page=await ctx.newPage(),errors=[];
    page.on('pageerror',err=>errors.push(String(err.message||err)));
-   const targets=width===393?data.dockets.map(x=>x.personId):[...samples,role.id];
+   const targets=width===393?people.map(person=>person.id):[...samples,roleOnly[0].id];
    for(const pid of targets){
     await page.goto(base+'/who-is-who.html?person='+pid,{waitUntil:'domcontentloaded'});
     await page.locator('#personProfile').waitFor({state:'visible',timeout:30000});
@@ -36,6 +38,18 @@ const expectedRubric=5,expectedChecklist=6;
      const outer=host.locator('.claim-review > .claim-evidence-details');
      assert.equal(await outer.count(),1,'Preserve existing evidence reader for '+pid);
      await outer.locator(':scope > summary').click();
+     const expected=peopleById.get(pid).claimEvidence[0].evidenceReviewSummary;
+     const summary=outer.getByRole('region',{name:'Evidence review summary'});
+     assert.equal(await summary.isVisible(),true,'Source review summary visible for '+pid);
+     const paragraphs=summary.locator(':scope > p');
+     assert.equal(await paragraphs.nth(0).innerText(),expected.finding);
+     assert.equal(await paragraphs.nth(1).innerText(),'Still to verify: '+expected.remaining);
+     const summaryLinks=summary.locator('a[href]');
+     assert.deepEqual(await summaryLinks.evaluateAll(nodes=>nodes.map(node=>node.href)),
+      (expected.links||[]).map(link=>new URL(link.url).href));
+     for(const link of await summaryLinks.all()){
+      assert.equal(await link.getAttribute('rel'),'noopener noreferrer');
+     }
      const pane=outer.locator('details[data-m29-editorial-handoff]');
      assert.equal(await pane.count(),1,'M29 editor transparency visible for '+pid);
      await pane.locator(':scope > summary').click();
@@ -68,6 +82,9 @@ const expectedRubric=5,expectedChecklist=6;
     }else{
      assert.equal(await host.locator('details[data-m29-editorial-handoff]').count(),0,
        '27 documented roles do not gain person-believability or UAP incident docket');
+     assert.equal(await host.getByRole('region',{name:'Evidence review summary'}).count(),0);
+     assert.equal(await host.locator('.claim-scope-review').count(),1,
+      'Documented role scope remains visible for '+pid);
     }
     const bound=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:innerWidth}));
     assert(bound.scroll<=bound.viewport+4,'No horizontal overflow at '+width+'px, '+pid);

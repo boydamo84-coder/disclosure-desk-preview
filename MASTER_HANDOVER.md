@@ -1,5 +1,27 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 17 November 2026 (Europe/London) — M40 policy sources and all 23 Who review lanes; no deploy_
+_Last updated: 17 November 2026 (Europe/London) — M41 directory evidence review; staged_
+
+## M41 — Who’s Who directory evidence review (17 November 2026)
+
+**Branch** `prep/who-m41-complete-directory-source-pass-20261117`, based on M40 `1a9b7eda`. Staged for review.
+
+All **23 claim dossiers** now show a short summary inside **View original evidence sources**. Each summary tells readers what the available record establishes and what could substantiate the claim further. Gold and Mellon retain their policy and records-access scope. The full **50-person** directory also includes **27 profiles** with sourced role or publication records and a visible explanation of their scope.
+
+### Original sources and access limits
+
+| Dossier | Material checked | Remaining source gap |
+| --- | --- | --- |
+| Ross Coulthart | ABC Media Watch preserves attributable excerpts of the July 2023 7NEWS segment. The House repository preserves NewsNation’s June article about its separate Grusch interview. | Complete July 7NEWS recording or broadcaster transcript. Both productions draw on the Grusch reporting chain. |
+| Bob Lazar | A hosted transcript attributed to the December 1989 KLAS interview contains the S-4 and recovered-craft statements. A KLAS retrospective covers the earlier broadcasts. | The exact December broadcast master and independently traceable records for the alleged S-4 work. |
+| Jake Barber | The NewsNation bylined preview on Yahoo attributes the egg-shaped-object account to Barber. The publisher’s separate footage clip is available as an indexed source. | Full interview, raw footage metadata and dated operational records matching the footage to his account. |
+| Jacques Vallée and Garry Nolan | An externally hosted copy of the published paper (DOI `10.1016/j.paerosci.2021.100788`), notably §§4.2–4.3, reports terrestrial-consistent isotope ratios and elemental variation in the tested grains. Earlier samples were unavailable for retesting. | Raw supplements and documentary specimen custody. Both profiles cite one paper using one retained parent sample. The public profiles link to the DOI. |
+| George Knapp | House written testimony, including Topics Two and Three, attributes the reported BAASS–Lockheed negotiations to a source Knapp describes as having been present and says the agreement did not go through. AARO’s separate historical report documents the status of KONA BLUE. | Corroboration of the specific negotiation and provenance of the alleged material. AARO’s KONA BLUE findings concern a specific proposal. |
+| Avi Loeb | Reviewed material from the Harvard-hosted Chemical Geology paper, including its conclusions on BeLaU spherules. Fernando et al. provide a separate seismic and acoustic analysis challenging the location link. | Independently verified particle provenance, dating, control collections and a supported link to the 2014 fireball. |
+
+The other 16 dossier summaries synthesise the earlier source checks and specify what would resolve each question. The M29 worklist and its historical access checks remain useful for provenance. Three complete broadcast records in the original M40 blocked group are still unverified. No independent second-editor sign-off is recorded. Editorial claim scores and community ballots remain withheld. The Sources tracker retains its existing two enquiry statuses pending an inspected agency reply.
+
+**Verification** The inherited source and package checks cover the allowlisted release files. The Who’s Who Chromium regression now opens all 50 profiles at phone width, verifies the 23 summaries and 27 role records, and checks source links, the 14-tab navigation, no rating controls and no horizontal overflow. Its workflow is scoped to the preparation branches and has no deployment job.
+
 
 ## M40 — Who's Who policy-and-records source review, 23-dossier triage (17 November 2026)
 

@@ -736,6 +736,21 @@ function sourceAccessCheckHtml(claim){
  '</section>';
 }
 
+function evidenceReviewSummaryHtml(summary){
+ if(!summary||typeof summary.finding!=='string'||!summary.finding.trim()||
+    typeof summary.remaining!=='string'||!summary.remaining.trim())return '';
+ const links=(Array.isArray(summary.links)?summary.links:[]).filter(link=>
+  link&&typeof link.title==='string'&&link.title.trim()&&safeUrl(link.url));
+ return '<section class="claim-source-access" aria-label="Evidence review summary">'+
+  '<h5>Evidence review summary</h5>'+
+  '<p>'+esc(summary.finding)+'</p>'+
+  '<p><strong>Still to verify:</strong> '+esc(summary.remaining)+'</p>'+
+  (links.length?'<ul class="link-list">'+links.map(link=>
+   '<li><a href="'+esc(safeUrl(link.url))+'" target="_blank" rel="noopener noreferrer">'+
+   esc(link.title)+'</a></li>').join('')+'</ul>':'')+
+  '</section>';
+}
+
 function draftEvidenceTrailHtml(claim){
  const draft=claim?.researchEvidence;
  if(draft?.status!=='research_draft'||!Array.isArray(draft.items)||draft.items.length>20||
@@ -756,6 +771,7 @@ function draftEvidenceTrailHtml(claim){
    '<a href="'+esc(safeUrl(e.url))+'" target="_blank" rel="noopener noreferrer">Read original source ↗</a></li>'
  ).join('');
  return '<p class="claim-draft-warning"><strong>Research notes — NOT a completed evidence review.</strong> The links below include original reporting and broader context. Listing a document does not establish that the underlying event occurred, or that conflicting interpretations have been fully checked.</p>'+
+  evidenceReviewSummaryHtml(claim.evidenceReviewSummary)+
   sourceAuditDraftHtml(claim)+
   ratingReadinessHtml(claim)+
   sourceAccessCheckHtml(claim)+
