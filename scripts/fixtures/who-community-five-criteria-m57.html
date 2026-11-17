@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M57 Who’s Who — Member Evidence Worksheet (local demo only)</title>
+<style>
+:root{color-scheme:dark;--navy:#081928;--panel:#10283a;--muted:#b4c7d6;--gold:#e5bb70;--border:#41576b}
+*{box-sizing:border-box}
+body{background:var(--navy);color:#f2f5f9;font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
+main{max-width:800px;margin:0 auto;padding:24px 14px 60px}
+h1{font-size:clamp(24px,4vw,32px);line-height:1.16;color:var(--gold)}
+h2{font-size:18px;margin:0}p{margin:8px 0 14px}
+.note{border-left:3px solid var(--gold);background:var(--panel);padding:13px;border-radius:6px}
+.small{font-size:13px;color:var(--muted)}
+fieldset{min-width:0;border:1px solid var(--border);padding:18px;margin:15px 0;border-radius:14px;background:var(--panel)}
+legend{color:var(--gold);font-weight:800;padding:0 7px}
+label{display:block}
+.checkbox{display:flex;align-items:center;gap:9px;font-size:14px;margin:13px 0}
+.checkbox input{width:20px;height:20px;accent-color:var(--gold)}
+input[type=range]{display:block;width:100%;accent-color:var(--gold);height:34px;margin:10px 0;touch-action:pan-y}
+.score-line{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.output{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--gold)}
+button{border:1px solid var(--gold);color:#081928;background:var(--gold);font-weight:750;border-radius:10px;padding:12px 20px;min-height:44px}
+button:focus-visible,input:focus-visible{outline:3px solid white;outline-offset:3px}
+details{margin-top:10px}summary{cursor:pointer;color:var(--gold)}
+a{color:#f2d6a5}a:focus-visible{outline:2px solid white}
+#result{border:1px solid var(--gold);background:#18344a;border-radius:14px;padding:18px;margin-top:20px}
+#result strong{font-size:22px;color:var(--gold)}
+</style>
+</head><body><main>
+<p class="small">DISCLOSURE DESK · WHO’S WHO · M57 PRIVATE LOCAL DEMONSTRATION</p>
+<h1>Make your own evidence assessment</h1>
+<p class="note"><strong>No votes are being taken.</strong> This is a local, non-submitting interface preview. No ratings are stored, sent to Disclosure Desk, published or attributed to an account. A claim's evidence score is not a probability of its truth and is never a score of the person's honesty.</p>
+<h2>Example research question: documented Nimitz reports</h2>
+<p>Consider distinct questions about original testimony, independent witnesses, available data and competing interpretations. For example, the <a href="https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm" target="_blank" rel="noopener noreferrer">official House transcript</a> records Fravor’s public account; the <a href="https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/" target="_blank" rel="noopener noreferrer">Department of Defense video statement</a> establishes public release provenance, but not the object's origin.</p>
+<p class="small">This is a design fixture only, not an actual Nimitz ballot. An official release would attach each category to its exact vetted source passages and separately scoped question.</p>
+<div id="criteria" aria-label="Five evidence assessment categories"></div>
+<div id="result" role="status" aria-live="polite">Select any categories you can assess. Missing information stays unanswered and is never scored as zero.</div>
+<p><button type="button" id="reset">Reset my worksheet</button></p>
+<p class="small">Prototype has no database, cookies, local storage or submission endpoint. Real community voting requires authenticated accounts, anti-manipulation controls and audited server-side permissions. The editorial team will publish the records, not numerical verdicts.</p>
+</main>
+<script defer src="../../assets/who-community-worksheet-m57.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+ const api=window.DDWhoMemberEvidenceWorksheet;
+ if(!api){document.querySelector('#result').textContent='Worksheet file unavailable: open from a local web server using the repository root.';return}
+ const prompts={
+  original:['Is the original statement fully and accurately documented?','Confirm exact speaker, timing, source host and surrounding questions. An attributed claim is not automatically a verified event.'],
+  independent:['How much genuinely independent corroboration exists?','Distinguish different people, independent instruments, the same flight, shared reporting and reused interviews.'],
+  direct:['What original physical records and measurements can be examined?','Document official imagery, raw radar availability, calibration, custody, limits and what the source cannot measure.'],
+  testable:['Can the claim be measured or independently checked?','Assess precise timing, range, repeatability, model assumptions and uncertainty.'],
+  alternatives:['Were meaningful alternative explanations and contradictions examined?','A possible camera-tracking explanation may not explain a separate visual account.'],
+ };
+ const host=document.querySelector('#criteria'),els=new Map();
+ for(const item of api.criteria){
+  const fs=document.createElement('fieldset');const l=document.createElement('legend');l.textContent=item.label+' · max '+item.max;fs.append(l);
+  const p=document.createElement('p');p.textContent=prompts[item.id][0];fs.append(p);
+  const help=document.createElement('p');help.className='small';help.textContent=prompts[item.id][1];fs.append(help);
+  const checkbox=document.createElement('label');checkbox.className='checkbox';
+  const missing=document.createElement('input');missing.type='checkbox';missing.checked=true;missing.setAttribute('aria-label','Not enough information to score '+item.label);
+  checkbox.append(missing,document.createTextNode('Not enough information to score'));fs.append(checkbox);
+  const score=document.createElement('div');score.className='score-line';
+  const value=document.createElement('output');value.className='output';value.textContent='— / '+item.max;score.append(value);fs.append(score);
+  const slider=document.createElement('input');slider.type='range';slider.min='0';slider.max=String(item.max);slider.step='1';slider.value='0';slider.disabled=true;slider.setAttribute('aria-label',item.label+' points');
+  fs.append(slider);host.append(fs);
+  els.set(item.id,{missing,slider,value});
+  missing.addEventListener('change',update);
+  slider.addEventListener('input',update);
+ }
+ function update(){
+  const answers={};
+  for(const c of api.criteria){
+   const e=els.get(c.id);e.slider.disabled=e.missing.checked;
+   answers[c.id]=e.missing.checked?null:Number(e.slider.value);
+   e.value.textContent=e.missing.checked?'— / '+c.max:e.slider.value+' / '+c.max;
+  }
+  const v=api.calculate(answers);
+  document.querySelector('#result').textContent=v.complete?
+   'Your personal worksheet: '+v.points+' / '+v.possible+' points. This is your evidence assessment, not the likelihood an event occurred. Nothing has been submitted.':
+   v.answered===0?'No categories assessed yet. Not enough information is different from zero points.':
+   v.answered+' of 5 categories assessed; '+v.assessedSubtotal+' / '+v.assessedMaximum+
+   ' points among categories answered. '+v.unanswered+' unanswered. No overall total while incomplete. Nothing submitted.';
+ }
+ document.querySelector('#reset').addEventListener('click',()=>{
+  for(const x of els.values()){x.missing.checked=true;x.slider.value='0'}update()
+ });
+ update();
+});
+</script>
+</body></html>
