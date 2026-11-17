@@ -68,7 +68,7 @@ const profileUrl=base+'/who-is-who.html?person=kevin-knuth';
    // This does not assert real Android app/browser external-intent behaviour.
    await page.reload({waitUntil:'domcontentloaded',timeout:30000});
    await page.locator('#personProfile').waitFor({state:'visible',timeout:15000});
-   await page.waitForFunction(()=>!sessionStorage.getItem('dd-who-case-return-v1'),{timeout:7000});
+   await page.waitForFunction(()=>!sessionStorage.getItem('dd-who-case-return-v1'),null,{timeout:7000});
    assert.equal(await page.locator('#profileName').innerText(),'Kevin Knuth');
    await page.locator('#directoryBack').click();
    await page.locator('#directoryPage').waitFor({state:'visible',timeout:7000});
