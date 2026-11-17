@@ -38,7 +38,7 @@ const profileUrl=base+'/who-is-who.html?person=kevin-knuth';
    assert.equal(await external.getAttribute('rel'),'noopener noreferrer');
    const originalUrl=page.url();
    const [popup]=await Promise.all([
-    page.waitForEvent('popup',{timeout:10000}),
+    context.waitForEvent('page',{timeout:10000}),
     external.click()
    ]);
    await popup.waitForLoadState('domcontentloaded',{timeout:10000});
