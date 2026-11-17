@@ -1,0 +1,232 @@
+{
+  "batch": "M60",
+  "checkedAt": "2026-11-17",
+  "status": "profile_sources_checked_not_incident_validation",
+  "sourceCount": 31,
+  "sources": {
+    "dia": {
+      "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170015/",
+      "title": "DIA briefing on AAWSAP and special-access protection",
+      "access": "official_pdf_extracted_text_reviewed",
+      "checkedAt": "2026-11-17"
+    },
+    "beam": {
+      "url": "https://www.nasa.gov/international-space-station/bigelow-expandable-activity-module-beam/",
+      "title": "NASA — Bigelow Expandable Activity Module",
+      "access": "official_web_text_reviewed",
+      "checkedAt": "2026-11-17"
+    },
+    "techport": {
+      "url": "https://techport.nasa.gov/projects/11692",
+      "title": "NASA TechPort — BEAM project 11692",
+      "access": "official_web_text_reviewed",
+      "checkedAt": "2026-11-17"
+    },
+    "bigelow_cbs": {
+      "url": "https://www.cbsnews.com/news/bigelow-aerospace-founder-says-commercial-world-will-lead-in-space/",
+      "title": "CBS — Robert Bigelow interview",
+      "access": "publisher_text_reviewed",
+      "checkedAt": "2026-11-17"
+    },
+    "bigelow_jre": {
+      "url": "https://podcasts.apple.com/us/podcast/1612-robert-bigelow/id360084272?i=1000644539234",
+      "title": "The Joe Rogan Experience — Robert Bigelow, episode 1612",
+      "access": "publisher_episode_metadata_only",
+      "checkedAt": "2026-11-17"
+    },
+    "bics": {
+      "url": "https://www.bigelowinstitute.org/about.html",
+      "title": "Bigelow Institute for Consciousness Studies — About",
+      "access": "indexed_text_only_direct_fetch_502",
+      "checkedAt": "2026-11-17"
+    },
+    "museum_lear": {
+      "url": "https://archives.museumofflight.org/agents/people/4962",
+      "title": "Museum of Flight — John Lear authority record",
+      "access": "indexed_catalogue_direct_fetch_timeout",
+      "checkedAt": "2026-11-17"
+    },
+    "knapp": {
+      "url": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf",
+      "title": "George Knapp — 2025 House written testimony",
+      "access": "official_pdf_extracted_text_reviewed",
+      "checkedAt": "2026-11-17"
+    },
+    "lear2003": {
+      "url": "https://www.coasttocoastam.com/show/ufo-revelations/",
+      "title": "Coast to Coast AM — John Lear’s UFO Revelations",
+      "access": "publisher_text_reviewed",
+      "checkedAt": "2026-11-17"
+    },
+    "lear2004": {
+      "url": "https://www.coasttocoastam.com/show/2004-03-21-show/",
+      "title": "Coast to Coast AM — Revelations, John Lear",
+      "access": "publisher_text_reviewed",
+      "checkedAt": "2026-11-17"
+    },
+    "unlv": {
+      "url": "https://special.library.unlv.edu/ark:/62930/f1r456",
+      "title": "UNLV — John Lear and Jaina L. Moan oral history",
+      "access": "institutional_catalogue_text_reviewed_audio_not_played",
+      "checkedAt": "2026-11-17"
+    },
+    "lacatski": {
+      "url": "https://weaponized.squarespace.com/episodes-2/episode-38",
+      "title": "WEAPONIZED — episode 38 original publisher page",
+      "access": "publisher_text_reviewed",
+      "checkedAt": "2026-11-17"
+    },
+    "lacatski_feed": {
+      "url": "https://podcasts.apple.com/us/podcast/inside-the-dias-secretive-ufo-investigation-guests-dr/id1664299388?i=1000631572518",
+      "title": "WEAPONIZED — episode 38 publisher podcast feed",
+      "access": "publisher_episode_metadata_only",
+      "checkedAt": "2026-11-17"
+    },
+    "clearance": {
+      "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/UFOsandUAPs/24-F-0088_DOPSR_Case_22-SB-0151_2023.pdf",
+      "title": "DOPSR — Lacatski manuscript clearance correspondence",
+      "access": "first_pdf_page_visual_and_selected_text",
+      "checkedAt": "2026-11-17"
+    },
+    "aaro": {
+      "url": "https://www.aaro.mil/Portals/136/PDFs/AARO_Historical_Record_Report_Volume_1_2024.pdf",
+      "title": "AARO — Historical Record Report, Volume I",
+      "access": "direct_fetch_403_comparison_lead",
+      "checkedAt": "2026-11-17"
+    },
+    "northwestern": {
+      "url": "https://findingaids.library.northwestern.edu/repositories/6/resources/373",
+      "title": "Northwestern — J. Allen Hynek Papers, 11/3/5/6",
+      "access": "indexed_finding_aid_direct_fetch_403",
+      "checkedAt": "2026-11-17"
+    },
+    "hynek1960": {
+      "url": "https://cufos.org/PDFs/pdfs/UFOs_1960r.pdf",
+      "title": "J. Allen Hynek — UFOs 1960, preserved manuscript",
+      "access": "selected_original_manuscript_extracted_text",
+      "checkedAt": "2026-11-17"
+    },
+    "hynek1969": {
+      "url": "https://cufos.org/PDFs/Hynek/twenty-one_years_of_UFO_reports_HynekR.pdf",
+      "title": "J. Allen Hynek — Twenty-one Years of UFO Reports",
+      "access": "selected_original_manuscript_extracted_text",
+      "checkedAt": "2026-11-17"
+    },
+    "hynek_bio": {
+      "url": "https://cufos.org/hynek-biography/j-allen-hynek-biography/",
+      "title": "CUFOS — J. Allen Hynek biography",
+      "access": "publisher_text_reviewed",
+      "checkedAt": "2026-11-17"
+    },
+    "nara": {
+      "url": "https://www.archives.gov/research/military/air-force/ufos",
+      "title": "National Archives — MJ-12 reference report",
+      "access": "official_web_text_reviewed",
+      "checkedAt": "2026-11-17"
+    },
+    "friedman_museum": {
+      "url": "https://www.frederictonregionmuseum.com/stanton-friedman-ufo-exhibit/",
+      "title": "Fredericton Region Museum — Friedman exhibition and papers",
+      "access": "museum_web_text_reviewed",
+      "checkedAt": "2026-11-17"
+    },
+    "friedman2005": {
+      "url": "https://www.coasttocoastam.com/show/2005-06-27-show/",
+      "title": "Coast to Coast AM — Ufology & Roswell",
+      "access": "publisher_text_reviewed",
+      "checkedAt": "2026-11-17"
+    },
+    "friedman_mj12": {
+      "url": "https://www.coasttocoastam.com/show/stanton-friedman-ufology/",
+      "title": "Coast to Coast AM — Stanton Friedman & Ufology",
+      "access": "publisher_text_reviewed",
+      "checkedAt": "2026-11-17"
+    },
+    "gao": {
+      "url": "https://www.gao.gov/assets/nsiad-95-187.pdf",
+      "title": "GAO — 1995 search for Roswell records",
+      "access": "selected_official_report_extracted_text",
+      "checkedAt": "2026-11-17"
+    },
+    "dietrich_goodstory": {
+      "url": "https://goodstory.io/lt-cmdr-alex-dietrich/",
+      "title": "When It Mattered — Alex Dietrich, episode 55",
+      "access": "publisher_text_reviewed",
+      "checkedAt": "2026-11-17"
+    },
+    "dietrich_reuters": {
+      "url": "https://www.investing.com/news/general/normalizing-ufos--retired-us-navy-pilot-recalls-tic-tac-encounter-2542121",
+      "title": "Reuters — Dietrich interview, syndicated on Investing.com",
+      "access": "syndicated_original_interview_text_reviewed",
+      "checkedAt": "2026-11-17"
+    },
+    "dietrich_cbs": {
+      "url": "https://www.cbs.com/shows/video/kruYVj3_d8m6dkg95BRKzen50j8H29Mv/",
+      "title": "CBS — Navy pilots discuss 2004 encounter with UAP",
+      "access": "publisher_listing_playback_access_limited",
+      "checkedAt": "2026-11-17"
+    },
+    "fravor": {
+      "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+      "title": "House 2023 hearing",
+      "access": "inherited_M47_review_not_reaudited",
+      "checkedAt": "2026-11-17"
+    },
+    "underwood": {
+      "url": "https://nymag.com/intelligencer/2019/12/tic-tac-ufo-video-q-and-a-with-navy-pilot-chad-underwood.html",
+      "title": "Underwood original interview",
+      "access": "inherited_M47_review_not_reaudited",
+      "checkedAt": "2026-11-17"
+    },
+    "hynek_video": {
+      "url": "https://cufos.org/hynek-biography/videos/",
+      "title": "CUFOS recordings index",
+      "access": "institutional_link_index_reviewed_individual_uploads_not_audited",
+      "checkedAt": "2026-11-17"
+    },
+    "skinwalker": {
+      "url": "https://www.history.com/articles/skinwalker-ranch-paranormal-ufos-mutilation",
+      "title": "HISTORY — Skinwalker Ranch",
+      "access": "secondary_historical_reporting_opening_text_reviewed",
+      "checkedAt": "2026-11-17"
+    }
+  },
+  "profiles": [
+    {
+      "id": "robert-bigelow",
+      "sourceCards": 7,
+      "biographyParagraphs": 5,
+      "timelineEntries": 5
+    },
+    {
+      "id": "john-lear",
+      "sourceCards": 5,
+      "biographyParagraphs": 4,
+      "timelineEntries": 4
+    },
+    {
+      "id": "james-lacatski",
+      "sourceCards": 5,
+      "biographyParagraphs": 4,
+      "timelineEntries": 4
+    },
+    {
+      "id": "j-allen-hynek",
+      "sourceCards": 5,
+      "biographyParagraphs": 4,
+      "timelineEntries": 4
+    },
+    {
+      "id": "stanton-friedman",
+      "sourceCards": 5,
+      "biographyParagraphs": 4,
+      "timelineEntries": 4
+    },
+    {
+      "id": "alex-dietrich",
+      "sourceCards": 5,
+      "biographyParagraphs": 4,
+      "timelineEntries": 4
+    }
+  ]
+}

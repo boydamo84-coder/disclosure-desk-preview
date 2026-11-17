@@ -10,6 +10,9 @@ const data=['approved-live-events.json','curated-historical-cases.json','evidenc
  'international-source-registry.json','news-alerts.json'];
 const webExt=new Set(['.html','.js','.css','.svg','.png','.jpg','.jpeg','.webp','.gif','.ico','.woff2']);
 const files=[];
+// Explicitly excluded development-only worksheet. It remains executable in its
+// isolated fixture, but is never copied into the candidate public website.
+const developmentOnly=Object.freeze({assets:['who-community-worksheet-m57.js']});
 function copy(rel){
  const src=path.resolve(root,rel),dest=path.resolve(out,rel);
  if(!src.startsWith(root+path.sep)||!dest.startsWith(out+path.sep))throw Error('Unsafe path '+rel);
@@ -46,6 +49,11 @@ const approvedWeb=Object.freeze({
 function websiteDir(dir){
  const allowed=new Set(approvedWeb[dir]),found=new Set();
  for(const d of fs.readdirSync(path.join(root,dir),{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name))){
+  if(developmentOnly[dir]?.includes(d.name)){
+   if(!d.isFile()||fs.lstatSync(path.join(root,dir,d.name)).isSymbolicLink())
+    throw Error('Non-regular development fixture: '+dir+'/'+d.name);
+   continue;
+  }
   // The sole approved nested directory is copied by an explicit JSON allowlist below.
   if(dir==='research'&&d.isDirectory()&&d.name==='data')continue;
   if(!d.isFile()||!webExt.has(path.extname(d.name).toLowerCase())||!allowed.has(d.name))

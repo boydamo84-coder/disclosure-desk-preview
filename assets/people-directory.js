@@ -1012,7 +1012,7 @@ function renderPublicWorkEvidence(person){
     '<p>'+esc(x.note)+'</p>'+
     '<a href="'+esc(safeUrl(x.url))+'" target="_blank" rel="noopener noreferrer">Open cited publication or archive ↗</a></li>').join('')+'</ul>'+
   '</details>'+
-  '<p class="muted small"><strong>Scoring:</strong> Not applicable to a professional career or publication list. Any specific UAP-event claim needs its own independent source review and explicit editorial approval before a 0–100 score or member ballot.</p>'+
+  '<p class="muted small"><strong>Your conclusion:</strong> Explore the original sources and the open questions. Disclosure Desk does not assign numerical editorial scores to these profiles or their publication lists.</p>'+
  '</article>';
 }
 // Explain source-limited no-score decisions, not personal credibility judgements.
@@ -1052,6 +1052,10 @@ function renderClaimEvidence(person){
  const workHtml=renderPublicWorkEvidence(person);
  const scopeHtml=renderEvidenceScope(person);
  const claims=Array.isArray(person.claimEvidence)?person.claimEvidence.slice(0,12):[];
+ if(!claims.length&&person.profileResearchReview?.status==='source_linked_profile_ready_for_staging'){
+  host.innerHTML=roleHtml+workHtml+'<p class="note small">Source-led research · No personal believability score. Community evidence worksheets are not open for submissions.</p>';
+  return;
+ }
  if(!claims.length){
   host.innerHTML=roleHtml?
    roleHtml+workHtml+scopeHtml+'<p class="note small"><strong>No event-claim score applies to this documented role.</strong> No separate public UAP incident claim has completed editorial review for this person. Official research service, institutional participation and legislation cannot be assigned 0/100 or a community incident rating.</p>':
@@ -1278,6 +1282,33 @@ $('directoryBack').addEventListener('click',backToDirectory);
 // If the visitor immediately types or changes filters, their new interaction wins:
 // never let the stale return animation refocus an old card or jump the list.
 function onDirectoryFilterChanged(){++restoreSequence;renderCards();}
+// M60: explicitly selected source-linked profiles for the staged directory.
+// Keep the original 50 and all case dossiers intact. An unreviewed extra JSON
+// entry must never become visible merely because it was placed in the file.
+const STAGED_PROFILE_IDS=Object.freeze([
+ 'sean-kirkpatrick','robert-bigelow','john-lear','james-lacatski',
+ 'j-allen-hynek','stanton-friedman','alex-dietrich'
+]);
+function appendStagedProfiles(base,additions){
+ const result=base.slice(),ids=new Set(base.map(p=>p.id));
+ if(additions?.schemaVersion!==1||!Array.isArray(additions.people))return result;
+ for(const p of additions.people){
+  if(!p||!STAGED_PROFILE_IDS.includes(p.id)||ids.has(p.id)||
+    typeof p.name!=='string'||!p.name.trim()||
+    p.profileResearchReview?.status!=='source_linked_profile_ready_for_staging'||
+    !/^\d{4}-\d{2}-\d{2}$/.test(p.profileResearchReview.reviewDate||'')||
+    !Array.isArray(p.sources)||p.sources.length<2||!p.sources.every(s=>safeUrl(s?.url))||
+    !Array.isArray(p.biography)||p.biography.length<4||
+    !p.biography.every(s=>typeof s==='string'&&s.trim().length>=40)||
+    !Array.isArray(p.milestones)||p.milestones.length<3||
+    !p.milestones.every(s=>safeUrl(s?.source))||
+    p.photo!==null||p.photoRightsAudit?.finalRightsApproval!==false||
+    p.claimEvidence!==undefined||Object.hasOwn(p,'score')||Object.hasOwn(p,'believability')||
+    !renderPublicWorkEvidence(p))continue;
+  result.push(p);ids.add(p.id);
+ }
+ return result;
+}
 $('peopleSearch').addEventListener('input',onDirectoryFilterChanged);
 $('peopleCategory').addEventListener('change',onDirectoryFilterChanged);
 window.addEventListener('popstate',fromLocation);
@@ -1301,16 +1332,7 @@ Promise.all([
   if(!p||typeof p.id!=='string'||!(/^[a-z0-9-]{2,80}$/).test(p.id)||ids.has(p.id)||!p.name)return false;
   ids.add(p.id);return true;
  });
- // M59: only the separately reviewed founding AARO director is ready for
- // trial display. Five other M58 additions stay staged for source checks.
- const selectedAdditions=stagedAdditions?.schemaVersion===1&&Array.isArray(stagedAdditions.people)?
-  stagedAdditions.people.filter(p=>p?.id==='sean-kirkpatrick'):[];
- for(const p of selectedAdditions){
-  if(!p||typeof p.id!=='string'||ids.has(p.id)||!Array.isArray(p.sources)||p.sources.length<2||
-     !Array.isArray(p.biography)||p.biography.length<2||p.photo!==null||
-     p.roleEvidence?.status!=='official_source_crosscheck')continue;
-  people.push(p);ids.add(p.id);
- }
+ people=appendStagedProfiles(people,stagedAdditions);
  const parsed=window.DDPersonCaseLinks?.parse?.(publicLinks,{
   personIds:people.map(p=>p.id),
   caseIds:['featured-nimitz-2004','featured-rendlesham-1980']

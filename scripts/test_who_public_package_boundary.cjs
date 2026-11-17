@@ -10,6 +10,8 @@ const man=JSON.parse(fs.readFileSync(path.join(out,'release-manifest.json'),'utf
 assert.match(man.type,/NOT DEPLOYED/);
 assert(Array.isArray(man.files)&&man.files.length>50,'Expected strict allowlisted public package');
 const approved=new Set(man.files.map(f=>f.path));
+assert(!approved.has('assets/who-community-worksheet-m57.js'),'Development-only worksheet must stay excluded');
+assert(!approved.has('data/who-m60-profile-source-audit.json'),'Internal source-access ledger must stay excluded');
 assert(approved.has('who-is-who.html')&&approved.has('data/public-people-directory.json')&&approved.has('assets/people-directory.js')&&approved.has('assets/who-archive-return.js'),'Who and contextual return reader missing from public staging');
 assert(approved.has('data/who-editorial-handoff-m29.json'),'Public M29 reviewer transparency queue must be packaged alongside the reader');
 const forbidden=/^(?:\.github|docs|scripts|supabase|\.git|node_modules|tests?|private|internal)(?:\/|$)|(?:\.sql|\.env|\.pem|\.key|\.sqlite3?|\.bak|\.map)$/i;

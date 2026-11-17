@@ -1,5 +1,20 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 17 November 2026 (Europe/London) — M59 Kirkpatrick as the 51st staged Who’s Who profile; NO DEPLOY_
+_Last updated: 17 November 2026 (Europe/London) — M60 next six source-linked profiles; STAGED_
+
+## M60 — Complete six Who’s Who research profiles (17 November 2026)
+
+**Branch:** `prep/who-m60-next-six-profile-research-20261117`, based on M59 `9bf3b66523e0a44f87c8df6ffe626a2ddb12d7af`. The next six entries are **Robert Bigelow, John Lear, James Lacatski, J. Allen Hynek, Stanton Friedman and Alex Dietrich**. Five M58 drafts were expanded and enabled; Dietrich was added. The staged directory now has **57 searchable people** (50 original + Sean + six), preserving all 23 original claim dossiers and four existing person/case links.
+
+- **Content:** 32 source cards, 25 timeline entries, four or five biography paragraphs per profile, publisher interview/podcast links where identified, specific open questions and explicit access limits. Lear's UNLV collection is audio-only with no transcript listed. Lacatski's DOPSR publication clearance is distinguished from factual endorsement. Dietrich's own account is separated from the later Nimitz recording and other witnesses' perspectives. Exact full-record audits, external playback and fresh licensed portraits remain open.
+- **Integration:** staged supplementary JSON uses an explicit seven-ID merge gate with valid HTTPS sources, review markers, populated biography/timeline and initials fallback. Actual source-reader functions and invalid/duplicate input checks pass. The seven supplementary readers use source-first copy and expose no score or submission control. Broader inherited M57 UI/backend migration remains incomplete and is outside this profile batch.
+- **Verified:** actual local browser search → all six profiles → source disclosure → Back journeys passed; 57 directory results, source-card and timeline counts confirmed. Desktop-only visual inspection at 1348 px showed no horizontal overflow. Node syntax, M60 profile merge/render, M59, M57, M52, M51, person/case regression and strict 125-file SHA-256 package checks passed locally. Physical Samsung/narrow-screen/external-video playback was not tested.
+- **M59 packaging error fixed from real logs:** run `44195996604`, job `134437479116` failed on the M57 development worksheet as an unexpected public asset. The builder now explicitly excludes that prototype and still rejects unknown files. Package tests confirm the worksheet and M60 internal audit are absent.
+- **Known separate inherited issue:** M58 world-programmes structural test fails on its pre-existing France ID mismatch. Its catalogue/test remains unchanged and is not claimed green. No live website, production ref, Netlify build, account, SQL, member ballot or APK changes.
+
+Full source access and verification report: `docs/WHO_M60_SIX_PROFILES_2026-11-17.md`; internal URL ledger: `data/who-m60-profile-source-audit.json`. The M60 GitHub workflow runs scoped profile and package checks with **no deployment job**. Inspect its exact-head result before relying on CI; local results above were actually executed.
+
+**Next:** continue profile/media enrichment and original passage checks, complete the broader source-first/criteria UI migration, and perform narrow-screen/physical Android QA before a significant owner-approved release. Do not reactivate legacy scalar voting or present source-index work as completed incident validation.
+
 
 ## M59 — Stage Sean M. Kirkpatrick's attributed statements and post-AARO media timeline (17 November 2026)
 

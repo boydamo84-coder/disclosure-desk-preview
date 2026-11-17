@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "version": 1,
-  "edition": "2026-11-17-m58-six-profiles",
-  "status": "staged_public_profiles_source_review_required_no_numeric_rating",
+  "edition": "2026-11-17-m60-six-profile-source-enrichment",
+  "status": "source_linked_profiles_staged_not_deployed",
   "basePublicDirectoryCount": 50,
-  "additionalPeopleCount": 6,
+  "additionalPeopleCount": 7,
   "people": [
     {
       "id": "sean-kirkpatrick",
@@ -317,438 +317,681 @@
             "interpretation": "Confirms the former/current distinction, preventing later independent commentary being mislabelled as authoritative agency findings."
           }
         ]
+      },
+      "profileResearchReview": {
+        "status": "source_linked_profile_ready_for_staging",
+        "batch": "M59",
+        "reviewDate": "2026-11-17",
+        "scope": "Existing Kirkpatrick source comparison retained; not a fresh full source audit.",
+        "independentHumanSignoff": false
       }
     },
     {
       "id": "robert-bigelow",
       "name": "Robert T. “Bob” Bigelow",
+      "role": "Aerospace entrepreneur and private anomalous-phenomena research funder",
       "category": [
         "Researcher",
         "Disclosure advocate"
       ],
-      "role": "Aerospace entrepreneur, private UAP research funder and founder of Bigelow Aerospace, NIDS and BAASS",
-      "short": "Funded private UFO and anomalous-phenomena investigations and led companies associated with a DIA aerospace research contract and NASA's BEAM module.",
-      "position": "Bigelow has funded research into reported UFO and paranormal phenomena while also operating a documented commercial aerospace business. His belief that extraterrestrial beings are present on Earth was stated in a 2017 televised interview; belief is not independent proof.",
-      "context": "The 2008 DIA contracting documents establish an aerospace research programme and funding to Bigelow Aerospace Advanced Space Studies, not proof that alien materials were recovered. Skinwalker Ranch accounts are attributed witness/investigator reports requiring independently inspectable original evidence. NASA's BEAM is a documented conventional space-habitat engineering accomplishment and must not be conflated with UAP evidence.",
+      "short": "Connects private research funding, the DIA’s BAASS contract and a separately documented NASA habitat project.",
+      "position": "His aerospace work, funded investigations and personal interpretations have different evidence trails. None substitutes for the underlying records of a particular UAP event.",
+      "context": "Follow the contracting documents and actual research deliverables separately from interviews. NASA engineering tests concern BEAM; their success does not validate unrelated extraordinary claims.",
+      "biography": [
+        "Robert Bigelow’s place in disclosure research spans private funding, government contracting and public interviews. His profile links these strands separately so readers can distinguish an organisational history from evidence about an individual incident.",
+        "Bigelow also funded NIDS investigations at Skinwalker Ranch. HISTORY’s account describes his 1996 purchase and the later sale in 2016. These are ownership and research-history claims; alleged activity at the property still needs its own original observations and records.",
+        "DIA’s 2009 briefing records the September 2008 BAASS award and later review of technical deliverables. It also records a recommendation against special-access protection at that time. The document supports the contracting history; it supplies no recovered-craft inventory.",
+        "NASA documents BEAM’s launch on 8 April 2016, installation on 16 April and expansion on 28 May. NASA’s TechPort account describes a conventional expandable-habitat partnership and its testing objectives.",
+        "Bigelow’s CBS interview expresses belief in extraterrestrial presence. His 2021 Joe Rogan appearance provides another original interview to explore. Later consciousness research belongs to a different research question; neither interview availability nor funding establishes a UAP explanation."
+      ],
+      "milestones": [
+        {
+          "date": "1996–2016",
+          "title": "Skinwalker Ranch research period",
+          "detail": "HISTORY reports Bigelow’s ownership and NIDS investigations.",
+          "source": "https://www.history.com/articles/skinwalker-ranch-paranormal-ufos-mutilation"
+        },
+        {
+          "date": "September 2008",
+          "title": "BAASS contract awarded",
+          "detail": "DIA’s later briefing records the award and research scope.",
+          "source": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170015/"
+        },
+        {
+          "date": "28 May 2016",
+          "title": "BEAM expanded on the ISS",
+          "detail": "NASA records this engineering milestone.",
+          "source": "https://www.nasa.gov/international-space-station/bigelow-expandable-activity-module-beam/"
+        },
+        {
+          "date": "28 May 2017",
+          "title": "CBS interview published",
+          "detail": "Original broadcaster interview.",
+          "source": "https://www.cbsnews.com/news/bigelow-aerospace-founder-says-commercial-world-will-lead-in-space/"
+        },
+        {
+          "date": "25 February 2021",
+          "title": "Joe Rogan interview",
+          "detail": "Episode 1612 appears in the publisher’s podcast feed.",
+          "source": "https://podcasts.apple.com/us/podcast/1612-robert-bigelow/id360084272?i=1000644539234"
+        }
+      ],
       "sources": [
         {
-          "label": "DIA — 2008 BAASS contract briefing",
-          "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/"
+          "label": "DIA briefing on AAWSAP and special-access protection",
+          "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170015/"
         },
         {
-          "label": "AARO/DHS — original historical programme documentation",
-          "url": "https://www.aaro.mil/Portals/136/PDFs/UAP_Records_Research/AARO_DHS_Kona_Blue.pdf"
-        },
-        {
-          "label": "NASA — Bigelow Expandable Activity Module (BEAM)",
+          "label": "NASA — Bigelow Expandable Activity Module",
           "url": "https://www.nasa.gov/international-space-station/bigelow-expandable-activity-module-beam/"
         },
         {
-          "label": "CBS 60 Minutes — Robert Bigelow interview",
+          "label": "NASA TechPort — BEAM project 11692",
+          "url": "https://techport.nasa.gov/projects/11692"
+        },
+        {
+          "label": "CBS — Robert Bigelow interview",
           "url": "https://www.cbsnews.com/news/bigelow-aerospace-founder-says-commercial-world-will-lead-in-space/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "DIA briefing on AAWSAP and special-access protection",
+          "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170015/",
+          "publisher": "Government or institutional record",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "NASA — Bigelow Expandable Activity Module",
+          "url": "https://www.nasa.gov/international-space-station/bigelow-expandable-activity-module-beam/",
+          "publisher": "Government or institutional record",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "NASA TechPort — BEAM project 11692",
+          "url": "https://techport.nasa.gov/projects/11692",
+          "publisher": "Government or institutional record",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "CBS — Robert Bigelow interview",
+          "url": "https://www.cbsnews.com/news/bigelow-aerospace-founder-says-commercial-world-will-lead-in-space/",
+          "publisher": "Original publisher",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "The Joe Rogan Experience — Robert Bigelow, episode 1612",
+          "url": "https://podcasts.apple.com/us/podcast/1612-robert-bigelow/id360084272?i=1000644539234",
+          "publisher": "Original publisher",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "Bigelow Institute for Consciousness Studies — About",
+          "url": "https://www.bigelowinstitute.org/about.html",
+          "publisher": "First-party organisation",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "HISTORY — Skinwalker Ranch ownership and NIDS reporting",
+          "url": "https://www.history.com/articles/skinwalker-ranch-paranormal-ufos-mutilation",
+          "publisher": "HISTORY / A&E Television Networks",
+          "date": "2020-01-17; updated 2025-02-18"
         }
       ],
       "media": [],
       "officialLinks": [],
       "photo": null,
-      "biography": [
-        "Robert T. Bigelow is a U.S. entrepreneur and founder of Bigelow Aerospace. A NASA–industry partnership developed the Bigelow Expandable Activity Module (BEAM), which was launched to the International Space Station in April 2016 and subsequently expanded and tested as an orbital habitat module. NASA's documentation establishes aerospace programme participation, not the origin of any UAP.",
-        "Bigelow also established the National Institute for Discovery Science (NIDS), which investigated claims involving UFOs and other anomalous phenomena, including at the Utah property known as Skinwalker Ranch. Published historical reporting places his purchase of the property in 1996 and subsequent sale in 2016; reports of unusual events at the ranch should be attributed to their witnesses and investigators.",
-        "Bigelow Aerospace Advanced Space Studies (BAASS) received a Defense Intelligence Agency contract in September 2008 to study unconventional aerospace applications. The public DIA memo and later released government planning records document the contract's scope and programme history. They do not establish possession of alien craft or any particular extraordinary interpretation.",
-        "In a May 2017 CBS 60 Minutes interview, Bigelow expressed his personal conviction that extraterrestrials are already present. Disclosure Desk presents this as a public assertion, neither an established finding nor an accusation about Bigelow. The original interview, the DIA contract record and the NASA engineering work are three distinct evidence categories."
-      ],
-      "milestones": [
-        {
-          "date": "1996",
-          "title": "Skinwalker Ranch / NIDS investigations",
-          "detail": "Published historical reporting describes Bigelow's acquisition of the Utah property and investigations led by his National Institute for Discovery Science. Alleged activity remains witness-specific and disputed.",
-          "source": "https://www.history.com/articles/skinwalker-ranch-paranormal-ufos-mutilation"
-        },
-        {
-          "date": "22 September 2008",
-          "title": "DIA contract with BAASS",
-          "detail": "Original government records document a contract awarded to Bigelow Aerospace Advanced Space Studies to study advanced aerospace concepts.",
-          "source": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/"
-        },
-        {
-          "date": "8 April 2016",
-          "title": "NASA's BEAM space module launched",
-          "detail": "NASA records describe the launch and expansion of the BEAM technology demonstration developed with Bigelow Aerospace.",
-          "source": "https://www.nasa.gov/international-space-station/bigelow-expandable-activity-module-beam/"
-        },
-        {
-          "date": "2016",
-          "title": "Skinwalker Ranch ownership changes",
-          "detail": "History's current-owner profile attributes its 2016 purchase to Brandon Fugal, after Bigelow's tenure; this is ownership history, not proof of reported phenomena.",
-          "source": "https://www.history.com/shows/beyond-skinwalker-ranch/cast/brandon-fugal-2"
-        },
-        {
-          "date": "28 May 2017",
-          "title": "CBS 60 Minutes interview",
-          "detail": "Bigelow publicly discussed his aerospace projects and belief in extraterrestrial presence; his statements are self-attributed and not independent measurement.",
-          "source": "https://www.cbsnews.com/news/bigelow-aerospace-founder-says-commercial-world-will-lead-in-space/"
-        }
-      ],
-      "articles": [
-        {
-          "label": "DIA — advanced aerospace studies contract history",
-          "publisher": "Defense Intelligence Agency",
-          "date": "2009-01-01",
-          "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/"
-        },
-        {
-          "label": "NASA Bigelow Expandable Activity Module",
-          "publisher": "NASA",
-          "date": "2023-09-27",
-          "url": "https://www.nasa.gov/international-space-station/bigelow-expandable-activity-module-beam/"
-        },
-        {
-          "label": "CBS 60 Minutes: Bigelow Aerospace founder interview",
-          "publisher": "CBS News",
-          "date": "2017-05-28",
-          "url": "https://www.cbsnews.com/news/bigelow-aerospace-founder-says-commercial-world-will-lead-in-space/"
-        },
-        {
-          "label": "AARO/DHS — KONA BLUE historical record release",
-          "publisher": "All-domain Anomaly Resolution Office",
-          "date": "2024-04-01",
-          "url": "https://www.aaro.mil/Portals/136/PDFs/UAP_Records_Research/AARO_DHS_Kona_Blue.pdf"
-        },
-        {
-          "label": "Skinwalker Ranch documented historical reporting",
-          "publisher": "History",
-          "date": "2020-01-01",
-          "url": "https://www.history.com/articles/skinwalker-ranch-paranormal-ufos-mutilation"
-        }
-      ],
       "videos": [],
       "socialPages": [],
-      "podcastEpisodes": [],
-      "filmCredits": [
+      "podcastEpisodes": [
         {
-          "title": "60 Minutes: Bigelow Aerospace founder interview",
-          "year": 2017,
-          "role": "Interview subject",
-          "url": "https://www.cbsnews.com/news/bigelow-aerospace-founder-says-commercial-world-will-lead-in-space/",
-          "type": "Television interview",
-          "context": "His own statements in a CBS interview, not independent validation of extraterrestrial presence."
+          "show": "The Joe Rogan Experience",
+          "title": "#1612 — Robert Bigelow",
+          "date": "2021-02-25",
+          "url": "https://podcasts.apple.com/us/podcast/1612-robert-bigelow/id360084272?i=1000644539234",
+          "role": "Interview guest",
+          "context": "Original publisher feed. Listing verified; full audio and individual assertions await passage review."
         }
       ],
+      "filmCredits": [],
       "publicWorkEvidence": {
         "status": "research_links_indexed",
         "kind": "historical_public_work",
-        "title": "Bigelow's commercial space technology and funded anomalous-phenomena research",
-        "period": "1996–2017",
-        "description": "Original U.S. government, NASA and publisher records document Bigelow's aerospace ventures, DIA-funded BAASS studies and his public UFO interviews. Distinguish contract purpose and beliefs from verified outcomes.",
-        "openQuestions": "Review BAASS original deliverables and subsequent reports, first-generation NIDS archives, independently documented Skinwalker Ranch observations and any physical specimens or instrument metadata. Do not infer that government funding verified an extraordinary phenomenon.",
+        "title": "BAASS contracting, BEAM engineering and Bigelow’s interviews",
+        "period": "2008–2021",
+        "description": "The public trail includes a government contract briefing, a space-habitat project and original interviews. Each answers a different question; a shared funder does not make their findings interchangeable.",
+        "openQuestions": "Retrieve specific BAASS deliverables and any dated observation logs or specimen custody records behind an incident account. Compare claims with the original measurements and alternative explanations, rather than inferring outcomes from funding.",
         "sources": [
           {
-            "title": "DIA public memorandum on the 2008 BAASS contract",
-            "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/",
-            "locator": "Page 1–2: RFP and 22 September 2008 award",
-            "note": "DIA original indexed PDF confirms BAASS was the sole bidder and a contract was signed for the advanced aerospace study. Screenshot retrieval was blocked, so this is not a complete visual original-document verification.",
+            "title": "DIA briefing on AAWSAP and special-access protection",
+            "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170015/",
+            "locator": "17 November 2009 talking points; background and technical-review sections",
+            "note": "Documents the award and review process. The programme-manager name is redacted; do not identify the redacted individual solely from this file.",
             "sourceClass": "institutional",
             "indexedAt": "2026-11-17"
           },
           {
-            "title": "AARO/DHS programme-history records",
-            "url": "https://www.aaro.mil/Portals/136/PDFs/UAP_Records_Research/AARO_DHS_Kona_Blue.pdf",
-            "locator": "Declassified programme history and DHS KONA BLUE proposal",
-            "note": "AARO-hosted historical documentation describes BAASS programme scope and later DHS proposals, while alleged technology and unreleased materials remain distinct unverified claims.",
-            "sourceClass": "institutional",
-            "indexedAt": "2026-11-17"
-          },
-          {
-            "title": "NASA BEAM engineering programme history",
+            "title": "NASA — Bigelow Expandable Activity Module",
             "url": "https://www.nasa.gov/international-space-station/bigelow-expandable-activity-module-beam/",
-            "locator": "Mission overview: launch 8 April 2016 and expansion 28 May 2016",
-            "note": "NASA's own mission record demonstrates participation in an actual space-habitat engineering project. It does not demonstrate extraterrestrial origins for any UFO report.",
+            "locator": "Mission overview and dated launch, installation and expansion entries",
+            "note": "An original mission record for an expandable habitat. This is aerospace engineering evidence with no asserted connection to recovered UAP technology.",
             "sourceClass": "institutional",
             "indexedAt": "2026-11-17"
           },
           {
-            "title": "CBS 60 Minutes original Robert Bigelow interview",
+            "title": "NASA TechPort — BEAM project 11692",
+            "url": "https://techport.nasa.gov/projects/11692",
+            "locator": "Project description and technology objectives",
+            "note": "Details the NASA–industry partnership and planned performance tests. The project record concerns the module, not anomalous-object investigations.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "CBS — Robert Bigelow interview",
             "url": "https://www.cbsnews.com/news/bigelow-aerospace-founder-says-commercial-world-will-lead-in-space/",
-            "locator": "28 May 2017; Robert Bigelow segment and statements about aliens",
-            "note": "The original broadcaster documents Bigelow's aerospace interests and extraordinary personal belief. An interview establishes that he said it, not that the claim has been corroborated.",
+            "locator": "28 May 2017 broadcaster page",
+            "note": "Original interview link; no separate sensor record is supplied.",
             "sourceClass": "publisher",
             "indexedAt": "2026-11-17"
           },
           {
-            "title": "Skinwalker Ranch historical reporting",
+            "title": "The Joe Rogan Experience — Robert Bigelow, episode 1612",
+            "url": "https://podcasts.apple.com/us/podcast/1612-robert-bigelow/id360084272?i=1000644539234",
+            "locator": "Publisher feed: 25 February 2021",
+            "note": "Guest identity and publication metadata checked. The full recording was not audited, so no new passage-specific claim or timestamp is asserted.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "Bigelow Institute for Consciousness Studies — About",
+            "url": "https://www.bigelowinstitute.org/about.html",
+            "locator": "First-party account of the institute’s April 2020 founding",
+            "note": "Indexed first-party description identifies its consciousness-research purpose. Direct retrieval failed during this pass; treat organisational self-description separately from demonstrated results.",
+            "sourceClass": "first_party",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "HISTORY — Skinwalker Ranch ownership and NIDS reporting",
             "url": "https://www.history.com/articles/skinwalker-ranch-paranormal-ufos-mutilation",
-            "locator": "1996 acquisition and NIDS activity",
-            "note": "Publisher background establishes the reported ownership history and attributed claims at the ranch; does not independently demonstrate paranormal explanations.",
+            "locator": "Adam Janos, 17 January 2020; updated 18 February 2025, opening ownership paragraphs",
+            "note": "Historical reporting, not a deed search or direct audit of NIDS logs. Its accounts of unusual activity remain attributed reports requiring original supporting records.",
             "sourceClass": "publisher",
             "indexedAt": "2026-11-17"
           }
         ]
       },
+      "profileResearchReview": {
+        "status": "source_linked_profile_ready_for_staging",
+        "batch": "M60",
+        "reviewDate": "2026-11-17",
+        "scope": "Biography, dated publication trail and source-access notes. No incident verdict or numerical editorial assessment.",
+        "independentHumanSignoff": false
+      },
       "photoRightsAudit": {
         "status": "initials_fallback_no_licensed_photo_selected",
         "checkedAt": "2026-11-17",
         "sourceUrl": null,
-        "detail": "Editorial/publication photographs cannot be reused without a verified license and appropriate UK rights review.",
+        "detail": "No new portrait selected. Existing archive or broadcaster images are linked, not copied.",
         "finalRightsApproval": false
       }
     },
     {
       "id": "john-lear",
       "name": "John Olsen Lear",
-      "role": "Aviator and public UFO claimant (1942–2022)",
+      "role": "Aviator and historical public UFO claimant (1942–2022)",
       "category": [
         "Pilot",
         "Researcher"
       ],
-      "short": "American aviator associated with widely circulated public claims about UAP secrecy and extraterrestrial activity.",
-      "position": "Lear publicly advanced UFO-related interpretations; the original dated statements are attributed to him, not established as facts.",
-      "context": "Aviation credentials, interview provenance and independent physical records must be considered separately. Contradictions require exact dated quotations before they are flagged.",
+      "short": "An influential early source for George Knapp, with dated radio appearances and an aviation oral-history archive.",
+      "position": "Lear’s public narratives include claims attributed to unnamed sources. The profile distinguishes the existence of those broadcasts from authentication of the alleged programmes.",
+      "context": "Knapp’s recollection concerns his reporting history. UNLV preserves an interview, not a university finding about covert aviation or extraterrestrial activity. Repeated interviews are not additional firsthand witnesses.",
+      "biography": [
+        "John Lear was an aviator whose name became closely associated with UFO reporting in Las Vegas. The Museum of Flight’s authority record identifies him within the Lear family papers; it is a catalogue connection, not a detailed verification of every career claim.",
+        "In his 2025 House submission, George Knapp recalls Lear bringing documents to KLAS in 1987 and helping draw his attention to UFO reporting. This is Knapp’s later recollection of that introduction, distinct from the original documents themselves.",
+        "Coast to Coast AM preserves publisher listings for Lear’s November 2003 disclosure discussion and March 2004 follow-up. The latter synopsis attributes lunar and consciousness claims to his asserted secret sources. These are attributed claims rather than established descriptions of the Moon or government activity.",
+        "UNLV’s OH-03428 records a 24 April 2018 interview with Lear and Jaina L. Moan. Its described topics include flying, mining and Gold Butte. The catalogue lists digital audio and says no transcript is available; this pass did not listen to the recording."
+      ],
+      "milestones": [
+        {
+          "date": "1987, recalled in 2025",
+          "title": "Lear and KLAS reporting",
+          "detail": "Knapp describes Lear’s early role in his reporting.",
+          "source": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf"
+        },
+        {
+          "date": "2 November 2003",
+          "title": "Disclosure radio discussion",
+          "detail": "Original Coast to Coast programme date; later reruns are the same programme.",
+          "source": "https://www.coasttocoastam.com/show/ufo-revelations/"
+        },
+        {
+          "date": "21 March 2004",
+          "title": "Follow-up radio appearance",
+          "detail": "Broadcaster synopsis attributes additional claims to Lear.",
+          "source": "https://www.coasttocoastam.com/show/2004-03-21-show/"
+        },
+        {
+          "date": "24 April 2018",
+          "title": "UNLV oral-history interview",
+          "detail": "OH-03428 includes Lear and Jaina L. Moan.",
+          "source": "https://special.library.unlv.edu/ark:/62930/f1r456"
+        }
+      ],
       "sources": [
         {
-          "label": "Museum of Flight — John Lear archival biography",
+          "label": "Museum of Flight — John Lear authority record",
           "url": "https://archives.museumofflight.org/agents/people/4962"
         },
         {
-          "label": "UNLV Libraries — Lear oral-history finding aid",
-          "url": "https://special.library.unlv.edu/sites/default/files/finding-aids/OH-03428.pdf"
+          "label": "George Knapp — 2025 House written testimony",
+          "url": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf"
+        },
+        {
+          "label": "Coast to Coast AM — John Lear’s UFO Revelations",
+          "url": "https://www.coasttocoastam.com/show/ufo-revelations/"
+        },
+        {
+          "label": "Coast to Coast AM — Revelations, John Lear",
+          "url": "https://www.coasttocoastam.com/show/2004-03-21-show/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Museum of Flight — John Lear authority record",
+          "url": "https://archives.museumofflight.org/agents/people/4962",
+          "publisher": "Archive custodian",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "George Knapp — 2025 House written testimony",
+          "url": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf",
+          "publisher": "Government or institutional record",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "Coast to Coast AM — John Lear’s UFO Revelations",
+          "url": "https://www.coasttocoastam.com/show/ufo-revelations/",
+          "publisher": "Original publisher",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "Coast to Coast AM — Revelations, John Lear",
+          "url": "https://www.coasttocoastam.com/show/2004-03-21-show/",
+          "publisher": "Original publisher",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "UNLV — John Lear and Jaina L. Moan oral history",
+          "url": "https://special.library.unlv.edu/ark:/62930/f1r456",
+          "publisher": "Archive custodian",
+          "date": "Source checked 17 November 2026"
         }
       ],
       "media": [],
       "officialLinks": [],
       "photo": null,
-      "biography": [
-        "The Museum of Flight documents John Olsen Lear's aviation-related biography and archival presence. Those records establish a career, not the substance of later UFO narratives.",
-        "Lear became a prominent public claimant about UFOs and government secrecy. This profile records his attributed views but does not endorse or disprove extraordinary alleged programmes.",
-        "Original dated broadcast recordings, transcripts and full oral-history material should be located before making individual evidence or inconsistency assertions."
-      ],
-      "milestones": [
-        {
-          "date": "1942–2022",
-          "title": "Archival dates",
-          "detail": "Museum of Flight identifies John Olsen Lear and his lifetime.",
-          "source": "https://archives.museumofflight.org/agents/people/4962"
-        },
-        {
-          "date": "Later career",
-          "title": "Public UFO accounts",
-          "detail": "UNLV maintains an oral-history source; detailed individual assertions await full original-record assessment.",
-          "source": "https://special.library.unlv.edu/sites/default/files/finding-aids/OH-03428.pdf"
-        }
-      ],
-      "articles": [
-        {
-          "label": "Museum of Flight — John Lear archival biography",
-          "publisher": "Original institutional or archival source",
-          "date": "2026-11-17",
-          "url": "https://archives.museumofflight.org/agents/people/4962"
-        },
-        {
-          "label": "UNLV Libraries — Lear oral-history finding aid",
-          "publisher": "Original institutional or archival source",
-          "date": "2026-11-17",
-          "url": "https://special.library.unlv.edu/sites/default/files/finding-aids/OH-03428.pdf"
-        }
-      ],
       "videos": [],
       "socialPages": [],
-      "podcastEpisodes": [],
+      "podcastEpisodes": [
+        {
+          "show": "Coast to Coast AM",
+          "title": "John Lear’s UFO Revelations",
+          "date": "2003-11-02",
+          "url": "https://www.coasttocoastam.com/show/ufo-revelations/",
+          "role": "Interview guest",
+          "context": "Original programme listing; audio not audited. Do not count subsequent rebroadcasts as fresh testimony."
+        },
+        {
+          "show": "Coast to Coast AM",
+          "title": "Revelations — John Lear",
+          "date": "2004-03-21",
+          "url": "https://www.coasttocoastam.com/show/2004-03-21-show/",
+          "role": "Interview guest",
+          "context": "Publisher synopsis checked; the full Vault recording may require subscription."
+        }
+      ],
       "filmCredits": [],
       "publicWorkEvidence": {
         "status": "research_links_indexed",
         "kind": "historical_public_work",
-        "title": "John Lear aviation history and public UFO assertions",
-        "period": "Late 20th century–2022",
-        "description": "Primary institutional and publisher records document this person's research career, original historical role and published investigations. Source attribution alone does not verify any extraordinary claim.",
-        "openQuestions": "Read the original dated Lear interviews and oral-history account and compare first-person claims with contemporaneous source documents without inventing eyewitnesses.",
+        "title": "Lear’s original broadcast trail and archival context",
+        "period": "1987–2018",
+        "description": "The record identifies public appearances and preserves a route to an oral history. It does not convert credentials, an archive subject heading or later recollections into confirmation of extraordinary assertions.",
+        "openQuestions": "Locate the earliest complete KLAS recordings and Lear’s dated written statements. Identify which assertions describe personal observation and which rely on other people, then test them against contemporaneous documentation.",
         "sources": [
           {
-            "title": "Museum of Flight — John Lear archival biography",
+            "title": "Museum of Flight — John Lear authority record",
             "url": "https://archives.museumofflight.org/agents/people/4962",
-            "locator": "Original institutional / archive record, corresponding section 1",
-            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
+            "locator": "Lear, John, 1942–2022; linked archival holdings",
+            "note": "Search-indexed catalogue identity and family-paper links only. Direct retrieval timed out; no detailed aviation biography or intelligence-service verification was established.",
             "sourceClass": "archive",
             "indexedAt": "2026-11-17"
           },
           {
-            "title": "UNLV Libraries — Lear oral-history finding aid",
-            "url": "https://special.library.unlv.edu/sites/default/files/finding-aids/OH-03428.pdf",
-            "locator": "Original institutional / archive record, corresponding section 2",
-            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
+            "title": "George Knapp — 2025 House written testimony",
+            "url": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf",
+            "locator": "Topic One: The Paper Trail, opening paragraphs",
+            "note": "Knapp describes the introduction of documents to KLAS. This is a retrospective account by the reporter, not independent authentication of every document or Lear assertion.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "Coast to Coast AM — John Lear’s UFO Revelations",
+            "url": "https://www.coasttocoastam.com/show/ufo-revelations/",
+            "locator": "Programme date 2 November 2003; About the show",
+            "note": "Original broadcaster synopsis located. Full audio was not reviewed; its broken legacy briefing link is not presented as an inspected document.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "Coast to Coast AM — Revelations, John Lear",
+            "url": "https://www.coasttocoastam.com/show/2004-03-21-show/",
+            "locator": "Programme date 21 March 2004; About the show",
+            "note": "Publisher synopsis distinguishes claims about the Moon and human origins from the evidence needed to test them. Vault audio may require a subscription; no full-dialogue review claimed.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "UNLV — John Lear and Jaina L. Moan oral history",
+            "url": "https://special.library.unlv.edu/ark:/62930/f1r456",
+            "locator": "OH-03428: abstract, scope, access and transcript availability",
+            "note": "Institutional description of an interview collection. Audio-only availability prevents claiming a transcript audit; the subject headings are not corroboration of the interviewee’s account.",
             "sourceClass": "archive",
             "indexedAt": "2026-11-17"
           }
         ]
       },
+      "profileResearchReview": {
+        "status": "source_linked_profile_ready_for_staging",
+        "batch": "M60",
+        "reviewDate": "2026-11-17",
+        "scope": "Biography, dated publication trail and source-access notes. No incident verdict or numerical editorial assessment.",
+        "independentHumanSignoff": false
+      },
       "photoRightsAudit": {
         "status": "initials_fallback_no_licensed_photo_selected",
         "checkedAt": "2026-11-17",
         "sourceUrl": null,
-        "detail": "No new portrait licensed or approved for UK reuse; initials only.",
+        "detail": "No new portrait selected. Existing archive or broadcaster images are linked, not copied.",
         "finalRightsApproval": false
       }
     },
     {
       "id": "james-lacatski",
       "name": "James T. Lacatski",
-      "role": "Former DIA official publicly associated with AAWSAP",
+      "role": "Former DIA researcher and AAWSAP participant-author",
       "category": [
         "Former government official",
         "Researcher"
       ],
-      "short": "Associated with government-funded advanced aerospace research and public accounts of AAWSAP investigations.",
-      "position": "Lacatski is identified in public accounts as an AAWSAP programme figure. DIA contract records establish the programme and BAASS award, not independent verification of every account of his personal role.",
-      "context": "Agency descriptions and programme participants' claims may differ. Compare precise original dated quotations; the AAWSAP–AATIP nomenclature is contested and requires explicit explanation.",
-      "sources": [
+      "short": "A programme participant whose books and interviews can be compared with contracting and prepublication-review records.",
+      "position": "Programme-participant descriptions and government reviews should be read together. Security clearance for publication is a disclosure decision, not a finding that a manuscript’s assertions are correct.",
+      "context": "Retain each document’s own AAWSAP/AATIP name, date and remit. A redacted role cannot be assigned to a named individual without separate evidence; a publisher’s synopsis is not a full interview transcript.",
+      "biography": [
+        "James Lacatski appears in the public record through programme-participant books, interviews and released prepublication correspondence. WEAPONIZED identifies him and Colm Kelleher with AAWSAP’s management, while the public DIA briefing independently documents the contract.",
+        "The DIA briefing describes research under AAWSAP and notes that Senator Reid’s office used an AATIP name. That naming history does not, by itself, resolve later disagreements about programme scope or personnel.",
+        "WEAPONIZED episode 38, published in October 2023, introduces Lacatski and Kelleher’s account of the programme and an alleged craft of unknown origin. The publisher page establishes what the episode promotes; underlying custody, laboratory and operational records are still needed to test that account.",
+        "Released DOPSR case 22-SB-0151 correspondence documents manuscript review. The 24 April 2023 clearance letter expressly separates permission to publish from government endorsement or factual accuracy. The draft working title in the file should not be silently substituted for a published edition."
+      ],
+      "milestones": [
         {
-          "label": "DIA — original BAASS/AAWSAP contract briefing",
-          "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/"
+          "date": "September 2008",
+          "title": "AAWSAP research contract",
+          "detail": "DIA’s briefing supplies the procurement context.",
+          "source": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170015/"
         },
         {
-          "label": "AARO — historical review with AAWSAP/AATIP section",
-          "url": "https://media.defense.gov/2024/Mar/08/2003409233/-1/-1/0/DOPSR-CLEARED-508-COMPLIANT-HRRV1-08-MAR-2024-FINAL.PDF"
+          "date": "11 July 2022",
+          "title": "Manuscript received for review",
+          "detail": "The released correspondence records receipt under case 22-SB-0151.",
+          "source": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/UFOsandUAPs/24-F-0088_DOPSR_Case_22-SB-0151_2023.pdf"
+        },
+        {
+          "date": "24 April 2023",
+          "title": "Prepublication clearance letter",
+          "detail": "The letter specifies the limits of clearance.",
+          "source": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/UFOsandUAPs/24-F-0088_DOPSR_Case_22-SB-0151_2023.pdf"
+        },
+        {
+          "date": "16–17 October 2023",
+          "title": "WEAPONIZED episode 38",
+          "detail": "Publisher page dated 16 October; podcast feed dated 17 October.",
+          "source": "https://weaponized.squarespace.com/episodes-2/episode-38"
+        }
+      ],
+      "sources": [
+        {
+          "label": "DIA briefing on AAWSAP and special-access protection",
+          "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170015/"
+        },
+        {
+          "label": "WEAPONIZED — episode 38 original publisher page",
+          "url": "https://weaponized.squarespace.com/episodes-2/episode-38"
+        },
+        {
+          "label": "WEAPONIZED — episode 38 publisher podcast feed",
+          "url": "https://podcasts.apple.com/us/podcast/inside-the-dias-secretive-ufo-investigation-guests-dr/id1664299388?i=1000631572518"
+        },
+        {
+          "label": "DOPSR — Lacatski manuscript clearance correspondence",
+          "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/UFOsandUAPs/24-F-0088_DOPSR_Case_22-SB-0151_2023.pdf"
+        }
+      ],
+      "articles": [
+        {
+          "label": "DIA briefing on AAWSAP and special-access protection",
+          "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170015/",
+          "publisher": "Government or institutional record",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "WEAPONIZED — episode 38 original publisher page",
+          "url": "https://weaponized.squarespace.com/episodes-2/episode-38",
+          "publisher": "Original publisher",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "WEAPONIZED — episode 38 publisher podcast feed",
+          "url": "https://podcasts.apple.com/us/podcast/inside-the-dias-secretive-ufo-investigation-guests-dr/id1664299388?i=1000631572518",
+          "publisher": "Original publisher",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "DOPSR — Lacatski manuscript clearance correspondence",
+          "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/UFOsandUAPs/24-F-0088_DOPSR_Case_22-SB-0151_2023.pdf",
+          "publisher": "Government or institutional record",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "AARO — Historical Record Report, Volume I",
+          "url": "https://www.aaro.mil/Portals/136/PDFs/AARO_Historical_Record_Report_Volume_1_2024.pdf",
+          "publisher": "Government or institutional record",
+          "date": "Source checked 17 November 2026"
         }
       ],
       "media": [],
       "officialLinks": [],
       "photo": null,
-      "biography": [
-        "James T. Lacatski is publicly associated with the Defense Intelligence Agency's AAWSAP-era research. Official contracting records describe a BAASS award for unconventional aerospace research.",
-        "Published books and interviews attributed to Lacatski contain additional programme claims. This profile separates his own statements from contracting evidence and agency retrospective summaries.",
-        "AAWSAP and AATIP labels have been conflated in some reports. The reader should inspect each original record's precise name, funding dates, scope and participant attribution."
-      ],
-      "milestones": [
-        {
-          "date": "2008",
-          "title": "AAWSAP contract",
-          "detail": "DIA's original documentary record establishes a procurement relationship with Bigelow Aerospace Advanced Space Studies.",
-          "source": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/"
-        },
-        {
-          "date": "2024",
-          "title": "AARO retrospective report",
-          "detail": "AARO published its interpretation of AAWSAP/AATIP, distinct from individual participants' accounts.",
-          "source": "https://media.defense.gov/2024/Mar/08/2003409233/-1/-1/0/DOPSR-CLEARED-508-COMPLIANT-HRRV1-08-MAR-2024-FINAL.PDF"
-        }
-      ],
-      "articles": [
-        {
-          "label": "DIA — original BAASS/AAWSAP contract briefing",
-          "publisher": "Original institutional or archival source",
-          "date": "2026-11-17",
-          "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/"
-        },
-        {
-          "label": "AARO — historical review with AAWSAP/AATIP section",
-          "publisher": "Original institutional or archival source",
-          "date": "2026-11-17",
-          "url": "https://media.defense.gov/2024/Mar/08/2003409233/-1/-1/0/DOPSR-CLEARED-508-COMPLIANT-HRRV1-08-MAR-2024-FINAL.PDF"
-        }
-      ],
       "videos": [],
       "socialPages": [],
-      "podcastEpisodes": [],
+      "podcastEpisodes": [
+        {
+          "show": "WEAPONIZED",
+          "title": "Inside the DIA’s Secretive UFO Investigation — Lacatski and Kelleher",
+          "date": "2023-10-17",
+          "url": "https://podcasts.apple.com/us/podcast/inside-the-dias-secretive-ufo-investigation-guests-dr/id1664299388?i=1000631572518",
+          "role": "Interview guest",
+          "context": "Episode 38. Publisher metadata and synopsis reviewed; full audio and exact passage anchors remain open."
+        }
+      ],
       "filmCredits": [],
       "publicWorkEvidence": {
         "status": "research_links_indexed",
         "kind": "historical_public_work",
-        "title": "AAWSAP official contracting and public programme accounts",
-        "period": "2008 onward",
-        "description": "Primary institutional and publisher records document this person's research career, original historical role and published investigations. Source attribution alone does not verify any extraordinary claim.",
-        "openQuestions": "Check Lacatski's precise role against dated agency records and identify original passages in his own publications; do not infer possession of alien objects from government funding.",
+        "title": "AAWSAP participant accounts and what publication clearance means",
+        "period": "2008–2023",
+        "description": "Original contracting context, publisher interview metadata and released review correspondence have different evidentiary roles. Their existence does not establish the contents or origin of an alleged craft.",
+        "openQuestions": "Audit the complete original interview with exact passage anchors; match each technical allegation to dated original records and traceable material. Compare AARO’s retrospective assessment with participant accounts without treating either attribution as a verdict.",
         "sources": [
           {
-            "title": "DIA — original BAASS/AAWSAP contract briefing",
-            "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/",
-            "locator": "Original institutional / archive record, corresponding section 1",
-            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
-            "sourceClass": "archive",
+            "title": "DIA briefing on AAWSAP and special-access protection",
+            "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170015/",
+            "locator": "Background: programme-name note and 2008 award",
+            "note": "The contracting record supplies context. Its redacted programme-manager field is not, on its own, a verified identification of Lacatski.",
+            "sourceClass": "institutional",
             "indexedAt": "2026-11-17"
           },
           {
-            "title": "AARO — historical review with AAWSAP/AATIP section",
-            "url": "https://media.defense.gov/2024/Mar/08/2003409233/-1/-1/0/DOPSR-CLEARED-508-COMPLIANT-HRRV1-08-MAR-2024-FINAL.PDF",
-            "locator": "Original institutional / archive record, corresponding section 2",
-            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
-            "sourceClass": "archive",
+            "title": "WEAPONIZED — episode 38 original publisher page",
+            "url": "https://weaponized.squarespace.com/episodes-2/episode-38",
+            "locator": "16 October 2023 page; guest and book description",
+            "note": "Publisher identifies the participants and promotes their reported craft account. Synopsis reviewed, not a complete recording audit; no invented timestamp or claim of independently recovered material.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "WEAPONIZED — episode 38 publisher podcast feed",
+            "url": "https://podcasts.apple.com/us/podcast/inside-the-dias-secretive-ufo-investigation-guests-dr/id1664299388?i=1000631572518",
+            "locator": "17 October 2023 feed date; episode 38",
+            "note": "Same production as the publisher page, with a different publication date. This second URL is not another witness or separate corroboration.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "DOPSR — Lacatski manuscript clearance correspondence",
+            "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/UFOsandUAPs/24-F-0088_DOPSR_Case_22-SB-0151_2023.pdf",
+            "locator": "24-F-0088 / 22-SB-0151; first-page 24 April 2023 letter",
+            "note": "First page visually inspected and selected correspondence text checked. Clearance does not endorse factual accuracy. This was not an audit of the complete book or every released attachment.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "AARO — Historical Record Report, Volume I",
+            "url": "https://www.aaro.mil/Portals/136/PDFs/AARO_Historical_Record_Report_Volume_1_2024.pdf",
+            "locator": "Section V: AAWSAP/AATIP discussion",
+            "note": "Agency retrospective offered as a comparison lead. Direct PDF retrieval returned 403 in this pass; no new page-level finding is attributed to this inaccessible copy.",
+            "sourceClass": "institutional",
             "indexedAt": "2026-11-17"
           }
         ]
+      },
+      "profileResearchReview": {
+        "status": "source_linked_profile_ready_for_staging",
+        "batch": "M60",
+        "reviewDate": "2026-11-17",
+        "scope": "Biography, dated publication trail and source-access notes. No incident verdict or numerical editorial assessment.",
+        "independentHumanSignoff": false
       },
       "photoRightsAudit": {
         "status": "initials_fallback_no_licensed_photo_selected",
         "checkedAt": "2026-11-17",
         "sourceUrl": null,
-        "detail": "No new portrait licensed or approved for UK reuse; initials only.",
+        "detail": "No new portrait selected. Existing archive or broadcaster images are linked, not copied.",
         "finalRightsApproval": false
       }
     },
     {
       "id": "j-allen-hynek",
       "name": "J. Allen Hynek",
-      "role": "Astronomer, Project Blue Book consultant and CUFOS founder (1910–1986)",
+      "role": "Astronomer, Air Force consultant and founder of CUFOS (1910–1986)",
       "category": [
         "Scientist",
         "Researcher"
       ],
-      "short": "Scientist whose Project Blue Book consulting and later UFO research are documented in university and archival holdings.",
-      "position": "Hynek consulted for Air Force UFO investigations and later helped establish independent research through CUFOS. Changing interpretations require dated context.",
-      "context": "His official report-writing, independent field investigations and later published views should be compared by incident and date; evolving opinions are not automatically contradictions.",
-      "sources": [
-        {
-          "label": "Northwestern University — J. Allen Hynek papers",
-          "url": "https://findingaids.library.northwestern.edu/repositories/6/resources/373"
-        },
-        {
-          "label": "Center for UFO Studies — history and research mission",
-          "url": "https://cufos.org/about-us/"
-        },
-        {
-          "label": "National Archives — Project Blue Book case files",
-          "url": "https://www.archives.gov/research/military/air-force/ufos"
-        }
-      ],
-      "media": [],
-      "officialLinks": [],
-      "photo": null,
+      "short": "A central figure in scientific UFO investigation, with original talks that show his methods and evolving interpretation.",
+      "position": "Hynek argued for systematic study of difficult reports. His original writings distinguish the existence of a report from proof that its described event occurred as interpreted.",
+      "context": "Read his statements at their original dates. A later change in interpretation should be assessed against the evidence and methods then available, rather than turned into a person-wide judgment.",
       "biography": [
-        "J. Allen Hynek (1910–1986) was an astronomer associated with Northwestern University and U.S. Air Force Project Blue Book research. Northwestern preserves original professional and UFO-related papers.",
-        "Hynek later founded the Center for UFO Studies and developed methods for scientific classification of reported close encounters. Original studies are distinct from speculative explanations of any given report.",
-        "Original Project Blue Book case reports, university archives and CUFOS materials can be compared chronologically to show what changed and which information was available."
+        "J. Allen Hynek was an astronomer whose professional work included Northwestern University and consulting on Air Force UFO reports. Northwestern’s collection describes his academic papers, Project Stargazer material and some UFO-related holdings; the catalogue is a guide to records rather than a complete online case archive.",
+        "In his 1960 Eglin talk, Hynek discusses his work assessing reported sightings and distinguishes reported events from demonstrated occurrences. The opening offers a direct route to his own methodological position rather than relying on a later quotation compilation.",
+        "His contribution to the December 1969 AAAS symposium revisits 21 years of reports. The paper argues that a residue deserves scientific attention and considers observational categories and uncertainty. It is Hynek’s analysis of reports, not new instrument data for every case mentioned.",
+        "CUFOS’s institutional history places his close-encounter classification in The UFO Experience (1972) and the centre’s founding in 1973. The National Archives supplies a separate route to Blue Book’s records and the Air Force’s conclusions. Readers can compare these positions without assuming either settles every individual case."
       ],
       "milestones": [
         {
-          "date": "1952–1969",
-          "title": "Project Blue Book consultant",
-          "detail": "Air Force investigative records and Northwestern holdings document his scientific involvement.",
-          "source": "https://www.archives.gov/research/military/air-force/ufos"
+          "date": "1948",
+          "title": "Air Force consultancy begins",
+          "detail": "Hynek recounts the start of his astronomical review work.",
+          "source": "https://cufos.org/PDFs/Hynek/twenty-one_years_of_UFO_reports_HynekR.pdf"
         },
         {
-          "date": "1973",
-          "title": "CUFOS development",
-          "detail": "Northwestern's archival finding aid documents the centre's development.",
-          "source": "https://findingaids.library.northwestern.edu/repositories/6/resources/373"
+          "date": "27 April 1960",
+          "title": "Eglin conference talk",
+          "detail": "The preserved written talk sets out his approach to reports.",
+          "source": "https://cufos.org/PDFs/pdfs/UFOs_1960r.pdf"
+        },
+        {
+          "date": "26–27 December 1969",
+          "title": "AAAS symposium",
+          "detail": "His contribution reviews two decades of UFO reports.",
+          "source": "https://cufos.org/PDFs/Hynek/twenty-one_years_of_UFO_reports_HynekR.pdf"
+        },
+        {
+          "date": "1972–1973",
+          "title": "Classification and CUFOS",
+          "detail": "CUFOS dates the book and the centre’s founding.",
+          "source": "https://cufos.org/hynek-biography/j-allen-hynek-biography/"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Northwestern — J. Allen Hynek Papers, 11/3/5/6",
+          "url": "https://findingaids.library.northwestern.edu/repositories/6/resources/373"
+        },
+        {
+          "label": "J. Allen Hynek — UFOs 1960, preserved manuscript",
+          "url": "https://cufos.org/PDFs/pdfs/UFOs_1960r.pdf"
+        },
+        {
+          "label": "J. Allen Hynek — Twenty-one Years of UFO Reports",
+          "url": "https://cufos.org/PDFs/Hynek/twenty-one_years_of_UFO_reports_HynekR.pdf"
+        },
+        {
+          "label": "CUFOS — J. Allen Hynek biography",
+          "url": "https://cufos.org/hynek-biography/j-allen-hynek-biography/"
         }
       ],
       "articles": [
         {
-          "label": "Northwestern University — J. Allen Hynek papers",
-          "publisher": "Original institutional or archival source",
-          "date": "2026-11-17",
-          "url": "https://findingaids.library.northwestern.edu/repositories/6/resources/373"
+          "label": "Northwestern — J. Allen Hynek Papers, 11/3/5/6",
+          "url": "https://findingaids.library.northwestern.edu/repositories/6/resources/373",
+          "publisher": "Archive custodian",
+          "date": "Source checked 17 November 2026"
         },
         {
-          "label": "Center for UFO Studies — history and research mission",
-          "publisher": "Original institutional or archival source",
-          "date": "2026-11-17",
-          "url": "https://cufos.org/about-us/"
+          "label": "J. Allen Hynek — UFOs 1960, preserved manuscript",
+          "url": "https://cufos.org/PDFs/pdfs/UFOs_1960r.pdf",
+          "publisher": "Archive custodian",
+          "date": "Source checked 17 November 2026"
         },
         {
-          "label": "National Archives — Project Blue Book case files",
-          "publisher": "Original institutional or archival source",
-          "date": "2026-11-17",
-          "url": "https://www.archives.gov/research/military/air-force/ufos"
+          "label": "J. Allen Hynek — Twenty-one Years of UFO Reports",
+          "url": "https://cufos.org/PDFs/Hynek/twenty-one_years_of_UFO_reports_HynekR.pdf",
+          "publisher": "Archive custodian",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "CUFOS — J. Allen Hynek biography",
+          "url": "https://cufos.org/hynek-biography/j-allen-hynek-biography/",
+          "publisher": "First-party organisation",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "National Archives — Blue Book records and Air Force findings",
+          "url": "https://www.archives.gov/research/military/air-force/ufos",
+          "publisher": "Government or institutional record",
+          "date": "Source checked 17 November 2026"
         }
       ],
+      "media": [
+        {
+          "label": "CUFOS — curated Hynek recordings (archival uploads; individual provenance varies)",
+          "url": "https://cufos.org/hynek-biography/videos/"
+        }
+      ],
+      "officialLinks": [],
+      "photo": null,
       "videos": [],
       "socialPages": [],
       "podcastEpisodes": [],
@@ -756,141 +999,448 @@
       "publicWorkEvidence": {
         "status": "research_links_indexed",
         "kind": "historical_public_work",
-        "title": "Blue Book consulting and later scientific UFO research",
-        "period": "1940s–1986",
-        "description": "Primary institutional and publisher records document this person's research career, original historical role and published investigations. Source attribution alone does not verify any extraordinary claim.",
-        "openQuestions": "Inspect Hynek's dated original case reports and follow-up writings before identifying an inconsistency; distinguish changing source data and interpretation.",
+        "title": "Hynek’s original research arguments and institutional archive",
+        "period": "1948–1986",
+        "description": "Preserved first-person manuscripts are presented alongside university holdings, CUFOS history and federal archival context. These sources support distinct questions about method, career and case documentation.",
+        "openQuestions": "For a specific incident, retrieve Hynek’s original case notes, the corresponding Blue Book file, witness chronology and alternative analyses. Compare successive drafts before calling changed wording a contradiction.",
         "sources": [
           {
-            "title": "Northwestern University — J. Allen Hynek papers",
+            "title": "Northwestern — J. Allen Hynek Papers, 11/3/5/6",
             "url": "https://findingaids.library.northwestern.edu/repositories/6/resources/373",
-            "locator": "Original institutional / archive record, corresponding section 1",
-            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
+            "locator": "Collection abstract, scope, arrangement and acquisition history",
+            "note": "Indexed finding-aid text supports collection identity and scope. Direct access returned 403; the underlying boxes and unpublished correspondence were not inspected.",
             "sourceClass": "archive",
             "indexedAt": "2026-11-17"
           },
           {
-            "title": "Center for UFO Studies — history and research mission",
-            "url": "https://cufos.org/about-us/",
-            "locator": "Original institutional / archive record, corresponding section 2",
-            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
+            "title": "J. Allen Hynek — UFOs 1960, preserved manuscript",
+            "url": "https://cufos.org/PDFs/pdfs/UFOs_1960r.pdf",
+            "locator": "Written Eglin talk, 27 April 1960; PDF pp. 1–2",
+            "note": "Opening pages separate observations reported by others from established occurrences. Selected extracted text reviewed; no full visual audit of the 29-page scan.",
             "sourceClass": "archive",
             "indexedAt": "2026-11-17"
           },
           {
-            "title": "National Archives — Project Blue Book case files",
+            "title": "J. Allen Hynek — Twenty-one Years of UFO Reports",
+            "url": "https://cufos.org/PDFs/Hynek/twenty-one_years_of_UFO_reports_HynekR.pdf",
+            "locator": "AAAS contribution; PDF pp. 1, 13–19",
+            "note": "His retrospective argues for further study and discusses classification and uncertainty. It remains an analyst’s treatment of reports, not independent physical corroboration.",
+            "sourceClass": "archive",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "CUFOS — J. Allen Hynek biography",
+            "url": "https://cufos.org/hynek-biography/j-allen-hynek-biography/",
+            "locator": "The UFO Experience and creation of CUFOS",
+            "note": "Institutional biography provides historical context for his classification system and research organisation. Its interpretations of particular cases require their own source review.",
+            "sourceClass": "first_party",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "National Archives — Blue Book records and Air Force findings",
             "url": "https://www.archives.gov/research/military/air-force/ufos",
-            "locator": "Original institutional / archive record, corresponding section 3",
-            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
-            "sourceClass": "archive",
+            "locator": "General information and January 1985 Air Force fact sheet",
+            "note": "Archive access guidance and the Air Force’s published conclusions provide a comparison, rather than a verdict about Hynek’s character.",
+            "sourceClass": "institutional",
             "indexedAt": "2026-11-17"
           }
         ]
+      },
+      "profileResearchReview": {
+        "status": "source_linked_profile_ready_for_staging",
+        "batch": "M60",
+        "reviewDate": "2026-11-17",
+        "scope": "Biography, dated publication trail and source-access notes. No incident verdict or numerical editorial assessment.",
+        "independentHumanSignoff": false
       },
       "photoRightsAudit": {
         "status": "initials_fallback_no_licensed_photo_selected",
         "checkedAt": "2026-11-17",
         "sourceUrl": null,
-        "detail": "No new portrait licensed or approved for UK reuse; initials only.",
+        "detail": "No new portrait selected. Existing archive or broadcaster images are linked, not copied.",
         "finalRightsApproval": false
       }
     },
     {
       "id": "stanton-friedman",
       "name": "Stanton T. Friedman",
-      "role": "Nuclear physicist and UFO researcher (1934–2019)",
+      "role": "Nuclear physicist, author and UFO investigator (1934–2019)",
       "category": [
         "Scientist",
         "Researcher",
         "Disclosure advocate"
       ],
-      "short": "Physicist and UFO investigator known for public analysis of Roswell and claims of government secrecy.",
-      "position": "Friedman researched and argued for extraterrestrial interpretations of some incidents. Published arguments and interviews are his, not automatically verified findings.",
-      "context": "Archival preservation supports the history of his research, not the physical cause of a given case. Compare original witness accounts, documents and opposing analyses.",
+      "short": "Known for Roswell and MJ-12 research, with preserved papers and original broadcaster records of his arguments.",
+      "position": "Friedman advocated extraterrestrial interpretations and defended some disputed documents. Each argument needs its own source trail; archive preservation is not authentication of its conclusions.",
+      "context": "Compare the documents he defended with their custody and documentary anomalies. Keep Roswell, MJ-12 and the Hill case separate rather than letting one disputed narrative validate another.",
+      "biography": [
+        "Stanton Friedman combined a physics background with decades of public UFO research and advocacy. The Fredericton Region Museum describes his collection, donated records and investigation interests. Its exhibition preserves the history of his work rather than establishing the outcome of every disputed case.",
+        "The museum identifies publications including Top Secret/Majic and Captured!, the latter co-authored with Kathleen Marden. Those books belong to different claim histories. Authorship is documented; an alleged recovery or abduction requires evidence beyond a bibliography.",
+        "Coast to Coast AM’s June and November 2005 programme accounts preserve his public position on Roswell and MJ-12. The November synopsis says he defended some original papers while rejecting later ones. That distinction matters when checking which specific document he was discussing.",
+        "NARA describes provenance problems with the Cutler–Twining memorandum and limits its certification to custody of a copy. GAO’s 1995 Roswell report is a separate records search that documents both located records and gaps. Neither collection should be presented as a personal honesty judgment."
+      ],
+      "milestones": [
+        {
+          "date": "27 June 2005",
+          "title": "Roswell and document discussion",
+          "detail": "Original broadcaster programme synopsis.",
+          "source": "https://www.coasttocoastam.com/show/2005-06-27-show/"
+        },
+        {
+          "date": "20 November 2005",
+          "title": "MJ-12 distinctions discussed",
+          "detail": "Broadcaster records his distinction between different alleged papers.",
+          "source": "https://www.coasttocoastam.com/show/stanton-friedman-ufology/"
+        },
+        {
+          "date": "2007",
+          "title": "Captured! co-authorship",
+          "detail": "Museum bibliography identifies Friedman and Kathleen Marden’s book.",
+          "source": "https://www.frederictonregionmuseum.com/stanton-friedman-ufo-exhibit/"
+        },
+        {
+          "date": "26 June 2021",
+          "title": "Museum exhibition opens",
+          "detail": "The museum’s exhibition record supplies the posthumous research context.",
+          "source": "https://www.frederictonregionmuseum.com/stanton-friedman-ufo-exhibit/"
+        }
+      ],
       "sources": [
         {
-          "label": "Fredericton Region Museum — Stanton Friedman exhibit",
+          "label": "Fredericton Region Museum — Friedman exhibition and papers",
           "url": "https://www.frederictonregionmuseum.com/stanton-friedman-ufo-exhibit/"
         },
         {
-          "label": "Brunswickan — Friedman archive collection reporting",
-          "url": "https://thebruns.ca/aliens-in-new-brunswick-frederictons-secret-not-so-secret-ufologist/"
+          "label": "Coast to Coast AM — Ufology & Roswell",
+          "url": "https://www.coasttocoastam.com/show/2005-06-27-show/"
+        },
+        {
+          "label": "Coast to Coast AM — Stanton Friedman & Ufology",
+          "url": "https://www.coasttocoastam.com/show/stanton-friedman-ufology/"
+        },
+        {
+          "label": "National Archives — MJ-12 reference report",
+          "url": "https://www.archives.gov/research/military/air-force/ufos"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Fredericton Region Museum — Friedman exhibition and papers",
+          "url": "https://www.frederictonregionmuseum.com/stanton-friedman-ufo-exhibit/",
+          "publisher": "Archive custodian",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "Coast to Coast AM — Ufology & Roswell",
+          "url": "https://www.coasttocoastam.com/show/2005-06-27-show/",
+          "publisher": "Original publisher",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "Coast to Coast AM — Stanton Friedman & Ufology",
+          "url": "https://www.coasttocoastam.com/show/stanton-friedman-ufology/",
+          "publisher": "Original publisher",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "National Archives — MJ-12 reference report",
+          "url": "https://www.archives.gov/research/military/air-force/ufos",
+          "publisher": "Government or institutional record",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "GAO — 1995 search for Roswell records",
+          "url": "https://www.gao.gov/assets/nsiad-95-187.pdf",
+          "publisher": "Government or institutional record",
+          "date": "Source checked 17 November 2026"
         }
       ],
       "media": [],
       "officialLinks": [],
       "photo": null,
-      "biography": [
-        "Stanton T. Friedman (1934–2019) had a professional background in nuclear physics and became a prominent researcher and advocate concerning UFO reports.",
-        "The Fredericton Region Museum preserves research materials from Friedman, including items related to the Roswell case. Collection history should be distinguished from validation of disputed events.",
-        "Specific claims must be linked to their first publication or recorded interview, then compared with official records, alternative interpretations and contemporary witness statements."
-      ],
-      "milestones": [
-        {
-          "date": "1934–2019",
-          "title": "Life and research record",
-          "detail": "Fredericton Region Museum documents Friedman's career and its preserved research materials.",
-          "source": "https://www.frederictonregionmuseum.com/stanton-friedman-ufo-exhibit/"
-        },
-        {
-          "date": "2019",
-          "title": "Archival reporting",
-          "detail": "Published reporting describes efforts to catalogue and preserve Friedman's papers.",
-          "source": "https://thebruns.ca/aliens-in-new-brunswick-frederictons-secret-not-so-secret-ufologist/"
-        }
-      ],
-      "articles": [
-        {
-          "label": "Fredericton Region Museum — Stanton Friedman exhibit",
-          "publisher": "Original institutional or archival source",
-          "date": "2026-11-17",
-          "url": "https://www.frederictonregionmuseum.com/stanton-friedman-ufo-exhibit/"
-        },
-        {
-          "label": "Brunswickan — Friedman archive collection reporting",
-          "publisher": "Original institutional or archival source",
-          "date": "2026-11-17",
-          "url": "https://thebruns.ca/aliens-in-new-brunswick-frederictons-secret-not-so-secret-ufologist/"
-        }
-      ],
       "videos": [],
       "socialPages": [],
-      "podcastEpisodes": [],
+      "podcastEpisodes": [
+        {
+          "show": "Coast to Coast AM",
+          "title": "Ufology & Roswell",
+          "date": "2005-06-27",
+          "url": "https://www.coasttocoastam.com/show/2005-06-27-show/",
+          "role": "Interview guest",
+          "context": "Original broadcaster page; listing and synopsis checked, subscription audio not audited."
+        },
+        {
+          "show": "Coast to Coast AM",
+          "title": "Stanton Friedman & Ufology",
+          "date": "2005-11-20",
+          "url": "https://www.coasttocoastam.com/show/stanton-friedman-ufology/",
+          "role": "Interview guest",
+          "context": "Original programme listing and synopsis; separate episode, not an independent witness to a reported event."
+        }
+      ],
       "filmCredits": [],
       "publicWorkEvidence": {
         "status": "research_links_indexed",
         "kind": "historical_public_work",
-        "title": "Roswell research, public claims and archived documentary work",
-        "period": "1950s–2019",
-        "description": "Primary institutional and publisher records document this person's research career, original historical role and published investigations. Source attribution alone does not verify any extraordinary claim.",
-        "openQuestions": "Trace specific Roswell witness statements back to earliest available recordings, review chronologies and test alternative interpretations instead of person-wide believability ratings.",
+        "title": "Friedman’s published arguments and the records used to test them",
+        "period": "2005–2021",
+        "description": "A preserved research collection, original broadcast listings and official records offer complementary routes into his work. They distinguish publication history, argument and document provenance.",
+        "openQuestions": "Match a claim to the precise Friedman edition or complete interview, identify the earliest witness record and test source independence. For disputed documents, obtain the first-generation copy and complete custody history before authentication claims.",
         "sources": [
           {
-            "title": "Fredericton Region Museum — Stanton Friedman exhibit",
+            "title": "Fredericton Region Museum — Friedman exhibition and papers",
             "url": "https://www.frederictonregionmuseum.com/stanton-friedman-ufo-exhibit/",
-            "locator": "Original institutional / archive record, corresponding section 1",
-            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
+            "locator": "Collection description, research history and selected bibliography",
+            "note": "Institutional custodian describes preserved material and books. Collection access and permission to reproduce individual records or portraits remain separate questions.",
             "sourceClass": "archive",
             "indexedAt": "2026-11-17"
           },
           {
-            "title": "Brunswickan — Friedman archive collection reporting",
-            "url": "https://thebruns.ca/aliens-in-new-brunswick-frederictons-secret-not-so-secret-ufologist/",
-            "locator": "Original institutional / archive record, corresponding section 2",
-            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
-            "sourceClass": "archive",
+            "title": "Coast to Coast AM — Ufology & Roswell",
+            "url": "https://www.coasttocoastam.com/show/2005-06-27-show/",
+            "locator": "27 June 2005; About the show",
+            "note": "Broadcaster synopsis attributes his Roswell and document arguments. Audio was not audited, so do not infer an exact quotation or timestamp.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "Coast to Coast AM — Stanton Friedman & Ufology",
+            "url": "https://www.coasttocoastam.com/show/stanton-friedman-ufology/",
+            "locator": "20 November 2005; document-authenticity discussion",
+            "note": "Synopsis differentiates his views on original and subsequent papers. A complete recording and the exact document version are needed for a passage-level comparison.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "National Archives — MJ-12 reference report",
+            "url": "https://www.archives.gov/research/military/air-force/ufos",
+            "locator": "Cutler–Twining memorandum; provenance and certification notes",
+            "note": "The archive lists anomalies and distinguishes a copy in custody from authentication. These findings concern a document, not every claim Friedman made.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "GAO — 1995 search for Roswell records",
+            "url": "https://www.gao.gov/assets/nsiad-95-187.pdf",
+            "locator": "NSIAD-95-187, printed pp. 1–8 and appendices I–II",
+            "note": "Selected extracted text reviewed. The audit found contemporary records and missing administrative files, while explicitly limiting verification of agency replies. This is not a new physical analysis.",
+            "sourceClass": "institutional",
             "indexedAt": "2026-11-17"
           }
         ]
+      },
+      "profileResearchReview": {
+        "status": "source_linked_profile_ready_for_staging",
+        "batch": "M60",
+        "reviewDate": "2026-11-17",
+        "scope": "Biography, dated publication trail and source-access notes. No incident verdict or numerical editorial assessment.",
+        "independentHumanSignoff": false
       },
       "photoRightsAudit": {
         "status": "initials_fallback_no_licensed_photo_selected",
         "checkedAt": "2026-11-17",
         "sourceUrl": null,
-        "detail": "No new portrait licensed or approved for UK reuse; initials only.",
+        "detail": "No new portrait selected. Existing archive or broadcaster images are linked, not copied.",
+        "finalRightsApproval": false
+      }
+    },
+    {
+      "id": "alex-dietrich",
+      "name": "Alex Dietrich",
+      "role": "Retired U.S. Navy lieutenant commander and Nimitz encounter witness",
+      "category": [
+        "Pilot",
+        "Military witness"
+      ],
+      "short": "A named firsthand observer in the 2004 Nimitz encounter, with original interviews about what she saw and what remains unknown.",
+      "position": "Dietrich reports a brief visual observation and supports reporting without stigma. She leaves the object’s identity unresolved rather than identifying it as extraterrestrial.",
+      "context": "Dietrich and Fravor describe the same encounter from separate aircraft. Their accounts should retain individual perspectives; repeat interviews do not create additional incidents or independent sensor measurements.",
+      "biography": [
+        "Alex Dietrich is a retired Navy F/A-18F pilot and educator. Her June 2021 When It Mattered interview discusses her service, leadership teaching and decision to speak publicly about an unusual training-flight observation.",
+        "In an original Reuters interview, she recalls being directed to a radar contact with David Fravor in November 2004, seeing disturbed water and a white oblong object, and being unable to identify it. She also explains her wish to reduce the stigma of reporting unusual observations.",
+        "CBS lists a joint Fravor–Dietrich interview for 16 May 2021. They were observers in one encounter, rather than witnesses to two separate cases. Dietrich’s further interviews preserve her perspective but do not independently measure an object’s range, acceleration or origin.",
+        "Fravor’s 2023 House account separates the initial visual flight from the later infrared recording. Chad Underwood’s first-person interview addresses that later sortie. These source trails should remain distinct: Dietrich is not presented as the camera operator or as supplying original radar data."
+      ],
+      "milestones": [
+        {
+          "date": "14 November 2004",
+          "title": "Visual encounter during training",
+          "detail": "Date and personal account discussed in the later original interview.",
+          "source": "https://goodstory.io/lt-cmdr-alex-dietrich/"
+        },
+        {
+          "date": "16 May 2021",
+          "title": "CBS joint interview",
+          "detail": "Broadcaster listing identifies Dietrich and Fravor.",
+          "source": "https://www.cbs.com/shows/video/kruYVj3_d8m6dkg95BRKzen50j8H29Mv/"
+        },
+        {
+          "date": "16 June 2021",
+          "title": "When It Mattered interview",
+          "detail": "Original podcast and transcript published.",
+          "source": "https://goodstory.io/lt-cmdr-alex-dietrich/"
+        },
+        {
+          "date": "24–25 June 2021",
+          "title": "Reuters interview published",
+          "detail": "Syndicated Reuters page carries original and updated dates.",
+          "source": "https://www.investing.com/news/general/normalizing-ufos--retired-us-navy-pilot-recalls-tic-tac-encounter-2542121"
+        }
+      ],
+      "sources": [
+        {
+          "label": "When It Mattered — Alex Dietrich, episode 55",
+          "url": "https://goodstory.io/lt-cmdr-alex-dietrich/"
+        },
+        {
+          "label": "Reuters — Dietrich interview, syndicated on Investing.com",
+          "url": "https://www.investing.com/news/general/normalizing-ufos--retired-us-navy-pilot-recalls-tic-tac-encounter-2542121"
+        },
+        {
+          "label": "CBS — Navy pilots discuss 2004 encounter with UAP",
+          "url": "https://www.cbs.com/shows/video/kruYVj3_d8m6dkg95BRKzen50j8H29Mv/"
+        },
+        {
+          "label": "House — David Fravor’s 2023 testimony",
+          "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm"
+        }
+      ],
+      "articles": [
+        {
+          "label": "When It Mattered — Alex Dietrich, episode 55",
+          "url": "https://goodstory.io/lt-cmdr-alex-dietrich/",
+          "publisher": "Original publisher",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "Reuters — Dietrich interview, syndicated on Investing.com",
+          "url": "https://www.investing.com/news/general/normalizing-ufos--retired-us-navy-pilot-recalls-tic-tac-encounter-2542121",
+          "publisher": "Original publisher",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "CBS — Navy pilots discuss 2004 encounter with UAP",
+          "url": "https://www.cbs.com/shows/video/kruYVj3_d8m6dkg95BRKzen50j8H29Mv/",
+          "publisher": "Original publisher",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "House — David Fravor’s 2023 testimony",
+          "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+          "publisher": "Government or institutional record",
+          "date": "Source checked 17 November 2026"
+        },
+        {
+          "label": "Intelligencer — Chad Underwood first-person interview",
+          "url": "https://nymag.com/intelligencer/2019/12/tic-tac-ufo-video-q-and-a-with-navy-pilot-chad-underwood.html",
+          "publisher": "Original publisher",
+          "date": "Source checked 17 November 2026"
+        }
+      ],
+      "media": [
+        {
+          "label": "CBS — 60 Minutes Overtime interview (TV-provider access may be required)",
+          "url": "https://www.cbs.com/shows/video/kruYVj3_d8m6dkg95BRKzen50j8H29Mv/"
+        }
+      ],
+      "officialLinks": [],
+      "photo": null,
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [
+        {
+          "show": "When It Mattered",
+          "title": "Episode 55 — Lt. Cmdr. Alex Dietrich",
+          "date": "2021-06-16",
+          "url": "https://goodstory.io/lt-cmdr-alex-dietrich/",
+          "role": "Interview guest",
+          "context": "Original publisher audio and transcript. Selected transcript passages checked; full audio not audited."
+        }
+      ],
+      "filmCredits": [
+        {
+          "title": "60 Minutes Overtime — Navy pilots discuss 2004 encounter with UAP",
+          "year": 2021,
+          "role": "Interview subject alongside David Fravor",
+          "url": "https://www.cbs.com/shows/video/kruYVj3_d8m6dkg95BRKzen50j8H29Mv/",
+          "type": "Television interview",
+          "context": "Publisher lists 16 May 2021. Listing checked; playback access restricted during review."
+        }
+      ],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "contested_first_person_claim",
+        "title": "Dietrich’s firsthand account and the separate Nimitz source trails",
+        "period": "2004 encounter; interviews 2021",
+        "description": "Original interviews document a named observer’s account. The accompanying sources distinguish a shared visual encounter, later filming and reported radar activity without assigning a truth percentage.",
+        "openQuestions": "Compare Dietrich’s complete interviews with other named crew accounts and contemporaneous sortie records. Seek calibrated radar and camera records for performance claims, and preserve uncertainty about identity and the timing of observations.",
+        "sources": [
+          {
+            "title": "When It Mattered — Alex Dietrich, episode 55",
+            "url": "https://goodstory.io/lt-cmdr-alex-dietrich/",
+            "locator": "16 June 2021; opening biography and encounter questions",
+            "note": "Original publisher transcript reviewed in selected passages. A later interview of the same person does not supply a second encounter or new sensor record.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "Reuters — Dietrich interview, syndicated on Investing.com",
+            "url": "https://www.investing.com/news/general/normalizing-ufos--retired-us-navy-pilot-recalls-tic-tac-encounter-2542121",
+            "locator": "Pavithra George; 24 June publication / 25 June update",
+            "note": "Selected interview text preserves her reported observation and uncertainty. This is Reuters’s original interview carried by another publisher; other copies of it are the same reporting.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "CBS — Navy pilots discuss 2004 encounter with UAP",
+            "url": "https://www.cbs.com/shows/video/kruYVj3_d8m6dkg95BRKzen50j8H29Mv/",
+            "locator": "60 Minutes Overtime S53 E35; air date 16 May 2021",
+            "note": "Original broadcaster lists both participants. Playback currently requests TV-provider access; this pass checked metadata, not an end-to-end video or caption audit.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "House — David Fravor’s 2023 testimony",
+            "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+            "locator": "26 July 2023; Fravor opening account and flight chronology",
+            "note": "A separate named witness account of the shared encounter. It distinguishes the later recording; it is not testimony by Dietrich or a release of original radar data.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "Intelligencer — Chad Underwood first-person interview",
+            "url": "https://nymag.com/intelligencer/2019/12/tic-tac-ufo-video-q-and-a-with-navy-pilot-chad-underwood.html",
+            "locator": "December 2019; recording and unaided-vision questions",
+            "note": "Later camera operator’s account, previously reviewed in the Nimitz dossier. Different sortie and evidentiary role; no assertion that Dietrich filmed the clip.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          }
+        ]
+      },
+      "profileResearchReview": {
+        "status": "source_linked_profile_ready_for_staging",
+        "batch": "M60",
+        "reviewDate": "2026-11-17",
+        "scope": "Biography, dated publication trail and source-access notes. No incident verdict or numerical editorial assessment.",
+        "independentHumanSignoff": false
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": "2026-11-17",
+        "sourceUrl": null,
+        "detail": "No new portrait selected. Existing archive or broadcaster images are linked, not copied.",
         "finalRightsApproval": false
       }
     }
   ],
-  "editorialCaution": "Six public-source profiles are staged without publishing scores, unverifiable social IDs, images, unsupported case links or claims of intentional dishonesty."
+  "editorialCaution": "Six public-source profiles are staged without publishing scores, unverifiable social IDs, images, unsupported case links or claims of intentional dishonesty.",
+  "enabledProfileIds": [
+    "sean-kirkpatrick",
+    "robert-bigelow",
+    "john-lear",
+    "james-lacatski",
+    "j-allen-hynek",
+    "stanton-friedman",
+    "alex-dietrich"
+  ]
 }

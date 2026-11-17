@@ -1,0 +1,35 @@
+name: "Who M60 six source-linked profiles NO DEPLOY"
+on:
+  push:
+    branches:
+      - prep/who-m60-next-six-profile-research-20261117
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  profiles-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate six new profiles and existing source readers
+        run: |
+          node --check assets/people-directory.js
+          node scripts/test_who_m60_six_profiles.cjs
+          node scripts/test_who_m59_kirkpatrick_directory_contract.cjs
+          node scripts/test_who_m57_community_criteria_contract.cjs
+          node scripts/test_who_m52_source_lineage.cjs
+          node scripts/test_who_m51_source_provenance.cjs
+          node scripts/test_person_case_links.cjs
+      - name: Build and verify a local candidate only
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_who_public_package_boundary.cjs
+          test ! -e .release-staging/public-site/data/who-m60-profile-source-audit.json
+          test ! -e .release-staging/public-site/assets/who-community-worksheet-m57.js
+          test ! -e .release-staging/public-site/docs/WHO_M60_SIX_PROFILES_2026-11-17.md
