@@ -2312,7 +2312,21 @@
           },
           "evidenceReviewSummary": {
             "finding": "West published an optical explanation for how glare and sensor motion could produce apparent rotation in the public Gimbal clip. Competing interpretations analyse the same clip.",
-            "remaining": "Test both interpretations against the same calibrated frame sequence, camera attitude and optical assumptions. Full synchronised original records remain valuable for separating the apparent motion from the object’s motion."
+            "remaining": "Test both interpretations against the same calibrated frame sequence, camera attitude and optical assumptions. Full synchronised original records remain valuable for separating the apparent motion from the object’s motion.",
+            "links": [
+              {
+                "title": "Mick West · original 2022 Gimbal analysis and proposed camera-glare model",
+                "url": "https://www.metabunk.org/threads/gimbal-ufo-a-new-analysis.12333/"
+              },
+              {
+                "title": "DoD original public release of the three historical Navy UAP videos",
+                "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/"
+              },
+              {
+                "title": "Metabunk discussion · later challenges to the glare explanation",
+                "url": "https://www.metabunk.org/threads/the-gimbal-ufo-marik-claims-new-findings-falsify-prosaic-explanations.14839/"
+              }
+            ]
           }
         }
       ],
@@ -3272,7 +3286,21 @@
           },
           "evidenceReviewSummary": {
             "finding": "Contemporaneous coverage and the Disclosure Project archive document the 2001 press conference and the presentation of witness accounts.",
-            "remaining": "Identify a specific firsthand account and compare it with dated programme, operational or custody records. Coverage of the same conference shares a source trail."
+            "remaining": "Identify a specific firsthand account and compare it with dated programme, operational or custody records. Coverage of the same conference shares a source trail.",
+            "links": [
+              {
+                "title": "ABC News · contemporary reporting on the 9 May 2001 press conference",
+                "url": "https://abcnews.go.com/Technology/story?id=98572&page=1"
+              },
+              {
+                "title": "Disclosure Project Archive · original-era National Press Club recording, personal collection",
+                "url": "https://www.disclosureprojectarchive.net/items/show/6"
+              },
+              {
+                "title": "Washington Post · separate contemporary account of the press conference",
+                "url": "https://www.washingtonpost.com/archive/lifestyle/2001/05/10/ufo-believers-sighted-here/f5b0fb0e-80f6-4d7e-8c25-e57d1aa69135/"
+              }
+            ]
           }
         }
       ],
@@ -4237,7 +4265,25 @@
           },
           "evidenceReviewSummary": {
             "finding": "Mellon’s column argues for release of more federal records. NARA documents the public collection, its transfer process and some agency transfers.",
-            "remaining": "A record-by-record comparison of requests, classifications and release decisions would test the overclassification argument. The public collection alone cannot establish completeness."
+            "remaining": "A record-by-record comparison of requests, classifications and release decisions would test the overclassification argument. The public collection alone cannot establish completeness.",
+            "links": [
+              {
+                "title": "Christopher Mellon · original October 2025 records-release commentary",
+                "url": "https://christopherkmellon.substack.com/p/the-us-government-is-sitting-on-a"
+              },
+              {
+                "title": "National Archives · UAP Record Group 615 holdings and receipt context",
+                "url": "https://www.archives.gov/research/topics/uaps/rg-615"
+              },
+              {
+                "title": "NARA AC 04.2025 · agency transfer instruction",
+                "url": "https://www.archives.gov/records-mgmt/memos/ac-04-2025"
+              },
+              {
+                "title": "NARA · April 2025 announcement of received UAP records",
+                "url": "https://www.archives.gov/press/press-releases/2025/nr25-07"
+              }
+            ]
           }
         }
       ],
@@ -5201,7 +5247,21 @@
           },
           "evidenceReviewSummary": {
             "finding": "Fox’s film and interviews present witnesses’ accounts. Brazil’s Superior Military Court archive indexes a military-police inquiry from 1997, a separately sourced record.",
-            "remaining": "Match each specific claim to the full interview and to dated inquiry pages. A claim about custody or transfer requires a matching hospital, military or transport record."
+            "remaining": "Match each specific claim to the full interview and to dated inquiry pages. A claim about custody or transfer requires a matching hospital, military or transport record.",
+            "links": [
+              {
+                "title": "Film School Radio · director James Fox discussing Moment of Contact",
+                "url": "https://filmschoolradio.com/the-program-director-james-fox/"
+              },
+              {
+                "title": "Brazil Superior Military Court · official 1997 inquiry archive index (access may be restricted)",
+                "url": "https://arquimedes.stm.jus.br/index.php/informationobject/browse?collection=4908&genres=439&languages=pt_BR&places=14570&sf_culture=pt_BR&showAdvanced=1&sort=startDate&sortDir=asc&subjects=16446&topLod=0&view=table"
+              },
+              {
+                "title": "Brazil Superior Military Court · inquiry second-volume scan (original-language record; access may vary)",
+                "url": "https://arquimedes.stm.jus.br/uploads/r/superior-tribunal-militar-in/c/b/5/cb5788ae000fe5405b8bf96a7e1ebe5eaa87adefb4d9633801dbec25f1de28a7/Autos_Findos_908_-_vol._2_OT.pdf"
+              }
+            ]
           }
         }
       ],
@@ -6771,7 +6831,21 @@
           },
           "evidenceReviewSummary": {
             "finding": "The House records Gold’s proposals for NASA research, improved reporting and possible instruments. The written and oral statements are two records of the same appearance.",
-            "remaining": "Dated NASA or FAA operating records would show which specific suggestions were adopted, funded or implemented."
+            "remaining": "Dated NASA or FAA operating records would show which specific suggestions were adopted, funded or implemented.",
+            "links": [
+              {
+                "title": "Mike Gold · original November 2024 written policy recommendations to Congress",
+                "url": "https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Gold.pdf"
+              },
+              {
+                "title": "GPO · Gold’s oral testimony in the same 2024 hearing",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm"
+              },
+              {
+                "title": "NASA · official UAP independent study programme (institutional context, not adoption of Gold’s proposals)",
+                "url": "https://science.nasa.gov/uap/"
+              }
+            ]
           }
         }
       ],
@@ -9377,7 +9451,25 @@
           },
           "evidenceReviewSummary": {
             "finding": "The House transcript records Gallaudet’s account of receiving and later no longer seeing an email. The DoD release and AARO technical study concern public footage.",
-            "remaining": "A copy of the original message, recipient headers, server records or a corroborating recipient account would test what was sent and what happened to it."
+            "remaining": "A copy of the original message, recipient headers, server records or a corroborating recipient account would test what was sent and what happened to it.",
+            "links": [
+              {
+                "title": "GPO · Gallaudet’s November 2024 congressional testimony",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm"
+              },
+              {
+                "title": "Gallaudet · original written statement to Congress, same witness",
+                "url": "https://www.congress.gov/118/meeting/house/117721/witnesses/HHRG-118-GO12-Wstate-GallaudetPhDRearAdmiralUSNavyRetT-20241113.pdf"
+              },
+              {
+                "title": "DoD · original April 2020 public release of three Navy videos",
+                "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/"
+              },
+              {
+                "title": "AARO · Go Fast video technical methodology (does not document the alleged missing email; automated retrieval restricted)",
+                "url": "https://www.aaro.mil/Portals/136/PDFs/case_resolution_reports/AARO_GoFast_Case_Resolution_Card_Methodology_Final.pdf"
+              }
+            ]
           }
         }
       ],
@@ -9597,7 +9689,21 @@
           },
           "evidenceReviewSummary": {
             "finding": "The House filed the submitted Immaculate Constellation paper and recorded Shellenberger’s testimony. These records document the submission and the allegation.",
-            "remaining": "Establish the submitted document’s origin and custody, then match a specific programme claim to independent operational or administrative records."
+            "remaining": "Establish the submitted document’s origin and custody, then match a specific programme claim to independent operational or administrative records.",
+            "links": [
+              {
+                "title": "GPO · Shellenberger’s November 2024 public testimony",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm"
+              },
+              {
+                "title": "House filing · anonymous Immaculate Constellation paper, allegation not independently authenticated",
+                "url": "https://docs.house.gov/meetings/GO/GO06/20241113/117722/HHRG-118-GO06-20241113-SD003.pdf"
+              },
+              {
+                "title": "House · Shellenberger’s written testimony and attributed DoD reply",
+                "url": "https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Shellenberger.pdf"
+              }
+            ]
           }
         }
       ],
@@ -10251,7 +10357,21 @@
           },
           "evidenceReviewSummary": {
             "finding": "The original Debrief article records what Kean and Ralph Blumenthal reported about Grusch and other sources. Grusch’s broadcast and hearing account come from the same witness.",
-            "remaining": "Determine whether sources had direct access, whether they share a common source, and whether independently inspectable records support a specific reported recovery."
+            "remaining": "Determine whether sources had direct access, whether they share a common source, and whether independently inspectable records support a specific reported recovery.",
+            "links": [
+              {
+                "title": "Leslie Kean and Ralph Blumenthal · original June 2023 reported account",
+                "url": "https://thedebrief.org/intelligence-officials-say-u-s-has-retrieved-non-human-craft/"
+              },
+              {
+                "title": "GPO · Grusch’s July 2023 sworn testimony (same originating witness, not independent material corroboration)",
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm"
+              },
+              {
+                "title": "DoD/AARO · March 2024 contrary historical review summary",
+                "url": "https://www.defense.gov/News/Releases/Release/Article/3700894/statement-by-pentagon-press-secretary-maj-gen-pat-ryder-on-the-historical-recor/"
+              }
+            ]
           }
         }
       ],
