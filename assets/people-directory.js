@@ -748,15 +748,33 @@ function evidenceReviewSummaryHtml(summary){
   research_publication:'Research publication or institution',
   video_platform:'Video platform'
  };
+ const lineageTypes={
+  same_proceeding:'Shared hearing document; witness accounts may differ',
+  same_recording:'Different point in the same recording',
+  same_published_study:'Same published paper',
+  same_interview:'Same interview reused in another profile',
+  same_document:'Same original document',
+  same_public_release:'Same agency publication',
+  original_and_copy_unverified_bytes:'Same named report; copy not hash-matched',
+  same_interview_transcription:'Transcriptions of the same interview',
+  same_clipping:'Same historical newspaper clipping'
+ };
+ const lineageNote=typeof summary.lineageNote==='string'&&summary.lineageNote.trim().length>=40?
+  '<p class="claim-lineage-note muted small"><strong>How these sources relate:</strong> '+esc(summary.lineageNote)+'</p>':'';
  return '<section class="claim-evidence-summary" aria-label="Evidence review summary">'+
   '<h5>Evidence review summary</h5>'+
   '<p>'+esc(summary.finding)+'</p>'+
   '<p><strong>Still to verify:</strong> '+esc(summary.remaining)+'</p>'+
+  lineageNote+
   '<p class="muted small">Source labels identify the hosting location, not proof of a claim or independent corroboration. An agency website can host an unverified submission; reports and recordings may share one originating source.</p>'+
   (links.length?'<ul class="link-list">'+links.map(link=>
    '<li><a href="'+esc(safeUrl(link.url))+'" target="_blank" rel="noopener noreferrer">'+
    esc(link.title)+'</a>'+
    '<span class="claim-source-kind muted small"> · '+esc(hostKinds[link.hostKind]||'External source')+'</span>'+
+   (link.sharedRecord&&typeof link.sharedRecord==='object'&&
+     typeof link.sharedRecord.key==='string'&&/^[a-z0-9-]{4,100}$/.test(link.sharedRecord.key)&&
+     lineageTypes[link.sharedRecord.relation]?
+    '<span class="claim-source-lineage muted small"> · '+esc(lineageTypes[link.sharedRecord.relation])+'</span>':'')+
    (typeof link.accessNote==='string'&&link.accessNote.trim()?
     '<p class="claim-source-note muted small">Access note: '+esc(link.accessNote)+'</p>':'')+
    '</li>').join('')+'</ul>':'')+
