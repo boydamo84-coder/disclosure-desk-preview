@@ -1,5 +1,5 @@
 'use strict';
-// R2 M8 — public person/case roles are source-attributed, NOT event validation.
+// R2 M8 + M53 — public person/case roles are sourced; later analysis is NOT firsthand eyewitness evidence.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const dna=require('../assets/evidence-dna.js');
@@ -10,13 +10,15 @@ const cases=JSON.parse(fs.readFileSync('data/curated-historical-cases.json','utf
 const claims=JSON.parse(fs.readFileSync('data/evidence-dna-claim-drafts.json','utf8'));
 const valid=roles.parse(raw,{personIds:people.people.map(p=>p.id),caseIds:cases.map(c=>c.id)});
 assert.equal(valid.valid,true,'Curated public ledger requires known people and case IDs');
-assert.equal(valid.links.length,3,'Only three individually sourced, draft relationships');
+assert.equal(valid.links.length,4,'Four individually sourced draft relationships after Knuth 2019 analytical link');
 assert.equal(roles.byCase(valid,'featured-rendlesham-1980').length,2);
-assert.equal(roles.byCase(valid,'featured-nimitz-2004').length,1);
+assert.equal(roles.byCase(valid,'featured-nimitz-2004').length,2);
 assert.equal(roles.byCase(valid,'featured-roswell-1947').length,0,'No invented Roswell person association');
 assert.equal(roles.byPerson(valid,'david-fravor')[0].role,'firsthand-statement');
 assert.equal(roles.byPerson(valid,'nick-pope')[0].role,'published-commentary');
 assert.equal(roles.byPerson(valid,'larry-warren')[0].role,'retrospective-claim');
+assert.equal(roles.byPerson(valid,'kevin-knuth')[0].role,'published-commentary');
+assert.match(roles.byPerson(valid,'kevin-knuth')[0].context,/no independently retrieved original 2004 sensor track/i);
 assert.equal(roles.byPerson(valid,'david-grusch').length,0);
 for(const link of valid.links){
  const p=people.people.find(p=>p.id===link.personId);
@@ -31,23 +33,23 @@ for(const link of valid.links){
 const graph=dna.buildRelationshipGraph(claims.cases,'all',valid.links);
 assert.equal(graph.valid,true);
 assert.equal(graph.caseCount,3,'Nimitz added as documented public role case, not an invented claim');
-assert.equal(graph.personCount,3);
+assert.equal(graph.personCount,4);
 assert.equal(graph.claimCount,4,'No new unsupported historical claims');
-assert.equal(graph.documentCount,6,'Three previously cited sources plus three attribution sources');
-assert.equal(graph.edges.length,15,'Eight claim edges, one checked NARA mention, six cited involvement/source edges');
-assert.equal(graph.nodes.length,16);
+assert.equal(graph.documentCount,7,'Four attribution sources plus three original case sources');
+assert.equal(graph.edges.length,17,'Existing case edges plus eight draft involvement/source edges');
+assert.equal(graph.nodes.length,18);
 assert.equal(graph.verifiedCaseToCaseEdges,0,'No two incidents connected just because a person is listed');
 assert.equal(graph.independentWitnessCount,null);
-assert.equal(graph.edges.filter(e=>e.relation==='attributed-public-involvement').length,3);
-assert.equal(graph.edges.filter(e=>e.relation==='attribution-source-page').length,3);
+assert.equal(graph.edges.filter(e=>e.relation==='attributed-public-involvement').length,4);
+assert.equal(graph.edges.filter(e=>e.relation==='attribution-source-page').length,4);
 for(const e of graph.edges.filter(e=>e.relation.startsWith('attributed')||e.relation==='attribution-source-page')){
  assert.equal(e.reviewStatus,'editorial-draft');
  assert(e.evidence.url.startsWith('https://')&&e.evidence.locator);
 }
 const nimitz=dna.buildRelationshipGraph(claims.cases,'featured-nimitz-2004',valid.links);
 assert.equal(nimitz.caseCount,1);
-assert.equal(nimitz.personCount,1);
-assert.equal(nimitz.documentCount,1);
+assert.equal(nimitz.personCount,2);
+assert.equal(nimitz.documentCount,2);
 assert.equal(nimitz.claimCount,0,'No Nimitz claim is invented just to populate the graph');
 const tampered=structuredClone(raw);
 tampered.links[0].eventVerified=true;
@@ -74,4 +76,4 @@ for(const x of ["assets/person-case-links.js","data/public-person-case-links.jso
 assert(home.includes('ddLoadPersonCaseLinks()')&&home.includes('dd-case-people')&&
  home.includes('ddPersonCaseLedger.links')&&home.includes('ddPendingArchiveCase'));
 assert(directory.includes('person-case-links.js')&&app.includes('dd-person-case-link'));
-console.log('PASS R2 M8: 3 cited attributable roles, 3 cases, 3 people, 6 original source pages, no fabricated event or witness conclusions');
+console.log('PASS R2 M8+M53: 4 sourced person-case relations, 3 case nodes, 4 people, 7 source nodes, 0 verified incidents or independently counted witnesses');
