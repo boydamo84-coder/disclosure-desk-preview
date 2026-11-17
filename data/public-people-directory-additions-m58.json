@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "version": 1,
-  "edition": "2026-11-17-m58-staged-additions",
+  "edition": "2026-11-17-m58-six-profiles",
   "status": "staged_public_profiles_source_review_required_no_numeric_rating",
   "basePublicDirectoryCount": 50,
-  "additionalPeopleCount": 2,
+  "additionalPeopleCount": 6,
   "people": [
     {
       "id": "sean-kirkpatrick",
@@ -328,7 +328,406 @@
         "detail": "Editorial/publication photographs cannot be reused without a verified license and appropriate UK rights review.",
         "finalRightsApproval": false
       }
+    },
+    {
+      "id": "john-lear",
+      "name": "John Olsen Lear",
+      "role": "Aviator and public UFO claimant (1942–2022)",
+      "category": [
+        "Pilot",
+        "Researcher"
+      ],
+      "short": "American aviator associated with widely circulated public claims about UAP secrecy and extraterrestrial activity.",
+      "position": "Lear publicly advanced UFO-related interpretations; the original dated statements are attributed to him, not established as facts.",
+      "context": "Aviation credentials, interview provenance and independent physical records must be considered separately. Contradictions require exact dated quotations before they are flagged.",
+      "sources": [
+        {
+          "label": "Museum of Flight — John Lear archival biography",
+          "url": "https://archives.museumofflight.org/agents/people/4962"
+        },
+        {
+          "label": "UNLV Libraries — Lear oral-history finding aid",
+          "url": "https://special.library.unlv.edu/sites/default/files/finding-aids/OH-03428.pdf"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "The Museum of Flight documents John Olsen Lear's aviation-related biography and archival presence. Those records establish a career, not the substance of later UFO narratives.",
+        "Lear became a prominent public claimant about UFOs and government secrecy. This profile records his attributed views but does not endorse or disprove extraordinary alleged programmes.",
+        "Original dated broadcast recordings, transcripts and full oral-history material should be located before making individual evidence or inconsistency assertions."
+      ],
+      "milestones": [
+        {
+          "date": "1942–2022",
+          "title": "Archival dates",
+          "detail": "Museum of Flight identifies John Olsen Lear and his lifetime.",
+          "source": "https://archives.museumofflight.org/agents/people/4962"
+        },
+        {
+          "date": "Later career",
+          "title": "Public UFO accounts",
+          "detail": "UNLV maintains an oral-history source; detailed individual assertions await full original-record assessment.",
+          "source": "https://special.library.unlv.edu/sites/default/files/finding-aids/OH-03428.pdf"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Museum of Flight — John Lear archival biography",
+          "publisher": "Original institutional or archival source",
+          "date": "2026-11-17",
+          "url": "https://archives.museumofflight.org/agents/people/4962"
+        },
+        {
+          "label": "UNLV Libraries — Lear oral-history finding aid",
+          "publisher": "Original institutional or archival source",
+          "date": "2026-11-17",
+          "url": "https://special.library.unlv.edu/sites/default/files/finding-aids/OH-03428.pdf"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": [],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "historical_public_work",
+        "title": "John Lear aviation history and public UFO assertions",
+        "period": "Late 20th century–2022",
+        "description": "Primary institutional and publisher records document this person's research career, original historical role and published investigations. Source attribution alone does not verify any extraordinary claim.",
+        "openQuestions": "Read the original dated Lear interviews and oral-history account and compare first-person claims with contemporaneous source documents without inventing eyewitnesses.",
+        "sources": [
+          {
+            "title": "Museum of Flight — John Lear archival biography",
+            "url": "https://archives.museumofflight.org/agents/people/4962",
+            "locator": "Original institutional / archive record, corresponding section 1",
+            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
+            "sourceClass": "archive",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "UNLV Libraries — Lear oral-history finding aid",
+            "url": "https://special.library.unlv.edu/sites/default/files/finding-aids/OH-03428.pdf",
+            "locator": "Original institutional / archive record, corresponding section 2",
+            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
+            "sourceClass": "archive",
+            "indexedAt": "2026-11-17"
+          }
+        ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": "2026-11-17",
+        "sourceUrl": null,
+        "detail": "No new portrait licensed or approved for UK reuse; initials only.",
+        "finalRightsApproval": false
+      }
+    },
+    {
+      "id": "james-lacatski",
+      "name": "James T. Lacatski",
+      "role": "Former DIA official publicly associated with AAWSAP",
+      "category": [
+        "Former government official",
+        "Researcher"
+      ],
+      "short": "Associated with government-funded advanced aerospace research and public accounts of AAWSAP investigations.",
+      "position": "Lacatski is identified in public accounts as an AAWSAP programme figure. DIA contract records establish the programme and BAASS award, not independent verification of every account of his personal role.",
+      "context": "Agency descriptions and programme participants' claims may differ. Compare precise original dated quotations; the AAWSAP–AATIP nomenclature is contested and requires explicit explanation.",
+      "sources": [
+        {
+          "label": "DIA — original BAASS/AAWSAP contract briefing",
+          "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/"
+        },
+        {
+          "label": "AARO — historical review with AAWSAP/AATIP section",
+          "url": "https://media.defense.gov/2024/Mar/08/2003409233/-1/-1/0/DOPSR-CLEARED-508-COMPLIANT-HRRV1-08-MAR-2024-FINAL.PDF"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "James T. Lacatski is publicly associated with the Defense Intelligence Agency's AAWSAP-era research. Official contracting records describe a BAASS award for unconventional aerospace research.",
+        "Published books and interviews attributed to Lacatski contain additional programme claims. This profile separates his own statements from contracting evidence and agency retrospective summaries.",
+        "AAWSAP and AATIP labels have been conflated in some reports. The reader should inspect each original record's precise name, funding dates, scope and participant attribution."
+      ],
+      "milestones": [
+        {
+          "date": "2008",
+          "title": "AAWSAP contract",
+          "detail": "DIA's original documentary record establishes a procurement relationship with Bigelow Aerospace Advanced Space Studies.",
+          "source": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/"
+        },
+        {
+          "date": "2024",
+          "title": "AARO retrospective report",
+          "detail": "AARO published its interpretation of AAWSAP/AATIP, distinct from individual participants' accounts.",
+          "source": "https://media.defense.gov/2024/Mar/08/2003409233/-1/-1/0/DOPSR-CLEARED-508-COMPLIANT-HRRV1-08-MAR-2024-FINAL.PDF"
+        }
+      ],
+      "articles": [
+        {
+          "label": "DIA — original BAASS/AAWSAP contract briefing",
+          "publisher": "Original institutional or archival source",
+          "date": "2026-11-17",
+          "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/"
+        },
+        {
+          "label": "AARO — historical review with AAWSAP/AATIP section",
+          "publisher": "Original institutional or archival source",
+          "date": "2026-11-17",
+          "url": "https://media.defense.gov/2024/Mar/08/2003409233/-1/-1/0/DOPSR-CLEARED-508-COMPLIANT-HRRV1-08-MAR-2024-FINAL.PDF"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": [],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "historical_public_work",
+        "title": "AAWSAP official contracting and public programme accounts",
+        "period": "2008 onward",
+        "description": "Primary institutional and publisher records document this person's research career, original historical role and published investigations. Source attribution alone does not verify any extraordinary claim.",
+        "openQuestions": "Check Lacatski's precise role against dated agency records and identify original passages in his own publications; do not infer possession of alien objects from government funding.",
+        "sources": [
+          {
+            "title": "DIA — original BAASS/AAWSAP contract briefing",
+            "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/",
+            "locator": "Original institutional / archive record, corresponding section 1",
+            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
+            "sourceClass": "archive",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "AARO — historical review with AAWSAP/AATIP section",
+            "url": "https://media.defense.gov/2024/Mar/08/2003409233/-1/-1/0/DOPSR-CLEARED-508-COMPLIANT-HRRV1-08-MAR-2024-FINAL.PDF",
+            "locator": "Original institutional / archive record, corresponding section 2",
+            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
+            "sourceClass": "archive",
+            "indexedAt": "2026-11-17"
+          }
+        ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": "2026-11-17",
+        "sourceUrl": null,
+        "detail": "No new portrait licensed or approved for UK reuse; initials only.",
+        "finalRightsApproval": false
+      }
+    },
+    {
+      "id": "j-allen-hynek",
+      "name": "J. Allen Hynek",
+      "role": "Astronomer, Project Blue Book consultant and CUFOS founder (1910–1986)",
+      "category": [
+        "Scientist",
+        "Researcher"
+      ],
+      "short": "Scientist whose Project Blue Book consulting and later UFO research are documented in university and archival holdings.",
+      "position": "Hynek consulted for Air Force UFO investigations and later helped establish independent research through CUFOS. Changing interpretations require dated context.",
+      "context": "His official report-writing, independent field investigations and later published views should be compared by incident and date; evolving opinions are not automatically contradictions.",
+      "sources": [
+        {
+          "label": "Northwestern University — J. Allen Hynek papers",
+          "url": "https://findingaids.library.northwestern.edu/repositories/6/resources/373"
+        },
+        {
+          "label": "Center for UFO Studies — history and research mission",
+          "url": "https://cufos.org/about-us/"
+        },
+        {
+          "label": "National Archives — Project Blue Book case files",
+          "url": "https://www.archives.gov/research/military/air-force/ufos"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "J. Allen Hynek (1910–1986) was an astronomer associated with Northwestern University and U.S. Air Force Project Blue Book research. Northwestern preserves original professional and UFO-related papers.",
+        "Hynek later founded the Center for UFO Studies and developed methods for scientific classification of reported close encounters. Original studies are distinct from speculative explanations of any given report.",
+        "Original Project Blue Book case reports, university archives and CUFOS materials can be compared chronologically to show what changed and which information was available."
+      ],
+      "milestones": [
+        {
+          "date": "1952–1969",
+          "title": "Project Blue Book consultant",
+          "detail": "Air Force investigative records and Northwestern holdings document his scientific involvement.",
+          "source": "https://www.archives.gov/research/military/air-force/ufos"
+        },
+        {
+          "date": "1973",
+          "title": "CUFOS development",
+          "detail": "Northwestern's archival finding aid documents the centre's development.",
+          "source": "https://findingaids.library.northwestern.edu/repositories/6/resources/373"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Northwestern University — J. Allen Hynek papers",
+          "publisher": "Original institutional or archival source",
+          "date": "2026-11-17",
+          "url": "https://findingaids.library.northwestern.edu/repositories/6/resources/373"
+        },
+        {
+          "label": "Center for UFO Studies — history and research mission",
+          "publisher": "Original institutional or archival source",
+          "date": "2026-11-17",
+          "url": "https://cufos.org/about-us/"
+        },
+        {
+          "label": "National Archives — Project Blue Book case files",
+          "publisher": "Original institutional or archival source",
+          "date": "2026-11-17",
+          "url": "https://www.archives.gov/research/military/air-force/ufos"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": [],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "historical_public_work",
+        "title": "Blue Book consulting and later scientific UFO research",
+        "period": "1940s–1986",
+        "description": "Primary institutional and publisher records document this person's research career, original historical role and published investigations. Source attribution alone does not verify any extraordinary claim.",
+        "openQuestions": "Inspect Hynek's dated original case reports and follow-up writings before identifying an inconsistency; distinguish changing source data and interpretation.",
+        "sources": [
+          {
+            "title": "Northwestern University — J. Allen Hynek papers",
+            "url": "https://findingaids.library.northwestern.edu/repositories/6/resources/373",
+            "locator": "Original institutional / archive record, corresponding section 1",
+            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
+            "sourceClass": "archive",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "Center for UFO Studies — history and research mission",
+            "url": "https://cufos.org/about-us/",
+            "locator": "Original institutional / archive record, corresponding section 2",
+            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
+            "sourceClass": "archive",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "National Archives — Project Blue Book case files",
+            "url": "https://www.archives.gov/research/military/air-force/ufos",
+            "locator": "Original institutional / archive record, corresponding section 3",
+            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
+            "sourceClass": "archive",
+            "indexedAt": "2026-11-17"
+          }
+        ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": "2026-11-17",
+        "sourceUrl": null,
+        "detail": "No new portrait licensed or approved for UK reuse; initials only.",
+        "finalRightsApproval": false
+      }
+    },
+    {
+      "id": "stanton-friedman",
+      "name": "Stanton T. Friedman",
+      "role": "Nuclear physicist and UFO researcher (1934–2019)",
+      "category": [
+        "Scientist",
+        "Researcher",
+        "Disclosure advocate"
+      ],
+      "short": "Physicist and UFO investigator known for public analysis of Roswell and claims of government secrecy.",
+      "position": "Friedman researched and argued for extraterrestrial interpretations of some incidents. Published arguments and interviews are his, not automatically verified findings.",
+      "context": "Archival preservation supports the history of his research, not the physical cause of a given case. Compare original witness accounts, documents and opposing analyses.",
+      "sources": [
+        {
+          "label": "Fredericton Region Museum — Stanton Friedman exhibit",
+          "url": "https://www.frederictonregionmuseum.com/stanton-friedman-ufo-exhibit/"
+        },
+        {
+          "label": "Brunswickan — Friedman archive collection reporting",
+          "url": "https://thebruns.ca/aliens-in-new-brunswick-frederictons-secret-not-so-secret-ufologist/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Stanton T. Friedman (1934–2019) had a professional background in nuclear physics and became a prominent researcher and advocate concerning UFO reports.",
+        "The Fredericton Region Museum preserves research materials from Friedman, including items related to the Roswell case. Collection history should be distinguished from validation of disputed events.",
+        "Specific claims must be linked to their first publication or recorded interview, then compared with official records, alternative interpretations and contemporary witness statements."
+      ],
+      "milestones": [
+        {
+          "date": "1934–2019",
+          "title": "Life and research record",
+          "detail": "Fredericton Region Museum documents Friedman's career and its preserved research materials.",
+          "source": "https://www.frederictonregionmuseum.com/stanton-friedman-ufo-exhibit/"
+        },
+        {
+          "date": "2019",
+          "title": "Archival reporting",
+          "detail": "Published reporting describes efforts to catalogue and preserve Friedman's papers.",
+          "source": "https://thebruns.ca/aliens-in-new-brunswick-frederictons-secret-not-so-secret-ufologist/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "Fredericton Region Museum — Stanton Friedman exhibit",
+          "publisher": "Original institutional or archival source",
+          "date": "2026-11-17",
+          "url": "https://www.frederictonregionmuseum.com/stanton-friedman-ufo-exhibit/"
+        },
+        {
+          "label": "Brunswickan — Friedman archive collection reporting",
+          "publisher": "Original institutional or archival source",
+          "date": "2026-11-17",
+          "url": "https://thebruns.ca/aliens-in-new-brunswick-frederictons-secret-not-so-secret-ufologist/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": [],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "historical_public_work",
+        "title": "Roswell research, public claims and archived documentary work",
+        "period": "1950s–2019",
+        "description": "Primary institutional and publisher records document this person's research career, original historical role and published investigations. Source attribution alone does not verify any extraordinary claim.",
+        "openQuestions": "Trace specific Roswell witness statements back to earliest available recordings, review chronologies and test alternative interpretations instead of person-wide believability ratings.",
+        "sources": [
+          {
+            "title": "Fredericton Region Museum — Stanton Friedman exhibit",
+            "url": "https://www.frederictonregionmuseum.com/stanton-friedman-ufo-exhibit/",
+            "locator": "Original institutional / archive record, corresponding section 1",
+            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
+            "sourceClass": "archive",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "Brunswickan — Friedman archive collection reporting",
+            "url": "https://thebruns.ca/aliens-in-new-brunswick-frederictons-secret-not-so-secret-ufologist/",
+            "locator": "Original institutional / archive record, corresponding section 2",
+            "note": "This verified source link supports the named original role or research collection but does not demonstrate that any extraordinary technology, alien origin or reported encounter is authentic.",
+            "sourceClass": "archive",
+            "indexedAt": "2026-11-17"
+          }
+        ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": "2026-11-17",
+        "sourceUrl": null,
+        "detail": "No new portrait licensed or approved for UK reuse; initials only.",
+        "finalRightsApproval": false
+      }
     }
   ],
-  "editorialCaution": "First-party source record proves role or statement attribution, not extraordinary event truth; disagreements are not lies unless independently established. No person rating, no photo reuse, no direct archive case link without documented exact role."
+  "editorialCaution": "Six public-source profiles are staged without publishing scores, unverifiable social IDs, images, unsupported case links or claims of intentional dishonesty."
 }
