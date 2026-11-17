@@ -1,0 +1,38 @@
+name: "Who M59 Sean Kirkpatrick source profile NO DEPLOY"
+on:
+  push:
+    branches:
+      - prep/who-m59-kirkpatrick-directory-and-source-matrix-20261117
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  m59-kirkpatrick-source-profile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Syntax check of staged Who reader and source profile
+        run: |
+          node --check assets/people-directory.js
+          node --check scripts/test_who_m59_kirkpatrick_directory_contract.cjs
+      - name: Validate original 50 and the one newly activated source-backed profile
+        run: node scripts/test_who_m59_kirkpatrick_directory_contract.cjs
+      - name: Verify locally packaged website without publishing
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_who_public_package_boundary.cjs
+          test -f .release-staging/public-site/data/public-people-directory.json
+          test -f .release-staging/public-site/data/public-people-directory-additions-m58.json
+          test -f .release-staging/public-site/who-is-who.html
+          test -f .release-staging/public-site/assets/people-directory.js
+          test ! -e .release-staging/public-site/docs/WHO_M59_KIRKPATRICK_SOURCE_MATRIX_2026-11-17.md
+          test ! -e .release-staging/public-site/scripts/test_who_m59_kirkpatrick_directory_contract.cjs
+          echo 'M59 stage only — no Netlify deploy, no APK, no account/vote changes'
