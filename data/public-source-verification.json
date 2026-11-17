@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "edition": "m39-public-source-verification-tracker",
+  "publicationStatus": "candidate_not_deployed",
+  "lastUpdated": "2026-11-17",
+  "methodology": "Email was accepted for sending via the research desk's connected account on 17 November 2026. This is not proof that a department received, accepted, answered, or opened a formal FOIA request. Public statuses are updated manually only when verified; date stamp is shown to avoid a misleading live status.",
+  "records": [
+    {
+      "id": "osd-151-pages",
+      "agency": "Office of the Secretary of Defense / Joint Staff (Pentagon)",
+      "category": "Government records",
+      "title": "Seven Navy-referred documents — 151 pages",
+      "originalCase": "DON-NAVY-2020-007231",
+      "question": "Did OSD assign a tracking number or issue a public decision for the seven documents (151 pages) referred by the Navy in its 8 July 2025 letter?",
+      "sourceWarning": "The 151 pages referred in the Navy letter must not be confused with separate Pentagon FOIA cases 19-F-1420 or 20-F-1095.",
+      "dateSent": "2026-11-17",
+      "lastVerified": "2026-11-17",
+      "status": "sent_unacknowledged",
+      "statusLabel": "Enquiry sent · acknowledgement not verified",
+      "statusDetail": "The outgoing email service confirmed sending. Agency delivery, acknowledgement, any response and the referral's current disposition have not been verified. This was an information enquiry, not a confirmed new FOIA filing.",
+      "requestMethod": "Email enquiry asking for a public case ID, disposition date or released-record link; no private requester details sought.",
+      "evidenceRequirement": "An identifiable OSD acknowledgement, case number, official decision or public document specifically matching the seven Navy-referred documents.",
+      "timeline": [
+        {
+          "date": "2025-07-08",
+          "kind": "source",
+          "title": "Original referral documented",
+          "detail": "NAVAIR letter reported seven documents (151 pages) referred to OSD for its own review."
+        },
+        {
+          "date": "2026-11-17",
+          "kind": "sent",
+          "title": "Research enquiry sent",
+          "detail": "Email accepted for sending; delivery and acknowledgement unverified."
+        }
+      ],
+      "publicSources": [
+        {
+          "label": "Navy FOIA letter (government-authored, third-party mirror)",
+          "url": "https://documents2.theblackvault.com/documents/navy/2020-007231.pdf",
+          "purpose": "The source that identifies seven documents and 151 referred pages.",
+          "hostType": "mirror"
+        },
+        {
+          "label": "Separate OSD case 19-F-1420 (not the confirmed referral)",
+          "url": "https://documents2.theblackvault.com/documents/osd/19-F-1420.pdf",
+          "purpose": "A distinct FOIA request sometimes described as 151 pages; not evidence this referral was resolved.",
+          "hostType": "mirror"
+        }
+      ]
+    },
+    {
+      "id": "nara-mj12-revision",
+      "agency": "National Archives and Records Administration (NARA)",
+      "category": "Archival document authenticity",
+      "title": "9 May 1988 revised MJ-12 reference report",
+      "originalCase": "NARA Military Reference Branch, Reference Report on MJ-12",
+      "question": "Did NARA issue a revised report dated 9 May 1988 and change a civil-defence folder date from 1954 to 1956? Where is its official archived copy?",
+      "sourceWarning": "The reference report discusses disputed document provenance. Neither its existence nor the year correction authenticates a purported MJ-12 programme.",
+      "dateSent": "2026-11-17",
+      "lastVerified": "2026-11-17",
+      "status": "sent_unacknowledged",
+      "statusLabel": "Enquiry sent · acknowledgement not verified",
+      "statusDetail": "The outgoing email service confirmed sending. Agency delivery, acknowledgement, response, and official custody of the 1988 revised scan have not been verified. This is an archival-reference question, not a confirmation of the MJ-12 allegation.",
+      "requestMethod": "Email enquiry requesting an archive reference or authenticated digital copy; no paid scan ordered.",
+      "evidenceRequirement": "A reply from NARA identifying the May 1988 revision and an official catalogue entry, original scan or certified copy.",
+      "timeline": [
+        {
+          "date": "1987-07-22",
+          "kind": "source",
+          "title": "Earlier NARA report",
+          "detail": "An official reproduced report describes the meeting folder year as 1954."
+        },
+        {
+          "date": "1988-05-09",
+          "kind": "source",
+          "title": "Apparent revision dated",
+          "detail": "A historically circulating third-party scan underlines 1956; direct government custody is not yet confirmed."
+        },
+        {
+          "date": "2026-11-17",
+          "kind": "sent",
+          "title": "Reference enquiry sent",
+          "detail": "Email accepted for sending; delivery and acknowledgement unverified."
+        }
+      ],
+      "publicSources": [
+        {
+          "label": "Current NARA MJ-12 reference page (official)",
+          "url": "https://www.archives.gov/research/military/air-force/ufos",
+          "purpose": "Shows the modern 1956 wording.",
+          "hostType": "official"
+        },
+        {
+          "label": "1987 report in Reagan Presidential Library collection (official)",
+          "url": "https://reaganlibrary.archives.gov/public/2021-06/40-654-209237726-004-008-2021.pdf",
+          "purpose": "Official archival reproduction containing the earlier 1954 wording.",
+          "hostType": "official"
+        },
+        {
+          "label": "Historical 1988 revised scan (third-party collection)",
+          "url": "https://projectaquarius.mufon.com/wp-content/uploads/pcg-bill-moore-files-collection/ARCHIVES-NATL.pdf",
+          "purpose": "Privately hosted visual source of the apparent underlined revision, not independently authenticated by NARA.",
+          "hostType": "mirror"
+        }
+      ]
+    }
+  ],
+  "disclosure": {
+    "noFeeAuthorised": true,
+    "noFormalFOIAFilingEstablished": true,
+    "outgoingMailAcceptedNotAgencyReceipt": true,
+    "agencyResponseConfirmed": false,
+    "automaticInboxPolling": false,
+    "publicSenderAddress": false,
+    "privateMessageIdsPublished": false,
+    "personalBelievabilityScores": false,
+    "extraordinaryUAPConclusion": false,
+    "claimSpecificPercentagesPublished": false,
+    "ownerApprovalRequiredForLiveDeploy": true,
+    "updatePolicy": "Manual and dated. An enquiry moves to ‘Acknowledged’ only with verified receipt; ‘Response received’ only with an inspected agency response and source attribution. Clearly mark partial, unresolved, disputed or withheld material. Never imply receipt or answer by elapsed time."
+  }
+}
