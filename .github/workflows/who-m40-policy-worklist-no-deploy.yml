@@ -12,6 +12,7 @@ on:
       - prep/who-m47-navy-aircrew-records-20261117
       - prep/who-m48-omaha-and-nimitz-analysis-20261117
       - prep/who-m49-rendlesham-records-20261117
+      - prep/who-m50-complete-evidence-summary-links-20261117
   workflow_dispatch:
 
 permissions:
@@ -52,6 +53,7 @@ jobs:
           node --check scripts/test_who_m38_cross_case_guard.cjs
           node --check scripts/test_who_m39_source_tracker_contract.cjs
           node --check scripts/test_who_m40_policy_worklist.cjs
+          node --check scripts/test_who_m50_summary_links.cjs
           node --check assets/source-verification.js
           node --check assets/people-directory.js
           node scripts/test_who_claim_evidence_contract.cjs
@@ -75,6 +77,7 @@ jobs:
           node scripts/test_who_m38_cross_case_guard.cjs
           node scripts/test_who_m39_source_tracker_contract.cjs
           node scripts/test_who_m40_policy_worklist.cjs
+          node scripts/test_who_m50_summary_links.cjs
       - name: Assert private rating SQL and synthetic accounts not copied to release candidate
         run: |
           test ! -f docs/WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql
