@@ -276,23 +276,28 @@
             "links": [
               {
                 "title": "July 2023 House hearing · Grusch’s public testimony",
-                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/pdf/CHRG-118hhrg53022.pdf"
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/pdf/CHRG-118hhrg53022.pdf",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "Grusch’s written statement to the House",
-                "url": "https://www.congress.gov/118/meeting/house/116282/witnesses/HHRG-118-GO06-Wstate-GruschD-20230726.pdf"
+                "url": "https://www.congress.gov/118/meeting/house/116282/witnesses/HHRG-118-GO06-Wstate-GruschD-20230726.pdf",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "Unclassified May 2022 filing · publicly hosted copy",
-                "url": "https://www.theblackvault.com/documentarchive/wp-content/uploads/2024/03/David-Grusch-PPD-19-Procedural-Filing.pdf"
+                "url": "https://www.theblackvault.com/documentarchive/wp-content/uploads/2024/03/David-Grusch-PPD-19-Procedural-Filing.pdf",
+                "hostKind": "independent_archive"
               },
               {
                 "title": "Compass Rose’s June 2023 statement, reproduced by The Debrief",
-                "url": "https://thedebrief.org/compass-rose-attorneys-formally-end-association-with-uap-whistleblower-david-grusch/"
+                "url": "https://thedebrief.org/compass-rose-attorneys-formally-end-association-with-uap-whistleblower-david-grusch/",
+                "hostKind": "publisher_page"
               },
               {
                 "title": "AARO FOIA 24-F-0266 · interview memo and correspondence",
-                "url": "https://www.aaro.mil/Portals/136/PDFs/FOIA/2024%20FOIAs/24-F-0266.pdf"
+                "url": "https://www.aaro.mil/Portals/136/PDFs/FOIA/2024%20FOIAs/24-F-0266.pdf",
+                "hostKind": "agency_hosted"
               }
             ]
           }
@@ -620,15 +625,18 @@
             "links": [
               {
                 "title": "2023 House hearing · Graves’s statement and Raskin’s questions",
-                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm"
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "April 2014 Navy hazard reports · released scans hosted by The War Zone",
-                "url": "https://www.twz.com/33371/here-are-the-detailed-ufo-incident-reports-from-navy-pilots-flying-off-the-east-coast"
+                "url": "https://www.twz.com/33371/here-are-the-detailed-ufo-incident-reports-from-navy-pilots-flying-off-the-east-coast",
+                "hostKind": "publisher_page"
               },
               {
                 "title": "FAA JO 7210.3 · §4-7-4 UAP reporting procedure",
-                "url": "https://www.faa.gov/air_traffic/publications/atpubs/foa_html/chap4_section_7.html"
+                "url": "https://www.faa.gov/air_traffic/publications/atpubs/foa_html/chap4_section_7.html",
+                "hostKind": "agency_hosted"
               }
             ]
           }
@@ -924,19 +932,23 @@
             "links": [
               {
                 "title": "2023 House hearing · Fravor’s statement and Langworthy’s questions",
-                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm"
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "CBS interview · Alex Dietrich and David Fravor",
-                "url": "https://www.cbsnews.com/news/ufo-military-intelligence-60-minutes-2021-08-29/"
+                "url": "https://www.cbsnews.com/news/ufo-military-intelligence-60-minutes-2021-08-29/",
+                "hostKind": "publisher_page"
               },
               {
                 "title": "2019 Intelligencer interview · Chad Underwood on recording FLIR",
-                "url": "https://nymag.com/intelligencer/2019/12/tic-tac-ufo-video-q-and-a-with-navy-pilot-chad-underwood.html"
+                "url": "https://nymag.com/intelligencer/2019/12/tic-tac-ufo-video-q-and-a-with-navy-pilot-chad-underwood.html",
+                "hostKind": "publisher_page"
               },
               {
                 "title": "April 2020 Pentagon statement · official release of Navy footage",
-                "url": "https://www.war.gov/News/Releases/article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/"
+                "url": "https://www.war.gov/News/Releases/article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+                "hostKind": "agency_hosted"
               }
             ]
           }
@@ -1278,19 +1290,23 @@
             "links": [
               {
                 "title": "7NEWS Australia original upload · cover-up chapter, 12:20",
-                "url": "https://www.youtube.com/watch?v=x_9gTDXF9Vc&t=740s"
+                "url": "https://www.youtube.com/watch?v=x_9gTDXF9Vc&t=740s",
+                "hostKind": "video_platform"
               },
               {
                 "title": "7NEWS Australia original upload · bodies claim chapter, 16:10",
-                "url": "https://www.youtube.com/watch?v=x_9gTDXF9Vc&t=970s"
+                "url": "https://www.youtube.com/watch?v=x_9gTDXF9Vc&t=970s",
+                "hostKind": "video_platform"
               },
               {
                 "title": "ABC Media Watch transcript, July 7NEWS excerpts",
-                "url": "https://www.abc.net.au/mediawatch/episodes/ufos/102785078"
+                "url": "https://www.abc.net.au/mediawatch/episodes/ufos/102785078",
+                "hostKind": "publisher_page"
               },
               {
                 "title": "June 2023 NewsNation article filed with the House",
-                "url": "https://docs.house.gov/meetings/GO/GO06/20230726/116282/HHRG-118-GO06-20230726-SD006.pdf"
+                "url": "https://docs.house.gov/meetings/GO/GO06/20230726/116282/HHRG-118-GO06-20230726-SD006.pdf",
+                "hostKind": "agency_hosted"
               }
             ]
           }
@@ -1618,23 +1634,28 @@
             "links": [
               {
                 "title": "CNN interview · Corbell’s Omaha account and Pentagon response",
-                "url": "https://transcripts.cnn.com/show/ebo/date/2021-05-31/segment/01"
+                "url": "https://transcripts.cnn.com/show/ebo/date/2021-05-31/segment/01",
+                "hostKind": "publisher_page"
               },
               {
                 "title": "Corbell’s May 2021 release · radar-screen recording",
-                "url": "https://www.extraordinarybeliefs.com/news4/navy-ufo-radar-data"
+                "url": "https://www.extraordinarybeliefs.com/news4/navy-ufo-radar-data",
+                "hostKind": "publisher_page"
               },
               {
                 "title": "Corbell’s May 2021 release · infrared recording",
-                "url": "https://www.extraordinarybeliefs.com/news4/navy-filmed-spherical-ufos"
+                "url": "https://www.extraordinarybeliefs.com/news4/navy-filmed-spherical-ufos",
+                "hostKind": "publisher_page"
               },
               {
                 "title": "Navy FOIA DON-NAVY-2021-005821 · deck-log search response",
-                "url": "https://documents2.theblackvault.com/documents/navy/DON-NAVY-2021-005821.pdf"
+                "url": "https://documents2.theblackvault.com/documents/navy/DON-NAVY-2021-005821.pdf",
+                "hostKind": "independent_archive"
               },
               {
                 "title": "15 July 2019 Navy deck-log excerpts · scans hosted by The War Zone",
-                "url": "https://www.twz.com/39913/multiple-destroyers-were-swarmed-by-mysterious-drones-off-california-over-numerous-nights"
+                "url": "https://www.twz.com/39913/multiple-destroyers-were-swarmed-by-mysterious-drones-off-california-over-numerous-nights",
+                "hostKind": "publisher_page"
               }
             ]
           }
@@ -1968,23 +1989,28 @@
             "links": [
               {
                 "title": "September 2025 House transcript · Knapp’s opening statement",
-                "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61718/html/CHRG-119hhrg61718.htm"
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61718/html/CHRG-119hhrg61718.htm",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "Knapp’s written testimony · Topic Two",
-                "url": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf"
+                "url": "https://oversight.house.gov/wp-content/uploads/2025/09/George-Knapp-Written-Testimony.pdf",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "DIA FOIA reading room · AAWSAP contractor and deliverables memo",
-                "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170015/"
+                "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170015/",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "AARO historical report · alleged transfer and signed denial",
-                "url": "https://www.aaro.mil/Portals/136/PDFs/AARO_Historical_Record_Report_Volume_1_2024.pdf"
+                "url": "https://www.aaro.mil/Portals/136/PDFs/AARO_Historical_Record_Report_Volume_1_2024.pdf",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "AARO history of the separate DHS KONA BLUE proposal",
-                "url": "https://www.aaro.mil/Portals/136/PDFs/UAP_RECORDS_RESEARCH/History_and_Origin_of_KONA_BLUE_FINAL_508.pdf"
+                "url": "https://www.aaro.mil/Portals/136/PDFs/UAP_RECORDS_RESEARCH/History_and_Origin_of_KONA_BLUE_FINAL_508.pdf",
+                "hostKind": "agency_hosted"
               }
             ]
           }
@@ -2316,15 +2342,18 @@
             "links": [
               {
                 "title": "Mick West · original 2022 Gimbal analysis and proposed camera-glare model",
-                "url": "https://www.metabunk.org/threads/gimbal-ufo-a-new-analysis.12333/"
+                "url": "https://www.metabunk.org/threads/gimbal-ufo-a-new-analysis.12333/",
+                "hostKind": "publisher_page"
               },
               {
                 "title": "DoD original public release of the three historical Navy UAP videos",
-                "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/"
+                "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "Metabunk discussion · later challenges to the glare explanation",
-                "url": "https://www.metabunk.org/threads/the-gimbal-ufo-marik-claims-new-findings-falsify-prosaic-explanations.14839/"
+                "url": "https://www.metabunk.org/threads/the-gimbal-ufo-marik-claims-new-findings-falsify-prosaic-explanations.14839/",
+                "hostKind": "publisher_page"
               }
             ]
           }
@@ -2640,15 +2669,18 @@
             "links": [
               {
                 "title": "Papoose Lake archive, third-party transcript of the December interview",
-                "url": "https://www.papooselake.org/interview-transcripts/1989-on-the-record-with-george-knapp"
+                "url": "https://www.papooselake.org/interview-transcripts/1989-on-the-record-with-george-knapp",
+                "hostKind": "independent_archive"
               },
               {
                 "title": "Disclosdex, another transcript copy of the same interview",
-                "url": "https://disclosdex.com/documents/1989-12-09-knapp-lazar-interview"
+                "url": "https://disclosdex.com/documents/1989-12-09-knapp-lazar-interview",
+                "hostKind": "independent_archive"
               },
               {
                 "title": "Nevada Public Radio, Knapp and Stoldal discuss what KLAS could verify",
-                "url": "https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real"
+                "url": "https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real",
+                "hostKind": "publisher_page"
               }
             ]
           }
@@ -2956,19 +2988,23 @@
             "links": [
               {
                 "title": "NewsNation January 18 special · Barber’s account, about 10:49",
-                "url": "https://www.youtube.com/watch?v=3dtA9w5ldHw&t=649s"
+                "url": "https://www.youtube.com/watch?v=3dtA9w5ldHw&t=649s",
+                "hostKind": "video_platform"
               },
               {
                 "title": "NewsNation January 18 special · footage introduction, about 13:12",
-                "url": "https://www.youtube.com/watch?v=3dtA9w5ldHw&t=792s"
+                "url": "https://www.youtube.com/watch?v=3dtA9w5ldHw&t=792s",
+                "hostKind": "video_platform"
               },
               {
                 "title": "NewsNation Reality Check extended interview",
-                "url": "https://www.youtube.com/watch?v=t37-SKj4rtY"
+                "url": "https://www.youtube.com/watch?v=t37-SKj4rtY",
+                "hostKind": "video_platform"
               },
               {
                 "title": "NewsNation Reality Check four-minute excerpt",
-                "url": "https://www.youtube.com/watch?v=PGOpHdHSjTE"
+                "url": "https://www.youtube.com/watch?v=PGOpHdHSjTE",
+                "hostKind": "video_platform"
               }
             ]
           }
@@ -3290,15 +3326,19 @@
             "links": [
               {
                 "title": "ABC News · contemporary reporting on the 9 May 2001 press conference",
-                "url": "https://abcnews.go.com/Technology/story?id=98572&page=1"
+                "url": "https://abcnews.go.com/Technology/story?id=98572&page=1",
+                "hostKind": "publisher_page"
               },
               {
                 "title": "Disclosure Project Archive · original-era National Press Club recording, personal collection",
-                "url": "https://www.disclosureprojectarchive.net/items/show/6"
+                "url": "https://disclosureprojectarchive.net/items/show/6",
+                "accessNote": "Canonical archive address resolved in web review on 17 November 2026; hosted in a personal collection.",
+                "hostKind": "independent_archive"
               },
               {
                 "title": "Washington Post · separate contemporary account of the press conference",
-                "url": "https://www.washingtonpost.com/archive/lifestyle/2001/05/10/ufo-believers-sighted-here/f5b0fb0e-80f6-4d7e-8c25-e57d1aa69135/"
+                "url": "https://www.washingtonpost.com/archive/lifestyle/2001/05/10/ufo-believers-sighted-here/f5b0fb0e-80f6-4d7e-8c25-e57d1aa69135/",
+                "hostKind": "publisher_page"
               }
             ]
           }
@@ -3651,19 +3691,23 @@
             "links": [
               {
                 "title": "NewsNation · August 2025 interview with Larry Warren",
-                "url": "https://www.youtube.com/watch?v=21yW_XZR2LU"
+                "url": "https://www.youtube.com/watch?v=21yW_XZR2LU",
+                "hostKind": "video_platform"
               },
               {
                 "title": "NewsNation · October 2025 response from Charles Halt",
-                "url": "https://www.youtube.com/watch?v=UfKwQgmHfII"
+                "url": "https://www.youtube.com/watch?v=UfKwQgmHfII",
+                "hostKind": "video_platform"
               },
               {
                 "title": "Suffolk Constabulary · 26 December station records, PDF pp. 1–2",
-                "url": "https://www.ufoscans.com/raw/British%20UFO%20Files/unusuallights.pdf"
+                "url": "https://www.ufoscans.com/raw/British%20UFO%20Files/unusuallights.pdf",
+                "hostKind": "independent_archive"
               },
               {
                 "title": "Halt’s 13 January 1981 memo · released scan hosted by The Black Vault",
-                "url": "https://www.theblackvault.com/documentarchive/the-halt-memo-the-rendlesham-forest-incident/"
+                "url": "https://www.theblackvault.com/documentarchive/the-halt-memo-the-rendlesham-forest-incident/",
+                "hostKind": "independent_archive"
               }
             ]
           }
@@ -3942,11 +3986,13 @@
             "links": [
               {
                 "title": "November 2024 House transcript · Burlison’s exchange with Elizondo",
-                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm"
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "Published copy of Elizondo’s December 2024 written answers · questions 6–8",
-                "url": "https://douglasjohnson.ghost.io/content/files/2025/02/House-Oversight-QFR-Elizondo--Dec.-2024-.pdf"
+                "url": "https://douglasjohnson.ghost.io/content/files/2025/02/House-Oversight-QFR-Elizondo--Dec.-2024-.pdf",
+                "hostKind": "independent_archive"
               }
             ]
           }
@@ -4269,19 +4315,23 @@
             "links": [
               {
                 "title": "Christopher Mellon · original October 2025 records-release commentary",
-                "url": "https://christopherkmellon.substack.com/p/the-us-government-is-sitting-on-a"
+                "url": "https://christopherkmellon.substack.com/p/the-us-government-is-sitting-on-a",
+                "hostKind": "publisher_page"
               },
               {
                 "title": "National Archives · UAP Record Group 615 holdings and receipt context",
-                "url": "https://www.archives.gov/research/topics/uaps/rg-615"
+                "url": "https://www.archives.gov/research/topics/uaps/rg-615",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "NARA AC 04.2025 · agency transfer instruction",
-                "url": "https://www.archives.gov/records-mgmt/memos/ac-04-2025"
+                "url": "https://www.archives.gov/records-mgmt/memos/ac-04-2025",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "NARA · April 2025 announcement of received UAP records",
-                "url": "https://www.archives.gov/press/press-releases/2025/nr25-07"
+                "url": "https://www.archives.gov/press/press-releases/2025/nr25-07",
+                "hostKind": "agency_hosted"
               }
             ]
           }
@@ -4600,23 +4650,28 @@
             "links": [
               {
                 "title": "NASA/JPL record of the 2014 fireball and its light curve",
-                "url": "https://cneos.jpl.nasa.gov/fireballs/lc/bolide.2014.008.170534.pdf"
+                "url": "https://cneos.jpl.nasa.gov/fireballs/lc/bolide.2014.008.170534.pdf",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "Loeb and colleagues · 2024 chemical classification, §§3 and 7",
-                "url": "https://galileo.hsites.harvard.edu/sites/g/files/omnuum6371/files/chemical_classification_of_spherules_1-s2.0-s0009254124004959-main.pdf"
+                "url": "https://galileo.hsites.harvard.edu/sites/g/files/omnuum6371/files/chemical_classification_of_spherules_1-s2.0-s0009254124004959-main.pdf",
+                "hostKind": "research_publication"
               },
               {
                 "title": "Rudraswami, Singh and Pandey · 2025 reassessment, journal preview",
-                "url": "https://www.sciencedirect.com/science/article/abs/pii/S000925412500018X"
+                "url": "https://www.sciencedirect.com/science/article/abs/pii/S000925412500018X",
+                "hostKind": "publisher_page"
               },
               {
                 "title": "Hyung and colleagues · published Australasian tektite comparison",
-                "url": "https://doi.org/10.3847/2515-5172/ae1448"
+                "url": "https://doi.org/10.3847/2515-5172/ae1448",
+                "hostKind": "research_publication"
               },
               {
                 "title": "Fernando and colleagues · published seismic and acoustic analysis",
-                "url": "https://doi.org/10.1093/gji/ggae202"
+                "url": "https://doi.org/10.1093/gji/ggae202",
+                "hostKind": "research_publication"
               }
             ]
           }
@@ -4920,15 +4975,18 @@
             "links": [
               {
                 "title": "Daily Nonpareil, 18 December 1977 · clipping bulletin reprint, p. 7",
-                "url": "https://archive.org/details/UFO_Newsclipping_Service_1978_02_no_103/page/n6/mode/1up"
+                "url": "https://archive.org/details/UFO_Newsclipping_Service_1978_02_no_103/page/n6/mode/1up",
+                "hostKind": "independent_archive"
               },
               {
                 "title": "Vallée’s 1998 paper · Council Bluffs case and early lab account",
-                "url": "https://noufors.com/Documents/Books%2C%20Manuals%20and%20Published%20Papers/Specialty%20UFO%20Publications/Journal%20of%20Scientific%20Exploration/jse_12_3_vallee_2.pdf"
+                "url": "https://noufors.com/Documents/Books%2C%20Manuals%20and%20Published%20Papers/Specialty%20UFO%20Publications/Journal%20of%20Scientific%20Exploration/jse_12_3_vallee_2.pdf",
+                "hostKind": "independent_archive"
               },
               {
                 "title": "2022 Council Bluffs paper · §4.2, retained specimen CB_JV-1",
-                "url": "https://doi.org/10.1016/j.paerosci.2021.100788"
+                "url": "https://doi.org/10.1016/j.paerosci.2021.100788",
+                "hostKind": "research_publication"
               }
             ]
           }
@@ -5251,15 +5309,20 @@
             "links": [
               {
                 "title": "Film School Radio · director James Fox discussing Moment of Contact",
-                "url": "https://filmschoolradio.com/the-program-director-james-fox/"
+                "url": "https://filmschoolradio.com/the-program-director-james-fox/",
+                "hostKind": "publisher_page"
               },
               {
                 "title": "Brazil Superior Military Court · official 1997 inquiry archive index (access may be restricted)",
-                "url": "https://arquimedes.stm.jus.br/index.php/informationobject/browse?collection=4908&genres=439&languages=pt_BR&places=14570&sf_culture=pt_BR&showAdvanced=1&sort=startDate&sortDir=asc&subjects=16446&topLod=0&view=table"
+                "url": "https://arquimedes.stm.jus.br/index.php/informationobject/browse?collection=4908&genres=439&languages=pt_BR&places=14570&sf_culture=pt_BR&showAdvanced=1&sort=startDate&sortDir=asc&subjects=16446&topLod=0&view=table",
+                "accessNote": "Brazilian STM original archive access may be restricted; automated checking did not inspect this page in M51.",
+                "hostKind": "publisher_page"
               },
               {
                 "title": "Brazil Superior Military Court · inquiry second-volume scan (original-language record; access may vary)",
-                "url": "https://arquimedes.stm.jus.br/uploads/r/superior-tribunal-militar-in/c/b/5/cb5788ae000fe5405b8bf96a7e1ebe5eaa87adefb4d9633801dbec25f1de28a7/Autos_Findos_908_-_vol._2_OT.pdf"
+                "url": "https://arquimedes.stm.jus.br/uploads/r/superior-tribunal-militar-in/c/b/5/cb5788ae000fe5405b8bf96a7e1ebe5eaa87adefb4d9633801dbec25f1de28a7/Autos_Findos_908_-_vol._2_OT.pdf",
+                "accessNote": "Brazilian STM original archive access may be restricted; automated checking did not inspect this page in M51.",
+                "hostKind": "publisher_page"
               }
             ]
           }
@@ -5586,19 +5649,23 @@
             "links": [
               {
                 "title": "2013 Citizen Hearing · indexed transcript and original video link",
-                "url": "https://wherearethey.info/video/citizen-hearing-2013-rendlesham-forest-encounter-part-1"
+                "url": "https://wherearethey.info/video/citizen-hearing-2013-rendlesham-forest-encounter-part-1",
+                "hostKind": "independent_archive"
               },
               {
                 "title": "Suffolk Constabulary · first search and morning follow-up, PDF pp. 1–2",
-                "url": "https://www.ufoscans.com/raw/British%20UFO%20Files/unusuallights.pdf"
+                "url": "https://www.ufoscans.com/raw/British%20UFO%20Files/unusuallights.pdf",
+                "hostKind": "independent_archive"
               },
               {
                 "title": "Defence Intelligence DI52/106/10 · 23 February 1981 note, PDF p. 10",
-                "url": "https://avalonlibrary.net/Rendlesham_Forest_incident_1980/National%20Archives%20DEFE-24-1948-1%20UFO%20Reports%20of%20Sighting%20-%20Rendlesham%20Forest/DEFE-24-1948-1_1.pdf#page=10"
+                "url": "https://avalonlibrary.net/Rendlesham_Forest_incident_1980/National%20Archives%20DEFE-24-1948-1%20UFO%20Reports%20of%20Sighting%20-%20Rendlesham%20Forest/DEFE-24-1948-1_1.pdf#page=10",
+                "hostKind": "independent_archive"
               },
               {
                 "title": "Hansard · 14 October 1997 answer on the Halt memo and radiation",
-                "url": "https://hansard.parliament.uk/lords/1997-10-14/debates/96394ce5-f0db-4448-af50-43a69fbf3c57/LieutenantColonelCharlesHaltMemorandum"
+                "url": "https://hansard.parliament.uk/lords/1997-10-14/debates/96394ce5-f0db-4448-af50-43a69fbf3c57/LieutenantColonelCharlesHaltMemorandum",
+                "hostKind": "agency_hosted"
               }
             ]
           }
@@ -6835,15 +6902,18 @@
             "links": [
               {
                 "title": "Mike Gold · original November 2024 written policy recommendations to Congress",
-                "url": "https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Gold.pdf"
+                "url": "https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Gold.pdf",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "GPO · Gold’s oral testimony in the same 2024 hearing",
-                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm"
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "NASA · official UAP independent study programme (institutional context, not adoption of Gold’s proposals)",
-                "url": "https://science.nasa.gov/uap/"
+                "url": "https://science.nasa.gov/uap/",
+                "hostKind": "agency_hosted"
               }
             ]
           }
@@ -9455,19 +9525,30 @@
             "links": [
               {
                 "title": "GPO · Gallaudet’s November 2024 congressional testimony",
-                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm"
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "Gallaudet · original written statement to Congress, same witness",
-                "url": "https://www.congress.gov/118/meeting/house/117721/witnesses/HHRG-118-GO12-Wstate-GallaudetPhDRearAdmiralUSNavyRetT-20241113.pdf"
+                "url": "https://www.congress.gov/118/meeting/house/117721/witnesses/HHRG-118-GO12-Wstate-GallaudetPhDRearAdmiralUSNavyRetT-20241113.pdf",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "DoD · original April 2020 public release of three Navy videos",
-                "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/"
+                "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "AARO · Go Fast video technical methodology (does not document the alleged missing email; automated retrieval restricted)",
-                "url": "https://www.aaro.mil/Portals/136/PDFs/case_resolution_reports/AARO_GoFast_Case_Resolution_Card_Methodology_Final.pdf"
+                "url": "https://www.aaro.mil/Portals/136/PDFs/case_resolution_reports/AARO_GoFast_Case_Resolution_Card_Methodology_Final.pdf",
+                "accessNote": "Agency original was HTTP 403 for automated checking on 17 November 2026; this alone does not prove it is offline for browsers.",
+                "hostKind": "agency_hosted"
+              },
+              {
+                "title": "AARO Go Fast technical report · 26-page third-party-hosted copy (The Black Vault)",
+                "url": "https://www.theblackvault.com/documentarchive/wp-content/uploads/2025/02/AARO_GoFast_Case_Resolution_Card_Methodology_Final.pdf",
+                "accessNote": "Public hosted copy of the AARO report; mirror availability does not prove byte-for-byte identity with the agency-hosted file.",
+                "hostKind": "independent_archive"
               }
             ]
           }
@@ -9693,15 +9774,18 @@
             "links": [
               {
                 "title": "GPO · Shellenberger’s November 2024 public testimony",
-                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm"
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "House filing · anonymous Immaculate Constellation paper, allegation not independently authenticated",
-                "url": "https://docs.house.gov/meetings/GO/GO06/20241113/117722/HHRG-118-GO06-20241113-SD003.pdf"
+                "url": "https://docs.house.gov/meetings/GO/GO06/20241113/117722/HHRG-118-GO06-20241113-SD003.pdf",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "House · Shellenberger’s written testimony and attributed DoD reply",
-                "url": "https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Shellenberger.pdf"
+                "url": "https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Shellenberger.pdf",
+                "hostKind": "agency_hosted"
               }
             ]
           }
@@ -10105,15 +10189,18 @@
             "links": [
               {
                 "title": "2022 Council Bluffs paper · §§4.1–4.3 and Appendix A",
-                "url": "https://doi.org/10.1016/j.paerosci.2021.100788"
+                "url": "https://doi.org/10.1016/j.paerosci.2021.100788",
+                "hostKind": "research_publication"
               },
               {
                 "title": "Daily Nonpareil, 18 December 1977 · clipping bulletin reprint, p. 7",
-                "url": "https://archive.org/details/UFO_Newsclipping_Service_1978_02_no_103/page/n6/mode/1up"
+                "url": "https://archive.org/details/UFO_Newsclipping_Service_1978_02_no_103/page/n6/mode/1up",
+                "hostKind": "independent_archive"
               },
               {
                 "title": "Iowa State University · Ames Laboratory records finding aid",
-                "url": "https://findingaids.lib.iastate.edu/spcl/arch/rgrp/17-1-3.html"
+                "url": "https://findingaids.lib.iastate.edu/spcl/arch/rgrp/17-1-3.html",
+                "hostKind": "research_publication"
               }
             ]
           }
@@ -10361,15 +10448,18 @@
             "links": [
               {
                 "title": "Leslie Kean and Ralph Blumenthal · original June 2023 reported account",
-                "url": "https://thedebrief.org/intelligence-officials-say-u-s-has-retrieved-non-human-craft/"
+                "url": "https://thedebrief.org/intelligence-officials-say-u-s-has-retrieved-non-human-craft/",
+                "hostKind": "publisher_page"
               },
               {
                 "title": "GPO · Grusch’s July 2023 sworn testimony (same originating witness, not independent material corroboration)",
-                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm"
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "DoD/AARO · March 2024 contrary historical review summary",
-                "url": "https://www.defense.gov/News/Releases/Release/Article/3700894/statement-by-pentagon-press-secretary-maj-gen-pat-ryder-on-the-historical-recor/"
+                "url": "https://www.defense.gov/News/Releases/Release/Article/3700894/statement-by-pentagon-press-secretary-maj-gen-pat-ryder-on-the-historical-recor/",
+                "hostKind": "agency_hosted"
               }
             ]
           }
@@ -10617,15 +10707,18 @@
             "links": [
               {
                 "title": "Knuth, Powell and Reali (2019) · §2.4 and Tables 1–2",
-                "url": "https://www.mdpi.com/1099-4300/21/10/939"
+                "url": "https://www.mdpi.com/1099-4300/21/10/939",
+                "hostKind": "research_publication"
               },
               {
                 "title": "2023 House hearing · Fravor’s eyewitness account",
-                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm"
+                "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
+                "hostKind": "agency_hosted"
               },
               {
                 "title": "2019 Intelligencer interview · Underwood on the later infrared clip",
-                "url": "https://nymag.com/intelligencer/2019/12/tic-tac-ufo-video-q-and-a-with-navy-pilot-chad-underwood.html"
+                "url": "https://nymag.com/intelligencer/2019/12/tic-tac-ufo-video-q-and-a-with-navy-pilot-chad-underwood.html",
+                "hostKind": "publisher_page"
               }
             ]
           }
