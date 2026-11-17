@@ -1,0 +1,334 @@
+{
+  "schemaVersion": 1,
+  "version": 1,
+  "edition": "2026-11-17-m58-staged-additions",
+  "status": "staged_public_profiles_source_review_required_no_numeric_rating",
+  "basePublicDirectoryCount": 50,
+  "additionalPeopleCount": 2,
+  "people": [
+    {
+      "id": "sean-kirkpatrick",
+      "name": "Sean M. Kirkpatrick",
+      "category": [
+        "Former government official",
+        "Scientist",
+        "Researcher"
+      ],
+      "role": "Physicist; founding director of the All-domain Anomaly Resolution Office (July 2022–December 2023)",
+      "short": "Former AARO director whose public testimony, agency statements and later analysis can be compared against congressional and FOIA records.",
+      "position": "As first director of AARO, Kirkpatrick publicly discussed the office's investigations and its assessment of reported UAP programmes. He left federal service in December 2023; subsequent interviews and articles are his own statements, not current AARO announcements.",
+      "context": "Compare what Kirkpatrick said publicly with the date, exact claim and AARO evidence then available. His October 2023 description of whether Grusch had formally supplied information must be read alongside the later-released invitation/correspondence chronology, without inferring motives or deliberate dishonesty.",
+      "sources": [
+        {
+          "label": "U.S. Department of Defense — 2022 AARO establishment",
+          "url": "https://media.defense.gov/2022/Jul/20/2003039074/-1/-1/1/ESTABLISHMENT-OF-THE-ALL-DOMAIN-ANOMALY-RESOLUTION-OFFICE.PDF"
+        },
+        {
+          "label": "U.S. Department of Defense — November 2023 departure announcement",
+          "url": "https://www.defense.gov/News/Releases/Release/Article/3583248/statement-by-deputy-secretary-of-defense-kathleen-hicks-on-the-upcoming-departu/"
+        },
+        {
+          "label": "AARO FOIA 24-F-0266 — contacts and correspondence with Grusch",
+          "url": "https://www.aaro.mil/Portals/136/PDFs/FOIA/2024%20FOIAs/24-F-0266.pdf"
+        },
+        {
+          "label": "Kirkpatrick's January 2024 published analysis (his own perspective)",
+          "url": "https://www.scientificamerican.com/article/heres-what-i-learned-as-the-u-s-governments-ufo-hunter/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [
+        {
+          "label": "AARO — current leadership (not Kirkpatrick)",
+          "url": "https://www.aaro.mil/About/Leaders/"
+        }
+      ],
+      "photo": null,
+      "biography": [
+        "Dr Sean M. Kirkpatrick is a physicist and former senior U.S. defence and intelligence official. The Department of Defense established AARO in July 2022; Kirkpatrick led the office as its inaugural director until his retirement from federal service in December 2023. His role was to organise investigations of UAP reports of potential national-security relevance.",
+        "In an April 2023 public Senate briefing and in later media roundtables, Kirkpatrick described AARO's evidence standards, analysis, and the absence of verified extraterrestrial technology in the material evaluated by the office. This does not imply that all UAP reports were definitively explained, or that future evidence could not change an assessment.",
+        "Statements concerning David Grusch, AARO's attempts to interview witnesses, and allegations of recovered technology became contested. A July 2023 House hearing documents Grusch's account; the October 2023 AARO media roundtable records Kirkpatrick's public position; FOIA correspondence later documented AARO invitations, Grusch's responses, and disputed questions about authority to receive sensitive information. The documents should be compared by date and exact wording, rather than assuming every disagreement is a lie.",
+        "After leaving the office, Kirkpatrick published a first-person analysis in Scientific American about his time at AARO and the rationale for its historical review. His later appearances are not official statements by the present AARO director, Jon Kosloski. The linked sources allow readers to assess the competing interpretations independently."
+      ],
+      "milestones": [
+        {
+          "date": "20 July 2022",
+          "title": "AARO formally established",
+          "detail": "The Department of Defense created a coordinated all-domain office; Kirkpatrick became its first director.",
+          "source": "https://media.defense.gov/2022/Jul/20/2003039074/-1/-1/1/ESTABLISHMENT-OF-THE-ALL-DOMAIN-ANOMALY-RESOLUTION-OFFICE.PDF"
+        },
+        {
+          "date": "19 April 2023",
+          "title": "Senate Armed Services Subcommittee UAP briefing",
+          "detail": "Kirkpatrick publicly discussed AARO's approach and findings in his capacity as director; the AARO FOIA reading-room PDF contains his statement.",
+          "source": "https://www.aaro.mil/Portals/136/PDFs/FOIA/2023%20FOIAs/23-F-0922_4.pdf"
+        },
+        {
+          "date": "26 July 2023",
+          "title": "House UAP hearing with David Grusch",
+          "detail": "Grusch described an earlier April 2022 conversation with Kirkpatrick, before AARO had been established; this is Grusch's own sworn account.",
+          "source": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm"
+        },
+        {
+          "date": "31 October 2023",
+          "title": "AARO director media roundtable",
+          "detail": "Kirkpatrick discussed efforts to obtain on-record evidence from Grusch and other witnesses. The statement must be read in the context and date of the interview.",
+          "source": "https://www.defense.gov/News/Transcripts/Transcript/Article/3575588/aaro-director-dr-sean-kirkpatrick-holds-an-off-camera-media-roundtable/"
+        },
+        {
+          "date": "November–December 2023",
+          "title": "Departure from AARO leadership",
+          "detail": "The Pentagon announced in November that Kirkpatrick planned to retire from federal service in December 2023; later interviews must distinguish former and current roles.",
+          "source": "https://www.defense.gov/News/Releases/Release/Article/3583248/statement-by-deputy-secretary-of-defense-kathleen-hicks-on-the-upcoming-departu/"
+        },
+        {
+          "date": "January 2024",
+          "title": "Former-director essay",
+          "detail": "Kirkpatrick published his own assessment of UAP-related allegations and AARO investigative approaches after his departure.",
+          "source": "https://www.scientificamerican.com/article/heres-what-i-learned-as-the-u-s-governments-ufo-hunter/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "AARO — 19 April 2023 statement for the record",
+          "publisher": "All-domain Anomaly Resolution Office (FOIA)",
+          "date": "2023-04-19",
+          "url": "https://www.aaro.mil/Portals/136/PDFs/FOIA/2023%20FOIAs/23-F-0922_4.pdf"
+        },
+        {
+          "label": "AARO director media roundtable — October 2023",
+          "publisher": "Department of Defense",
+          "date": "2023-10-31",
+          "url": "https://www.defense.gov/News/Transcripts/Transcript/Article/3575588/aaro-director-dr-sean-kirkpatrick-holds-an-off-camera-media-roundtable/"
+        },
+        {
+          "label": "AARO-Grusch contact records (FOIA release 24-F-0266)",
+          "publisher": "All-domain Anomaly Resolution Office",
+          "date": "2025-06-13",
+          "url": "https://www.aaro.mil/Portals/136/PDFs/FOIA/2024%20FOIAs/24-F-0266.pdf"
+        },
+        {
+          "label": "Here's What I Learned as the U.S. Government's UFO Hunter",
+          "publisher": "Scientific American",
+          "date": "2024-01-19",
+          "url": "https://www.scientificamerican.com/article/heres-what-i-learned-as-the-u-s-governments-ufo-hunter/"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": [],
+      "roleEvidence": {
+        "status": "official_source_crosscheck",
+        "kind": "government_office",
+        "title": "Founding director of AARO (2022–2023)",
+        "eventDate": "2022-07-20",
+        "description": "Primary Defense Department establishment and departure announcements identify Kirkpatrick's initial directorship and departure. Subsequent author interviews are labelled as a former official's personal perspective, rather than current AARO policy.",
+        "sources": [
+          {
+            "title": "2022 AARO creation and mandate",
+            "url": "https://media.defense.gov/2022/Jul/20/2003039074/-1/-1/1/ESTABLISHMENT-OF-THE-ALL-DOMAIN-ANOMALY-RESOLUTION-OFFICE.PDF",
+            "locator": "20 July 2022 establishment memorandum and office mission",
+            "note": "Original DoD document establishes the office's legal/organisational remit and date; office creation alone is not evidence of an extraterrestrial programme.",
+            "checkedAt": "2026-11-17"
+          },
+          {
+            "title": "Kirkpatrick departure from AARO",
+            "url": "https://www.defense.gov/News/Releases/Release/Article/3583248/statement-by-deputy-secretary-of-defense-kathleen-hicks-on-the-upcoming-departu/",
+            "locator": "November 2023 departure statement; December retirement",
+            "note": "Original DoD announcement identifies the tenure and retirement and prevents later media interviews from being presented as his continuing official AARO leadership.",
+            "checkedAt": "2026-11-17"
+          },
+          {
+            "title": "Current AARO leadership list",
+            "url": "https://www.aaro.mil/About/Leaders/",
+            "locator": "Director Dr Jon T. Kosloski",
+            "note": "Current official AARO leadership page names its subsequent director, confirming Kirkpatrick is not the current office holder.",
+            "checkedAt": "2026-11-17"
+          }
+        ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": "2026-11-17",
+        "sourceUrl": null,
+        "detail": "Government biography has a portrait but no final US/UK image/crop rights verification completed. Show initials.",
+        "finalRightsApproval": false
+      }
+    },
+    {
+      "id": "robert-bigelow",
+      "name": "Robert T. “Bob” Bigelow",
+      "category": [
+        "Researcher",
+        "Disclosure advocate"
+      ],
+      "role": "Aerospace entrepreneur, private UAP research funder and founder of Bigelow Aerospace, NIDS and BAASS",
+      "short": "Funded private UFO and anomalous-phenomena investigations and led companies associated with a DIA aerospace research contract and NASA's BEAM module.",
+      "position": "Bigelow has funded research into reported UFO and paranormal phenomena while also operating a documented commercial aerospace business. His belief that extraterrestrial beings are present on Earth was stated in a 2017 televised interview; belief is not independent proof.",
+      "context": "The 2008 DIA contracting documents establish an aerospace research programme and funding to Bigelow Aerospace Advanced Space Studies, not proof that alien materials were recovered. Skinwalker Ranch accounts are attributed witness/investigator reports requiring independently inspectable original evidence. NASA's BEAM is a documented conventional space-habitat engineering accomplishment and must not be conflated with UAP evidence.",
+      "sources": [
+        {
+          "label": "DIA — 2008 BAASS contract briefing",
+          "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/"
+        },
+        {
+          "label": "AARO/DHS — original historical programme documentation",
+          "url": "https://www.aaro.mil/Portals/136/PDFs/UAP_Records_Research/AARO_DHS_Kona_Blue.pdf"
+        },
+        {
+          "label": "NASA — Bigelow Expandable Activity Module (BEAM)",
+          "url": "https://www.nasa.gov/international-space-station/bigelow-expandable-activity-module-beam/"
+        },
+        {
+          "label": "CBS 60 Minutes — Robert Bigelow interview",
+          "url": "https://www.cbsnews.com/news/bigelow-aerospace-founder-says-commercial-world-will-lead-in-space/"
+        }
+      ],
+      "media": [],
+      "officialLinks": [],
+      "photo": null,
+      "biography": [
+        "Robert T. Bigelow is a U.S. entrepreneur and founder of Bigelow Aerospace. A NASA–industry partnership developed the Bigelow Expandable Activity Module (BEAM), which was launched to the International Space Station in April 2016 and subsequently expanded and tested as an orbital habitat module. NASA's documentation establishes aerospace programme participation, not the origin of any UAP.",
+        "Bigelow also established the National Institute for Discovery Science (NIDS), which investigated claims involving UFOs and other anomalous phenomena, including at the Utah property known as Skinwalker Ranch. Published historical reporting places his purchase of the property in 1996 and subsequent sale in 2016; reports of unusual events at the ranch should be attributed to their witnesses and investigators.",
+        "Bigelow Aerospace Advanced Space Studies (BAASS) received a Defense Intelligence Agency contract in September 2008 to study unconventional aerospace applications. The public DIA memo and later released government planning records document the contract's scope and programme history. They do not establish possession of alien craft or any particular extraordinary interpretation.",
+        "In a May 2017 CBS 60 Minutes interview, Bigelow expressed his personal conviction that extraterrestrials are already present. Disclosure Desk presents this as a public assertion, neither an established finding nor an accusation about Bigelow. The original interview, the DIA contract record and the NASA engineering work are three distinct evidence categories."
+      ],
+      "milestones": [
+        {
+          "date": "1996",
+          "title": "Skinwalker Ranch / NIDS investigations",
+          "detail": "Published historical reporting describes Bigelow's acquisition of the Utah property and investigations led by his National Institute for Discovery Science. Alleged activity remains witness-specific and disputed.",
+          "source": "https://www.history.com/articles/skinwalker-ranch-paranormal-ufos-mutilation"
+        },
+        {
+          "date": "22 September 2008",
+          "title": "DIA contract with BAASS",
+          "detail": "Original government records document a contract awarded to Bigelow Aerospace Advanced Space Studies to study advanced aerospace concepts.",
+          "source": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/"
+        },
+        {
+          "date": "8 April 2016",
+          "title": "NASA's BEAM space module launched",
+          "detail": "NASA records describe the launch and expansion of the BEAM technology demonstration developed with Bigelow Aerospace.",
+          "source": "https://www.nasa.gov/international-space-station/bigelow-expandable-activity-module-beam/"
+        },
+        {
+          "date": "2016",
+          "title": "Skinwalker Ranch ownership changes",
+          "detail": "History's current-owner profile attributes its 2016 purchase to Brandon Fugal, after Bigelow's tenure; this is ownership history, not proof of reported phenomena.",
+          "source": "https://www.history.com/shows/beyond-skinwalker-ranch/cast/brandon-fugal-2"
+        },
+        {
+          "date": "28 May 2017",
+          "title": "CBS 60 Minutes interview",
+          "detail": "Bigelow publicly discussed his aerospace projects and belief in extraterrestrial presence; his statements are self-attributed and not independent measurement.",
+          "source": "https://www.cbsnews.com/news/bigelow-aerospace-founder-says-commercial-world-will-lead-in-space/"
+        }
+      ],
+      "articles": [
+        {
+          "label": "DIA — advanced aerospace studies contract history",
+          "publisher": "Defense Intelligence Agency",
+          "date": "2009-01-01",
+          "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/"
+        },
+        {
+          "label": "NASA Bigelow Expandable Activity Module",
+          "publisher": "NASA",
+          "date": "2023-09-27",
+          "url": "https://www.nasa.gov/international-space-station/bigelow-expandable-activity-module-beam/"
+        },
+        {
+          "label": "CBS 60 Minutes: Bigelow Aerospace founder interview",
+          "publisher": "CBS News",
+          "date": "2017-05-28",
+          "url": "https://www.cbsnews.com/news/bigelow-aerospace-founder-says-commercial-world-will-lead-in-space/"
+        },
+        {
+          "label": "AARO/DHS — KONA BLUE historical record release",
+          "publisher": "All-domain Anomaly Resolution Office",
+          "date": "2024-04-01",
+          "url": "https://www.aaro.mil/Portals/136/PDFs/UAP_Records_Research/AARO_DHS_Kona_Blue.pdf"
+        },
+        {
+          "label": "Skinwalker Ranch documented historical reporting",
+          "publisher": "History",
+          "date": "2020-01-01",
+          "url": "https://www.history.com/articles/skinwalker-ranch-paranormal-ufos-mutilation"
+        }
+      ],
+      "videos": [],
+      "socialPages": [],
+      "podcastEpisodes": [],
+      "filmCredits": [
+        {
+          "title": "60 Minutes: Bigelow Aerospace founder interview",
+          "year": 2017,
+          "role": "Interview subject",
+          "url": "https://www.cbsnews.com/news/bigelow-aerospace-founder-says-commercial-world-will-lead-in-space/",
+          "type": "Television interview",
+          "context": "His own statements in a CBS interview, not independent validation of extraterrestrial presence."
+        }
+      ],
+      "publicWorkEvidence": {
+        "status": "research_links_indexed",
+        "kind": "historical_public_work",
+        "title": "Bigelow's commercial space technology and funded anomalous-phenomena research",
+        "period": "1996–2017",
+        "description": "Original U.S. government, NASA and publisher records document Bigelow's aerospace ventures, DIA-funded BAASS studies and his public UFO interviews. Distinguish contract purpose and beliefs from verified outcomes.",
+        "openQuestions": "Review BAASS original deliverables and subsequent reports, first-generation NIDS archives, independently documented Skinwalker Ranch observations and any physical specimens or instrument metadata. Do not infer that government funding verified an extraordinary phenomenon.",
+        "sources": [
+          {
+            "title": "DIA public memorandum on the 2008 BAASS contract",
+            "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170055/",
+            "locator": "Page 1–2: RFP and 22 September 2008 award",
+            "note": "DIA original indexed PDF confirms BAASS was the sole bidder and a contract was signed for the advanced aerospace study. Screenshot retrieval was blocked, so this is not a complete visual original-document verification.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "AARO/DHS programme-history records",
+            "url": "https://www.aaro.mil/Portals/136/PDFs/UAP_Records_Research/AARO_DHS_Kona_Blue.pdf",
+            "locator": "Declassified programme history and DHS KONA BLUE proposal",
+            "note": "AARO-hosted historical documentation describes BAASS programme scope and later DHS proposals, while alleged technology and unreleased materials remain distinct unverified claims.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "NASA BEAM engineering programme history",
+            "url": "https://www.nasa.gov/international-space-station/bigelow-expandable-activity-module-beam/",
+            "locator": "Mission overview: launch 8 April 2016 and expansion 28 May 2016",
+            "note": "NASA's own mission record demonstrates participation in an actual space-habitat engineering project. It does not demonstrate extraterrestrial origins for any UFO report.",
+            "sourceClass": "institutional",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "CBS 60 Minutes original Robert Bigelow interview",
+            "url": "https://www.cbsnews.com/news/bigelow-aerospace-founder-says-commercial-world-will-lead-in-space/",
+            "locator": "28 May 2017; Robert Bigelow segment and statements about aliens",
+            "note": "The original broadcaster documents Bigelow's aerospace interests and extraordinary personal belief. An interview establishes that he said it, not that the claim has been corroborated.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          },
+          {
+            "title": "Skinwalker Ranch historical reporting",
+            "url": "https://www.history.com/articles/skinwalker-ranch-paranormal-ufos-mutilation",
+            "locator": "1996 acquisition and NIDS activity",
+            "note": "Publisher background establishes the reported ownership history and attributed claims at the ranch; does not independently demonstrate paranormal explanations.",
+            "sourceClass": "publisher",
+            "indexedAt": "2026-11-17"
+          }
+        ]
+      },
+      "photoRightsAudit": {
+        "status": "initials_fallback_no_licensed_photo_selected",
+        "checkedAt": "2026-11-17",
+        "sourceUrl": null,
+        "detail": "Editorial/publication photographs cannot be reused without a verified license and appropriate UK rights review.",
+        "finalRightsApproval": false
+      }
+    }
+  ],
+  "editorialCaution": "First-party source record proves role or statement attribution, not extraordinary event truth; disagreements are not lies unless independently established. No person rating, no photo reuse, no direct archive case link without documented exact role."
+}
