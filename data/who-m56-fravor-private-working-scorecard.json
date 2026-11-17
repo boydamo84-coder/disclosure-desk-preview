@@ -203,10 +203,10 @@
       "id": "nasa-method-2023",
       "kind": "scientific_general_methodology_not_case_adjudication",
       "url": "https://science.nasa.gov/uap/faqs/",
-      "locator": "NASA UAP FAQs question 4, 5 and 7",
+      "locator": "NASA UAP FAQ questions 4, 5 and 7 (data requirements and explicit non-adjudication of earlier UAP cases)",
       "access": "agency_original_html_checked",
       "establishes": "Scientific need for adequate observational data and calibrated measurements; NASA's report did not review earlier incidents individually.",
-      "doesNotEstablish": "A resolution, disproof or verification of Nimitz.",
+      "doesNotEstablish": "A resolution, disproof, proof, independent eyewitness account, or verified sensor reconstruction of the Nimitz incident.",
       "independenceFamily": "nasa-2023-general-method"
     },
     {
