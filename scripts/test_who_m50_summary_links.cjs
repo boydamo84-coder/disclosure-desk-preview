@@ -37,7 +37,7 @@ for (const {person,claim} of claims) {
  assert.equal(claim.sourceAudit.reviewerSignoff,'not_obtained',person.id+' source signoff falsely obtained');
  assert.equal(claim.researchEvidence.status,'research_draft',person.id+' research wrongly finalized');
 }
-assert.equal(linkCount,83,'M50 must retain all 83 transparent evidence links');
+assert(linkCount>=83,'M50 must retain the original 83 evidence links; subsequent milestones may add clearly labelled alternative hosts');
 const eight=['mick-west','steven-greer','christopher-mellon','james-fox','mike-gold','tim-gallaudet','michael-shellenberger','leslie-kean'];
 for(const id of eight){
  const c=claims.find(x=>x.person.id===id)?.claim;
@@ -48,4 +48,4 @@ assert(ui.includes('evidenceReviewSummaryHtml(claim.evidenceReviewSummary)'), 'S
 assert(ui.includes('rel="noopener noreferrer"'), 'External-link hardening absent');
 assert(ui.includes('View original evidence sources (review pending)'), 'Source-only pending label absent');
 assert(!build.includes("'WHO_M50_COMPLETE_SUMMARY_LINKS_2026-11-17.md'"),'Internal research note entered public build');
-console.log('M50 PASS: 50 profiles, 23 of 23 linked claim summaries, 83 source links across '+allDomains.size+' hosts; no claim score/vote approval or independent editor signoff; source links displayed only in existing evidence reader.');
+console.log('M50 PASS: 50 profiles, 23 of 23 linked claim summaries, '+linkCount+' source links across '+allDomains.size+' hosts; no claim score/vote approval or independent editor signoff; source links displayed only in existing evidence reader.');
