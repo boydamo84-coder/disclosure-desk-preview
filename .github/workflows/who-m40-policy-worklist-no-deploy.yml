@@ -16,6 +16,7 @@ on:
       - prep/who-m51-source-access-provenance-20261117
       - prep/who-m52-source-lineage-reader-20261117
       - prep/who-m53-source-return-case-lineage-20261117
+      - prep/who-m54-archive-context-back-20261117
   workflow_dispatch:
 
 permissions:
@@ -35,6 +36,7 @@ jobs:
       - name: Check the four public reader files, original source and withheld ratings
         run: |
           node --check assets/people-directory.js
+          node --check assets/who-archive-return.js
           node --check scripts/test_who_claim_evidence_contract.cjs
           node --check scripts/test_who_source_lineage.cjs
           node --check scripts/test_who_m26_hearing_spotchecks.cjs
@@ -61,6 +63,7 @@ jobs:
           node --check scripts/test_who_m52_source_lineage.cjs
           node --check scripts/test_person_case_links.cjs
           node --check scripts/test_who_m53_case_lineage_contract.cjs
+          node --check scripts/test_who_m54_archive_return_contract.cjs
           node --check assets/source-verification.js
           node --check assets/people-directory.js
           node scripts/test_who_claim_evidence_contract.cjs
@@ -89,6 +92,7 @@ jobs:
           node scripts/test_who_m52_source_lineage.cjs
           node scripts/test_person_case_links.cjs
           node scripts/test_who_m53_case_lineage_contract.cjs
+          node scripts/test_who_m54_archive_return_contract.cjs
       - name: Assert private rating SQL and synthetic accounts not copied to release candidate
         run: |
           test ! -f docs/WHO_CLAIM_RATINGS_SQL_DRAFT_ONLY_2026-11-15.sql
@@ -121,6 +125,7 @@ jobs:
           test ! -f .release-staging/public-site/docs/WHO_M51_SOURCE_PROVENANCE_AUDIT_2026-11-17.md
           test ! -f .release-staging/public-site/docs/WHO_M52_SOURCE_LINEAGE_READER_2026-11-17.md
           test ! -f .release-staging/public-site/docs/WHO_M53_SOURCE_RETURN_CASE_LINEAGE_2026-11-17.md
+          test ! -f .release-staging/public-site/docs/WHO_M54_ARCHIVE_CONTEXT_RETURN_2026-11-17.md
           echo 'M51 source provenance staged; private research documentation excluded from strict public allowlist'
           echo "No deploy, Netlify or Supabase credentials used"
 
@@ -151,6 +156,7 @@ jobs:
           node --check scripts/test_who_m51_source_provenance_chromium.cjs
           node --check scripts/test_who_m52_source_lineage_chromium.cjs
           node --check scripts/test_who_m53_source_return_chromium.cjs
+          node --check scripts/test_who_m54_archive_return_chromium.cjs
       - name: Run real Chrome on Who policy source guide and inherited M39 tracker safeguards
         run: |
           python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/who-m29-readonly-http.log 2>&1 &
@@ -171,6 +177,7 @@ jobs:
           node scripts/test_who_m51_source_provenance_chromium.cjs
           node scripts/test_who_m52_source_lineage_chromium.cjs
           node scripts/test_who_m53_source_return_chromium.cjs
+          node scripts/test_who_m54_archive_return_chromium.cjs
       - name: Stop local-only web server
         if: always()
         run: |
