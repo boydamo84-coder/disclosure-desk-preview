@@ -17,6 +17,7 @@ on:
       - prep/who-m52-source-lineage-reader-20261117
       - prep/who-m53-source-return-case-lineage-20261117
       - prep/who-m54-archive-context-back-20261117
+      - prep/who-m55-site-flow-and-android-test-kit-20261117
   workflow_dispatch:
 
 permissions:
@@ -157,6 +158,7 @@ jobs:
           node --check scripts/test_who_m52_source_lineage_chromium.cjs
           node --check scripts/test_who_m53_source_return_chromium.cjs
           node --check scripts/test_who_m54_archive_return_chromium.cjs
+          node --check scripts/test_who_m55_real_site_flow_chromium.cjs
       - name: Run real Chrome on Who policy source guide and inherited M39 tracker safeguards
         run: |
           python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/who-m29-readonly-http.log 2>&1 &
@@ -178,9 +180,41 @@ jobs:
           node scripts/test_who_m52_source_lineage_chromium.cjs
           node scripts/test_who_m53_source_return_chromium.cjs
           node scripts/test_who_m54_archive_return_chromium.cjs
+          node scripts/test_who_m55_real_site_flow_chromium.cjs
       - name: Stop local-only web server
         if: always()
         run: |
           if test -f /tmp/who-m29-readonly-http.pid; then
             kill "$(cat /tmp/who-m29-readonly-http.pid)" 2>/dev/null || true
           fi
+
+  m55-android-local-preview-artifact:
+    # Produce a downloadable static ZIP, NOT an APK, only after ALL existing
+    # source/package and real Chromium QA jobs have succeeded.
+    if: github.ref_name == 'prep/who-m55-site-flow-and-android-test-kit-20261117'
+    needs: [source-and-package, chromium-phone-tablet-desktop]
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Build strictly allowlisted, locally servable public test website
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_who_public_package_boundary.cjs
+          test -f .release-staging/public-site/who-is-who.html
+          test -f .release-staging/public-site/index.html
+          test -f .release-staging/public-site/assets/who-archive-return.js
+          test ! -f .release-staging/public-site/docs/WHO_M55_ANDROID_TEST_KIT_2026-11-17.md
+          echo 'Local public website ZIP only: NO production deploy, NO APK, NO user accounts'
+      - name: Upload local-device public-web smoke-test ZIP (not a deployment)
+        uses: actions/upload-artifact@v4
+        with:
+          name: disclosure-desk-m55-local-web-qa
+          path: .release-staging/public-site/
+          if-no-files-found: error
+          retention-days: 7
