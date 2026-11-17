@@ -40,6 +40,7 @@
   if(!button)return false;
   const target=fromSession(caseId);
   button.hidden=!target;
+  if(button.parentElement?.id==='ddWhoArchiveReturnWrap')button.parentElement.hidden=!target;
   button.onclick=target?function(){window.location.assign(target.href)}:null;
   return !!target;
  }
