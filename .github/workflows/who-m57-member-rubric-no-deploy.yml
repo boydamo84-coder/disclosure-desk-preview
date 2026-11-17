@@ -1,0 +1,38 @@
+name: "Who M57 member rubric policy NO DEPLOY"
+on:
+  push:
+    branches:
+      - prep/who-m57-source-first-community-policy-20261117
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  m57-member-rubric-preview-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout source without write credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate unchanged 25/30/25/10/10 worksheet and zero submission
+        run: |
+          node --check assets/who-community-worksheet-m57.js
+          node --check scripts/test_who_m57_community_criteria_contract.cjs
+          node scripts/test_who_m57_community_criteria_contract.cjs
+      - name: Verify public-staging excludes private M57 prototype and research backlog
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_who_public_package_boundary.cjs
+          test ! -e .release-staging/public-site/assets/who-community-worksheet-m57.js
+          test ! -e .release-staging/public-site/scripts/fixtures/who-community-five-criteria-m57.html
+          test ! -e .release-staging/public-site/data/who-community-m57-design.json
+          test ! -e .release-staging/public-site/data/who-m57-all-50-enrichment-queue.json
+          test ! -e .release-staging/public-site/docs/WHO_M57_SOURCE_FIRST_MEMBER_RUBRIC_2026-11-17.md
+          echo "M57 review-only milestone: NO Netlify publishing, backend migrations, passwords, live votes or editorial scores"
