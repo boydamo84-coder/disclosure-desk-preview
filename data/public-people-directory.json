@@ -277,7 +277,11 @@
               {
                 "title": "July 2023 House hearing · Grusch’s public testimony",
                 "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/pdf/CHRG-118hhrg53022.pdf",
-                "hostKind": "agency_hosted"
+                "hostKind": "agency_hosted",
+                "sharedRecord": {
+                  "key": "house-uap-hearing-2023-07-26",
+                  "relation": "same_proceeding"
+                }
               },
               {
                 "title": "Grusch’s written statement to the House",
@@ -299,7 +303,8 @@
                 "url": "https://www.aaro.mil/Portals/136/PDFs/FOIA/2024%20FOIAs/24-F-0266.pdf",
                 "hostKind": "agency_hosted"
               }
-            ]
+            ],
+            "lineageNote": "The written statement and oral House testimony are two records of Grusch’s own July 2023 appearance. The original 2022 filing, counsel’s later explanation and AARO correspondence address different administrative questions; none publishes the alleged recovered material or the unnamed sources’ records."
           }
         }
       ],
@@ -626,7 +631,11 @@
               {
                 "title": "2023 House hearing · Graves’s statement and Raskin’s questions",
                 "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
-                "hostKind": "agency_hosted"
+                "hostKind": "agency_hosted",
+                "sharedRecord": {
+                  "key": "house-uap-hearing-2023-07-26",
+                  "relation": "same_proceeding"
+                }
               },
               {
                 "title": "April 2014 Navy hazard reports · released scans hosted by The War Zone",
@@ -638,7 +647,8 @@
                 "url": "https://www.faa.gov/air_traffic/publications/atpubs/foa_html/chap4_section_7.html",
                 "hostKind": "agency_hosted"
               }
-            ]
+            ],
+            "lineageNote": "The 2023 House hearing is one shared proceeding, but Graves gave a different witness account from Fravor and Grusch. The 2014 squadron hazard reports are separate dated records; the disclosed pages do not identify the alleged cube-in-sphere near miss as the same sortie."
           }
         }
       ],
@@ -933,7 +943,11 @@
               {
                 "title": "2023 House hearing · Fravor’s statement and Langworthy’s questions",
                 "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
-                "hostKind": "agency_hosted"
+                "hostKind": "agency_hosted",
+                "sharedRecord": {
+                  "key": "house-uap-hearing-2023-07-26",
+                  "relation": "same_proceeding"
+                }
               },
               {
                 "title": "CBS interview · Alex Dietrich and David Fravor",
@@ -943,14 +957,23 @@
               {
                 "title": "2019 Intelligencer interview · Chad Underwood on recording FLIR",
                 "url": "https://nymag.com/intelligencer/2019/12/tic-tac-ufo-video-q-and-a-with-navy-pilot-chad-underwood.html",
-                "hostKind": "publisher_page"
+                "hostKind": "publisher_page",
+                "sharedRecord": {
+                  "key": "underwood-interview-2019-nimitz",
+                  "relation": "same_interview"
+                }
               },
               {
                 "title": "April 2020 Pentagon statement · official release of Navy footage",
                 "url": "https://www.war.gov/News/Releases/article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
-                "hostKind": "agency_hosted"
+                "hostKind": "agency_hosted",
+                "sharedRecord": {
+                  "key": "dod-navy-three-videos-2020-announcement",
+                  "relation": "same_public_release"
+                }
               }
-            ]
+            ],
+            "lineageNote": "The House account and CBS retelling describe the same 2004 visual encounter. Underwood’s interview describes a later infrared sortie, and the DoD release establishes publication provenance; do not treat that later recording as a second sensor track of Fravor’s exact sighting."
           }
         }
       ],
@@ -1291,12 +1314,20 @@
               {
                 "title": "7NEWS Australia original upload · cover-up chapter, 12:20",
                 "url": "https://www.youtube.com/watch?v=x_9gTDXF9Vc&t=740s",
-                "hostKind": "video_platform"
+                "hostKind": "video_platform",
+                "sharedRecord": {
+                  "key": "coulthart-7news-2023-original-upload",
+                  "relation": "same_recording"
+                }
               },
               {
                 "title": "7NEWS Australia original upload · bodies claim chapter, 16:10",
                 "url": "https://www.youtube.com/watch?v=x_9gTDXF9Vc&t=970s",
-                "hostKind": "video_platform"
+                "hostKind": "video_platform",
+                "sharedRecord": {
+                  "key": "coulthart-7news-2023-original-upload",
+                  "relation": "same_recording"
+                }
               },
               {
                 "title": "ABC Media Watch transcript, July 7NEWS excerpts",
@@ -1308,7 +1339,8 @@
                 "url": "https://docs.house.gov/meetings/GO/GO06/20230726/116282/HHRG-118-GO06-20230726-SD006.pdf",
                 "hostKind": "agency_hosted"
               }
-            ]
+            ],
+            "lineageNote": "Both 7NEWS timestamps are chapters of ONE original upload, not separate investigations. The ABC excerpt and the June NewsNation reporting cover overlapping Grusch-linked allegations and are not independent proof of a recovery programme."
           }
         }
       ],
@@ -1657,7 +1689,8 @@
                 "url": "https://www.twz.com/39913/multiple-destroyers-were-swarmed-by-mysterious-drones-off-california-over-numerous-nights",
                 "hostKind": "publisher_page"
               }
-            ]
+            ],
+            "lineageNote": "Corbell’s radar and infrared posts concern different public clips that he associates with Omaha; the Pentagon’s confirmation addressed Navy authorship, not a continuous joined track. The contemporaneous deck-log extracts and later log-search response are different administrative sources."
           }
         }
       ],
@@ -2012,7 +2045,8 @@
                 "url": "https://www.aaro.mil/Portals/136/PDFs/UAP_RECORDS_RESEARCH/History_and_Origin_of_KONA_BLUE_FINAL_508.pdf",
                 "hostKind": "agency_hosted"
               }
-            ]
+            ],
+            "lineageNote": "Knapp’s written and oral September 2025 House accounts come from one witness appearance, not two separate eyewitnesses. DIA’s BAASS contract and AARO’s other material-transfer account concern distinguishable documents and proposed arrangements, not proof of the claimed negotiations or physical origin."
           }
         }
       ],
@@ -2348,14 +2382,19 @@
               {
                 "title": "DoD original public release of the three historical Navy UAP videos",
                 "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
-                "hostKind": "agency_hosted"
+                "hostKind": "agency_hosted",
+                "sharedRecord": {
+                  "key": "dod-navy-three-videos-2020-announcement",
+                  "relation": "same_public_release"
+                }
               },
               {
                 "title": "Metabunk discussion · later challenges to the glare explanation",
                 "url": "https://www.metabunk.org/threads/the-gimbal-ufo-marik-claims-new-findings-falsify-prosaic-explanations.14839/",
                 "hostKind": "publisher_page"
               }
-            ]
+            ],
+            "lineageNote": "The original Gimbal interpretation and subsequent forum challenge analyse the same released video and are competing models, not independent raw-sensor observations. DoD’s video release authenticates the public Navy recording but does not adjudicate either optical model."
           }
         }
       ],
@@ -2670,19 +2709,28 @@
               {
                 "title": "Papoose Lake archive, third-party transcript of the December interview",
                 "url": "https://www.papooselake.org/interview-transcripts/1989-on-the-record-with-george-knapp",
-                "hostKind": "independent_archive"
+                "hostKind": "independent_archive",
+                "sharedRecord": {
+                  "key": "lazar-klas-dec-1989-two-transcriptions",
+                  "relation": "same_interview_transcription"
+                }
               },
               {
                 "title": "Disclosdex, another transcript copy of the same interview",
                 "url": "https://disclosdex.com/documents/1989-12-09-knapp-lazar-interview",
-                "hostKind": "independent_archive"
+                "hostKind": "independent_archive",
+                "sharedRecord": {
+                  "key": "lazar-klas-dec-1989-two-transcriptions",
+                  "relation": "same_interview_transcription"
+                }
               },
               {
                 "title": "Nevada Public Radio, Knapp and Stoldal discuss what KLAS could verify",
                 "url": "https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real",
                 "hostKind": "publisher_page"
               }
-            ]
+            ],
+            "lineageNote": "The Papoose Lake and Disclosdex transcripts both purport to reproduce the SAME December 1989 KLAS interview. Different transcriptions are not independent Lazar witnesses; a traceable complete broadcast and original facility records are still missing."
           }
         }
       ],
@@ -2989,12 +3037,20 @@
               {
                 "title": "NewsNation January 18 special · Barber’s account, about 10:49",
                 "url": "https://www.youtube.com/watch?v=3dtA9w5ldHw&t=649s",
-                "hostKind": "video_platform"
+                "hostKind": "video_platform",
+                "sharedRecord": {
+                  "key": "barber-newsnation-2025-original-special",
+                  "relation": "same_recording"
+                }
               },
               {
                 "title": "NewsNation January 18 special · footage introduction, about 13:12",
                 "url": "https://www.youtube.com/watch?v=3dtA9w5ldHw&t=792s",
-                "hostKind": "video_platform"
+                "hostKind": "video_platform",
+                "sharedRecord": {
+                  "key": "barber-newsnation-2025-original-special",
+                  "relation": "same_recording"
+                }
               },
               {
                 "title": "NewsNation Reality Check extended interview",
@@ -3006,7 +3062,8 @@
                 "url": "https://www.youtube.com/watch?v=PGOpHdHSjTE",
                 "hostKind": "video_platform"
               }
-            ]
+            ],
+            "lineageNote": "The 10:49 and 13:12 jump links are two points within ONE NewsNation television special. The short excerpt and extended interview are additional productions featuring the same claimant, not independently authenticated raw recovery footage."
           }
         }
       ],
@@ -3340,7 +3397,8 @@
                 "url": "https://www.washingtonpost.com/archive/lifestyle/2001/05/10/ufo-believers-sighted-here/f5b0fb0e-80f6-4d7e-8c25-e57d1aa69135/",
                 "hostKind": "publisher_page"
               }
-            ]
+            ],
+            "lineageNote": "ABC and The Washington Post reported on the same May 2001 press event, while the archive hosts a recording attributed to that event. Independent reporters confirming that the conference took place do not independently verify the speakers’ many extraordinary incident accounts."
           }
         }
       ],
@@ -3702,14 +3760,19 @@
               {
                 "title": "Suffolk Constabulary · 26 December station records, PDF pp. 1–2",
                 "url": "https://www.ufoscans.com/raw/British%20UFO%20Files/unusuallights.pdf",
-                "hostKind": "independent_archive"
+                "hostKind": "independent_archive",
+                "sharedRecord": {
+                  "key": "rendlesham-suffolk-1980-police-log",
+                  "relation": "same_document"
+                }
               },
               {
                 "title": "Halt’s 13 January 1981 memo · released scan hosted by The Black Vault",
                 "url": "https://www.theblackvault.com/documentarchive/the-halt-memo-the-rendlesham-forest-incident/",
                 "hostKind": "independent_archive"
               }
-            ]
+            ],
+            "lineageNote": "Warren’s interview and Halt’s later response present differing retrospective accounts. The Suffolk police log is the same contemporaneous record linked on Nick Pope’s profile; that shared document does not place Warren at Capel Green."
           }
         }
       ],
@@ -3987,14 +4050,19 @@
               {
                 "title": "November 2024 House transcript · Burlison’s exchange with Elizondo",
                 "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
-                "hostKind": "agency_hosted"
+                "hostKind": "agency_hosted",
+                "sharedRecord": {
+                  "key": "house-uap-hearing-2024-11-13",
+                  "relation": "same_proceeding"
+                }
               },
               {
                 "title": "Published copy of Elizondo’s December 2024 written answers · questions 6–8",
                 "url": "https://douglasjohnson.ghost.io/content/files/2025/02/House-Oversight-QFR-Elizondo--Dec.-2024-.pdf",
                 "hostKind": "independent_archive"
               }
-            ]
+            ],
+            "lineageNote": "The November oral testimony and later written answers are both Elizondo’s account; the written version names Lockheed after the hearing exchange. The existence of two publications does not create a second witness to an actual material transfer."
           }
         }
       ],
@@ -4333,7 +4401,8 @@
                 "url": "https://www.archives.gov/press/press-releases/2025/nr25-07",
                 "hostKind": "agency_hosted"
               }
-            ]
+            ],
+            "lineageNote": "Mellon’s policy column is his argument. NARA’s record-group page, transfer memo and receipt announcement document archival processes, but they do not independently prove his claim about specific unjustified classification decisions. This is a records-policy dossier, not an incident score."
           }
         }
       ],
@@ -4673,7 +4742,8 @@
                 "url": "https://doi.org/10.1093/gji/ggae202",
                 "hostKind": "research_publication"
               }
-            ]
+            ],
+            "lineageNote": "The Loeb-led chemical study and later expedition-coauthor comparisons are not independent sample collections; they analyse overlapping expedition results. The JPL fireball record, alternative geophysical localisation and terrestrial-origin critiques address different questions and cannot substitute for traceable grain-to-fireball custody."
           }
         }
       ],
@@ -4976,7 +5046,11 @@
               {
                 "title": "Daily Nonpareil, 18 December 1977 · clipping bulletin reprint, p. 7",
                 "url": "https://archive.org/details/UFO_Newsclipping_Service_1978_02_no_103/page/n6/mode/1up",
-                "hostKind": "independent_archive"
+                "hostKind": "independent_archive",
+                "sharedRecord": {
+                  "key": "council-bluffs-daily-nonpareil-clipping-1977",
+                  "relation": "same_clipping"
+                }
               },
               {
                 "title": "Vallée’s 1998 paper · Council Bluffs case and early lab account",
@@ -4986,9 +5060,14 @@
               {
                 "title": "2022 Council Bluffs paper · §4.2, retained specimen CB_JV-1",
                 "url": "https://doi.org/10.1016/j.paerosci.2021.100788",
-                "hostKind": "research_publication"
+                "hostKind": "research_publication",
+                "sharedRecord": {
+                  "key": "council-bluffs-paper-2022-100788",
+                  "relation": "same_published_study"
+                }
               }
-            ]
+            ],
+            "lineageNote": "The 2022 Council Bluffs paper is the SAME paper linked in Garry Nolan’s dossier, based on the retained CB_JV-1 sample. The 1977 newspaper clipping and Vallée’s 1998 account cover earlier collection and laboratory history, not independently verified custody between all samples."
           }
         }
       ],
@@ -5324,7 +5403,8 @@
                 "accessNote": "Brazilian STM original archive access may be restricted; automated checking did not inspect this page in M51.",
                 "hostKind": "publisher_page"
               }
-            ]
+            ],
+            "lineageNote": "The STM collection index and its linked inquiry volume are two routes into the SAME institutional inquiry, not two independent inquiries. Fox’s film/interview reports retrospective witnesses; the existence of a military inquiry does not authenticate the claimed creature or transfer."
           }
         }
       ],
@@ -5655,7 +5735,11 @@
               {
                 "title": "Suffolk Constabulary · first search and morning follow-up, PDF pp. 1–2",
                 "url": "https://www.ufoscans.com/raw/British%20UFO%20Files/unusuallights.pdf",
-                "hostKind": "independent_archive"
+                "hostKind": "independent_archive",
+                "sharedRecord": {
+                  "key": "rendlesham-suffolk-1980-police-log",
+                  "relation": "same_document"
+                }
               },
               {
                 "title": "Defence Intelligence DI52/106/10 · 23 February 1981 note, PDF p. 10",
@@ -5667,7 +5751,8 @@
                 "url": "https://hansard.parliament.uk/lords/1997-10-14/debates/96394ce5-f0db-4448-af50-43a69fbf3c57/LieutenantColonelCharlesHaltMemorandum",
                 "hostKind": "agency_hosted"
               }
-            ]
+            ],
+            "lineageNote": "The Suffolk police record is the SAME document linked for Larry Warren. The later Citizen Hearing is Pope’s interpretation, while the 1981 Defence Intelligence note and 1997 parliamentary answer discuss administrative assessment; no repeated link independently measures radiation at the scene."
           }
         }
       ],
@@ -6908,14 +6993,19 @@
               {
                 "title": "GPO · Gold’s oral testimony in the same 2024 hearing",
                 "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
-                "hostKind": "agency_hosted"
+                "hostKind": "agency_hosted",
+                "sharedRecord": {
+                  "key": "house-uap-hearing-2024-11-13",
+                  "relation": "same_proceeding"
+                }
               },
               {
                 "title": "NASA · official UAP independent study programme (institutional context, not adoption of Gold’s proposals)",
                 "url": "https://science.nasa.gov/uap/",
                 "hostKind": "agency_hosted"
               }
-            ]
+            ],
+            "lineageNote": "Gold’s written recommendations and oral testimony are two forms of ONE November 2024 witness appearance. NASA’s UAP study webpage is separate institutional context, not evidence that all of Gold’s later policy recommendations were adopted or that an extraordinary incident occurred."
           }
         }
       ],
@@ -9526,7 +9616,11 @@
               {
                 "title": "GPO · Gallaudet’s November 2024 congressional testimony",
                 "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
-                "hostKind": "agency_hosted"
+                "hostKind": "agency_hosted",
+                "sharedRecord": {
+                  "key": "house-uap-hearing-2024-11-13",
+                  "relation": "same_proceeding"
+                }
               },
               {
                 "title": "Gallaudet · original written statement to Congress, same witness",
@@ -9536,21 +9630,34 @@
               {
                 "title": "DoD · original April 2020 public release of three Navy videos",
                 "url": "https://www.defense.gov/News/Releases/Release/Article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/",
-                "hostKind": "agency_hosted"
+                "hostKind": "agency_hosted",
+                "sharedRecord": {
+                  "key": "dod-navy-three-videos-2020-announcement",
+                  "relation": "same_public_release"
+                }
               },
               {
                 "title": "AARO · Go Fast video technical methodology (does not document the alleged missing email; automated retrieval restricted)",
                 "url": "https://www.aaro.mil/Portals/136/PDFs/case_resolution_reports/AARO_GoFast_Case_Resolution_Card_Methodology_Final.pdf",
                 "accessNote": "Agency original was HTTP 403 for automated checking on 17 November 2026; this alone does not prove it is offline for browsers.",
-                "hostKind": "agency_hosted"
+                "hostKind": "agency_hosted",
+                "sharedRecord": {
+                  "key": "aaro-gofast-methodology-2025-reproduced",
+                  "relation": "original_and_copy_unverified_bytes"
+                }
               },
               {
                 "title": "AARO Go Fast technical report · 26-page third-party-hosted copy (The Black Vault)",
                 "url": "https://www.theblackvault.com/documentarchive/wp-content/uploads/2025/02/AARO_GoFast_Case_Resolution_Card_Methodology_Final.pdf",
                 "accessNote": "Public hosted copy of the AARO report; mirror availability does not prove byte-for-byte identity with the agency-hosted file.",
-                "hostKind": "independent_archive"
+                "hostKind": "independent_archive",
+                "sharedRecord": {
+                  "key": "aaro-gofast-methodology-2025-reproduced",
+                  "relation": "original_and_copy_unverified_bytes"
+                }
               }
-            ]
+            ],
+            "lineageNote": "The oral and written House statements come from Gallaudet, the SAME witness, not two recipient accounts of the reportedly missing email. The direct AARO report and third-party copy are presentations of the same named Go Fast methodology; original-to-copy binary identity is unverified, and video analysis does not document the email’s fate."
           }
         }
       ],
@@ -9775,7 +9882,11 @@
               {
                 "title": "GPO · Shellenberger’s November 2024 public testimony",
                 "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57440/html/CHRG-118hhrg57440.htm",
-                "hostKind": "agency_hosted"
+                "hostKind": "agency_hosted",
+                "sharedRecord": {
+                  "key": "house-uap-hearing-2024-11-13",
+                  "relation": "same_proceeding"
+                }
               },
               {
                 "title": "House filing · anonymous Immaculate Constellation paper, allegation not independently authenticated",
@@ -9787,7 +9898,8 @@
                 "url": "https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Shellenberger.pdf",
                 "hostKind": "agency_hosted"
               }
-            ]
+            ],
+            "lineageNote": "Shellenberger’s testimony, his written account and the submitted anonymous Immaculate Constellation paper are connected parts of one congressional disclosure trail. The House hosting a submission does not establish the anonymous author’s access or independently authenticate the alleged programme."
           }
         }
       ],
@@ -10190,19 +10302,28 @@
               {
                 "title": "2022 Council Bluffs paper · §§4.1–4.3 and Appendix A",
                 "url": "https://doi.org/10.1016/j.paerosci.2021.100788",
-                "hostKind": "research_publication"
+                "hostKind": "research_publication",
+                "sharedRecord": {
+                  "key": "council-bluffs-paper-2022-100788",
+                  "relation": "same_published_study"
+                }
               },
               {
                 "title": "Daily Nonpareil, 18 December 1977 · clipping bulletin reprint, p. 7",
                 "url": "https://archive.org/details/UFO_Newsclipping_Service_1978_02_no_103/page/n6/mode/1up",
-                "hostKind": "independent_archive"
+                "hostKind": "independent_archive",
+                "sharedRecord": {
+                  "key": "council-bluffs-daily-nonpareil-clipping-1977",
+                  "relation": "same_clipping"
+                }
               },
               {
                 "title": "Iowa State University · Ames Laboratory records finding aid",
                 "url": "https://findingaids.lib.iastate.edu/spcl/arch/rgrp/17-1-3.html",
                 "hostKind": "research_publication"
               }
-            ]
+            ],
+            "lineageNote": "The 2022 Council Bluffs DOI is the SAME scientific paper cited on Jacques Vallée’s profile, examining the retained CB_JV-1 material. The newspaper clipping and Ames finding aid are separate historical/administrative context, not a verified continuous specimen-transfer chain."
           }
         }
       ],
@@ -10454,14 +10575,19 @@
               {
                 "title": "GPO · Grusch’s July 2023 sworn testimony (same originating witness, not independent material corroboration)",
                 "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
-                "hostKind": "agency_hosted"
+                "hostKind": "agency_hosted",
+                "sharedRecord": {
+                  "key": "house-uap-hearing-2023-07-26",
+                  "relation": "same_proceeding"
+                }
               },
               {
                 "title": "DoD/AARO · March 2024 contrary historical review summary",
                 "url": "https://www.defense.gov/News/Releases/Release/Article/3700894/statement-by-pentagon-press-secretary-maj-gen-pat-ryder-on-the-historical-recor/",
                 "hostKind": "agency_hosted"
               }
-            ]
+            ],
+            "lineageNote": "The original Kean–Blumenthal article and Grusch’s later testimony share a central originating claimant. A public hearing is a separate setting for his account, not independent physical corroboration of the claimed programme; AARO’s contrary historical assessment addresses a different institutional evidence review."
           }
         }
       ],
@@ -10713,14 +10839,23 @@
               {
                 "title": "2023 House hearing · Fravor’s eyewitness account",
                 "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm",
-                "hostKind": "agency_hosted"
+                "hostKind": "agency_hosted",
+                "sharedRecord": {
+                  "key": "house-uap-hearing-2023-07-26",
+                  "relation": "same_proceeding"
+                }
               },
               {
                 "title": "2019 Intelligencer interview · Underwood on the later infrared clip",
                 "url": "https://nymag.com/intelligencer/2019/12/tic-tac-ufo-video-q-and-a-with-navy-pilot-chad-underwood.html",
-                "hostKind": "publisher_page"
+                "hostKind": "publisher_page",
+                "sharedRecord": {
+                  "key": "underwood-interview-2019-nimitz",
+                  "relation": "same_interview"
+                }
               }
-            ]
+            ],
+            "lineageNote": "The acceleration calculations are Knuth and coauthors’ model-based analysis of reported 2004 Nimitz observations, not newly recovered raw radar data. The same House transcript cited for Fravor and Underwood interview cited for the later FLIR sortie should not be counted as new independent instrument measurements."
           }
         }
       ],
