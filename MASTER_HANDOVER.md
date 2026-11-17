@@ -1,5 +1,18 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 17 November 2026 (Europe/London) — M41 directory evidence review; staged_
+_Last updated: 17 November 2026 (Europe/London) — M42 original broadcast links; staged_
+
+## M42 — Original broadcast links for Coulthart, Barber and Lazar (17 November 2026)
+
+**Branch** `prep/who-m42-original-broadcast-links-20261117`, based on M41 `3a51924`. The three profile summaries now link directly to the identified sources. M41's full 50-profile browser check passed in [run 44054315013](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44054315013).
+
+| Profile | Publication and passages checked | Evidence still needed |
+| --- | --- | --- |
+| Ross Coulthart | The [verified 7NEWS Australia uploader’s original July 2023 listing](https://www.youtube.com/watch?v=x_9gTDXF9Vc) and player metadata identify a 33:37 video. Publisher-supplied chapters mark 12:20 for the cover-up discussion and 16:10 for the claim about bodies. [ABC Media Watch](https://www.abc.net.au/mediawatch/episodes/ufos/102785078) preserves part of the July wording and identifies the separate June NewsNation interview. The [June article in the House repository](https://docs.house.gov/meetings/GO/GO06/20230726/116282/HHRG-118-GO06-20230726-SD006.pdf) documents the earlier NewsNation publication. | Full dialogue check against the July original and independent records about the reported recovery or custody. |
+| Jake Barber | The existing NewsNation link `PGOpHdHSjTE` resolves to a 4:11 excerpt. The publisher’s [18 January special](https://www.youtube.com/watch?v=3dtA9w5ldHw) runs 41:58, and the distinct [Reality Check interview](https://www.youtube.com/watch?v=t37-SKj4rtY) runs 2:47:29. The [third-party machine transcript](https://wherearethey.info/video/whistleblower-reveals-uap-retrieval-program-jake-barbers-first?t=1164) puts Barber’s account around 10:49 and the narration introducing footage around 13:12 in the special. These jump links lead to the publisher, with approximate times labelled in the profile. | Direct caption requests returned no text. A full dialogue check and primary footage custody and flight records are outstanding. The four-minute excerpt, television special and extended conversation are all NewsNation's coverage of Barber's account. |
+| Bob Lazar | The [Papoose Lake transcript](https://www.papooselake.org/interview-transcripts/1989-on-the-record-with-george-knapp) and [Disclosdex copy](https://disclosdex.com/documents/1989-12-09-knapp-lazar-interview) substantially agree in the passages on demonstrations and accounts of material Lazar said he had read. Both represent one interview. The archive's indexed December video `D7raTtCIXqM` returned an unavailable player and a metadata 404. [KNPR's 2018 interview with Knapp and Stoldal](https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real) records how they investigated Lazar's background. | A playable, traceable copy of the 9 December 1989 KLAS programme and contemporaneous records tying Lazar to the specific work alleged at S-4. Earlier KLAS footage concerns other broadcasts. |
+
+The update covers publisher identity, original video location and selected written passages. The full recordings were not played end to end. The titles and timestamp links let readers inspect the public uploads. All existing ratings and approval fields stay at their draft values. The validation workflow runs source/package and browser checks on the preparation branch.
+
 
 ## M41 — Who’s Who directory evidence review (17 November 2026)
 

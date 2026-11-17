@@ -1219,9 +1219,17 @@
             "secondEditorSignoff": "not_obtained"
           },
           "evidenceReviewSummary": {
-            "finding": "ABC Media Watch reproduces selected remarks from Coulthart’s July 2023 7NEWS segment. NewsNation’s June Grusch interview and its accompanying article are a separate broadcast and publication in the same reporting chain.",
-            "remaining": "The complete July 7NEWS recording or a broadcaster transcript is still needed for context. Establishing the recovery allegation would also require independently inspectable programme or custody records.",
+            "finding": "The original 33-minute 7NEWS Australia upload is available. Its publisher chapters locate the cover-up discussion at 12:20 and the claim about bodies at 16:10. ABC Media Watch preserves part of Coulthart’s wording. His June NewsNation interview with Grusch is a separate publication from the same reporting trail.",
+            "remaining": "The chapter markers and ABC excerpt were checked. A full dialogue check against the 7NEWS recording remains open. Programme or custody records would be needed to corroborate the recovery allegation independently.",
             "links": [
+              {
+                "title": "7NEWS Australia original upload · cover-up chapter, 12:20",
+                "url": "https://www.youtube.com/watch?v=x_9gTDXF9Vc&t=740s"
+              },
+              {
+                "title": "7NEWS Australia original upload · bodies claim chapter, 16:10",
+                "url": "https://www.youtube.com/watch?v=x_9gTDXF9Vc&t=970s"
+              },
               {
                 "title": "ABC Media Watch transcript, July 7NEWS excerpts",
                 "url": "https://www.abc.net.au/mediawatch/episodes/ufos/102785078"
@@ -2525,16 +2533,20 @@
             "secondEditorSignoff": "not_obtained"
           },
           "evidenceReviewSummary": {
-            "finding": "A separately hosted transcript attributed to the 9 December 1989 KLAS On the Record episode preserves the S-4 and propulsion statements. KLAS also published a retrospective on its early coverage.",
-            "remaining": "Compare the transcript against the complete December broadcast master. Separately check for contemporaneous employment and facility records or traceable material tied to the alleged S-4 work.",
+            "finding": "Two third-party transcripts of the 9 December 1989 KLAS interview agree on the passages where Lazar describes the demonstrations he says he saw and sets apart material he says he read. Both derive from the same interview. The indexed December video is currently unavailable.",
+            "remaining": "A playable KLAS copy could settle the precise wording and context. Contemporaneous appointment or facility records and independently traceable measurements or materials would bear on the claimed S-4 work.",
             "links": [
               {
-                "title": "Hosted transcript of the 9 December KLAS interview",
+                "title": "Papoose Lake archive, third-party transcript of the December interview",
+                "url": "https://www.papooselake.org/interview-transcripts/1989-on-the-record-with-george-knapp"
+              },
+              {
+                "title": "Disclosdex, another transcript copy of the same interview",
                 "url": "https://disclosdex.com/documents/1989-12-09-knapp-lazar-interview"
               },
               {
-                "title": "KLAS I-Team retrospective on the early broadcasts",
-                "url": "https://www.youtube.com/watch?v=2GRjgBVw9Pk"
+                "title": "Nevada Public Radio, Knapp and Stoldal discuss what KLAS could verify",
+                "url": "https://www.knpr.org/show/knprs-state-of-nevada/2018-12-13/a-new-film-focuses-on-bob-lazars-area-51-story-but-is-it-for-real"
               }
             ]
           }
@@ -2837,16 +2849,24 @@
             "secondEditorSignoff": "not_obtained"
           },
           "evidenceReviewSummary": {
-            "finding": "NewsNation’s January 2025 preview, republished under its own byline at Yahoo, attributes the white egg-shaped object account to Barber. A separate NewsNation clip presents footage of an egg-shaped object.",
-            "remaining": "The full interview and original footage metadata are still needed. A dated flight or recovery log and a chain of custody would test whether the footage depicts the same flight Barber described.",
+            "finding": "NewsNation published a four-minute interview excerpt, a 42-minute special and a separate extended interview. The special puts Barber’s account at about 10:49 and introduces footage NewsNation says it obtained at about 13:12. Those locators come from a third-party transcript.",
+            "remaining": "A full dialogue check against the publisher recordings remains open. The original footage file, dated flight or recovery records and a chain of custody would test whether the footage depicts the flight Barber described.",
             "links": [
               {
-                "title": "NewsNation preview distributed by Yahoo",
-                "url": "https://www.yahoo.com/news/air-force-veteran-whistleblower-claims-232514734.html"
+                "title": "NewsNation January 18 special · Barber’s account, about 10:49",
+                "url": "https://www.youtube.com/watch?v=3dtA9w5ldHw&t=649s"
               },
               {
-                "title": "NewsNation footage segment",
-                "url": "https://www.youtube.com/watch?v=009qMHiqsVs"
+                "title": "NewsNation January 18 special · footage introduction, about 13:12",
+                "url": "https://www.youtube.com/watch?v=3dtA9w5ldHw&t=792s"
+              },
+              {
+                "title": "NewsNation Reality Check extended interview",
+                "url": "https://www.youtube.com/watch?v=t37-SKj4rtY"
+              },
+              {
+                "title": "NewsNation Reality Check four-minute excerpt",
+                "url": "https://www.youtube.com/watch?v=PGOpHdHSjTE"
               }
             ]
           }
