@@ -3618,8 +3618,26 @@
             "secondEditorSignoff": "not_obtained"
           },
           "evidenceReviewSummary": {
-            "finding": "A later NewsNation interview is indexed for Warren’s account. The UK National Archives publishes Charles Halt’s memo as a separate record from the Rendlesham reports.",
-            "remaining": "Review Warren’s entire interview and match people, dates and locations against contemporaneous logs or a record specific to the night and activity he describes."
+            "finding": "Warren discussed his Capel Green account on NewsNation in 2025. Suffolk Constabulary logged a call about unusual lights at 04:11 on 26 December 1980. Halt’s January memo dates the initial patrol to 27 December and the later radiation check to 29 December. Its first paragraph relays the patrol’s report. Halt identifies himself as a witness to the later activity.",
+            "remaining": "The police records and Halt memo do not place Warren at the event he describes. A dated duty or dispatch log, a location match or a separately recorded eyewitness account could help establish who was at Capel Green and when.",
+            "links": [
+              {
+                "title": "NewsNation · August 2025 interview with Larry Warren",
+                "url": "https://www.youtube.com/watch?v=21yW_XZR2LU"
+              },
+              {
+                "title": "NewsNation · October 2025 response from Charles Halt",
+                "url": "https://www.youtube.com/watch?v=UfKwQgmHfII"
+              },
+              {
+                "title": "Suffolk Constabulary · 26 December station records, PDF pp. 1–2",
+                "url": "https://www.ufoscans.com/raw/British%20UFO%20Files/unusuallights.pdf"
+              },
+              {
+                "title": "Halt’s 13 January 1981 memo · released scan hosted by The Black Vault",
+                "url": "https://www.theblackvault.com/documentarchive/the-halt-memo-the-rendlesham-forest-incident/"
+              }
+            ]
           }
         }
       ],
@@ -5503,8 +5521,26 @@
             "locator": "Original Nick Pope first-party Rendlesham Forest HTML briefing at nickpope.net/wpte19/rendlesham-forest/: introductory 2013 presentation context; 'Though these events happened some time before I joined the MoD'; 'My cold case review'; MoD 'no defense significance' paragraphs"
           },
           "evidenceReviewSummary": {
-            "finding": "Pope’s published briefing gives his retrospective evaluation of proposed Rendlesham explanations. The National Archives supplies contemporaneous and later case records.",
-            "remaining": "Compare each explanation with the particular night, location and observer described in dated records. Resolving one sighting would leave distinct reports to be tested separately."
+            "finding": "Pope said at the 2013 Citizen Hearing that the explanations his review considered did not fit the case. Suffolk police recorded that the Orford lighthouse was the only light they saw during their first search. A 1981 Defence Intelligence note compared Halt’s radiation figure with a typical background value, assuming the figure was an hourly rate.",
+            "remaining": "The lighthouse observation applies to the time and location of the police search. The radiation comparison uses a typical value. Measurements of the local background and records confirming the instrument settings and units would help test that comparison.",
+            "links": [
+              {
+                "title": "2013 Citizen Hearing · indexed transcript and original video link",
+                "url": "https://wherearethey.info/video/citizen-hearing-2013-rendlesham-forest-encounter-part-1"
+              },
+              {
+                "title": "Suffolk Constabulary · first search and morning follow-up, PDF pp. 1–2",
+                "url": "https://www.ufoscans.com/raw/British%20UFO%20Files/unusuallights.pdf"
+              },
+              {
+                "title": "Defence Intelligence DI52/106/10 · 23 February 1981 note, PDF p. 10",
+                "url": "https://avalonlibrary.net/Rendlesham_Forest_incident_1980/National%20Archives%20DEFE-24-1948-1%20UFO%20Reports%20of%20Sighting%20-%20Rendlesham%20Forest/DEFE-24-1948-1_1.pdf#page=10"
+              },
+              {
+                "title": "Hansard · 14 October 1997 answer on the Halt memo and radiation",
+                "url": "https://hansard.parliament.uk/lords/1997-10-14/debates/96394ce5-f0db-4448-af50-43a69fbf3c57/LieutenantColonelCharlesHaltMemorandum"
+              }
+            ]
           }
         }
       ],
