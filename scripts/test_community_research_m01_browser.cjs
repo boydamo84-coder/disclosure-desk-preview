@@ -77,6 +77,7 @@ const base='http://127.0.0.1:4173';
   assert.equal(await page.locator('#wneCommunitySection option').count(),1);
   await page.locator('#wneCommunityContinue').click();
   await page.waitForURL(base+'/community-research.html#compose',{timeout:20000});
+  await page.locator('#researchComposer').waitFor({state:'visible',timeout:15000});
   assert.equal(await page.locator('#researchComposer').isVisible(),true);
   assert.match(await page.locator('#researchTitle').inputValue(),/My private W.NE research/);
   assert.match(await page.locator('#researchBody').inputValue(),/original private research text/);
