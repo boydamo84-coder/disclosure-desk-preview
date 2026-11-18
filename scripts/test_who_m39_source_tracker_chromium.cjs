@@ -19,9 +19,9 @@ const base='http://127.0.0.1:4173';
    await page.locator('#ddVerificationList .dd-verification-card').first()
     .waitFor({state:'visible',timeout:15000});
    const cards=page.locator('#ddVerificationList .dd-verification-card');
-   assert.equal(await cards.count(),2,'Both government research enquiries appear');
+   assert.equal(await cards.count(),5,'All five archive and government research enquiries appear');
    const text=await page.locator('#sourceVerification').innerText();
-   assert(text.includes('Source Verification Tracker'));
+   assert(text.includes('Data Requests & Source Verification'));
    assert(text.includes('National Archives'));
    assert(text.includes('Pentagon'));
    assert(text.includes('17 November 2026'));
@@ -30,14 +30,14 @@ const base='http://127.0.0.1:4173';
    assert.match(text,/no fees have been authorised/i);
    for(const item of await cards.all()){
     const state=item.locator('.dd-verification-state');
-    assert.equal(await state.getAttribute('data-status'),'sent_unacknowledged');
-    assert.match(await state.innerText(),/acknowledgement not verified/i);
-    assert.match(await item.locator('.dd-verification-dates').innerText(),/17 November 2026/);
-    assert((await item.locator('.dd-verification-timeline li').count())>=2);
+    assert(['sent_unacknowledged','response_received'].includes(await state.getAttribute('data-status')));
+    const dateInfo=await item.locator('.dd-verification-dates').innerText();
+    assert.match(dateInfo,/last documented/i);
+    assert((await item.locator('.dd-verification-timeline li').count())>=1);
     await item.locator('details > summary').click();
     assert.equal(await item.locator('details').getAttribute('open'),'');
     const sources=item.locator('.dd-verification-links a');
-    assert((await sources.count())>=2);
+    assert((await sources.count())>=1);
     for(const l of await sources.all()){
      assert.equal(await l.getAttribute('rel'),'noopener noreferrer');
      const url=await l.getAttribute('href');assert(url.startsWith('https://'));
@@ -66,7 +66,7 @@ const base='http://127.0.0.1:4173';
    await a.waitFor({state:'visible'});
    assert.equal(await a.getAttribute('href'),'/sources#sourceVerification');
    const callout=await page.locator('#ddWhoSourceTracker').innerText();
-   assert.match(callout,/acknowledgement or answer has yet been verified/i);
+   assert.match(callout,/Washington Headquarters Services has replied/i);
    assert.equal(await page.locator('#ddWebSecondaryNav .tab').count(),14,
      'Keep premium navigation, do not add a dock tab');
    assert.deepEqual(errors,[], 'No JavaScript errors '+width);
@@ -85,6 +85,6 @@ const base='http://127.0.0.1:4173';
   assert.match(await page.locator('.dd-verification-error').innerText(),/could not be loaded/i);
   assert.equal(await page.locator('.dd-verification-card').count(),0,'No fabricated status fallback');
   await ctx.close();
-  console.log('M39 Chromium PASS: 2 dated agency enquiries, responsive at 320/393/820/1280, original links, no false receipt, Who’s Who callout, original dock and archive, offline data failure closed.');
+  console.log('M40 Chromium PASS: 5 archive enquiries including WHS reply and unknown dates, responsive at 320/393/820/1280, original links, no false FOIA status, preserved nav, fail-closed.');
  }finally{await browser.close();}
 })().catch(err=>{console.error(err);process.exitCode=1;});
