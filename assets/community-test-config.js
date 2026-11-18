@@ -22,6 +22,7 @@ window.DD_COMMUNITY_FEATURES=Object.freeze({
  discussions:enabled, // Approved public social release: guest reads, members post through controlled RPCs
  profileAvatars:enabled, // Approved public visible-by-default photo with server-enforced Hide
  researchPublishing:false,
+ communityResearchBackend:false, // M02 secure draft adapter is STAGED, no real service until a reviewed migration,
  communityResearchPreview:local||preview // No live publishing, only the non-submitting design/author copy prototype
 });
 })();
