@@ -1,5 +1,5 @@
 'use strict';
-// Milestone 40 — real Chromium, synthetic Research document and synthetic GA only.
+// Milestone 40 — real Chromium, synthetic Research document, and GA4 retirement regression.
 // NO public deployment; NO real Supabase / Google Analytics requests.
 const assert=require('node:assert/strict');
 const {chromium}=require('playwright-core');
@@ -114,41 +114,39 @@ async function main(){
     'New editor error(s): '+JSON.stringify(errors));
    await ctx.close();
   }
-  const context=await browser.newContext({serviceWorkers:'block'});
-  await context.addInitScript(()=>{
-   try{localStorage.setItem('dd-site-analytics-consent-v1','accepted')}catch(_){}
-  });
-  await context.route('**/*',route=>{
-   const url=new URL(route.request().url());
-   if(url.origin===BASE&&['/privacy','/'].includes(url.pathname)){
-    const html='<!doctype html><html><head><script defer src="/assets/analytics-consent.js"></script></head>'+
-     '<body><nav class="nav"><button class="tab active" data-tab="discover">News</button></nav>'+
-     '<p id="dd-analytics-device-status">Checking</p>'+
-     '<button data-dd-analytics-open>Analytics preferences</button></body></html>';
-    return route.fulfill({status:200,contentType:'text/html',body:html});
-   }
-   if(url.hostname==='www.googletagmanager.com')
-    return route.fulfill({status:200,contentType:'application/javascript',body:'/* synthetic GA4 script */'});
-   return url.origin===BASE?route.continue():route.abort('blockedbyclient');
-  });
-  const p=await context.newPage();
-  await p.goto(BASE+'/privacy',{waitUntil:'domcontentloaded'});
-  await p.waitForFunction(()=>window.DDAnalyticsConsent?.getStatus()?.tagLoaded);
-  const first=await p.evaluate(()=>window.dataLayer.map(x=>Array.from(x)).filter(x=>x[0]==='event'));
-  assert.deepEqual(first.map(x=>x[2].page_path),['/privacy.html']);
-  assert.match(await p.locator('#dd-analytics-device-status').innerText(),/Google tag loaded/);
-  passed++;console.log('PASS M40 extensionless privacy URL reports canonical public page');
-  await p.goto(BASE+'/?dd_tab=profilePage',{waitUntil:'domcontentloaded'});
-  await p.waitForFunction(()=>!!window.DDAnalyticsConsent);
-  const privateViews=await p.evaluate(()=>window.dataLayer?.filter(x=>x[0]==='event').length||0);
-  assert.equal(privateViews,0,'Private deep link must never be misreported as News');
-  passed++;console.log('PASS M40 private deep link produces no faux News analytics');
-  await p.goto(BASE+'/?dd_tab=mapPage',{waitUntil:'domcontentloaded'});
-  await p.waitForFunction(()=>window.DDAnalyticsConsent?.getStatus()?.tagLoaded);
-  const maps=await p.evaluate(()=>window.dataLayer.map(x=>Array.from(x)).filter(x=>x[0]==='event'));
-  assert.deepEqual(maps.map(x=>x[2].page_path),['/site/map']);
-  passed++;console.log('PASS M40 public Map deep link measured correctly with opt-in');
-  await context.close();
+
+  // The original GA4 synthetic-page assertions are retired: no GA tag or
+  // analytics prompt is allowed on public pages. The three Adsterra banner
+  // codes remain release-disabled and independently consent-gated.
+  for(const width of [393,1280]){
+   const ctx=await browser.newContext({viewport:{width,height:852},serviceWorkers:'block'});
+   const gaRequests=[];
+   await ctx.route('**/*',route=>{
+    const url=new URL(route.request().url());
+    if(/(?:googletagmanager|google-analytics|analytics\.google)\.com$/i.test(url.hostname)){
+     gaRequests.push(url.href);return route.abort('blockedbyclient');
+    }
+    return url.origin===BASE?route.continue():route.abort('blockedbyclient');
+   });
+   const p=await ctx.newPage();
+   await p.goto(BASE+'/privacy.html',{waitUntil:'domcontentloaded'});
+   assert.equal(await p.locator('script[src*="analytics-consent"]').count(),0);
+   assert.equal(await p.locator('#dd-analytics-consent').count(),0);
+   assert.equal(await p.locator('#website-analytics').count(),1);
+   assert.equal(await p.locator('#advertising-settings').count(),1);
+   assert.equal(await p.locator('#dd-advertising-consent').count(),0,
+    'Adsterra provider release stays disabled');
+   passed++;console.log('PASS M40 '+width+'px privacy and no GA4 consent');
+   await p.goto(BASE+'/?dd_tab=mapPage',{waitUntil:'domcontentloaded'});
+   assert.equal(await p.locator('script[src*="analytics-consent"]').count(),0);
+   assert.equal(await p.locator('[data-dd-analytics-open]').count(),0);
+   assert.equal(await p.locator('#dd-analytics-consent').count(),0);
+   assert.equal(await p.evaluate(()=>typeof window.DDAnalyticsConsent),'undefined');
+   assert.equal(await p.evaluate(()=>typeof window.gtag),'undefined');
+   assert.equal(gaRequests.length,0,'GA4 requests must be zero');
+   passed++;console.log('PASS M40 '+width+'px no GA requests on public home');
+   await ctx.close();
+  }
   console.log('PASS M40 TOTAL '+passed+' real Chromium checks. No live users, Google or Supabase.');
  }finally{await browser.close()}
 }
