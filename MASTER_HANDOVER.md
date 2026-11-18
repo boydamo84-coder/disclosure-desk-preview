@@ -1,6 +1,25 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 18 November 2026 (Europe/London) — Curated Who’s Who and international source-first website RC1 staged on GitHub production base; NO NETLIFY DEPLOY_
+_Last updated: 18 November 2026 (Europe/London) — Current curated RC1 verified and older deployment entries reconciled_
 
+
+## Deployment queue reconciliation — 18 November 2026
+
+**Only current public website candidate: the curated source-first RC1 on this branch.** The active public deployment's `/release-manifest.json` matched the manifest rebuilt from GitHub `production` at `6b602324d14b834b0ef5ac222d3cae3acbf53a56` byte for byte. Sampled research, Sources, Who's Who, Discussions, Chat and feed assets matched the live bytes. The only observed HTML differences on the home and W.NE pages were Netlify's clean-URL rewrites. The live site serves the R3 Hypothesis Lab and the pinned launch guide. `/favicon.ico` returns the expected 302, and the new worldwide programmes page is absent from production. The Netlify Deploys page did not show authenticated history, so its Published deployment ID, current build controls and separate draft builds remain unconfirmed.
+
+| Queue item | Disposition |
+| --- | --- |
+| R1, R2, R3, and separate M86/M90/M91/M96 fixes | Shipped in the live baseline. Skip any separate redeploy. The old R3 scope branch is historical and its later implementation branch differs from production only in the handover file. |
+| November 1 draft PR #1 and pre-R3 social/website release branches | Superseded as deploy candidates. The draft predates the later video, news, comments and release-package changes. Its three SQL migration files already exist in production source with matching content. Preserve them as history. |
+| RC1 | Keep for one website deployment. Adds the source-first 57-profile directory, 23 international programme/archive entries, five outreach records and contextual navigation. The 124-file public bundle changes just 14 paths relative to the 116-file baseline, including the generated release manifest, with no removed files. |
+| Who's Who M63/M64 | Hold claim voting. The separate implementation is disabled, has no approved claims, and still needs signed-in acceptance and the approval/aggregation checks. |
+| Community Research M07 | Keep as a separate two-account pilot. Server roster is configured. Assemble a narrowly scoped candidate and verify both genuine signed-in browser sessions before expansion. |
+| R4 Living Research | Retain the roadmap. Build its candidate from the verified live baseline when implementation is ready. |
+
+Exact candidate `558a5ed4d0afd6c0e8c225142e6228d89b538c9e` passed both [no-deploy CI jobs](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44411660392), including the 320/393/820/1280 px browser checks. The local package, indexing, Discussions, Case Connections and Evidence DNA contract checks also passed. The separate local Chromium run was blocked by the runtime before any test executed. Treat this handover-only update as documentation and verify its own exact-head CI before publication.
+
+**Separate catalogue observation:** The live site and RC1 both bundle the same 737 Disclosure Clips records. The collector's latest `main` snapshot held 1,363 at this check. The live browser currently reads the bundled Clips JSON. Review the catalogue refresh separately so current news/Clips data changes do not pull an old application branch into this release.
+
+**Promotion:** Use the latest green RC1 head only. Confirm the Published entry and rollback deploy in Netlify, then perform one authorized production build using `node scripts/build_public_release.cjs` and `.release-staging/public-site`. Public smoke should check the outreach register, worldwide page, Who's Who profile-to-Archive return, and existing R3, Discussions and W.NE routes. No Netlify build, production ref change, database migration or APK release was made during this reconciliation.
 
 ## Curated research RC1 — Production-based, no unrelated staging (18 November 2026)
 
