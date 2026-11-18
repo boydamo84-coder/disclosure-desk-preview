@@ -31,12 +31,16 @@ function showSources(urls){
  }
 }
 function message(e){return String(e?.message||e||'Research service unavailable.').slice(0,260)}
-function init(){
+async function init(){
  const recovery=window.DDCommunityResearchRecovery;
  const draftApi=window.DDCommunityResearchDrafts;
  const publication=window.DDCommunityResearchPublication;
  const availability=$('myResearchAvailability');
  if(!recovery?.enabled||!draftApi?.enabled||!publication?.enabled)return;
+ if(typeof recovery.isPilot==='function' && !(await recovery.isPilot())){
+  availability.textContent='My Research is limited to approved beta researchers. Sign in on Disclosure Desk or return to the Research Library.';
+  return;
+ }
  const board=$('myResearchBoard'),details=$('myResearchDetails');
  board.hidden=false;
  availability.textContent='Controlled test workspace · Account-backed recovery is being verified. No live public publication is enabled.';
