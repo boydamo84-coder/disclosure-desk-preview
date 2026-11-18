@@ -1,0 +1,73 @@
+name: "Community Research M02 RLS and private author drafts NO DEPLOY"
+on:
+  push:
+    branches:
+      - prep/community-research-m02-rls-private-drafts-20261118
+  workflow_dispatch:
+permissions:
+  contents: read
+
+jobs:
+  source-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify existing M01 and new M02 contract
+        run: |
+          node --check scripts/test_community_research_m02_contract.cjs
+          node scripts/test_community_research_m02_contract.cjs
+          node scripts/test_community_research_m01_contract.cjs
+      - name: Verify public package contains NO M02 SQL, tests or private drafts
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          test ! -f .release-staging/public-site/docs/COMMUNITY_RESEARCH_M02_SQL_DRAFT_ONLY.sql
+          test ! -f .release-staging/public-site/scripts/fixtures/community-research-m02-rls-test.sql
+          test -f .release-staging/public-site/community-research.html
+          echo "M02 private SQL and fixture excluded; no deployment attempted"
+  disposable-postgres-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cr_m02_qa
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d cr_m02_qa"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: cr_m02_qa
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install PostgreSQL client if necessary
+        run: |
+          if ! command -v psql >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq postgresql-client
+          fi
+          psql --version
+      - name: Run M02 RLS and role tests entirely inside disposable Postgres
+        run: |
+          psql -v ON_ERROR_STOP=1 -f scripts/fixtures/community-research-m02-postgres-bootstrap.sql
+          psql -v ON_ERROR_STOP=1 -f docs/COMMUNITY_RESEARCH_M02_SQL_DRAFT_ONLY.sql
+          psql -v ON_ERROR_STOP=1 -f scripts/fixtures/community-research-m02-rls-test.sql
+          echo "All testing occurred on GitHub's disposable localhost Postgres — no connected Supabase calls, deploy or live data"
