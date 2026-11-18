@@ -3,7 +3,7 @@
 const fs=require('fs'),path=require('path'),crypto=require('crypto');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'.release-staging','public-site');
 if(fs.existsSync(out))throw Error('Refusing to overwrite existing release staging folder');
-const top=['index.html','guide.html','sources.html','investigations.html','rendlesham-forest-1980.html','roswell-1947.html','who-is-who.html','world-uap-programmes.html','community-rules.html','privacy.html','terms.html','research-edition.html',
+const top=['index.html','guide.html','sources.html','investigations.html','rendlesham-forest-1980.html','roswell-1947.html','who-is-who.html','world-uap-programmes.html','community-research.html','community-rules.html','privacy.html','terms.html','research-edition.html',
  'cloud-boards.js','manifest.webmanifest','robots.txt','sitemap.xml','ads.txt','app-ads.txt'];
 const data=['approved-live-events.json','curated-historical-cases.json','evidence-dna-claim-drafts.json','public-people-directory.json','public-people-directory-additions-m58.json','public-source-verification.json','who-editorial-handoff-m29.json','public-person-case-links.json','programmes-places-m58.json','curated-official-videos.json',
  'disclosure-clips.json','disclosure-map.json','historical-news-archive.json',
@@ -27,7 +27,7 @@ function copy(rel){
 // must never silently make it publicly accessible on a subsequent deploy.
 const approvedWeb=Object.freeze({
  assets:[
-  'media-submissions.js','community-polish.css','secondary-editorial-nav.css','secondary-editorial-nav.js','analytics-consent.js','case-comment-moderation.js','case-connections.js','evidence-dna.js','person-case-links.js','people-directory.js','world-uap-programmes.js','who-archive-return.js','source-verification.js','page-help.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
+  'media-submissions.js','community-polish.css','secondary-editorial-nav.css','secondary-editorial-nav.js','analytics-consent.js','case-comment-moderation.js','case-connections.js','evidence-dna.js','person-case-links.js','people-directory.js','community-research-entry.js','community-research-preview.js','world-uap-programmes.js','who-archive-return.js','source-verification.js','page-help.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
   'community-test-config.js','community-votes.js','confirmation-dialog.js','disclosure-desk-mark.svg',
   'discussions-admin.js','historical-satellite.js','inline-news-comments.js','unified-action-rails.js',
   'live-chat.js','live-hearings.js','live-schedule.css','live-schedule.js',
@@ -42,7 +42,7 @@ const approvedWeb=Object.freeze({
   'research-docx-import.js','research-insert-menu.js','research-site-nav.js','research-text-size.js','research-workspace.html','restore-copy.html',
   'restore-library.html','restore-library-core.js','restore-library.js',
   'restore-copy.js','wne-cloud-bridge.js','wne-export-integration.js',
-  'wne-research-live-spelling.js','wne-dialogs-m34.js','wne-polish-m34.css','wne-polish-m34.js',
+  'wne-research-live-spelling.js','wne-community-publish.js','wne-dialogs-m34.js','wne-polish-m34.css','wne-polish-m34.js',
   'wne-view-m39.css','wne-view-m39.js','wne-ui-m40.css','wne-ui-m40.js','wne.html'
  ]
 });
