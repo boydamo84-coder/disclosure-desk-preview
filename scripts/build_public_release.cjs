@@ -5,7 +5,7 @@ const root=path.resolve(__dirname,'..'),out=path.join(root,'.release-staging','p
 if(fs.existsSync(out))throw Error('Refusing to overwrite existing release staging folder');
 const top=['index.html','guide.html','sources.html','investigations.html','rendlesham-forest-1980.html','roswell-1947.html','who-is-who.html','world-uap-programmes.html','community-rules.html','privacy.html','terms.html','research-edition.html',
  'cloud-boards.js','manifest.webmanifest','robots.txt','sitemap.xml','ads.txt','app-ads.txt'];
-const data=['approved-live-events.json','curated-historical-cases.json','evidence-dna-claim-drafts.json','public-people-directory.json','public-people-directory-additions-m58.json','public-source-verification.json','who-editorial-handoff-m29.json','public-person-case-links.json','programmes-places-m58.json','curated-official-videos.json',
+const data=['approved-live-events.json','curated-historical-cases.json','evidence-dna-claim-drafts.json','public-people-directory.json','public-people-directory-additions-m58.json','who-community-approvals-m64.json','public-source-verification.json','who-editorial-handoff-m29.json','public-person-case-links.json','programmes-places-m58.json','curated-official-videos.json',
  'disclosure-clips.json','disclosure-map.json','historical-news-archive.json',
  'international-source-registry.json','news-alerts.json'];
 const webExt=new Set(['.html','.js','.css','.svg','.png','.jpg','.jpeg','.webp','.gif','.ico','.woff2']);
@@ -27,7 +27,7 @@ function copy(rel){
 // must never silently make it publicly accessible on a subsequent deploy.
 const approvedWeb=Object.freeze({
  assets:[
-  'media-submissions.js','community-polish.css','secondary-editorial-nav.css','secondary-editorial-nav.js','analytics-consent.js','case-comment-moderation.js','case-connections.js','evidence-dna.js','person-case-links.js','people-directory.js','world-uap-programmes.js','who-archive-return.js','source-verification.js','page-help.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
+  'who-evidence-ballot-m64.js','who-evidence-ballot-m64.css','media-submissions.js','community-polish.css','secondary-editorial-nav.css','secondary-editorial-nav.js','analytics-consent.js','case-comment-moderation.js','case-connections.js','evidence-dna.js','person-case-links.js','people-directory.js','world-uap-programmes.js','who-archive-return.js','source-verification.js','page-help.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
   'community-test-config.js','community-votes.js','confirmation-dialog.js','disclosure-desk-mark.svg',
   'discussions-admin.js','historical-satellite.js','inline-news-comments.js','unified-action-rails.js',
   'live-chat.js','live-hearings.js','live-schedule.css','live-schedule.js',
