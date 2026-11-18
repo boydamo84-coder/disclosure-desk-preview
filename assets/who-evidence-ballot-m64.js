@@ -258,7 +258,9 @@
   const approvals=await registry();if(!enabled()||!host.isConnected)return 0;
   let mounted=0;
   for(const claim of person.claimEvidence){
-   const approval=approvals.get(claim.id+':1');
+   const approval=[...approvals.values()]
+    .filter(a=>a.claimId===claim.id)
+    .sort((a,b)=>b.claimVersion-a.claimVersion)[0];
    if(!sourceMatches(claim,approval))continue;
    const article=[...host.querySelectorAll('article[data-evidence-claim-id]')]
     .find(node=>node.dataset.evidenceClaimId===claim.id);
