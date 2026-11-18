@@ -38,7 +38,7 @@ assert(!sql.includes('grant select on table public.dd_who_m63_member_ballots to 
 assert(sql.includes('create trigger dd_who_m63_ballot_guard_trigger'));
 assert(sql.includes("interval '5 minutes'"));
 assert(sql.includes('not (new.is_withdrawn and not old.is_withdrawn)'));
-assert(sql.includes('not approved')===false);
+assert(sql.includes('Claim version not approved for community ballots'));
 assert(sql.includes('approved boolean not null default false'));
 assert(sql.includes('eligible boolean not null default false'));
 assert(sql.includes('enabled boolean not null default false'));
