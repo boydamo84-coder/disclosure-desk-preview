@@ -1,5 +1,17 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 18 November 2026 (Europe/London) — M64 genuine Who's Who integrated reader, synthetic Chrome accounts and disposable Postgres GREEN; STAGED, NO LIVE DEPLOY_
+_Last updated: 18 November 2026 (Europe/London) — M65 community result review and privacy controls staged_
+
+## M65 — Reviewed publication of community evidence results (18 November 2026)
+
+**Branch:** `prep/who-m65-aggregate-publication-20261118`, based on voting candidate `6fc4546456a3fd6faf934e378b9e3ceba92d938b`. Live site is Source-First RC1 at `530dae2d0307c5448234c5cf8d1d3d21e495e774`. This is a staging-only database draft and fixture, with no Netlify deployment, live schema, ballots, new site files or claim activation. The M64 development history still requires a clean production-based integration before promotion.
+
+**How the draft works:** The database owner prepares an unpublished aggregate from private ballots for a single exact claim version. Withdrawn and entirely blank assessments do not count. Explicit zero counts as an answer. Each criterion requires at least 10 answers, and every nonempty score band or unknown group requires at least 5. The private draft shows only eligible, coarse totals and the exact claim statement and original-source URL. Two separately provisioned direct database reviewer identities must approve its digest. Reviewers can read the draft and insert their own review, with no access to raw ballots or publishing functions. The draft creates no individual login accounts and no public RPC.
+
+**Publication and correction:** The database owner publishes in a read-committed transaction. The database checks the current tally and source against the reviewed draft, rejects stale approvals, and records each publication in a private ledger. At most one snapshot can be published per claim version so repeated small changes do not create a public time series of individual ballot changes. An owner can retire the snapshot with a private correction reason. A published statement/source cannot be changed in place. The public rows have no reviewer identities, user IDs or individual answers. These controls cover the draft approval path. A frozen published snapshot is not recalculated on later withdrawal, so the post-publication withdrawal or retirement policy must be resolved before inviting members.
+
+**Verification:** Local isolated PostgreSQL-compatible execution passed the existing M63 owner/anonymous/withdrawal fixture and the M65 approval fixture using synthetic identities. M65 exercised one required review, duplicate/forged reviewer attempts, blocked member/reviewer writes, stale ballots and edited source, threshold suppression, publication and retirement, and one-time publication. The M64 contract and 127-file public package checks passed with the vote flag OFF and an empty approval registry. Native PostgreSQL 17 runs via `.github/workflows/who-m65-aggregate-no-deploy.yml`. No production credentials were used.
+
+**Next:** Resolve the withdrawal/publication lifecycle, use a separate test backend for real account acceptance, require independent review of the underlying claim itself, and carry the vetted voting files onto current production in a bounded candidate. No editable browser flag makes claims eligible. The separately staged Videos refresh and Community Research are outside this milestone.
 
 ## M64 — Source-specific five-criterion integration, fail closed (18 November 2026)
 
