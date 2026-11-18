@@ -36,7 +36,7 @@ for(const r of d.records){
   assert(src.purpose.length>35);links.add(url.href);
  }
 }
-const osd=d.records[0],nara=d.records[1];
+const osd=d.records.find(x=>x.id==='osd-151-pages'),nara=d.records.find(x=>x.id==='nara-mj12-revision');
 assert.equal(osd.originalCase,'DON-NAVY-2020-007231');
 assert.equal(osd.publicSources[0].url,m38.crossCaseRegisters[0].originalLetterUrl);
 assert(osd.sourceWarning.includes('19-F-1420')&&osd.sourceWarning.includes('20-F-1095'));
