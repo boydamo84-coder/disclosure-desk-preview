@@ -1,0 +1,38 @@
+'use strict';
+// M62: source-first Who's Who. Retire dual site/member numerical ratings
+// without removing 50 original biographies, 23 research dossiers or M60 additions.
+const assert=require('node:assert/strict');
+const fs=require('node:fs'),path=require('node:path');
+const read=p=>fs.readFileSync(path.resolve(__dirname,'..',p),'utf8');
+const who=read('who-is-who.html');
+const home=read('index.html');
+const js=read('assets/people-directory.js');
+const originals=JSON.parse(read('data/public-people-directory.json'));
+const additions=JSON.parse(read('data/public-people-directory-additions-m58.json'));
+assert.equal(originals.people.length,50);
+assert.equal(originals.people.flatMap(p=>p.claimEvidence||[]).length,23);
+assert(originals.people.flatMap(p=>p.claimEvidence||[]).every(c=>c.ratingReadiness?.publicationApproval==='withheld'));
+assert(additions.people?.length>=7||additions.people?.length===6,'Staged additional profiles retained');
+assert(js.includes('function draftEvidenceTrailHtml'));
+assert(js.includes('function evidenceReviewSummaryHtml'));
+assert(js.includes('function renderPublicRoleEvidence'));
+assert(js.includes('function renderPublicWorkEvidence'));
+assert(js.includes('function renderEvidenceScope'));
+assert(js.includes('appendStagedProfiles'));
+assert(js.includes('function renderClaimEvidence'));
+assert(js.includes('View original evidence sources and open questions'));
+assert(js.includes('source provenance')||js.includes('Source provenance')||js.includes('source-chain'));
+assert(!/dd_who_claim_rating_(?:set|summary)/.test(js),'Retired one-number voting RPC removed');
+assert(!/function communityDb|function hydrateCommunityRatings|data-rating-save|data-rating-slider/.test(js),'Old voting handlers removed');
+assert(!/Disclosure Desk rating|Community rating|claim-dual|data-rating-save/.test(who),'Dual rating UI and copy removed');
+assert(!/Disclosure Desk rating|Community rating|how the two ratings work/.test(home),'Pinned release guide corrected');
+assert(!who.includes('src="/assets/community-test-config.js?'),'Old vote config not loaded on Who');
+assert(!who.includes('cdn.jsdelivr.net/npm/@supabase/supabase-js'),'No vote client loaded on Who');
+assert(who.includes('Read the evidence and decide for yourself'));
+assert(who.includes('Not enough information'));
+assert(who.includes('Voting is not active'));
+assert(home.includes("Who's Who — how to research and assess a claim"));
+assert(home.includes('Twenty-three source-linked profiles now contain'),'Original extensive research-guide text preserved');
+assert(home.includes('Who’s Who — inspect the original evidence'));
+assert(!who.includes('View evidence &amp; scoring breakdown'));
+console.log('M62 CONTRACT PASS: no site/editorial panel or legacy scalar voting; original 50/23 source research, M60 extras and pinned research guide intact; member ballot still disabled.');
