@@ -46,3 +46,11 @@ Workflow: `.github/workflows/curated-research-rc1-no-deploy.yml`. Consult the ne
 5. Update the manually maintained tracker only with independently verified incoming correspondence.
 
 **Current action:** staged candidate and CI; not a production or Netlify deployment. This work is recorded in `MASTER_HANDOVER.md` on the candidate branch.
+
+## Final RC1 responsive QA — verified 18 November 2026
+
+The curated code at commit `9a72b54c01f78c07a1b0aecc5564571f82e47a06` passed **both** jobs of [GitHub Actions run 44411377484](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44411377484). All 57 profiles, 23 original claim dossiers, five source enquiry records, 23 global records and the existing 14-tab navigation passed their isolated browser tests at 320/393/820/1280px, with no community vote API calls or unresolved page errors. The production-shaped public bundle passed checksum/allowlist checks and excluded every Community Research beta page, ballot prototype and internal SQL.
+
+A stronger full-page mobile test found an existing Sources header Help “i” control overflowing the viewport at 320px, even though the new source tracker itself fitted. The candidate `sources.html` mobile header was changed to wrap its controls below 690px without changing its desktop presentation. The full-page test was reinstated and passed at 320/393/820/1280px in that successful run.
+
+**There was no Netlify or production-branch deployment.** As this document itself is updated after the tested code, use the latest exact HEAD Actions run for final verification.
