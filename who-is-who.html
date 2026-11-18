@@ -51,8 +51,6 @@ footer a{margin-right:14px}
 .claim-review h4{font-size:17px;line-height:1.35;margin:0 0 8px}
 .claim-review .claim-status{font-size:12px;font-weight:800;letter-spacing:.25px;color:#e9cc93}
 .claim-review .claim-record{border-left:2px solid #ad8b53;padding-left:12px;margin-top:12px;overflow-wrap:anywhere}
-.claim-review .claim-score{font-weight:900;font-size:27px;color:#f0ce90;font-variant-numeric:tabular-nums}
-.claim-score small{font-size:12px;color:var(--muted);font-weight:500}
 .claim-metric{margin:12px 0}
 .claim-metric-head{display:flex;gap:12px;justify-content:space-between;align-items:start;font-size:12px}
 .claim-metric-head strong{font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -64,18 +62,7 @@ footer a{margin-right:14px}
 #claimReviewMethod ul{padding-left:22px}
 #profileEvidenceReviews a{overflow-wrap:anywhere}
 .claim-review .claim-not-assessed{display:inline-block;border:1px solid #7a6748;color:#ffdfaa;border-radius:8px;padding:5px 10px;font-weight:750;font-size:12px}
-@media(max-width:420px){.claim-review{padding:13px}.claim-review .claim-score{font-size:23px}}
-
-.claim-dual{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}
-.claim-dual-panel{border:1px solid #52647a;border-radius:12px;padding:15px;background:#0a1a29;min-width:0}
-.claim-dual-panel h5{font-size:12px;line-height:1.4;color:#e7c88c;text-transform:uppercase;letter-spacing:.5px;margin:0 0 12px}
-.claim-community-rating [data-rating-control]{margin-top:12px}
-.claim-community-rating [data-rating-control][hidden]{display:none!important}
-.claim-community-rating input[type=range]{display:block;width:100%;height:24px;accent-color:#d0a761;cursor:pointer;touch-action:pan-y;margin:10px 0}
-.claim-community-rating [data-rating-save]{display:block;margin:6px 0;min-height:42px}
-.claim-community-rating [data-rating-summary]{font-weight:750;color:#ffdfaa}
-.claim-community-rating [data-rating-notice]{margin:8px 0 0}
-@media(max-width:670px){.claim-dual{grid-template-columns:1fr}.claim-dual-panel{padding:13px}}
+@media(max-width:420px){.claim-review{padding:13px}}
 
 /* Publisher and first-person record index; visibly separate from scored cases. */
 .claim-work-card{border:1px solid #637789;border-radius:12px;background:#0d2333;padding:16px;margin:14px 0;overflow-wrap:anywhere}
@@ -212,7 +199,7 @@ footer a{margin-right:14px}
       <a href="/who-is-who?person=christopher-mellon">Open Christopher Mellon's attributed profile and source trail</a>
     </details>
   </div>
-  <p class="muted small">This page explains the difference between verified publication of a statement and verification of its underlying assertion. All editorial claim reviews remain unsigned; the reader cannot submit a score.</p>
+  <p class="muted small">This page explains the difference between verified publication of a statement and verification of its underlying assertion. Evidence reviews and source trails remain open to inspection; no member ballot is accepting submissions.</p>
 </section>
 <section id="directoryPage" aria-label="People directory">
 <p class="muted small"><a href="/world-uap-programmes.html">Explore related government UAP programmes &amp; original case archives worldwide ↗</a></p>
@@ -233,13 +220,13 @@ footer a{margin-right:14px}
 <div>
 <section class="card"><div class="section-title">Public statements and perspective</div><h3>What they have publicly discussed</h3><p id="profilePosition"></p></section>
 <section class="card" id="profileClaimReviewSection">
-<div class="section-title">Claim-specific evidence · editorial assessment</div><h3>How well is each claim supported?</h3>
-<p class="muted small">Tap <strong>View evidence &amp; scoring breakdown</strong> on a reviewed claim to inspect every referenced document, what it supports or challenges, where to find the relevant passage and how it affected each criterion. Study-team participation, task-force membership and proposed legislation appear as separate <strong>original-source role records</strong> with no 0–100 score. Journalists, scientists, sceptical investigators, filmmakers and firsthand claimants have separate <strong>original-publication/source index</strong> panels where links are available; these show published work and explicitly identify remaining checks rather than inventing a person's score. A source can establish what someone publicly said without proving the underlying event. These assessments examine claims and supporting records, <strong>never someone's honesty or character</strong>. Scores are not probabilities of truth.</p>
+<div class="section-title">Attributed claims · original sources · open questions</div><h3>Read the evidence and decide for yourself</h3>
+<p class="muted small">Open a particular claim to inspect original publication and testimony links, documentary provenance, supporting and challenging material, missing underlying measurements and research questions. This is <strong>source-first research, not a numerical Disclosure Desk judgement</strong>. Role records and policy recommendations remain documented without pretending they establish an extraordinary incident. Nothing on this page rates people's character, honesty or motives.</p>
 <div id="profileEvidenceReviews" aria-live="polite"><p class="muted small">Loading claim reviews…</p></div>
-<details id="claimReviewMethod"><summary>How evidence strength is assessed (0–100 points)</summary>
-<p class="muted small">Proposed transparent editorial rubric. Only separately sourced, individually reviewed claims may receive a number. A missing evidence assessment is <strong>Not assessed</strong>, not zero. <strong>Scientific and policy recommendations are Not applicable</strong> to extraordinary-event evidence scores; their source trails remain readable but are never opened for community evidence-rating votes.</p>
-<ul class="small"><li>Primary record of the claim in context — 25 points</li><li>Independent corroboration of its underlying assertion — 30 points</li><li>Inspectible supporting records or data — 25 points</li><li>Specificity and independent testability — 10 points</li><li>Other explanations and conflicting evidence considered — 10 points</li></ul>
-<p class="muted small">A score describes a published evidence review, not a scientific probability. Editorial methods and individual claims can be challenged or corrected using source links.</p></details>
+<details id="claimReviewMethod"><summary>How members will be able to assess evidence (five criteria)</summary>
+<p class="muted small">Disclosure Desk does not publish editorial numerical ratings. The proposed optional community worksheet is about a precisely attributed claim, not a person's trustworthiness or the probability of an extraordinary interpretation. Members will be able to mark a criterion <strong>Not enough information</strong> instead of guessing; this is different from giving zero points.</p>
+<ul class="small"><li>Original record and full context — up to 25 points</li><li>Genuinely independent corroboration — up to 30 points</li><li>Original measurements and documentary provenance — up to 25 points</li><li>Testability and methodology — up to 10 points</li><li>Alternative explanations and uncertainty — up to 10 points</li></ul>
+<p class="muted small">Partial personal worksheets will not be extrapolated to 100. A future public summary would show each criterion's member response distribution, number of respondents and number selecting Not enough information, not a single headline truth percentage. <strong>Voting is not active</strong> until account-security, privacy, moderation and claim-eligibility checks are complete.</p></details>
 <p class="muted small">To suggest a primary source or challenge an assessment, <a href="mailto:support@uapdisclosuredesk.com?subject=Who%27s%20Who%20claim%20evidence%20review">contact the research desk</a>.</p>
 </section>
 <section class="card"><div class="section-title">Research context</div><h3>Evidence to examine and other interpretations</h3><p id="profileContext"></p><p class="note small">These notes are not a verdict on a person's character, credibility or motives. Interpretations should be tested against the cited record.</p></section>
@@ -258,14 +245,12 @@ footer a{margin-right:14px}
 </article>
 <section class="card" id="editorialPolicy"><div class="section-title">Directory policy</div><h2>Profiles are evidence guides, not popularity contests</h2>
 <p>Statements are attributed to their speakers or published institutions. Reporting, first-hand testimony, technical analysis and alleged facts are different types of evidence. Inclusion is not an endorsement or accusation.</p>
-<p>We will not label real people as dishonest, part of a covert operation or otherwise malicious based on a popularity poll. The proposed evidence-strength review above applies only to a <em>specific, attributed public claim</em>, with a visible source trail and editorial checks. It is not a numerical rating of an individual, proof of extraordinary explanations or a public popularity poll. Community ratings will require an authenticated account and separately approved claim evidence; they are not available while editorial review and backend checks are pending. No personal believability scores are collected.</p>
+<p>We will not label real people as dishonest, part of a covert operation or otherwise malicious based on community opinion. The directory provides original records and open questions rather than a Disclosure Desk evidence score. A future optional member worksheet will apply only to a <em>specific, attributed claim</em>, with private individual answers and safeguards for public aggregates. No ballots are active, and no numerical rating of a person is collected.</p>
 <p>To suggest a person, provide a public source supporting their work. To request a correction, <a href="mailto:support@uapdisclosuredesk.com?subject=Who%27s%20Who%20source%20correction">email the research desk</a> with the name, the disputed wording and a primary reference.</p>
 </section></main>
 <footer><div class="wrap">Disclosure Desk · Boyd Digital Studios · Public-source research directory<br><a href="/">Home</a><a href="/investigations">Original research</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></footer>
 <script defer src="/assets/person-case-links.js?v=r2-m8-alpha01"></script>
-<script defer src="/assets/community-test-config.js?v=r2-claim-community-20261115"></script>
-<script defer crossorigin="anonymous" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>
-<script defer src="/assets/people-directory.js?v=m60-six-profiles-20261117&m28=hearing-crosschecks&m28b=source-comparisons&m28c=lineage&m28d=broadcast-provenance&m28e=seven-originals&m29=review-handoff&m41=evidence-summary"></script>
+<script defer src="/assets/people-directory.js?v=m62-source-first-20261118&m28=hearing-crosschecks&m28b=source-comparisons&m28c=lineage&m28d=broadcast-provenance&m28e=seven-originals&m29=review-handoff&m41=evidence-summary"></script>
 <script defer src="/assets/secondary-editorial-nav.js?v=r2-premium-nav01"></script>
 <script defer src="/assets/page-help.js?v=r2-m10-help01"></script>
 </body></html>
