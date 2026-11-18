@@ -59,6 +59,33 @@ values('aaaaaaaa-1111-4111-8111-aaaaaaaaaaaa','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaa
  'case',array['https://www.archives.gov/research']);
 set role authenticated;
 
+-- A private draft may contain unsafe but syntactically HTTPS-like URLs.
+-- The publication boundary must independently reject them.
+do $check$
+declare v_draft uuid;
+begin
+ insert into public.dd_cr_drafts(title,abstract,body,paper_type,source_urls)
+ values('Research from a private network URL',
+        'A complete abstract used to test unsuitable original-source URLs.',
+        repeat('Original study text and attributed research methods. ',7),
+        'case',array['https://localhost/private'])
+ returning id into v_draft;
+ begin
+   perform public.dd_cr_publish_copy(v_draft,1,true);
+   raise exception 'Private network source passed publication validation';
+ exception when check_violation then null; end;
+ insert into public.dd_cr_drafts(title,abstract,body,paper_type,source_urls)
+ values('Research with credentials in a URL',
+        'A second complete abstract used to test credential-bearing URLs.',
+        repeat('Verified source and method details for test research. ',7),
+        'case',array['https://user:password@example.org/private'])
+ returning id into v_draft;
+ begin
+   perform public.dd_cr_publish_copy(v_draft,1,true);
+   raise exception 'Credential-bearing URL passed publication validation';
+ exception when check_violation then null; end;
+end $check$;
+
 -- Public paper creation must not be possible without positive consent.
 do $check$
 begin
@@ -256,4 +283,35 @@ begin
  if has_table_privilege('authenticated','dd_cr_private.publication_events','insert') then
   raise exception 'Client can forge consent audit';end if;
 end $check$;
-select 'PASS M03: explicit consent, saved revision locks, two identities, atomic new/revise/withdraw, immutable editions, blocked public leaks and private audit' as result;
+-- New-paper quota counts withdrawn papers too. A has already published once;
+-- A's two additional papers are permitted, then the fourth is denied.
+set role authenticated;
+set request.jwt.claims='{"sub":"aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa","is_anonymous":false}';
+do $check$
+declare v_draft uuid; v_result jsonb; i integer;
+begin
+ for i in 1..3 loop
+  insert into public.dd_cr_drafts(title,abstract,body,paper_type,source_urls)
+  values('Additional independent archive study '||i,
+         'This new study describes the historical research method and attribution.',
+         repeat('This original public-record analysis cites its source precisely. ',6),
+         'archive',array['https://www.archives.gov/research'])
+   returning id into v_draft;
+  if i<=2 then
+   v_result:=public.dd_cr_publish_copy(v_draft,1,true);
+   if v_result->>'status'<>'published' then
+    raise exception 'Allowed paper publication failed';end if;
+  else
+   begin
+    perform public.dd_cr_publish_copy(v_draft,1,true);
+    raise exception 'Four new publications in one day were permitted';
+   exception when invalid_parameter_value then null;end;
+  end if;
+ end loop;
+ if (select count(*) from public.dd_cr_publications p
+     where p.author_id=auth.uid())<>3 then
+  raise exception 'Daily quota failed to protect publication registry';
+ end if;
+end $check$;
+reset role;
+select 'PASS M03: consent, cross-user isolation, immutable editions, withdrawal, private URLs rejected, quotas enforced and private audit' as result;
