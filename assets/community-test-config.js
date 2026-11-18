@@ -22,7 +22,8 @@ window.DD_COMMUNITY_FEATURES=Object.freeze({
  discussions:enabled, // Approved public social release: guest reads, members post through controlled RPCs
  profileAvatars:enabled, // Approved public visible-by-default photo with server-enforced Hide
  researchPublishing:false,
- communityResearchBackend:false, // M02 secure draft adapter is STAGED, no real service until a reviewed migration,
+ communityResearchBackend:false, // M02 and M03 adapters remain STAGED; no live test database integration
+ communityResearchPublishing:false, // M03 public publication remains off even on test hosts,
  communityResearchPreview:local||preview // No live publishing, only the non-submitting design/author copy prototype
 });
 })();
