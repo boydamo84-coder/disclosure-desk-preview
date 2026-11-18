@@ -18,7 +18,7 @@ for(const f of ['index.html','guide.html','sources.html','investigations.html','
  'research/research-site-nav.js','research/wne-community-publish.js','research/google-drive.js','research/google-drive-config.js',
  'research/vendor-jszip-3.10.1.js','research/vendor-docx-9.5.1.js','research/vendor-dompurify-3.4.17.js','research/vendor-mammoth-1.12.3.js','research/docx-import-worker.js',
  'assets/community-polish.css','assets/media-submissions.js','assets/community-test-config.js','assets/profile-private-chat.js',
- 'assets/community-discussions.js','assets/community-research-preview.js','assets/community-research-private-drafts.js','assets/community-research-entry.js','assets/page-help.js','assets/evidence-dna.js','assets/person-case-links.js','assets/people-directory.js','data/public-people-directory.json','data/evidence-dna-claim-drafts.json','data/public-person-case-links.json','data/approved-live-events.json','data/historical-news-archive.json'])
+ 'assets/community-discussions.js','assets/community-research-preview.js','assets/community-research-publication.js','assets/community-research-author-workflow.js','assets/community-research-private-drafts.js','assets/community-research-entry.js','assets/page-help.js','assets/evidence-dna.js','assets/person-case-links.js','assets/people-directory.js','data/public-people-directory.json','data/evidence-dna-claim-drafts.json','data/public-person-case-links.json','data/approved-live-events.json','data/historical-news-archive.json'])
  assert.ok(names.has(f),'Required site dependency missing: '+f);
 // R3 public route is an explicit, allowlisted browser interface, never a
 // server-side engine, SQL schema, private profile, file export or account data.
