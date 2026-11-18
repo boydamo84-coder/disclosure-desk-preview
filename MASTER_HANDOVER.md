@@ -1,6 +1,14 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 18 November 2026 (Europe/London) — Current curated RC1 verified and older deployment entries reconciled_
+_Last updated: 18 November 2026 (Europe/London) — Source-first RC1 published and verified on the public site_
 
+
+## RC1 live production release — 18 November 2026
+
+Owner approved the single source-first website release. GitHub `production` was fast-forwarded from `6b602324d14b834b0ef5ac222d3cae3acbf53a56` to [`530dae2d0307c5448234c5cf8d1d3d21e495e774`](https://github.com/boydamo84-coder/disclosure-desk-preview/commit/530dae2d0307c5448234c5cf8d1d3d21e495e774). The release commit has exactly the tree from RC1 candidate `1e4155ea6a53e89d606d712053e21d88ca9e4c95`, which passed both [no-deploy CI jobs](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44414017623). The automatic public release was confirmed at **22:54 UTC**. The live `/release-manifest.json` matched the tested 124-file bundle byte for byte (SHA-256 `b538ba01cd61103672c402cbf85f217edea1cc9caaa873ce5c84565071e16f56`). Netlify's own Published deploy ID and credit balance were not independently read for this project. No manual trigger or dashboard setting change was needed.
+
+**Public smoke passed.** Home, Who's Who, Sources, the new worldwide directory, Hypothesis Lab and the W.NE entry route returned HTTP 200. Live data matched the candidate for 57 profiles, 23 international entries across 18 jurisdictions, and five source enquiries. The R3 page, Discussions and Chat assets and Who-to-Archive return script matched the expected files. Community Research pages and the Who voting script returned 404 as intended. This smoke was read-only. Signed-in and physical-phone acceptance was not part of it.
+
+**Rollback:** `backup/production-pre-source-first-rc1-20261118` preserves the verified pre-RC1 R3 build at `6b602324d14b834b0ef5ac222d3cae3acbf53a56`. The screenshots supplied during release show completed older production/preview records. No old preview was republished. Who voting, the Community Research pilot, and the independent Disclosure Clips catalogue refresh retain their separate gates. This handover is written on the RC1 branch so the publication record does not cause a second production push.
 
 ## Deployment queue reconciliation — 18 November 2026
 
