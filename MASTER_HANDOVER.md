@@ -1,5 +1,19 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 18 November 2026 (Europe/London) — M62 source-first Who's Who conversion, isolated Chrome GREEN; STAGED, NO DEPLOY_
+_Last updated: 18 November 2026 (Europe/London) — M63 isolated ballot/SQL prototype green; LIVE RELEASE NOT APPROVED_
+
+## M63 — Five-criterion private member ballot prototype and DB security tests (18 November 2026)
+
+**Branch:** `prep/who-m63-secure-five-criteria-ballots-20261118`, based on M62 `3c8adafe23fcd66f0f9345f0431b3f9e574b22f6`. **NO live Supabase migration, no production/Netlify deployment, no APK or real account edits.**
+
+- **Exact-code GitHub Actions verification:** [run 44207166746](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44207166746) concluded **success** for `245ec40c5b4b2f2c32a743fdfbe31d0c21000315`; all three jobs green: source/package contract, isolated real Chromium at 320/393/820/1280, and real PostgreSQL RLS against a disposable CI database. Recheck exact HEAD after this handover-only commit before claiming HEAD green.
+- **Prototype:** `scripts/fixtures/who-m63-member-ballot.html` and `scripts/fixtures/who-m63-vote-model.js` provide a private navy/gold mock screen with two synthetic users, anonymous and guest rejection, claim-version isolation, five scores (25/30/25/10/10), explicit null-versus-zero, partial totals, resubmission and withdrawal. It has **no actual Supabase authentication, network or persisted voting**.
+- **SQL design only:** `docs/WHO_M63_FIVE_CRITERIA_BALLOTS_SQL_DRAFT_ONLY.sql` describes eligibility/version registry (empty and off by default), per-user RLS-protected ballots, server-side checks, five-minute edit cooldown, immediate withdrawal, and editor-approved coarse aggregate snapshots with small-cell suppression. **It has NOT been applied to production.** No public RPC or insecure `SECURITY DEFINER` endpoint is created by the draft.
+- **Reproduced test evidence:** ephemeral PostgreSQL checked role permissions, own-ballot select, another member's isolation, anonymous restriction, zero-versus-null, maximum caps, version identity, duplicate ballots, cooldown and immediate withdrawal, and aggregate publication thresholds. Public release package test confirmed the SQL and UI fixture are excluded.
+- **Verified against live connected database read-only:** Disclosure Desk still has **no `dd_who*` public ballot tables**, so actual backend/account integration has not been tested. M63 tests do not imply user voting is switched on.
+- **RELEASE BLOCKERS:** integrate actual five-criterion UI with sourced/approved Who claims and existing site authentication; independently review SQL, DB permissions and anti-brigading/rate limiting; make and verify actual migration on a controlled test environment; develop secure editorial approval and published aggregate pipeline; run account-level end-to-end tests (guest, anonymous, two real test accounts, update, withdrawal, version and permissions); complete consolidated website/legacy test migration and physical Android APK/back navigation checks; confirm intended consolidated deploy and explicit owner go-ahead. Keep all claims ineligible and feature flags OFF until then. Site-wide social likes/votes are separate and unchanged.
+
+**M64 next:** implement integrated feature-flagged claim-scoped UI and auth adapter, still default OFF, stage test-only backend migration for review, and run end-to-end real account/real-device checks. Do not publish the M63 prototype as if it were a working live feature.
+
 
 ## M62 — Retire editorial rating panels and legacy one-number member rating (18 November 2026)
 
