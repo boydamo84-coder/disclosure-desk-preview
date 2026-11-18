@@ -14,7 +14,7 @@ as $fn$
  select cardinality(p_urls)<=12 and not exists(
   select 1 from unnest(p_urls) url
   where url is null or length(url)>1000
-     or url !~ '^https://[^[:space:]<>]+
+     or url !~ '^https://[^[:space:]<>]+$'
  );
 $fn$;
 revoke all on function public.dd_cr_links_ok(text[]) from public,anon,authenticated;
