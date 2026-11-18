@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "edition": "m39-public-source-verification-tracker",
+  "edition": "source-m40-public-outreach-register",
   "publicationStatus": "candidate_not_deployed",
-  "lastUpdated": "2026-11-17",
-  "methodology": "Email was accepted for sending via the research desk's connected account on 17 November 2026. This is not proof that a department received, accepted, answered, or opened a formal FOIA request. Public statuses are updated manually only when verified; date stamp is shown to avoid a misleading live status.",
+  "lastUpdated": "2026-11-18",
+  "methodology": "Dated public summary of direct archive and public-record correspondence. Sending an enquiry does not prove agency receipt; a reply is not a FOIA decision or permission to republish records. Exact correspondence dates not verified from original messages are explicitly marked as unknown. Records are updated manually, not through automatic inbox monitoring.",
   "records": [
     {
       "id": "osd-151-pages",
@@ -14,12 +14,12 @@
       "question": "Did OSD assign a tracking number or issue a public decision for the seven documents (151 pages) referred by the Navy in its 8 July 2025 letter?",
       "sourceWarning": "The 151 pages referred in the Navy letter must not be confused with separate Pentagon FOIA cases 19-F-1420 or 20-F-1095.",
       "dateSent": "2026-11-17",
-      "lastVerified": "2026-11-17",
-      "status": "sent_unacknowledged",
-      "statusLabel": "Enquiry sent · acknowledgement not verified",
-      "statusDetail": "The outgoing email service confirmed sending. Agency delivery, acknowledgement, any response and the referral's current disposition have not been verified. This was an information enquiry, not a confirmed new FOIA filing.",
-      "requestMethod": "Email enquiry asking for a public case ID, disposition date or released-record link; no private requester details sought.",
-      "evidenceRequirement": "An identifiable OSD acknowledgement, case number, official decision or public document specifically matching the seven Navy-referred documents.",
+      "lastVerified": "2026-11-18",
+      "status": "response_received",
+      "statusLabel": "Agency response received",
+      "statusDetail": "On 17 November 2026, Washington Headquarters Services FOIA staff acknowledged receiving our email and explained that FOIA requests must identify existing agency records rather than ask general questions. No specific referral number, determination, released pages or disposition was provided. A formal follow-up FOIA request has not yet been confirmed as filed.",
+      "requestMethod": "Initial case-status enquiry emailed 17 November 2026; WHS response dated 17 November. A revised request for existing administrative and referral records is proposed, not yet filed.",
+      "evidenceRequirement": "A formally acknowledged follow-up FOIA case number and official records specifically identifying the seven-document, 151-page Navy referral; the general procedural reply alone does not resolve its disposition.",
       "timeline": [
         {
           "date": "2025-07-08",
@@ -32,6 +32,12 @@
           "kind": "sent",
           "title": "Research enquiry sent",
           "detail": "Email accepted for sending; delivery and acknowledgement unverified."
+        },
+        {
+          "date": "2026-11-17",
+          "kind": "response",
+          "title": "WHS FOIA reply received",
+          "detail": "FOIA analyst acknowledged our email and explained the need to identify existing records. No specific referral status or release was supplied."
         }
       ],
       "publicSources": [
@@ -46,6 +52,111 @@
           "url": "https://documents2.theblackvault.com/documents/osd/19-F-1420.pdf",
           "purpose": "A distinct FOIA request sometimes described as 151 pages; not evidence this referral was resolved.",
           "hostType": "mirror"
+        },
+        {
+          "label": "WHS FOIA submission guidance (official)",
+          "url": "https://www.esd.whs.mil/FOID/Submit-Request/",
+          "purpose": "Official method to submit a new records-focused FOIA request; not proof any follow-up request has been filed.",
+          "hostType": "official"
+        }
+      ]
+    },
+    {
+      "id": "germany-gep-case-data",
+      "agency": "Gesellschaft zur Erforschung des UFO-Phänomens (GEP), Germany",
+      "category": "Independent research · Reuse permission",
+      "title": "German GEP UFO/UAP case dataset",
+      "question": "May Disclosure Desk import or reproduce GEP's UFO/UAP case dataset in a commercial public research service, and what source-linking is permitted?",
+      "sourceWarning": "GEP is an independent research association, not a German government department. A publicly viewable or downloadable dataset is not permission for commercial reuse or redistribution.",
+      "dateSent": null,
+      "lastVerified": "2026-11-01",
+      "status": "response_received",
+      "statusLabel": "Source organisation replied",
+      "statusDetail": "GEP declined permission for commercial reuse of its case dataset. We will not bulk import, mirror or map its records from that dataset. Links to the original public research source remain the permitted discovery route. Exact original request and response timestamps are not published until rechecked.",
+      "requestMethod": "Direct request for dataset reuse permission; precise send date pending correspondence verification.",
+      "evidenceRequirement": "A new explicit permission or clear licence grant from GEP would be needed before using the protected dataset in the commercial service.",
+      "timeline": [
+        {
+          "date": "2026-11-01",
+          "kind": "response",
+          "title": "Permission position recorded by this date",
+          "detail": "GEP had declined commercial dataset reuse; this is the date the position was documented in the research project, not a claimed exact email timestamp."
+        }
+      ],
+      "publicSources": [
+        {
+          "label": "GEP dataset, September 2026 version (Zenodo)",
+          "url": "https://zenodo.org/records/23117630",
+          "purpose": "Original independently published German UFO/UAP dataset catalogue; source-linking only here, not an authorisation to copy.",
+          "hostType": "official"
+        }
+      ]
+    },
+    {
+      "id": "brazil-arquivo-nacional-sian",
+      "agency": "Arquivo Nacional, Brazil",
+      "category": "Government archive · Catalogue access",
+      "title": "Brazilian OVNI archive and SIAN access",
+      "question": "Where can the Brazilian national UFO/OVNI records be located and what identifiers and permissions are required to cite or reuse them?",
+      "sourceWarning": "SIAN catalogue entries and fonds indexes are not automatically downloadable or reusable as one open-data feed. The example archive reference must never be applied to unrelated records.",
+      "dateSent": null,
+      "lastVerified": "2026-11-03",
+      "status": "response_received",
+      "statusLabel": "Archive guidance received",
+      "statusDetail": "Brazil's Arquivo Nacional pointed to its SIAN database for the available records and requested attribution to the archive, Objeto Voador Não Identificado fonds, and the correct individual reference code. This is guidance on locating and citing records, not a blanket authorisation to republish copies. Exact email dates have not yet been verified.",
+      "requestMethod": "Direct archive enquiry about existing OVNI documents and electronic catalogue; precise original send date pending verification.",
+      "evidenceRequirement": "Individual SIAN record references and any required permission before mirroring source documents or mass-importing records.",
+      "timeline": [
+        {
+          "date": "2026-11-03",
+          "kind": "response",
+          "title": "SIAN guidance documented by this date",
+          "detail": "National archive correspondence directed research to the SIAN catalogue with collection and item-level attribution. This is not the verified exact reply date."
+        }
+      ],
+      "publicSources": [
+        {
+          "label": "Arquivo Nacional — OVNI collection (official)",
+          "url": "https://www.gov.br/arquivonacional/pt-br/canais_atendimento/imprensa/noticias/conheca-o-fundo-sobre-ovnis-do-arquivo-nacional",
+          "purpose": "Official introduction to the Brazilian national UFO/OVNI collection and available records.",
+          "hostType": "official"
+        },
+        {
+          "label": "Arquivo Nacional — SIAN access tutorials",
+          "url": "https://www.gov.br/arquivonacional/pt-br/servicos/bases-de-dados/tutoriais",
+          "purpose": "Official instructions for searching the national catalogue and retrieving specific item references.",
+          "hostType": "official"
+        }
+      ]
+    },
+    {
+      "id": "canada-lac-reproduction-permissions",
+      "agency": "Library and Archives Canada (LAC)",
+      "category": "Government archive · Copyright review",
+      "title": "Canadian UFO records and reproduction rights",
+      "question": "Can Disclosure Desk reproduce digitised Canadian UFO documents, or is permission required for each selected work?",
+      "sourceWarning": "Public access to a catalogue or digital view does not automatically grant reproduction or commercial-hosting rights. No blanket approval for all records was given.",
+      "dateSent": null,
+      "lastVerified": "2026-11-04",
+      "status": "response_received",
+      "statusLabel": "Copyright guidance received",
+      "statusDetail": "LAC Copyright Services requested a work-by-work assessment, with a description, title, collection or reference number and archive URL for each item. A small pilot selection of 5–10 records remains to be prepared; no general licence or reproduction approval has been granted. Exact original email timestamps need checking.",
+      "requestMethod": "Archive/copyright permission enquiry; precise original send date pending correspondence verification.",
+      "evidenceRequirement": "Send item-specific metadata and archive URLs for a small pilot; retain written authorisation for any copies before republishing.",
+      "timeline": [
+        {
+          "date": "2026-11-04",
+          "kind": "response",
+          "title": "Item-specific review requirement recorded by this date",
+          "detail": "LAC requested details for each proposed reproduction; the date marks the project review, not a verified original reply timestamp."
+        }
+      ],
+      "publicSources": [
+        {
+          "label": "Library and Archives Canada — UFO research guide",
+          "url": "https://www.canada.ca/en/library-archives/collection/research-help/science-technology/ufos.html",
+          "purpose": "Official entry point for Canadian UFO collections and catalogue records, to link rather than mirror without clearance.",
+          "hostType": "official"
         }
       ]
     },
@@ -110,7 +221,7 @@
     "noFeeAuthorised": true,
     "noFormalFOIAFilingEstablished": true,
     "outgoingMailAcceptedNotAgencyReceipt": true,
-    "agencyResponseConfirmed": false,
+    "agencyResponseConfirmed": true,
     "automaticInboxPolling": false,
     "publicSenderAddress": false,
     "privateMessageIdsPublished": false,
@@ -118,6 +229,6 @@
     "extraordinaryUAPConclusion": false,
     "claimSpecificPercentagesPublished": false,
     "ownerApprovalRequiredForLiveDeploy": true,
-    "updatePolicy": "Manual and dated. An enquiry moves to ‘Acknowledged’ only with verified receipt; ‘Response received’ only with an inspected agency response and source attribution. Clearly mark partial, unresolved, disputed or withheld material. Never imply receipt or answer by elapsed time."
+    "updatePolicy": "Manual, dated and evidence-limited: 'sent' is not 'received'; 'response received' confirms only a reply and must not imply FOIA acceptance, case disposition, dataset permission or endorsement. Unverified correspondence dates remain unpublished. No private emails, personal contact details, or raw messages appear on the public site."
   }
 }
