@@ -41,9 +41,10 @@ function init(){
  board.hidden=false;
  availability.textContent='Controlled test workspace · Account-backed recovery is being verified. No live public publication is enabled.';
  let owner=null,drafts=[],papers=[],paperPage=0,draftPage=0,draftHasMore=false,tab='drafts',selected=null,
-  versions=[],editionPage=0,loading=false,runToken=0;
+  versions=[],editionPage=0,loading=false,runToken=0,detailToken=0;
  const status=$('myResearchCount'),records=$('myResearchRecords'),empty=$('myResearchEmpty');
  function closeDetail(){
+  detailToken++;
   selected=null;versions=[];editionPage=0;details.hidden=true;
   $('myResearchDetailHeading').textContent='';
   $('myResearchDetailText').textContent='';
@@ -191,6 +192,7 @@ function init(){
  }
  async function openItem(kind,item){
   closeDetail();
+  const requestToken=detailToken;
   try{
    await ensureOwner();
    if(kind==='drafts'){
@@ -198,6 +200,7 @@ function init(){
      throw Error('This draft is not in your current private list.');
     const draft=await draftApi.getMine(item.id);
     await ensureOwner();
+    if(requestToken!==detailToken) return;
     if(!draft||draft.id!==item.id)throw Error('Private draft not found for this account.');
     selected={kind:'drafts',draft};
     $('myResearchDetailBadge').textContent='PRIVATE · DRAFT REVISION '+draft.revision;
@@ -216,6 +219,7 @@ function init(){
     if(!papers.some(p=>p.paperId===item.paperId))throw Error('This paper is not in your owner-verified portfolio.');
     const editions=await recovery.listEditions(item.paperId,{page:0,pageSize});
     await ensureOwner();
+    if(requestToken!==detailToken) return;
     if(!editions.length)throw Error('No verifiable editions are available for this paper.');
     selected={kind:'papers',paper:item};
     versions=editions;editionPage=0;
@@ -227,7 +231,7 @@ function init(){
    }
    details.hidden=false;
    details.scrollIntoView?.({block:'start',behavior:'instant'});
-  }catch(e){closeDetail();status.textContent='Could not open research: '+message(e)}
+  }catch(e){if(requestToken===detailToken){closeDetail();status.textContent='Could not open research: '+message(e)}}
  }
  async function saveDraft(event){
   event.preventDefault();
