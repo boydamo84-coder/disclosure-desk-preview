@@ -66,6 +66,14 @@
   queryError(error);
   return Array.isArray(data)?data:[];
  }
+ async function getMine(id){
+  if(!uuid.test(id))throw Error('A valid private draft ID is required.');
+  const user=await registered();
+  const {data,error}=await client().from('dd_cr_drafts').select(columns)
+   .eq('id',id).eq('author_id',user.id).maybeSingle();
+  queryError(error);
+  return data||null;
+ }
  async function saveMine(paper,{id=null,expectedRevision=null}={}){
   const user=await registered(),value=clean(paper);
   if(id===null){
@@ -93,5 +101,5 @@
   if(!data||data.id!==id)throw Error('Draft is missing or cannot be deleted from this account.');
   return true;
  }
- window.DDCommunityResearchDrafts=Object.freeze({enabled:true,listMine,saveMine,deleteMine});
+ window.DDCommunityResearchDrafts=Object.freeze({enabled:true,listMine,getMine,saveMine,deleteMine});
 })();
