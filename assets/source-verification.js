@@ -1,4 +1,4 @@
-/* M39 source verification: manually maintained public status only.
+/* M40 source verification and international outreach: manually maintained public status only.
    No automatic inbox access, user identifiers, inferred agency receipt or scoring. */
 (()=>{
   'use strict';
@@ -26,7 +26,8 @@
     try{
       const u=new URL(String(url));
       const hosts=['www.archives.gov','reaganlibrary.archives.gov',
-      'documents2.theblackvault.com','projectaquarius.mufon.com'];
+      'documents2.theblackvault.com','projectaquarius.mufon.com',
+      'www.esd.whs.mil','zenodo.org','www.gov.br','www.canada.ca'];
       return u.protocol==='https:'&&!u.username&&!u.password&&hosts.includes(u.hostname)?u.href:null;
     }catch{return null;}
   };
@@ -34,7 +35,7 @@
   const statusLabels={
     sent_unacknowledged:'Enquiry sent · acknowledgement not verified',
     acknowledged:'Acknowledged by agency',
-    response_received:'Agency response received',
+    response_received:'Reply received · scope described below',
     closed_with_unresolved_questions:'Response reviewed · questions remain'
   };
   const mandatoryString=(v,max=650)=>typeof v==='string'&&v.trim().length>0&&v.length<=max?v:null;
@@ -50,7 +51,7 @@
     head.append(main,chip);doc.append(head);
     doc.append(el('p','dd-verification-question',r.question));
     const dates=el('p','dd-verification-dates',
-      'Enquiry sent: '+longDate(r.dateSent)+' · Last checked: '+longDate(r.lastVerified));
+      'Enquiry sent: '+(r.dateSent?longDate(r.dateSent):'Exact date not verified')+' · Last documented: '+longDate(r.lastVerified));
     doc.append(dates);
     doc.append(el('p','dd-verification-detail',r.statusDetail));
     const trail=el('ol','dd-verification-timeline');
@@ -83,12 +84,12 @@
     .then(d=>{
       if(d.schemaVersion!==1||!Array.isArray(d.records)||d.records.length<1||d.records.length>25||
          !strictDate(d.lastUpdated)||!d.disclosure?.outgoingMailAcceptedNotAgencyReceipt||
-         d.disclosure?.agencyResponseConfirmed!==false||
+         d.disclosure?.agencyResponseConfirmed!==true||
          d.disclosure?.noFormalFOIAFilingEstablished!==true)throw Error('Invalid tracker contract');
       const ids=new Set(),cards=[];
       for(const r of d.records){
         if(!r||typeof r.id!=='string'||!(/^[a-z0-9-]{4,80}$/).test(r.id)||ids.has(r.id)||
-          !allowedStatuses.has(r.status)||!strictDate(r.dateSent)||!strictDate(r.lastVerified)||
+          !allowedStatuses.has(r.status)||(r.dateSent!==null&&!strictDate(r.dateSent))||!strictDate(r.lastVerified)||
           !mandatoryString(r.title)||!mandatoryString(r.agency)||
           !mandatoryString(r.category)||!mandatoryString(r.question)||
           !mandatoryString(r.statusDetail)||!mandatoryString(r.sourceWarning)||
