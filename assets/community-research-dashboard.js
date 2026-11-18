@@ -256,7 +256,8 @@ function init(){
    if(!readBack||saved.revision!==item.revision+1||readBack.revision!==saved.revision)
     throw Error('Saved revision could not be verified; do not retry without refreshing.');
    selected={kind:'drafts',draft:readBack};
-   drafts=drafts.map(d=>d.id===readBack.id?readBack:d);
+   const {id,title,abstract,paper_type,revision,created_at,updated_at}=readBack;
+   drafts=drafts.map(d=>d.id===readBack.id?{id,title,abstract,paper_type,revision,created_at,updated_at}:d);
    $('myResearchDetailHeading').textContent=readBack.title;
    $('myResearchDetailBadge').textContent='PRIVATE · DRAFT REVISION '+readBack.revision;
    $('myResearchDetailText').textContent=readBack.body;
