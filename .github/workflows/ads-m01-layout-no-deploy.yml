@@ -1,0 +1,61 @@
+name: Ads M01 inert layout QA — NO DEPLOY
+on:
+  push:
+    branches: [prep/site-ads-m01-layout-20261118]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-and-production-shaped-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify review-only ad spacing and privacy boundaries
+        run: |
+          node --check assets/site-ad-layout-m01.js
+          node scripts/test_site_ads_m01_contract.cjs
+      - name: Verify strict public allowlist without any deploy or live ad script
+        env:
+          CONTEXT: production
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          test ! -e .release-staging/public-site/scripts/fixtures/ad-m01-preview-test.html
+          test ! -e .release-staging/public-site/scripts/test_site_ads_m01_contract.cjs
+          test ! -e .release-staging/public-site/docs/ADS_M01_HANDOVER_2026-11-18.md
+  isolated-real-chrome:
+    needs: static-and-production-shaped-package
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install test-only pinned browser harness
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+      - name: Check mobile and desktop spacing with NO vendor requests
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-ads-m01-http.log 2>&1 &
+          echo $! >/tmp/dd-ads-m01-http.pid
+          for i in $(seq 1 15); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/scripts/fixtures/ad-m01-preview-test.html >/dev/null && break
+            sleep 1
+          done
+          node scripts/test_site_ads_m01_chromium.cjs
+      - name: Stop fixture server
+        if: always()
+        run: |
+          if test -f /tmp/dd-ads-m01-http.pid; then
+            kill "$(cat /tmp/dd-ads-m01-http.pid)" 2>/dev/null || true
+          fi
