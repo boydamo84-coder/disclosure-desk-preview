@@ -1,6 +1,6 @@
 /* Community Research M04: owner-only recoverable paper index and RLS edition reader.
  * OFF on production and before separate test Supabase approval.
- * No localStorage, no W.NE source reads, no public-paper mutations.
+ * No browser persistence, no W.NE source reads, no public-paper mutations.
  */
 (()=>{
 'use strict';
