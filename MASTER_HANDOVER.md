@@ -1,5 +1,16 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 18 November 2026 (Europe/London) — Community Research M02 isolated PostgreSQL RLS green; NO LIVE RELEASE_
+_Last updated: 18 November 2026 (Europe/London) — Community Research M03 consent-first publication passed isolated SQL and Chrome QA; NO LIVE RELEASE_
+
+## Community Research M03 — Consent-first publish, revise and withdraw (18 November 2026)
+
+**Branch:** `prep/community-research-m03-consent-publish-20261118` based on tested M02. **STAGED ONLY.** NO live Netlify deployment, Supabase production schema writes or user data, app/API activation, or APK.
+
+- **Versioned publication backend design:** `docs/COMMUNITY_RESEARCH_M03_PUBLICATION_SQL_DRAFT_ONLY.sql` adds an isolated non-exposed `dd_cr_private` mapping and audit trail, narrowly scoped security-definer engines inside that private schema, and public **SECURITY INVOKER** authenticated-only RPC wrappers. Creation copies the exact locked private draft revision after affirmative approval; revisions append immutable editions without changing earlier content; separate version-confirmed withdrawal hides the paper and its editions from guest reads. Author/anonymous/guest checks, immutable owner linkage, per-account advisory locks, 3 new papers/24h and revision cooldown all enforced. Original W.NE manuscript/recovery data never referenced. SQL has been tested in **disposable PostgreSQL only**, not on production.
+- **Inert author UI and client:** `community-research.html` now contains a gated two-stage private save/readback, explicit edition approval and typed WITHDRAW control. `assets/community-research-author-workflow.js`, `assets/community-research-publication.js` and enhanced `assets/community-research-private-drafts.js` require a separately designated nonproduction Supabase project before activation. All production and preview flags remain OFF: `communityResearchTestDatabase:false`, `communityResearchBackend:false`, `communityResearchPublishing:false`, `researchPublishing:false`. The adapters refuse the live production project URL even if a local flag is toggled. No new bottom navigation tab, automatic upload, member post, comment or vote.
+- **Verified tests:** [M03 run 44301581795](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44301581795) passed source/static package checks, real disposable PostgreSQL 17 multi-user/RLS publication scenarios and Chromium M01+M03 private author workflow at 320,393,820,1280px. Source URL restrictions and 3/day quota were added and tested. As always, recheck exact-head CI after documentation-only commits. No internal SQL, fixture, draft text, email or user account is included in the site release bundle.
+- **Handover:** `docs/COMMUNITY_RESEARCH_M03_HANDOVER_2026-11-18.md`; unresolved M04 and production blockers: independent review of privileged DB functions, a genuinely isolated test Supabase project + two real test accounts and advisor scan, lost-session My Papers recovery, moderation/copyright/privacy, actual community feedback and usefulness vote UI, and physical Samsung Android QA. **Do not deploy or apply SQL without owner approval.**
+
+**Next M04:** add member's published paper library and recovery of server-verified current editions, then commission a controlled separate-project test migration and permission/audit review before considering any significant public launch.
 
 ## Community Research M02 — Protected drafts and member-feedback data design (18 November 2026)
 
