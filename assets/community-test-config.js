@@ -21,6 +21,7 @@ window.DD_COMMUNITY_FEATURES=Object.freeze({
  privateChat:enabled, // Approved public social release: only known hostnames; server enforces identity and consent
  discussions:enabled, // Approved public social release: guest reads, members post through controlled RPCs
  profileAvatars:enabled, // Approved public visible-by-default photo with server-enforced Hide
- researchPublishing:false
+ researchPublishing:false,
+ communityResearchPreview:local||preview // No live publishing, only the non-submitting design/author copy prototype
 });
 })();
