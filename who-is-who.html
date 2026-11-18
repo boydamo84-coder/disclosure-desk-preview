@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="/assets/secondary-editorial-nav.css?v=r2-premium-nav01">
 <style>
 :root{color-scheme:dark;--base:#09131e;--pane:#132638;--line:#40566a;--gold:#e9cc93;--muted:#bccbd6;--bright:#eff3f7}
-*{box-sizing:border-box}body{background:radial-gradient(ellipse at 80% -22%,#253f57,var(--base) 43%);color:var(--bright);font:16px/1.67 system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
+*{box-sizing:border-box}html{scroll-padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}body{background:radial-gradient(ellipse at 80% -22%,#253f57,var(--base) 43%);color:var(--bright);font:16px/1.67 system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
 a{color:var(--gold);text-underline-offset:3px}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .wrap{max-width:1090px;margin:0 auto;padding:0 18px}.skip{position:absolute;top:-130px;left:12px;padding:8px;background:var(--gold);color:var(--base)}.skip:focus{top:8px}
 header{border-bottom:1px solid var(--line);background:#0b1826eb}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
@@ -28,7 +28,7 @@ input,select{background:#0c1926;color:#eff3f7;border:1px solid #57687a;padding:1
 .card p{margin:9px 0 16px}.btn,button{cursor:pointer}.btn{border-radius:10px;border:1px solid #a18450;background:#272d2c;color:#ffdfaa;padding:10px 14px;font:700 13px system-ui;display:inline-block;text-decoration:none}
 .link-list{margin:8px 0;padding-left:21px}.link-list li{padding:4px 0}.link-list a{overflow-wrap:anywhere}
 article.profile{margin:30px 0 42px}.profile-intro{display:flex;gap:16px;align-items:center}.profile-intro .avatar{width:76px;height:76px;font-size:30px}
-.profile-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:16px}.profile-grid .card{margin:0 0 15px}
+.profile-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:16px}.profile-grid>*{min-width:0}.profile-grid .card{margin:0 0 15px;overflow-wrap:anywhere}
 .section-title{color:var(--gold);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px}
 .note{border-left:3px solid var(--gold);background:#172a3b;padding:11px 16px}.compact{margin:0}.hidden{display:none!important}
 footer{border-top:1px solid var(--line);padding:24px 0 44px;color:var(--muted);font-size:13px;margin-top:38px}
@@ -44,7 +44,117 @@ footer a{margin-right:14px}
 .video-preview{background:#172d40;border:1px solid #476177;border-radius:10px;padding:14px;margin-top:12px;aspect-ratio:16/9;display:grid;align-content:center;justify-items:center;overflow:hidden}
 .video-preview iframe{width:100%;height:100%;aspect-ratio:16/9;border:0}
 @media(max-width:760px){.video-grid{grid-template-columns:1fr}.profile-timeline li{grid-template-columns:1fr;gap:5px}}
-@media(max-width:760px){.tools,.cards,.profile-grid{grid-template-columns:1fr}.hero{padding-top:27px}.card{padding:18px}}
+@media(max-width:760px){.tools,.cards{grid-template-columns:1fr}.profile-grid{grid-template-columns:minmax(0,1fr)}.hero{padding-top:27px}.card{padding:18px}}
+
+/* Claim-specific evidence assessments: not ratings of people. */
+.claim-review{border:1px solid #51677c;background:#101f30;border-radius:12px;padding:16px;margin:15px 0}
+.claim-review h4{font-size:17px;line-height:1.35;margin:0 0 8px}
+.claim-review .claim-status{font-size:12px;font-weight:800;letter-spacing:.25px;color:#e9cc93}
+.claim-review .claim-record{border-left:2px solid #ad8b53;padding-left:12px;margin-top:12px;overflow-wrap:anywhere}
+.claim-metric{margin:12px 0}
+.claim-metric-head{display:flex;gap:12px;justify-content:space-between;align-items:start;font-size:12px}
+.claim-metric-head strong{font-variant-numeric:tabular-nums;white-space:nowrap}
+.claim-track{height:7px;background:#26384a;border-radius:10px;overflow:hidden;margin-top:5px}
+.claim-track span{display:block;height:100%;background:#cfa55f;border-radius:10px}
+.claim-review details{border-top:1px solid #415368;margin-top:13px;padding-top:10px}
+.claim-review summary,#claimReviewMethod summary{cursor:pointer;color:var(--gold);font-weight:700}
+#claimReviewMethod{background:#0b1c2c;border:1px solid #40566a;border-radius:12px;padding:12px 16px;margin:12px 0}
+#claimReviewMethod ul{padding-left:22px}
+#profileEvidenceReviews a{overflow-wrap:anywhere}
+.claim-review .claim-not-assessed{display:inline-block;border:1px solid #7a6748;color:#ffdfaa;border-radius:8px;padding:5px 10px;font-weight:750;font-size:12px}
+@media(max-width:420px){.claim-review{padding:13px}}
+
+/* Publisher and first-person record index; visibly separate from scored cases. */
+.claim-work-card{border:1px solid #637789;border-radius:12px;background:#0d2333;padding:16px;margin:14px 0;overflow-wrap:anywhere}
+.claim-work-card h4{font-size:17px;line-height:1.4;margin:5px 0 10px}
+.claim-work-card .claim-evidence-details{background:#12283b}
+.claim-work-card .claim-draft-warning{margin:12px 0}
+@media(max-width:670px){.claim-work-card{padding:12px}}
+/* Documented NASA/legislative roles: readable, visibly non-scoreable. */
+.claim-role-card{border:1px solid #627d90;border-radius:12px;padding:15px;background:#0d2335;margin:12px 0 16px;overflow-wrap:anywhere}
+.claim-role-card h4{font-size:17px;line-height:1.4;margin:4px 0 9px}
+.claim-role-caution{border-left:3px solid #c7a166;background:#172b3b;padding:10px 12px;border-radius:6px;font-size:13px}
+.claim-role-card .claim-evidence-details{background:#10293c}
+@media(max-width:670px){.claim-role-card{padding:12px}}
+/* Clearly distinguish preliminary research from an approved score. */
+.claim-draft-warning{font-size:13px;padding:12px 14px;border:1px solid #6a7180;border-radius:9px;background:#17283a;color:#f3dbb1}
+/* Source-first, tap-to-expand evidence trail; no scores without checked links. */
+.claim-evidence-details{padding:13px 15px;margin:14px 0;border:1px solid #8a7049;border-radius:11px;background:#11273a}
+.claim-evidence-details>summary{font-size:14px;min-height:35px;display:list-item;list-style-position:inside}
+.claim-m28-check{margin:14px 0;padding:12px 14px;border:1px solid #8a7049;border-radius:10px;background:#0d283a;overflow-wrap:anywhere}
+.claim-m28-check>summary{display:list-item;list-style-position:inside;min-height:35px;font-weight:700;color:#f1d59f;cursor:pointer}
+.claim-m28-check[open]>summary{padding-bottom:10px;margin-bottom:12px;border-bottom:1px solid #40566a}
+.claim-m28-check h5{color:var(--gold);font-size:12px;margin:17px 0 10px}
+.claim-m28-check a{color:#f1d59f;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.claim-m28-check .claim-evidence-list li{background:#0c2131}
+.claim-m28b-check{margin:14px 0;padding:12px 14px;border:1px solid #8a7049;border-radius:10px;background:#10283b;overflow-wrap:anywhere}
+.claim-m28b-check>summary{display:list-item;list-style-position:inside;min-height:36px;font-weight:700;color:#f1d59f;cursor:pointer}
+.claim-m28b-check[open]>summary{padding-bottom:11px;margin-bottom:12px;border-bottom:1px solid #40566a}
+.claim-m28b-check h5{color:var(--gold);font-size:12px;margin:17px 0 10px}
+.claim-m28b-check a{color:#f1d59f;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.claim-m28b-check .claim-evidence-list li{background:#0b2030}
+.claim-m28c-check{margin:14px 0;padding:12px 14px;border:1px solid #8a7049;border-radius:10px;background:#10283b;overflow-wrap:anywhere}
+.claim-m28c-check>summary{display:list-item;list-style-position:inside;min-height:36px;font-weight:700;color:#f1d59f;cursor:pointer}
+.claim-m28c-check[open]>summary{padding-bottom:11px;margin-bottom:12px;border-bottom:1px solid #40566a}
+.claim-m28c-check h5{color:var(--gold);font-size:12px;margin:17px 0 10px}
+.claim-m28c-check a{color:#f1d59f;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.claim-m28c-check .claim-evidence-list li{background:#0b2030}
+.claim-m28d-check{margin:14px 0;padding:12px 14px;border:1px solid #8a7049;border-radius:10px;background:#10283b;overflow-wrap:anywhere}
+.claim-m28d-check>summary{display:list-item;list-style-position:inside;min-height:36px;font-weight:700;color:#f1d59f;cursor:pointer}
+.claim-m28d-check[open]>summary{padding-bottom:11px;margin-bottom:12px;border-bottom:1px solid #40566a}
+.claim-m28d-check h5{color:var(--gold);font-size:12px;margin:17px 0 10px}
+.claim-m28d-check a{color:#f1d59f;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.claim-m28d-check .claim-evidence-list li{background:#0b2030}
+.claim-m28e-check{margin:14px 0;padding:12px 14px;border:1px solid #8a7049;border-radius:10px;background:#10283b;overflow-wrap:anywhere}
+.claim-m28e-check>summary{display:list-item;list-style-position:inside;min-height:36px;font-weight:700;color:#f1d59f;cursor:pointer}
+.claim-m28e-check[open]>summary{padding-bottom:11px;margin-bottom:12px;border-bottom:1px solid #40566a}
+.claim-m28e-check h5{color:var(--gold);font-size:12px;margin:17px 0 10px}
+.claim-m28e-check a{color:#f1d59f;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.claim-m28e-check .claim-evidence-list li{background:#0b2030}
+.claim-m29-docket{margin:15px 0;padding:13px 14px;border:1px solid #a98a50;border-radius:10px;background:linear-gradient(135deg,#122b3d,#0c2030);overflow-wrap:anywhere}
+.claim-m29-docket>summary{display:list-item;list-style-position:inside;min-height:36px;font-weight:700;color:#f1d59f;cursor:pointer}
+.claim-m29-docket[open]>summary{padding-bottom:11px;margin-bottom:13px;border-bottom:1px solid #526178}
+.claim-m29-docket h5{color:var(--gold);font-size:12px;margin:17px 0 10px}
+.claim-m29-docket a{color:#f1d59f;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.claim-m29-docket .claim-evidence-list li{background:#091c2b}
+.claim-m29-criteria{padding:0;margin:8px 0 12px;list-style:none;display:grid;gap:9px;min-width:0}
+.claim-m29-criteria li{border:1px solid #3b5465;border-radius:9px;padding:10px 12px;background:#0b2030;overflow-wrap:anywhere}
+.claim-m29-criteria p{margin:6px 0 0}
+
+.claim-evidence-details[open]>summary{padding-bottom:11px;border-bottom:1px solid #40566a;margin-bottom:13px}
+.claim-evidence-details h5{color:var(--gold);font-size:12px;letter-spacing:.3px;margin:19px 0 9px}
+.claim-readiness-draft{margin:18px 0;padding:13px 14px;border:1px solid #657488;border-radius:10px;background:#112435;overflow-wrap:anywhere}
+.claim-readiness-draft .claim-draft-warning{margin:9px 0 13px}
+.claim-readiness-draft p{font-size:13px;line-height:1.6;margin:8px 0}
+.claim-readiness-draft h5{margin-top:2px}
+:is(.claim-source-access,.claim-evidence-summary){margin:14px 0;padding:12px 14px;border:1px solid #48647b;border-radius:10px;background:#102638;overflow-wrap:anywhere}
+:is(.claim-source-access,.claim-evidence-summary) h5{margin:2px 0 9px}
+:is(.claim-source-access,.claim-evidence-summary) p{font-size:13px;line-height:1.6;margin:8px 0}
+:is(.claim-source-access,.claim-evidence-summary) a{overflow-wrap:anywhere}
+.claim-evidence-summary .claim-lineage-note{padding:9px 11px;background:#152e40;border-left:2px solid #b99d68;border-radius:5px;color:#dbe7ee;overflow-wrap:anywhere}
+.claim-evidence-summary .claim-source-lineage{color:#eed3a2;font-weight:650;overflow-wrap:anywhere}
+.claim-evidence-details .claim-metric{background:#101f2d;border:1px solid #3c5266;border-radius:10px;padding:12px}
+.claim-evidence-details .claim-metric p{margin:8px 0 5px;overflow-wrap:anywhere}
+.claim-evidence-group{margin:17px 0}
+.claim-evidence-list{list-style:none;padding:0;margin:0;display:grid;gap:9px}
+.claim-evidence-list li{border:1px solid #4b6276;border-radius:9px;padding:12px;background:#0d2030;overflow-wrap:anywhere}
+.claim-evidence-list p{margin:5px 0}
+.claim-evidence-details a{color:#f1d59f;text-underline-offset:3px}
+@media(max-width:670px){.claim-evidence-details{padding:11px}.claim-evidence-list li{padding:10px}}
+
+/* M40: research proposal and records-access lane. Absolutely no person or incident score. */
+#ddPolicyReviewGuide{background:#122538;border:1px solid #4e6275;border-radius:14px;padding:18px 20px;margin:13px 0 24px}
+#ddPolicyReviewGuide h2{font-size:20px;margin:6px 0 9px}
+#ddPolicyReviewGuide p{font-size:13px;line-height:1.7;color:#ccd9e1;margin:10px 0}
+#ddPolicyReviewGuide .dd-policy-method{border-left:3px solid #e9cc93;background:#0d1e2d;padding:11px 13px}
+#ddPolicyReviewGuide .dd-policy-items{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+#ddPolicyReviewGuide details{border:1px solid #52677b;border-radius:11px;padding:12px 14px;background:#0d2030;min-width:0}
+#ddPolicyReviewGuide details summary{cursor:pointer;color:#edd39e;font-weight:750;font-size:13px;line-height:1.5}
+#ddPolicyReviewGuide details p,#ddPolicyReviewGuide details li{font-size:12px;line-height:1.7;color:#c5d6df}
+#ddPolicyReviewGuide ul{margin:10px 0 5px;padding-left:18px}
+#ddPolicyReviewGuide a{overflow-wrap:anywhere}
+#ddPolicyReviewGuide .dd-policy-state{font-size:11px;letter-spacing:.3px;font-weight:700;color:#e9cc93}
+@media(max-width:700px){#ddPolicyReviewGuide .dd-policy-items{grid-template-columns:1fr}#ddPolicyReviewGuide{padding:15px}}
 </style>
 <script defer src="/assets/analytics-consent.js?v=nov08-ga4-optin-m18"></script>
 </head><body>
@@ -53,12 +163,49 @@ footer a{margin-right:14px}
 <main id="content" class="wrap">
 <section class="hero"><div class="eyebrow">People, evidence and the public record</div><h1>Who's Who in Disclosure</h1>
 <p class="intro">Meet public witnesses, researchers, journalists, interviewers and sceptical analysts involved in UAP discussion. Follow their recorded statements and professional work back to attributed sources—not popularity rankings or personal judgements.</p>
-<p class="muted small">Editorial preview · 50 source-linked draft profiles · Portraits use attributed public-domain or Creative Commons sources where available · Fact-checking and credit reviews ongoing</p>
+<p class="muted small">Editorial preview · Source-linked research profiles · Portraits use attributed public-domain or Creative Commons sources where available · Fact-checking and credit reviews ongoing</p>
+</section>
+<aside class="note" id="ddWhoSourceTracker" aria-label="Public source enquiry transparency">
+  <strong>Follow our original-source checks.</strong> Disclosure Desk is documenting records enquiries to the National Archives and Pentagon alongside dataset and reproduction-rights correspondence with archives in Germany, Brazil and Canada. Washington Headquarters Services has replied with procedural FOIA guidance; the 151-page referral remains unresolved.
+  <a href="/sources#sourceVerification">See the dated Source Verification Tracker and original records</a>.
+  Enquiries are about documents and claims—not rankings of people or proof of extraordinary explanations.
+</aside>
+<section id="ddPolicyReviewGuide" aria-labelledby="ddPolicyReviewTitle">
+  <span class="eyebrow">Research method · Not a rating</span>
+  <h2 id="ddPolicyReviewTitle">Different claims need different evidence</h2>
+  <p class="dd-policy-method">A proposal to improve UAP science or release government records should <strong>not</strong> be graded as proof of an extraordinary sighting. These entries are reviewed for attribution, legal or scientific context, and what agencies have actually done. An incident-evidence percentage is <strong>not applicable</strong>; no member voting or personal credibility score is available.</p>
+  <div class="dd-policy-items">
+    <details id="ddPolicyGold">
+      <summary>Mike Gold — scientific research proposals</summary>
+      <p>In his November 2024 congressional testimony, Gold proposed examining NASA archival data, improving civilian aviation reporting, involving international partners and considering specialised measurement instruments. He explicitly said he was speaking on his own behalf, <strong>not on behalf of NASA or his employer</strong>.</p>
+      <ul>
+        <li><a href="https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Gold.pdf" rel="noopener noreferrer" target="_blank">Original written testimony — House Oversight</a></li>
+        <li><a href="https://science.nasa.gov/uap/" rel="noopener noreferrer" target="_blank">NASA's independent UAP study and recommendations</a></li>
+      </ul>
+      <p><strong>Unresolved:</strong> Which of these specific proposals, if any, were subsequently implemented? The published testimony does not establish implementation or an unusual object's origin.</p>
+      <p class="dd-policy-state">Policy review · No incident evidence score</p>
+      <a href="/who-is-who?person=mike-gold">Open Mike Gold's attributed profile and full source trail</a>
+    </details>
+    <details id="ddPolicyMellon">
+      <summary>Christopher Mellon — UAP records-disclosure argument</summary>
+      <p>In October 2025, Mellon argued that government UAP records should be more openly released and challenged excessive classification. The National Archives separately confirms that <strong>Record Group 615</strong> receives UAP records under the 2024 NDAA framework.</p>
+      <ul>
+        <li><a href="https://christopherkmellon.substack.com/p/the-us-government-is-sitting-on-a" rel="noopener noreferrer" target="_blank">Mellon's original republished opinion</a></li>
+        <li><a href="https://www.archives.gov/research/topics/uaps/rg-615" rel="noopener noreferrer" target="_blank">National Archives Record Group 615</a></li>
+        <li><a href="https://www.archives.gov/records-mgmt/memos/ac-04-2025" rel="noopener noreferrer" target="_blank">Official federal UAP records-transfer guidance</a></li>
+      </ul>
+      <p><strong>Unresolved:</strong> A comprehensive, source-by-source check of which government records remain classified and why. An archive catalogue does not establish improper classification or nonhuman origins.</p>
+      <p class="dd-policy-state">Records-access review · No incident evidence score</p>
+      <a href="/who-is-who?person=christopher-mellon">Open Christopher Mellon's attributed profile and source trail</a>
+    </details>
+  </div>
+  <p class="muted small">This page explains the difference between verified publication of a statement and verification of its underlying assertion. Evidence reviews and source trails remain open to inspection; no member ballot is accepting submissions.</p>
 </section>
 <section id="directoryPage" aria-label="People directory">
+<p class="muted small"><a href="/world-uap-programmes.html">Explore related government UAP programmes &amp; original case archives worldwide ↗</a></p>
 <div class="tools"><label>Search people, roles and topics<input id="peopleSearch" type="search" maxlength="80" placeholder="e.g. pilot, Grusch, investigative journalist"></label><label>Filter roles<select id="peopleCategory"><option value="all">All roles</option><option value="Hearing witness">Hearing witnesses</option><option value="Pilot">Pilots</option><option value="Journalist">Journalists</option><option value="Interviewer">Interviewers</option><option value="Sceptical analyst">Sceptical analysts</option><option value="Filmmaker">Filmmakers</option><option value="Claimant">Public claimants</option><option value="Disclosure advocate">Disclosure advocates</option><option value="Scientist">Scientists</option><option value="NASA UAP study">NASA UAP study</option><option value="Congress">Congress &amp; oversight</option><option value="Advocate">Transparency advocates</option><option value="FOIA researcher">FOIA researchers</option><option value="Researcher">Researchers</option><option value="Documentary director">Documentary directors</option><option value="Former government official">Former government officials</option></select></label></div>
 <p id="peopleStatus" class="muted small" role="status">Loading source-linked profiles…</p>
-<div id="peopleCards" class="cards"><div class="card"><h3>Research directory</h3><p>Fifty research-draft profiles span congressional oversight, NASA's independent UAP study, aviation witnesses, scientific researchers and archive investigators. JavaScript is needed for search and full profiles.</p></div></div>
+<div id="peopleCards" class="cards"><div class="card"><h3>Research directory</h3><p>Source-linked profiles span congressional oversight, AARO leadership, NASA's independent UAP study, aviation witnesses, scientific researchers and archive investigators. JavaScript is needed for search and full profiles.</p></div></div>
 </section>
 <article id="personProfile" class="profile hidden" aria-live="polite">
 <button id="directoryBack" type="button" class="btn">← Back to people directory</button>
@@ -72,6 +219,16 @@ footer a{margin-right:14px}
 <div class="profile-grid">
 <div>
 <section class="card"><div class="section-title">Public statements and perspective</div><h3>What they have publicly discussed</h3><p id="profilePosition"></p></section>
+<section class="card" id="profileClaimReviewSection">
+<div class="section-title">Attributed claims · original sources · open questions</div><h3>Read the evidence and decide for yourself</h3>
+<p class="muted small">Open a particular claim to inspect original publication and testimony links, documentary provenance, supporting and challenging material, missing underlying measurements and research questions. This is <strong>source-first research, not a numerical Disclosure Desk judgement</strong>. Role records and policy recommendations remain documented without pretending they establish an extraordinary incident. Nothing on this page rates people's character, honesty or motives.</p>
+<div id="profileEvidenceReviews" aria-live="polite"><p class="muted small">Loading claim reviews…</p></div>
+<details id="claimReviewMethod"><summary>How members will be able to assess evidence (five criteria)</summary>
+<p class="muted small">Disclosure Desk does not publish editorial numerical ratings. The proposed optional community worksheet is about a precisely attributed claim, not a person's trustworthiness or the probability of an extraordinary interpretation. Members will be able to mark a criterion <strong>Not enough information</strong> instead of guessing; this is different from giving zero points.</p>
+<ul class="small"><li>Original record and full context — up to 25 points</li><li>Genuinely independent corroboration — up to 30 points</li><li>Original measurements and documentary provenance — up to 25 points</li><li>Testability and methodology — up to 10 points</li><li>Alternative explanations and uncertainty — up to 10 points</li></ul>
+<p class="muted small">Partial personal worksheets will not be extrapolated to 100. A future public summary would show each criterion's member response distribution, number of respondents and number selecting Not enough information, not a single headline truth percentage. <strong>Voting is not active</strong> until account-security, privacy, moderation and claim-eligibility checks are complete.</p></details>
+<p class="muted small">To suggest a primary source or challenge an assessment, <a href="mailto:support@uapdisclosuredesk.com?subject=Who%27s%20Who%20claim%20evidence%20review">contact the research desk</a>.</p>
+</section>
 <section class="card"><div class="section-title">Research context</div><h3>Evidence to examine and other interpretations</h3><p id="profileContext"></p><p class="note small">These notes are not a verdict on a person's character, credibility or motives. Interpretations should be tested against the cited record.</p></section>
 </div>
 <aside>
@@ -88,12 +245,12 @@ footer a{margin-right:14px}
 </article>
 <section class="card" id="editorialPolicy"><div class="section-title">Directory policy</div><h2>Profiles are evidence guides, not popularity contests</h2>
 <p>Statements are attributed to their speakers or published institutions. Reporting, first-hand testimony, technical analysis and alleged facts are different types of evidence. Inclusion is not an endorsement or accusation.</p>
-<p>We will not label real people as dishonest, part of a covert operation or otherwise malicious based on a popularity poll. A future optional evidence survey may ask neutral questions about the source material supporting a <em>specific claim</em>, with moderation and anti-manipulation safeguards. No live public polls or vote totals exist in this preview.</p>
+<p>We will not label real people as dishonest, part of a covert operation or otherwise malicious based on community opinion. The directory provides original records and open questions rather than a Disclosure Desk evidence score. A future optional member worksheet will apply only to a <em>specific, attributed claim</em>, with private individual answers and safeguards for public aggregates. No ballots are active, and no numerical rating of a person is collected.</p>
 <p>To suggest a person, provide a public source supporting their work. To request a correction, <a href="mailto:support@uapdisclosuredesk.com?subject=Who%27s%20Who%20source%20correction">email the research desk</a> with the name, the disputed wording and a primary reference.</p>
 </section></main>
 <footer><div class="wrap">Disclosure Desk · Boyd Digital Studios · Public-source research directory<br><a href="/">Home</a><a href="/investigations">Original research</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></footer>
 <script defer src="/assets/person-case-links.js?v=r2-m8-alpha01"></script>
-<script defer src="/assets/people-directory.js?v=r2-photo-credit-tasl-20261114"></script>
+<script defer src="/assets/people-directory.js?v=m62-source-first-20261118&m28=hearing-crosschecks&m28b=source-comparisons&m28c=lineage&m28d=broadcast-provenance&m28e=seven-originals&m29=review-handoff&m41=evidence-summary"></script>
 <script defer src="/assets/secondary-editorial-nav.js?v=r2-premium-nav01"></script>
 <script defer src="/assets/page-help.js?v=r2-m10-help01"></script>
 </body></html>
