@@ -1,7 +1,15 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 18 November 2026 (Europe/London) — Ads M01 preview-only layout staged, no deployment_
+_Last updated: 18 November 2026 (Europe/London) — Ads M02 Adsterra code staged behind hard release lock, no deployment_
 
 
+
+## ADS M02 — Adsterra standard banner integration STAGED / LOCKED (18 November 2026)
+
+**Branch** `prep/site-ads-m02-adsterra-consent-20261118` forked from existing Ads M01 preview. All **three actual owner-supplied standard iframe banner codes** (300×250, 320×50, 728×90) are now configured in `assets/site-adsterra-m02.js`. **`RELEASE_ENABLED=false` permanently prevents code or network requests at present, including on any publicly copied build.** No Adsterra ads can run without an intentional later code release and a separate positive advertising consent decision. No publishing, live ref, Netlify build, account data or Supabase changes.
+
+Site staging now references the disabled adapter on the main page and privacy page, uses existing after-6/12/18 News, after-12/24 Archive, and standalone Video/Discussion placements only, and forbids W.NE / private / Chat / fullscreen placements. All third-party execution must remain inside a sandboxed iframe until tested, with no popup or top navigation permissions. Privacy now describes provider use as future/not active. A no-deploy workflow and contract test are added; **exact-HEAD CI is not yet confirmed**. Current GA4 analytics was **not removed**: the owner is considering relying on Netlify Web Analytics instead; await explicit decision, remembering that Netlify server logs do not reveal single-page app tab changes.
+
+**Full handover:** `docs/ADS_M02_HANDOVER_2026-11-18.md`. **Next:** verify exact-head CI, review Adsterra creative/network behavior and UK consent obligations, decide on GA4, test browser layouts, then ask for owner approval for one consolidated Netlify deployment.
 
 ## ADS M01 — Provider-neutral homepage and feed layout PREVIEW (18 November 2026)
 
