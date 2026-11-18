@@ -18,6 +18,8 @@ function init(){
  const withdrawing=$('researchM03Withdraw');
  let stored=null, linkedDraft=null, publicRecord=null, busy=false, lastPreview=null;
  panel.hidden=false;
+ $('researchM03Save').disabled=false;
+ $('researchM03Withdraw').disabled=false;
  status.textContent='Private testing enabled on this isolated host. No public website content has been published.';
  const say=s=>{status.textContent=String(s).slice(0,450)};
  const resetConsent=()=>{
