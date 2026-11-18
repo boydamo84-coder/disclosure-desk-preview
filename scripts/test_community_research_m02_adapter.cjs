@@ -26,7 +26,7 @@ function boot({host='localhost',flag=false,user={id:A,is_anonymous:false}}={}){
    return builder;
   }
  };
- const window={DD_COMMUNITY_TEST_CONFIG:{environment:'test',url:'https://example.supabase.co',publishableKey:'sb_publishable_fixture'},
+ const window={DD_COMMUNITY_TEST_CONFIG:{environment:'test',communityResearchTestDatabase:true,url:'https://example.supabase.co',publishableKey:'sb_publishable_fixture'},
   DD_COMMUNITY_FEATURES:{communityResearchBackend:flag,researchPublishing:false},
   supabase:{createClient(){dbConnections++;return db}}
  };
