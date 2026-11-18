@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "edition": "M64-2026-11-18",
+  "status": "all_claims_closed_pending_independent_approval",
+  "policy": "Only independently signed-off, exact-version, original-source-backed incident assertions may appear as opt-in member ballots. Nothing in this file approves anyone or any claim.",
+  "approvedClaims": []
+}
