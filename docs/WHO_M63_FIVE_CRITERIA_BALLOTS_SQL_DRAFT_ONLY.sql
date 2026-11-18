@@ -95,7 +95,8 @@ begin
     raise exception 'Ballot identity and claim version cannot change'
       using errcode='23514';
   end if;
-  if old.updated_at > clock_timestamp()-interval '5 minutes' then
+  if not (new.is_withdrawn and not old.is_withdrawn)
+     and old.updated_at > clock_timestamp()-interval '5 minutes' then
     raise exception 'Ballot change cooldown active'
       using errcode='23514';
   end if;
