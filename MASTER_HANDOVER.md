@@ -1,5 +1,19 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 14 November 2026 (Europe/London) — R3 source-linked Gap Finder/Hypothesis Lab offline milestone and privacy design green; Android ZIP ready; owner test pending, R2 live unchanged_
+_Last updated: 18 November 2026 (Europe/London) — Curated Who’s Who and international source-first website RC1 staged on GitHub production base; NO NETLIFY DEPLOY_
+
+
+## Curated research RC1 — Production-based, no unrelated staging (18 November 2026)
+
+**Branch:** `release/research-source-first-rc1-20261118`, forked directly from GitHub `production` SHA `6b602324d14b834b0ef5ac222d3cae3acbf53a56`. **STAGED ONLY: no Netlify build/deployment, no Supabase or APK modifications.** This is not a merge of the M07/Who M64 development branches. Existing production R3/M90/M91/M96 remain as in the baseline.
+
+- **Who’s Who:** 50 existing profiles plus seven newly sourced biographies = 57. Preserves all 23 original source-linked dossiers, evidence provenance, contrary material and source-access caveats. No editorial numeric person/claim believability labels, no live one-number community scores, no active member ballot or `dd_who_claim_rating_*` RPC. Original 14-tab premium navigation and Archive → Who return action maintained.
+- **International source research:** New read-only 23-entry government programmes/historical archive directory across 18 jurisdictions with 14 further countries tagged as unverified research leads. Sources page includes five manual original-source enquiries with distinguished response/permission/FOIA status, no inbox monitoring or leaked sender data.
+- **Canadian licence reconciled:** User-supplied LAC Crown permission dated **3 November 2026** names **UAR/N66/001-074**, limited to one use and requiring attribution. Original M40 data incorrectly said no permission was granted. Corrected public record now states this file-specific licence exists, but Internet/electronic-format scope is not clearly selected and reproduction is **on hold pending written clarification**. No licensed document pages or correspondence shipped. GEP declined commercial reuse; Brazil SIAN is not blanket permission; WHS procedural reply is not a formal FOIA determination; NARA acknowledgement unconfirmed.
+- **Packaging/diff:** Strict public allowlist remains. `scripts/test_curated_research_rc1_diff.cjs` pins the production base and rejects ANY paths outside the explicitly curated list (including W.NE scripts, Android, beta Community Research, Who M64 ballots and SQL). `.github/workflows/curated-research-rc1-no-deploy.yml` tests source-first content/privacy, production-shape packaging and isolated Chrome at 320/393/820/1280 for profiles, original claims, source tracker, global directory and licence wording.
+- **Remaining release gate:** Check latest exact-HEAD GitHub Actions run before claiming readiness; confirm actual deployed Netlify source before release, outstanding source rights, and owner approval for a single significant production deployment. Community Research M07 is separately allowlisted in Supabase for two accounts with **NO frontend deployment in this RC1**, pending actual signed-in browser QA. Voting, APK and other staged road map work are excluded.
+
+**Detailed handover:** `docs/CURATED_RESEARCH_RC1_HANDOVER_2026-11-18.md`. **Next:** complete RC1 QA, verify Netlify source and ship only curated website files after owner’s release go-ahead.
+
 
 ## M96 — Legacy favicon fallback and Netlify 404 review (13 November 2026)
 
