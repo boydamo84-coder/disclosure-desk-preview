@@ -8,8 +8,14 @@
  const cfg=window.DD_COMMUNITY_TEST_CONFIG||{},flags=window.DD_COMMUNITY_FEATURES||{};
  const allowedHost=location.hostname==='localhost'||location.hostname==='127.0.0.1'
   ||/^deploy-preview-\d+--uap-disclosure-desk\.netlify\.app$/.test(location.hostname);
- const enabled=allowedHost&&cfg.environment==='test'&&cfg.communityResearchTestDatabase===true
-  &&cfg.url!=='https://omqxizswzcwgzqaczlhe.supabase.co'&&flags.communityResearchBackend===true
+ const productionHost=/^(?:www\.)?uapdisclosuredesk\.com$/.test(location.hostname)||
+   location.hostname==='uap-disclosure-desk.netlify.app';
+ const productionPilot=productionHost&&cfg.environment==='production'
+  &&cfg.communityResearchPilot===true
+  &&cfg.url==='https://omqxizswzcwgzqaczlhe.supabase.co';
+ const isolatedTest=allowedHost&&cfg.environment==='test'&&cfg.communityResearchTestDatabase===true
+  &&cfg.url!=='https://omqxizswzcwgzqaczlhe.supabase.co';
+ const enabled=(productionPilot||isolatedTest)&&flags.communityResearchBackend===true
   &&flags.researchPublishing===false&&!!cfg.url&&!!cfg.publishableKey;
  if(!enabled){
   window.DDCommunityResearchDrafts=Object.freeze({enabled:false});
@@ -27,11 +33,21 @@
   });
   return db;
  }
+ async function isPilot(){
+  if(!productionPilot)return true; // Isolated fixture mode retains old M02 tests.
+  try{
+   const {data,error}=await client().auth.getUser();
+   if(error||!data?.user||data.user.is_anonymous===true)return false;
+   const check=await client().rpc('dd_cr_pilot_status');
+   return check?.error==null&&check.data===true;
+  }catch{return false;}
+ }
  async function registered(){
   const {data,error}=await client().auth.getUser();
   if(error||!data?.user||data.user.is_anonymous===true)throw Error('Sign in to a registered Disclosure Desk account first.');
   const user=data.user;
   if(!uuid.test(user.id))throw Error('Research account cannot be verified.');
+  if(productionPilot&&!(await isPilot()))throw Error('Community Research is currently available only to approved beta researchers.');
   return user;
  }
  function safeLink(raw){
@@ -126,5 +142,5 @@
   if(!data||data.id!==id)throw Error('Draft is missing or cannot be deleted from this account.');
   return true;
  }
- window.DDCommunityResearchDrafts=Object.freeze({enabled:true,listMine,listMinePaged,getMine,saveMine,deleteMine});
+ window.DDCommunityResearchDrafts=Object.freeze({enabled:true,isPilot,listMine,listMinePaged,getMine,saveMine,deleteMine});
 })();
