@@ -9,7 +9,9 @@ const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
 const flags=window.DD_COMMUNITY_FEATURES||{};
 const testHost=location.hostname==='localhost'||location.hostname==='127.0.0.1'||
  /^deploy-preview-\d+--uap-disclosure-desk\.netlify\.app$/.test(location.hostname);
-const enabled=testHost&&cfg.environment==='test'&&flags.communityResearchBackend===true
+const enabled=testHost&&cfg.environment==='test'&&cfg.communityResearchTestDatabase===true
+ &&cfg.url!=='https://omqxizswzcwgzqaczlhe.supabase.co'
+ &&flags.communityResearchBackend===true
  &&flags.communityResearchPublishing===true&&flags.researchPublishing===false
  &&/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(String(cfg.url||''))
  &&/^sb_publishable_[A-Za-z0-9_-]+$/.test(String(cfg.publishableKey||''));
