@@ -22,6 +22,15 @@ jobs:
           node scripts/test_community_research_m01_contract.cjs
           node scripts/test_community_research_m02_contract.cjs
           node scripts/test_community_research_m02_adapter.cjs
+      - name: Verify M03 consent controls and isolated browser adapter
+        run: |
+          node --check assets/community-research-publication.js
+          node --check assets/community-research-author-workflow.js
+          node --check scripts/test_community_research_m03_publication_adapter.cjs
+          node --check scripts/test_community_research_m03_contract.cjs
+          node --check scripts/test_community_research_m03_browser.cjs
+          node scripts/test_community_research_m03_contract.cjs
+          node scripts/test_community_research_m03_publication_adapter.cjs
       - name: Public release allowlist without any M02 or M03 SQL
         run: |
           node scripts/build_public_release.cjs
@@ -71,3 +80,35 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f docs/COMMUNITY_RESEARCH_M03_PUBLICATION_SQL_DRAFT_ONLY.sql
           psql -v ON_ERROR_STOP=1 -f scripts/fixtures/community-research-m03-publication-rls-test.sql
           echo "PASS: isolated consent and RLS checks; no live Supabase credentials or deployment"
+
+  real-chrome-private-author-ui:
+    needs: contract-and-allowlist
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install exact test-only Chrome driver
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+      - name: Verify inherited M01 and new M03 author flow at four widths
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-m03-http.log 2>&1 &
+          echo $! >/tmp/dd-m03-http.pid
+          for i in $(seq 1 20); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/community-research.html >/dev/null && break
+            sleep 1
+          done
+          node scripts/test_community_research_m01_browser.cjs
+          node scripts/test_community_research_m03_browser.cjs
+      - name: Stop test-only server
+        if: always()
+        run: |
+          if test -f /tmp/dd-m03-http.pid; then
+            kill "$(cat /tmp/dd-m03-http.pid)" 2>/dev/null || true
+          fi
