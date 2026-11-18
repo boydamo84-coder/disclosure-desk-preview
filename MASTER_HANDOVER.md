@@ -1,6 +1,17 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 18 November 2026 (Europe/London) — Current curated RC1 verified and older deployment entries reconciled_
+_Last updated: 18 November 2026 (Europe/London) — Ads M01 preview-only layout staged, no deployment_
 
+
+
+## ADS M01 — Provider-neutral homepage and feed layout PREVIEW (18 November 2026)
+
+**Branch** `prep/site-ads-m01-layout-20261118`, forked from live `production` (RC1). **NOT DEPLOYED**. Two first-party CSS/JS assets add *no real advertisements*, vendor tracking, Supabase queries, cookies or visible empty slots in ordinary website sessions. Preview mode is restricted to localhost / Netlify deploy previews with explicit `?dd_ads_preview=1`.
+
+Staged preview places clearly marked sample slots after News cards **6/12/18** (maximum 3), Archive cards **12/24** (maximum 2), one before the Videos feed and one outside Discussions posts. W.NE/Research Edition, private reports, Chat and fullscreen playback remain completely ad-free. The genuine advertisement provider, own official account-specific ad code, separate UK advertising consent and ad-quality checks remain **future explicit gates**. Popunders, fullscreen overlays and bottom-dock-obscuring banners are rejected.
+
+**Testing:** `scripts/test_site_ads_m01_contract.cjs`, `scripts/test_site_ads_m01_chromium.cjs`, and GitHub NO DEPLOY workflow at `.github/workflows/ads-m01-layout-no-deploy.yml`; exact-head outcome must be read before claiming QA green. Strict public package includes two preview assets, not test fixtures/SQL/handovers. No Netlify credits spent, site accounts and database untouched.
+
+**Full handover:** `docs/ADS_M01_HANDOVER_2026-11-18.md`. **Next:** verify exact-head CI; obtain a publisher network account and vetted *standard banner only* ad unit; build separate explicit advertising consent and privacy updates, then connect to actual units after owner review. Keep AdSense low-value-content remediation work separate; no current approval is asserted.
 
 ## Deployment queue reconciliation — 18 November 2026
 
