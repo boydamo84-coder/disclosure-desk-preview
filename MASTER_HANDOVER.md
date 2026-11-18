@@ -1,5 +1,17 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 18 November 2026 (Europe/London) — Community Research M01 author preview Chromium green; staged NO LIVE RELEASE_
+_Last updated: 18 November 2026 (Europe/London) — Community Research M02 isolated PostgreSQL RLS green; NO LIVE RELEASE_
+
+## Community Research M02 — Protected drafts and member-feedback data design (18 November 2026)
+
+**Branch:** prep/community-research-m02-rls-private-drafts-20261118, based on M01. **STAGED ONLY: NO production Supabase migration, Netlify deployment, public publishing, account changes, or APK release.**
+
+- Six separated tables in docs/COMMUNITY_RESEARCH_M02_SQL_DRAFT_ONLY.sql: member-owned private drafts; read-only publication registry; immutable publicly readable editions with withdrawn-paper isolation; individually private usefulness votes; categorised public comments; individually private abuse/copyright reports. All use RLS. The script has NOT been applied to the live Disclosure Desk database. Guest published-paper reads, JWT-authenticated anonymous denial, own/cross-account isolation, duplicate-vote/report prevention, correct same-paper reply parent, account deletion cascades, and blocked direct public paper writes have been verified in disposable PostgreSQL 17.
+- Private-draft adapter assets/community-research-private-drafts.js supports signed-in owner-scoped list/save/delete with a server-verified draft revision check and source-link validation; no local saved plaintext or W.NE database calls. **communityResearchBackend:false and researchPublishing:false remain OFF everywhere**. Staged Community Research page only includes the dormant adapter; there is no new active public publishing button, voting display or bottom tab.
+- No public publish RPC or privileged browser/service key was created, and no test schema is deployed. The M01 W.NE copy-preview and both WHO M63 and Source M40 staged research inherit unchanged. Internal SQL and test fixtures remain excluded from the public package. A separate verified two-account test migration, moderation limits, atomic publish/revise/withdraw API, private vote aggregation, evidence/source-licensing review and actual Samsung Android QA are required before any owner-approved significant deployment.
+- Exact source and release gates: docs/COMMUNITY_RESEARCH_M02_HANDOVER_2026-11-18.md. New no-deploy CI workflow: .github/workflows/community-research-m02-rls-no-deploy.yml; review the latest exact-head successful run before release claims.
+
+**Next M03:** implement and test the atomic consent-first publication API and revision/withdrawal model in a controlled test database. Preserve disabled production flags until all security, moderation, copyright/privacy and cross-account tests pass.
+
 
 ## Community Research M01 — W.NE author-copy preview + standalone Research Library (18 November 2026)
 
