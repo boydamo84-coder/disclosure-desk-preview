@@ -1,5 +1,18 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 18 November 2026 (Europe/London) — M63 isolated ballot/SQL prototype green; LIVE RELEASE NOT APPROVED_
+_Last updated: 18 November 2026 (Europe/London) — Community Research M01 author preview Chromium green; staged NO LIVE RELEASE_
+
+## Community Research M01 — W.NE author-copy preview + standalone Research Library (18 November 2026)
+
+**Branch:** `prep/community-research-m01-publisher-preview-20261118` based on Source M40 and Who M63 research branch. **Staged only: NO Netlify deploy, Supabase migration/data write, APK build, member publication or votes.**
+
+- **Owner direction implemented as an isolated prototype:** A dedicated `community-research.html` navy-and-gold reading page (not another bottom tab) with an explicitly fictional demonstration, filters, original-source URL fields, research type, abstract and 30,000-character paper text, two opt-in consent checkboxes and a disabled final-publication control. Voting, corrections, comments and ratings are explained but NOT enabled; public archive remains empty until real submissions are approved.
+- **W.NE integration:** A new local/Deploy Preview-only File menu option in `research/wne.html` uses `wneSaveBeforeNavigation` + `WNECloudIntegration.verifiedOwner/readSavedDocument` to select **one confirmed saved section**. It converts that chosen section to plain text (no image, embedded media, HTML or private document identifier), carries a short-lived same-origin single-use `sessionStorage` copy to the private preview, and removes it immediately after import. The original research database record and history are not altered. If saving or validation fails, do not navigate.
+- **Entry points:** A small feature-flagged Discussions card links to the page, the W.NE File menu launches the copy preview; no 15th dock tab. Config `communityResearchPreview:local||preview` restricts it to local and official Deploy Preview origins; existing `researchPublishing:false` remains OFF for production. Standalone page marked noindex.
+- **Security and packaging:** DOM text-only rendering, source URL protocol/host validation, copy size/expiry checks, explicit author rights and acknowledgement, no real user submissions or network/database changes. Four new public files explicitly allowlisted; existing release package regression updated for four files. The site code, source tracker (five records), Who directory data and community features remain preserved.
+- **Automated verification:** [exact-code no-deploy run 44212788835](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44212788835) concluded **SUCCESS** for SHA `b68a68376b634cf7f18a9c86eb1b1fc89c78ebeb`: Node safety contract and offline public release package passed; isolated Chrome validated the reader and consent at 320/393/820/1280, unsafe URL blocking, no markup injection, disabled publish/votes, and real same-origin navigation from an isolated W.NE saved-copy fixture. Later handover-only commits require exact-head CI recheck before declaring current head green.
+- **Full architecture and gates:** `docs/COMMUNITY_RESEARCH_M01_HANDOVER_2026-11-18.md`. Next **M02** must design and verify database-backed own-draft/public-submission separation, account/RLS rules, moderation/revision history, community comments and usefulness voting on a controlled test environment, along with real-device QA. Do not activate external publishing until owner authorises a consolidated significant release.
+
+**Release gate:** M01 is a working author-copy/private preview and reading **prototype**, not a working public publishing, voting or commenting platform. The deployed website and APK are unchanged.
 
 ## Source M40 — Public international outreach register (18 November 2026)
 
