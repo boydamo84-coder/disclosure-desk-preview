@@ -20,7 +20,7 @@ function boot({host='localhost',test=true,backend=false,publishing=false,user={i
   }
  };
  const window={
-  DD_COMMUNITY_TEST_CONFIG:{environment:test?'test':'production',
+  DD_COMMUNITY_TEST_CONFIG:{environment:test?'test':'production',communityResearchTestDatabase:true,
     url:'https://fixture.supabase.co',publishableKey:'sb_publishable_fixture'},
   DD_COMMUNITY_FEATURES:{communityResearchBackend:backend,
     communityResearchPublishing:publishing,researchPublishing:false},
