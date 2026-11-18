@@ -20,8 +20,11 @@ jobs:
           node-version: "22"
       - name: Verify existing M01 and new M02 contract
         run: |
+          node --check assets/community-research-private-drafts.js
+          node --check scripts/test_community_research_m02_adapter.cjs
           node --check scripts/test_community_research_m02_contract.cjs
           node scripts/test_community_research_m02_contract.cjs
+          node scripts/test_community_research_m02_adapter.cjs
           node scripts/test_community_research_m01_contract.cjs
       - name: Verify public package contains NO M02 SQL, tests or private drafts
         run: |
@@ -30,6 +33,7 @@ jobs:
           test ! -f .release-staging/public-site/docs/COMMUNITY_RESEARCH_M02_SQL_DRAFT_ONLY.sql
           test ! -f .release-staging/public-site/scripts/fixtures/community-research-m02-rls-test.sql
           test -f .release-staging/public-site/community-research.html
+          test -f .release-staging/public-site/assets/community-research-private-drafts.js
           echo "M02 private SQL and fixture excluded; no deployment attempted"
   disposable-postgres-security:
     runs-on: ubuntu-latest
