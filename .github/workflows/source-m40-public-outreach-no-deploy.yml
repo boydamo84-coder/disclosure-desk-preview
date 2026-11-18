@@ -1,0 +1,66 @@
+name: "M40 international source enquiries and WHS reply NO DEPLOY"
+on:
+  push:
+    branches:
+      - prep/source-m40-public-outreach-register-20261118
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-register-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Syntax, provenance and public-record status checks
+        run: |
+          node --check assets/source-verification.js
+          node --check scripts/test_who_m39_source_tracker_contract.cjs
+          node scripts/test_who_m39_source_tracker_contract.cjs
+      - name: Assemble allowlisted site locally only
+        run: |
+          node scripts/build_public_release.cjs
+          test -f .release-staging/public-site/data/public-source-verification.json
+          test -f .release-staging/public-site/assets/source-verification.js
+          test ! -f .release-staging/public-site/MASTER_HANDOVER.md
+          test ! -f .release-staging/public-site/docs/SOURCE_M40_INTERNATIONAL_OUTREACH_HANDOVER.md
+          echo "PASS: local-only public package, no deploy"
+
+  responsive-source-register:
+    needs: source-register-and-package
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install local browser driver
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+          node --check scripts/test_who_m39_source_tracker_chromium.cjs
+      - name: Run real Chrome 320, 393, 820, 1280
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/source-m40-http.log 2>&1 &
+          echo $! >/tmp/source-m40-http.pid
+          for i in $(seq 1 20); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/sources.html >/dev/null && break
+            sleep 1
+          done
+          node scripts/test_who_m39_source_tracker_chromium.cjs
+      - name: Shut down local-only web server
+        if: always()
+        run: |
+          if test -f /tmp/source-m40-http.pid; then
+            kill "$(cat /tmp/source-m40-http.pid)" 2>/dev/null || true
+          fi
