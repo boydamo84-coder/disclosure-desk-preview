@@ -1,0 +1,46 @@
+'use strict';
+/* M01 no-publish build and privacy contract; runs without cloud or credentials. */
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const page=read('community-research.html'),client=read('assets/community-research-preview.js');
+const bridge=read('research/wne-community-publish.js'),wne=read('research/wne.html');
+const index=read('index.html'),entry=read('assets/community-research-entry.js');
+const flags=read('assets/community-test-config.js'),pkg=read('scripts/build_public_release.cjs');
+const people=JSON.parse(read('data/public-people-directory.json'));
+const tracker=JSON.parse(read('data/public-source-verification.json'));
+assert(page.includes('<meta name="robots" content="noindex,nofollow,noarchive">'));
+assert(page.includes('id="researchLibrary"')&&page.includes('id="researchComposer"')&&page.includes('id="researchPreview"'));
+assert(page.includes('id="researchForm"')&&page.includes('id="researchBody"'));
+assert(page.includes('Publish publicly · Not yet enabled'));
+assert(page.includes('disabled>Publish publicly')||page.includes('disabled>Publish publicly · Not yet enabled'));
+assert(page.includes('No votes or comments are stored in this preview.'));
+assert(page.includes('DEMONSTRATION · NOT A REAL SUBMISSION'));
+assert(page.includes('Original sources')&&page.includes('Author control')&&page.includes('Open review'));
+assert(page.includes('/community-rules')&&page.includes('/?dd_tab=discussionsPage'));
+assert(client.includes('sessionStorage.removeItem(KEY)'));
+assert(client.includes('Date.now()-data.createdAt>MAX_AGE'));
+assert(client.includes('textContent=preview.body')||client.includes("$('previewBody').textContent=preview.body"));
+assert(client.includes("u.protocol!=='https:'"));
+assert(!/\bfetch\s*\(|\.rpc\s*\(|\.insert\s*\(|\.update\s*\(|\.upsert\s*\(|\bXMLHttpRequest\b/.test(client),
+  'M01 paper reader must not submit or read remote data');
+assert(!/\binnerHTML\s*=|insertAdjacentHTML/.test(client),'No user text to HTML parser or dynamic markup');
+assert(bridge.includes('wneSaveBeforeNavigation'));
+assert(bridge.includes('readSavedDocument'));
+assert(bridge.includes('window.top')&&bridge.includes('top.location.assign'));
+assert(bridge.includes('communityResearchPreview!==true'));
+assert(bridge.includes('window.WNECloudIntegration.verifiedOwner()'));
+assert(!/\bfetch\s*\(|\.rpc\s*\(|\.insert\s*\(|\.update\s*\(|\.upsert\s*\(/.test(bridge),'Bridge cannot write to production');
+assert(bridge.includes('textFromHtml')&&bridge.includes('MAX_LENGTH=30000'));
+assert(wne.includes('wne-community-publish.js'));
+assert(wne.includes('id="wne-file-menu"')&&wne.includes('id="save"'));
+assert(flags.includes('communityResearchPreview:local||preview'));
+assert(flags.includes('researchPublishing:false'));
+assert(index.includes('id="ddForumCommunityResearchLink" hidden'));
+assert(entry.includes('card.hidden=!ready'));
+assert(index.includes('assets/community-research-entry.js'));
+assert(!index.includes("['communityResearch'"),'No new bottom tab');
+assert(pkg.includes("'community-research.html'")&&pkg.includes("'community-research-entry.js'")&&
+ pkg.includes("'community-research-preview.js'")&&pkg.includes("'wne-community-publish.js'"));
+assert.equal(people.people.length,50,'Who research source base preserved');
+assert.equal(tracker.records.length,5,'Prior international source tracker preserved');
+console.log('PASS M01: research library, author preview, W.NE saved-copy bridge, gated Discussions card; no live publish, vote, comment, new tab or backend call.');
