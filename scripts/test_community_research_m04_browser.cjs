@@ -51,7 +51,7 @@ const {chromium}=require('playwright-core');
     }};
    });
    await page.addScriptTag({url:'http://127.0.0.1:4173/assets/community-research-dashboard.js'});
-   await page.locator('#myResearchCount').filter({hasText:'recently saved private drafts'}).waitFor();
+   await page.locator('#myResearchCount').filter({hasText:'Private-draft page 1'}).waitFor();
    assert.equal(await page.locator('#myResearchRecords .item').count(),1);
    await page.getByRole('button',{name:'Review private draft'}).click();
    assert.match(await page.locator('#myResearchDetailText').innerText(),/Private source research/);
