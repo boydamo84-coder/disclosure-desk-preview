@@ -59,6 +59,25 @@
       },
       "reviewStatus": "editorial-draft",
       "eventVerified": false
+    },
+    {
+      "id": "knuth-nimitz-published-model-2019",
+      "personId": "kevin-knuth",
+      "personName": "Kevin Knuth",
+      "caseId": "featured-nimitz-2004",
+      "caseLabel": "USS Nimitz / Tic Tac (2004)",
+      "role": "published-commentary",
+      "roleLabel": "Coauthor of a later quantitative study, not a 2004 eyewitness",
+      "statement": "Knuth and coauthors published a 2019 study modelling acceleration estimates for reported 2004 Nimitz events using accounts and public video, with conditional assumptions about ranges and timing.",
+      "context": "This is a later analysis of previously reported testimony, radar estimates and publicly released footage. It provides no independently retrieved original 2004 sensor track and must not be counted as an extra eyewitness or a verified observation of extraordinary acceleration.",
+      "source": {
+        "url": "https://www.mdpi.com/1099-4300/21/10/939",
+        "locator": "Entropy 2019, 21(10), 939, sections 2.4.1–2.4.3 (2004 Nimitz analyses and explicit model assumptions)",
+        "publisher": "Knuth, Powell and Reali / Entropy (MDPI)",
+        "date": "2019"
+      },
+      "reviewStatus": "editorial-draft",
+      "eventVerified": false
     }
   ]
 }
