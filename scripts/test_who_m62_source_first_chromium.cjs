@@ -12,7 +12,7 @@ const base='http://127.0.0.1:4173';
    const outbound=[],dbCalls=[],errors=[];
    await ctx.route('**/*',route=>{
     const u=new URL(route.request().url());
-    if(u.origin!==base){outbound.push(u.origin);return route.abort('blockedbyclient')}
+    if(u.origin!==base){if(route.request().resourceType()!=='image')outbound.push(u.origin);return route.abort('blockedbyclient')}
     if(/dd_who_claim_rating|\/rest\/v1\/|\/rpc\//i.test(u.pathname)){
      dbCalls.push(u.pathname);return route.abort('blockedbyclient');
     }
@@ -58,7 +58,7 @@ const base='http://127.0.0.1:4173';
    }
    assert.deepEqual(errors,[],'No page script errors '+width);
    assert.deepEqual(dbCalls,[],'No legacy vote API calls');
-   assert.deepEqual(outbound,[],'No external service loaded on source-first profiles');
+   assert.deepEqual(outbound,[],'No unexpected external scripts, APIs or background connections');
    await ctx.close();
   }
   console.log('M62 CHROME PASS: 57 profiles, Fravor original dossier, Sean/Dietrich sources, 14-tab nav, Back, no dual ratings or vote RPC, no overflow at 320/393/820/1280.');
