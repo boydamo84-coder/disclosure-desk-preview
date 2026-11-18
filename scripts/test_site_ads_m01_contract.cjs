@@ -1,0 +1,32 @@
+'use strict';
+const fs=require('node:fs'),assert=require('node:assert/strict'),vm=require('node:vm'),path=require('node:path');
+const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(root,f),'utf8');
+const js=read('assets/site-ad-layout-m01.js'),css=read('assets/site-ad-layout-m01.css');
+const html=read('index.html'),build=read('scripts/build_public_release.cjs');
+const pages=['research/wne.html','research/index.html','research-edition.html','privacy.html'];
+assert.match(html,/site-ad-layout-m01\.css\?v=preview-1/);
+assert.match(html,/site-ad-layout-m01\.js\?v=preview-1/);
+assert.match(build,/'site-ad-layout-m01\.js'/);
+assert.match(build,/'site-ad-layout-m01\.css'/);
+assert(js.includes('providerEnabled:false'),'Provider must remain switched OFF');
+assert(js.includes('requiresAdvertisingConsent:true'),'Advertiser privacy gate must be documented');
+assert(!/https?:\/\//.test(js),'No ad-network URL can be shipped inside preview JS');
+assert(!/document\.cookie|localStorage|sessionStorage|fetch\s*\(|XMLHttpRequest|\.src\s*=|createElement\(['"]iframe/.test(js),
+ 'The preview must not track, persist, fetch, or load another script');
+assert(js.includes("window.top!==window"),'No ads inside embedded app');
+assert(js.includes("['/','/index.html']"),'Only public homepage may load demo placements');
+for(const p of pages){const s=read(p);assert(!s.includes('site-ad-layout-m01'),'Ad preview must never appear on '+p)}
+assert.match(css,/grid-column:1\/-1/);
+const w={};w.top=w;
+const context={window:w,location:{hostname:'preview.example.invalid',pathname:'/',search:'?dd_ads_preview=1'},URLSearchParams};
+vm.runInNewContext(js,context,{filename:'site-ad-layout-m01.js'});
+const api=w.DDAdLayoutM01;
+assert(api&&api.preview===false,'Nonapproved domains cannot enable demo by query parameter');
+assert.deepEqual(Array.from(api.plan(5,6,3)),[]);
+assert.deepEqual(Array.from(api.plan(6,6,3)),[6]);
+assert.deepEqual(Array.from(api.plan(18,6,3)),[6,12,18]);
+assert.deepEqual(Array.from(api.plan(999,6,3)),[6,12,18]);
+assert.deepEqual(Array.from(api.plan(24,12,2)),[12,24]);
+assert.equal(api.policy.discussionsMax,1);
+assert.equal(api.policy.videosMax,1);
+console.log('ADS M01 PASS: strict previews, in-feed frequency/caps, no live vendors or tracking, W.NE excluded');
