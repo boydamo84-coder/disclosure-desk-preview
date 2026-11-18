@@ -19,7 +19,14 @@ jobs:
           node-version: "22"
       - name: Check existing M05 non-deploy contract and strict package
         run: |
-          node scripts/test_community_research_m05_contract.cjs
+          node --check assets/community-research-private-drafts.js
+          node --check assets/community-research-publication.js
+          node --check assets/community-research-recovery.js
+          node --check assets/community-research-dashboard.js
+          node --check assets/community-research-author-workflow.js
+          node scripts/test_community_research_m07_contract.cjs
+          node scripts/test_community_research_m02_adapter.cjs
+          node scripts/test_community_research_m03_publication_adapter.cjs
           node scripts/build_public_release.cjs
           node scripts/test_public_release_package.cjs
           test ! -f .release-staging/public-site/docs/COMMUNITY_RESEARCH_M07_TWO_ACCOUNT_PILOT.sql
@@ -68,3 +75,37 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f scripts/fixtures/community-research-m07-pilot-rls-test.sql
           psql -v ON_ERROR_STOP=1 -f scripts/fixtures/community-research-m07b-status-test.sql
           echo "PASS: enrolled synthetic A/B only, C and guests blocked, test revoked, no live data"
+  chrome-production-pilot-mock:
+    needs: review-existing-package
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Set up pinned Chromium driver
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+      - name: Validate limited production-host beta and inherited W.NE author UI
+        run: |
+          node --check scripts/test_community_research_m07_browser.cjs
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-m07-browser.log 2>&1 &
+          echo $! >/tmp/dd-m07-browser.pid
+          for i in $(seq 1 20); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/my-research.html >/dev/null && break
+            sleep 1
+          done
+          node scripts/test_community_research_m03_browser.cjs
+          node scripts/test_community_research_m04_browser.cjs
+          node scripts/test_community_research_m05_browser.cjs
+          node scripts/test_community_research_m07_browser.cjs
+      - name: Stop isolated test-only server
+        if: always()
+        run: |
+          if test -f /tmp/dd-m07-browser.pid; then
+            kill "$(cat /tmp/dd-m07-browser.pid)" 2>/dev/null || true
+          fi
