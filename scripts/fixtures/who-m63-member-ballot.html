@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M63 PRIVATE TEST — Who's Who Community Evidence Ballot</title>
+<style>
+:root{color-scheme:dark;--base:#081723;--pane:#132b3d;--line:#4d6678;--gold:#e4c48a;--fg:#f1f3f6;--muted:#c1d0d9}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 80% -20%,#23425a,var(--base) 55%);font:15px/1.6 system-ui,sans-serif;color:var(--fg)}
+main{max-width:760px;margin:auto;padding:20px 14px 80px}
+h1{font-size:clamp(25px,5vw,35px);line-height:1.2;color:var(--gold)}
+h2{font-size:22px}h3{font-size:18px}
+.notice,.assessment{border:1px solid var(--gold);padding:14px;border-radius:12px;background:#1d3547}
+.quiet{color:var(--muted)}
+fieldset{min-width:0;border:1px solid var(--line);background:var(--pane);border-radius:12px;padding:16px;margin:15px 0}
+legend{font-weight:800;color:var(--gold);padding:0 7px}
+label.unknown{display:flex;align-items:center;gap:8px}
+input[type=checkbox]{accent-color:var(--gold);width:22px;height:22px}
+input[type=range]{display:block;width:100%;height:37px;accent-color:var(--gold);touch-action:pan-y;margin-top:9px}
+.value{display:block;font-weight:800;color:var(--gold);text-align:right;font-variant-numeric:tabular-nums}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+button,select{font:inherit;min-height:44px;border-radius:9px;padding:9px 13px;max-width:100%}
+button{border:1px solid var(--gold);color:#081723;background:var(--gold);font-weight:800;cursor:pointer}
+button.secondary{color:var(--gold);background:#172536}
+button:disabled{opacity:.55;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.testing{border:1px dashed #7992a4;padding:14px;border-radius:12px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.testing label{display:grid;gap:2px}
+select{background:#152a39;color:#fff;border:1px solid #8296a3}
+.aggregate{border-top:1px solid var(--line);margin-top:20px}
+#ballot{margin-top:20px}
+</style>
+</head><body><main>
+<p class="quiet">DISCLOSURE DESK · M63 ISOLATED DEVELOPMENT FIXTURE · NO PUBLIC VOTING</p>
+<h1>Community evidence worksheet</h1>
+<p class="notice"><strong>Testing only.</strong> The accounts, source approval and ballots here are invented, in-memory examples. This page does not connect to Supabase, authenticate real users, use cookies, save data or submit a live vote. An account can assess a specific documented claim only when that claim version has been independently approved.</p>
+<div class="testing">
+<label>Simulated member <select id="viewer">
+<option value="alpha">Test account A</option><option value="beta">Test account B</option>
+<option value="guest">Guest / signed out</option><option value="anonymous">Anonymous account</option></select></label>
+<label>Claim version <select id="version"><option value="1">Version 1</option><option value="2">Version 2</option></select></label>
+<label><input id="approved" type="checkbox" checked> Simulate approved claim</label>
+<label><input id="showSnapshots" type="checkbox"> Show reviewed aggregate example</label>
+</div>
+<section id="ballot" aria-label="Simulated claim-specific ballot"></section>
+<p class="quiet">The actual site remains source-first and read-only; no claim is enabled for live ballots. The SQL security design remains an unapplied review draft.</p>
+</main>
+<script src="./who-m63-vote-model.js"></script>
+<script>
+(()=>{
+'use strict';
+const api=window.DDWhoM63Preview;
+const store=new Map(),log=[];
+const claimId='nimitz-training-fixture';
+const view=document.querySelector('#viewer'),version=document.querySelector('#version');
+const approved=document.querySelector('#approved'),showSnapshots=document.querySelector('#showSnapshots');
+const adapter={
+ async claim(id,v){return id===claimId?{version:v,eligible:approved.checked,enabled:approved.checked}:null},
+ async member(){return view.value==='guest'?null:{id:view.value,is_anonymous:view.value==='anonymous'}},
+ async mine(id,v){return store.get(view.value+':'+id+':'+v)||null},
+ async save(id,v,answers){
+  if(view.value==='guest'||view.value==='anonymous')throw Error('Sign-in required');
+  if(!approved.checked)throw Error('Claim version closed');
+  const values=api.validate(answers);
+  const key=view.value+':'+id+':'+v;
+  const old=store.get(key);
+  store.set(key,{answers:values,is_withdrawn:false,revision:(old?.revision||0)+1});
+  log.push({kind:old?'update':'create',claim_id:id,claim_version:v,answers:values});
+ },
+ async withdraw(id,v){
+  const key=view.value+':'+id+':'+v,old=store.get(key);
+  if(!old)throw Error('Nothing to withdraw');
+  store.set(key,{...old,is_withdrawn:true,revision:old.revision+1});
+  log.push({kind:'withdraw',claim_id:id,claim_version:v});
+ },
+ async snapshots(id,v){
+  return showSnapshots.checked?[{approved:true,criterion:'original',answered:15,unknown_count:5,
+   band_1:5,band_2:0,band_3:0,band_4:5,band_5:5}]:[];
+ }
+};
+let controller=api.mount(document.querySelector('#ballot'),adapter,{id:claimId,version:Number(version.value)});
+async function refresh(){controller=api.mount(document.querySelector('#ballot'),adapter,{id:claimId,version:Number(version.value)});await controller.refresh()}
+for(const e of [view,version,approved,showSnapshots])e.addEventListener('change',refresh);
+window.DDM63Fixture=Object.freeze({
+ log,store,refresh,read:()=>controller.read(),
+ total:()=>store.size,
+ clear:()=>{store.clear();log.length=0;refresh()}
+});
+refresh();
+})();
+</script></body></html>
