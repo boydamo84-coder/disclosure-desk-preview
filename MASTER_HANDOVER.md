@@ -1,5 +1,15 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 18 November 2026 (Europe/London) — M65 community result review and privacy controls staged_
+_Last updated: 18 November 2026 (Europe/London) — M66 withdrawal lifecycle staged, no deployment_
+
+
+## M66 — Post-publication withdrawal and snapshot retirement policy (18 November 2026)
+
+**Staged branch:** `prep/who-m66-withdrawal-lifecycle-20261118` inherits the M65 draft, with no production deployment or Supabase migration. It adds `docs/WHO_M66_POSTPUBLICATION_WITHDRAWAL_SQL_DRAFT_ONLY.sql`, a synthetic two-account PostgreSQL regression and a no-deploy workflow. **Not yet live or accepted until exact-head CI and independent security review.**
+
+- Freeze a claim/version once its first safe aggregate is published: new ballots and editing existing points are refused. Keep existing owner-only soft withdrawal. A legitimate withdrawal automatically retires the ENTIRE released aggregate in the same transaction; public RLS hides it; private release ledger records an impersonal reason. No per-member answer enters public results and the same version is never republished.
+- Trade-off to approve: one member can retire a public aggregate; prior screenshots and third-party caches cannot be removed. The user must be told this clearly before contributing. A fully independent review of privileged triggers and race/locking behaviour is still required.
+- Database test is intended to run only in disposable PostgreSQL 17: M63 + M65 fixtures followed by M66 freeze, cross-account, withdrawal and retired-snapshot checks. **CI outcome pending**. There are no real member ballots, approved claim registry rows, production permissions or Netlify changes.
+- Next: inspect exact-HEAD CI; if green, still retain staged status. Test signed-in accounts using a separate controlled backend, get claim-specific human approvals and explicit owner consent before any DB change. Community Research M07 is unaffected.
 
 ## M65 — Reviewed publication of community evidence results (18 November 2026)
 
