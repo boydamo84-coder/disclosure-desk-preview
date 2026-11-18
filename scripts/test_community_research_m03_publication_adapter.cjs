@@ -4,7 +4,7 @@ const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const src=fs.readFileSync(path.resolve(__dirname,'../assets/community-research-publication.js'),'utf8');
 const ID='aaaaaaaa-1111-4111-8111-aaaaaaaaaaaa';
 const PAPER='11111111-1111-4111-8111-111111111111';
-function boot({host='localhost',test=true,backend=false,publishing=false,user={id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',is_anonymous:false}}={}){
+function boot({host='localhost',test=true,backend=false,publishing=false,url='https://fixture.supabase.co',user={id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',is_anonymous:false}}={}){
  const calls=[];let connections=0,current=user,forceError=null,mutatedResult=null;
  const db={
   auth:{getUser:async()=>({data:{user:current},error:null})},
@@ -21,7 +21,7 @@ function boot({host='localhost',test=true,backend=false,publishing=false,user={i
  };
  const window={
   DD_COMMUNITY_TEST_CONFIG:{environment:test?'test':'production',communityResearchTestDatabase:true,
-    url:'https://fixture.supabase.co',publishableKey:'sb_publishable_fixture'},
+    url,publishableKey:'sb_publishable_fixture'},
   DD_COMMUNITY_FEATURES:{communityResearchBackend:backend,
     communityResearchPublishing:publishing,researchPublishing:false},
   supabase:{createClient(){connections++;return db}}
@@ -42,6 +42,8 @@ function boot({host='localhost',test=true,backend=false,publishing=false,user={i
  assert.equal(boot({host:'uapdisclosuredesk.com',backend:true,publishing:true}).api.enabled,false,
   'Direct client-side flag modification must never activate production');
  assert.equal(boot({host:'localhost',test:false,backend:true,publishing:true}).api.enabled,false);
+ assert.equal(boot({host:'localhost',backend:true,publishing:true,url:'https://omqxizswzcwgzqaczlhe.supabase.co'}).api.enabled,false,
+  'Staged publishing must never accidentally use the connected production database');
  const h=boot({backend:true,publishing:true});
  assert.equal(h.api.enabled,true);
  for(const data of [
