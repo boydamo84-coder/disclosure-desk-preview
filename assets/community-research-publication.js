@@ -9,9 +9,14 @@ const cfg=window.DD_COMMUNITY_TEST_CONFIG||{};
 const flags=window.DD_COMMUNITY_FEATURES||{};
 const testHost=location.hostname==='localhost'||location.hostname==='127.0.0.1'||
  /^deploy-preview-\d+--uap-disclosure-desk\.netlify\.app$/.test(location.hostname);
-const enabled=testHost&&cfg.environment==='test'&&cfg.communityResearchTestDatabase===true
- &&cfg.url!=='https://omqxizswzcwgzqaczlhe.supabase.co'
- &&flags.communityResearchBackend===true
+const productionHost=/^(?:www\.)?uapdisclosuredesk\.com$/.test(location.hostname)||
+ location.hostname==='uap-disclosure-desk.netlify.app';
+const productionPilot=productionHost&&cfg.environment==='production'
+ &&cfg.communityResearchPilot===true
+ &&cfg.url==='https://omqxizswzcwgzqaczlhe.supabase.co';
+const isolatedTest=testHost&&cfg.environment==='test'&&cfg.communityResearchTestDatabase===true
+ &&cfg.url!=='https://omqxizswzcwgzqaczlhe.supabase.co';
+const enabled=(productionPilot||isolatedTest)&&flags.communityResearchBackend===true
  &&flags.communityResearchPublishing===true&&flags.researchPublishing===false
  &&/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(String(cfg.url||''))
  &&/^sb_publishable_[A-Za-z0-9_-]+$/.test(String(cfg.publishableKey||''));
@@ -29,11 +34,21 @@ function client(){
  });
  return db;
 }
+async function isPilot(){
+ if(!productionPilot)return true;
+ try{
+  const {data,error}=await client().auth.getUser();
+  if(error||!data?.user||data.user.is_anonymous===true)return false;
+  const check=await client().rpc('dd_cr_pilot_status');
+  return check?.error==null&&check.data===true;
+ }catch{return false;}
+}
 async function author(){
  const {data,error}=await client().auth.getUser();
  const user=data?.user;
  if(error||!user||user.is_anonymous===true||!idPattern.test(String(user.id)))
   throw Error('Sign in using a registered research account to publish or withdraw.');
+ if(productionPilot&&!(await isPilot()))throw Error('This publication pilot is limited to approved researcher accounts.');
  return user.id;
 }
 function validPositive(v){return Number.isSafeInteger(v)&&v>=1&&v<=100000}
@@ -80,5 +95,5 @@ async function withdrawPaper({paperId,edition,consent=false}={}){
   throw Error('Server withdrawal state is unexpected; check the paper before retrying.');
  return result;
 }
-window.DDCommunityResearchPublication=Object.freeze({enabled:true,publishDraft,withdrawPaper});
+window.DDCommunityResearchPublication=Object.freeze({enabled:true,isPilot,publishDraft,withdrawPaper});
 })();
