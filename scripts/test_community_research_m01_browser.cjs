@@ -57,7 +57,9 @@ const base='http://127.0.0.1:4173';
   });
   const page=await ctx.newPage();const errors=[];
   page.on('pageerror',e=>errors.push(String(e.message||e)));
-  await page.goto(base+'/community-research.html',{waitUntil:'domcontentloaded'});
+  // Give the editor harness a different document URL so its handoff must navigate,
+  // rather than merely changing the hash on the same empty fixture document.
+  await page.goto(base+'/community-research.html?fixture=wne-editor',{waitUntil:'domcontentloaded'});
   await page.setContent('<!doctype html><html><body><div id="wne-file-menu"><p>PROTECT YOUR RESEARCH</p></div><button id="save">Save</button></body></html>');
   await page.evaluate(()=>{
    window.__saveChecks=0;
