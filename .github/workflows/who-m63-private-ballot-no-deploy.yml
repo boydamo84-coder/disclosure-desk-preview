@@ -1,0 +1,102 @@
+name: "Who M63 private five-criterion ballot security NO DEPLOY"
+on:
+  push:
+    branches:
+      - prep/who-m63-secure-five-criteria-ballots-20261118
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-contract-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate five-criterion model, privacy contracts and previous research
+        run: |
+          node --check scripts/fixtures/who-m63-vote-model.js
+          node --check scripts/test_who_m63_ballot_browser_chromium.cjs
+          node scripts/test_who_m63_ballot_contract.cjs
+          node scripts/test_who_m62_source_first_contract.cjs
+          node scripts/test_who_m60_six_profiles.cjs
+          node scripts/test_who_m57_community_criteria_contract.cjs
+      - name: Ensure internal ballot work and SQL remain outside public release
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_who_public_package_boundary.cjs
+          test ! -e .release-staging/public-site/docs/WHO_M63_FIVE_CRITERIA_BALLOTS_SQL_DRAFT_ONLY.sql
+          test ! -e .release-staging/public-site/scripts/fixtures/who-m63-member-ballot.html
+          test ! -e .release-staging/public-site/scripts/fixtures/who-m63-vote-model.js
+  chrome-ux-privately-staged:
+    needs: source-contract-and-package
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Set up fixed browser driver
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+      - name: Exercise synthetic member ballots in real local Chrome
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/who-m63-http.log 2>&1 &
+          echo $! > /tmp/who-m63-http.pid
+          for i in $(seq 1 20); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/scripts/fixtures/who-m63-member-ballot.html >/dev/null && break
+            sleep 1
+          done
+          node scripts/test_who_m63_ballot_browser_chromium.cjs
+      - name: Stop local preview server
+        if: always()
+        run: |
+          if test -f /tmp/who-m63-http.pid; then kill "$(cat /tmp/who-m63-http.pid)" 2>/dev/null || true; fi
+  disposable-postgres-rls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: m63qa
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d m63qa"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: m63qa
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Get Postgres client if runner image lacks one
+        run: |
+          if ! command -v psql >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq postgresql-client
+          fi
+          psql --version
+      - name: Apply unapplied draft ONLY inside disposable Postgres
+        run: |
+          psql -v ON_ERROR_STOP=1 -f scripts/fixtures/who-m63-rls-bootstrap.sql
+          psql -v ON_ERROR_STOP=1 -f docs/WHO_M63_FIVE_CRITERIA_BALLOTS_SQL_DRAFT_ONLY.sql
+          psql -v ON_ERROR_STOP=1 -f scripts/fixtures/who-m63-rls-test.sql
+          echo "No linked Supabase project, production database or deployment was accessed"
