@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="theme-color" content="#0b131c">
+<title>Community Research | Disclosure Desk · Staged Preview</title>
+<meta name="description" content="A staged preview of the Disclosure Desk independent research library and opt-in W.NE publishing workflow.">
+<link rel="icon" type="image/svg+xml" href="/assets/disclosure-desk-mark.svg">
+<style>
+:root{color-scheme:dark;--bg:#09111a;--panel:#112635;--panel2:#162d3e;--line:#405566;--gold:#e5c58b;--text:#eef2f4;--muted:#b6c6d1;--positive:#aedac8;font:15px/1.56 system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:radial-gradient(ellipse 65% 38% at 85% -10%,#2a4153,transparent),var(--bg);color:var(--text)}
+a{color:var(--gold)}button,input,textarea,select{font:inherit}button{cursor:pointer;min-height:44px}button:disabled{opacity:.46;cursor:not-allowed}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #f7d99d;outline-offset:3px}
+header{border-bottom:1px solid #3c5365;background:#0a1621d9} .top{max-width:1120px;margin:auto;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.brand{text-decoration:none;font:800 12px system-ui;letter-spacing:2px;color:var(--gold)}.brand span{display:block;color:#b8c5d0;font-size:10px;font-weight:600;letter-spacing:1px;margin-top:4px}
+.top nav{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.top nav a,.link-button{display:inline-flex;text-decoration:none;border:1px solid #66788a;border-radius:9px;padding:10px 13px;color:#ebd4a8;font-size:12px;font-weight:750;background:#15293a}
+main{max-width:1120px;margin:auto;padding:34px 20px 90px}.eyebrow{color:var(--gold);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px}
+h1{font:700 clamp(35px,6.5vw,61px)/1.08 Georgia,serif;margin:9px 0 13px;color:#f5e9d1;letter-spacing:-.7px}
+h2{font-size:24px;margin:0 0 10px;color:#f0e4c9}h3{font-size:17px;margin:0 0 8px;color:#f5e7c5}
+p{margin:0 0 12px}.lead{max-width:770px;font-size:16px;line-height:1.65;color:#cfdae2}
+.hero{padding:12px 0 22px}.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 10px}
+.primary,.secondary{border:1px solid #d4b77e;border-radius:10px;background:#ddc28e;color:#10202d;font-weight:800;padding:12px 17px;min-height:46px}
+.secondary{background:#22384a;border-color:#8190a0;color:#f0ddba}
+.status{margin:20px 0 22px;padding:13px 16px;border:1px solid #7d7359;background:#272d32;border-radius:11px;color:#e4cf9d;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0 28px}
+.stat{padding:16px;background:#122536;border:1px solid #3e5265;border-radius:13px}.stat strong{display:block;font-size:18px;color:#f2d59e}.stat span{display:block;font-size:12px;color:#adbfce;margin-top:3px}
+.panel{background:#112331;border:1px solid #41586b;border-radius:17px;padding:21px;margin:24px 0;min-width:0}
+.panel-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:13px}
+.muted{color:var(--muted);font-size:13px}.tools{display:flex;gap:11px;flex-wrap:wrap;margin:16px 0 17px}
+.tools label,.compose label{font-size:12px;color:#d1dce5;font-weight:700;display:block}
+.tools input,.tools select,.compose input,.compose select,.compose textarea{width:100%;display:block;margin-top:7px;background:#0a1b2b;border:1px solid #61778a;border-radius:9px;color:#f2f3f5;min-height:43px;padding:10px 12px}
+.tools>label{flex:1 1 190px}.tools>label:first-child{flex:2 1 270px}
+.empty{padding:23px;text-align:left;border:1px dashed #64778a;border-radius:12px;color:#bcd0dc}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}.paper{border:1px solid #50677a;background:#172c3e;border-radius:13px;padding:18px;min-width:0}
+.paper small{display:block;color:#edd3a1;margin-bottom:9px;font-size:11px}.paper p{font-size:13px;line-height:1.6;color:#c3d2dd}.tag{display:inline-block;border:1px solid #927c56;border-radius:7px;color:#f3d59d;background:#3b3124;padding:4px 8px;font-size:11px;font-weight:800}
+.paper button{margin-top:13px}.paper-note{font-size:12px;border-top:1px solid #405668;padding-top:10px;margin-top:12px;color:#b7c7d5}
+.layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(230px,0.7fr);gap:18px}.readsheet{padding:20px;border-radius:12px;background:#f8f4ed;color:#253342;line-height:1.75;min-height:170px;white-space:pre-wrap;overflow-wrap:anywhere}.readsheet h3{color:#24354a}
+.feedback{border:1px solid #4d6479;border-radius:12px;padding:16px;background:#152c3e}.feedback p{font-size:12px;color:#c5d1dc}
+.feedback button{width:100%;margin-bottom:10px;text-align:left;background:#213c50;color:#ead5b1;border:1px solid #698194;border-radius:9px;padding:10px 12px}
+.feedback button:disabled{cursor:not-allowed;opacity:.65}
+.hidden,[hidden]{display:none!important}.compose{display:grid;gap:15px}.compose .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.compose textarea{resize:vertical;min-height:100px}.compose #researchBody{min-height:220px}
+.checkrow{display:flex!important;gap:11px;align-items:start;color:#d4dfe7!important;font-size:13px!important}.checkrow input{min-height:auto;width:18px;height:18px;margin:2px 0 0;flex:none}
+.preview-citation{padding-left:20px;overflow-wrap:anywhere}.preview-citation li{margin:7px 0}.preview-citation a{color:#8b5e12}.notice{padding:12px 14px;background:#203440;border-left:3px solid #e4c48d;color:#d2dfeb;border-radius:0 7px 7px 0;font-size:13px}
+.footer{border-top:1px solid #3c5262;padding:23px 0;color:#9bb1c1;font-size:12px;margin-top:48px}
+@media(max-width:710px){main{padding:26px 14px 90px}.panel{padding:15px}.layout{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.compose .row{grid-template-columns:1fr}.top nav{gap:6px}.top nav a{padding:9px 10px}}
+@media(max-width:350px){.stats{grid-template-columns:1fr}}
+</style>
+</head><body>
+<header><div class="top"><a class="brand" href="/">DISCLOSURE DESK<span>INDEPENDENT INVESTIGATIONS · EVIDENCE ARCHIVE</span></a>
+<nav aria-label="Research navigation"><a href="/?dd_tab=discussionsPage">Discussions</a><a href="/research/index.html">W.NE Editor</a><a href="/?dd_tab=hub">Explore</a></nav></div></header>
+<main>
+<section class="hero" aria-labelledby="title"><span class="eyebrow">Investigate · Publish with consent · Examine the evidence</span>
+<h1 id="title">Community Research</h1>
+<p class="lead">A place for independent research papers, source-led investigations, critical reviews and constructive feedback. Share what the evidence supports, identify what's still uncertain, and make room for corrections.</p>
+<div class="hero-actions"><button class="primary" id="beginDraft" type="button">Preview a research paper</button><a class="link-button" href="/research/index.html">Write in W.NE</a></div>
+</section>
+<p class="status" id="researchReleaseStatus" role="status">Development preview — public submissions, voting and comments are not live. Your W.NE original is never published automatically.</p>
+<section class="stats" aria-label="Research preview principles">
+ <div class="stat"><strong>Original sources</strong><span>Show citations and distinguish firsthand records from interpretation</span></div>
+ <div class="stat"><strong>Author control</strong><span>Preview the publication copy and retain the private original</span></div>
+ <div class="stat"><strong>Open review</strong><span>Structured feedback, revision history and accountable corrections planned</span></div>
+</section>
+<section class="panel" id="researchLibrary" aria-labelledby="libraryTitle">
+ <div class="panel-head"><div><span class="eyebrow">Browse investigations</span><h2 id="libraryTitle">Research Library</h2></div><span class="tag">Staged preview</span></div>
+ <p class="muted">The real community library will appear here after account permissions, moderation and database security have been tested. No sample papers are represented as real submissions.</p>
+ <div class="tools"><label>Search by title or case<input id="researchSearch" type="search" maxlength="80" placeholder="e.g. Nimitz, Rendlesham"></label><label>Research type<select id="researchCategory"><option value="">All topics</option><option value="case">Case investigation</option><option value="archive">Archive research</option><option value="hypothesis">Hypothesis</option><option value="methods">Methods and data</option></select></label><label>Sort<select id="researchSort"><option value="latest">Latest</option><option value="discussed">Most discussed</option><option value="useful">Most useful</option><option value="review">Needs review</option></select></label></div>
+ <div class="empty" id="researchEmpty">No public community papers have been published through this preview. Try the clearly marked example to explore how a research article will look.</div>
+ <div class="cards"><article class="paper" id="researchDemoCard"><small>DESIGN DEMONSTRATION · NOT A REAL SUBMISSION</small><h3>The Nimitz case: evaluating source reliability</h3><p>Example layout for a research article: attributed first-person accounts, official records, unresolved questions and alternative explanations.</p><span class="tag">Sample only</span><div class="paper-note">No genuine author, votes or comments are represented.</div><button class="secondary" id="readDemo" type="button">Read sample layout</button></article></div>
+</section>
+<section class="panel hidden" id="researchReader" aria-labelledby="readerTitle">
+ <div class="panel-head"><div><span class="eyebrow" id="readerEyebrow">Sample layout</span><h2 id="readerTitle">Research paper</h2></div><button class="secondary" id="closeReader" type="button">Back to library</button></div>
+ <div class="layout"><article><p class="muted" id="readerSummary"></p><div class="readsheet" id="readerBody"></div><h3>References</h3><ol class="preview-citation" id="readerReferences"></ol></article>
+ <aside class="feedback"><h3>Review and discussion</h3><p>Voting on usefulness is separate from deciding whether a claim is true.</p><button type="button" disabled title="Requires authenticated community release">▲ Useful · Not active</button><button type="button" disabled title="Requires authenticated community release">▼ Needs improvement · Not active</button><h3>Constructive feedback</h3><p>Future comments will be grouped by supporting evidence, counter-evidence, corrections and questions.</p><button type="button" disabled>＋ Add a source · Not active</button><button type="button" disabled>Reply to paper · Not active</button><p class="notice">No votes or comments are stored in this preview.</p></aside></div>
+</section>
+<section class="panel hidden" id="researchComposer" aria-labelledby="composerTitle">
+ <div class="panel-head"><div><span class="eyebrow">Author-owned · Non-submitting preview</span><h2 id="composerTitle">Prepare your research for publication</h2></div><button class="secondary" type="button" id="cancelCompose">Back to library</button></div>
+ <p class="muted">Use your own text or bring a saved W.NE section across as a temporary publication copy. This does not change the W.NE original. Imported text is held in this browser tab until you leave; it is not uploaded.</p>
+ <form class="compose" id="researchForm">
+  <div class="row"><label>Research title<input id="researchTitle" name="title" minlength="8" maxlength="140" required placeholder="A clear, specific title"></label><label>Investigation type<select id="researchType" name="type"><option value="case">Case investigation</option><option value="archive">Archive research</option><option value="hypothesis">Hypothesis</option><option value="methods">Methods and data</option></select></label></div>
+  <label>Abstract — what did you investigate?<textarea id="researchAbstract" name="abstract" maxlength="600" minlength="30" required placeholder="Summarise your findings, main limitations and open questions"></textarea></label>
+  <label>Research paper (plain text preview only)<textarea id="researchBody" name="body" maxlength="30000" minlength="150" required placeholder="Write your original research or import a saved W.NE chapter."></textarea></label>
+  <label>Original source links (optional; one HTTPS URL per line, maximum 12)<textarea id="researchSources" name="sources" rows="4" placeholder="https://www.archives.gov/..."></textarea></label>
+  <label class="checkrow"><input id="researchOriginal" type="checkbox" required>I confirm this is my work or material I have permission to publish, with sources attributed and private witness details removed.</label>
+  <label class="checkrow"><input id="researchConsent" type="checkbox" required>I understand that this is a private preview only. When real publishing launches, I must separately approve a public copy.</label>
+  <div><button type="submit" class="primary" id="reviewDraft">Review publication copy</button> <button type="button" class="secondary" id="clearDraft">Clear temporary copy</button></div>
+  <p class="notice" id="composeStatus" role="status" aria-live="polite">Nothing has been submitted or shared.</p>
+ </form>
+</section>
+<section class="panel hidden" id="researchPreview" aria-labelledby="previewTitle">
+ <div class="panel-head"><div><span class="eyebrow">Private preview · No public URL</span><h2 id="previewTitle">Review before sharing</h2></div><button class="secondary" type="button" id="editDraft">Edit publication copy</button></div>
+ <div class="layout"><article><span class="tag" id="previewType">Investigation</span><h3 id="previewPaperTitle"></h3><p class="muted" id="previewAbstract"></p><div class="readsheet" id="previewBody"></div><h3>References</h3><ol class="preview-citation" id="previewSources"></ol></article>
+ <aside class="feedback"><h3>Publication control</h3><p>No content will be published or transferred to Disclosure Desk in this milestone.</p><button type="button" disabled>Publish publicly · Not yet enabled</button><p class="notice">Keep working in W.NE. Your source document is untouched; this preview is an optional copy.</p><button type="button" id="returnLibrary" class="secondary">Return to library</button></aside></div>
+</section>
+<div class="footer">Disclosure Desk · Boyd Digital Studios · Research-led community features · <a href="/community-rules">Community rules</a> · <a href="/sources">Sources &amp; archives</a></div>
+</main>
+<script defer src="/assets/community-research-preview.js?v=cr-m01"></script>
+</body></html>
