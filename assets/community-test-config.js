@@ -24,7 +24,8 @@ window.DD_COMMUNITY_FEATURES=Object.freeze({
  profileAvatars:enabled, // Approved public visible-by-default photo with server-enforced Hide
  researchPublishing:false,
  communityResearchBackend:false, // M02 and M03 adapters remain STAGED; no live test database integration
- communityResearchPublishing:false, // M03 public publication remains off even on test hosts,
+ communityResearchPublishing:false, // M03 public publication remains off even on test hosts
+ communityResearchRecovery:false, // M04 signed-in cross-device recovery remains OFF until separate test DB approval,
  communityResearchPreview:local||preview // No live publishing, only the non-submitting design/author copy prototype
 });
 })();
