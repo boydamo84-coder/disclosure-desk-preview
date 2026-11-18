@@ -1,5 +1,19 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 18 November 2026 (Europe/London) — Community Research M05 full private draft pagination and privacy regression green in isolated tests; NO LIVE RELEASE_
+_Last updated: 18 November 2026 (Europe/London) — Community Research M06 existing Supabase locked schema installed and real two-account SQL tests passed; PUBLIC FEATURE OFF_
+
+
+## Community Research M06 — Existing Disclosure Desk Supabase, empty locked foundation (18 November 2026)
+
+**Owner decision:** Use the EXISTING Disclosure Desk Supabase project; do not create a third paid project. **Real database schema installed, but public publishing remains OFF.** Branch: `prep/community-research-m06-existing-supabase-locked-20261118`.
+
+- **Applied an additive schema to the existing healthy Supabase project** (`omqxizswzcwgzqaczlhe`, PostgreSQL 17). Created six new `public.dd_cr_*` RLS tables and two `dd_cr_private` RLS tables, plus the versioned research publication/withdrawal/recovery functions. Did not touch W.NE, existing forum/chat, profiles, existing accounts or other business tables. The exact migration is `docs/COMMUNITY_RESEARCH_M06_LOCKED_EXISTING_PROJECT.sql`.
+- **Locked every new table, schema and RPC after installation.** Anonymous and authenticated application roles have NO SELECT/INSERT/UPDATE/DELETE on the new tables and NO EXECUTE on the Community Research publication/recovery entry points. The private schema has NO USAGE for these roles. The new tables all contain ZERO records. No live website or APK deployment has occurred and no third Supabase project was created.
+- **Verified in three ways:** (1) initial full schema compatibility on real Supabase using BEGIN/ROLLBACK; (2) 2 previously approved real Auth identities tested with simulated JWT SQL (owner draft publish, B cross-account RLS denial, owner withdrawal), all inside rollback; (3) after installation, temporary grants and two-account RLS/publication/recovery checks against the actual installed tables inside a second rollback, verifying all data remained empty and original permissions re-locked. The exact new locked migration separately passed [M06 no-deploy CI](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44309782097) with disposable Postgres 17 and static package safety checks.
+- **Advisor baseline:** existing project had previously exposed security-definer warnings, which this milestone did not fix. Post-install advisors found no newly exposed Community Research privileged functions. The two new private tables have expected RLS-without-policy INFO findings because client permissions are revoked. Existing other function warnings and leaked-password protection should be independently reviewed, without breaking forum/chat features.
+- **Remaining before site release:** server-enforced QA allowlist for two test users, independent review of privileged DB routines, two ACTUAL browser Auth sessions, RLS/rights/moderation/abuse controls, usefulness-only votes, Samsung Android verification, consolidated approved deploy. Do not grant all authenticated members broad research access by accident. **All Community Research site flags remain disabled.**
+
+**Full handover:** `docs/COMMUNITY_RESEARCH_M06_EXISTING_PROJECT_HANDOVER_2026-11-18.md`. **Next M07:** allowlisted QA access inside the existing Supabase project and real browser-session tests; no paid project required.
+
 
 ## Community Research M05 — Full private draft archive and privacy hardening (18 November 2026)
 
