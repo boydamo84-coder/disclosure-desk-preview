@@ -1,0 +1,68 @@
+name: "Community Research M06 existing-project locked schema QA NO DEPLOY"
+on:
+  push:
+    branches:
+      - prep/community-research-m06-existing-supabase-locked-20261118
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Inherited owner-privacy and release package tests
+        run: |
+          node scripts/test_community_research_m05_contract.cjs
+          node scripts/test_community_research_m05_pagination.cjs
+          node scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          test ! -f .release-staging/public-site/docs/COMMUNITY_RESEARCH_M06_LOCKED_EXISTING_PROJECT.sql
+  sealed-db-in-disposable-postgres:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: dd_cr_m06_qa
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d dd_cr_m06_qa"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: dd_cr_m06_qa
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check PostgreSQL client
+        run: |
+          if ! command -v psql >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq postgresql-client
+          fi
+      - name: Execute EXACT locked migration against disposable Postgres
+        run: |
+          psql -v ON_ERROR_STOP=1 -f scripts/fixtures/community-research-m02-postgres-bootstrap.sql
+          psql -v ON_ERROR_STOP=1 -f docs/COMMUNITY_RESEARCH_M06_LOCKED_EXISTING_PROJECT.sql
+          test "$(psql -Atqc "select count(*) from public.dd_cr_drafts")" = 0
+          test "$(psql -Atqc "select count(*) from public.dd_cr_publications")" = 0
+          test "$(psql -Atqc "select has_table_privilege('authenticated','public.dd_cr_drafts','SELECT')")" = f
+          test "$(psql -Atqc "select has_function_privilege('authenticated','public.dd_cr_publish_copy(uuid,integer,boolean,uuid,integer)','EXECUTE')")" = f
+          echo "PASS: completely empty schema, no API access and no sensitive production service touched"
