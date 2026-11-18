@@ -1,0 +1,57 @@
+name: Who M66 post-publication withdrawal QA (no deploy)
+on:
+  push:
+    branches: [prep/who-m66-withdrawal-lifecycle-20261118]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  disposable-postgres:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: votingqa
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U postgres -d votingqa"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: votingqa
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install disposable Postgres client
+        run: |
+          if ! command -v psql >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq postgresql-client
+          fi
+      - name: M63 and M65 privacy and release baseline
+        run: |
+          psql -v ON_ERROR_STOP=1 -f scripts/fixtures/who-m63-rls-bootstrap.sql
+          psql -v ON_ERROR_STOP=1 -f docs/WHO_M63_FIVE_CRITERIA_BALLOTS_SQL_DRAFT_ONLY.sql
+          psql -v ON_ERROR_STOP=1 -f docs/WHO_M65_AGGREGATE_RELEASE_SQL_DRAFT_ONLY.sql
+          psql -v ON_ERROR_STOP=1 -f scripts/fixtures/who-m65-aggregate-release-test.sql
+      - name: M66 post-publication freeze and withdrawal rights
+        run: |
+          psql -v ON_ERROR_STOP=1 -f docs/WHO_M66_POSTPUBLICATION_WITHDRAWAL_SQL_DRAFT_ONLY.sql
+          psql -v ON_ERROR_STOP=1 -f scripts/fixtures/who-m66-withdrawal-lifecycle-test.sql
+      - name: Verify vote remains disabled and publication logic is not public
+        run: |
+          node scripts/test_who_m64_integration_contract.cjs
+          CONTEXT=production node scripts/build_public_release.cjs
+          node scripts/test_who_public_package_boundary.cjs
+          test ! -e .release-staging/public-site/docs/WHO_M66_POSTPUBLICATION_WITHDRAWAL_SQL_DRAFT_ONLY.sql
+          test ! -e .release-staging/public-site/scripts/fixtures/who-m66-withdrawal-lifecycle-test.sql
+          test ! -e .release-staging/public-site/docs/WHO_M65_AGGREGATE_RELEASE_SQL_DRAFT_ONLY.sql
