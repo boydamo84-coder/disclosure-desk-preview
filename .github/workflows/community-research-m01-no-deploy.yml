@@ -1,0 +1,70 @@
+name: "Community Research M01 author preview NO DEPLOY"
+on:
+  push:
+    branches:
+      - prep/community-research-m01-publisher-preview-20261118
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  safe-preview-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Syntax and opt-in, no-submit security contract
+        run: |
+          node --check assets/community-research-preview.js
+          node --check assets/community-research-entry.js
+          node --check research/wne-community-publish.js
+          node --check scripts/test_community_research_m01_contract.cjs
+          node --check scripts/test_community_research_m01_browser.cjs
+          node scripts/test_community_research_m01_contract.cjs
+      - name: Local allowlisted package, never deploy
+        run: |
+          node scripts/build_public_release.cjs
+          test -f .release-staging/public-site/community-research.html
+          test -f .release-staging/public-site/assets/community-research-preview.js
+          test -f .release-staging/public-site/research/wne-community-publish.js
+          test ! -f .release-staging/public-site/scripts/test_community_research_m01_browser.cjs
+          test ! -f .release-staging/public-site/MASTER_HANDOVER.md
+          node scripts/test_public_release_package.cjs
+          echo "LOCAL RELEASE PACKAGE ONLY — no production build, new SQL, or accounts"
+
+  mobile-and-wne-preview:
+    needs: safe-preview-contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install locked-version browser driver for isolated test
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+      - name: Test public-reader design and author preview at four viewports
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/community-research-m01.log 2>&1 &
+          echo $! >/tmp/community-research-m01.pid
+          for i in $(seq 1 20); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/community-research.html >/dev/null && break
+            sleep 1
+          done
+          node scripts/test_community_research_m01_browser.cjs
+      - name: Stop test-only server
+        if: always()
+        run: |
+          if test -f /tmp/community-research-m01.pid; then
+            kill "$(cat /tmp/community-research-m01.pid)" 2>/dev/null || true
+          fi
