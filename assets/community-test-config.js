@@ -10,11 +10,15 @@ const local=['localhost','127.0.0.1'].includes(location.hostname);
 const production=/^(?:www\.)?uapdisclosuredesk\.com$/.test(location.hostname)
   ||location.hostname==='uap-disclosure-desk.netlify.app';
 const enabled=preview||local||production;
+// M07 pilot stays server-allowlisted to two Auth identities; only production URLs
+// can activate the real project, never browser query parameters or local storage.
+const researchPilot=production;
 window.DD_COMMUNITY_TEST_CONFIG=Object.freeze({
  url:enabled?'https://omqxizswzcwgzqaczlhe.supabase.co':'',
  publishableKey:enabled?'sb_publishable_ed7rP98Oi1_NYNd9hKDFgQ_FC3lan_X':'',
  environment:production?'production':enabled?'test':'disabled',
- communityResearchTestDatabase:false // Never point unpublished research features at the existing production project
+ communityResearchTestDatabase:false, // Legacy separate-project development mode stays disabled
+ communityResearchPilot:researchPilot // This existing-project pilot is exclusively guarded by database membership and RLS
 });
 window.DD_COMMUNITY_FEATURES=Object.freeze({
  witnessPublic:enabled,
@@ -23,9 +27,9 @@ window.DD_COMMUNITY_FEATURES=Object.freeze({
  discussions:enabled, // Approved public social release: guest reads, members post through controlled RPCs
  profileAvatars:enabled, // Approved public visible-by-default photo with server-enforced Hide
  researchPublishing:false,
- communityResearchBackend:false, // M02 and M03 adapters remain STAGED; no live test database integration
- communityResearchPublishing:false, // M03 public publication remains off even on test hosts
- communityResearchRecovery:false, // M04 signed-in cross-device recovery remains OFF until separate test DB approval,
+ communityResearchBackend:researchPilot, // Testers only: database roster and RLS provide the real authority
+ communityResearchPublishing:researchPilot, // Restricted M07 researcher pilot; NOT general public publishing
+ communityResearchRecovery:researchPilot, // Pilot portfolio only, checked by server on each action
  communityResearchPreview:local||preview // No live publishing, only the non-submitting design/author copy prototype
 });
 })();
