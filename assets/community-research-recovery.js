@@ -7,8 +7,13 @@
 const cfg=window.DD_COMMUNITY_TEST_CONFIG||{},flags=window.DD_COMMUNITY_FEATURES||{};
 const testHost=location.hostname==='localhost'||location.hostname==='127.0.0.1'
  ||/^deploy-preview-\d+--uap-disclosure-desk\.netlify\.app$/.test(location.hostname);
-const enabled=testHost&&cfg.environment==='test'&&cfg.communityResearchTestDatabase===true
- &&cfg.url!=='https://omqxizswzcwgzqaczlhe.supabase.co'
+const productionHost=/^(?:www\.)?uapdisclosuredesk\.com$/.test(location.hostname)||
+ location.hostname==='uap-disclosure-desk.netlify.app';
+const productionPilot=productionHost&&cfg.environment==='production'&&cfg.communityResearchPilot===true
+ &&cfg.url==='https://omqxizswzcwgzqaczlhe.supabase.co';
+const isolatedTest=testHost&&cfg.environment==='test'&&cfg.communityResearchTestDatabase===true
+ &&cfg.url!=='https://omqxizswzcwgzqaczlhe.supabase.co';
+const enabled=(productionPilot||isolatedTest)
  &&/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(String(cfg.url||''))
  &&flags.communityResearchBackend===true&&flags.communityResearchPublishing===true
  &&flags.communityResearchRecovery===true&&flags.researchPublishing===false
@@ -27,11 +32,21 @@ function client(){
  });
  return db;
 }
+async function isPilot(){
+ if(!productionPilot)return true;
+ try{
+  const {data,error}=await client().auth.getUser();
+  if(error||!data?.user||data.user.is_anonymous===true)return false;
+  const check=await client().rpc('dd_cr_pilot_status');
+  return check?.error==null&&check.data===true;
+ }catch{return false;}
+}
 async function account(){
  const {data,error}=await client().auth.getUser();
  const user=data?.user;
  if(error||!user||user.is_anonymous===true||!uuid.test(String(user.id)))
   throw Error('Sign in with a registered account to view My Research.');
+ if(productionPilot&&!(await isPilot()))throw Error('My Research is currently restricted to approved beta researcher accounts.');
  return user.id;
 }
 function positiveInt(v,min,max){return Number.isSafeInteger(v)&&v>=min&&v<=max}
@@ -89,5 +104,5 @@ async function listEditions(paperId,{page=0,pageSize=20}={}){
    body:x.body,type:x.paper_type,sourceUrls:x.source_urls.slice(),publishedAt:x.published_at});
  });
 }
-window.DDCommunityResearchRecovery=Object.freeze({enabled:true,account,listMyPapers,listEditions});
+window.DDCommunityResearchRecovery=Object.freeze({enabled:true,isPilot,account,listMyPapers,listEditions});
 })();
