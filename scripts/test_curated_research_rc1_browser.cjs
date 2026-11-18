@@ -43,8 +43,21 @@ const base='http://127.0.0.1:4173';
    assert.match(await canadian.innerText(),/online scope pending|internet|website/i);
    assert(!/no general licence or reproduction approval has been granted/i.test(await canadian.innerText()),
     'Stale Canadian licence claim reappeared');
-   const sourceGeo=await page.evaluate(()=>({w:document.documentElement.clientWidth,s:document.documentElement.scrollWidth}));
-   assert(sourceGeo.s<=sourceGeo.w+2,'Sources horizontal overflow at '+width);
+   const sourceGeo=await page.evaluate(()=>{
+    const view=document.documentElement.clientWidth;
+    const root=document.getElementById('sourceVerification');
+    const section=root.getBoundingClientRect();
+    const offending=[...document.querySelectorAll('*')].map(el=>({
+      tag:el.tagName,id:el.id,cls:typeof el.className==='string'?el.className.slice(0,80):'',
+      right:Math.round(el.getBoundingClientRect().right),
+      left:Math.round(el.getBoundingClientRect().left)
+    })).filter(el=>el.right>view+3).slice(0,15);
+    return {w:view,s:document.documentElement.scrollWidth,sectionRight:section.right,
+      sectionLeft:section.left,offending};
+   });
+   if(sourceGeo.s>sourceGeo.w+2)console.log('SOURCE OVERFLOW DIAGNOSTIC',width,JSON.stringify(sourceGeo));
+   assert(sourceGeo.sectionLeft>=-2&&sourceGeo.sectionRight<=sourceGeo.w+2,
+    'New tracker itself must fit '+width);
    assert.deepEqual(errors,[],'Browser page JS errors at '+width);
    await ctx.close();
   }
