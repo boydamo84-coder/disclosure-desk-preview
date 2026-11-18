@@ -1,6 +1,18 @@
 # Disclosure Desk — MASTER HANDOVER
 _Last updated: 18 November 2026 (Europe/London) — M63 isolated ballot/SQL prototype green; LIVE RELEASE NOT APPROVED_
 
+## Source M40 — Public international outreach register (18 November 2026)
+
+**Branch:** `prep/source-m40-public-outreach-register-20261118`, forked from staged M63. **NO live deploy, production data writes, APK or FOIA filing.**
+
+- Extended the existing staged `/sources#sourceVerification` manual tracker from two to **five** records: Washington Headquarters Services/OSD (seven Navy referral documents/151 pages), German GEP (commercial dataset reuse refused), Brazil's Arquivo Nacional (SIAN catalogue and item-level citation), Library and Archives Canada (work-by-work copyright review), and the separate NARA MJ-12 source enquiry.
+- **17 November WHS procedural reply verified:** FOIA office acknowledged email but did not give a referral decision or formal new FOIA tracking number. A records-specific formal FOIA remains **not submitted by this project**. No correspondence release, copyright licence, government endorsement or UAP finding is implied.
+- German, Brazilian and Canadian original email timestamps have not been independently checked here; the tracker records the known project review dates and states that the precise send dates are **not verified**, rather than fabricating dates. No private message IDs or addresses are published.
+- Updated `data/public-source-verification.json`, `assets/source-verification.js`, `sources.html`, the Who's Who source-tracker callout, Node contract/Chromium tests, and a new exact-code no-deploy GitHub workflow. The staged GEP citation now points to verified Zenodo v2026.09 DOI `10.5281/zenodo.23117630`. The 13-source archive directory and premium navigation are preserved.
+- Detailed provenance and release gates: `docs/SOURCE_M40_INTERNATIONAL_OUTREACH_HANDOVER.md`. CI must be rechecked at this final head before any green claim; owner approval required before a significant site merge/release. This separate source-log milestone does **not** activate or complete M63 Who voting.
+
+**Next:** verify latest Actions results, re-open the three original international mail threads for exact timestamps and permissions, then integrate only when release gates and owner approval are satisfied.
+
 ## M63 — Five-criterion private member ballot prototype and DB security tests (18 November 2026)
 
 **Branch:** `prep/who-m63-secure-five-criteria-ballots-20261118`, based on M62 `3c8adafe23fcd66f0f9345f0431b3f9e574b22f6`. **NO live Supabase migration, no production/Netlify deployment, no APK or real account edits.**
