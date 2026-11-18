@@ -1,0 +1,115 @@
+name: "Community Research M04 author recovery NO DEPLOY"
+on:
+  push:
+    branches:
+      - prep/community-research-m04-my-research-recovery-20261118
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  privacy-contract-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: M04 and inherited source/static contracts
+        run: |
+          node --check assets/community-research-recovery.js
+          node --check assets/community-research-dashboard.js
+          node --check scripts/test_community_research_m04_contract.cjs
+          node --check scripts/test_community_research_m04_browser.cjs
+          node scripts/test_community_research_m01_contract.cjs
+          node scripts/test_community_research_m02_contract.cjs
+          node scripts/test_community_research_m02_adapter.cjs
+          node scripts/test_community_research_m03_contract.cjs
+          node scripts/test_community_research_m03_publication_adapter.cjs
+          node scripts/test_community_research_m04_contract.cjs
+      - name: Assemble locally and prevent private files leaking
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          test -f .release-staging/public-site/my-research.html
+          test -f .release-staging/public-site/assets/community-research-recovery.js
+          test -f .release-staging/public-site/assets/community-research-dashboard.js
+          test ! -f .release-staging/public-site/docs/COMMUNITY_RESEARCH_M04_RECOVERY_SQL_DRAFT_ONLY.sql
+          test ! -f .release-staging/public-site/scripts/fixtures/community-research-m04-recovery-test.sql
+          test ! -f .release-staging/public-site/MASTER_HANDOVER.md
+          echo "PASS: local-only safe package; no live Netlify or member data"
+  disposable-postgres-owner-recovery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cr_m04_qa
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d cr_m04_qa"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: cr_m04_qa
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install PostgreSQL client if needed
+        run: |
+          if ! command -v psql >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq postgresql-client
+          fi
+      - name: Run M04 recovery only in synthetic disposable PostgreSQL
+        run: |
+          psql -v ON_ERROR_STOP=1 -f scripts/fixtures/community-research-m02-postgres-bootstrap.sql
+          psql -v ON_ERROR_STOP=1 -f docs/COMMUNITY_RESEARCH_M02_SQL_DRAFT_ONLY.sql
+          psql -v ON_ERROR_STOP=1 -f docs/COMMUNITY_RESEARCH_M03_PUBLICATION_SQL_DRAFT_ONLY.sql
+          psql -v ON_ERROR_STOP=1 -f docs/COMMUNITY_RESEARCH_M04_RECOVERY_SQL_DRAFT_ONLY.sql
+          psql -v ON_ERROR_STOP=1 -f scripts/fixtures/community-research-m04-recovery-test.sql
+          echo "PASS: synthetic member recovery; no connected Supabase project accessed"
+  real-chrome-author-workflow:
+    needs: privacy-contract-and-package
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Set up pinned browser driver
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+      - name: Test research reader, publication controls and author dashboard
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-m04-http.log 2>&1 &
+          echo $! >/tmp/dd-m04-http.pid
+          for i in $(seq 1 20); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/my-research.html >/dev/null && break
+            sleep 1
+          done
+          node scripts/test_community_research_m01_browser.cjs
+          node scripts/test_community_research_m03_browser.cjs
+          node scripts/test_community_research_m04_browser.cjs
+      - name: Stop temporary server
+        if: always()
+        run: |
+          if test -f /tmp/dd-m04-http.pid; then
+            kill "$(cat /tmp/dd-m04-http.pid)" 2>/dev/null || true
+          fi
