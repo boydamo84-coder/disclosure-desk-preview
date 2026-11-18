@@ -40,7 +40,7 @@ function init(){
  const board=$('myResearchBoard'),details=$('myResearchDetails');
  board.hidden=false;
  availability.textContent='Controlled test workspace · Account-backed recovery is being verified. No live public publication is enabled.';
- let owner=null,drafts=[],papers=[],paperPage=0,tab='drafts',selected=null,
+ let owner=null,drafts=[],papers=[],paperPage=0,draftPage=0,draftHasMore=false,tab='drafts',selected=null,
   versions=[],editionPage=0,loading=false,runToken=0;
  const status=$('myResearchCount'),records=$('myResearchRecords'),empty=$('myResearchEmpty');
  function closeDetail(){
@@ -53,15 +53,22 @@ function init(){
   $('myResearchPublishedTools').hidden=true;
   $('myResearchWithdrawal').hidden=true;
   $('myResearchWithdrawType').value='';$('myResearchWithdrawConfirm').checked=false;
+  // Hidden private editor values remain readable by JS even after the panel closes.
+  // Erase them on account switch, navigation, backgrounding and detail close.
+  for(const id of ['myResearchDraftTitle','myResearchDraftAbstract','myResearchDraftText','myResearchDraftSources'])$(id).value='';
+  $('myResearchDraftStatus').textContent='';
+  $('myResearchEditionPicker').replaceChildren();
+  $('myResearchEditionStatus').textContent='';
+  $('myResearchDraftSave').disabled=false;
  }
  function clearAll(reason){
-  owner=null;drafts=[];papers=[];paperPage=0;closeDetail();
+  owner=null;drafts=[];papers=[];paperPage=0;draftPage=0;draftHasMore=false;runToken++;closeDetail();
   records.replaceChildren();empty.hidden=false;empty.textContent=reason||'Sign in again to view your research.';
   status.textContent='Your research is not currently loaded.';
  }
  async function ensureOwner(){
   const user=await recovery.account();
-  if(owner!==null&&owner!==user){
+  if(owner===null||owner!==user){
    clearAll('Account changed. Refresh to load your own research.');
    throw Error('Account changed; refresh your private research before continuing.');
   }
@@ -105,12 +112,12 @@ function init(){
   for(const item of shown)records.append(createCard(tab,item));
   empty.hidden=shown.length>0;
   empty.textContent=tab==='drafts'?
-   'No private research drafts in the 50 most recently updated results. W.NE manuscripts remain in your separate private W.NE library.':
+   'No matching drafts on this page. Use Previous or Next to browse your saved Disclosure Desk research. W.NE manuscripts stay in a separate private library.':
    'No matching '+(tab==='published'?'published':'withdrawn')+' papers on this page. Older results may appear on another page.';
-  $('myResearchPrev').disabled=tab==='drafts'||paperPage===0||loading;
-  $('myResearchNext').disabled=tab==='drafts'||papers.length<pageSize||loading;
+  $('myResearchPrev').disabled=loading||(tab==='drafts'?draftPage===0:paperPage===0);
+  $('myResearchNext').disabled=loading||(tab==='drafts'?!draftHasMore:papers.length<pageSize);
   status.textContent=tab==='drafts'?
-   'Showing '+shown.length+' of '+drafts.length+' recently saved private drafts (maximum 50).':
+   'Private-draft page '+(draftPage+1)+' · '+shown.length+' matching draft(s) on this page. '+(draftHasMore?'More private drafts available.':'End of private drafts.'):
    'Published-paper page '+(paperPage+1)+' · '+shown.length+' matching '+tab+
     ' records from '+papers.length+' server results. Use Next page to continue.';
  }
@@ -121,13 +128,16 @@ function init(){
   closeDetail();status.textContent='Checking your signed-in research records…';
   try{
    const start=await recovery.account();
-   const [privateCopies,publicPapers]=await Promise.all([
-    draftApi.listMine(),recovery.listMyPapers({page:0,pageSize})
+   const [draftResult,publicPapers]=await Promise.all([
+    draftApi.listMinePaged?
+      draftApi.listMinePaged({page:0,pageSize}):
+      draftApi.listMine().then(items=>({items,hasMore:false,page:0})),
+    recovery.listMyPapers({page:0,pageSize})
    ]);
    const finish=await recovery.account();
    if(token!==runToken||start!==finish)throw Error('Account changed while loading. Reload to protect your private records.');
-   if(!Array.isArray(privateCopies)||privateCopies.length>50)throw Error('Private draft listing did not match the expected response.');
-   owner=start;drafts=privateCopies;papers=publicPapers;paperPage=0;
+   if(!draftResult||!Array.isArray(draftResult.items)||draftResult.items.length>pageSize)throw Error('Private draft page did not match the expected response.');
+   owner=start;drafts=draftResult.items;draftHasMore=draftResult.hasMore===true;draftPage=0;papers=publicPapers;paperPage=0;
    availability.textContent='Your private research index loaded from the test server. W.NE originals remain separate.';
    render();
   }catch(e){
@@ -136,17 +146,28 @@ function init(){
   }finally{loading=false;$('myResearchRefresh').disabled=false;render()}
  }
  async function changePage(direction){
-  if(loading||tab==='drafts')return;
-  const next=paperPage+direction;
-  if(next<0||next>25)return;
+  if(loading)return;
+  const draftsTab=tab==='drafts',next=(draftsTab?draftPage:paperPage)+direction;
+  if(next<0||(draftsTab?next>50000:next>25))return;
   loading=true;render();closeDetail();
+  let failure=null;
   try{
-   await ensureOwner();
-   const list=await recovery.listMyPapers({page:next,pageSize});
-   await ensureOwner();
-   papers=list;paperPage=next;render();
-  }catch(e){status.textContent='Page not loaded: '+message(e)}
-  finally{loading=false;render()}
+   const before=await ensureOwner();
+   if(draftsTab){
+    if(!draftApi.listMinePaged)throw Error('Full private draft pagination is not available.');
+    const result=await draftApi.listMinePaged({page:next,pageSize});
+    const after=await ensureOwner();
+    if(before!==after||!result||!Array.isArray(result.items)||result.items.length>pageSize)
+     throw Error('Private draft page was not verified.');
+    drafts=result.items;draftHasMore=result.hasMore===true;draftPage=next;
+   }else{
+    const list=await recovery.listMyPapers({page:next,pageSize});
+    const after=await ensureOwner();
+    if(before!==after)throw Error('Account changed during paper pagination.');
+    papers=list;paperPage=next;
+   }
+  }catch(e){failure='Page not loaded: '+message(e)}
+  finally{loading=false;render();if(failure)status.textContent=failure}
  }
  function renderEdition(edition){
   $('myResearchDetailHeading').textContent=edition.title;
