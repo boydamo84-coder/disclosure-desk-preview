@@ -67,6 +67,30 @@
   queryError(error);
   return Array.isArray(data)?data:[];
  }
+ // Enumerate ALL private drafts in bounded pages instead of silently stopping at 50.
+ // Return metadata only. The full manuscript is fetched on demand by getMine().
+ async function listMinePaged({page=0,pageSize=20}={}){
+  if(!Number.isSafeInteger(page)||page<0||page>50000||
+     !Number.isSafeInteger(pageSize)||pageSize<1||pageSize>20||
+     page*pageSize>1000000)throw Error('Invalid private-draft page bounds.');
+  const user=await registered();
+  const offset=page*pageSize;
+  const summary='id,title,abstract,paper_type,revision,created_at,updated_at';
+  const {data,error}=await client().from('dd_cr_drafts').select(summary)
+   .eq('author_id',user.id)
+   .order('updated_at',{ascending:false})
+   .order('id',{ascending:false})
+   .range(offset,offset+pageSize);
+  queryError(error);
+  const after=await registered();
+  if(after.id!==user.id)throw Error('Account changed during private draft retrieval. Refresh this account.');
+  if(!Array.isArray(data)||data.length>pageSize+1)throw Error('Invalid private-draft page response.');
+  const items=data.slice(0,pageSize);
+  if(items.some(x=>!x||!uuid.test(String(x.id))||typeof x.title!=='string'||
+     !Number.isSafeInteger(x.revision)||x.revision<1))
+   throw Error('Private draft metadata failed verification.');
+  return Object.freeze({items,hasMore:data.length>pageSize,page});
+ }
  async function getMine(id){
   if(!uuid.test(id))throw Error('A valid private draft ID is required.');
   const user=await registered();
@@ -102,5 +126,5 @@
   if(!data||data.id!==id)throw Error('Draft is missing or cannot be deleted from this account.');
   return true;
  }
- window.DDCommunityResearchDrafts=Object.freeze({enabled:true,listMine,getMine,saveMine,deleteMine});
+ window.DDCommunityResearchDrafts=Object.freeze({enabled:true,listMine,listMinePaged,getMine,saveMine,deleteMine});
 })();
