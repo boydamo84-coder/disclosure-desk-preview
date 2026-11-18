@@ -1,0 +1,62 @@
+name: "Who M62 source-first legacy rating retirement NO DEPLOY"
+on:
+  push:
+    branches:
+      - prep/who-m62-retire-legacy-ratings-source-first-20261118
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check changed JS and source-first reader contracts
+        run: |
+          node --check assets/people-directory.js
+          node --check scripts/test_who_m62_source_first_contract.cjs
+          node --check scripts/test_who_m62_source_first_chromium.cjs
+          node scripts/test_who_m62_source_first_contract.cjs
+          node scripts/test_who_m60_six_profiles.cjs
+          node scripts/test_who_m59_kirkpatrick_directory_contract.cjs
+          node scripts/test_who_m57_community_criteria_contract.cjs
+      - name: Strict public candidate package only, no publish
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_who_public_package_boundary.cjs
+          test ! -e .release-staging/public-site/assets/who-community-worksheet-m57.js
+          test ! -e .release-staging/public-site/scripts/fixtures/who-community-five-criteria-m57.html
+  chrome-no-vote-responsive:
+    needs: source-and-package
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install isolated Chrome driver
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+      - name: Real browser verify source cards, back and absence of legacy rating
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/who-m62-http.log 2>&1 &
+          echo $! > /tmp/who-m62-http.pid
+          for i in $(seq 1 20); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/who-is-who.html >/dev/null && break
+            sleep 1
+          done
+          node scripts/test_who_m62_source_first_chromium.cjs
+      - name: Stop local server
+        if: always()
+        run: |
+          if test -f /tmp/who-m62-http.pid; then kill "$(cat /tmp/who-m62-http.pid)" 2>/dev/null || true; fi
