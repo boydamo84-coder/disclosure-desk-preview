@@ -18,7 +18,7 @@ const base='http://127.0.0.1:4173';
    assert.equal(await page.locator('#researchReader .feedback button:not([disabled])').count(),0);
    await page.locator('#readDemo').click();
    assert.equal(await page.locator('#researchReader').isVisible(),true);
-   assert.match(await page.locator('#readerEyebrow').innerText(),/Demonstration only/);
+   assert.match(await page.locator('#readerEyebrow').innerText(),/demonstration only/i);
    await page.locator('#closeReader').click();
    await page.locator('#researchSearch').fill('unrelated text');
    assert.equal(await page.locator('#researchDemoCard').isVisible(),false);
