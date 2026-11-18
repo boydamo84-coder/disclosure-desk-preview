@@ -33,7 +33,8 @@ assert(!who.includes('who-evidence-ballot-m64.js'),'Disabled voting implementati
 assert.equal(programmes.records.length,23);
 assert.equal(new Set(programmes.records.map(p=>p.country)).size,18);
 assert.equal(programmes.internationalResearchLeads.length,14);
-assert(read('world-uap-programmes.html').includes('Original source'));
+assert(read('world-uap-programmes.html').includes('Primary sources first'));
+assert(read('world-uap-programmes.html').includes('investigate who studied unidentified aerial reports'));
 assert(read('assets/world-uap-programmes.js').includes('textContent'));
 assert(tracker.records.length===5);
 assert(tracker.disclosure.noFormalFOIAFilingEstablished===true);
