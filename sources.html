@@ -40,6 +40,38 @@ details p{font-size:12px;color:#b9c9d3;line-height:1.7;margin:9px 0}details stro
 .section-title{font-size:20px;margin:38px 0 10px}.footer{font-size:11px;color:#8c9ead;border-top:1px solid #354859;margin-top:38px;padding-top:21px;line-height:1.7}
 @media(max-width:690px){.grid{grid-template-columns:1fr}.header{align-items:flex-start}.back{font-size:11px}.wrap{padding:17px 14px 80px}.hero{padding-top:31px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+
+/* M39: public evidence-process tracker, dated/manual; never an agency response feed. */
+#sourceVerification{scroll-margin-top:20px;margin:30px 0 34px}
+.dd-verification-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.dd-verification-heading h2{font-size:clamp(21px,3vw,28px);margin:6px 0;line-height:1.2;color:#f7f0dc}
+.dd-verification-intro{color:#becdd7;font-size:13px;line-height:1.7;max-width:80ch;margin:10px 0}
+.dd-verification-updated{font-size:11px;color:#e2ca99;margin:10px 0 16px}
+.dd-verification-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+.dd-verification-card{background:linear-gradient(145deg,#152d40,#0d1f2c);border:1px solid #4a6170;border-radius:15px;padding:19px;min-width:0;box-shadow:0 9px 26px #0002}
+.dd-verification-header{display:flex;flex-direction:column;align-items:flex-start;gap:11px}
+.dd-verification-card h3{margin:5px 0;font-size:19px;line-height:1.3;color:#f1f4f7}
+.dd-verification-category{font-size:10px;letter-spacing:1.4px;font-weight:800;color:#dcca9a;text-transform:uppercase}
+.dd-verification-agency{font-size:12px;color:#a2b6c8;line-height:1.5;margin:0}
+.dd-verification-state{display:inline-block;border:1px solid #998357;border-radius:8px;background:#302e26;color:#f0d49d;padding:7px 10px;font-size:11px;font-weight:700;line-height:1.4}
+.dd-verification-state[data-status="acknowledged"],.dd-verification-state[data-status="response_received"]{color:#b7e1d0;border-color:#598a7b;background:#17372d}
+.dd-verification-question{font-size:14px;color:#dce5eb;line-height:1.6;margin:15px 0}
+.dd-verification-dates{font-size:11px;color:#eed0a0;font-variant-numeric:tabular-nums}
+.dd-verification-detail{color:#b4c6d3;font-size:12px;line-height:1.65}
+.dd-verification-timeline{list-style:none;counter-reset:verification;position:relative;padding:0 0 0 19px;margin:17px 0;display:grid;gap:15px;border-left:2px solid #647488}
+.dd-verification-timeline li{position:relative;font-size:12px;color:#b8c9d6;line-height:1.6}
+.dd-verification-timeline li:before{content:"";position:absolute;left:-25px;top:6px;background:#d8ba83;border:2px solid #132739;width:10px;height:10px;border-radius:50%}
+.dd-verification-timeline time{font-size:11px;display:block;color:#e6c995}
+.dd-verification-timeline strong{display:block;font-size:13px;color:#f4f2e9}
+.dd-verification-timeline p{margin:3px 0 0}
+.dd-verification-sources{border-top:1px solid #536779;margin-top:15px;padding-top:12px}
+.dd-verification-sources summary{cursor:pointer;color:#e8cd98;font-size:12px;line-height:1.6;font-weight:750}
+.dd-verification-expand p,.dd-verification-links p{font-size:12px;line-height:1.6;color:#bacbd6}
+.dd-verification-links{padding-left:21px}.dd-verification-links li{margin:9px 0}
+.dd-verification-links a{font-size:12px;overflow-wrap:anywhere;word-break:break-word}
+.dd-verification-disclaimer{margin:14px 0 24px;padding:13px 16px;border-left:3px solid #d9c18e;background:#172938;border-radius:0 10px 10px 0;font-size:12px;color:#c9d6df;line-height:1.7}
+.dd-verification-error{padding:16px;border:1px dashed #78644a;border-radius:10px;color:#e9d09b;font-size:13px}
+@media(max-width:730px){.dd-verification-grid{grid-template-columns:1fr}.dd-verification-card{padding:16px}}
 </style>
 <script defer src="/assets/analytics-consent.js?v=nov08-ga4-optin-m18"></script></head>
 <body>
@@ -54,7 +86,23 @@ details p{font-size:12px;color:#b9c9d3;line-height:1.7;margin:9px 0}details stro
     <p>Trace UFO/UAP reporting and research to original government catalogues, official investigation agencies and independently maintained collections. Search by country, organisation or source type.</p>
     <p><a href="/investigations">Explore independent evidence reviews</a> · <a href="/rendlesham-forest-1980">Rendlesham Forest</a> · <a href="/roswell-1947">Roswell 1947</a></p>
   </section>
+  <p class="standards"><strong>NEW WORLDWIDE RESEARCH INDEX:</strong> <a href="/world-uap-programmes.html">Explore international UAP programmes, military UFO archives and original major case records ↗</a>. Dedicated investigators are distinguished from historical files and countries awaiting verification.</p>
   <aside class="standards" aria-label="Source transparency statement"><strong>Our sourcing standards.</strong> A documented report is not proof of an extraordinary explanation. Government records, independent research and first-person accounts are clearly distinguished. We link to original publishers, acknowledge archival references and respect copyright, privacy and corrections. Listing an organisation does not mean it endorses or partners with Disclosure Desk.</aside>
+
+  <section id="sourceVerification" aria-labelledby="verificationTitle">
+    <div class="dd-verification-heading">
+      <div><span class="eyebrow">Independent research · Open source trail</span>
+        <h2 id="verificationTitle">Data Requests &amp; Source Verification</h2></div>
+      <a class="back" href="/who-is-who">Explore Who’s Who</a>
+    </div>
+    <p class="dd-verification-intro">We document our direct data-access, copyright and public-record enquiries with source organisations and government archives worldwide. A reply confirms correspondence, not a FOIA decision, release permission, official endorsement or an extraordinary UAP conclusion. Read what we asked, what was actually answered and what remains unresolved.</p>
+    <p id="ddVerificationUpdated" class="dd-verification-updated">Research log updated 18 November 2026 · Manually maintained; correspondence dates are marked if unverified.</p>
+    <div id="ddVerificationList" class="dd-verification-grid" aria-live="polite">
+      <p class="dd-verification-intro">Loading five public archive and government research enquiries…</p>
+    </div>
+    <noscript><p class="dd-verification-intro">The public tracker requires JavaScript. The log includes correspondence with Germany’s GEP, Brazil’s Arquivo Nacional, Library and Archives Canada, Washington Headquarters Services and the US National Archives. For dated status details, enable JavaScript or use the original archive links below.</p></noscript>
+    <p class="dd-verification-disclaimer"><strong>How to read these statuses:</strong> “Enquiry sent” records an outgoing message but does <strong>not</strong> establish delivery, an agency acknowledgement or a formal FOIA filing. “Reply received” documents an answer, not an approval, released record or completed FOIA review. Exact send/reply dates are not invented when source correspondence has not been rechecked. Statuses are manual, with a dated research trail. No fees have been authorised. Government or independent archive correspondence does not validate extraordinary claims. We do not publish private emails or requester details.</p>
+  </section>
   <div class="tools" role="search" aria-label="Find archival sources">
     <div><label for="archiveSearch">Search sources</label><input id="archiveSearch" type="search" placeholder="Search country, collection, organisation…" autocomplete="off"></div>
     <div><label for="countryFilter">Country</label><select id="countryFilter"><option value="">All countries</option></select></div>
@@ -122,11 +170,11 @@ details p{font-size:12px;color:#b9c9d3;line-height:1.7;margin:9px 0}details stro
   <div class="entry-actions"><a class="visit" href="https://science.nasa.gov/uap/" target="_blank" rel="noopener noreferrer">Open original source <span aria-hidden="true">↗</span></a></div>
   <details><summary>Citation &amp; reuse guidance</summary><p><strong>Attribution:</strong> Credit NASA and the specific publication title and URL.</p><p><strong>Before reuse:</strong> Follow NASA media and brand-use rules; do not imply NASA endorses Disclosure Desk.</p></details>
 </article>
-<article class="entry" data-country="Germany" data-type="Independent research" data-search="germany gesellschaft zur erforschung des ufo-phänomens (gep) gep ufo / uap case dataset (zenodo) independent research publicly discoverable research dataset documenting reports made to the gep, with dates, descriptions and classifications. not an independently verified list of extraordinary events. credit gep and dataset authors, zenodo record and doi 10.5281/zenodo.23906585.">
+<article class="entry" data-country="Germany" data-type="Independent research" data-search="germany gesellschaft zur erforschung des ufo-phänomens (gep) gep ufo / uap case dataset (zenodo) independent research publicly discoverable research dataset documenting reports made to the gep, with dates, descriptions and classifications. not an independently verified list of extraordinary events. credit gep and dataset authors, zenodo record and doi 10.5281/zenodo.23117630.">
   <div class="entry-top"><span class="flag" aria-hidden="true">🇩🇪</span><div class="entry-heading"><span class="eyebrow">Germany · Independent research</span><h2>GEP UFO / UAP case dataset (Zenodo)</h2><p class="organisation">Gesellschaft zur Erforschung des UFO-Phänomens (GEP)</p></div></div>
   <p class="description">Publicly discoverable research dataset documenting reports made to the GEP, with dates, descriptions and classifications. Not an independently verified list of extraordinary events.</p>
-  <div class="entry-actions"><a class="visit" href="https://zenodo.org/records/23906585" target="_blank" rel="noopener noreferrer">Open original source <span aria-hidden="true">↗</span></a></div>
-  <details><summary>Citation &amp; reuse guidance</summary><p><strong>Attribution:</strong> Credit GEP and dataset authors, Zenodo record and DOI 10.5281/zenodo.23906585.</p><p><strong>Before reuse:</strong> Dataset reuse and any sensitive content must be checked against licence and privacy requirements before importing or republishing.</p></details>
+  <div class="entry-actions"><a class="visit" href="https://zenodo.org/records/23117630" target="_blank" rel="noopener noreferrer">Open original source <span aria-hidden="true">↗</span></a></div>
+  <details><summary>Citation &amp; reuse guidance</summary><p><strong>Attribution:</strong> Credit GEP and dataset authors, Zenodo record and DOI 10.5281/zenodo.23117630.</p><p><strong>Before reuse:</strong> Dataset reuse and any sensitive content must be checked against licence and privacy requirements before importing or republishing.</p></details>
 </article>
 <article class="entry" data-country="International" data-type="Independent archive" data-search="international the black vault foia document archive independent archive independent document archive of released records and foia material, including ufo and government files. credit the black vault where it supplies access, and always identify the original government records agency and release identifier.">
   <div class="entry-top"><span class="flag" aria-hidden="true">🌐</span><div class="entry-heading"><span class="eyebrow">International · Independent archive</span><h2>FOIA document archive</h2><p class="organisation">The Black Vault</p></div></div>
@@ -178,5 +226,6 @@ details p{font-size:12px;color:#b9c9d3;line-height:1.7;margin:9px 0}details stro
 })();
 </script>
 <script defer src="/assets/page-help.js?v=r2-m10-help01"></script>
+<script defer src="/assets/source-verification.js?v=m39-evidence-status01"></script>
 </body>
 </html>
