@@ -1,0 +1,73 @@
+name: "Community Research M03 consent-first publication NO DEPLOY"
+on:
+  push:
+    branches:
+      - prep/community-research-m03-consent-publish-20261118
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contract-and-allowlist:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify inherited M01 and M02 safety
+        run: |
+          node scripts/test_community_research_m01_contract.cjs
+          node scripts/test_community_research_m02_contract.cjs
+          node scripts/test_community_research_m02_adapter.cjs
+      - name: Public release allowlist without any M02 or M03 SQL
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          test ! -f .release-staging/public-site/docs/COMMUNITY_RESEARCH_M02_SQL_DRAFT_ONLY.sql
+          test ! -f .release-staging/public-site/docs/COMMUNITY_RESEARCH_M03_PUBLICATION_SQL_DRAFT_ONLY.sql
+          test ! -f .release-staging/public-site/scripts/fixtures/community-research-m03-publication-rls-test.sql
+          echo "PASS: reviewed local-only static package; NOT DEPLOYED"
+  isolated-real-postgres:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cr_m03_qa
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d cr_m03_qa"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: cr_m03_qa
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check PostgreSQL availability
+        run: |
+          if ! command -v psql >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq postgresql-client
+          fi
+          psql --version
+      - name: Execute M03 ONLY in disposable local PostgreSQL
+        run: |
+          psql -v ON_ERROR_STOP=1 -f scripts/fixtures/community-research-m02-postgres-bootstrap.sql
+          psql -v ON_ERROR_STOP=1 -f docs/COMMUNITY_RESEARCH_M02_SQL_DRAFT_ONLY.sql
+          psql -v ON_ERROR_STOP=1 -f docs/COMMUNITY_RESEARCH_M03_PUBLICATION_SQL_DRAFT_ONLY.sql
+          psql -v ON_ERROR_STOP=1 -f scripts/fixtures/community-research-m03-publication-rls-test.sql
+          echo "PASS: isolated consent and RLS checks; no live Supabase credentials or deployment"
