@@ -1,5 +1,18 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 18 November 2026 (Europe/London) — Community Research M04 owner portfolio and cross-device recovery green in isolated SQL/Chrome; NO LIVE RELEASE_
+_Last updated: 18 November 2026 (Europe/London) — Community Research M05 full private draft pagination and privacy regression green in isolated tests; NO LIVE RELEASE_
+
+## Community Research M05 — Full private draft archive and privacy hardening (18 November 2026)
+
+**Branch:** `prep/community-research-m05-private-pagination-qa-20261118` inherited from green M04. **STAGED ONLY:** NO live site/Netlify release, no production Supabase SQL, no Android APK, no real member accounts, no automatic publishing.
+
+- **Removed the 50-item draft browsing ceiling.** `assets/community-research-private-drafts.js` now offers `listMinePaged({page,pageSize})`: stable sorted, bounded 20-item pages, owner ID verified both before and after the query, additional-row detection for a next page, and **summary metadata only**. Draft bodies and source URLs load only when explicitly selected through owner-scoped `getMine`.
+- **My Research dashboard** now supports Previous/Next for private drafts and published papers. It clears hidden private form inputs on close/account change/session loss, invalidates stale in-flight detail requests and retains only summary fields in the list after a private save. Draft edits remain private; published editions are still immutable until explicit publication approval.
+- **Tests:** `.github/workflows/community-research-m05-pagination-no-deploy.yml` runs inherited M01–M04 contract tests, M05 owner-paging/mock tests (65 drafts for synthetic author A, four for B), isolated PostgreSQL 17 RLS paging/guest/anonymous denial, local release-package validation and Chrome at 320/393/820/1280 including editor input wiping and account switching. Review the latest exact-head GitHub Actions run before calling final green. Tests use only synthetic data; no connected project mutations.
+- **Separate Supabase project requirement:** Connected setup shows the organisation `Our Cinema` and two existing projects. A new dedicated Community Research TEST project is **not yet created**, because organisation selection and any nonzero-cost approval are required; neither pre-existing project is safe to repurpose. Explicit user confirmation, independent M02–M04 SECURITY DEFINER review, test-only migration and two real QA accounts are still needed before true end-to-end Supabase claims.
+- **Remaining release gates:** moderator/copyright/privacy procedures, source/reference QA, usefulness voting with evidence independence, actual browser sessions + Samsung Android device checks, private schema exposure/advisor check, full regression and owner's explicit approval for a significant deployment. All M02–M05 production flags remain OFF; WHO M63 / Source M40 work unchanged.
+
+**Full handover:** `docs/COMMUNITY_RESEARCH_M05_HANDOVER_2026-11-18.md`. **Next:** choose nonproduction Supabase organisation, quote/approve any creation cost, then provision and run real isolated account tests before any live release.
+
 
 ## Community Research M04 — My Research cross-device author portfolio (18 November 2026)
 
