@@ -26,7 +26,9 @@ assert(!/dd_who_claim_rating_(?:set|summary)/.test(js),'Retired one-number votin
 assert(!/function communityDb|function hydrateCommunityRatings|data-rating-save|data-rating-slider/.test(js),'Old voting handlers removed');
 assert(!/Disclosure Desk rating|Community rating|claim-dual|data-rating-save/.test(who),'Dual rating UI and copy removed');
 assert(!/Disclosure Desk rating|Community rating|how the two ratings work/.test(home),'Pinned release guide corrected');
-assert(!who.includes('src="/assets/community-test-config.js?'),'Old vote config not loaded on Who');
+assert(who.includes('src="/assets/community-test-config.js?'),'M64 config loaded with ballot feature disabled');
+assert(who.includes('src="/assets/who-evidence-ballot-m64.js?'),'Separate claim ballot integration script is loaded');
+assert(!who.includes('dd_who_claim_rating_set'),'Retired 0–100 vote RPC remains absent');
 assert(!who.includes('cdn.jsdelivr.net/npm/@supabase/supabase-js'),'No vote client loaded on Who');
 assert(who.includes('Read the evidence and decide for yourself'));
 assert(who.includes('Not enough information'));
