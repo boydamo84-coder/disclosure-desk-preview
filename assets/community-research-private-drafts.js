@@ -8,7 +8,8 @@
  const cfg=window.DD_COMMUNITY_TEST_CONFIG||{},flags=window.DD_COMMUNITY_FEATURES||{};
  const allowedHost=location.hostname==='localhost'||location.hostname==='127.0.0.1'
   ||/^deploy-preview-\d+--uap-disclosure-desk\.netlify\.app$/.test(location.hostname);
- const enabled=allowedHost&&cfg.environment==='test'&&flags.communityResearchBackend===true
+ const enabled=allowedHost&&cfg.environment==='test'&&cfg.communityResearchTestDatabase===true
+  &&cfg.url!=='https://omqxizswzcwgzqaczlhe.supabase.co'&&flags.communityResearchBackend===true
   &&flags.researchPublishing===false&&!!cfg.url&&!!cfg.publishableKey;
  if(!enabled){
   window.DDCommunityResearchDrafts=Object.freeze({enabled:false});
