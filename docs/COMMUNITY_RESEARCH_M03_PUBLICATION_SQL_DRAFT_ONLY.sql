@@ -84,7 +84,14 @@ begin
     or pg_catalog.length(pg_catalog.btrim(v_draft.abstract)) not between 30 and 600
     or pg_catalog.length(pg_catalog.btrim(v_draft.body)) not between 150 and 30000
     or pg_catalog.cardinality(v_draft.source_urls)<1
-    or not public.dd_cr_links_ok(v_draft.source_urls) then
+    or not public.dd_cr_links_ok(v_draft.source_urls)
+    -- Every source is a publicly routable-looking HTTPS hostname; never
+    -- publish loopback/local domains, credentials or malformed authority.
+    or exists(select 1 from unnest(v_draft.source_urls) as link(url)
+      where link.url like '%@%'
+        or link.url !~* '^https://[a-z0-9][a-z0-9.-]*\.[a-z]{2,}([/:?#]|$)'
+        or link.url ~* '^https://[a-z0-9][a-z0-9.-]*\.(local|internal|test)([/:?#]|$)'
+    ) then
     raise exception 'Paper requires a complete abstract, body and at least one valid source' using errcode='23514';
   end if;
   select l.paper_id into v_linked from dd_cr_private.draft_papers l
