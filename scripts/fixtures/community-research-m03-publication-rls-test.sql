@@ -48,14 +48,16 @@ begin
   raise exception 'Anonymous authenticated session published';
  exception when insufficient_privilege then null; end;
 end $check$;
+reset role;
 set request.jwt.claims='{"sub":"aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa","is_anonymous":false}';
 -- Author A prepares a PRIVATE draft, not a W.NE source.
-insert into public.dd_cr_drafts(id,title,abstract,body,paper_type,source_urls)
-values('aaaaaaaa-1111-4111-8111-aaaaaaaaaaaa',
+insert into public.dd_cr_drafts(id,author_id,title,abstract,body,paper_type,source_urls)
+values('aaaaaaaa-1111-4111-8111-aaaaaaaaaaaa','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
  'Original investigation of a historical sighting',
  'This original report compares attributed primary sources, identifies gaps and discusses alternative explanations.',
  repeat('Every claim is attributed to a dated primary source. ',7),
  'case',array['https://www.archives.gov/research']);
+set role authenticated;
 
 -- Public paper creation must not be possible without positive consent.
 do $check$
@@ -115,12 +117,16 @@ begin
 end $check$;
 
 -- B may publish a separate legitimate source-led paper.
-insert into public.dd_cr_drafts(id,title,abstract,body,paper_type,source_urls)
-values('bbbbbbbb-1111-4111-8111-bbbbbbbbbbbb',
+-- CI fixture seeds an explicit draft ID as postgres; signed-in writer cannot set ID.
+reset role;
+set request.jwt.claims='{"sub":"bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb","is_anonymous":false}';
+insert into public.dd_cr_drafts(id,author_id,title,abstract,body,paper_type,source_urls)
+values('bbbbbbbb-1111-4111-8111-bbbbbbbbbbbb','bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
  'A separate author examines available records',
  'This report independently reviews an archival publication and notes its unresolved evidence limitations.',
  repeat('A separately attributed analysis and documented source record. ',7),
  'archive',array['https://www.canada.ca/en/library-archives.html']);
+set role authenticated;
 do $check$
 declare result jsonb;
 begin
