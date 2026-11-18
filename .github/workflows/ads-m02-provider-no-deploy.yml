@@ -1,0 +1,33 @@
+name: Ads M02 Adsterra release-locked staging QA — NO DEPLOY
+on:
+  push:
+    branches: [prep/site-ads-m02-adsterra-consent-20261118]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  consent-security-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Test JS syntax and M01/M02 release lock
+        run: |
+          node --check assets/site-adsterra-m02.js
+          node scripts/test_site_ads_m01_contract.cjs
+          node scripts/test_site_ads_m02_contract.cjs
+      - name: Test strict package shape (no site deploy)
+        env:
+          CONTEXT: production
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          test -f .release-staging/public-site/assets/site-adsterra-m02.js
+          ! grep -q 'const RELEASE_ENABLED=true' .release-staging/public-site/assets/site-adsterra-m02.js
+          test ! -e .release-staging/public-site/scripts/test_site_ads_m02_contract.cjs
+          test ! -e .release-staging/public-site/docs/ADS_M02_HANDOVER_2026-11-18.md
