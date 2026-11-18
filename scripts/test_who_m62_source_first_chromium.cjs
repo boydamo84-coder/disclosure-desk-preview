@@ -40,7 +40,7 @@ const base='http://127.0.0.1:4173';
     if(person==='david-fravor'){
      const evidence=page.locator('#profileEvidenceReviews .claim-review .claim-evidence-details');
      assert.equal(await evidence.count(),1,'Original claim dossier still present');
-     await evidence.locator('summary').click();
+     await evidence.locator(':scope > summary').click();
      assert.match(await evidence.innerText(),/Research notes|source|original/i,
        'Original evidence/source review still readable');
      const links=page.locator('#profileEvidenceReviews a[href^="https://"]');
