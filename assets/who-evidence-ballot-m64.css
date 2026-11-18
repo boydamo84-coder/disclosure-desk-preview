@@ -1,0 +1,24 @@
+/* M64 claim-only member ballot. No site/editorial ratings. Dormant until approval. */
+.dd-m64-ballot{margin:16px 0;border:1px solid #607c91;border-radius:12px;background:#0e2234;padding:12px 14px;overflow-wrap:anywhere}
+.dd-m64-ballot>summary{color:#f0d49b;font-size:15px;font-weight:800;cursor:pointer;line-height:1.5;min-height:44px;padding:9px 4px}
+.dd-m64-body{border-top:1px solid #485c70;padding:12px 0 4px}
+.dd-m64-notice{color:#d1e0eb;font-size:13px;line-height:1.6}
+.dd-m64-field{min-width:0;border:1px solid #526e85;border-radius:11px;background:#12293b;margin:15px 0;padding:14px}
+.dd-m64-field legend{max-width:100%;padding:0 6px;color:#edd09a;font-size:14px;font-weight:800;white-space:normal}
+.dd-m64-hint{color:#ccd9e1;font-size:13px;line-height:1.55}
+.dd-m64-unknown{display:flex;align-items:center;gap:9px;font-size:13px;cursor:pointer}
+.dd-m64-unknown input{width:23px;height:23px;accent-color:#e9cd9a}
+.dd-m64-field input[type=range]{display:block;min-width:0;width:100%;margin-top:12px;accent-color:#e9cd9a;min-height:36px;touch-action:pan-y}
+.dd-m64-field input[type=range]:disabled{opacity:.5}
+.dd-m64-value{font-weight:750;color:#f0d49b;font-variant-numeric:tabular-nums;display:block;text-align:right;font-size:13px}
+.dd-m64-total{border-left:3px solid #e9cc93;background:#0e1e2d;border-radius:5px;padding:12px;font-size:13px;color:#edf4fa}
+.dd-m64-actions{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.dd-m64-actions button{font:inherit;font-weight:750;min-height:44px;max-width:100%;padding:10px 13px;border-radius:9px;cursor:pointer;border:1px solid #edcf98}
+.dd-m64-save{color:#0a1825;background:#edcf98}
+.dd-m64-withdraw{color:#edcf98;background:#0d1e2c}
+.dd-m64-actions button:disabled{opacity:.55;cursor:not-allowed}
+.dd-m64-actions button:focus-visible,.dd-m64-ballot summary:focus-visible,
+.dd-m64-field input:focus-visible{outline:3px solid white;outline-offset:3px}
+.dd-m64-results{margin-top:18px;border-top:1px solid #496377;padding-top:10px}
+.dd-m64-results h5{color:#edcf98;font-size:14px}
+@media(max-width:420px){.dd-m64-field{padding:11px}.dd-m64-ballot{padding:10px 11px}}
