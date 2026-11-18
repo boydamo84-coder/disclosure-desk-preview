@@ -1,0 +1,31 @@
+# Community Research M01 — Source-first library and W.NE publication-copy prototype
+
+_Date: 18 November 2026 (Europe/London) · Branch: `prep/community-research-m01-publisher-preview-20261118` · STAGED · NO LIVE DEPLOY_
+
+## Owner-approved product direction
+Community Research should be a **dedicated research-reading page**, discoverable from **Discussions** and **W.NE** without introducing a fifteenth bottom navigation tab. Its purpose is community-authored papers, not shallow social posts. Member feedback should distinguish source corroboration from speculation and never confuse popularity with truth.
+
+## Implemented in M01
+- Added `community-research.html` with Disclosure Desk navy/gold visual language, source-first research library design, filters for topic/sort, clearly marked fictional demonstration, reader layout, references, review controls and a private author-copy preview.
+- Added `assets/community-research-preview.js`: safe DOM-only preview with research title, type, abstract, main body up to 30,000 characters and up to twelve HTTPS source URLs; role/consent checkboxes; explicit empty-state for **zero real community submissions**; no network, database access, real votes or comments. Malformed, expired or oversized handoffs are rejected; a correctly imported handoff is immediately removed from `sessionStorage`.
+- Added `research/wne-community-publish.js`, loaded only on local or deploy-preview hosts and only when `communityResearchPreview` is true. New File-menu entry *Community Research preview*: selects one section from the existing W.NE document, requires confirmed cloud save and owner validation, creates a **plain-text temporary copy** from the re-read saved chapter (no image, HTML markup or original document ID) and navigates the top frame to the paper preview. Original cloud research remains private, unchanged, with revisions untouched. Strict length rejection rather than truncating the body.
+- Added `assets/community-research-entry.js` and a feature-gated card in the existing Discussions section. All existing Discussions feed, sections, messages, bottom premium tabs and Who's Who content remain unchanged.
+- Updated `assets/community-test-config.js` to set `communityResearchPreview:local||preview`. Existing `researchPublishing:false` remains OFF. Even on test origins the Publish, vote, comment, correction, source contribution actions are disabled. The new standalone page has `noindex,nofollow,noarchive`.
+- Updated the exact allowlist in `scripts/build_public_release.cjs` and strict release test to package the four additional site files, while excluding development tests, private documents, SQL, finance data, raw inbox and existing W.NE originals.
+- Added `scripts/test_community_research_m01_contract.cjs`, `scripts/test_community_research_m01_browser.cjs` and a GitHub Actions **NO DEPLOY** workflow. The browser suite checks 320 / 393 / 820 / 1280 viewports, preview consent and source validation, DOM XSS-safety, disabled network publishing, and an isolated W.NE saved-copy handoff.
+- No production Supabase writes, no schema migration, no live votes, no submitted manuscripts, no account-state changes, no Netlify build/deploy, no APK change.
+
+## Required architecture before public launch (M02 onward)
+1. **Public paper data model:** an explicit publication record and author-owned draft/revision copy, separate from private W.NE cloud documents and from short Discussions threads; public IDs only after final publication. A public copy is immutable per version, with a read-only revision history and withdrawn/corrected status.
+2. **Account and permission boundary:** registered non-anonymous authors, database-enforced ownership, RLS on exposed tables, immutable author ID, no service-role keys in client code, controlled read/write RPC or server endpoint, anti-spam eligibility/rate limits. Public reading should not require a sign-in.
+3. **Editorial/misuse controls:** plagiarism and copyright complaints, privacy protection for witnesses and contact details, per-paper report/flag review, correction notices, author withdrawal, a clear appeals path. A government record citation is not evidence of nonhuman origin. Moderation cannot silently rewrite an author's investigation.
+4. **Feedback and voting:** one vote per authenticated registered user per paper on **usefulness**, not a "truth percentage"; support/contradiction/source/correction/question categories for comments. Threading, reporting, owner delete and replies consistent with existing Discussions, but not stored in the private investigation system. No duplicate anonymous votes or cross-account access.
+5. **Publish consent and source checks:** independent pre-publication review dialog with exact submitted title, scope, sources, embedded assets, publicity/rights notice and affirmative final consent; never infer consent from save/export. Images initially **not imported** from W.NE until a separate rights, safety and storage review.
+6. **Search and navigation:** title, topic, case and author filtering; latest/most discussed/most useful/needs review counts grounded in actual server data; link to existing archive cases and Who's Who only when relationships are verified.
+7. **Testing:** isolated database RLS with a guest, anonymous session and two distinct registered identities; author edit/withdraw, stale revision, multiuser voting, comments/flags and account deletion. Chromium mobile/Desktop + physical Samsung Android swipe/back and keyboard; no premature deployment.
+
+## Release gate and next action
+M01 is a working **publication-copy/reader prototype**, not an operational community publishing service. Keep `communityResearchPreview` false on production. Do not merge, deploy, apply SQL or ask real members to submit until a separate explicit owner go-ahead and verified production-readiness tests. Next M02 should create a controlled test-only backend/RLS design and real authenticated end-to-end publication workflow, then merge through the significant-release queue once the owner approves.
+
+## Previously approved work preserved
+The international Source M40 correspondence log and WHO M63 five-criterion *private* worksheet prototypes are inherited and remain separate. No action here alters those existing records, research evidence or voting security tests.
