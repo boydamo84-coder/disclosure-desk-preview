@@ -23,6 +23,7 @@ jobs:
           node scripts/build_public_release.cjs
           node scripts/test_public_release_package.cjs
           test ! -f .release-staging/public-site/docs/COMMUNITY_RESEARCH_M07_TWO_ACCOUNT_PILOT.sql
+          test ! -f .release-staging/public-site/docs/COMMUNITY_RESEARCH_M07B_STATUS_RPC.sql
           test ! -f .release-staging/public-site/scripts/fixtures/community-research-m07-pilot-rls-test.sql
           echo "No site deployment or additional project"
   isolated-pilot-rls:
@@ -63,5 +64,7 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f scripts/fixtures/community-research-m02-postgres-bootstrap.sql
           psql -v ON_ERROR_STOP=1 -f docs/COMMUNITY_RESEARCH_M06_LOCKED_EXISTING_PROJECT.sql
           psql -v ON_ERROR_STOP=1 -f docs/COMMUNITY_RESEARCH_M07_TWO_ACCOUNT_PILOT.sql
+          psql -v ON_ERROR_STOP=1 -f docs/COMMUNITY_RESEARCH_M07B_STATUS_RPC.sql
           psql -v ON_ERROR_STOP=1 -f scripts/fixtures/community-research-m07-pilot-rls-test.sql
+          psql -v ON_ERROR_STOP=1 -f scripts/fixtures/community-research-m07b-status-test.sql
           echo "PASS: enrolled synthetic A/B only, C and guests blocked, test revoked, no live data"
