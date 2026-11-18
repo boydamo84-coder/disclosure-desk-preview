@@ -1,5 +1,18 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 18 November 2026 (Europe/London) — Community Research M03 consent-first publication passed isolated SQL and Chrome QA; NO LIVE RELEASE_
+_Last updated: 18 November 2026 (Europe/London) — Community Research M04 owner portfolio and cross-device recovery green in isolated SQL/Chrome; NO LIVE RELEASE_
+
+## Community Research M04 — My Research cross-device author portfolio (18 November 2026)
+
+**Branch:** `prep/community-research-m04-my-research-recovery-20261118`, based on verified M03. **STAGED ONLY. No live Supabase migration, Netlify deploy, Android APK, real member data or public research publishing.**
+
+- **My Research page:** `my-research.html` is a premium navy/gold portfolio linked from Community Research. It groups the member's private draft copies, published papers and withdrawn papers without adding a bottom tab. Includes title search, paginated published-paper recovery, paper edition history, exact-revision private draft edits, owner-only readback, typed withdrawal confirmation, HTTPS source links, and clearing private text if the signed-in account changes. Private manuscript content is never written to browser localStorage; W.NE original documents remain separate and unchanged.
+- **Backend recovery design:** `docs/COMMUNITY_RESEARCH_M04_RECOVERY_SQL_DRAFT_ONLY.sql` creates an unexposed `dd_cr_private.list_my_papers` owner-checked service and a public **SECURITY INVOKER** authenticated-only `dd_cr_my_papers` wrapper. The account ID is always derived from `auth.uid()`, not supplied by callers; withdrawn works and published papers with subsequently deleted drafts remain recoverable privately. The server returns only bounded author-owned paper metadata and current edition, never raw draft bodies, email, voter identity or other-member records. No direct public-table mutation grant is added.
+- **Client and guards:** `assets/community-research-recovery.js` + `assets/community-research-dashboard.js` are inert unless a separately verified NON-production Supabase project is configured. Every gate stays OFF: `communityResearchTestDatabase:false`, `communityResearchBackend:false`, `communityResearchPublishing:false`, `communityResearchRecovery:false`, `researchPublishing:false`. The production website/DB is explicitly rejected by the adapters. The current private-drafts listing is limited to the **50 most recent**; true full draft pagination remains a future task.
+- **Quality:** [M04 run 44304361820](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44304361820) **SUCCESS**: public-package contracts, disposable PostgreSQL 17 with guest/anonymous and two synthetic author identities, withdrawn/orphan recovery and pagination checks, and inherited M01/M03 + M04 browser tests at 320/393/820/1280px covering draft edit, edition history, withdrawal and account switching. Recheck latest exact-head CI after this documentation commit. SQL remains out of packaged public website.
+- **Full handover:** `docs/COMMUNITY_RESEARCH_M04_HANDOVER_2026-11-18.md`. Next M05/launch blockers: an isolated test Supabase migration and real two-account end-to-end tests, security-definer/RLS advisor audit, draft pagination, moderation and copyright/privacy, source-backed usefulness voting, and physical Samsung Android tests before owner-approved significant deployment.
+
+**Next:** no release until approved test project and multi-user security QA; preserve WHO M63 + Source M40 pending branch work.
+
 
 ## Community Research M03 — Consent-first publish, revise and withdraw (18 November 2026)
 
