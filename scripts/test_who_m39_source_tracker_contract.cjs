@@ -23,11 +23,11 @@ const titles=new Set(),links=new Set();
 for(const r of d.records){
  assert(!titles.has(r.title));titles.add(r.title);
  assert(['response_received','sent_unacknowledged'].includes(r.status));
- assert(r.dateSent===null||/^\\d{4}-\\d{2}-\\d{2}$/.test(r.dateSent));
- assert(/^\\d{4}-\\d{2}-\\d{2}$/.test(r.lastVerified));
+ assert(r.dateSent===null||/^\d{4}-\d{2}-\d{2}$/.test(r.dateSent));
+ assert(/^\d{4}-\d{2}-\d{2}$/.test(r.lastVerified));
  assert(r.statusDetail.length>70&&r.evidenceRequirement.length>55&&r.question.length>65);
  assert(r.timeline.length>=1&&r.timeline.length<=12);
- assert(r.timeline.every(x=>/^\\d{4}-\\d{2}-\\d{2}$/.test(x.date)));
+ assert(r.timeline.every(x=>/^\d{4}-\d{2}-\d{2}$/.test(x.date)));
  assert(r.publicSources.length>=1);
  for(const src of r.publicSources){
   const url=new URL(src.url);assert.equal(url.protocol,'https:');
