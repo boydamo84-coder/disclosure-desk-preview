@@ -1,0 +1,74 @@
+name: "Disclosure Desk RC1 curated source-first research — NO DEPLOY"
+on:
+  push:
+    branches:
+      - release/research-source-first-rc1-20261118
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-contract-and-safe-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify pinned production diff contains only approved research updates
+        run: node scripts/test_curated_research_rc1_diff.cjs
+      - name: Verify Who's Who source-first policy and exact archival permissions
+        run: |
+          node --check assets/people-directory.js
+          node --check assets/source-verification.js
+          node --check assets/world-uap-programmes.js
+          node scripts/test_who_m62_source_first_contract.cjs
+          node scripts/test_curated_research_rc1_contract.cjs
+      - name: Build immutable production-shaped package locally ONLY
+        env:
+          CONTEXT: production
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          test ! -f .release-staging/public-site/assets/who-community-worksheet-m57.js
+          test ! -f .release-staging/public-site/assets/who-evidence-ballot-m64.js
+          test ! -f .release-staging/public-site/community-research.html
+          test ! -f .release-staging/public-site/my-research.html
+          test ! -f .release-staging/public-site/docs/CURATED_RESEARCH_RC1_HANDOVER_2026-11-18.md
+          test ! -f .release-staging/public-site/MASTER_HANDOVER.md
+          echo "PASS: publication-safe package reviewed; no Netlify deploy invoked"
+  actual-chrome-mobile-research:
+    needs: source-contract-and-safe-package
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install test-only browser harness, not website dependency
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+      - name: Serve local candidate and test source profiles and archives
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/rc1-source-first-http.log 2>&1 &
+          echo $! >/tmp/rc1-http.pid
+          for i in $(seq 1 20); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/who-is-who.html >/dev/null && break
+            sleep 1
+          done
+          node scripts/test_who_m62_source_first_chromium.cjs
+          node scripts/test_who_m39_source_tracker_chromium.cjs
+          node scripts/test_curated_research_rc1_browser.cjs
+      - name: Stop local-only server
+        if: always()
+        run: |
+          if test -f /tmp/rc1-http.pid; then
+            kill "$(cat /tmp/rc1-http.pid)" 2>/dev/null || true
+          fi
