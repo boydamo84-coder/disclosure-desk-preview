@@ -36,6 +36,15 @@ assert(tests.includes('Cross-user draft read leaked')&&tests.includes('Voter ide
 assert(tests.includes('Anonymous authenticated user voted')&&tests.includes('Cross-paper replies were allowed'));
 assert(tests.includes('Account owner comment survived erasure'));
 assert(flags.includes('researchPublishing:false'));
+assert(flags.includes('communityResearchBackend:false'));
+const adapter=read('assets/community-research-private-drafts.js');
+assert(adapter.includes('communityResearchBackend===true'));
+assert(adapter.includes("flags.researchPublishing===false"));
+assert(adapter.includes(".eq('author_id',user.id)"));
+assert(adapter.includes(".eq('revision',expectedRevision)"));
+assert(!adapter.includes('localStorage'));
+assert(read('community-research.html').includes('assets/community-research-private-drafts.js'));
+assert(read('scripts/build_public_release.cjs').includes("'community-research-private-drafts.js'"));
 assert(flags.includes('communityResearchPreview:local||preview'));
 assert(!flags.includes('researchPublishing:enabled'));
 assert(!page.includes('dd_cr_drafts')&&!page.includes('dd_cr_publish'));
