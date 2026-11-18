@@ -58,6 +58,7 @@ const base='http://127.0.0.1:4173';
    if(sourceGeo.s>sourceGeo.w+2)console.log('SOURCE OVERFLOW DIAGNOSTIC',width,JSON.stringify(sourceGeo));
    assert(sourceGeo.sectionLeft>=-2&&sourceGeo.sectionRight<=sourceGeo.w+2,
     'New tracker itself must fit '+width);
+   assert(sourceGeo.s<=sourceGeo.w+2,'Full Sources page must fit '+width+' px');
    assert.deepEqual(errors,[],'Browser page JS errors at '+width);
    await ctx.close();
   }
