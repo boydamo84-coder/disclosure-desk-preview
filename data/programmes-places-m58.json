@@ -1,0 +1,842 @@
+{
+  "schemaVersion": 1,
+  "edition": "2026-11-17-m58-international-index",
+  "status": "staged_no_live_deploy",
+  "total": 23,
+  "policy": "Distinguish dedicated current investigation units, historical government inquiries, released military archives and policy reviews; do not claim an extraordinary event was verified by its inclusion.",
+  "records": [
+    {
+      "id": "aaro",
+      "name": "AARO",
+      "kind": "U.S. government office",
+      "period": "2022–present",
+      "description": "The U.S. All-domain Anomaly Resolution Office is the Department of Defense's UAP investigation and reporting organisation. Its director, releases, case reports and data-access limits should be distinguished from a former director's subsequent personal commentary.",
+      "people": [
+        {
+          "id": "sean-kirkpatrick",
+          "relationship": "founding-director-former"
+        }
+      ],
+      "related": [
+        "aatip",
+        "aawsap"
+      ],
+      "sources": [
+        {
+          "title": "AARO official mission and vision",
+          "url": "https://www.aaro.mil/About/Mission-Vision/",
+          "role": "official organisational remit",
+          "scope": "The official office page documents its stated mission, not proof that all cases have been explained."
+        },
+        {
+          "title": "AARO official congressional and press products",
+          "url": "https://www.aaro.mil/Congressional-Press-Products/",
+          "role": "official releases and dated statements",
+          "scope": "Dated AARO releases can be checked against an individual's exact public statement and agency tenure."
+        }
+      ],
+      "country": "United States",
+      "flag": "🇺🇸",
+      "category": "historical_research",
+      "institutionalStatus": "historical_or_source_backed"
+    },
+    {
+      "id": "aatip",
+      "name": "AATIP",
+      "kind": "U.S. government programme history",
+      "period": "2000s–2010s; historical scope contested",
+      "description": "The Advanced Aerospace Threat Identification Program label appears in public reporting and former officials' accounts. Its precise scope, funding, and organisational relationship to DIA's AAWSAP have been described differently; present both original government records and attributed participant accounts.",
+      "people": [],
+      "related": [
+        "aawsap",
+        "aaro"
+      ],
+      "sources": [
+        {
+          "title": "DIA original AAWSAP procurement/contract talking points",
+          "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170015/",
+          "role": "official AAWSAP baseline used for comparison",
+          "scope": "The DIA's original public procurement record supports an AAWSAP contract, not an automatic conclusion that every account using the AATIP label refers to the same activity."
+        },
+        {
+          "title": "AARO historical report index and press resources",
+          "url": "https://www.aaro.mil/Congressional-Press-Products/",
+          "role": "official retrospective source",
+          "scope": "AARO's retrospective interpretation should be labelled as its published position and contrasted with first-person accounts."
+        }
+      ],
+      "country": "United States",
+      "flag": "🇺🇸",
+      "category": "historical_research",
+      "institutionalStatus": "historical_or_source_backed"
+    },
+    {
+      "id": "aawsap",
+      "name": "AAWSAP",
+      "kind": "U.S. DIA-funded programme",
+      "period": "2008–2010 contract period",
+      "description": "The Advanced Aerospace Weapon System Applications Program is documented in Defense Intelligence Agency contracting materials. The September 2008 contract went to Bigelow Aerospace Advanced Space Studies for unconventional aerospace research; the award alone does not validate extraordinary claims.",
+      "people": [
+        {
+          "id": "robert-bigelow",
+          "relationship": "BAASS-founder-company-link"
+        },
+        {
+          "id": "james-lacatski",
+          "relationship": "reported-programme-role-needs-direct-audit"
+        }
+      ],
+      "related": [
+        "aatip",
+        "nids",
+        "skinwalker-ranch"
+      ],
+      "sources": [
+        {
+          "title": "DIA AAWSAP contract talking points",
+          "url": "https://www.dia.mil/FOIA/FOIA-Electronic-Reading-Room/FileId/170015/",
+          "role": "original government funding and procurement",
+          "scope": "DIA records the contract and research areas, but does not independently establish recovered spacecraft or a specific person's unpublished role."
+        },
+        {
+          "title": "AARO official historical report index",
+          "url": "https://www.aaro.mil/Congressional-Press-Products/",
+          "role": "official later interpretation",
+          "scope": "Keep the distinction between contracted studies, participant testimony and AARO's retrospective assessment."
+        }
+      ],
+      "country": "United States",
+      "flag": "🇺🇸",
+      "category": "historical_research",
+      "institutionalStatus": "historical_or_source_backed"
+    },
+    {
+      "id": "project-blue-book",
+      "name": "Project Blue Book",
+      "kind": "U.S. Air Force investigation",
+      "period": "1952–1969",
+      "description": "The U.S. Air Force's historical UFO investigation. Original case files are preserved at the U.S. National Archives, with indexes, case summaries and the Air Force's published conclusions. These are valuable primary records, not automatically proof of extraterrestrial origin.",
+      "people": [
+        {
+          "id": "j-allen-hynek",
+          "relationship": "scientific-consultant"
+        },
+        {
+          "id": "stanton-friedman",
+          "relationship": "later-researcher-not-a-blue-book-official"
+        }
+      ],
+      "related": [
+        "aaro"
+      ],
+      "sources": [
+        {
+          "title": "U.S. National Archives Blue Book research guide",
+          "url": "https://www.archives.gov/research/military/air-force/ufos",
+          "role": "original government catalogue and conclusions",
+          "scope": "Search original case files and distinguish unexplained case status from extraterrestrial identification."
+        },
+        {
+          "title": "NARA Blue Book archival record and historical overview",
+          "url": "https://www.archives.gov/news/articles/project-blue-book-50th-anniversary",
+          "role": "archival history",
+          "scope": "Provides contemporary archival interpretation and dates for the project; check actual case source before asserting outcomes."
+        }
+      ],
+      "country": "United States",
+      "flag": "🇺🇸",
+      "category": "historical_research",
+      "institutionalStatus": "historical_or_source_backed"
+    },
+    {
+      "id": "nids",
+      "name": "National Institute for Discovery Science (NIDS)",
+      "kind": "Private research organisation",
+      "period": "1990s–2000s",
+      "description": "Privately funded investigation associated with Robert Bigelow and the Utah property later widely called Skinwalker Ranch. Published retrospective descriptions refer to investigators and instruments, but complete original study logs, chain of custody and raw sensor datasets require verification.",
+      "people": [
+        {
+          "id": "robert-bigelow",
+          "relationship": "founder-funder"
+        }
+      ],
+      "related": [
+        "skinwalker-ranch",
+        "aawsap"
+      ],
+      "sources": [
+        {
+          "title": "History: Skinwalker Ranch original-owner research chronology",
+          "url": "https://www.history.com/articles/skinwalker-ranch-paranormal-ufos-mutilation",
+          "role": "publisher historical overview",
+          "scope": "Reporting identifies Bigelow and historical NIDS investigation activity but does not independently verify paranormal causes."
+        },
+        {
+          "title": "Skinwalker Ranch independent community-archived files",
+          "url": "https://www.skinwalkerranch.org/files/",
+          "role": "secondary archival index only",
+          "scope": "Reproduced or archived NIDS material must be traced back to primary creators, dates and custody before claimed as independent original measurements."
+        }
+      ],
+      "country": "United States",
+      "flag": "🇺🇸",
+      "category": "historical_research",
+      "institutionalStatus": "historical_or_source_backed"
+    },
+    {
+      "id": "skinwalker-ranch",
+      "name": "Skinwalker Ranch",
+      "kind": "Research location and disputed-claims history",
+      "period": "1990s–present coverage",
+      "description": "A Utah property associated with reported unusual observations, NIDS/Bigelow investigations and later private media research. Ownership and published witness accounts can be documented, but alleged extraordinary causes and raw sensor interpretations are unresolved.",
+      "people": [
+        {
+          "id": "robert-bigelow",
+          "relationship": "former-owner"
+        }
+      ],
+      "related": [
+        "nids",
+        "aawsap"
+      ],
+      "sources": [
+        {
+          "title": "History: Brandon Fugal owner profile",
+          "url": "https://www.history.com/shows/the-secret-of-skinwalker-ranch/cast/brandon-fugal",
+          "role": "2016 ownership change",
+          "scope": "History reports that Fugal purchased the ranch from Bigelow in 2016, not that the paranormal claims were independently verified."
+        },
+        {
+          "title": "History: Skinwalker Ranch historical background",
+          "url": "https://www.history.com/articles/skinwalker-ranch-paranormal-ufos-mutilation",
+          "role": "reported events and investigation accounts",
+          "scope": "Publisher report aggregates historical claims; original audio, telemetry, physical exhibits and custody need independent inspection."
+        }
+      ],
+      "country": "United States",
+      "flag": "🇺🇸",
+      "category": "historical_research",
+      "institutionalStatus": "historical_or_source_backed"
+    },
+    {
+      "id": "vatican",
+      "name": "Vatican, Vatican Observatory & Apostolic Archive",
+      "kind": "Religious institution, scientific observatory and archive",
+      "period": "Historical records through 1958; continuing scientific and theological work",
+      "description": "An evidence-first directory of what the Church's scientists and archives have actually published about astronomy and possible extraterrestrial life, the historically alleged 1933 Italian UFO claim, and the Vatican archive's on-record response. A religious or spiritual phenomenon is not itself evidence of an alien craft.",
+      "people": [
+        {
+          "id": "david-grusch",
+          "relationship": "attributed-1933-italy-vatican-allegation-not-institutional-role"
+        }
+      ],
+      "related": [
+        "project-blue-book"
+      ],
+      "sources": [
+        {
+          "title": "Vatican Observatory — original discussion of extraterrestrial life",
+          "url": "https://www.vaticanobservatory.org/sacred-space-astronomy/searching-for-our-place-in-creation/",
+          "role": "astronomers' public discussion and scientific evidential caution",
+          "scope": "Astronomers explore the possibility of extraterrestrial life but report no substantiated discovery; this does not prove secret Vatican documents."
+        },
+        {
+          "title": "Vatican Observatory — official astronomy education resources",
+          "url": "https://www.vaticanobservatory.org/education/faith-science-resource-center/?category=extraterrestrial-life",
+          "role": "primary Observatory education index",
+          "scope": "The observatory provides research/theology discussions; hypothesis and Christian theology do not replace original UFO sensor data."
+        },
+        {
+          "title": "Vatican Apostolic Archive — official access and consultation rules",
+          "url": "https://www.archivioapostolicovaticano.va/content/aav/en/consultazione/accesso-e-consultazione.html",
+          "role": "archival access, qualifications and cut-off",
+          "scope": "Qualified researchers can request records currently open through October 1958; access rules do not establish that any 1933 UFO record exists."
+        },
+        {
+          "title": "Catholic News Service — archival official comments, June 2024",
+          "url": "https://www.usccb.org/news/2024/angels-or-aliens-some-researchers-say-vatican-archives-hold-ufo-secrets",
+          "role": "attributed archivist response to allegations",
+          "scope": "Archive representative Marco Grilli said the institution held no documents concerning extraterrestrial life; the denial is a documented response, not a complete independent catalogue audit."
+        },
+        {
+          "title": "Dicastery for Doctrine of Faith — May 2024 supernatural phenomena norms",
+          "url": "https://www.vatican.va/roman_curia/congregations/cfaith/documents/rc_ddf_doc_20240517_norme-fenomeni-soprannaturali_en.html",
+          "role": "official procedural religious documentation",
+          "scope": "Rules concern alleged supernatural/religious phenomena and pastoral discernment, not government or scientific UFO classification."
+        },
+        {
+          "title": "Catholic News Service — 1933 Italy / Vatican claim and archival denial",
+          "url": "https://www.usccb.org/news/2024/angels-or-aliens-some-researchers-say-vatican-archives-hold-ufo-secrets",
+          "role": "reporting on contested Grusch claim",
+          "scope": "Grusch's public allegation involving Mussolini-era Italy and Pope Pius XII is not independently proven by an original Vatican record here; the same article includes the archives' denial."
+        }
+      ],
+      "comparisons": [
+        {
+          "topic": "Alleged 1933 craft / Vatican relay to the United States",
+          "sideA": "David Grusch's public allegation that Vatican channels relayed knowledge relating to an alleged craft recovered in Mussolini-era Italy.",
+          "sideB": "In a June 2024 interview, Vatican archive official Marco Grilli said the archive held no documents relating to extraterrestrial life.",
+          "status": "disputed_unresolved_no_authenticated_1933_vatican_transfer_document_in_review",
+          "sources": [
+            "https://www.usccb.org/news/2024/angels-or-aliens-some-researchers-say-vatican-archives-hold-ufo-secrets"
+          ],
+          "caution": "An archival official's reported denial and an attributed allegation can be compared; this is not a finding that either person deliberately lied or that a complete Vatican archive search was conducted."
+        }
+      ],
+      "country": "Vatican City",
+      "flag": "🇻🇦",
+      "category": "historical_research",
+      "institutionalStatus": "historical_or_source_backed"
+    },
+    {
+      "id": "fr-geipan",
+      "name": "GEIPAN / CNES",
+      "country": "France",
+      "flag": "🇫🇷",
+      "category": "dedicated_unit",
+      "institutionalStatus": "active_official_unit",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "1977–present",
+      "description": "French national space agency's UAP case intake and scientific classification service.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://cnes.fr/en/projects/geipan",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "Valensole (1965)",
+          "sourceUrl": "https://www.cnes-geipan.fr/fr/cas/1965-07-00050",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    },
+    {
+      "id": "cl-sefaa",
+      "name": "SEFAA (formerly CEFAA)",
+      "country": "Chile",
+      "flag": "🇨🇱",
+      "category": "dedicated_unit",
+      "institutionalStatus": "active_official_unit",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "1997–present",
+      "description": "Chile's aviation agency investigates reported aerial anomalies and publishes analysed case files.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://sefaa.dgac.gob.cl/quienes-somos/",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "October 2026 case releases",
+          "sourceUrl": "https://sefaa.dgac.gob.cl/2026/11/02/casos-octubre-2026/",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    },
+    {
+      "id": "ar-ciae",
+      "name": "CIAE (formerly CEFAE)",
+      "country": "Argentina",
+      "flag": "🇦🇷",
+      "category": "dedicated_unit",
+      "institutionalStatus": "active_official_unit",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "2011–present",
+      "description": "Argentine Air Force identification centre, publishing investigations and frequently ordinary explanations.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://www.argentina.gob.ar/fuerzaaerea/centro-de-identificacion-aeroespacial",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "CIAE 2024 official case report",
+          "sourceUrl": "https://www.argentina.gob.ar/sites/default/files/2018/11/informe-ciae-2024.pdf",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    },
+    {
+      "id": "uy-cridovni",
+      "name": "CRIDOVNI",
+      "country": "Uruguay",
+      "flag": "🇺🇾",
+      "category": "dedicated_unit",
+      "institutionalStatus": "official_unit_documented_2026",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "1979–present",
+      "description": "Uruguayan Air Force investigation commission documented cooperating with AARO in 2026.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://www.fau.mil.uy/noticias/597",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "2026 AARO–CRIDOVNI technical exchange (not a UAP case)",
+          "sourceUrl": "https://www.fau.mil.uy/noticias/597",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    },
+    {
+      "id": "pe-oifaa",
+      "name": "OIFAA / DIFAA",
+      "country": "Peru",
+      "flag": "🇵🇪",
+      "category": "historical_office",
+      "institutionalStatus": "government_unit_current_status_unconfirmed",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "2002–2023 records referenced",
+      "description": "A 2023 Peruvian access-to-information appeal refers to an Air Force anomalous-phenomena investigation department; current status not independently established.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://www.gob.pe/institucion/minjus/normas-legales/4903993-003408-2023-jus-ttaip-segunda-sala",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "2002–2023 Air Force sighting-file request",
+          "sourceUrl": "https://www.gob.pe/institucion/minjus/normas-legales/4903993-003408-2023-jus-ttaip-segunda-sala",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    },
+    {
+      "id": "it-ovni",
+      "name": "Italian Air Force OVNI reporting",
+      "country": "Italy",
+      "flag": "🇮🇹",
+      "category": "reporting_process",
+      "institutionalStatus": "official_active_reporting_process",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "1978–present",
+      "description": "Italian Air Force was appointed to receive, check and publish UFO reports after the 1978 wave.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://www.aeronautica.difesa.it/en/OVNI/",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "1978 wave and annual Air Force sightings",
+          "sourceUrl": "https://www.aeronautica.difesa.it/en/OVNI/",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    },
+    {
+      "id": "br-ufo-archive",
+      "name": "Brazilian Air Force UFO collection",
+      "country": "Brazil",
+      "flag": "🇧🇷",
+      "category": "government_archive",
+      "institutionalStatus": "official_military_archive",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "1952–2019 original files",
+      "description": "Brazil's National Archives holds UFO files produced by Air Force authorities, including historic military reporting.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://www.gov.br/arquivonacional/pt-br/canais_atendimento/imprensa/noticias/conheca-o-fundo-sobre-ovnis-do-arquivo-nacional",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "Night of the UFOs, 1986",
+          "sourceUrl": "https://www.gov.br/arquivonacional/pt-br/canais_atendimento/imprensa/noticias/serie-relatos-extraterrestres",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    },
+    {
+      "id": "gb-mod-desk",
+      "name": "UK MoD UFO Desk",
+      "country": "United Kingdom",
+      "flag": "🇬🇧",
+      "category": "historical_office",
+      "institutionalStatus": "closed_2009",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "1950s–2009",
+      "description": "Former government reporting desk; surviving sighting correspondence is housed at the National Archives.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://www.nationalarchives.gov.uk/help-with-your-research/research-guides/ufos/",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "Rendlesham Forest, 1980",
+          "sourceUrl": "https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/postwar/ufo-reports/",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    },
+    {
+      "id": "es-ovni-archive",
+      "name": "Spanish Air Force UFO files",
+      "country": "Spain",
+      "flag": "🇪🇸",
+      "category": "government_archive",
+      "institutionalStatus": "declassified_historical_files",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "Declassification from 1991",
+      "description": "Defence Ministry provides publicly accessible historical military case documents.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://bibliotecavirtual.defensa.gob.es/BVMDefensa/exp_ovni/es/micrositios/inicio.do",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "Blanes original military case file",
+          "sourceUrl": "https://bibliotecavirtual.defensa.gob.es/BVMDefensa/exp_ovni/es/consulta/registro.do?control=BMDB20160070712",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    },
+    {
+      "id": "dk-ufo-archive",
+      "name": "Royal Danish Air Force UFO archive",
+      "country": "Denmark",
+      "flag": "🇩🇰",
+      "category": "government_archive",
+      "institutionalStatus": "historical_files_released_2009",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "Historic files",
+      "description": "Danish Defence officially hosts released Air Force UFO observations and correspondence.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://www.forsvaret.dk/da/organisation/flyvevaabnet/flyvevabnets-historie/flyvevabnets-ufo-arkiv--offentliggjort-i-2009/",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "Danish 2009 disclosure of historic reports",
+          "sourceUrl": "https://www.forsvaret.dk/da/nyhedsarkiv/flyverstaben/2009/ufo-arkiv-online/",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    },
+    {
+      "id": "ca-sky",
+      "name": "Sky Canada Project",
+      "country": "Canada",
+      "flag": "🇨🇦",
+      "category": "government_review",
+      "institutionalStatus": "completed_review_2025",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "2022–2025",
+      "description": "Chief Science Advisor's UAP public-reporting review, not a live incident investigation unit.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://science.ised-isde.canada.ca/site/science/en/office-chief-science-advisor/sky-canada-project/management-public-reporting-unidentified-aerial-phenomena-canada",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "2025 national UAP reporting review (not a sighting)",
+          "sourceUrl": "https://science.ised-isde.canada.ca/site/science/en/office-chief-science-advisor/sky-canada-project/management-public-reporting-unidentified-aerial-phenomena-canada",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    },
+    {
+      "id": "au-raaf",
+      "name": "RAAF UFO files",
+      "country": "Australia",
+      "flag": "🇦🇺",
+      "category": "government_archive",
+      "institutionalStatus": "historical_military_files",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "1950s–1980s",
+      "description": "National Archives preserves original Australian Air Force UFO reports and observation questionnaires.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://www.naa.gov.au/blog/flying-saucers-fact-or-fiction",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "1960 Woomera/Wewak test-site reports",
+          "sourceUrl": "https://www.naa.gov.au/students-and-teachers/student-research-portal/learning-resource-themes/war/defence-equipment-and-weapons/ufo-sightings-weapons-testing-site-woomera",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    },
+    {
+      "id": "nz-nzdf",
+      "name": "New Zealand Defence Force UFO files",
+      "country": "New Zealand",
+      "flag": "🇳🇿",
+      "category": "government_archive",
+      "institutionalStatus": "historical_files_released_2010",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "1952–2009 correspondence",
+      "description": "Defence correspondence released under public-information rules, archived at the National Library.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://natlib.govt.nz/records/22979464",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "Kaikōura lights, 1978 (archive lead)",
+          "sourceUrl": "https://natlib.govt.nz/records/22979464",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    },
+    {
+      "id": "mx-campeche",
+      "name": "Mexican Air Force 2004 UFO records",
+      "country": "Mexico",
+      "flag": "🇲🇽",
+      "category": "government_case_record",
+      "institutionalStatus": "historical_case_no_dedicated_unit_verified",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "2004",
+      "description": "Official Defence correspondence and later government briefing refer to the Campeche video; no standing UAP programme established.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://www.sedena.gob.mx/leytrans/petic/2007/abril/abril.pdf",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "Campeche infrared footage, 2004",
+          "sourceUrl": "https://www.gob.mx/presidencia/articulos/version-estenografica-conferencia-de-prensa-de-la-presidenta-claudia-sheinbaum-pardo-del-09-de-julio-de-2025",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    },
+    {
+      "id": "se-ghost",
+      "name": "Swedish military ghost-rocket investigation",
+      "country": "Sweden",
+      "flag": "🇸🇪",
+      "category": "historical_office",
+      "institutionalStatus": "historical_1946_inquiry",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "1946–1947",
+      "description": "Swedish defence personnel investigated unidentified rocket-like reports during the early Cold War; archival source requires independent original-case examination.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://www.afu.se/collections/report-files/",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "1946 ghost-rocket reports",
+          "sourceUrl": "https://www.afu.se/collections/report-files/",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    },
+    {
+      "id": "jp-uap",
+      "name": "Japanese Defence unidentified-object monitoring",
+      "country": "Japan",
+      "flag": "🇯🇵",
+      "category": "reporting_process",
+      "institutionalStatus": "procedure_reported_by_government_review",
+      "kind": "Government UAP office, reporting or archive",
+      "period": "2020 onward",
+      "description": "Canada's official review describes 2020 instructions for Japanese military personnel to document unidentified objects; no dedicated current UFO bureau verified.",
+      "people": [],
+      "related": [],
+      "sources": [
+        {
+          "title": "Official record or institutional collection",
+          "url": "https://science.ised-isde.canada.ca/site/science/en/office-chief-science-advisor/sky-canada-project/management-public-reporting-unidentified-aerial-phenomena-canada",
+          "role": "Original institution, programme or archive",
+          "scope": "A published record is evidence of the reporting process, not proof of an extraordinary explanation."
+        }
+      ],
+      "featuredCases": [
+        {
+          "title": "2019–2021 mystery balloons assessed in 2023",
+          "sourceUrl": "https://www.mod.go.jp/j/press/news/2023/02/14c.html",
+          "description": "Inspect the linked original institutional report or source collection. Some entries represent programme releases or file-finding aids, not adjudicated UFO sightings.",
+          "status": "official_original_record_or_finding_aid"
+        }
+      ]
+    }
+  ],
+  "internationalResearchLeads": [
+    {
+      "country": "Belgium",
+      "status": "further_original_source_verification_required",
+      "next": "Verify original Belgian Air Force 1990 scramble/radar files, not just air-defence mission",
+      "url": "https://www.mil.be/en/our-missions/guarding-the-airspace/"
+    },
+    {
+      "country": "China",
+      "status": "further_original_source_verification_required",
+      "next": "No reliable source yet establishes a dedicated current government UAP research bureau",
+      "url": null
+    },
+    {
+      "country": "Russia",
+      "status": "further_original_source_verification_required",
+      "next": "Locate authentic Soviet and Russian government inquiry files; current bureau not verified",
+      "url": null
+    },
+    {
+      "country": "Ecuador",
+      "status": "further_original_source_verification_required",
+      "next": "Locate original reported presidential declassification decree and official file index",
+      "url": null
+    },
+    {
+      "country": "Colombia",
+      "status": "further_original_source_verification_required",
+      "next": "Find named civil aviation or Air Force reporting policy from official source",
+      "url": null
+    },
+    {
+      "country": "Ireland",
+      "status": "further_original_source_verification_required",
+      "next": "Search Irish Defence/IAA original incident records; no confirmed dedicated bureau",
+      "url": null
+    },
+    {
+      "country": "Germany",
+      "status": "further_original_source_verification_required",
+      "next": "Historical records and specific state archives need original verification",
+      "url": null
+    },
+    {
+      "country": "Netherlands",
+      "status": "further_original_source_verification_required",
+      "next": "Locate original Defence or National Archives UFO files",
+      "url": null
+    },
+    {
+      "country": "Switzerland",
+      "status": "further_original_source_verification_required",
+      "next": "Find Swiss Federal Archives original reports or formal collection",
+      "url": null
+    },
+    {
+      "country": "South Africa",
+      "status": "further_original_source_verification_required",
+      "next": "Find original military or aviation files and confirm their scope",
+      "url": null
+    },
+    {
+      "country": "Norway",
+      "status": "further_original_source_verification_required",
+      "next": "Investigate Norwegian military files from 1946 reports, no current unit confirmed",
+      "url": null
+    },
+    {
+      "country": "Finland",
+      "status": "further_original_source_verification_required",
+      "next": "Trace first-party 1946 aerial-report files, no dedicated unit confirmed",
+      "url": null
+    },
+    {
+      "country": "Portugal",
+      "status": "further_original_source_verification_required",
+      "next": "Obtain Portuguese Defence archive record before listing a government UFO programme",
+      "url": null
+    },
+    {
+      "country": "Vatican City",
+      "status": "further_original_source_verification_required",
+      "next": "Observatory/Apostolic Archive is a research/archival topic, not a UAP defence organisation",
+      "url": null
+    }
+  ]
+}
