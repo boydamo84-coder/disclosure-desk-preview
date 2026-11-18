@@ -16,7 +16,7 @@ function init(){
  const withdrawConsent=$('researchM03WithdrawConsent');
  const withdrawText=$('researchM03WithdrawText');
  const withdrawing=$('researchM03Withdraw');
- let stored=null, publicRecord=null, busy=false, lastPreview=null;
+ let stored=null, linkedDraft=null, publicRecord=null, busy=false, lastPreview=null;
  panel.hidden=false;
  status.textContent='Private testing enabled on this isolated host. No public website content has been published.';
  const say=s=>{status.textContent=String(s).slice(0,450)};
@@ -30,10 +30,16 @@ function init(){
    const body=$('previewBody').textContent;
    const paper_type=$('researchType').value;
    const source_urls=window.DDCommunityResearchPreview?.sourceLines?.($('researchSources').value);
+   const previewLinks=[...$('previewSources').querySelectorAll('a')].map(a=>a.href);
+   const categoryLabels={case:'Case investigation',archive:'Archive research',hypothesis:'Hypothesis',methods:'Methods and data'};
    if(!Array.isArray(source_urls)||source_urls.length<1)
     throw Error('Provide at least one original source link before public publication.');
    if(!$('researchOriginal').checked||!$('researchConsent').checked)
     throw Error('Confirm the right to use these materials and accept preview-only status.');
+   if(categoryLabels[paper_type]!==$('previewType').textContent.trim()||
+      previewLinks.length!==source_urls.length||
+      !previewLinks.every((link,i)=>link===source_urls[i]))
+    throw Error('The source links or research category changed since preview. Review again.');
    if(title!==$('researchTitle').value.trim()||
       abstract!==$('researchAbstract').value.trim()||
       body!==$('researchBody').value.trim())
@@ -64,13 +70,15 @@ function init(){
    if($('researchPreview').classList.contains('hidden'))throw Error('Review the public copy before saving.');
    if(publicRecord?.status==='withdrawn')throw Error('Withdrawn papers cannot be republished through this workflow.');
    const reviewed=reviewCopy();
-   const result=await drafts.saveMine(reviewed,stored?{
-      id:stored.id,expectedRevision:stored.revision
+   const existing=stored||linkedDraft;
+   const result=await drafts.saveMine(reviewed,existing?{
+      id:existing.id,expectedRevision:existing.revision
    }:{});
    const readBack=await drafts.getMine(result.id);
    if(!readBack||!same(reviewed,readBack)||readBack.revision!==result.revision)
     throw Error('Private copy could not be verified after save. Check your private drafts before trying again.');
    stored={id:readBack.id,revision:readBack.revision};
+   linkedDraft=stored;
    lastPreview=reviewed;
    savedLabel.textContent='Saved private copy verified · revision '+stored.revision+
      (publicRecord?' · next public edition requires fresh consent':' · not publicly published');
@@ -99,6 +107,7 @@ function init(){
     edition:publicRecord?.edition||null,consent:true
    });
    publicRecord=result;
+   linkedDraft=stored;
    stored=null;lastPreview=null;
    resetConsent();
    withdrawArea.hidden=false;
@@ -142,7 +151,7 @@ function init(){
   }
  });
  $('clearDraft').addEventListener('click',()=>{
-  stored=null;lastPreview=null;publicRecord=null;
+  stored=null;linkedDraft=null;lastPreview=null;publicRecord=null;
   withdrawArea.hidden=true;resetConsent();
   savedLabel.textContent='No saved research is linked to this empty preview.';
   say('Publication workflow reset. Private drafts and existing public papers were not deleted.');
