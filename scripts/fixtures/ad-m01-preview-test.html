@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ad M01 synthetic preview QA — internal only</title>
+<link rel="stylesheet" href="/assets/site-ad-layout-m01.css">
+<style>body{background:#09111a;color:#fff;font:14px system-ui;margin:0;padding:12px}
+.news-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.news-grid article{min-height:90px;border:1px solid #405266;border-radius:12px;padding:8px}
+#archiveList article{padding:8px;border-bottom:1px solid #405266}
+#clipsFeed article{padding:6px;border-bottom:1px solid #405266}
+</style></head><body>
+<section id="discover"><h1>News fixture</h1><div id="newsGrid" class="news-grid"></div></section>
+<section id="archivePage"><h2>Archive fixture</h2><div id="archiveList"></div></section>
+<section id="clips"><h2>Clips fixture</h2><div id="clipsFeed"></div></section>
+<section id="discussionsPage"><div class="dd-community-banner">Discussions</div><div>Community posts and comments are not interleaved.</div></section>
+<section id="researchStudio"><h2>W.NE workspace — never host ads here</h2><div id="wneEditor">Private writing</div></section>
+<script>
+for(let i=0;i<19;i++){const e=document.createElement('article');e.dataset.newsId='story-'+i;e.textContent='Story '+i;newsGrid.append(e)}
+for(let i=0;i<26;i++){const e=document.createElement('article');e.dataset.archiveId='case-'+i;e.textContent='Case '+i;archiveList.append(e)}
+for(let i=0;i<9;i++){const e=document.createElement('article');e.dataset.videoId='clip-'+i;e.textContent='Clip '+i;clipsFeed.append(e)}
+</script>
+<script defer src="/assets/site-ad-layout-m01.js"></script>
+</body></html>
