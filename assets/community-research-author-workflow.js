@@ -5,11 +5,12 @@
 (()=>{
 'use strict';
 const $=id=>document.getElementById(id);
-function init(){
+async function init(){
  const drafts=window.DDCommunityResearchDrafts;
  const publish=window.DDCommunityResearchPublication;
  const panel=$('researchM03Panel');
  if(!panel||drafts?.enabled!==true||publish?.enabled!==true)return;
+ if(typeof publish.isPilot==='function' && !(await publish.isPilot()))return;
  const status=$('researchM03Status'), savedLabel=$('researchM03Saved');
  const approve=$('researchM03Consent'),submit=$('researchM03Publish');
  const withdrawArea=$('researchM03WithdrawArea');
