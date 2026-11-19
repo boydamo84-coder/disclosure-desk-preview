@@ -16,6 +16,12 @@ The production build and the live release manifest matched across all 130 files 
 
 The embedded site excludes the Google Analytics script, measurement ID, settings and consent prompt. The Android WebView rejects direct requests to Google Analytics and Tag Manager hosts. Firebase Cloud Messaging remains separate and requires its own configuration. Live AdMob and paid Remove Ads are disabled in this release candidate. The private APK retains AdMob test inventory.
 
+## Build verification
+
+- Android source `a897ad3a6915827a952758b55df58759a7a712d8` passed Gradle builds for APK and AAB, APK signature verification, bundletool, Android 16 target inspection and 16 KB alignment checks. All 130 embedded files were verified against the Android staging manifest. The public running [GitHub Actions checks](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44583908560) cover the same source.
+- Source, Chromium and JVM checks passed, including Profile-local sign-in, Chat, international programmes, the private worksheet and Google Analytics retirement. The release bundle retains AdMob’s SDK permissions for future use. Confirm the advertising ID declaration against final release behaviour in Play Console.
+- The Play kit includes the unsigned bundle, listing copy, verified icon and feature graphic. Real-device acceptance, screenshots and the signed Play upload are pending.
+
 ## Test on the Galaxy
 
 Install the M97 private APK alongside M96M. Keep M96M installed if it contains local Research Inbox links or research. Account data is available after sign-in. Local links and drafts belong to the installation where they were created.
