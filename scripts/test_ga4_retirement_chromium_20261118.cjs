@@ -17,7 +17,7 @@ const BASE='http://127.0.0.1:4173';
    await context.route('**/*',route=>{
     const u=new URL(route.request().url());
     if(/(?:googletagmanager|google-analytics|analytics\.google)\.com$/i.test(u.hostname)
-       ||u.pathname.includes('/bicea.org/22/')){
+       ||/^bicea[.]org$/i.test(u.hostname)){
      unexpected.push(u.href);return route.abort('blockedbyclient');
     }
     return u.origin===BASE?route.continue():route.abort('blockedbyclient');
