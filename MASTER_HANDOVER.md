@@ -1,5 +1,18 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — M67 Who evidence voting safely staged; Android M95 is next_
+_Last updated: 19 November 2026 (Europe/London) — M72 draft ballot RLS hardening tested in disposable PostgreSQL; LIVE VOTING OFF_
+
+## M72 — irreversible ballot-withdrawal and RLS adversarial QA: 3/3 GREEN, STAGED ONLY (19 November 2026)
+
+**Branch** `prep/who-m72-disposable-rls-hardening-20261119` is deliberately derived from the **OLD M67 experimental branch**, NOT from current `production`. Never merge or fast-forward this whole branch into live M70; it contains an older web snapshot, disabled M67 voting modules, SQL drafts, and tests. The actual public website remains M70 `9fcaec4e602331b9a557937f6ee15ddd9a3f5ff2`. This milestone makes **no Netlify, database, member-account, APK or advertising writes**.
+
+**Security finding and fix in SQL DRAFT ONLY:** M63 previously allowed an already withdrawn ballot to be reactivated by its owner after the normal edit cooldown. It also allowed a submitted withdrawal to simultaneously alter the previous evidence scores, and allowed an initial ballot row with `is_withdrawn=true`. The M72 review branch hardens the invoker-only M63 ballot guard to reject all three; a withdrawal changes status only and is **final** for that exact claim version. This policy must be explicitly approved before any real votes and explained to users; it cannot recall historical screenshots.
+
+**Verified source and disposable QA:** [GitHub Actions run 44536856497](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44536856497), code SHA `f688ee8e36b9649bd300378d6d845e1427d9404d`, **all three jobs successful**: strict closed-voting/package contracts; 320/393/820/1280px Chromium with two synthetic accounts, 0 versus Unknown and blocked remote network; disposable PostgreSQL 17 verifying M63 ownership/anonymous refusal, M65 two reviewers/privacy suppression, M66 retirement, and new M72 rejection of resurrection, edited withdrawal and initially-withdrawn inserts, plus no private publication-schema/RPC access. Synthetic and disposable tests are not a substitute for independent audit or real nonproduction Supabase two-account QA.
+
+**Live activation still blocked:** `whoEvidenceBallots:false`; `approvedClaims:[]`; Adsterra `RELEASE_ENABLED=false`. No live M63 tables or migrations have been authorised. Remaining gates include an independent schema/trigger/concurrency audit, two distinct real QA identities in an isolated nonproduction backend, explicit owner approval of irreversible withdrawal/aggregate retirement, two humans signing off each exact source-backed incident claim and version, final privacy review, and an owner-approved production-derived curated release with M71 branch guard. Do not turn on ballots solely because CI passed.
+
+**Full detail:** `docs/WHO_M72_DISPOSABLE_RLS_HARDENING_2026-11-19.md`. Next track can prepare a separately reviewed claim-source approval template and actual release-readiness checklist; no real ballots until those gates are satisfied.
+
 
 
 
