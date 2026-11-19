@@ -1,0 +1,76 @@
+name: Who M74 concurrent ballot/publication security - NO DEPLOY
+on:
+  push:
+    branches: [prep/who-m74-parallel-session-security-20261119]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  closed-release-gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Keep editorial reviews synthetic and community ballots disabled
+        run: |
+          node scripts/test_who_m73_editorial_approval.cjs
+          node scripts/test_who_m72_hardening_contract.cjs
+          grep -q 'whoEvidenceBallots:false' assets/community-test-config.js
+          node -e "if(require('./data/who-community-approvals-m64.json').approvedClaims.length)process.exit(1)"
+      - name: Public package must exclude all synthetic accounts and SQL scripts
+        env:
+          CONTEXT: production
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          test ! -e .release-staging/public-site/scripts/fixtures/who-m74-setup.sql
+          test ! -e .release-staging/public-site/scripts/test_who_m74_concurrency.sh
+          grep -q 'whoEvidenceBallots:false' .release-staging/public-site/assets/community-test-config.js
+  parallel-disposable-postgres:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: dd_who_m74_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d dd_who_m74_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: dd_who_m74_ci
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install PostgreSQL client only if absent
+        run: |
+          if ! command -v psql >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq postgresql-client
+          fi
+      - name: Load experimental schema into isolated local database only
+        run: |
+          test "$PGHOST" = 127.0.0.1
+          test "$PGDATABASE" = dd_who_m74_ci
+          psql -X -v ON_ERROR_STOP=1 -f scripts/fixtures/who-m63-rls-bootstrap.sql
+          psql -X -v ON_ERROR_STOP=1 -f docs/WHO_M63_FIVE_CRITERIA_BALLOTS_SQL_DRAFT_ONLY.sql
+          psql -X -v ON_ERROR_STOP=1 -f docs/WHO_M65_AGGREGATE_RELEASE_SQL_DRAFT_ONLY.sql
+          psql -X -v ON_ERROR_STOP=1 -f docs/WHO_M66_POSTPUBLICATION_WITHDRAWAL_SQL_DRAFT_ONLY.sql
+      - name: Test real parallel sessions and role-isolated synthetic JWT requests
+        run: bash scripts/test_who_m74_concurrency.sh
