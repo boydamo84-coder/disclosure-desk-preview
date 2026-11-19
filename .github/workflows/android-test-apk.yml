@@ -13,6 +13,7 @@ on:
       - 'scripts/test_m96_notification_source_contract.cjs'
       - 'scripts/test_m96k_chat_keyboard_focus.cjs'
       - 'scripts/test_m69_profile_auth_contract.cjs'
+      - 'scripts/test_m74_confirmation_contract.cjs'
       - 'scripts/test_m69_profile_auth_chromium.cjs'
       - 'scripts/fixtures/m69-profile-auth.html'
       - 'assets/research-hub.js'
