@@ -42,6 +42,7 @@
   function renderRecord(r){
     const doc=el('article','dd-verification-card');
     doc.dataset.enquiryId=r.id;
+    doc.id='dd-source-enquiry-'+r.id;
     const head=el('div','dd-verification-header');
     const main=el('div');
     main.append(el('span','dd-verification-category',r.category),el('h3','',r.title),
