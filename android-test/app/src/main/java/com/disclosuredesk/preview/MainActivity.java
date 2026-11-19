@@ -788,8 +788,13 @@ public final class MainActivity extends Activity {
         if(intent!=null){
             String kind=intent.getStringExtra("dd_type");
             String record=intent.getStringExtra("dd_record_id");
-            if("chat".equals(kind) && record!=null && record.matches("(?i)[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}"))
+            if("chat".equals(kind)){
+                String current=getSharedPreferences("dd-chat-push",MODE_PRIVATE).getString("active-user","");
+                String recipient=intent.getStringExtra("dd_recipient_id");
+                // Old notifications without explicit recipient are deliberately refused.
+                if(!ChatNotificationGate.canOpen(recipient,current,record))return HOME;
                 return HOME+"?dd_tab=chatPage&dd_chat="+Uri.encode(record);
+            }
             if(("news".equals(kind)||"videos".equals(kind)) && record!=null && record.matches("[A-Za-z0-9_-]{1,150}"))
                 return HOME+"?dd_"+kind+"="+Uri.encode(record);
         }
@@ -845,9 +850,14 @@ public final class MainActivity extends Activity {
                     boolean signedIn=id.matches("(?i)[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}");
                     String previous=getSharedPreferences("dd-chat-push",MODE_PRIVATE).getString("active-user","");
                     if(!signedIn){
+                        if(!previous.isEmpty()){clearPrivatePushNotifications();NotificationInboxStore.clearPrivate(this);}
                         getSharedPreferences("dd-chat-push",MODE_PRIVATE).edit().remove("active-user").apply();
                         if(!FirebaseApp.getApps(this).isEmpty())FirebaseMessaging.getInstance().deleteToken();
                     }else{
+                        if(!id.equalsIgnoreCase(previous) && !previous.isEmpty()){
+                            clearPrivatePushNotifications();
+                            NotificationInboxStore.clearPrivate(this);
+                        }
                         getSharedPreferences("dd-chat-push",MODE_PRIVATE).edit().putString("active-user",id).apply();
                         if(!id.equals(previous))deliverChatToken();
                     }
@@ -866,6 +876,22 @@ public final class MainActivity extends Activity {
                 FirebaseApp.initializeApp(this,options);
             }
         }catch(Exception problem){android.util.Log.w("DisclosureDesk","FCM unavailable for this build.");}
+    }
+    private void clearPrivatePushNotifications(){
+        // Cancels only private-chat channel entries. Public News/Video notices
+        // and their saved read/unread history are unaffected.
+        if(Build.VERSION.SDK_INT<23)return;
+        android.app.NotificationManager manager=(android.app.NotificationManager)
+            getSystemService(Context.NOTIFICATION_SERVICE);
+        if(manager==null)return;
+        try{
+            for(android.service.notification.StatusBarNotification n:manager.getActiveNotifications()){
+                if(n.getNotification()!=null &&
+                   "dd-private-chat".equals(n.getNotification().getChannelId())){
+                    manager.cancel(n.getTag(),n.getId());
+                }
+            }
+        }catch(SecurityException ignored){/* No notification access on this device. */}
     }
     private void handleShellMessage(String type,JSONObject data){
         switch(type){
@@ -901,7 +927,8 @@ public final class MainActivity extends Activity {
         if(owner==null || owner.isEmpty())return;
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token->{
             String address=web.getUrl();
-            if(address!=null && address.startsWith(HOME) && !token.isEmpty())
+            if(address!=null && address.startsWith(HOME) && !token.isEmpty() &&
+              owner.equals(getSharedPreferences("dd-chat-push",MODE_PRIVATE).getString("active-user","")))
               web.evaluateJavascript("window.dispatchEvent(new CustomEvent('dd-android-token',{detail:"+JSONObject.quote(token)+"}))",null);
         });
     }
