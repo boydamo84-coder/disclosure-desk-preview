@@ -1,0 +1,71 @@
+name: Who M68 international programmes and enquiries — NO DEPLOY
+on:
+  push:
+    branches: [prep/who-m68-world-programme-directory-20261119]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-verification-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate sourced country institutions, Vatican nuance and five enquiry statuses
+        run: |
+          node --check assets/who-world-programmes-m68.js
+          node --check assets/who-source-status-m68.js
+          node --check assets/source-verification.js
+          node --check scripts/test_who_m68_programmes_contract.cjs
+          node --check scripts/test_who_m68_programmes_chromium.cjs
+          node scripts/test_who_m68_programmes_contract.cjs
+          node scripts/test_who_m64_integration_contract.cjs
+          node scripts/test_ga4_retirement_20261118.cjs
+      - name: Strict public-only package — excludes ballots, drafts and private messages
+        env:
+          CONTEXT: production
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          test -f .release-staging/public-site/assets/who-world-programmes-m68.js
+          test -f .release-staging/public-site/assets/who-world-programmes-m68.css
+          test -f .release-staging/public-site/assets/who-source-status-m68.js
+          test -f .release-staging/public-site/data/public-source-verification.json
+          test -f .release-staging/public-site/data/programmes-places-m58.json
+          grep -q 'whoEvidenceBallots:false' .release-staging/public-site/assets/community-test-config.js
+          test ! -e .release-staging/public-site/docs/WHO_M65_AGGREGATE_RELEASE_SQL_DRAFT_ONLY.sql
+          test ! -e .release-staging/public-site/scripts/test_who_m68_programmes_chromium.cjs
+  isolated-mobile-and-desktop-chromium:
+    runs-on: ubuntu-latest
+    needs: source-verification-and-package
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser-only QA package
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+      - name: Test actual Who and Sources pages locally without real account calls
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-who-m68.log 2>&1 &
+          echo $! >/tmp/dd-who-m68.pid
+          for i in $(seq 1 20); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/who-is-who.html >/dev/null && break
+            sleep 1
+          done
+          node scripts/test_who_m68_programmes_chromium.cjs
+          node scripts/test_who_m64_integration_chromium.cjs
+      - name: Stop local server
+        if: always()
+        run: |
+          if test -f /tmp/dd-who-m68.pid; then kill "$(cat /tmp/dd-who-m68.pid)" 2>/dev/null || true; fi
