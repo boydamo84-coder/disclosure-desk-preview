@@ -24,10 +24,10 @@ public final class ChatPushService extends FirebaseMessagingService {
         if(!"chat".equals(message.getData().get("type")))return;
         // Never display the previous account's private notifications after logout.
         String activeUser=getSharedPreferences("dd-chat-push",Context.MODE_PRIVATE).getString("active-user","");
-        if(activeUser==null || activeUser.isEmpty() ||
-           !activeUser.equals(message.getData().get("recipient_id")))return;
+        if(!ChatNotificationGate.isUserId(activeUser) ||
+           !activeUser.equalsIgnoreCase(message.getData().get("recipient_id")))return;
         String pair=message.getData().get("pair_id");
-        if(pair==null || !pair.matches("(?i)[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}"))return;
+        if(!ChatNotificationGate.isUserId(pair))return;
         if(!getSharedPreferences(DiscoveryWorker.PREFS,Context.MODE_PRIVATE).getBoolean("chats",true))return;
         if(Build.VERSION.SDK_INT>=33 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)!=PackageManager.PERMISSION_GRANTED)return;
         NotificationManager manager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
@@ -37,14 +37,17 @@ public final class ChatPushService extends FirebaseMessagingService {
         go.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         go.putExtra("dd_type","chat");
         go.putExtra("dd_record_id",pair);
+        go.putExtra("dd_recipient_id",activeUser);
         go.setData(android.net.Uri.parse("https://uapdisclosuredesk.com/?dd_tab=chatPage&dd_chat="+pair));
-        PendingIntent tap=PendingIntent.getActivity(this,pair.hashCode(),go,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
+        int scopedId=ChatNotificationGate.requestCode(activeUser,pair);
+        PendingIntent tap=PendingIntent.getActivity(this,scopedId,go,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
         Notification notification=new Notification.Builder(this,CHANNEL)
           .setSmallIcon(android.R.drawable.ic_dialog_email)
           .setContentTitle("Disclosure Desk Chat")
           .setContentText("You have a new private message.")
           .setVisibility(Notification.VISIBILITY_PRIVATE)
           .setContentIntent(tap).setAutoCancel(true).build();
-        manager.notify(pair.hashCode(),notification);
+        manager.notify(scopedId,notification);
+        NotificationInboxStore.record(this,"chat",pair,activeUser,"New private message");
     }
 }
