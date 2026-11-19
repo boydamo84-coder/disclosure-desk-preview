@@ -26,7 +26,7 @@ const BASE='http://127.0.0.1:4173';
    assert.equal(await page.locator('#ddWhoProgrammeLeads > li').count(),13,
      'Do not duplicate the already indexed Vatican as a pending programme');
    assert.equal(await page.locator('#ddWhoProgrammeCards .dd-who-programme-card[data-programme-id=vatican]').count(),1);
-   assert.match(await page.locator('#ddWhoProgrammeCards [data-programme-id=vatican]').innerText(),/Vatican Observatory|Vatican/);
+   assert.match(await page.locator('#ddWhoProgrammeCards [data-programme-id=vatican]').textContent(),/Vatican Observatory|Vatican/);
    assert.equal(await page.locator('#ddWhoOutreachDigest .dd-outreach-digest-card').count(),5);
    assert.equal(await page.locator('#ddWhoOutreachDigest .dd-outreach-digest-state[data-status=response_received]').count(),4);
    assert.equal(await page.locator('#ddWhoOutreachDigest .dd-outreach-digest-state[data-status=sent_unacknowledged]').count(),1);
