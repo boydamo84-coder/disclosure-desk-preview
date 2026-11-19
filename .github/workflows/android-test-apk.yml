@@ -1,8 +1,8 @@
-name: Build Disclosure Desk M95 PRIVATE Android APK (NO Netlify)
+name: Build Disclosure Desk M96 PRIVATE Android APK (NO Netlify)
 on:
   workflow_dispatch:
   push:
-    branches: [android/m95-restore-editorial-layout-nov13]
+    branches: [android/m96-account-safe-notifications-nov19]
     paths:
       - 'android-test/**'
       - 'guide.html'
@@ -10,6 +10,8 @@ on:
       - 'scripts/test_m92_archive_bridge_chromium.cjs'
       - 'scripts/test_m93_compact_header_chromium.cjs'
       - 'scripts/test_m95_editorial_restore_chromium.cjs'
+      - 'scripts/test_m96_notification_source_contract.cjs'
+      - 'scripts/android/ChatNotificationGateTest.java'
       - 'index.html'
       - 'assets/community-polish.css'
       - 'assets/community-votes.js'
@@ -61,6 +63,7 @@ jobs:
           node scripts/test_m81_native_research_contract.cjs
           node scripts/test_m82_research_inbox_dialog_contract.cjs
           node scripts/test_m85_research_inbox_rename_contract.cjs
+          node scripts/test_m96_notification_source_contract.cjs
           node scripts/test_m86_comments_on_demand_contract.cjs
           node scripts/test_m87_terms_contract.cjs
           node scripts/test_m89_global_discussions_contract.cjs
@@ -94,8 +97,11 @@ jobs:
           trap 'rm -rf "$CLASSES"' EXIT
           javac -encoding UTF-8 -d "$CLASSES" \
             android-test/app/src/main/java/com/disclosuredesk/preview/ResearchLinkParser.java \
-            scripts/android/ResearchLinkParserTest.java
+            scripts/android/ResearchLinkParserTest.java \
+            android-test/app/src/main/java/com/disclosuredesk/preview/ChatNotificationGate.java \
+            scripts/android/ChatNotificationGateTest.java
           java -cp "$CLASSES" com.disclosuredesk.preview.ResearchLinkParserTest
+          java -cp "$CLASSES" com.disclosuredesk.preview.ChatNotificationGateTest
       - name: Install Android SDK
         run: |
           SDKMANAGER="${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin/sdkmanager"
@@ -119,7 +125,7 @@ jobs:
       - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M95-PRIVATE-BETA
+          name: DisclosureDesk-M96-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
