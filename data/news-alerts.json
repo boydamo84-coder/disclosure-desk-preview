@@ -1,5 +1,17 @@
 [
   {
+    "id": "724e82a5a378ed80cb48",
+    "headline": "White House UAP advisor says aliens may not stop work",
+    "source": "Cybernews",
+    "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5BckJnRlVIMXN6Nm9xQXpjNEo3MEw4NmdGZTk4VV95RDVncUg2UVdXRHIxV0R6UXBWZ0hSZlhkYzFGTGhqZE53VUVXdU94VGRZeTV5QkhRTldWSTZkcGQwNl9FcDFEcC1MbmlaNTBVanBIZWF6?oc=5",
+    "date": "2026-11-19T08:16:39+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://media.cybernews.com/images/featured-big/2026/11/Telescope-with-a-orb-in-the-lens.jpg",
+    "imageSource": "Publisher Open Graph image"
+  },
+  {
     "id": "8ea3ce6833121658773d",
     "headline": "UAP whistleblower Barber joins Burlison's office as a senior adviser on UAPs",
     "source": "Newstalk KZRG",
@@ -294,15 +306,25 @@
     "imageSource": "Publisher Open Graph image"
   },
   {
-    "id": "61099c6f74e6df96c2e7",
+    "id": "7476b3b88d16b28d358c",
     "headline": "Tentacled UFO? Experts have explanation for bizarre Alaskan sight",
     "source": "FOX 8 News",
-    "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQa3hKMmpWVTg2YVZRU0xaRTF2RXZnRkxhaGVnS01HcEVyUDhJM3hOWlBlT1ZzbWlmNlVnZjRubTZzM1ZtY2xaWXpLWmkzSnVTRWxTOE5ldkNCR2VtS2lBOTd5NnJNVVVnU21TRHhPaXBwTXZrOEZFTjd5UkUyc0hnOS1kcmRFc2x3V2pfOHU0cV_SAZYBQVVfeXFMT21GSUZrVXJZRUZDcmc2eHQ0cFExR3dtSC1qR0l0M01NVjgwXzVFVXpmblNpaGRrZDdWMHQ1N291MmVPTWxJYjFIdHAtRUwzY3NBYXB5UWFwLXJyR0lRNDVJWTUwanQ2cmtnYWIxdDRrV0FqY1N2cF9acGZJazh1X3dUcXVQVE0xMEhxU21DVjRHc0E2bG9B?oc=5",
+    "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQQU02aXJ0UGxFTy0tbXd3Z3dMaE5rX1plam9ELXo3dEtGeFFFS2FJWGFpV3FlZWF5V3lndFl0RExxYXlJM3EwU1Vub2YyblV0WXFZNElNR1pEVTJHUVNySDktdFJMWUNnRlJQOU4tUXRWYzUwNWVILVRadVUzY296RkRZVFFIc0YwdUFXNlpGVV9GTjNLT19oRnFrck9nVHfSAZYBQVVfeXFMT21GSUZrVXJZRUZDcmc2eHQ0cFExR3dtSC1qR0l0M01NVjgwXzVFVXpmblNpaGRrZDdWMHQ1N291MmVPTWxJYjFIdHAtRUwzY3NBYXB5UWFwLXJyR0lRNDVJWTUwanQ2cmtnYWIxdDRrV0FqY1N2cF9acGZJazh1X3dUcXVQVE0xMEhxU21DVjRHc0E2bG9B?oc=5",
     "date": "2026-11-14T20:11:49+00:00",
     "category": "UAP",
     "priority": "standard",
     "desc": "Read the source article for details.",
     "relatedCoverage": [
+      {
+        "id": "61099c6f74e6df96c2e7",
+        "headline": "Tentacled UFO? Experts have explanation for bizarre Alaskan sight",
+        "source": "FOX 8 News",
+        "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQa3hKMmpWVTg2YVZRU0xaRTF2RXZnRkxhaGVnS01HcEVyUDhJM3hOWlBlT1ZzbWlmNlVnZjRubTZzM1ZtY2xaWXpLWmkzSnVTRWxTOE5ldkNCR2VtS2lBOTd5NnJNVVVnU21TRHhPaXBwTXZrOEZFTjd5UkUyc0hnOS1kcmRFc2x3V2pfOHU0cV_SAZYBQVVfeXFMT21GSUZrVXJZRUZDcmc2eHQ0cFExR3dtSC1qR0l0M01NVjgwXzVFVXpmblNpaGRrZDdWMHQ1N291MmVPTWxJYjFIdHAtRUwzY3NBYXB5UWFwLXJyR0lRNDVJWTUwanQ2cmtnYWIxdDRrV0FqY1N2cF9acGZJazh1X3dUcXVQVE0xMEhxU21DVjRHc0E2bG9B?oc=5",
+        "date": "2026-11-14T20:11:49+00:00",
+        "category": "UAP",
+        "priority": "standard",
+        "desc": "Read the source article for details."
+      },
       {
         "id": "da561f403e2c88853dcd",
         "headline": "Tentacled UFO over Alaska? Experts have explanation for bizarre video",
@@ -417,7 +439,19 @@
     "priority": "standard",
     "desc": "Read the source article for details.",
     "imageUrl": "https://sundayguardianlive.com/wp-content/uploads/2026/11/uss-2026-11-14t190352588.png",
-    "imageSource": "Publisher Open Graph image"
+    "imageSource": "Publisher Open Graph image",
+    "relatedCoverage": [
+      {
+        "id": "c1eb95ec896c366c104f",
+        "headline": "WATCH Viral Video: Mysterious Jellyfish-Like Object With Strange Tentacles Spotted Floating Over Alaska, UFO Or Alien? Bizarre Footage Goes Viral",
+        "source": "The Sunday Guardian",
+        "url": "https://news.google.com/rss/articles/CBMimgJBVV95cUxNXzNINEJGejhkelNBYWtyNnBJZjFwYjhYWUNKSlE0OVhkelJOYjFPQkozbWM5UXJSOWZQU2JzeThiUGZMa1lvTTNjemNsOE54UnNOQlZfdlZGOGVhSFhDTnNQM0psSG1peHJ0NnIyUFdCdlY2RVZMTjF4WldyTllzd2pUUkQycFNKNDNtQ2d6X1MwZEVvRXZETGJWNGxsUjBZeWotT0E3M1B6WDBUWm94a3FuZ2FrVUMycHVMOF9ueWFwbFFiajdtVmc5Z21MYnBjWk1xR2UyMGR4ZGZUVXdNWXBXZ0doblo2TWMzbFpjZm0yUDg1aFVMdWZTVXFWV2dqWVBpR2pGTm5aZ3FNMmlwZTU4aUpzTy1VSWfSAZ8CQVVfeXFMTlRvM0NBeHl3Q0FOdFgzLUNQNjF6QUVoQTRxczZjSExGMGJXV1hzb3dNNTBVeHAyek5odEhpZVZwZjdfSlcwSDJIZXJNQ3BUQXVXZno1Z3VWYnl3b2NZT0syZWtxeHdpajBUMl9jYTY4cTVkY20xLWg5bmtXY0gyckowT0xxT29peEsxNWdXNjJsem95VGVCWHFwYnVEclE4TG5nRzF4bEVKNWFxcmlYaFdhVjA0MENrdS1Gbmo1aTZOQl8wMjBXUEcxaEhFM3U1U1BKQ29VSk8xS1Q1cFl5UkJ3aEJKY3ZaSm96MVQ0X1ZWY1RpWjZBazBVZm9WZGs4aF9PVDZqZ0otb3dxanVZVGhPaXpMUkJxTkZTUFNzVlk?oc=5",
+        "date": "2026-11-14T13:50:20+00:00",
+        "category": "UAP",
+        "priority": "standard",
+        "desc": "Read the source article for details."
+      }
+    ]
   },
   {
     "id": "64144571474d5464748e",
@@ -491,9 +525,7 @@
     "date": "2026-11-13T19:41:10+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details.",
-    "imageUrl": "https://a57.foxnews.com/cf-images.us-east-1.prod.boltdns.net/v1/static/694940094001/3682d729-e1a0-44df-8c25-d92c81d89207/3a5c54db-1784-4aae-be0f-70d91f001650/1280x720/match/1024/512/image.jpg?ve=1&tl=1",
-    "imageSource": "Publisher Open Graph image"
+    "desc": "Read the source article for details."
   },
   {
     "id": "6cae55cc15813fc2e00a",
