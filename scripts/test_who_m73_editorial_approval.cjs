@@ -5,6 +5,7 @@ const fs=require('node:fs');
 const crypto=require('node:crypto');
 const {reviewQueue,digest,attestationMessage,validatePacket,verifiedCandidate}=require('./who-m73-editorial-approval.cjs');
 const mod=require('../assets/who-evidence-ballot-m64.js');
+const signer=require('./who-m73-local-review.cjs');
 const queue=reviewQueue();
 const publicRecords=JSON.parse(fs.readFileSync('data/public-people-directory.json','utf8')).people;
 assert.equal(publicRecords.length,50);
@@ -65,6 +66,15 @@ const altered={...approvals[0],signedAt:'2026-11-19T11:01:00Z'};
 reject(()=>validatePacket({...pkt,approvals:[altered,approvals[1]]},keyring),/Invalid or tampered/);
 const forged={...approvals[1],signature:crypto.sign(null,attestationMessage(approvals[1]),other.privateKey).toString('base64')};
 reject(()=>validatePacket({...pkt,approvals:[approvals[0],forged]},keyring),/Invalid or tampered/);
+const signedWithLocalTool=signer.signReview(c,{
+ reviewerId:a.id,role:a.role,decision:'approve',signedAt:'2026-11-19T11:00:00Z',
+ originalInspected:true,statementVerified:true,alternativesReviewed:true,conflictOfInterest:false
+},a.privateKey.export({type:'pkcs8',format:'pem'}));
+assert.deepEqual(signedWithLocalTool,approvals[0],'Local signer must reproduce the same canonical Ed25519 review');
+reject(()=>signer.signReview(c,{
+ reviewerId:a.id,role:a.role,decision:'pending',signedAt:'2026-11-19T11:00:00Z',
+ originalInspected:false,statementVerified:true,alternativesReviewed:true,conflictOfInterest:false
+},a.privateKey.export({type:'pkcs8',format:'pem'})));
 const registry=JSON.parse(fs.readFileSync('data/who-community-approvals-m64.json','utf8'));
 const config=fs.readFileSync('assets/community-test-config.js','utf8');
 assert.deepEqual(registry.approvedClaims,[],'ZERO actual editor approvals in published registry');

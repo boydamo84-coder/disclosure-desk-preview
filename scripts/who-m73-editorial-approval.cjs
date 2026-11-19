@@ -148,12 +148,16 @@ if(require.main===module){
    status:'needs_original_source_review_not_approved',candidateCount:reviewQueue().length,
    candidates:reviewQueue()
   },null,2)+'\n');
+ }else if(mode==='draft'&&args.length===1){
+  const found=reviewQueue().filter(c=>c.claimId===args[0]);
+  assert.equal(found.length,1,'No uniquely eligible incident claim with this ID');
+  process.stdout.write(JSON.stringify(found[0],null,2)+'\n');
  }else if(mode==='verify'&&args.length===2){
   const packet=JSON.parse(fs.readFileSync(args[0],'utf8'));
   const keys=JSON.parse(fs.readFileSync(args[1],'utf8'));
   process.stdout.write(JSON.stringify(validatePacket(packet,keys),null,2)+'\n');
  }else{
-  process.stderr.write('Usage: node scripts/who-m73-editorial-approval.cjs queue | verify signed-packet.json enrolled-public-keys.json\n');
+  process.stderr.write('Usage: node scripts/who-m73-editorial-approval.cjs queue | draft claim-id | verify signed-packet.json enrolled-public-keys.json\n');
   process.exitCode=2;
  }
 }

@@ -20,6 +20,7 @@ jobs:
       - name: Verify current public research intake and signed editorial review in memory
         run: |
           node --check scripts/who-m73-editorial-approval.cjs
+          node --check scripts/who-m73-local-review.cjs
           node scripts/test_who_m73_editorial_approval.cjs
           node scripts/test_who_m64_integration_contract.cjs
           node scripts/test_who_m72_hardening_contract.cjs
@@ -29,6 +30,7 @@ jobs:
         run: |
           node scripts/build_public_release.cjs
           node scripts/test_public_release_package.cjs
+          test ! -e .release-staging/public-site/scripts/who-m73-local-review.cjs
           test ! -e .release-staging/public-site/scripts/who-m73-editorial-approval.cjs
           test ! -e .release-staging/public-site/scripts/test_who_m73_editorial_approval.cjs
           grep -q 'whoEvidenceBallots:false' .release-staging/public-site/assets/community-test-config.js

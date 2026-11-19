@@ -36,3 +36,17 @@ There are 23 source-linked claim dossiers in the M67 editorial directory. Five h
 scripts/test_who_m73_editorial_approval.cjs uses ephemeral test-only Ed25519 keypairs and challenges missing/duplicate/forged/revoked approvals, false attestations, changed sources, version drift and premature site voting. Actions workflow who-m73-dual-editor-no-deploy.yml runs offline tests and strict public-bundle checks.
 
 There are **zero actual human editorial approvals** until real independent reviewers are enrolled and complete a review. No claim rating, honesty judgment, or novel extraordinary evidence conclusion has been created by this milestone.
+
+
+## Offline preparation and signing (private editorial work only)
+These commands are for editors working in a private Termux or computer workspace, **not GitHub Actions and never the website**:
+
+1. Find a reviewable claim: node scripts/who-m73-editorial-approval.cjs queue
+2. Copy exactly one candidate to an untracked private file using the CLI: node scripts/who-m73-editorial-approval.cjs draft fravor-2023-house-2004-encounter > /private/location/candidate.json
+3. For each enrolled editor, create a review checklist with default pending/false values: node scripts/who-m73-local-review.cjs template fictional-editor-id lead > /private/location/lead-checklist.json (use independent for the second role). They must check the actual source and uncertainties themselves, then set decision to approve, inspected/verified/alternatives to true and confirm the conflict-of-interest field; the default template is NOT an approval.
+4. An editor may create an Ed25519 keypair locally with OpenSSL or another audited key manager. The owner must enroll the corresponding public key only after independently checking the editor's identity, role and independence. **Never upload a private key or unsigned evidence to GitHub, ChatGPT, or the live website.** On Unix-like systems ensure private key permissions are 0600.
+5. Sign one privately reviewed checklist without networking: node scripts/who-m73-local-review.cjs sign /private/location/candidate.json /private/location/lead-checklist.json /private/location/editor-key.pem > /private/location/signed-lead.json. The independent reviewer signs separately with a different enrolled key. The signer refuses a pending decision, false source checks, future timestamp, key inside repo or wrong permissions.
+6. Verify the two signed reviews together: node scripts/who-m73-local-review.cjs packet /private/location/candidate.json /private/location/signed-lead.json /private/location/signed-independent.json /private/location/trusted-public-keys.json > /private/location/approval-packet.json. This verifies signatures and trust-store entries, but deliberately produces **no enabled public voting row**.
+7. A future owner/curator must inspect the result, verify real human independence and assess the underlying claim fairly before any separate approved live release.
+
+These commands don't create accounts, touch Supabase, publish content or modify public votes.
