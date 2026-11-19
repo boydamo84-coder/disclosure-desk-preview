@@ -1,5 +1,20 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — M72 draft ballot RLS hardening tested in disposable PostgreSQL; LIVE VOTING OFF_
+_Last updated: 19 November 2026 (Europe/London) — M73 two-editor signed claim review process tested; LIVE WHO VOTING OFF_
+
+## M73 — signed two-editor evidence-review gate and offline editor workflow: VERIFIED, STAGED ONLY (19 November 2026)
+
+**Branch** `prep/who-m73-two-editor-claim-approval-20261119`, based on experimental M72 voting safeguards, **NOT** the live M70 production branch. Do not merge its historical site files wholesale. The public site remains live at `production` `9fcaec4e602331b9a557937f6ee15ddd9a3f5ff2`, M71 guard staged separately, M96M Android beta owner tested, and WHO voting/Adsterra remain switched OFF.
+
+**Editorial intake:** Among 23 source-linked Who's Who claim dossiers, five currently have the category `incident_or_observation` and original primary sources. M73 reads those five into an **unapproved queue**. No claim automatically becomes a score or person credibility rating. Its candidate record binds exact claimId, personId, version, statement, original HTTPS source, in-source locator, and known uncertainty/limitations to a deterministic SHA-256 digest.
+
+**Independent sign-offs:** Two distinct enrolled Ed25519 public-key identities, one lead and one independent reviewer, must each sign the exact digest, date, original-inspection, exact-wording, alternatives, and no-conflict attestations. Reject missing or duplicate reviewer roles, identical or revoked keys, forged signatures, future dates, false attestations, changed wording/source/version/locator/limitations. A signature proves key possession, **not** independent human identity or the quality of evidence review; editor enrollment and a genuine source audit still require humans. No real editors have been enrolled or approved.
+
+**Offline tooling and safety:** `scripts/who-m73-editorial-approval.cjs` supports `queue`, `draft` and `verify`. `scripts/who-m73-local-review.cjs` provides private review templates, local signing and packet assembly; keys must stay outside GitHub with owner-only permissions. Code produces only a **disabled provisional row**; it NEVER writes the public JSON registry, Supabase, site or backend. `data/who-community-approvals-m64.json` remains `approvedClaims:[]`, and `whoEvidenceBallots:false` remains hardcoded.
+
+**Verified tests:** Exact-code SHA `7d52d015d81229ea1e521d27aa1b96e4efed7507` passed the offline source, forged/tampered/revoked Ed25519 gate, local signer, existing M64/M72 regressions and 129-file strict-public-package gate with private editorial tools excluded: [GitHub Actions run 44545913863](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44545913863). No Netlify deploy, SDK, private Supabase table, real reviewer token, member votes, or live data access.
+
+**Remaining before any real vote:** two genuine independent editor key enrollments and fact checks, privacy/security audit of current schema/trigger/RLS, nonproduction Supabase two-real-account integration, explicit member-withdrawal/aggregate-retirement owner policy decision, legal/user-facing notice and M70-derived curated release with M71 guard and full mobile/browser acceptance. Current M73 is *process infrastructure* only, NOT launch-ready voting. More detail and local editor guidance: `docs/WHO_M73_EDITORIAL_APPROVAL_WORKFLOW_2026-11-19.md`.
+
 
 ## M72 — irreversible ballot-withdrawal and RLS adversarial QA: 3/3 GREEN, STAGED ONLY (19 November 2026)
 
