@@ -27,7 +27,7 @@ function copy(rel){
 // must never silently make it publicly accessible on a subsequent deploy.
 const approvedWeb=Object.freeze({
  assets:[
-  'who-evidence-ballot-m64.js','who-evidence-ballot-m64.css','media-submissions.js','community-polish.css','secondary-editorial-nav.css','secondary-editorial-nav.js','site-ad-layout-m01.css','site-ad-layout-m01.js','site-adsterra-m02.js','case-comment-moderation.js','case-connections.js','evidence-dna.js','person-case-links.js','people-directory.js','world-uap-programmes.js','who-archive-return.js','source-verification.js','page-help.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
+  'who-evidence-ballot-m64.js','who-evidence-ballot-m64.css','who-international-programmes-m68.js','media-submissions.js','community-polish.css','secondary-editorial-nav.css','secondary-editorial-nav.js','site-ad-layout-m01.css','site-ad-layout-m01.js','site-adsterra-m02.js','case-comment-moderation.js','case-connections.js','evidence-dna.js','person-case-links.js','people-directory.js','world-uap-programmes.js','who-archive-return.js','source-verification.js','page-help.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
   'community-test-config.js','community-votes.js','confirmation-dialog.js','disclosure-desk-mark.svg',
   'discussions-admin.js','historical-satellite.js','inline-news-comments.js','unified-action-rails.js',
   'live-chat.js','live-hearings.js','live-schedule.css','live-schedule.js',
