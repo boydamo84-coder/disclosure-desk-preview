@@ -1,0 +1,35 @@
+name: Who M73 dual-editor claim approval gate - NO DEPLOY
+on:
+  push:
+    branches: [prep/who-m73-two-editor-claim-approval-20261119]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  private-editorial-approval:
+    name: Offline source/signature and public registry closure
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify current public research intake and signed editorial review in memory
+        run: |
+          node --check scripts/who-m73-editorial-approval.cjs
+          node scripts/test_who_m73_editorial_approval.cjs
+          node scripts/test_who_m64_integration_contract.cjs
+          node scripts/test_who_m72_hardening_contract.cjs
+      - name: Check public production-context build excludes private editor process
+        env:
+          CONTEXT: production
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          test ! -e .release-staging/public-site/scripts/who-m73-editorial-approval.cjs
+          test ! -e .release-staging/public-site/scripts/test_who_m73_editorial_approval.cjs
+          grep -q 'whoEvidenceBallots:false' .release-staging/public-site/assets/community-test-config.js
+          node -e "const r=require('./.release-staging/public-site/data/who-community-approvals-m64.json'); if(r.approvedClaims.length)process.exit(1)"
