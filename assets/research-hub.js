@@ -87,11 +87,111 @@ function guest(){
  $('ddProfileAdmin').hidden=true;
  $('ddProfileNewPassword').value='';$('ddProfileConfirmPassword').value='';
 }
-function signIn(){
- visit('boards');
- $('ddCloudAccount')?.scrollIntoView({block:'start',behavior:'smooth'});
- $('ddCloudEmail')?.focus({preventScroll:true});
+/* M69: Profile sign-in stays on Profile. Preserve the existing Supabase
+ * account/RLS and leave Boards as a separate, deliberate navigation choice. */
+let profileAuthForm=null,profileAuthMode='signin',profileAuthBusy=false;
+function profileAuthMessage(message,error=false){
+ const status=$('ddProfileAuthStatus');
+ if(status){status.textContent=message;status.dataset.state=error?'error':'info'}
 }
+function showProfileAuth(mode){
+ const guest=$('ddProfileGuest');if(!guest||profileAuthBusy)return;
+ if(!profileAuthForm){
+  const form=document.createElement('form');form.id='ddProfileAuthForm';
+  form.className='dd-profile-auth-form';
+  form.setAttribute('aria-label','Disclosure Desk account');
+  const title=document.createElement('h4');title.id='ddProfileAuthHeading';form.append(title);
+  const field=(id,label,type,autocomplete)=>{
+   const wrap=document.createElement('label');wrap.className='dd-profile-auth-field';
+   wrap.htmlFor=id;wrap.textContent=label;
+   const input=document.createElement('input');input.id=id;input.type=type;
+   input.className='field';input.autocomplete=autocomplete;input.required=true;
+   if(type==='password')input.minLength=8;
+   wrap.append(input);form.append(wrap);return {wrap,input};
+  };
+  field('ddProfileAuthEmail','Email address','email','email');
+  field('ddProfileAuthPassword','Password','password','current-password');
+  const username=field('ddProfileAuthUsername','Public username (3–24 characters)','text','off');
+  username.wrap.id='ddProfileAuthUsernameRow';
+  username.input.maxLength=24;
+  username.input.pattern='[A-Za-z][A-Za-z0-9_]{2,23}';
+  const disclosure=document.createElement('p');disclosure.className='muted small';
+  disclosure.textContent='Your username is public and Chat-discoverable by default. You can change visibility and Chat requests in Profile. Your email stays private.';
+  username.wrap.append(disclosure);
+  const actions=document.createElement('div');actions.className='dd-profile-auth-actions';
+  const submit=document.createElement('button');submit.type='submit';submit.className='action';submit.id='ddProfileAuthSubmit';
+  const reset=document.createElement('button');reset.type='button';reset.className='outline';reset.id='ddProfileAuthReset';
+  reset.textContent='Reset password';actions.append(submit,reset);form.append(actions);
+  const status=document.createElement('p');status.id='ddProfileAuthStatus';
+  status.className='muted small';status.setAttribute('role','status');
+  status.setAttribute('aria-live','polite');form.append(status);
+  form.addEventListener('submit',event=>{event.preventDefault();void submitProfileAuth()});
+  reset.addEventListener('click',()=>{void resetProfileAuthPassword()});
+  guest.append(form);profileAuthForm=form;
+ }
+ profileAuthMode=mode==='signup'?'signup':'signin';
+ const signup=profileAuthMode==='signup';
+ $('ddProfileAuthHeading').textContent=signup?'Create your Disclosure Desk account':'Sign in to Disclosure Desk';
+ $('ddProfileAuthSubmit').textContent=signup?'Create account':'Sign in';
+ $('ddProfileAuthUsernameRow').hidden=!signup;
+ $('ddProfileAuthUsername').required=signup;
+ $('ddProfileAuthPassword').autocomplete=signup?'new-password':'current-password';
+ profileAuthForm.hidden=false;profileAuthMessage('');
+ profileAuthForm.scrollIntoView?.({block:'nearest'});
+ $('ddProfileAuthEmail')?.focus?.({preventScroll:true});
+}
+async function submitProfileAuth(){
+ if(!profileAuthForm||profileAuthBusy)return;
+ const c=client();if(!c){profileAuthMessage('Account service unavailable. Please try again.',true);return}
+ const email=$('ddProfileAuthEmail').value.trim(),password=$('ddProfileAuthPassword').value;
+ const name=$('ddProfileAuthUsername').value.trim(),signup=profileAuthMode==='signup';
+ if(!email||password.length<8){profileAuthMessage('Enter your email and a password of at least eight characters.',true);return}
+ if(signup&&(!/^[A-Za-z][A-Za-z0-9_]{2,23}$/.test(name)||
+  /(admin|moderator|support|official|verified|staff|disclosuredesk|boyddigitalstudios|uapdisclosuredesk)/i.test(name))){
+  profileAuthMessage('Use a 3–24 character public username beginning with a letter (letters, numbers and underscores only). Official and staff names are reserved.',true);return;
+ }
+ profileAuthBusy=true;
+ const submit=$('ddProfileAuthSubmit'),reset=$('ddProfileAuthReset');
+ submit.disabled=true;reset.disabled=true;profileAuthMessage(signup?'Creating account…':'Signing in…');
+ try{
+  const out=signup?await c.auth.signUp({email,password,options:{
+   emailRedirectTo:location.origin+location.pathname+'?dd_tab=profilePage&dd_confirm=1',
+   data:{dd_requested_username:name}
+  }}):await c.auth.signInWithPassword({email,password});
+  if(out.error)throw out.error;
+  $('ddProfileAuthPassword').value='';
+  if(signup&&!out.data?.session){
+   profileAuthMessage('Check your confirmation email, then return to Profile to sign in.');
+  }else{
+   // Account state listeners update Profile and Boards. Do NOT navigate to Boards.
+   void refresh();
+   profileAuthMessage(signup?'Account created. You are signed in.':'Signed in successfully.');
+  }
+ }catch(error){
+  const message=String(error?.message||'Please try again.').slice(0,160);
+  profileAuthMessage(signup&&/already registered|already exists|user already registered/i.test(message)?
+   'That email is already registered. Choose Sign in or Reset password.':'Account action failed: '+message,true);
+ }finally{profileAuthBusy=false;submit.disabled=false;reset.disabled=false}
+}
+async function resetProfileAuthPassword(){
+ if(!profileAuthForm||profileAuthBusy)return;
+ const c=client(),email=$('ddProfileAuthEmail').value.trim();
+ if(!c){profileAuthMessage('Account service unavailable.',true);return}
+ if(!email){profileAuthMessage('Enter your email before requesting a password reset.',true);return}
+ profileAuthBusy=true;const reset=$('ddProfileAuthReset');reset.disabled=true;
+ profileAuthMessage('Requesting password reset…');
+ try{
+  const {error}=await c.auth.resetPasswordForEmail(email,{
+   redirectTo:location.origin+location.pathname+'?dd_tab=profilePage'
+  });
+  if(error)throw error;
+  profileAuthMessage('If an account exists, a password-reset email will be sent.');
+ }catch(error){
+  profileAuthMessage('Reset failed: '+String(error?.message||'Please try again.').slice(0,150),true);
+ }finally{profileAuthBusy=false;reset.disabled=false}
+}
+function signIn(){showProfileAuth('signin')}
+function register(){showProfileAuth('signup')}
 /* Received votes are server-side counts of other people's active votes on this
  * member's published content. Never derive a score from visible cards or localStorage. */
 function clearReactions(message='Reaction totals unavailable.'){
@@ -300,7 +400,7 @@ async function updatePassword(event){
 function init(){
  if(!$('profilePage'))return;
  $('ddProfileSignIn').onclick=signIn;
- $('ddProfileRegister').onclick=()=>{signIn();$('ddSignupUsername')?.focus({preventScroll:true})};
+ $('ddProfileRegister').onclick=register;
  $('ddProfileRefresh').onclick=refresh;
  $('ddProfilePasswordForm').addEventListener('submit',updatePassword);
  $('ddProfileSignOut').onclick=async()=>{
