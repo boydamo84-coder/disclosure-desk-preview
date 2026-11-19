@@ -1,8 +1,8 @@
-name: Build Disclosure Desk M96K Chat Keyboard PRIVATE APK (NO Netlify)
+name: Build Disclosure Desk M96L Profile Login PRIVATE APK (NO Netlify)
 on:
   workflow_dispatch:
   push:
-    branches: [android/m96k-chat-keyboard-reveal-nov19]
+    branches: [android/m96l-profile-auth-stay-nov19]
     paths:
       - 'android-test/**'
       - 'guide.html'
@@ -12,6 +12,12 @@ on:
       - 'scripts/test_m95_editorial_restore_chromium.cjs'
       - 'scripts/test_m96_notification_source_contract.cjs'
       - 'scripts/test_m96k_chat_keyboard_focus.cjs'
+      - 'scripts/test_m69_profile_auth_contract.cjs'
+      - 'scripts/test_m69_profile_auth_chromium.cjs'
+      - 'scripts/fixtures/m69-profile-auth.html'
+      - 'assets/research-hub.js'
+      - 'assets/community-polish.css'
+      - 'index.html'
       - 'assets/profile-private-chat.js'
       - 'scripts/android/ChatNotificationGateTest.java'
       - 'index.html'
@@ -67,6 +73,7 @@ jobs:
           node scripts/test_m85_research_inbox_rename_contract.cjs
           node scripts/test_m96_notification_source_contract.cjs
           node scripts/test_m96k_chat_keyboard_focus.cjs
+          node scripts/test_m69_profile_auth_contract.cjs
           node scripts/test_chat_stability_and_invite.cjs
           node scripts/test_private_chat_account_switch_runtime.cjs
           node scripts/test_m86_comments_on_demand_contract.cjs
@@ -95,6 +102,7 @@ jobs:
           node scripts/test_m92_archive_bridge_chromium.cjs
           node scripts/test_m93_compact_header_chromium.cjs
           node scripts/test_m95_editorial_restore_chromium.cjs
+          node scripts/test_m69_profile_auth_chromium.cjs
           node scripts/test_m71_secondary_actions_chromium.cjs
       - name: Verify safe Android Share-link parser (offline Java only)
         run: |
@@ -130,7 +138,7 @@ jobs:
       - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M96K-KEYBOARD-BETA
+          name: DisclosureDesk-M96L-PROFILE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
