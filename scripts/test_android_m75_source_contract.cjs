@@ -23,8 +23,8 @@ assert(!app.includes('settings.setAllowContentAccess(false)'), 'Android content 
 assert.match(app,/if\(PLAY_BILLING_APPROVED\)premium=new LifetimeAdsManager/);
 assert.match(app,/if\(PLAY_BILLING_APPROVED && premium!=null\)choices.addView\(removeAds\)/);
 assert.match(app,/chats.setEnabled\(false\)/,'Incomplete FCM push is not advertised as delivered');
-assert.match(gradle,/applicationIdSuffix = "\.beta\.m96k"/);
-assert.match(gradle,/manifestPlaceholders\["ddAppLabel"\] = "Disclosure Desk Beta M96K"/);
+assert.match(gradle,/applicationIdSuffix = "\.beta\.m96l"/);
+assert.match(gradle,/manifestPlaceholders\["ddAppLabel"\] = "Disclosure Desk Beta M96L"/);
 assert.match(gradle,/targetSdk = 36/);
 assert(Number(gradle.match(/versionCode = (\d+)/)?.[1]) >= 14);
 assert.match(manifest,/android:label="\$\{ddAppLabel\}"/);
@@ -39,6 +39,6 @@ assert.match(workflow,/node scripts\/build_public_release\.cjs/);
 assert.match(workflow,/node scripts\/stage_android_dev_snapshot\.cjs/);
 assert.match(workflow,/node scripts\/test_android_dev_snapshot_contract\.cjs/);
 assert.match(workflow,/android\/m96k-chat-keyboard-reveal-nov19/);
-assert.match(workflow,/DisclosureDesk-M96K-KEYBOARD-BETA/);
+assert.match(workflow,/DisclosureDesk-M96L-PROFILE-BETA/);
 assert(!/(?:^|\n)\s*(?:npx\s+)?netlify\s+(?:deploy|build|publish)\b/im.test(workflow),'No Netlify CLI deployment in APK build');
 console.log('PASS M75 Android beta source: pending M74/M73 UI, origin-safe snapshot, isolated install, native back, file picker, explicit billing/push gates, no Netlify.');
