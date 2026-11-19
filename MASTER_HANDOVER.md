@@ -1,7 +1,17 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 18 November 2026 (Europe/London) — Ads M02 Adsterra code staged behind hard release lock, no deployment_
+_Last updated: 18 November 2026 (Europe/London) — Ads M03 Google Analytics retired in staging, no production deployment_
 
 
+
+## ADS M03 — Google Analytics retired in STAGING (18 November 2026)
+
+Owner explicitly approved removing GA4 and its opt-in interface because Netlify Web Analytics already reports website traffic. **Branch** `prep/site-ads-m03-remove-ga4-20261118` based on Ads M02. Removed GA loader from all eleven public HTML entrypoints where it existed, removed old GA4 consent/settings from privacy and site owner profile, deleted `assets/analytics-consent.js` and obsolete opt-in tests; public package allowlist now excludes the file. Replaced owner traffic panel with Netlify and retained Google Search Console. W.NE, Google Drive OAuth and Search Console remain untouched; no alternative browser analytics added.
+
+The same branch retains three owner-provided Adsterra standard-banner units **hard locked with `RELEASE_ENABLED=false`**, with advertising consent distinct from retired analytics. Google AdSense publisher/ads.txt stays separate. Netlify server-side analytics does not automatically track SPA tab switches. Privacy explains prior Google-collected data and existing cookies aren't automatically erased.
+
+**NO live deployment, no Netlify build, no Google account/property deletion, no Supabase or APK changes.** Exact implementation SHA `266193fcd79ce3f919aaf41968a571755c7499a1` passed both no-deploy static/strict package and real Chromium checks: [GitHub Actions run 44425682905](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44425682905). Verify exact branch HEAD CI after subsequent test/docs-only changes before release. Future single consolidated deployment requires owner release approval and live page/network smoke check.
+
+**Full handover:** `docs/ADS_M03_GA4_RETIREMENT_HANDOVER_2026-11-18.md`. **Next:** verify exact-head CI and include the GA4 retirement only in the curated controlled release, with the dormant Adsterra adapter still disabled until separate advertising suitability/consent approval.
 
 ## ADS M02 — Adsterra standard banner integration STAGED / LOCKED (18 November 2026)
 
