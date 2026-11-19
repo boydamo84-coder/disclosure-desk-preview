@@ -1,5 +1,9 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — M76 personal Who claim assessment and M71 release safeguard STAGED, QA green, NO DEPLOY_
+_Last updated: 19 November 2026 — M05 Adsterra News pilot_
+
+## Ads M05 — Isolated one-banner News pilot (19 November 2026)
+
+M05 tests the real Adsterra loader offline and stages a standalone public News page for a separate hostname. One 300 × 250 banner appears below six articles after opt-in. The existing M76 website package and manifest remain byte-identical. Hosting, publisher approval and creative checks for the pilot hostname are pending. See [the M05 handover](docs/ADS_M05_ISOLATED_NEWS_PILOT_2026-11-19.md).
 
 ## M76 — individual claim evidence worksheet, 4-width Chromium VERIFIED; M71 guard included, STAGED ONLY (19 November 2026)
 
