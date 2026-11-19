@@ -62,7 +62,7 @@ function pump(){
   script.async=false;script.src=ROOT+unit.key;
   const finish=()=>{loaderBusy=false;pump()};
   script.addEventListener('load',finish,{once:true});
-  script.addEventListener('error',()=>{wrap.closest('.dd-adsterra-slot')?.remove();finish()},{once:true});
+  script.addEventListener('error',()=>{const slot=wrap.closest('.dd-adsterra-slot');if(slot){slot.hidden=true;slot.dataset.ddAdLoadFailed='1'}finish()},{once:true});
   wrap.append(script);
   return;
  }
