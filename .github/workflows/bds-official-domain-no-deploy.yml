@@ -1,0 +1,20 @@
+name: Boyd Digital Studios official link - no deploy
+on:
+  push:
+    branches:
+      - prep/bds-official-domain-link-nov19
+      - android/m96m-bds-official-link-nov19
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  link-contract:
+    name: Official domain / no deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate site About and footer
+        run: node scripts/test_bds_official_link.cjs
+      - name: Validate Android Desk menu, URLs and external browser
+        if: startsWith(github.ref_name, 'android/')
+        run: node scripts/test_bds_official_link.cjs --android
