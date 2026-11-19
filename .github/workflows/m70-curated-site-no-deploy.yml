@@ -35,6 +35,14 @@ jobs:
           const current=fs.readFileSync('/tmp/dd-current-public-manifest.json');
           const json=JSON.parse(current.toString('utf8'));
           console.log(JSON.stringify({liveManifestSHA256:crypto.createHash('sha256').update(current).digest('hex'),publishedFiles:json.files?.length,publishedBytes:json.totalBytes,hasM68SourceOutreach:json.files?.some(x=>x.path==='assets/source-outreach-digest-m68.js'),hasM68WhoProgrammes:json.files?.some(x=>x.path==='assets/who-international-programmes-m68.js'),type:json.type},null,2));
+          const expected=JSON.parse(fs.readFileSync('.release-staging/public-site/release-manifest.json','utf8'));
+          const expectedMap=new Map(expected.files.map(x=>[x.path,x]));
+          const liveMap=new Map(json.files.map(x=>[x.path,x]));
+          const onlyExpected=expected.files.filter(x=>!liveMap.has(x.path)).map(x=>({path:x.path,bytes:x.bytes}));
+          const onlyPublished=json.files.filter(x=>!expectedMap.has(x.path)).map(x=>({path:x.path,bytes:x.bytes}));
+          const changed=expected.files.filter(x=>liveMap.has(x.path)&&(x.sha256!==liveMap.get(x.path).sha256||x.bytes!==liveMap.get(x.path).bytes)).map(x=>({path:x.path,expectedBytes:x.bytes,liveBytes:liveMap.get(x.path).bytes}));
+          console.log('PUBLISHED_DIFF',JSON.stringify({publishedFiles:json.files?.length,publishedBytes:json.totalBytes,expectedFiles:expected.files.length,expectedBytes:expected.totalBytes,onlyExpected,onlyPublished,changed},null,2));
+
           NODE
           else
             echo 'Remote site manifest could not be read; no deployment attempted'
