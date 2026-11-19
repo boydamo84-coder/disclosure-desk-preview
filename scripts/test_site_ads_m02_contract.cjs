@@ -11,7 +11,7 @@ const build=read('scripts/build_public_release.cjs');
 assert.match(js,/const RELEASE_ENABLED=false;/,'Live ad provider MUST remain locked');
 assert.match(js,/advertising-consent-v1/);
 assert.match(js,/choice!=='accepted'/);
-assert.doesNotMatch(js,/createElement\\(['"]iframe|srcdoc|setAttribute\\(['"]sandbox/,'No additional publisher-created iframe is allowed');
+for(const forbidden of ["createElement('iframe'",'createElement("iframe"','srcdoc',"setAttribute('sandbox'"]) assert(!js.includes(forbidden),'No extra iframe: '+forbidden);
 assert.match(js,/script\\.src=LOCAL_TEST\\?/);
 assert.match(js,/ad-m04-direct-banner-test\\.html/);
 assert.match(js,/window\.top!==window/);
