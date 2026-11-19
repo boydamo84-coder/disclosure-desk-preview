@@ -1,5 +1,14 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — M96L Profile-local login APK verified, real Galaxy acceptance pending_
+_Last updated: 19 November 2026 (Europe/London) — M96L/M96K owner phone acceptance; M96M official BDS link staged_
+
+## Milestone 96M — Boyd Digital Studios official link STAGED; TWO REAL GALAXY FIXES ACCEPTED (19 November 2026)
+
+**Owner's phone feedback (19 November):** On the Galaxy, **M96L Profile login works, staying on Profile** rather than navigating to Boards; **M96K chat keyboard fix also works**, revealing latest chat history when the keyboard is open. These two particular owner-device acceptance checks are **PASS**. Prior handover lines saying those exact behaviours still await Galaxy verification are historical and superseded by this explicit result. Do not infer all unrelated flows (password reset, cross-account push, offline recovery etc.) passed.
+
+**New staging branch** `android/m96m-bds-official-link-nov19` from successfully built M96L. The embedded web snapshot's Explore/About and footer now point to `https://boyddigitalstudios.com/`. The Android-native Desk menu adds `Boyd Digital Studios website` as a browser-open link. Existing premium navy/gold navigation, full News, Profile-local auth, chat keyboard fix, the Disclosure Desk HOME origin and Ko-fi support remain unchanged. No old Wix link was present in the checked entrypoints; no wholesale URL substitution or site-home migration.
+
+**No APK built or distributed** for M96M. No new versionCode/package bump yet, because it is not a release candidate. Static checks and staging-only no-deploy workflow were added; inspect exact-head result and perform subsequent Gradle/Chromium + real-device external-link testing before any beta package. No Play Store, Netlify, Supabase or advertising changes. Full details: `docs/ANDROID_M96M_STUDIO_DOMAIN_HANDOVER_2026-11-19.md`. Web link change is held separately in `prep/bds-official-domain-link-nov19`; do not copy the entire newer website tree into the APK.
+
 
 ## Milestone 96L — Profile authentication STAYS on Profile, APK VERIFIED (19 November 2026)
 
