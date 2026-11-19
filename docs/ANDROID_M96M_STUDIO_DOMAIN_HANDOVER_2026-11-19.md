@@ -1,6 +1,6 @@
 # Android M96M — official Boyd Digital Studios link; M96L/M96K owner acceptance
 Date: 19 November 2026 (Europe/London)
-Status: CODE STAGED — NOT BUILT OR INSTALLED AS M96M, NOT PUBLISHED TO PLAY
+Status: PRIVATE M96M APK BUILT AND VERIFIED IN GITHUB ACTIONS; NOT PHONE-TESTED OR PUBLISHED TO PLAY
 
 ## Parent and scope
 - Branch `android/m96m-bds-official-link-nov19` starts from verified `android/m96l-profile-auth-stay-nov19`.
@@ -22,3 +22,12 @@ Status: CODE STAGED — NOT BUILT OR INSTALLED AS M96M, NOT PUBLISHED TO PLAY
 
 ## Separation from current website
 The Android M96L snapshot is not identical to 19 November `production`; newer Who's Who and international programme content must be curated into a later APK release separately. Do not merge the whole `production` tree into this APK merely to carry the domain link.
+
+## 19 Nov 2026 — M96M exact-code build verified
+- Candidate SHA: `da8cdf51d4a6a180bac92bceafde77719a0d297c` (two QA-only fixes corrected inherited regex expectations from M96L to M96M, without changing shipped behaviour).
+- [GitHub Actions full Android build run 44472987172](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44472987172): **SUCCESS**. Strict public snapshot/package checks, source contracts including official-link destination and Android external browser, Chromium navigation/Profile/Chat regressions, pure Java Share/inbox/notification gates, Android SDK, Gradle assembleDebug and artifact publishing all succeeded.
+- [Verified private ZIP artifact 14505172358](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44472987172/artifacts/14505172358), name `DisclosureDesk-M96M-STUDIO-LINK-BETA`, size 10,102,405 bytes, expires 3 December 2026.
+- Debug package `com.boyddigitalstudios.disclosuredesk.beta.m96m`, versionCode 31, version `0.14.7-m96m-studio-beta-preview`; installs beside M96L. Inherits working Profile login and Chat keyboard source, but **new M96M studio-link tap behaviour on a real Galaxy is NOT yet verified**.
+- Link-only no-deploy workflow also passed at candidate SHA [44472985944](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44472985944). An earlier build run [44472756367](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44472756367) failed only on outdated M96L test expectations; it is superseded by the green exact-code run.
+- **Release gate:** External HTTP request to `https://boyddigitalstudios.com/` could not be independently verified from this environment; user/owner should open the destination in their actual browser and confirm certificate and correct website before public promotion. Keep `production`, Netlify and Play unchanged; a private APK build does not publish to Play.
+- **Next Galaxy quick test:** install M96M alongside M96L, Desk → Boyd Digital Studios website (external browser) → Android Back, Explore → About studio link, footer link, Profile sign-in stays on Profile, Chat/Gboard latest messages. No need to share passwords or private chats.
