@@ -1,5 +1,14 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 13 November 2026 (Europe/London) — M95 restored navigation APK verified_
+_Last updated: 19 November 2026 (Europe/London) — M96 account-safe notifications APK verified; Samsung acceptance pending_
+
+## Milestone 96 — Account-safe notifications APK VERIFIED (19 November 2026)
+
+- **Latest verified Android APK:** `android/m96-account-safe-notifications-nov19` based on M95 restored premium midnight-navy/gold editorial site navigation; M94 native replacement dock and headline-only News remain **disabled**. Separate `com.boyddigitalstudios.disclosuredesk.beta.m96`, versionCode **28**, `0.14.4-m96-private-beta-preview`; parallel install preserves M95/M94 device-only data.
+- Added private Chat push gates for intended recipient vs current signed-in account, per-recipient+pair notification IDs, and neutral push copy without private messages. Device notification centre stores up to 60 generic local entries for 14 days, with read/unread and Mark all read; clear private chat entries and active OS chat notifications on logout/account change. News and Video alerts remain independent.
+- **CI BUILT AND PASSED** on code SHA `a33a66929b5312d6616ff8e05ca8d7023f349f88`: [GitHub Actions 44436204808](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44436204808). Source contracts, full inherited Chromium tests, offline JVM parsing/account gate, Android SDK/Gradle and APK artifact upload all green. [M96 private beta artifact 14489367208](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44436204808/artifacts/14489367208) exists. Earlier M96 test/build attempts were failures, but this exact code run succeeded.
+- **NOT yet checked on Galaxy S24 Ultra:** install parallel, sign in, check premium original bottom navigation / full News, profile avatar+Support, Desk>Notification centre, safe account A/B switching, native Android Back, reply keyboard, video fullscreen, offline Archive/Research Inbox. Secure server-side FCM device registration/authenticated delivery still separate; a successful APK build does not prove push end-to-end.
+- **Important website snapshot distinction:** current production/curated research website line diverged from the M95/M96 Android snapshot. The 57-person Who's Who, Vatican/international programmes, government enquiry tracker, and closed M67 voting pilot are not automatically bundled into the M96 APK. Integrate only carefully reviewed website files in a future Android release; don't wholesale merge hundreds of commits. No Netlify deployment, Supabase writes, Google Play publication or ads activation for M96.
+- **Detailed handover:** `docs/ANDROID_M96_ACCOUNT_SAFE_NOTIFICATIONS_HANDOVER_2026-11-19.md`. Next proposed stage: M97 account-safe Saved Research hub; preserve editorial design and test before distributing.
 
 ## Milestone 95 — Restored premium editorial navigation and full News (13 November 2026)
 
