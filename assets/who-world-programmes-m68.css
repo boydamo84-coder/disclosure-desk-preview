@@ -1,0 +1,33 @@
+/* M68 Who's Who institutional directory — separate from evidence votes or person profiles. */
+#ddWhoProgrammes{scroll-margin-top:90px;margin-top:22px;overflow-wrap:anywhere}
+#ddWhoProgrammes h2{margin-bottom:10px}
+#ddWhoProgrammes .dd-who-programme-quick{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+#ddWhoProgrammes button[data-dd-who-programme-jump]{min-height:44px;padding:9px 12px;border:1px solid #997e54;border-radius:10px;background:#26394a;color:#f7dcaa;font:700 12px/1.4 system-ui;cursor:pointer}
+#ddWhoProgrammes button[data-dd-who-programme-jump]:focus-visible{outline:3px solid #f4d5a0;outline-offset:2px}
+#ddWhoProgrammesDisclosure{border:1px solid #567082;border-radius:12px;background:#0b1f30;padding:14px;margin:15px 0}
+#ddWhoProgrammesDisclosure>summary{color:#f2d5a1;min-height:44px;font-weight:800;font-size:15px;cursor:pointer}
+#ddWhoProgrammesDisclosure[open]>summary{margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #415b6c}
+#ddWhoProgrammes .dd-who-programme-controls{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+#ddWhoProgrammes .dd-who-programme-controls label{display:block;flex:1 1 240px;min-width:0;font-size:12px;font-weight:700;color:#c7d6e3}
+#ddWhoProgrammes .dd-who-programme-controls input,
+#ddWhoProgrammes .dd-who-programme-controls select{display:block;width:100%;margin-top:7px;min-height:44px;box-sizing:border-box;border:1px solid #698091;border-radius:9px;padding:10px;background:#10283b;color:#f5f8fa;font:14px system-ui}
+#ddWhoProgrammeCards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:14px;min-width:0}
+.dd-who-programme-card{border:1px solid #476175;border-radius:12px;background:#142a3c;padding:16px;min-width:0;scroll-margin-top:85px;overflow-wrap:anywhere}
+.dd-who-programme-card .dd-who-programme-head{display:flex;flex-wrap:wrap;gap:9px;justify-content:space-between;align-items:flex-start}
+.dd-who-programme-card h3{font-size:16px;line-height:1.4;margin:0;flex:1 1 190px;color:#f2e3c4}
+.dd-who-programme-card p{font-size:13px;line-height:1.6;margin:9px 0}
+.dd-who-programme-kind{font-size:10px;line-height:1.4;color:#f2d5a1;border:1px solid #927958;border-radius:7px;padding:4px 7px;font-weight:700}
+.dd-who-programme-card details{margin:12px 0;border-top:1px solid #425c70;padding-top:10px}
+.dd-who-programme-card details>summary{font-size:12px;line-height:1.6;color:#f2d5a1;cursor:pointer;font-weight:750}
+.dd-who-programme-source-row,.dd-who-programme-comparison-row{margin:10px 0;border-left:2px solid #ae8b59;padding:4px 0 4px 12px}
+.dd-who-programme-comparison-row h4{margin:5px 0;color:#f0d39d;font-size:13px}
+.dd-who-programme-card .dd-who-programme-link{font-size:12px;font-weight:700;color:#f5dba7}
+.dd-who-programme-caution{padding:11px 12px;border-left:3px solid #edc681;border-radius:8px;background:#253746}
+#ddWhoProgrammeResearch{margin-top:20px;border:1px solid #52697d;border-radius:12px;background:#10263a;padding:13px 15px}
+#ddWhoProgrammeResearch summary{color:#f2d5a1;font-weight:750;cursor:pointer;min-height:36px}
+#ddWhoProgrammeLeads{padding-left:20px}
+#ddWhoProgrammeLeads li{padding:9px 0;border-bottom:1px solid #2e485e;font-size:13px}
+#ddWhoProgrammeLeads li:last-child{border-bottom:0}
+#ddWhoProgrammes .dd-who-programme-link:focus-visible,
+#ddWhoProgrammes :is(input,select,summary,a):focus-visible{outline:3px solid #f0d399;outline-offset:3px}
+@media(max-width:650px){#ddWhoProgrammes{padding:13px}#ddWhoProgrammesDisclosure{padding:11px}.dd-who-programme-card{padding:12px}#ddWhoProgrammeCards{grid-template-columns:minmax(0,1fr)}}
