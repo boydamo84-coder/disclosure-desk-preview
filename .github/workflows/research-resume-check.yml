@@ -128,8 +128,8 @@ jobs:
           node --check scripts/test_research_library_chromium_20261108.cjs
           node --check research/research-site-nav.js
           node --check scripts/test_research_nav_avatar_chromium_20261108.cjs
-          node --check assets/analytics-consent.js
-          node --check scripts/test_analytics_consent_chromium_20261108.cjs
+          node --check scripts/test_ga4_retirement_20261118.cjs
+          node scripts/test_ga4_retirement_20261118.cjs
           node --check scripts/audit_public_pages_chromium_20261108.cjs
           node --check scripts/audit_full_site_chromium_20261108.cjs
           node --check scripts/test_m28_public_workflows_chromium_20261108.cjs
@@ -244,7 +244,7 @@ jobs:
           node scripts/test_research_review_chromium_20261108.cjs
           node scripts/test_research_library_chromium_20261108.cjs
           node scripts/test_research_nav_avatar_chromium_20261108.cjs
-          node scripts/test_analytics_consent_chromium_20261108.cjs
+          node scripts/test_ga4_retirement_chromium_20261118.cjs
           node scripts/audit_public_pages_chromium_20261108.cjs
           node scripts/test_browser_release_smoke.cjs
           node scripts/test_comment_action_rail_chromium_20261108.cjs
