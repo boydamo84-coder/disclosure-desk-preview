@@ -36,12 +36,15 @@ const people=read('assets/people-directory.js');
 const builder=read('scripts/build_public_release.cjs');
 const cfg=read('assets/community-test-config.js');
 const ad=read('assets/site-adsterra-m02.js');
+const guard=read('scripts/guard_official_deploy.cjs');
 for(const name of ['fetch(','XMLHttpRequest','navigator.sendBeacon','localStorage','sessionStorage','indexedDB','WebSocket','createClient(','form.submit('])
  assert(!js.includes(name),'Worksheet cannot make network or storage requests: '+name);
 assert(html.includes('/assets/who-private-worksheet-m76.js?v=m76-local-only'));
 assert(html.indexOf('who-private-worksheet-m76.js')<html.indexOf('/assets/people-directory.js?v='));
 assert(people.includes('window.DDWhoPrivateWorksheetM76?.mountForPerson(person,host)'));
 assert(builder.includes("'who-private-worksheet-m76.js'"));
+assert(builder.includes("require('./guard_official_deploy.cjs')"),'M71 branch safety imported');
+assert(guard.includes("context==='production'")&&guard.includes("branch!=='production'"),'Refuse wrong Netlify branch');
 assert(!html.includes('who-evidence-ballot-m64.js'),'Do not ship M64 client voting');
 assert(!builder.includes('who-community-approvals-m64.json'),'Do not ship claim approval registry');
 assert(cfg.includes('whoEvidenceBallots:false'));

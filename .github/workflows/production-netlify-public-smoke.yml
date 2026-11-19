@@ -18,6 +18,10 @@ permissions:
 jobs:
   published-tree-smoke:
     runs-on: ubuntu-latest
+    # Match Netlify's actual published context. A preview-context bundle includes
+    # internal R3 QA assets which must never ship on the public site.
+    env:
+      CONTEXT: production
     timeout-minutes: 9
     steps:
       - uses: actions/checkout@v4
@@ -54,7 +58,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for path in / /who-is-who /world-uap-programmes /sources /research/wne.html /assets/who-international-programmes-m68.js /assets/source-outreach-digest-m68.js; do
+          for path in / /who-is-who /world-uap-programmes /sources /research/wne.html /assets/who-international-programmes-m68.js /assets/source-outreach-digest-m68.js /assets/who-private-worksheet-m76.js; do
             curl -fsSL --connect-timeout 6 --max-time 18 "https://uapdisclosuredesk.com$path" -o /dev/null
             echo "HTTP OK: $path"
           done
@@ -62,4 +66,5 @@ jobs:
           curl -fsSL --max-time 20 'https://uapdisclosuredesk.com/who-is-who' -o /tmp/dd-live-who.html
           grep -q 'https://boyddigitalstudios.com/' /tmp/dd-live-home.html
           grep -q 'ddWhoInternationalProgrammes' /tmp/dd-live-who.html
-          echo 'PASS: published public site paths, studio credit and M68 directory'
+          grep -q 'who-private-worksheet-m76.js' /tmp/dd-live-who.html
+          echo 'PASS: published public site paths, private M76 worksheet, studio credit and M68 directory'

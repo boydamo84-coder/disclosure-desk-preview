@@ -24,6 +24,21 @@ jobs:
           node --check assets/people-directory.js
           node scripts/test_who_m76_private_worksheet_contract.cjs
           node scripts/test_m70_release_guard.cjs
+      - name: Refuse stale-branch Netlify publication (no actual deploy)
+        shell: bash
+        run: |
+          set -euo pipefail
+          NETLIFY=true CONTEXT=production BRANCH=production node scripts/guard_official_deploy.cjs
+          NETLIFY=true CONTEXT=deploy-preview BRANCH=feature/synthetic node scripts/guard_official_deploy.cjs
+          if NETLIFY=true CONTEXT=production BRANCH=main node scripts/guard_official_deploy.cjs; then
+            echo 'ERROR: old main branch could publish to production'
+            exit 1
+          fi
+          if NETLIFY=true CONTEXT=production BRANCH=prep/retired node scripts/guard_official_deploy.cjs; then
+            echo 'ERROR: stale branch could publish to production'
+            exit 1
+          fi
+          echo 'M71/M76 PASS: only official production branch may publish'
       - name: Build public-only package offline; keep votes OFF
         run: |
           node scripts/build_public_release.cjs
