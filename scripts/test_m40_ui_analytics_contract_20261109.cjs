@@ -23,7 +23,7 @@ assert.match(site,/#mapPage #officialFootageSection/);
 assert.match(site,/>Netlify dashboard<\/a>/);
 assert.match(site,/>Search Console<\/a>/);
 assert.match(privacy,/id="website-analytics"/);
-assert.doesNotMatch(site,/analytics-consent\\.js|data-dd-analytics-open|dd-analytics-device-status/);
+assert.doesNotMatch(site,/analytics-consent[.]js|data-dd-analytics-open|dd-analytics-device-status/);
 assert.match(privacy,/data-dd-advertising-open/);
 assert.doesNotMatch(ui,/\bfetch\(/,'M40 UI must not add network writes or tracking');
 assert.doesNotMatch(ui,/\.innerHTML\s*=\s*[^'"]/,'M40 must not rewrite document HTML');
