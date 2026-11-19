@@ -131,5 +131,6 @@ public final class DiscoveryWorker extends Worker {
             .setSmallIcon(android.R.drawable.ic_menu_search).setContentTitle(title).setContentText(message).setStyle(new Notification.BigTextStyle().bigText(message))
             .setContentIntent(intent).setAutoCancel(true).build();
         mgr.notify(notificationId,notice);
+        NotificationInboxStore.record(ctx,type,recordId,"",type.equals("test")?"Test alert":title+": "+message);
     }
 }
