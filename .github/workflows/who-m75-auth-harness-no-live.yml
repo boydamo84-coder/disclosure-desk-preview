@@ -1,0 +1,35 @@
+name: Who M75 isolated Supabase Auth acceptance harness - NO LIVE CALLS
+on:
+  push:
+    branches: [prep/who-m75-real-auth-harness-20261119]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-integration-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test real Auth/RLS harness with in-memory mocked server ONLY
+        run: |
+          node --check scripts/who-m75-supabase-auth-preflight.cjs
+          node scripts/test_who_m75_supabase_auth_preflight.cjs
+          node scripts/test_who_m73_editorial_approval.cjs
+          node scripts/test_who_m72_hardening_contract.cjs
+          grep -q 'whoEvidenceBallots:false' assets/community-test-config.js
+          node -e "if(require('./data/who-community-approvals-m64.json').approvedClaims.length)process.exit(1)"
+      - name: Public allowlisted bundle excludes credentials and QA tools
+        env:
+          CONTEXT: production
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          test ! -e .release-staging/public-site/scripts/who-m75-supabase-auth-preflight.cjs
+          test ! -e .release-staging/public-site/scripts/test_who_m75_supabase_auth_preflight.cjs
+          grep -q 'whoEvidenceBallots:false' .release-staging/public-site/assets/community-test-config.js
