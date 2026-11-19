@@ -1,7 +1,17 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — GA4 removal promoted to production branch; Adsterra awaits publisher approval_
+_Last updated: 19 November 2026 (Europe/London) — M67 Who evidence voting safely staged; Android M95 is next_
 
 
+
+## M67 — Who's Who voting code cleanly staged on current production (19 November 2026)
+
+**Branch:** `prep/who-m67-production-voting-integration-20261119` from current `production` at `ca302b2e99a9321279bc711a817ad833cb041851`, **NOT DEPLOYED**. Ported only M64 claim-scoped ballot module/CSS, independent approved-claim registry (EMPTY), claim ID render hook, required strict allowlist and approved original M63/M65/M66 draft SQL + fixtures. Live `whoEvidenceBallots:false` remains OFF; no real Supabase `dd_who_m63_*` tables exist (connected read-only inventory confirms), no member ballot or production migration. No Who M66 historical branch merge, no ads enablement or APK update. Existing source-first 57 profiles/23 claims, global site votes, W.NE, GA4 removal and premium navigation preserved.
+
+The new five-criterion member interface distinguishes zero from 'Not enough information', only attaches to two-editor-approved exact incident claim/version and primary source, never scores a person's honesty, and explains frozen-aggregate withdrawal limits up front. The M63 SQL remains private user-owned RLS ballots; M65 release requires thresholds/two reviewers; M66 closes each published version and auto-retires its public aggregate on a withdrawal (policy trade-off requiring explicit approval).
+
+**Offline QA:** Three independent jobs in `.github/workflows/who-m67-closed-voting-no-deploy.yml`: source + strict package, Chrome with two SYNTHETIC accounts at 320/393/820/1280, disposable PostgreSQL 17 auth/RLS and aggregate/withdrawal fixtures. [Green CI run 44431280786](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44431280786) at `1208f28ad033aa3b03a00ec0b19d95a38045b2c1` passed all 3, prior to copy/documentation updates; check exact HEAD again. Still needs independent SQL audit, actual two-account nonproduction sign-in/withdrawal tests, two approved sourced claims, human privacy review, owner promotion and Samsung APK acceptance before live activation.
+
+**Full:** `docs/WHO_M67_PRODUCTION_INTEGRATION_HANDOVER_2026-11-19.md`. **Next track:** back to Android APK from M95 restored premium design, do not bring M94 replacement nav back.
 
 ## Ads M04 — Production GA4 release + Adsterra publisher-terms gate (19 November 2026)
 
