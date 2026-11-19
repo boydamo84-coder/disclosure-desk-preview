@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Disclosure Desk M69 synthetic Profile auth — NO LIVE ACCOUNT</title>
+<link rel="stylesheet" href="/assets/community-polish.css?v=m69-profile-test">
+<style>body{font:14px system-ui;background:#0b1b29;color:#f5ebdb;padding:14px;margin:0}nav{display:flex;gap:12px}nav button{padding:12px}section{max-width:740px}button,input{font:inherit}button{min-height:44px}.tab.active{background:#d4b67e}#ddProfileGuest{margin-top:20px}.dd-profile-auth-form{display:grid;gap:10px;max-width:450px}.dd-profile-auth-form label{display:block}.dd-profile-auth-form input{width:100%;box-sizing:border-box;min-height:44px}.dd-profile-auth-actions{display:flex;gap:12px}.dd-profile-auth-form [hidden]{display:none}#ddProfileAuthStatus[data-state=error]{color:#ffb8b8}</style>
+<script>window.__boardsVisited=0;window.__fakeAuth={calls:[],user:null,callbacks:[]};
+window.DD_COMMUNITY_TEST_CONFIG={environment:'test',url:'https://example.invalid',publishableKey:'synthetic'};
+const fake=window.__fakeAuth;
+const listQuery=()=>{const q={select(){return q},order(){return q},eq(){return q},limit:async()=>({data:[],count:0,error:null}),maybeSingle:async()=>({data:null,error:null})};return q};
+window.supabase={createClient:()=>({
+ auth:{
+  getUser:async()=>({data:{user:fake.user},error:null}),
+  onAuthStateChange(cb){fake.callbacks.push(cb);return {data:{subscription:{unsubscribe(){}}}}},
+  signInWithPassword:async({email,password})=>{
+   fake.calls.push({action:'signin',email});
+   if(password!=='correct-pass-123')return {data:{session:null},error:{message:'Invalid login credentials'}};
+   fake.user={id:'synthetic-owner',email,is_anonymous:false,email_confirmed_at:'2026-11-19',user_metadata:{dd_requested_username:'Tester'}};
+   for(const fn of fake.callbacks)fn('SIGNED_IN',{user:fake.user});
+   return {data:{session:{user:fake.user}},error:null};
+  },
+  signUp:async({email,password,options})=>{
+   fake.calls.push({action:'signup',email,username:options?.data?.dd_requested_username,redirect:options?.emailRedirectTo});
+   return {data:{session:null},error:null};
+  },
+  resetPasswordForEmail:async(email,opts)=>{
+   fake.calls.push({action:'reset',email,redirect:opts?.redirectTo});return {data:{},error:null};
+  },
+  signOut:async()=>{fake.user=null;for(const fn of fake.callbacks)fn('SIGNED_OUT',null);return {error:null}}
+ },
+ rpc:async(method)=>({data:method==='dd_is_comment_moderator'?false:[],error:null}),
+ from:()=>listQuery()
+})};
+</script>
+<script defer src="/assets/research-hub.js?v=m69-profile-test"></script>
+</head><body><nav aria-label="Synthetic navigation">
+<button class="tab active" data-tab="profilePage">Profile</button>
+<button class="tab" data-tab="boards" onclick="window.__boardsVisited++">Boards</button>
+</nav>
+<section id="profilePage">
+ <h1>My profile — synthetic auth only</h1>
+ <div id="ddProfileGuest"><h2>Sign in to your Research Hub</h2>
+ <div class="dd-profile-actions">
+ <button type="button" id="ddProfileSignIn">Sign in</button>
+ <button type="button" id="ddProfileRegister">Create account</button>
+ </div></div>
+ <div id="ddProfilePrivate" hidden><h2>My account</h2></div>
+ <button id="ddProfileRefresh">Refresh</button>
+ <button id="ddProfileSignOut">Sign out</button>
+ <form id="ddProfilePasswordForm"></form>
+</section>
+<script>
+for(const id of ['ddProfileEmail','ddProfileDisplayName','ddProfileVerification','ddProfileStatus','ddProfilePasswordStatus',
+ 'ddProfileFilesCount','ddProfileBoardsCount','ddProfileWitnessCount','ddProfileLikesReceived','ddProfileDislikesReceived',
+ 'ddProfileReactionBreakdown','ddProfileAdmin','ddProfileFilesList','ddProfileTrashList','ddProfileBoardsList',
+ 'ddProfileCommentsList','ddProfileWitnessList','ddAdminStatus','ddAdminHiddenComments','ddAdminHiddenLive',
+ 'ddAdminHiddenWitness','ddAdminPublicWitness','ddProfileNewPassword','ddProfileConfirmPassword']){
+ const el=document.createElement(id.startsWith('ddProfileNewPassword')||id.startsWith('ddProfileConfirmPassword')?'input':'div');
+ el.id=id;el.hidden=!['ddProfileStatus'].includes(id);document.getElementById('profilePage').append(el);
+}
+</script>
+</body></html>

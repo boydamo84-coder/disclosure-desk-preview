@@ -1,0 +1,53 @@
+name: M70 curated website release - NO DEPLOY
+on:
+  push:
+    branches:
+      - release/website-m70-curated-20261119
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-and-strict-public-bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify M70 source scope and legacy-release locks
+        run: |
+          node scripts/test_m70_release_guard.cjs
+          node scripts/test_bds_official_link.cjs
+          node scripts/test_m69_profile_auth_contract.cjs
+          node scripts/test_who_m68_international_contract.cjs
+          node scripts/test_research_hub.cjs
+      - name: Build strict allowlisted bundle for inspection ONLY
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_m70_release_guard.cjs --bundle
+          node scripts/test_public_release_package.cjs
+          node scripts/test_search_indexing.cjs
+  browser-multiwidth:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install real Chromium driver
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+      - name: Run read-only synthetic website regressions
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-m70-qa.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          for i in $(seq 1 20); do
+            if curl -fsS --max-time 2 http://127.0.0.1:4173/index.html >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/test_who_m68_programmes_outreach_chromium.cjs
+          node scripts/test_m69_profile_auth_chromium.cjs
+          node scripts/test_home_navigation_chromium.cjs
+          node scripts/test_browser_release_smoke.cjs
