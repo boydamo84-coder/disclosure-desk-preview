@@ -103,6 +103,12 @@
       }
       // Replace skeleton atomically; no HTML parsing from external JSON.
       list.replaceChildren(...cards);
+      // Hash navigation may start before asynchronous status cards exist.
+      const targetId=decodeURIComponent(location.hash.slice(1));
+      if(/^dd-source-enquiry-[a-z0-9-]{4,80}$/.test(targetId)){
+        const target=document.getElementById(targetId);
+        if(target)requestAnimationFrame(()=>target.scrollIntoView({block:'start',behavior:'instant'}));
+      }
       update.textContent='Research log last updated '+longDate(d.lastUpdated)+
         ' · Status verified manually, not live government tracking.';
     }).catch(error=>{
