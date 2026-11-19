@@ -1,5 +1,18 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — M73 two-editor signed claim review process tested; LIVE WHO VOTING OFF_
+_Last updated: 19 November 2026 (Europe/London) — M74 parallel PostgreSQL security passed; LIVE SUPABASE/WHO VOTING UNCHANGED_
+
+## M74 — concurrent PostgreSQL sessions and isolated fake identities: GREEN, STAGED ONLY (19 November 2026)
+
+**Branch:** `prep/who-m74-parallel-session-security-20261119`, inherited from EXPERIMENTAL M73/M72/M67, not current public `production`. The official M70 website remains at SHA `9fcaec4e602331b9a557937f6ee15ddd9a3f5ff2`; M71 deployment guard remains staged separately. Never merge this full experimental branch into current production.
+
+**Actual test result:** [GitHub Actions run 44569532917](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44569532917), tested exact source code commit `f5b3480d2b48a844d54c3f3fcdbc6aa84d85fa82`, **both no-deploy jobs passed**: existing M72/M73 contract, verified strict 129-file public package with claim voting/Adsterra disabled; isolated PostgreSQL 17 at `127.0.0.1:5432` with 24 fictional ballots, two claim versions and two fictional reviewer identities. Two independent concurrent `psql` connections executed publication-SHARE-lock first versus member-UPDATE first. The publisher-first race denied the belated score change; the member-first race recomputed and rejected a stale reviewed tally without exposing snapshots. A/B synthetic JWT-setting role requests could not see/withdraw another user's private ballot; anonymous signed-in claim and guest checks passed. No Supabase credential or API was used; this is genuine concurrent PostgreSQL behaviour, **NOT** genuine Supabase Auth two-account acceptance.
+
+**Connected project assessment:** Supabase connection lists live **Disclosure Desk** and one pre-existing, unrelated personal project. Neither is authorized for sandbox migrations or test-user creation. M74 did **NOT** create a project, modify either project, create real test accounts, run Netlify, build APK, touch Google Drive or enable advertising. To complete real Auth/Data API tests, use a NEW owner-designated isolated Supabase project; project creation may cost money and needs an explicit organization selection. [GitHub issue #15](https://github.com/boydamo84-coder/disclosure-desk-preview/issues/15) tracks independent SQL audit, real two-account tests, anonymous/guest Data API, concurrency and privilege checks, withdrawal/retirement signoff and curated production release.
+
+**Current activation state:** `whoEvidenceBallots:false`, public approvals `approvedClaims:[]`, M73 reviewers only synthetic; no human claims approved. Adsterra `RELEASE_ENABLED=false`. The final irreversible withdrawal and automatic publication-retirement policy still requires explicit owner decision and independent privacy/security review. **No live change.**
+
+**Files:** `docs/WHO_M74_CONCURRENT_SECURITY_2026-11-19.md`, `.github/workflows/who-m74-parallel-session-no-deploy.yml`, `scripts/test_who_m74_concurrency.sh` and `scripts/fixtures/who-m74-{setup,assertions}.sql`. Next: only after owner selects/authorizes the dedicated nonproduction Supabase project, run genuine server-issued two-account Auth/RLS integration; do NOT do so on the live project.
+
 
 ## M73 — signed two-editor evidence-review gate and offline editor workflow: VERIFIED, STAGED ONLY (19 November 2026)
 

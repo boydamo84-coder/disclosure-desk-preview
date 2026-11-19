@@ -22,3 +22,11 @@ Who evidence voting stays `whoEvidenceBallots:false`, approval registry `approve
 - `scripts/test_who_m74_concurrency.sh`
 - `scripts/fixtures/who-m74-setup.sql`, `who-m74-assertions.sql`
 No Netlify, APK, live DB, member data or ads are modified.
+
+## Exact CI result and next stage
+
+- [M74 GitHub Actions 44569532917](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44569532917): **both jobs green** on source SHA `f5b3480d2b48a844d54c3f3fcdbc6aa84d85fa82`.
+- Verified terminal messages from disposable DB: "M74 SETUP PASS: two unpublished claims, 24 fictional ballots, two distinct reviewer roles" and "M74 PASS: both parallel race outcomes, RLS owner isolation, anonymous Auth denial and guest snapshot privacy".
+- Strict package passed: 129 allowlisted public files, excluded internal SQL/QA and local review scripts; M72 and M73 closed-voting tests passed.
+- Remaining true Supabase Auth and Data API testing, independent security review and policy/editor approvals are tracked at [M75 issue #15](https://github.com/boydamo84-coder/disclosure-desk-preview/issues/15).
+- No existing Supabase project was changed, no new project created, no real users or sample votes created, no Netlify build, APK deployment or Adsterra activation.
