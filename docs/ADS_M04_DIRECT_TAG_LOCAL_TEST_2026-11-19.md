@@ -32,3 +32,10 @@
 5. Only after explicit owner sign-off on all gates, create a new release with a reversible ad enablement switch and monitor actual traffic. Keep W.NE ad-free.
 
 **Current site remains on the previous GA4-removal production branch, no genuine Adsterra ads have been enabled.** 
+
+## Adsterra publisher-support response — confirmed 19 November 2026
+- Received in registered `boydamo84@gmail.com` from publisher support as a reply to the owner's iframe permission request, message ID `1a1f1691754250b6`.
+- Adsterra **refused publisher-created enclosing iframes**. The **original supplied Banner tags are the only supported implementation**. They also said there is **no contextual/cookieless tag**, and that UK/EU user consent responsibility belongs to the publisher (they defer to legal advisors).
+- They warned about any iframe changing visibility, interaction, click/impression attribution, dynamic resizing/redirects and cautioned that “more than one ad code is placed inside the same iframe or on the same page” may lead to suspension. **Clarify whether this prohibits the originally requested after-every-6-news-cards repeated placements (including the same 300×250 key), and whether one ad unit per route is required.**
+- Existing **M04 direct injection prototype passed synthetic mocked tests, not genuine Adsterra campaign tests**, and is still `const RELEASE_ENABLED=false`. Do NOT merge into website production or activate as-is because direct third-party JavaScript would execute in the same origin as member sessions/W.NE and dynamic insertion has not been proven vendor-compatible; UK consent/partners disclosures and multi-tag allowance remain unresolved.
+- Owner would like a cautious real-ad pilot when ready; **owner's “if it's ready” condition is not yet met.** Protect account research and privacy, trial one approved banner on a properly consented deployment only after the remaining gates. No change to Netlify, Supabase or Google Play made in this support response.
