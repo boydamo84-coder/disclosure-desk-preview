@@ -18,6 +18,10 @@ permissions:
 jobs:
   published-tree-smoke:
     runs-on: ubuntu-latest
+    # Match Netlify's actual published context. A preview-context bundle includes
+    # internal R3 QA assets which must never ship on the public site.
+    env:
+      CONTEXT: production
     timeout-minutes: 9
     steps:
       - uses: actions/checkout@v4

@@ -1,0 +1,46 @@
+name: M71 release-hygiene and production parity - NO DEPLOY
+on:
+  push:
+    branches:
+      - prep/m71-release-hygiene-20261119
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verified-published-context:
+    runs-on: ubuntu-latest
+    env:
+      CONTEXT: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify release workflows are read-only and source locks remain
+        run: node scripts/test_m71_release_hygiene.cjs
+      - name: Reproduce Netlify production public bundle WITHOUT deploying
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_m71_release_hygiene.cjs --production
+          node scripts/test_m70_release_guard.cjs --bundle
+          node scripts/test_public_release_package.cjs
+      - name: Verify published live manifest is byte-for-byte identical
+        run: |
+          set -euo pipefail
+          curl -fsSL --connect-timeout 6 --max-time 20 https://uapdisclosuredesk.com/release-manifest.json -o /tmp/m71-live-manifest.json
+          cmp .release-staging/public-site/release-manifest.json /tmp/m71-live-manifest.json
+          echo 'M71 PASS: live website manifest matches current production source'
+  isolated-preview-context:
+    runs-on: ubuntu-latest
+    env:
+      CONTEXT: deploy-preview
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prove internal R3 QA appears only in synthetic preview output
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_m71_release_hygiene.cjs --preview
+          node scripts/test_public_release_package.cjs
