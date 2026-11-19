@@ -71,3 +71,35 @@ jobs:
           node scripts/test_m69_profile_auth_chromium.cjs
           node scripts/test_home_navigation_chromium.cjs
           node scripts/test_browser_release_smoke.cjs
+
+  production-context-published-hash:
+    name: Verify exact public Netlify manifest in production context (READ ONLY)
+    runs-on: ubuntu-latest
+    env:
+      CONTEXT: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Reproduce Netlify production packaging; no deployment
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_m70_release_guard.cjs --bundle
+          node scripts/test_public_release_package.cjs
+      - name: Compare byte-for-byte manifest and key public source routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL --connect-timeout 6 --max-time 20 'https://uapdisclosuredesk.com/release-manifest.json' -o /tmp/live-m70.json
+          expected=$(sha256sum .release-staging/public-site/release-manifest.json | cut -d' ' -f1)
+          live=$(sha256sum /tmp/live-m70.json | cut -d' ' -f1)
+          echo "Expected Netlify production manifest $expected"
+          echo "Published Netlify production manifest $live"
+          test "$expected" = "$live"
+          curl -fsSL --max-time 20 'https://uapdisclosuredesk.com/' -o /tmp/live-m70-home.html
+          curl -fsSL --max-time 20 'https://uapdisclosuredesk.com/who-is-who' -o /tmp/live-m70-who.html
+          grep -q 'https://boyddigitalstudios.com/' /tmp/live-m70-home.html
+          grep -q 'ddWhoInternationalProgrammes' /tmp/live-m70-who.html
+          if grep -q 'who-evidence-ballot-m64.js' /tmp/live-m70-who.html; then exit 1; fi
+          echo 'PASS: exact M70 production bundle, BDS link, M68 catalogue, inactive member ballots'
