@@ -1,0 +1,65 @@
+name: Ads M04 direct tag with fake local creative QA — NO DEPLOY
+on:
+  push:
+    branches: [prep/site-ads-m04-direct-banner-local-test-20261119]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-and-release-lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check direct tag and consent, with real vendor disabled
+        run: |
+          node --check assets/site-adsterra-m02.js
+          node --check scripts/test_site_ads_m02_contract.cjs
+          node scripts/test_site_ads_m02_contract.cjs
+          node scripts/test_site_ads_m01_contract.cjs
+          node scripts/test_ga4_retirement_20261118.cjs
+          node --check scripts/fixtures/ad-m04-mock-tag.js
+          node --check scripts/test_site_ads_m04_direct_chromium.cjs
+      - name: Verify strict production-shaped package cannot include fake creatives
+        env:
+          CONTEXT: production
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          test ! -e .release-staging/public-site/scripts/fixtures/ad-m04-mock-tag.js
+          test ! -e .release-staging/public-site/scripts/fixtures/ad-m04-direct-banner-test.html
+          test ! -e .release-staging/public-site/scripts/test_site_ads_m04_direct_chromium.cjs
+          grep -q 'const RELEASE_ENABLED=false;' .release-staging/public-site/assets/site-adsterra-m02.js
+  synthetic-chrome:
+    runs-on: ubuntu-latest
+    needs: static-and-release-lock
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser-only QA package
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+      - name: Test direct insertion using FAKE first-party ad responses and zero publisher impressions
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-ads-m04.log 2>&1 &
+          echo $! >/tmp/dd-ads-m04.pid
+          for i in $(seq 1 15); do
+            curl -fsS --max-time 2 http://127.0.0.1:4173/scripts/fixtures/ad-m04-direct-banner-test.html >/dev/null && break
+            sleep 1
+          done
+          node scripts/test_site_ads_m04_direct_chromium.cjs
+      - name: Stop local server
+        if: always()
+        run: |
+          if test -f /tmp/dd-ads-m04.pid; then kill "$(cat /tmp/dd-ads-m04.pid)" 2>/dev/null || true; fi
