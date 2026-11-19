@@ -1,5 +1,11 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — official Boyd Digital Studios website link staged; no production deployment_
+_Last updated: 19 November 2026 (Europe/London) — BDS official links source-verified; public domain validation and deployment pending_
+
+## BDS website link — no-deploy exact-head CI GREEN (19 November 2026)
+
+**Current staged website candidate** `prep/bds-official-domain-link-nov19`, derived only from `production`: [Green Actions 44459470448](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44459470448) at `57cedffc3c56aa5b5dbb314841ccc90bf312365a` verifies the new official link in Explore/About and premium footer, no legacy Wix hostname in current home, and preservation of Disclosure Desk origin and support. No live Netlify build, app URL rewrite or vendor activation. Subsequent handover-only notes do not change the tested web HTML.
+
+**Live destination gate:** A direct external network check of `https://boyddigitalstudios.com/` did not succeed from this environment. This does not prove it is down; owner should verify the intended BDS page and valid HTTPS from their actual browser before next website promotion. M96M private APK with the same link was built successfully ([Android CI 44472987172](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44472987172)); new APK link still needs Galaxy acceptance. Distinct Who's Who M67/M68, M69 web auth and dormant Adsterra branches remain separately gated.
 
 ## BDS domain link M01 — OFFICIAL STUDIO LINK STAGED (19 November 2026)
 
