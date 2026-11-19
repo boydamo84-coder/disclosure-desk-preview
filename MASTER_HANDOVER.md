@@ -1,5 +1,13 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — M96L/M96K owner phone acceptance; M96M official BDS link staged_
+_Last updated: 19 November 2026 (Europe/London) — M96M private APK green; owner Profile/Chat checks passed; studio-link device test pending_
+
+## M96M release-checkpoint — PRIVATE APK BUILT, full CI GREEN (19 November 2026)
+
+**Verified build:** Exact-code SHA `da8cdf51d4a6a180bac92bceafde77719a0d297c` produced the separate-install `DisclosureDesk-M96M-STUDIO-LINK-BETA` Android APK in fully green [Actions run 44472987172](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44472987172), with [artifact 14505172358](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44472987172/artifacts/14505172358), 10,102,405 ZIP bytes, expiring 3 Dec 2026. App debug suffix `.beta.m96m`, versionCode 31, version `0.14.7-m96m-studio-beta-preview`. Strict snapshot/source, real Chromium profile/chat/mobile, Java safety, Android Gradle and artifact all passed. The prior first M96M build failed only on inherited old branch/version test assertions; corrected without removing regressions. A documentation-only handover update does not invalidate the earlier tested code.
+
+**Galaxy owner checks:** Profile-local sign-in **PASS** on M96L; keyboard reveals latest Chat **PASS** on M96K/M96L. **M96M new studio link is still awaiting physical phone test**, along with other distinct push/account safety checks. M96M installs beside rather than overwriting the working M96L package. Owner quick test: Desk → Boyd Digital Studios website, open in browser and return; About/footer links; Profile sign-in remains Profile; Gboard Chat visible. `boyddigitalstudios.com` live DNS/HTTPS was not independently confirmed from research environment — verify in owner's browser before public release.
+
+**No Netlify/Play/production/Supabase changes** and no Adsterra enablement. Detailed update: `docs/ANDROID_M96M_STUDIO_DOMAIN_HANDOVER_2026-11-19.md`.
 
 ## Milestone 96M — Boyd Digital Studios official link STAGED; TWO REAL GALAXY FIXES ACCEPTED (19 November 2026)
 
