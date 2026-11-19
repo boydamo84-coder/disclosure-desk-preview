@@ -1,7 +1,17 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — M67 Who evidence voting safely staged; Android M95 is next_
+_Last updated: 19 November 2026 (Europe/London) — M68 international programmes and source correspondence integrated into staged Who's Who; M67 voting remains off_
 
 
+
+## M68 — Worldwide UAP programmes incl. Vatican + our outreach status in Who's Who (19 November 2026)
+
+**STAGED / NO DEPLOY** in `prep/who-m68-world-programme-directory-20261119` (from the verified M67 branch). Extended the existing Who's Who people-directory view with an accessible **Agencies, UAP programmes & original archives worldwide** section. It uses the canonical `data/programmes-places-m58.json` — 23 sourced institutional entries in 18 jurisdictions plus 14 explicitly unverified country leads, no new invented government units. The full Vatican research entry includes Observatory / Apostolic Archive source links, the disputed 1933 Italy/Grusch allegation and a published archival response, with no assertion of extraordinary origin.
+
+Existing correspondence with Pentagon/WHS, Germany GEP, Brazilian Arquivo Nacional/ SIAN, Library and Archives Canada and US NARA is shown by a separate read-only component **using only** the canonical `data/public-source-verification.json` and deep linking into individual cards on the Sources page. Distinguish a reply from released documents, FOIA disposition or reuse permission. No private emails or actual inbox processing. 57 personal profiles, their 23 source-linked claims and the M67 five-criterion ballot code are preserved; **Who voting remains `whoEvidenceBallots:false` with empty approved-claims registry**. No Supabase, Adsterra, W.NE or APK change.
+
+**QA:** Source, strict 132-file production-shaped package, real-browser 320/393/820/1280 checks all passed without external calls — [Actions run 44433538465](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44433538465) at `8573ab6b9f871373d81c95ea04fd7d4f0f7486b8`. Test the exact HEAD after handover-only commits, then owner-approved grouped deployment. No Netlify deployment was made.
+
+**Detailed handover:** `docs/WHO_M68_INTERNATIONAL_AND_SOURCE_CONTACTS_HANDOVER_2026-11-19.md`.
 
 ## M67 — Who's Who voting code cleanly staged on current production (19 November 2026)
 
