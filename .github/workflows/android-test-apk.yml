@@ -1,8 +1,8 @@
-name: Build Disclosure Desk M96L Profile Login PRIVATE APK (NO Netlify)
+name: Build Disclosure Desk M96M Official Studio Link PRIVATE APK (NO Netlify)
 on:
   workflow_dispatch:
   push:
-    branches: [android/m96l-profile-auth-stay-nov19]
+    branches: [android/m96m-bds-official-link-nov19]
     paths:
       - 'android-test/**'
       - 'guide.html'
@@ -15,6 +15,7 @@ on:
       - 'scripts/test_m69_profile_auth_contract.cjs'
       - 'scripts/test_m74_confirmation_contract.cjs'
       - 'scripts/test_m69_profile_auth_chromium.cjs'
+      - 'scripts/test_bds_official_link.cjs'
       - 'scripts/fixtures/m69-profile-auth.html'
       - 'assets/research-hub.js'
       - 'assets/community-polish.css'
@@ -75,6 +76,7 @@ jobs:
           node scripts/test_m96_notification_source_contract.cjs
           node scripts/test_m96k_chat_keyboard_focus.cjs
           node scripts/test_m69_profile_auth_contract.cjs
+          node scripts/test_bds_official_link.cjs --android
           node scripts/test_chat_stability_and_invite.cjs
           node scripts/test_private_chat_account_switch_runtime.cjs
           node scripts/test_m86_comments_on_demand_contract.cjs
@@ -139,7 +141,7 @@ jobs:
       - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M96L-PROFILE-BETA
+          name: DisclosureDesk-M96M-STUDIO-LINK-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14

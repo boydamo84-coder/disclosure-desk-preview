@@ -15,6 +15,10 @@ if (process.argv.includes("--android")) {
   assert.match(java, /Boyd Digital Studios website.*openStudioWebsite\(\)/);
   assert.match(java, /openStudioWebsite\(\)[\s\S]{0,250}Intent\.ACTION_VIEW,Uri\.parse\(STUDIO_URL\)/);
   assert.match(java, /HOME = "https:\/\/uapdisclosuredesk\.com\/"/);
+  const gradle = fs.readFileSync("android-test/app/build.gradle.kts", "utf8");
+  assert(gradle.includes('applicationIdSuffix = ".beta.m96m"'));
+  assert(gradle.includes('versionCode = 31'));
+  assert(gradle.includes('0.14.7-m96m-studio-beta'));
   assert.match(java, /SUPPORT_URL = "https:\/\/ko-fi\.com\/disclosuredesk"/);
 }
 console.log("PASS: Boyd Digital Studios domain / Disclosure Desk safeguards", studio, process.argv.includes("--android") ? "(Android)" : "(web)");
