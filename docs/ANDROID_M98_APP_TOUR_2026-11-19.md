@@ -6,6 +6,12 @@ M98 extends the M97 Android release candidate. It offers an optional five-step t
 
 A share or notification opening goes straight to the requested action. News and video alerts can be enabled under **Desk → Notification settings** or in Profile settings. Existing notification choices persist. The app tour takes the place of the Android first-run welcome and automatic alert prompt. Tools in the website’s optional research tour remain available.
 
+## Build verification
+
+Source `24f59fa741c70de57b31e2356d3d3fe326b51880` built the private APK and unsigned Play AAB. The APK signature and 16 KB ZIP alignment passed, and bundletool validated the release AAB. Both contain the native tour, retain the Google Analytics removal and target Android API 36. Browser checks confirmed that Android receives the app tour entry point without the website welcome and that the optional site tour remains accessible. [Android CI run](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44586110624)
+
+The live public privacy page was checked on 19 November. It still needs the dedicated account-deletion section staged in the Android branch. The next device check is a Galaxy run through the tour, Chrome Share, and the optional-alert settings.
+
 ## Galaxy test
 
 1. Install the M98 private APK alongside M97. Open it from the launcher and run the tour. Try Back, Skip and Done. Relaunch and replay it from Desk.
