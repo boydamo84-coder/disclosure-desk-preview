@@ -1,5 +1,12 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — BDS official links source-verified; public domain validation and deployment pending_
+_Last updated: 19 November 2026 — BDS website owner acceptance and release queue_
+
+## 19 November 2026 — STUDIO LINK ACCEPTED ON OWNER PHONE; WEBSITE RELEASE STILL PENDING
+
+After installing M96M, the owner reported **"All working ok"** to the suggested native Desk studio-link, About/footer link and browser return checks. This clears the owner device-link acceptance item. It does not show the new link was deployed on the public website: the website delta remains staged only. Earlier remote HTTP access to `boyddigitalstudios.com` was blocked in the research tool, but the owner confirms it loads correctly on their phone.
+
+**Full-site release queue:** current GitHub `production` ref is `ca302b2e99a9321279bc711a817ad833cb041851`. The M68 international Who's Who programme/outreach additions and M69 Profile-local sign-in are independently no-deploy CI green but not merged. This BDS link branch is also green. Assemble a scoped, production-derived website release candidate and run strict package, actual Chromium/regression tests, then confirm the intended Netlify deployment before promoting. Do not bundle the unapproved live Who claim ballot (empty registry/missing production migrations) or the unsafe/disabled Adsterra script activation. Those should **not block** publishing the safe, finished website improvements. No live production change from this handover.
+
 
 ## BDS website link — no-deploy exact-head CI GREEN (19 November 2026)
 
