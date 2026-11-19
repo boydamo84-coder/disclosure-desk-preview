@@ -1,7 +1,17 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — GA4 removal promoted to production branch; Adsterra awaits publisher approval_
+_Last updated: 19 November 2026 (Europe/London) — M04 direct Adsterra tag tested with local synthetic creative, not deployed_
 
 
+
+## Ads M04b — Original Adsterra banner tags, no extra iframe: local synthetic QA (19 November 2026)
+
+**Branch:** `prep/site-ads-m04-direct-banner-local-test-20261119`, forked from current `production`. Explicit owner request: try the three existing standard banner tags *without our additional iframe*. Replaced the nested-iframe embedding approach in the staged banner adapter with direct insertion of the **unchanged publisher atOptions and script URL** into labelled ad slots. Provider `format:'iframe'` remains untouched — it is Adsterra's internal format, not a second publisher wrapper. To prevent conflicting per-unit globals, script loads are serialised; ad dimensions are not rescaled, and unsupported narrow slots are omitted rather than overflowing.
+
+**IMPORTANT:** `RELEASE_ENABLED=false` still disables actual Adsterra on every public site. Only an explicit localhost test URL can enable a **fake first-party mock creative**, and it never calls real advertising domains. All M01/M02/privacy/GA4 controls remain; W.NE/private content stays excluded.
+
+**QA:** Static contracts and strict production-shaped bundle passed, and local-only real Chrome passed the synthetic consent/slot/navigation/no-popup/no-redirect/no-iframe tests at 320/393/820/1280 on code SHA `032d61243771252b2da370d34fea987d0b964830` — [Actions 44429378289](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44429378289). A **real Adsterra creative was NOT tested**; vendor script was not fetched or run. Its dynamic insertion behaviour (e.g., `document.write`) and redirect/ad quality remain unverified, and direct third-party JS would have access to any same-origin browser storage/session information. **Do not turn it on without a secure deployment design and real authorised browser checks.** Provider terms and repeat identical-tag rules also require final verification.
+
+**Full handover:** `docs/ADS_M04_DIRECT_TAG_LOCAL_TEST_2026-11-19.md`. **No production ref change, Netlify build, user data or APK change in this M04b technical test.** Next: confirm safe supported banner integration, consent/vendor requirements, protecting account/W.NE data, and a controlled real-ad validation on the approved domain before activation.
 
 ## Ads M04 — Production GA4 release + Adsterra publisher-terms gate (19 November 2026)
 
