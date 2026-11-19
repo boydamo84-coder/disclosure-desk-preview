@@ -1,6 +1,6 @@
 # Disclosure Desk — Boyd Digital Studios official-domain link milestone
 Date: 19 November 2026 (Europe/London)
-Status: CODE STAGED — NOT PROMOTED, NOT PUBLISHED
+Status: EXACT-HEAD NO-DEPLOY CI GREEN — NOT PROMOTED, NOT PUBLISHED
 
 ## Scope
 - Branch: `prep/bds-official-domain-link-nov19`, based on the actual `production` branch, not old `main` or stale release branches.
@@ -24,3 +24,9 @@ Status: CODE STAGED — NOT PROMOTED, NOT PUBLISHED
 
 ## Next handover
 Run exact-head no-deploy workflow, then preserve this official domain addition for the next approved website release. No production or APK publish has been requested for this isolated change.
+
+## 19 Nov 2026 QA checkpoint
+- [Website exact-head GitHub Actions run 44459470448](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44459470448) passed on `57cedffc3c56aa5b5dbb314841ccc90bf312365a` (both official links, previous Wix host absent in inspected HTML, Disclosure Desk origin and support unchanged).
+- Android M96M separate private APK built green on `da8cdf51d4a6a180bac92bceafde77719a0d297c`: [full Android build 44472987172](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44472987172). This is NOT a website deployment.
+- Independent browser/network attempts to the new `https://boyddigitalstudios.com/` failed from the current research runtime; cannot claim the external destination is publicly working. Ask site owner to verify on their device before approving a live link change.
+- Scope remains exactly the 5 files in the domain-link website branch; no M69 auth/voting/site-ad branches were merged and `production` was not changed.
