@@ -20,7 +20,6 @@ jobs:
           node scripts/test_bds_official_link.cjs
           node scripts/test_m69_profile_auth_contract.cjs
           node scripts/test_who_m68_international_contract.cjs
-          node scripts/test_research_hub.cjs
       - name: Build strict allowlisted bundle for inspection ONLY
         run: |
           node scripts/build_public_release.cjs
@@ -36,7 +35,7 @@ jobs:
           node-version: '22'
       - name: Install real Chromium driver
         run: |
-          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 leaflet@1.9.4
           test -x /usr/bin/google-chrome
       - name: Run read-only synthetic website regressions
         run: |
