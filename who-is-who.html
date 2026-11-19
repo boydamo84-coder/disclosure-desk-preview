@@ -156,6 +156,32 @@ footer a{margin-right:14px}
 #ddPolicyReviewGuide a{overflow-wrap:anywhere}
 #ddPolicyReviewGuide .dd-policy-state{font-size:11px;letter-spacing:.3px;font-weight:700;color:#e9cc93}
 @media(max-width:700px){#ddPolicyReviewGuide .dd-policy-items{grid-template-columns:1fr}#ddPolicyReviewGuide{padding:15px}}
+
+/* M68 — institutions are not Who's Who people; reuse original source-linked M58 data. */
+.dd-who-international{margin:38px 0 10px;padding:22px;border:1px solid #536b7c;border-radius:16px;background:linear-gradient(125deg,#152b40,#0c1e2e)}
+.dd-who-international h2{margin:9px 0 15px}
+.dd-who-international a:not(.btn){overflow-wrap:anywhere}
+.dd-who-programme-disclosure{margin-top:14px;border:1px solid #485e70;border-radius:12px;background:#0d2032;overflow:hidden}
+.dd-who-programme-disclosure>summary{padding:15px 17px;font-weight:750;color:#ebcc91;cursor:pointer;min-height:48px}
+.dd-who-programme-disclosure[open]>summary{border-bottom:1px solid #485e70}
+.dd-who-programme-filters{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,220px);gap:13px;margin:15px}
+.dd-who-programme-filters label{min-width:0;display:block;font-size:12px;color:#f0d6a8}
+.dd-who-programme-filters input,.dd-who-programme-filters select{width:100%;margin-top:5px}
+#ddWhoProgrammeStatus{margin:12px 15px}
+.dd-who-programme-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;padding:13px 15px 18px}
+.dd-who-programme-card{min-width:0;border:1px solid #49647a;border-radius:11px;background:#142a3c;padding:14px 16px;overflow-wrap:anywhere}
+.dd-who-programme-card h3{font-size:16px;color:#f5d49a;margin:0 0 6px}
+.dd-who-programme-meta{color:#c3d1d9;font-size:12px;line-height:1.55;margin:7px 0}
+.dd-who-programme-caution{border-left:3px solid #e5bb7a;padding-left:10px;color:#f5dcad}
+.dd-who-programme-detail{margin-top:9px}
+.dd-who-programme-detail>summary{cursor:pointer;font-weight:650;color:#e8ce9f;min-height:32px}
+.dd-who-programme-detail h4{margin:13px 0 7px;font-size:13px}
+.dd-who-programme-detail ul{padding-left:19px}
+.dd-who-programme-detail li{padding-bottom:9px}
+.dd-who-programme-leads{padding:8px 20px 16px 33px;display:grid;gap:8px}
+.dd-who-programme-leads li{padding:9px 0;border-bottom:1px solid #334d60}
+.dd-who-programme-leads p{margin:5px 0}
+@media(max-width:700px){.dd-who-international{padding:15px}.dd-who-programme-grid,.dd-who-programme-filters{grid-template-columns:1fr}.dd-who-programme-card{padding:12px}.dd-who-programme-leads{padding-left:24px}}
 </style>
 
 </head><body>
@@ -207,6 +233,31 @@ footer a{margin-right:14px}
 <div class="tools"><label>Search people, roles and topics<input id="peopleSearch" type="search" maxlength="80" placeholder="e.g. pilot, Grusch, investigative journalist"></label><label>Filter roles<select id="peopleCategory"><option value="all">All roles</option><option value="Hearing witness">Hearing witnesses</option><option value="Pilot">Pilots</option><option value="Journalist">Journalists</option><option value="Interviewer">Interviewers</option><option value="Sceptical analyst">Sceptical analysts</option><option value="Filmmaker">Filmmakers</option><option value="Claimant">Public claimants</option><option value="Disclosure advocate">Disclosure advocates</option><option value="Scientist">Scientists</option><option value="NASA UAP study">NASA UAP study</option><option value="Congress">Congress &amp; oversight</option><option value="Advocate">Transparency advocates</option><option value="FOIA researcher">FOIA researchers</option><option value="Researcher">Researchers</option><option value="Documentary director">Documentary directors</option><option value="Former government official">Former government officials</option></select></label></div>
 <p id="peopleStatus" class="muted small" role="status">Loading source-linked profiles…</p>
 <div id="peopleCards" class="cards"><div class="card"><h3>Research directory</h3><p>Source-linked profiles span congressional oversight, AARO leadership, NASA's independent UAP study, aviation witnesses, scientific researchers and archive investigators. JavaScript is needed for search and full profiles.</p></div></div>
+<section id="ddWhoInternationalProgrammes" aria-labelledby="ddWhoInternationalTitle" class="dd-who-international">
+  <span class="eyebrow">International research · Institutions, not people</span>
+  <h2 id="ddWhoInternationalTitle">UAP programmes, government archives and international institutions</h2>
+  <p class="muted">Explore the existing original-source research from AARO and GEIPAN to Chile, Brazil and the Vatican. An entry documents a programme, historical archive or relevant institution — <strong>not necessarily a dedicated UAP bureau</strong>, or proof of an extraordinary explanation.</p>
+  <p class="muted small">The Vatican Observatory and Apostolic Archive are included for scientific, historical and archival context. Their inclusion does <strong>not</strong> claim the Vatican operates a government UFO investigation unit.</p>
+  <p><a href="/world-uap-programmes.html" class="btn">Open full worldwide programme directory</a></p>
+  <details class="dd-who-programme-disclosure" id="ddWhoInternationalVerified">
+    <summary>Browse <span id="ddWhoProgrammeTotal">23</span> source-linked programme, archive and institutional entries</summary>
+    <div class="dd-who-programme-filters">
+      <label>Find a country or organisation
+        <input id="ddWhoProgrammeSearch" type="search" maxlength="100" placeholder="e.g. Vatican, France, Brazil, AARO">
+      </label>
+      <label>Institutional category
+        <select id="ddWhoProgrammeType"><option value="all">All documented categories</option></select>
+      </label>
+    </div>
+    <p id="ddWhoProgrammeStatus" class="muted small" role="status">Loading source-linked programme records…</p>
+    <div id="ddWhoProgrammeCards" class="dd-who-programme-grid"></div>
+  </details>
+  <details class="dd-who-programme-disclosure" id="ddWhoInternationalLeads">
+    <summary>Research leads needing original-source verification (<span id="ddWhoLeadCount">14</span>)</summary>
+    <p class="muted small">These are research questions, <strong>not confirmed equivalent offices</strong>. Where an archive or defence website is linked, it establishes institutional context rather than a dedicated UAP investigation programme. Vatican City is counted in the source-linked group above, not duplicated as an unverified programme.</p>
+    <ul id="ddWhoProgrammeLeads" class="dd-who-programme-leads"></ul>
+  </details>
+</section>
 </section>
 <article id="personProfile" class="profile hidden" aria-live="polite">
 <button id="directoryBack" type="button" class="btn">← Back to people directory</button>
@@ -250,6 +301,7 @@ footer a{margin-right:14px}
 <p>To suggest a person, provide a public source supporting their work. To request a correction, <a href="mailto:support@uapdisclosuredesk.com?subject=Who%27s%20Who%20source%20correction">email the research desk</a> with the name, the disputed wording and a primary reference.</p>
 </section></main>
 <footer><div class="wrap">Disclosure Desk · Boyd Digital Studios · Public-source research directory<br><a href="/">Home</a><a href="/investigations">Original research</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></footer>
+<script defer src="/assets/who-international-programmes-m68.js?v=m68-source-index-20261119"></script>
 <script defer src="/assets/community-test-config.js?v=m67-who-ballots-off"></script>
 <script defer src="/assets/who-evidence-ballot-m64.js?v=m67-closed-beta"></script>
 <script defer src="/assets/person-case-links.js?v=r2-m8-alpha01"></script>
