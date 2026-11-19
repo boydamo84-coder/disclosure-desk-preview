@@ -30,3 +30,7 @@ Run exact-head no-deploy workflow, then preserve this official domain addition f
 - Android M96M separate private APK built green on `da8cdf51d4a6a180bac92bceafde77719a0d297c`: [full Android build 44472987172](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44472987172). This is NOT a website deployment.
 - Independent browser/network attempts to the new `https://boyddigitalstudios.com/` failed from the current research runtime; cannot claim the external destination is publicly working. Ask site owner to verify on their device before approving a live link change.
 - Scope remains exactly the 5 files in the domain-link website branch; no M69 auth/voting/site-ad branches were merged and `production` was not changed.
+
+## 19 Nov 2026 — owner accepted studio link on phone
+Following the M96M beta installation and quick test, the owner confirmed "All working ok" on their Galaxy. The requested checks included the native Desk website link, About/footer studio links and returning to the app. Therefore the studio destination and new APK navigation are **owner-accepted on device**. Browser/Netlify production publishing is still separate; not claim a production deployment from this test.
+The original website link-only exact-head CI remains green. Integrate this small delta into the next curated, user-approved website release, not by blindly merging the unrelated closed voting or advertising prototypes.
