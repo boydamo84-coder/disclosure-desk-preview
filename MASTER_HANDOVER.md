@@ -1,7 +1,17 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — M68 worldwide UAP index and public outreach tracker staged; Android M95 next_
+_Last updated: 19 November 2026 (Europe/London) — M69 Profile login stays on Profile staged; Android M96L private beta in progress_
 
 
+
+## M69 — Profile authentication stays on Profile, WEB STAGED (19 November 2026)
+
+User confirmed that Profile → Sign in and Create account unexpectedly navigated to Boards on both website and Android APK. Source root cause in shared `assets/research-hub.js`: obsolete `signIn()` explicitly called `visit('boards')`. **M69** replaces this shortcut with an accessible, responsive, navy/gold login/signup/reset form inside the existing Profile page using the SAME persisted Supabase auth/RLS. It never navigates to Boards automatically. Account signup validates public username and keeps email confirmation returning to `?dd_tab=profilePage`, and password resets return to Profile. User's existing Boards and cloud backup routes remain unchanged. No new login accounts, server schema, auth provider or cookies were added.
+
+**Website stage:** `prep/m69-profile-auth-stay-20261119` forked from tested M68 international research branch. Only `assets/research-hub.js`, `assets/community-polish.css`, `index.html` and no-deploy QA/docs were changed for this fix. Verified [no-deploy CI 44443515090](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44443515090): source/strict release shape, real Chromium using SYNTHETIC accounts at 320/393/820/1280 px, preserved M68 original international catalogue/public enquiry tracker, M67 voting SQL/RLS isolation, GA4 removal and Adsterra disabled. Checks include failed sign-in, success, sign-up, password recovery, no Boards nav, no horizontal overflow. **Still STAGED: no Netlify release or real account test.**
+
+**Android independent beta:** `android/m96l-profile-auth-stay-nov19` based on verified M96K keyboard fix, parallel-install app to preserve device local drafts. Same login source. Compiling/building and Galaxy S24 Ultra on-device acceptance need checking separately. Do not merge the newer M68 website wholesale into APK.
+
+**Full:** `docs/M69_PROFILE_AUTH_STAYS_ON_PROFILE_2026-11-19.md`. Next: verify M96L APK, device acceptance, then one curated, owner-approved production website deployment. Do not publish staged Who ballots or Adsterra by association.
 
 ## M68 — WHO international programmes and public FOIA/outreach source tracking (19 November 2026)
 
@@ -11,7 +21,7 @@ Who and Worldwide Programmes now show the same manually maintained five public e
 
 **All 3 no-deploy QA jobs green:** [CI 44433741118](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44433741118) at code SHA `7d0c6d3215f8c273b6f42afb718835022348742e`: exact-source/strict public package, synthetic two-account voting and 320/393/820/1280 browser, disposable Postgres RLS and aggregates. Latest docs SHA requires rechecking exact-HEAD CI. **No Netlify, Supabase, live votes, real ads or Android APK changes.** Ballots remain closed and Adsterra remains hard disabled.
 
-**Email issue:** owner wants the Adsterra iframe permission email from `boydamo84@gmail.com` (registered publisher account). Gmail connector can currently only send from `boyddigitalstudios@gmail.com`; we DID NOT resend from the incorrect sender. User must connect/switch Gmail and then resend once correct From is verified.
+**Adsterra update (19 Nov):** email was successfully re-sent from registered `boydamo84@gmail.com`. Adsterra replied that our extra wrapping iframe is not permitted and original tags are the supported method, with no separate cookieless version. Direct tags remain OFF pending signed-in session security, UK advertising consent and per-page quantity review.
 
 **Full handover:** `docs/WHO_M68_INTERNATIONAL_PROGRAMMES_AND_OUTREACH_HANDOVER_2026-11-19.md`. Next: APK M95 premium editorial navigation track after website staging; do not deploy unrelated features or reenable ads.
 
