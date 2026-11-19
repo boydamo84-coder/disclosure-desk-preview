@@ -1,7 +1,19 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — M67 Who evidence voting safely staged; Android M95 is next_
+_Last updated: 19 November 2026 (Europe/London) — M68 worldwide UAP index and public outreach tracker staged; Android M95 next_
 
 
+
+## M68 — WHO international programmes and public FOIA/outreach source tracking (19 November 2026)
+
+**STAGED ONLY** on `prep/who-m68-international-programmes-in-whoswho-20261119` from tested M67 voting branch. Reuses the pre-existing **23 institutional programme/archives entries, including Vatican Observatory/Apostolic Archive**, and 14 research leads from `data/programmes-places-m58.json`. Who's Who gains an expandable organisation-only source directory (search/filter, source links), with Vatican explicitly not described as a confirmed government UFO investigation unit. Deduplicates Vatican: 13 *additional* country leads after the 23-record catalogue.
+
+Who and Worldwide Programmes now show the same manually maintained five public enquiry statuses from `data/public-source-verification.json`, not separate copies: Pentagon/WHS procedural response with unresolved Navy referral; Brazil's SIAN catalogue guidance; German GEP refusal of commercial case-data reuse; Canada's limited file-specific copyright permission pending web publication clarification; NARA enquiry with acknowledgement unverified. Each status opens its detailed source-evidence record at `/sources#dd-source-enquiry-[id]`. No inbox polling, raw emails or invented response facts.
+
+**All 3 no-deploy QA jobs green:** [CI 44433741118](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44433741118) at code SHA `7d0c6d3215f8c273b6f42afb718835022348742e`: exact-source/strict public package, synthetic two-account voting and 320/393/820/1280 browser, disposable Postgres RLS and aggregates. Latest docs SHA requires rechecking exact-HEAD CI. **No Netlify, Supabase, live votes, real ads or Android APK changes.** Ballots remain closed and Adsterra remains hard disabled.
+
+**Email issue:** owner wants the Adsterra iframe permission email from `boydamo84@gmail.com` (registered publisher account). Gmail connector can currently only send from `boyddigitalstudios@gmail.com`; we DID NOT resend from the incorrect sender. User must connect/switch Gmail and then resend once correct From is verified.
+
+**Full handover:** `docs/WHO_M68_INTERNATIONAL_PROGRAMMES_AND_OUTREACH_HANDOVER_2026-11-19.md`. Next: APK M95 premium editorial navigation track after website staging; do not deploy unrelated features or reenable ads.
 
 ## M67 — Who's Who voting code cleanly staged on current production (19 November 2026)
 
