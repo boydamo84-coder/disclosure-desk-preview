@@ -1,5 +1,11 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 — M96M owner acceptance and website deployment status_
+_Last updated: 19 November 2026 — M97 Android release candidate_
+
+## 19 November 2026 — M97 Android release candidate
+
+Android branch `android/m97-m76-play-candidate-nov19` combines the owner-tested M96M Android app with the reviewed M76 production website. It includes the new Who’s Who research, international programmes, source enquiries, Hypothesis Lab and the private evidence worksheet. The bundled site and Android WebView no longer run Google Analytics. The Chat keyboard behaviour, Profile-local sign-in, Research Inbox and premium navigation carry forward. Play app version `0.15.0` targets API 36, with versionCode `32`. The `.beta.m97` APK uses a separate app package for Galaxy testing.
+
+See [the M97 Play handover](docs/ANDROID_M97_PLAY_HANDOVER_2026-11-19.md) for the test and listing materials, upload signing, account deletion, Data safety and closed-testing gates. Keep live ads, paid Remove Ads and public Who’s Who ballots disabled in this candidate. M97 requires its own Galaxy smoke test and the registered upload key before Play submission.
 
 ## 19 November 2026 — M96M OWNER GALAXY ACCEPTANCE COMPLETE
 

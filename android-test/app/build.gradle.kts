@@ -2,6 +2,7 @@ plugins { id("com.android.application") }
 android {
     namespace = "com.disclosuredesk.preview"
     compileSdk = 36
+    buildToolsVersion = "35.0.0"
     defaultConfig {
         applicationId = "com.boyddigitalstudios.disclosuredesk"
         minSdk = 26
@@ -14,8 +15,8 @@ android {
         buildConfigField("String", "DD_FIREBASE_PROJECT_ID", "\"${System.getenv("DD_FIREBASE_PROJECT_ID") ?: ""}\"")
 
         buildConfigField("String", "DD_FIREBASE_SENDER_ID", "\"${System.getenv("DD_FIREBASE_SENDER_ID") ?: ""}\"")
-        versionCode = 31
-        versionName = "0.14.7-m96m-studio-beta"
+        versionCode = 32
+        versionName = "0.15.0"
         manifestPlaceholders["ddAppLabel"] = "Disclosure Desk"
     }
     buildFeatures { buildConfig = true }
@@ -33,9 +34,9 @@ android {
     buildTypes {
         getByName("debug") {
             // Never uninstall or overwrite the owner's installed production package.
-            applicationIdSuffix = ".beta.m96m"
+            applicationIdSuffix = ".beta.m97"
             versionNameSuffix = "-preview"
-            manifestPlaceholders["ddAppLabel"] = "Disclosure Desk Beta M96M"
+            manifestPlaceholders["ddAppLabel"] = "Disclosure Desk Beta M97"
         }
         getByName("release") {
             isMinifyEnabled = false
@@ -48,4 +49,9 @@ android {
 dependencies { implementation("androidx.work:work-runtime:2.9.1"); implementation("com.google.guava:guava:31.1-android"); implementation("com.google.android.gms:play-services-ads:25.5.0"); implementation("com.google.android.ump:user-messaging-platform:3.2.0"); implementation("com.android.billingclient:billing:9.1.0"); implementation("com.google.firebase:firebase-messaging:26.0.1"); implementation("androidx.webkit:webkit:1.17.1") }
 dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0")
+}
+
+configurations.configureEach {
+    exclude(group = "com.google.firebase", module = "firebase-analytics")
+    exclude(group = "com.google.firebase", module = "firebase-analytics-ktx")
 }

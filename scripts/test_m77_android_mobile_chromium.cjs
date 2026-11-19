@@ -63,12 +63,14 @@ const BASE='http://127.0.0.1:4173';
      const chat=document.getElementById('chatPage'),side=chat.querySelector('.dd-chat-side');
      const cr=chat.getBoundingClientRect(),sr=side.getBoundingClientRect(),computed=getComputedStyle(chat);
      return {top:cr.top,height:cr.height,width:cr.width,sideHeight:sr.height,position:computed.position,
+       helpHeight:chat.querySelector('.dd-help-bar')?.getBoundingClientRect().height||0,
        overflow:document.documentElement.scrollWidth-innerWidth};
     });
     assert.equal(panel.position,'fixed');
     assert(panel.top>=-1&&panel.top<=1,'Chat starts at top, not below unused website header');
     assert(panel.height>=880&&panel.height<=886,'Chat fills viewport above dock: '+JSON.stringify(panel));
-    assert(panel.sideHeight>=850,'Chat conversation list grows to use screen');
+    assert(panel.helpHeight<=56,'Contextual help stays compact in Chat');
+    assert(panel.sideHeight>=panel.height-panel.helpHeight-2,'Chat conversation list fills the space below contextual help');
     assert(panel.overflow<=1,'Chat must not widen page');
    }
    await context.close();

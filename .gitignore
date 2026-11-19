@@ -1,5 +1,6 @@
 # Local release candidates are generated in CI, never source-controlled
 .release-staging/
+.r3-lab-preview/
 
 # Local Supabase CLI version/cache metadata
 supabase/.temp/
@@ -12,3 +13,4 @@ __pycache__/
 android-test/app/src/main/assets/dd-site/
 android-test/.gradle/
 android-test/app/build/
+android-test/build/

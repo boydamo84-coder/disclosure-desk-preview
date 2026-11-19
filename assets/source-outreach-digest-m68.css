@@ -1,0 +1,11 @@
+/* M68: transparent source-request statuses, shared by Who and World Programmes. */
+.dd-outreach-digest-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,235px),1fr));gap:10px;margin:11px 0 13px}
+.dd-outreach-digest-card{border:1px solid #4b6675;border-radius:11px;background:#0b2030;padding:12px 13px;overflow-wrap:anywhere;min-width:0}
+.dd-outreach-digest-card strong{display:block;font-size:13px;color:#e9cf9d}
+.dd-outreach-digest-topic{font-size:12px;line-height:1.5;color:#e6ecf1;margin:6px 0 9px}
+.dd-outreach-digest-state{display:inline-block;border:1px solid #b8a17d;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:750;color:#f7ddab}
+.dd-outreach-digest-state[data-status=sent_unacknowledged]{color:#d9e0e7;border-color:#8393a1}
+.dd-outreach-digest-date,.dd-outreach-digest-note{color:#bdd1de;font-size:12px;line-height:1.55;margin:9px 0}
+.dd-outreach-digest-card a{display:inline-block;font-size:12px;font-weight:650;overflow-wrap:anywhere;min-height:24px;color:#ecd298}
+.dd-outreach-digest a:focus-visible{outline:3px solid #e8ca91;outline-offset:3px}
+.dd-outreach-digest[data-dd-outreach-digest]{margin-top:13px}

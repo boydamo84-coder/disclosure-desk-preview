@@ -3,6 +3,8 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application android:label="${ddAppLabel}" android:icon="@drawable/dd_emblem" android:roundIcon="@drawable/dd_emblem" android:theme="@style/DisclosureDeskTheme" android:usesCleartextTraffic="false" android:allowBackup="false">
         <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-6712657097464071~4188173278" />
+        <meta-data android:name="com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT" android:value="true" />
+        <meta-data android:name="firebase_analytics_collection_deactivated" android:value="true" />
         <service android:name=".ChatPushService" android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

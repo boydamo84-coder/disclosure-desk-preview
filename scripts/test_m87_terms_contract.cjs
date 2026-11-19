@@ -15,7 +15,7 @@ for(const text of ['<h1>Terms of Service</h1>','https://uapdisclosuredesk.com/te
  assert.ok(terms.includes(text),'Missing service-specific disclosure: '+text);
 }
 assert.match(terms,/<meta name="description" content="[^"]{50,220}">/);
-assert.match(terms,/<script defer src="\/assets\/analytics-consent\.js/);
+assert.doesNotMatch(terms,/<script defer src="\/assets\/analytics-consent\.js/);
 assert.ok(!/\b(?:TODO|TBD|lorem ipsum|example\.com)\b/i.test(terms));
 assert.ok(index.includes('href="/terms">Terms of Service</a>'));
 const sitemap=read('sitemap.xml');

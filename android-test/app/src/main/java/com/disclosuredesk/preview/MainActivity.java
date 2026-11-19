@@ -76,8 +76,6 @@ public final class MainActivity extends Activity {
     private static final int DESK_GOLD = Color.rgb(242,215,162);
     private static final String SUPPORT_URL = "https://ko-fi.com/disclosuredesk";
     private static final String STUDIO_URL = "https://boyddigitalstudios.com/";
-    private static final Set<String> LEGAL_PAGES = new HashSet<>(java.util.Arrays.asList(
-            "guide", "terms", "privacy", "community-rules", "sources", "research-edition"));
     private ValueCallback<Uri[]> pendingFiles;
     private static final String HOME = "https://uapdisclosuredesk.com/";
     private ResearchInboxStore researchInbox;
@@ -116,6 +114,7 @@ public final class MainActivity extends Activity {
     private LifetimeAdsManager premium;
     // Paid entitlement lacks server-side receipt verification: disabled in all M75 builds.
     private static final boolean PLAY_BILLING_APPROVED = false;
+    private static final boolean PLAY_ADS_APPROVED = false;
     private final Set<String> snapshotFiles=new HashSet<>();
     private boolean firstRunAlertsPromptShown=false;
     private static final String FIRST_RUN_ALERTS_CHOICE="dd-alerts-opt-in-m77";
@@ -186,6 +185,10 @@ public final class MainActivity extends Activity {
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE); // Private APK always uses its embedded UI version.
         web.setWebViewClient(new WebViewClient(){
             @Override public WebResourceResponse shouldInterceptRequest(WebView view,WebResourceRequest request){
+                if(isGoogleAnalyticsHost(request.getUrl().getHost())){
+                    return new WebResourceResponse("text/plain","UTF-8",403,"Blocked",
+                        Collections.emptyMap(),new java.io.ByteArrayInputStream(new byte[0]));
+                }
                 return embeddedWebsiteAsset(request);
             }
             @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap favicon){
@@ -229,6 +232,7 @@ public final class MainActivity extends Activity {
             @Override public boolean shouldOverrideUrlLoading(WebView view,WebResourceRequest request){
                 Uri url=request.getUrl();
                 String host=url.getHost();
+                if(isGoogleAnalyticsHost(host))return true;
                 if(host != null && (host.equals("uapdisclosuredesk.com") || host.equals("www.uapdisclosuredesk.com") || host.equals("www.youtube-nocookie.com") || host.equals("www.youtube.com") || host.equals("www.dvidshub.net"))) return false;
                 try { startActivity(new Intent(Intent.ACTION_VIEW,url)); } catch(Exception ignored) {}
                 return true;
@@ -271,7 +275,7 @@ public final class MainActivity extends Activity {
         if(savedInstanceState==null || web.restoreState(savedInstanceState)==null){
             web.loadUrl(notificationUrl(getIntent()));
         }
-        prepareTestBanner();
+        if(BuildConfig.DEBUG || PLAY_ADS_APPROVED)prepareTestBanner();
     }
     @Override protected void onSaveInstanceState(Bundle state){
         if(web!=null)web.saveState(state);
@@ -657,17 +661,23 @@ public final class MainActivity extends Activity {
             }
         }catch(Exception e){android.util.Log.e("DisclosureDesk","The reviewed Android snapshot is missing or invalid.");}
     }
+    private static boolean isGoogleAnalyticsHost(String host){
+        if(host==null)return false;
+        String name=host.toLowerCase(java.util.Locale.ROOT);
+        if(name.endsWith("."))name=name.substring(0,name.length()-1);
+        return name.equals("google-analytics.com") || name.endsWith(".google-analytics.com") ||
+            name.equals("googletagmanager.com") || name.endsWith(".googletagmanager.com") ||
+            name.equals("analytics.google.com") || name.endsWith(".analytics.google.com");
+    }
     private WebResourceResponse embeddedWebsiteAsset(WebResourceRequest request){
         if(request==null || !"GET".equalsIgnoreCase(request.getMethod()))return null;
         Uri url=request.getUrl();
         if(url==null || !"https".equals(url.getScheme()) || !"uapdisclosuredesk.com".equals(url.getHost()))return null;
         String path=Uri.decode(url.getEncodedPath());
-        if(path==null)return null;
-        String name;
-        if("/".equals(path))name="index.html";
-        else if("/guide".equals(path))name="guide.html";
-        else if(path.startsWith("/") && LEGAL_PAGES.contains(path.substring(1)))name=path.substring(1)+".html";
-        else name=path.startsWith("/")?path.substring(1):path;
+        if(path==null || !path.startsWith("/"))return null;
+        String name=path.substring(1);
+        if(path.endsWith("/"))name+="index.html";
+        else if(!snapshotFiles.contains(name) && snapshotFiles.contains(name+".html"))name+=".html";
         if(!snapshotFiles.contains(name))return null;
         String mime="text/plain";
         if(name.endsWith(".html"))mime="text/html";
