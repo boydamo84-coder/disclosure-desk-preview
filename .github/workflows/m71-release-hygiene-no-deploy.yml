@@ -18,6 +18,21 @@ jobs:
           node-version: '22'
       - name: Verify release workflows are read-only and source locks remain
         run: node scripts/test_m71_release_hygiene.cjs
+      - name: Simulate safe Netlify production branch rules (no deployment)
+        shell: bash
+        run: |
+          set -euo pipefail
+          NETLIFY=true CONTEXT=production BRANCH=production node scripts/guard_official_deploy.cjs
+          NETLIFY=true CONTEXT=deploy-preview BRANCH=feature/synthetic node scripts/guard_official_deploy.cjs
+          if NETLIFY=true CONTEXT=production BRANCH=main node scripts/guard_official_deploy.cjs; then
+            echo 'ERROR: old main branch was not blocked'
+            exit 1
+          fi
+          if NETLIFY=true CONTEXT=production BRANCH=prep/old-stage node scripts/guard_official_deploy.cjs; then
+            echo 'ERROR: stale staging branch was not blocked'
+            exit 1
+          fi
+          echo 'PASS: production allows production and blocks accidental old-branch publication'
       - name: Reproduce Netlify production public bundle WITHOUT deploying
         run: |
           node scripts/build_public_release.cjs

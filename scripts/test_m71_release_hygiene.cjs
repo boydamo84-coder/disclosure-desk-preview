@@ -16,6 +16,9 @@ assert(!smoke.includes('netlify deploy')&&!smoke.includes('netlify build'),'Smok
 assert(netlify.includes('command = "node scripts/build_public_release.cjs"'));
 assert(netlify.includes('publish = ".release-staging/public-site"'));
 assert(r3.includes("process.env.CONTEXT==='production'"));
+const guard=read('scripts/guard_official_deploy.cjs');
+assert(builder.includes("require('./guard_official_deploy.cjs')"),'Strict site builder invokes the Netlify branch guard');
+assert(guard.includes("context==='production'")&&guard.includes("branch!=='production'"),'Guard must reject non-production branches in published context');
 assert(builder.includes('whoEvidenceBallots:false'),'Builder blocks evidence ballots');
 assert(builder.includes('RELEASE_ENABLED=false'),'Builder blocks live Adsterra');
 assert(config.includes('whoEvidenceBallots:false'),'Member evidence ballots are closed');

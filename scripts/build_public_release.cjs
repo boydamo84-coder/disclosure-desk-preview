@@ -1,5 +1,7 @@
 'use strict';
 // Offline public website staging: never deploys, never touches real accounts.
+// Reject accidental live Netlify builds from a stale or wrong branch.
+require('./guard_official_deploy.cjs');
 const fs=require('fs'),path=require('path'),crypto=require('crypto');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'.release-staging','public-site');
 if(fs.existsSync(out))throw Error('Refusing to overwrite existing release staging folder');
