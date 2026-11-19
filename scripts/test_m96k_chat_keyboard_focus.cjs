@@ -73,6 +73,8 @@ const code=fs.readFileSync('assets/profile-private-chat.js','utf8');
  assert(history&&body,'history and composer must exist');
  assert.equal(page.classList.contains('dd-chat-is-conversation'),true);
  history.scrollTop=300;history.scrollHeight=1500;history.clientHeight=260;
+ // Simulate Gboard reducing visualViewport height before focusin.
+ win.visualViewport.height=580;
  activeElement=body;
  assert.equal(typeof events.focusin,'function');
  events.focusin({target:body});
