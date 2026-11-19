@@ -1097,3 +1097,17 @@ dialog.dd-confirm-dialog::backdrop{background:rgba(1,10,17,.79);backdrop-filter:
 #discover .dd-r3-release-more{margin:15px 0 4px}
 #discover .dd-r3-release a:focus-visible,#discover .dd-r3-release summary:focus-visible{outline:2px solid #f5d89a;outline-offset:4px}
 @media(max-width:520px){#discover .dd-r3-release{padding:16px 14px}#discover .dd-r3-release-actions{display:grid;grid-template-columns:1fr}#discover .dd-r3-release-actions a{width:100%}}
+
+/* M69 — account access stays within the selected Profile page. */
+#profilePage .dd-profile-auth-form{display:grid;gap:12px;min-width:0;box-sizing:border-box;margin-top:18px;padding:16px;border:1px solid #796646;border-radius:13px;background:#12283a;max-width:550px}
+#profilePage .dd-profile-auth-form[hidden],#profilePage .dd-profile-auth-field[hidden]{display:none!important}
+#profilePage .dd-profile-auth-form h4{font-size:17px;font-weight:800;color:#e0c48e;margin:0 0 3px}
+#profilePage .dd-profile-auth-field{display:block;font-size:13px;line-height:1.5;font-weight:700;color:#e7e3d7}
+#profilePage .dd-profile-auth-field .field{box-sizing:border-box;width:100%;min-height:44px;margin-top:6px;font-size:16px}
+#profilePage .dd-profile-auth-field p{font-weight:400;margin:8px 0 0}
+#profilePage .dd-profile-auth-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+#profilePage .dd-profile-auth-actions button{min-height:44px}
+#profilePage #ddProfileAuthStatus{min-height:18px;margin:1px 0;overflow-wrap:anywhere}
+#profilePage #ddProfileAuthStatus[data-state=error]{color:#ffc6b4}
+#profilePage .dd-profile-auth-form :focus-visible{outline:3px solid #f2cc83;outline-offset:3px}
+@media(max-width:540px){#profilePage .dd-profile-auth-form{padding:13px 11px}#profilePage .dd-profile-auth-actions button{flex:1 1 auto}}
