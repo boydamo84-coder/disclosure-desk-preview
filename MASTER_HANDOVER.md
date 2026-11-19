@@ -1,5 +1,20 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — M74 parallel PostgreSQL security passed; LIVE SUPABASE/WHO VOTING UNCHANGED_
+_Last updated: 19 November 2026 (Europe/London) — M75 real-Auth QA harness prepared; two owner-designated email identities; no test project yet_
+
+## M75 — owner-designated A/B test identities and fail-closed Supabase Auth acceptance harness, STAGED ONLY (19 November 2026)
+
+**Owner decision:** Use two existing email accounts as separate Account A and Account B for real voting QA. To avoid leaking contact information, **neither account email is copied into this repository, workflow, issue or fixtures**. Configure private local environment variables only. Do not use actual account passwords, OTPs, refresh/access tokens or email contact information as GitHub Actions variables or paste them into ChatGPT.
+
+**Backend status:** The connected Supabase organization currently reports only two pre-existing projects: the live Disclosure Desk database and an unrelated personal project. Neither is a designated test sandbox; **no project was created, no real account token issued and no actual test user created**. Creating a new isolated Supabase project requires the owner's selection of organization and any nonzero cost approval. The new harness explicitly rejects the existing project refs.
+
+**New private harness:** `scripts/who-m75-supabase-auth-preflight.cjs` supports `auth-only` (remote /auth/v1/user identity checks, distinct real user IDs, no writes) and `sandbox-write` (only with two additional explicit owner-approved environment gates and an M75-prefixed fictional claim). It checks two independently authenticated users; zero-vs-25; owner-only private ballots and cross-account refusal; irreversible withdrawal; and denial of guest raw-ballot access. All HTTP messages/errors are redacted of emails, tokens, raw ballot rows and IDs. Real login tokens must be obtained locally/private from the eventual new test project, never stored in source control. Authentication cannot happen on CI without owner-selected sandbox and test credentials.
+
+**Exact offline test:** [Actions run 44573187308](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44573187308) at tested SHA `45616b3d2c29b5b9801e5ffb14a32899fa5e5a3c` passed in-memory fake Supabase Auth/PostgREST responses including rejected live projects and inappropriate identities, M72/M73 source security and 129-file strict public packaging. **These are mocked API tests, NOT real Auth sign-ins.** The real two-account acceptance remains open in [M75 issue #15](https://github.com/boydamo84-coder/disclosure-desk-preview/issues/15).
+
+**Release safety:** Live website remains verified M70 `production` `9fcaec4e602331b9a557937f6ee15ddd9a3f5ff2`; M71 guard staged; claim ballot flag `whoEvidenceBallots:false`, `approvedClaims:[]`, Adsterra disabled. M75 lives on experimental M67→M74-derived branch **NOT production-derived**. Do not bulk-merge into live website or deploy Netlify, Supabase, APK, external database migrations, or genuine member data without full independent review.
+
+**Handover detail:** `docs/WHO_M75_REAL_AUTH_TWO_ACCOUNT_SETUP_2026-11-19.md`. **Next:** Owner to select organization for an isolated Supabase test project, learn any charges before creating it, and use two independent, private Auth sign-ins in that sandbox to complete actual M75 RLS/Data API checks.
+
 
 ## M74 — concurrent PostgreSQL sessions and isolated fake identities: GREEN, STAGED ONLY (19 November 2026)
 
