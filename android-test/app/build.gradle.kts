@@ -1,4 +1,15 @@
 plugins { id("com.android.application") }
+
+val uploadKeystorePath = System.getenv("DD_UPLOAD_KEYSTORE_PATH").orEmpty()
+val uploadStorePassword = System.getenv("DD_UPLOAD_STORE_PASSWORD").orEmpty()
+val uploadKeyAlias = System.getenv("DD_UPLOAD_KEY_ALIAS").orEmpty()
+val uploadKeyPassword = System.getenv("DD_UPLOAD_KEY_PASSWORD").orEmpty()
+val uploadSigningValues = listOf(uploadKeystorePath, uploadStorePassword, uploadKeyAlias, uploadKeyPassword)
+val hasUploadSigning = uploadSigningValues.any(String::isNotBlank)
+require(!hasUploadSigning || uploadSigningValues.all(String::isNotBlank)) {
+    "Set all four DD_UPLOAD_* signing variables together. Without them, the Play bundle is unsigned."
+}
+
 android {
     namespace = "com.disclosuredesk.preview"
     compileSdk = 36
@@ -21,13 +32,12 @@ android {
     }
     buildFeatures { buildConfig = true }
     signingConfigs {
-        create("upload") {
-            val storeFilePath = System.getenv("DD_UPLOAD_KEYSTORE_PATH")
-            if (!storeFilePath.isNullOrBlank()) {
-                storeFile = file(storeFilePath)
-                storePassword = System.getenv("DD_UPLOAD_STORE_PASSWORD")
-                keyAlias = System.getenv("DD_UPLOAD_KEY_ALIAS")
-                keyPassword = System.getenv("DD_UPLOAD_KEY_PASSWORD")
+        if (hasUploadSigning) {
+            create("upload") {
+                storeFile = file(uploadKeystorePath)
+                storePassword = uploadStorePassword
+                keyAlias = uploadKeyAlias
+                keyPassword = uploadKeyPassword
             }
         }
     }
@@ -40,7 +50,7 @@ android {
         }
         getByName("release") {
             isMinifyEnabled = false
-            signingConfig = signingConfigs.getByName("upload")
+            signingConfig = signingConfigs.findByName("upload")
         }
     }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
