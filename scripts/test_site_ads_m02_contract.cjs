@@ -12,7 +12,7 @@ assert.match(js,/const RELEASE_ENABLED=false;/,'Live ad provider MUST remain loc
 assert.match(js,/advertising-consent-v1/);
 assert.match(js,/choice!=='accepted'/);
 for(const forbidden of ["createElement('iframe'",'createElement("iframe"','srcdoc',"setAttribute('sandbox'"]) assert(!js.includes(forbidden),'No extra iframe: '+forbidden);
-assert.match(js,/script\\.src=LOCAL_TEST\\?/);
+assert(js.includes("script.src=LOCAL_TEST?"),'Local QA must use first-party mock JS instead of the real provider');
 assert.match(js,/ad-m04-direct-banner-test\\.html/);
 assert.match(js,/window\.top!==window/);
 assert.match(js,/['"]\/privacy['"]/);
