@@ -1,12 +1,13 @@
-/* Disclosure Desk Ads M02 — REAL UNIT ADAPTER / RELEASE LOCKED.
+/* Disclosure Desk Ads M04 — direct banner tags, localhost-only QA / RELEASE LOCKED.
  * Publisher supplied three standard Adsterra iframe tags on 18 Nov 2026.
- * IMPORTANT: the release gate is FALSE: never load a network ad by default.
+ * IMPORTANT: the release gate is FALSE. The only test override is an explicitly flagged localhost fixture; CI mocks the vendor and makes NO real ad requests.
  * No popunder / smartlink / social-bar / notifications, and no W.NE slots.
  * Explicit standalone advertising consent must be accepted before ad requests.
- * Provider creative, UK privacy, iframe compatibility and mobile QA remain pending.
+ * Provider creative, UK privacy, dynamic script compatibility and live QA remain pending.
  */
 (()=>{'use strict';
 const RELEASE_ENABLED=false; // Must stay FALSE until explicit owner release, audits and QA.
+const LOCAL_TEST=(location.hostname==='localhost'||location.hostname==='127.0.0.1')&&location.pathname==='/scripts/fixtures/ad-m04-direct-banner-test.html'&&new URLSearchParams(location.search).get('dd_adsterra_direct_test')==='1';
 const CHOICE_KEY='dd-site-advertising-consent-v1';
 const ROOT='https://bicea.org/22/';
 const UNIT=Object.freeze({
@@ -14,49 +15,76 @@ const UNIT=Object.freeze({
   mobile:Object.freeze({width:320,height:50,key:'583ba41b4ca944fbeb2ae6136eec2cdd'}),
   wide:Object.freeze({width:728,height:90,key:'4e32127ce7b1af4bb948957fe0015e97'})
 });
-window.DDAdsterraM02=Object.freeze({releaseEnabled:RELEASE_ENABLED,
+window.DDAdsterraM02=Object.freeze({releaseEnabled:RELEASE_ENABLED,localTest:LOCAL_TEST,
   units:Object.freeze(Object.fromEntries(Object.entries(UNIT).map(([name,u])=>[name,Object.freeze({width:u.width,height:u.height})]))),
   advertisingConsentSeparateFromAnalytics:true});
-if(!RELEASE_ENABLED||window.top!==window||
-   !['/','/index.html','/privacy','/privacy.html'].includes(location.pathname)||
+if((!RELEASE_ENABLED&&!LOCAL_TEST)||window.top!==window||
+   !['/','/index.html','/privacy','/privacy.html','/scripts/fixtures/ad-m04-direct-banner-test.html'].includes(location.pathname)||
    window.DDAdLayoutM01?.preview)return;
 
 let choice=null,banner=null;
 try{const saved=localStorage.getItem(CHOICE_KEY);if(saved==='accepted'||saved==='declined')choice=saved}catch(_){}
-const isHome=location.pathname==='/'||location.pathname==='/index.html';
+const isHome=location.pathname==='/'||location.pathname==='/index.html'||LOCAL_TEST;
 const plan=(count,every,max)=>{const out=[];for(let n=every;n<=count&&out.length<max;n+=every)out.push(n);return out};
 const slots=()=>Array.from(document.querySelectorAll('.dd-adsterra-slot'));
 function activeTab(){return document.querySelector('.nav .tab.active')?.dataset.tab||'discover'}
 function clearSlots(){slots().forEach(node=>node.remove())}
+/* Never resize the creative or squeeze a 320px banner into a narrower slot.
+ * A smaller viewport simply does not show an ad there. This avoids horizontal
+ * scrolling and tampering with the original provider iframe dimensions.
+ */
+function availableWidth(host){return Math.min(document.documentElement.clientWidth-24,host.getBoundingClientRect().width-12)}
 function responsiveUnit(host){
- const available=host.getBoundingClientRect().width;
- return window.innerWidth>=1024&&available>=748?'wide':'mobile';
+ const available=availableWidth(host);
+ if(window.innerWidth>=1024&&available>=728)return 'wide';
+ if(available>=320)return 'mobile';
+ if(available>=300)return 'tile';
+ return null;
+}
+const loadingQueue=[];
+let loaderBusy=false;
+function pump(){
+ if(loaderBusy)return;
+ while(loadingQueue.length){
+  const next=loadingQueue.shift();
+  if(!next.wrap.isConnected)continue;
+  const {wrap,unit}=next;
+  loaderBusy=true;
+  // Append Adsterra's original two scripts to the website body rather than
+  // placing the tag in any additional iframe. The first is the original
+  // atOptions configuration; the second is its unmodified vendor src.
+  // Loads are serialised so the global atOptions cannot be overwritten by a
+  // different sized ad while the previous provider script is loading.
+  const config=document.createElement('script');
+  config.textContent="atOptions = { 'key' : "+JSON.stringify(unit.key)+", 'format' : 'iframe', 'height' : "+unit.height+", 'width' : "+unit.width+", 'params' : {} };";
+  wrap.append(config);
+  const script=document.createElement('script');
+  script.async=false;script.src=ROOT+unit.key;
+  const finish=()=>{loaderBusy=false;pump()};
+  script.addEventListener('load',finish,{once:true});
+  script.addEventListener('error',()=>{wrap.closest('.dd-adsterra-slot')?.remove();finish()},{once:true});
+  wrap.append(script);
+  return;
+ }
 }
 function makeSlot(area,index,unitName,host){
  const unit=UNIT[unitName];
+ if(!unit||availableWidth(host)<unit.width)return null;
  const aside=document.createElement('aside');
  aside.className='dd-adsterra-slot';
- aside.dataset.ddAdArea=area;aside.dataset.ddAdSequence=String(index);
- aside.dataset.ddAdUnit=unitName;aside.setAttribute('aria-label','Advertisement');
+ aside.dataset.ddAdArea=area;
+ aside.dataset.ddAdSequence=String(index);
+ aside.dataset.ddAdUnit=unitName;
+ aside.setAttribute('aria-label','Advertisement');
  const label=document.createElement('span');
  label.className='dd-adsterra-label';label.textContent='Advertisement';
- const wrap=document.createElement('div');wrap.className='dd-adsterra-frame-wrap';
- const width=Math.min(unit.width,Math.max(1,document.documentElement.clientWidth-36),
-  Math.max(1,host.getBoundingClientRect().width-22));
- const scale=Math.min(1,width/unit.width);
- wrap.style.width=(unit.width*scale)+'px';wrap.style.height=(unit.height*scale)+'px';
- const frame=document.createElement('iframe');frame.title='Advertisement';
- frame.width=String(unit.width);frame.height=String(unit.height);
- frame.setAttribute('sandbox','allow-scripts'); // No popups, top navigation or same-origin.
- frame.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
- frame.setAttribute('loading','lazy');frame.style.transformOrigin='0 0';
- frame.style.transform='scale('+scale+')';
- frame.style.width=unit.width+'px';frame.style.height=unit.height+'px';
- frame.style.border='0';frame.style.display='block';
- // Keep each Adsterra atOptions global isolated in a sandboxed opaque-origin frame.
- // The vendor script is not even placed in an iframe until AFTER affirmative consent.
- frame.srcdoc='<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;overflow:hidden"><script>atOptions={key:'+JSON.stringify(unit.key)+',format:"iframe",height:'+unit.height+',width:'+unit.width+',params:{}};<\/script><script src="'+ROOT+unit.key+'"><\/script></body></html>';
- wrap.append(frame);aside.append(label,wrap);
+ const wrap=document.createElement('div');
+ wrap.className='dd-adsterra-frame-wrap';
+ wrap.style.width=unit.width+'px';
+ wrap.style.height=unit.height+'px';
+ aside.append(label,wrap);
+ loadingQueue.push({wrap,unit});
+ queueMicrotask(pump);
  return aside;
 }
 function syncFeed(hostId,selector,every,max,area,unit){
@@ -65,12 +93,13 @@ function syncFeed(hostId,selector,every,max,area,unit){
  const stops=plan(entries.length,every,max);
  const current=Array.from(host.children).filter(n=>n.classList.contains('dd-adsterra-slot'));
  const unitName=typeof unit==='function'?unit(host):unit;
+ if(!unitName||availableWidth(host)<UNIT[unitName].width){current.forEach(n=>n.remove());return}
  const correct=current.length===stops.length&&stops.every((n,i)=>
   current[i].dataset.ddAdArea===area&&current[i].dataset.ddAdUnit===unitName&&
   entries[n-1].nextElementSibling===current[i]);
  if(correct)return;
  current.forEach(n=>n.remove());
- stops.forEach((n,i)=>entries[n-1].after(makeSlot(area,i+1,unitName,host)));
+ stops.forEach((n,i)=>{const node=makeSlot(area,i+1,unitName,host);if(node)entries[n-1].after(node)});
 }
 function syncStandalone(area,selector,where){
  const anchor=document.querySelector(selector);
@@ -81,7 +110,9 @@ function syncStandalone(area,selector,where){
  if(existing&&existing.dataset.ddAdUnit===unitName&&
    (where==='before'?anchor.previousElementSibling===existing:anchor.nextElementSibling===existing))return;
  if(existing)existing.remove();
+ if(!unitName)return;
  const node=makeSlot(area,1,unitName,host);
+ if(!node)return;
  if(where==='before')anchor.before(node);else anchor.after(node);
 }
 function sync(){
@@ -113,7 +144,7 @@ function setupBanner(){
  panel.hidden=true;panel.setAttribute('role','region');panel.setAttribute('aria-label','Optional advertising consent');
  const heading=document.createElement('strong');heading.textContent='Optional advertising';
  const desc=document.createElement('p');
- desc.textContent='May Adsterra load adverts on public News, Archive, Videos and Discussions pages? Adverts may use cookies or similar technologies. This choice is separate from analytics. You can say no and keep using Disclosure Desk.';
+ desc.textContent='May Adsterra load adverts on the public News, Archive, Videos and Discussions sections? Adverts may use cookies or similar technologies. You can say no and keep using Disclosure Desk. This does not affect Netlify website statistics.';
  const yes=document.createElement('button');yes.type='button';yes.dataset.ddAdvertisingYes='1';yes.textContent='Allow adverts';
  const no=document.createElement('button');no.type='button';no.dataset.ddAdvertisingNo='1';no.textContent='No thanks';
  const link=document.createElement('a');link.href='/privacy#advertising-settings';link.textContent='Privacy details and preferences';
