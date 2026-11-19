@@ -1,5 +1,20 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — curated M70 website green; guarded site release and branch retirement_
+_Last updated: 19 November 2026 (Europe/London) — M71 safe release controls tested and staged; live M70 remains unchanged_
+
+## M71 — release hygiene and branch-protection work, STAGED ONLY (19 November 2026)
+
+**Source and live site:** Branch `prep/m71-release-hygiene-20261119` forked from live `production` at `9fcaec4e602331b9a557937f6ee15ddd9a3f5ff2`. No production, Netlify, Supabase, APK, account, or Adsterra changes. M70 live manifest and routing remain byte-for-byte verified.
+
+**Future build safeguards:** Corrected the production publication smoke to use `CONTEXT: production` (R3 internal QA script/panel intentionally excluded). Added `scripts/guard_official_deploy.cjs`, invoked by the strict site builder: when actually running under Netlify's production context, refuse any missing/non-`production` `BRANCH`. This guard is **staged, not yet live**, and cannot protect old branches that never receive it; Netlify's branch source setting must also be reviewed manually. M71 tests check both 129-file production and 130-file preview builds and simulate blocked `main` / obsolete stage publication.
+
+**Exact tested code:** [M71 GitHub Actions run 44529590441](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44529590441) **passed both read-only jobs** at `42fb921d2a7420b161cb74df0dbe854839907d91`. It also verified the live M70 production manifest still matches. An earlier staging run failed on test syntax only; corrected without weakening the guards.
+
+**Branch protection finding:** GitHub API returned `protected:false` on **both `production` and `main`**; they are vulnerable to accidental direct/force pushes. Review the actionable manual changes in [GitHub issue #14](https://github.com/boydamo84-coder/disclosure-desk-preview/issues/14). Do not require a check that only runs on an old staging branch or break `main` news automation. No connector action is available to change rulesets or delete refs; no historical refs were deleted.
+
+**Branch retirement:** 170 GitHub branch refs now inventoried. Four supposedly superseded M68/M69/BDS staging branches are **diverged** from live production and contain unique, sometimes unshipped voting drafts/tests or alternative research implementations. They are **NOT cleared for deletion**. Retain rollback `backup/` and active Android M96M. See `docs/M71_RELEASE_HYGIENE_HANDOVER_2026-11-19.md` and updated `docs/GITHUB_BRANCH_RETIREMENT_2026-11-19.md` on this staging branch.
+
+**Next:** User/owner to confirm GitHub ruleset + Netlify production-branch configuration. Only include M71 guards in the **next substantial approved website deployment**; no new Netlify build for housekeeping alone.
+
 
 ## M70 — production-based curated website release candidate, CI green (19 November 2026)
 

@@ -192,3 +192,25 @@ Date: 19 November 2026 · M70 curated website release
 | REVIEW — historical, no release authority | `release/social-chat-discussions-avatar-20261108` |
 | KEEP — active/protected | `release/website-m70-curated-20261119` |
 | REVIEW — historical, no release authority | `staging/research-samsung-m16-20261108` |
+
+## Publication checkpoint — 19 November 2026
+
+M70 published and independently verified using the exact production-context manifest, [Actions 44526225170](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44526225170). The four source-stage branches tagged `HOLD — superseded after live M70 smoke` can now be **reviewed for manual retirement** after checking unique commits and retaining future voting work in `prep/who-m67-production-voting-integration-20261119`. Do not delete them automatically. Current live and rollback source refs remain protected.
+
+GitHub connector still lacks delete-ref functionality; no old branches were destroyed. The obsolete Nov 1 PR #1 was closed. Preserve `main` automation and `production` as the sole official website release branch.
+
+## M71 updated audit — 19 November 2026 (170 branches)
+**Do not delete the four 'HOLD — superseded after live M70 smoke' branches yet.** Each has diverged unique commit history that is not guaranteed to exist in M70 production:
+
+| Branch | Ahead of production | Behind production | Disposition |
+| --- | ---: | ---: | --- |
+| `prep/m69-profile-auth-stay-20261119` | 50 | 6 | KEEP pending archival of M67 voting drafts, M68 source work and standalone Profile tests |
+| `prep/bds-official-domain-link-nov19` | 9 | 6 | REVIEW later — mostly source tests and handover unique; not auto-cleared |
+| `prep/who-m68-international-programmes-in-whoswho-20261119` | 40 | 6 | KEEP pending voting/QA and correspondence lineage retention |
+| `prep/who-m68-world-programme-directory-20261119` | 37 | 6 | KEEP as alternative programme/source-status implementation, not released |
+
+New protected-intent candidate: `prep/m71-release-hygiene-20261119` (M71 staged release safety, NOT an official deployment branch).
+
+**High-priority outstanding:** GitHub `production` and `main` currently show `protected:false`. See [issue #14](https://github.com/boydamo84-coder/disclosure-desk-preview/issues/14) for manual production-branch protection, Netlify source verification and scheduled-news safe guards. The M71 staged runtime branch gate is not installed on previously created historical refs.
+
+Do not rely on classifying 149 branches as 'historical' to delete them. Each branch still requires unique-commit, PR, automation and backup verification. No historical refs have been deleted or force-moved.
