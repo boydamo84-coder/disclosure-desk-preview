@@ -12,6 +12,12 @@ Source `24f59fa741c70de57b31e2356d3d3fe326b51880` built the private APK and unsi
 
 The live public privacy page was checked on 19 November. It still needs the dedicated account-deletion section staged in the Android branch. The next device check is a Galaxy run through the tour, Chrome Share, and the optional-alert settings.
 
+## Account-deletion request QA
+
+The existing Profile → Profile settings → Account & Security → Delete my account path passed local Chromium checks using the exact M98 APK markup and markup fetched from the live site, with synthetic sign-in at 320, 393 and 820 px. The control stays hidden when signed out. Closing the disclosure creates no request. Selecting Request account deletion hands the email client the support address and the deletion subject, with no account data prefilled. The bundled privacy page’s public deletion section also passed without sign-in.
+
+The live privacy page responds successfully and still needs the dedicated account-deletion section that is already bundled. Confirm the email app handoff on a Galaxy and rehearse receipt, ownership verification and associated-data cleanup for one authorised disposable account before closing this release gate. These checks intercepted the email handoff and made no production writes.
+
 ## Galaxy test
 
 1. Install the M98 private APK alongside M97. Open it from the launcher and run the tour. Try Back, Skip and Done. Relaunch and replay it from Desk.
