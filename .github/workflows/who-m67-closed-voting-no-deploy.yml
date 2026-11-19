@@ -107,7 +107,9 @@ jobs:
         run: |
           createdb dd_who_m67_publishqa
           export PGDATABASE=dd_who_m67_publishqa
-          psql -v ON_ERROR_STOP=1 -f scripts/fixtures/who-m63-rls-bootstrap.sql
+          # Roles are cluster-wide and already exist from the first disposable DB.
+          # Recreate only database-local auth schema/functions for this second database.
+          sed '/^create role /d' scripts/fixtures/who-m63-rls-bootstrap.sql | psql -v ON_ERROR_STOP=1
           psql -v ON_ERROR_STOP=1 -f docs/WHO_M63_FIVE_CRITERIA_BALLOTS_SQL_DRAFT_ONLY.sql
           psql -v ON_ERROR_STOP=1 -f docs/WHO_M65_AGGREGATE_RELEASE_SQL_DRAFT_ONLY.sql
           psql -v ON_ERROR_STOP=1 -f scripts/fixtures/who-m65-aggregate-release-test.sql
