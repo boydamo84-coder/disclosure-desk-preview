@@ -1,5 +1,22 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — curated M70 website green; guarded site release and branch retirement_
+_Last updated: 19 November 2026 (Europe/London) — M76 personal Who claim assessment and M71 release safeguard STAGED, QA green, NO DEPLOY_
+
+## M76 — individual claim evidence worksheet, 4-width Chromium VERIFIED; M71 guard included, STAGED ONLY (19 November 2026)
+
+**Owner direction:** Keep Supabase as it is; do NOT create another project or run any voting migration/real two-account test against existing connected projects. Existing M75 real Auth acceptance remains intentionally not performed. Continue viable Who's Who features without a database dependency.
+
+**Safe production-derived branch:** `prep/who-m76-private-worksheet-20261119` starts from last confirmed M70 `production` `9fcaec4e602331b9a557937f6ee15ddd9a3f5ff2`. It selectively adds one browser-only module `assets/who-private-worksheet-m76.js`, integrates with the existing profile page and five-criterion explanation, and adds a strict single-file allowlist approval. It does NOT merge stale experimental M67–M75 voting/SQL/Android branches. The official website has **not** been deployed or changed by M76.
+
+**Private self-assessment, NOT community voting:** Exactly five initial source-linked `incident_or_observation` claim dossiers (out of 23 current dossiers) offer an interactive assessment. Original context max 25, independent evidence max 30, direct documentary evidence max 25, testability max 10, alternatives max 10. `Not enough information` is distinct from zero; partial answers show a partial subtotal/assessed maximum but **no misleading total out of 100**. Full assessments show a personal 0–100 worksheet total, explicitly NOT a claim's truth probability, Disclosure Desk editorial verdict or any person's integrity score. The controls make no API calls, cookies, persistent storage or submissions; the Clear action or leaving/reopening a profile resets answers.
+
+**Release packaging and safeguards:** Approved one extra public JS (130 files total in the actual `CONTEXT=production` package; M70 was 129), scoped CSS in existing `who-is-who.html`; no private QA/backend files. `whoEvidenceBallots:false` and `RELEASE_ENABLED=false` for Adsterra. Supabase, private members, account records, Drive, APK and existing W.NE unchanged.
+
+**M71 safety combined for future release:** Cherry-picked the specific production-context manifest smoke correction (`CONTEXT: production`) and `scripts/guard_official_deploy.cjs`, invoked at the top of the strict builder. A Netlify production build from a missing/wrong `BRANCH` fails closed; GitHub Actions simulates approved `production` versus blocked `main`/historical refs. This is a secondary guard, not a replacement for Netlify branch settings or GitHub branch protection tracked at [issue #14](https://github.com/boydamo84-coder/disclosure-desk-preview/issues/14). These protections are **staged, NOT live**.
+
+**Verified no-deploy CI:** At source commit `6a133f3a6cbcf8f76f5efda08455f4e56a6a19be`, [GitHub Actions run 44575804595](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44575804595) passed **both jobs**, including source/privacy and allowlist tests, 320/393/820/1280px real Chromium clicks on David Fravor's sourced observation, zero/Unknown, full and partial results, clear/back/reopen, exclusion of David Grusch's institutional claim, no external request/overflow. M68 programme, Vatican and source-enquiry browser regressions also passed.
+
+**Next release gate:** The M76 branch is ready for **owner review of the worksheet**, not automatically approved to publish. When owner expressly approves a significant website release, do final exact-HEAD QA, preserve rollback, promote only curated M76 code from this production-derived branch, verify live Netlify `CONTEXT=production` manifest checksum, and avoid extra incremental deploys. Do not enable M64/M67 voting without independent human editorial/security signoff and genuine separately authorised test backend. Full detail: `docs/WHO_M76_PRIVATE_EVIDENCE_WORKSHEET_2026-11-19.md`.
+
 
 ## M70 — production-based curated website release candidate, CI green (19 November 2026)
 
