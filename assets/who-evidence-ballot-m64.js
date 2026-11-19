@@ -184,7 +184,7 @@
     current=await api.mine(claim.id,version);
     if(my!==serial||!visible())return;
     const old=current&&!current.is_withdrawn?validateAnswers(current.answers):blank();
-    host.replaceChildren(el('p','dd-m64-notice','Your answers are private and never describe anyone’s honesty. Individual evidence scores are not truth probabilities.'));
+    host.replaceChildren(el('p','dd-m64-notice','Your answers are private and never describe anyone’s honesty. Individual evidence scores are not truth probabilities. If an aggregate is published, this claim version closes to new or edited ballots. Withdrawing an earlier ballot then retires that public aggregate, but previously saved screenshots or copies cannot be recalled.'));
     for(const item of caps){
      const field=el('fieldset','dd-m64-field');
      field.append(el('legend',null,item.label+' · '+item.max+' points'),
