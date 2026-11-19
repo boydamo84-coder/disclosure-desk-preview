@@ -512,11 +512,81 @@ public final class MainActivity extends Activity {
     }
     private void showDeskMenu(View anchor){
         android.widget.PopupMenu menu=new android.widget.PopupMenu(this,anchor);
+        menu.getMenu().add("Notification centre").setOnMenuItemClickListener(item->{showNotificationCentre();return true;});
         menu.getMenu().add("Offline Archive").setOnMenuItemClickListener(item->{openOfflineArchive();return true;});
         menu.getMenu().add("Research Inbox").setOnMenuItemClickListener(item->{showResearchInbox();return true;});
         menu.getMenu().add("Notification settings").setOnMenuItemClickListener(item->{notificationSettings();return true;});
         menu.show();
     }
+    /**
+     * Phone-only notifications list. Uses only actual device-delivered
+     * notifications; it never fetches another member's messages or logs their body.
+     * The web news feed and premium navigation remain the original M95 design.
+     */
+    private void showNotificationCentre(){
+        if(isFinishing() || isDestroyed())return;
+        String owner=getSharedPreferences("dd-chat-push",MODE_PRIVATE).getString("active-user","");
+        List<NotificationInboxStore.Entry> entries=NotificationInboxStore.visible(this,owner);
+        LinearLayout content=new LinearLayout(this);
+        content.setOrientation(LinearLayout.VERTICAL);
+        content.setPadding(dp(16),dp(8),dp(16),dp(8));
+        TextView note=new TextView(this);
+        note.setText("Recent alerts delivered to this device only. Private Chat entries are visible only for the currently signed-in account. No message contents are stored.");
+        note.setTextColor(0xFFB9CAD8);
+        note.setTextSize(12);
+        note.setPadding(0,0,0,dp(12));
+        content.addView(note);
+        if(entries.isEmpty()){
+            TextView empty=new TextView(this);
+            empty.setText("No recent notifications. News and video alerts appear here after delivery.");
+            empty.setTextColor(DESK_GOLD);
+            empty.setPadding(dp(6),dp(18),dp(6),dp(18));
+            content.addView(empty);
+        }
+        android.widget.ScrollView scroll=new android.widget.ScrollView(this);
+        scroll.setFillViewport(false);
+        scroll.addView(content);
+        AlertDialog dialog=new AlertDialog.Builder(this)
+            .setTitle("Notification centre")
+            .setView(scroll)
+            .setNegativeButton("Close",null)
+            .setNeutralButton("Mark all read",(d,which)->NotificationInboxStore.markAllRead(this,owner))
+            .setPositiveButton("Settings",(d,which)->notificationSettings())
+            .create();
+        for(NotificationInboxStore.Entry entry:entries){
+            Button row=new Button(this);
+            row.setAllCaps(false);
+            String category="chat".equals(entry.type)?"Private Chat":
+                "news".equals(entry.type)?"News":"videos".equals(entry.type)?"Videos":"Test";
+            row.setText((entry.read?"":"●  ")+category+" · "+
+                DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(new Date(entry.time))+
+                "\n"+entry.title);
+            row.setTextColor(DESK_GOLD);
+            row.setTextSize(13);
+            row.setGravity(Gravity.START|Gravity.CENTER_VERTICAL);
+            row.setPadding(dp(12),dp(9),dp(12),dp(9));
+            row.setBackground(deskRipple(true));
+            LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(-1,-2);
+            lp.bottomMargin=dp(9);
+            content.addView(row,lp);
+            row.setOnClickListener(v->{
+                NotificationInboxStore.markRead(this,entry);
+                Intent targetIntent=new Intent(this,MainActivity.class);
+                targetIntent.putExtra("dd_type",entry.type);
+                targetIntent.putExtra("dd_record_id",entry.id);
+                if("chat".equals(entry.type))targetIntent.putExtra("dd_recipient_id",entry.owner);
+                String destination=notificationUrl(targetIntent);
+                dialog.dismiss();
+                if(!HOME.equals(destination) && web!=null)web.loadUrl(destination);
+            });
+        }
+        dialog.setOnShowListener(d->{
+            android.view.Window win=dialog.getWindow();
+            if(win!=null)win.setLayout(-1,(int)(getResources().getDisplayMetrics().heightPixels*0.75f));
+        });
+        dialog.show();
+    }
+
     private void openOfflineArchive(){
         startActivityForResult(new Intent(this,OfflineArchiveActivity.class),OFFLINE_ARCHIVE_REQUEST);
     }
