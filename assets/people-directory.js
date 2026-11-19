@@ -964,7 +964,7 @@ function renderClaimEvidence(person){
     (s.context?'<p class="muted small">'+esc(s.context)+'</p>':'')+'</li>').join('');
   const trail=draftEvidenceTrailHtml(claim)||
    '<p class="muted small">Source references document the public assertion. Independent validation of the underlying event has not been completed.</p>';
-  return '<article class="claim-review" aria-label="Attributed public claim and original evidence">'+
+  return '<article class="claim-review" data-evidence-claim-id="'+esc(claim.id||'')+'" aria-label="Attributed public claim and original evidence">'+
    '<div class="claim-status">'+(advisory?'PUBLIC RESEARCH RECOMMENDATION':
     policyOnly?'PUBLIC POLICY / RECORDS-ACCESS STATEMENT':'PUBLIC CLAIM')+
     ' · '+esc(claim.date||'Date requires verification')+'</div>'+
@@ -981,6 +981,8 @@ function renderClaimEvidence(person){
       '<p class="muted small">No independently reviewed primary-source link has been approved for this item.</p>')+
    '</div></article>';
  }).join('')||'<p class="muted small">No source-linked claim notes available.</p>';
+ // M67: feature remains CLOSED until two independent approvals and vetted RLS.
+ void window.DDWhoEvidenceM64?.mountForPerson(person,host);
 }
 
 function openPerson(person,updateUrl=true){
