@@ -1,5 +1,18 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — M76 personal Who claim assessment and M71 release safeguard STAGED, QA green, NO DEPLOY_
+_Last updated: 19 November 2026 (Europe/London) — M76 LIVE deployed, GitHub public manifest checksum and routes VERIFIED_
+
+## M76 — PUBLICATION VERIFIED, production fast-forward + M70 rollback intact (19 November 2026)
+
+**Owner explicitly approved the official M76 website deploy.** Confirmed exact-head production promotion from verified M70 `9fcaec4e602331b9a557937f6ee15ddd9a3f5ff2` to M76 `910d755916cdf72ea7c7df39bbf7a5c76832d649` by fast-forward, without force. Safety rollback `backup/production-pre-m76-20261119` was created AND verified to point to the exact old M70 SHA. The backup remains untouched.
+
+**Published website independently verified:** [GitHub Actions live release check 44578546694](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44578546694) completed **SUCCESS on the exact production SHA**. The job built the 130-file `CONTEXT=production` allowlist, then compared its `release-manifest.json` SHA-256 against `https://uapdisclosuredesk.com/release-manifest.json`: **`64a515c450918a6ef368b05920e2cf7664728436290282ee8ffa0bb871855768`**, exact byte-for-byte match as recorded in the public smoke log at 17:34:23 UTC. The same job returned HTTP OK for homepage, `/who-is-who`, `/world-uap-programmes`, `/sources`, `/research/wne.html`, the original programme and source-outreach JS, and `/assets/who-private-worksheet-m76.js`. It confirmed Who HTML links the private worksheet and the official Boyd Digital Studios domain is still on the home page.
+
+**Included:** M76 browser-only personal five-criterion worksheet on five sourced observation cases, 0 vs Not enough information, private ephemeral answers only; M71 production-branch guard and fixed publication-context smoke; M68 world programme/Vatican/source-enquiry directory and M69 Profile login fixes preserved. All no-deploy source and four-width real Chromium tests passed before the promotion [run 44576141476](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44576141476).
+
+**Still OFF:** Who's Who *community evidence voting* (`whoEvidenceBallots:false`), M67–M75 backend SQL/evidence ballot runtime, actual editorial approvals, Adsterra (`RELEASE_ENABLED=false`). **No Supabase changes, member data writes, separate QA project, APK deployment, or billing changes** were requested or carried out. The original M75 sandbox question is CLOSED by owner decision to keep Supabase as it is; do not provision another project unless asked later.
+
+**Next development:** Start future work from the official new `production` SHA `910d755916cdf72ea7c7df39bbf7a5c76832d649` rather than the experimental M67–M75 branch history or the post-release handover-only commit here. Keep rollback backup. Any new live website feature requires separately approved production promotion with exact manifest smoke. Branch protection [issue #14](https://github.com/boydamo84-coder/disclosure-desk-preview/issues/14) remains a manual platform-admin action. This documentation-only handover commit is on the **M76 staging branch**, NOT `production`, to avoid retriggering another Netlify build merely to update the handover.
+
 
 ## M76 — individual claim evidence worksheet, 4-width Chromium VERIFIED; M71 guard included, STAGED ONLY (19 November 2026)
 

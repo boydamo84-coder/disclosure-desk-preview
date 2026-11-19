@@ -1,6 +1,14 @@
 # M76 — Private Who's Who evidence-assessment worksheet
 19 November 2026 (Europe/London)
-Status: production-derived staging only; **NO Netlify deploy**.
+Status: **DEPLOYED LIVE and checksum-verified** 19 November 2026; no database migration.
+
+## Official production release verification
+- M76 was promoted by non-forced fast-forward to GitHub production commit `910d755916cdf72ea7c7df39bbf7a5c76832d649`, owner-approved.
+- Rollback `backup/production-pre-m76-20261119` points to the exact prior production `9fcaec4e602331b9a557937f6ee15ddd9a3f5ff2`.
+- [Live public smoke run 44578546694](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44578546694): **success**. Its Netlify public `release-manifest.json` SHA-256 precisely matched the independently rebuilt 130-file `CONTEXT=production` bundle: `64a515c450918a6ef368b05920e2cf7664728436290282ee8ffa0bb871855768`.
+- Public route checks also passed home, Who's Who, worldwide programmes, Sources, W.NE, M68 scripts and new private worksheet script. Both pre-promote offline jobs passed on the exact promoted commit in [run 44576141476](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44576141476).
+- Community evidence voting and Adsterra remain disabled; no Supabase, real user account or APK changes. Owner declined new Supabase project, so keep M75 independent account QA blocked.
+- This after-release documentation is saved only on the M76 staging branch to avoid a second production push and unnecessary Netlify build.
 
 ## Reason
 M75 real Supabase Auth acceptance remains blocked by the owner's decision not to create another Supabase project. The owner explicitly chose to **leave both connected Supabase projects unchanged**. To advance existing feature goals, M76 adds a personal, claim-specific worksheet that does not need a backend, login or voting.
