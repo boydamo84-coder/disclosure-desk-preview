@@ -975,12 +975,14 @@ function renderClaimEvidence(person){
      trail+'</details>'+
    (policyOnly?
      '<p class="muted small">This source concerns policy, scientific recommendations or records access. It is not an incident-observation ballot.</p>':
-     '<p class="muted small"><strong>Community evidence worksheet:</strong> Not open for submissions. Future claim-specific assessments will ask members about five evidence criteria, allowing “Not enough information” separately from zero. Individual answers will remain private.</p>')+
+     '<p class="muted small"><strong>Community evidence voting:</strong> Not open. For sourced incident or observation claims, you can try an optional personal worksheet below. No answers are collected or stored.</p>')+
    '<div class="claim-record"><strong>Original statement / public-source references</strong>'+
      (refs?'<ul class="link-list">'+refs+'</ul>':
       '<p class="muted small">No independently reviewed primary-source link has been approved for this item.</p>')+
    '</div></article>';
  }).join('')||'<p class="muted small">No source-linked claim notes available.</p>';
+ // Separate from public votes: attach only ephemeral, claim-specific private controls.
+ window.DDWhoPrivateWorksheetM76?.mountForPerson(person,host);
 }
 
 function openPerson(person,updateUrl=true){

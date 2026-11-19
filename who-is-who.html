@@ -184,6 +184,18 @@ footer a{margin-right:14px}
 @media(max-width:700px){.dd-who-international{padding:15px}.dd-who-programme-grid,.dd-who-programme-filters{grid-template-columns:1fr}.dd-who-programme-card{padding:12px}.dd-who-programme-leads{padding-left:24px}}
 .dd-who-outreach{margin:13px 0 7px;padding:12px;border:1px solid #7d735e;border-radius:11px}
 .dd-who-outreach>summary{cursor:pointer;font-size:13px;font-weight:700;color:#f1d39e;min-height:34px}
+
+/* M76 private, no-upload evidence worksheet */
+#profileEvidenceReviews .dd-private-worksheet{margin-top:15px;padding:12px 14px;border:1px solid #617b8d;border-radius:10px;background:#10263a}
+#profileEvidenceReviews .dd-private-worksheet>summary{min-height:42px;display:list-item;align-content:center;color:#f4d59a}
+#profileEvidenceReviews .dd-private-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
+#profileEvidenceReviews .dd-private-field{display:flex;flex-direction:column;min-width:0;gap:4px;font-size:14px}
+#profileEvidenceReviews .dd-private-field select{max-width:100%;width:100%;min-height:44px;background:#0b1d2f;border:1px solid #8295a5;border-radius:7px;color:#f6f4ef;padding:9px;font:inherit}
+#profileEvidenceReviews .dd-private-result{background:#1a3447;border-left:3px solid #dfbb77;border-radius:6px;padding:10px 12px;margin:10px 0;overflow-wrap:anywhere;font-weight:700}
+#profileEvidenceReviews .dd-private-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+#profileEvidenceReviews .dd-private-actions .btn{min-height:44px}
+#profileEvidenceReviews .dd-private-actions p{margin:5px 0}
+@media(max-width:580px){#profileEvidenceReviews .dd-private-fields{grid-template-columns:minmax(0,1fr)}}
 </style>
 
 </head><body>
@@ -278,10 +290,10 @@ footer a{margin-right:14px}
 <div class="section-title">Attributed claims · original sources · open questions</div><h3>Read the evidence and decide for yourself</h3>
 <p class="muted small">Open a particular claim to inspect original publication and testimony links, documentary provenance, supporting and challenging material, missing underlying measurements and research questions. This is <strong>source-first research, not a numerical Disclosure Desk judgement</strong>. Role records and policy recommendations remain documented without pretending they establish an extraordinary incident. Nothing on this page rates people's character, honesty or motives.</p>
 <div id="profileEvidenceReviews" aria-live="polite"><p class="muted small">Loading claim reviews…</p></div>
-<details id="claimReviewMethod"><summary>How members will be able to assess evidence (five criteria)</summary>
-<p class="muted small">Disclosure Desk does not publish editorial numerical ratings. The proposed optional community worksheet is about a precisely attributed claim, not a person's trustworthiness or the probability of an extraordinary interpretation. Members will be able to mark a criterion <strong>Not enough information</strong> instead of guessing; this is different from giving zero points.</p>
+<details id="claimReviewMethod"><summary>How to use the private five-criterion worksheet</summary>
+<p class="muted small">Disclosure Desk does not publish editorial numerical ratings. The optional private worksheet is available on source-linked incident or observation claims. It assesses a particular attributed claim, not a person’s trustworthiness or the probability of an extraordinary interpretation. Select <strong>Not enough information</strong> rather than guessing; zero is a separate answer. Nothing in this worksheet is submitted, saved or published.</p>
 <ul class="small"><li>Original record and full context — up to 25 points</li><li>Genuinely independent corroboration — up to 30 points</li><li>Original measurements and documentary provenance — up to 25 points</li><li>Testability and methodology — up to 10 points</li><li>Alternative explanations and uncertainty — up to 10 points</li></ul>
-<p class="muted small">Partial personal worksheets will not be extrapolated to 100. A future public summary would show each criterion's member response distribution, number of respondents and number selecting Not enough information, not a single headline truth percentage. <strong>Voting is not active</strong> until account-security, privacy, moderation and claim-eligibility checks are complete.</p></details>
+<p class="muted small">Partial personal worksheets are not extrapolated to 100. A future public summary would show each criterion's member response distribution, number of respondents and number selecting Not enough information, not a single headline truth percentage. <strong>Voting is not active</strong> until account-security, privacy, moderation and claim-eligibility checks are complete.</p></details>
 <p class="muted small">To suggest a primary source or challenge an assessment, <a href="mailto:support@uapdisclosuredesk.com?subject=Who%27s%20Who%20claim%20evidence%20review">contact the research desk</a>.</p>
 </section>
 <section class="card"><div class="section-title">Research context</div><h3>Evidence to examine and other interpretations</h3><p id="profileContext"></p><p class="note small">These notes are not a verdict on a person's character, credibility or motives. Interpretations should be tested against the cited record.</p></section>
@@ -300,7 +312,7 @@ footer a{margin-right:14px}
 </article>
 <section class="card" id="editorialPolicy"><div class="section-title">Directory policy</div><h2>Profiles are evidence guides, not popularity contests</h2>
 <p>Statements are attributed to their speakers or published institutions. Reporting, first-hand testimony, technical analysis and alleged facts are different types of evidence. Inclusion is not an endorsement or accusation.</p>
-<p>We will not label real people as dishonest, part of a covert operation or otherwise malicious based on community opinion. The directory provides original records and open questions rather than a Disclosure Desk evidence score. A future optional member worksheet will apply only to a <em>specific, attributed claim</em>, with private individual answers and safeguards for public aggregates. No ballots are active, and no numerical rating of a person is collected.</p>
+<p>We will not label real people as dishonest, part of a covert operation or otherwise malicious based on community opinion. The directory provides original records and open questions rather than a Disclosure Desk evidence score. An optional personal worksheet helps readers examine a <em>specific, sourced incident claim</em> privately. Its answers stay on the page, with no submission or storage by this tool. Community ballots remain inactive, and no numerical rating of a person is collected.</p>
 <p>To suggest a person, provide a public source supporting their work. To request a correction, <a href="mailto:support@uapdisclosuredesk.com?subject=Who%27s%20Who%20source%20correction">email the research desk</a> with the name, the disputed wording and a primary reference.</p>
 </section></main>
 <footer><div class="wrap">Disclosure Desk · Boyd Digital Studios · Public-source research directory<br><a href="/">Home</a><a href="/investigations">Original research</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></footer>
@@ -308,7 +320,8 @@ footer a{margin-right:14px}
 <script defer src="/assets/source-outreach-digest-m68.js?v=m68-research-status"></script>
 <script defer src="/assets/community-test-config.js?v=m70-who-ballots-off"></script>
 <script defer src="/assets/person-case-links.js?v=r2-m8-alpha01"></script>
-<script defer src="/assets/people-directory.js?v=m62-source-first-20261118&m28=hearing-crosschecks&m28b=source-comparisons&m28c=lineage&m28d=broadcast-provenance&m28e=seven-originals&m29=review-handoff&m41=evidence-summary"></script>
+<script defer src="/assets/who-private-worksheet-m76.js?v=m76-local-only"></script>
+<script defer src="/assets/people-directory.js?v=m62-source-first-20261118&m28=hearing-crosschecks&m28b=source-comparisons&m28c=lineage&m28d=broadcast-provenance&m28e=seven-originals&m29=review-handoff&m41=evidence-summary&m76=private-worksheet"></script>
 <script defer src="/assets/secondary-editorial-nav.js?v=r2-premium-nav01"></script>
 <script defer src="/assets/page-help.js?v=r2-m10-help01"></script>
 </body></html>

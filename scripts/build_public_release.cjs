@@ -27,7 +27,7 @@ function copy(rel){
 // must never silently make it publicly accessible on a subsequent deploy.
 const approvedWeb=Object.freeze({
  assets:[
-  'media-submissions.js','community-polish.css','secondary-editorial-nav.css','secondary-editorial-nav.js','site-ad-layout-m01.css','site-ad-layout-m01.js','site-adsterra-m02.js','case-comment-moderation.js','case-connections.js','evidence-dna.js','person-case-links.js','people-directory.js','world-uap-programmes.js','who-archive-return.js','source-verification.js','who-international-programmes-m68.js','source-outreach-digest-m68.js','source-outreach-digest-m68.css','page-help.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
+  'who-private-worksheet-m76.js','media-submissions.js','community-polish.css','secondary-editorial-nav.css','secondary-editorial-nav.js','site-ad-layout-m01.css','site-ad-layout-m01.js','site-adsterra-m02.js','case-comment-moderation.js','case-connections.js','evidence-dna.js','person-case-links.js','people-directory.js','world-uap-programmes.js','who-archive-return.js','source-verification.js','who-international-programmes-m68.js','source-outreach-digest-m68.js','source-outreach-digest-m68.css','page-help.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
   'community-test-config.js','community-votes.js','confirmation-dialog.js','disclosure-desk-mark.svg',
   'discussions-admin.js','historical-satellite.js','inline-news-comments.js','unified-action-rails.js',
   'live-chat.js','live-hearings.js','live-schedule.css','live-schedule.js',
@@ -76,6 +76,8 @@ for(const flag of ['privateChat:enabled','discussions:enabled','profileAvatars:e
 const whoHtml=fs.readFileSync(path.join(out,'who-is-who.html'),'utf8');
 if(whoHtml.includes('who-evidence-ballot-m64.js')||whoHtml.includes('who-evidence-ballot-m64.css'))throw Error('Unapproved Who evidence voting runtime bundled');
 if(!cfg.includes('whoEvidenceBallots:false'))throw Error('Who evidence ballots must stay OFF');
+// M76 self-evaluation is client-only and must never add voting, API or storage writes.
+if(!whoHtml.includes('who-private-worksheet-m76.js'))throw Error('Private worksheet entrypoint missing');
 const adSource=fs.readFileSync(path.join(out,'assets/site-adsterra-m02.js'),'utf8');
 if(!adSource.includes('const RELEASE_ENABLED=false;'))throw Error('Real Adsterra must stay OFF');
 if(files.some(f=>f.path.includes('who-evidence-ballot-m64')||f.path.includes('who-community-approvals-m64')))
