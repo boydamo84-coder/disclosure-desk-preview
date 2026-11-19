@@ -1,0 +1,61 @@
+name: Who M76 private self-assessment worksheet — NO DEPLOY
+on:
+  push:
+    branches: [prep/who-m76-private-worksheet-20261119]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-and-public-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CONTEXT: production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Confirm personal worksheet has no account, storage or vote writes
+        run: |
+          node --check assets/who-private-worksheet-m76.js
+          node --check assets/people-directory.js
+          node scripts/test_who_m76_private_worksheet_contract.cjs
+          node scripts/test_m70_release_guard.cjs
+      - name: Build public-only package offline; keep votes OFF
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          node scripts/test_m70_release_guard.cjs --bundle
+          node scripts/test_who_m76_private_worksheet_contract.cjs
+          test -f .release-staging/public-site/assets/who-private-worksheet-m76.js
+          test ! -f .release-staging/public-site/assets/who-evidence-ballot-m64.js
+          grep -q 'whoEvidenceBallots:false' .release-staging/public-site/assets/community-test-config.js
+  real-chromium-4-widths:
+    needs: source-and-public-package
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium test runner (no Netlify publish)
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+          test -x /usr/bin/google-chrome
+      - name: Open actual Who profiles and interact with worksheet, no external requests
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/m76-who.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for i in $(seq 1 20); do
+            if curl -fsS --max-time 2 http://127.0.0.1:4173/who-is-who.html >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/test_who_m76_private_worksheet_chromium.cjs
+          node scripts/test_who_m68_programmes_outreach_chromium.cjs
