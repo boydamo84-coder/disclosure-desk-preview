@@ -59,7 +59,10 @@ function pump(){
   config.textContent="atOptions = { 'key' : "+JSON.stringify(unit.key)+", 'format' : 'iframe', 'height' : "+unit.height+", 'width' : "+unit.width+", 'params' : {} };";
   wrap.append(config);
   const script=document.createElement('script');
-  script.async=false;script.src=ROOT+unit.key;
+  script.async=false;
+  // On localhost the QA fixture deliberately substitutes first-party fake ad JS.
+  // Never issue publisher impressions from an unapproved origin or automated test.
+  script.src=LOCAL_TEST?'/scripts/fixtures/ad-m04-mock-tag.js':ROOT+unit.key;
   const finish=()=>{loaderBusy=false;pump()};
   script.addEventListener('load',finish,{once:true});
   script.addEventListener('error',()=>{const slot=wrap.closest('.dd-adsterra-slot');if(slot){slot.hidden=true;slot.dataset.ddAdLoadFailed='1'}finish()},{once:true});
