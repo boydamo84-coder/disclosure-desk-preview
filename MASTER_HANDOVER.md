@@ -1,5 +1,14 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — GA4 removal promoted to production branch; Adsterra awaits publisher approval_
+_Last updated: 19 November 2026 (Europe/London) — official Boyd Digital Studios website link staged; no production deployment_
+
+## BDS domain link M01 — OFFICIAL STUDIO LINK STAGED (19 November 2026)
+
+**Branch:** `prep/bds-official-domain-link-nov19` from current `production`. Added `https://boyddigitalstudios.com/` to the current website's Explore → About the Studio section and clickable footer studio credit, with existing gold styling preserved. There was no active old Wix link in the inspected current index page; this corrects the missing destination without broad URL substitution. `uapdisclosuredesk.com`, support email, Ko-fi, member authentication, W.NE, ad status and navigation are unchanged.
+
+**No-deploy test:** `scripts/test_bds_official_link.cjs` plus `.github/workflows/bds-official-domain-no-deploy.yml`. Verify exact branch-head status and the official domain opens correctly before promoting with the next user-approved curated release. **Not merged/published to `production`, no Netlify build, no Adsterra activation or Supabase changes.** Detailed handover `docs/BDS_STUDIO_DOMAIN_MILESTONE_2026-11-19.md`.
+
+**Android companion staged separately:** `android/m96m-bds-official-link-nov19` adds a native Desk menu link and matching bundled HTML. User's Galaxy acceptance on 19 Nov confirms **Profile login works and stays on Profile (M96L)** and **Chat's keyboard now reveals latest messages (M96K)**; retain distinct remaining device-test gates. No new APK has been built or distributed for this studio-link change.
+
 
 
 
