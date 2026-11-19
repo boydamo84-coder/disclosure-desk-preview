@@ -75,6 +75,7 @@ public final class MainActivity extends Activity {
     private static final int NAV_BAR_DP = 62;
     private static final int DESK_GOLD = Color.rgb(242,215,162);
     private static final String SUPPORT_URL = "https://ko-fi.com/disclosuredesk";
+    private static final String STUDIO_URL = "https://boyddigitalstudios.com/";
     private static final Set<String> LEGAL_PAGES = new HashSet<>(java.util.Arrays.asList(
             "guide", "terms", "privacy", "community-rules", "sources", "research-edition"));
     private ValueCallback<Uri[]> pendingFiles;
@@ -510,12 +511,20 @@ public final class MainActivity extends Activity {
             android.widget.Toast.makeText(this,"No browser is available to open Ko-fi",android.widget.Toast.LENGTH_SHORT).show();
         }
     }
+    private void openStudioWebsite(){
+        try{
+            startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(STUDIO_URL)));
+        }catch(ActivityNotFoundException error){
+            android.widget.Toast.makeText(this,"No browser is available to open Boyd Digital Studios",android.widget.Toast.LENGTH_SHORT).show();
+        }
+    }
     private void showDeskMenu(View anchor){
         android.widget.PopupMenu menu=new android.widget.PopupMenu(this,anchor);
         menu.getMenu().add("Notification centre").setOnMenuItemClickListener(item->{showNotificationCentre();return true;});
         menu.getMenu().add("Offline Archive").setOnMenuItemClickListener(item->{openOfflineArchive();return true;});
         menu.getMenu().add("Research Inbox").setOnMenuItemClickListener(item->{showResearchInbox();return true;});
         menu.getMenu().add("Notification settings").setOnMenuItemClickListener(item->{notificationSettings();return true;});
+        menu.getMenu().add("Boyd Digital Studios website").setOnMenuItemClickListener(item->{openStudioWebsite();return true;});
         menu.show();
     }
     /**
