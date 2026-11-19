@@ -34,8 +34,8 @@ assert(forum.includes('.then(saved=>{'),'Discussions scrolls only after successf
 assert(forum.includes('if(!saved||thread?.id!==originalThread)return'),'Discussions does not reveal if thread changes');
 assert(build.includes('scripts/test_m79_mobile_comment_keyboard_contract.cjs'),'APK CI runs M79 static test');
 assert(build.includes('scripts/test_m79_mobile_comment_keyboard_chromium.cjs'),'APK CI runs M79 real mobile test');
-assert(build.includes('android/m96k-chat-keyboard-reveal-nov19'),'M79 build isolated branch');
-assert(build.includes('DisclosureDesk-M96K-KEYBOARD-BETA'),'M79 separately named APK artifact');
+assert(build.includes('android/m96l-profile-auth-stay-nov19'),'M79 build isolated branch');
+assert(build.includes('DisclosureDesk-M96L-PROFILE-BETA'),'M79 separately named APK artifact');
 assert(Number(gradle.match(/versionCode = (\d+)/)?.[1]) >= 17);
 assert.match(manifest,/android:windowSoftInputMode="adjustResize"/,'Android WebView requests keyboard resize, not pan');
 assert(!/\bnetlify deploy\b/.test(build),'No Netlify publish in APK workflow');
