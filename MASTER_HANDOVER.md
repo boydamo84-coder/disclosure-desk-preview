@@ -1,5 +1,12 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — M96M private APK green; owner Profile/Chat checks passed; studio-link device test pending_
+_Last updated: 19 November 2026 — M96M owner acceptance and website deployment status_
+
+## 19 November 2026 — M96M OWNER GALAXY ACCEPTANCE COMPLETE
+
+**User confirms "All working ok"** after installing/testing the M96M private Android beta. This follows the requested quick check of the new native Desk → Boyd Digital Studios website link, About/footer hyperlinks and returning to the app, alongside previously passed Profile-local login and Chat/Gboard keyboard behaviour. Treat this **specific owner smoke test as PASS**, superseding historical notes saying the studio link still awaited Galaxy acceptance. Other tests such as account-isolated push and every password-reset flow are not thereby accepted.
+
+**Build source remains** [green M96M private APK run 44472987172](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44472987172). No new APK necessary for this documentation-only acceptance. The user also asks what holds the latest **full site deployment**: production is still at `ca302b2e99a9321279bc711a817ad833cb041851`; separately green M68 Who programmes, M69 Profile auth and BDS website link branches have not been curated/published together. Keep Who claim ballots closed (no production schema/approvals), and real Adsterra disabled (safety/consent not approved). The next action is a release candidate comprised of completed features, with production dry-run/Netlify checks and explicit site-release decision, rather than treating held voting/ad experiments as prerequisites. **No production branch, Netlify, database or Play write occurred.**
+
 
 ## M96M release-checkpoint — PRIVATE APK BUILT, full CI GREEN (19 November 2026)
 
