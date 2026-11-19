@@ -362,6 +362,35 @@ function invite(target){
  };
  section.append(newHead,form);target.append(section);inviteSection=section;inviteSection.hidden=true;
 }
+/* M96K: when the Android soft keyboard opens, the composer already moves,
+ * but the history's old scrollTop can leave the newest bubbles behind it.
+ * Adjust ONLY the message-history scroll position (not the premium nav).
+ * Preserve intentional reading of older messages on normal refresh/resizes.
+ */
+function chatComposerIsFocused(){
+ const active=document.activeElement;
+ return !!(active&&active.closest?.('.dd-chat-compose')&&
+  page()?.classList?.contains?.('dd-chat-is-conversation'));
+}
+function followLatestChatMessage(){
+ if(!chatComposerIsFocused()||!currentId)return;
+ const history=conversation?.querySelector?.('.dd-chat-history');
+ if(!history||!history.isConnected)return;
+ if(typeof history.scrollHeight==='number'&&typeof history.scrollTop==='number')
+  history.scrollTop=history.scrollHeight;
+}
+function onChatKeyboardViewportChange(){
+ fitChatViewport();
+ if(!chatComposerIsFocused())return;
+ // Samsung Keyboard animates the visual viewport; scroll only after the
+ // flexbox layout settles so the latest bubble clears the focused composer.
+ followLatestChatMessage();
+ window.requestAnimationFrame?.(()=>{
+  fitChatViewport();
+  followLatestChatMessage();
+  window.requestAnimationFrame?.(followLatestChatMessage);
+ });
+}
 function fitChatViewport(){
  const root=page();if(!root?.style?.setProperty)return;
  const vv=window.visualViewport;
@@ -412,7 +441,17 @@ function init(){
  shade.type='button';shade.setAttribute('aria-label','Close conversation list');
  shade.onclick=()=>closeDrawer();grid.append(shade);
  host.append(grid);showInbox();fitChatViewport();
- window.addEventListener?.('resize',fitChatViewport);window.visualViewport?.addEventListener?.('resize',fitChatViewport);window.visualViewport?.addEventListener?.('scroll',fitChatViewport);
+ window.addEventListener?.('resize',onChatKeyboardViewportChange);
+ window.visualViewport?.addEventListener?.('resize',onChatKeyboardViewportChange);
+ window.visualViewport?.addEventListener?.('scroll',onChatKeyboardViewportChange);
+ // Follow newest messages only when the actual Chat composer receives focus.
+ // Delayed checks cover Samsung Gboard's viewport/IME animation.
+ document.addEventListener('focusin',event=>{
+  if(!event.target?.closest?.('.dd-chat-compose'))return;
+  onChatKeyboardViewportChange();
+  window.setTimeout?.(onChatKeyboardViewportChange,110);
+  window.setTimeout?.(onChatKeyboardViewportChange,290);
+ });
  document.addEventListener('keydown',event=>{
   if(event.key==='Escape'&&drawerOpen){closeDrawer();drawerToggle?.focus?.()}
  });
