@@ -23,7 +23,7 @@ assert(!app.includes('settings.setAllowContentAccess(false)'), 'Android content 
 assert.match(app,/if\(PLAY_BILLING_APPROVED\)premium=new LifetimeAdsManager/);
 assert.match(app,/if\(PLAY_BILLING_APPROVED && premium!=null\)choices.addView\(removeAds\)/);
 assert.match(app,/chats.setEnabled\(false\)/,'Incomplete FCM push is not advertised as delivered');
-assert.match(gradle,/applicationIdSuffix = "\.beta\.m96"/);
+assert.match(gradle,/applicationIdSuffix = "\.beta\.m96k"/);
 assert.match(gradle,/manifestPlaceholders\["ddAppLabel"\] = "Disclosure Desk Beta M96"/);
 assert.match(gradle,/targetSdk = 36/);
 assert(Number(gradle.match(/versionCode = (\d+)/)?.[1]) >= 14);
