@@ -1,8 +1,8 @@
-name: Build Disclosure Desk M97 private APK and unsigned Play candidate
+name: Build Disclosure Desk M98 private APK and unsigned Play candidate
 on:
   workflow_dispatch:
   push:
-    branches: [android/m97-m76-play-candidate-nov19]
+    branches: [android/m98-app-tour-nov19]
     paths:
       - 'android-test/**'
       - 'guide.html'
@@ -12,6 +12,7 @@ on:
       - 'scripts/test_m95_editorial_restore_chromium.cjs'
       - 'scripts/test_m96_notification_source_contract.cjs'
       - 'scripts/test_m96k_chat_keyboard_focus.cjs'
+      - 'scripts/test_m98_app_tour_chromium.cjs'
       - 'scripts/test_who_m76_private_worksheet*.cjs'
       - 'scripts/test_who_m68_programmes_outreach_chromium.cjs'
       - 'scripts/test_ga4_retirement*_20261118.cjs'
@@ -115,6 +116,7 @@ jobs:
           node scripts/test_who_m68_programmes_outreach_chromium.cjs
           node scripts/test_who_m76_private_worksheet_chromium.cjs
           node scripts/test_ga4_retirement_chromium_20261118.cjs
+          node scripts/test_m98_app_tour_chromium.cjs
       - name: Verify safe Android Share-link parser (offline Java only)
         run: |
           CLASSES=$(mktemp -d)
@@ -149,14 +151,14 @@ jobs:
       - name: Publish private test APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M97-PRIVATE-BETA
+          name: DisclosureDesk-M98-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
       - name: Save unsigned bundle for verification
         uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M97-UNSIGNED-PLAY-CANDIDATE
+          name: DisclosureDesk-M98-UNSIGNED-PLAY-CANDIDATE
           path: android-test/app/build/outputs/bundle/release/app-release.aab
           if-no-files-found: error
           retention-days: 14

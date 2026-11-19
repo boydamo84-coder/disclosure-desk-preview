@@ -116,8 +116,9 @@ public final class MainActivity extends Activity {
     private static final boolean PLAY_BILLING_APPROVED = false;
     private static final boolean PLAY_ADS_APPROVED = false;
     private final Set<String> snapshotFiles=new HashSet<>();
-    private boolean firstRunAlertsPromptShown=false;
-    private static final String FIRST_RUN_ALERTS_CHOICE="dd-alerts-opt-in-m77";
+    private static final String APP_TOUR_SEEN = "app-tour-seen";
+    private boolean offerAppTour;
+    private AlertDialog appTourDialog;
     private String snapshotCommit="unknown";
     // Real unit configured in AdMob: ca-app-pub-6712657097464071/7357709206
     // All test builds MUST use Google test inventory; never use the real unit in this debug APK.
@@ -126,6 +127,7 @@ public final class MainActivity extends Activity {
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         researchInbox=new ResearchInboxStore(this);
+        offerAppTour = savedInstanceState == null && isLauncherIntent(getIntent());
         if(savedInstanceState==null)receiveSharedResearchLink(getIntent());
         loadSnapshotManifest();
         if(snapshotFiles.isEmpty())throw new IllegalStateException("Android beta requires its verified embedded development website snapshot.");
@@ -275,7 +277,7 @@ public final class MainActivity extends Activity {
         if(savedInstanceState==null || web.restoreState(savedInstanceState)==null){
             web.loadUrl(notificationUrl(getIntent()));
         }
-        if(BuildConfig.DEBUG || PLAY_ADS_APPROVED)prepareTestBanner();
+        if(PLAY_ADS_APPROVED)prepareTestBanner();
     }
     @Override protected void onSaveInstanceState(Bundle state){
         if(web!=null)web.saveState(state);
@@ -393,7 +395,7 @@ public final class MainActivity extends Activity {
         deskHome=true;
         compactHeader=installed;
         showOnline();
-        showFirstRunAlertsPrompt();
+        maybeShowAppTour();
     }
     private void installNativeShell(String url){
         if(!WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER))return;
@@ -528,8 +530,35 @@ public final class MainActivity extends Activity {
         menu.getMenu().add("Offline Archive").setOnMenuItemClickListener(item->{openOfflineArchive();return true;});
         menu.getMenu().add("Research Inbox").setOnMenuItemClickListener(item->{showResearchInbox();return true;});
         menu.getMenu().add("Notification settings").setOnMenuItemClickListener(item->{notificationSettings();return true;});
+        menu.getMenu().add("App tour").setOnMenuItemClickListener(item->{showAppTour();return true;});
         menu.getMenu().add("Boyd Digital Studios website").setOnMenuItemClickListener(item->{openStudioWebsite();return true;});
         menu.show();
+    }
+
+    private static boolean isLauncherIntent(Intent intent) {
+        return intent != null && Intent.ACTION_MAIN.equals(intent.getAction())
+            && intent.getData() == null && !intent.hasExtra("dd_type");
+    }
+
+    @Override public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) maybeShowAppTour();
+    }
+
+    private void maybeShowAppTour() {
+        if (!offerAppTour || !deskHome || !hasWindowFocus() || mainPageFailed || fullView != null
+            || !HOME.equals(web.getUrl())) return;
+        offerAppTour = false;
+        // The same origin-scoped bridge suppresses the website's welcome prompt.
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)
+            && !getPreferences(MODE_PRIVATE).getBoolean(APP_TOUR_SEEN, false)) showAppTour();
+    }
+
+    private void showAppTour() {
+        if (isFinishing() || isDestroyed() || appTourDialog != null) return;
+        appTourDialog = new AppTour(this, this::showResearchInbox).show();
+        appTourDialog.setOnDismissListener(dialog -> appTourDialog = null);
+        getPreferences(MODE_PRIVATE).edit().putBoolean(APP_TOUR_SEEN, true).apply();
     }
     /**
      * Phone-only notifications list. Uses only actual device-delivered
@@ -831,6 +860,10 @@ public final class MainActivity extends Activity {
     @Override protected void onNewIntent(Intent intent){
         super.onNewIntent(intent);
         setIntent(intent);
+        if (!isLauncherIntent(intent)) {
+            offerAppTour = false;
+            if (appTourDialog != null) appTourDialog.dismiss();
+        }
         if(receiveSharedResearchLink(intent))return;
         String target=notificationUrl(intent);
         if(!HOME.equals(target)&&web!=null)web.loadUrl(target);
@@ -1054,7 +1087,8 @@ public final class MainActivity extends Activity {
         if(isFinishing()||isDestroyed()||web==null)return;
         new AlertDialog.Builder(this)
           .setTitle("How to use Research Inbox")
-          .setMessage("In Chrome or another app, tap Share and choose Disclosure Desk Beta M94. Open Research Inbox from News or Explore. Tap a saved link to open it, or use its menu to rename, copy or remove it. Links stay on this device.")
+          .setMessage(ResearchInboxActivity.shareInstructions(this)
+              + " Open Desk → Research Inbox to find it. Tap a link to open it or use ⋯ to rename, copy or remove it. Links stay on this device.")
           .setNegativeButton("Close",null)
           .setPositiveButton("Open guide",(dialog,which)->web.loadUrl(HOME+"guide#android-research-inbox"))
           .show();
@@ -1086,29 +1120,6 @@ public final class MainActivity extends Activity {
     private void showResearchInbox(){
         if(isFinishing()||isDestroyed())return;
         startActivity(new Intent(this,ResearchInboxActivity.class));
-    }
-
-    private void showFirstRunAlertsPrompt(){
-        SharedPreferences prefs=getSharedPreferences(DiscoveryWorker.PREFS,MODE_PRIVATE);
-        if(firstRunAlertsPromptShown || prefs.getBoolean(FIRST_RUN_ALERTS_CHOICE,false)
-            || isFinishing() || mainPageFailed)return;
-        firstRunAlertsPromptShown=true;
-        new AlertDialog.Builder(this)
-          .setTitle("Keep up with new discoveries?")
-          .setMessage("Enable all currently available alerts: major UAP news and newly discovered videos. News is checked approximately every 30 minutes, videos every 2 hours; Android may delay updates to save battery. Private Chat push alerts are not ready yet. You can change your choices anytime in Profile > Profile settings > App notifications.")
-          .setNegativeButton("Not now",(dialog,which)->
-              prefs.edit().putBoolean(FIRST_RUN_ALERTS_CHOICE,true).apply())
-          .setPositiveButton("Enable available alerts",(dialog,which)->{
-              prefs.edit().putBoolean(FIRST_RUN_ALERTS_CHOICE,true)
-                .putBoolean("news",true).putBoolean("videos",true)
-                .putBoolean("chats",false).apply();
-              syncDiscoverySchedules();
-              if(Build.VERSION.SDK_INT>=33 &&
-                 checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED)
-                  requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS},712);
-          })
-          .setOnCancelListener(dialog->prefs.edit().putBoolean(FIRST_RUN_ALERTS_CHOICE,true).apply())
-          .show();
     }
 
     private void notificationSettings(){
@@ -1248,5 +1259,5 @@ public final class MainActivity extends Activity {
     }
     @Override protected void onPause(){if(nativeNews!=null)nativeNews.rememberPosition();if(adView!=null)adView.pause();super.onPause();}
     @Override protected void onResume(){super.onResume();if(adView!=null)adView.resume();if(premium!=null)premium.restore();}
-    @Override protected void onDestroy(){if(pendingFiles!=null){pendingFiles.onReceiveValue(null);pendingFiles=null;}if(premium!=null)premium.close();if(adView!=null)adView.destroy();web.destroy();super.onDestroy();}
+    @Override protected void onDestroy(){if(appTourDialog!=null)appTourDialog.dismiss();if(pendingFiles!=null){pendingFiles.onReceiveValue(null);pendingFiles=null;}if(premium!=null)premium.close();if(adView!=null)adView.destroy();web.destroy();super.onDestroy();}
 }

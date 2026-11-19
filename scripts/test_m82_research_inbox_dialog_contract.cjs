@@ -28,9 +28,9 @@ const actions = inbox.slice(inbox.indexOf('private void showLinkOptions('), inbo
 assert(actions.includes('.setCustomTitle(header)'));
 assert(actions.includes('.setItems(new String[]{"Open in browser", "Rename", "Copy link", "Remove"}'));
 assert(!actions.includes('.setMessage('), 'Dialog message must not hide the selectable actions');
-assert.match(gradle, /versionCode = 32/);
-assert(workflow.includes('android/m97-m76-play-candidate-nov19'));
-assert(workflow.includes('DisclosureDesk-M97-PRIVATE-BETA'));
+assert.match(gradle, /versionCode = 33/);
+assert(workflow.includes('android/m98-app-tour-nov19'));
+assert(workflow.includes('DisclosureDesk-M98-PRIVATE-BETA'));
 assert(workflow.includes('scripts/test_m82_research_inbox_dialog_contract.cjs'));
 assert(!/\bnetlify deploy\b/i.test(workflow));
 console.log('PASS native Research Inbox list, search, saved-row actions, local-only data and separate confirmation dialogs.');

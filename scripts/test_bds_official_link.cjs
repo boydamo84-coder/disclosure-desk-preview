@@ -16,9 +16,9 @@ if (process.argv.includes("--android")) {
   assert.match(java, /openStudioWebsite\(\)[\s\S]{0,250}Intent\.ACTION_VIEW,Uri\.parse\(STUDIO_URL\)/);
   assert.match(java, /HOME = "https:\/\/uapdisclosuredesk\.com\/"/);
   const gradle = fs.readFileSync("android-test/app/build.gradle.kts", "utf8");
-  assert(gradle.includes('applicationIdSuffix = ".beta.m97"'));
-  assert(gradle.includes('versionCode = 32'));
-  assert(gradle.includes('0.15.0'));
+  assert(gradle.includes('applicationIdSuffix = ".beta.m98"'));
+  assert(gradle.includes('versionCode = 33'));
+  assert(gradle.includes('0.15.1'));
   assert.match(java, /SUPPORT_URL = "https:\/\/ko-fi\.com\/disclosuredesk"/);
 }
 console.log("PASS: Boyd Digital Studios domain / Disclosure Desk safeguards", studio, process.argv.includes("--android") ? "(Android)" : "(web)");

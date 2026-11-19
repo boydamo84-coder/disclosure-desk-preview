@@ -1,5 +1,9 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 — M97 Android release candidate_
+_Last updated: 19 November 2026 — M98 Android onboarding_
+
+## 19 November 2026 — M98 Android app tour
+
+Android branch `android/m98-app-tour-nov19` adds an optional five-step app tour with a permanent **Desk → App tour** entry. It covers Android Share, Research Inbox, offline case records, navigation and alerts. Research Inbox help uses the installed app’s name. Alerts stay opt-in through settings, and M98 disables test ads in the private APK so the onboarding flow matches the Play candidate. See [the M98 handover](docs/ANDROID_M98_APP_TOUR_2026-11-19.md) for device checks and release priorities.
 
 ## 19 November 2026 — M97 Android release candidate
 

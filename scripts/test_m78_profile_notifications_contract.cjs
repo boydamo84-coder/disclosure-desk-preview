@@ -5,7 +5,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs');
 const main=fs.readFileSync('android-test/app/src/main/java/com/disclosuredesk/preview/MainActivity.java','utf8');
 const html=fs.readFileSync('index.html','utf8');
 const begin=main.indexOf('private void installProfileNotificationControl(){');
-const finish=main.indexOf('private void showFirstRunAlertsPrompt(){',begin);
+const finish=main.indexOf('\n    }',begin);
 assert(begin>=0&&finish>begin,'Native Profile injection method found');
 const block=main.slice(begin,finish);
 assert(block.includes("var settings=document.getElementById('ddProfileSettings');"),
@@ -20,8 +20,8 @@ assert(block.includes("if(!settings||document.getElementById('ddAndroidAlertsSet
  'Repeated page loads do not duplicate settings');
 assert(html.includes('id="ddProfileSettings"'),'Real profile settings exist');
 assert(html.includes('class="dd-profile-settings-meta"'),'Expected insertion anchor exists');
-assert(main.includes('Enable available alerts'),'One-time opt-in retained');
-assert(main.includes('prefs.getBoolean(FIRST_RUN_ALERTS_CHOICE,false)'),'Opt-in remains one-time');
+assert(main.includes('menu.getMenu().add("Notification settings")'),'Desk also opens optional alerts');
+assert(main.includes('if((stories||vids||chatAlerts) && Build.VERSION.SDK_INT>=33'),'Saving selected alerts can ask for permission');
 assert(!main.includes('root.addView(notifications,bell)'),'No floating notification bell');
 assert(main.includes('PLAY_BILLING_APPROVED = false'),'Unverified billing still gated');
 const scriptExpression=block.slice(block.indexOf('String javascript='),block.indexOf('web.evaluateJavascript(javascript,null)'));
@@ -33,4 +33,4 @@ assert(injectedJs.includes('ddProfileSettings'),'Real injected JS targets Profil
 assert(injectedJs.includes('ddAndroidAlertsSettings'),'Nested UI has stable ID');
 assert(!injectedJs.includes('dd-profile-heading'),'No top-level placement');
 module.exports={getInjectedJs:()=>injectedJs};
-if(require.main===module)console.log('PASS M78 real native-injected JS parsed; notification control nested under Profile settings; previous prompts intact.');
+if(require.main===module)console.log('PASS M78 native-injected JS parsed; optional notifications remain in Profile settings.');

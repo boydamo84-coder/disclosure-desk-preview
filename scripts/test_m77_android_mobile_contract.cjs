@@ -9,11 +9,10 @@ const votes=read('assets/community-votes.js');
 const gradle=read('android-test/app/build.gradle.kts');
 const workflow=read('.github/workflows/android-test-apk.yml');
 for(const token of [
- 'installProfileNotificationControl();','showFirstRunAlertsPrompt();',
- 'FIRST_RUN_ALERTS_CHOICE','ddAndroidAlertsSettings','open_notification_settings',
+ 'installProfileNotificationControl();','ddAndroidAlertsSettings','open_notification_settings',
  'window.DDAndroid.postMessage','runOnUiThread(this::notificationSettings)',
- 'Keep up with new discoveries?','Enable available alerts','Not now',
- '.putBoolean("news",true).putBoolean("videos",true)',
+ 'if((stories||vids||chatAlerts) && Build.VERSION.SDK_INT>=33',
+ '.putBoolean("videos",vids).putBoolean("news",stories)',
  'requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS},712)',
  'news.setChecked(prefs.getBoolean("news",false))',
  'footage.setChecked(prefs.getBoolean("videos",false))',
@@ -23,13 +22,12 @@ for(const token of [
 assert(!main.includes('notifications.setText("🔔")'),'Floating bell removed');
 assert(!main.includes('root.addView(notifications,bell)'),'Floating bell overlay removed');
 assert(!main.includes('notifications.setOnClickListener'),'No orphan native bell handler');
-assert(main.indexOf('FIRST_RUN_ALERTS_CHOICE')<main.indexOf('showFirstRunAlertsPrompt(){'),'First-run check declared');
-assert(main.includes('prefs.getBoolean(FIRST_RUN_ALERTS_CHOICE,false)'),'Prompt is one-time per beta install');
+assert(!main.includes('showFirstRunAlertsPrompt'),'Onboarding leaves alerts opt-in through settings');
 assert(main.includes('if(!isMainFrame'),'Native bridge retains main-frame restriction');
 assert(main.includes('Collections.singleton("https://uapdisclosuredesk.com")'),'Native bridge origin stays pinned');
 assert(main.includes('if(PLAY_BILLING_APPROVED)premium=new LifetimeAdsManager'),'Paid billing still disabled');
 assert(Number(gradle.match(/versionCode = (\d+)/)?.[1]) >= 15);
-assert.match(gradle,/applicationIdSuffix = "\.beta\.m97"/);
+assert.match(gradle,/applicationIdSuffix = "\.beta\.m98"/);
 for(const source of [inline,cases]){
  assert(source.includes("item.parent_id||''"),'Nested row uses real parent_id');
  assert(source.includes("card.style.setProperty('--dd-comment-indent'"),'Nesting has computed valid px offset');
@@ -50,7 +48,7 @@ for(const token of [
 const tail=style.slice(style.lastIndexOf('/* M77 — real nested'));
 assert(!tail.includes('calc(var(--dd-comment-depth,1) * var(--dd-thread-step))'),
  'Modern WebView style must not use unsupported calc multiplication for replies');
-assert(workflow.includes('android/m97-m76-play-candidate-nov19'),'Correct Android development branch');
+assert(workflow.includes('android/m98-app-tour-nov19'),'Correct Android development branch');
 assert(workflow.includes('scripts/test_m77_android_mobile_contract.cjs'),'M77 source test runs in APK CI');
 assert(workflow.includes('scripts/test_m77_android_mobile_chromium.cjs'),'Real mobile browser test runs in APK CI');
 assert(!/\bnetlify deploy\b/.test(workflow),'M77 never deploys Netlify');

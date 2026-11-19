@@ -38,9 +38,9 @@ assert.match(main,/"https"\.equals\(url\.getScheme\(\)\)/,'Only HTTPS origin int
 assert.match(main,/"uapdisclosuredesk\.com"\.equals\(url\.getHost\(\)\)/);
 assert.match(main,/DD_FIREBASE_APP_ID/,'Firebase groundwork preserved');
 assert.match(main,/PLAY_BILLING_APPROVED = false/,'Unverified paid purchase is disabled');
-assert.match(gradle,/applicationIdSuffix = "\.beta\.m97"/,'Private beta does not overwrite production app');
+assert.match(gradle,/applicationIdSuffix = "\.beta\.m98"/,'Private beta does not overwrite production app');
 assert.match(gradle,/targetSdk = 36/);
-assert.match(gradle,/versionCode = 32/);
+assert.match(gradle,/versionCode = 33/);
 assert(!manifest.files.some(p=>p.startsWith('.github/')||p.startsWith('supabase/')||p.startsWith('scripts/')||p.includes('SECRET')),
  'No source jobs, SQL or internal config distributed in APK');
 console.log('PASS reviewed M76 app snapshot, private worksheet and research assets, no GA implementation and separate Android package');

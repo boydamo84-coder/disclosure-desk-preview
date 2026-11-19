@@ -40,10 +40,10 @@ for(const part of [
 assert(!/Supabase|HttpURLConnection|fetch\(|DELETE|cloud backup/.test(store),'Renaming never writes online');
 assert(parser.includes('public static String cleanCustomTitle(String raw)'),'Shared title validation');
 assert(parser.includes('public static Entry preferSharedSubject('),'Optional browser subjects supported');
-assert(gradle.includes('versionCode = 32')&&gradle.includes('0.15.0'),'New Android-only beta version');
-assert(workflow.includes('android/m97-m76-play-candidate-nov19'),'Private testing branch');
+assert(gradle.includes('versionCode = 33')&&gradle.includes('0.15.1'),'New Android-only beta version');
+assert(workflow.includes('android/m98-app-tour-nov19'),'Private testing branch');
 assert(workflow.includes('node scripts/test_m85_research_inbox_rename_contract.cjs'),'Contract runs in CI');
-assert(workflow.includes('DisclosureDesk-M97-PRIVATE-BETA'),'M85 artifact name');
+assert(workflow.includes('DisclosureDesk-M98-PRIVATE-BETA'),'M85 artifact name');
 assert(!/\bnetlify deploy\b/i.test(workflow),'No public website publishing');
 assert(read('guide.html').includes('<strong>Rename</strong>'),'Guide reflects four actions');
 console.log('PASS M85 Research Inbox: prompt on share, later rename, URL/age preservation, duplicate-safe title, no network or public deploy.');

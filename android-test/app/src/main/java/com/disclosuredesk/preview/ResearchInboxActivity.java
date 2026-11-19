@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
@@ -47,10 +48,12 @@ public final class ResearchInboxActivity extends Activity {
     private static final int GOLD = 0xfff2d7a2;
     private static final int TEXT = 0xfff1f3f7;
     private static final int MUTED = 0xffb8c4d2;
-    private static final String INSTRUCTIONS =
-            "Tap Share in Chrome or another app and choose Disclosure Desk Beta M94. "
-            + "Tap a saved link to open it, or use its menu to rename, copy or remove it.";
     private static final String PRIVACY = "Saved on this device. Anyone using this app can see these links.";
+
+    static String shareInstructions(Context context) {
+        CharSequence label = context.getApplicationInfo().loadLabel(context.getPackageManager());
+        return "Open a webpage in Chrome or another app, tap Share and choose " + label + ".";
+    }
 
     private ResearchInboxStore store;
     private List<ResearchInboxStore.Item> entries = Collections.emptyList();
@@ -205,14 +208,14 @@ public final class ResearchInboxActivity extends Activity {
         String total = entries.size() + (entries.size() == 1 ? " link saved" : " links saved");
         count.setText(query.trim().isEmpty() ? total : matches.size() + " of " + total);
         emptyTitle.setText(entries.isEmpty() ? "No saved links yet" : "No matching links");
-        emptyBody.setText(entries.isEmpty() ? INSTRUCTIONS : "Try a different title or website.");
+        emptyBody.setText(entries.isEmpty() ? shareInstructions(this) : "Try a different title or website.");
         adapter.setRows(matches);
     }
 
     private void showInboxOptions(View anchor) {
         PopupMenu menu = new PopupMenu(this, anchor);
         menu.getMenu().add("How to save a link").setOnMenuItemClickListener(item -> {
-            new AlertDialog.Builder(this).setTitle("How to save a link").setMessage(INSTRUCTIONS)
+            new AlertDialog.Builder(this).setTitle("How to save a link").setMessage(shareInstructions(this))
                     .setPositiveButton("Close", null).show();
             return true;
         });

@@ -2295,6 +2295,7 @@ $('appTourDialog').addEventListener('close',()=>{
  tourReturnFocus=null;
 });
 function offerFirstVisitTour(){
+ if(window.DDAndroid?.postMessage)return; // The Android app offers its own tour.
  if(new URLSearchParams(location.search).has('dd_tab'))return; // Respect W.NE return navigation.
  // Never interrupt someone who has already navigated, or opened a tour themselves.
  if($('appTourDialog')?.open||document.querySelector('dialog[open]'))return;
