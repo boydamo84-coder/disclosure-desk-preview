@@ -8,6 +8,7 @@
 <link rel="icon" type="image/svg+xml" href="/assets/disclosure-desk-mark.svg">
 <link rel="stylesheet" href="/assets/secondary-editorial-nav.css?v=r2-premium-nav01">
 <link rel="stylesheet" href="/assets/who-evidence-ballot-m64.css?v=m67-closed-beta">
+<link rel="stylesheet" href="/assets/who-world-programmes-m68.css?v=m68-source-first">
 <style>
 :root{color-scheme:dark;--base:#09131e;--pane:#132638;--line:#40566a;--gold:#e9cc93;--muted:#bccbd6;--bright:#eff3f7}
 *{box-sizing:border-box}html{scroll-padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}body{background:radial-gradient(ellipse at 80% -22%,#253f57,var(--base) 43%);color:var(--bright);font:16px/1.67 system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
@@ -166,10 +167,11 @@ footer a{margin-right:14px}
 <p class="intro">Meet public witnesses, researchers, journalists, interviewers and sceptical analysts involved in UAP discussion. Follow their recorded statements and professional work back to attributed sources—not popularity rankings or personal judgements.</p>
 <p class="muted small">Editorial preview · Source-linked research profiles · Portraits use attributed public-domain or Creative Commons sources where available · Fact-checking and credit reviews ongoing</p>
 </section>
-<aside class="note" id="ddWhoSourceTracker" aria-label="Public source enquiry transparency">
-  <strong>Follow our original-source checks.</strong> Disclosure Desk is documenting records enquiries to the National Archives and Pentagon alongside dataset and reproduction-rights correspondence with archives in Germany, Brazil and Canada. Washington Headquarters Services has replied with procedural FOIA guidance; the 151-page referral remains unresolved.
-  <a href="/sources#sourceVerification">See the dated Source Verification Tracker and original records</a>.
-  Enquiries are about documents and claims—not rankings of people or proof of extraordinary explanations.
+<aside class="note" id="ddWhoSourceTracker" aria-label="Public enquiries and response status">
+  <strong>Our enquiries — who we contacted and what happened</strong>
+  <p class="muted small">Pentagon / WHS FOIA, Brazil's Arquivo Nacional, Germany's GEP, Library and Archives Canada, and the U.S. National Archives. This is a manually reviewed correspondence log, not live agency tracking. A reply is not the same as records released, a completed FOIA request or publication permission.</p>
+  <div id="ddWhoOutreachStatus" role="status" aria-live="polite"><p class="muted small">Consult the <a href="/sources#sourceVerification">Data Requests &amp; Source Verification Tracker</a> for the verified correspondence status and original sources.</p></div>
+  <p class="muted small"><a href="/sources#sourceVerification">View the complete dated enquiry timeline, original references and unresolved questions</a>.</p>
 </aside>
 <section id="ddPolicyReviewGuide" aria-labelledby="ddPolicyReviewTitle">
   <span class="eyebrow">Research method · Not a rating</span>
@@ -207,6 +209,36 @@ footer a{margin-right:14px}
 <div class="tools"><label>Search people, roles and topics<input id="peopleSearch" type="search" maxlength="80" placeholder="e.g. pilot, Grusch, investigative journalist"></label><label>Filter roles<select id="peopleCategory"><option value="all">All roles</option><option value="Hearing witness">Hearing witnesses</option><option value="Pilot">Pilots</option><option value="Journalist">Journalists</option><option value="Interviewer">Interviewers</option><option value="Sceptical analyst">Sceptical analysts</option><option value="Filmmaker">Filmmakers</option><option value="Claimant">Public claimants</option><option value="Disclosure advocate">Disclosure advocates</option><option value="Scientist">Scientists</option><option value="NASA UAP study">NASA UAP study</option><option value="Congress">Congress &amp; oversight</option><option value="Advocate">Transparency advocates</option><option value="FOIA researcher">FOIA researchers</option><option value="Researcher">Researchers</option><option value="Documentary director">Documentary directors</option><option value="Former government official">Former government officials</option></select></label></div>
 <p id="peopleStatus" class="muted small" role="status">Loading source-linked profiles…</p>
 <div id="peopleCards" class="cards"><div class="card"><h3>Research directory</h3><p>Source-linked profiles span congressional oversight, AARO leadership, NASA's independent UAP study, aviation witnesses, scientific researchers and archive investigators. JavaScript is needed for search and full profiles.</p></div></div>
+<section id="ddWhoProgrammes" class="card" aria-labelledby="ddWhoProgrammesTitle">
+  <div class="section-title">International institutional research · Separate from people ratings</div>
+  <h2 id="ddWhoProgrammesTitle">Agencies, UAP programmes &amp; original archives worldwide</h2>
+  <p class="muted small">Explore the existing 23 source-linked organisations, historic enquiries, archive collections and reporting procedures across 18 jurisdictions. A dedicated UAP unit, a released archive, a policy review and a research institution are not equivalent. Inclusion does not verify an extraordinary explanation.</p>
+  <div class="dd-who-programme-quick" aria-label="Jump to researched countries and institutions">
+    <button type="button" data-dd-who-programme-jump="Vatican" aria-controls="ddWhoProgrammesDisclosure">🇻🇦 Vatican and the alleged 1933 case</button>
+    <button type="button" data-dd-who-programme-jump="Brazil" aria-controls="ddWhoProgrammesDisclosure">🇧🇷 Brazil</button>
+    <button type="button" data-dd-who-programme-jump="France" aria-controls="ddWhoProgrammesDisclosure">🇫🇷 France</button>
+    <button type="button" data-dd-who-programme-jump="Canada" aria-controls="ddWhoProgrammesDisclosure">🇨🇦 Canada</button>
+    <button type="button" data-dd-who-programme-jump="United States" aria-controls="ddWhoProgrammesDisclosure">🇺🇸 US programmes</button>
+  </div>
+  <details id="ddWhoProgrammesDisclosure">
+    <summary>Browse the full source-linked international directory (23 entries)</summary>
+    <div class="dd-who-programme-controls">
+      <label for="ddWhoProgrammeSearch">Search programme, country, case or original reference
+        <input id="ddWhoProgrammeSearch" type="search" maxlength="100" autocomplete="off" placeholder="Vatican, GEIPAN, Brazil, archive..."></label>
+      <label for="ddWhoProgrammeType">Filter institutional record type
+        <select id="ddWhoProgrammeType"><option value="all">All documented categories</option></select></label>
+    </div>
+    <p class="muted small" id="ddWhoProgrammeStatus" role="status" aria-live="polite">Open this section to load the existing source register.</p>
+    <div id="ddWhoProgrammeCards" aria-label="Documented international institutions and original records"></div>
+    <details id="ddWhoProgrammeResearch">
+      <summary>14 additional countries awaiting original-source verification</summary>
+      <p class="muted small">Research leads are not labelled as operational government UAP agencies. We will only upgrade them after checking authentic first-party records.</p>
+      <p class="muted small"><span id="ddWhoProgrammeLeadsCount">0</span> countries in verification queue.</p>
+      <ul id="ddWhoProgrammeLeads"></ul>
+    </details>
+    <p class="muted small"><a href="/world-uap-programmes.html">Open the dedicated worldwide programme directory</a> · <a href="/sources#sourceVerification">See our international correspondence and source verification</a></p>
+  </details>
+</section>
 </section>
 <article id="personProfile" class="profile hidden" aria-live="polite">
 <button id="directoryBack" type="button" class="btn">← Back to people directory</button>
@@ -253,6 +285,8 @@ footer a{margin-right:14px}
 <script defer src="/assets/community-test-config.js?v=m67-who-ballots-off"></script>
 <script defer src="/assets/who-evidence-ballot-m64.js?v=m67-closed-beta"></script>
 <script defer src="/assets/person-case-links.js?v=r2-m8-alpha01"></script>
+<script defer src="/assets/who-world-programmes-m68.js?v=m68-source-first"></script>
+<script defer src="/assets/who-source-status-m68.js?v=m68-correspondence"></script>
 <script defer src="/assets/people-directory.js?v=m62-source-first-20261118&m28=hearing-crosschecks&m28b=source-comparisons&m28c=lineage&m28d=broadcast-provenance&m28e=seven-originals&m29=review-handoff&m41=evidence-summary"></script>
 <script defer src="/assets/secondary-editorial-nav.js?v=r2-premium-nav01"></script>
 <script defer src="/assets/page-help.js?v=r2-m10-help01"></script>
