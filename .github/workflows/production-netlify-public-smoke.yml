@@ -58,6 +58,8 @@ jobs:
             curl -fsSL --connect-timeout 6 --max-time 18 "https://uapdisclosuredesk.com$path" -o /dev/null
             echo "HTTP OK: $path"
           done
-          curl -fsSL 'https://uapdisclosuredesk.com/' | grep -q 'https://boyddigitalstudios.com/'
-          curl -fsSL 'https://uapdisclosuredesk.com/who-is-who' | grep -q 'ddWhoInternationalProgrammes'
+          curl -fsSL --max-time 20 'https://uapdisclosuredesk.com/' -o /tmp/dd-live-home.html
+          curl -fsSL --max-time 20 'https://uapdisclosuredesk.com/who-is-who' -o /tmp/dd-live-who.html
+          grep -q 'https://boyddigitalstudios.com/' /tmp/dd-live-home.html
+          grep -q 'ddWhoInternationalProgrammes' /tmp/dd-live-who.html
           echo 'PASS: published public site paths, studio credit and M68 directory'
