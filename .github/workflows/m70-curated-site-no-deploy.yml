@@ -26,6 +26,19 @@ jobs:
           node scripts/test_m70_release_guard.cjs --bundle
           node scripts/test_public_release_package.cjs
           node scripts/test_search_indexing.cjs
+      - name: Read-only public Netlify manifest diagnosis (does not deploy)
+        shell: bash
+        run: |
+          if curl -fsSL --connect-timeout 6 --max-time 20 'https://uapdisclosuredesk.com/release-manifest.json' -o /tmp/dd-current-public-manifest.json; then
+            node - <<'NODE'
+          const fs=require('fs'),crypto=require('crypto');
+          const current=fs.readFileSync('/tmp/dd-current-public-manifest.json');
+          const json=JSON.parse(current.toString('utf8'));
+          console.log(JSON.stringify({liveManifestSHA256:crypto.createHash('sha256').update(current).digest('hex'),publishedFiles:json.files?.length,publishedBytes:json.totalBytes,hasM68SourceOutreach:json.files?.some(x=>x.path==='assets/source-outreach-digest-m68.js'),hasM68WhoProgrammes:json.files?.some(x=>x.path==='assets/who-international-programmes-m68.js'),type:json.type},null,2));
+          NODE
+          else
+            echo 'Remote site manifest could not be read; no deployment attempted'
+          fi
   browser-multiwidth:
     runs-on: ubuntu-latest
     steps:
