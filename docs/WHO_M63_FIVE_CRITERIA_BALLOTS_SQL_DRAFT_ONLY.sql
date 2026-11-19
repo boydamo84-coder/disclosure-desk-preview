@@ -1,3 +1,6 @@
+-- M72 design hardening: irreversible withdrawal, no combined score-change
+-- and withdrawal, no phantom initially-withdrawn ballot inserts.
+-- Pending policy review; this SQL is NEVER a production migration.
 -- DISCLOSURE DESK M63: DESIGN REVIEW ONLY. NOT APPROVED FOR PRODUCTION.
 -- NEVER run on live Supabase as part of GitHub Actions or a site deployment.
 -- Uses auth.uid() / auth.jwt() provided by Supabase. Preview tests use local stubs.
@@ -95,6 +98,24 @@ begin
     raise exception 'Ballot identity and claim version cannot change'
       using errcode='23514';
   end if;
+  -- M72: Withdrawal is final. Otherwise a member can restore a withdrawn
+  -- ballot after the five-minute cooldown, contradicting retained-withdrawal
+  -- history and any later private/public tally audit.
+  if old.is_withdrawn then
+    raise exception 'A withdrawn ballot cannot be reopened or edited'
+      using errcode='55000';
+  end if;
+  -- Withdrawal is a separate operation; do not let a member silently edit
+  -- evidence scores in the same request used to withdraw their old ballot.
+  if new.is_withdrawn and not old.is_withdrawn
+     and (new.original_points,new.independent_points,new.direct_points,
+          new.testable_points,new.alternatives_points)
+         is distinct from
+         (old.original_points,old.independent_points,old.direct_points,
+          old.testable_points,old.alternatives_points) then
+    raise exception 'Withdrawal cannot change earlier evidence answers'
+      using errcode='55000';
+  end if;
   if not (new.is_withdrawn and not old.is_withdrawn)
      and old.updated_at > clock_timestamp()-interval '5 minutes' then
     raise exception 'Ballot change cooldown active'
@@ -103,6 +124,12 @@ begin
   new.created_at=old.created_at;
   new.revision=old.revision+1;
  else
+  -- New rows must represent genuine active votes; an INSERT cannot
+  -- manufacture a withdrawn ballot or reserve an unusable ballot identity.
+  if new.is_withdrawn then
+    raise exception 'A new ballot must start active'
+      using errcode='23514';
+  end if;
   new.created_at=clock_timestamp();
   new.revision=1;
  end if;
