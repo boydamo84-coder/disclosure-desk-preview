@@ -13,7 +13,7 @@ assert.match(js,/advertising-consent-v1/);
 assert.match(js,/choice!=='accepted'/);
 for(const forbidden of ["createElement('iframe'",'createElement("iframe"','srcdoc',"setAttribute('sandbox'"]) assert(!js.includes(forbidden),'No extra iframe: '+forbidden);
 assert(js.includes("script.src=LOCAL_TEST?"),'Local QA must use first-party mock JS instead of the real provider');
-assert.match(js,/ad-m04-direct-banner-test\\.html/);
+assert(js.includes('ad-m04-direct-banner-test.html'),'Local-only fixture guard missing');
 assert.match(js,/window\.top!==window/);
 assert.match(js,/['"]\/privacy['"]/);
 assert.match(js,/newsGrid/);
