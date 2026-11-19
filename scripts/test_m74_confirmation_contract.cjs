@@ -25,7 +25,7 @@ assert.match(hub,/c\.rpc\('dd_delete_my_comment'/,'Profile uses existing owner d
 assert.match(publicComments,/callOwner\('dd_delete_my_comment'/,'Public menu uses verified owner RPC');
 assert.match(avatars,/if\(!await window\.DDConfirm/,'Profile photo deletion requires an affirmative response');
 const scriptPos=html.indexOf('assets/confirmation-dialog.js?v=m74');
-assert(scriptPos>=0&&scriptPos<html.indexOf('assets/research-hub.js?v=m74-branded-confirm'));
+assert(scriptPos>=0&&scriptPos<html.indexOf('assets/research-hub.js?v=m69-stay-on-profile'));
 assert(scriptPos<html.indexOf('assets/community-votes.js?v=m74-branded-confirm'));
 assert(scriptPos<html.indexOf('assets/profile-avatars.js?v=m74-branded-confirm'));
 assert.match(html,/assets\/community-polish\.css\?v=m74/);
