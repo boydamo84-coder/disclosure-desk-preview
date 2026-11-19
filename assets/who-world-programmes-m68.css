@@ -31,3 +31,12 @@
 #ddWhoProgrammes .dd-who-programme-link:focus-visible,
 #ddWhoProgrammes :is(input,select,summary,a):focus-visible{outline:3px solid #f0d399;outline-offset:3px}
 @media(max-width:650px){#ddWhoProgrammes{padding:13px}#ddWhoProgrammesDisclosure{padding:11px}.dd-who-programme-card{padding:12px}#ddWhoProgrammeCards{grid-template-columns:minmax(0,1fr)}}
+
+/* Contacted institutions: visible read-only summaries from the same source log. */
+#ddWhoSourceTracker{scroll-margin-top:85px}
+#ddWhoOutreachStatus{margin-top:12px}
+.dd-who-outreach-list{list-style:none;padding:0;margin:7px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:8px}
+.dd-who-outreach-item{padding:9px 11px;border:1px solid #677b8d;border-radius:9px;background:#0f2939;line-height:1.55;font-size:12px;color:#ebeff0;min-width:0;overflow-wrap:anywhere}
+.dd-who-outreach-item a{font-weight:800;color:#f1d29b}
+.dd-who-outreach-updated{font-size:11px;color:#bdd0db}
+#ddWhoOutreachStatus p{margin:7px 0}
