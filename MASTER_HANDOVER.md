@@ -1,7 +1,15 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 18 November 2026 (Europe/London) — Ads M03 Google Analytics retired in staging, no production deployment_
+_Last updated: 19 November 2026 (Europe/London) — GA4 removal promoted to production branch; Adsterra awaits publisher approval_
 
 
+
+## Ads M04 — Production GA4 release + Adsterra publisher-terms gate (19 November 2026)
+
+**User-authorised GA4 release:** GitHub `production` was fast-forwarded from verified RC1 `530dae2d0307c5448234c5cf8d1d3d21e495e774` to exact-head QA green `146e02c7f9fbac70f313c66239217718d5381725` from `prep/site-ads-m03-remove-ga4-20261118`. `backup/production-pre-analytics-removal-20261119` preserves the previous production ref. Prior no-deploy CI [run 44426005739](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44426005739) passed strict package, GA4 removal and Chromium checks; the production ref update succeeded. **Netlify's published deploy and public network smoke were not independently authenticated at handover** — do not assert it is fully live until checked from actual browser/Netlify dashboard. Build command and strict allowlist are unchanged. No Supabase, APK, account data or Google Analytics property deletion.
+
+**Adsterra BLOCKED (provider terms, not code/test failure):** Existing `assets/site-adsterra-m02.js` includes 300×250, 320×50 and 728×90 approved standard Banner codes, but `const RELEASE_ENABLED=false` intentionally remains OFF. The design wraps the original Adsterra banner tag within an *additional* sandboxed iframe. Adsterra's own official Publisher Terms [4.7](https://adsterra.com/publishers-terms-managed/) (29 June 2026) explicitly prohibit enclosing their ad tag in an iframe without **prior written permission** and prohibit modifications to the tag without written consent. Do not silently flip the release switch or ship a direct-script workaround without validating no-redirect/no-popunder risks and consent rules. The owner wants premium, no intrusions or adult ads. Other vendor options can be reviewed if Adsterra refuses a safe method.
+
+**Next action:** Request written approval for secure sandboxed iframe use, or official safe dynamic SPA banner integration from the Adsterra publisher-support desk for `uapdisclosuredesk.com`. An email draft is available in the owner's Gmail; it has NOT been sent. Once approved, build a distinct release candidate with separate advertising opt-in, readily accessible rejection/withdrawal controls, UK privacy/PECR review, ad script/creative QA, mobile and desktop checks, and explicit owner review. No other feature branches should be merged as part of ads.
 
 ## ADS M03 — Google Analytics retired in STAGING (18 November 2026)
 
