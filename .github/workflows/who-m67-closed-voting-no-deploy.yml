@@ -103,8 +103,12 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f scripts/fixtures/who-m63-rls-bootstrap.sql
           psql -v ON_ERROR_STOP=1 -f docs/WHO_M63_FIVE_CRITERIA_BALLOTS_SQL_DRAFT_ONLY.sql
           psql -v ON_ERROR_STOP=1 -f scripts/fixtures/who-m63-rls-test.sql
-      - name: Verify approved aggregate thresholds and withdrawal
+      - name: Verify aggregate thresholds and withdrawal in second isolated database
         run: |
+          createdb dd_who_m67_publishqa
+          export PGDATABASE=dd_who_m67_publishqa
+          psql -v ON_ERROR_STOP=1 -f scripts/fixtures/who-m63-rls-bootstrap.sql
+          psql -v ON_ERROR_STOP=1 -f docs/WHO_M63_FIVE_CRITERIA_BALLOTS_SQL_DRAFT_ONLY.sql
           psql -v ON_ERROR_STOP=1 -f docs/WHO_M65_AGGREGATE_RELEASE_SQL_DRAFT_ONLY.sql
           psql -v ON_ERROR_STOP=1 -f scripts/fixtures/who-m65-aggregate-release-test.sql
           psql -v ON_ERROR_STOP=1 -f docs/WHO_M66_POSTPUBLICATION_WITHDRAWAL_SQL_DRAFT_ONLY.sql
