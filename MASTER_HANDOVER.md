@@ -1,5 +1,15 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — curated M70 website green; guarded site release and branch retirement_
+_Last updated: 19 November 2026 (Europe/London) — M70 WEBSITE LIVE, exact Netlify production-context manifest matched; staged branch retirement only_
+
+## M70 — SITE PUBLISHED AND EXACT-HASH VERIFIED (19 November 2026)
+
+Owner approved combined website deployment. GitHub `production` was fast-forwarded from `ca302b2e99a9321279bc711a817ad833cb041851` to **`9fcaec4e602331b9a557937f6ee15ddd9a3f5ff2`** after exact-head staging CI [run 44524002982](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44524002982) passed source/strict package and real Chromium. The rollback `backup/production-pre-m70-curated-20261119` retains the exact previous SHA.
+
+**ACTUAL LIVE NETLIFY PUBLICATION VERIFIED:** In the Netlify `CONTEXT=production` build environment, the public 129-file manifest hash is **`df9bf429fa2ef8d2c0cc0e0668a34d4c10f48ec55c0c9e040fbab4dac010c8ef`**. [Read-only GitHub Actions validation run 44526225170](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44526225170) reproduced that exact hash from the GitHub release source and compared it byte-for-byte against `https://uapdisclosuredesk.com/release-manifest.json`; BDS studio link, Who international programmes, public pages and no live ballot script also passed. In ordinary non-Netlify CI preview context the bundle holds 130 files and an additional R3 session QA panel; `build_r3_hosted_assets.cjs` intentionally strips `hypothesis-session-qa.js` and the R3 QA panel only in production, explaining the earlier [false-negative production smoke run 44524248434](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44524248434). **This was an environment-comparison error, NOT an M70 publication failure.** Correct `.github/workflows/production-netlify-public-smoke.yml` to build with `CONTEXT=production` in the NEXT substantial production release; do not cause a second Netlify deploy just to edit workflow/doc files.
+
+**What is live:** M68 read-only worldwide/UAP Who's Who institutions, Vatican context and dated FOIA/outreach status; M69 in-Profile sign-in/registration/recovery; clickable `boyddigitalstudios.com` in About and footer. Private W.NE/Hypothesis Lab preserved, no Supabase migration. **Voting remains OFF** and unapproved ballot JS/SQL excluded; Adsterra `RELEASE_ENABLED=false` unchanged.
+
+**GitHub cleanup:** PR #1 November draft was explicitly closed as superseded, not merged. 169 branches inventoried in `docs/GITHUB_BRANCH_RETIREMENT_2026-11-19.md`. Active and rollback branches protected; the staged M68/M69/BDS tips may now be individually reviewed for safe retirement. GitHub connector does not expose branch-ref deletion; no branches have been force-moved or destroyed. This update is recorded on the release/handover branch only, not pushed to `production`, to avoid consuming another Netlify build.
 
 ## M70 — production-based curated website release candidate, CI green (19 November 2026)
 

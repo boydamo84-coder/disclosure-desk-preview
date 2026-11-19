@@ -10,3 +10,10 @@
 **User approval:** Owner asked on 19 November 2026 to combine and publish completed website features, and to safely clean obsolete stages/branches.
 **Rollback:** Existing pre-M70 production branch preserved. If Netlify release fails, verify Published deploy in Netlify and restore prior known-good deployment; do not overwrite later commits without checking origin.
 **Branch cleanup:** See `docs/GITHUB_BRANCH_RETIREMENT_2026-11-19.md`. No historical branch deletion in this operation.
+
+## Final public publishing proof (19 November 2026)
+
+- GitHub `production` now points to `9fcaec4e602331b9a557937f6ee15ddd9a3f5ff2` (tested M70 tree). Previous `ca302b2e99a9321279bc711a817ad833cb041851` is in `backup/production-pre-m70-curated-20261119`.
+- [Final live verification run 44526225170](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44526225170): **GREEN, all three jobs**. It rebuilt the site with `CONTEXT=production`, checked original 129-file manifest hash `df9bf429fa2ef8d2c0cc0e0668a34d4c10f48ec55c0c9e040fbab4dac010c8ef` against Netlify HTTP response byte for byte, plus verified BDS link, Who M68 catalogue, and absence of active ballot code. No auth/account writes.
+- The first [production smoke run 44524248434](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44524248434) was a **false-negative**: it used local preview context, which intentionally includes R3 testing-only `hypothesis-session-qa.js` and extra R3 QA HTML. In Netlify production these are intentionally stripped, reducing 130 files to 129 and the R3 HTML by 1,855 bytes. Every other public asset hash matched. Fix the production smoke workflow with `CONTEXT=production` in the next significant website deployment; no extra Netlify build just to correct documentation/QA.
+- **M70 LIVE on `https://uapdisclosuredesk.com`**. No deployment required for this milestone. Do not reactivate Adsterra or claim voting by association.

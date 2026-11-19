@@ -192,3 +192,9 @@ Date: 19 November 2026 · M70 curated website release
 | REVIEW — historical, no release authority | `release/social-chat-discussions-avatar-20261108` |
 | KEEP — active/protected | `release/website-m70-curated-20261119` |
 | REVIEW — historical, no release authority | `staging/research-samsung-m16-20261108` |
+
+## Publication checkpoint — 19 November 2026
+
+M70 published and independently verified using the exact production-context manifest, [Actions 44526225170](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44526225170). The four source-stage branches tagged `HOLD — superseded after live M70 smoke` can now be **reviewed for manual retirement** after checking unique commits and retaining future voting work in `prep/who-m67-production-voting-integration-20261119`. Do not delete them automatically. Current live and rollback source refs remain protected.
+
+GitHub connector still lacks delete-ref functionality; no old branches were destroyed. The obsolete Nov 1 PR #1 was closed. Preserve `main` automation and `production` as the sole official website release branch.
