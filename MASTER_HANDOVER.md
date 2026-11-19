@@ -1,5 +1,14 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — GA4 removal promoted to production branch; Adsterra awaits publisher approval_
+_Last updated: 19 November 2026 (Europe/London) — curated M70 website green; guarded site release and branch retirement_
+
+## M70 — production-based curated website release candidate, CI green (19 November 2026)
+
+The owner approved a combined official website update and safe GitHub cleanup. Candidate `release/website-m70-curated-20261119` starts from known live `production` `ca302b2e99a9321279bc711a817ad833cb041851` with preserved `backup/production-pre-m70-curated-20261119`. It adds M68 read-only Who's Who international programme and dated source-enquiry directory (23 programmes including Vatican, 13 distinct unverified leads, 5 correspondence statuses), M69 in-Profile login/signup/recovery, and two `https://boyddigitalstudios.com/` studio links. No wholesale branch merge: the closed Who evidence ballot scripts, approval registry, SQL drafts and M67 claim-id hook are excluded. Adsterra is still hard disabled. W.NE/Research and other existing public features retain baseline code.
+
+The curated strict 130-file public package and independent M68/M69 320/393/820/1280px Chromium regressions passed both jobs in [no-deploy GitHub Actions 44523103696](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/44523103696), exact tested head `b2c38147b4914513deb51220015df4a36d9cc397`. No Netlify or live users touched during this test. The `production`-push smoke workflow verifies published manifest hash and public route accessibility; a GitHub branch movement alone is NOT proof of a live deployment.
+
+The November 1 outdated draft PR #1 was closed as **SUPERSEDED — DO NOT MERGE** (not merged). 167 branches were inventoried and quarantined by `docs/GITHUB_BRANCH_RETIREMENT_2026-11-19.md`; no old refs force-moved or deleted, since the connected GitHub actions do not support deleting branches. `main` remains the separate news/preview automation track and must not be used to publish Netlify; retain all `backup/` branches. Next: fast-forward only `production` after exact-head CI, check public manifest/Netlify Published status, and archive superseded stages only after confirmation.
+
 
 
 

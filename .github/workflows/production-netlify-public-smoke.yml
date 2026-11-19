@@ -1,0 +1,63 @@
+name: Verify public Netlify publication on production website changes
+on:
+  push:
+    branches: [production]
+    paths:
+      - 'index.html'
+      - 'who-is-who.html'
+      - 'world-uap-programmes.html'
+      - 'sources.html'
+      - 'assets/**'
+      - 'data/**'
+      - 'research/**'
+      - 'scripts/build_public_release.cjs'
+      - 'netlify.toml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  published-tree-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build strict production allowlist locally (never deploy from Actions)
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_m70_release_guard.cjs --bundle
+          node scripts/test_public_release_package.cjs
+      - name: Wait for published Netlify manifest to equal reviewed production tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected=$(sha256sum .release-staging/public-site/release-manifest.json | cut -d' ' -f1)
+          found=0
+          for i in $(seq 1 21); do
+            if curl -fsSL --connect-timeout 6 --max-time 15 'https://uapdisclosuredesk.com/release-manifest.json' -o /tmp/live-dd-release-manifest.json; then
+              actual=$(sha256sum /tmp/live-dd-release-manifest.json | cut -d' ' -f1)
+              if [ "$actual" = "$expected" ]; then
+                echo "Verified exact published tree sha256=$actual"
+                found=1
+                break
+              fi
+              echo "Netlify still serving a different manifest (attempt $i)"
+            else
+              echo "Public manifest not accessible yet (attempt $i)"
+            fi
+            sleep 18
+          done
+          test "$found" = 1
+      - name: Verify public page and branded source routes without account writes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for path in / /who-is-who /world-uap-programmes /sources /research/wne.html /assets/who-international-programmes-m68.js /assets/source-outreach-digest-m68.js; do
+            curl -fsSL --connect-timeout 6 --max-time 18 "https://uapdisclosuredesk.com$path" -o /dev/null
+            echo "HTTP OK: $path"
+          done
+          curl -fsSL 'https://uapdisclosuredesk.com/' | grep -q 'https://boyddigitalstudios.com/'
+          curl -fsSL 'https://uapdisclosuredesk.com/who-is-who' | grep -q 'ddWhoInternationalProgrammes'
+          echo 'PASS: published public site paths, studio credit and M68 directory'
