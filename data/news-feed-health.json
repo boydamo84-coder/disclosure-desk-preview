@@ -1,23 +1,23 @@
 {
-  "checkedAt": "2026-11-20T07:10:08.878080+00:00",
+  "checkedAt": "2026-11-20T16:07:22.881052+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 15,
-      "latestArticleAt": "2026-11-19T08:06:30+00:00"
+      "items": 35,
+      "latestArticleAt": "2026-11-20T15:57:55+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 6,
-      "latestArticleAt": "2026-11-19T04:07:39+00:00"
+      "items": 5,
+      "latestArticleAt": "2026-11-20T15:25:39+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 10,
-      "latestArticleAt": "2026-11-19T08:06:30+00:00"
+      "items": 7,
+      "latestArticleAt": "2026-11-20T13:56:15+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
@@ -28,8 +28,8 @@
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 19,
-      "latestArticleAt": "2026-11-19T19:32:17+00:00"
+      "items": 18,
+      "latestArticleAt": "2026-11-20T12:17:00+00:00"
     },
     {
       "source": "Search: UAP congress hearing when:7d",
@@ -153,9 +153,9 @@
     },
     {
       "source": "Search: Spain",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-11-20T14:18:04+00:00"
     },
     {
       "source": "Search: Italy",
@@ -204,5 +204,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 366
+  "storiesPublished": 380
 }
