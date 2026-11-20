@@ -17,3 +17,15 @@
 4. Once hosting and publisher settings are confirmed, use `DD_ADSTERRA_NEWS_PILOT_LIVE=1 node scripts/build_adsterra_news_pilot.cjs` in a clean checkout. The banner switch works on the exact pilot HTTPS hostname only. Verify the deployed page, no requests before opt-in, one banner render, no unsolicited redirects, and withdrawal in an ordinary browser. Check real fill and the reporting dashboard without clicking the adverts or running automated impressions.
 
 Adsterra's standard tag runs as top-level JavaScript and creates its own banner frame. The pilot separates that script from the main site's local storage, Profile, Chat and W.NE. Consent applies to the visit. Returning through **Stop showing ads** loads a clean copy of the page. The provider's own cookies remain subject to browser settings and its privacy policy.
+
+## Publisher dashboard and hosting check
+
+Adsterra lists the main domain as Approved and all three banner units as Active. The 300 × 250 is placement 32356356. Its Adult ads switch is off and disabled. The dashboard directs publishers to place the supplied code in the page body. The pilot uses the exact two script blocks shown by Get code.
+
+The proposed `news.uapdisclosuredesk.com` hostname currently resolves to a parking redirect, and the publisher dashboard lists the main domain only. Netlify hosting access still needs to be confirmed. Approval and creative settings for the pilot hostname remain to be verified before live advertising.
+
+## Placement plan after the pilot
+
+The owner would like up to three placements per eligible public page if Adsterra confirms this is allowed, with banners between stories or public discussion posts and lighter placement elsewhere. Keep W.NE, Boards, Profile and private Chat ad-free. The three approved units are banner sizes. They do not establish a per-site or per-page allowance. Publisher support's account-specific email warned about multiple codes on the same page, so the pilot stays at one while that rule is clarified. Keep member-only features isolated if testing ads against a public feed.
+
+A second network can fill an existing slot when the first network has no ad to show, or serve selected sections under its own policy. Check both contracts and consent arrangements before enabling this. Google AdSense permits non-Google ads on the same page subject to its policies and each publisher's agreements. [AdSense help](https://support.google.com/adsense/answer/9728)

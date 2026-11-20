@@ -35,9 +35,19 @@ const choices = enableBanner ?
     '<button id="decline" type="button">Continue without ads</button></div><p id="ad-status" role="status" hidden></p></section>' :
     '<p>Advertising is off for this preview.</p>';
 
-const tag = '<span class="ad-label">Advertisement</span><script>atOptions={' +
-    "key:'" + unit + "',format:'iframe',height:250,width:300,params:{}};" +
-    '</script><script src="' + vendor + '"></script>';
+const originalTag = [
+    '<script>',
+    '  atOptions = {',
+    "    'key' : '" + unit + "',",
+    "    'format' : 'iframe',",
+    "    'height' : 250,",
+    "    'width' : 300,",
+    "    'params' : {}",
+    '  };',
+    '</script>',
+    '<script src="' + vendor + '"></script>'
+].join('\n');
+const tag = '<span class="ad-label">Advertisement</span>\n' + originalTag;
 const bootstrap = enableBanner ? '<script>(' + function choose(publisherOrigin, oneTag) {
     const allow = document.getElementById('allow');
     const decline = document.getElementById('decline');
