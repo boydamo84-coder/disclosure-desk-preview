@@ -1,41 +1,41 @@
 {
-  "checkedAt": "2026-11-20T16:07:22.881052+00:00",
+  "checkedAt": "2026-11-20T22:40:09.756562+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 35,
-      "latestArticleAt": "2026-11-20T15:57:55+00:00"
+      "items": 23,
+      "latestArticleAt": "2026-11-20T22:10:54+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 5,
-      "latestArticleAt": "2026-11-20T15:25:39+00:00"
+      "items": 10,
+      "latestArticleAt": "2026-11-20T18:00:43+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 7,
-      "latestArticleAt": "2026-11-20T13:56:15+00:00"
+      "items": 10,
+      "latestArticleAt": "2026-11-20T18:41:02+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-11-20T17:28:03+00:00"
     },
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 18,
-      "latestArticleAt": "2026-11-20T12:17:00+00:00"
+      "items": 22,
+      "latestArticleAt": "2026-11-20T19:47:37+00:00"
     },
     {
       "source": "Search: UAP congress hearing when:7d",
-      "status": "ok",
-      "items": 1,
-      "latestArticleAt": "2026-11-14T14:00:38+00:00"
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "Search: UFO UAP Brazil Peru Mexico Argentina when:7d",
@@ -117,9 +117,9 @@
     },
     {
       "source": "Search: Australia",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-11-18T00:33:34+00:00"
     },
     {
       "source": "Search: United Kingdom",
@@ -204,5 +204,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 380
+  "storiesPublished": 390
 }
