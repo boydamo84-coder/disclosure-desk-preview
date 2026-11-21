@@ -7,9 +7,8 @@
     "date": "2026-11-20T23:15:20+00:00",
     "category": "UAP",
     "priority": "standard",
-    "publisherUrl": "https://www.bbc.com/news/videos/cqdr1x8mypnko",
     "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/029f/live/9fdeb250-e537-11f1-99b6-a35a62fa4264.jpg",
-    "imageSource": "publisher_meta"
+    "publisherUrl": "https://www.bbc.com/news/videos/cqdr1x8mypnko"
   },
   {
     "id": "45298f494ce25e01e18d",
@@ -18,7 +17,10 @@
     "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQSFhManZ0M2g4bzRJMmpwVDVqXzlPenhRcUFlaV9aRzRCeEVBcHVlUFNFa2hwZDY5NWVhcl9iMGdKR01ZaTVnX1FQLVdrRklaTDc2bWdyVzZpaWZNNU0zaFJSeUE2amtSQnhVSlFtSVFwNnBKN2xmNUNibHYyLWhyT3BnM0hlbS1JYTFhTUs2SVZYSHFRR1JWb2g0N2xLZGhwdDNTUFJ6MVEyRjhESS0zaXk1Yw?oc=5",
     "date": "2026-11-20T19:58:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.independent.co.uk/news/world/americas/us-politics/bigfoot-files-released-forest-service-b3088947.html",
+    "imageUrl": "https://static.independent.co.uk/2026/11/20/18/06/10-PER-USE-PLEASE-FLAG-REUSE-TO-PIC-DESK.jpg?trim=44,4,29,0&width=1200&height=800&crop=1200:800",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "a402a5349cd973bb0a57",
@@ -846,8 +848,7 @@
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-05/260508-uap-ufo-mn-0945-3ba239.jpg",
-    "publisherUrl": "https://www.nbcnews.com/science/ufos-and-anomalous-phenomena/ufo-uap-files-pentagon-release-trump-rcna344204"
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-05/260508-uap-ufo-mn-0945-3ba239.jpg"
   },
   {
     "id": "91d80d6f4aeb9eaf02cb",
