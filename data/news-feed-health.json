@@ -1,23 +1,23 @@
 {
-  "checkedAt": "2026-11-21T03:28:47.968264+00:00",
+  "checkedAt": "2026-11-21T11:47:18.300519+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 50,
-      "latestArticleAt": "2026-11-21T02:42:15+00:00"
+      "items": 56,
+      "latestArticleAt": "2026-11-21T09:26:05+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
       "items": 11,
-      "latestArticleAt": "2026-11-20T23:15:20+00:00"
+      "latestArticleAt": "2026-11-21T09:01:41+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 12,
-      "latestArticleAt": "2026-11-21T00:13:46+00:00"
+      "items": 15,
+      "latestArticleAt": "2026-11-21T09:26:05+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
@@ -28,14 +28,14 @@
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 24,
-      "latestArticleAt": "2026-11-21T01:20:00+00:00"
+      "items": 25,
+      "latestArticleAt": "2026-11-21T10:04:47+00:00"
     },
     {
       "source": "Search: UAP congress hearing when:7d",
-      "status": "ok",
-      "items": 1,
-      "latestArticleAt": "2026-11-14T14:00:38+00:00"
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "Search: UFO UAP Brazil Peru Mexico Argentina when:7d",
@@ -63,9 +63,9 @@
     },
     {
       "source": "Search: UFO UAP Africa Middle East when:7d",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-11-20T17:26:20+00:00"
     },
     {
       "source": "Search: UFO UAP Ireland UK Canada when:7d",
@@ -117,9 +117,9 @@
     },
     {
       "source": "Search: Australia",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-11-17T23:08:26+00:00"
     },
     {
       "source": "Search: United Kingdom",
@@ -204,5 +204,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 399
+  "storiesPublished": 413
 }
