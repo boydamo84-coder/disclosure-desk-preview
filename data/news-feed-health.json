@@ -1,23 +1,23 @@
 {
-  "checkedAt": "2026-11-21T11:47:18.300519+00:00",
+  "checkedAt": "2026-11-21T19:11:46.544095+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 56,
-      "latestArticleAt": "2026-11-21T09:26:05+00:00"
+      "items": 30,
+      "latestArticleAt": "2026-11-21T09:01:41+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
       "items": 11,
-      "latestArticleAt": "2026-11-21T09:01:41+00:00"
+      "latestArticleAt": "2026-11-21T12:58:48+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 15,
-      "latestArticleAt": "2026-11-21T09:26:05+00:00"
+      "items": 16,
+      "latestArticleAt": "2026-11-21T15:02:39+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
@@ -28,14 +28,14 @@
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 25,
-      "latestArticleAt": "2026-11-21T10:04:47+00:00"
+      "items": 24,
+      "latestArticleAt": "2026-11-21T17:04:56+00:00"
     },
     {
       "source": "Search: UAP congress hearing when:7d",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-11-20T17:26:00+00:00"
     },
     {
       "source": "Search: UFO UAP Brazil Peru Mexico Argentina when:7d",
@@ -64,8 +64,8 @@
     {
       "source": "Search: UFO UAP Africa Middle East when:7d",
       "status": "ok",
-      "items": 1,
-      "latestArticleAt": "2026-11-20T17:26:20+00:00"
+      "items": 3,
+      "latestArticleAt": "2026-11-21T09:01:41+00:00"
     },
     {
       "source": "Search: UFO UAP Ireland UK Canada when:7d",
@@ -135,9 +135,9 @@
     },
     {
       "source": "Search: Argentina",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-11-16T17:00:00+00:00"
     },
     {
       "source": "Search: Chile",
@@ -204,5 +204,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 413
+  "storiesPublished": 421
 }
