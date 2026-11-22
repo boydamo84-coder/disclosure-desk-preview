@@ -1,23 +1,23 @@
 {
-  "checkedAt": "2026-11-21T23:47:14.496025+00:00",
+  "checkedAt": "2026-11-22T06:42:09.935539+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 31,
-      "latestArticleAt": "2026-11-21T19:47:42+00:00"
+      "items": 30,
+      "latestArticleAt": "2026-11-22T02:49:15+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
       "items": 13,
-      "latestArticleAt": "2026-11-21T12:58:48+00:00"
+      "latestArticleAt": "2026-11-21T20:44:41+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 17,
-      "latestArticleAt": "2026-11-21T19:15:57+00:00"
+      "items": 16,
+      "latestArticleAt": "2026-11-22T01:47:44+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
@@ -33,9 +33,9 @@
     },
     {
       "source": "Search: UAP congress hearing when:7d",
-      "status": "ok",
-      "items": 1,
-      "latestArticleAt": "2026-11-20T17:26:00+00:00"
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "Search: UFO UAP Brazil Peru Mexico Argentina when:7d",
@@ -64,7 +64,7 @@
     {
       "source": "Search: UFO UAP Africa Middle East when:7d",
       "status": "ok",
-      "items": 3,
+      "items": 2,
       "latestArticleAt": "2026-11-21T09:01:41+00:00"
     },
     {
@@ -135,9 +135,9 @@
     },
     {
       "source": "Search: Argentina",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-11-16T17:00:00+00:00"
     },
     {
       "source": "Search: Chile",
@@ -204,5 +204,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 424
+  "storiesPublished": 426
 }
