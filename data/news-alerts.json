@@ -1,5 +1,16 @@
 [
   {
+    "id": "5ab2621a1062ae700b1e",
+    "headline": "US releases files on suspected Bigfoot sightings in Montana and Oregon",
+    "source": "The Guardian",
+    "url": "https://www.theguardian.com/us-news/2026/nov/22/bigfoot-sighting-report-released-montana-oregon-forest-service",
+    "date": "2026-11-22T15:53:24+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "imageUrl": "https://i.guim.co.uk/img/media/8b089c6c50a5bd459eb3e00ff7509ac98e0e251c/720_0_4965_3972/master/4965.jpg?width=140&quality=85&auto=format&fit=max&s=a639039bf10af21ac55dd634c94f1db1",
+    "imageSource": "publisher_rss"
+  },
+  {
     "id": "c40c64fc154d8cbc2872",
     "headline": "Watch: US declassifies more UFO footage filmed in the Middle East",
     "source": "BBC",
@@ -7,7 +18,8 @@
     "date": "2026-11-20T23:15:20+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/029f/live/9fdeb250-e537-11f1-99b6-a35a62fa4264.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/029f/live/9fdeb250-e537-11f1-99b6-a35a62fa4264.jpg",
+    "publisherUrl": "https://www.bbc.com/news/videos/cqdr1x8mypnko"
   },
   {
     "id": "06727bb4b46082a9ba94",
@@ -16,7 +28,10 @@
     "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNUF9aQVY1bjJqblhVdGZMTUlWVnlGeDh6NlMwcXBSenlNcUlYT2J3YzZpLTRtTzJJNHEwckVYVEJJdFZkblhMYkZvTlF3MFlnaDRPZWZOci12RTB5UnJBbEdwUUZkMW1NemhraGRRSjQ5VnQxVlZiSDdJSEpHOGZfT3lmQ3czWGFKdm43SldqazZMUVJ0YWs1R0hWc2U?oc=5",
     "date": "2026-11-20T21:28:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.independent.co.uk/bulletin/news/bigfoot-files-montana-washington-trump-b3088994.html",
+    "imageUrl": "https://static.independent.co.uk/2026/10/30/8/18/iStock-2233436478.jpeg?trim=49,0,49,0&width=1200&height=800&crop=1200:800",
+    "imageSource": "publisher_meta"
   },
   {
     "id": "45298f494ce25e01e18d",
@@ -26,7 +41,8 @@
     "date": "2026-11-20T19:58:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://static.independent.co.uk/2026/11/20/18/06/10-PER-USE-PLEASE-FLAG-REUSE-TO-PIC-DESK.jpg?trim=44,4,29,0&width=1200&height=800&crop=1200:800"
+    "imageUrl": "https://static.independent.co.uk/2026/11/20/18/06/10-PER-USE-PLEASE-FLAG-REUSE-TO-PIC-DESK.jpg?trim=44,4,29,0&width=1200&height=800&crop=1200:800",
+    "publisherUrl": "https://www.independent.co.uk/news/world/americas/us-politics/bigfoot-files-released-forest-service-b3088947.html"
   },
   {
     "id": "81a98d7606bfff4bab56",
@@ -35,7 +51,8 @@
     "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQS2VYcjNvQndKb1g5bnlOQzk1cnJiQms0cFdIdmlvUngwNzVqZFBoaGFVbHU3U1FRVEtULWlNT1ZUbWJYZktuREoxbXBzWk5MVHRqTjlIRzd2dnZSUU1sX0hRc2Nfd0E0ZHQ2Q09TWkhTY2ZPbHU5c3h2N0F3R1V1U1pLZUJsTWxIQ2xPNVFRVXBOUU9oc2Y4cTRLbzUwNzhLQUhSdWYxblB1VXQtVExzRmN3?oc=5",
     "date": "2026-11-20T18:30:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.washingtonpost.com/nation/2026/11/20/bigfoot-believers-get-boost-an-unlikely-ally-us-forest-service/"
   },
   {
     "id": "a402a5349cd973bb0a57",
@@ -45,7 +62,8 @@
     "date": "2026-11-20T16:02:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://static.independent.co.uk/2026/11/20/14/19/GettyImages-2291892820.jpg?trim=0,13,9,0&width=1200&height=800&crop=1200:800"
+    "imageUrl": "https://static.independent.co.uk/2026/11/20/14/19/GettyImages-2291892820.jpg?trim=0,13,9,0&width=1200&height=800&crop=1200:800",
+    "publisherUrl": "https://www.independent.co.uk/news/world/americas/us-politics/pentagon-ufo-files-latest-release-b3088756.html"
   },
   {
     "id": "46ffb5bd5cf421178b2e",
@@ -55,7 +73,8 @@
     "date": "2026-11-20T15:57:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://assets1.cbsnewsstatic.com/hub/i/r/2026/11/20/b927b4a4-8fcb-4361-ada8-b28de36e7d97/thumbnail/1200x630/22f9744f657bc1cee5bd7fdb348266cf/screenshot-2026-11-20-at-10-47-10-am.png"
+    "imageUrl": "https://assets1.cbsnewsstatic.com/hub/i/r/2026/11/20/b927b4a4-8fcb-4361-ada8-b28de36e7d97/thumbnail/1200x630/22f9744f657bc1cee5bd7fdb348266cf/screenshot-2026-11-20-at-10-47-10-am.png",
+    "publisherUrl": "https://www.cbsnews.com/news/ufo-files-pentagon-contractor/"
   },
   {
     "id": "ef5451dc29b01efcda3f",
@@ -458,12 +477,12 @@
     "id": "b22f4d5039175e53c223",
     "headline": "Does the UK have a blind spot on UFO sightings?",
     "source": "BBC",
-    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1VdmZOOS1HWFdCcTVab3k1Uy00Ul93RjQ0MlRyaFNfdThTMWMzOThoalRFdE1iRkxLZ21fN2FqUlctcGpQUVlSb090a1NZbzREX2JKX1ZFazBndw?oc=5",
-    "date": "2026-06-13T07:00:00+00:00",
+    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9sUWM5ZndzVWpxbUwycWw0eEt4QlJyWldFckhnSDFZWjBPVGVsWHF5bmxaWmp0RFJ1UUVUM25mdFpaRnFFODRIMWx3ZXlyRFJ3WlNWRWt5STMwZzlu?oc=5",
+    "date": "2026-06-14T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
     "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/81bf/live/cc19f4f0-65c2-11f1-b1db-af71d47507d6.png",
-    "publisherUrl": "https://www.bbc.com/news/articles/c3929kk7gdjo"
+    "publisherUrl": "https://www.bbc.co.uk/news/articles/c3929kk7gdjo"
   },
   {
     "id": "cf279d727e97d05e75da",
@@ -857,7 +876,8 @@
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-05/260508-uap-ufo-mn-0945-3ba239.jpg"
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-05/260508-uap-ufo-mn-0945-3ba239.jpg",
+    "publisherUrl": "https://www.nbcnews.com/science/ufos-and-anomalous-phenomena/ufo-uap-files-pentagon-release-trump-rcna344204"
   },
   {
     "id": "91d80d6f4aeb9eaf02cb",
@@ -943,7 +963,8 @@
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3d2f/live/55b14d10-4b17-11f1-be9e-ad2f8d891a76.png"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3d2f/live/55b14d10-4b17-11f1-be9e-ad2f8d891a76.png",
+    "publisherUrl": "https://www.bbc.com/news/articles/c1m2epkey44o"
   },
   {
     "id": "580cf2308598f270d357",
@@ -1030,7 +1051,8 @@
     "date": "2026-04-05T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8"
+    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8",
+    "publisherUrl": "https://www.theguardian.com/us-news/2026/apr/05/alien-life-nasa-jared-isaacman-artemis-ii"
   },
   {
     "id": "ef2cf6dd2b9e6f0cd58a",
@@ -1048,11 +1070,12 @@
     "id": "abb16d1c92f3fe8fd468",
     "headline": "Cardiff lecturer interviews 160 Bigfoot hunters over three years",
     "source": "BBC",
-    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5leHJaVzVCakhremQzOWQxcWFxdjduNFRwRjdVYWJNZkpJcGRZalhLcG1Ld3JlZ3BhVVVnWUNVakN1VVBHYzVDZW83ZDRPR09NRkhVdlQtSEpWZkFj?oc=5",
-    "date": "2026-04-02T07:00:00+00:00",
+    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE50cUFMRDJpYTcyTkpPei1YLW0yU3hQYXhpa1Uyd1NzNXFGTi1EaE1TXzZQckh0UlR6N3poVjNVaEtlSTBycWFpUEJWZnhpSnA5OGdhamJDVzIwQQ?oc=5",
+    "date": "2026-04-03T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg",
+    "publisherUrl": "https://www.bbc.com/news/articles/cvg58ydn4jpo"
   },
   {
     "id": "8d06dd474e5f2e6f3926",
