@@ -4,7 +4,7 @@ const assert=require('node:assert/strict');
 const {chromium}=require('playwright-core');
 const base='http://127.0.0.1:4173';
 (async()=>{
- const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',
+ const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/google-chrome',
   headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
  try{
   for(const width of [320,393,820,1280]){
@@ -28,15 +28,27 @@ const base='http://127.0.0.1:4173';
    assert.match(text,/manually, not live government tracking/i);
    assert.match(text,/not\s+establish delivery|not establish delivery/i);
    assert.match(text,/no fees have been authorised/i);
+   const whs=page.locator('#dd-source-enquiry-osd-151-pages');
+   const pdfs=whs.locator(':scope > .dd-verification-links a');
+   assert.equal(await pdfs.count(),2,'WHS public copies are visible above the timeline');
+   for(const link of await pdfs.all()){
+    assert(await link.isVisible());
+    const url=await link.getAttribute('href');
+    assert.match(url,/^\/data\/foia\/27-F-0917-(?:referral-records|final-response)\.pdf$/);
+    const response=await page.request.get(base+url);
+    assert.equal(response.status(),200);
+    assert.match(response.headers()['content-type'],/^application\/pdf/);
+    assert.equal((await response.body()).subarray(0,5).toString(),'%PDF-');
+   }
    for(const item of await cards.all()){
     const state=item.locator('.dd-verification-state');
-    assert(['sent_unacknowledged','response_received'].includes(await state.getAttribute('data-status')));
+    assert(['sent_unacknowledged','response_received','records_released'].includes(await state.getAttribute('data-status')));
     const dateInfo=await item.locator('.dd-verification-dates').innerText();
     assert.match(dateInfo,/last documented/i);
     assert((await item.locator('.dd-verification-timeline li').count())>=1);
     await item.locator('details > summary').click();
     assert.equal(await item.locator('details').getAttribute('open'),'');
-    const sources=item.locator('.dd-verification-links a');
+    const sources=item.locator('details .dd-verification-links a');
     assert((await sources.count())>=1);
     for(const l of await sources.all()){
      assert.equal(await l.getAttribute('rel'),'noopener noreferrer');
@@ -62,11 +74,11 @@ const base='http://127.0.0.1:4173';
      'Tracker card fits viewport at '+width);
    // Who's Who retains public claim-review safety and links to the dated log.
    await page.goto(base+'/who-is-who.html',{waitUntil:'domcontentloaded'});
-   const a=page.locator('#ddWhoSourceTracker a');
+   const a=page.locator('#ddWhoSourceTracker > a');
    await a.waitFor({state:'visible'});
    assert.equal(await a.getAttribute('href'),'/sources#sourceVerification');
    const callout=await page.locator('#ddWhoSourceTracker').innerText();
-   assert.match(callout,/Washington Headquarters Services has replied/i);
+   assert.match(callout,/Washington Headquarters Services released 14 pages/i);
    assert.equal(await page.locator('#ddWebSecondaryNav .tab').count(),14,
      'Keep premium navigation, do not add a dock tab');
    assert.deepEqual(errors,[], 'No JavaScript errors '+width);

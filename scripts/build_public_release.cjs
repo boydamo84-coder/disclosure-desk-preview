@@ -67,6 +67,8 @@ function websiteDir(dir){
 }
 top.forEach(copy);websiteDir('assets');websiteDir('research');
 data.forEach(p=>copy('data/'+p));
+copy('data/foia/27-F-0917-referral-records.pdf');
+copy('data/foia/27-F-0917-final-response.pdf');
 copy('research/data/curated-public-cases.json');
 // R3: a separately scoped, noindex browser page with opt-in account-backed
 // ciphertext only. Original website bundle and navigation stay intact.

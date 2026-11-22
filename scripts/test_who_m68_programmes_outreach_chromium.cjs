@@ -4,7 +4,7 @@ const assert=require('node:assert/strict');
 const {chromium}=require('playwright-core');
 const BASE='http://127.0.0.1:4173';
 (async()=>{
- const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,
+ const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/google-chrome',headless:true,
   args:['--no-sandbox','--disable-dev-shm-usage']});
  try{
   for(const width of [320,393,820,1280]){
@@ -28,7 +28,8 @@ const BASE='http://127.0.0.1:4173';
    assert.equal(await page.locator('#ddWhoProgrammeCards .dd-who-programme-card[data-programme-id=vatican]').count(),1);
    assert.match(await page.locator('#ddWhoProgrammeCards [data-programme-id=vatican]').textContent(),/Vatican Observatory|Vatican/);
    assert.equal(await page.locator('#ddWhoOutreachDigest .dd-outreach-digest-card').count(),5);
-   assert.equal(await page.locator('#ddWhoOutreachDigest .dd-outreach-digest-state[data-status=response_received]').count(),4);
+   assert.equal(await page.locator('#ddWhoOutreachDigest .dd-outreach-digest-state[data-status=response_received]').count(),3);
+   assert.equal(await page.locator('#ddWhoOutreachDigest .dd-outreach-digest-state[data-status=records_released]').count(),1);
    assert.equal(await page.locator('#ddWhoOutreachDigest .dd-outreach-digest-state[data-status=sent_unacknowledged]').count(),1);
    assert.equal(await page.locator('details.dd-m64-ballot').count(),0);
    assert.equal(await page.evaluate(()=>window.DD_COMMUNITY_FEATURES?.whoEvidenceBallots),false);

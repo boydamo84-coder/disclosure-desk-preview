@@ -1,5 +1,12 @@
 # Disclosure Desk — MASTER HANDOVER
-_Last updated: 19 November 2026 (Europe/London) — M76 personal Who claim assessment and M71 release safeguard STAGED, QA green, NO DEPLOY_
+_Last updated: 22 November 2026 (Europe/London) — WHS FOIA referral records staged for the next site release_
+
+## WHS FOIA release 27-F-0917 — 22 November 2026
+
+- Branch `archive/whs-27-f-0917` starts from `production` at `910d755916cdf72ea7c7df39bbf7a5c76832d649`. The Sources & Archives tracker links the 14-page referral packet and two-page final-response letter under `/sources#dd-source-enquiry-osd-151-pages`. The shorter outreach summaries use the same status record.
+- The release dated 19 November concerns Disclosure Desk’s request `27-F-0917`. It connects the original Navy request `DON-NAVY-2020-007231` to Pentagon case `25-F-3215`, which WHS said was open. The seven documents (151 pages) were outstanding at that date. See the packet pages 11–12 for NAVAIR’s referral and 13–14 for the Pentagon case number.
+- The two allowlisted files in `data/foia/` are publication copies with requester contact details removed. Text extraction and OCR of the edited pages verified the redactions. Static package checks and Chromium tests at 320, 393, 820 and 1280 pixels cover the record, PDF downloads, outreach links and archive filters.
+- Stage this branch for the next approved website release. After deployment, open the tracker deep link and both PDF URLs on the public site.
 
 ## M76 — individual claim evidence worksheet, 4-width Chromium VERIFIED; M71 guard included, STAGED ONLY (19 November 2026)
 

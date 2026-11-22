@@ -54,7 +54,7 @@ details p{font-size:12px;color:#b9c9d3;line-height:1.7;margin:9px 0}details stro
 .dd-verification-category{font-size:10px;letter-spacing:1.4px;font-weight:800;color:#dcca9a;text-transform:uppercase}
 .dd-verification-agency{font-size:12px;color:#a2b6c8;line-height:1.5;margin:0}
 .dd-verification-state{display:inline-block;border:1px solid #998357;border-radius:8px;background:#302e26;color:#f0d49d;padding:7px 10px;font-size:11px;font-weight:700;line-height:1.4}
-.dd-verification-state[data-status="acknowledged"],.dd-verification-state[data-status="response_received"]{color:#b7e1d0;border-color:#598a7b;background:#17372d}
+.dd-verification-state[data-status="acknowledged"],.dd-verification-state[data-status="response_received"],.dd-verification-state[data-status="records_released"]{color:#b7e1d0;border-color:#598a7b;background:#17372d}
 .dd-verification-question{font-size:14px;color:#dce5eb;line-height:1.6;margin:15px 0}
 .dd-verification-dates{font-size:11px;color:#eed0a0;font-variant-numeric:tabular-nums}
 .dd-verification-detail{color:#b4c6d3;font-size:12px;line-height:1.65}
@@ -95,13 +95,13 @@ details p{font-size:12px;color:#b9c9d3;line-height:1.7;margin:9px 0}details stro
         <h2 id="verificationTitle">Data Requests &amp; Source Verification</h2></div>
       <a class="back" href="/who-is-who">Explore Who’s Who</a>
     </div>
-    <p class="dd-verification-intro">We document our direct data-access, copyright and public-record enquiries with source organisations and government archives worldwide. A reply confirms correspondence, not a FOIA decision, release permission, official endorsement or an extraordinary UAP conclusion. Read what we asked, what was actually answered and what remains unresolved.</p>
-    <p id="ddVerificationUpdated" class="dd-verification-updated">Research log updated 18 November 2026 · Manually maintained; correspondence dates are marked if unverified.</p>
+    <p class="dd-verification-intro">Follow our data-access, copyright and public-record enquiries with archives and source organisations. The log shows what we requested, what agencies released and which questions remain open.</p>
+    <p id="ddVerificationUpdated" class="dd-verification-updated">Research log updated 19 November 2026 · Maintained manually.</p>
     <div id="ddVerificationList" class="dd-verification-grid" aria-live="polite">
       <p class="dd-verification-intro">Loading five public archive and government research enquiries…</p>
     </div>
-    <noscript><p class="dd-verification-intro">The public tracker requires JavaScript. The log includes correspondence with Germany’s GEP, Brazil’s Arquivo Nacional, Library and Archives Canada, Washington Headquarters Services and the US National Archives. For dated status details, enable JavaScript or use the original archive links below.</p></noscript>
-    <p class="dd-verification-disclaimer"><strong>How to read these statuses:</strong> “Enquiry sent” records an outgoing message but does <strong>not</strong> establish delivery, an agency acknowledgement or a formal FOIA filing. “Reply received” documents an answer, not an approval, released record or completed FOIA review. Exact send/reply dates are not invented when source correspondence has not been rechecked. Statuses are manual, with a dated research trail. No fees have been authorised. Government or independent archive correspondence does not validate extraordinary claims. We do not publish private emails or requester details.</p>
+    <noscript><p class="dd-verification-intro">Enable JavaScript for the full tracker. For WHS case 27-F-0917, read the <a href="/data/foia/27-F-0917-referral-records.pdf">14-page referral packet (PDF)</a> and the <a href="/data/foia/27-F-0917-final-response.pdf">final-response letter (PDF)</a>. Disclosure Desk redacted requester contact details in the public copies.</p></noscript>
+    <p class="dd-verification-disclaimer">“Enquiry sent” records an outgoing message and does not establish delivery. “Reply received” records a confirmed response. “FOIA records released” means the agency supplied records under the case described. We mark unverified dates and redact requester contact details in public copies. No fees have been authorised.</p>
   </section>
   <div class="tools" role="search" aria-label="Find archival sources">
     <div><label for="archiveSearch">Search sources</label><input id="archiveSearch" type="search" placeholder="Search country, collection, organisation…" autocomplete="off"></div>
@@ -226,6 +226,6 @@ details p{font-size:12px;color:#b9c9d3;line-height:1.7;margin:9px 0}details stro
 })();
 </script>
 <script defer src="/assets/page-help.js?v=r2-m10-help01"></script>
-<script defer src="/assets/source-verification.js?v=m39-evidence-status01"></script>
+<script defer src="/assets/source-verification.js?v=whs-27-f-0917"></script>
 </body>
 </html>

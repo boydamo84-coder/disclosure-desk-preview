@@ -5,8 +5,16 @@ if(!fs.existsSync(out))cp.execFileSync(process.execPath,['scripts/build_public_r
 else console.log('Verifying existing immutable public staging from Android snapshot build; no overwrite');
 const m=JSON.parse(fs.readFileSync(path.join(out,'release-manifest.json'),'utf8'));
 const paths=m.files.map(f=>f.path),names=new Set(paths);
+const foiaFiles=['data/foia/27-F-0917-final-response.pdf','data/foia/27-F-0917-referral-records.pdf'];
+const production=process.env.CONTEXT==='production';
+const maxPackageFiles=130+foiaFiles.length+(production?0:1);
 assert.equal(names.size,paths.length);
-assert.ok(paths.length>=35&&paths.length<=130,'Unexpected package count '+paths.length);
+assert.ok(paths.length>=35&&paths.length<=maxPackageFiles,'Unexpected package count '+paths.length);
+assert.deepEqual(paths.filter(p=>p.endsWith('.pdf')).sort(),foiaFiles);
+const sourceTracker=JSON.parse(fs.readFileSync(path.join(out,'data/public-source-verification.json'),'utf8'));
+const foiaLinks=sourceTracker.records.flatMap(record=>record.publicSources)
+ .filter(source=>source.hostType==='foia_release').map(source=>source.url);
+assert.deepEqual(foiaLinks.sort(),foiaFiles.map(file=>'/'+file));
 for(const f of m.files){
  const bytes=fs.readFileSync(path.join(out,f.path));
  assert.equal(bytes.length,f.bytes,f.path);
@@ -25,7 +33,6 @@ for(const f of ['research/r3-lab/index.html','research/r3-lab/hypothesis-ui.js',
  'research/r3-lab/hypothesis-cloud.js','research/r3-lab/hypothesis-vault.js',
  'research/r3-lab/curated-public-cases.js','research/r3-lab/hypothesis-hosted.css'])
  assert.ok(names.has(f),'Hosted R3 reviewed dependency missing: '+f);
-const production=process.env.CONTEXT==='production';
 if(production)
  assert.ok(!names.has('research/r3-lab/hypothesis-session-qa.js'),
   'Production must not ship private QA helper code');
@@ -76,7 +83,7 @@ function assetPath(file,target){
  const url=target.split(/[?#]/)[0].trim();
  if(!url||/^(?:https?:)?\/\//i.test(url)||url.startsWith('data:')||
    url.startsWith('mailto:')||url.startsWith('#')||
-   !/\.(?:html?|js|css|svg|json|webmanifest|png|ico|txt|xml)$/i.test(url))
+   !/\.(?:html?|js|css|svg|json|webmanifest|png|ico|txt|xml|pdf)$/i.test(url))
   return null;
  return url.startsWith('/')?url.slice(1):
   path.posix.normalize(path.posix.join(path.posix.dirname(file),url));

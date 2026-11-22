@@ -37,7 +37,6 @@ assert(read('world-uap-programmes.html').includes('Primary sources first'));
 assert(read('world-uap-programmes.html').includes('investigate who studied unidentified aerial reports'));
 assert(read('assets/world-uap-programmes.js').includes('textContent'));
 assert(tracker.records.length===5);
-assert(tracker.disclosure.noFormalFOIAFilingEstablished===true);
 assert(tracker.disclosure.extraordinaryUAPConclusion===false);
 assert(tracker.disclosure.automaticInboxPolling===false);
 assert(!/garyboyd@|boyddigitalstudios@gmail.com/i.test(JSON.stringify(tracker)));
@@ -53,7 +52,10 @@ assert(/website reproduction remains on hold|will seek confirmation/.test(lac.so
 assert(!/no general licence or reproduction approval has been granted/i.test(lac.statusDetail));
 assert(tracker.records.find(x=>x.id==='germany-gep-case-data').statusDetail.includes('declined'));
 assert(tracker.records.find(x=>x.id==='brazil-arquivo-nacional-sian').statusDetail.includes('SIAN'));
-assert(tracker.records.find(x=>x.id==='osd-151-pages').statusDetail.includes('No specific referral number'));
+const navyReferral=tracker.records.find(x=>x.id==='osd-151-pages');
+assert.equal(navyReferral.status,'records_released');
+for(const fact of ['14 pages','27-F-0917','25-F-3215','remained open','seven documents are still outstanding'])
+ assert(navyReferral.statusDetail.includes(fact),'WHS referral entry missing '+fact);
 assert(tracker.records.find(x=>x.id==='nara-mj12-revision').status==='sent_unacknowledged');
 assert(sources.includes('id="sourceVerification"'));
 assert(sources.includes('/assets/source-verification.js'));

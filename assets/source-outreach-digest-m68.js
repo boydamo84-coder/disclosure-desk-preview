@@ -12,6 +12,7 @@ const labels={
  sent_unacknowledged:'Sent · acknowledgement unverified',
  acknowledged:'Acknowledged',
  response_received:'Reply received',
+ records_released:'FOIA records released',
  closed_with_unresolved_questions:'Response reviewed · unresolved'
 };
 function valid(x){

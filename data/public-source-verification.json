@@ -2,45 +2,81 @@
   "schemaVersion": 1,
   "edition": "source-m40-public-outreach-register",
   "publicationStatus": "candidate_not_deployed",
-  "lastUpdated": "2026-11-18",
-  "methodology": "Dated public summary of direct archive and public-record correspondence. Sending an enquiry does not prove agency receipt; a reply is not a FOIA decision or permission to republish records. Exact correspondence dates not verified from original messages are explicitly marked as unknown. Records are updated manually, not through automatic inbox monitoring. File-specific copyright licences are distinguished from blanket reuse approvals; where the licensed online publication format is unclear, no document is reproduced pending confirmation.",
+  "lastUpdated": "2026-11-19",
+  "methodology": "Dated public summary of direct archive and public-record correspondence. Formal filings, decisions and record releases are identified when confirmed by agency documents. Exact correspondence dates are marked as unknown when unverified. Records are updated manually. Reuse licences apply to the specific files and uses documented.",
   "records": [
     {
       "id": "osd-151-pages",
       "agency": "Office of the Secretary of Defense / Joint Staff (Pentagon)",
       "category": "Government records",
-      "title": "Seven Navy-referred documents — 151 pages",
+      "title": "Navy UAP videos · FOIA referral records",
       "originalCase": "DON-NAVY-2020-007231",
-      "question": "Did OSD assign a tracking number or issue a public decision for the seven documents (151 pages) referred by the Navy in its 8 July 2025 letter?",
-      "sourceWarning": "The 151 pages referred in the Navy letter must not be confused with separate Pentagon FOIA cases 19-F-1420 or 20-F-1095.",
+      "question": "What happened to the seven documents (151 pages) referred by the Navy concerning the release of the FLIR1, Gimbal and GoFast videos?",
+      "sourceWarning": "The Navy’s 8 July 2025 response identifies the 151-page referral. WHS’s 14-page release covers case tracking, referral and correspondence. Separate Pentagon FOIA cases 19-F-1420 and 20-F-1095 have their own records.",
       "dateSent": "2026-11-17",
-      "lastVerified": "2026-11-18",
-      "status": "response_received",
-      "statusLabel": "Agency response received",
-      "statusDetail": "On 17 November 2026, Washington Headquarters Services FOIA staff acknowledged receiving our email and explained that FOIA requests must identify existing agency records rather than ask general questions. No specific referral number, determination, released pages or disposition was provided. A formal follow-up FOIA request has not yet been confirmed as filed.",
-      "requestMethod": "Initial case-status enquiry emailed 17 November 2026; WHS response dated 17 November. A revised request for existing administrative and referral records is proposed, not yet filed.",
-      "evidenceRequirement": "A formally acknowledged follow-up FOIA case number and official records specifically identifying the seven-document, 151-page Navy referral; the general procedural reply alone does not resolve its disposition.",
+      "lastVerified": "2026-11-19",
+      "status": "records_released",
+      "statusLabel": "14 pages of referral records released",
+      "statusDetail": "Washington Headquarters Services (WHS) released 14 pages of referral, tracking and correspondence records in its 19 November 2026 final response to Disclosure Desk’s FOIA request 27-F-0917. The packet identifies 25-F-3215 as the Pentagon’s case for the seven referred documents. WHS said that case remained open, with a final decision pending. The seven documents are still outstanding as of that response.",
+      "requestMethod": "WHS received the records request dated 17 November 2026 on 18 November and assigned case 27-F-0917.",
+      "evidenceRequirement": "A release or final agency decision under case 25-F-3215 would establish the outcome for the seven referred documents.",
       "timeline": [
+        {
+          "date": "2025-04-24",
+          "kind": "source",
+          "title": "NAVAIR refers seven documents to the Pentagon",
+          "detail": "The referral letter requests Pentagon review and a direct response to the original requester. See pages 11–12 of the released packet."
+        },
+        {
+          "date": "2025-05-28",
+          "kind": "source",
+          "title": "Pentagon confirms case 25-F-3215",
+          "detail": "Its interim letter records receipt of the referral on 12 May 2025 and confirms the case number. See pages 13–14."
+        },
         {
           "date": "2025-07-08",
           "kind": "source",
-          "title": "Original referral documented",
-          "detail": "NAVAIR letter reported seven documents (151 pages) referred to OSD for its own review."
+          "title": "Navy identifies the 151-page referral",
+          "detail": "NAVAIR’s response to the original requester identifies seven documents totalling 151 pages that were referred for Pentagon review."
         },
         {
           "date": "2026-11-17",
           "kind": "sent",
           "title": "Research enquiry sent",
-          "detail": "Email accepted for sending; delivery and acknowledgement unverified."
+          "detail": "Disclosure Desk emailed a status enquiry about the seven referred documents."
         },
         {
           "date": "2026-11-17",
           "kind": "response",
           "title": "WHS FOIA reply received",
           "detail": "FOIA analyst acknowledged our email and explained the need to identify existing records. No specific referral status or release was supplied."
+        },
+        {
+          "date": "2026-11-18",
+          "kind": "source",
+          "title": "Disclosure Desk request logged as 27-F-0917",
+          "detail": "WHS’s final-response letter confirms receipt and assignment of the follow-up case."
+        },
+        {
+          "date": "2026-11-19",
+          "kind": "response",
+          "title": "WHS releases 14 pages of administrative records",
+          "detail": "WHS applied personal-privacy redactions and confirmed that case 25-F-3215 remained open at the time of its response."
         }
       ],
       "publicSources": [
+        {
+          "label": "Read the 14-page WHS referral packet (PDF)",
+          "url": "/data/foia/27-F-0917-referral-records.pdf",
+          "purpose": "Government-authored records released to Boyd Digital Studios under FOIA. Disclosure Desk redacted requester contact details in this copy.",
+          "hostType": "foia_release"
+        },
+        {
+          "label": "Read the WHS final-response letter (PDF)",
+          "url": "/data/foia/27-F-0917-final-response.pdf",
+          "purpose": "WHS decision for 27-F-0917, dated 19 November 2026. Disclosure Desk redacted the requester email address in this copy.",
+          "hostType": "foia_release"
+        },
         {
           "label": "Navy FOIA letter (government-authored, third-party mirror)",
           "url": "https://documents2.theblackvault.com/documents/navy/2020-007231.pdf",
@@ -56,7 +92,7 @@
         {
           "label": "WHS FOIA submission guidance (official)",
           "url": "https://www.esd.whs.mil/FOID/Submit-Request/",
-          "purpose": "Official method to submit a new records-focused FOIA request; not proof any follow-up request has been filed.",
+          "purpose": "Official guidance for submitting a records-focused FOIA request.",
           "hostType": "official"
         }
       ]
@@ -225,7 +261,6 @@
   ],
   "disclosure": {
     "noFeeAuthorised": true,
-    "noFormalFOIAFilingEstablished": true,
     "outgoingMailAcceptedNotAgencyReceipt": true,
     "agencyResponseConfirmed": true,
     "automaticInboxPolling": false,
@@ -235,6 +270,6 @@
     "extraordinaryUAPConclusion": false,
     "claimSpecificPercentagesPublished": false,
     "ownerApprovalRequiredForLiveDeploy": true,
-    "updatePolicy": "Manual, dated and evidence-limited: 'sent' is not 'received'; 'response received' confirms only a reply and must not imply FOIA acceptance, case disposition, dataset permission or endorsement. Unverified correspondence dates remain unpublished. No private emails, personal contact details, or raw messages appear on the public site."
+    "updatePolicy": "The log records sent enquiries, confirmed replies and documented record releases. Each release applies to the case and records named in the agency’s decision. Unverified dates are identified. Public copies omit private emails and requester contact details."
   }
 }

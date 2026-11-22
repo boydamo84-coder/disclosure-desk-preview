@@ -22,20 +22,24 @@
     return date?new Date(date+'T12:00:00Z').toLocaleDateString('en-GB',{
       day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}):'Date not verified';
   };
-  const href=url=>{
+  const href=source=>{
+    if(source.hostType==='foia_release'){
+      const localPdf=/^\/data\/foia\/\d{2}-F-\d{4}-(?:final-response|referral-records)\.pdf$/;
+      return localPdf.test(source.url)?source.url:null;
+    }
     try{
-      const u=new URL(String(url));
+      const u=new URL(String(source.url));
       const hosts=['www.archives.gov','reaganlibrary.archives.gov',
       'documents2.theblackvault.com','projectaquarius.mufon.com',
       'www.esd.whs.mil','zenodo.org','www.gov.br','www.canada.ca'];
       return u.protocol==='https:'&&!u.username&&!u.password&&hosts.includes(u.hostname)?u.href:null;
     }catch{return null;}
   };
-  const allowedStatuses=new Set(['sent_unacknowledged','acknowledged','response_received','closed_with_unresolved_questions']);
   const statusLabels={
     sent_unacknowledged:'Enquiry sent · acknowledgement not verified',
     acknowledged:'Acknowledged by agency',
     response_received:'Reply received · scope described below',
+    records_released:'FOIA records released · scope described below',
     closed_with_unresolved_questions:'Response reviewed · questions remain'
   };
   const mandatoryString=(v,max=650)=>typeof v==='string'&&v.trim().length>0&&v.length<=max?v:null;
@@ -55,6 +59,7 @@
       'Enquiry sent: '+(r.dateSent?longDate(r.dateSent):'Exact date not verified')+' · Last documented: '+longDate(r.lastVerified));
     doc.append(dates);
     doc.append(el('p','dd-verification-detail',r.statusDetail));
+    const downloads=el('ul','dd-verification-links');
     const trail=el('ol','dd-verification-timeline');
     for(const t of r.timeline){
       const item=el('li','');
@@ -63,7 +68,6 @@
       item.append(when,el('strong','',t.title),el('p','',t.detail));
       trail.append(item);
     }
-    doc.append(trail);
     const details=el('details','dd-verification-sources');
     details.append(el('summary','', 'Original records, limitations and verification criteria'));
     const inner=el('div','dd-verification-expand');
@@ -71,11 +75,14 @@
        el('p','','What would verify the answer: '+r.evidenceRequirement));
     const sources=el('ul','dd-verification-links');
     for(const source of r.publicSources){
-      const safe=href(source.url);if(!safe)continue;
+      const safe=href(source);if(!safe)continue;
       const li=el('li','');
       const a=el('a','',source.label);a.href=safe;a.target='_blank';a.rel='noopener noreferrer';
-      li.append(a,el('p','',source.purpose));sources.append(li);
+      li.append(a,el('p','',source.purpose));
+      (source.hostType==='foia_release'?downloads:sources).append(li);
     }
+    if(downloads.childElementCount)doc.append(downloads);
+    doc.append(trail);
     inner.append(sources);
     details.append(inner);doc.append(details);
     return doc;
@@ -85,12 +92,11 @@
     .then(d=>{
       if(d.schemaVersion!==1||!Array.isArray(d.records)||d.records.length<1||d.records.length>25||
          !strictDate(d.lastUpdated)||!d.disclosure?.outgoingMailAcceptedNotAgencyReceipt||
-         d.disclosure?.agencyResponseConfirmed!==true||
-         d.disclosure?.noFormalFOIAFilingEstablished!==true)throw Error('Invalid tracker contract');
+         d.disclosure?.agencyResponseConfirmed!==true)throw Error('Invalid tracker contract');
       const ids=new Set(),cards=[];
       for(const r of d.records){
         if(!r||typeof r.id!=='string'||!(/^[a-z0-9-]{4,80}$/).test(r.id)||ids.has(r.id)||
-          !allowedStatuses.has(r.status)||(r.dateSent!==null&&!strictDate(r.dateSent))||!strictDate(r.lastVerified)||
+          !Object.hasOwn(statusLabels,r.status)||(r.dateSent!==null&&!strictDate(r.dateSent))||!strictDate(r.lastVerified)||
           !mandatoryString(r.title)||!mandatoryString(r.agency)||
           !mandatoryString(r.category)||!mandatoryString(r.question)||
           !mandatoryString(r.statusDetail)||!mandatoryString(r.sourceWarning)||
