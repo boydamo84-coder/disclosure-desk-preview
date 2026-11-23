@@ -29,7 +29,8 @@
     "date": "2026-11-20T21:28:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://static.independent.co.uk/2026/10/30/8/18/iStock-2233436478.jpeg?trim=49,0,49,0&width=1200&height=800&crop=1200:800"
+    "imageUrl": "https://static.independent.co.uk/2026/10/30/8/18/iStock-2233436478.jpeg?trim=49,0,49,0&width=1200&height=800&crop=1200:800",
+    "publisherUrl": "https://www.independent.co.uk/bulletin/news/bigfoot-files-montana-washington-trump-b3088994.html"
   },
   {
     "id": "45298f494ce25e01e18d",
@@ -58,8 +59,7 @@
     "date": "2026-11-20T16:02:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://static.independent.co.uk/2026/11/20/14/19/GettyImages-2291892820.jpg?trim=0,13,9,0&width=1200&height=800&crop=1200:800",
-    "publisherUrl": "https://www.independent.co.uk/news/world/americas/us-politics/pentagon-ufo-files-latest-release-b3088756.html"
+    "imageUrl": "https://static.independent.co.uk/2026/11/20/14/19/GettyImages-2291892820.jpg?trim=0,13,9,0&width=1200&height=800&crop=1200:800"
   },
   {
     "id": "46ffb5bd5cf421178b2e",
