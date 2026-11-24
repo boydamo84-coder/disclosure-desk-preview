@@ -18,8 +18,7 @@
     "date": "2026-11-20T23:16:09+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/029f/live/9fdeb250-e537-11f1-99b6-a35a62fa4264.jpg",
-    "publisherUrl": "https://www.bbc.co.uk/news/videos/cqdr1x8mypnko"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/029f/live/9fdeb250-e537-11f1-99b6-a35a62fa4264.jpg"
   },
   {
     "id": "06727bb4b46082a9ba94",
@@ -29,8 +28,7 @@
     "date": "2026-11-20T21:28:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://static.independent.co.uk/2026/10/30/8/18/iStock-2233436478.jpeg?trim=49,0,49,0&width=1200&height=800&crop=1200:800",
-    "publisherUrl": "https://www.independent.co.uk/bulletin/news/bigfoot-files-montana-washington-trump-b3088994.html"
+    "imageUrl": "https://static.independent.co.uk/2026/10/30/8/18/iStock-2233436478.jpeg?trim=49,0,49,0&width=1200&height=800&crop=1200:800"
   },
   {
     "id": "45298f494ce25e01e18d",
@@ -40,8 +38,7 @@
     "date": "2026-11-20T19:58:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://static.independent.co.uk/2026/11/20/18/06/10-PER-USE-PLEASE-FLAG-REUSE-TO-PIC-DESK.jpg?trim=44,4,29,0&width=1200&height=800&crop=1200:800",
-    "publisherUrl": "https://www.independent.co.uk/news/world/americas/us-politics/bigfoot-files-released-forest-service-b3088947.html"
+    "imageUrl": "https://static.independent.co.uk/2026/11/20/18/06/10-PER-USE-PLEASE-FLAG-REUSE-TO-PIC-DESK.jpg?trim=44,4,29,0&width=1200&height=800&crop=1200:800"
   },
   {
     "id": "81a98d7606bfff4bab56",
@@ -50,8 +47,7 @@
     "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQS2VYcjNvQndKb1g5bnlOQzk1cnJiQms0cFdIdmlvUngwNzVqZFBoaGFVbHU3U1FRVEtULWlNT1ZUbWJYZktuREoxbXBzWk5MVHRqTjlIRzd2dnZSUU1sX0hRc2Nfd0E0ZHQ2Q09TWkhTY2ZPbHU5c3h2N0F3R1V1U1pLZUJsTWxIQ2xPNVFRVXBOUU9oc2Y4cTRLbzUwNzhLQUhSdWYxblB1VXQtVExzRmN3?oc=5",
     "date": "2026-11-20T18:30:00+00:00",
     "category": "UAP",
-    "priority": "standard",
-    "publisherUrl": "https://www.washingtonpost.com/nation/2026/11/20/bigfoot-believers-get-boost-an-unlikely-ally-us-forest-service/"
+    "priority": "standard"
   },
   {
     "id": "a402a5349cd973bb0a57",
@@ -61,7 +57,8 @@
     "date": "2026-11-20T16:02:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://static.independent.co.uk/2026/11/20/14/19/GettyImages-2291892820.jpg?trim=0,13,9,0&width=1200&height=800&crop=1200:800"
+    "imageUrl": "https://static.independent.co.uk/2026/11/20/14/19/GettyImages-2291892820.jpg?trim=0,13,9,0&width=1200&height=800&crop=1200:800",
+    "publisherUrl": "https://www.independent.co.uk/news/world/americas/us-politics/pentagon-ufo-files-latest-release-b3088756.html"
   },
   {
     "id": "46ffb5bd5cf421178b2e",
@@ -71,7 +68,8 @@
     "date": "2026-11-20T15:57:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://assets1.cbsnewsstatic.com/hub/i/r/2026/11/20/b927b4a4-8fcb-4361-ada8-b28de36e7d97/thumbnail/1200x630/22f9744f657bc1cee5bd7fdb348266cf/screenshot-2026-11-20-at-10-47-10-am.png"
+    "imageUrl": "https://assets1.cbsnewsstatic.com/hub/i/r/2026/11/20/b927b4a4-8fcb-4361-ada8-b28de36e7d97/thumbnail/1200x630/22f9744f657bc1cee5bd7fdb348266cf/screenshot-2026-11-20-at-10-47-10-am.png",
+    "publisherUrl": "https://www.cbsnews.com/news/ufo-files-pentagon-contractor/"
   },
   {
     "id": "ef5451dc29b01efcda3f",
@@ -125,7 +123,8 @@
     "date": "2026-10-23T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://i.guim.co.uk/img/media/88c4a85fbc23a00f87395cdc6dff14db1ee7f624/0_0_1379_1104/master/1379.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=f32b1954d1997027fc2e2cd0f3ec4ca1"
+    "imageUrl": "https://i.guim.co.uk/img/media/88c4a85fbc23a00f87395cdc6dff14db1ee7f624/0_0_1379_1104/master/1379.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=f32b1954d1997027fc2e2cd0f3ec4ca1",
+    "publisherUrl": "https://www.theguardian.com/world/2026/oct/23/ufo-pentagon-files"
   },
   {
     "id": "5945b4c646b3c3b11ddb",
@@ -179,7 +178,8 @@
     "date": "2026-09-18T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/b4f3/live/6da23f00-b36e-11f1-b1d1-571ed4d7ff2c.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/b4f3/live/6da23f00-b36e-11f1-b1d1-571ed4d7ff2c.jpg",
+    "publisherUrl": "https://www.bbc.com/news/videos/cm4glen7dpx9o"
   },
   {
     "id": "03738cb3eadf5fac3f90",
@@ -958,12 +958,12 @@
     "id": "755e8be52134d5450212",
     "headline": "Hovering objects and flashing lights: what we learned from UFO documents released by the Pentagon",
     "source": "BBC",
-    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1DRERCOGRCOFNIeXptMHNkY3lrTjl0dHo2UHZZNlVHU2ZFMm5MSm1lZXBCN011eFRBajlFUW02Qmd6MkREWFF3LUFRS0g1SVdieEFNTkR4WW9zZmI2?oc=5",
+    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5JbDdMUlhjZWRnRFJHMjVjOWxWR1lpLTAyVDVFdGZDZVYwUkpocUtCZWktc2N0MlZRckx5bEdHejc5UXBFUGRMbWNoS2NXWVBvNkxFeGt0Wm5HQQ?oc=5",
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
     "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3d2f/live/55b14d10-4b17-11f1-be9e-ad2f8d891a76.png",
-    "publisherUrl": "https://www.bbc.co.uk/news/articles/c1m2epkey44o"
+    "publisherUrl": "https://www.bbc.com/news/articles/c1m2epkey44o"
   },
   {
     "id": "580cf2308598f270d357",
