@@ -1,34 +1,34 @@
 {
-  "checkedAt": "2026-11-24T05:30:52.741809+00:00",
+  "checkedAt": "2026-11-24T16:25:41.259939+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 37,
-      "latestArticleAt": "2026-11-23T22:07:34+00:00"
+      "items": 82,
+      "latestArticleAt": "2026-11-24T12:06:00+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 14,
+      "items": 13,
       "latestArticleAt": "2026-11-23T22:07:34+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 23,
-      "latestArticleAt": "2026-11-23T20:31:12+00:00"
+      "items": 21,
+      "latestArticleAt": "2026-11-24T12:06:00+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
       "status": "ok",
-      "items": 1,
-      "latestArticleAt": "2026-11-20T17:28:03+00:00"
+      "items": 2,
+      "latestArticleAt": "2026-11-22T12:37:55+00:00"
     },
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 10,
+      "items": 11,
       "latestArticleAt": "2026-11-23T23:12:11+00:00"
     },
     {
@@ -57,15 +57,15 @@
     },
     {
       "source": "Search: UFO UAP Australia New Zealand when:7d",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-11-21T09:01:41+00:00"
     },
     {
       "source": "Search: UFO UAP Africa Middle East when:7d",
       "status": "ok",
-      "items": 1,
-      "latestArticleAt": "2026-11-21T09:01:41+00:00"
+      "items": 2,
+      "latestArticleAt": "2026-11-23T11:45:53+00:00"
     },
     {
       "source": "Search: UFO UAP Ireland UK Canada when:7d",
@@ -204,5 +204,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 450
+  "storiesPublished": 459
 }
