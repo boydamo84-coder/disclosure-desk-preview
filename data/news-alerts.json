@@ -1,5 +1,27 @@
 [
   {
+    "id": "234808d6b3421df0260c",
+    "headline": "Plans underway to celebrate anniversaries of Kenneth Arnold’s 1947 UFO sighting, 100th year of local airport and golf course",
+    "source": "The Daily Chronicle",
+    "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPbWhoOXdqaHdUaldaUlZhdzRZZXQwLXQ4S2xFblZ2bjFDazIwX29IcWU2UzMtU196ZHN0T0pkaUlqYnFQTzNuRDVMMjE2YmtNOTYxTE1XTE1wQUY4UGdKMWdOSkZKak1ZQ0RYdnNjYzZVRjBNclFDTkxJUldDblV6alEyRml6NGxpSGdZTENWc3d6Y2Nfdl8zMWpKVEk4MzhGNzcydDZyZnhRWEVkMlR6cEJZOWI3aWtkMExlMVVFYVJIVXJ0Znk1WUZuZjgtdw?oc=5",
+    "date": "2026-11-23T23:12:11+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details."
+  },
+  {
+    "id": "d787bbc8e224e6aeec86",
+    "headline": "Elizabethtown College School of Graduate and Professional Studies Launches Course in Unidentified Anomalous Phenomena (UAP) Studies | Etown News",
+    "source": "Elizabethtown College",
+    "url": "https://news.google.com/rss/articles/CBMihAJBVV95cUxPUGZDOWI5dWc4X0NkRjBqNmE4WDl4MEpMR21pMEtOVDV1aWxnNnljcDFQalRjQUhtUF9KUG5EVWQ4Q1VPclVvSlhUMmxTNkJRLXpLdW13d1hGT2FyeXJOeDFqR0dZakRtQkpGUWNDY25BcHRLYVdNeXdZNmVpQm16TnJjTFFpaGxfSF9IZkdJZjhqdzFkdU5mSjAydVVnRHFXUzM3SUVPVE5FbmRNVTY4Zk8tZ1N6dFIzV1VUT3lhcEhDbHNzUklVLV96NU82ZDhxNjB1R24xWEc4akRXUHg0VmRReGlFTm1LR1preHV0R0Nla1pyX3plbUlXY2hhVlhBMm5lNA?oc=5",
+    "date": "2026-11-23T22:07:34+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://news.etown.edu/index.php/2026/11/23/elizabethtown-college-school-of-graduate-and-professional-studies-launches-course-in-unidentified-anomalous-phenomena-uap-studies/",
+    "imageSource": "Publisher Open Graph image"
+  },
+  {
     "id": "39d0692dad6a2e4ea935",
     "headline": "‘That's where the disclosure is’: Steve Deace and a pastor reveal what UFO believers are really searching for",
     "source": "Blaze Media",
@@ -20,6 +42,8 @@
     "category": "UAP",
     "priority": "standard",
     "desc": "Read the source article for details.",
+    "imageUrl": "https://i2-prod.dailypost.co.uk/article20758064.ece/ALTERNATES/s1200d/0_JS164377589.jpg",
+    "imageSource": "Publisher Open Graph image",
     "relatedCoverage": [
       {
         "id": "0d298e0dcb46aa7b17ad",
@@ -31,9 +55,7 @@
         "priority": "standard",
         "desc": "Read the source article for details."
       }
-    ],
-    "imageUrl": "https://i2-prod.dailypost.co.uk/article20758064.ece/ALTERNATES/s1200d/0_JS164377589.jpg",
-    "imageSource": "Publisher Open Graph image"
+    ]
   },
   {
     "id": "8e372d1314f82e10e2d8",
@@ -58,16 +80,26 @@
     "imageSource": "Publisher Open Graph image"
   },
   {
-    "id": "d36cc450236efd7d72dc",
+    "id": "3e1799d8c2d19b0805f4",
     "headline": "Pentagon releases 3 more declassified UFO videos",
-    "source": "geekspin",
-    "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1uZzk1UW41b0pLWWsxR05Ccm4zdDBVWUpsVnM3NDFLN1Z1XzAxZDY3MHNGTV90RW1Zdms2NUY3MWt6UWljcG5xbThoTnZ6Vm9UQ1dWZjI1eTZVTXoxaXRvSjFfemJNdw?oc=5",
+    "source": "Yahoo",
+    "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNSzF1Qnl0UUJ5R0tpUjJLLXpDTjhXemQ4TThEX0NRVlkyMWR6M2huQzdpX3ZuLS1yTXphU05fcE9hNmlQZkU0RF91VXBnc3dHQWRhRWpBb0RBdnphRGlCOGZhUzFPWTAtQ1gyMU14N29OMjNDelo2ZnJHUUJUT3VWdlZ1RURiU0YzQ0JjNmdUZVJENEVySmc?oc=5",
     "date": "2026-11-23T11:45:53+00:00",
     "category": "UAP",
     "priority": "standard",
     "desc": "Read the source article for details.",
-    "imageUrl": "https://geekspin.co/wp-content/uploads/2026/11/frame.jpg",
-    "imageSource": "Publisher Open Graph image"
+    "relatedCoverage": [
+      {
+        "id": "d36cc450236efd7d72dc",
+        "headline": "Pentagon releases 3 more declassified UFO videos",
+        "source": "geekspin",
+        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1uZzk1UW41b0pLWWsxR05Ccm4zdDBVWUpsVnM3NDFLN1Z1XzAxZDY3MHNGTV90RW1Zdms2NUY3MWt6UWljcG5xbThoTnZ6Vm9UQ1dWZjI1eTZVTXoxaXRvSjFfemJNdw?oc=5",
+        "date": "2026-11-23T11:45:53+00:00",
+        "category": "UAP",
+        "priority": "standard",
+        "desc": "Read the source article for details."
+      }
+    ]
   },
   {
     "id": "6d8144bcef3aa749eb11",
@@ -256,7 +288,7 @@
   {
     "id": "2dfe3be7c16506f30b98",
     "headline": "Science and Counterintelligence Have Complementary Perspectives on UAP",
-    "source": "Avi Loeb – Medium",
+    "source": "Medium",
     "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNU0FseHFFTlJtWXdQdUY0ei1EaVNIU1pIVkV5bFNSbkhibmZ0aHVzR1dvVzh1ZkFVTU94WFI0dUdlaTkxTFg1NUpOOVhTbVdwb2x0NTkyT1NEZnhheHlmNTdQWEFhYW9XNWZ2ajUyUEU0V1ItVWtHRmFId2J6eHlkbThta2xZTDd2MThfUERIb3FBMnRWbWZEOW10dEdBeUgycWpMaWEwM1JiR1R1QzBGbg?oc=5",
     "date": "2026-11-21T20:44:41+00:00",
     "category": "UAP",
@@ -407,7 +439,9 @@
         "priority": "standard",
         "desc": "Read the source article for details."
       }
-    ]
+    ],
+    "imageUrl": "https://hermes.media.transform.aol.com/8782c58e16b6670a4b27fc70cf3146f292371b18/w_1200,c_scale,f_auto,q_auto/https://hermes.media.static.aol.com/media/2026/11/21/406281ab-168d-33ee-a80d-2bd046ce3487/2ffb05b0-5df4-4c62-bddc-effa15debfb7.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "da6d91c84e7b36b388e8",
@@ -417,7 +451,9 @@
     "date": "2026-11-21T13:31:59+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "imageUrl": "https://images.inkl.com/s3/article/lead_image/24088371/ufo.jpg",
+    "imageSource": "Publisher Open Graph image"
   },
   {
     "id": "f63212139a2ce42516b4",
@@ -617,7 +653,19 @@
     "date": "2026-11-21T04:26:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "desc": "Read the source article for details."
+    "desc": "Read the source article for details.",
+    "relatedCoverage": [
+      {
+        "id": "51ffff8175ee82f58901",
+        "headline": "Pentagon UFO files reveal mysterious radar detections suggesting Mach 2.5 flight -- but there's a catch",
+        "source": "New York Post",
+        "url": "https://news.google.com/rss/articles/CBMiigJBVV95cUxQX3JocE5wS1UxbHh1Q3RCdDFjRnItVHRUMlJoVTg2UUpHdGN0aVVidnV5LWZjQ0x6OXRqdm1IR2JZV3laUkw5OHd0LTlIMWxna3Rac2ZSMEpVdW5VQ0NLT1hxT2dQV1FiVEk0OTd0OGczcERUZ0VKUUVYcFdXdXZqd2RDaTgyYWlfZkxuYUlvd1RVcDdfR2pxeDY1RE12VnlMaXEzOG9LQjNkbFJLeHZFUlNXMGlHSjI4ak5VRzdDckRwOVo0b2V0dDdtRl9VWmx0NGNxVXljaDgxWUdIOFBYME1SUWJDWFhsamFuNmJUTUVqdHVnaUJQWXpVSlhrT0dpcGFxMXpydkxHdw?oc=5",
+        "date": "2026-11-21T04:26:00+00:00",
+        "category": "UAP",
+        "priority": "standard",
+        "desc": "Read the source article for details."
+      }
+    ]
   },
   {
     "id": "3cab61511075815236d2",
@@ -872,20 +920,20 @@
     "desc": "Read the source article for details."
   },
   {
-    "id": "feac891b28dae92e966d",
+    "id": "69e795c026305965a7c1",
     "headline": "New Pentagon UFO Files Show Plans For Underground Tissue And ‘Exotic Material’ Storage",
-    "source": "AOL.co.uk",
-    "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPZnNXYnRGTlVoenhSRjY0dFRiS3owUVB4cXVNNzFya3QzWjIzZEp0N1RReXJOMmRqd0ZKY0RxOEkxWUo0YmItUTMyQ1lGZnN3VV85QXM3cE5CM0hlSnBEZkV0ZEgzMVNGR051WTkxN20zbllhRGFpTndEQ2FwSGM4aQ?oc=5",
+    "source": "Yahoo",
+    "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPb3QtTTlXRGNjSGZrajgwWlg1eGdSZE96VXNYUjNvNmxSYlpMZW54c2tWR3NuZUNTNmMya0JHVW1MZ05XVjFGOUgtZkdQcVRPNkR2YkxFQXVSRWV4NUVLME1OMHlVWEVaR1J2cG9KbHdUczBfZks5TGxsM3hjVTkwZTRzVU1RVVZLWVdZQ0J0d1BWQQ?oc=5",
     "date": "2026-11-20T18:27:17+00:00",
     "category": "UAP",
     "priority": "standard",
     "desc": "Read the source article for details.",
     "relatedCoverage": [
       {
-        "id": "69e795c026305965a7c1",
+        "id": "feac891b28dae92e966d",
         "headline": "New Pentagon UFO Files Show Plans For Underground Tissue And ‘Exotic Material’ Storage",
-        "source": "Yahoo",
-        "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPb3QtTTlXRGNjSGZrajgwWlg1eGdSZE96VXNYUjNvNmxSYlpMZW54c2tWR3NuZUNTNmMya0JHVW1MZ05XVjFGOUgtZkdQcVRPNkR2YkxFQXVSRWV4NUVLME1OMHlVWEVaR1J2cG9KbHdUczBfZks5TGxsM3hjVTkwZTRzVU1RVVZLWVdZQ0J0d1BWQQ?oc=5",
+        "source": "AOL.co.uk",
+        "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPZnNXYnRGTlVoenhSRjY0dFRiS3owUVB4cXVNNzFya3QzWjIzZEp0N1RReXJOMmRqd0ZKY0RxOEkxWUo0YmItUTMyQ1lGZnN3VV85QXM3cE5CM0hlSnBEZkV0ZEgzMVNGR051WTkxN20zbllhRGFpTndEQ2FwSGM4aQ?oc=5",
         "date": "2026-11-20T18:27:17+00:00",
         "category": "UAP",
         "priority": "standard",
@@ -970,6 +1018,28 @@
     "desc": "Read the source article for details."
   },
   {
+    "id": "b2ea62511a079f689822",
+    "headline": "21 celebrities who believe in aliens — including those who claim to have seen UFOs",
+    "source": "شبكة تواصل الإخبارية",
+    "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9VaGx0emtIZTJmb3VhYkpjY25UWmtxSEdsdGYySVJSblg1Wng2cVJ0TVg1YUdNNGYzMFpNcDNFaGNWaHpJWnRvUk8zYi0xdTZIS2Nn?oc=5",
+    "date": "2026-11-20T17:28:41+00:00",
+    "category": "UAP",
+    "priority": "standard",
+    "desc": "Read the source article for details.",
+    "relatedCoverage": [
+      {
+        "id": "98b169142a4f4d385a7c",
+        "headline": "21 celebrities who believe in aliens — including those who claim to have seen UFOs",
+        "source": "Entertainment Weekly",
+        "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5Xc2x2U3Q2dmtNYWhhWWRXREhWaG52TFdRT1pIWnhrRVQ0aWZtazdDMDN1amJVVEM1V0FDMS1JQ0ZJeFNLbW0zQ2Jlb1hhaTNIazBoMVluQzgxUEt6Y01Pbk1TQjJrSkZ5?oc=5",
+        "date": "2026-11-20T17:22:00+00:00",
+        "category": "UAP",
+        "priority": "standard",
+        "desc": "Read the source article for details."
+      }
+    ]
+  },
+  {
     "id": "4b614b6bcca55a35dafc",
     "headline": "Pentagon releases eighth batch of declassified UFO files including a 1952 CIA flying saucer evaluation report",
     "source": "LiveNOW from FOX",
@@ -1000,16 +1070,6 @@
         "desc": "Read the source article for details."
       }
     ]
-  },
-  {
-    "id": "98b169142a4f4d385a7c",
-    "headline": "21 celebrities who believe in aliens — including those who claim to have seen UFOs",
-    "source": "Entertainment Weekly",
-    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5Xc2x2U3Q2dmtNYWhhWWRXREhWaG52TFdRT1pIWnhrRVQ0aWZtazdDMDN1amJVVEM1V0FDMS1JQ0ZJeFNLbW0zQ2Jlb1hhaTNIazBoMVluQzgxUEt6Y01Pbk1TQjJrSkZ5?oc=5",
-    "date": "2026-11-20T17:22:00+00:00",
-    "category": "UAP",
-    "priority": "standard",
-    "desc": "Read the source article for details."
   },
   {
     "id": "7535a23df65ce581a6d3",
