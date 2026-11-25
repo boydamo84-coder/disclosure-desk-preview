@@ -1,35 +1,35 @@
 {
-  "checkedAt": "2026-11-25T09:49:53.570709+00:00",
+  "checkedAt": "2026-11-25T19:55:54.706302+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 78,
-      "latestArticleAt": "2026-11-25T06:26:00+00:00"
+      "items": 81,
+      "latestArticleAt": "2026-11-25T16:16:04+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 13,
-      "latestArticleAt": "2026-11-23T22:07:34+00:00"
+      "items": 16,
+      "latestArticleAt": "2026-11-25T15:10:08+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 20,
-      "latestArticleAt": "2026-11-23T20:31:12+00:00"
+      "items": 27,
+      "latestArticleAt": "2026-11-25T11:11:23+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
       "status": "ok",
-      "items": 2,
-      "latestArticleAt": "2026-11-22T12:37:55+00:00"
+      "items": 3,
+      "latestArticleAt": "2026-11-24T10:08:53+00:00"
     },
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 15,
-      "latestArticleAt": "2026-11-24T15:32:20+00:00"
+      "items": 27,
+      "latestArticleAt": "2026-11-25T06:00:00+00:00"
     },
     {
       "source": "Search: UAP congress hearing when:7d",
@@ -57,9 +57,9 @@
     },
     {
       "source": "Search: UFO UAP Australia New Zealand when:7d",
-      "status": "ok",
-      "items": 1,
-      "latestArticleAt": "2026-11-21T09:01:41+00:00"
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "Search: UFO UAP Africa Middle East when:7d",
@@ -69,9 +69,8 @@
     },
     {
       "source": "Search: UFO UAP Ireland UK Canada when:7d",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "failed",
+      "items": 0
     },
     {
       "source": "Search: Ireland",
@@ -204,5 +203,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 467
+  "storiesPublished": 474
 }
