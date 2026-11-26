@@ -27,8 +27,18 @@ function publicationDraft(input){
  if(JSON.stringify(out).length>limits.total)throw Error('Publication exceeds preview size limit');
  return out;
 }
-if(typeof module==='object'&&module.exports)module.exports={publicationDraft};
-if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze({publicationDraft});
+// Text-only projection matching the draft database column limits.
+// No network calls or publication permission are implied by this helper.
+function publicTextPayload(input,consent){
+ if(consent!==true)throw Error('Explicit publication consent required');
+ const draft=publicationDraft(input);
+ const body=draft.sections.map(s=>s.title+'\n'+s.text).join('\n\n');
+ const refs=draft.citations.map(r=>r.title+' | '+r.url).join('\n');
+ if(body.length>120000||refs.length>20000||new TextEncoder().encode(body+refs).length>180000)throw Error('Public text exceeds submission size limit');
+ return Object.freeze({title:draft.title,abstract:draft.abstract,category:draft.category,body_text:body,references_text:refs,consent:true});
+}
+if(typeof module==='object'&&module.exports)module.exports={publicationDraft,publicTextPayload};
+if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze({publicationDraft,publicTextPayload});
 
 (()=>{
  if(typeof window==='undefined'||!['localhost','127.0.0.1'].includes(location.hostname))return;
@@ -68,18 +78,30 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
    const preview=el('div');preview.style.cssText='border:1px solid #977f55;border-radius:8px;padding:12px;margin:12px 0;white-space:pre-wrap';preview.hidden=true;
    const check=el('button','Generate public preview');check.type='button';
    const close=el('button','Close');close.type='button';close.onclick=()=>dialog.close();
+   const consent=el('input');consent.type='checkbox';
+   const agreement=el('label');agreement.hidden=true;agreement.style.cssText='display:block;margin:12px 0';agreement.append(consent,document.createTextNode(' I have permission to publish this exact text, have checked for personal and confidential information, and understand my public username would accompany the publication.'));
+   const review=el('button','Confirm reviewed public copy');review.type='button';review.hidden=true;review.disabled=true;
+   let reviewed=null;
+   const invalidate=()=>{reviewed=null;consent.checked=false;agreement.hidden=true;review.hidden=true;review.disabled=true;preview.hidden=true;status.textContent='Generate a fresh preview to review your changes.'};
+   for(const field of [title,abstract,category,refs,...choices.map(c=>c.box)])field.addEventListener('input',invalidate);
+   consent.onchange=()=>{review.disabled=!consent.checked||!reviewed;status.textContent=consent.checked?'Ready to confirm reviewed copy.':'Confirmation required.'};
+   review.onclick=()=>{
+    if(!reviewed||!consent.checked)return;
+    try{publicTextPayload(reviewed,true);status.textContent='Public copy confirmed locally. Nothing has been submitted or published.';}
+    catch(e){status.textContent=e.message}
+   };
    check.onclick=()=>{
-    preview.hidden=true;preview.replaceChildren();status.textContent='';
+    invalidate();preview.replaceChildren();status.textContent='';
     try{
      const citations=refs.value.split('\n').filter(x=>x.trim()).map(line=>{const i=line.indexOf('|');if(i<0)throw Error('Use title | URL for each reference');return {title:line.slice(0,i),url:line.slice(i+1)}});
      const draft=window.DDCommunityPublicationDraft.publicationDraft({title:title.value,abstract:abstract.value,category:category.value,sections:choices.filter(x=>x.box.checked).map(x=>({title:x.title,text:x.text})),citations});
      preview.append(el('h3',draft.title),el('p',draft.category),el('p',draft.abstract));
      for(const section of draft.sections)preview.append(el('h4',section.title),el('p',section.text));
      if(draft.citations.length){preview.append(el('h4','References'));for(const ref of draft.citations)preview.append(el('p',ref.title+' — '+ref.url))}
-     preview.hidden=false;status.textContent='Local preview ready. Review the complete text for personal information. Submission is not enabled.';
+     publicTextPayload(draft,true);reviewed=draft;preview.hidden=false;agreement.hidden=false;review.hidden=false;status.textContent='Local preview ready. Review the complete text before confirming. Submission is not enabled.';
     }catch(e){status.textContent=e.message}
    };
-   dialog.append(check,document.createTextNode(' '),close,status,preview);
+   dialog.append(check,document.createTextNode(' '),close,preview,agreement,review,status);
    dialog.showModal();
   };
   dialog.addEventListener('close',()=>dialog.replaceChildren());

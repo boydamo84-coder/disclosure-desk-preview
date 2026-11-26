@@ -5,6 +5,7 @@ const path=require('node:path');
 const {pathToFileURL}=require('node:url');
 const {chromium}=require('playwright-core');
 const {publicationDraft}=require('../docs/community-research/publication-draft.js');
+const {publicTextPayload}=require('../research/community-publication-preview.js');
 const core={title:'Example',abstract:'Summary',category:'Case analysis',sections:[{title:'Public section',text:'Public content',privateNote:'DO NOT EXPORT'}],citations:[{title:'Source',url:'https://example.org/record'}],privateBoard:'DO NOT EXPORT'};
 assert.ok(!JSON.stringify(publicationDraft(core)).includes('DO NOT EXPORT'));
 assert.throws(()=>publicationDraft({...core,sections:[]}),/sections/);
@@ -12,6 +13,13 @@ assert.throws(()=>publicationDraft({...core,citations:[{title:'Bad',url:'javascr
 assert.throws(()=>publicationDraft({...core,citations:[{title:'Bad',url:'https://127.0.0.1/private'}]}),/HTTPS/);
 assert.deepEqual(publicationDraft({...core,citations:[...core.citations,...core.citations]}).citations,core.citations);
 assert.ok(fs.readFileSync('assets/community-test-config.js','utf8').includes('researchPublishing:false'));
+const payload=publicTextPayload(core,true);
+assert.deepEqual(Object.keys(payload),['title','abstract','category','body_text','references_text','consent']);
+assert.equal(payload.body_text,'Public section\nPublic content');
+assert.equal(payload.references_text,'Source | https://example.org/record');
+assert.ok(!JSON.stringify(payload).includes('DO NOT EXPORT'));
+assert.throws(()=>publicTextPayload(core,false),/consent/);
+assert.throws(()=>publicTextPayload({...core,sections:Array.from({length:3},()=>({title:'Long',text:'x'.repeat(45000)}))},true),/size limit/);
 (async()=>{
  const browser=await chromium.launch({executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
  try{
@@ -59,6 +67,26 @@ assert.ok(fs.readFileSync('assets/community-test-config.js','utf8').includes('re
    assert.deepEqual(external,[]);
    await page.close();
   }
+  const page=await browser.newPage({viewport:{width:393,height:900}});
+  await page.route('**/*',r=>r.request().url()==='http://127.0.0.1:8765/'?r.fulfill({contentType:'text/html',body:'<div id="wne-file-menu"></div>'}):r.abort());
+  await page.goto('http://127.0.0.1:8765/');
+  await page.evaluate(()=>{window.wneCaptureDocument=()=>({bookTitle:'Test book',chapters:[{title:'Public section',html:'<p>Public text</p><p hidden>PRIVATE SECRET</p>'},{title:'Private chapter',html:'DO NOT EXPORT'}]})});
+  await page.addScriptTag({path:path.resolve('research/community-publication-preview.js')});
+  await page.getByRole('button',{name:/Preview Community Research publication/}).click();
+  await page.getByLabel('Abstract / summary').fill('Public abstract');
+  await page.getByLabel('Public section',{exact:true}).check();
+  await page.getByRole('button',{name:'Generate public preview'}).click();
+  const confirm=page.getByRole('button',{name:'Confirm reviewed public copy'});
+  assert.equal(await confirm.isEnabled(),false);
+  await page.getByText('I have permission to publish',{exact:false}).click();
+  await confirm.click();
+  await page.getByText('Public copy confirmed locally.',{exact:false}).waitFor();
+  assert.equal(await page.getByText('PRIVATE SECRET',{exact:true}).count(),0);
+  assert.equal(await page.getByText('DO NOT EXPORT',{exact:true}).count(),0);
+  await page.getByLabel('Abstract / summary').fill('Updated abstract');
+  assert.equal(await confirm.isVisible(),false);
+  await page.close();
+  console.log('PASS W.NE local confirmation, private text exclusion and stale-preview invalidation');
   console.log('PASS local library interactions, consent preview, narrow layout and no network; public flag remains off');
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});
