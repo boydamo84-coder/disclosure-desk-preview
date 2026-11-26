@@ -4060,7 +4060,7 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
  const media=hero.querySelector('.dd-home-theme-media'),video=document.getElementById('ddHomeThemeVideo');
  const controls=document.getElementById('ddHomeThemeControls'),profile=document.getElementById('ddHomeThemeProfile');
  const choice=document.getElementById('ddHomeThemeChoice'),profileChoice=document.getElementById('ddHomeThemeProfileChoice'),pause=document.getElementById('ddHomeThemePause');
- const names=['nightfall','classic','eclipse','orbital'],base='data/home-themes/',key='dd.home.theme.v1',pauseKey='dd.home.motion.paused.v1';
+ const names=['nightfall','classic','eclipse','orbital'],base='data/',key='dd.home.theme.v1',pauseKey='dd.home.motion.paused.v1';
  function read(k){try{return localStorage.getItem(k)}catch{return null}}
  function write(k,v){try{localStorage.setItem(k,v)}catch{}}
  let selected=names.includes(read(key))?read(key):'nightfall',paused=read(pauseKey)==='1',visible=false,source='',revision=0,failed=false;
