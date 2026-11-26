@@ -72,13 +72,14 @@ def bounded_read(source):
     require(EOF.search(raw[-2048:]) is not None, "pdf_eof")
     return raw
 
-def run_tool(args, timeout, mem, out_limit=MAX_JSON):
-    """Bound child CPU, virtual memory and output; never surface parser stderr."""
+def run_tool(args, timeout, mem, out_limit=MAX_JSON, file_limit=None):
+    """Bound child CPU, memory, scratch files and captured output; never surface stderr."""
+    file_limit = max(out_limit, file_limit or out_limit)
     def cap():
         resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
         resource.setrlimit(resource.RLIMIT_CPU, (timeout, timeout + 1))
         resource.setrlimit(resource.RLIMIT_AS, (mem, mem))
-        resource.setrlimit(resource.RLIMIT_FSIZE, (out_limit, out_limit))
+        resource.setrlimit(resource.RLIMIT_FSIZE, (file_limit, file_limit))
         resource.setrlimit(resource.RLIMIT_NOFILE, (64, 64))
         os.umask(0o077)
     with tempfile.TemporaryFile() as out, tempfile.TemporaryFile() as err:
@@ -109,7 +110,11 @@ def _clam_scan(file, database, *, official_only):
     ]
     if official_only:
         flags.append("--fail-if-cvd-older-than=2")
-    rc, out, err = run_tool(flags + [str(file)], 90, 3 * 1024**3, 1_000_000)
+    # ClamAV checks RLIMIT_FSIZE against its 64 MiB extraction ceiling.
+    # Keep the strict 1 MB response check, but allow bounded scratch writes
+    # inside the worker's size-limited, non-executable tmpfs.
+    rc, out, err = run_tool(flags + [str(file)], 90, 3 * 1024**3, 1_000_000,
+                            file_limit=70 * 1024**2)
     if rc == 1:
         raise Refusal("malware_or_scan_limit_detected")
     if rc != 0:
