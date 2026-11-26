@@ -35,20 +35,18 @@ if(production)
   'Production must not ship private QA helper code');
 else assert.ok(names.has('research/r3-lab/hypothesis-session-qa.js'),
   'Preview must include opt-in QA helper');
-// Public homepage editorial update: a real pinned site announcement, not a
-// fabricated source-news result. It must link the exact R3 route and explain
-// private backup limits on both Netlify production and deploy-preview builds.
+// Homepage release history is accessible but collapsed by default, preserving the previous research announcement.
 const homeHtml=fs.readFileSync(path.join(out,'index.html'),'utf8');
-assert.equal((homeHtml.match(/id="ddR3ReleaseAnnouncement"/g)||[]).length,1,
- 'R3 announcement must be pinned exactly once on the homepage');
-const homePin=homeHtml.indexOf('id="ddR3ReleaseAnnouncement"');
-assert(homePin>homeHtml.indexOf('id="discover"')&&homePin<homeHtml.indexOf('My Investigation Boards'),
- 'R3 pinned news must appear immediately under homepage hero, above Boards');
+assert.equal((homeHtml.match(/id="ddSiteUpdates"/g)||[]).length,1);
+assert.match(homeHtml,/<details id="ddSiteUpdates" class="dd-site-updates">/,'Site Updates must start collapsed');
+assert.match(homeHtml,/<summary id="ddSiteUpdatesButton">/);
+assert.doesNotMatch(homeHtml,/PINNED SITE NEWS/);
+const updates=homeHtml.indexOf('id="ddSiteUpdates"'),oldUpdate=homeHtml.indexOf('id="ddR3ReleaseAnnouncement"');
+assert(updates>homeHtml.indexOf('id="discover"')&&oldUpdate>updates&&oldUpdate<homeHtml.indexOf('My Investigation Boards'),'Release history must be within Site Updates before Boards');
+assert.equal((homeHtml.match(/id="ddR3ReleaseAnnouncement"/g)||[]).length,1);
 assert.match(homeHtml,/id="ddR3ReleaseGuide"/);
 assert.match(homeHtml,/href="\/research\/r3-lab\/"/);
-for(const term of ['Research Gap Finder','Hypothesis Lab','Compare','History',
- 'Enable encrypted saving','Save encrypted backup to account','manual',
- 'independent security review'])assert(homeHtml.includes(term),'Pinned release news missing '+term);
+for(const term of ['Research Gap Finder','Hypothesis Lab','Compare','History','Enable encrypted saving','Save encrypted backup to account','manual','independent security review','521 indexed records','27-F-0917','posting remains disabled','pending media clearance and playback testing','Android beta'])assert(homeHtml.includes(term),'Release notes missing '+term);
 const r3Html=fs.readFileSync(path.join(out,'research/r3-lab/index.html'),'utf8');
 assert.match(r3Html,/data-r3-hosted="true"/);
 assert.match(r3Html,/noindex,nofollow,noarchive/);
