@@ -55,7 +55,9 @@ jobs:
           supabase start > "$RUNNER_TEMP/dd-cr-start.log" 2>&1 || { tail -40 "$RUNNER_TEMP/dd-cr-start.log"; exit 1; }
           umask 077
           supabase status -o json > "$RUNNER_TEMP/dd-cr-local-status.json"
-      - name: Verify genuine local Auth and existing draft submission boundaries
+      - name: Install pinned browser QA runner
+        run: npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1
+      - name: Verify genuine local Auth, draft submission boundaries and W.NE preview UI
         run: node scripts/test_community_research_auth_local.cjs "$RUNNER_TEMP/dd-cr-local-status.json"
       - name: Stop disposable local services
         if: always()

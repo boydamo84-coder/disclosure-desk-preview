@@ -67,7 +67,16 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
    menu.hidden=true;dialog.replaceChildren();
    let documentCopy;
    try{documentCopy=window.wneCaptureDocument();if(!Array.isArray(documentCopy.chapters))throw Error('Open a report first.')}catch(e){dialog.append(el('p',e.message));const close=el('button','Close');close.onclick=()=>dialog.close();dialog.append(close);dialog.showModal();return}
-   const header=el('h2','Preview public research copy');dialog.append(header,el('p','Choose only the content you intend to publish. This is a local text-only prototype. No report text is sent or saved; images, formatting, embedded links and private metadata are excluded.'));
+   // Only the dedicated CI fixture with its fictional document and a harness
+   // callback can exercise a local receipt. No browser publishing client or
+   // endpoint is defined here; the ordinary preview is still read-only.
+   const localAcceptance=location.origin==='http://127.0.0.1:8765'&&location.pathname==='/__dd-cr-auth-test__/'
+    &&window.DDCommunityLocalAcceptanceFixture===true&&window.DDCommunityReceiptFixture!==true
+    &&documentCopy.bookTitle==='Fixture W.NE acceptance report'&&typeof window.ddCRLocalAcceptanceTest==='function';
+   const header=el('h2','Preview public research copy');
+   dialog.append(header,el('p',localAcceptance
+    ?'Fictional local QA document only. An explicit test action can send the reviewed example to the disposable acceptance harness, never to the public website.'
+    :'Choose only the content you intend to publish. This is a local text-only prototype. No report text is sent or saved; images, formatting, embedded links and private metadata are excluded.'));
    const title=el('input');title.value=String(documentCopy.bookTitle||'').slice(0,160);title.maxLength=160;labeled(dialog,'Public title',title);
    const abstract=el('textarea');abstract.rows=3;abstract.maxLength=1500;labeled(dialog,'Abstract / summary',abstract);
    const category=el('select');for(const name of ['Case analysis','Document analysis','Scientific research','Historical research','FOIA research','Other research']){const opt=el('option',name);opt.value=name;category.append(opt)}labeled(dialog,'Category',category);
@@ -82,7 +91,8 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
    const consent=el('input');consent.type='checkbox';
    const agreement=el('label');agreement.hidden=true;agreement.style.cssText='margin:12px 0';agreement.append(consent,document.createTextNode(' I have permission to publish this exact text, have checked for personal and confidential information, and understand my public username would accompany the publication.'));
    const review=el('button','Confirm reviewed public copy');review.type='button';review.hidden=true;review.disabled=true;
-   let reviewed=null;
+   let reviewed=null,qaPayload=null,qaUsed=false;
+   const qaSend=el('button','Submit fictional report to local QA');qaSend.type='button';qaSend.hidden=true;qaSend.disabled=true;
    // Explicitly opt-in, disposable browser fixture. No publishing client,
    // real account, database, or network. All outcomes and accounts are invented.
    // Persist only fictional metadata to exercise interruption/restart handling.
@@ -163,6 +173,8 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
    };
    const resetSimulation=()=>{
     if(storageBlocked||attempt?.state==='unknown')return false;
+    if(qaUsed)return false;
+    qaPayload=null;qaSend.hidden=true;qaSend.disabled=true;
     attempt=null;confirmed=null;reviewGeneration=null;simulation.hidden=true;receipt.textContent='';
     send.disabled=false;reconcile.hidden=true;lock(false);
     return true;
@@ -220,10 +232,11 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
     void runExclusive(showResult);
    };
    review.onclick=()=>{
-    if(storageBlocked||busy||attempt?.state==='unknown'||!reviewed||!consent.checked)return;
+    if(storageBlocked||busy||qaUsed||attempt?.state==='unknown'||!reviewed||!consent.checked)return;
     try{
      const payload=publicTextPayload(reviewed,true);
      status.textContent='Public copy confirmed locally. Nothing has been submitted or published.';
+     if(localAcceptance){qaPayload=payload;qaSend.hidden=false;qaSend.disabled=false;}
      if(simulate&&!attempt){
       if(restorePending())return;
       try{reviewGeneration=readGeneration();}catch(e){storageProblem();return;}
@@ -231,6 +244,18 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
      }
     }
     catch(e){status.textContent=e.message}
+   };
+   qaSend.onclick=async()=>{
+    if(!localAcceptance||qaUsed||!qaPayload||!consent.checked)return;
+    const exact=qaPayload;qaPayload=null;qaUsed=true;qaSend.disabled=true;lock(true);
+    status.textContent='Running fictional local QA submission…';
+    try{
+     const result=await window.ddCRLocalAcceptanceTest(exact);
+     if(!dialog.open||!qaSend.isConnected)return;
+     if(result==='accepted')status.textContent='Local QA database accepted the fictional report. No public publication.';
+     else if(result==='rejected')status.textContent='Local QA database rejected the fictional report. No retry in this fixture.';
+     else status.textContent='Local QA outcome unknown. No retry in this fixture.';
+    }catch(e){if(dialog.open&&qaSend.isConnected)status.textContent='Local QA outcome unknown. No retry in this fixture.';}
    };
    check.onclick=()=>{
     if(busy||!invalidate())return;
@@ -241,11 +266,12 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
      preview.append(el('h3',draft.title),el('p',draft.category),el('p',draft.abstract));
      for(const section of draft.sections)preview.append(el('h4',section.title),el('p',section.text));
      if(draft.citations.length){preview.append(el('h4','References'));for(const ref of draft.citations)preview.append(el('p',ref.title+' — '+ref.url))}
-     publicTextPayload(draft,true);reviewed=draft;preview.hidden=false;agreement.hidden=false;review.hidden=false;status.textContent='Local preview ready. Review the complete text before confirming. Submission is not enabled.';
+     publicTextPayload(draft,true);reviewed=draft;preview.hidden=false;agreement.hidden=false;review.hidden=false;status.textContent=localAcceptance?'Fictional local preview ready. Review and confirm before the separate QA action.':'Local preview ready. Review the complete text before confirming. Submission is not enabled.';
     }catch(e){status.textContent=e.message}
    };
    dialog.append(check,document.createTextNode(' '),close,preview,agreement,review,status);
    if(simulate){dialog.append(simulation);restorePending();}
+   if(localAcceptance)dialog.append(qaSend);
    dialog.showModal();
   };
   dialog.addEventListener('close',()=>dialog.replaceChildren());

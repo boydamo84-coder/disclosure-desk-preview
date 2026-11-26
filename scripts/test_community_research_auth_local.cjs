@@ -6,6 +6,8 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const {spawnSync}=require('node:child_process');
 const {randomUUID}=require('node:crypto');
+const path=require('node:path');
+const {chromium}=require('playwright-core');
 const {publicTextPayload}=require('../research/community-publication-preview.js');
 const settings=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));
 const origin='http://127.0.0.1:54321';
@@ -154,4 +156,76 @@ function rows(response,expected,label){
  assert.ok(afterOwner.ok&&afterOwner.data.some(x=>x.id===report.id&&x.status==='withdrawn'),'Owner sees withdrawn status');
  await denied(owner,testAttempt,'Replay after withdrawal');
  console.log('PASS actual W.NE text projection, real local API submission/grants/consent, server-derived labels, duplicate/concurrent token rejection, genuine owner withdrawal and hidden public version');
+ // Exercise the actual localhost preview DOM in a small fictional W.NE fixture.
+ // The browser never receives the local API key or the test member's JWT.
+ // Playwright's dedicated binding forwards exactly the fixed fictional payload
+ // through the Node-only loopback test helper above; no public client is installed.
+ const fixtureUrl='http://127.0.0.1:8765/__dd-cr-auth-test__/';
+ const sample={title:'Fixture W.NE acceptance report',abstract:'Fictional QA abstract',category:'Case analysis',body_text:'Public QA section\nFictional public QA prose',references_text:'Example source | https://example.org/record',consent:true};
+ const browser=await chromium.launch({executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
+ try{
+  for(const staleAccount of [false,true]){
+   const page=await browser.newPage({viewport:{width:393,height:900}});
+   let invokes=0;
+   try{
+    await page.route('**/*',r=>r.request().url()===fixtureUrl?r.fulfill({contentType:'text/html',body:'<div id="wne-file-menu"></div>'}):r.abort());
+    await page.exposeFunction('ddCRLocalAcceptanceTest',async copy=>{
+     invokes++;
+     assert.deepEqual(copy,sample,'Actual browser projection must match fixed fictional sample');
+     assert.equal(invokes,1,'One explicit QA action per dialog');
+     const result=await submit(reader,{...copy,request_token:randomUUID(),expected_account:staleAccount?owner.id:reader.id});
+     if(staleAccount){assert.ok(!result.ok&&result.status>=400&&result.status<500,'Stale account must be rejected');return 'rejected';}
+     assert.ok(result.ok&&Array.isArray(result.data)&&result.data.length===1,'Local QA submission not accepted');
+     assert.equal(result.data[0].author_label,'FixtureReader');
+     return 'accepted';
+    });
+    await page.goto(fixtureUrl);
+    await page.evaluate(()=>{
+     window.DDCommunityLocalAcceptanceFixture=true;
+     window.wneCaptureDocument=()=>({bookTitle:'Fixture W.NE acceptance report',chapters:[
+      {title:'Public QA section',html:'<p>Fictional public QA prose</p><p hidden>DO NOT EXPORT HIDDEN</p>'},
+      {title:'Private QA section',html:'DO NOT EXPORT PRIVATE'}
+     ],privateBoard:'DO NOT EXPORT BOARD'});
+    });
+    await page.addScriptTag({path:path.resolve('research/community-publication-preview.js')});
+    await page.getByRole('menuitem',{name:/Preview Community Research publication/}).click();
+    const qa=page.getByRole('button',{name:'Submit fictional report to local QA'});
+    const confirmation=page.getByRole('button',{name:'Confirm reviewed public copy'});
+    const summary=page.getByLabel('Abstract / summary');
+    assert.equal(await qa.isVisible(),false);
+    await summary.fill(sample.abstract);
+    await page.getByLabel('Public QA section',{exact:true}).check();
+    await page.getByLabel('Public references (one title | HTTPS URL per line)').fill(sample.references_text);
+    await page.getByRole('button',{name:'Generate public preview'}).click();
+    assert.equal(await confirmation.isEnabled(),false);
+    assert.equal(await qa.isVisible(),false);
+    await page.getByText('I have permission to publish',{exact:false}).click();
+    await confirmation.click();
+    assert.equal(await qa.isEnabled(),true);
+    assert.equal(invokes,0,'Review alone never submits');
+    await summary.fill('Edited draft');
+    assert.equal(await qa.isVisible(),false);
+    assert.equal(invokes,0,'Stale confirmed copy cannot submit');
+    await summary.fill(sample.abstract);
+    await page.getByRole('button',{name:'Generate public preview'}).click();
+    await page.getByText('I have permission to publish',{exact:false}).click();
+    await confirmation.click();
+    await qa.click();
+    await page.getByText(staleAccount?'Local QA database rejected the fictional report.':'Local QA database accepted the fictional report.',{exact:false}).waitFor();
+    assert.equal(invokes,1);
+    assert.equal(await qa.isEnabled(),false);
+    assert.equal(await summary.isEnabled(),false);
+    assert.equal(await page.getByText('DO NOT EXPORT HIDDEN',{exact:true}).count(),0);
+    assert.equal(await page.getByText('DO NOT EXPORT PRIVATE',{exact:true}).count(),0);
+   }finally{await page.close()}
+  }
+ }finally{await browser.close()}
+ const browserRows=await read(undefined,'id,title,status,author_label,body_text,references_text');
+ assert.ok(browserRows.ok&&Array.isArray(browserRows.data));
+ const fromBrowser=browserRows.data.filter(r=>r.title===sample.title);
+ assert.equal(fromBrowser.length,1,'One fictional browser report only');
+ assert.equal(fromBrowser[0].author_label,'FixtureReader');
+ assert.equal(fromBrowser[0].body_text,sample.body_text);
+ assert.equal(fromBrowser[0].references_text,sample.references_text);
+ console.log('PASS actual W.NE preview UI through loopback-only test binding, explicit consent, stale copy, genuine local success/rejection, private text exclusion and one-time click');
 })().catch(e=>{console.error(e.message);process.exitCode=1});
