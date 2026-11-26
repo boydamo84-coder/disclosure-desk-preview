@@ -82,12 +82,64 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
    const agreement=el('label');agreement.hidden=true;agreement.style.cssText='margin:12px 0';agreement.append(consent,document.createTextNode(' I have permission to publish this exact text, have checked for personal and confidential information, and understand my public username would accompany the publication.'));
    const review=el('button','Confirm reviewed public copy');review.type='button';review.hidden=true;review.disabled=true;
    let reviewed=null;
-   const invalidate=()=>{reviewed=null;consent.checked=false;agreement.hidden=true;review.hidden=true;review.disabled=true;preview.hidden=true;status.textContent='Generate a fresh preview to review your changes.'};
-   for(const field of [title,abstract,category,refs,...choices.map(c=>c.box)])field.addEventListener('input',invalidate);
-   consent.onchange=()=>{review.disabled=!consent.checked||!reviewed;status.textContent=consent.checked?'Ready to confirm reviewed copy.':'Confirmation required.'};
+   // Explicitly opt-in, disposable browser fixture. This has no publishing client,
+   // real account, database, network, or storage. All outcomes are invented.
+   const simulate=window.DDCommunityReceiptFixture===true;
+   const formFields=[title,abstract,category,refs,...choices.map(c=>c.box)];
+   const simulation=el('fieldset');simulation.hidden=true;
+   simulation.append(el('legend','Local receipt simulation — nothing is published'));
+   const outcome=el('select');
+   for(const [value,label] of [['received','Simulated receipt received'],['unknown','Simulated connection interrupted'],['rejected','Simulated rejection']]){
+    const option=el('option',label);option.value=value;outcome.append(option);
+   }
+   labeled(simulation,'Sample result',outcome);
+   const send=el('button','Simulate one submission');send.type='button';
+   const reconcile=el('button','Check simulated receipt');reconcile.type='button';reconcile.hidden=true;
+   const receipt=el('p');receipt.setAttribute('role','status');
+   simulation.append(send,reconcile,receipt);
+   let attempt=null,confirmed=null,sequence=0;
+   const lock=(value)=>{
+    for(const field of [...formFields,consent,check])field.disabled=value;
+    if(value)review.disabled=true;
+   };
+   const resetSimulation=()=>{
+    attempt=null;confirmed=null;simulation.hidden=true;receipt.textContent='';
+    send.disabled=false;reconcile.hidden=true;lock(false);
+   };
+   const invalidate=()=>{resetSimulation();reviewed=null;consent.checked=false;agreement.hidden=true;review.hidden=true;review.disabled=true;preview.hidden=true;status.textContent='Generate a fresh preview to review your changes.'};
+   for(const field of formFields)field.addEventListener('input',invalidate);
+   consent.onchange=()=>{resetSimulation();review.disabled=!consent.checked||!reviewed;status.textContent=consent.checked?'Ready to confirm reviewed copy.':'Confirmation required.'};
+   const showResult=()=>{
+    if(!attempt)return;
+    const result=outcome.value;
+    if(result==='unknown'){
+     attempt.state='unknown';
+     receipt.textContent='Sample '+attempt.number+': outcome unknown. Do not submit again. Check the same simulated receipt.';
+     reconcile.hidden=false;lock(true);
+     return;
+    }
+    attempt.state=result;
+    reconcile.hidden=true;lock(false);review.disabled=true;
+    receipt.textContent=result==='received'
+     ?'Sample '+attempt.number+': simulated receipt received. This is not a real publication or public link.'
+     :'Sample '+attempt.number+': simulated rejection. Generate and review a fresh copy before another attempt.';
+   };
+   send.onclick=()=>{
+    if(!simulate||!confirmed||attempt||!consent.checked)return;
+    attempt={number:++sequence,state:'pending',payload:confirmed};
+    send.disabled=true;review.disabled=true;showResult();
+   };
+   reconcile.onclick=()=>{
+    if(!simulate||!attempt||attempt.state!=='unknown')return;
+    showResult();
+   };
    review.onclick=()=>{
     if(!reviewed||!consent.checked)return;
-    try{publicTextPayload(reviewed,true);status.textContent='Public copy confirmed locally. Nothing has been submitted or published.';}
+    try{
+     const payload=publicTextPayload(reviewed,true);
+     status.textContent='Public copy confirmed locally. Nothing has been submitted or published.';
+     if(simulate&&!attempt){confirmed=payload;simulation.hidden=false;}
+    }
     catch(e){status.textContent=e.message}
    };
    check.onclick=()=>{
@@ -102,6 +154,7 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
     }catch(e){status.textContent=e.message}
    };
    dialog.append(check,document.createTextNode(' '),close,preview,agreement,review,status);
+   if(simulate)dialog.append(simulation);
    dialog.showModal();
   };
   dialog.addEventListener('close',()=>dialog.replaceChildren());
