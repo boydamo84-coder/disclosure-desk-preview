@@ -1,0 +1,23 @@
+name: Community Research offline PDF representation QA (no deploy)
+on:
+  push:
+    branches: [feature/community-research-20261126]
+    paths:
+      - 'docs/community-research/renderer/**'
+      - '.github/workflows/community-research-renderer-no-deploy.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Build separate renderer from official Ubuntu packages
+        run: docker build --target qa -t dd-pdf-renderer:qa docs/community-research/renderer
+      - name: Verify synthetic PDF layout and bounds with real Poppler in offline sandbox
+        run: |
+          docker run --rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges --pids-limit 64 --memory 1g --cpus 2 --tmpfs /tmp:rw,nosuid,nodev,noexec,size=64m,mode=1777 --entrypoint /bin/sh dd-pdf-renderer:qa -c 'pdftoppm -v; /usr/bin/python3 -B /renderer/test_renderer.py --container'
