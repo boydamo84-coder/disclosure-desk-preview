@@ -67,6 +67,17 @@ function websiteDir(dir){
 }
 top.forEach(copy);websiteDir('assets');websiteDir('research');
 data.forEach(p=>copy('data/'+p));
+// Homepage background assets are only released after exact-source licence review and explicit media gate activation.
+const themeEnabled=fs.readFileSync(path.join(root,'index.html'),'utf8').includes('id="ddHomeThemeHero" data-media-ready="true"');
+if(themeEnabled){
+ for(const name of ['nightfall','eclipse','orbital'])for(const ext of ['mp4','jpg']){
+  const rel='data/home-themes/'+name+'.'+ext;
+  const size=fs.statSync(path.join(root,rel)).size;
+  if(size<1||size>(ext==='mp4'?1500000:150000))throw Error('Theme media size budget exceeded: '+rel);
+  copy(rel);
+ }
+}
+
 copy('research/data/curated-public-cases.json');
 for(const file of ['27-f-0917-decision-extract.pdf','27-f-0917-referral-extracts.pdf'])copy('data/foia/'+file);
 // R3: a separately scoped, noindex browser page with opt-in account-backed
