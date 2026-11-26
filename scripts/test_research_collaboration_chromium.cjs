@@ -35,6 +35,17 @@ async function accessibility(page,route,width) {
 }
 
 (async () => {
+  // Native readers must preserve the entire canonical article, not drift into a second editorial version.
+  const nativeHtml=fs.readFileSync(path.join(root,'index.html'),'utf8');
+  for(const key of ['investigations','rendlesham-forest-1980','roswell-1947']){
+    const source=fs.readFileSync(path.join(root,key+'.html'),'utf8');
+    const body=source.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1]
+      .replace(/\bid="([^"]+)"/g,(_,id)=>'id="dd-reader-'+key+'-'+id+'"')
+      .replace(/href="#([^"]+)"/g,(_,id)=>'href="#dd-reader-'+key+'-'+id+'"')
+      .replace(/class="([^"]+)"/g,(_,classes)=>'class="'+classes.split(/\s+/).map(x=>['muted','small','tag'].includes(x)?x:'dd-reader-'+x).join(' ')+'"')
+      .replace(/<(\/?)h1\b/g,'<$1h2');
+    assert.ok(nativeHtml.includes(body),'Native reader differs from canonical article: '+key);
+  }
   assert.equal(index.records.length,521);
   assert.equal(index.releases.length,8);
   assert.equal(new Set(index.records.map(r=>r.key)).size,521);
