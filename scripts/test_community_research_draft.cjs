@@ -40,19 +40,19 @@ const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(ti
  assert.deepEqual(await mine(reader),[],'Other public authors must not leak into own list');
  await assert.rejects(mine(author),/Account confirmation required/);
  await assert.rejects(mine(reader,null,id),/Invalid publication cursor/);
- await assert.rejects(q("select public.dd_cr_review($1,'restore','Not moderator')",[id]),/Moderator access/);
+ await assert.rejects(q("select public.dd_cr_review($1,'restore','Not moderator',1)",[id]),/Moderator access/);
  await assert.rejects(q("select public.dd_cr_withdraw($1,'Not author')",[id]),/Withdrawal access/);
  await assert.rejects(q('select public.dd_cr_moderation_queue()'),/Moderator access/);
  await claim('authenticated',author);
  await assert.rejects(q("select public.dd_cr_flag($1,'Own work')",[id]),/Cannot flag/);
- await assert.rejects(q("select public.dd_cr_review($1,'restore','Own work')",[id]),/Cannot review/);
+ await assert.rejects(q("select public.dd_cr_review($1,'restore','Own work',1)",[id]),/Cannot review/);
  await claim('authenticated',moderator,true);
  await assert.rejects(q('select public.dd_cr_moderation_queue()'),/Member access/);
  await claim('authenticated',moderator);
  await assert.rejects(submit('Private profile'),/valid public username/);
  await assert.rejects(q("insert into public.dd_cr_comments(report_id,body_text) values($1,'Private comment')",[id]),/valid public username/);
  assert.deepEqual((await q('select public.dd_cr_moderation_queue() result')).rows[0].result,[]);
- await assert.rejects(q("select public.dd_cr_review($1,'restore','Not flagged')",[id]),/not pending flag review/);
+ await assert.rejects(q("select public.dd_cr_review($1,'restore','Not flagged',1)",[id]),/not pending flag review/);
  await claim('anon');
  assert.equal((await read()).rows[0].status,'published');
  await assert.rejects(q('select author_id from public.dd_cr_submissions'),/permission denied/);
@@ -91,8 +91,8 @@ const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(ti
  await assert.rejects(q("insert into public.dd_cr_comments(report_id,body_text) values($1,'Hidden')",[id]),/row-level security/);
  await claim('authenticated',moderator);
  const queue=(await q('select public.dd_cr_moderation_queue() result')).rows[0].result;
- assert.equal(queue[0].id,id);assert.equal(queue[0].flag_count,5);assert.equal(queue[0].flag_reasons.length,5);
- await q("select public.dd_cr_review($1,'restore','Reviewed and restored')",[id]);
+ assert.equal(queue[0].id,id);assert.equal(queue[0].review_round,1);assert.equal(queue[0].flag_count,5);assert.equal(queue[0].flag_reasons.length,5);
+ await q("select public.dd_cr_review($1,'restore','Reviewed and restored',1)",[id]);
  await claim('authenticated',reader);
  assert.deepEqual((await q("select public.dd_cr_flag($1,'New review round') result",[id])).rows[0].result,{accepted:true,hidden:false});
  await claim('anon');
@@ -175,7 +175,19 @@ const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(ti
  await claim('authenticated',author);
  assert.deepEqual(await lookup(),receipt('flagged'));
  await claim('authenticated',moderator);
- await q("select public.dd_cr_review($1,'restore','Receipt test restoration')",[first]);
+ await q("select public.dd_cr_review($1,'restore','Receipt test restoration',1)",[first]);
+ // Identical reporting reasons in a later round must not authorise a stale decision.
+ for(const reporter of reporters){
+  await claim('authenticated',reporter);
+  await q("select public.dd_cr_flag($1,'Receipt status fixture')",[first]);
+ }
+ await claim('authenticated',moderator);
+ const newRound=(await q('select public.dd_cr_moderation_queue() result')).rows[0].result.find(x=>x.id===first);
+ assert.equal(newRound.review_round,2);
+ await assert.rejects(q("select public.dd_cr_review($1,'reject','Stale prior round',1)",[first]),/Review round changed/);
+ await assert.rejects(q("select public.dd_cr_review($1,'restore','Missing round',null)",[first]),/Review round changed/);
+ await assert.rejects(q("select public.dd_cr_review($1,'restore','Old endpoint')",[first]),/does not exist/);
+ await q("select public.dd_cr_review($1,'restore','Correct new round',2)",[first]);
  await claim('authenticated',author);
  assert.deepEqual(await lookup(),receipt('published'));
  await q("select public.dd_cr_withdraw($1,'Test withdrawal')",[first]);

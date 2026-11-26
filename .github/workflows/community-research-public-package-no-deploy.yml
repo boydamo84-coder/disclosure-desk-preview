@@ -1,0 +1,24 @@
+name: Community Research strict public packaging gate (no deploy)
+on:
+  push:
+    branches: [feature/community-research-20261126]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run the unchanged production-context offline package verifier
+        env:
+          CONTEXT: production
+        run: |
+          node scripts/test_public_release_package.cjs
+      # No upload, deployment, secrets, hosted database or promotion step.

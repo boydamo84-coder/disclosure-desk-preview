@@ -109,7 +109,7 @@ const server=http.createServer((req,res)=>{
      const reviewOwner='00000000-0000-4000-8000-000000000012';
      const pending={id:'00000000-0000-4000-8000-000000000021',title:'Fictional hidden research',author_label:'Fixture researcher',category:'Case analysis',
       abstract:'Fictional abstract',body_text:'<img src=x onerror=alert(1)> Private reviewed text',references_text:'Fictional reference',
-      version_no:2,created_at:'2026-11-26T00:00:00Z',revision_of:null,flag_count:5,
+      version_no:2,created_at:'2026-11-26T00:00:00Z',revision_of:null,review_round:1,flag_count:5,
       flag_reasons:['Fictional reason 1','Fictional reason 2','Fictional reason 3','Fictional reason 4','Fictional reason 5'],author_id:'PRIVATE OWNER ID'};
      window.DDNativeQueue=[pending,{...pending,id:'00000000-0000-4000-8000-000000000022',title:'Second hidden research'}];
      window.DDNativeReviewWrites=[];
@@ -155,8 +155,10 @@ const server=http.createServer((req,res)=>{
       }
       if(url.pathname==='/rest/v1/rpc/dd_cr_review'&&method==='POST'){
        if(actor!==reviewOwner||!['restore','reject'].includes(json?.p_action)||!json?.p_reason)return reply({code:'42501'},403);
-       if(!window.DDNativeQueue.some(item=>item.id===json.p_id))return reply({code:'stale'},409);
-       window.DDNativeReviewWrites.push({actor,action:json.p_action,id:json.p_id});
+       const current=window.DDNativeQueue.find(item=>item.id===json.p_id);
+       if(window.DDNativeAdvanceRoundOnReview&&current){current.review_round++;window.DDNativeAdvanceRoundOnReview=false;}
+       if(!current||current.review_round!==json.p_expected_round)return reply({code:'stale'},409);
+       window.DDNativeReviewWrites.push({actor,action:json.p_action,id:json.p_id,round:json.p_expected_round});
        window.DDNativeQueue=window.DDNativeQueue.filter(item=>item.id!==json.p_id);
        return reply(true);
       }
@@ -315,7 +317,7 @@ const server=http.createServer((req,res)=>{
     await second.getByLabel('Decision reason').fill('Fictional moderation decision.');
     await second.getByRole('checkbox').check();
     // A server-side change after opening the queue invalidates the review.
-    await native.evaluate(()=>window.DDNativeQueue[0].flag_reasons[0]='Updated fictional reason');
+    await native.evaluate(()=>window.DDNativeQueue[0].review_round++);
     await second.getByRole('button',{name:'Confirm review decision'}).click();
     await mod.getByText('Case changed. Refresh and review',{exact:false}).waitFor();
     assert.equal(await native.evaluate(()=>window.DDNativeReviewWrites.length),1);
@@ -343,9 +345,19 @@ const server=http.createServer((req,res)=>{
     await second.getByLabel('Review decision').selectOption('reject');
     await second.getByLabel('Decision reason').fill('Fictional reviewed concern.');
     await second.getByRole('checkbox').check();
+    // Advance only after the preview's fresh queue read: the server must deny.
+    await native.evaluate(()=>window.DDNativeAdvanceRoundOnReview=true);
+    await second.getByRole('button',{name:'Confirm review decision'}).click();
+    await mod.getByText('Decision not confirmed.',{exact:false}).waitFor();
+    assert.equal(await native.evaluate(()=>window.DDNativeReviewWrites.length),1);
+    await mod.getByRole('button',{name:'Refresh research review'}).click();
+    await mod.getByText('1 pending research version(s) shown.',{exact:true}).waitFor();
+    await second.getByLabel('Review decision').selectOption('reject');
+    await second.getByLabel('Decision reason').fill('Fictional reviewed concern.');
+    await second.getByRole('checkbox').check();
     await second.getByRole('button',{name:'Confirm review decision'}).click();
     await mod.getByText('Version rejected and kept hidden. No research awaiting review.',{exact:true}).waitFor();
-    assert.deepEqual(await native.evaluate(()=>window.DDNativeReviewWrites.map(x=>x.action)),['restore','reject']);
+    assert.deepEqual(await native.evaluate(()=>window.DDNativeReviewWrites.map(x=>[x.action,x.round])),[['restore',1],['reject',3]]);
     await native.evaluate(()=>window.navigateTo('originalResearchPage'));
     assert.equal(await mod.locator('[data-review-id]').count(),0);
     console.log('PASS owner queue, explicit reason/confirmation, restore/reject, stale case, silent account change and delayed private response clearing at '+width+'px');

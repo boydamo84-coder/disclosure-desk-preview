@@ -316,7 +316,7 @@ function mountModeration(){
  const valid=t=>typeof t==='string';
  function project(row){
   if(!row||!uuid.test(String(row.id||''))||!Number.isInteger(row.version_no)||row.version_no<1||row.version_no>100
-   ||!Number.isSafeInteger(row.flag_count)||row.flag_count<5||!Array.isArray(row.flag_reasons)
+   ||!Number.isSafeInteger(row.review_round)||row.review_round<1||!Number.isSafeInteger(row.flag_count)||row.flag_count<5||!Array.isArray(row.flag_reasons)
    ||row.flag_reasons.length!==row.flag_count||!row.flag_reasons.every(x=>valid(x)&&x.length<=2000)
    ||!valid(row.title)||!row.title.trim()||row.title.length>320||!valid(row.author_label)||!row.author_label.trim()||row.author_label.length>160
    ||!valid(row.abstract)||row.abstract.length>3000||!valid(row.category)||row.category.length>100
@@ -324,7 +324,7 @@ function mountModeration(){
    ||!valid(row.created_at)||!(row.revision_of===null||uuid.test(String(row.revision_of||''))))throw Error('Invalid moderation queue');
   return {id:row.id,version_no:row.version_no,title:row.title,author_label:row.author_label,category:row.category,
    abstract:row.abstract,body_text:row.body_text,references_text:row.references_text,created_at:row.created_at,
-   revision_of:row.revision_of,flag_count:row.flag_count,flag_reasons:row.flag_reasons.slice()};
+   revision_of:row.revision_of,review_round:row.review_round,flag_count:row.flag_count,flag_reasons:row.flag_reasons.slice()};
  }
  async function readQueue(identity){
   const result=await memberRequest(identity.token,'POST','rpc/dd_cr_moderation_queue',{});
@@ -363,7 +363,7 @@ function mountModeration(){
   const explanation=el('textarea');explanation.className='field';explanation.rows=3;explanation.maxLength=1000;explanation.setAttribute('aria-label','Decision reason');
   const confirmBox=el('input');confirmBox.type='checkbox';const confirmLabel=el('label');confirmLabel.append(confirmBox,document.createTextNode(' I have reviewed this specific version and its reporting reasons.'));
   const submit=button('Confirm review decision',()=>void decide());
-  const hint=el('p','Restore starts a fresh reporting round. Reject keeps the version hidden; the moderation audit remains.','muted small');
+  const hint=el('p','Review round '+item.review_round+'. Restore starts a fresh reporting round. Reject keeps the version hidden; the moderation audit remains.','muted small');
   card.append(el('h4',item.title),meta,el('p',item.abstract),evidence,flags,hint,el('p','Review decision','muted small'),decision,el('p','Explain your decision (8–1000 characters)','muted small'),explanation,confirmLabel,el('div'),submit);
   const can=()=>['restore','reject'].includes(decision.value)&&explanation.value.trim().length>=8&&explanation.value.trim().length<=1000&&confirmBox.checked;
   const update=()=>{submit.disabled=busy||!can();};
@@ -386,7 +386,7 @@ function mountModeration(){
     const verified=await verifiedMember();if(!active(ticket))return;
     if(!same(verified,identity)){close();return;}
     sent=true;
-    const result=await memberRequest(verified.token,'POST','rpc/dd_cr_review',{p_id:item.id,p_action:action,p_reason:reason});
+    const result=await memberRequest(verified.token,'POST','rpc/dd_cr_review',{p_id:item.id,p_action:action,p_reason:reason,p_expected_round:item.review_round});
     if(!active(ticket))return;
     const after=await verifiedMember();if(!active(ticket))return;
     if(!same(after,identity)){close();return;}

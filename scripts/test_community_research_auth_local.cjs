@@ -302,16 +302,26 @@ function rows(response,expected,label){
  const queued=await queue(moderation);okEngagement(queued,'Genuine moderator queue');
  assert.ok(Array.isArray(queued.data)&&queued.data.some(row=>row.id===flagId&&row.flag_count===5));
  const queuedCase=queued.data.find(row=>row.id===flagId);
- assert.deepEqual(Object.keys(queuedCase).sort(),['id','author_label','title','abstract','category','body_text','references_text','version_no','revision_of','created_at','flag_count','flag_reasons'].sort(),'Explicit moderation projection only');
- assert.equal(queuedCase.flag_reasons.length,5);
- const restore=actor=>call('/rest/v1/rpc/dd_cr_review',{token:actor?.token,method:'POST',body:{p_id:flagId,p_action:'restore',p_reason:'Fictional review completed'}});
+ assert.deepEqual(Object.keys(queuedCase).sort(),['id','author_label','title','abstract','category','body_text','references_text','version_no','revision_of','created_at','review_round','flag_count','flag_reasons'].sort(),'Explicit moderation projection only');
+ assert.equal(queuedCase.flag_reasons.length,5);assert.equal(queuedCase.review_round,1);
+ const restore=(actor,round=queuedCase.review_round)=>call('/rest/v1/rpc/dd_cr_review',{token:actor?.token,method:'POST',body:{p_id:flagId,p_action:'restore',p_reason:'Fictional review completed',p_expected_round:round}});
  assert.equal((await restore(owner)).ok,false,'Non-moderator restore denied');
- const restored=await restore(moderation);okEngagement(restored,'Genuine moderator restoration');assert.equal(restored.data,true);
+ const simultaneous=await Promise.all([restore(moderation),restore(moderation)]);
+ assert.equal(simultaneous.filter(x=>x.ok&&x.data===true).length,1,'Concurrent restore decisions for a single round may succeed only once');
+ assert.equal(simultaneous.filter(x=>!x.ok).length,1,'Concurrent stale decision denied');
  assert.ok((await read()).data.some(x=>x.id===flagId&&x.status==='published'));
  const fresh=await flag(owner);okEngagement(fresh,'Fresh flag round');assert.deepEqual(fresh.data,{accepted:true,hidden:false});
  assert.equal((await restore(moderation)).ok,false,'Already restored case cannot be reviewed twice');
  for(const actor of actors.slice(1))okEngagement(await flag(actor),'Fresh distinct flag');
- const reject=actor=>call('/rest/v1/rpc/dd_cr_review',{token:actor?.token,method:'POST',body:{p_id:flagId,p_action:'reject',p_reason:'Fictional rejection after fresh review'}});
+ const reflagged=await queue(moderation);okEngagement(reflagged,'New moderation round');
+ const reflaggedCase=reflagged.data.find(x=>x.id===flagId);
+ assert.equal(reflaggedCase.review_round,2);
+ assert.deepEqual(reflaggedCase.flag_reasons,queuedCase.flag_reasons,'Identical reasons may recur in a different round');
+ const reject=(actor,round=reflaggedCase.review_round)=>call('/rest/v1/rpc/dd_cr_review',{token:actor?.token,method:'POST',body:{p_id:flagId,p_action:'reject',p_reason:'Fictional rejection after fresh review',p_expected_round:round}});
+ assert.equal((await restore(moderation,1)).ok,false,'Old restore cannot change re-flagged report');
+ assert.equal((await reject(moderation,1)).ok,false,'Old rejection cannot change re-flagged report');
+ assert.equal((await reject(moderation,null)).ok,false,'Missing round denied');
+ assert.equal((await queue(moderation)).data.find(x=>x.id===flagId).review_round,2,'Round remains unchanged after stale attempts');
  for(const actor of [null,anonymous,owner,reader])assert.equal((await reject(actor)).ok,false,'Unauthorised rejection denied');
  const rejected=await reject(moderation);okEngagement(rejected,'Genuine owner rejection');assert.equal(rejected.data,true);
  assert.ok(!(await read()).data.some(x=>x.id===flagId),'Rejected version remains hidden');
@@ -319,7 +329,7 @@ function rows(response,expected,label){
  assert.equal((await restore(moderation)).ok,false,'Rejected version cannot be restored by pending-review operation');
  sql("delete from public.dd_forum_owner_admins where user_id='"+moderation.id+"'");
  assert.equal((await queue(moderation)).ok,false,'Removed owner access takes effect with the same genuine token');
- console.log('PASS genuine moderator rejection, stale decision denial, explicit private queue projection and owner allowlist revocation');
+ console.log('PASS genuine concurrent duplicate decisions, identical reflag reasons with round-bound stale rejection/restore denial, explicit queue projection and owner allowlist revocation');
  console.log('PASS genuine local five distinct flags, duplicate/self denial, private moderator queue, restoration and fresh flag round');
 
  // Genuine isolated author-list and existing revision/withdrawal API acceptance.

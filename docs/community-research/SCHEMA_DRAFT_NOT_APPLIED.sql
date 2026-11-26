@@ -195,7 +195,7 @@ begin
  end if;
  return jsonb_build_object('accepted',added=1,'hidden',tally>=5);
 end $$;
-create function dd_cr_private.review(p_id uuid,p_action text,p_reason text)
+create function dd_cr_private.review(p_id uuid,p_action text,p_reason text,p_expected_round integer)
 returns boolean language plpgsql security definer set search_path='' as $$
 declare actor uuid:=dd_cr_private.owner(); item public.dd_cr_submissions%rowtype; next_state text;
 begin
@@ -205,6 +205,11 @@ begin
  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(item.author_id::text,93271));
  select * into item from public.dd_cr_submissions where id=p_id for update;
  if item.status<>'flagged' then raise exception 'Submission is not pending flag review'; end if;
+ -- Check the exact round while holding the same author lock and row lock as
+ -- restoration/rejection. A stale decision cannot affect a newly flagged round.
+ if p_expected_round is null or p_expected_round<1 or item.flag_round<>p_expected_round then
+  raise exception 'Review round changed' using errcode='40001';
+ end if;
  next_state:=case when p_action='restore' then 'published' else 'rejected' end;
  -- Restoring starts a fresh review round; old flags are retained for audit, not counted twice.
  update public.dd_cr_submissions set status=next_state,reviewed_at=now(),flag_round=flag_round+case when p_action='restore' then 1 else 0 end where id=p_id;
@@ -237,7 +242,7 @@ returns jsonb language plpgsql stable security definer set search_path='' as $$
 begin
  perform dd_cr_private.owner();
  return (select coalesce(jsonb_agg(to_jsonb(s) order by s.created_at),'[]'::jsonb) from
- (select p.id,p.author_label,p.title,p.abstract,p.category,p.body_text,p.references_text,p.version_no,p.revision_of,p.created_at,
+ (select p.id,p.author_label,p.title,p.abstract,p.category,p.body_text,p.references_text,p.version_no,p.revision_of,p.created_at,p.flag_round as review_round,
  (select count(*) from dd_cr_private.flags f where f.report_id=p.id and f.flag_round=p.flag_round) as flag_count,
  (select coalesce(jsonb_agg(f.reason order by f.created_at),'[]'::jsonb) from dd_cr_private.flags f where f.report_id=p.id and f.flag_round=p.flag_round) as flag_reasons
  from public.dd_cr_submissions p where p.status='flagged' order by p.created_at limit 30) s);
@@ -264,8 +269,8 @@ end $$;
 -- independently check authenticated identity and authorization; no default public EXECUTE.
 create function public.dd_cr_flag(p_id uuid,p_reason text)
 returns jsonb language sql security invoker set search_path='' as $$select dd_cr_private.flag(p_id,p_reason)$$;
-create function public.dd_cr_review(p_id uuid,p_action text,p_reason text)
-returns boolean language sql security invoker set search_path='' as $$select dd_cr_private.review(p_id,p_action,p_reason)$$;
+create function public.dd_cr_review(p_id uuid,p_action text,p_reason text,p_expected_round integer)
+returns boolean language sql security invoker set search_path='' as $$select dd_cr_private.review(p_id,p_action,p_reason,p_expected_round)$$;
 create function public.dd_cr_withdraw(p_id uuid,p_reason text)
 returns integer language sql security invoker set search_path='' as $$select dd_cr_private.withdraw(p_id,p_reason)$$;
 create function public.dd_cr_moderation_queue()
@@ -292,9 +297,9 @@ returns jsonb language sql stable security invoker set search_path='' as $$selec
 revoke all on all functions in schema dd_cr_private from public,anon,authenticated;
 -- Receipt check is available only to signed-in SQL test roles; no public wrapper.
 grant execute on function dd_cr_private.lookup_receipt(uuid,uuid,jsonb) to authenticated;
-grant execute on function dd_cr_private.flag(uuid,text),dd_cr_private.review(uuid,text,text),dd_cr_private.withdraw(uuid,text),dd_cr_private.queue() to authenticated;
-revoke all on function public.dd_cr_flag(uuid,text),public.dd_cr_review(uuid,text,text),public.dd_cr_withdraw(uuid,text),public.dd_cr_moderation_queue() from public,anon,authenticated;
-grant execute on function public.dd_cr_flag(uuid,text),public.dd_cr_review(uuid,text,text),public.dd_cr_withdraw(uuid,text),public.dd_cr_moderation_queue() to authenticated;
+grant execute on function dd_cr_private.flag(uuid,text),dd_cr_private.review(uuid,text,text,integer),dd_cr_private.withdraw(uuid,text),dd_cr_private.queue() to authenticated;
+revoke all on function public.dd_cr_flag(uuid,text),public.dd_cr_review(uuid,text,text,integer),public.dd_cr_withdraw(uuid,text),public.dd_cr_moderation_queue() from public,anon,authenticated;
+grant execute on function public.dd_cr_flag(uuid,text),public.dd_cr_review(uuid,text,text,integer),public.dd_cr_withdraw(uuid,text),public.dd_cr_moderation_queue() to authenticated;
 
 grant execute on function dd_cr_private.my_publications(uuid,timestamptz,uuid) to authenticated;
 revoke all on function public.dd_cr_my_publications(uuid,timestamptz,uuid) from public,anon,authenticated;
