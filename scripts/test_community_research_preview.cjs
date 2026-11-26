@@ -194,7 +194,61 @@ assert.throws(()=>publicTextPayload({...core,sections:Array.from({length:3},()=>
   assert.equal(await pending(page),null);
   assert.equal(await page.getByText('simulated receipt received.',{exact:false}).count(),0);
   await page.close();
-  console.log('PASS W.NE local confirmation, private text exclusion, stale-preview invalidation, opt-in simulated receipt recovery and metadata-only restart/account isolation');
+  // Same storage origin, same browser context; both tabs review before either acts.
+  const tabContext=await browser.newContext({viewport:{width:393,height:900}});
+  try{
+   const tabA=await tabContext.newPage(),tabB=await tabContext.newPage();
+   const fixtureRoute=async target=>target.route('**/*',r=>r.request().url()==='http://127.0.0.1:8765/'?r.fulfill({contentType:'text/html',body:'<div id="wne-file-menu"></div>'}):r.abort());
+   for(const tab of [tabA,tabB]){
+    await fixtureRoute(tab);await tab.goto('http://127.0.0.1:8765/');await installFixture(tab);
+   }
+   const prepare=async tab=>{
+    await tab.getByRole('menuitem',{name:/Preview Community Research publication/}).click();
+    await tab.getByLabel('Abstract / summary').fill('Shared sample');
+    await tab.getByLabel('Public section',{exact:true}).check();
+    await tab.getByRole('button',{name:'Generate public preview'}).click();
+    await tab.getByText('I have permission to publish',{exact:false}).click();
+    await tab.getByRole('button',{name:'Confirm reviewed public copy'}).click();
+   };
+   const sampleSend=tab=>tab.getByRole('button',{name:'Simulate one submission'});
+   const sampleCheck=tab=>tab.getByRole('button',{name:'Check simulated receipt'});
+   const choose=(tab,value)=>tab.getByLabel('Sample result').selectOption(value);
+   for(const tab of [tabA,tabB]){await prepare(tab);await choose(tab,'unknown')}
+   await Promise.all([sampleSend(tabA).click(),sampleSend(tabB).click()]);
+   for(const tab of [tabA,tabB]){
+    await tab.getByText('Sample 1: outcome unknown.',{exact:false}).waitFor();
+    assert.equal(await sampleSend(tab).isEnabled(),false);
+   }
+   const shared=await pending(tabA);
+   assert.deepEqual(await pending(tabB),shared);
+   assert.equal(await tabA.evaluate(()=>localStorage.getItem('dd.community.receipt.fixture.generation.v1')),shared.id);
+   // Both tabs reconcile the same pending sample; only one may clear it.
+   for(const tab of [tabA,tabB])await choose(tab,'received');
+   await Promise.all([sampleCheck(tabA).click(),sampleCheck(tabB).click()]);
+   const terminal=tab=>tab.locator('fieldset p[role="status"]').filter({hasText:/simulated receipt received|storage is unavailable or inconsistent/});
+   await Promise.all([terminal(tabA).waitFor(),terminal(tabB).waitFor()]);
+   const results=await Promise.all([terminal(tabA).innerText(),terminal(tabB).innerText()]);
+   assert.equal(results.filter(x=>x.includes('simulated receipt received')).length,1);
+   assert.equal(await pending(tabA),null);
+   // Reopen both and prove an already-resolved immediate outcome invalidates a
+   // stale review in the other tab, even though the pending marker is gone.
+   for(const tab of [tabA,tabB]){
+    await tab.getByRole('button',{name:'Close',exact:true}).click();
+    await tab.evaluate(()=>{document.getElementById('wne-file-menu').hidden=false});
+    await prepare(tab);await choose(tab,'received');
+   }
+   await sampleSend(tabA).click();
+   await tabA.getByText('simulated receipt received.',{exact:false}).waitFor();
+   assert.equal(await pending(tabA),null);
+   const after=await tabA.evaluate(()=>localStorage.getItem('dd.community.receipt.fixture.generation.v1'));
+   await sampleSend(tabB).click();
+   await tabB.getByText('A different sample attempt changed since review.',{exact:false}).waitFor();
+   assert.equal(await sampleSend(tabB).isVisible(),false);
+   assert.equal(await tabB.getByRole('button',{name:'Confirm reviewed public copy'}).isVisible(),false);
+   assert.equal(await tabB.evaluate(()=>localStorage.getItem('dd.community.receipt.fixture.generation.v1')),after);
+   assert.equal(await pending(tabB),null);
+  }finally{await tabContext.close()}
+  console.log('PASS W.NE local confirmation, private text exclusion, stale-preview invalidation, restart/account isolation and same-origin concurrent fixture protection');
   console.log('PASS local library interactions, consent preview, narrow layout and no network; public flag remains off');
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});

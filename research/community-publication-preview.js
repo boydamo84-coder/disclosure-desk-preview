@@ -89,13 +89,20 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
    const simulate=window.DDCommunityReceiptFixture===true;
    const sampleAccount=window.DDCommunityReceiptFixtureAccount==='sample-b'?'sample-b':'sample-a';
    const storageKey='dd.community.receipt.fixture.pending.v1';
+   const generationKey='dd.community.receipt.fixture.generation.v1';
+   const sampleId=/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
+   const readGeneration=()=>{
+    const value=window.localStorage.getItem(generationKey);
+    if(value!==null&&!sampleId.test(value))throw Error('Invalid fixture generation');
+    return value;
+   };
    const readPending=()=>{
     const raw=window.localStorage.getItem(storageKey);
     if(raw===null)return null;
     const item=JSON.parse(raw);
     if(!item||typeof item!=='object'||Object.keys(item).sort().join(',')!=='account,id,number,state,version'
     ||item.version!==1||!['sample-a','sample-b'].includes(item.account)
-    ||typeof item.id!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(item.id)
+    ||typeof item.id!=='string'||!sampleId.test(item.id)
     ||!Number.isSafeInteger(item.number)||item.number<1||item.state!=='unknown')throw Error('Invalid fixture pending state');
     return item;
    };
@@ -111,7 +118,7 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
    const reconcile=el('button','Check simulated receipt');reconcile.type='button';reconcile.hidden=true;
    const receipt=el('p');receipt.setAttribute('role','status');
    simulation.append(send,reconcile,receipt);
-   let attempt=null,confirmed=null,sequence=0,storageBlocked=false;
+   let attempt=null,confirmed=null,reviewGeneration=null,sequence=0,storageBlocked=false,busy=false;
    const lock=(value)=>{
     for(const field of [...formFields,consent,check])field.disabled=value;
     if(value)review.disabled=true;
@@ -121,6 +128,22 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
     receipt.textContent=message;
    };
    const storageProblem=()=>block('Sample receipt storage is unavailable or inconsistent. No simulated submission is allowed.');
+   // Same-origin browser tabs coordinate only fictional fixture state. A local
+   // lock is not a substitute for server-side idempotency or authorization.
+   const runExclusive=async work=>{
+    if(!simulate||busy||storageBlocked)return;
+    if(typeof navigator.locks?.request!=='function'){block('Sample multi-tab coordination is unavailable. No simulated submission is allowed.');return;}
+    busy=true;send.disabled=true;reconcile.disabled=true;outcome.disabled=true;lock(true);
+    try{
+     await navigator.locks.request(storageKey,{mode:'exclusive'},()=>{
+      if(dialog.open&&simulation.isConnected)work();
+     });
+    }catch(e){if(dialog.open&&simulation.isConnected)storageProblem();}
+    finally{
+     busy=false;reconcile.disabled=false;outcome.disabled=false;
+     if(dialog.open&&simulation.isConnected&&!storageBlocked&&!attempt&&confirmed){lock(false);send.disabled=false;review.disabled=!consent.checked;}
+    }
+   };
    const showUnknown=()=>{
     simulation.hidden=false;send.disabled=true;reconcile.hidden=false;lock(true);
     receipt.textContent='Sample '+attempt.number+': outcome unknown. Do not submit again. Check the same simulated receipt.';
@@ -140,7 +163,7 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
    };
    const resetSimulation=()=>{
     if(storageBlocked||attempt?.state==='unknown')return false;
-    attempt=null;confirmed=null;simulation.hidden=true;receipt.textContent='';
+    attempt=null;confirmed=null;reviewGeneration=null;simulation.hidden=true;receipt.textContent='';
     send.disabled=false;reconcile.hidden=true;lock(false);
     return true;
    };
@@ -170,34 +193,47 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
      :'Sample '+attempt.number+': simulated rejection. Generate and review a fresh copy before another attempt.';
    };
    send.onclick=()=>{
-    if(!simulate||!confirmed||attempt||storageBlocked||!consent.checked)return;
-    if(restorePending())return;
-    // A fictional attempt marker is written BEFORE the sample outcome. No text,
-    // actual username/account ID, session information or real consent is persisted.
-    try{
+    if(!simulate||busy||!confirmed||attempt||storageBlocked||!consent.checked)return;
+    void runExclusive(()=>{
+     if(!confirmed||attempt||storageBlocked||!consent.checked)return;
+     if(restorePending())return;
+     // Even a receipt that resolved immediately in another tab invalidates
+     // previously reviewed copies. Compare and advance within the same lock.
+     if(readGeneration()!==reviewGeneration){
+      invalidate();status.textContent='A different sample attempt changed since review. Generate and confirm a fresh preview.';
+      return;
+     }
+     // Fictional markers only. Advance the generation before the attempt.
+     // Never store report text, real identity or session credentials.
      const pending={version:1,account:sampleAccount,id:crypto.randomUUID(),number:++sequence,state:'unknown'};
+     window.localStorage.setItem(generationKey,pending.id);
+     if(readGeneration()!==pending.id)throw Error('Generation was not saved');
      window.localStorage.setItem(storageKey,JSON.stringify(pending));
      const stored=readPending();
      if(!stored||stored.id!==pending.id||stored.account!==pending.account)throw Error('Pending marker was not saved');
      attempt=stored;
-    }catch(e){storageProblem();return;}
-    send.disabled=true;review.disabled=true;confirmed=null;showResult();
+     send.disabled=true;review.disabled=true;confirmed=null;showResult();
+    });
    };
    reconcile.onclick=()=>{
-    if(!simulate||storageBlocked||!attempt||attempt.state!=='unknown')return;
-    showResult();
+    if(!simulate||busy||storageBlocked||!attempt||attempt.state!=='unknown')return;
+    void runExclusive(showResult);
    };
    review.onclick=()=>{
-    if(storageBlocked||attempt?.state==='unknown'||!reviewed||!consent.checked)return;
+    if(storageBlocked||busy||attempt?.state==='unknown'||!reviewed||!consent.checked)return;
     try{
      const payload=publicTextPayload(reviewed,true);
      status.textContent='Public copy confirmed locally. Nothing has been submitted or published.';
-     if(simulate&&!attempt){confirmed=payload;simulation.hidden=false;}
+     if(simulate&&!attempt){
+      if(restorePending())return;
+      try{reviewGeneration=readGeneration();}catch(e){storageProblem();return;}
+      confirmed=payload;simulation.hidden=false;
+     }
     }
     catch(e){status.textContent=e.message}
    };
    check.onclick=()=>{
-    if(!invalidate())return;
+    if(busy||!invalidate())return;
     preview.replaceChildren();status.textContent='';
     try{
      const citations=refs.value.split('\n').filter(x=>x.trim()).map(line=>{const i=line.indexOf('|');if(i<0)throw Error('Use title | URL for each reference');return {title:line.slice(0,i),url:line.slice(i+1)}});
