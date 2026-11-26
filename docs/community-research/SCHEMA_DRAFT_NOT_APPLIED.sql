@@ -11,7 +11,7 @@ create table public.dd_cr_submissions (
  body_text text not null check (char_length(btrim(body_text)) between 1 and 120000),
  references_text text not null default '' check (char_length(references_text)<=20000),
  consent boolean not null check(consent),
- status text not null default 'pending' check(status in ('pending','published','rejected','withdrawn')),
+ status text not null default 'pending' check(status in ('pending','published','flagged','rejected','withdrawn')),
  revision_of uuid references public.dd_cr_submissions(id),
  created_at timestamptz not null default now(),
  reviewed_at timestamptz,
@@ -82,8 +82,20 @@ alter table dd_cr_private.audit enable row level security;
 revoke all on dd_cr_private.audit from public,anon,authenticated;
 alter table public.dd_cr_submissions add column version_no integer not null default 1 check(version_no between 1 and 100);
 grant select(version_no) on public.dd_cr_submissions to anon,authenticated;
+alter table public.dd_cr_submissions add column flag_round integer not null default 1 check(flag_round>0);
+create table dd_cr_private.flags (
+ report_id uuid not null references public.dd_cr_submissions(id),
+ flag_round integer not null,
+ reporter uuid not null,
+ reason text not null check(char_length(btrim(reason)) between 1 and 1000),
+ created_at timestamptz not null default clock_timestamp(),
+ primary key(report_id,flag_round,reporter)
+);
+create index dd_cr_flags_reporter_time on dd_cr_private.flags(reporter,created_at);
+alter table dd_cr_private.flags enable row level security;
+revoke all on dd_cr_private.flags from public,anon,authenticated;
 create unique index dd_cr_one_successor on public.dd_cr_submissions(revision_of)
- where revision_of is not null and status in ('pending','published');
+ where revision_of is not null and status in ('pending','published','flagged');
 -- Resolve identity from the authenticated session only; no client UUID accepted.
 create function dd_cr_private.member()
 returns uuid language plpgsql stable set search_path='' as $$
@@ -119,25 +131,53 @@ begin
   new.version_no:=parent.version_no+1;
  else new.version_no:=1;
  end if;
+ -- Explicit text-only submissions become public after the consent and validation constraints pass.
+ new.status:='published';
  return new;
 end $$;
 create trigger dd_cr_check_submission before insert on public.dd_cr_submissions for each row execute function dd_cr_private.before_submit();
 drop policy dd_cr_submit on public.dd_cr_submissions;
 create policy dd_cr_submit on public.dd_cr_submissions for insert to authenticated
- with check(author_id=(select auth.uid()) and coalesce((select auth.jwt()->>'is_anonymous'),'true')='false' and status='pending');
+ with check(author_id=(select auth.uid()) and coalesce((select auth.jwt()->>'is_anonymous'),'true')='false' and status='published');
+-- One flag per genuine signed-in member per review round. No self-flags.
+-- Per-reporter and per-author transaction locks prevent threshold races and repeat spam.
+create function dd_cr_private.flag(p_id uuid,p_reason text)
+returns jsonb language plpgsql security definer set search_path='' as $$
+declare actor uuid:=dd_cr_private.member(); item public.dd_cr_submissions%rowtype; tally integer; added integer;
+begin
+ if p_reason is null or char_length(btrim(p_reason)) not between 1 and 1000 then raise exception 'Flag reason required'; end if;
+ perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(actor::text,93272));
+ select * into item from public.dd_cr_submissions where id=p_id;
+ if not found or item.author_id=actor then raise exception 'Cannot flag this research' using errcode='42501'; end if;
+ perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(item.author_id::text,93271));
+ select * into item from public.dd_cr_submissions where id=p_id for update;
+ if item.status<>'published' then raise exception 'Research is not publicly available' using errcode='42501'; end if;
+ if exists(select 1 from dd_cr_private.flags f where f.report_id=p_id and f.flag_round=item.flag_round and f.reporter=actor) then
+  return jsonb_build_object('accepted',false,'hidden',false);
+ end if;
+ if (select count(*) from dd_cr_private.flags where reporter=actor and created_at>now()-interval '24 hours')>=10 then raise exception 'Daily flag limit reached'; end if;
+ insert into dd_cr_private.flags(report_id,flag_round,reporter,reason) values(p_id,item.flag_round,actor,btrim(p_reason)) on conflict do nothing;
+ get diagnostics added=row_count;
+ select count(*)::integer into tally from dd_cr_private.flags where report_id=p_id and flag_round=item.flag_round;
+ if tally>=5 then
+  update public.dd_cr_submissions set status='flagged' where id=p_id;
+  insert into dd_cr_private.audit(actor,report_id,action,reason) values(actor,p_id,'auto_hide','Five distinct member flags');
+ end if;
+ return jsonb_build_object('accepted',added=1,'hidden',tally>=5);
+end $$;
 create function dd_cr_private.review(p_id uuid,p_action text,p_reason text)
 returns boolean language plpgsql security definer set search_path='' as $$
 declare actor uuid:=dd_cr_private.owner(); item public.dd_cr_submissions%rowtype; next_state text;
 begin
- if p_action not in ('approve','reject') or p_action is null or p_reason is null or char_length(btrim(p_reason)) not between 1 and 1000 then raise exception 'Review action and reason required'; end if;
+ if p_action not in ('restore','reject') or p_action is null or p_reason is null or char_length(btrim(p_reason)) not between 1 and 1000 then raise exception 'Review action and reason required'; end if;
  select * into item from public.dd_cr_submissions where id=p_id;
  if not found or item.author_id=actor then raise exception 'Cannot review this submission' using errcode='42501'; end if;
  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(item.author_id::text,93271));
  select * into item from public.dd_cr_submissions where id=p_id for update;
- if item.status<>'pending' then raise exception 'Submission is no longer pending'; end if;
- if item.revision_of is not null and not exists(select 1 from public.dd_cr_submissions where id=item.revision_of and status='published') then raise exception 'Parent version is not public'; end if;
- next_state:=case when p_action='approve' then 'published' else 'rejected' end;
- update public.dd_cr_submissions set status=next_state,reviewed_at=now() where id=p_id;
+ if item.status<>'flagged' then raise exception 'Submission is not pending flag review'; end if;
+ next_state:=case when p_action='restore' then 'published' else 'rejected' end;
+ -- Restoring starts a fresh review round; old flags are retained for audit, not counted twice.
+ update public.dd_cr_submissions set status=next_state,reviewed_at=now(),flag_round=flag_round+case when p_action='restore' then 1 else 0 end where id=p_id;
  insert into dd_cr_private.audit(actor,report_id,action,reason) values(actor,p_id,p_action,btrim(p_reason));
  return true;
 end $$;
@@ -157,7 +197,7 @@ begin
   select id from public.dd_cr_submissions where id=root_id
   union all select p.id from public.dd_cr_submissions p join chain c on p.revision_of=c.id
  ) update public.dd_cr_submissions set status='withdrawn',reviewed_at=now()
- where id in(select id from chain) and status in ('pending','published');
+ where id in(select id from chain) and status in ('pending','published','flagged');
  get diagnostics changed=row_count;
  if changed>0 then insert into dd_cr_private.audit(actor,report_id,action,reason) values(actor,root_id,'withdraw_chain',btrim(p_reason)); end if;
  return changed;
@@ -167,10 +207,15 @@ returns jsonb language plpgsql stable security definer set search_path='' as $$
 begin
  perform dd_cr_private.owner();
  return (select coalesce(jsonb_agg(to_jsonb(s) order by s.created_at),'[]'::jsonb) from
- (select id,author_label,title,abstract,category,body_text,references_text,version_no,revision_of,created_at from public.dd_cr_submissions where status='pending' order by created_at limit 30) s);
+ (select p.id,p.author_label,p.title,p.abstract,p.category,p.body_text,p.references_text,p.version_no,p.revision_of,p.created_at,
+ (select count(*) from dd_cr_private.flags f where f.report_id=p.id and f.flag_round=p.flag_round) as flag_count,
+ (select coalesce(jsonb_agg(f.reason order by f.created_at),'[]'::jsonb) from dd_cr_private.flags f where f.report_id=p.id and f.flag_round=p.flag_round) as flag_reasons
+ from public.dd_cr_submissions p where p.status='flagged' order by p.created_at limit 30) s);
 end $$;
 -- Only invoker wrappers are exposed via the public API. Underlying private helpers
 -- independently check authenticated identity and authorization; no default public EXECUTE.
+create function public.dd_cr_flag(p_id uuid,p_reason text)
+returns jsonb language sql security invoker set search_path='' as $$select dd_cr_private.flag(p_id,p_reason)$$;
 create function public.dd_cr_review(p_id uuid,p_action text,p_reason text)
 returns boolean language sql security invoker set search_path='' as $$select dd_cr_private.review(p_id,p_action,p_reason)$$;
 create function public.dd_cr_withdraw(p_id uuid,p_reason text)
@@ -178,11 +223,11 @@ returns integer language sql security invoker set search_path='' as $$select dd_
 create function public.dd_cr_moderation_queue()
 returns jsonb language sql stable security invoker set search_path='' as $$select dd_cr_private.queue()$$;
 revoke all on all functions in schema dd_cr_private from public,anon,authenticated;
-grant execute on function dd_cr_private.review(uuid,text,text),dd_cr_private.withdraw(uuid,text),dd_cr_private.queue() to authenticated;
-revoke all on function public.dd_cr_review(uuid,text,text),public.dd_cr_withdraw(uuid,text),public.dd_cr_moderation_queue() from public,anon,authenticated;
-grant execute on function public.dd_cr_review(uuid,text,text),public.dd_cr_withdraw(uuid,text),public.dd_cr_moderation_queue() to authenticated;
+grant execute on function dd_cr_private.flag(uuid,text),dd_cr_private.review(uuid,text,text),dd_cr_private.withdraw(uuid,text),dd_cr_private.queue() to authenticated;
+revoke all on function public.dd_cr_flag(uuid,text),public.dd_cr_review(uuid,text,text),public.dd_cr_withdraw(uuid,text),public.dd_cr_moderation_queue() from public,anon,authenticated;
+grant execute on function public.dd_cr_flag(uuid,text),public.dd_cr_review(uuid,text,text),public.dd_cr_withdraw(uuid,text),public.dd_cr_moderation_queue() to authenticated;
 
 -- Remaining gates: server-derived profile labels, comment/reaction rate limits,
--- abuse reporting, pagination, UI wiring and genuine account tests.
+-- profile verification/anti-brigading, pagination, UI wiring and genuine account tests.
 -- Do not expose this draft on a live project until those gates pass.
 commit;
