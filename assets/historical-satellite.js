@@ -175,6 +175,7 @@ function caseSearchDetails(r,chosenDate,chosenTime,chosenYear,chosenMonth){
   'Public case area: '+info.city+' ('+info.provenance+')',
   'Approximate public map point: '+(info.coordinatesKnown?info.lat.toFixed(1)+'° latitude, '+info.lon.toFixed(1)+'° longitude':'not verified; choose location manually'),
   'Recorded case period: '+periodLabel(info)+(info.date?' (exact date recorded)':' (exact sighting day not established)'),
+  ...(r.pursue?['PURSUE catalogue metadata (not verified event details): '+String(r.pursueDate||'not specified')+' · '+String(r.pursueLocation||'not specified'),'Original record: '+String(r.sourceUrl||'')]:[]),
   'Event date: '+(date||'not established')+(date?(date===info.date?' (recorded in case)':' (researcher-selected; not verified against case)'):''),
   'Event time UTC: '+(utc?utc+' (researcher-entered, not verified)':'not verified / not recorded'),
   'USGS dataset: Landsat Collection 2 Level-1 → Landsat 1–5 MSS C2 L1',
@@ -202,6 +203,7 @@ function openSatelliteCase(r){
   ?'Approximate mapped area only · location rounded to 0.1° · '+state.provenance+' · not the exact sighting point.'
   :'No verified mappable town position is linked to this case. Map centring is unavailable until the location is researched.','muted small');
  content.append(summary,geo);
+ if(r.pursue){const metadata=$('p','PURSUE catalogue date: '+String(r.pursueDate||'not specified')+' · Catalogue location: '+String(r.pursueLocation||'not specified')+'. These fields may describe a document or agency, not an event. Confirm the original record before choosing a date or area.','muted small');content.append(metadata);if(r.sourceUrl)try{const url=new URL(r.sourceUrl);if(url.protocol==='https:'&&!url.username&&!url.password&&['www.war.gov','www.dvidshub.net'].includes(url.host))externalLink(content,'Read original government record ↗',url.href)}catch{}}
  if(state.coordinatesKnown&&r.locationSource==='https://www.forestryengland.uk/rendlesham-forest'){
   const origin=$('p',undefined,'muted small');
   externalLink(origin,'Forestry England · public forest location ↗',r.locationSource);
@@ -265,9 +267,9 @@ function openSatelliteCase(r){
    String(monthInput.value)!==String(state.month||'');
   const searchPeriod=periodRange(yearInput.value,monthInput.value);
   const world=validatedViewerUrl(r,requested,utc);
-  primary.hidden=!world;if(world)primary.href=world;
-  eumet.hidden=!requested||requested<DAILY_START;
-  landsat.hidden=!(requested&&requested>=LANDSAT_START)&&!(searchPeriod&&searchPeriod.to>=LANDSAT_START);
+  primary.hidden=!world&&!r.pursue;if(world){primary.href=world;primary.textContent='Open NASA daily satellite imagery · selected date and area'}else if(r.pursue){primary.href=NASA;primary.textContent='NASA Worldview · choose date and area manually'}
+  eumet.hidden=!r.pursue&&(!requested||requested<DAILY_START);
+  landsat.hidden=!r.pursue&&!(requested&&requested>=LANDSAT_START)&&!(searchPeriod&&searchPeriod.to>=LANDSAT_START);
   const landsatRange=landsatWindow(requested);
   landsatAdvice.hidden=!landsatRange&&!searchPeriod;
   if(landsatRange)landsatAdvice.textContent=
@@ -278,7 +280,7 @@ function openSatelliteCase(r){
    searchPeriod.from+' to '+searchPeriod.to+' for this '+searchPeriod.precision+'-precision search. '+
    (changedPeriod?'The period was changed by the researcher, not verified against the case. ':'The case gives this period, not a precise sighting day. ')+
    'No matching scene or sighting-time image has been verified.';
-  copy.hidden=!requested&&!searchPeriod;
+  copy.hidden=!r.pursue&&!requested&&!searchPeriod;
   if(!handoff.hidden)handoff.value=caseSearchDetails(r,date.value,time.value,yearInput.value,monthInput.value)||'';
   modern.hidden=false;
   if(!requested)status.textContent=searchPeriod
@@ -291,7 +293,7 @@ function openSatelliteCase(r){
   else if(requested>=LANDSAT_START)status.textContent='For '+requested+', use the USGS Landsat 1–5 MSS archive for scenes near the date. Meteosat had not launched yet and NASA MODIS begins in 2000. We have NOT retrieved or confirmed a matching frame.';
   else status.textContent='No verified source viewer coverage established for this date. Do not substitute modern imagery as historical.';
   dateOrigin.textContent=!requested
-   ?'Day not verified. Month/year shown from the case when available; changes are researcher supplied.'
+   ?(r.pursue?'No verified event date. Choose a search date after checking the original record.':'Day not verified. Month/year shown from the case when available; changes are researcher supplied.')
    :requested===state.date?'Exact date recorded in this case.'
     :'Researcher-selected day · NOT verified against the case. Confirm it in the original evidence.';
   if(time.value&&!utc)timeNote.textContent='Enter a valid 24-hour UTC time. This will not be saved as a documented sighting time.';
