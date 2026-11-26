@@ -72,7 +72,9 @@ const server=http.createServer((req,res)=>{
     assert.equal(await page.locator('#collectionPicker').isVisible(),false);
     await reader.getByRole('button',{name:'Back to Research'}).click();
     await page.evaluate(()=>window.navigateTo('boards'));
-    const link=page.locator('#boardList a').filter({hasText:'Sample community investigation · v2'}).first();
+    const collection=page.locator('#boardList article').filter({has:page.getByRole('heading',{name:'Community research test board',exact:true})});
+    await collection.locator('details.connections > summary').first().click();
+    const link=collection.locator('a').filter({hasText:'Sample community investigation · v2'}).first();
     await link.waitFor();assert.equal(await link.getAttribute('href'),expected);
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
     console.log('PASS actual private Board picker, W.NE saved references, version link and stale hidden report protection at '+width+'px');
