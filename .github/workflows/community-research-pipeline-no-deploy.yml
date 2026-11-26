@@ -1,0 +1,32 @@
+name: Community Research offline scan-render-quota integration QA (no deploy)
+on:
+  push:
+    branches: [feature/community-research-20261126]
+    paths:
+      - 'docs/community-research/scanner/**'
+      - 'docs/community-research/renderer/**'
+      - 'docs/community-research/quarantine/**'
+      - 'docs/community-research/pipeline/**'
+      - '.github/workflows/community-research-pipeline-no-deploy.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Build separate scanner and renderer QA images
+        run: |
+          docker build --target qa -t dd-pdf-scanner:qa docs/community-research/scanner
+          docker build --target qa -t dd-pdf-renderer:qa docs/community-research/renderer
+      - name: Start disposable Postgres without published ports or network
+        run: docker run -d --rm --name dd-pipeline-local-test --network none -e POSTGRES_HOST_AUTH_METHOD=trust postgres:17
+      - name: Run actual scan-render-accounting with only fictional data
+        run: python3 -B docs/community-research/pipeline/test_pipeline.py
+      - name: Stop disposable DB
+        if: always()
+        run: docker stop dd-pipeline-local-test || true
