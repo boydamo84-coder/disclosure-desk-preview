@@ -23,3 +23,4 @@ jobs:
           node --check research/community-publication-preview.js
           node scripts/test_community_research_draft.cjs
           node scripts/test_community_research_preview.cjs
+          node scripts/test_community_research_transfer.cjs
