@@ -10,7 +10,7 @@ const index = require('../data/pursue-index.json');
 const seed = require('../docs/research-release/discussion-host-queue.json');
 
 const root = path.resolve('.release-staging/public-site');
-const mime = {js:'text/javascript',css:'text/css',json:'application/json',html:'text/html',pdf:'application/pdf'};
+const mime = {js:'text/javascript',css:'text/css',json:'application/json',html:'text/html',pdf:'application/pdf',mp4:'video/mp4',jpg:'image/jpeg'};
 const server = http.createServer((request,response) => {
   const url = new URL(request.url,'http://localhost');
   let file = path.resolve(root,'.'+url.pathname);
@@ -133,6 +133,47 @@ async function accessibility(page,route,width) {
       assert.ok(!external.some(origin=>origin.includes('adsterra')||origin.includes('googletagmanager')));
       await context.close();
       console.log('PASS research links, filters, source handoff, offline download and accessibility at '+width+'px');
+    }
+
+    // Homepage theme and release history: actual staged HTML, local media and real Chromium.
+    for(const width of [393,1280]){
+      const ctx=await browser.newContext({viewport:{width,height:900},serviceWorkers:'block'});
+      try {
+        await ctx.route('**/*',route=>new URL(route.request().url()).origin===base?route.continue():route.abort('blockedbyclient'));
+        const page=await ctx.newPage();
+        await page.goto(base+'/index.html?dd_tab=discover');
+        const hero=page.locator('#ddHomeThemeHero'),video=page.locator('#ddHomeThemeVideo'),choice=page.locator('#ddHomeThemeChoice'),pause=page.locator('#ddHomeThemePause');
+        await hero.waitFor({state:'visible'});
+        assert.equal(await choice.inputValue(),'nightfall');
+        assert.equal(await choice.locator('option[value="orbital"]').count(),0);
+        await page.waitForFunction(()=>{const v=document.getElementById('ddHomeThemeVideo');return v.readyState>=2&&!v.paused&&v.classList.contains('dd-playing')});
+        assert.ok(await video.evaluate(v=>v.currentSrc.endsWith('/data/nightfall.mp4')&&v.muted&&v.loop));
+        const updates=page.locator('#ddSiteUpdates');
+        assert.equal(await updates.evaluate(n=>n.open),false);
+        await page.locator('#ddSiteUpdatesButton').click();
+        assert.equal(await updates.evaluate(n=>n.open),true);
+        assert.ok(await updates.getByText('Research & Collaboration',{exact:true}).isVisible());
+        assert.ok(await updates.locator('.dd-updates-theme-live').isVisible());
+        assert.equal(await page.locator('#ddR3ReleaseAnnouncement').isVisible(),false);
+        await updates.locator('.dd-updates-history > summary').click();
+        assert.ok(await page.locator('#ddR3ReleaseAnnouncement').isVisible());
+        await page.locator('#ddSiteUpdatesButton').click();
+        await pause.click();
+        await page.waitForFunction(()=>!document.getElementById('ddHomeThemeVideo').hasAttribute('src'));
+        await choice.selectOption('eclipse');
+        await pause.click();
+        await page.waitForFunction(()=>{const v=document.getElementById('ddHomeThemeVideo');return v.currentSrc.endsWith('/data/eclipse.mp4')&&!v.paused&&v.readyState>=2});
+        await choice.selectOption('classic');
+        await page.waitForFunction(()=>!document.getElementById('ddHomeThemeVideo').hasAttribute('src'));
+        await page.reload();
+        assert.equal(await choice.inputValue(),'classic');
+        await page.emulateMedia({reducedMotion:'reduce'});
+        await choice.selectOption('nightfall');
+        assert.equal(await pause.isDisabled(),true);
+        assert.equal(await video.getAttribute('src'),null);
+        assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+        console.log('PASS homepage themes, motion preference and collapsed release history at '+width+'px');
+      } finally {await ctx.close()}
     }
 
     // Exercise the dashboard realistically while using fictional RPC responses.
