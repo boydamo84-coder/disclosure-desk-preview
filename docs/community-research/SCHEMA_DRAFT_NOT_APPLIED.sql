@@ -86,26 +86,26 @@ create unique index dd_cr_one_successor on public.dd_cr_submissions(revision_of)
  where revision_of is not null and status in ('pending','published');
 -- Resolve identity from the authenticated session only; no client UUID accepted.
 create function dd_cr_private.member()
-returns uuid language plpgsql stable set search_path='' as $
+returns uuid language plpgsql stable set search_path='' as $$
 declare actor uuid:=auth.uid();
 begin
  if actor is null or coalesce(auth.jwt()->>'is_anonymous','true')<>'false' then
   raise exception 'Member access required' using errcode='42501';
  end if;
  return actor;
-end $;
+end $$;
 create function dd_cr_private.owner()
-returns uuid language plpgsql stable set search_path='' as $
+returns uuid language plpgsql stable set search_path='' as $$
 declare actor uuid:=dd_cr_private.member();
 begin
  if not exists(select 1 from public.dd_forum_owner_admins a where a.user_id=actor) then
   raise exception 'Moderator access required' using errcode='42501';
  end if;
  return actor;
-end $;
+end $$;
 -- Serialize operations per author (including review and whole-chain withdrawal).
 create function dd_cr_private.before_submit()
-returns trigger language plpgsql security definer set search_path='' as $
+returns trigger language plpgsql security definer set search_path='' as $$
 declare actor uuid:=dd_cr_private.member(); parent public.dd_cr_submissions%rowtype;
 begin
  if new.author_id<>actor or new.status<>'pending' then raise exception 'Invalid submission identity or status' using errcode='42501'; end if;
@@ -120,13 +120,13 @@ begin
  else new.version_no:=1;
  end if;
  return new;
-end $;
+end $$;
 create trigger dd_cr_check_submission before insert on public.dd_cr_submissions for each row execute function dd_cr_private.before_submit();
 drop policy dd_cr_submit on public.dd_cr_submissions;
 create policy dd_cr_submit on public.dd_cr_submissions for insert to authenticated
  with check(author_id=(select auth.uid()) and coalesce((select auth.jwt()->>'is_anonymous'),'true')='false' and status='pending');
 create function dd_cr_private.review(p_id uuid,p_action text,p_reason text)
-returns boolean language plpgsql security definer set search_path='' as $
+returns boolean language plpgsql security definer set search_path='' as $$
 declare actor uuid:=dd_cr_private.owner(); item public.dd_cr_submissions%rowtype; next_state text;
 begin
  if p_action not in ('approve','reject') or p_action is null or p_reason is null or char_length(btrim(p_reason)) not between 1 and 1000 then raise exception 'Review action and reason required'; end if;
@@ -140,9 +140,9 @@ begin
  update public.dd_cr_submissions set status=next_state,reviewed_at=now() where id=p_id;
  insert into dd_cr_private.audit(actor,report_id,action,reason) values(actor,p_id,p_action,btrim(p_reason));
  return true;
-end $;
+end $$;
 create function dd_cr_private.withdraw(p_id uuid,p_reason text)
-returns integer language plpgsql security definer set search_path='' as $
+returns integer language plpgsql security definer set search_path='' as $$
 declare actor uuid:=dd_cr_private.member(); item public.dd_cr_submissions%rowtype; root_id uuid; changed integer;
 begin
  if p_reason is null or char_length(btrim(p_reason)) not between 1 and 1000 then raise exception 'Withdrawal reason required'; end if;
@@ -161,22 +161,22 @@ begin
  get diagnostics changed=row_count;
  if changed>0 then insert into dd_cr_private.audit(actor,report_id,action,reason) values(actor,root_id,'withdraw_chain',btrim(p_reason)); end if;
  return changed;
-end $;
+end $$;
 create function dd_cr_private.queue()
-returns jsonb language plpgsql stable security definer set search_path='' as $
+returns jsonb language plpgsql stable security definer set search_path='' as $$
 begin
  perform dd_cr_private.owner();
  return (select coalesce(jsonb_agg(to_jsonb(s) order by s.created_at),'[]'::jsonb) from
  (select id,author_label,title,abstract,category,body_text,references_text,version_no,revision_of,created_at from public.dd_cr_submissions where status='pending' order by created_at limit 30) s);
-end $;
+end $$;
 -- Only invoker wrappers are exposed via the public API. Underlying private helpers
 -- independently check authenticated identity and authorization; no default public EXECUTE.
 create function public.dd_cr_review(p_id uuid,p_action text,p_reason text)
-returns boolean language sql security invoker set search_path='' as $select dd_cr_private.review(p_id,p_action,p_reason)$;
+returns boolean language sql security invoker set search_path='' as $$select dd_cr_private.review(p_id,p_action,p_reason)$$;
 create function public.dd_cr_withdraw(p_id uuid,p_reason text)
-returns integer language sql security invoker set search_path='' as $select dd_cr_private.withdraw(p_id,p_reason)$;
+returns integer language sql security invoker set search_path='' as $$select dd_cr_private.withdraw(p_id,p_reason)$$;
 create function public.dd_cr_moderation_queue()
-returns jsonb language sql stable security invoker set search_path='' as $select dd_cr_private.queue()$;
+returns jsonb language sql stable security invoker set search_path='' as $$select dd_cr_private.queue()$$;
 revoke all on all functions in schema dd_cr_private from public,anon,authenticated;
 grant execute on function dd_cr_private.review(uuid,text,text),dd_cr_private.withdraw(uuid,text),dd_cr_private.queue() to authenticated;
 revoke all on function public.dd_cr_review(uuid,text,text),public.dd_cr_withdraw(uuid,text),public.dd_cr_moderation_queue() from public,anon,authenticated;
