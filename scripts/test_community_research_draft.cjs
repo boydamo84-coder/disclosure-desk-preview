@@ -115,5 +115,27 @@ const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(ti
  assert.equal((await read()).rows.length,0);
  assert.equal((await q('select reaction from public.dd_cr_reactions')).rows.length,0);
  assert.equal((await q('select body_text from public.dd_cr_comments')).rows.length,0);
+ // One request token can create at most one report, including after withdrawal.
+ const token='00000000-0000-4000-8000-000000000099';
+ const attempt=(account,body='Reviewed copy')=>q("insert into public.dd_cr_submissions(request_token,expected_account,title,abstract,category,body_text,consent) values($1,$2,'Retry fixture','Summary','Case analysis',$3,true) returning id",[token,account,body]);
+ await assert.rejects(attempt(author),/permission denied/);
+ await claim('authenticated',reader);
+ await assert.rejects(attempt(author),/check constraint/);
+ await claim('authenticated',author);
+ const first=(await attempt(author)).rows[0].id;
+ await assert.rejects(attempt(author),/duplicate key/);
+ await assert.rejects(attempt(author,'Changed copy'),/duplicate key/);
+ await assert.rejects(q('select request_token from public.dd_cr_submissions'),/permission denied/);
+ await assert.rejects(q('select expected_account from public.dd_cr_submissions'),/permission denied/);
+ await assert.rejects(q('update public.dd_cr_submissions set request_token=$1 where id=$2',[token,first]),/permission denied/);
+ assert.equal((await read()).rows.filter(x=>x.title==='Retry fixture').length,1);
+ await claim('authenticated',reader);
+ await assert.rejects(attempt(reader),/duplicate key/);
+ await claim('authenticated',author);
+ await q("select public.dd_cr_withdraw($1,'Test withdrawal')",[first]);
+ await assert.rejects(attempt(author),/duplicate key/);
+ await claim('anon');
+ assert.equal((await read()).rows.length,0);
+ console.log('PASS request-token uniqueness, account binding, private tokens and no replay after withdrawal');
  console.log('PASS server-derived public usernames, impersonation rejection, private-profile protection, automatic publication, five unique flags, duplicate/self/guest protection, hidden comments and reactions, moderator restoration, fresh review round, owned revisions and whole-chain withdrawal');
 })().catch(e=>{console.error(e);process.exitCode=1}).finally(()=>db.close());

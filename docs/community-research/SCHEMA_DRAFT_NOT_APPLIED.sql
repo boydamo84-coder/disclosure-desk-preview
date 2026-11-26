@@ -4,6 +4,11 @@ begin;
 create table public.dd_cr_submissions (
  id uuid primary key default gen_random_uuid(),
  author_id uuid not null default auth.uid(),
+ -- A random client request token identifies one publication attempt.
+ -- Keep it private, retain it after withdrawal and never permit client updates.
+ request_token uuid not null default gen_random_uuid() unique,
+ expected_account uuid not null default auth.uid(),
+ check (expected_account=author_id),
  author_label text not null check (char_length(btrim(author_label)) between 1 and 80),
  title text not null check (char_length(btrim(title)) between 1 and 160),
  abstract text not null check (char_length(btrim(abstract)) between 1 and 1500),
@@ -42,7 +47,7 @@ revoke all on public.dd_cr_submissions,public.dd_cr_reactions,public.dd_cr_comme
 -- Clients cannot assign author/member UUID, status, timestamps, or moderation outcomes.
 grant select(id,author_label,title,abstract,category,body_text,references_text,status,revision_of,created_at,reviewed_at)
  on public.dd_cr_submissions to anon,authenticated;
-grant insert(title,abstract,category,body_text,references_text,consent,revision_of)
+grant insert(title,abstract,category,body_text,references_text,consent,revision_of,request_token,expected_account)
  on public.dd_cr_submissions to authenticated;
 grant select(report_id,reaction) on public.dd_cr_reactions to anon,authenticated;
 grant insert(report_id,reaction),update(reaction),delete on public.dd_cr_reactions to authenticated;
