@@ -120,12 +120,29 @@ end $$;
 -- This is a publication-time snapshot; explicit username-retention disclosure and
 -- profile privacy/rename lifecycle acceptance remain release gates.
 create function dd_cr_private.public_label()
-returns text language plpgsql stable security definer set search_path='' as $
+returns text language plpgsql stable security definer set search_path='' as $$
 declare actor uuid:=dd_cr_private.member(); label text;
 begin
  select n.display_name into label from public.dd_public_names n
  where n.user_id=actor and n.is_public=true;
- if label is null or label !~ '^[A-Za-z][A-Za-z0-9_]{2,23}
+ if label is null or label !~ '^[A-Za-z][A-Za-z0-9_]{2,23}$'
+ or label ~* '(admin|moderator|support|official|verified|staff|disclosuredesk|boyddigitalstudios|uapdisclosuredesk)' then
+  raise exception 'A valid public username is required' using errcode='42501';
+ end if;
+ return label;
+end $$;
+create function dd_cr_private.before_comment()
+returns trigger language plpgsql security definer set search_path='' as $$
+begin
+ if new.member_id<>dd_cr_private.member() then
+  raise exception 'Invalid comment identity' using errcode='42501';
+ end if;
+ new.author_label:=dd_cr_private.public_label();
+ return new;
+end $$;
+create trigger dd_cr_check_comment before insert on public.dd_cr_comments
+ for each row execute function dd_cr_private.before_comment();
+-- Serialize operations per author (including review and whole-chain withdrawal).
 create function dd_cr_private.before_submit()
 returns trigger language plpgsql security definer set search_path='' as $$
 declare actor uuid:=dd_cr_private.member(); parent public.dd_cr_submissions%rowtype;
