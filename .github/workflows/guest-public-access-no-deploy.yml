@@ -1,0 +1,39 @@
+name: Guest public discussions and voting (NO DEPLOY)
+on:
+  push:
+    branches: [fix/guest-public-access-20261126]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CONTEXT: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check code and package boundaries
+        run: |
+          node --check assets/community-discussions.js
+          node --check assets/news-article-votes.js
+          node scripts/test_discussions_account_switch_runtime.cjs
+          node scripts/test_community_production_config.cjs
+          node scripts/test_m89_global_discussions_contract.cjs
+          node scripts/test_m90_discussions_views_contract.cjs
+          node scripts/test_public_release_package.cjs
+      - name: Install pinned Chromium test driver
+        run: npm install --no-save --ignore-scripts --no-package-lock playwright-core@1.62.1
+      - name: Real guest browser regressions using fictional data only
+        run: |
+          CHROMIUM_PATH="$(command -v google-chrome)" node scripts/test_guest_public_read_chromium.cjs
+      - name: Existing discussions UI regressions
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/dd-test-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          node scripts/test_m89_global_discussions_chromium.cjs
+          node scripts/test_m90_discussions_views_chromium.cjs

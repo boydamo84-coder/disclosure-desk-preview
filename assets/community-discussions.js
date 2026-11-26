@@ -752,7 +752,10 @@ async function loadGlobalFeed(reset=false){
   more.hidden=!rows.length||globalRows.length>=globalTotal;
  }catch(error){
   if(stamp!==globalRequest)return;
-  if(!globalRows.length)empty(list,'Across-subject posts are temporarily unavailable. Browse subjects below.');
+  if(!globalRows.length){
+   empty(list,'Across-subject posts are temporarily unavailable. You can still browse subjects.');
+   nodeAction(list,'Retry discussions',()=>loadGlobalFeed(true));
+  }
   status.textContent='Discussion feed unavailable. Other Discussions remain accessible.';
   more.hidden=true;
  }finally{if(stamp===globalRequest)globalLoading=false}
@@ -869,13 +872,30 @@ async function refresh(){
  try{
   const rows=await rpc('dd_discussions_sections',{p_limit:100});
   if(stamp!==epoch)return;
-  const ownerIds=await loadOwnerSections();
-  if(stamp!==epoch)return;
-  ownerSectionIds=ownerIds;
+  if(!Array.isArray(rows))throw Error('Unexpected public discussion subjects response.');
+  // These RPCs intentionally support guests. Render public content before any
+  // optional authenticated owner lookup; a slow account check must not gate it.
   sections=orderSections(rows);drawSections();
-  say(sections.length+' subjects available.');await openDeepLink();
-   if(!section&&!thread&&discussionView==='feed')await loadGlobalFeed(true);
- }catch(e){say(e?.message||'Sections temporarily unavailable.')}
+  say(sections.length+' subjects available.');
+  if(viewerId!==null){
+   const identity=identityRevision;
+   void loadOwnerSections().then(ownerIds=>{
+    if(stamp!==epoch||identity!==identityRevision||section||thread)return;
+    ownerSectionIds=ownerIds;drawSections();
+   });
+  }
+  await openDeepLink();
+  if(stamp===epoch&&!section&&!thread&&discussionView==='feed')await loadGlobalFeed(true);
+ }catch(e){
+  if(stamp!==epoch)return;
+  say('Public discussion subjects are temporarily unavailable. Please retry.');
+  for(const id of ['ddForumSections','ddForumGlobalFeed']){
+   const list=$(id);
+   if(!list||list.children.length)continue;
+   empty(list,'Discussion subjects could not be loaded.');
+   nodeAction(list,'Retry discussions',()=>refresh());
+  }
+ }
 }
 function setCreateButtons(){const button=$('ddForumNewPost');if(button)button.hidden=!section||!!thread}
 async function openComposer(id,opener){
