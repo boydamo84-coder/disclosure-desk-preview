@@ -70,7 +70,7 @@ data.forEach(p=>copy('data/'+p));
 // Homepage background assets are only released after exact-source licence review and explicit media gate activation.
 const themeEnabled=fs.readFileSync(path.join(root,'index.html'),'utf8').includes('id="ddHomeThemeHero" data-media-ready="true"');
 if(themeEnabled){
- for(const name of ['nightfall','eclipse','orbital'])for(const ext of ['mp4','jpg']){
+ for(const name of ['nightfall','eclipse'])for(const ext of ['mp4','jpg']){
   const rel='data/'+name+'.'+ext;
   const size=fs.statSync(path.join(root,rel)).size;
   if(size<1||size>(ext==='mp4'?1500000:150000))throw Error('Theme media size budget exceeded: '+rel);
