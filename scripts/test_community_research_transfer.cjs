@@ -91,9 +91,10 @@ const server=http.createServer((req,res)=>{
     await page.waitForFunction(()=>document.readyState==='complete');
     assert.equal(await page.locator('[data-tab="communityResearchPage"]').isVisible(),false);
     assert.equal(await page.locator('#communityResearchPage').isVisible(),false);
+    assert.equal(await page.locator('#ddCRModeration').count(),0);
     assert.ok(await page.locator('#discover').isVisible());
     await page.close();
-    await ctx.route('**/assets/community-test-config.js?*',r=>r.fulfill({contentType:'application/javascript',body:'window.DD_COMMUNITY_TEST_CONFIG={environment:"test",url:"https://fixture.invalid",publishableKey:"test-only"};window.DD_COMMUNITY_FEATURES={researchPublishing:true,researchEngagement:true};'}));
+    await ctx.route('**/assets/community-test-config.js?*',r=>r.fulfill({contentType:'application/javascript',body:'window.DD_COMMUNITY_TEST_CONFIG={environment:"test",url:"https://fixture.invalid",publishableKey:"test-only"};window.DD_COMMUNITY_FEATURES={researchPublishing:true,researchEngagement:true,researchModeration:true};'}));
     await ctx.addInitScript(({row,other})=>{
      window.DDNativeRows=[row,{...row,id:other,title:'Second archive note',category:'Historical research'}];
      window.DDNativeReactions=[{report_id:row.id,reaction:1},{report_id:row.id,reaction:1},{report_id:row.id,reaction:-1},{report_id:other,reaction:1}];
@@ -104,6 +105,13 @@ const server=http.createServer((req,res)=>{
      }));
      window.DDNativeComments.push({id:'00000000-0000-4000-8000-000000000999',report_id:row.id,status:'removed',author_label:'Removed author',body_text:'REMOVED COMMENT'});
      window.DDNativeWrites=[];window.DDNativeFlags=[];window.DDNativeSession=null;
+     const reviewOwner='00000000-0000-4000-8000-000000000012';
+     const pending={id:'00000000-0000-4000-8000-000000000021',title:'Fictional hidden research',author_label:'Fixture researcher',category:'Case analysis',
+      abstract:'Fictional abstract',body_text:'<img src=x onerror=alert(1)> Private reviewed text',references_text:'Fictional reference',
+      version_no:2,created_at:'2026-11-26T00:00:00Z',revision_of:null,flag_count:5,
+      flag_reasons:['Fictional reason 1','Fictional reason 2','Fictional reason 3','Fictional reason 4','Fictional reason 5'],author_id:'PRIVATE OWNER ID'};
+     window.DDNativeQueue=[pending,{...pending,id:'00000000-0000-4000-8000-000000000022',title:'Second hidden research'}];
+     window.DDNativeReviewWrites=[];
      const listeners=[];
      window.DDNativeSetIdentity=(id,anonymous=false,emit=true)=>{
       window.DDNativeSession=id?{user:{id,is_anonymous:anonymous},access_token:'fictional-token-'+id}:null;
@@ -118,6 +126,19 @@ const server=http.createServer((req,res)=>{
       const reply=(data,status=200)=>new Response(data===null?null:JSON.stringify(data),{status,headers:{'Content-Type':'application/json'}});
       if(!session||session.user.is_anonymous||headers.get('Authorization')!=='Bearer '+session.access_token)return reply({code:'42501'},403);
       const actor=session.user.id;
+      if(url.pathname==='/rest/v1/rpc/dd_cr_moderation_queue'&&method==='POST'){
+       if(actor!==reviewOwner)return reply({code:'42501'},403);
+       const snapshot=JSON.parse(JSON.stringify(window.DDNativeQueue));
+       if(window.DDNativeHoldQueue){await new Promise(resolve=>{window.DDNativeReleaseQueue=resolve});}
+       return reply(snapshot);
+      }
+      if(url.pathname==='/rest/v1/rpc/dd_cr_review'&&method==='POST'){
+       if(actor!==reviewOwner||!['restore','reject'].includes(json?.p_action)||!json?.p_reason)return reply({code:'42501'},403);
+       if(!window.DDNativeQueue.some(item=>item.id===json.p_id))return reply({code:'stale'},409);
+       window.DDNativeReviewWrites.push({actor,action:json.p_action,id:json.p_id});
+       window.DDNativeQueue=window.DDNativeQueue.filter(item=>item.id!==json.p_id);
+       return reply(true);
+      }
       const target=json?.report_id||json?.p_id||url.searchParams.get('report_id')?.replace(/^eq\./,'');
       window.DDNativeWrites.push({method,path:url.pathname,actor,target});
       if(!window.DDNativeRows.some(r=>r.id===target&&r.status==='published'))return reply({code:'42501'},403);
@@ -145,19 +166,26 @@ const server=http.createServer((req,res)=>{
      window.supabase={createClient:()=>({
       from(name){
        const tables={dd_cr_submissions:window.DDNativeRows,dd_cr_reactions:window.DDNativeReactions,dd_cr_comments:window.DDNativeComments};
-       if(!tables[name])throw Error('Unexpected table');
-       let data=tables[name].slice(),count=false;
+       const profileTables=['research_documents','investigation_boards','dd_witness_reports','dd_public_names','research_document_trash','dd_public_witness_reports'];
+       if(!tables[name]&&!profileTables.includes(name))throw Error('Unexpected table');
+       let data=(tables[name]||[]).slice(),count=false;
        const chain={
         select(cols,options){count=options?.count==='exact';return chain},eq(k,v){data=data.filter(x=>x[k]===v);return chain},
-        order(){return chain},ilike(k,v){data=data.filter(x=>String(x[k]).toLowerCase().includes(v.slice(1,-1).toLowerCase()));return chain},
+        order(){return chain},limit(n){data=data.slice(0,n);return chain},ilike(k,v){data=data.filter(x=>String(x[k]).toLowerCase().includes(v.slice(1,-1).toLowerCase()));return chain},
         range(a,b){return Promise.resolve({data:data.slice(a,b+1),error:null})},
         maybeSingle(){return Promise.resolve({data:data[0]||null,error:null})},
         then(resolve,reject){return Promise.resolve({data:count?null:data,count:count?data.length:null,error:null}).then(resolve,reject)}
        };return chain;
       },
+      async rpc(name){
+       if(name==='dd_is_comment_moderator')return {data:!!window.DDNativeSession&&!window.DDNativeSession.user.is_anonymous,error:null};
+       if(name==='dd_profile_received_reactions')return {data:{post_likes:0,post_dislikes:0,comment_likes:0,comment_dislikes:0},error:null};
+       if(['dd_my_comments','dd_case_comment_moderation_queue','dd_witness_moderation_queue','dd_live_chat_moderation_queue'].includes(name))return {data:[],error:null};
+       return {data:null,error:{message:'Fixture unsupported RPC'}};
+      },
       auth:{
        getSession:async()=>({data:{session:window.DDNativeSession},error:null}),
-       getUser:async token=>({data:{user:token===window.DDNativeSession?.access_token?window.DDNativeSession?.user:null},error:null}),
+       getUser:async token=>({data:{user:(token===undefined||token===window.DDNativeSession?.access_token)?window.DDNativeSession?.user:null},error:null}),
        onAuthStateChange(fn){listeners.push(fn);fn('INITIAL_SESSION',window.DDNativeSession);return {data:{subscription:{unsubscribe(){}}}}}
       }
      })};
@@ -236,6 +264,71 @@ const server=http.createServer((req,res)=>{
     assert.equal(new URL(native.url()).searchParams.has('dd_publication'),false);
     assert.equal(await native.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
     console.log('PASS gated native tab, public reader feedback, member actions, report duplicate, account-switch cancellation and removed report handling at '+width+'px');
+    // Profile's real admin UI consumes fictional comment-moderator permission.
+    // The separate research-owner endpoint must deny an ordinary moderator.
+    await native.evaluate(id=>{window.DDNativeSetIdentity(id);window.navigateTo('profilePage');},memberA);
+    const mod=native.locator('#ddCRModeration');
+    await mod.locator('summary').first().click();
+    await mod.getByText('Owner review unavailable.',{exact:false}).waitFor();
+    assert.equal(await mod.locator('[data-review-id]').count(),0);
+    await native.evaluate(id=>window.DDNativeSetIdentity(id),memberB);
+    await native.locator('#ddProfileAdmin').waitFor({state:'visible'});
+    await mod.locator('summary').first().click();
+    await mod.getByText('2 pending research version(s) shown.',{exact:true}).waitFor();
+    const first=mod.locator('[data-review-id]').filter({hasText:'Fictional hidden research'});
+    await first.getByText('Read full research and references',{exact:true}).click();
+    assert.equal(await first.getByText('<img src=x onerror=alert(1)> Private reviewed text',{exact:true}).count(),1);
+    assert.equal(await first.locator('img').count(),0);
+    assert.equal(await mod.getByText('PRIVATE OWNER ID',{exact:true}).count(),0);
+    await first.getByText('5 report reasons',{exact:true}).click();
+    await first.getByText('Fictional reason 1',{exact:true}).waitFor();
+    const decide=first.getByRole('button',{name:'Confirm review decision'});
+    assert.equal(await decide.isEnabled(),false);
+    await first.getByLabel('Review decision').selectOption('restore');
+    await first.getByLabel('Decision reason').fill('Reviewed fictional evidence.');
+    assert.equal(await decide.isEnabled(),false);
+    await first.getByRole('checkbox').check();await decide.click();
+    await mod.getByText('Version restored. 1 pending research version(s) shown.',{exact:true}).waitFor();
+    const second=mod.locator('[data-review-id]').filter({hasText:'Second hidden research'});
+    await second.getByLabel('Review decision').selectOption('reject');
+    await second.getByLabel('Decision reason').fill('Fictional moderation decision.');
+    await second.getByRole('checkbox').check();
+    // A server-side change after opening the queue invalidates the review.
+    await native.evaluate(()=>window.DDNativeQueue[0].flag_reasons[0]='Updated fictional reason');
+    await second.getByRole('button',{name:'Confirm review decision'}).click();
+    await mod.getByText('Case changed. Refresh and review',{exact:false}).waitFor();
+    assert.equal(await native.evaluate(()=>window.DDNativeReviewWrites.length),1);
+    await mod.getByRole('button',{name:'Refresh research review'}).click();
+    await mod.getByText('1 pending research version(s) shown.',{exact:true}).waitFor();
+    await second.getByLabel('Review decision').selectOption('reject');
+    await second.getByLabel('Decision reason').fill('Fictional moderation decision.');
+    await second.getByRole('checkbox').check();
+    // Silent identity changes still cannot use a decision composed by the owner.
+    await native.evaluate(id=>window.DDNativeSetIdentity(id,false,false),memberA);
+    await second.getByRole('button',{name:'Confirm review decision'}).click();
+    await mod.locator('[data-review-id]').first().waitFor({state:'detached'});
+    assert.equal(await native.evaluate(()=>window.DDNativeReviewWrites.length),1);
+    // Late private responses must not render after switching users.
+    await native.evaluate(id=>{window.DDNativeSetIdentity(id);window.DDNativeHoldQueue=true;},memberB);
+    await native.locator('#ddProfileAdmin').waitFor({state:'visible'});
+    await mod.locator('summary').first().click();
+    await native.waitForFunction(()=>typeof window.DDNativeReleaseQueue==='function');
+    await native.evaluate(id=>{window.DDNativeSetIdentity(id);window.DDNativeHoldQueue=false;window.DDNativeReleaseQueue();},memberA);
+    await native.waitForFunction(()=>!document.getElementById('ddCRModeration').open);
+    assert.equal(await mod.locator('[data-review-id]').count(),0);
+    await native.evaluate(id=>window.DDNativeSetIdentity(id),memberB);
+    await mod.locator('summary').first().click();
+    await mod.getByText('1 pending research version(s) shown.',{exact:true}).waitFor();
+    await second.getByLabel('Review decision').selectOption('reject');
+    await second.getByLabel('Decision reason').fill('Fictional reviewed concern.');
+    await second.getByRole('checkbox').check();
+    await second.getByRole('button',{name:'Confirm review decision'}).click();
+    await mod.getByText('Version rejected and kept hidden. No research awaiting review.',{exact:true}).waitFor();
+    assert.deepEqual(await native.evaluate(()=>window.DDNativeReviewWrites.map(x=>x.action)),['restore','reject']);
+    await native.evaluate(()=>window.navigateTo('originalResearchPage'));
+    assert.equal(await mod.locator('[data-review-id]').count(),0);
+    console.log('PASS owner queue, explicit reason/confirmation, restore/reject, stale case, silent account change and delayed private response clearing at '+width+'px');
+
    }finally{await ctx.close()}
   }
  }finally{await browser.close()}

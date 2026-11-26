@@ -284,14 +284,135 @@ async function refresh(){
   mountFeedback(article,row.id,current);
  }catch{if(current===epoch)say('This publication is unavailable.')}
 }
+
+// Owner-only queue, separately disabled by default. No new grants or RPCs.
+function mountModeration(){
+ if(window.DD_COMMUNITY_FEATURES?.researchModeration!==true)return null;
+ const profile=$('profilePage'),admin=$('ddProfileAdmin'),anchor=$('ddAdminDiscussions');
+ if(!profile||!admin||!anchor)return null;
+ const root=el('details',undefined,'dd-profile-card');root.id='ddCRModeration';
+ const title=el('summary','Community Research · Owner review');
+ const intro=el('p','Review research hidden by five distinct member reports. Only the site-owner allowlist may view or decide these cases. This queue shows up to 30 pending versions.','muted small');
+ const notice=el('p','Open to check owner access.','muted small');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');
+ const queue=el('div',undefined,'dd-forum-list');
+ const reload=button('Refresh research review',()=>void load());
+ root.append(title,intro,reload,notice,queue);anchor.after(root);
+ let rev=0,busy=false;
+ const visible=()=>root.open&&root.isConnected&&!admin.hidden&&!profile.hidden&&!profile.classList.contains('hidden');
+ const active=ticket=>ticket===rev&&visible();
+ const say=s=>{notice.textContent=s};
+ const clear=(message='Open to check owner access.')=>{
+  ++rev;busy=false;queue.replaceChildren();reload.disabled=false;say(message);
+ };
+ const close=()=>{root.open=false;clear('Owner review closed. Reopen to check access.');};
+ // Closing the panel, leaving Profile, logging out and loss of the parent
+ // Admin Centre all discard the sensitive DOM and any unfinished explanation.
+ root.addEventListener('toggle',()=>{if(visible())void load();else clear();});
+ window.addEventListener('dd-public-section-change',e=>{if(e.detail.section!=='profilePage')close();});
+ const visibility=new MutationObserver(()=>{if(!visible()&&root.open)close();});
+ visibility.observe(profile,{attributes:true,attributeFilter:['class','hidden']});
+ visibility.observe(admin,{attributes:true,attributeFilter:['class','hidden']});
+ // Keep only fields returned by the existing queue, never render an object as HTML.
+ const valid=t=>typeof t==='string';
+ function project(row){
+  if(!row||!uuid.test(String(row.id||''))||!Number.isInteger(row.version_no)||row.version_no<1||row.version_no>100
+   ||!Number.isSafeInteger(row.flag_count)||row.flag_count<5||!Array.isArray(row.flag_reasons)
+   ||row.flag_reasons.length!==row.flag_count||!row.flag_reasons.every(x=>valid(x)&&x.length<=2000)
+   ||!valid(row.title)||!row.title.trim()||row.title.length>320||!valid(row.author_label)||!row.author_label.trim()||row.author_label.length>160
+   ||!valid(row.abstract)||row.abstract.length>3000||!valid(row.category)||row.category.length>100
+   ||!valid(row.body_text)||row.body_text.length>240000||!valid(row.references_text)||row.references_text.length>40000
+   ||!valid(row.created_at)||!(row.revision_of===null||uuid.test(String(row.revision_of||''))))throw Error('Invalid moderation queue');
+  return {id:row.id,version_no:row.version_no,title:row.title,author_label:row.author_label,category:row.category,
+   abstract:row.abstract,body_text:row.body_text,references_text:row.references_text,created_at:row.created_at,
+   revision_of:row.revision_of,flag_count:row.flag_count,flag_reasons:row.flag_reasons.slice()};
+ }
+ async function readQueue(identity){
+  const result=await memberRequest(identity.token,'POST','rpc/dd_cr_moderation_queue',{});
+  if(!result.ok||!Array.isArray(result.data)||result.data.length>30)throw Error('Owner queue unavailable');
+  const items=result.data.map(project);
+  if(new Set(items.map(x=>x.id)).size!==items.length)throw Error('Invalid moderation queue');
+  return items;
+ }
+ const same=(x,y)=>x&&y&&x.id===y.id&&x.gen===y.gen;
+ async function load(success=''){
+  if(!visible()||busy)return;
+  const ticket=++rev;busy=true;queue.replaceChildren();reload.disabled=true;say('Checking site-owner access…');
+  try{
+   const identity=await verifiedMember();if(!active(ticket))return;
+   if(!identity){say('Sign in with the authorised site-owner account.');return;}
+   const items=await readQueue(identity);
+   const confirmed=await verifiedMember();if(!active(ticket))return;
+   if(!same(identity,confirmed)){clear('Account changed. Reopen owner review.');return;}
+   for(const item of items)queue.append(caseCard(item,{id:identity.id,gen:identity.gen},ticket));
+   say((success?success+' ':'')+(items.length?items.length+' pending research version(s) shown.':'No research awaiting review.'));
+  }catch{if(active(ticket)){queue.replaceChildren();say('Owner review unavailable. Only the authorised site owner may load this queue.');}}
+  finally{if(active(ticket)){busy=false;reload.disabled=false;queue.querySelectorAll('select,textarea,input').forEach(n=>{n.disabled=false});queue.querySelectorAll('button').forEach(n=>{n.disabled=true});}}
+ }
+ function caseCard(item,identity,ticket){
+  const card=el('article',undefined,'dd-forum-item');card.dataset.reviewId=item.id;
+  const dt=new Date(item.created_at);
+  const meta=el('p',item.category+' · '+item.author_label+' · v'+item.version_no+' · '+(Number.isNaN(dt.getTime())?'Date unavailable':dt.toLocaleDateString()),'muted small');
+  const evidence=el('details');evidence.append(el('summary','Read full research and references'),el('h4','Research text'),el('div',item.body_text,'dd-cr-text'));
+  if(item.references_text)evidence.append(el('h4','References'),el('div',item.references_text,'dd-cr-text'));
+  const flags=el('details');flags.append(el('summary',item.flag_count+' report reasons'));
+  const reasons=el('ol');for(const reason of item.flag_reasons)reasons.append(el('li',reason,'dd-cr-text'));flags.append(reasons);
+  const decision=el('select');decision.className='field';decision.setAttribute('aria-label','Review decision');
+  for(const [value,label] of [['','Choose decision'],['restore','Restore to public research'],['reject','Reject · keep hidden']]){
+   const option=el('option',label);option.value=value;decision.append(option);
+  }
+  const explanation=el('textarea');explanation.className='field';explanation.rows=3;explanation.maxLength=1000;explanation.setAttribute('aria-label','Decision reason');
+  const confirmBox=el('input');confirmBox.type='checkbox';const confirmLabel=el('label');confirmLabel.append(confirmBox,document.createTextNode(' I have reviewed this specific version and its reporting reasons.'));
+  const submit=button('Confirm review decision',()=>void decide());
+  const hint=el('p','Restore starts a fresh reporting round. Reject keeps the version hidden; the moderation audit remains.','muted small');
+  card.append(el('h4',item.title),meta,el('p',item.abstract),evidence,flags,hint,el('p','Review decision','muted small'),decision,el('p','Explain your decision (8–1000 characters)','muted small'),explanation,confirmLabel,el('div'),submit);
+  const can=()=>['restore','reject'].includes(decision.value)&&explanation.value.trim().length>=8&&explanation.value.trim().length<=1000&&confirmBox.checked;
+  const update=()=>{submit.disabled=busy||!can();};
+  submit.disabled=true;
+  for(const n of [decision,explanation,confirmBox])n.addEventListener('input',()=>{if(n!==confirmBox)confirmBox.checked=false;update();});
+  async function decide(){
+   if(!active(ticket)||busy||!can())return;
+   const action=decision.value,reason=explanation.value.trim();busy=true;reload.disabled=true;
+   queue.querySelectorAll('button,select,textarea,input').forEach(n=>{n.disabled=true});
+   say('Rechecking owner, case and review reasons…');let sent=false;
+   try{
+    const before=await verifiedMember();if(!active(ticket))return;
+    if(!same(before,identity)){close();return;}
+    const now=await readQueue(before);
+    if(!active(ticket))return;
+    const exact=now.find(x=>x.id===item.id);
+    if(!exact||JSON.stringify(exact)!==JSON.stringify(item)){
+     clear('Case changed. Refresh and review the latest version before deciding.');return;
+    }
+    const verified=await verifiedMember();if(!active(ticket))return;
+    if(!same(verified,identity)){close();return;}
+    sent=true;
+    const result=await memberRequest(verified.token,'POST','rpc/dd_cr_review',{p_id:item.id,p_action:action,p_reason:reason});
+    if(!active(ticket))return;
+    const after=await verifiedMember();if(!active(ticket))return;
+    if(!same(after,identity)){close();return;}
+    if(!result.ok||result.data!==true){clear('Decision not confirmed. Refresh to check the current queue.');return;}
+    busy=false;
+    await load(action==='restore'?'Version restored.':'Version rejected and kept hidden.');
+   }catch{
+    if(active(ticket)){
+     clear(sent?'Decision outcome uncertain. Refresh the queue before any further decision.':'Owner or case could not be verified. No decision was sent.');
+    }
+   }finally{if(active(ticket)){busy=false;reload.disabled=false;update();}}
+  }
+  return card;
+ }
+ return {clear:close};
+}
+
 nav.hidden=false;
-if(engagementEnabled){
+const moderation=mountModeration();
+if(engagementEnabled||moderation){
  let currentActor,known=false;
  db()?.auth?.onAuthStateChange?.((_event,session)=>{
-  const actor=session?.user?.id||null;
+  const actor=session?.user?.id?session.user.id+'|'+String(session.user.is_anonymous):null;
   if(!known){known=true;currentActor=actor;return;}
   if(actor===currentActor)return;
-  currentActor=actor;++authEpoch;
+  currentActor=actor;++authEpoch;moderation?.clear();
   // Avoid auth calls inside the SDK's auth-state callback. Re-rendering also
   // discards any old account's unsent text.
   if(!page.hidden&&viewId())setTimeout(()=>void refresh(),0);
