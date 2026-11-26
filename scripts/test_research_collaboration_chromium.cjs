@@ -245,6 +245,10 @@ async function accessibility(page,route,width) {
         assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
         await page.reload();
         await research.waitFor({state:'visible'});
+        const footerLinks=page.locator('.dd-sources-direct a');
+        assert.equal(await footerLinks.count(),1);
+        assert.equal(await footerLinks.first().getAttribute('href'),'/sources');
+        assert.ok(await footerLinks.first().evaluate(el=>{const b=el.getBoundingClientRect();return b.width>0&&b.left>=0&&b.right<=innerWidth&&b.height>=44&&getComputedStyle(el).display==='inline-flex'}));
         console.log('PASS native Research hub, FOIA panels, capabilities and routing at '+width+'px');
         console.log('PASS native Evidence Archive PURSUE filtering, card and case detail at '+width+'px');
         console.log('PASS homepage themes, motion preference and collapsed release history at '+width+'px');
