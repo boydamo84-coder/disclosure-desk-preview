@@ -628,8 +628,21 @@
   }
  }catch(_){}
 })();
-</script></head><body><div class="shell"><header class="top"><div class="dd-top-home-wrap"><button type="button" id="ddSiteBack" class="dd-site-back" aria-label="Back to previous page" title="Back" hidden>‹</button><button type="button" id="ddSiteHome" class="brand-line dd-brand-home" aria-label="Return to Disclosure Desk Home" title="Return to Home"><img src="assets/disclosure-desk-mark.svg" alt="" class="brand-icon"><span><span class="logo">DISCLOSURE DESK</span><span class="micro">INDEPENDENT INVESTIGATIONS · EVIDENCE ARCHIVE</span></span></button></div><button type="button" class="dd-profile-shortcut" id="ddProfileShortcut" aria-label="Open My Profile" title="My Profile">👤</button></header>
-<section id="discover"><div id="ddLiveNewsNotice" class="dd-live-news-notice" hidden></div><div class="hero"><div class="hero-inner"><div class="eyebrow">EXPLORE THE UNEXPLAINED</div><h1>Explore the unexplained.<br>Follow the evidence.</h1><p>Investigate real research topics, reported encounters and questions that remain unanswered.</p><span class="pill">Beyond the headlines</span></div></div><article class="dd-r3-release" id="ddR3ReleaseAnnouncement" aria-labelledby="ddR3ReleaseTitle">
+</script><style id="ddHomeThemeStyle">
+#ddHomeThemeHero{isolation:isolate}
+#ddHomeThemeHero:before{z-index:0}
+#ddHomeThemeHero .dd-home-theme-media{position:absolute;inset:0;z-index:1;pointer-events:none;display:none;background-position:center;background-size:cover}
+#ddHomeThemeHero.dd-theme-active .dd-home-theme-media{display:block}
+#ddHomeThemeHero .dd-home-theme-media:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,12,21,.93) 0%,rgba(6,15,25,.72) 52%,rgba(7,16,25,.30) 100%)}
+#ddHomeThemeVideo{width:100%;height:100%;object-fit:cover;display:block;opacity:0}
+#ddHomeThemeVideo.dd-playing{opacity:1}
+#ddHomeThemeHero .hero-inner{z-index:2}
+.dd-home-theme-controls:not([hidden]){display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:12px;color:#e0e7ed;font-size:12px}
+.dd-home-theme-controls select,.dd-home-theme-controls button{min-height:44px;border:1px solid #687d8d;border-radius:8px;background:#0b1724;color:#eef0f1;padding:6px 10px;font-size:12px}
+.dd-home-theme-controls button:disabled{opacity:.75;cursor:default}
+@media(prefers-reduced-motion:reduce){#ddHomeThemeVideo{display:none}}
+</style></head><body><div class="shell"><header class="top"><div class="dd-top-home-wrap"><button type="button" id="ddSiteBack" class="dd-site-back" aria-label="Back to previous page" title="Back" hidden>‹</button><button type="button" id="ddSiteHome" class="brand-line dd-brand-home" aria-label="Return to Disclosure Desk Home" title="Return to Home"><img src="assets/disclosure-desk-mark.svg" alt="" class="brand-icon"><span><span class="logo">DISCLOSURE DESK</span><span class="micro">INDEPENDENT INVESTIGATIONS · EVIDENCE ARCHIVE</span></span></button></div><button type="button" class="dd-profile-shortcut" id="ddProfileShortcut" aria-label="Open My Profile" title="My Profile">👤</button></header>
+<section id="discover"><div id="ddLiveNewsNotice" class="dd-live-news-notice" hidden></div><div class="hero" id="ddHomeThemeHero" data-media-ready="false"><div class="dd-home-theme-media" aria-hidden="true"><video id="ddHomeThemeVideo" muted loop playsinline preload="none" tabindex="-1" disablepictureinpicture></video></div><div class="hero-inner"><div class="eyebrow">EXPLORE THE UNEXPLAINED</div><h1>Explore the unexplained.<br>Follow the evidence.</h1><p>Investigate real research topics, reported encounters and questions that remain unanswered.</p><span class="pill">Beyond the headlines</span><div id="ddHomeThemeControls" class="dd-home-theme-controls" hidden><label for="ddHomeThemeChoice">Background</label><select id="ddHomeThemeChoice"><option value="nightfall">Nightfall</option><option value="classic">Classic</option><option value="eclipse">Eclipse</option><option value="orbital">Orbital</option></select><button id="ddHomeThemePause" type="button" aria-pressed="false">Pause motion</button></div></div></div><article class="dd-r3-release" id="ddR3ReleaseAnnouncement" aria-labelledby="ddR3ReleaseTitle">
   <div class="dd-r3-release-meta"><span class="dd-r3-release-pin">♢ PINNED SITE NEWS</span><time datetime="2026-11-15">15 November 2026</time><span class="dd-r3-release-beta">RESEARCH BETA</span></div>
   <h2 id="ddR3ReleaseTitle">A new way to investigate: Hypothesis Lab &amp; Research Gap Finder</h2>
   <p class="dd-r3-release-lead">Disclosure Desk has added a dedicated research workspace. Go beyond reading a case: document possible explanations, challenge your own ideas, find questions worth following up and keep a revision history.</p>
@@ -934,7 +947,7 @@
  <p class="muted small">Accepted chats, pending requests and the conversation window all live in this section. No group chats.</p>
  <div id="ddProfileChatApp"></div></details>
   <details id="ddProfileSettings" class="dd-profile-card dd-profile-fold dd-profile-settings"><summary><span>⚙ Profile settings</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary>
-    <div class="dd-profile-settings-meta"><p id="ddProfileEmail" class="muted small"></p><p id="ddProfileVerification" class="muted small"></p></div>
+    <div id="ddHomeThemeProfile" class="dd-home-theme-controls" hidden><label for="ddHomeThemeProfileChoice">Homepage background</label><select id="ddHomeThemeProfileChoice"><option value="nightfall">Nightfall</option><option value="classic">Classic</option><option value="eclipse">Eclipse</option><option value="orbital">Orbital</option></select></div><div class="dd-profile-settings-meta"><p id="ddProfileEmail" class="muted small"></p><p id="ddProfileVerification" class="muted small"></p></div>
     <details id="ddAvatarSettings" class="dd-profile-card dd-profile-fold dd-profile-settings-photo" hidden><summary><span>Profile photo &amp; visibility</span><span class="dd-profile-chevron" aria-hidden="true">⌄</span></summary>
       <div class="dd-avatar-tools">
         <div class="dd-profile-actions dd-profile-photo-actions">
@@ -3972,6 +3985,44 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);loadLiveNews();
 <link rel="stylesheet" href="assets/community-polish.css?v=m74&m80=web-reply-parity&m86=on-demand&m87=news-reply-indent&m89=global-feed&drawer=v1&m90=tabs&m69=profile-login">
 <script defer src="/assets/site-ad-layout-m01.js?v=preview-1"></script><script defer src="/assets/site-adsterra-m02.js?v=staged-disabled-m02"></script><script defer src="/assets/page-help.js?v=r2-m10-help01"></script><script src="/assets/research-public.js" defer></script>
 <script src="/assets/discussion-hosts.js" defer></script>
+<script id="ddHomeThemeRuntime">
+(function(){
+ 'use strict';
+ const hero=document.getElementById('ddHomeThemeHero');
+ if(!hero||hero.dataset.mediaReady!=='true')return;
+ const media=hero.querySelector('.dd-home-theme-media'),video=document.getElementById('ddHomeThemeVideo');
+ const controls=document.getElementById('ddHomeThemeControls'),profile=document.getElementById('ddHomeThemeProfile');
+ const choice=document.getElementById('ddHomeThemeChoice'),profileChoice=document.getElementById('ddHomeThemeProfileChoice'),pause=document.getElementById('ddHomeThemePause');
+ const names=['nightfall','classic','eclipse','orbital'],base='data/home-themes/',key='dd.home.theme.v1',pauseKey='dd.home.motion.paused.v1';
+ function read(k){try{return localStorage.getItem(k)}catch{return null}}
+ function write(k,v){try{localStorage.setItem(k,v)}catch{}}
+ let selected=names.includes(read(key))?read(key):'nightfall',paused=read(pauseKey)==='1',visible=false,source='',revision=0,failed=false;
+ const reduce=matchMedia('(prefers-reduced-motion: reduce)'),connection=navigator.connection;
+ function constrained(){return reduce.matches||Boolean(connection&&connection.saveData)}
+ function clear(){revision++;video.pause();video.classList.remove('dd-playing');if(source){video.removeAttribute('src');video.load();source=''} }
+ function sync(){
+  choice.value=profileChoice.value=selected;pause.disabled=selected==='classic'||constrained();pause.setAttribute('aria-pressed',String(paused||constrained()));pause.textContent=constrained()?'Motion reduced':paused?'Play motion':'Pause motion';
+  if(selected==='classic'){clear();hero.classList.remove('dd-theme-active');media.style.backgroundImage='';return}
+  hero.classList.add('dd-theme-active');media.style.backgroundImage='url("'+base+selected+'.jpg")';
+  if(paused||constrained()||document.hidden||!visible||failed){clear();return}
+  const url=base+selected+'.mp4';
+  if(source!==url){clear();source=url;video.src=url;video.muted=true}
+  const token=++revision;
+  try{const promise=video.play();if(promise&&typeof promise.catch==='function')promise.catch(()=>{if(token===revision){failed=true;clear()}})}catch{failed=true;clear()}
+ }
+ function choose(v){if(!names.includes(v))return;selected=v;failed=false;write(key,v);sync()}
+ choice.addEventListener('change',()=>choose(choice.value));profileChoice.addEventListener('change',()=>choose(profileChoice.value));
+ pause.addEventListener('click',()=>{paused=!paused;failed=false;write(pauseKey,paused?'1':'0');sync()});
+ video.addEventListener('playing',()=>{if(source&&!paused&&!constrained()&&visible&&!document.hidden)video.classList.add('dd-playing')});
+ video.addEventListener('error',()=>{if(source){failed=true;clear()}});
+ document.addEventListener('visibilitychange',sync);
+ if(reduce.addEventListener)reduce.addEventListener('change',sync);else if(reduce.addListener)reduce.addListener(sync);
+ if(connection&&connection.addEventListener)connection.addEventListener('change',sync);
+ if('IntersectionObserver' in window){new IntersectionObserver(entries=>{visible=entries.some(e=>e.isIntersecting);sync()},{threshold:0.01}).observe(hero)}
+ else {const check=()=>{const b=hero.getBoundingClientRect();const next=b.width>0&&b.height>0&&b.bottom>0&&b.top<innerHeight;if(next!==visible){visible=next;sync()}};addEventListener('scroll',check,{passive:true});addEventListener('resize',check);new MutationObserver(check).observe(document.getElementById('discover'),{attributes:true});check()}
+ controls.hidden=profile.hidden=false;sync();
+})();
+</script>
 </body></html>
 <style id="dd-m60-coverage-style">
 .dd-news-more-coverage{margin:9px 0 5px;border:1px solid #576777;border-radius:9px;background:#101f2c;color:#d8e2e7;font:12px system-ui}
