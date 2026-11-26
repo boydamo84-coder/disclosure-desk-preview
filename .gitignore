@@ -7,3 +7,11 @@ supabase/.temp/
 # Python test caches
 __pycache__/
 *.pyc
+
+# Generated website and Android review packages
+.r3-lab-preview/
+android-test/app/src/main/assets/dd-site/
+android-test/.gradle/
+android-test/.kotlin/
+android-test/**/build/
+android-test/local.properties

@@ -1,4 +1,9 @@
 # Disclosure Desk — MASTER HANDOVER
+
+## 26 November 2026 · Research & Collaboration release candidate
+
+Production-derived branch `feature/research-collaboration-20261126` contains the research hub, original Navy referral review, 521-record PURSUE index, FOIA tracker and privacy-reviewed publication extracts, Boards and W.NE integration, Android 0.16.0 beta and staged Discussion Hosts. See the [release handover](docs/research-release/RC1_HANDOVER.md), [ten-record comparison](docs/research-release/PURSUE_RELEASE_04_COMPARISON.md) and [editorial queue](docs/research-release/discussion-host-queue.json). Track remaining owner acceptance in issues #3, #14, #15, #16 and #17.
+
 _Last updated: 19 November 2026 (Europe/London) — M76 personal Who claim assessment and M71 release safeguard STAGED, QA green, NO DEPLOY_
 
 ## M76 — individual claim evidence worksheet, 4-width Chromium VERIFIED; M71 guard included, STAGED ONLY (19 November 2026)

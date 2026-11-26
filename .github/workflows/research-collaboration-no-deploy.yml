@@ -1,0 +1,51 @@
+name: Research & Collaboration RC1 QA (no deploy)
+on:
+  push:
+    branches: [feature/research-collaboration-20261126]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      CONTEXT: production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Stage exact production-context bundle
+        run: |
+          node scripts/build_public_release.cjs
+          node scripts/test_public_release_package.cjs
+          node scripts/test_m70_release_guard.cjs --bundle
+          NETLIFY=true CONTEXT=production BRANCH=production node scripts/guard_official_deploy.cjs
+          if NETLIFY=true CONTEXT=branch-deploy BRANCH=feature/research-collaboration-20261126 node scripts/guard_official_deploy.cjs; then exit 1; fi
+          if NETLIFY=true CONTEXT=production BRANCH=main node scripts/guard_official_deploy.cjs; then exit 1; fi
+          node scripts/test_curated_research_rc1_contract.cjs
+          node scripts/test_who_m68_international_contract.cjs
+          node scripts/test_research_drive_runtime.cjs
+          node scripts/test_research_resume_20261108.cjs
+          node scripts/test_research_docx_inline_import_20261108.cjs
+      - name: Run tests with browser and disposable embedded PostgreSQL
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 axe-core@4.11.1 @electric-sql/pglite@0.5.16
+          node scripts/test_discussion_hosts_db.cjs
+          node scripts/test_research_collaboration_chromium.cjs
+      - name: Verify existing guest navigation and research flows
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .release-staging/public-site >/tmp/rc1-regression.log 2>&1 &
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          for attempt in 1 2 3 4 5; do
+            if curl -fsS --max-time 2 http://127.0.0.1:4173/index.html -o /dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/test_who_m39_source_tracker_chromium.cjs
+          node scripts/test_who_m68_programmes_outreach_chromium.cjs
+          node scripts/test_who_m76_private_worksheet_chromium.cjs
+          node scripts/test_m98_app_tour_chromium.cjs

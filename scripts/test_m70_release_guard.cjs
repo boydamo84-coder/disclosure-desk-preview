@@ -25,7 +25,7 @@ if(isBundle){
  const manifest=JSON.parse(read('.release-staging/public-site/release-manifest.json'));
  const names=manifest.files.map(f=>f.path);
  for(const name of ['assets/who-international-programmes-m68.js','assets/source-outreach-digest-m68.js','assets/source-outreach-digest-m68.css'])assert(names.includes(name),'Missing M68 asset '+name);
- assert(names.length>=120 && names.length<=130,'Unexpected public bundle file count '+names.length);
+ assert(names.length>=120 && names.length<=(process.env.CONTEXT==='production'?140:141),'Unexpected public bundle file count '+names.length);
  assert(!names.some(x=>/who-evidence-ballot|who-community-approvals|(?:^|\/)(?:docs|scripts|supabase|android-test|\.github)(?:\/|$)/.test(x)),'No staging/voting/private files in live bundle');
 }
 console.log('PASS M70 curated '+(isBundle?'PUBLIC BUNDLE':'SOURCE')+': Who M68 + Profile M69 + BDS; voting closed, Adsterra off, no old Wix');

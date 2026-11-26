@@ -485,6 +485,7 @@ function makePostHead(row,kind,actions){
   window.DDMemberAvatars?.decorate?.(avatar,authorName);
   author.append(mk('small',authorName+' · '+new Date(row.created_at).toLocaleDateString()+
   (row.is_pinned?' · Pinned':''),'muted'));
+ if(kind==='thread')window.DDDiscussionHosts?.attach(author,row,rpc);
  head.append(author);
  const flag=mk('div',undefined,'dd-forum-head-flag');
  head.append(flag);

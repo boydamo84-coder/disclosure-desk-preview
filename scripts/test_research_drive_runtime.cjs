@@ -3,8 +3,11 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),crypto=require('node:crypto').webcrypto;
 const source=fs.readFileSync('research/google-drive.js','utf8');
 function fixture(persisted=new Map(),initialOwner='account-A'){
- const ids=new Map(),events={},stored=persisted,calls=[],attempts=[],requests=[];let current=initialOwner,data=new TextEncoder().encode('word-bytes'),badLocation=false,corrupt=false;
- const make=tag=>({tag,children:[],style:{},disabled:false,textContent:'',id:'',append(...nodes){this.children.push(...nodes);for(const n of nodes)if(n?.id)ids.set(n.id,n)},replaceChildren(...nodes){this.children=[...nodes]},setAttribute(){},addEventListener(){},showModal(){this.open=true},close(){this.open=false}});
+ const ids=new Map(),events={},stored=persisted,calls=[],attempts=[],requests=[];let paginated=false,current=initialOwner,data=new TextEncoder().encode('word-bytes'),badLocation=false,corrupt=false;
+ const make=tag=>({tag,children:[],dataset:{},style:{},disabled:false,textContent:'',id:'',append(...nodes){this.children.push(...nodes);for(const n of nodes){n.parent=this;if(n?.id)ids.set(n.id,n)}},replaceChildren(...nodes){this.children=[];this.append(...nodes)},
+  querySelectorAll(selector){const key=selector==='[data-drive-file]'?'driveFile':'driveMore';return this.children.filter(n=>n.dataset?.[key]);},
+  querySelector(selector){return this.querySelectorAll(selector)[0]},
+  remove(){this.parent.children=this.parent.children.filter(n=>n!==this)},setAttribute(){},addEventListener(){},showModal(){this.open=true},close(){this.open=false}});
  const body=make('body'),document={createElement:make,body,head:make('head'),getElementById:id=>ids.get(id)||null};
  let metadata;
  const win={DDResearchDriveConfig:{clientId:'synthetic-client.apps.googleusercontent.com'},
@@ -15,7 +18,12 @@ function fixture(persisted=new Map(),initialOwner='account-A'){
   if(opts.method==='POST'){metadata=JSON.parse(opts.body);return new Response('',{headers:{Location:badLocation?'https://evil.invalid/upload':'https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable&upload_id=fake'}})}
   if(opts.method==='PUT')return Response.json({id:'created-file'});
   if(url.includes('alt=media'))return new Response(corrupt?'different':data);
-  return Response.json({files:metadata?[{id:'created-file',name:metadata.name,modifiedTime:new Date().toISOString(),appProperties:metadata.appProperties}]:[]});};
+  const created=metadata?{id:'created-file',name:metadata.name,modifiedTime:new Date().toISOString(),appProperties:metadata.appProperties}:null;
+  if(paginated&&created){
+   if(new URL(url).searchParams.has('pageToken'))return Response.json({files:[created,{...created,id:'older-file',name:'Older Word copy'}]});
+   return Response.json({files:[created],nextPageToken:'page-two'});
+  }
+  return Response.json({files:created?[created]:[]});};
  const ctx={window:win,document,crypto,TextEncoder,Uint8Array,URL,URLSearchParams,Blob,Response,File,Date,fetch,
   localStorage:{getItem:k=>stored.get(k)||null,setItem:(k,v)=>stored.set(k,v),removeItem:k=>stored.delete(k)}};
  vm.runInNewContext(source,ctx);
@@ -23,7 +31,7 @@ function fixture(persisted=new Map(),initialOwner='account-A'){
  const button=name=>walk(body).find(n=>n.tag==='button'&&n.textContent===name);
  const text=()=>walk(body).map(n=>n.textContent).join(' ');
  const flush=async()=>{for(let i=0;i<20;i++)await new Promise(r=>setTimeout(r,2))};
- return {win,calls,attempts,requests,stored,button,text,flush,setOwner:v=>{current=v;events['dd-wne-account-changed']?.()},badLocation:()=>badLocation=true,corrupt:()=>corrupt=true};
+ return {win,calls,attempts,requests,stored,button,text,flush,setOwner:v=>{current=v;events['dd-wne-account-changed']?.()},badLocation:()=>badLocation=true,corrupt:()=>corrupt=true,paginate:()=>paginated=true};
 }
 (async()=>{
  const f=fixture();await f.win.DDResearchDrive.open();f.button('Connect Google Drive').onclick();
@@ -50,9 +58,13 @@ function fixture(persisted=new Map(),initialOwner='account-A'){
  await other.win.DDResearchDrive.open();
  assert(other.button('Connect Google Drive'),'another Research account never inherits a different owners reconnect preference');
  assert.equal([...f.stored.values()].some(s=>s.includes('TOKEN')),false,'no token is persisted');
- f.button('Back up this document').onclick();await f.flush();
+ f.paginate();f.button('Back up this document').onclick();await f.flush();
  assert(f.text().includes('Word backup verified'),'success requires upload and byte read-back');
  assert.equal(f.calls.filter(c=>c.method==='POST').length,1);assert.equal(f.calls.filter(c=>c.method==='PUT').length,1);
+ f.button('Load older Word backups').onclick();await f.flush();
+ assert(f.text().includes('Older Word copy'),'the next page adds a valid earlier backup');
+ assert.equal(f.text().match(/Fictional report/g).length,1,'overlapping pages cannot repeat a file');
+ assert(f.calls.some(c=>c.url.includes('pageToken=page-two')));
  assert(f.calls.some(c=>c.url.includes('alt=media')));assert(!f.calls.some(c=>['PATCH','DELETE'].includes(c.method)),'existing Drive files are never overwritten/deleted');
  const corrupt=fixture();await corrupt.win.DDResearchDrive.open();corrupt.button('Connect Google Drive').onclick();await corrupt.attempts[0].callback({access_token:'TOKEN',expires_in:3600});corrupt.corrupt();corrupt.button('Back up this document').onclick();await corrupt.flush();assert(corrupt.text().includes('could not be verified'));assert.equal([...corrupt.stored.keys()].some(k=>k.startsWith('dd-wne-drive-backup:')),false,'failed read-back never records a verified backup timestamp');
  const hostile=fixture();await hostile.win.DDResearchDrive.open();hostile.button('Connect Google Drive').onclick();await hostile.attempts[0].callback({access_token:'TOKEN',expires_in:3600});hostile.badLocation();hostile.button('Back up this document').onclick();await hostile.flush();assert(hostile.text().includes('valid upload session'));assert(!hostile.calls.some(c=>c.url.startsWith('https://evil.invalid')),'OAuth token cannot be forwarded to an unexpected upload host');

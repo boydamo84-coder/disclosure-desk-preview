@@ -23,6 +23,7 @@
       day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}):'Date not verified';
   };
   const href=url=>{
+    if(url==='/foia-tracker#request-27-f-0917')return url;
     try{
       const u=new URL(String(url));
       const hosts=['www.archives.gov','reaganlibrary.archives.gov',
@@ -31,10 +32,11 @@
       return u.protocol==='https:'&&!u.username&&!u.password&&hosts.includes(u.hostname)?u.href:null;
     }catch{return null;}
   };
-  const allowedStatuses=new Set(['sent_unacknowledged','acknowledged','response_received','closed_with_unresolved_questions']);
+  const allowedStatuses=new Set(['sent_unacknowledged','acknowledged','response_received','closed_with_unresolved_questions','records_released']);
   const statusLabels={
     sent_unacknowledged:'Enquiry sent · acknowledgement not verified',
     acknowledged:'Acknowledged by agency',
+    records_released:'Referral records released',
     response_received:'Reply received · scope described below',
     closed_with_unresolved_questions:'Response reviewed · questions remain'
   };
@@ -86,7 +88,7 @@
       if(d.schemaVersion!==1||!Array.isArray(d.records)||d.records.length<1||d.records.length>25||
          !strictDate(d.lastUpdated)||!d.disclosure?.outgoingMailAcceptedNotAgencyReceipt||
          d.disclosure?.agencyResponseConfirmed!==true||
-         d.disclosure?.noFormalFOIAFilingEstablished!==true)throw Error('Invalid tracker contract');
+         d.disclosure?.updatesAreScopedToRecordedRequests!==true)throw Error('Invalid tracker contract');
       const ids=new Set(),cards=[];
       for(const r of d.records){
         if(!r||typeof r.id!=='string'||!(/^[a-z0-9-]{4,80}$/).test(r.id)||ids.has(r.id)||
@@ -104,7 +106,7 @@
       // Replace skeleton atomically; no HTML parsing from external JSON.
       list.replaceChildren(...cards);
       // Hash navigation may start before asynchronous status cards exist.
-      const targetId=decodeURIComponent(location.hash.slice(1));
+      const targetId=location.hash.slice(1);
       if(/^dd-source-enquiry-[a-z0-9-]{4,80}$/.test(targetId)){
         const target=document.getElementById(targetId);
         if(target)requestAnimationFrame(()=>target.scrollIntoView({block:'start',behavior:'instant'}));

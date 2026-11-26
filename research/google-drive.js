@@ -42,15 +42,20 @@ async function request(url,options={}){
  if(!response.ok)throw Error('Google Drive could not complete this request ('+response.status+'). Your original document is safe.');
  return response;
 }
-async function files(){
+async function files(pageToken=''){
  if(!connected())return;const stamp=epoch;
  const query="trashed=false and mimeType='"+MIME+"' and appProperties has { key='dd_app' and value='"+APP+"' } and appProperties has { key='dd_owner' and value='"+ownerHash+"' }";
- const response=await request('https://www.googleapis.com/drive/v3/files?'+new URLSearchParams({q:query,pageSize:'100',orderBy:'modifiedTime desc',fields:'files(id,name,size,modifiedTime,appProperties)'}));
- const result=await response.json();if(stamp!==epoch)return;list.replaceChildren();
+ const params=new URLSearchParams({q:query,pageSize:'100',orderBy:'modifiedTime desc',fields:'nextPageToken,files(id,name,size,modifiedTime,appProperties)'});
+ if(pageToken)params.set('pageToken',pageToken);
+ const response=await request('https://www.googleapis.com/drive/v3/files?'+params);
+ const result=await response.json();if(stamp!==epoch)return;
+ if(pageToken)list.querySelector('[data-drive-more]')?.remove();
+ else list.replaceChildren();
  const rows=(result.files||[]).filter(f=>f.appProperties?.dd_app===APP&&f.appProperties?.dd_owner===ownerHash&&/^[a-zA-Z0-9_-]+$/.test(f.id));
- if(!rows.length)list.append(node('p','No Research Word backups in this Google account yet.'));
+ if(!rows.length&&!pageToken&&!result.nextPageToken)list.append(node('p','No Research Word backups in this Google account yet.'));
  for(const file of rows){
-  const row=node('article');row.className='dd-drive-file';row.append(node('strong',file.name),node('small',new Date(file.modifiedTime).toLocaleString()));
+  if([...list.querySelectorAll('[data-drive-file]')].some(item=>item.dataset.driveFile===file.id))continue;
+  const row=node('article');row.className='dd-drive-file';row.dataset.driveFile=file.id;row.append(node('strong',file.name),node('small',new Date(file.modifiedTime).toLocaleString()));
   const open=node('button','Open as a new document');open.type='button';open.onclick=()=>void run(async()=>{
    const response=await request('https://www.googleapis.com/drive/v3/files/'+encodeURIComponent(file.id)+'?fields=id,mimeType,size,appProperties');const meta=await response.json();
    if(meta.appProperties?.dd_app!==APP||meta.appProperties?.dd_owner!==ownerHash||meta.mimeType!==MIME||Number(meta.size)>14*1024*1024)throw Error('Choose a Research Word backup under 14 MB.');
@@ -60,6 +65,14 @@ async function files(){
    if(!window.DDResearchImport?.importFile)throw Error('Word import tools are still loading.');
    await window.DDResearchImport.importFile(new File([body],file.name.endsWith('.docx')?file.name:file.name+'.docx',{type:MIME}));
   });row.append(open);list.append(row);
+ }
+ if(typeof result.nextPageToken==='string'&&result.nextPageToken&&result.nextPageToken!==pageToken){
+  const more=node('button','Load older Word backups');more.type='button';more.dataset.driveMore='true';
+  more.onclick=()=>void run(async()=>{
+   if(stamp!==epoch)return;
+   await files(result.nextPageToken);
+  });
+  list.append(more);
  }
 }
 async function run(operation){if(busy)return;busy=true;controls();try{await operation()}catch(e){say(e?.message||'Drive request could not be completed.')}finally{busy=false;controls()}}
@@ -104,6 +117,15 @@ function connectGoogle(){
  attempt.requestAccessToken({prompt:remembered()&&!needsAccountChooser?'':'select_account'});
 }
 async function loadGoogle(){
+ if(window.navigator?.userAgent.includes('DisclosureDeskAndroid')){
+  googleClient=null;
+  const route=node('a','Open W.NE in your browser');
+  route.href='/research/?dd_external_drive=1';
+  say('Google Drive connects in your browser. You can still export a Word file from the app.');
+  feedback.append(document.createTextNode(' '),route);
+  controls();
+  return;
+ }
  const clientId=window.DDResearchDriveConfig?.clientId||'';
  if(!/^[a-z0-9-]+\.apps\.googleusercontent\.com$/i.test(clientId)){say('Google Drive needs its website connection set up before it can be used. You can still download a Word copy to your device.');controls();return}
  if(!window.google?.accounts?.oauth2){

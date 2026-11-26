@@ -22,6 +22,7 @@ window.DD_COMMUNITY_FEATURES=Object.freeze({
  discussions:enabled, // Approved public social release: guest reads, members post through controlled RPCs
  profileAvatars:enabled, // Approved public visible-by-default photo with server-enforced Hide
  whoEvidenceBallots:false, // M70: claim ratings closed, no voting runtime bundled
+ discussionHosts:false,
  researchPublishing:false
 });
 })();

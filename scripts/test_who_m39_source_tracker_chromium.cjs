@@ -30,7 +30,7 @@ const base='http://127.0.0.1:4173';
    assert.match(text,/no fees have been authorised/i);
    for(const item of await cards.all()){
     const state=item.locator('.dd-verification-state');
-    assert(['sent_unacknowledged','response_received'].includes(await state.getAttribute('data-status')));
+    assert(['sent_unacknowledged','response_received','records_released'].includes(await state.getAttribute('data-status')));
     const dateInfo=await item.locator('.dd-verification-dates').innerText();
     assert.match(dateInfo,/last documented/i);
     assert((await item.locator('.dd-verification-timeline li').count())>=1);
@@ -40,7 +40,7 @@ const base='http://127.0.0.1:4173';
     assert((await sources.count())>=1);
     for(const l of await sources.all()){
      assert.equal(await l.getAttribute('rel'),'noopener noreferrer');
-     const url=await l.getAttribute('href');assert(url.startsWith('https://'));
+     const url=await l.getAttribute('href');assert(url.startsWith('https://')||url==='/foia-tracker#request-27-f-0917');
     }
    }
    assert.equal(await page.locator('#sourceGrid .entry').count(),13,'Archive directory preserved');
@@ -62,7 +62,7 @@ const base='http://127.0.0.1:4173';
      'Tracker card fits viewport at '+width);
    // Who's Who retains public claim-review safety and links to the dated log.
    await page.goto(base+'/who-is-who.html',{waitUntil:'domcontentloaded'});
-   const a=page.locator('#ddWhoSourceTracker a');
+   const a=page.locator('#ddWhoSourceTracker a[href="/sources#sourceVerification"]').first();
    await a.waitFor({state:'visible'});
    assert.equal(await a.getAttribute('href'),'/sources#sourceVerification');
    const callout=await page.locator('#ddWhoSourceTracker').innerText();

@@ -8,3 +8,7 @@ const branch=process.env.BRANCH||'';
 if(netlify&&context==='production'&&branch!=='production'){
   throw new Error('Blocked public Netlify build: expected BRANCH=production, got '+JSON.stringify(branch||'(missing)'));
 }
+
+if(netlify&&branch==='feature/research-collaboration-20261126'){
+  throw new Error('Research & Collaboration candidate builds run in GitHub Actions only.');
+}

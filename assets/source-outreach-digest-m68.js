@@ -11,6 +11,7 @@ const make=(tag,cls,text)=>{
 const labels={
  sent_unacknowledged:'Sent · acknowledgement unverified',
  acknowledged:'Acknowledged',
+ records_released:'Referral records released',
  response_received:'Reply received',
  closed_with_unresolved_questions:'Response reviewed · unresolved'
 };

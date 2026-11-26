@@ -6,14 +6,14 @@ else console.log('Verifying existing immutable public staging from Android snaps
 const m=JSON.parse(fs.readFileSync(path.join(out,'release-manifest.json'),'utf8'));
 const paths=m.files.map(f=>f.path),names=new Set(paths);
 assert.equal(names.size,paths.length);
-assert.ok(paths.length>=35&&paths.length<=130,'Unexpected package count '+paths.length);
+assert.ok(paths.length>=35&&paths.length<=(process.env.CONTEXT==='production'?140:141),'Unexpected package count '+paths.length);
 for(const f of m.files){
  const bytes=fs.readFileSync(path.join(out,f.path));
  assert.equal(bytes.length,f.bytes,f.path);
  assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),f.sha256,f.path);
  assert.doesNotMatch(f.path,/(^|\/)(?:scripts|supabase|finance_local|finance-review|finance|android-test|docs|\.github)(\/|$)|\.(?:zip|sql|py|md|env)$/i);
 }
-for(const f of ['index.html','guide.html','sources.html','investigations.html','rendlesham-forest-1980.html','roswell-1947.html','who-is-who.html','terms.html','research/wne.html','research/index.html',
+for(const f of ['index.html','guide.html','sources.html','investigations.html','research-collaborations.html','pursue.html','foia-tracker.html','data/pursue-index.json','data/foia/27-f-0917-decision-extract.pdf','data/foia/27-f-0917-referral-extracts.pdf','rendlesham-forest-1980.html','roswell-1947.html','who-is-who.html','terms.html','research/wne.html','research/index.html',
  'research/research-site-nav.js','research/google-drive.js','research/google-drive-config.js',
  'research/vendor-jszip-3.10.1.js','research/vendor-docx-9.5.1.js','research/vendor-dompurify-3.4.17.js','research/vendor-mammoth-1.12.3.js','research/docx-import-worker.js',
  'assets/community-polish.css','assets/media-submissions.js','assets/community-test-config.js','assets/profile-private-chat.js',
@@ -76,7 +76,7 @@ function assetPath(file,target){
  const url=target.split(/[?#]/)[0].trim();
  if(!url||/^(?:https?:)?\/\//i.test(url)||url.startsWith('data:')||
    url.startsWith('mailto:')||url.startsWith('#')||
-   !/\.(?:html?|js|css|svg|json|webmanifest|png|ico|txt|xml)$/i.test(url))
+   !/\.(?:html?|js|css|svg|json|webmanifest|png|ico|txt|xml|pdf)$/i.test(url))
   return null;
  return url.startsWith('/')?url.slice(1):
   path.posix.normalize(path.posix.join(path.posix.dirname(file),url));

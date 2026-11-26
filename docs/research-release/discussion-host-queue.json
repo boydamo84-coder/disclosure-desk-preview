@@ -1,0 +1,422 @@
+[
+  {
+    "day": 1,
+    "slot": 1,
+    "minute": 540,
+    "host": "investigator",
+    "sectionKey": "ufouapsightings",
+    "title": "What would make a sighting report usable?",
+    "body": "If a clip shows a light moving, the footage alone may leave speed, distance and direction uncertain. What three fields would you ask the witness to record before drawing a conclusion? Explain which missing field would most change your interpretation.",
+    "source": "https://uapdisclosuredesk.com/investigations#method"
+  },
+  {
+    "day": 1,
+    "slot": 2,
+    "minute": 810,
+    "host": "scientist",
+    "sectionKey": "ufouapsightings",
+    "title": "Can two cameras establish the distance?",
+    "body": "Imagine the same light appears in two recordings from different locations. What camera positions, timestamps and reference points would you need before attempting triangulation? Describe one source of error that could make a confident estimate misleading.",
+    "source": null
+  },
+  {
+    "day": 1,
+    "slot": 3,
+    "minute": 1140,
+    "host": "historian",
+    "sectionKey": "disclosurerumours",
+    "title": "Follow the FOIA case numbers",
+    "body": "The WHS tracker shows an administrative release and a separate Pentagon referral. Which document establishes each case number? How would you cite the status without implying the underlying records were released?",
+    "source": "https://uapdisclosuredesk.com/foia-tracker"
+  },
+  {
+    "day": 2,
+    "slot": 1,
+    "minute": 540,
+    "host": "sceptic",
+    "sectionKey": "ufouapsightings",
+    "title": "Start with a plausible competing explanation",
+    "body": "Choose a public sighting and write down one ordinary explanation that fits some of the report. What observation would make you rule it out? Include a source and explain which parts of the account it does and does not explain.",
+    "source": null
+  },
+  {
+    "day": 2,
+    "slot": 2,
+    "minute": 810,
+    "host": "explorer",
+    "sectionKey": "sitenewsupdatesandsuggestions",
+    "title": "Which archive filter helps you start?",
+    "body": "Try finding a PURSUE document with its official identifier, then try finding it from the year or place alone. Which route worked better, and what field would you add to help people who begin with an incomplete citation?",
+    "source": "https://uapdisclosuredesk.com/pursue"
+  },
+  {
+    "day": 2,
+    "slot": 3,
+    "minute": 1140,
+    "host": "investigator",
+    "sectionKey": "disclosurerumours",
+    "title": "Is this an original or a later copy?",
+    "body": "Pick a record that appears on two sites. Compare reference codes, page count, release date and redactions before calling it a duplicate. Which difference would make you keep both entries in a research index?",
+    "source": "https://uapdisclosuredesk.com/sources"
+  },
+  {
+    "day": 3,
+    "slot": 1,
+    "minute": 540,
+    "host": "scientist",
+    "sectionKey": "ufouapsightings",
+    "title": "When does apparent acceleration become a measurement?",
+    "body": "A target can cross a frame rapidly while its actual motion remains uncertain. What would you need to know about frame rate, sensor motion and field of view? Which of those measurements could you recover from the recording itself?",
+    "source": null
+  },
+  {
+    "day": 3,
+    "slot": 2,
+    "minute": 810,
+    "host": "historian",
+    "sectionKey": "ufouapsightings",
+    "title": "Build the Rendlesham timeline from dated records",
+    "body": "Compare when the sightings were reported with when the surviving memo was written and when records became public. Which date belongs in a case index, and how would you show the others without conflating them?",
+    "source": "https://uapdisclosuredesk.com/rendlesham-forest-1980"
+  },
+  {
+    "day": 3,
+    "slot": 3,
+    "minute": 1140,
+    "host": "sceptic",
+    "sectionKey": "reverseengineeringprogrammes",
+    "title": "What would substantiate a reverse-engineering claim?",
+    "body": "Imagine a source says a programme had a particular objective. What additional evidence would show that it received funding, completed work or demonstrated a result? List one source that could establish each step.",
+    "source": null
+  },
+  {
+    "day": 4,
+    "slot": 1,
+    "minute": 540,
+    "host": "explorer",
+    "sectionKey": "uappodcastchat",
+    "title": "Trace a podcast claim to the cited source",
+    "body": "Choose a public UAP interview and identify a claim the speaker supports with an original record. Share the timestamp and the record link, then say whether the document supports the exact wording used in the interview.",
+    "source": null
+  },
+  {
+    "day": 4,
+    "slot": 2,
+    "minute": 810,
+    "host": "investigator",
+    "sectionKey": "disclosurerumours",
+    "title": "What did the agency actually agree to release?",
+    "body": "Read a published records decision and mark the request scope, exemptions and disposition. Which sentence fixes the boundary between documents that were released and documents that the agency has not yet decided on?",
+    "source": "https://uapdisclosuredesk.com/foia-tracker"
+  },
+  {
+    "day": 4,
+    "slot": 3,
+    "minute": 1140,
+    "host": "scientist",
+    "sectionKey": "ufouapsightings",
+    "title": "Could the sensor be moving instead?",
+    "body": "Imagine a stable target filmed by an aircraft that is turning. What telemetry would let you estimate how much of the apparent motion comes from the camera? How would you present the uncertainty if the telemetry were unavailable?",
+    "source": null
+  },
+  {
+    "day": 5,
+    "slot": 1,
+    "minute": 540,
+    "host": "historian",
+    "sectionKey": "disclosurerumours",
+    "title": "Project Sign and Project Blue Book in the catalogue",
+    "body": "Find a Project Sign entry and a Blue Book entry in PURSUE. What does each title and date tell you about the originating programme? Identify one inference you would reserve until you have read the full record.",
+    "source": "https://uapdisclosuredesk.com/pursue"
+  },
+  {
+    "day": 5,
+    "slot": 2,
+    "minute": 810,
+    "host": "sceptic",
+    "sectionKey": "ufouapsightings",
+    "title": "A short clip can leave out the turning point",
+    "body": "What information might exist before or after a released clip that would change how you interpret it? Pick a public example and name the additional context you would request before using it as evidence.",
+    "source": null
+  },
+  {
+    "day": 5,
+    "slot": 3,
+    "minute": 1140,
+    "host": "explorer",
+    "sectionKey": "sitenewsupdatesandsuggestions",
+    "title": "Design a clearer link between two case records",
+    "body": "Find a useful connection between two public archive entries. Would you describe it as the same document, companion evidence, a shared location or a comparison? Explain what the link label should tell a reader.",
+    "source": "https://uapdisclosuredesk.com/pursue"
+  },
+  {
+    "day": 6,
+    "slot": 1,
+    "minute": 540,
+    "host": "investigator",
+    "sectionKey": "reverseengineeringprogrammes",
+    "title": "What does a proposal prove about a programme?",
+    "body": "Choose a publicly released proposal or statement of work. Identify the objective, the expected deliverable and any separate evidence of delivery. Which conclusions can you draw from the proposal alone?",
+    "source": null
+  },
+  {
+    "day": 6,
+    "slot": 2,
+    "minute": 810,
+    "host": "scientist",
+    "sectionKey": "ufouapsightings",
+    "title": "What belongs in a reproducible sighting analysis?",
+    "body": "Define a small procedure another investigator could repeat with the same public footage. Record your assumptions and the inputs you would share. What result would make you revise your initial explanation?",
+    "source": null
+  },
+  {
+    "day": 6,
+    "slot": 3,
+    "minute": 1140,
+    "host": "historian",
+    "sectionKey": "ufouapsightings",
+    "title": "Where does the Roswell documentary timeline begin?",
+    "body": "Use dated public sources in the Roswell dossier. Choose two sources and identify which claims each can support about contemporary reporting. What did you find only in much later material?",
+    "source": "https://uapdisclosuredesk.com/roswell-1947"
+  },
+  {
+    "day": 7,
+    "slot": 1,
+    "minute": 540,
+    "host": "sceptic",
+    "sectionKey": "nhibodies",
+    "title": "What would a specimen’s chain of custody show?",
+    "body": "Before discussing an extraordinary biological claim, what records would establish where a sample came from, who handled it and what labs examined it? How should a discussion describe a gap in that chain?",
+    "source": null
+  },
+  {
+    "day": 7,
+    "slot": 2,
+    "minute": 810,
+    "host": "explorer",
+    "sectionKey": "sitenewsupdatesandsuggestions",
+    "title": "Try a small offline research pack",
+    "body": "Save a filtered PURSUE index and open it without internet access. Which pieces of metadata are enough to plan the next research session? Which sources would you still need to download or open later?",
+    "source": "https://uapdisclosuredesk.com/pursue"
+  },
+  {
+    "day": 7,
+    "slot": 3,
+    "minute": 1140,
+    "host": "investigator",
+    "sectionKey": "ufouapsightings",
+    "title": "A timeline for the Navy video releases",
+    "body": "Use the official statement for the three Navy videos. Pull out the dates it attributes to the recordings and the date of publication. How would you represent earlier public circulation without confusing it with agency release?",
+    "source": "https://www.defense.gov/News/Releases/release/article/2165713/statement-by-the-department-of-defense-on-the-release-of-historical-navy-videos/"
+  },
+  {
+    "day": 8,
+    "slot": 1,
+    "minute": 540,
+    "host": "scientist",
+    "sectionKey": "nhibodies",
+    "title": "Independent testing needs comparable samples",
+    "body": "Imagine two laboratories report different results from material attributed to the same claimed specimen. What collection, control and lab records would help determine whether they tested comparable material? Which result would you report while that remains unsettled?",
+    "source": null
+  },
+  {
+    "day": 8,
+    "slot": 2,
+    "minute": 810,
+    "host": "historian",
+    "sectionKey": "disclosurerumours",
+    "title": "Search by file number as well as by year",
+    "body": "Pick a record family in the source directory and trace one file to its individual reference. Which parts of the reference belong to the collection, series and item? Share the citation you would want a second reader to use.",
+    "source": "https://uapdisclosuredesk.com/sources"
+  },
+  {
+    "day": 8,
+    "slot": 3,
+    "minute": 1140,
+    "host": "sceptic",
+    "sectionKey": "uappodcastchat",
+    "title": "Distinguish a quotation from its context",
+    "body": "Choose a short quote from a public discussion, then listen to the preceding and following minute. Did the fuller exchange change the claim's scope or certainty? Share the timestamp for anyone reproducing the check.",
+    "source": null
+  },
+  {
+    "day": 9,
+    "slot": 1,
+    "minute": 540,
+    "host": "explorer",
+    "sectionKey": "ufouapsightings",
+    "title": "Check an archive entry against the map",
+    "body": "Pick a historical case and compare the location in the source with the place used on the map. Would a town, airspace or approximate region be a better label? Explain how you would show an uncertain location without adding false precision.",
+    "source": null
+  },
+  {
+    "day": 9,
+    "slot": 2,
+    "minute": 810,
+    "host": "investigator",
+    "sectionKey": "disclosurerumours",
+    "title": "A missing page versus a redacted paragraph",
+    "body": "When a packet has a jump in page numbers, what checks would tell you whether a page was withheld, intentionally omitted from an extract or simply missing from a scan? Point to the evidence that would distinguish those cases.",
+    "source": "https://uapdisclosuredesk.com/foia-tracker"
+  },
+  {
+    "day": 9,
+    "slot": 3,
+    "minute": 1140,
+    "host": "scientist",
+    "sectionKey": "ufouapsightings",
+    "title": "What can an unresolved classification tell us?",
+    "body": "Read the NASA methods review and name one kind of data it identifies as useful for future observations. How would that data narrow a specific hypothesis? Give a concrete example of a claim it could help test.",
+    "source": "https://uapdisclosuredesk.com/investigations#nasa"
+  },
+  {
+    "day": 10,
+    "slot": 1,
+    "minute": 540,
+    "host": "historian",
+    "sectionKey": "reverseengineeringprogrammes",
+    "title": "Read the date on the record itself",
+    "body": "Compare an archive release date with the cover date on a government programme document. What was known at each point, and which date would help a history researcher find the original context?",
+    "source": null
+  },
+  {
+    "day": 10,
+    "slot": 2,
+    "minute": 810,
+    "host": "sceptic",
+    "sectionKey": "disclosurerumours",
+    "title": "A denial, no records, or a pending determination?",
+    "body": "Explain how you would report these three outcomes in a public records tracker. What wording or document would you need from the agency before assigning each status?",
+    "source": "https://uapdisclosuredesk.com/foia-tracker"
+  },
+  {
+    "day": 10,
+    "slot": 3,
+    "minute": 1140,
+    "host": "explorer",
+    "sectionKey": "sitenewsupdatesandsuggestions",
+    "title": "How would you label a source’s provenance?",
+    "body": "Take an item in the archive and give it a one-line provenance label. Include the originating institution, the host and the release or accession code. Where would you put details about a later reproduction?",
+    "source": "https://uapdisclosuredesk.com/sources"
+  },
+  {
+    "day": 11,
+    "slot": 1,
+    "minute": 540,
+    "host": "investigator",
+    "sectionKey": "ufouapsightings",
+    "title": "Build a two-source chain for one claim",
+    "body": "Choose a claim from an archive dossier. Find the earliest public record you can and a second source that contributes something independent. Which part of the claim survives if you remove the second source?",
+    "source": "https://uapdisclosuredesk.com/investigations"
+  },
+  {
+    "day": 11,
+    "slot": 2,
+    "minute": 810,
+    "host": "scientist",
+    "sectionKey": "ufouapsightings",
+    "title": "Use a confidence range with a clear basis",
+    "body": "Find a case where a witness estimated distance or altitude. What observations constrain the estimate? Describe how you would show the range and the assumptions a future analysis could test.",
+    "source": null
+  },
+  {
+    "day": 11,
+    "slot": 3,
+    "minute": 1140,
+    "host": "historian",
+    "sectionKey": "uappodcastchat",
+    "title": "Which later interview adds genuinely new evidence?",
+    "body": "Choose two public interviews about one historical case. Compare what the guests add beyond the contemporaneous record and what they recall from earlier reporting. How would you cite a detail that appears only decades later?",
+    "source": null
+  },
+  {
+    "day": 12,
+    "slot": 1,
+    "minute": 540,
+    "host": "sceptic",
+    "sectionKey": "reverseengineeringprogrammes",
+    "title": "What would change your mind about a programme claim?",
+    "body": "Write a falsifiable version of a public reverse-engineering claim. Identify a record or observation that would count against it and one that would support it. How would you avoid letting an unavailable file carry the weight of the argument?",
+    "source": null
+  },
+  {
+    "day": 12,
+    "slot": 2,
+    "minute": 810,
+    "host": "explorer",
+    "sectionKey": "ufouapsightings",
+    "title": "Compare two records without forcing a link",
+    "body": "Choose two PURSUE entries that share a location or year. List what matches and what differs using the official identifiers. What extra evidence would you need to say they document the same event?",
+    "source": "https://uapdisclosuredesk.com/pursue"
+  },
+  {
+    "day": 12,
+    "slot": 3,
+    "minute": 1140,
+    "host": "investigator",
+    "sectionKey": "sitenewsupdatesandsuggestions",
+    "title": "Make a source handoff someone can reproduce",
+    "body": "Put one public source into an Investigation Board and write a brief note with its identifier and page or timestamp. If you handed that note to a second researcher, could they locate the exact evidence and understand the open question?",
+    "source": "https://uapdisclosuredesk.com/guide#research-collaborations"
+  },
+  {
+    "day": 13,
+    "slot": 1,
+    "minute": 540,
+    "host": "scientist",
+    "sectionKey": "ufouapsightings",
+    "title": "Where should an eyewitness estimate sit in the analysis?",
+    "body": "Separate what a witness directly observed from estimated speed, size or distance. What independent data would you use to test each estimate? Describe one useful detail a good interview could recover without leading the witness.",
+    "source": null
+  },
+  {
+    "day": 13,
+    "slot": 2,
+    "minute": 810,
+    "host": "historian",
+    "sectionKey": "ufouapsightings",
+    "title": "What did the Blue Book archive actually preserve?",
+    "body": "Use the archive review to choose a record type such as a summary, a photo file or correspondence. What sort of question can that record answer, and which questions require more evidence?",
+    "source": "https://uapdisclosuredesk.com/investigations#blue-book"
+  },
+  {
+    "day": 13,
+    "slot": 3,
+    "minute": 1140,
+    "host": "sceptic",
+    "sectionKey": "nhibodies",
+    "title": "Can a photograph establish a material’s origin?",
+    "body": "Choose a public image associated with an extraordinary material claim. Describe what it shows and what provenance data would be needed to establish its origin. What other tests would you require before drawing a conclusion?",
+    "source": null
+  },
+  {
+    "day": 14,
+    "slot": 1,
+    "minute": 540,
+    "host": "explorer",
+    "sectionKey": "sitenewsupdatesandsuggestions",
+    "title": "Prioritise the next public research question",
+    "body": "Find a gap in one Disclosure Desk evidence review and propose an answerable follow-up. Name the specific archive, document or date range you would check first. Explain how the result would improve the public dossier.",
+    "source": "https://uapdisclosuredesk.com/investigations"
+  },
+  {
+    "day": 14,
+    "slot": 2,
+    "minute": 810,
+    "host": "investigator",
+    "sectionKey": "disclosurerumours",
+    "title": "Draft a request asking for an existing record",
+    "body": "Pick an open question in the FOIA tracker and turn it into a request for a specific existing record. Identify a likely custodian, date range and description. Which unnecessary details would you remove to make the request easier to process?",
+    "source": "https://uapdisclosuredesk.com/foia-tracker"
+  },
+  {
+    "day": 14,
+    "slot": 3,
+    "minute": 1140,
+    "host": "scientist",
+    "sectionKey": "ufouapsightings",
+    "title": "Close the loop on one testable hypothesis",
+    "body": "Choose one explanation proposed in a thread and identify the observation that would most change your assessment. Specify the data, method and decision rule. What should the next reader conclude if that observation is unavailable?",
+    "source": "https://uapdisclosuredesk.com/investigations#method"
+  }
+]

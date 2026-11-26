@@ -3,6 +3,8 @@
 [build]
   command = "node scripts/build_public_release.cjs"
   publish = ".release-staging/public-site"
+  ignore = '''[ "$BRANCH" = "feature/research-collaboration-20261126" ]'''
+
 
 # Legacy browser/crawler fallback: preserve the verified navy-and-gold SVG emblem.
 # No favicon.ico binary is currently shipped in the strict public allowlist.
