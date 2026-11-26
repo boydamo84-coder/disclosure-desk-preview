@@ -24,10 +24,11 @@ async function call(path,{token,method='GET',body,headers={}}={}){
   (path.startsWith('/rest/v1/dd_cr_reactions?')||path.startsWith('/rest/v1/dd_cr_comments?'));
  assert.ok(path.startsWith('/auth/v1/')||restRead||draftTest||engagementTest,'Unexpected local fixture route');
  const auth=token||(!key.startsWith('sb_')?key:null);
- const res=await fetch(origin+path,{
+ let res;
+ try{res=await fetch(origin+path,{
   method,redirect:'error',headers:{apikey:key,...(auth?{Authorization:'Bearer '+auth}:{}),...(body?{'Content-Type':'application/json'}:{}),...headers},
   ...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(15000)
- });
+ });}catch(error){throw Error('Local QA '+method+' '+path.split('?')[0]+' failed: '+String(error?.name||'network error'));}
  let data;try{data=await res.json()}catch{data=null}
  return {ok:res.ok,status:res.status,data,contentRange:res.headers.get('content-range')};
 }
@@ -306,13 +307,16 @@ function rows(response,expected,label){
  assert.equal(queuedCase.flag_reasons.length,5);assert.equal(queuedCase.review_round,1);
  const restore=(actor,round=queuedCase.review_round)=>call('/rest/v1/rpc/dd_cr_review',{token:actor?.token,method:'POST',body:{p_id:flagId,p_action:'restore',p_reason:'Fictional review completed',p_expected_round:round}});
  assert.equal((await restore(owner)).ok,false,'Non-moderator restore denied');
+ console.log('CHECK genuine simultaneous moderation decisions');
  const simultaneous=await Promise.all([restore(moderation),restore(moderation)]);
  assert.equal(simultaneous.filter(x=>x.ok&&x.data===true).length,1,'Concurrent restore decisions for a single round may succeed only once');
  assert.equal(simultaneous.filter(x=>!x.ok).length,1,'Concurrent stale decision denied');
+ console.log('PASS concurrent moderation decisions settled: exactly one restoration');
  assert.ok((await read()).data.some(x=>x.id===flagId&&x.status==='published'));
  const fresh=await flag(owner);okEngagement(fresh,'Fresh flag round');assert.deepEqual(fresh.data,{accepted:true,hidden:false});
  assert.equal((await restore(moderation)).ok,false,'Already restored case cannot be reviewed twice');
  for(const actor of actors.slice(1))okEngagement(await flag(actor),'Fresh distinct flag');
+ console.log('CHECK freshly reflagged moderation round');
  const reflagged=await queue(moderation);okEngagement(reflagged,'New moderation round');
  const reflaggedCase=reflagged.data.find(x=>x.id===flagId);
  assert.equal(reflaggedCase.review_round,2);

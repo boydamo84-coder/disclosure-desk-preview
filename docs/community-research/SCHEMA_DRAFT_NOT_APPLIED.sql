@@ -208,7 +208,7 @@ begin
  -- Check the exact round while holding the same author lock and row lock as
  -- restoration/rejection. A stale decision cannot affect a newly flagged round.
  if p_expected_round is null or p_expected_round<1 or item.flag_round<>p_expected_round then
-  raise exception 'Review round changed' using errcode='40001';
+  raise exception 'Review round changed' using errcode='22023';
  end if;
  next_state:=case when p_action='restore' then 'published' else 'rejected' end;
  -- Restoring starts a fresh review round; old flags are retained for audit, not counted twice.
