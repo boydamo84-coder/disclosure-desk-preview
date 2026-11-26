@@ -37,17 +37,24 @@ assert.ok(fs.readFileSync('assets/community-test-config.js','utf8').includes('re
    await page.locator('#consent').check();await page.locator('#preview').click();
    assert.match(await page.locator('#status').innerText(),/disabled/);
    await page.locator('#close').click();
-   await page.locator('#search').fill('');
+   await page.locator('#search').fill('chronology');
+   for(let i=1;i<=5;i++){
+    await page.locator('#flagMember').selectOption(String(i));
+    await page.getByRole('button',{name:'Flag sample'}).click();
+    if(i===1){await page.getByRole('button',{name:'Flag sample'}).click();assert.match(await page.locator('#flagStatus').innerText(),/Already flagged/);}
+    assert.equal(await page.locator('#library article').count(),i===5?0:1);
+   }
    await page.locator('#moderation > summary').click();
-   await page.getByRole('button',{name:'Approve sample'}).click();
+   await page.getByRole('button',{name:'Restore sample'}).click();
    assert.match(await page.locator('#moderationQueue [role="status"]').innerText(),/reason/);
    await page.getByRole('textbox',{name:'Moderation reason'}).fill('Checked sample evidence');
-   await page.getByRole('button',{name:'Approve sample'}).click();
-   assert.equal(await page.locator('#library article').count(),3);
-   await page.getByRole('textbox',{name:'Moderation reason'}).fill('Sample withdrawal');
-   await page.getByRole('button',{name:'Withdraw sample'}).click();
-   assert.equal(await page.locator('#library article').count(),2);
-   assert.match(await page.locator('#moderationAudit').innerText(),/withdraw/);
+   await page.getByRole('button',{name:'Restore sample'}).click();
+   assert.equal(await page.locator('#library article').count(),1);
+   for(let i=1;i<=5;i++){await page.locator('#flagMember').selectOption(String(i));await page.getByRole('button',{name:'Flag sample'}).click();}
+   await page.getByRole('textbox',{name:'Moderation reason'}).fill('Sample removal');
+   await page.getByRole('button',{name:'Remove sample'}).click();
+   assert.equal(await page.locator('#library article').count(),0);
+   assert.match(await page.locator('#moderationAudit').innerText(),/reject/);
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
    assert.deepEqual(external,[]);
    await page.close();
