@@ -51,7 +51,19 @@ def main():
         signatures = dir / "fixture.hdb"
         signatures.write_text(f"{hashlib.md5(flagged).hexdigest()}:{len(flagged)}:DD_Fictional_Match\n")
         def scan_fixture(path):
-            return worker._clam_scan(path, signatures, official_only=False)
+            # Captured diagnostic ONLY for our fictional fixture data. The
+            # production inspector does not log antivirus output or filenames.
+            original = worker.run_tool
+            def diagnostic(args, *a, **kw):
+                rc, out, err = original(args, *a, **kw)
+                if args[0] == worker.CLAM and rc == 0 and (out.strip() != (str(path)+': OK').encode() or err.strip()):
+                    print('Fixture ClamAV output:', repr(out[:400]), 'stderr:', repr(err[:400]), flush=True)
+                return rc, out, err
+            worker.run_tool = diagnostic
+            try:
+                return worker._clam_scan(path, signatures, official_only=False)
+            finally:
+                worker.run_tool = original
         def run(raw, *, scanner=scan_fixture, digest=None):
             path = dir / "source.pdf"
             path.write_bytes(raw)

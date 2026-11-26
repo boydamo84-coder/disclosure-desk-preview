@@ -1,0 +1,25 @@
+name: Community Research private quota transaction QA (no deploy)
+on:
+  push:
+    branches: [feature/community-research-20261126]
+    paths:
+      - 'docs/community-research/quarantine/**'
+      - '.github/workflows/community-research-quota-no-deploy.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  quota:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Start disposable real Postgres with no external network or exposed port
+        run: docker run -d --rm --name dd-quota-local-test --network none -e POSTGRES_HOST_AUTH_METHOD=trust postgres:17
+      - name: Test private accounting, concurrent transactions and role isolation
+        run: python3 -B docs/community-research/quarantine/test_quota.py
+      - name: Stop disposable database
+        if: always()
+        run: docker stop dd-quota-local-test || true
