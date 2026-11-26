@@ -1,0 +1,37 @@
+name: Record Research & Collaboration RC1 milestone
+on:
+  push:
+    branches: [feature/research-collaboration-20261126]
+    paths: ['.github/workflows/record-research-rc1-milestone-once.yml']
+permissions:
+  issues: write
+jobs:
+  record:
+    if: github.repository == 'boydamo84-coder/disclosure-desk-preview' && github.ref == 'refs/heads/feature/research-collaboration-20261126' && github.event.head_commit.message == 'Record the Research & Collaboration RC1 issue milestone [skip netlify]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    env:
+      GH_TOKEN: ${{ github.token }}
+      DD_REPO: ${{ github.repository }}
+    steps:
+      - name: Record the approved release review metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          title='Research & Collaboration RC1'
+          description='Staged website and Android release for owner review. Four-width Chromium and accessibility QA, existing browser smoke tests and disposable Discussion Hosts database tests passed. Remaining gates include direct source byte verification, physical-device and OAuth acceptance, isolated Supabase Auth acceptance, and explicit production and posting approval. [Handover](https://github.com/boydamo84-coder/disclosure-desk-preview/blob/feature/research-collaboration-20261126/docs/research-release/RC1_HANDOVER.md).'
+          milestone=$(gh api --paginate "repos/$DD_REPO/milestones?state=all&per_page=100" --jq '.[] | select(.title == "Research & Collaboration RC1") | .number' | head -n 1)
+          if [ -z "$milestone" ]; then
+            milestone=$(gh api --method POST "repos/$DD_REPO/milestones" -f title="$title" -f description="$description" --jq '.number')
+          fi
+          [[ "$milestone" =~ ^[0-9]+$ ]]
+          for issue in 3 16 17; do
+            assigned=$(gh api "repos/$DD_REPO/issues/$issue" --jq '.milestone.number // 0')
+            if [ "$assigned" = 0 ]; then
+              gh api --method PATCH "repos/$DD_REPO/issues/$issue" -F milestone="$milestone" --silent
+            elif [ "$assigned" != "$milestone" ]; then
+              printf 'Issue %s has a different milestone\n' "$issue" >&2
+              exit 1
+            fi
+          done
+          printf 'Recorded milestone %s\n' "$milestone"
