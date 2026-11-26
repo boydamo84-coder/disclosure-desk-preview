@@ -404,15 +404,178 @@ function mountModeration(){
  return {clear:close};
 }
 
+
+// Author tools use a separate, read-only ownership projection, never public
+// author labels or a query of all visible reports to infer ownership.
+function mountAuthor(){
+ if(window.DD_COMMUNITY_FEATURES?.researchAuthorTools!==true)return null;
+ const profile=$('profilePage'),privatePanel=$('ddProfilePrivate'),grid=privatePanel?.querySelector('.dd-profile-grid');
+ if(!profile||!privatePanel||!grid)return null;
+ const root=el('details',undefined,'dd-profile-card dd-profile-fold');root.id='ddCRAuthor';
+ const notice=el('p','Open to view your published research.','muted small');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');
+ const list=el('div',undefined,'dd-profile-list');
+ const newest=button('Refresh newest publications',()=>void load(null));
+ const older=button('Older publications',()=>{if(next)void load(next)});older.hidden=true;
+ root.append(el('summary','My Published Research'),el('p','Your own submissions and version history, including hidden and withdrawn versions. Private W.NE files are not included.','muted small'),newest,notice,list,older);grid.prepend(root);
+ let rev=0,busy=false,next=null;
+ const visible=()=>root.open&&root.isConnected&&!privatePanel.hidden&&!profile.hidden&&!profile.classList.contains('hidden');
+ const active=ticket=>ticket===rev&&visible();
+ const say=msg=>{notice.textContent=msg};
+ function clear(msg='Open to view your published research.'){
+  ++rev;busy=false;next=null;list.replaceChildren();newest.disabled=false;older.disabled=false;older.hidden=true;say(msg);
+ }
+ function close(){root.open=false;clear();}
+ root.addEventListener('toggle',()=>{if(visible())void load(null);else clear()});
+ window.addEventListener('dd-public-section-change',e=>{if(e.detail.section!=='profilePage')close()});
+ const observer=new MutationObserver(()=>{if(root.open&&!visible())close()});
+ observer.observe(profile,{attributes:true,attributeFilter:['class','hidden']});
+ observer.observe(privatePanel,{attributes:true,attributeFilter:['hidden','class']});
+ const same=(a,b)=>a&&b&&a.id===b.id&&a.gen===b.gen;
+ const valid=t=>typeof t==='string';
+ const statuses=['pending','published','flagged','rejected','withdrawn'];
+ const categories=['Case analysis','Document analysis','Scientific research','Historical research','FOIA research','Other research'];
+ const labels={pending:'Pending',published:'Published',flagged:'Hidden pending moderation',rejected:'Rejected',withdrawn:'Withdrawn'};
+ function project(row){
+  if(!row||!uuid.test(String(row.id||''))||!valid(row.title)||!row.title.trim()||row.title.length>320
+   ||!valid(row.author_label)||!row.author_label.trim()||row.author_label.length>160||!categories.includes(row.category)
+   ||!statuses.includes(row.status)||!Number.isInteger(row.version_no)||row.version_no<1||row.version_no>100
+   ||!(row.revision_of===null||uuid.test(String(row.revision_of||'')))||!valid(row.created_at)||!Number.isFinite(Date.parse(row.created_at))
+   ||typeof row.has_active_successor!=='boolean')throw Error('Invalid author list');
+  return {id:row.id,title:row.title,author_label:row.author_label,category:row.category,status:row.status,version_no:row.version_no,
+   revision_of:row.revision_of,created_at:row.created_at,has_active_successor:row.has_active_successor};
+ }
+ async function readMine(identity,cursor){
+  const result=await memberRequest(identity.token,'POST','rpc/dd_cr_my_publications',{
+   p_expected_account:identity.id,p_before_created:cursor?.created_at??null,p_before_id:cursor?.id??null});
+  if(!result.ok||!Array.isArray(result.data)||result.data.length>21)throw Error('Author list unavailable');
+  const items=result.data.map(project);
+  if(new Set(items.map(x=>x.id)).size!==items.length)throw Error('Invalid author list');
+  return items;
+ }
+ function lock(value){
+  busy=value;newest.disabled=value;older.disabled=value;
+  for(const control of list.querySelectorAll('button,textarea,input,select'))control.disabled=value;
+ }
+ async function load(cursor,success=''){
+  if(!visible()||busy)return;
+  const ticket=++rev;next=null;list.replaceChildren();older.hidden=true;lock(true);say('Checking author access…');
+  try{
+   const identity=await verifiedMember();if(!active(ticket))return;
+   if(!identity){say('Sign in with your member account.');return;}
+   const items=await readMine(identity,cursor);
+   const after=await verifiedMember();if(!active(ticket))return;
+   if(!same(identity,after)){close();return;}
+   const shown=items.slice(0,20);
+   if(items.length>20){next={id:shown[19].id,created_at:shown[19].created_at};older.hidden=false;}
+   for(const row of shown)list.append(cardFor(row,{id:identity.id,gen:identity.gen},cursor,ticket));
+   say((success?success+' ':'')+(shown.length?shown.length+' of your research version(s) shown.':'No publications on this page.'));
+  }catch{if(active(ticket)){list.replaceChildren();say('Your publications could not be loaded. Refresh or sign in again.');}}
+  finally{if(active(ticket)){lock(false);list.querySelectorAll('[data-author-confirm]').forEach(n=>{n.disabled=true});}}
+ }
+ async function currentItem(item,identity,cursor,ticket){
+  const before=await verifiedMember();if(!active(ticket))return null;
+  if(!same(before,identity)){close();return null;}
+  const items=await readMine(before,cursor);if(!active(ticket))return null;
+  const exact=items.slice(0,20).find(x=>x.id===item.id);
+  if(!exact||JSON.stringify(exact)!==JSON.stringify(item)){
+   clear('Publication changed. Refresh your list before continuing.');return null;
+  }
+  const checked=await verifiedMember();if(!active(ticket))return null;
+  if(!same(checked,identity)){close();return null;}
+  return checked;
+ }
+ function cardFor(item,identity,cursor,ticket){
+  const card=el('article',undefined,'dd-forum-item');card.dataset.authorPublicationId=item.id;
+  card.append(el('h4',item.title+' · v'+item.version_no),el('p',labels[item.status]+' · '+item.category+' · '+new Date(item.created_at).toLocaleDateString(),'muted small'));
+  if(item.revision_of)card.append(el('p','Revision of an earlier version.','muted small'));
+  if(item.has_active_successor)card.append(el('p','This version has a newer active revision.','muted small'));
+  if(item.status==='published'){
+   const url=new URL(location.href);url.searchParams.set('dd_tab','communityResearchPage');url.searchParams.set('dd_publication',item.id);url.hash='';
+   const view=el('a','Open public version','outline');view.href=url.pathname+url.search;card.append(view);
+  }
+  if(item.status==='published'&&!item.has_active_successor&&item.version_no<100){
+   const editor=el('div');const prep=button('Prepare revision draft',()=>void prepare());
+   card.append(prep,editor);
+   async function prepare(){
+    if(!active(ticket)||busy)return;
+    editor.replaceChildren();lock(true);say('Checking latest owned published version…');
+    try{
+     if(!await currentItem(item,identity,cursor,ticket)||!active(ticket))return;
+     const row=await fetchPublic(item.id,true);
+     const after=await verifiedMember();if(!active(ticket))return;
+     if(!same(after,identity)){close();return;}
+     if(!row||row.id!==item.id||row.version_no!==item.version_no||row.title!==item.title||row.category!==item.category||typeof row.abstract!=='string'||typeof row.body_text!=='string'||typeof row.references_text!=='string'){
+      clear('Publication unavailable or changed. Refresh before preparing a revision.');return;
+     }
+     editor.append(el('h4','Local revision draft · v'+(item.version_no+1)),el('p','Edit the previous public text and copy it into W.NE. This draft exists only in this open panel. Nothing will be published or saved automatically.','muted small'));
+     const inputs=[];
+     for(const [label,value,limit,rows] of [['Revision title',row.title,160,2],['Revision abstract',row.abstract,1500,3],['Revision research text',row.body_text,120000,8],['Revision references',row.references_text,20000,3]]){
+      const wrap=el('label');wrap.style.cssText='display:grid;gap:4px;margin:8px 0';
+      const field=el('textarea');field.className='field';field.rows=rows;field.maxLength=limit;field.value=value;
+      wrap.append(el('span',label),field);editor.append(wrap);inputs.push(field);
+     }
+     const copy=button('Copy revision draft text',async()=>{
+      if(!active(ticket)||busy)return;
+      lock(true);
+      try{
+       if(!await currentItem(item,identity,cursor,ticket)||!active(ticket))return;
+       const [title,abstract,body,refs]=inputs.map(n=>n.value);
+       if(!title.trim()||!abstract.trim()||!body.trim()){say('Title, abstract and text are required.');return;}
+       const text='Title: '+title+'\nCategory: '+item.category+'\nAbstract: '+abstract+'\n\n'+body+'\n\nReferences:\n'+refs;
+       if(!navigator.clipboard?.writeText){say('Clipboard unavailable. Select and copy the draft text manually.');return;}
+       await navigator.clipboard.writeText(text);
+       if(active(ticket))say('Revision text copied. Paste it into W.NE. Publication is not enabled.');
+      }catch{if(active(ticket))say('Could not copy. Select the draft fields manually.');}
+      finally{if(active(ticket)){lock(false);list.querySelectorAll('[data-author-confirm]').forEach(n=>{n.disabled=true});}}
+     });
+     const discard=button('Discard local revision draft',()=>{editor.replaceChildren();say('Local revision draft discarded.');});
+     editor.append(copy,discard);say('Revision draft prepared. No publication was sent.');
+    }catch{if(active(ticket)){editor.replaceChildren();say('Could not prepare the revision. Refresh your list.');}}
+    finally{if(active(ticket)){lock(false);list.querySelectorAll('[data-author-confirm]').forEach(n=>{n.disabled=true});}}
+   }
+  }
+  if(['published','pending','flagged'].includes(item.status)){
+   const withdraw=el('details');withdraw.append(el('summary','Withdraw all versions'),el('p','This removes the entire version chain from public view, including older citable versions and any active successor. It does not delete your private W.NE files. Rejected versions remain rejected.','muted small'));
+   const reason=el('textarea');reason.rows=3;reason.maxLength=1000;reason.className='field';reason.setAttribute('aria-label','Withdrawal reason');
+   const phrase=el('input');phrase.type='text';phrase.className='field';phrase.autocomplete='off';phrase.maxLength=8;phrase.setAttribute('aria-label','Type WITHDRAW to confirm');
+   const confirm=button('Confirm entire-chain withdrawal',()=>void send());confirm.dataset.authorConfirm='';confirm.disabled=true;
+   const can=()=>reason.value.trim().length>=8&&reason.value.trim().length<=1000&&phrase.value==='WITHDRAW';
+   for(const n of [reason,phrase])n.addEventListener('input',()=>{confirm.disabled=busy||!can();});
+   withdraw.append(el('p','Reason (8–1000 characters)','muted small'),reason,el('p','Type WITHDRAW to confirm','muted small'),phrase,confirm);
+   card.append(withdraw);
+   async function send(){
+    if(!active(ticket)||busy||!can())return;
+    const explanation=reason.value.trim();lock(true);say('Checking account and current version before withdrawing…');
+    let sent=false;
+    try{
+     const verified=await currentItem(item,identity,cursor,ticket);if(!verified||!active(ticket))return;
+     sent=true;
+     const result=await memberRequest(verified.token,'POST','rpc/dd_cr_withdraw',{p_id:item.id,p_reason:explanation});
+     if(!active(ticket))return;
+     const after=await verifiedMember();if(!active(ticket))return;
+     if(!same(after,identity)){close();return;}
+     if(!result.ok||!Number.isSafeInteger(result.data)||result.data<1){
+      clear('Withdrawal not confirmed. Refresh your list to check status.');return;
+     }
+     busy=false;await load(null,result.data+' active version(s) withdrawn.');
+    }catch{if(active(ticket))clear(sent?'Withdrawal outcome uncertain. Refresh your list before any further action.':'Account or publication could not be checked. Nothing was sent.');}
+    finally{if(active(ticket)){lock(false);list.querySelectorAll('[data-author-confirm]').forEach(n=>{n.disabled=true});}}
+   }
+  }
+  return card;
+ }
+ return {clear:close};
+}
+
 nav.hidden=false;
-const moderation=mountModeration();
-if(engagementEnabled||moderation){
+const moderation=mountModeration(),authorTools=mountAuthor();
+if(engagementEnabled||moderation||authorTools){
  let currentActor,known=false;
  db()?.auth?.onAuthStateChange?.((_event,session)=>{
   const actor=session?.user?.id?session.user.id+'|'+String(session.user.is_anonymous):null;
   if(!known){known=true;currentActor=actor;return;}
   if(actor===currentActor)return;
-  currentActor=actor;++authEpoch;moderation?.clear();
+  currentActor=actor;++authEpoch;moderation?.clear();authorTools?.clear();
   // Avoid auth calls inside the SDK's auth-state callback. Re-rendering also
   // discards any old account's unsent text.
   if(!page.hidden&&viewId())setTimeout(()=>void refresh(),0);

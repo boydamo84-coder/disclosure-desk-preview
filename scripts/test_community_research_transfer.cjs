@@ -92,9 +92,10 @@ const server=http.createServer((req,res)=>{
     assert.equal(await page.locator('[data-tab="communityResearchPage"]').isVisible(),false);
     assert.equal(await page.locator('#communityResearchPage').isVisible(),false);
     assert.equal(await page.locator('#ddCRModeration').count(),0);
+    assert.equal(await page.locator('#ddCRAuthor').count(),0);
     assert.ok(await page.locator('#discover').isVisible());
     await page.close();
-    await ctx.route('**/assets/community-test-config.js?*',r=>r.fulfill({contentType:'application/javascript',body:'window.DD_COMMUNITY_TEST_CONFIG={environment:"test",url:"https://fixture.invalid",publishableKey:"test-only"};window.DD_COMMUNITY_FEATURES={researchPublishing:true,researchEngagement:true,researchModeration:true};'}));
+    await ctx.route('**/assets/community-test-config.js?*',r=>r.fulfill({contentType:'application/javascript',body:'window.DD_COMMUNITY_TEST_CONFIG={environment:"test",url:"https://fixture.invalid",publishableKey:"test-only"};window.DD_COMMUNITY_FEATURES={researchPublishing:true,researchEngagement:true,researchModeration:true,researchAuthorTools:true};'}));
     await ctx.addInitScript(({row,other})=>{
      window.DDNativeRows=[row,{...row,id:other,title:'Second archive note',category:'Historical research'}];
      window.DDNativeReactions=[{report_id:row.id,reaction:1},{report_id:row.id,reaction:1},{report_id:row.id,reaction:-1},{report_id:other,reaction:1}];
@@ -112,6 +113,8 @@ const server=http.createServer((req,res)=>{
       flag_reasons:['Fictional reason 1','Fictional reason 2','Fictional reason 3','Fictional reason 4','Fictional reason 5'],author_id:'PRIVATE OWNER ID'};
      window.DDNativeQueue=[pending,{...pending,id:'00000000-0000-4000-8000-000000000022',title:'Second hidden research'}];
      window.DDNativeReviewWrites=[];
+     window.DDNativeAuthorRows=[];window.DDNativeWithdrawWrites=[];
+     Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>{window.DDNativeRevisionClipboard=text;}}});
      const listeners=[];
      window.DDNativeSetIdentity=(id,anonymous=false,emit=true)=>{
       window.DDNativeSession=id?{user:{id,is_anonymous:anonymous},access_token:'fictional-token-'+id}:null;
@@ -126,6 +129,24 @@ const server=http.createServer((req,res)=>{
       const reply=(data,status=200)=>new Response(data===null?null:JSON.stringify(data),{status,headers:{'Content-Type':'application/json'}});
       if(!session||session.user.is_anonymous||headers.get('Authorization')!=='Bearer '+session.access_token)return reply({code:'42501'},403);
       const actor=session.user.id;
+      if(url.pathname==='/rest/v1/rpc/dd_cr_my_publications'&&method==='POST'){
+       if(json?.p_expected_account!==actor)return reply({code:'42501'},403);
+       let mine=window.DDNativeAuthorRows.filter(x=>x.owner===actor).sort((a,b)=>b.created_at.localeCompare(a.created_at)||b.id.localeCompare(a.id));
+       if(json.p_before_created&&json.p_before_id)mine=mine.filter(x=>x.created_at<json.p_before_created||(x.created_at===json.p_before_created&&x.id<json.p_before_id));
+       const snapshot=JSON.parse(JSON.stringify(mine.slice(0,21).map(({owner,...rest})=>rest)));
+       if(window.DDNativeHoldAuthor){await new Promise(resolve=>{window.DDNativeReleaseAuthor=resolve});}
+       return reply(snapshot);
+      }
+      if(url.pathname==='/rest/v1/rpc/dd_cr_withdraw'&&method==='POST'){
+       const chosen=window.DDNativeAuthorRows.find(x=>x.id===json?.p_id&&x.owner===actor);
+       if(!chosen)return reply({code:'42501'},403);
+       const rootId=chosen.revision_of||chosen.id;
+       const chain=window.DDNativeAuthorRows.filter(x=>x.owner===actor&&(x.id===rootId||x.revision_of===rootId)&&['published','pending','flagged'].includes(x.status));
+       chain.forEach(x=>{x.status='withdrawn';x.has_active_successor=false;});
+       for(const x of window.DDNativeRows)if(chain.some(y=>y.id===x.id))x.status='withdrawn';
+       window.DDNativeWithdrawWrites.push({actor,id:chosen.id,affected:chain.length});
+       return reply(chain.length);
+      }
       if(url.pathname==='/rest/v1/rpc/dd_cr_moderation_queue'&&method==='POST'){
        if(actor!==reviewOwner)return reply({code:'42501'},403);
        const snapshot=JSON.parse(JSON.stringify(window.DDNativeQueue));
@@ -328,6 +349,79 @@ const server=http.createServer((req,res)=>{
     await native.evaluate(()=>window.navigateTo('originalResearchPage'));
     assert.equal(await mod.locator('[data-review-id]').count(),0);
     console.log('PASS owner queue, explicit reason/confirmation, restore/reject, stale case, silent account change and delayed private response clearing at '+width+'px');
+    // Only fictional account-scoped metadata and a previously public snapshot.
+    await native.evaluate(({memberA,memberB})=>{
+     const mk=(n,title,owner,status='published',version_no=1,revision_of=null,successor=false,created_at='2026-10-01T00:00:00Z')=>({
+      id:'00000000-0000-4000-8000-'+String(n).padStart(12,'0'),title,owner,status,author_label:'Fixture author',category:'Case analysis',
+      version_no,revision_of,created_at,has_active_successor:successor,private_token:'NEVER RENDER PRIVATE TOKEN'
+     });
+     const parent=mk(30,'Original fictional publication',memberB,'published',1,null,true,'2026-11-24T00:00:00Z');
+     const latest=mk(31,'Latest fictional revision',memberB,'published',2,parent.id,false,'2026-11-25T00:00:00Z');
+     const removed=mk(32,'Withdrawn fictional research',memberB,'withdrawn',1,null,false,'2026-11-23T00:00:00Z');
+     window.DDNativeAuthorRows=[latest,parent,removed,mk(33,'Other private account title',memberA,'flagged'),...Array.from({length:19},(_,i)=>mk(40+i,'Older author fixture '+i,memberB,'withdrawn'))];
+     for(const source of [latest,parent])window.DDNativeRows.push({...source,abstract:'Fictional public abstract',body_text:'Fictional public revision body',references_text:'Fictional reference'});
+     window.DDNativeSetIdentity(memberB);window.navigateTo('profilePage');
+    },{memberA,memberB});
+    const author=native.locator('#ddCRAuthor');
+    await author.locator('summary').first().click();
+    await author.getByText('20 of your research version(s) shown.',{exact:true}).waitFor();
+    assert.equal(await author.getByText('Other private account title',{exact:false}).count(),0);
+    assert.equal(await author.getByText('NEVER RENDER PRIVATE TOKEN',{exact:false}).count(),0);
+    const latest=author.locator('[data-author-publication-id]').filter({hasText:'Latest fictional revision'});
+    const original=author.locator('[data-author-publication-id]').filter({hasText:'Original fictional publication'});
+    assert.equal(await original.getByRole('button',{name:'Prepare revision draft'}).count(),0);
+    assert.equal(await original.getByText('This version has a newer active revision.').count(),1);
+    await latest.getByRole('button',{name:'Prepare revision draft'}).click();
+    const draft=latest.getByLabel('Revision research text');
+    assert.equal(await draft.inputValue(),'Fictional public revision body');
+    await draft.fill('Updated fictional revision draft');
+    await latest.getByRole('button',{name:'Copy revision draft text'}).click();
+    await author.getByText('Revision text copied.',{exact:false}).waitFor();
+    assert.match(await native.evaluate(()=>window.DDNativeRevisionClipboard),/Updated fictional revision draft/);
+    assert.equal(await native.evaluate(()=>window.DDNativeWithdrawWrites.length),0);
+    await author.getByRole('button',{name:'Older publications'}).click();
+    await author.getByText('2 of your research version(s) shown.',{exact:true}).waitFor();
+    assert.equal(await latest.count(),0);
+    await author.getByRole('button',{name:'Refresh newest publications'}).click();
+    await author.getByText('20 of your research version(s) shown.',{exact:true}).waitFor();
+    assert.equal(await latest.getByLabel('Revision research text').count(),0);
+    await latest.getByText('Withdraw all versions',{exact:true}).click();
+    const doWithdraw=latest.getByRole('button',{name:'Confirm entire-chain withdrawal'});
+    await latest.getByLabel('Withdrawal reason').fill('Fictional reason to withdraw.');
+    assert.equal(await doWithdraw.isEnabled(),false);
+    await latest.getByLabel('Type WITHDRAW to confirm').fill('WITHDRAW');
+    await native.evaluate(id=>window.DDNativeSetIdentity(id,false,false),memberA);
+    await doWithdraw.click();
+    await author.locator('[data-author-publication-id]').first().waitFor({state:'detached'});
+    assert.equal(await native.evaluate(()=>window.DDNativeWithdrawWrites.length),0);
+    // A delayed owner list cannot paint after a real identity-change event.
+    await native.evaluate(id=>{window.DDNativeSetIdentity(id);window.DDNativeHoldAuthor=true;},memberB);
+    await author.locator('summary').first().click();
+    await native.waitForFunction(()=>typeof window.DDNativeReleaseAuthor==='function');
+    await native.evaluate(id=>{window.DDNativeSetIdentity(id);window.DDNativeHoldAuthor=false;window.DDNativeReleaseAuthor();},memberA);
+    await native.waitForFunction(()=>!document.getElementById('ddCRAuthor').open);
+    assert.equal(await author.locator('[data-author-publication-id]').count(),0);
+    await author.locator('summary').first().click();
+    await author.getByText('1 of your research version(s) shown.',{exact:true}).waitFor();
+    assert.equal(await author.getByText('Other private account title',{exact:false}).count(),1);
+    assert.equal(await latest.count(),0);
+    await native.evaluate(id=>window.DDNativeSetIdentity(id),memberB);
+    await author.locator('summary').first().click();
+    await author.getByText('20 of your research version(s) shown.',{exact:true}).waitFor();
+    await latest.getByText('Withdraw all versions',{exact:true}).click();
+    await latest.getByLabel('Withdrawal reason').fill('Fictional reason to withdraw.');
+    await latest.getByLabel('Type WITHDRAW to confirm').fill('WITHDRAW');
+    await doWithdraw.click();
+    await author.getByText('2 active version(s) withdrawn.',{exact:false}).waitFor();
+    assert.ok(await latest.getByText('Withdrawn · Case analysis',{exact:false}).isVisible());
+    assert.ok(await original.getByText('Withdrawn · Case analysis',{exact:false}).isVisible());
+    assert.equal(await latest.getByRole('button',{name:'Prepare revision draft'}).count(),0);
+    assert.equal(await native.evaluate(()=>window.DDNativeWithdrawWrites.length),1);
+    await native.evaluate(()=>window.navigateTo('originalResearchPage'));
+    assert.equal(await author.locator('[data-author-publication-id]').count(),0);
+    assert.equal(await native.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+    console.log('PASS author-only metadata and keyset pagination, local revision preview/copy, typed whole-chain withdrawal, switched-account and delayed private-list clearing at '+width+'px');
+
 
    }finally{await ctx.close()}
   }

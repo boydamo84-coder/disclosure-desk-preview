@@ -36,6 +36,10 @@ const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(ti
  await assert.rejects(q("insert into public.dd_cr_submissions(title,abstract,category,body_text,consent) values('No consent','Abstract','Case analysis','Text',false)"),/check constraint/);
  await claim('authenticated',reader);
  assert.equal((await read()).rows.length,1);
+ const mine=async(account,before=null,beforeId=null)=>(await q('select public.dd_cr_my_publications($1,$2,$3) result',[account,before,beforeId])).rows[0].result;
+ assert.deepEqual(await mine(reader),[],'Other public authors must not leak into own list');
+ await assert.rejects(mine(author),/Account confirmation required/);
+ await assert.rejects(mine(reader,null,id),/Invalid publication cursor/);
  await assert.rejects(q("select public.dd_cr_review($1,'restore','Not moderator')",[id]),/Moderator access/);
  await assert.rejects(q("select public.dd_cr_withdraw($1,'Not author')",[id]),/Withdrawal access/);
  await assert.rejects(q('select public.dd_cr_moderation_queue()'),/Moderator access/);
@@ -99,6 +103,11 @@ const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(ti
  await claim('authenticated',author);
  const rev=(await revise()).rows[0];
  assert.equal(rev.version_no,2);
+ const versions=await mine(author);
+ assert.equal(versions.length,2);
+ assert.ok(versions.some(r=>r.id===id&&r.has_active_successor));
+ assert.ok(versions.some(r=>r.id===rev.id&&r.revision_of===id&&!r.has_active_successor));
+ assert.ok(!JSON.stringify(versions).includes(author));
  await assert.rejects(revise(),/duplicate key/);
  await claim('anon');
  assert.equal((await read()).rows.length,2,'valid revision auto-published');
@@ -107,6 +116,11 @@ const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(ti
  assert.equal((await read()).rows.length,2,'old published version remains citable');
  await claim('authenticated',author);
  assert.equal((await q("select public.dd_cr_withdraw($1,'Author requests removal') result",[rev.id])).rows[0].result,2);
+ assert.ok((await mine(author)).every(r=>r.status==='withdrawn'));
+ await claim('authenticated',author,true);
+ await assert.rejects(mine(author),/Member access/);
+ await claim('anon');
+ await assert.rejects(mine(author),/permission denied/);
  await db.exec('reset role');
  assert.equal((await q("select count(*)::int count from dd_cr_private.audit")).rows[0].count,3);
  await claim('authenticated',reader);
@@ -174,6 +188,17 @@ const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(ti
  await db.exec('reset role');
  assert.equal((await q('select count(*)::int count from public.dd_cr_submissions where request_token=$1',[token])).rows[0].count,1);
  assert.equal((await q("select count(*)::int count from pg_catalog.pg_proc p join pg_catalog.pg_namespace n on p.pronamespace=n.oid where n.nspname='public' and p.proname='dd_cr_lookup_receipt'")).rows[0].count,0);
+ // Seed older fictional versions through the actual draft trigger as the
+ // disposable database owner; dates are historical so no daily cap is bypassed.
+ await claim('authenticated',author);await db.exec('reset role');
+ await q("insert into public.dd_cr_submissions(title,abstract,category,body_text,consent,created_at) select 'Historical fixture '||g,'Summary','Case analysis','Fictional older text',true,now()-interval '10 days'-(g||' days')::interval from generate_series(1,22) g");
+ await claim('authenticated',author);
+ const firstPage=await mine(author);assert.equal(firstPage.length,21);
+ const page2=await mine(author,firstPage[19].created_at,firstPage[19].id);
+ assert.equal(page2.length,5);assert.equal(page2[0].id,firstPage[20].id);
+ assert.ok(!page2.some(r=>firstPage.slice(0,20).some(p=>p.id===r.id)));
+ await claim('authenticated',reader);assert.deepEqual(await mine(reader),[]);
+ console.log('PASS private author projection, own statuses, revision links, bounded keyset pagination and denied cross-account/guest access');
  console.log('PASS private read-only exact-copy receipt reconciliation, current visibility, account isolation and no public API wrapper');
  console.log('PASS request-token uniqueness, account binding, private tokens and no replay after withdrawal');
  console.log('PASS server-derived public usernames, impersonation rejection, private-profile protection, automatic publication, five unique flags, duplicate/self/guest protection, hidden comments and reactions, moderator restoration, fresh review round, owned revisions and whole-chain withdrawal');

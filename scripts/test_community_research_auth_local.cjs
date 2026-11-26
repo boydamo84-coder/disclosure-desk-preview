@@ -19,7 +19,7 @@ const emailName=label=>label+'-'+randomUUID()+'@example.com';
 async function call(path,{token,method='GET',body,headers={}}={}){
  // Strict loopback integration-test routes. Never accept an arbitrary service URL.
  const restRead=method==='GET'&&path.startsWith('/rest/v1/dd_cr_submissions?');
- const draftTest=method==='POST'&&['/rest/v1/dd_cr_submissions?select=id,title,status,author_label,version_no','/rest/v1/rpc/dd_cr_withdraw','/rest/v1/rpc/dd_cr_flag','/rest/v1/rpc/dd_cr_review','/rest/v1/rpc/dd_cr_moderation_queue'].includes(path);
+ const draftTest=method==='POST'&&['/rest/v1/dd_cr_submissions?select=id,title,status,author_label,version_no','/rest/v1/rpc/dd_cr_withdraw','/rest/v1/rpc/dd_cr_flag','/rest/v1/rpc/dd_cr_review','/rest/v1/rpc/dd_cr_moderation_queue','/rest/v1/rpc/dd_cr_my_publications'].includes(path);
  const engagementTest=['GET','HEAD','POST','PATCH','DELETE'].includes(method)&&
   (path.startsWith('/rest/v1/dd_cr_reactions?')||path.startsWith('/rest/v1/dd_cr_comments?'));
  assert.ok(path.startsWith('/auth/v1/')||restRead||draftTest||engagementTest,'Unexpected local fixture route');
@@ -321,4 +321,42 @@ function rows(response,expected,label){
  assert.equal((await queue(moderation)).ok,false,'Removed owner access takes effect with the same genuine token');
  console.log('PASS genuine moderator rejection, stale decision denial, explicit private queue projection and owner allowlist revocation');
  console.log('PASS genuine local five distinct flags, duplicate/self denial, private moderator queue, restoration and fresh flag round');
+
+ // Genuine isolated author-list and existing revision/withdrawal API acceptance.
+ const mine=(actor,expected=actor?.id,cursor=null)=>call('/rest/v1/rpc/dd_cr_my_publications',{
+  token:actor?.token,method:'POST',body:{p_expected_account:expected??null,p_before_created:cursor?.created_at??null,p_before_id:cursor?.id??null}
+ });
+ const mineKeys=['id','title','author_label','category','status','version_no','revision_of','created_at','has_active_successor'].sort();
+ for(const actor of [null,anonymous])assert.equal((await mine(actor)).ok,false,'Guest and anonymous author-list denial');
+ assert.equal((await mine(reader,owner.id)).ok,false,'Wrong expected account denied');
+ assert.equal((await mine(owner,owner.id,{id:report.id})).ok,false,'Partial cursor denied');
+ const ownBefore=await mine(owner);okEngagement(ownBefore,'Owner private publication list');
+ assert.ok(Array.isArray(ownBefore.data)&&ownBefore.data.length===4,'Only four own test versions belong to the author');
+ assert.ok(ownBefore.data.every(x=>JSON.stringify(Object.keys(x).sort())===JSON.stringify(mineKeys)),'Strict author-only metadata projection');
+ assert.ok(ownBefore.data.some(x=>x.id===report.id&&x.status==='withdrawn'));
+ assert.ok(!ownBefore.data.some(x=>x.id===flagId),'Other member research is excluded from author list');
+ const otherMine=await mine(reader);okEngagement(otherMine,'Other member list');
+ assert.ok(otherMine.data.length===1&&otherMine.data[0].id===flagId&&otherMine.data[0].status==='rejected');
+ const noOwner=await mine(moderation);okEngagement(noOwner,'Empty member list');assert.deepEqual(noOwner.data,[]);
+ const parent=ownBefore.data.find(r=>r.title==='Fixture published');
+ assert.ok(parent&&parent.status==='published'&&!parent.has_active_successor);
+ const secondCopy={...reviewed,title:'Fixture second version',revision_of:parent.id,request_token:randomUUID(),expected_account:owner.id};
+ await denied(reader,{...secondCopy,expected_account:reader.id},'Foreign parent revision');
+ const acceptedRevision=await submit(owner,secondCopy);
+ okEngagement(acceptedRevision,'Genuine owner revision');
+ assert.equal(acceptedRevision.data[0].version_no,2);
+ const revision=acceptedRevision.data[0];
+ const withRevision=await mine(owner);okEngagement(withRevision,'Author list with revision');
+ assert.ok(withRevision.data.some(x=>x.id===parent.id&&x.has_active_successor));
+ assert.ok(withRevision.data.some(x=>x.id===revision.id&&x.revision_of===parent.id&&x.version_no===2&&!x.has_active_successor));
+ assert.ok((await read()).data.some(x=>x.id===parent.id),'Original version remains publicly citable');
+ const cursor=withRevision.data[0],older=await mine(owner,owner.id,cursor);
+ okEngagement(older,'Keyset author list cursor');
+ assert.deepEqual(older.data.map(x=>x.id),withRevision.data.slice(1).map(x=>x.id),'Cursor excludes only the preceding page boundary');
+ const withdrawChain=actor=>call('/rest/v1/rpc/dd_cr_withdraw',{token:actor?.token,method:'POST',body:{p_id:revision.id,p_reason:'Fictional version chain withdrawal'}});
+ assert.equal((await withdrawChain(reader)).ok,false,'Another account cannot withdraw the chain');
+ const withdrawn=await withdrawChain(owner);okEngagement(withdrawn,'Genuine author chain withdrawal');assert.equal(withdrawn.data,2);
+ const publicAfter=await read();assert.ok(!publicAfter.data.some(x=>[parent.id,revision.id].includes(x.id)));
+ const ownAfter=await mine(owner);assert.ok([parent.id,revision.id].every(id=>ownAfter.data.some(x=>x.id===id&&x.status==='withdrawn')));
+ console.log('PASS genuine author-only list isolation, expected account and cursor, existing owned revision transport, old citable version and whole-chain withdrawal');
 })().catch(e=>{console.error(e.message);process.exitCode=1});

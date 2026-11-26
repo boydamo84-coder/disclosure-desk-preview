@@ -270,12 +270,35 @@ create function public.dd_cr_withdraw(p_id uuid,p_reason text)
 returns integer language sql security invoker set search_path='' as $$select dd_cr_private.withdraw(p_id,p_reason)$$;
 create function public.dd_cr_moderation_queue()
 returns jsonb language sql stable security invoker set search_path='' as $$select dd_cr_private.queue()$$;
+-- Author-only metadata projection. Public reads intentionally do not expose
+-- author_id, so they cannot be used to determine ownership. This read-only
+-- helper checks the current non-anonymous actor and never returns identities,
+-- private tokens, reports from another account, or hidden text.
+create function dd_cr_private.my_publications(p_expected_account uuid,p_before_created timestamptz,p_before_id uuid)
+returns jsonb language plpgsql stable security definer set search_path='' as $
+declare actor uuid:=dd_cr_private.member();
+begin
+ if p_expected_account is distinct from actor then raise exception 'Account confirmation required' using errcode='42501'; end if;
+ if (p_before_created is null)<>(p_before_id is null) then raise exception 'Invalid publication cursor' using errcode='22023'; end if;
+ return (select coalesce(pg_catalog.jsonb_agg(pg_catalog.to_jsonb(s) order by s.created_at desc,s.id desc),'[]'::jsonb) from
+  (select p.id,p.title,p.author_label,p.category,p.status,p.version_no,p.revision_of,p.created_at,
+   exists(select 1 from public.dd_cr_submissions child where child.author_id=actor and child.revision_of=p.id and child.status in ('pending','published','flagged')) as has_active_successor
+   from public.dd_cr_submissions p where p.author_id=actor
+   and (p_before_created is null or (p.created_at,p.id)<(p_before_created,p_before_id))
+   order by p.created_at desc,p.id desc limit 21) s);
+end $;
+create function public.dd_cr_my_publications(p_expected_account uuid,p_before_created timestamptz,p_before_id uuid)
+returns jsonb language sql stable security invoker set search_path='' as $select dd_cr_private.my_publications(p_expected_account,p_before_created,p_before_id)$;
 revoke all on all functions in schema dd_cr_private from public,anon,authenticated;
 -- Receipt check is available only to signed-in SQL test roles; no public wrapper.
 grant execute on function dd_cr_private.lookup_receipt(uuid,uuid,jsonb) to authenticated;
 grant execute on function dd_cr_private.flag(uuid,text),dd_cr_private.review(uuid,text,text),dd_cr_private.withdraw(uuid,text),dd_cr_private.queue() to authenticated;
 revoke all on function public.dd_cr_flag(uuid,text),public.dd_cr_review(uuid,text,text),public.dd_cr_withdraw(uuid,text),public.dd_cr_moderation_queue() from public,anon,authenticated;
 grant execute on function public.dd_cr_flag(uuid,text),public.dd_cr_review(uuid,text,text),public.dd_cr_withdraw(uuid,text),public.dd_cr_moderation_queue() to authenticated;
+
+grant execute on function dd_cr_private.my_publications(uuid,timestamptz,uuid) to authenticated;
+revoke all on function public.dd_cr_my_publications(uuid,timestamptz,uuid) from public,anon,authenticated;
+grant execute on function public.dd_cr_my_publications(uuid,timestamptz,uuid) to authenticated;
 
 -- Remaining gates: username snapshot consent/privacy lifecycle, comment/reaction rate limits,
 -- profile verification/anti-brigading, pagination, UI wiring and genuine account tests.
