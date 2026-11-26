@@ -567,15 +567,38 @@ function mountAuthor(){
  return {clear:close};
 }
 
+
+// Local manual PDF pilot; the module and PDF parser are deliberately absent
+// from the public package allowlist. No hosted configs or URL/storage switch.
+function mountPdfPilot(){
+ const trigger=$('ddCRUpload');
+ if(!trigger||cfg.environment!=='test'||window.DD_COMMUNITY_FEATURES?.researchPdfPreview!==true
+  ||!['127.0.0.1','localhost'].includes(location.hostname))return null;
+ let panel=null,generation=0;
+ function clear(){++generation;panel?.close();panel=null;trigger.disabled=false;trigger.textContent='Upload Research · local PDF review';}
+ trigger.disabled=false;trigger.textContent='Upload Research · local PDF review';
+ trigger.onclick=async()=>{
+  clear();const gen=generation;trigger.disabled=true;
+  try{
+   const module=await import('/docs/community-research/pdf-upload-preview.mjs');
+   if(gen!==generation||page.hidden)return;
+   panel=module.mountPdfReview(trigger.parentElement.parentElement);
+  }catch{if(gen===generation)say('Local PDF review unavailable. No file was sent.');}
+  finally{if(gen===generation)trigger.disabled=false;}
+ };
+ window.addEventListener('dd-public-section-change',e=>{if(e.detail.section!=='communityResearchPage')clear();});
+ return {clear};
+}
+
 nav.hidden=false;
-const moderation=mountModeration(),authorTools=mountAuthor();
-if(engagementEnabled||moderation||authorTools){
+const moderation=mountModeration(),authorTools=mountAuthor(),pdfPilot=mountPdfPilot();
+if(engagementEnabled||moderation||authorTools||pdfPilot){
  let currentActor,known=false;
  db()?.auth?.onAuthStateChange?.((_event,session)=>{
   const actor=session?.user?.id?session.user.id+'|'+String(session.user.is_anonymous):null;
   if(!known){known=true;currentActor=actor;return;}
   if(actor===currentActor)return;
-  currentActor=actor;++authEpoch;moderation?.clear();authorTools?.clear();
+  currentActor=actor;++authEpoch;moderation?.clear();authorTools?.clear();pdfPilot?.clear();
   // Avoid auth calls inside the SDK's auth-state callback. Re-rendering also
   // discards any old account's unsent text.
   if(!page.hidden&&viewId())setTimeout(()=>void refresh(),0);
