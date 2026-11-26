@@ -13,11 +13,13 @@ async function claim(role,id='',anonymous=false){
 }
 const reportCols='id,title,status';
 const read=()=>q('select '+reportCols+' from public.dd_cr_submissions order by title');
-const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(author_label,title,abstract,category,body_text,consent) values('Example author',$1,'A short abstract','Case analysis','A public text snapshot',true) returning id",[title]);
+const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(title,abstract,category,body_text,consent) values($1,'A short abstract','Case analysis','A public text snapshot',true) returning id",[title]);
 (async()=>{
  await db.exec("create role anon; create role authenticated; create schema auth; create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('dd_test.user',true),'')::uuid$$; create function auth.jwt() returns jsonb language sql stable as $$select jsonb_build_object('is_anonymous',current_setting('dd_test.anon',true))$$;");
  await db.exec('create table public.dd_forum_owner_admins(user_id uuid primary key)');
  await q('insert into public.dd_forum_owner_admins values ($1),($2)',[moderator,author]);
+ await db.exec('create table public.dd_public_names(user_id uuid primary key, display_name text not null, is_public boolean not null); alter table public.dd_public_names enable row level security; revoke all on public.dd_public_names from public,anon,authenticated;');
+ await q("insert into public.dd_public_names values ($1,'ExampleAuthor',true),($2,'ExampleReader',true),($3,'ExampleReviewer',false)",[author,reader,moderator]);
  await db.exec(fs.readFileSync('docs/community-research/SCHEMA_DRAFT_NOT_APPLIED.sql','utf8'));
  await claim('anon');
  assert.equal((await read()).rows.length,0);
@@ -27,9 +29,11 @@ const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(au
  await claim('authenticated',author);
  const id=(await submit()).rows[0].id;
  assert.equal((await read()).rows[0].status,'published');
+ assert.equal((await q('select author_label from public.dd_cr_submissions where id=$1',[id])).rows[0].author_label,'ExampleAuthor');
+ await assert.rejects(q("insert into public.dd_cr_submissions(author_label,title,abstract,category,body_text,consent) values('ExampleReader','Impersonation','Abstract','Case analysis','Text',true)"),/permission denied/);
  await assert.rejects(q("update public.dd_cr_submissions set status='published' where id=$1",[id]),/permission denied/);
  await assert.rejects(q("insert into public.dd_cr_submissions(author_id,author_label,title,abstract,category,body_text,consent) values($1,'Other','Invalid','Abstract','Case analysis','Text',true)",[reader]),/permission denied/);
- await assert.rejects(q("insert into public.dd_cr_submissions(author_label,title,abstract,category,body_text,consent) values('Author','No consent','Abstract','Case analysis','Text',false)"),/check constraint/);
+ await assert.rejects(q("insert into public.dd_cr_submissions(title,abstract,category,body_text,consent) values('No consent','Abstract','Case analysis','Text',false)"),/check constraint/);
  await claim('authenticated',reader);
  assert.equal((await read()).rows.length,1);
  await assert.rejects(q("select public.dd_cr_review($1,'restore','Not moderator')",[id]),/Moderator access/);
@@ -41,6 +45,8 @@ const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(au
  await claim('authenticated',moderator,true);
  await assert.rejects(q('select public.dd_cr_moderation_queue()'),/Member access/);
  await claim('authenticated',moderator);
+ await assert.rejects(submit('Private profile'),/valid public username/);
+ await assert.rejects(q("insert into public.dd_cr_comments(report_id,body_text) values($1,'Private comment')",[id]),/valid public username/);
  assert.deepEqual((await q('select public.dd_cr_moderation_queue() result')).rows[0].result,[]);
  await assert.rejects(q("select public.dd_cr_review($1,'restore','Not flagged')",[id]),/not pending flag review/);
  await claim('anon');
@@ -52,7 +58,10 @@ const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(au
  await assert.rejects(q('insert into public.dd_cr_reactions(report_id,reaction) values($1,-1)',[id]),/duplicate key/);
  await q('update public.dd_cr_reactions set reaction=-1 where report_id=$1',[id]);
  assert.deepEqual((await q('select reaction from public.dd_cr_reactions where report_id=$1',[id])).rows,[{reaction:-1}]);
- await q("insert into public.dd_cr_comments(report_id,author_label,body_text) values($1,'Reader','A constructive comment')",[id]);
+ await q("insert into public.dd_cr_comments(report_id,body_text) values($1,'A constructive comment')",[id]);
+ assert.equal((await q('select author_label from public.dd_cr_comments where report_id=$1',[id])).rows[0].author_label,'ExampleReader');
+ await assert.rejects(q("insert into public.dd_cr_comments(report_id,author_label,body_text) values($1,'ExampleAuthor','Impersonation')",[id]),/permission denied/);
+ await assert.rejects(q('select * from public.dd_public_names'),/permission denied/);
  await claim('authenticated',author);
  await q('update public.dd_cr_reactions set reaction=1 where report_id=$1',[id]);
  assert.deepEqual((await q('select reaction from public.dd_cr_reactions where report_id=$1',[id])).rows,[{reaction:-1}]);
@@ -75,7 +84,7 @@ const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(au
  assert.equal((await q('select body_text from public.dd_cr_comments')).rows.length,0);
  await claim('authenticated',reader);
  await assert.rejects(q('select * from dd_cr_private.flags'),/permission denied/);
- await assert.rejects(q("insert into public.dd_cr_comments(report_id,author_label,body_text) values($1,'Reader','Hidden')",[id]),/row-level security/);
+ await assert.rejects(q("insert into public.dd_cr_comments(report_id,body_text) values($1,'Hidden')",[id]),/row-level security/);
  await claim('authenticated',moderator);
  const queue=(await q('select public.dd_cr_moderation_queue() result')).rows[0].result;
  assert.equal(queue[0].id,id);assert.equal(queue[0].flag_count,5);assert.equal(queue[0].flag_reasons.length,5);
@@ -85,7 +94,7 @@ const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(au
  await claim('anon');
  assert.equal((await read()).rows.length,1,'old flags do not immediately hide restored work');
  await claim('authenticated',reader);
- const revise=()=>q("insert into public.dd_cr_submissions(author_label,title,abstract,category,body_text,consent,revision_of) values('Example author','Revised report','Abstract','Case analysis','Revised snapshot',true,$1) returning id,version_no",[id]);
+ const revise=()=>q("insert into public.dd_cr_submissions(title,abstract,category,body_text,consent,revision_of) values('Revised report','Abstract','Case analysis','Revised snapshot',true,$1) returning id,version_no",[id]);
  await assert.rejects(revise(),/own published version/);
  await claim('authenticated',author);
  const rev=(await revise()).rows[0];
@@ -106,5 +115,5 @@ const submit=(title='Test research')=>q("insert into public.dd_cr_submissions(au
  assert.equal((await read()).rows.length,0);
  assert.equal((await q('select reaction from public.dd_cr_reactions')).rows.length,0);
  assert.equal((await q('select body_text from public.dd_cr_comments')).rows.length,0);
- console.log('PASS automatic publication, five unique flags, duplicate/self/guest protection, hidden comments and reactions, moderator restoration, fresh review round, owned revisions and whole-chain withdrawal');
+ console.log('PASS server-derived public usernames, impersonation rejection, private-profile protection, automatic publication, five unique flags, duplicate/self/guest protection, hidden comments and reactions, moderator restoration, fresh review round, owned revisions and whole-chain withdrawal');
 })().catch(e=>{console.error(e);process.exitCode=1}).finally(()=>db.close());

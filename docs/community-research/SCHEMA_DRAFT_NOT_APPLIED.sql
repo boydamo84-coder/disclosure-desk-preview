@@ -42,12 +42,12 @@ revoke all on public.dd_cr_submissions,public.dd_cr_reactions,public.dd_cr_comme
 -- Clients cannot assign author/member UUID, status, timestamps, or moderation outcomes.
 grant select(id,author_label,title,abstract,category,body_text,references_text,status,revision_of,created_at,reviewed_at)
  on public.dd_cr_submissions to anon,authenticated;
-grant insert(author_label,title,abstract,category,body_text,references_text,consent,revision_of)
+grant insert(title,abstract,category,body_text,references_text,consent,revision_of)
  on public.dd_cr_submissions to authenticated;
 grant select(report_id,reaction) on public.dd_cr_reactions to anon,authenticated;
 grant insert(report_id,reaction),update(reaction),delete on public.dd_cr_reactions to authenticated;
 grant select(id,report_id,author_label,body_text,created_at,status) on public.dd_cr_comments to anon,authenticated;
-grant insert(report_id,author_label,body_text) on public.dd_cr_comments to authenticated;
+grant insert(report_id,body_text) on public.dd_cr_comments to authenticated;
 create policy dd_cr_public_read on public.dd_cr_submissions for select to anon,authenticated using(status='published');
 create policy dd_cr_author_read on public.dd_cr_submissions for select to authenticated using(author_id=(select auth.uid()) and coalesce((select auth.jwt()->>'is_anonymous'),'true')='false');
 -- Initial insert policy is replaced below by the checked revision trigger.
@@ -115,6 +115,150 @@ begin
  end if;
  return actor;
 end $$;
+-- Only use the existing opted-in public username, never a client-supplied label.
+-- A private/missing/reserved username cannot be used to publish or comment.
+-- This is a publication-time snapshot; explicit username-retention disclosure and
+-- profile privacy/rename lifecycle acceptance remain release gates.
+create function dd_cr_private.public_label()
+returns text language plpgsql stable security definer set search_path='' as $
+declare actor uuid:=dd_cr_private.member(); label text;
+begin
+ select n.display_name into label from public.dd_public_names n
+ where n.user_id=actor and n.is_public=true;
+ if label is null or label !~ '^[A-Za-z][A-Za-z0-9_]{2,23}
+create function dd_cr_private.before_submit()
+returns trigger language plpgsql security definer set search_path='' as $$
+declare actor uuid:=dd_cr_private.member(); parent public.dd_cr_submissions%rowtype;
+begin
+ if new.author_id<>actor or new.status<>'pending' then raise exception 'Invalid submission identity or status' using errcode='42501'; end if;
+ perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(actor::text,93271));
+ if (select count(*) from public.dd_cr_submissions where author_id=actor and created_at>now()-interval '24 hours')>=5 then
+  raise exception 'Daily submission limit reached';
+ end if;
+ if new.revision_of is not null then
+  select * into parent from public.dd_cr_submissions where id=new.revision_of and author_id=actor and status='published';
+  if not found then raise exception 'Revision requires your own published version' using errcode='42501'; end if;
+  new.version_no:=parent.version_no+1;
+ else new.version_no:=1;
+ end if;
+ -- Explicit text-only submissions become public after the consent and validation constraints pass.
+ new.author_label:=dd_cr_private.public_label();
+ new.status:='published';
+ return new;
+end $$;
+create trigger dd_cr_check_submission before insert on public.dd_cr_submissions for each row execute function dd_cr_private.before_submit();
+drop policy dd_cr_submit on public.dd_cr_submissions;
+create policy dd_cr_submit on public.dd_cr_submissions for insert to authenticated
+ with check(author_id=(select auth.uid()) and coalesce((select auth.jwt()->>'is_anonymous'),'true')='false' and status='published');
+-- One flag per genuine signed-in member per review round. No self-flags.
+-- Per-reporter and per-author transaction locks prevent threshold races and repeat spam.
+create function dd_cr_private.flag(p_id uuid,p_reason text)
+returns jsonb language plpgsql security definer set search_path='' as $$
+declare actor uuid:=dd_cr_private.member(); item public.dd_cr_submissions%rowtype; tally integer; added integer;
+begin
+ if p_reason is null or char_length(btrim(p_reason)) not between 1 and 1000 then raise exception 'Flag reason required'; end if;
+ perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(actor::text,93272));
+ select * into item from public.dd_cr_submissions where id=p_id;
+ if not found or item.author_id=actor then raise exception 'Cannot flag this research' using errcode='42501'; end if;
+ perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(item.author_id::text,93271));
+ select * into item from public.dd_cr_submissions where id=p_id for update;
+ if item.status<>'published' then raise exception 'Research is not publicly available' using errcode='42501'; end if;
+ if exists(select 1 from dd_cr_private.flags f where f.report_id=p_id and f.flag_round=item.flag_round and f.reporter=actor) then
+  return jsonb_build_object('accepted',false,'hidden',false);
+ end if;
+ if (select count(*) from dd_cr_private.flags where reporter=actor and created_at>now()-interval '24 hours')>=10 then raise exception 'Daily flag limit reached'; end if;
+ insert into dd_cr_private.flags(report_id,flag_round,reporter,reason) values(p_id,item.flag_round,actor,btrim(p_reason)) on conflict do nothing;
+ get diagnostics added=row_count;
+ select count(*)::integer into tally from dd_cr_private.flags where report_id=p_id and flag_round=item.flag_round;
+ if tally>=5 then
+  update public.dd_cr_submissions set status='flagged' where id=p_id;
+  insert into dd_cr_private.audit(actor,report_id,action,reason) values(actor,p_id,'auto_hide','Five distinct member flags');
+ end if;
+ return jsonb_build_object('accepted',added=1,'hidden',tally>=5);
+end $$;
+create function dd_cr_private.review(p_id uuid,p_action text,p_reason text)
+returns boolean language plpgsql security definer set search_path='' as $$
+declare actor uuid:=dd_cr_private.owner(); item public.dd_cr_submissions%rowtype; next_state text;
+begin
+ if p_action not in ('restore','reject') or p_action is null or p_reason is null or char_length(btrim(p_reason)) not between 1 and 1000 then raise exception 'Review action and reason required'; end if;
+ select * into item from public.dd_cr_submissions where id=p_id;
+ if not found or item.author_id=actor then raise exception 'Cannot review this submission' using errcode='42501'; end if;
+ perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(item.author_id::text,93271));
+ select * into item from public.dd_cr_submissions where id=p_id for update;
+ if item.status<>'flagged' then raise exception 'Submission is not pending flag review'; end if;
+ next_state:=case when p_action='restore' then 'published' else 'rejected' end;
+ -- Restoring starts a fresh review round; old flags are retained for audit, not counted twice.
+ update public.dd_cr_submissions set status=next_state,reviewed_at=now(),flag_round=flag_round+case when p_action='restore' then 1 else 0 end where id=p_id;
+ insert into dd_cr_private.audit(actor,report_id,action,reason) values(actor,p_id,p_action,btrim(p_reason));
+ return true;
+end $$;
+create function dd_cr_private.withdraw(p_id uuid,p_reason text)
+returns integer language plpgsql security definer set search_path='' as $$
+declare actor uuid:=dd_cr_private.member(); item public.dd_cr_submissions%rowtype; root_id uuid; changed integer;
+begin
+ if p_reason is null or char_length(btrim(p_reason)) not between 1 and 1000 then raise exception 'Withdrawal reason required'; end if;
+ select * into item from public.dd_cr_submissions where id=p_id;
+ if not found or (item.author_id<>actor and not exists(select 1 from public.dd_forum_owner_admins where user_id=actor)) then raise exception 'Withdrawal access required' using errcode='42501'; end if;
+ perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(item.author_id::text,93271));
+ with recursive ancestors as (
+  select id,revision_of from public.dd_cr_submissions where id=p_id
+  union all select p.id,p.revision_of from public.dd_cr_submissions p join ancestors a on p.id=a.revision_of
+ ) select id into root_id from ancestors where revision_of is null;
+ with recursive chain as (
+  select id from public.dd_cr_submissions where id=root_id
+  union all select p.id from public.dd_cr_submissions p join chain c on p.revision_of=c.id
+ ) update public.dd_cr_submissions set status='withdrawn',reviewed_at=now()
+ where id in(select id from chain) and status in ('pending','published','flagged');
+ get diagnostics changed=row_count;
+ if changed>0 then insert into dd_cr_private.audit(actor,report_id,action,reason) values(actor,root_id,'withdraw_chain',btrim(p_reason)); end if;
+ return changed;
+end $$;
+create function dd_cr_private.queue()
+returns jsonb language plpgsql stable security definer set search_path='' as $$
+begin
+ perform dd_cr_private.owner();
+ return (select coalesce(jsonb_agg(to_jsonb(s) order by s.created_at),'[]'::jsonb) from
+ (select p.id,p.author_label,p.title,p.abstract,p.category,p.body_text,p.references_text,p.version_no,p.revision_of,p.created_at,
+ (select count(*) from dd_cr_private.flags f where f.report_id=p.id and f.flag_round=p.flag_round) as flag_count,
+ (select coalesce(jsonb_agg(f.reason order by f.created_at),'[]'::jsonb) from dd_cr_private.flags f where f.report_id=p.id and f.flag_round=p.flag_round) as flag_reasons
+ from public.dd_cr_submissions p where p.status='flagged' order by p.created_at limit 30) s);
+end $$;
+-- Only invoker wrappers are exposed via the public API. Underlying private helpers
+-- independently check authenticated identity and authorization; no default public EXECUTE.
+create function public.dd_cr_flag(p_id uuid,p_reason text)
+returns jsonb language sql security invoker set search_path='' as $$select dd_cr_private.flag(p_id,p_reason)$$;
+create function public.dd_cr_review(p_id uuid,p_action text,p_reason text)
+returns boolean language sql security invoker set search_path='' as $$select dd_cr_private.review(p_id,p_action,p_reason)$$;
+create function public.dd_cr_withdraw(p_id uuid,p_reason text)
+returns integer language sql security invoker set search_path='' as $$select dd_cr_private.withdraw(p_id,p_reason)$$;
+create function public.dd_cr_moderation_queue()
+returns jsonb language sql stable security invoker set search_path='' as $$select dd_cr_private.queue()$$;
+revoke all on all functions in schema dd_cr_private from public,anon,authenticated;
+grant execute on function dd_cr_private.flag(uuid,text),dd_cr_private.review(uuid,text,text),dd_cr_private.withdraw(uuid,text),dd_cr_private.queue() to authenticated;
+revoke all on function public.dd_cr_flag(uuid,text),public.dd_cr_review(uuid,text,text),public.dd_cr_withdraw(uuid,text),public.dd_cr_moderation_queue() from public,anon,authenticated;
+grant execute on function public.dd_cr_flag(uuid,text),public.dd_cr_review(uuid,text,text),public.dd_cr_withdraw(uuid,text),public.dd_cr_moderation_queue() to authenticated;
+
+-- Remaining gates: username snapshot consent/privacy lifecycle, comment/reaction rate limits,
+-- profile verification/anti-brigading, pagination, UI wiring and genuine account tests.
+-- Do not expose this draft on a live project until those gates pass.
+commit;
+
+ or label ~* '(admin|moderator|support|official|verified|staff|disclosuredesk|boyddigitalstudios|uapdisclosuredesk)' then
+  raise exception 'A valid public username is required' using errcode='42501';
+ end if;
+ return label;
+end $;
+create function dd_cr_private.before_comment()
+returns trigger language plpgsql security definer set search_path='' as $
+begin
+ if new.member_id<>dd_cr_private.member() then
+  raise exception 'Invalid comment identity' using errcode='42501';
+ end if;
+ new.author_label:=dd_cr_private.public_label();
+ return new;
+end $;
+create trigger dd_cr_check_comment before insert on public.dd_cr_comments
+ for each row execute function dd_cr_private.before_comment();
 -- Serialize operations per author (including review and whole-chain withdrawal).
 create function dd_cr_private.before_submit()
 returns trigger language plpgsql security definer set search_path='' as $$
