@@ -6,7 +6,11 @@ else console.log('Verifying existing immutable public staging from Android snaps
 const m=JSON.parse(fs.readFileSync(path.join(out,'release-manifest.json'),'utf8'));
 const paths=m.files.map(f=>f.path),names=new Set(paths);
 assert.equal(names.size,paths.length);
-assert.ok(paths.length>=35&&paths.length<=(process.env.CONTEXT==='production'?140:141),'Unexpected package count '+paths.length);
+const themeHtml=fs.readFileSync(path.join(out,'index.html'),'utf8');
+const themeEnabled=themeHtml.includes('id="ddHomeThemeHero" data-media-ready="true"');
+const themeAssets=['nightfall','eclipse','orbital'].flatMap(n=>['mp4','jpg'].map(e=>'data/home-themes/'+n+'.'+e));
+assert.deepEqual(paths.filter(p=>p.startsWith('data/home-themes/')).sort(),themeEnabled?themeAssets.sort():[],'Theme assets must match the explicit activation gate');
+assert.ok(paths.length>=35&&paths.length<=(process.env.CONTEXT==='production'?140:141)+(themeEnabled?6:0),'Unexpected package count '+paths.length);
 for(const f of m.files){
  const bytes=fs.readFileSync(path.join(out,f.path));
  assert.equal(bytes.length,f.bytes,f.path);
