@@ -1,23 +1,23 @@
 {
-  "checkedAt": "2026-11-25T19:55:54.706302+00:00",
+  "checkedAt": "2026-11-26T02:49:29.716956+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 81,
+      "items": 40,
       "latestArticleAt": "2026-11-25T16:16:04+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 16,
-      "latestArticleAt": "2026-11-25T15:10:08+00:00"
+      "items": 12,
+      "latestArticleAt": "2026-11-21T20:44:41+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 27,
-      "latestArticleAt": "2026-11-25T11:11:23+00:00"
+      "items": 29,
+      "latestArticleAt": "2026-11-25T06:02:24+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
@@ -28,14 +28,14 @@
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 27,
-      "latestArticleAt": "2026-11-25T06:00:00+00:00"
+      "items": 13,
+      "latestArticleAt": "2026-11-24T15:32:20+00:00"
     },
     {
       "source": "Search: UAP congress hearing when:7d",
       "status": "ok",
-      "items": 3,
-      "latestArticleAt": "2026-11-22T14:56:17+00:00"
+      "items": 2,
+      "latestArticleAt": "2026-11-20T17:26:00+00:00"
     },
     {
       "source": "Search: UFO UAP Brazil Peru Mexico Argentina when:7d",
@@ -57,9 +57,9 @@
     },
     {
       "source": "Search: UFO UAP Australia New Zealand when:7d",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-11-21T09:01:41+00:00"
     },
     {
       "source": "Search: UFO UAP Africa Middle East when:7d",
@@ -69,8 +69,9 @@
     },
     {
       "source": "Search: UFO UAP Ireland UK Canada when:7d",
-      "status": "failed",
-      "items": 0
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "Search: Ireland",
@@ -98,9 +99,9 @@
     },
     {
       "source": "Search: Mexico",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "status": "ok",
+      "items": 1,
+      "latestArticleAt": "2026-11-22T00:38:50+00:00"
     },
     {
       "source": "Search: Japan",
@@ -203,5 +204,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 474
+  "storiesPublished": 476
 }
