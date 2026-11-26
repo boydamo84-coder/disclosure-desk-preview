@@ -236,9 +236,12 @@ function rows(response,expected,label){
  assert.ok(idPattern.test(sharedId),'Invalid local shared report ID');
  const reactionPath='/rest/v1/dd_cr_reactions?report_id=eq.'+sharedId+'&select=report_id,reaction';
  const commentPath='/rest/v1/dd_cr_comments?report_id=eq.'+sharedId+'&select=id,author_label,body_text,status';
- const addReaction=(actor,reaction)=>call('/rest/v1/dd_cr_reactions?select=report_id,reaction',{token:actor?.token,method:'POST',headers:{Prefer:'return=representation'},body:{report_id:sharedId,reaction}});
+ // Use minimal mutation responses: a public re-read proves the visible result
+ // without requiring privileges on internal/defaulted columns to return rows.
+ const addReaction=(actor,reaction)=>call('/rest/v1/dd_cr_reactions?select=report_id,reaction',{token:actor?.token,method:'POST',headers:{Prefer:'return=minimal'},body:{report_id:sharedId,reaction}});
  const reactionRead=()=>call(reactionPath);
- const addComment=(actor,body)=>call('/rest/v1/dd_cr_comments?select=id,author_label,body_text,status',{token:actor?.token,method:'POST',headers:{Prefer:'return=representation'},body:{report_id:sharedId,...body}});
+ const addComment=(actor,body)=>call('/rest/v1/dd_cr_comments?select=id,author_label,body_text,status',{token:actor?.token,method:'POST',headers:{Prefer:'return=minimal'},body:{report_id:sharedId,...body}});
+ const okEngagement=(result,label)=>assert.ok(result.ok,label+' (HTTP '+result.status+'; '+String(result.data?.code||'')+' '+String(result.data?.message||'').slice(0,180)+')');
  for(const actor of [null,anonymous]){
   assert.equal((await addReaction(actor,1)).ok,false,'Guest/anonymous reaction denied');
   assert.equal((await addComment(actor,{body_text:'Fictional denied comment'})).ok,false,'Guest/anonymous comment denied');
@@ -246,11 +249,11 @@ function rows(response,expected,label){
  assert.equal((await addComment(privateMember,{body_text:'Fictional private profile comment'})).ok,false,'Private profile comment denied');
  assert.equal((await addComment(reader,{body_text:'Fictional impersonation',author_label:'FixtureAuthor'})).ok,false,'Client comment label denied');
  const firstReact=await addReaction(reader,1);
- assert.ok(firstReact.ok,'Genuine member reaction must succeed');
+ okEngagement(firstReact,'Genuine member reaction must succeed');
  assert.equal((await addReaction(reader,-1)).ok,false,'Duplicate reaction must fail');
- assert.ok((await addReaction(owner,1)).ok,'Second account reaction must succeed');
- const changed=await call(reactionPath,{token:reader.token,method:'PATCH',headers:{Prefer:'return=representation'},body:{reaction:-1}});
- assert.ok(changed.ok&&Array.isArray(changed.data)&&changed.data.length===1,'Only own reaction changes');
+ okEngagement(await addReaction(owner,1),'Second account reaction must succeed');
+ const changed=await call(reactionPath,{token:reader.token,method:'PATCH',headers:{Prefer:'return=minimal'},body:{reaction:-1}});
+ okEngagement(changed,'Genuine member reaction change must succeed');
  const reactions=await reactionRead();
  assert.ok(reactions.ok);
  assert.deepEqual(reactions.data.map(x=>x.reaction).sort(),[-1,1]);
@@ -258,14 +261,14 @@ function rows(response,expected,label){
  assert.ok(count.ok&&count.contentRange?.endsWith('/1'),'Public exact like total must be one');
  assert.equal((await call('/rest/v1/dd_cr_reactions?select=member_id&report_id=eq.'+sharedId)).ok,false,'Private voter identity denied');
  const comment=await addComment(reader,{body_text:'Fictional visible comment <b>literal</b>'});
- assert.ok(comment.ok&&comment.data?.length===1,'Valid member comment must succeed');
- assert.equal(comment.data[0].author_label,'FixtureReader');
+ okEngagement(comment,'Valid member comment must succeed');
  const comments=await call(commentPath);
  assert.ok(comments.ok&&comments.data?.length===1);
+ assert.equal(comments.data[0].author_label,'FixtureReader');
  assert.equal(comments.data[0].body_text,'Fictional visible comment <b>literal</b>');
  assert.equal((await call('/rest/v1/dd_cr_comments?select=member_id&report_id=eq.'+sharedId)).ok,false,'Private commenter identity denied');
- const cleared=await call(reactionPath,{token:reader.token,method:'DELETE',headers:{Prefer:'return=representation'}});
- assert.ok(cleared.ok&&cleared.data?.length===1,'Only own reaction is cleared');
+ const cleared=await call(reactionPath,{token:reader.token,method:'DELETE',headers:{Prefer:'return=minimal'}});
+ okEngagement(cleared,'Genuine member reaction clear must succeed');
  assert.deepEqual((await reactionRead()).data.map(x=>x.reaction),[1]);
  const removal=await call('/rest/v1/rpc/dd_cr_withdraw',{token:owner.token,method:'POST',body:{p_id:sharedId,p_reason:'Fictional engagement visibility test'}});
  assert.ok(removal.ok&&removal.data===1,'Owner withdrawal must hide engagement target');
