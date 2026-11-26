@@ -11,8 +11,8 @@
   const author=typeof row.author_label==='string'?row.author_label.trim():'';
   if(!title||title.length>160||!author||author.length>80)throw Error('Invalid public research metadata');
   const url=new URL(canonical);url.searchParams.set('dd_tab','communityResearchPage');url.searchParams.set('dd_publication',row.id.toLowerCase());
-  const label=title+' · v'+row.version_no;
-  return Object.freeze({id:row.id.toLowerCase(),title:label.slice(0,160),boardTitle:label.slice(0,120),url:url.href,publisher:author+' · Community Research'});
+  const suffix=' · v'+row.version_no;
+  return Object.freeze({id:row.id.toLowerCase(),title:title.slice(0,160-suffix.length)+suffix,boardTitle:title.slice(0,120-suffix.length)+suffix,url:url.href,publisher:author+' · Community Research'});
  }
  async function transfer(id,action,adapters){
   if(!uuid.test(String(id||'')))throw Error('Invalid publication ID');
