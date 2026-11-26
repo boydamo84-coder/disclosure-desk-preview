@@ -172,6 +172,15 @@ async function accessibility(page,route,width) {
         assert.equal(await pause.isDisabled(),true);
         assert.equal(await video.getAttribute('src'),null);
         assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+        await page.goto(base+'/index.html?dd_tab=archivePage');
+        const shortcut=page.locator('#ddArchivePursueShortcut');
+        await shortcut.waitFor({state:'visible'});
+        assert.equal(await shortcut.getAttribute('href'),'/pursue');
+        await shortcut.click();
+        await text(page,'#archive-status','521 records');
+        await page.getByRole('link',{name:'Back to Evidence Archive'}).click();
+        await shortcut.waitFor({state:'visible'});
+        console.log('PASS Evidence Archive PURSUE shortcut and return at '+width+'px');
         console.log('PASS homepage themes, motion preference and collapsed release history at '+width+'px');
       } finally {await ctx.close()}
     }
