@@ -19,7 +19,7 @@ const emailName=label=>label+'-'+randomUUID()+'@example.com';
 async function call(path,{token,method='GET',body,headers={}}={}){
  // Strict loopback integration-test routes. Never accept an arbitrary service URL.
  const restRead=method==='GET'&&path.startsWith('/rest/v1/dd_cr_submissions?');
- const draftTest=method==='POST'&&(path==='/rest/v1/dd_cr_submissions?select=id,title,status,author_label,version_no'||path==='/rest/v1/rpc/dd_cr_withdraw');
+ const draftTest=method==='POST'&&['/rest/v1/dd_cr_submissions?select=id,title,status,author_label,version_no','/rest/v1/rpc/dd_cr_withdraw','/rest/v1/rpc/dd_cr_flag','/rest/v1/rpc/dd_cr_review','/rest/v1/rpc/dd_cr_moderation_queue'].includes(path);
  const engagementTest=['GET','HEAD','POST','PATCH','DELETE'].includes(method)&&
   (path.startsWith('/rest/v1/dd_cr_reactions?')||path.startsWith('/rest/v1/dd_cr_comments?'));
  assert.ok(path.startsWith('/auth/v1/')||restRead||draftTest||engagementTest,'Unexpected local fixture route');
@@ -277,4 +277,35 @@ function rows(response,expected,label){
  assert.equal((await addReaction(reader,1)).ok,false,'Hidden report reaction denied');
  assert.equal((await addComment(reader,{body_text:'Hidden target'})).ok,false,'Hidden report comment denied');
  console.log('PASS genuine local reaction/member uniqueness/change/clear, public total, comment identity, private member columns and hidden-report engagement denial');
+ // Real Auth threshold acceptance against the existing draft moderation functions.
+ const flagId=fromBrowser[0].id;
+ const flag=(actor)=>call('/rest/v1/rpc/dd_cr_flag',{token:actor?.token,method:'POST',body:{p_id:flagId,p_reason:'Fictional moderation concern'}});
+ for(const forbidden of [null,anonymous,reader])assert.equal((await flag(forbidden)).ok,false,'Guest, anonymous and self-flag denied');
+ const additional=[];
+ for(let i=0;i<3;i++)additional.push(await identity('flagger'+i));
+ const actors=[owner,privateMember,...additional];
+ for(let i=0;i<actors.length;i++){
+  const result=await flag(actors[i]);okEngagement(result,'Genuine distinct flag');
+  assert.deepEqual(result.data,{accepted:true,hidden:i===4});
+  if(i===0){
+   const duplicate=await flag(actors[i]);okEngagement(duplicate,'Repeated flag result');
+   assert.deepEqual(duplicate.data,{accepted:false,hidden:false});
+  }
+  const publicList=await read();
+  assert.ok(publicList.ok);
+  assert.equal(publicList.data.some(x=>x.id===flagId),i<4,'Fifth distinct flag hides only the target');
+ }
+ const moderation=await identity('moderator');
+ sql("insert into public.dd_forum_owner_admins values ('"+moderation.id+"')");
+ const queue=actor=>call('/rest/v1/rpc/dd_cr_moderation_queue',{token:actor?.token,method:'POST',body:{}});
+ assert.equal((await queue(owner)).ok,false,'Non-moderator queue denied');
+ const queued=await queue(moderation);okEngagement(queued,'Genuine moderator queue');
+ assert.ok(Array.isArray(queued.data)&&queued.data.some(row=>row.id===flagId&&row.flag_count===5));
+ assert.ok(!JSON.stringify(queued.data).includes('request_token'));
+ const restore=actor=>call('/rest/v1/rpc/dd_cr_review',{token:actor?.token,method:'POST',body:{p_id:flagId,p_action:'restore',p_reason:'Fictional review completed'}});
+ assert.equal((await restore(owner)).ok,false,'Non-moderator restore denied');
+ const restored=await restore(moderation);okEngagement(restored,'Genuine moderator restoration');assert.equal(restored.data,true);
+ assert.ok((await read()).data.some(x=>x.id===flagId&&x.status==='published'));
+ const fresh=await flag(owner);okEngagement(fresh,'Fresh flag round');assert.deepEqual(fresh.data,{accepted:true,hidden:false});
+ console.log('PASS genuine local five distinct flags, duplicate/self denial, private moderator queue, restoration and fresh flag round');
 })().catch(e=>{console.error(e.message);process.exitCode=1});

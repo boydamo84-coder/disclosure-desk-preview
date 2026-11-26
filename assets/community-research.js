@@ -42,7 +42,8 @@ const el=(tag,value,cls)=>{const n=document.createElement(tag);if(value!==undefi
 const status=$('ddCRStatus'),results=$('ddCRResults'),more=$('ddCRMore'),filters=$('ddCRFilters'),back=$('ddCRBack');
 const api=window.DDCommunityResearchTransfer,fields='id,title,author_label,abstract,category,status,version_no,created_at';
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-let client,epoch=0,offset=0;
+let client,epoch=0,offset=0,authEpoch=0;
+const engagementEnabled=window.DD_COMMUNITY_FEATURES?.researchEngagement===true;
 const db=()=>client||(client=window.supabase?.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}));
 function say(msg){status.textContent=msg}
 function button(label,fn){const b=el('button',label,'outline');b.type='button';b.onclick=fn;return b}
@@ -61,19 +62,88 @@ async function fetchPublic(id,full=false){
  if(error)throw Error('Research service unavailable');
  return data?.status==='published'?data:null;
 }
-// Public feedback only. Member actions remain disabled pending account-safe
-// write controls. Read explicit columns, never private member or review metadata.
+// Read explicit public columns, never private member or review metadata.
+// Member actions are separately gated; the existing backend enforces RLS.
+async function verifiedMember(){
+ const auth=db()?.auth;
+ if(!auth||typeof auth.getSession!=='function'||typeof auth.getUser!=='function')return null;
+ const gen=authEpoch;
+ const start=await auth.getSession(),session=start.data?.session;
+ if(start.error||!session||!uuid.test(String(session.user?.id||''))||typeof session.access_token!=='string'||!session.access_token)return null;
+ const token=session.access_token;
+ const verified=await auth.getUser(token),user=verified.data?.user;
+ if(verified.error||!user||user.is_anonymous!==false||user.id!==session.user.id)return null;
+ const now=await auth.getSession();
+ if(now.error||now.data?.session?.user?.id!==user.id||now.data?.session?.access_token!==token||gen!==authEpoch)return null;
+ return {id:user.id,token,gen};
+}
+// An immutable verified token is used for this one action; a mutable SDK
+// session cannot silently change the actor. No credentials are stored or logged.
+async function memberRequest(token,method,path,payload){
+ const base=new URL(cfg.url);
+ const loopback=cfg.environment==='test'&&['127.0.0.1','localhost'].includes(base.hostname)&&base.protocol==='http:';
+ if(base.protocol!=='https:'&&!loopback)throw Error('Research service unavailable');
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);
+ try{
+  const response=await fetch(new URL('/rest/v1/'+path,base),{
+   method,credentials:'omit',cache:'no-store',redirect:'error',signal:controller.signal,
+   headers:{apikey:cfg.publishableKey,Authorization:'Bearer '+token,...(!path.startsWith('rpc/')?{Prefer:'return=minimal'}:{}),...(payload?{'Content-Type':'application/json'}:{})},
+   ...(payload?{body:JSON.stringify(payload)}:{})
+  });
+  let data=null;
+  try{data=await response.json()}catch{}
+  if(response.status>=500||response.status===408)throw Error('Outcome unknown');
+  return {ok:response.ok,code:data?.code,data};
+ }finally{clearTimeout(timer);}
+}
+async function setReaction(token,id,value,stillBound){
+ const filter='dd_cr_reactions?report_id=eq.'+id;
+ if(value===0)return memberRequest(token,'DELETE',filter);
+ const result=await memberRequest(token,'POST','dd_cr_reactions?select=report_id,reaction',{report_id:id,reaction:value});
+ if(!result.ok&&result.code==='23505'){
+  if(!stillBound())throw Error('Account changed during reaction');
+  return memberRequest(token,'PATCH',filter,{reaction:value});
+ }
+ return result;
+}
+
 function mountFeedback(article,id,current){
  const panel=el('section',undefined,'dd-cr-feedback');
  panel.setAttribute('aria-label','Reader feedback');
  const tally=el('p','Loading reader feedback…','muted small'),commentList=el('div');
- const note=el('p','Likes and dislikes are reader feedback, not an evidence credibility score. Member feedback controls are not enabled in this preview.','muted small');
+ const note=el('p','Likes and dislikes are reader feedback, not an evidence credibility score.','muted small');
  const message=el('p');message.setAttribute('role','status');
  const next=button('Load more comments',()=>void load(false));next.hidden=true;
  const retry=button('Refresh reader feedback',()=>void load(true));retry.hidden=true;
  panel.append(el('h3','Reader feedback'),note,tally,el('h3','Comments'),commentList,next,retry,message);
  article.querySelector('.card-body').append(panel);
- let offset=0,busy=false,seen=new Set();
+ let offset=0,busy=false,seen=new Set(),member=null,actionBusy=false,actionBlocked=false;
+ const memberNotice=el('p',engagementEnabled?'Checking member access…':'Member feedback controls are not enabled in this preview.','muted small');
+ const memberBox=el('div');memberBox.hidden=true;
+ const actionStatus=el('p');actionStatus.setAttribute('role','status');
+ const reactionBar=el('div',undefined,'dd-cr-actions');
+ const like=button('Like',()=>void act('reaction',1)),dislike=button('Dislike',()=>void act('reaction',-1)),clear=button('Clear my reaction',()=>void act('reaction',0));
+ reactionBar.append(like,dislike,clear);
+ const labeled=(label,input)=>{
+  const wrapper=el('label');wrapper.style.cssText='display:grid;gap:4px;margin:8px 0';
+  wrapper.append(el('span',label),input);input.style.cssText='width:100%;box-sizing:border-box';return wrapper;
+ };
+ const comment=el('textarea');comment.rows=3;comment.maxLength=2000;
+ const reason=el('textarea');reason.rows=2;reason.maxLength=1000;
+ const post=button('Post comment',()=>void act('comment',comment.value.trim()));
+ const report=button('Report research',()=>void act('flag',reason.value.trim()));
+ const feedbackHint=el('p','Report this version for a moderation reason, not simply because you disagree. Five distinct member reports hide it pending review.','muted small');
+ memberBox.append(reactionBar,labeled('Your public comment',comment),post,feedbackHint,labeled('Reason for reporting this research',reason),report);
+ panel.append(memberNotice,memberBox,actionStatus);
+ const updateActions=()=>{
+  const disabled=!member||busy||actionBusy||actionBlocked;
+  for(const b of [like,dislike,clear])b.disabled=disabled;
+  comment.disabled=disabled;reason.disabled=disabled;
+  post.disabled=disabled||!comment.value.trim()||comment.value.trim().length>2000;
+  report.disabled=disabled||!reason.value.trim()||reason.value.trim().length>1000;
+ };
+ comment.addEventListener('input',updateActions);reason.addEventListener('input',updateActions);
+ updateActions();
  const active=()=>current===epoch&&article.isConnected&&!page.hidden;
  const stillPublic=async()=>{
   if(!active())return false;
@@ -82,6 +152,52 @@ function mountFeedback(article,id,current){
   if(row)return true;
   article.remove();say('This publication is unavailable.');return false;
  };
+ const initMember=async()=>{
+  if(!engagementEnabled)return;
+  try{
+   const identity=await verifiedMember();if(!active())return;
+   if(!identity){memberNotice.textContent='Sign in with a member account to like, dislike, comment or report.';return;}
+   member={id:identity.id,gen:identity.gen};memberNotice.textContent='Member feedback';memberBox.hidden=false;updateActions();
+  }catch{if(active())memberNotice.textContent='Member access unavailable. Refresh or sign in again.';}
+ };
+ async function act(kind,value){
+  if(!engagementEnabled||!active()||!member||actionBusy||actionBlocked)return;
+  if(kind==='comment'&&(typeof value!=='string'||!value||value.length>2000))return;
+  if(kind==='flag'&&(typeof value!=='string'||!value||value.length>1000))return;
+  if(kind==='reaction'&&![1,-1,0].includes(value))return;
+  const intended=member;actionBusy=true;updateActions();actionStatus.textContent='Checking account and publication…';
+  let sent=false;
+  try{
+   if(!await stillPublic())return;
+   const verified=await verifiedMember();if(!active())return;
+   if(!verified||verified.id!==intended.id||verified.gen!==intended.gen||verified.gen!==authEpoch){
+    member=null;comment.value='';reason.value='';memberBox.hidden=true;
+    memberNotice.textContent='Account changed. Reopen the publication to continue.';actionStatus.textContent='Action cancelled. Nothing was sent.';return;
+   }
+   // No awaited work between the final identity check and issuing the request.
+   sent=true;
+   const result=kind==='reaction'?await setReaction(verified.token,id,value,()=>active()&&authEpoch===intended.gen)
+    :kind==='comment'?await memberRequest(verified.token,'POST','dd_cr_comments?select=id,author_label,body_text,status',{report_id:id,body_text:value})
+    :await memberRequest(verified.token,'POST','rpc/dd_cr_flag',{p_id:id,p_reason:value});
+   if(!active()||authEpoch!==intended.gen)return;
+   if(!result.ok){actionStatus.textContent='Action rejected. Check your membership or try again later.';return;}
+   if(kind==='flag'){
+    if(typeof result.data?.accepted!=='boolean'||typeof result.data?.hidden!=='boolean')throw Error('Unknown report outcome');
+    reason.value='';
+    if(result.data.hidden){article.remove();say('This publication is unavailable.');return;}
+    actionStatus.textContent=result.data.accepted?'Report submitted for moderation.':'You have already reported this version in the current review round.';
+   }else if(kind==='comment'){
+    comment.value='';actionStatus.textContent='Comment submitted.';
+   }else actionStatus.textContent='Reaction request completed. Feedback refreshed.';
+   await load(true);
+  }catch{
+   if(!active())return;
+   if(sent){
+    actionBlocked=true;comment.value='';reason.value='';
+    actionStatus.textContent='The action outcome is uncertain. Refresh the publication before any further feedback.';
+   }else actionStatus.textContent='Account or publication could not be checked. Nothing was sent.';
+  }finally{actionBusy=false;updateActions();}
+ }
  const count=async reaction=>{
   const {count,error}=await db().from('dd_cr_reactions')
    .select('reaction',{count:'exact',head:true}).eq('report_id',id).eq('reaction',reaction);
@@ -90,7 +206,7 @@ function mountFeedback(article,id,current){
  };
  async function load(reset){
   if(busy||!active())return;
-  busy=true;next.disabled=true;retry.hidden=true;message.textContent='Loading visible comments…';
+  busy=true;updateActions();next.disabled=true;retry.hidden=true;message.textContent='Loading visible comments…';
   if(reset){offset=0;seen=new Set();commentList.replaceChildren();next.hidden=true;tally.textContent='Loading reader feedback…';}
   try{
    if(!await stillPublic())return;
@@ -113,9 +229,9 @@ function mountFeedback(article,id,current){
    offset+=response.data.length;next.hidden=response.data.length<20;
    message.textContent=seen.size?seen.size+' visible comments shown.':'No visible comments yet.';
   }catch{if(active()){message.textContent='Reader feedback unavailable. Try refreshing.';retry.hidden=false;}}
-  finally{busy=false;next.disabled=false;}
+  finally{busy=false;next.disabled=false;updateActions();}
  }
- void load(true);
+ void load(true);void initMember();
 }
 function card(row,full=false){
  const ref=api.source(row),article=el('article',undefined,'card'),body=el('div',undefined,'card-body');
@@ -169,6 +285,18 @@ async function refresh(){
  }catch{if(current===epoch)say('This publication is unavailable.')}
 }
 nav.hidden=false;
+if(engagementEnabled){
+ let currentActor,known=false;
+ db()?.auth?.onAuthStateChange?.((_event,session)=>{
+  const actor=session?.user?.id||null;
+  if(!known){known=true;currentActor=actor;return;}
+  if(actor===currentActor)return;
+  currentActor=actor;++authEpoch;
+  // Avoid auth calls inside the SDK's auth-state callback. Re-rendering also
+  // discards any old account's unsent text.
+  if(!page.hidden&&viewId())setTimeout(()=>void refresh(),0);
+ });
+}
 $('ddCRWrite').onclick=()=>ddOnPublicTabClick('researchStudio');
 $('ddCRSearchGo').onclick=()=>void list();
 $('ddCRSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();void list()}});

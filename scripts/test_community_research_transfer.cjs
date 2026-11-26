@@ -93,7 +93,7 @@ const server=http.createServer((req,res)=>{
     assert.equal(await page.locator('#communityResearchPage').isVisible(),false);
     assert.ok(await page.locator('#discover').isVisible());
     await page.close();
-    await ctx.route('**/assets/community-test-config.js?*',r=>r.fulfill({contentType:'application/javascript',body:'window.DD_COMMUNITY_TEST_CONFIG={environment:"test",url:"https://fixture.invalid",publishableKey:"test-only"};window.DD_COMMUNITY_FEATURES={researchPublishing:true};'}));
+    await ctx.route('**/assets/community-test-config.js?*',r=>r.fulfill({contentType:'application/javascript',body:'window.DD_COMMUNITY_TEST_CONFIG={environment:"test",url:"https://fixture.invalid",publishableKey:"test-only"};window.DD_COMMUNITY_FEATURES={researchPublishing:true,researchEngagement:true};'}));
     await ctx.addInitScript(({row,other})=>{
      window.DDNativeRows=[row,{...row,id:other,title:'Second archive note',category:'Historical research'}];
      window.DDNativeReactions=[{report_id:row.id,reaction:1},{report_id:row.id,reaction:1},{report_id:row.id,reaction:-1},{report_id:other,reaction:1}];
@@ -103,6 +103,45 @@ const server=http.createServer((req,res)=>{
       created_at:'2026-01-01T00:00:00Z',member_id:'PRIVATE MEMBER ID'
      }));
      window.DDNativeComments.push({id:'00000000-0000-4000-8000-000000000999',report_id:row.id,status:'removed',author_label:'Removed author',body_text:'REMOVED COMMENT'});
+     window.DDNativeWrites=[];window.DDNativeFlags=[];window.DDNativeSession=null;
+     const listeners=[];
+     window.DDNativeSetIdentity=(id,anonymous=false,emit=true)=>{
+      window.DDNativeSession=id?{user:{id,is_anonymous:anonymous},access_token:'fictional-token-'+id}:null;
+      if(emit)listeners.forEach(fn=>fn(id?'SIGNED_IN':'SIGNED_OUT',window.DDNativeSession));
+     };
+     const realFetch=window.fetch.bind(window);
+     window.fetch=async(input,options={})=>{
+      const url=new URL(String(input),location.href);
+      if(url.origin!=='https://fixture.invalid'||!url.pathname.startsWith('/rest/v1/'))return realFetch(input,options);
+      const session=window.DDNativeSession,headers=new Headers(options.headers),method=options.method||'GET';
+      const json=options.body?JSON.parse(options.body):null;
+      const reply=(data,status=200)=>new Response(data===null?null:JSON.stringify(data),{status,headers:{'Content-Type':'application/json'}});
+      if(!session||session.user.is_anonymous||headers.get('Authorization')!=='Bearer '+session.access_token)return reply({code:'42501'},403);
+      const actor=session.user.id;
+      const target=json?.report_id||json?.p_id||url.searchParams.get('report_id')?.replace(/^eq\./,'');
+      window.DDNativeWrites.push({method,path:url.pathname,actor,target});
+      if(!window.DDNativeRows.some(r=>r.id===target&&r.status==='published'))return reply({code:'42501'},403);
+      if(url.pathname==='/rest/v1/dd_cr_reactions'){
+       const found=window.DDNativeReactions.find(r=>r.report_id===target&&r.member_id===actor);
+       if(method==='POST'){
+        if(found)return reply({code:'23505'},409);
+        window.DDNativeReactions.push({report_id:target,reaction:json.reaction,member_id:actor});
+       }else if(method==='PATCH'){if(found)found.reaction=json.reaction;}
+       else if(method==='DELETE'){window.DDNativeReactions=window.DDNativeReactions.filter(r=>r!==found);}
+       else return reply({code:'unexpected'},400);
+       return reply(null,204);
+      }
+      if(url.pathname==='/rest/v1/dd_cr_comments'&&method==='POST'){
+       window.DDNativeComments.push({id:crypto.randomUUID(),report_id:target,status:'visible',author_label:'Fixture signed member',body_text:json.body_text,created_at:'2026-01-02T00:00:00Z',member_id:actor});
+       return reply(null,204);
+      }
+      if(url.pathname==='/rest/v1/rpc/dd_cr_flag'&&method==='POST'){
+       if(window.DDNativeFlags.some(r=>r.target===target&&r.actor===actor))return reply({accepted:false,hidden:false});
+       window.DDNativeFlags.push({target,actor});
+       return reply({accepted:true,hidden:false});
+      }
+      return reply({code:'unexpected'},400);
+     };
      window.supabase={createClient:()=>({
       from(name){
        const tables={dd_cr_submissions:window.DDNativeRows,dd_cr_reactions:window.DDNativeReactions,dd_cr_comments:window.DDNativeComments};
@@ -116,7 +155,11 @@ const server=http.createServer((req,res)=>{
         then(resolve,reject){return Promise.resolve({data:count?null:data,count:count?data.length:null,error:null}).then(resolve,reject)}
        };return chain;
       },
-      auth:{getSession:async()=>({data:{session:null},error:null}),onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}})}
+      auth:{
+       getSession:async()=>({data:{session:window.DDNativeSession},error:null}),
+       getUser:async token=>({data:{user:token===window.DDNativeSession?.access_token?window.DDNativeSession?.user:null},error:null}),
+       onAuthStateChange(fn){listeners.push(fn);fn('INITIAL_SESSION',window.DDNativeSession);return {data:{subscription:{unsubscribe(){}}}}}
+      }
      })};
     },{row,other});
     const native=await ctx.newPage();
@@ -134,6 +177,44 @@ const server=http.createServer((req,res)=>{
     await feedback.getByText('21 visible comments shown.',{exact:true}).waitFor();
     assert.equal(await feedback.getByText('Public comment 21',{exact:true}).count(),1);
     assert.equal(await feedback.getByRole('button',{name:'Load more comments'}).isVisible(),false);
+    await feedback.getByText('Sign in with a member account',{exact:false}).waitFor();
+    assert.equal(await feedback.getByRole('button',{name:'Like',exact:true}).isVisible(),false);
+    const memberA='00000000-0000-4000-8000-000000000011',memberB='00000000-0000-4000-8000-000000000012';
+    await native.evaluate(id=>window.DDNativeSetIdentity(id,true),memberA);
+    await feedback.getByText('Sign in with a member account',{exact:false}).waitFor();
+    assert.equal(await feedback.getByRole('button',{name:'Like',exact:true}).isVisible(),false);
+    await native.evaluate(id=>window.DDNativeSetIdentity(id,false),memberB);
+    const like=feedback.getByRole('button',{name:'Like',exact:true});
+    await like.waitFor();await like.click();
+    await feedback.getByText('3 likes · 1 dislike',{exact:true}).waitFor();
+    await feedback.getByRole('button',{name:'Dislike',exact:true}).click();
+    await feedback.getByText('2 likes · 2 dislikes',{exact:true}).waitFor();
+    await feedback.getByRole('button',{name:'Clear my reaction'}).click();
+    await feedback.getByText('2 likes · 1 dislike',{exact:true}).waitFor();
+    const comment=feedback.getByLabel('Your public comment');
+    const post=feedback.getByRole('button',{name:'Post comment'});
+    assert.equal(await post.isEnabled(),false);
+    await comment.fill('Fictional member feedback');await post.click();
+    await feedback.getByText('Comment submitted.',{exact:true}).waitFor();
+    await feedback.getByText('20 visible comments shown.',{exact:true}).waitFor();
+    assert.equal(await native.evaluate(()=>window.DDNativeComments.filter(x=>x.body_text==='Fictional member feedback').length),1);
+    const report=feedback.getByRole('button',{name:'Report research'});
+    const reason=feedback.getByLabel('Reason for reporting this research');
+    await reason.fill('Fictional moderation concern');await report.click();
+    await feedback.getByText('Report submitted for moderation.',{exact:true}).waitFor();
+    await reason.fill('Same fictional concern');await report.click();
+    await feedback.getByText('You have already reported this version',{exact:false}).waitFor();
+    await feedback.getByText('20 visible comments shown.',{exact:true}).waitFor();
+    // A silent account change between composing and clicking must not send.
+    await comment.fill('Must not be sent by a different account');
+    const before=await native.evaluate(()=>window.DDNativeWrites.length);
+    await native.evaluate(id=>window.DDNativeSetIdentity(id,false,false),memberA);
+    await post.click();
+    await feedback.getByText('Action cancelled. Nothing was sent.',{exact:true}).waitFor();
+    assert.equal(await native.evaluate(()=>window.DDNativeWrites.length),before);
+    assert.equal(await post.isVisible(),false);
+    await native.evaluate(()=>window.DDNativeSetIdentity(null));
+    await feedback.getByText('Sign in with a member account',{exact:false}).waitFor();
     assert.equal(await native.locator('[data-tab="communityResearchPage"]').getAttribute('aria-current'),'page');
     assert.ok(await native.locator('.nav').isVisible());
     await pane.getByRole('button',{name:'Add to W.NE citations'}).click();
@@ -154,7 +235,7 @@ const server=http.createServer((req,res)=>{
     assert.ok(await native.locator('#originalResearchPage').isVisible());
     assert.equal(new URL(native.url()).searchParams.has('dd_publication'),false);
     assert.equal(await native.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
-    console.log('PASS gated native tab, exact route, search, citation, public reaction totals, comment pagination/plain text and removed report handling at '+width+'px');
+    console.log('PASS gated native tab, public reader feedback, member actions, report duplicate, account-switch cancellation and removed report handling at '+width+'px');
    }finally{await ctx.close()}
   }
  }finally{await browser.close()}
