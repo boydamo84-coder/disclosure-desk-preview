@@ -1,0 +1,68 @@
+name: Community Research genuine local Auth smoke (no deploy)
+on:
+  push:
+    branches: [feature/community-research-20261126]
+    paths:
+      - '.github/workflows/community-research-auth-local-no-deploy.yml'
+      - 'scripts/test_community_research_auth_local.cjs'
+      - 'docs/community-research/SCHEMA_DRAFT_NOT_APPLIED.sql'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  local-auth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: supabase/setup-cli@689adcfb80d947100a1eab127289b97d1fb07b13 # reviewed v3.2.0
+        with:
+          version: '2.84.2'
+      - name: Initialise only an ephemeral unlinked local project
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v docker
+          command -v psql
+          supabase --version
+          supabase init --help
+          supabase start --help
+          supabase status --help
+          mkdir -p "$RUNNER_TEMP/dd-cr-local-auth"
+          cd "$RUNNER_TEMP/dd-cr-local-auth"
+          supabase init
+          python3 - <<'PY'
+          import pathlib, tomllib
+          p=pathlib.Path("supabase/config.toml")
+          s=p.read_text()
+          assert s.count("enable_anonymous_sign_ins = false")==1
+          s=s.replace("enable_anonymous_sign_ins = false","enable_anonymous_sign_ins = true")
+          p.write_text(s)
+          c=tomllib.loads(s)
+          assert c["api"]["port"] == 54321
+          assert c["db"]["port"] == 54322
+          assert c["auth"]["email"]["enable_confirmations"] is False
+          assert c["auth"]["enable_anonymous_sign_ins"] is True
+          assert c["api"]["schemas"] == ["public", "graphql_public"]
+          PY
+          # No link, migration push, project ID, access token or remote endpoint.
+          supabase start > "$RUNNER_TEMP/dd-cr-start.log" 2>&1 || { tail -40 "$RUNNER_TEMP/dd-cr-start.log"; exit 1; }
+          umask 077
+          supabase status -o json > "$RUNNER_TEMP/dd-cr-local-status.json"
+      - name: Verify genuine local guest and signed-in read boundaries
+        run: node scripts/test_community_research_auth_local.cjs "$RUNNER_TEMP/dd-cr-local-status.json"
+      - name: Stop disposable local services
+        if: always()
+        shell: bash
+        run: |
+          if [ -d "$RUNNER_TEMP/dd-cr-local-auth/supabase" ]; then
+            cd "$RUNNER_TEMP/dd-cr-local-auth"
+            supabase stop --help
+            supabase stop --no-backup
+          fi
+          rm -f "$RUNNER_TEMP/dd-cr-local-status.json" "$RUNNER_TEMP/dd-cr-start.log"
