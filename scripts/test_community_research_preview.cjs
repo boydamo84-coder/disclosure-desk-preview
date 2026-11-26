@@ -70,8 +70,18 @@ assert.throws(()=>publicTextPayload({...core,sections:Array.from({length:3},()=>
   const page=await browser.newPage({viewport:{width:393,height:900}});
   await page.route('**/*',r=>r.request().url()==='http://127.0.0.1:8765/'?r.fulfill({contentType:'text/html',body:'<div id="wne-file-menu"></div>'}):r.abort());
   await page.goto('http://127.0.0.1:8765/');
-  await page.evaluate(()=>{window.DDCommunityReceiptFixture=true;window.wneCaptureDocument=()=>({bookTitle:'Test book',chapters:[{title:'Public section',html:'<p>Public text</p><p hidden>PRIVATE SECRET</p>'},{title:'Private chapter',html:'DO NOT EXPORT'}]})});
-  await page.addScriptTag({path:path.resolve('research/community-publication-preview.js')});
+  const installFixture=async(target,account='sample-a')=>{
+   await target.evaluate(account=>{window.DDCommunityReceiptFixture=true;window.DDCommunityReceiptFixtureAccount=account;window.wneCaptureDocument=()=>({bookTitle:'Test book',chapters:[{title:'Public section',html:'<p>Public text</p><p hidden>PRIVATE SECRET</p>'},{title:'Private chapter',html:'DO NOT EXPORT'}]})},account);
+   await target.addScriptTag({path:path.resolve('research/community-publication-preview.js')});
+  };
+  const reopen=async(account='sample-a')=>{
+   await page.getByRole('button',{name:'Close',exact:true}).click();
+   await page.evaluate(account=>{window.DDCommunityReceiptFixtureAccount=account;document.getElementById('wne-file-menu').hidden=false},account);
+   await page.getByRole('menuitem',{name:/Preview Community Research publication/}).click();
+  };
+  const storageKey='dd.community.receipt.fixture.pending.v1';
+  const pending=target=>target.evaluate(key=>JSON.parse(localStorage.getItem(key)),storageKey);
+  await installFixture(page);
   await page.getByRole('menuitem',{name:/Preview Community Research publication/}).click();
   await page.getByLabel('Abstract / summary').fill('Public abstract');
   await page.getByLabel('Public section',{exact:true}).check();
@@ -92,14 +102,51 @@ assert.throws(()=>publicTextPayload({...core,sections:Array.from({length:3},()=>
   assert.equal(await send.isEnabled(),false);
   assert.equal(await confirm.isEnabled(),false);
   assert.equal(await page.getByLabel('Abstract / summary').isEnabled(),false);
+  const initialPending=await pending(page);
+  assert.deepEqual(Object.keys(initialPending).sort(),['account','id','number','state','version']);
+  assert.equal(initialPending.account,'sample-a');
+  assert.equal(initialPending.state,'unknown');
+  assert.ok(!JSON.stringify(initialPending).includes('Public text'));
+  assert.ok(!JSON.stringify(initialPending).includes('Public abstract'));
   await reconcile.click();
   await page.getByText('Sample 1: outcome unknown.',{exact:false}).waitFor();
+  assert.deepEqual(await pending(page),initialPending);
+  await reopen('sample-b');
+  await page.getByText('A different sample account has an unresolved attempt.',{exact:false}).waitFor();
+  assert.equal(await send.isEnabled(),false);
+  assert.equal(await reconcile.isVisible(),false);
+  assert.equal(await page.getByText('Sample 1: outcome unknown.',{exact:false}).count(),0);
+  assert.deepEqual(await pending(page),initialPending);
+  await reopen('sample-a');
+  await page.getByText('Sample 1: outcome unknown.',{exact:false}).waitFor();
+  await page.reload();
+  await installFixture(page);
+  await page.getByRole('menuitem',{name:/Preview Community Research publication/}).click();
+  await page.getByText('Sample 1: outcome unknown.',{exact:false}).waitFor();
+  assert.equal(await send.isEnabled(),false);
+  assert.equal(await page.getByLabel('Abstract / summary').isEnabled(),false);
+  assert.deepEqual(await pending(page),initialPending);
+  // Recreate a browser context from its persisted origin state (not an Android device test).
+  const restarted=await browser.newContext({viewport:{width:393,height:900},storageState:await page.context().storageState()});
+  try{
+   const restoredPage=await restarted.newPage();
+   await restoredPage.route('**/*',r=>r.request().url()==='http://127.0.0.1:8765/'?r.fulfill({contentType:'text/html',body:'<div id="wne-file-menu"></div>'}):r.abort());
+   await restoredPage.goto('http://127.0.0.1:8765/');
+   await installFixture(restoredPage);
+   await restoredPage.getByRole('menuitem',{name:/Preview Community Research publication/}).click();
+   await restoredPage.getByText('Sample 1: outcome unknown.',{exact:false}).waitFor();
+   assert.deepEqual(await pending(restoredPage),initialPending);
+   assert.equal(await restoredPage.getByRole('button',{name:'Simulate one submission'}).isEnabled(),false);
+  }finally{await restarted.close()}
   await page.getByLabel('Sample result').selectOption('received');
   await reconcile.click();
   await page.getByText('Sample 1: simulated receipt received.',{exact:false}).waitFor();
   assert.equal(await send.isEnabled(),false);
   assert.equal(await reconcile.isVisible(),false);
+  assert.equal(await pending(page),null);
   await page.getByLabel('Abstract / summary').fill('Updated abstract');
+  // Reload deliberately loses the old selected text and consent; fresh review is required.
+  await page.getByLabel('Public section',{exact:true}).check();
   assert.equal(await confirm.isVisible(),false);
   assert.equal(await send.isVisible(),false);
   await page.getByRole('button',{name:'Generate public preview'}).click();
@@ -109,8 +156,16 @@ assert.throws(()=>publicTextPayload({...core,sections:Array.from({length:3},()=>
   await send.click();
   await page.getByText('Sample 2: simulated rejection.',{exact:false}).waitFor();
   assert.equal(await send.isEnabled(),false);
+  assert.equal(await pending(page),null);
+  await page.getByRole('button',{name:'Close',exact:true}).click();
+  await page.evaluate(key=>{localStorage.setItem(key,'bad fixture state');document.getElementById('wne-file-menu').hidden=false},storageKey);
+  await page.getByRole('menuitem',{name:/Preview Community Research publication/}).click();
+  await page.getByText('Sample receipt storage is unavailable or inconsistent.',{exact:false}).waitFor();
+  assert.equal(await send.isEnabled(),false);
+  assert.equal(await page.getByLabel('Abstract / summary').isEnabled(),false);
   await page.getByRole('button',{name:'Close',exact:true}).click();
   await page.evaluate(()=>{delete window.DDCommunityReceiptFixture;document.getElementById('wne-file-menu').hidden=false});
+  // The ordinary preview must neither read nor clear the fixture's storage marker.
   await page.getByRole('menuitem',{name:/Preview Community Research publication/}).click();
   await page.getByLabel('Abstract / summary').fill('Normal local preview');
   await page.getByLabel('Public section',{exact:true}).check();
@@ -118,8 +173,28 @@ assert.throws(()=>publicTextPayload({...core,sections:Array.from({length:3},()=>
   await page.getByText('I have permission to publish',{exact:false}).click();
   await confirm.click();
   assert.equal(await send.count(),0);
+  assert.equal(await page.evaluate(key=>localStorage.getItem(key),storageKey),'bad fixture state');
+  await page.getByRole('button',{name:'Close',exact:true}).click();
+  await page.evaluate(key=>{
+   localStorage.removeItem(key);
+   window.DDCommunityReceiptFixture=true;
+   document.getElementById('wne-file-menu').hidden=false;
+   const original=Storage.prototype.setItem;
+   Storage.prototype.setItem=function(k,v){if(k===key)throw Error('Sample storage unavailable');return original.call(this,k,v)};
+  },storageKey);
+  await page.getByRole('menuitem',{name:/Preview Community Research publication/}).click();
+  await page.getByLabel('Abstract / summary').fill('Storage failure test');
+  await page.getByLabel('Public section',{exact:true}).check();
+  await page.getByRole('button',{name:'Generate public preview'}).click();
+  await page.getByText('I have permission to publish',{exact:false}).click();
+  await confirm.click();
+  await send.click();
+  await page.getByText('Sample receipt storage is unavailable or inconsistent.',{exact:false}).waitFor();
+  assert.equal(await send.isEnabled(),false);
+  assert.equal(await pending(page),null);
+  assert.equal(await page.getByText('simulated receipt received.',{exact:false}).count(),0);
   await page.close();
-  console.log('PASS W.NE local confirmation, private text exclusion, stale-preview invalidation and opt-in simulated receipt recovery');
+  console.log('PASS W.NE local confirmation, private text exclusion, stale-preview invalidation, opt-in simulated receipt recovery and metadata-only restart/account isolation');
   console.log('PASS local library interactions, consent preview, narrow layout and no network; public flag remains off');
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});

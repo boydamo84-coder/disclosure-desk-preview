@@ -42,7 +42,8 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
 
 (()=>{
  if(typeof window==='undefined'||!['localhost','127.0.0.1'].includes(location.hostname))return;
- // Development-only preview. No account lookup, network request, storage or publish endpoint.
+ // Development-only preview. No account lookup, network request or publish endpoint.
+ // Only an explicitly opted-in fictional test fixture may use local storage.
  function init(){
   const menu=document.getElementById('wne-file-menu');
   if(!menu||document.getElementById('dd-community-publication-preview'))return;
@@ -66,7 +67,7 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
    menu.hidden=true;dialog.replaceChildren();
    let documentCopy;
    try{documentCopy=window.wneCaptureDocument();if(!Array.isArray(documentCopy.chapters))throw Error('Open a report first.')}catch(e){dialog.append(el('p',e.message));const close=el('button','Close');close.onclick=()=>dialog.close();dialog.append(close);dialog.showModal();return}
-   const header=el('h2','Preview public research copy');dialog.append(header,el('p','Choose only the content you intend to publish. This is a local text-only prototype. Nothing is sent or saved; images, formatting, embedded links and private metadata are excluded.'));
+   const header=el('h2','Preview public research copy');dialog.append(header,el('p','Choose only the content you intend to publish. This is a local text-only prototype. No report text is sent or saved; images, formatting, embedded links and private metadata are excluded.'));
    const title=el('input');title.value=String(documentCopy.bookTitle||'').slice(0,160);title.maxLength=160;labeled(dialog,'Public title',title);
    const abstract=el('textarea');abstract.rows=3;abstract.maxLength=1500;labeled(dialog,'Abstract / summary',abstract);
    const category=el('select');for(const name of ['Case analysis','Document analysis','Scientific research','Historical research','FOIA research','Other research']){const opt=el('option',name);opt.value=name;category.append(opt)}labeled(dialog,'Category',category);
@@ -82,9 +83,22 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
    const agreement=el('label');agreement.hidden=true;agreement.style.cssText='margin:12px 0';agreement.append(consent,document.createTextNode(' I have permission to publish this exact text, have checked for personal and confidential information, and understand my public username would accompany the publication.'));
    const review=el('button','Confirm reviewed public copy');review.type='button';review.hidden=true;review.disabled=true;
    let reviewed=null;
-   // Explicitly opt-in, disposable browser fixture. This has no publishing client,
-   // real account, database, network, or storage. All outcomes are invented.
+   // Explicitly opt-in, disposable browser fixture. No publishing client,
+   // real account, database, or network. All outcomes and accounts are invented.
+   // Persist only fictional metadata to exercise interruption/restart handling.
    const simulate=window.DDCommunityReceiptFixture===true;
+   const sampleAccount=window.DDCommunityReceiptFixtureAccount==='sample-b'?'sample-b':'sample-a';
+   const storageKey='dd.community.receipt.fixture.pending.v1';
+   const readPending=()=>{
+    const raw=window.localStorage.getItem(storageKey);
+    if(raw===null)return null;
+    const item=JSON.parse(raw);
+    if(!item||typeof item!=='object'||Object.keys(item).sort().join(',')!=='account,id,number,state,version'
+    ||item.version!==1||!['sample-a','sample-b'].includes(item.account)
+    ||typeof item.id!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(item.id)
+    ||!Number.isSafeInteger(item.number)||item.number<1||item.state!=='unknown')throw Error('Invalid fixture pending state');
+    return item;
+   };
    const formFields=[title,abstract,category,refs,...choices.map(c=>c.box)];
    const simulation=el('fieldset');simulation.hidden=true;
    simulation.append(el('legend','Local receipt simulation — nothing is published'));
@@ -97,27 +111,58 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
    const reconcile=el('button','Check simulated receipt');reconcile.type='button';reconcile.hidden=true;
    const receipt=el('p');receipt.setAttribute('role','status');
    simulation.append(send,reconcile,receipt);
-   let attempt=null,confirmed=null,sequence=0;
+   let attempt=null,confirmed=null,sequence=0,storageBlocked=false;
    const lock=(value)=>{
     for(const field of [...formFields,consent,check])field.disabled=value;
     if(value)review.disabled=true;
    };
+   const block=(message)=>{
+    storageBlocked=true;confirmed=null;simulation.hidden=false;send.disabled=true;reconcile.hidden=true;lock(true);
+    receipt.textContent=message;
+   };
+   const storageProblem=()=>block('Sample receipt storage is unavailable or inconsistent. No simulated submission is allowed.');
+   const showUnknown=()=>{
+    simulation.hidden=false;send.disabled=true;reconcile.hidden=false;lock(true);
+    receipt.textContent='Sample '+attempt.number+': outcome unknown. Do not submit again. Check the same simulated receipt.';
+   };
+   const restorePending=()=>{
+    if(!simulate)return false;
+    try{
+     const item=readPending();
+     if(!item)return false;
+     if(item.account!==sampleAccount){
+      block('A different sample account has an unresolved attempt. Return to the original sample account.');
+      return true;
+     }
+     attempt=item;sequence=Math.max(sequence,item.number);confirmed=null;outcome.value='unknown';showUnknown();
+     return true;
+    }catch(e){storageProblem();return true;}
+   };
    const resetSimulation=()=>{
+    if(storageBlocked||attempt?.state==='unknown')return false;
     attempt=null;confirmed=null;simulation.hidden=true;receipt.textContent='';
     send.disabled=false;reconcile.hidden=true;lock(false);
+    return true;
    };
-   const invalidate=()=>{resetSimulation();reviewed=null;consent.checked=false;agreement.hidden=true;review.hidden=true;review.disabled=true;preview.hidden=true;status.textContent='Generate a fresh preview to review your changes.'};
+   const invalidate=()=>{
+    if(!resetSimulation())return false;
+    reviewed=null;consent.checked=false;agreement.hidden=true;review.hidden=true;review.disabled=true;preview.hidden=true;
+    status.textContent='Generate a fresh preview to review your changes.';
+    return true;
+   };
    for(const field of formFields)field.addEventListener('input',invalidate);
-   consent.onchange=()=>{resetSimulation();review.disabled=!consent.checked||!reviewed;status.textContent=consent.checked?'Ready to confirm reviewed copy.':'Confirmation required.'};
+   consent.onchange=()=>{if(!resetSimulation())return;review.disabled=!consent.checked||!reviewed;status.textContent=consent.checked?'Ready to confirm reviewed copy.':'Confirmation required.'};
    const showResult=()=>{
-    if(!attempt)return;
+    if(!attempt||storageBlocked)return;
     const result=outcome.value;
-    if(result==='unknown'){
-     attempt.state='unknown';
-     receipt.textContent='Sample '+attempt.number+': outcome unknown. Do not submit again. Check the same simulated receipt.';
-     reconcile.hidden=false;lock(true);
-     return;
-    }
+    try{
+     const current=readPending();
+     if(!current||current.id!==attempt.id||current.account!==sampleAccount||current.number!==attempt.number)throw Error('Pending attempt changed');
+     if(result==='unknown'){showUnknown();return;}
+     // Clear only after a definitive fictional result. An interrupted check retains the same ID.
+     window.localStorage.removeItem(storageKey);
+     if(readPending()!==null)throw Error('Pending attempt remains');
+    }catch(e){storageProblem();return;}
     attempt.state=result;
     reconcile.hidden=true;lock(false);review.disabled=true;
     receipt.textContent=result==='received'
@@ -125,16 +170,25 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
      :'Sample '+attempt.number+': simulated rejection. Generate and review a fresh copy before another attempt.';
    };
    send.onclick=()=>{
-    if(!simulate||!confirmed||attempt||!consent.checked)return;
-    attempt={number:++sequence,state:'pending',payload:confirmed};
-    send.disabled=true;review.disabled=true;showResult();
+    if(!simulate||!confirmed||attempt||storageBlocked||!consent.checked)return;
+    if(restorePending())return;
+    // A fictional attempt marker is written BEFORE the sample outcome. No text,
+    // actual username/account ID, session information or real consent is persisted.
+    try{
+     const pending={version:1,account:sampleAccount,id:crypto.randomUUID(),number:++sequence,state:'unknown'};
+     window.localStorage.setItem(storageKey,JSON.stringify(pending));
+     const stored=readPending();
+     if(!stored||stored.id!==pending.id||stored.account!==pending.account)throw Error('Pending marker was not saved');
+     attempt=stored;
+    }catch(e){storageProblem();return;}
+    send.disabled=true;review.disabled=true;confirmed=null;showResult();
    };
    reconcile.onclick=()=>{
-    if(!simulate||!attempt||attempt.state!=='unknown')return;
+    if(!simulate||storageBlocked||!attempt||attempt.state!=='unknown')return;
     showResult();
    };
    review.onclick=()=>{
-    if(!reviewed||!consent.checked)return;
+    if(storageBlocked||attempt?.state==='unknown'||!reviewed||!consent.checked)return;
     try{
      const payload=publicTextPayload(reviewed,true);
      status.textContent='Public copy confirmed locally. Nothing has been submitted or published.';
@@ -143,7 +197,8 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
     catch(e){status.textContent=e.message}
    };
    check.onclick=()=>{
-    invalidate();preview.replaceChildren();status.textContent='';
+    if(!invalidate())return;
+    preview.replaceChildren();status.textContent='';
     try{
      const citations=refs.value.split('\n').filter(x=>x.trim()).map(line=>{const i=line.indexOf('|');if(i<0)throw Error('Use title | URL for each reference');return {title:line.slice(0,i),url:line.slice(i+1)}});
      const draft=window.DDCommunityPublicationDraft.publicationDraft({title:title.value,abstract:abstract.value,category:category.value,sections:choices.filter(x=>x.box.checked).map(x=>({title:x.title,text:x.text})),citations});
@@ -154,7 +209,7 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
     }catch(e){status.textContent=e.message}
    };
    dialog.append(check,document.createTextNode(' '),close,preview,agreement,review,status);
-   if(simulate)dialog.append(simulation);
+   if(simulate){dialog.append(simulation);restorePending();}
    dialog.showModal();
   };
   dialog.addEventListener('close',()=>dialog.replaceChildren());
