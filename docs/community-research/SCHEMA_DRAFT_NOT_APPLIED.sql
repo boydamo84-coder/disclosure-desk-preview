@@ -242,6 +242,24 @@ begin
  (select coalesce(jsonb_agg(f.reason order by f.created_at),'[]'::jsonb) from dd_cr_private.flags f where f.report_id=p.id and f.flag_round=p.flag_round) as flag_reasons
  from public.dd_cr_submissions p where p.status='flagged' order by p.created_at limit 30) s);
 end $$;
+-- Read-only receipt lookup for initial text-only submissions. This private helper
+-- is not a public API endpoint and must never return tokens, account IDs or text.
+-- Match the same exact reviewed payload, not merely the existence of a request.
+create function dd_cr_private.lookup_receipt(p_token uuid,p_expected_account uuid,p_reviewed jsonb)
+returns jsonb language plpgsql stable security definer set search_path='' as $$
+declare actor uuid:=dd_cr_private.member();
+begin
+ if p_expected_account is distinct from actor then
+  raise exception 'Account confirmation required' using errcode='42501';
+ end if;
+ return (select pg_catalog.jsonb_build_object('id',s.id,'status',s.status,'version_no',s.version_no)
+ from public.dd_cr_submissions s
+ where s.request_token=p_token and s.author_id=actor and s.expected_account=actor
+ and s.revision_of is null
+ and p_reviewed=pg_catalog.jsonb_build_object(
+  'title',s.title,'abstract',s.abstract,'category',s.category,
+  'body_text',s.body_text,'references_text',s.references_text,'consent',s.consent));
+end $$;
 -- Only invoker wrappers are exposed via the public API. Underlying private helpers
 -- independently check authenticated identity and authorization; no default public EXECUTE.
 create function public.dd_cr_flag(p_id uuid,p_reason text)
@@ -253,6 +271,8 @@ returns integer language sql security invoker set search_path='' as $$select dd_
 create function public.dd_cr_moderation_queue()
 returns jsonb language sql stable security invoker set search_path='' as $$select dd_cr_private.queue()$$;
 revoke all on all functions in schema dd_cr_private from public,anon,authenticated;
+-- Receipt check is available only to signed-in SQL test roles; no public wrapper.
+grant execute on function dd_cr_private.lookup_receipt(uuid,uuid,jsonb) to authenticated;
 grant execute on function dd_cr_private.flag(uuid,text),dd_cr_private.review(uuid,text,text),dd_cr_private.withdraw(uuid,text),dd_cr_private.queue() to authenticated;
 revoke all on function public.dd_cr_flag(uuid,text),public.dd_cr_review(uuid,text,text),public.dd_cr_withdraw(uuid,text),public.dd_cr_moderation_queue() from public,anon,authenticated;
 grant execute on function public.dd_cr_flag(uuid,text),public.dd_cr_review(uuid,text,text),public.dd_cr_withdraw(uuid,text),public.dd_cr_moderation_queue() to authenticated;
