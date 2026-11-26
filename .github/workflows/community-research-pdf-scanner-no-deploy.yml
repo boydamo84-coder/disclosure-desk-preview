@@ -1,0 +1,23 @@
+name: Community Research isolated PDF quarantine scanner (no deploy)
+on:
+  push:
+    branches: [feature/community-research-20261126]
+    paths:
+      - 'docs/community-research/scanner/**'
+      - '.github/workflows/community-research-pdf-scanner-no-deploy.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  quarantine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Build local scanner container using official Ubuntu packages
+        run: docker build --target qa -t dd-pdf-scanner:qa docs/community-research/scanner
+      - name: Run real antivirus and qpdf without network, credentials, mounts or root
+        run: |
+          docker run --rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges --pids-limit 64 --memory 4g --cpus 2 --tmpfs /tmp:rw,nosuid,nodev,noexec,size=128m,mode=1777 --entrypoint /bin/sh dd-pdf-scanner:qa -c 'qpdf --version && clamscan --version && python3 -B /worker/test_worker.py'
