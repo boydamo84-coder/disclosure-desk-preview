@@ -1,11 +1,12 @@
 'use strict';
 // Acceptance smoke for a brand-new disposable runner-local Supabase instance.
-// No hosted project, production endpoints, secrets, or publication write API.
-// Authentication is real; report rows are synthetic fixtures seeded locally.
+// No hosted project, production endpoints, secrets or new publishing API.
+// Authentication is real; all report rows and submissions are fictional local tests.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const {spawnSync}=require('node:child_process');
 const {randomUUID}=require('node:crypto');
+const {publicTextPayload}=require('../research/community-publication-preview.js');
 const settings=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));
 const origin='http://127.0.0.1:54321';
 assert.ok([origin,'http://localhost:54321'].includes(settings.API_URL),'Only the runner-local API is permitted');
@@ -14,7 +15,10 @@ const key=settings.ANON_KEY||settings.PUBLISHABLE_KEY;
 assert.ok(typeof key==='string'&&key.length>20,'Local guest key missing');
 const emailName=label=>label+'-'+randomUUID()+'@example.com';
 async function call(path,{token,method='GET',body,headers={}}={}){
- assert.ok(path.startsWith('/auth/v1/')||(path.startsWith('/rest/v1/')&&method==='GET'),'Local auth/read path only');
+ // Strict loopback integration-test routes. Never accept an arbitrary service URL.
+ const restRead=method==='GET'&&path.startsWith('/rest/v1/dd_cr_submissions?');
+ const draftTest=method==='POST'&&(path==='/rest/v1/dd_cr_submissions?select=id,title,status,author_label,version_no'||path==='/rest/v1/rpc/dd_cr_withdraw');
+ assert.ok(path.startsWith('/auth/v1/')||restRead||draftTest,'Unexpected local fixture route');
  const auth=token||(!key.startsWith('sb_')?key:null);
  const res=await fetch(origin+path,{
   method,redirect:'error',headers:{apikey:key,...(auth?{Authorization:'Bearer '+auth}:{}),...(body?{'Content-Type':'application/json'}:{}),...headers},
@@ -49,15 +53,15 @@ function rows(response,expected,label){
  assert.deepEqual(response.data.map(r=>[r.title,r.status]),expected,label+' visibility');
 }
 (async()=>{
- const owner=await identity('author'),reader=await identity('reader'),anonymous=await identity('anon',true);
- assert.equal(new Set([owner.id,reader.id,anonymous.id]).size,3);
+ const owner=await identity('author'),reader=await identity('reader'),anonymous=await identity('anon',true),privateMember=await identity('private');
+ assert.equal(new Set([owner.id,reader.id,anonymous.id,privateMember.id]).size,4);
  sql(`create table public.dd_forum_owner_admins(user_id uuid primary key);
  alter table public.dd_forum_owner_admins enable row level security;
  revoke all on public.dd_forum_owner_admins from public,anon,authenticated;
  create table public.dd_public_names(user_id uuid primary key, display_name text not null, is_public boolean not null);
  alter table public.dd_public_names enable row level security;
  revoke all on public.dd_public_names from public,anon,authenticated;
- insert into public.dd_public_names values ('${owner.id}','FixtureAuthor',true),('${reader.id}','FixtureReader',true);
+ insert into public.dd_public_names values ('${owner.id}','FixtureAuthor',true),('${reader.id}','FixtureReader',true),('${privateMember.id}','FixturePrivate',false);
  `+fs.readFileSync('docs/community-research/SCHEMA_DRAFT_NOT_APPLIED.sql','utf8'));
  // The local SQL admin seeds only synthetic test rows under the fixture identity.
  // The actual API below authenticates with real Auth-issued JWTs, not fixture claims.
@@ -92,4 +96,62 @@ function rows(response,expected,label){
   assert.equal((await read(token,'id',{'Accept-Profile':'dd_cr_private'})).ok,false,'Private schema must remain outside the API');
  }
  console.log('PASS genuine local Auth users, guest/member/author/anonymous visibility, invalid credentials, private column and schema denial');
+ // Use the actual six-field W.NE projection, but only with fictional text and
+ // against the already-existing unapplied schema on this disposable runner.
+ const reviewed=publicTextPayload({
+  title:'Fixture API report',abstract:'Fictional research summary',category:'Case analysis',
+  sections:[{title:'Public example',text:'Fictional reviewed report text',privateNote:'EXCLUDED_PRIVATE_FIELD'}],
+  citations:[{title:'Example source',url:'https://example.org/record'}],
+  privateBoard:'EXCLUDED_PRIVATE_BOARD'
+ },true);
+ assert.deepEqual(Object.keys(reviewed),['title','abstract','category','body_text','references_text','consent']);
+ assert.ok(!JSON.stringify(reviewed).includes('EXCLUDED_PRIVATE'));
+ const testAttempt={...reviewed,request_token:randomUUID(),expected_account:owner.id};
+ const submit=(actor,body)=>call('/rest/v1/dd_cr_submissions?select=id,title,status,author_label,version_no',{
+  token:actor?.token,method:'POST',body,headers:{Prefer:'return=representation'}
+ });
+ const denied=async(actor,body,label)=>{
+  const result=await submit(actor,body);
+  assert.ok(!result.ok,label+' unexpectedly accepted');
+  assert.ok(result.status>=400&&result.status<500,label+' must be a client/permission rejection, got '+result.status);
+ };
+ // Guests and anonymous Auth sessions are different, but neither may submit.
+ await denied(null,testAttempt,'Guest');
+ await denied(anonymous,{...testAttempt,expected_account:anonymous.id},'Anonymous Auth');
+ await denied(privateMember,{...testAttempt,expected_account:privateMember.id},'Opted-out public profile');
+ await denied(reader,testAttempt,'Stale expected account');
+ await denied(owner,{...testAttempt,consent:false},'No consent');
+ await denied(owner,{...testAttempt,title:'x'.repeat(161)},'Over-limit title');
+ await denied(owner,{...testAttempt,category:'Invalid category'},'Invalid category');
+ await denied(owner,{...testAttempt,author_label:'FixtureReader'},'Client-supplied author label');
+ await denied(owner,{...testAttempt,author_id:reader.id},'Client-supplied author ID');
+ await denied(owner,{...testAttempt,status:'published'},'Client-supplied status');
+ const accepted=await submit(owner,testAttempt);
+ assert.ok(accepted.ok,'Valid local submission failed: '+accepted.status);
+ assert.ok(Array.isArray(accepted.data)&&accepted.data.length===1,'Expected one local report');
+ const report=accepted.data[0];
+ assert.ok(idPattern.test(report.id),'Invalid local report ID');
+ assert.deepEqual(report,{id:report.id,title:reviewed.title,status:'published',author_label:'FixtureAuthor',version_no:1});
+ await denied(owner,testAttempt,'Duplicate request token');
+ await denied(owner,{...testAttempt,body_text:'Changed copy'},'Modified duplicate request');
+ await denied(reader,{...testAttempt,expected_account:reader.id},'Different account reusing token');
+ const raced={...testAttempt,title:'Fixture concurrent report',request_token:randomUUID()};
+ const race=await Promise.all([submit(owner,raced),submit(owner,raced)]);
+ assert.equal(race.filter(x=>x.ok).length,1,'Concurrent identical token must create exactly one row');
+ assert.ok(race.some(x=>!x.ok&&x.status>=400&&x.status<500),'Second concurrent request must be rejected');
+ const list=await read();
+ assert.ok(list.ok&&Array.isArray(list.data),'Post-submission read failed');
+ assert.equal(list.data.filter(x=>x.title===reviewed.title).length,1);
+ assert.equal(list.data.filter(x=>x.title===raced.title).length,1);
+ const withdraw=actor=>call('/rest/v1/rpc/dd_cr_withdraw',{token:actor?.token,method:'POST',body:{p_id:report.id,p_reason:'Fictional acceptance test withdrawal'}});
+ assert.equal((await withdraw(null)).ok,false,'Guest withdrawal denied');
+ assert.equal((await withdraw(reader)).ok,false,'Other member withdrawal denied');
+ const removed=await withdraw(owner);
+ assert.ok(removed.ok&&removed.data===1,'Owner withdrawal must affect one version');
+ const after=await read();
+ assert.ok(after.ok&&!after.data.some(x=>x.id===report.id),'Withdrawn report must disappear from guest reads');
+ const afterOwner=await read(owner.token);
+ assert.ok(afterOwner.ok&&afterOwner.data.some(x=>x.id===report.id&&x.status==='withdrawn'),'Owner sees withdrawn status');
+ await denied(owner,testAttempt,'Replay after withdrawal');
+ console.log('PASS actual W.NE text projection, real local API submission/grants/consent, server-derived labels, duplicate/concurrent token rejection, genuine owner withdrawal and hidden public version');
 })().catch(e=>{console.error(e.message);process.exitCode=1});

@@ -6,6 +6,7 @@ on:
       - '.github/workflows/community-research-auth-local-no-deploy.yml'
       - 'scripts/test_community_research_auth_local.cjs'
       - 'docs/community-research/SCHEMA_DRAFT_NOT_APPLIED.sql'
+      - 'research/community-publication-preview.js'
   workflow_dispatch:
 permissions:
   contents: read
@@ -54,7 +55,7 @@ jobs:
           supabase start > "$RUNNER_TEMP/dd-cr-start.log" 2>&1 || { tail -40 "$RUNNER_TEMP/dd-cr-start.log"; exit 1; }
           umask 077
           supabase status -o json > "$RUNNER_TEMP/dd-cr-local-status.json"
-      - name: Verify genuine local guest and signed-in read boundaries
+      - name: Verify genuine local Auth and existing draft submission boundaries
         run: node scripts/test_community_research_auth_local.cjs "$RUNNER_TEMP/dd-cr-local-status.json"
       - name: Stop disposable local services
         if: always()
