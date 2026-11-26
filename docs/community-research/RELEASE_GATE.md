@@ -29,3 +29,6 @@ Scanner isolated real engine QA passed 45773821924 (d2a2fe244); private transact
 
 
 Stage 16: Stage 15 restricted real renderer test 45836969310 passed. A separate no-deploy integration QA workflow uses actual scanner receipt → separate renderer → exact original/derived object byte reservations in real disposable Postgres with fixed fictional inputs; checks failures and rollback. Verify CI exact head. No live API, storage, official signatures or approved receipt provenance and no alternative publication transport. Do not modify existing W.NE PDF export; preview renderer is not a compressor. Strict package still red. Production stays off.
+
+
+Stage 16 integrated real sandbox test passed 45838045032 at 54d810a3; separate fixture scan/render and actual byte ledger accounting/rollback, no real storage or receipt authentication. Stage 17 one-off QA of the unchanged official-only scanner against packaged official databases must be checked for exact-head result and resource metrics. ClamAV recommended 3–4 GiB RAM exceeds existing hosted Edge Function/default Netlify Function limits; no paid upgrade/VM installation without review and authorization. Continue to require actual secure storage and approved transport, official signature updates and viable host, consent/delivery/accessibility and exact strict package/device acceptance. No live changes.

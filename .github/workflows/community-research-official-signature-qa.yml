@@ -1,0 +1,29 @@
+name: Community Research one-off official ClamAV signature QA (no deploy)
+# Intentionally not triggered by normal scanner/renderer edits or schedules.
+on:
+  push:
+    branches: [feature/community-research-20261126]
+    paths:
+      - 'docs/community-research/official-signature-qa/**'
+      - '.github/workflows/community-research-official-signature-qa.yml'
+permissions:
+  contents: read
+jobs:
+  official:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Build existing restricted scanner QA image
+        run: docker build --target qa -t dd-pdf-scanner:qa docs/community-research/scanner
+      - name: Pull official preloaded signature image once and record image digest
+        run: |
+          docker pull clamav/clamav:1.5
+          docker image inspect clamav/clamav:1.5 --format '{{index .RepoDigests 0}}'
+      - name: Build isolated QA-only image with read-only packaged signature set
+        run: docker build -t dd-official-qa:local docs/community-research/official-signature-qa
+      - name: Exercise exact official-only scanner entry path without network or mounts
+        run: |
+          docker run --rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges --pids-limit 64 --memory 4g --cpus 2 --tmpfs /tmp:rw,nosuid,nodev,noexec,size=128m,mode=1777 --entrypoint /bin/sh dd-official-qa:local -c 'clamscan --version && python3 -B /worker/test_official.py'
