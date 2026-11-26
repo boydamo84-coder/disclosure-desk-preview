@@ -9,3 +9,7 @@ Status: local prototype only. Based on tested production commit 7173c044fe1da200
 
 ## Subsequent release: Discussion Hosts (#17)
 Owner wants to turn on the five clearly labelled automated discussion hosts after Community Research. Existing 42-post queue (14 days, three posts daily) and admin controls are already staged. Keep inactive until genuine guest/member/owner authorization tests, scheduler/idempotency/automatic stop checks, quota verification and separate activation approval. No automated votes, replies, DMs or fabricated member activity. Do not enable a live job from this branch.
+
+## Isolated data model and automated QA
+
+Added `SCHEMA_DRAFT_NOT_APPLIED.sql` in this documentation directory (not a migration): pending text snapshots, public read after approval, reactions and comments with row-level policies, column-level grants, and no direct client moderation or visibility changes. The disposable PostgreSQL test checks consent, guest/author/member boundaries, private IDs, reactions and withdrawal. The local browser prototype test checks simulated interactions at three widths and no external network requests. Workflow `community-research-no-deploy.yml` runs these on the feature branch. Do not treat a green run as production acceptance: author labels are still user-supplied in this draft, moderation is operator-only in the fixture, no real account tests, rate limits, version/withdrawal API, threaded replies, Board/W.NE integration or secure attachment scanner exist yet. The text-only draft is not deployed; no Supabase project has been modified.
