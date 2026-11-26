@@ -225,9 +225,62 @@ async function accessibility(page,route,width) {
         await shortcut.click();
         assert.equal(await shortcut.getAttribute('aria-pressed'),'false');
         await page.waitForFunction(()=>Number(document.querySelector('#archiveStatus').textContent.split(' ')[0])>521);
+        assert.equal(await page.locator('#archivePage .dd-archive-people-shortcut').count(),0);
+        await page.locator('#archivePage [data-dd-capabilities]').click();
+        const help=page.locator('#ddResearchCapabilities');
+        await help.waitFor({state:'visible'});
+        assert.match(await help.innerText(),/Hypothesis Lab/);
+        await help.locator('#ddCapabilitiesResearch').click();
+        const research=page.locator('#originalResearchPage');
+        await research.waitFor({state:'visible'});
+        assert.equal(await page.locator('[data-tab="originalResearchPage"]').getAttribute('aria-current'),'page');
+        await research.locator('[data-dd-research-panel="ddResearchFoia"]').click();
+        assert.ok(await research.locator('#request-27-f-0917').isVisible());
+        await research.locator('#foia-search').fill('25-F-3215');
+        assert.ok(await research.locator('#request-25-f-3215').isVisible());
+        await research.locator('[data-dd-research-panel="ddResearchFoiGuide"]').click();
+        assert.ok(await research.getByText('Example wording',{exact:true}).isVisible());
+        await research.locator('[data-dd-research-panel="ddResearchCollab"]').click();
+        assert.ok(await research.locator('#collaboration-enquiry').isVisible());
+        assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+        await page.reload();
+        await research.waitFor({state:'visible'});
+        console.log('PASS native Research hub, FOIA panels, capabilities and routing at '+width+'px');
         console.log('PASS native Evidence Archive PURSUE filtering, card and case detail at '+width+'px');
         console.log('PASS homepage themes, motion preference and collapsed release history at '+width+'px');
       } finally {await ctx.close()}
+    }
+
+    // Video feed: remote fixture, stable IDs, provider deduplication and failure fallback.
+    {
+      const ctx=await browser.newContext({viewport:{width:393,height:900},serviceWorkers:'block'});
+      let fail=false,requests=0;
+      const saved=JSON.parse(fs.readFileSync(path.join(root,'data/disclosure-clips.json'),'utf8'));
+      const fixture=Array.from({length:12},(_,i)=>({id:'qa-remote-'+i,title:'QA catalogue video '+i,publisher:'QA fixture',source:'https://www.youtube.com/watch?v='+('QATEST000'+String(i).padStart(2,'0')),group:'YouTube',evidenceStatus:'unverified',youtubeId:'QATEST000'+String(i).padStart(2,'0'),discoveredAt:'2026-11-25T12:00:00Z'}));
+      fixture.push({...fixture[0],id:'qa-provider-duplicate'});
+      try{
+        await ctx.route('**/*',route=>{
+          const url=route.request().url();
+          if(url==='https://raw.githubusercontent.com/boydamo84-coder/disclosure-desk-preview/main/data/disclosure-clips.json'){
+            requests++;
+            return fail?route.fulfill({status:503,body:'Unavailable'}):route.fulfill({contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify([...saved,...fixture])});
+          }
+          return new URL(url).origin===base?route.continue():route.abort('blockedbyclient');
+        });
+        const page=await ctx.newPage();
+        await page.goto(base+'/index.html?dd_tab=clips');
+        await text(page,'#ddClipFeedStatus','Checked just now');
+        await page.locator('#clipSearch').fill('QA catalogue video 0');
+        const card=page.locator('#clipsFeed [data-video-id="qa-remote-0"]');
+        await card.waitFor({state:'visible'});
+        assert.equal(await page.locator('#clipsFeed [data-video-id="qa-provider-duplicate"]').count(),0);
+        fail=true;
+        await page.locator('#ddClipRefresh').click();
+        await text(page,'#ddClipFeedStatus','Keeping last loaded catalogue');
+        assert.ok(await card.isVisible());
+        assert.ok(requests>=2);
+        console.log('PASS video catalogue remote refresh, deduplication and fallback');
+      }finally{await ctx.close()}
     }
 
     // Exercise the dashboard realistically while using fictional RPC responses.
