@@ -70,8 +70,9 @@ function fixture({active=false,pages=2}={}){
     // Only an optional mock auth event emitter; no SDK/backend requests or member
     // mutation are used. PDF parsing and rendering below are genuine PDF.js.
     await context.addInitScript(()=>{
+     window.DDPdfAuthEvents=[];
      window.supabase={createClient:()=>({
-      auth:{onAuthStateChange(cb){window.DDPdfAuthEvent=cb;cb('INITIAL_SESSION',null);return {data:{subscription:{unsubscribe(){}}}}}},
+      auth:{onAuthStateChange(cb){window.DDPdfAuthEvents.push(cb);cb('INITIAL_SESSION',null);return {data:{subscription:{unsubscribe(){window.DDPdfAuthEvents=window.DDPdfAuthEvents.filter(x=>x!==cb)}}}}}},
       from(){throw Error('No database needed for local PDF review')}
      })};
     });
@@ -123,6 +124,7 @@ function fixture({active=false,pages=2}={}){
     assert.ok(allowed.includes('/node_modules/pdfjs-dist/build/pdf.mjs'));
     assert.ok(allowed.includes('/node_modules/pdfjs-dist/build/pdf.worker.mjs'));
     assert.ok(!external.slice(priorExternal).includes('https://fixture.invalid'));
+    console.log('PASS actual canvas/table/image, two pages, digest and metadata at '+width+'px');
     const failures=[
      [Buffer.from('This is a text file, not a PDF.'),/valid PDF header/],
      [Buffer.alloc(5000001,32),/no larger than 5 MB/],
@@ -137,6 +139,7 @@ function fixture({active=false,pages=2}={}){
      assert.equal(await panel.locator('canvas').isVisible(),false);
      assert.equal(await input.inputValue(),'');
     }
+    console.log('PASS malformed, oversized, incomplete, active action and page-limit refusal at '+width+'px');
     await load(good);await statusHas(/Local PDF preview ready/);
     await panel.getByRole('button',{name:'Close PDF review'}).click();
     await panel.waitFor({state:'detached'});
@@ -144,7 +147,9 @@ function fixture({active=false,pages=2}={}){
     assert.equal(await panel.locator('input[type=file]').inputValue(),'');
     assert.equal(await panel.getByLabel('Research title').inputValue(),'');
     await load(good);await statusHas(/Local PDF preview ready/);
-    await page.evaluate(()=>window.DDPdfAuthEvent?.('SIGNED_IN',{user:{id:'fixture-member',is_anonymous:false}}));
+    const subscriberCount=await page.evaluate(()=>window.DDPdfAuthEvents.length);
+    assert.ok(subscriberCount>0,'fixture has registered auth subscribers');
+    await page.evaluate(()=>{for(const cb of [...window.DDPdfAuthEvents]){try{cb('SIGNED_IN',{user:{id:'fixture-member',is_anonymous:false}})}catch{ /* Other independent app listeners are not under test. */ }}});
     await panel.waitFor({state:'detached'});
     await trigger.click();await panel.waitFor();
     await load(good);await statusHas(/Local PDF preview ready/);
