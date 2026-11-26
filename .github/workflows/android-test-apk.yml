@@ -39,7 +39,14 @@ jobs:
           java -cp "$classes" com.disclosuredesk.preview.ResearchLinkParserTest
           java -cp "$classes" com.disclosuredesk.preview.ChatNotificationGateTest
       - name: Install Android build tools
-        run: sdkmanager "platforms;android-36" "build-tools;35.0.0"
+        run: |
+          dd_sdk_root="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}"
+          dd_sdkmanager="$dd_sdk_root/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$dd_sdkmanager" ]; then
+            dd_sdkmanager=$(find "$dd_sdk_root/cmdline-tools" -path '*/bin/sdkmanager' -type f -print -quit)
+          fi
+          test -n "$dd_sdkmanager" && test -x "$dd_sdkmanager"
+          "$dd_sdkmanager" --sdk_root="$dd_sdk_root" "platforms;android-36" "build-tools;35.0.0"
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.13'
