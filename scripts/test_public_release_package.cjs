@@ -8,9 +8,10 @@ const paths=m.files.map(f=>f.path),names=new Set(paths);
 assert.equal(names.size,paths.length);
 const themeHtml=fs.readFileSync(path.join(out,'index.html'),'utf8');
 const themeEnabled=themeHtml.includes('id="ddHomeThemeHero" data-media-ready="true"');
-const themeAssets=['nightfall','eclipse','orbital'].flatMap(n=>['mp4','jpg'].map(e=>'data/'+n+'.'+e));
+const themeAssets=['nightfall','eclipse'].flatMap(n=>['mp4','jpg'].map(e=>'data/'+n+'.'+e));
 assert.deepEqual(paths.filter(p=>themeAssets.includes(p)).sort(),themeEnabled?themeAssets.sort():[],'Theme assets must match the explicit activation gate');
-assert.ok(paths.length>=35&&paths.length<=(process.env.CONTEXT==='production'?140:141)+(themeEnabled?6:0),'Unexpected package count '+paths.length);
+assert.ok(!names.has('data/orbital.mp4')&&!names.has('data/orbital.jpg'),'Uncleared Orbital must not ship');
+assert.ok(paths.length>=35&&paths.length<=(process.env.CONTEXT==='production'?140:141)+(themeEnabled?4:0),'Unexpected package count '+paths.length);
 for(const f of m.files){
  const bytes=fs.readFileSync(path.join(out,f.path));
  assert.equal(bytes.length,f.bytes,f.path);
