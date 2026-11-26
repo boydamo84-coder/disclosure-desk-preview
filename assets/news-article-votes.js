@@ -30,6 +30,7 @@ function display(item,data){
  down.setAttribute('aria-pressed',String(item.dataset.currentVote==='-1'));
  item.querySelector('[role=status]').textContent='';
  item.dataset.ready='yes';
+ up.disabled=false;down.disabled=false;
 }
 function fail(item,message){
  if(!item?.isConnected)return;
@@ -51,11 +52,17 @@ async function refresh(){
  for(let index=0;index<grouped.length;index+=50){
   const slice=grouped.slice(index,index+50),keys=slice.map(row=>row[0]);
   try{
-   const {data,error}=await c.rpc('dd_news_article_vote_summary',{p_story_keys:keys});
-   if(error)throw error;
-   const byKey=new Map((data||[]).map(row=>[row.story_key,row]));
+   // Public summaries are available to guests. A transient connection or
+   // upstream failure gets one bounded retry, never an auth/permission bypass.
+   let result=await c.rpc('dd_news_article_vote_summary',{p_story_keys:keys});
+   if(result.error&&[0,502,503,504].includes(result.status)){
+    await new Promise(resolve=>setTimeout(resolve,500));
+    result=await c.rpc('dd_news_article_vote_summary',{p_story_keys:keys});
+   }
+   if(result.error||!Array.isArray(result.data))throw result.error||Error('Invalid summary response');
+   const byKey=new Map(result.data.map(row=>[row.story_key,row]));
    for(const [key,hosts] of slice)for(const host of hosts)display(host,byKey.get(key)||{upvotes:0,downvotes:0,my_vote:0});
-  }catch(_){for(const [,hosts] of slice)for(const item of hosts)fail(item,'Article voting not yet available')}
+  }catch(_){for(const [,hosts] of slice)for(const item of hosts)fail(item,'Vote totals temporarily unavailable. Reload to retry.')}
  }
 }
 async function mount(node){
@@ -75,18 +82,18 @@ async function mount(node){
  let hash;
  try{hash=await hashStory(key);}catch(_){fail(node,'Article identity unavailable');return;}
  if(!node.isConnected)return;
- node.dataset.voteStoryKey=hash;buttons.forEach(btn=>btn.disabled=false);
+ node.dataset.voteStoryKey=hash;
  for(const value of [1,-1]){
   buttons[value===1?0:1].onclick=async()=>{
-   const c=client();if(!c)return;
+   const c=client();if(!c||node.dataset.ready!=='yes'||buttons.some(btn=>btn.disabled))return;
    const current=Number(node.dataset.currentVote||0),next=current===value?0:value;
-   const auth=await c.auth.getUser();
-   if(auth.error||!auth.data?.user||auth.data.user.is_anonymous){
-    status.textContent='Sign in to vote';return;
-   }
    buttons.forEach(btn=>btn.disabled=true);
-   status.textContent='Saving…';
    try{
+    const auth=await c.auth.getUser();
+    if(auth.error||!auth.data?.user||auth.data.user.is_anonymous){
+     status.textContent='Sign in to vote';return;
+    }
+    status.textContent='Saving…';
     const {data,error}=await c.rpc('dd_news_article_vote_set',{p_story_key:hash,p_value:next});
     if(error)throw error;
     if(!data||!(Array.isArray(data)?data[0]:data))throw Error('Vote not confirmed');
