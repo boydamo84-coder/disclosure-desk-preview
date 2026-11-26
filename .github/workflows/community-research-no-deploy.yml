@@ -1,0 +1,25 @@
+name: Community Research prototype QA (no deploy)
+on:
+  push:
+    branches: [feature/community-research-20261126]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned disposable database and browser tools
+        run: npm install --no-save --no-package-lock --ignore-scripts @electric-sql/pglite@0.5.16 playwright-core@1.56.1
+      - name: Check publication projection and permissions
+        run: |
+          node --check research/community-publication-preview.js
+          node scripts/test_community_research_draft.cjs
+          node scripts/test_community_research_preview.cjs
