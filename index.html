@@ -2088,7 +2088,11 @@ document.addEventListener('click',e=>{
   if(!archive)return;
   // Link only by explicit archival ID, never by fuzzy title/year coincidence.
   const mapped=disclosureCasePool().find(x=>!x.isWitness&&String(x.archiveRecordId||'')===String(archive.id));
-  record=mapped?{...mapped,title:archive.title||mapped.title}:{
+  record=mapped?{...mapped,title:archive.title||mapped.title}:archive.pursue?{
+   id:archive.id,title:archive.title,pursue:true,year:null,eventDate:null,lat:null,lon:null,
+   pursueDate:archive.pursueDate,pursueLocation:archive.pursueLocation,sourceUrl:archive.url,
+   city:'Event location not verified'
+  }:{
    id:archive.id,title:archive.title,year:archive.year,
    city:archive.city||archive.location||archive.country||'Location not verified',
    eventDate:archive.eventDate||null,
@@ -2607,7 +2611,6 @@ function renderArchiveSatelliteCases(){
   status.textContent='Loading public archive records…';host.replaceChildren();return
  }
  const matching=historicalRecords.filter(r=>{
-  if(r.pursue)return false;
   const haystack=[r.title,r.year,r.eventDate,r.city,r.country,r.location,r.eventName,r.category,r.description]
    .filter(Boolean).join(' ').toLowerCase();
   return words.every(w=>haystack.includes(w));
@@ -2617,8 +2620,8 @@ function renderArchiveSatelliteCases(){
   '. A catalogue year is not a confirmed exact event date.';
  host.innerHTML=displayed.map(r=>{
   const date=window.DDHistoricalSatellite?.caseSelection?.(r)?.date||null;
-  const location=String(r.city||r.location||r.country||'Location not verified');
-  const dateLabel=date?'Recorded event date: '+esc(date):
+  const location=String(r.pursue?(r.pursueLocation?'Catalogue location: '+r.pursueLocation+' (event location unverified)':'Event location not verified'):(r.city||r.location||r.country||'Location not verified'));
+  const dateLabel=r.pursue?'Catalogue date: '+esc(r.pursueDate||'Not specified')+' · event date not verified':date?'Recorded event date: '+esc(date):
    'Record year: '+esc(String(r.year||'unknown'))+' · exact day not verified';
   return '<article class="dd-archive-satellite-case"><div><strong>'+esc(r.title)+
    '</strong><p class="muted small">'+esc(location)+' · '+dateLabel+
@@ -2641,7 +2644,7 @@ function ddPursueArchiveRecords(data){
   const date=String(r.date||'Not specified'),explicit=[...date.matchAll(/\b(?:18|19|20)\d{2}\b/g)].map(m=>Number(m[0]));
   const year=explicit.length===1?explicit[0]:Number(published.slice(0,4));
   const dateType=explicit.length===1?'Catalogue date; not necessarily event date.':'Release year used because the catalogue date is not an unambiguous four-digit year.';
-  return [{id:'pursue-'+r.key,title:r.title,kind:'PURSUE '+String(r.kind||'Record'),category:'PURSUE',source:'PURSUE · '+String(r.agency||'U.S. government'),url:url.href,year,dateType,description:'Release '+String(r.release).padStart(2,'0')+' · '+r.identifier+' · Catalogue date: '+date+(r.location?' · '+r.location:'')+'.',keywords:'PURSUE '+r.identifier+' Release '+String(r.release).padStart(2,'0'),pursue:true,pursueRelease:r.release,pursueKey:r.key,pursueDate:date,pursuePublished:published,evidenceStatus:'Official catalogue metadata; original record contents not independently verified.',metadataCredit:'PURSUE catalogue snapshot via BPSAI index.'}];
+  return [{id:'pursue-'+r.key,title:r.title,kind:'PURSUE '+String(r.kind||'Record'),category:'PURSUE',source:'PURSUE · '+String(r.agency||'U.S. government'),url:url.href,year,dateType,description:'Release '+String(r.release).padStart(2,'0')+' · '+r.identifier+' · Catalogue date: '+date+(r.location?' · '+r.location:'')+'.',keywords:'PURSUE '+r.identifier+' Release '+String(r.release).padStart(2,'0'),pursue:true,pursueRelease:r.release,pursueKey:r.key,pursueDate:date,pursueLocation:String(r.location||''),pursuePublished:published,evidenceStatus:'Official catalogue metadata; original record contents not independently verified.',metadataCredit:'PURSUE catalogue snapshot via BPSAI index.'}];
  });
 }
 $('ddArchivePursueShortcut').onclick=()=>{
@@ -3072,7 +3075,7 @@ function ddArchiveActionsHTML(r,detail=false){
  '<button type="button" class="dd-case-bookmark dd-action-board" '+(detail?'id="archiveCaseSaveBottom" ':'')+'data-save-archive="'+id+'" data-bookmark-url="'+esc(r.url)+'" data-bookmark-label="'+esc(r.title)+'" aria-label="Save case to Investigation Board" title="Add to Board"><span data-star-icon>☆</span></button>'+
  '<button type="button" class="dd-action-share" data-share-archive="'+id+'" aria-label="Share archive source" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.4 6.6-3.8 M8.7 13.6l6.6 3.8"/></svg></button>'+
  '<button type="button" class="dd-card-compare-action" data-compare-archive="'+id+'" aria-pressed="'+compared+'" aria-label="'+(compared?'Remove from comparison':'Compare this archive case')+'" title="Compare">'+(compared?'✓ Compared':'⚖ Compare')+'</button>'+
- (!r.pursue?'<button type="button" data-dd-sat-archive="'+id+'" aria-label="Explore historical satellite imagery for this archive case" title="Satellite view">🛰</button>':'')+
+ '<button type="button" data-dd-sat-archive="'+id+'" aria-label="Explore historical satellite imagery for this archive case" title="Satellite view">🛰</button>'+
  (detail&&safePublicUrl(r.url)?'<button type="button" class="dd-citation-save dd-card-citation-action" data-dd-citation-url="'+esc(r.url)+'" data-dd-citation-title="'+esc(r.title)+'" aria-label="Add archive source to W.NE citations" title="Add to citations">'+(ddSiteCitationSaved(r.url)?'✓':'＋')+'</button>':'')+'</div>';
 }
 function ddBindArchiveActions(root){
