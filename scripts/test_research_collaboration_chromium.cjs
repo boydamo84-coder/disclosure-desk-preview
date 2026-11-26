@@ -197,9 +197,30 @@ async function accessibility(page,route,width) {
         const card=cards.first();
         assert.match(await card.innerText(),/DOW-UAP-D089/);
         assert.match(await card.locator('.dd-archive-source-link').getAttribute('href'),/war.gov.*DOW-UAP-D089/);
+        assert.equal(await card.locator('[data-follow-archive]').count(),1);
+        assert.equal(await card.locator('[data-share-archive]').count(),1);
+        assert.equal(await card.locator('[data-compare-archive]').count(),1);
+        assert.equal(await card.locator('[data-news-comments]').count(),1);
+        await card.locator('[data-dd-sat-archive]').click();
+        const sat=page.locator('#ddSatelliteDialog');
+        await sat.waitFor({state:'visible'});
+        assert.match(await sat.innerText(),/DOW-UAP-D089/);
+        assert.match(await sat.innerText(),/No verified event date/);
+        assert.equal(await sat.locator('#ddSatYearInput').inputValue(),'');
+        assert.equal(await sat.locator('#ddSatMonthInput').inputValue(),'');
+        assert.equal(await sat.locator('#ddSatDayInput').inputValue(),'');
+        for(const provider of ['https://worldview.earthdata.nasa.gov/','https://pics.eumetsat.int/','https://earthexplorer.usgs.gov/','https://view.eumetsat.int/']){
+          const link=sat.locator('a[href="'+provider+'"]');
+          assert.ok(await link.isVisible(),'Missing manual satellite provider '+provider);
+        }
+        assert.match(await sat.getByRole('link',{name:'Read original government record'}).getAttribute('href'),/war.gov.*DOW-UAP-D089/);
+        await sat.evaluate(n=>n.close());
         await card.locator('[data-open-archive]').click();
         await page.locator('#archiveCaseDialog').waitFor({state:'visible'});
         assert.match(await page.locator('#archiveCaseTitle').innerText(),/DOW-UAP-D089/);
+        assert.equal(await page.locator('#archiveCaseBody [data-dd-sat-archive]').count(),1);
+        assert.ok(await page.locator('#archiveCaseBody [data-dd-citation-url]').count()>0);
+        assert.ok(await page.locator('#archiveCaseBody .dd-case-connections').isVisible());
         await page.evaluate(()=>document.getElementById('archiveCaseDialog').close());
         await shortcut.click();
         assert.equal(await shortcut.getAttribute('aria-pressed'),'false');
