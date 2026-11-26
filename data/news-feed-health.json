@@ -1,41 +1,41 @@
 {
-  "checkedAt": "2026-11-26T02:49:29.716956+00:00",
+  "checkedAt": "2026-11-26T12:25:15.263798+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 40,
-      "latestArticleAt": "2026-11-25T16:16:04+00:00"
+      "items": 34,
+      "latestArticleAt": "2026-11-26T02:57:42+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 12,
-      "latestArticleAt": "2026-11-21T20:44:41+00:00"
+      "items": 15,
+      "latestArticleAt": "2026-11-25T15:13:11+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
       "items": 29,
-      "latestArticleAt": "2026-11-25T06:02:24+00:00"
+      "latestArticleAt": "2026-11-26T03:30:00+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
       "status": "ok",
-      "items": 3,
-      "latestArticleAt": "2026-11-24T10:08:53+00:00"
+      "items": 2,
+      "latestArticleAt": "2026-11-22T12:37:55+00:00"
     },
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 13,
-      "latestArticleAt": "2026-11-24T15:32:20+00:00"
+      "items": 12,
+      "latestArticleAt": "2026-11-25T13:02:53+00:00"
     },
     {
       "source": "Search: UAP congress hearing when:7d",
       "status": "ok",
-      "items": 2,
-      "latestArticleAt": "2026-11-20T17:26:00+00:00"
+      "items": 1,
+      "latestArticleAt": "2026-11-19T22:07:40+00:00"
     },
     {
       "source": "Search: UFO UAP Brazil Peru Mexico Argentina when:7d",
@@ -64,8 +64,8 @@
     {
       "source": "Search: UFO UAP Africa Middle East when:7d",
       "status": "ok",
-      "items": 3,
-      "latestArticleAt": "2026-11-23T11:45:53+00:00"
+      "items": 2,
+      "latestArticleAt": "2026-11-21T09:01:41+00:00"
     },
     {
       "source": "Search: UFO UAP Ireland UK Canada when:7d",
@@ -99,15 +99,15 @@
     },
     {
       "source": "Search: Mexico",
-      "status": "ok",
-      "items": 1,
-      "latestArticleAt": "2026-11-22T00:38:50+00:00"
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "Search: Japan",
       "status": "ok",
       "items": 1,
-      "latestArticleAt": "2026-11-21T19:50:43+00:00"
+      "latestArticleAt": "2026-11-21T19:47:42+00:00"
     },
     {
       "source": "Search: Canada",
@@ -204,5 +204,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 476
+  "storiesPublished": 479
 }
