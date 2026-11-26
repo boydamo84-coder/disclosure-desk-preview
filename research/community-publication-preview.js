@@ -79,7 +79,7 @@ if(typeof window!=='undefined')window.DDCommunityPublicationDraft=Object.freeze(
    const check=el('button','Generate public preview');check.type='button';
    const close=el('button','Close');close.type='button';close.onclick=()=>dialog.close();
    const consent=el('input');consent.type='checkbox';
-   const agreement=el('label');agreement.hidden=true;agreement.style.cssText='display:block;margin:12px 0';agreement.append(consent,document.createTextNode(' I have permission to publish this exact text, have checked for personal and confidential information, and understand my public username would accompany the publication.'));
+   const agreement=el('label');agreement.hidden=true;agreement.style.cssText='margin:12px 0';agreement.append(consent,document.createTextNode(' I have permission to publish this exact text, have checked for personal and confidential information, and understand my public username would accompany the publication.'));
    const review=el('button','Confirm reviewed public copy');review.type='button';review.hidden=true;review.disabled=true;
    let reviewed=null;
    const invalidate=()=>{reviewed=null;consent.checked=false;agreement.hidden=true;review.hidden=true;review.disabled=true;preview.hidden=true;status.textContent='Generate a fresh preview to review your changes.'};

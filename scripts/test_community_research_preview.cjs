@@ -72,7 +72,7 @@ assert.throws(()=>publicTextPayload({...core,sections:Array.from({length:3},()=>
   await page.goto('http://127.0.0.1:8765/');
   await page.evaluate(()=>{window.wneCaptureDocument=()=>({bookTitle:'Test book',chapters:[{title:'Public section',html:'<p>Public text</p><p hidden>PRIVATE SECRET</p>'},{title:'Private chapter',html:'DO NOT EXPORT'}]})});
   await page.addScriptTag({path:path.resolve('research/community-publication-preview.js')});
-  await page.getByRole('button',{name:/Preview Community Research publication/}).click();
+  await page.getByRole('menuitem',{name:/Preview Community Research publication/}).click();
   await page.getByLabel('Abstract / summary').fill('Public abstract');
   await page.getByLabel('Public section',{exact:true}).check();
   await page.getByRole('button',{name:'Generate public preview'}).click();
