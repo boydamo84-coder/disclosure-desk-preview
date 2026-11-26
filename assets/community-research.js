@@ -61,6 +61,62 @@ async function fetchPublic(id,full=false){
  if(error)throw Error('Research service unavailable');
  return data?.status==='published'?data:null;
 }
+// Public feedback only. Member actions remain disabled pending account-safe
+// write controls. Read explicit columns, never private member or review metadata.
+function mountFeedback(article,id,current){
+ const panel=el('section',undefined,'dd-cr-feedback');
+ panel.setAttribute('aria-label','Reader feedback');
+ const tally=el('p','Loading reader feedback…','muted small'),commentList=el('div');
+ const note=el('p','Likes and dislikes are reader feedback, not an evidence credibility score. Member feedback controls are not enabled in this preview.','muted small');
+ const message=el('p');message.setAttribute('role','status');
+ const next=button('Load more comments',()=>void load(false));next.hidden=true;
+ const retry=button('Refresh reader feedback',()=>void load(true));retry.hidden=true;
+ panel.append(el('h3','Reader feedback'),note,tally,el('h3','Comments'),commentList,next,retry,message);
+ article.querySelector('.card-body').append(panel);
+ let offset=0,busy=false,seen=new Set();
+ const active=()=>current===epoch&&article.isConnected&&!page.hidden;
+ const stillPublic=async()=>{
+  if(!active())return false;
+  const row=await fetchPublic(id);
+  if(!active())return false;
+  if(row)return true;
+  article.remove();say('This publication is unavailable.');return false;
+ };
+ const count=async reaction=>{
+  const {count,error}=await db().from('dd_cr_reactions')
+   .select('reaction',{count:'exact',head:true}).eq('report_id',id).eq('reaction',reaction);
+  if(error||!Number.isSafeInteger(count)||count<0)throw Error('Feedback unavailable');
+  return count;
+ };
+ async function load(reset){
+  if(busy||!active())return;
+  busy=true;next.disabled=true;retry.hidden=true;message.textContent='Loading visible comments…';
+  if(reset){offset=0;seen=new Set();commentList.replaceChildren();next.hidden=true;tally.textContent='Loading reader feedback…';}
+  try{
+   if(!await stillPublic())return;
+   const [likes,dislikes,response]=await Promise.all([count(1),count(-1),
+    db().from('dd_cr_comments').select('id,author_label,body_text,created_at,status')
+     .eq('report_id',id).eq('status','visible').order('created_at',{ascending:true}).order('id',{ascending:true}).range(offset,offset+19)
+   ]);
+   if(response.error||!Array.isArray(response.data))throw Error('Feedback unavailable');
+   if(!await stillPublic())return;
+   tally.textContent=likes+' '+(likes===1?'like':'likes')+' · '+dislikes+' '+(dislikes===1?'dislike':'dislikes');
+   for(const row of response.data){
+    if(row.status!=='visible'||!uuid.test(String(row.id||''))||typeof row.author_label!=='string'
+     ||!row.author_label.trim()||row.author_label.length>80||typeof row.body_text!=='string'
+     ||!row.body_text.trim()||row.body_text.length>2000||seen.has(row.id))continue;
+    seen.add(row.id);
+    const comment=el('div',undefined,'dd-cr-comment');
+    comment.append(el('p',row.author_label,'muted small'),el('div',row.body_text,'dd-cr-text'));
+    commentList.append(comment);
+   }
+   offset+=response.data.length;next.hidden=response.data.length<20;
+   message.textContent=seen.size?seen.size+' visible comments shown.':'No visible comments yet.';
+  }catch{if(active()){message.textContent='Reader feedback unavailable. Try refreshing.';retry.hidden=false;}}
+  finally{busy=false;next.disabled=false;}
+ }
+ void load(true);
+}
 function card(row,full=false){
  const ref=api.source(row),article=el('article',undefined,'card'),body=el('div',undefined,'card-body');
  article.dataset.publicationId=ref.id;
@@ -108,7 +164,8 @@ async function refresh(){
  try{
   const row=await fetchPublic(id,true);if(current!==epoch)return;
   if(!row){say('This publication is unavailable.');return}
-  results.append(card(row,true));say('Published version '+row.version_no+' · Community research');
+  const article=card(row,true);results.append(article);say('Published version '+row.version_no+' · Community research');
+  mountFeedback(article,row.id,current);
  }catch{if(current===epoch)say('This publication is unavailable.')}
 }
 nav.hidden=false;

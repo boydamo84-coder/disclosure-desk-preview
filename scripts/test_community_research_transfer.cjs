@@ -96,15 +96,24 @@ const server=http.createServer((req,res)=>{
     await ctx.route('**/assets/community-test-config.js?*',r=>r.fulfill({contentType:'application/javascript',body:'window.DD_COMMUNITY_TEST_CONFIG={environment:"test",url:"https://fixture.invalid",publishableKey:"test-only"};window.DD_COMMUNITY_FEATURES={researchPublishing:true};'}));
     await ctx.addInitScript(({row,other})=>{
      window.DDNativeRows=[row,{...row,id:other,title:'Second archive note',category:'Historical research'}];
+     window.DDNativeReactions=[{report_id:row.id,reaction:1},{report_id:row.id,reaction:1},{report_id:row.id,reaction:-1},{report_id:other,reaction:1}];
+     window.DDNativeComments=Array.from({length:21},(_,i)=>({
+      id:'00000000-0000-4000-8000-'+String(100+i).padStart(12,'0'),report_id:row.id,status:'visible',
+      author_label:'Fictional commenter',body_text:i===0?'<img src=x onerror=alert(1)>':'Public comment '+(i+1),
+      created_at:'2026-01-01T00:00:00Z',member_id:'PRIVATE MEMBER ID'
+     }));
+     window.DDNativeComments.push({id:'00000000-0000-4000-8000-000000000999',report_id:row.id,status:'removed',author_label:'Removed author',body_text:'REMOVED COMMENT'});
      window.supabase={createClient:()=>({
       from(name){
-       if(name!=='dd_cr_submissions')throw Error('Unexpected table');
-       let data=window.DDNativeRows.slice();
+       const tables={dd_cr_submissions:window.DDNativeRows,dd_cr_reactions:window.DDNativeReactions,dd_cr_comments:window.DDNativeComments};
+       if(!tables[name])throw Error('Unexpected table');
+       let data=tables[name].slice(),count=false;
        const chain={
-        select(){return chain},eq(k,v){data=data.filter(x=>x[k]===v);return chain},
+        select(cols,options){count=options?.count==='exact';return chain},eq(k,v){data=data.filter(x=>x[k]===v);return chain},
         order(){return chain},ilike(k,v){data=data.filter(x=>String(x[k]).toLowerCase().includes(v.slice(1,-1).toLowerCase()));return chain},
         range(a,b){return Promise.resolve({data:data.slice(a,b+1),error:null})},
-        maybeSingle(){return Promise.resolve({data:data[0]||null,error:null})}
+        maybeSingle(){return Promise.resolve({data:data[0]||null,error:null})},
+        then(resolve,reject){return Promise.resolve({data:count?null:data,count:count?data.length:null,error:null}).then(resolve,reject)}
        };return chain;
       },
       auth:{getSession:async()=>({data:{session:null},error:null}),onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}})}
@@ -114,6 +123,17 @@ const server=http.createServer((req,res)=>{
     await native.goto(base+'/index.html?dd_tab=communityResearchPage&dd_publication='+id);
     const pane=native.locator('#communityResearchPage');
     await pane.getByText('Sample published text',{exact:true}).waitFor();
+    const feedback=pane.getByRole('region',{name:'Reader feedback'});
+    await feedback.getByText('2 likes · 1 dislike',{exact:true}).waitFor();
+    await feedback.getByText('20 visible comments shown.',{exact:true}).waitFor();
+    assert.equal(await feedback.getByText('<img src=x onerror=alert(1)>',{exact:true}).count(),1);
+    assert.equal(await feedback.locator('img').count(),0);
+    assert.equal(await feedback.getByText('REMOVED COMMENT',{exact:true}).count(),0);
+    assert.equal(await feedback.getByText('PRIVATE MEMBER ID',{exact:true}).count(),0);
+    await feedback.getByRole('button',{name:'Load more comments'}).click();
+    await feedback.getByText('21 visible comments shown.',{exact:true}).waitFor();
+    assert.equal(await feedback.getByText('Public comment 21',{exact:true}).count(),1);
+    assert.equal(await feedback.getByRole('button',{name:'Load more comments'}).isVisible(),false);
     assert.equal(await native.locator('[data-tab="communityResearchPage"]').getAttribute('aria-current'),'page');
     assert.ok(await native.locator('.nav').isVisible());
     await pane.getByRole('button',{name:'Add to W.NE citations'}).click();
@@ -125,6 +145,7 @@ const server=http.createServer((req,res)=>{
     assert.equal(await pane.locator('article').count(),1);
     await pane.getByRole('button',{name:'Read research'}).click();
     await pane.getByText('Sample published text',{exact:true}).waitFor();
+    await pane.getByRole('region',{name:'Reader feedback'}).getByText('No visible comments yet.',{exact:true}).waitFor();
     assert.equal(new URL(native.url()).searchParams.get('dd_publication'),other);
     await native.evaluate(()=>{window.DDNativeRows[1].status='flagged';window.DDCommunityResearch.refresh()});
     await pane.getByText('This publication is unavailable.',{exact:true}).waitFor();
@@ -133,7 +154,7 @@ const server=http.createServer((req,res)=>{
     assert.ok(await native.locator('#originalResearchPage').isVisible());
     assert.equal(new URL(native.url()).searchParams.has('dd_publication'),false);
     assert.equal(await native.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
-    console.log('PASS gated native tab, exact publication route, search, citation and removed report handling at '+width+'px');
+    console.log('PASS gated native tab, exact route, search, citation, public reaction totals, comment pagination/plain text and removed report handling at '+width+'px');
    }finally{await ctx.close()}
   }
  }finally{await browser.close()}

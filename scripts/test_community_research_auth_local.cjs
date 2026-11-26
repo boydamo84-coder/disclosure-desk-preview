@@ -20,14 +20,16 @@ async function call(path,{token,method='GET',body,headers={}}={}){
  // Strict loopback integration-test routes. Never accept an arbitrary service URL.
  const restRead=method==='GET'&&path.startsWith('/rest/v1/dd_cr_submissions?');
  const draftTest=method==='POST'&&(path==='/rest/v1/dd_cr_submissions?select=id,title,status,author_label,version_no'||path==='/rest/v1/rpc/dd_cr_withdraw');
- assert.ok(path.startsWith('/auth/v1/')||restRead||draftTest,'Unexpected local fixture route');
+ const engagementTest=['GET','HEAD','POST','PATCH','DELETE'].includes(method)&&
+  (path.startsWith('/rest/v1/dd_cr_reactions?')||path.startsWith('/rest/v1/dd_cr_comments?'));
+ assert.ok(path.startsWith('/auth/v1/')||restRead||draftTest||engagementTest,'Unexpected local fixture route');
  const auth=token||(!key.startsWith('sb_')?key:null);
  const res=await fetch(origin+path,{
   method,redirect:'error',headers:{apikey:key,...(auth?{Authorization:'Bearer '+auth}:{}),...(body?{'Content-Type':'application/json'}:{}),...headers},
   ...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(15000)
  });
  let data;try{data=await res.json()}catch{data=null}
- return {ok:res.ok,status:res.status,data};
+ return {ok:res.ok,status:res.status,data,contentRange:res.headers.get('content-range')};
 }
 const idPattern=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 async function identity(label,anonymous=false){
@@ -228,4 +230,48 @@ function rows(response,expected,label){
  assert.equal(fromBrowser[0].body_text,sample.body_text);
  assert.equal(fromBrowser[0].references_text,sample.references_text);
  console.log('PASS actual W.NE preview UI through loopback-only test binding, explicit consent, stale copy, genuine local success/rejection, private text exclusion and one-time click');
+ // Real Auth acceptance of the existing reaction/comment RLS. These are local
+ // fixture requests only; no production member-action client is installed.
+ const sharedId=race.find(x=>x.ok).data[0].id;
+ assert.ok(idPattern.test(sharedId),'Invalid local shared report ID');
+ const reactionPath='/rest/v1/dd_cr_reactions?report_id=eq.'+sharedId+'&select=report_id,reaction';
+ const commentPath='/rest/v1/dd_cr_comments?report_id=eq.'+sharedId+'&select=id,author_label,body_text,status';
+ const addReaction=(actor,reaction)=>call('/rest/v1/dd_cr_reactions?select=report_id,reaction',{token:actor?.token,method:'POST',headers:{Prefer:'return=representation'},body:{report_id:sharedId,reaction}});
+ const reactionRead=()=>call(reactionPath);
+ const addComment=(actor,body)=>call('/rest/v1/dd_cr_comments?select=id,author_label,body_text,status',{token:actor?.token,method:'POST',headers:{Prefer:'return=representation'},body:{report_id:sharedId,...body}});
+ for(const actor of [null,anonymous]){
+  assert.equal((await addReaction(actor,1)).ok,false,'Guest/anonymous reaction denied');
+  assert.equal((await addComment(actor,{body_text:'Fictional denied comment'})).ok,false,'Guest/anonymous comment denied');
+ }
+ assert.equal((await addComment(privateMember,{body_text:'Fictional private profile comment'})).ok,false,'Private profile comment denied');
+ assert.equal((await addComment(reader,{body_text:'Fictional impersonation',author_label:'FixtureAuthor'})).ok,false,'Client comment label denied');
+ const firstReact=await addReaction(reader,1);
+ assert.ok(firstReact.ok,'Genuine member reaction must succeed');
+ assert.equal((await addReaction(reader,-1)).ok,false,'Duplicate reaction must fail');
+ assert.ok((await addReaction(owner,1)).ok,'Second account reaction must succeed');
+ const changed=await call(reactionPath,{token:reader.token,method:'PATCH',headers:{Prefer:'return=representation'},body:{reaction:-1}});
+ assert.ok(changed.ok&&Array.isArray(changed.data)&&changed.data.length===1,'Only own reaction changes');
+ const reactions=await reactionRead();
+ assert.ok(reactions.ok);
+ assert.deepEqual(reactions.data.map(x=>x.reaction).sort(),[-1,1]);
+ const count=await call(reactionPath+'&reaction=eq.1',{method:'HEAD',headers:{Prefer:'count=exact'}});
+ assert.ok(count.ok&&count.contentRange?.endsWith('/1'),'Public exact like total must be one');
+ assert.equal((await call('/rest/v1/dd_cr_reactions?select=member_id&report_id=eq.'+sharedId)).ok,false,'Private voter identity denied');
+ const comment=await addComment(reader,{body_text:'Fictional visible comment <b>literal</b>'});
+ assert.ok(comment.ok&&comment.data?.length===1,'Valid member comment must succeed');
+ assert.equal(comment.data[0].author_label,'FixtureReader');
+ const comments=await call(commentPath);
+ assert.ok(comments.ok&&comments.data?.length===1);
+ assert.equal(comments.data[0].body_text,'Fictional visible comment <b>literal</b>');
+ assert.equal((await call('/rest/v1/dd_cr_comments?select=member_id&report_id=eq.'+sharedId)).ok,false,'Private commenter identity denied');
+ const cleared=await call(reactionPath,{token:reader.token,method:'DELETE',headers:{Prefer:'return=representation'}});
+ assert.ok(cleared.ok&&cleared.data?.length===1,'Only own reaction is cleared');
+ assert.deepEqual((await reactionRead()).data.map(x=>x.reaction),[1]);
+ const removal=await call('/rest/v1/rpc/dd_cr_withdraw',{token:owner.token,method:'POST',body:{p_id:sharedId,p_reason:'Fictional engagement visibility test'}});
+ assert.ok(removal.ok&&removal.data===1,'Owner withdrawal must hide engagement target');
+ assert.deepEqual((await reactionRead()).data,[]);
+ assert.deepEqual((await call(commentPath)).data,[]);
+ assert.equal((await addReaction(reader,1)).ok,false,'Hidden report reaction denied');
+ assert.equal((await addComment(reader,{body_text:'Hidden target'})).ok,false,'Hidden report comment denied');
+ console.log('PASS genuine local reaction/member uniqueness/change/clear, public total, comment identity, private member columns and hidden-report engagement denial');
 })().catch(e=>{console.error(e.message);process.exitCode=1});
