@@ -36,3 +36,7 @@ if(netlify&&[branch,process.env.HEAD].includes('feature/issue-22-final-launch-po
 if (netlify && [branch, process.env.HEAD].includes('fix/issue22-mobile-nav-polish-20261127')) {
   throw new Error('Mobile navigation polish candidate is restricted to isolated testing.');
 }
+
+if (netlify && [branch, process.env.HEAD].includes('android/m103-mobile-nav-polish')) {
+  throw new Error('M103 Android candidate is restricted to isolated testing.');
+}
