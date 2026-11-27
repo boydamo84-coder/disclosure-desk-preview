@@ -84,7 +84,7 @@ for(const file of ['27-f-0917-decision-extract.pdf','27-f-0917-referral-extracts
 // ciphertext only. Original website bundle and navigation stay intact.
 require('./build_r3_hosted_assets.cjs')(root,out,files);
 const cfg=fs.readFileSync(path.join(out,'assets/community-test-config.js'),'utf8');
-for(const flag of ['privateChat:enabled','discussions:enabled','profileAvatars:enabled','researchPublishing:false','discussionHosts:false'])
+for(const flag of ['privateChat:enabled','discussions:enabled','profileAvatars:enabled','researchPublishing:false','discussionHosts:enabled'])
  if(!cfg.includes(flag))throw Error('Unapproved feature activation detected: '+flag);
 // M70 release gate: unfinished claim ballots and real Adsterra cannot be activated by this bundle.
 const whoHtml=fs.readFileSync(path.join(out,'who-is-who.html'),'utf8');

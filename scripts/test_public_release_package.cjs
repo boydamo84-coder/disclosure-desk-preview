@@ -47,7 +47,7 @@ assert(updates>homeHtml.indexOf('id="discover"')&&oldUpdate>updates&&oldUpdate<h
 assert.equal((homeHtml.match(/id="ddR3ReleaseAnnouncement"/g)||[]).length,1);
 assert.match(homeHtml,/id="ddR3ReleaseGuide"/);
 assert.match(homeHtml,/href="\/research\/r3-lab\/"/);
-for(const term of ['Research Gap Finder','Hypothesis Lab','Compare','History','Enable encrypted saving','Save encrypted backup to account','manual','independent security review','521 indexed records','27-F-0917','posting remains disabled','pending media clearance and playback testing','Android beta'])assert(homeHtml.includes(term),'Release notes missing '+term);
+for(const term of ['Research Gap Finder','Hypothesis Lab','Compare','History','Enable encrypted saving','Save encrypted backup to account','manual','independent security review','521 indexed records','27-F-0917','42-topic, 14-day scheduled trial','pending media clearance and playback testing','Android beta'])assert(homeHtml.includes(term),'Release notes missing '+term);
 const r3Html=fs.readFileSync(path.join(out,'research/r3-lab/index.html'),'utf8');
 assert.match(r3Html,/data-r3-hosted="true"/);
 assert.match(r3Html,/noindex,nofollow,noarchive/);
