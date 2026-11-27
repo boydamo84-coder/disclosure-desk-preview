@@ -1,10 +1,26 @@
 'use strict';
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const http = require('node:http');
+const path = require('node:path');
 const {chromium} = require('playwright-core');
 const {weeklyQuestion} = require('../assets/research-spotlight.js');
 
-const local = 'http://127.0.0.1:4173';
+const staging = path.resolve('.release-staging/public-site');
+const mime = {html:'text/html',css:'text/css',js:'text/javascript',json:'application/json',jpg:'image/jpeg',svg:'image/svg+xml',pdf:'application/pdf',mp4:'video/mp4'};
+const server = http.createServer((request,response) => {
+  const {pathname} = new URL(request.url,'http://localhost');
+  if(pathname==='/favicon.ico')return response.writeHead(302,{Location:'/assets/disclosure-desk-mark.svg'}).end();
+  let file = path.resolve(staging,'.'+pathname);
+  if(file!==staging&&!file.startsWith(staging+path.sep))return response.writeHead(404).end();
+  if(pathname.endsWith('/'))file=path.join(file,'index.html');
+  else if(!path.extname(file))file+='.html';
+  if(!fs.existsSync(file)||!fs.statSync(file).isFile())return response.writeHead(404).end();
+  const contentType=mime[path.extname(file).slice(1)]||'application/octet-stream';
+  response.writeHead(200,{'Content-Type':contentType});
+  fs.createReadStream(file).pipe(response);
+});
+let local;
 const canonicalOrigin = 'https://uapdisclosuredesk.com';
 const primary = ['discover', 'archivePage', 'originalResearchPage', 'peopleDirectory', 'researchStudio'];
 const sitemap = fs.readFileSync('.release-staging/public-site/sitemap.xml','utf8');
@@ -49,11 +65,14 @@ async function checkDock(page, selector, width) {
 }
 
 (async()=>{
-  const browser = await chromium.launch({
-    executablePath:process.env.CHROME_PATH,
-    args:['--no-sandbox','--disable-dev-shm-usage'],
-  });
+  let browser;
   try{
+    await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+    local='http://127.0.0.1:'+server.address().port;
+    browser = await chromium.launch({
+    executablePath:process.env.CHROME_PATH,
+      args:['--no-sandbox','--disable-dev-shm-usage'],
+    });
     for (const width of widthList) {
       const context=await browser.newContext({viewport:{width,height:850},reducedMotion:'reduce'});
       await localOnly(context);
@@ -62,6 +81,13 @@ async function checkDock(page, selector, width) {
       await page.goto(local+'/',{waitUntil:'load'});
       await page.keyboard.press('Tab');
       assert.equal(await page.locator(':focus').getAttribute('id'),'ddHomeSkip');
+      const cog=page.locator('#ddHomeThemeMenu summary');
+      const touch=await cog.boundingBox();
+      assert.ok(touch.width>=44&&touch.height>=44);
+      await cog.click();
+      assert.ok(await page.locator('#ddHomeThemeMenu').evaluate(el=>el.open));
+      await page.keyboard.press('Escape');
+      assert.ok(!await page.locator('#ddHomeThemeMenu').evaluate(el=>el.open));
       const homeDock=await checkDock(page,'#ddHomeDock',width);
       const more=await openMore(page,homeDock);
       await more.dialog.getByRole('button',{name:'Boards',exact:true}).click();
@@ -141,6 +167,9 @@ async function checkDock(page, selector, width) {
     assert.equal(new URL(page.url()).pathname,'/nasa-mike-gold');
     assert.ok(await page.locator('#primary-sources a').count()>=2);
     assert.equal((await offline.request.get(local+'/missing-issue22-test')).status(),404);
+    const legacyIcon=await offline.request.get(local+'/favicon.ico',{maxRedirects:0});
+    assert.equal(legacyIcon.status(),302);
+    assert.equal(legacyIcon.headers().location,'/assets/disclosure-desk-mark.svg');
     assert.match(await (await offline.request.get(local+'/research/wne.html')).text(),/name="robots" content="noindex/);
     assert.equal((await offline.request.get(local+'/docs/issues.md')).status(),404);
     const oneWeek=7*86400000, friday=Date.UTC(2026,10,27);
@@ -148,6 +177,7 @@ async function checkDock(page, selector, width) {
     assert.notEqual(weeklyQuestion(friday).id,weeklyQuestion(friday+oneWeek).id);
     console.log('PASS '+routes.length+' indexable routes, three JPEG responses, no-JS public indices, private-site boundaries and weekly question cadence');
   }finally{
-    await browser.close();
+    await browser?.close();
+    server.close();
   }
 })().catch(error=>{console.error(error);process.exitCode=1;});
