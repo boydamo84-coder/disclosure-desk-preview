@@ -94,11 +94,14 @@
     notice.hidden = true;
     notice.setAttribute('role', 'status');
     actions.append(link('Add to Board', '/?dd_tab=boards&dd_research=' + key, 'action'));
-    actions.append(button('Save to W.NE references', () => {
+    const save = button('+ W.NE Ref', () => {
       notice.hidden = false;
       saveReference(record, notice);
-    }));
-    actions.append(link('Open W.NE', '/?dd_tab=researchStudio'));
+    });
+    save.setAttribute('aria-label', '+ W.NE Ref — Save to W.NE references');
+    save.title = 'Save to W.NE references';
+    actions.append(save);
+    actions.append(link('Open W.NE', '/?dd_tab=researchStudio', 'action'));
     return notice;
   }
 
