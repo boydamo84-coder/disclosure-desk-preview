@@ -1,5 +1,13 @@
 # Disclosure Desk — MASTER HANDOVER
 
+## 27 November 2026 · Become the Investigator — candidate, NO DEPLOY
+
+- Owner approved a four-card Research Spotlight mixing historically significant cases with newly indexed PURSUE records; replace all four every two UTC days. Base: exact owner-approved, live Experience & Discovery production commit `ed95ee7df68a46df5682b3ff95047a4c059c51af`.
+- Spotlight immediately below Home hero; retains direct Latest news and Archive paths, manual next/previous, pause/play, swipe, focus/hover pause and reduced-motion defaults. Six source-linked landmark cases (Rendlesham, Roswell, Nimitz, JAL 1628, Washington DC, Belgian wave), plus a compact build-generated catalogue of up to 32 PURSUE entries drawn from the newest two releases. Two of each per batch, adjacent batches disjoint, current newest release represented; release date is not event date. Static Rendlesham fallback when JS/data unavailable. PURSUE shortcuts open the exact existing archive reader and source; nothing implies verification of the original contents.
+- New public `first-investigation.html`: a three-step Rendlesham sample (review official record, compare two illustrative explanations, choose research lead). No account, storage, private notebook writes or new backend. Direct Hypothesis Lab shortcut; concise Evidence First guidance with source/status scope and link to full help. Keep existing private Lab beta boundaries and all other research tools intact.
+- Package: strict 149 files in production context, 3 additions (one page, a script, generated catalogue); public sitemap, site updates and relevant guard tests updated. Local QA passed 43 consecutive carousel batches, provenance, distinct adjacent sets, strict package, JS parsing, search and existing public release guards. Browser QA workflow `become-investigator-no-deploy.yml` tests four viewport widths and automatic rotation; local Chromium binary absent.
+- Netlify candidate branch ignored and guarded; no production merge, publication, Android/APK, database, real account or private data changes. Await real-browser QA and explicit go-live approval.
+
 ## 27 November 2026 · Experience & Discovery candidate — NO DEPLOY
 
 - Owner approved focused UX polish after feedback about dense disclaimers, hidden discovery paths and release-note overload. Branch `feature/experience-discovery-20261127`, based on exact production `1c84f5a407c66fe426afd728cb1cd0cbb75f09ac`.

@@ -6,7 +6,7 @@ const origin='https://uapdisclosuredesk.com';
 const publicRoutes=[
  ['/','index.html'],['/research-edition','research-edition.html'],
  ['/sources','sources.html'],['/investigations','investigations.html'],['/research-collaborations','research-collaborations.html'],['/pursue','pursue.html'],['/foia-tracker','foia-tracker.html'],['/rendlesham-forest-1980','rendlesham-forest-1980.html'],['/roswell-1947','roswell-1947.html'],['/who-is-who','who-is-who.html'],['/guide','guide.html'],
- ['/community-rules','community-rules.html'],['/privacy','privacy.html'],['/terms','terms.html'],['/site-updates','site-updates.html']
+ ['/community-rules','community-rules.html'],['/privacy','privacy.html'],['/terms','terms.html'],['/site-updates','site-updates.html'],['/first-investigation','first-investigation.html']
 ];
 const robots=read('robots.txt'),sitemap=read('sitemap.xml');
 assert.match(robots,/User-agent:\s*\*/);
