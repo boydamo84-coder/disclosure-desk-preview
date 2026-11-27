@@ -3,7 +3,7 @@
 [build]
   command = "node scripts/build_public_release.cjs"
   publish = ".release-staging/public-site"
-  ignore = '''[ "$BRANCH" = "feature/research-collaboration-20261126" ] || [ "$BRANCH" = "fix/guest-public-access-20261126" ] || [ "$BRANCH" = "feature/experience-discovery-20261127" ] || [ "$BRANCH" = "feature/become-investigator-20261127" ] || [ "$BRANCH" = "feature/news-pagination-20261127" ]'''
+  ignore = '''[ "$BRANCH" = "feature/research-collaboration-20261126" ] || [ "$BRANCH" = "fix/guest-public-access-20261126" ] || [ "$BRANCH" = "feature/experience-discovery-20261127" ] || [ "$BRANCH" = "feature/become-investigator-20261127" ] || [ "$BRANCH" = "feature/news-pagination-20261127" ] || [ "$BRANCH" = "fix/news-pager-full-width-20261127" ]'''
 
 
 # Legacy browser/crawler fallback: preserve the verified navy-and-gold SVG emblem.

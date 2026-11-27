@@ -3922,6 +3922,11 @@ loadLiveNews().finally(()=>{
  flex:0 0 auto!important;padding:7px 9px!important;font-size:11px!important;
  min-height:37px!important;margin:0!important;white-space:nowrap!important
 }
+/* Pagination is a third, full-width grid row, not a topic-column item. */
+#newsStickyControls #ddLatestNewsPagerTop{
+ grid-column:1 / -1!important;grid-row:3!important;
+ width:100%!important;min-width:0!important;margin:0!important;
+}
 #newsStickyControls #newsCountry{
  grid-column:2!important;grid-row:2!important;box-sizing:border-box!important;
  width:100%!important;max-width:108px!important;min-width:0!important;
