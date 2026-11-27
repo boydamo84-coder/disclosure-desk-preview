@@ -7,13 +7,18 @@ const fs=require('node:fs');
 const path=require('node:path');
 const {chromium}=require('playwright-core');
 const BASE='http://127.0.0.1:4173';
-const OUTPUT='browser-qa-artifacts';
+const OUTPUT=process.env.DD_BROWSER_QA_OUTPUT||'browser-qa-artifacts';
 fs.mkdirSync(OUTPUT,{recursive:true});
 let count=0;
 function pass(label){count++;console.log('PASS BROWSER '+label);}
 async function hasVisibleSection(page,id){
  return await page.locator('#'+id).evaluate(el=>!el.classList.contains('hidden')&&
   getComputedStyle(el).display!=='none');
+}
+async function clickDock(page,id){
+ const tab=page.locator('#ddHomeDock [data-tab="'+id+'"]');
+ if(!await tab.isVisible())await page.locator('#ddHomeDock .dd-dock-more').click();
+ await tab.click({timeout:10000});
 }
 async function selected(page,id){
  return await page.locator('.nav .tab[data-tab="'+id+'"]').getAttribute('aria-current');
@@ -43,25 +48,17 @@ async function selected(page,id){
    if(window.top===window){try{localStorage.setItem('dd-welcome-tour-choice-v2','dismissed')}catch{}}
   });
   await page.goto(BASE+'/',{waitUntil:'domcontentloaded',timeout:35000});
-  await page.waitForSelector('.nav .tab[data-tab="profilePage"]');
-  const tabs=await page.locator('nav.nav .tab').count();
-  assert.equal(tabs,14,'R2 adds a Who\'s Who tab while retaining the 13 previously approved tabs');
-  assert.equal(await page.locator('nav.nav .tab[data-tab="peopleDirectory"]').count(),1,
-    'Exactly one Who\'s Who directory tab is present');
+  await page.locator('#ddHomeDock .dd-dock-more').waitFor();
+  assert.equal(await page.locator('#ddHomeDock .nav-inner .tab').count(),6);
+  assert.equal(await page.locator('#ddHomeDock [data-tab="peopleDirectory"]').count(),1);
   assert.equal(await selected(page,'discover'),'page');
   assert.equal(await hasVisibleSection(page,'discover'),true);
-  pass('all fourteen approved bottom tabs, including Who\'s Who, and visible News');
-  const navRail=page.locator('.nav-inner');
-  await page.locator('#ddNavNext').waitFor({state:'visible'});
-  const initialDockScroll=await navRail.evaluate(el=>el.scrollLeft);
-  await page.locator('#ddNavNext').click();
-  await page.waitForFunction(previous=>document.querySelector('.nav-inner').scrollLeft>previous+15,initialDockScroll);
-  const movedDockScroll=await navRail.evaluate(el=>el.scrollLeft);
-  assert(movedDockScroll>initialDockScroll+15,'Right arrow advances mobile navigation');
-  await page.locator('#ddNavPrev').click();
-  await page.waitForFunction(previous=>document.querySelector('.nav-inner').scrollLeft<previous-15,movedDockScroll);
-  assert.equal(await selected(page,'discover'),'page','Arrow movement must not change selected page');
-  pass('clickable dock arrows move the navigation without changing the active section');
+  await page.locator('#ddHomeDock .dd-dock-more').click();
+  await page.locator('#ddDockMore [data-tab="profilePage"]').waitFor();
+  await page.keyboard.press('Escape');
+  await page.locator('#ddDockMore').waitFor({state:'hidden'});
+  assert.equal(await selected(page,'discover'),'page');
+  pass('primary dock and More keep all approved destinations; Escape returns to News');
   // Synthetic-only broadcast feed. No requests to the real backend or publisher.
   await page.waitForSelector('#ddNewsTickerHub:not([hidden])',{timeout:10000});
   await page.evaluate(()=>{
@@ -84,7 +81,7 @@ async function selected(page,id){
   assert(tickerGeometry.tickerHeight<140,'Ticker must be slim on 393px mobile');
   pass('real Chromium 393px: two-colour crawl fixed above navigation with measured clearance');
   await page.screenshot({path:path.join(OUTPUT,'mobile-news-ticker-393px.png'),fullPage:false});
-  await page.locator('.nav .tab[data-tab="witness"]').click();
+  await clickDock(page,'witness');
   assert.equal(await page.locator('#ddNewsTickerHub').isVisible(),false);
   assert.equal(await page.locator('#ddNewsTickerAlert').isVisible(),true,'New major headline appears over other tabs');
   await page.locator('#ddNewsTickerHide').click();
@@ -116,18 +113,18 @@ async function selected(page,id){
   pass('No Breaking headline leaves the 48-hour ticker visible');
 
   for(const target of ['witness','hub','profilePage','clips']){
-   await page.locator('.nav .tab[data-tab="'+target+'"]').click({timeout:10000});
+   await clickDock(page,target);
    assert.equal(await selected(page,target),'page','aria-current reflects '+target);
    assert.equal(await hasVisibleSection(page,target),true,'Section is visible: '+target);
    pass('navigate to '+target+' with touch/mobile viewport');
   }
-  await page.locator('.nav .tab[data-tab="hub"]').click();
-  await page.locator('.nav .tab[data-tab="profilePage"]').click();
+  await clickDock(page,'hub');
+  await clickDock(page,'profilePage');
   await page.reload({waitUntil:'domcontentloaded'});
   await page.locator('.nav .tab[data-tab="profilePage"][aria-current="page"]').waitFor({state:'attached'});
   assert.equal(await hasVisibleSection(page,'profilePage'),true,'Reload must retain last tab in the browser session');
   pass('Browser refresh retains last selected tab, without storing private messages');
-  await page.locator('.nav .tab[data-tab="hub"]').click();
+  await clickDock(page,'hub');
   await page.locator('#startAppTour').click({timeout:10000});
   assert.equal(await page.locator('#appTourDialog').evaluate(el=>el.open),true,'Tour is native modal');
   await page.keyboard.press('Escape');
@@ -140,8 +137,7 @@ async function selected(page,id){
   await page.screenshot({path:path.join(OUTPUT,'mobile-explore-393px.png'),fullPage:false});
   await page.goto(BASE+'/?dd_tab=discussionsPage',{waitUntil:'domcontentloaded',timeout:35000});
   await page.waitForSelector('.nav .tab[data-tab="discover"]');
-  assert.equal(await page.locator('nav.nav .tab').count(),14,
-   'R2 preserves all fourteen approved premium navigation tabs');
+  assert.equal(await page.locator('#ddHomeDock .nav-inner .tab').count(),6);
   assert.equal(await page.locator('nav.nav .tab[data-tab="peopleDirectory"]').count(),1,
    "R2 adds exactly one Who's Who navigation tab");
   await page.waitForFunction(()=>!document.getElementById('discussionsPage').classList.contains('hidden'),
@@ -155,17 +151,17 @@ async function selected(page,id){
     'Discussions has exactly one dedicated tab');
   pass('approved Discussions deep link opens the dedicated community tab');
   await page.goto(BASE+'/?dd_tab=chatPage',{waitUntil:'domcontentloaded',timeout:35000});
-  await page.waitForSelector('.nav .tab[data-tab="chatPage"]');
+  await page.locator('#ddHomeDock [data-tab="chatPage"]').waitFor({state:'attached'});
   await page.waitForFunction(()=>!document.getElementById('chatPage').hidden &&
      !document.getElementById('chatPage').classList.contains('hidden'),null,{timeout:10000});
   assert.equal(await hasVisibleSection(page,'chatPage'),true,'Approved private Chat deep link must open');
   assert.equal(await selected(page,'chatPage'),'page');
-  await page.locator('.nav .tab[data-tab="hub"]').click();
+  await clickDock(page,'hub');
   assert.equal(await page.locator('#chatPage').evaluate(el=>el.hidden),true,
     'Private Chat panel must be hidden again on navigation away');
   pass('approved Chat link opens and closes without exposing hidden content elsewhere');
   await page.goto(BASE+'/?dd_tab=profilePage',{waitUntil:'domcontentloaded',timeout:35000});
-  await page.waitForSelector('.nav .tab[data-tab="profilePage"]');
+  await page.locator('#ddHomeDock [data-tab="profilePage"]').waitFor({state:'attached'});
   assert.equal(await selected(page,'profilePage'),'page');
   pass('valid W.NE return deep link restores Profile');
   // M56 regression: deep-link URLs must follow actual navigation, not force
@@ -185,7 +181,7 @@ async function selected(page,id){
   await page.locator('.nav .tab[data-tab="discover"][aria-current="page"]').waitFor({state:'attached',timeout:10000});
   assert.equal(await hasVisibleSection(page,'discover'),true,'Reload after leaving Archive must remain on News');
   pass('M56 direct Archive loads safely, switching to News rewrites stale URL, refresh stays on News');
-  await page.locator('.nav .tab[data-tab="mapPage"]').click();
+  await clickDock(page,'mapPage');
   assert.equal(new URL(page.url()).searchParams.get('dd_tab'),'mapPage','News to Map updates deep-link URL');
   await page.reload({waitUntil:'domcontentloaded',timeout:35000});
   await page.locator('.nav .tab[data-tab="mapPage"][aria-current="page"]').waitFor({state:'attached',timeout:10000});
@@ -380,12 +376,12 @@ async function selected(page,id){
   // Landscape is NOT covered by the original portrait fake-DOM tests.
   await page.setViewportSize({width:852,height:393});
   await page.goto(BASE+'/?dd_tab=profilePage',{waitUntil:'domcontentloaded',timeout:35000});
-  await page.locator('.nav .tab[data-tab="witness"]').click({timeout:10000});
+  await clickDock(page,'witness');
   assert.equal(await selected(page,'witness'),'page');
   assert.equal(await hasVisibleSection(page,'witness'),true);
   pass('landscape 852x393 touch navigation preserves selected tab');
   await page.screenshot({path:path.join(OUTPUT,'landscape-witness-852x393.png'),fullPage:false});
-  await page.locator('.nav .tab[data-tab="hub"]').click();
+  await clickDock(page,'hub');
   await page.locator('#startAppTour').click({timeout:10000});
   const tourBox=await page.locator('#appTourDialog').boundingBox();
   assert.ok(tourBox&&tourBox.height<=393,

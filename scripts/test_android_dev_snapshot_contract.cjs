@@ -16,12 +16,19 @@ for(const rel of [
  'research/wne.html','assets/research-hub.js','who-is-who.html',
  'world-uap-programmes.html','assets/who-private-worksheet-m76.js','assets/source-outreach-digest-m68.js']){
  assert(manifest.files.includes(rel),'Critical pending UI file packaged: '+rel);
- const apkFile=path.join(target,rel),branchFile=path.join(root,rel);
+ const apkFile=path.join(target,rel);
+ const branchFile=path.join(root,['pursue.html','who-is-who.html'].includes(rel)?'.release-staging/public-site':'',rel);
  assert.equal(crypto.createHash('sha256').update(fs.readFileSync(apkFile)).digest('hex'),
   crypto.createHash('sha256').update(fs.readFileSync(branchFile)).digest('hex'),
   'Packaged file exactly matches current development source: '+rel);
 }
 assert(manifest.files.includes('research/r3-lab/index.html'),'Hypothesis Lab is bundled');
+for(const file of ['assets/site-dock.js','data/case-dossier-readers.js','project-blue-book.html','foia-pentagon-25-f-3215.html']){
+ assert(manifest.files.includes(file),'Offline editorial route or dependency missing: '+file);
+}
+assert.match(main,/#ddDockMore\[open\][^\n]+close\(\)/,'Android Back closes More before navigating');
+assert.match(main,/endsWith\("\.pdf"\)\)mime="application\/pdf"/,'Android passes the published PDF type');
+
 assert(!manifest.files.some(p=>p.includes('hypothesis-session-qa')||p.includes('analytics-consent')||p.includes('who-evidence-ballot')),
  'Private QA, retired Analytics and staged community ballots are excluded');
 const gaReference=/(?:google-analytics\.com|googletagmanager\.com|analytics-consent\.js|G-ZWJQMK8JSW|\bgtag\s*\()/i;

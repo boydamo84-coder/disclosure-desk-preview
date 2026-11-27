@@ -28,3 +28,7 @@ if(netlify&&branch==='feature/news-pagination-20261127'){
 if(netlify&&branch==='fix/news-pager-full-width-20261127'){
  throw new Error('News pager layout candidate tests run in GitHub Actions only.');
 }
+
+if(netlify&&[branch,process.env.HEAD].includes('feature/issue-22-final-launch-polish')){
+ throw new Error('Issue #22 candidate is restricted to isolated testing.');
+}

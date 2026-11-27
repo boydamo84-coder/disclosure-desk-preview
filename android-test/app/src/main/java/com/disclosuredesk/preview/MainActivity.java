@@ -767,13 +767,18 @@ public final class MainActivity extends Activity {
         else if(name.endsWith(".jpg")||name.endsWith(".jpeg"))mime="image/jpeg";
         else if(name.endsWith(".webp"))mime="image/webp";
         else if(name.endsWith(".gif"))mime="image/gif";
+        else if(name.endsWith(".mp4"))mime="video/mp4";
+        else if(name.endsWith(".pdf"))mime="application/pdf";
         else if(name.endsWith(".ico"))mime="image/x-icon";
         else if(name.endsWith(".woff2"))mime="font/woff2";
         else if(name.endsWith(".webmanifest"))mime="application/manifest+json";
         else if(name.endsWith(".xml"))mime="application/xml";
         try{
             InputStream bytes=getAssets().open("dd-site/"+name);
-            return new WebResourceResponse(mime,"UTF-8",bytes);
+            // Bundled video/PDF bytes are binary, not UTF-8 text. The allowlist
+            // and existing FOIA viewer grant still define which files are served.
+            String encoding=("video/mp4".equals(mime)||"application/pdf".equals(mime))?null:"UTF-8";
+            return new WebResourceResponse(mime,encoding,bytes);
         }catch(Exception ex){
             android.util.Log.e("DisclosureDesk","Bundled site asset could not be opened: "+name);
             return new WebResourceResponse("text/plain","UTF-8",404,"Not Found",
@@ -1287,6 +1292,7 @@ public final class MainActivity extends Activity {
         // switching tabs. In W.NE or another actual document URL, use WebView history.
         String script="(function(){try{"
           +"var url=new URL(location.href);"
+          + "var more=document.querySelector('#ddDockMore[open]');if(more){more.close();return 'handled'};"
           +"if(url.pathname!=='/'&&url.pathname!=='/index.html')return 'exit';"
           +"var dlg=document.querySelector('dialog[open]');if(dlg){dlg.close();return 'handled'};"
           +"var d=document.getElementById('immersiveViewer');"

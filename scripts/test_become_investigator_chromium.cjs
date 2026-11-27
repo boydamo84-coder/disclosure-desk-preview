@@ -30,16 +30,18 @@ const {batch}=require('../assets/research-spotlight.js');
   const items=batch(dataset,epoch);
   for(let i=0;i<4;i++){
     assert.equal(await card.getAttribute('data-spotlight-id'),items[i].id);
-    assert.equal(await page.locator('#ddSpotlightPosition').textContent(),(i+1)+' / 4');
+    assert.equal(await page.locator('#ddSpotlightPosition').textContent(),(i+1)+' / 5');
     assert.equal(await page.locator('#ddSpotlightTag').textContent(),i%2?'PURSUE record':'Historical investigation');
     await page.locator('#ddSpotlightNext').click();
   }
+  assert.equal(await page.locator('#ddSpotlightTag').textContent(),'Weekly research question');
+  await page.locator('#ddSpotlightNext').click();
   assert.equal(await card.getAttribute('data-spotlight-id'),items[0].id);
   await page.locator('#ddSpotlightPause').click();
   assert.equal(await page.locator('#ddSpotlightPause').getAttribute('aria-label'),'Pause automatic rotation');
   await page.locator('#ddSpotlightPause').click();
   await page.locator('#ddSpotlightPrev').click();
-  assert.equal(await card.getAttribute('data-spotlight-id'),items[3].id);
+  assert.equal(await page.locator('#ddSpotlightTag').textContent(),'Weekly research question');
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Home overflow '+width);
   assert.ok(await page.getByRole('link',{name:'Hypothesis Lab Compare explanations · Beta'}).count());
   // Open a newly released PURSUE selection through the existing archive reader.
@@ -55,10 +57,10 @@ const {batch}=require('../assets/research-spotlight.js');
   assert.ok(page.url().endsWith('/first-investigation.html'));
   const nav=page.locator('#ddWebSecondaryNav');
   await nav.waitFor({state:'visible'});
-  assert.equal(await nav.locator('.tab').count(),15);
+  assert.equal(await nav.locator('.nav-inner .tab').count(),6);
   assert.equal(await nav.locator('.tab[disabled]').count(),0);
   assert.equal(await nav.locator('[data-tab=originalResearchPage]').count(),1);
-  if(width<=393)assert.ok(await nav.locator('#ddWebNavNext').isVisible());
+  assert.ok(await nav.getByRole('button',{name:'More',exact:true}).isVisible());
   assert.ok(await page.locator('#sampleStep1').isVisible());
   assert.ok(!(await page.locator('#sampleStep2').isVisible()));
   await page.locator('#sampleNext1').click();
@@ -78,13 +80,13 @@ const {batch}=require('../assets/research-spotlight.js');
   assert.ok(page.url().endsWith('/guide.html#evidence-first'));
   assert.ok(await page.locator('#evidence-first').isVisible());
   await nav.waitFor({state:'visible'});
-  assert.equal(await nav.locator('.tab').count(),15);
+  assert.equal(await nav.locator('.nav-inner .tab').count(),6);
   await nav.locator('[data-tab="archivePage"]').click();
   await page.locator('#archivePage').waitFor({state:'visible'});
   for(const route of ['/site-updates.html','/rendlesham-forest-1980.html','/roswell-1947.html']){
    await page.goto(base+route,{waitUntil:'load'});
    await nav.waitFor({state:'visible'});
-   assert.equal(await nav.locator('.tab').count(),15);
+   assert.equal(await nav.locator('.nav-inner .tab').count(),6);
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Editorial page overflow '+route+' '+width);
   }
   assert.deepEqual(errors.filter(x=>/SyntaxError|ReferenceError|is not defined|Cannot access/i.test(x)),[]);

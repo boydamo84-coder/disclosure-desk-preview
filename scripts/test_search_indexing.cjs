@@ -3,10 +3,12 @@
 const fs=require('node:fs'),assert=require('node:assert/strict');
 const read=p=>fs.readFileSync(p,'utf8');
 const origin='https://uapdisclosuredesk.com';
+const discovery=require('./build_public_discovery.cjs');
 const publicRoutes=[
  ['/','index.html'],['/research-edition','research-edition.html'],
  ['/sources','sources.html'],['/investigations','investigations.html'],['/research-collaborations','research-collaborations.html'],['/pursue','pursue.html'],['/foia-tracker','foia-tracker.html'],['/rendlesham-forest-1980','rendlesham-forest-1980.html'],['/roswell-1947','roswell-1947.html'],['/who-is-who','who-is-who.html'],['/guide','guide.html'],
- ['/community-rules','community-rules.html'],['/privacy','privacy.html'],['/terms','terms.html'],['/site-updates','site-updates.html'],['/first-investigation','first-investigation.html']
+ ['/community-rules','community-rules.html'],['/privacy','privacy.html'],['/terms','terms.html'],['/site-updates','site-updates.html'],['/first-investigation','first-investigation.html'], ['/world-uap-programmes','world-uap-programmes.html'],
+ ...Object.keys(discovery.pages).map(slug=>['/'+slug,slug+'.html'])
 ];
 const robots=read('robots.txt'),sitemap=read('sitemap.xml');
 assert.match(robots,/User-agent:\s*\*/);
@@ -19,8 +21,9 @@ assert.match(sitemap,/<urlset xmlns="http:\/\/www.sitemaps.org\/schemas\/sitemap
 assert.doesNotMatch(sitemap,/\/research\/|\/data\/|\/api\/|\/admin\/|\/netlify\//);
 assert.ok(listed.every(url=>!url.includes('?')&&!url.includes('#')&&!url.endsWith('.html')));
 const titles=new Set();
+const linkedPages=publicRoutes.map(([route,file])=>discovery.pages[route.slice(1)]?discovery.pageHtml(route.slice(1),discovery.pages[route.slice(1)]):read(file));
 for(const [route,file] of publicRoutes){
- const html=read(file),head=html.split('</head>')[0];
+ const html=linkedPages[publicRoutes.findIndex(([candidate])=>candidate===route)],head=html.split('</head>')[0];
  const canonical=origin+route;
  assert.match(html.slice(0,200),/<html[^>]+lang="en(?:-GB)?"/i,file+' language');
  const title=html.match(/<title>([^<]+)<\/title>/)?.[1];
@@ -29,8 +32,19 @@ for(const [route,file] of publicRoutes){
  assert.match(head,/<meta name="description" content="[^"]{50,220}">/,'Description '+file);
  assert.ok(head.includes('<link rel="canonical" href="'+canonical+'">'),'Canonical '+file);
  assert.doesNotMatch(head,/<meta[^>]+name="robots"[^>]+noindex/i,'Public page noindex '+file);
- const og=head.match(/<meta property="og:url" content="([^"]+)"/)?.[1];
- if(og)assert.equal(og,canonical,'OG shares canonical '+file);
+ const meta=(name,attribute='property')=>head.match(new RegExp('<meta '+attribute+'="'+name+'" content="([^"]*)">'))?.[1];
+ assert.equal(meta('og:url'),canonical,'OG shares canonical '+file);
+ for(const [prefix,attribute] of [['og','property'],['twitter','name']]){
+  assert.equal(meta(prefix+':title',attribute),title,file+' share title');
+  assert.equal(meta(prefix+':description',attribute),meta('description','name'),file+' share description');
+  assert.match(meta(prefix+':image',attribute),/^https:\/\/uapdisclosuredesk\.com\/assets\/share-[a-z]+\.jpg$/);
+  assert.ok(fs.existsSync(new URL(meta(prefix+':image',attribute)).pathname.slice(1)),file+' owns its share image');
+  assert.ok(meta(prefix+':image:alt',attribute)?.includes('Disclosure Desk'),file+' image alt');
+ }
+ assert.equal(meta('twitter:card','name'),'summary_large_image');
+ assert.equal(meta('og:site_name'),'Disclosure Desk');
+ assert.equal(meta('og:image:width'),'1200');
+ assert.equal(meta('og:image:height'),'630');
  const schema=html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
  if(schema){
   const data=JSON.parse(schema[1]);
@@ -38,8 +52,8 @@ for(const [route,file] of publicRoutes){
  }
 }
 for(const [route,file] of publicRoutes.filter(([route])=>route!=='/')){
- const home=read('index.html');
- assert.ok(home.includes('href="'+route+'"')||home.includes('href="'+route+'.html"'),'Crawlable direct homepage link '+route);
+ assert.ok(linkedPages.some(html=>html.includes('href="'+route+'"')||html.includes('href="'+route+'.html"')),
+  'Crawlable direct public link '+route);
 }
 // The new prettified public pages do not change private W.NE endpoints.
 // No public sitemap entries or canonical links may point to authenticated documents.

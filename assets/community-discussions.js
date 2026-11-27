@@ -939,6 +939,7 @@ function init(){
  tab.append(mk('span','☷','ico'),document.createTextNode('Discussions'));
  tab.onclick=()=>window.navigateTo?.('discussionsPage');
  witness?.after(tab);
+ window.DDSiteDock?.addIcon(tab,'discussionsPage');
  wireComposer('ddForumSectionDialog');wireComposer('ddForumPostDialog');wireComposer('ddForumActionDialog');
  wireComposer('ddForumMoreDialog');wireComposer('ddForumAdminDialog');
  const drawer=$('ddForumSubjectsDrawer');

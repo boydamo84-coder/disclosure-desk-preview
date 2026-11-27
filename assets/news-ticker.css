@@ -101,7 +101,13 @@
 }
 /* No manual Pause button: opening a story never freezes either ticker. */
 .dd-news-ticker-row[hidden]{display:none!important}
-/* Leave the mobile dock swipe hint usable on other tabs, but never over a visible News ticker. */
-/* Swipe chevron is now inside the dock and doesn't overlap the ticker. */
 .dd-news-ticker-expanded:not(.dd-news-ticker-has-breaking) .shell{padding-bottom:calc(var(--dd-news-nav-height,75px) + 82px)}
 @media print{.dd-news-ticker-alert,.dd-news-ticker-hub{display:none!important}}
+
+/* Compact mobile headline ticker with the existing hide and alert controls. */
+@media (max-width: 520px) {
+ .dd-news-ticker-top .dd-ticker-control { min-height: 30px; }
+ .dd-news-ticker-breaking { min-height: 32px; }
+ .dd-news-ticker-breaking .dd-ticker-link { padding-block: 6px; }
+ .dd-news-ticker-recent .dd-ticker-link { padding-block: 3px; }
+}

@@ -126,7 +126,7 @@
     } else {
       const notice = transferActions(record, record.key, actions);
       actions.append(link('Record link', '#' + card.id));
-      card.append(actions, element('small', 'W.NE references are stored in this app or browser.'), notice);
+      card.append(actions, element('small', 'W.NE references are stored on this device. Cloud Boards require sign-in.'), notice);
     }
     if (record.related?.length) {
       const list = element('ul');
@@ -184,6 +184,8 @@
       count.textContent = 'The catalogue could not be loaded. Reload to try again or open the official catalogue above.';
       return;
     }
+    const publicIndex = find('archive-public-index');
+    if (publicIndex) publicIndex.open = false;
     const dates = new Map(data.releases.map(item => [item.number, item.date]));
     find('archive-provenance').append(document.createTextNode(' Snapshot through ' +
       displayDate(data.releases.at(-1).date) + '. '),

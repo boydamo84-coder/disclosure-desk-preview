@@ -11,6 +11,7 @@ assert.match(who,/who-international-programmes-m68\.js/);
 assert.match(who,/source-outreach-digest-m68\.js/);
 assert.doesNotMatch(who,/who-evidence-ballot-m64\.(js|css)/);
 assert.match(config,/whoEvidenceBallots:false/);
+assert.match(config,/researchPublishing:false/);
 assert.match(ad,/const RELEASE_ENABLED=false;/);
 assert(!/wixsite\.com/i.test(html),'No obsolete Wix domain in home');
 assert.match(html,/https:\/\/uapdisclosuredesk\.com\//);
@@ -28,7 +29,7 @@ if(isBundle){
  const themeCount=names.filter(n=>/^data\/(nightfall|eclipse)\.(mp4|jpg)$/.test(n)).length;
  assert([0,4].includes(themeCount),'Unexpected theme media count');
  assert(!names.includes('data/orbital.mp4')&&!names.includes('data/orbital.jpg'),'Uncleared Orbital must not ship');
- assert(names.length>=120 && names.length<=(process.env.CONTEXT==='production'?145:146)+themeCount,'Unexpected public bundle file count '+names.length);
+ assert(names.length>=120 && names.length<=(process.env.CONTEXT==='production'?157:158)+themeCount,'Unexpected public bundle file count '+names.length);
  assert(!names.some(x=>/who-evidence-ballot|who-community-approvals|(?:^|\/)(?:docs|scripts|supabase|android-test|\.github)(?:\/|$)/.test(x)),'No staging/voting/private files in live bundle');
 }
 console.log('PASS M70 curated '+(isBundle?'PUBLIC BUNDLE':'SOURCE')+': Who M68 + Profile M69 + BDS; voting closed, Adsterra off, no old Wix');

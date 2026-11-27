@@ -970,7 +970,6 @@ function renderClaimEvidence(person){
     ' · '+esc(claim.date||'Date requires verification')+'</div>'+
    '<h4>'+esc(claim.statement)+'</h4>'+
    '<p class="muted small">'+esc(claim.context||'Attribution is not independent verification of the underlying assertion.')+'</p>'+
-   '<p class="note small"><strong>Examine the evidence:</strong> Disclosure Desk provides original records, source provenance, competing accounts and research limitations rather than a numerical verdict.</p>'+
    '<details class="claim-evidence-details"><summary>View original evidence sources and open questions</summary>'+
      trail+'</details>'+
    (policyOnly?
@@ -999,6 +998,8 @@ function openPerson(person,updateUrl=true){
  $('profileName').textContent=person.name;
  $('profileRole').textContent=person.role;
  $('profileShort').textContent=person.short;
+ const status=$('profileRecordStatus');
+ if(status)status.textContent=person.roleEvidence?'Public role record · Source linked':'Source-linked profile · Editorial review ongoing';
  paintPortrait($('profileAvatar'),person);
  const credit=$('profilePhotoCredit');
  if(credit){

@@ -6,6 +6,28 @@
 })(typeof window!=='undefined'?window:globalThis,function(){
  'use strict';
  const epoch=Date.UTC(2026,10,27),period=2*86400000;
+ const weekEpoch=Date.UTC(2026,10,23),week=7*86400000;
+ const questions=[
+  {id:'weekly-rendlesham-timing',kind:'question',art:'forest',
+   title:'Which reported Rendlesham dates come from the signed memo?',
+   subtitle:'Halt memorandum · 13 January 1981',
+   summary:'Compare the dates in the memo with the archive history and note which details still need an independent source.',
+   href:'/rendlesham-forest-1980#record-ledger'},
+  {id:'weekly-foia-decision',kind:'question',art:'record',
+   title:'What document would settle the status of the Navy referral?',
+   subtitle:'WHS final response · 19 November 2026',
+   summary:'Follow the two case numbers and identify which agency decision would establish what happened to the seven referred records.',
+   href:'/foia-pentagon-25-f-3215#primary-sources'},
+  {id:'weekly-nasa-metadata',kind:'question',art:'sky',
+   title:'Which missing metadata would most improve a UAP observation?',
+   subtitle:'NASA independent study team · September 2023',
+   summary:'Choose a public observation and compare its time, position and sensor details with the team’s data recommendations.',
+   href:'/nasa-uap-study#primary-sources'},
+ ];
+ function weeklyQuestion(now=Date.now()){
+  const slot=Math.floor((now-weekEpoch)/week);
+  return questions[(slot%questions.length+questions.length)%questions.length];
+ }
  function validRecord(r,kind){
   if(!r||r.kind!==kind||typeof r.id!=='string'||typeof r.title!=='string'||!r.title.trim()||
     typeof r.subtitle!=='string'||typeof r.summary!=='string'||typeof r.source!=='string'||typeof r.href!=='string')return false;
@@ -41,10 +63,10 @@
    card.href=item.href;card.dataset.spotlightId=item.id;
    title.textContent=item.title;meta.textContent=item.subtitle;
    summary.textContent=item.summary;
-   tag.textContent=item.kind==='pursue'?'PURSUE record':'Historical investigation';
+   tag.textContent=item.kind==='question'?'Weekly research question':item.kind==='pursue'?'PURSUE record':'Historical investigation';
    tag.className='dd-evidence-badge '+(item.kind==='pursue'?'dd-badge-record':'dd-badge-ongoing');
    art.dataset.art=['forest','desert','sea','sky','video','record'].includes(item.art)?item.art:'record';
-   art.textContent=item.kind==='pursue'?(item.art==='video'?'▶':'▤'):'◈';
+   art.textContent=item.kind==='question'?'?':item.kind==='pursue'?(item.art==='video'?'▶':'▤'):'◈';
    pos.textContent=(index+1)+' / '+rows.length;
    if(announce)live.textContent='Spotlight '+(index+1)+' of '+rows.length+': '+item.title;
    const label=paused?'Play automatic rotation':'Pause automatic rotation';
@@ -52,15 +74,18 @@
   }
   function refreshBatch(){
    if(!data)return;
-   const r=batch(data),key=r.map(x=>x.id).join('|');
-   if(r.length!==4||key===chosenKey)return false;
+   const r=batch(data);
+   if(r.length!==4)return false;
+   r.push(weeklyQuestion());
+   const key=r.map(x=>x.id).join('|');
+   if(key===chosenKey)return false;
    chosenKey=key;rows=r;index=0;draw();get('ddSpotlightControls').hidden=false;return true;
   }
   function schedule(){
-   stop();if(rows.length!==4||paused||hovered||focused||!visible||doc.hidden)return;
+   stop();if(!rows.length||paused||hovered||focused||!visible||doc.hidden)return;
    timer=win.setInterval(()=>{if(!refreshBatch()){index=(index+1)%rows.length;draw();}},9500);
   }
-  function step(delta){if(rows.length!==4)return;refreshBatch();index=(index+delta+rows.length)%rows.length;draw(true);schedule();}
+  function step(delta){if(!rows.length)return;refreshBatch();index=(index+delta+rows.length)%rows.length;draw(true);schedule();}
   prev.addEventListener('click',()=>step(-1));next.addEventListener('click',()=>step(1));
   pause.addEventListener('click',()=>{paused=!paused;draw(true);schedule();});
   box.addEventListener('mouseenter',()=>{hovered=true;schedule();});box.addEventListener('mouseleave',()=>{hovered=false;schedule();});
@@ -80,5 +105,5 @@
   if(!home.classList.contains('hidden'))load();
   new win.MutationObserver(()=>{if(!home.classList.contains('hidden')){load();refreshBatch();schedule();}else stop();}).observe(home,{attributes:true,attributeFilter:['class']});
  }
- return {batch,mount};
+ return {batch,weeklyQuestion,mount};
 });

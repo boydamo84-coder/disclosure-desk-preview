@@ -3,6 +3,7 @@
 // M71 future release safety: only production may publish in actual Netlify production context.
 require('./guard_official_deploy.cjs');
 const fs=require('fs'),path=require('path'),crypto=require('crypto');
+const discovery=require('./build_public_discovery.cjs');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'.release-staging','public-site');
 if(fs.existsSync(out))throw Error('Refusing to overwrite existing release staging folder');
 const top=['index.html','first-investigation.html','site-updates.html','guide.html','sources.html','research-collaborations.html','pursue.html','foia-tracker.html','discussion-hosts.html','investigations.html','rendlesham-forest-1980.html','roswell-1947.html','who-is-who.html','world-uap-programmes.html','community-rules.html','privacy.html','terms.html','research-edition.html',
@@ -21,7 +22,14 @@ function copy(rel){
  const stat=fs.lstatSync(src);
  if(!stat.isFile()||stat.isSymbolicLink())throw Error('Non-regular source '+rel);
  fs.mkdirSync(path.dirname(dest),{recursive:true});
- fs.copyFileSync(src,dest,fs.constants.COPYFILE_EXCL);
+ if(rel==='pursue.html'||rel==='who-is-who.html'){
+  const raw=fs.readFileSync(src,'utf8');
+  const isArchive=rel==='pursue.html';
+  const marker=isArchive?'<!-- dd-public-pursue-index -->':'<!-- dd-public-people-index -->';
+  if(!raw.includes(marker))throw Error('Missing fallback index marker: '+rel);
+  const index=isArchive?discovery.pursueIndex(root):discovery.peopleIndex(root);
+  fs.writeFileSync(dest,raw.replace(marker,()=>index),{flag:'wx'});
+ }else fs.copyFileSync(src,dest,fs.constants.COPYFILE_EXCL);
  const bytes=fs.readFileSync(dest);
  files.push({path:rel,bytes:bytes.length,sha256:crypto.createHash('sha256').update(bytes).digest('hex')});
 }
@@ -29,7 +37,7 @@ function copy(rel){
 // must never silently make it publicly accessible on a subsequent deploy.
 const approvedWeb=Object.freeze({
  assets:[
-  'research-spotlight.js','research-public.css','research-public.js','discussion-hosts.js','host-recommendations.js','who-private-worksheet-m76.js','media-submissions.js','community-polish.css','secondary-editorial-nav.css','secondary-editorial-nav.js','site-ad-layout-m01.css','site-ad-layout-m01.js','site-adsterra-m02.js','case-comment-moderation.js','case-connections.js','evidence-dna.js','person-case-links.js','people-directory.js','world-uap-programmes.js','who-archive-return.js','source-verification.js','who-international-programmes-m68.js','source-outreach-digest-m68.js','source-outreach-digest-m68.css','page-help.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
+  'research-spotlight.js','research-public.css','research-public.js','discussion-hosts.js','host-recommendations.js','who-private-worksheet-m76.js','media-submissions.js','community-polish.css','secondary-editorial-nav.css','secondary-editorial-nav.js','site-dock.js','share-desk.jpg','share-research.jpg','share-people.jpg','site-ad-layout-m01.css','site-ad-layout-m01.js','site-adsterra-m02.js','case-comment-moderation.js','case-connections.js','evidence-dna.js','person-case-links.js','people-directory.js','world-uap-programmes.js','who-archive-return.js','source-verification.js','who-international-programmes-m68.js','source-outreach-digest-m68.js','source-outreach-digest-m68.css','page-help.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
   'community-test-config.js','community-votes.js','confirmation-dialog.js','disclosure-desk-mark.svg',
   'discussions-admin.js','historical-satellite.js','inline-news-comments.js','unified-action-rails.js',
   'live-chat.js','live-hearings.js','live-schedule.css','live-schedule.js',
@@ -67,12 +75,18 @@ function websiteDir(dir){
 }
 top.forEach(copy);websiteDir('assets');websiteDir('research');
 data.forEach(p=>copy('data/'+p));
+function addGenerated(rel, bytes){
+ const contents=Buffer.from(bytes);
+ fs.writeFileSync(path.join(out,rel),contents,{flag:'wx'});
+ files.push({path:rel,bytes:contents.length,sha256:crypto.createHash('sha256').update(contents).digest('hex')});
+}
+for(const [slug,definition] of Object.entries(discovery.pages))addGenerated(slug+'.html',discovery.pageHtml(slug,definition));
+addGenerated('data/case-dossier-readers.js',discovery.caseReaders(root));
 // Generated from approved public source catalogues; never copy private data.
 const spotlightPath='data/research-spotlight.json';
 const spotlightBytes=Buffer.from(JSON.stringify(require('./build_spotlight_catalogue.cjs')(root))+'\n');
 if(spotlightBytes.length>40000)throw Error('Spotlight catalogue exceeds its size budget');
-fs.writeFileSync(path.join(out,spotlightPath),spotlightBytes,{flag:'wx'});
-files.push({path:spotlightPath,bytes:spotlightBytes.length,sha256:crypto.createHash('sha256').update(spotlightBytes).digest('hex')});
+addGenerated(spotlightPath,spotlightBytes);
 // Homepage background assets are only released after exact-source licence review and explicit media gate activation.
 const themeEnabled=fs.readFileSync(path.join(root,'index.html'),'utf8').includes('id="ddHomeThemeHero" data-media-ready="true"');
 if(themeEnabled){

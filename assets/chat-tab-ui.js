@@ -83,7 +83,9 @@ function init(){
  tab.append(ico,label,badge);
  tab.setAttribute('aria-label','Chat');
  tab.onclick=()=>{window.navigateTo?.('chatPage');void poll()};
- rail.insertBefore(tab,rail.querySelector('[data-tab="profilePage"]'));
+ const profileTab=document.querySelector('.nav [data-tab="profilePage"]');
+ if(profileTab)profileTab.before(tab);else rail.append(tab);
+ window.DDSiteDock?.addIcon(tab,'chatPage');
  const c=getClient();
  c?.auth.onAuthStateChange((event,session)=>{
   if(event==='TOKEN_REFRESHED'||(event==='SIGNED_IN'&&session?.user?.id===owner))return;
