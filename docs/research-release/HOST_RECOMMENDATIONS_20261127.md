@@ -11,3 +11,5 @@ Owner approved distinct host recommendations on 27 Nov 2026 after the 14-day pos
 - Offline tests: deterministic selection, exclusions, repeated inputs, source hosts, expiry, guest/member permissions, no vote writes; Chromium 320/393/1280px incl. Android UA fixture; badge counts/deep links, existing member votes unchanged, pause and fail-closed. Full research/browser and guest-read regression passed, package 145 files; private SQL/scripts are not published. Physical Android and real user sign-in remain untested; installed older APKs may need a new build for badges.
 - Live database QA passed with rollback-only pause/expiry test; no votes or member posts changed. Current live eligible discussion is “Whos who evidence ratings” (The Investigator).
 - PDF upload feature remains disabled; no scanner, paid service or new Netlify feature.
+
+- Production follow-up: public site API request returned HTTP 200 and guest SQL status was active, but initial browser showed no badges. Updated cache versions, isolated SDK storage key, and strict single-row JSON compatibility, with non-sensitive fail-closed diagnostics. Retest required on live site.

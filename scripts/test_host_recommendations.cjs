@@ -26,6 +26,10 @@ assert.equal(selectPicks('news',articles.filter(a=>a.id.startsWith('reject')),da
 assert.equal(selectPicks('video',clips.slice(2),day).length,0);
 assert.deepEqual(validateStatus({active:false,day,discussions:[]}),{active:false,day,discussions:[]});
 assert.equal(validateStatus({active:true,day,discussions:[{},{}]}),null);
+const active={active:true,day,discussions:[{id:'00000000-0000-4000-8000-000000000111',host:'investigator'}]};
+for(const wrapped of [[{dd_host_public_picks:active}],{picks:active},[active],JSON.stringify(active)])assert.deepEqual(validateStatus(wrapped),active);
+assert.equal(validateStatus([active,active]),null);
+assert.equal(validateStatus({picks:{active:'true',day,discussions:[]}}),null);
 const html=fs.readFileSync('index.html','utf8');
 assert(html.includes('ddSyncNewsHostPicks();'));assert(html.includes('ddSyncVideoHostPicks();// Only initialize'));
 assert(html.includes('id="ddNewsHostPicks"'));assert(html.includes('id="ddVideoHostPicks"'));

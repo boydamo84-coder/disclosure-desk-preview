@@ -63,6 +63,13 @@
   return selected;
  }
  function validateStatus(data){
+  // PostgREST scalar JSON normally arrives as an object. Accept a single
+  // row wrapper as well; never permit multiple rows or infer an active trial.
+  if(Array.isArray(data)){if(data.length!==1)return null;data=data[0];}
+  if(data&&typeof data==='object'&&!Object.hasOwn(data,'active')){
+   data=data.dd_host_public_picks??data.picks??data;
+  }
+  if(typeof data==='string'){try{data=JSON.parse(data)}catch{return null}}
   if(!data||typeof data.active!=='boolean'||!/^\d{4}-\d{2}-\d{2}$/.test(data.day||'')||!Array.isArray(data.discussions)||data.discussions.length>1)return null;
   return {active:data.active,day:data.day,discussions:data.active?data.discussions.filter(x=>uuidOk(x?.id)&&Object.hasOwn(hosts,x.host)):[]};
  }
@@ -120,11 +127,12 @@
    lastAttempt=Date.now();
    pending=(async()=>{
     try{
-     client??=win.supabase.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+     client??=win.supabase.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,storageKey:'dd-host-public-picks'}});
      const query=client.rpc('dd_host_public_picks');
-     const {data,error}=await (typeof query.abortSignal==='function'&&win.AbortSignal?.timeout?query.abortSignal(win.AbortSignal.timeout(8000)):query);
+     const {data,error}=await (typeof query.abortSignal==='function'&&win.AbortSignal?.timeout?query.abortSignal(win.AbortSignal.timeout(15000)):query);
      status=error?null:validateStatus(data);
-    }catch{status=null}
+     if(!status)win.console?.warn('Disclosure Desk automated host picks unavailable:',error?'request error':'unexpected response shape');
+    }catch{status=null;win.console?.warn('Disclosure Desk automated host picks unavailable: request failed')}
     finally{pending=null;render()}
    })();
    return pending;

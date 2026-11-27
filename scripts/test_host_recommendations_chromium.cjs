@@ -19,7 +19,7 @@ const html='<html lang="en"><head><meta name="viewport" content="width=device-wi
    await page.evaluate(({day,id,articles,clips})=>{
     window.DD_COMMUNITY_FEATURES={discussionHosts:true,hostRecommendations:true};
     window.DD_COMMUNITY_TEST_CONFIG={environment:'test',url:'https://fixture.invalid',publishableKey:'fixture'};
-    window.hostResult={data:{active:true,day,discussions:[{id,host:'investigator'}]}};
+    window.hostResult={data:[{dd_host_public_picks:{active:true,day,discussions:[{id,host:'investigator'}]}}]};
     window.hostCalls=[];
     window.supabase={createClient(){return {rpc(name){window.hostCalls.push(name);return Promise.resolve(window.hostResult)}}}};
     window.ddSyncHostRecommendationCards=()=>{
