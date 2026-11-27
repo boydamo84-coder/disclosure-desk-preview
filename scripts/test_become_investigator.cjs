@@ -36,7 +36,12 @@ assert.deepEqual(batch({version:1,historical:data.historical,pursue:data.pursue.
 const spoof=structuredClone(data);spoof.pursue[0].href='//unapproved.example/?dd_archive_case='+spoof.pursue[0].id;
 assert.ok(!batch(spoof,epoch).some(r=>r.href.startsWith('//')));
 const sample=fs.readFileSync(path.join(stage,'first-investigation.html'),'utf8');
-assert.doesNotMatch(sample,/localStorage|sessionStorage|indexedDB|fetch\s*\(|supabase|cloud-boards|<script\s+src=/i);
+assert.doesNotMatch(sample,/localStorage|sessionStorage|indexedDB|fetch\s*\(|supabase|cloud-boards/i);
+assert.deepEqual([...sample.matchAll(/<script src="([^"]+)"/g)].map(m=>m[1]),['/assets/secondary-editorial-nav.js?v=investigator-nav01']);
+for(const file of ['first-investigation.html','site-updates.html','rendlesham-forest-1980.html','roswell-1947.html','guide.html']){
+ const html=fs.readFileSync(path.join(stage,file),'utf8');
+ assert.ok(html.includes('/assets/secondary-editorial-nav.js?v=investigator-nav01')&&html.includes('/assets/secondary-editorial-nav.css?v=investigator-nav01'),'Shared site navigation on '+file);
+}
 for(const text of ['DEFE 24/1948/1','Evidence First','No account','Nothing saved','not an evidence score','/research/r3-lab/'])assert.ok(sample.includes(text),text);
 const home=fs.readFileSync(path.join(stage,'index.html'),'utf8');
 assert.ok(home.indexOf('id="ddSpotlight"')<home.indexOf('id="ddDiscoveryHeading"'));
