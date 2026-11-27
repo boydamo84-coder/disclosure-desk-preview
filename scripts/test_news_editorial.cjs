@@ -6,7 +6,7 @@ const nodes=new Map(), ctx={Date,URL,Event:class {},safePublicUrl:url=>typeof ur
 vm.createContext(ctx);vm.runInContext(html.slice(start,end),ctx);
 const dates={now:new Date(Date.now()-3600000).toISOString(),old:new Date(Date.now()-7200000).toISOString()};
 const row=(id,headline,source,fields={})=>({id,headline,source,date:dates.now,url:'https://news.google.com/rss/articles/'+id,...fields});
-const bad=[row('gta','GTA 6 Gliding Man mystery guide: All three logbook locations, Stone Hills shed code and UFO clues','Indiatimes'),row('wtf','👽🇺🇸 WTF! This global UFO sightings heatmap','X'),row('social','UAP report','YouTube'),row('forum','UFO report','BBC',{publisherUrl:'https://old.reddit.com/r/UFOs/'}),row('portal','UAP report','AOL.com'),row('game','Grand Theft Auto VI UFO guide','BBC')];
+const bad=[row('gta','GTA 6 Gliding Man mystery guide: All three logbook locations, Stone Hills shed code and UFO clues','Indiatimes'),row('wtf','👽🇺🇸 WTF! This global UFO sightings heatmap','X'),row('social','UAP report','YouTube'),row('forum','UFO report','BBC',{publisherUrl:'https://old.reddit.com/r/UFOs/'}),row('portal','UAP report','AOL.com'),row('game','Grand Theft Auto VI UFO guide','BBC'),row('market','UFO: Disclosure | Market Data & Trends | Blockworks Intel','Blockworks')];
 const official=row('official','Video DOW-UAP-PR124 Unresolved UAP Report Pacific Ocean 2019','DVIDS',{date:dates.old});
 const niche=row('niche','UAP records revealed through FOIA','The Black Vault',{date:dates.old});
 const typo=row('typo','UFO encounter by former Air Force Troy Gavin on Austrailian beach','NewsNation',{date:dates.old});

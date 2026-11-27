@@ -10,6 +10,7 @@ class NewsEditorialTests(unittest.TestCase):
         for r in [
             self.row('GTA 6 Gliding Man mystery guide: All three logbook locations, Stone Hills shed code and UFO clues','Indiatimes'),
             self.row('Grand Theft Auto VI UFO guide'),
+            self.row('UFO: Disclosure | Market Data & Trends | Blockworks Intel','Blockworks'),
             self.row('👽🇺🇸 WTF! This global UFO sightings heatmap','X'),
             self.row('UAP report','YouTube'),
             self.row('UFO report','NewsBreak: Local News & Alerts'),
