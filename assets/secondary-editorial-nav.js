@@ -11,7 +11,7 @@
   ['mapPage','◎','Map'],['clips','▶','Videos'],['livePage','●','LIVE'],
   ['boards','▣','Boards'],['witness','◉','Witness'],
   ['discussionsPage','☷','Discussions'],['watchRead','♫','Watch & Read'],
-  ['chatPage','','Chat'],['profilePage','👤','Profile'],['hub','☷','Explore']
+  ['chatPage','','Chat'],['profilePage','👤','Profile'],['hub','☷','Help']
  ];
  const nav=document.createElement('nav');
  nav.id='ddWebSecondaryNav';nav.className='dd-web-editorial-nav';

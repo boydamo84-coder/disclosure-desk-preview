@@ -9,7 +9,7 @@ const TABS=[
  ['discover','◈','News'],['archivePage','▥','Archive'],['researchStudio','✎','W.NE'],
  ['mapPage','◎','Map'],['clips','▶','Videos'],['livePage','●','LIVE'],
  ['boards','▣','Boards'],['witness','◉','Witness'],
- ['watchRead','♫','Watch & Read'],['profilePage','👤','Profile'],['hub','☷','Explore']
+ ['watchRead','♫','Watch & Read'],['profilePage','👤','Profile'],['hub','☷','Help']
 ];
 // Match the current website's dedicated Discussions tab. Source-controlled
 // feature flags and normal save-before-navigation checks still apply.
