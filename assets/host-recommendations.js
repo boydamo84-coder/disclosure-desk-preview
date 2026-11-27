@@ -128,10 +128,11 @@
    pending=(async()=>{
     try{
      client??=win.supabase.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,storageKey:'dd-host-public-picks'}});
-     const query=client.rpc('dd_host_public_picks');
-     const {data,error}=await (typeof query.abortSignal==='function'&&win.AbortSignal?.timeout?query.abortSignal(win.AbortSignal.timeout(15000)):query);
+     // A stable read-only RPC is safe to call via GET, avoiding a POST preflight.
+     const query=client.rpc('dd_host_public_picks',{}, {get:true});
+     const {data,error}=await (typeof query.abortSignal==='function'&&win.AbortSignal?.timeout?query.abortSignal(win.AbortSignal.timeout(60000)):query);
      status=error?null:validateStatus(data);
-     if(!status)win.console?.warn('Disclosure Desk automated host picks unavailable:',error?'request error':'unexpected response shape');
+     if(!status)win.console?.warn('Disclosure Desk automated host picks unavailable:',error?'request error '+(typeof error.code==='string'&&/^[A-Za-z0-9_-]{1,40}$/.test(error.code)?error.code:'(transport)'):'unexpected response shape');
     }catch{status=null;win.console?.warn('Disclosure Desk automated host picks unavailable: request failed')}
     finally{pending=null;render()}
    })();

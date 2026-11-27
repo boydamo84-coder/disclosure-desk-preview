@@ -13,3 +13,4 @@ Owner approved distinct host recommendations on 27 Nov 2026 after the 14-day pos
 - PDF upload feature remains disabled; no scanner, paid service or new Netlify feature.
 
 - Production follow-up: public site API request returned HTTP 200 and guest SQL status was active, but initial browser showed no badges. Updated cache versions, isolated SDK storage key, and strict single-row JSON compatibility, with non-sensitive fail-closed diagnostics. Retest required on live site.
+- The public browser performed HTTP 200 POST requests but returned a client transport error during initial app load. R3 requests the stable read-only RPC over GET and permits up to 60 seconds under a heavily loaded browser. Existing two-minute refresh, pause and fail-closed rules remain unchanged. No database writes.

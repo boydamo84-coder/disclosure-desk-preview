@@ -21,7 +21,7 @@ const html='<html lang="en"><head><meta name="viewport" content="width=device-wi
     window.DD_COMMUNITY_TEST_CONFIG={environment:'test',url:'https://fixture.invalid',publishableKey:'fixture'};
     window.hostResult={data:[{dd_host_public_picks:{active:true,day,discussions:[{id,host:'investigator'}]}}]};
     window.hostCalls=[];
-    window.supabase={createClient(){return {rpc(name){window.hostCalls.push(name);return Promise.resolve(window.hostResult)}}}};
+    window.supabase={createClient(){return {rpc(name,args,options){if(!options?.get||Object.keys(args).length)throw Error("Expected no-argument read-only GET RPC");window.hostCalls.push(name);return Promise.resolve(window.hostResult)}}}};
     window.ddSyncHostRecommendationCards=()=>{
      DDHostPicks.catalogue('news',document.querySelector('#newsGrid'),articles,document.querySelector('#newsSummary'));
      DDHostPicks.catalogue('video',document.querySelector('#clipsFeed'),clips,document.querySelector('#videoSummary'));
