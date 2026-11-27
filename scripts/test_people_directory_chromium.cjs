@@ -34,8 +34,11 @@ const BASE='http://127.0.0.1:4173';
    for(const id of ['mapPage','clips','livePage','boards','witness','discussionsPage','watchRead','chatPage','profilePage','hub'])
     assert(await menu.locator('[data-tab="'+id+'"]').isVisible(),'More preserves '+id);
    await page.keyboard.press('Escape');
-   assert.equal(await menu.isVisible(),false,'Escape closes More');
-   assert.equal(await more.getAttribute('aria-expanded'),'false');
+   await menu.waitFor({state:'hidden'});
+   // Native dialog close dispatch is asynchronous; wait for the actual accessibility state.
+   await page.waitForFunction(()=>document.querySelector('#ddWebSecondaryNav .dd-dock-more').getAttribute('aria-expanded')==='false',undefined,{timeout:5000});
+   assert.equal(await more.getAttribute('aria-expanded'),'false','Escape closes More and updates its expanded state');
+   assert.equal(await more.evaluate(el=>document.activeElement===el),true,'More restores focus after Escape');
    assert.equal(await dock.locator('.tab[aria-current="page"]').getAttribute('data-tab'),
     'peopleDirectory','More preserves the selected section');
    if(width===393){
