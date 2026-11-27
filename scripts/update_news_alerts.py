@@ -5,6 +5,10 @@ Only mainstream publishers; no unsourced headlines and no private information.
 import datetime as dt, hashlib, html, ipaddress, json, pathlib, re, socket, urllib.parse, urllib.request, xml.etree.ElementTree as ET
 from html.parser import HTMLParser
 from email.utils import parsedate_to_datetime
+try:
+    from news_editorial import editorial_eligible, editorial_display, editorial_rows, eligible_headline
+except ModuleNotFoundError:  # imported from a repository-root test
+    from scripts.news_editorial import editorial_eligible, editorial_display, editorial_rows, eligible_headline
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 OUT=ROOT/"data/news-alerts.json"
 QUERIES=[
@@ -19,7 +23,7 @@ RELEVANCE=re.compile(r'\b(uap|ufo|unidentified anomalous|unidentified aerial|ali
 # Filter ambiguous phrases that routinely produce unrelated mainstream headlines.
 FALSE_POSITIVES=re.compile(r"\b(close encounter with (?:the |a |an )?(?:king|queen|prince|princess|ball|football|fan|crowd|animal)|street ball game|close encounter with a shark)\b",re.I)
 def relevant_headline(title):
-    if FALSE_POSITIVES.search(title):return False
+    if not eligible_headline(title) or FALSE_POSITIVES.search(title):return False
     # Broad phrases need an anomalous/space context; avoid ordinary human encounters.
     lowered=title.lower()
     ambiguous=bool(re.search(r"\bclose encounter(s)?\b",lowered))
@@ -103,7 +107,7 @@ def collect(query):
         link=(item.findtext("link") or "").strip()
         publisher=(item.findtext("source") or "").strip()
         if not any(publisher.casefold()==allowed.casefold() for allowed in PUBLISHERS) or not title or not link.startswith("https://"):continue
-        if not relevant_headline(title):continue
+        if not relevant_headline(title) or not editorial_eligible({"headline":title,"source":publisher,"url":link,"publisherUrl":(item.find("source").get("url","") if item.find("source") is not None else "")}):continue
         # Broadly relevant mainstream reports are useful in the live feed;
         # stronger priority labels can be applied separately for breaking alerts.
         date=item.findtext("pubDate") or ""
@@ -137,7 +141,7 @@ def collect_direct_feed(publisher,feed_url):
     for item in root.findall(".//item"):
         title=(item.findtext("title") or "").strip()
         url=(item.findtext("link") or "").strip()
-        if not title or not relevant_headline(title) or not public_https(url):continue
+        if not title or not relevant_headline(title) or not public_https(url) or not editorial_eligible({"headline":title,"source":publisher,"url":url}):continue
         date=item.findtext("pubDate") or ""
         try:published=parsedate_to_datetime(date).astimezone(dt.timezone.utc)
         except (TypeError,ValueError,OverflowError):continue
@@ -160,7 +164,7 @@ def similar(a,b):
 
 def consolidate(entries):
     retained=[]
-    for entry in sorted(entries,key=lambda x:x["date"],reverse=True):
+    for entry in sorted(editorial_rows(entries),key=lambda x:x["date"],reverse=True):
         # Only merge articles from the same publisher on the same subject.
         if any(entry.get("source")==other.get("source") and similar(entry,other) for other in retained):
             continue
@@ -223,6 +227,7 @@ def main():
                     resolved+=1
         except Exception as exc:
             print("Google News source resolution unavailable:",type(exc).__name__,str(exc)[:110])
+    recent=[entry for entry in recent if editorial_eligible(entry)]
     # Images must be derived from actual publisher pages, not a Google landing page.
     eligible=[e for e in recent if not e.get("imageUrl") and public_https(e.get("publisherUrl") or e.get("url","")) and urllib.parse.urlsplit(e.get("publisherUrl") or e["url"]).hostname!="news.google.com"]
     checked=0

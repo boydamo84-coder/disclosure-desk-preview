@@ -1582,13 +1582,32 @@ const DD_NEWS_REMOTES=[
  {url:'https://raw.githubusercontent.com/boydamo84-coder/disclosure-desk-preview/dev/mobile-video-performance-oct31/data/news-alerts.json',label:'GitHub active feed'},
  {url:'https://raw.githubusercontent.com/boydamo84-coder/disclosure-desk-preview/main/data/news-alerts.json',label:'GitHub main mirror'}
 ];
+// Editorial backstop mirrors scripts/news_editorial.py, including old cached catalogues.
+const DD_NEWS_OFF_TOPIC=/\b(?:gta(?:\s*[-:]?\s*(?:\d+|vi|v))?|grand theft auto|playstation|xbox|nintendo switch|fortnite|roblox|minecraft|red dead redemption|video[ -]?games?|gaming guides?|quest guides?|walkthroughs?|cheat codes?|ufo moviez|wtf)\b/i;
+const DD_NEWS_UNSUITABLE_SOURCE=/^(?:x|twitter|facebook|reddit|youtube|instagram|tiktok|threads|discord|google news(?: rss)?|aol(?:\.[a-z.]+)?|yahoo(?: news)?(?: [\w -]+)?|inkl|newsbreak(?::.*)?|newswav|breaking news, latest news and videos|medium|playdayone|softonic|khel now|unboxholics|foro3d|ign|gamespot|kotaku|polygon|game rant|gamerant|pc gamer|eurogamer)$/i;
+const DD_NEWS_UNSUITABLE_HOSTS='x.com twitter.com t.co facebook.com fb.com reddit.com redd.it youtube.com youtu.be instagram.com tiktok.com threads.net threads.com discord.com discord.gg aol.com aol.co.uk aol.ca yahoo.com yahoo.co.uk inkl.com newsbreak.com newswav.com softonic.com ign.com gamespot.com kotaku.com polygon.com gamerant.com pcgamer.com eurogamer.net'.split(' ');
+function ddNewsEditorialEligible(row){
+ if(!row||typeof row.headline!=='string'||!row.headline.trim()||DD_NEWS_OFF_TOPIC.test(row.headline)||typeof row.source!=='string'||!row.source.trim()||DD_NEWS_UNSUITABLE_SOURCE.test(row.source.trim()))return false;
+ if(/^(?:social(?:[ _-]media)?|gaming|forum|aggregator|unattributed)$/i.test(String(row.sourceType||'').trim()))return false;
+ for(const field of ['url','publisherUrl']){
+  if(!row[field])continue;
+  try{const host=new URL(row[field]).hostname.toLowerCase().replace(/\.$/,'');if(DD_NEWS_UNSUITABLE_HOSTS.some(domain=>host===domain||host.endsWith('.'+domain)))return false}catch{return false}
+ }
+ return true;
+}
+function ddNewsEditorialDisplay(row){
+ const headline=row.headline.replace(/\bAustrailian\b/gi,word=>word[0]===word[0].toUpperCase()?'Australian':'australian');
+ return headline===row.headline?row:{...row,headline,originalHeadline:row.originalHeadline||row.headline};
+}
 function ddNewsFreshness(rows){
  if(!Array.isArray(rows))return -Infinity;
  let latest=-Infinity;
- for(const row of rows){
-  if(!row||typeof row.headline!=='string'||typeof row.source!=='string'||!safePublicUrl(row.url))continue;
-  const date=Date.parse(row.date);
-  if(Number.isFinite(date)&&date>latest)latest=date;
+ for(const primary of rows){
+  for(const row of [primary,...(Array.isArray(primary?.relatedCoverage)?primary.relatedCoverage:[])]){
+   if(!ddNewsEditorialEligible(row)||!safePublicUrl(row.url))continue;
+   const date=Date.parse(row.date);
+   if(Number.isFinite(date)&&date>latest)latest=date;
+  }
  }
  return latest;
 }
@@ -1681,11 +1700,11 @@ function ddNewsDeduplicate(rows){
 }
 function ddNewsRows(rows,origin){
  if(!Array.isArray(rows))throw Error('Unexpected news catalogue');
- const valid=ddNewsExpandCoverage(rows).filter(x=>x&&typeof x.headline==='string'&&typeof x.source==='string'&&safePublicUrl(x.url)&&!Number.isNaN(Date.parse(x.date)));
+ const valid=ddNewsExpandCoverage(rows).filter(x=>ddNewsEditorialEligible(x)&&safePublicUrl(x.url)&&!Number.isNaN(Date.parse(x.date))).map(ddNewsEditorialDisplay);
  if(!valid.length)throw Error('No attributed news reports');
  const deduped=ddNewsDeduplicate(valid.filter(x=>{const age=Date.now()-Date.parse(x.date);return age>=0&&age<=365*86400000}).sort((a,b)=>Date.parse(b.date)-Date.parse(a.date)));
  ddUpdateBadge('news',deduped.filter(x=>x.priority==='major'&&Date.now()-Date.parse(x.date)<48*3600000).map(x=>x.id||x.url));
- stories=deduped.map(x=>({headline:x.headline,source:x.source,publisher:x.source,country:x.country||'',sourceType:x.sourceType||'',originalLanguage:x.originalLanguage||'',summary:'Reported by '+x.source+' · Open the original reporting for full context.',url:x.url,date:x.date,id:x.id,category:x.category||'UAP',imageUrl:typeof x.imageUrl==='string'&&safePublicUrl(x.imageUrl)?x.imageUrl:'',imageSource:x.imageSource||'',publisherUrl:typeof x.publisherUrl==='string'&&safePublicUrl(x.publisherUrl)?x.publisherUrl:'',relatedCoverage:Array.isArray(x.relatedCoverage)?x.relatedCoverage:[]}));
+ stories=deduped.map(x=>({headline:x.headline,originalHeadline:x.originalHeadline||'',source:x.source,publisher:x.source,country:x.country||'',sourceType:x.sourceType||'',originalLanguage:x.originalLanguage||'',summary:'Reported by '+x.source+' · Open the original reporting for full context.',url:x.url,date:x.date,id:x.id,category:x.category||'UAP',imageUrl:typeof x.imageUrl==='string'&&safePublicUrl(x.imageUrl)?x.imageUrl:'',imageSource:x.imageSource||'',publisherUrl:typeof x.publisherUrl==='string'&&safePublicUrl(x.publisherUrl)?x.publisherUrl:'',relatedCoverage:Array.isArray(x.relatedCoverage)?x.relatedCoverage:[]}));
  feedLive=true;updatedAt=valid.reduce((a,x)=>x.date>a?x.date:a,valid[0].date);
  // When a local beta receives a fresher sourced feed, refresh saved-interest matches.
  if(myInterests.length){
@@ -1694,7 +1713,7 @@ function ddNewsRows(rows,origin){
  }
  const old=Date.now()-Date.parse(updatedAt)>3*86400000;
  $('feedStatus').classList.toggle('feed-error',old);
- $('feedStatus').textContent=(old?'⚠ NEWS UPDATE DELAYED · ':'WORLD MEDIA · ')+stories.length+' sourced stories · Latest '+new Date(updatedAt).toLocaleDateString('en-GB')+' · '+origin+(old?' · Freshness requires attention':'');
+ $('feedStatus').textContent=(old?'⚠ NEWS UPDATE DELAYED · ':'RESEARCH NEWS · ')+stories.length+' sourced stories · Latest '+new Date(updatedAt).toLocaleDateString('en-GB')+' · '+origin+(old?' · Freshness requires attention':'');
  window.ddNewsTickerRows=deduped;window.dispatchEvent(new Event("dd-news-updated"));
  renderCases();news();ddOpenNewsTarget();
 }

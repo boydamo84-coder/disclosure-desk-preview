@@ -21,7 +21,7 @@ const node=id=>{
  return nodes.get(id);
 };
 const ctx={
- console:{warn(){}},Date,AbortSignal,
+ console:{warn(){}},Date,URL,AbortSignal,
  safePublicUrl:validatedUrl,
  DD_NEWS_CACHE_KEY:'m55-offline-test',
  feedBusy:false,feedLive:false,previewStories:[],
@@ -69,6 +69,9 @@ async function check(){
  await check();
  assert.equal(calls.at(-1).rows[0].headline,'Bundled local','Offline copy remains functional');
  assert.match(calls.at(-1).label,/Bundled offline news/);
+ state.cache=null;state.remoteActive=[item('2026-11-26','GTA 6 UFO quest guide')];state.remoteMain=[item('2026-11-25','Pentagon releases UAP report')];
+ await check();
+ assert.match(calls.at(-1).label,/GitHub main mirror/,'Gaming-only newer catalogue cannot win freshness');
  const archiveLoader=span('async function loadHistoricalArchive(){','\nfunction topStoryKey(');
  assert.ok(archiveLoader.indexOf("fetch('data/curated-historical-cases.json'")>=0);
  assert.ok(archiveLoader.indexOf("fetch('data/curated-historical-cases.json'")<archiveLoader.indexOf("fetch('data/historical-news-archive.json'"));
