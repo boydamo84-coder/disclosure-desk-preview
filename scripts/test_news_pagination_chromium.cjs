@@ -44,6 +44,16 @@ const readRows=rows.map(x=>({...x,readAt:new Date(now).toISOString()}));
   assert.equal(await pager(page).locator('[data-page-label]').textContent(),'1–30 of 77 stories · Page 1 of 3');
   assert.equal(await pager(page,'').locator('[data-page-label]').textContent(),await pager(page).locator('[data-page-label]').textContent());
   assert.equal(await pager(page).evaluate(n=>n.parentElement.id),'newsStickyControls');
+  // Screenshot regression: the filter bar is a two-column grid; the
+  // pagination must span both columns (not leave the country column blank).
+  const layout=await pager(page).evaluate(n=>{
+   const r=n.getBoundingClientRect(),search=n.parentElement.querySelector('#newsSearch').getBoundingClientRect();
+   const prev=n.querySelector('[data-page-prev]').getBoundingClientRect(),next=n.querySelector('[data-page-next]').getBoundingClientRect();
+   return {left:r.left,right:r.right,searchLeft:search.left,searchRight:search.right,prevLeft:prev.left,nextRight:next.right,columns:getComputedStyle(n).gridColumn};
+  });
+  assert.ok(Math.abs(layout.left-layout.searchLeft)<=2&&Math.abs(layout.right-layout.searchRight)<=2,'Pager spans entire filter row at '+width+'px: '+JSON.stringify(layout));
+  assert.ok(Math.abs(layout.prevLeft-layout.left)<=2&&Math.abs(layout.nextRight-layout.right)<=2,'Previous and Next fill left/right edges at '+width+'px');
+
   // The top pager is visible even far down the feed, not merely at the top.
   await page.locator('#newsGrid article').nth(12).scrollIntoViewIfNeeded();
   const sticky=await pager(page).evaluate(n=>({r:n.getBoundingClientRect().bottom,visible:getComputedStyle(n.parentElement).position,viewport:innerHeight}));

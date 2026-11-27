@@ -22,6 +22,7 @@ assert.equal(slice(rows,2).items[0].id,'report-30');
 assert.equal(slice(rows,3).items.length,17);
 assert.match(html,/<div class="news-sticky-controls" id="newsStickyControls">[^]*?id="ddLatestNewsPagerTop"[^]*?<\/nav><\/div><div class="feed-controls">/);
 assert.ok(html.includes('id="ddLatestNewsPager"'));
+assert.match(html,/#newsStickyControls #ddLatestNewsPagerTop\{\s*grid-column:1 \/ -1!important;grid-row:3!important;/);
 assert.match(html,/const matched=combined\.filter\(s=>/);
 assert.match(html,/const page=ddNewsPageSlice\(matched,ddNewsPages.latest\)/);
 assert.match(html,/const results=page.items;/);

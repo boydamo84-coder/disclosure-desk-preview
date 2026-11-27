@@ -1,7 +1,7 @@
 name: News Pagination QA (no deploy)
 on:
   push:
-    branches: [feature/news-pagination-20261127]
+    branches: [feature/news-pagination-20261127, fix/news-pager-full-width-20261127]
   workflow_dispatch:
 permissions:
   contents: read
