@@ -15,6 +15,14 @@ const server=http.createServer((req,res)=>{
  fs.createReadStream(file).pipe(res);
 });
 const email='mailto:support@uapdisclosuredesk.com?subject=Disclosure%20Desk%20sponsorship%20enquiry';
+const sponsorPath='/?dd_tab=originalResearchPage&dd_sponsor=1';
+async function verifyNative(page,width){
+ await verifyCard(page,width);
+ assert.ok(await page.locator('header.top').isVisible(),'main header must remain visible');
+ assert.ok(await page.locator('nav.nav').isVisible(),'bottom navigation must remain visible');
+ assert.equal(await page.locator('.nav .tab.active').getAttribute('data-tab'),'originalResearchPage');
+ assert.equal(await page.locator('#ddResearchCollab').evaluate(n=>n.open),true);
+}
 async function verifyCard(page,width){
  const card=page.locator('#sponsor-us');
  assert.equal(await card.count(),1);
@@ -53,12 +61,32 @@ async function verifyCard(page,width){
       await hub.click();
       await verifyCard(page,width);
       if(process.env.SPONSOR_SCREENSHOT_DIR&&width===393)await page.locator('#sponsor-us').screenshot({path:path.join(process.env.SPONSOR_SCREENSHOT_DIR,'native-card.png')});
+      // Footer from News must stay in the same document and preserve the dock.
+      await page.goto(base+'/?dd_tab=discover',{waitUntil:'domcontentloaded'});
+      await page.evaluate(()=>window.__sponsorSameDocument='unchanged');
       const footer=page.locator('.dd-site-footer-actions').getByRole('link',{name:'Sponsor Us',exact:true});
-      assert.equal(await footer.getAttribute('href'),'/research-collaborations#sponsor-us');
+      assert.equal(await footer.getAttribute('href'),sponsorPath);
       await footer.click();
-      await page.waitForURL(base+'/research-collaborations#sponsor-us',{timeout:20000});
-      await verifyCard(page,width);
-      console.log('PASS sponsor card, quiet tap target, existing form and footer deep link at '+width+'px');
+      await page.waitForURL(base+sponsorPath,{timeout:20000});
+      await verifyNative(page,width);
+      assert.equal(await page.evaluate(()=>window.__sponsorSameDocument),'unchanged');
+      await page.waitForFunction(()=>document.activeElement?.id==='sponsor-us-title');
+      if(process.env.SPONSOR_SCREENSHOT_DIR&&width===393)await page.screenshot({path:path.join(process.env.SPONSOR_SCREENSHOT_DIR,'footer-native.png')});
+      await page.evaluate(()=>history.back());
+      await page.waitForURL(base+'/?dd_tab=discover');
+      await page.locator('#discover').waitFor({state:'visible'});
+      assert.equal(await page.locator('#sponsor-us').isVisible(),false);
+      await page.evaluate(()=>history.forward());
+      await page.waitForURL(base+sponsorPath);
+      await verifyNative(page,width);
+      // A shared/direct URL also opens and scrolls to the existing card.
+      await page.goto(base+sponsorPath,{waitUntil:'domcontentloaded'});
+      await verifyNative(page,width);
+      await page.waitForFunction(()=>document.activeElement?.id==='sponsor-us-title');
+      await page.locator('.nav .tab[data-tab="discover"]').click();
+      assert.equal(new URL(page.url()).searchParams.has('dd_sponsor'),false);
+      await page.locator('#discover').waitFor({state:'visible'});
+      console.log('PASS native Sponsor Us footer, direct route, dock, Back/Forward and tab cleanup at '+width+'px');
     }finally{await ctx.close()}
   }
  }finally{await browser.close();server.close()}
