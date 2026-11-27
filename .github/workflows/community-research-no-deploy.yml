@@ -22,6 +22,7 @@ jobs:
         run: |
           node --check research/community-publication-preview.js
           node scripts/test_community_research_draft.cjs
+          node scripts/test_community_research_seed_payload.cjs
           node scripts/test_community_research_preview.cjs
           node scripts/test_community_research_transfer.cjs
       - name: Current production baseline news regression (localhost source only)
