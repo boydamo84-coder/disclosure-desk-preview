@@ -23,6 +23,7 @@ window.DD_COMMUNITY_FEATURES=Object.freeze({
  profileAvatars:enabled, // Approved public visible-by-default photo with server-enforced Hide
  whoEvidenceBallots:false, // M70: claim ratings closed, no voting runtime bundled
  discussionHosts:enabled, // Approved 14-day automated hosts trial; database scheduler and pause gate control posting
+ hostRecommendations:enabled, // Read-only topic matches, never community vote writes
  researchPublishing:false
 });
 })();

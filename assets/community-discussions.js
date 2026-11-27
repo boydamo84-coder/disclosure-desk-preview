@@ -390,8 +390,10 @@ async function openThread(item){
  photo(main,item);
  main.append(mk('p',item.body||'','dd-forum-body'));
  link(main,item.link_url,'Original source · '+(safeLink(item.link_url)?new URL(safeLink(item.link_url)).hostname:''));
+ main.dataset.ddHostThread=item.id;
  actionsFor(tools,'thread',item,true,tools.flagHost);
  pane.append(main,tools);
+ window.DDHostPicks?.discussion(main);
  const replyForm=$('ddForumReplyCreate');
  replyForm.hidden=false;
  // Keep comments directly beneath the full post. The composer follows the
@@ -715,7 +717,9 @@ function renderDiscussionCard(list,row,fromAll=false){
  main.append(mk('p',String(row.body||'').slice(0,330),'dd-forum-body'));
  photo(main,row);
  link(main,row.link_url,safeLink(row.link_url)?'Source · '+new URL(safeLink(row.link_url)).hostname:'');
+ main.dataset.ddHostThread=row.id;
  card.append(main);actionsFor(actions,'thread',row,false,actions.flagHost);card.append(actions);list.append(card);
+ window.DDHostPicks?.discussion(main);
 }
 async function openGlobalThread(row){
  if(!isId(row?.id)||!isId(row?.section_id))return;

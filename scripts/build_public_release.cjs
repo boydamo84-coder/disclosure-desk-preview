@@ -29,7 +29,7 @@ function copy(rel){
 // must never silently make it publicly accessible on a subsequent deploy.
 const approvedWeb=Object.freeze({
  assets:[
-  'research-public.css','research-public.js','discussion-hosts.js','who-private-worksheet-m76.js','media-submissions.js','community-polish.css','secondary-editorial-nav.css','secondary-editorial-nav.js','site-ad-layout-m01.css','site-ad-layout-m01.js','site-adsterra-m02.js','case-comment-moderation.js','case-connections.js','evidence-dna.js','person-case-links.js','people-directory.js','world-uap-programmes.js','who-archive-return.js','source-verification.js','who-international-programmes-m68.js','source-outreach-digest-m68.js','source-outreach-digest-m68.css','page-help.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
+  'research-public.css','research-public.js','discussion-hosts.js','host-recommendations.js','who-private-worksheet-m76.js','media-submissions.js','community-polish.css','secondary-editorial-nav.css','secondary-editorial-nav.js','site-ad-layout-m01.css','site-ad-layout-m01.js','site-adsterra-m02.js','case-comment-moderation.js','case-connections.js','evidence-dna.js','person-case-links.js','people-directory.js','world-uap-programmes.js','who-archive-return.js','source-verification.js','who-international-programmes-m68.js','source-outreach-digest-m68.js','source-outreach-digest-m68.css','page-help.js','case-discussions.js','chat-tab-ui.js','community-discussions.js',
   'community-test-config.js','community-votes.js','confirmation-dialog.js','disclosure-desk-mark.svg',
   'discussions-admin.js','historical-satellite.js','inline-news-comments.js','unified-action-rails.js',
   'live-chat.js','live-hearings.js','live-schedule.css','live-schedule.js',
@@ -84,7 +84,7 @@ for(const file of ['27-f-0917-decision-extract.pdf','27-f-0917-referral-extracts
 // ciphertext only. Original website bundle and navigation stay intact.
 require('./build_r3_hosted_assets.cjs')(root,out,files);
 const cfg=fs.readFileSync(path.join(out,'assets/community-test-config.js'),'utf8');
-for(const flag of ['privateChat:enabled','discussions:enabled','profileAvatars:enabled','researchPublishing:false','discussionHosts:enabled'])
+for(const flag of ['privateChat:enabled','discussions:enabled','profileAvatars:enabled','researchPublishing:false','discussionHosts:enabled','hostRecommendations:enabled'])
  if(!cfg.includes(flag))throw Error('Unapproved feature activation detected: '+flag);
 // M70 release gate: unfinished claim ballots and real Adsterra cannot be activated by this bundle.
 const whoHtml=fs.readFileSync(path.join(out,'who-is-who.html'),'utf8');

@@ -1,0 +1,13 @@
+# Automated host picks — discussion host trial extension
+
+Owner approved distinct host recommendations on 27 Nov 2026 after the 14-day posting trial was activated. Production baseline b90c2c5ea7b130a37eded2f0359df9e2cfdab7e6; rollback branch backup/production-pre-host-picks-20261127.
+
+- News: selects up to two recent attributed, research-topic stories from the canonical news pool (not personal interest filters). Trusted named RSS attribution or allowed publisher/source host is an eligibility criterion, not independent verification.
+- Videos: selects up to two original-source official catalogue items. Unverified and unavailable clips cannot be picked.
+- Discussions: one deterministic UTC-day choice of a serious, published human-authored thread with a research-topic title; excludes host, hidden, removed, unpublished and fun threads. May show fewer picks when no eligible material exists.
+- All cards show a named automated host, topic reason and explicit not-a-member-vote/not-verification disclosure. News and Videos also have a collapsed daily picks list with direct links. Picks are computed on the current canonical catalogue; they can change when a source feed updates, and are not stored as likes. No artificial accounts, votes, counters, ranking boosts, comments, replies or DMs.
+- One public read-only no-argument RPC returns the active trial gate, UTC day and at most one discussion ID/host. It exposes no drafts, author IDs or audit records. Guest/member results match; private schema remains inaccessible. Browser retries are bounded by the two-minute refresh window, fail closed on error, and use no AI APIs. The existing owner pause and 14-day expiry also suppress picks; no new scheduled job.
+- Security adviser warns about the intentional anon/member SECURITY DEFINER RPC. Fixed empty search_path, explicit grants, narrow public visibility, no user parameters and no writes. No other new findings.
+- Offline tests: deterministic selection, exclusions, repeated inputs, source hosts, expiry, guest/member permissions, no vote writes; Chromium 320/393/1280px incl. Android UA fixture; badge counts/deep links, existing member votes unchanged, pause and fail-closed. Full research/browser and guest-read regression passed, package 145 files; private SQL/scripts are not published. Physical Android and real user sign-in remain untested; installed older APKs may need a new build for badges.
+- Live database QA passed with rollback-only pause/expiry test; no votes or member posts changed. Current live eligible discussion is “Whos who evidence ratings” (The Investigator).
+- PDF upload feature remains disabled; no scanner, paid service or new Netlify feature.
