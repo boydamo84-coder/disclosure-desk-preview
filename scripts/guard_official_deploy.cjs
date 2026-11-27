@@ -20,3 +20,7 @@ if(netlify&&branch==='feature/experience-discovery-20261127'){
 if(netlify&&branch==='feature/become-investigator-20261127'){
  throw new Error('Become the Investigator candidate tests run in GitHub Actions only.');
 }
+
+if(netlify&&branch==='feature/news-pagination-20261127'){
+ throw new Error('News pagination candidate tests run in GitHub Actions only.');
+}
