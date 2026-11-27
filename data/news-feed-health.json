@@ -1,23 +1,23 @@
 {
-  "checkedAt": "2026-11-26T21:55:47.314839+00:00",
+  "checkedAt": "2026-11-27T04:13:59.293501+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 41,
-      "latestArticleAt": "2026-11-26T19:35:00+00:00"
+      "items": 70,
+      "latestArticleAt": "2026-11-26T23:56:53+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 16,
-      "latestArticleAt": "2026-11-25T18:24:20+00:00"
+      "items": 12,
+      "latestArticleAt": "2026-11-25T21:41:37+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 34,
-      "latestArticleAt": "2026-11-26T13:46:00+00:00"
+      "items": 18,
+      "latestArticleAt": "2026-11-26T19:35:00+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
@@ -28,14 +28,14 @@
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
-      "items": 35,
-      "latestArticleAt": "2026-11-26T17:33:58+00:00"
+      "items": 30,
+      "latestArticleAt": "2026-11-26T15:00:00+00:00"
     },
     {
       "source": "Search: UAP congress hearing when:7d",
-      "status": "ok",
-      "items": 1,
-      "latestArticleAt": "2026-11-19T22:07:40+00:00"
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "Search: UFO UAP Brazil Peru Mexico Argentina when:7d",
@@ -57,14 +57,14 @@
     },
     {
       "source": "Search: UFO UAP Australia New Zealand when:7d",
-      "status": "ok",
-      "items": 1,
-      "latestArticleAt": "2026-11-21T09:01:41+00:00"
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "Search: UFO UAP Africa Middle East when:7d",
       "status": "ok",
-      "items": 2,
+      "items": 1,
       "latestArticleAt": "2026-11-21T09:01:41+00:00"
     },
     {
@@ -128,9 +128,10 @@
       "latestArticleAt": null
     },
     {
-      "source": "Search: UFO UAP New Zealand when:7d",
-      "status": "failed",
-      "items": 0
+      "source": "Search: New Zealand",
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "Search: Argentina",
@@ -152,9 +153,9 @@
     },
     {
       "source": "Search: Spain",
-      "status": "ok",
-      "items": 1,
-      "latestArticleAt": "2026-11-20T14:18:04+00:00"
+      "status": "empty",
+      "items": 0,
+      "latestArticleAt": null
     },
     {
       "source": "Search: Italy",
@@ -203,5 +204,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 490
+  "storiesPublished": 427
 }
