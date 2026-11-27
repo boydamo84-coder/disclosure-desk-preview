@@ -12,3 +12,7 @@ if(netlify&&context==='production'&&branch!=='production'){
 if(netlify&&branch==='feature/research-collaboration-20261126'){
   throw new Error('Research & Collaboration candidate builds run in GitHub Actions only.');
 }
+
+if(netlify&&branch==='feature/experience-discovery-20261127'){
+ throw new Error('Experience & Discovery candidate tests run in GitHub Actions only.');
+}

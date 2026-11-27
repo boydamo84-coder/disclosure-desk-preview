@@ -28,6 +28,7 @@ const {chromium}=require('playwright-core');
    await page.goBack({waitUntil:'domcontentloaded'});
    await page.locator('#discover').waitFor({state:'visible'});
    assert.equal(await page.locator('#archivePage').isVisible(),false,'Native browser Back returns Home');
+   await page.getByText('More ways to explore',{exact:true}).click();
    await page.locator('[data-go="about"]').first().click();
    assert.equal(await page.locator('#about').isVisible(),true,'About opens from Home quick links');
    await page.locator('#ddSiteHome').click();

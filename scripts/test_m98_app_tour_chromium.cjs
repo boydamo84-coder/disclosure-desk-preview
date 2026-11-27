@@ -20,17 +20,16 @@ const origin = 'http://127.0.0.1:4173';
             const page = await context.newPage();
             await page.goto(origin, { waitUntil: 'load' });
             await page.waitForFunction(() => typeof window.DDStartTour === 'function');
-            await page.evaluate(() => offerFirstVisitTour());
-            const welcome = page.locator('#ddWelcomeDialog');
-            assert.equal(await welcome.count(), android ? 0 : 1);
-            if (!android) await welcome.getByRole('button', { name: 'Not now' }).click();
-            await page.evaluate(() => window.DDStartTour());
+            await page.waitForTimeout(1200);
+            assert.equal(await page.locator('#ddWelcomeDialog, #appTourDialog[open]').count(),0,'No first-visit interruption');
+            if(android) await page.evaluate(() => window.DDStartTour());
+            else await page.getByRole('button',{name:'Take the tour',exact:true}).click();
             await page.locator('#appTourDialog').waitFor({ state: 'visible' });
             await page.locator('#tourClose').click();
             await page.locator('#appTourDialog').waitFor({ state: 'hidden' });
             await context.close();
         }
-        console.log('PASS M98: Android skips the website welcome, and both platforms can still open the research tour on demand.');
+        console.log('PASS M98: Neither platform interrupts the visitor, and both can still open the research tour on demand.');
     } finally {
         await browser.close();
     }
