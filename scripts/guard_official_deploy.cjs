@@ -36,3 +36,7 @@ if(netlify&&[branch,process.env.HEAD].includes('feature/issue-22-final-launch-po
 if (netlify && [branch, process.env.HEAD].includes('fix/issue22-mobile-nav-polish-20261127')) {
   throw new Error('Mobile navigation polish candidate is restricted to isolated testing.');
 }
+
+if (netlify && [branch, process.env.HEAD].includes('feature/brand-public-sharing-20261127')) {
+  throw new Error('Public sharing candidate is restricted to isolated testing.');
+}

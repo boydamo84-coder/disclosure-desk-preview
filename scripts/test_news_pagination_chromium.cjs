@@ -16,6 +16,7 @@ const readRows=rows.map(x=>({...x,readAt:new Date(now).toISOString()}));
  async function make(width,path='/'){
   const ctx=await browser.newContext({viewport:{width,height:850},reducedMotion:'reduce'});
   await ctx.addInitScript(read=>{
+   Object.defineProperty(navigator,'share',{configurable:true,value:async value=>{window.__sharedNews=value}});
    if(!localStorage.getItem('disclosure_desk_read_articles_v1'))localStorage.setItem('disclosure_desk_read_articles_v1',JSON.stringify(read));
   },readRows);
   await ctx.route('**/*',route=>{
@@ -69,6 +70,10 @@ const readRows=rows.map(x=>({...x,readAt:new Date(now).toISOString()}));
   await click(page,'','next');
   assert.equal(new URL(page.url()).searchParams.get('page'),'3');
   assert.deepEqual(await ids(page),range(61,77));
+  const story=page.locator('#newsGrid [data-news-id="qa-65"]');
+  await story.locator('[data-share-news]').click();
+  assert.deepEqual(await page.evaluate(()=>window.__sharedNews),{title:rows[64].headline,url:'https://uapdisclosuredesk.com/news/qa-65'});
+  assert.equal(await story.locator('.news-headline-link').getAttribute('href'),rows[64].url);
   assert.ok(await pager(page).locator('[data-page-next]').isDisabled());assert.ok(await pager(page,'').locator('[data-page-next]').isDisabled());
   await page.goBack();await page.waitForFunction(()=>document.querySelector('#newsGrid article[data-news-id]')?.dataset.newsId==='qa-31');
   assert.deepEqual(await ids(page),range(31,60));
@@ -123,7 +128,14 @@ const readRows=rows.map(x=>({...x,readAt:new Date(now).toISOString()}));
  await page.waitForFunction(()=>document.querySelector('#newsGrid article[data-news-id]')?.dataset.newsId==='qa-61');
  assert.equal(new URL(page.url()).searchParams.get('page'),'3');
  assert.ok(await page.locator('#newsGrid [data-news-id="qa-65"]').isVisible());
- console.log('PASS direct page-3 and grouped alternative news-ID links');
+ if(process.env.DD_SHARE_ROUTES==='1'){
+  await page.goto(base+'/news/qa-65',{waitUntil:'load'});
+  await page.waitForFunction(()=>document.querySelector('#newsGrid article[data-news-id]')?.dataset.newsId==='qa-61');
+  assert.equal(new URL(page.url()).searchParams.get('dd_news'),'qa-65');
+  assert.equal(new URL(page.url()).searchParams.get('page'),'3');
+  assert.ok(await page.locator('#newsGrid [data-news-id="qa-65"]').isVisible());
+ }
+ console.log('PASS direct page-3 and grouped alternative news-ID links, branded Share payload and recipient route');
  await ctx.close();
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});

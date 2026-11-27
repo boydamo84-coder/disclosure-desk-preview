@@ -47,8 +47,8 @@ for(const {slug,caseId,source} of routes){
  assert.ok(home.includes('href="/'+slug+'"'),'Direct public link required: '+slug);
  assert.ok(home.includes('href="/'+slug+'">Read original research')||home.includes('href="/'+slug+'">'), 'Homepage article link');
 }
-assert.ok(home.includes("['featured-rendlesham-1980','featured-roswell-1947']"),
- 'Archive deep-links must accept only reviewed public case IDs');
+assert.ok(home.includes('return ddValidPublicShareId(id)?id:null;')&&home.includes('historicalRecords.find(r=>String(r.id)===ddPendingArchiveCase)'),
+ 'Archive deep links validate bounded IDs and require exact membership in the loaded public catalogue');
 assert.ok(home.includes('ddPendingArchiveCase=null;'),'Open deep links exactly once');
 const publicBuilder=read('scripts/build_public_release.cjs');
 assert.ok(home.includes('src="assets/case-connections.js?v=m97-indexed"'),'Public index loads the Case Connections engine before inline archive logic');

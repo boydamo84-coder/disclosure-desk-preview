@@ -12,7 +12,7 @@ function mockServices(){
   const url=new URL(typeof input==='string'?input:input.url,location.href);
   if(url.origin!==location.origin)throw Error('External service blocked by test fixture');
   if(['/data/curated-historical-cases.json','/data/historical-news-archive.json'].includes(url.pathname))return new Response(JSON.stringify(archive),{headers:{'Content-Type':'application/json'}});
-  if(url.pathname==='/data/disclosure-clips.json')return new Response(JSON.stringify([clip]),{headers:{'Content-Type':'application/json'}});
+  if(url.pathname==='/data/disclosure-clips.json')return new Response(JSON.stringify([clip,...Array.from({length:9},(_,i)=>({...clip,id:"m67-video-extra-"+i,title:"Z fixture extra "+i,youtubeId:undefined,source:"https://example.invalid/video/"+i}))]),{headers:{'Content-Type':'application/json'}});
   if(url.pathname==='/data/curated-official-videos.json')return new Response('[]',{headers:{'Content-Type':'application/json'}});
   return original(input,options);
  };

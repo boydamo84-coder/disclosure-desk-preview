@@ -5,7 +5,7 @@ const {buildFixture}=require('./m67_card_actions_fixture.cjs');
 const BASE='http://127.0.0.1:4173';
 async function geometry(card,width){
  const state=await card.evaluate(el=>{const rail=el.querySelector('.dd-action-rail'),r=rail.getBoundingClientRect();return {rail:!!rail,justify:getComputedStyle(rail).justifyContent,scroll:rail.scrollWidth,client:rail.clientWidth,right:r.right,buttons:[...rail.querySelectorAll('button')].map(b=>({width:b.getBoundingClientRect().width,height:b.getBoundingClientRect().height})),page:document.documentElement.scrollWidth,viewport:innerWidth}});
- assert(state.rail);assert.equal(state.justify,'flex-end');assert(state.scroll<=state.client+2);assert(state.right<=width+1);assert(state.page<=state.viewport+1,'No viewport overflow');assert(state.buttons.every(b=>b.height>=40&&b.width<=115),'Compact tappable actions '+JSON.stringify(state));
+ assert(state.rail);assert.ok(['flex-end','flow-end'].includes(state.justify));assert(state.scroll<=state.client+2);assert(state.right<=width+1);assert(state.page<=state.viewport+1,'No viewport overflow');assert(state.buttons.every(b=>b.height>=40&&b.width<=115),'Compact tappable actions '+JSON.stringify(state));
 }
 async function foldComments(page,card,key){
  const toggle=card.locator('.dd-inline-comments-toggle'),host=card.locator('[data-news-comments]');
@@ -16,7 +16,7 @@ async function foldComments(page,card,key){
  await textarea.fill('Posted fixture reply '+key);await host.getByRole('button',{name:'Post comment',exact:true}).click();await card.getByText('Posted fixture reply '+key,{exact:true}).waitFor();
  assert.equal(await page.evaluate(()=>window.__m67.posts.at(-1).case_id),key,'Existing discussion key used');await toggle.click();
 }
-(async()=>{const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
+(async()=>{const browser=await chromium.launch({executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
  try{for(const width of [320,393,820,1280]){
   const context=await browser.newContext({viewport:{width,height:950},serviceWorkers:'block'});
   await context.route('**/*',route=>{const u=new URL(route.request().url());if(u.origin!==BASE)return route.abort();if(u.pathname==='/__m67-cards')return route.fulfill({contentType:'text/html; charset=utf-8',body:buildFixture()});return route.continue()});
@@ -28,15 +28,25 @@ async function foldComments(page,card,key){
   await archive.locator('[data-follow-archive]').click();assert.equal(await page.locator('#archiveCaseDialog').evaluate(e=>e.open),false,'Following does not open the case');assert.equal(await archive.locator('[data-follow-archive]').getAttribute('aria-pressed'),'true');
   await page.reload();await archive.locator('[data-follow-archive][aria-pressed="true"]').waitFor();
   await page.evaluate(()=>{window.__m67.user=true});await foldComments(page,archive,'archive:m67-archive-a');
-  await archive.locator('[data-share-archive]').click();assert.equal(await page.evaluate(()=>window.__m67.shared.at(-1).url),'https://example.invalid/archive/a');
+  await archive.locator('[data-share-archive]').click();assert.equal(await page.evaluate(()=>window.__m67.shared.at(-1).url),'https://uapdisclosuredesk.com/archive/m67-archive-a');
   await archive.locator('[data-save-archive]').click();await page.locator('#collectionPicker').waitFor({state:'visible'});await page.locator('#pickerClose').click();
   await archive.locator('[data-open-archive]').click();await page.locator('#archiveCaseDialog').waitFor({state:'visible'});assert.equal(await page.locator('#archiveCaseBody .dd-action-rail').count(),1);assert.equal(await page.locator('#archiveCaseBody .dd-action-rail [data-follow-archive]').count(),0);await page.locator('#archiveCaseClose').click();
   await page.evaluate(()=>window.navigateTo('watchRead'));const media=page.locator('[data-media-id="fixture-doc"]');await media.waitFor();await media.locator('.dd-inline-comments-toggle').waitFor();await geometry(media,width);await foldComments(page,media,'media:fixture-doc');
+  await media.locator('.dd-action-share').click();assert.equal(await page.evaluate(()=>window.__m67.shared.at(-1).url),'https://uapdisclosuredesk.com/media/fixture-doc');
   await media.locator('.dd-media-rate').click();assert.equal(await media.locator('select[aria-label="Rate Fixture documentary"]').isVisible(),true);
   await page.getByRole('button',{name:'Books',exact:true}).click();await page.locator('[data-media-id="fixture-book"] .dd-inline-comments-toggle').waitFor();await page.getByRole('button',{name:'Documentaries',exact:true}).click();await media.locator('.dd-inline-comments-toggle').waitFor();assert.equal(await media.locator('[data-news-comments]').isVisible(),false,'Refreshed category retains a working collapsed control');
   await page.evaluate(()=>window.navigateTo('clips'));const video=page.locator('[data-video-id="m67-video"]');await video.waitFor();await video.locator('.dd-inline-comments-toggle').waitFor();await geometry(video,width);await foldComments(page,video,'video:m67-video');
+  await video.locator('[data-clip-action="share"]').click();assert.equal(await page.evaluate(()=>window.__m67.shared.at(-1).url),'https://uapdisclosuredesk.com/video/m67-video');
   const layout=await video.evaluate(el=>({player:el.querySelector('.dd-video-card-player').getBoundingClientRect().bottom,info:el.querySelector('.clip-info').getBoundingClientRect().top,rail:el.querySelector('.dd-action-rail').getBoundingClientRect().top,infoBottom:el.querySelector('.clip-info').getBoundingClientRect().bottom}));assert(layout.info>=layout.player-1);assert(layout.rail>=layout.infoBottom-1,'Video rail below content');
   await page.evaluate(()=>window.navigateTo('cases'));await geometry(page.locator('#caseList article').first(),width);
+  const caseShare=page.locator('#caseList article [data-share-case]').first();const caseId=await caseShare.getAttribute('data-share-case');
+  await caseShare.click();assert.equal(await page.evaluate(()=>window.__m67.shared.at(-1).url),'https://uapdisclosuredesk.com/case/'+caseId);
+  await page.goto(BASE+'/__m67-cards?dd_tab=archivePage&dd_archive_case=m67-archive-b');
+  await page.locator('#archiveCaseDialog').waitFor({state:'visible'});
+  assert.match(await page.locator('#archiveCaseBody').textContent(),/Fixture investigation B/);
+  await page.goto(BASE+'/__m67-cards?dd_tab=watchRead&dd_media=fixture-book');
+  await page.locator('[data-media-id="fixture-book"]').waitFor({state:'visible'});
+  assert.equal(await page.locator('[data-media-id]').first().getAttribute('data-media-id'),'fixture-book');
   assert.deepEqual(errors,[],'No JavaScript errors at '+width);await context.close();
  }
  console.log('PASS M67 real Chromium 320/393/820/1280: Archive header Follow/persistence, shared bars, working Board/share, Archive/Watch&Read/Video fold-out comments and posting/drafts, category refresh, video layout, case rails, no overflow/errors');

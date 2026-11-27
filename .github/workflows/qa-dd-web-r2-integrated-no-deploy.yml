@@ -72,6 +72,7 @@ jobs:
           node scripts/test_page_help_contract.cjs
           node scripts/test_evidence_dna.cjs
           node scripts/test_case_connections.cjs
+          node scripts/test_public_share_links.cjs
           node scripts/test_original_research_contract.cjs
           node scripts/test_search_indexing.cjs
       - name: Verify strict public packaging and public link integrity
@@ -109,6 +110,10 @@ jobs:
         run: node scripts/test_m77_android_mobile_chromium.cjs
       - name: Verify Issue 22 mobile navigation and research reader at four widths
         run: CHROME_PATH=/usr/bin/google-chrome node scripts/test_issue22_release_chromium.cjs
+      - name: Verify branded Share buttons and recipient record routing
+        run: |
+          DD_SHARE_ROUTES=1 CHROME_PATH=/usr/bin/google-chrome node scripts/test_news_pagination_chromium.cjs
+          CHROME_PATH=/usr/bin/google-chrome node scripts/test_m67_card_actions_chromium.cjs
       - name: Stop local server
         if: always()
         run: |

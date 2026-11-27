@@ -131,7 +131,7 @@ function photo(parent,row){
  parent.append(frame);
 }
 function permalink(row){
- return isId(row?.id)?'https://uapdisclosuredesk.com/?dd_tab=discussionsPage&dd_thread='+encodeURIComponent(row.id):null;
+ return isId(row?.id)?(window.DDPublicRecordLink?.('discussion',row.id)||'https://uapdisclosuredesk.com/?dd_tab=discussionsPage&dd_thread='+encodeURIComponent(row.id)):null;
 }
 async function shareThread(row){
  const url=permalink(row);if(!url)return;

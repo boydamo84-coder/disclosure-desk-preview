@@ -94,10 +94,14 @@ function init(){
  const toolbar=node('div');toolbar.style.cssText='display:flex;gap:7px;flex-wrap:wrap;margin:12px 0';
  const list=node('div'),msg=node('p','Saved titles stay on this device. Added titles and links are public; optional notes stay private.');msg.className='muted small';
  let category='documentaries',viewAll=false,sort='picks',podcastSearch='';
+ let pendingShare=new URLSearchParams(location.search).get('dd_media'),sharedFocused=false;
+ if(!/^[A-Za-z0-9_-]{1,150}$/.test(pendingShare||''))pendingShare=null;
  function render(){
+  const target=pendingShare&&catalogue.find(item=>item.id===pendingShare);
+  if(target){category=target.category;podcastSearch='';}
   toolbar.replaceChildren();
   for(const [cat,label] of [['documentaries','Documentaries'],['movies','Movies'],['books','Books'],['podcasts','Podcasts']]){
-   const b=node('button',label);b.type='button';b.className=category===cat?'chip active':'chip';b.onclick=()=>{category=cat;viewAll=false;render()};toolbar.append(b);
+   const b=node('button',label);b.type='button';b.className=category===cat?'chip active':'chip';b.onclick=()=>{pendingShare=null;category=cat;viewAll=false;render()};toolbar.append(b);
   }
   list.replaceChildren();
   if(catalogueState!=='ready'){
@@ -120,7 +124,11 @@ function init(){
     const value=t=>sort==='score'?(Number(t.ratings)>=5?Number(t.average_score)||0:0):Number(t.recommendations)||0;
     return value(y)-value(x)||a.title.localeCompare(b.title);
   });
-  for(const item of candidates.slice(0,viewAll?100:10)){
+  const visible=candidates.slice(0,viewAll?100:10);
+  // An older catalogue item may be outside the first 10: show it first.
+  if(target){const i=visible.findIndex(item=>item.id===target.id);if(i>=0)visible.splice(i,1);visible.unshift(target);}
+  if(pendingShare&&catalogueState==='ready'&&!target){const note=node('p','Shared title is not in the currently available public catalogue.');note.setAttribute('role','status');list.append(note);}
+  for(const item of visible){
    const card=node('article');card.className='card dd-media-card';card.dataset.mediaId=item.id;
    const content=node('div');content.className='dd-media-content';card.append(content);
    const rail=node('div');rail.className='dd-media-actions dd-action-rail';rail.setAttribute('role','group');rail.setAttribute('aria-label','Title actions');
@@ -135,7 +143,7 @@ function init(){
    const board=node('button','☆');board.type='button';board.className='dd-action-board';board.title='Add to Board';board.setAttribute('aria-label','Add '+item.title+' to an Investigation Board');
    board.dataset.bookmarkUrl=discussionLink.href;board.dataset.bookmarkLabel=item.title;board.innerHTML='<span data-star-icon>☆</span>';
    board.onclick=()=>window.DDSavePublicLinkToBoard?.(item.title,discussionLink.href);
-   share.onclick=()=>window.DDSharePublicLink?.(item.title,item.url||discussionLink.href);rail.append(board,share);window.DDMediaSubmissions?.attachReport?.(rail,item);card.append(rail);
+   share.onclick=()=>{const url=window.DDPublicRecordLink?.('media',item.id)||discussionLink.href;window.DDSharePublicLink?.(item.title,url)};rail.append(board,share);window.DDMediaSubmissions?.attachReport?.(rail,item);card.append(rail);
    const comments=node('div');comments.className='dd-news-inline-comments';comments.dataset.newsComments='media:'+item.id;comments.dataset.commentsTitle=item.title;comments.dataset.commentsCollapsed='true';card.append(comments);
    const summary=node('p',available
      ?((scores[item.id]?.ratings||0)+' ratings · '+(scores[item.id]?.ratings?Number(scores[item.id].average_score).toFixed(1)+'/10':'Not yet rated')+' · '+(scores[item.id]?.recommendations||0)+' recommendations')
@@ -153,6 +161,7 @@ function init(){
    const rate=node('button','★ Rate');rate.type='button';rate.className='dd-media-rate';rate.title='Rate this title';rate.setAttribute('aria-label','Rate '+item.title);rate.setAttribute('aria-expanded','false');rate.setAttribute('aria-controls',ratings.id);
    rate.onclick=()=>{ratings.hidden=!ratings.hidden;rate.setAttribute('aria-expanded',String(!ratings.hidden));if(!ratings.hidden)rating.focus({preventScroll:true})};
    rail.prepend(rate,recommend);card.append(ratings);list.append(card);
+   if(target&&item.id===target.id){card.style.outline='2px solid #e4c58b';if(!sharedFocused){sharedFocused=true;requestAnimationFrame(()=>card.scrollIntoView({block:'center',behavior:'smooth'}));}}
   }
   if(candidates.length>10){const more=node('button',viewAll?'Show Top Picks':'View all titles');more.type='button';more.className='outline';more.onclick=()=>{viewAll=!viewAll;render()};list.append(more)}
  }

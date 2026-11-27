@@ -3,7 +3,7 @@
 [build]
   command = "node scripts/build_public_release.cjs"
   publish = ".release-staging/public-site"
-  ignore = '''[ "$BRANCH" = "fix/issue22-mobile-nav-polish-20261127" ] || [ "$HEAD" = "fix/issue22-mobile-nav-polish-20261127" ] || [ "$BRANCH" = "feature/issue-22-final-launch-polish" ] || [ "$HEAD" = "feature/issue-22-final-launch-polish" ] || [ "$BRANCH" = "feature/research-collaboration-20261126" ] || [ "$BRANCH" = "fix/guest-public-access-20261126" ] || [ "$BRANCH" = "feature/experience-discovery-20261127" ] || [ "$BRANCH" = "feature/become-investigator-20261127" ] || [ "$BRANCH" = "feature/news-pagination-20261127" ] || [ "$BRANCH" = "fix/news-pager-full-width-20261127" ]'''
+  ignore = '''[ "$BRANCH" = "feature/brand-public-sharing-20261127" ] || [ "$HEAD" = "feature/brand-public-sharing-20261127" ] || [ "$BRANCH" = "fix/issue22-mobile-nav-polish-20261127" ] || [ "$HEAD" = "fix/issue22-mobile-nav-polish-20261127" ] || [ "$BRANCH" = "feature/issue-22-final-launch-polish" ] || [ "$HEAD" = "feature/issue-22-final-launch-polish" ] || [ "$BRANCH" = "feature/research-collaboration-20261126" ] || [ "$BRANCH" = "fix/guest-public-access-20261126" ] || [ "$BRANCH" = "feature/experience-discovery-20261127" ] || [ "$BRANCH" = "feature/become-investigator-20261127" ] || [ "$BRANCH" = "feature/news-pagination-20261127" ] || [ "$BRANCH" = "fix/news-pager-full-width-20261127" ]'''
 
 
 # Legacy browser/crawler fallback: preserve the verified navy-and-gold SVG emblem.
@@ -12,4 +12,110 @@
 [[redirects]]
   from = "/favicon.ico"
   to = "/assets/disclosure-desk-mark.svg"
+  status = 302
+
+# Branded public share links. Fixed same-origin destinations only; never an open redirect.
+[[redirects]]
+  from = "/news/:id"
+  to = "/?dd_news=:id"
+  status = 302
+
+[[redirects]]
+  from = "/archive/:id"
+  to = "/?dd_tab=archivePage&dd_archive_case=:id"
+  status = 302
+
+[[redirects]]
+  from = "/video/:id"
+  to = "/?dd_tab=clips&dd_videos=:id"
+  status = 302
+
+[[redirects]]
+  from = "/case/:id"
+  to = "/?dd_tab=mapPage&case=:id"
+  status = 302
+
+[[redirects]]
+  from = "/discussion/:id"
+  to = "/?dd_tab=discussionsPage&dd_thread=:id"
+  status = 302
+
+[[redirects]]
+  from = "/witness/:id"
+  to = "/?dd_tab=mapPage&dd_witness=:id"
+  status = 302
+
+[[redirects]]
+  from = "/media/:id"
+  to = "/?dd_tab=watchRead&dd_media=:id"
+  status = 302
+
+[[redirects]]
+  from = "/talk/news/:id/:comment"
+  to = "/?dd_tab=discover&dd_discussion=news%3A:id&dd_comment=:comment"
+  status = 302
+
+[[redirects]]
+  from = "/talk/news/:id"
+  to = "/?dd_tab=discover&dd_discussion=news%3A:id"
+  status = 302
+
+[[redirects]]
+  from = "/talk/video/:id/:comment"
+  to = "/?dd_tab=clips&dd_discussion=video%3A:id&dd_comment=:comment"
+  status = 302
+
+[[redirects]]
+  from = "/talk/video/:id"
+  to = "/?dd_tab=clips&dd_discussion=video%3A:id"
+  status = 302
+
+[[redirects]]
+  from = "/talk/media/:id/:comment"
+  to = "/?dd_tab=watchRead&dd_discussion=media%3A:id&dd_comment=:comment"
+  status = 302
+
+[[redirects]]
+  from = "/talk/media/:id"
+  to = "/?dd_tab=watchRead&dd_discussion=media%3A:id"
+  status = 302
+
+[[redirects]]
+  from = "/talk/hearing/:id/:comment"
+  to = "/?dd_tab=livePage&dd_discussion=hearing%3A:id&dd_comment=:comment"
+  status = 302
+
+[[redirects]]
+  from = "/talk/hearing/:id"
+  to = "/?dd_tab=livePage&dd_discussion=hearing%3A:id"
+  status = 302
+
+[[redirects]]
+  from = "/talk/archive/:id/:comment"
+  to = "/?dd_tab=archivePage&dd_discussion=archive%3A:id&dd_comment=:comment"
+  status = 302
+
+[[redirects]]
+  from = "/talk/archive/:id"
+  to = "/?dd_tab=archivePage&dd_discussion=archive%3A:id"
+  status = 302
+
+[[redirects]]
+  from = "/talk/case/:id/:comment"
+  to = "/?dd_tab=mapPage&dd_discussion=case%3A:id&dd_comment=:comment"
+  status = 302
+
+[[redirects]]
+  from = "/talk/case/:id"
+  to = "/?dd_tab=mapPage&dd_discussion=case%3A:id"
+  status = 302
+
+[[redirects]]
+  from = "/talk/raw/:id/:comment"
+  to = "/?dd_tab=mapPage&dd_discussion=:id&dd_comment=:comment"
+  status = 302
+
+[[redirects]]
+  from = "/talk/raw/:id"
+  to = "/?dd_tab=mapPage&dd_discussion=:id"
   status = 302
