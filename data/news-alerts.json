@@ -18,7 +18,8 @@
     "date": "2026-11-20T23:15:20+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/029f/live/9fdeb250-e537-11f1-99b6-a35a62fa4264.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/029f/live/9fdeb250-e537-11f1-99b6-a35a62fa4264.jpg",
+    "publisherUrl": "https://www.bbc.co.uk/news/videos/cqdr1x8mypnko"
   },
   {
     "id": "06727bb4b46082a9ba94",
@@ -28,7 +29,8 @@
     "date": "2026-11-20T21:28:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://static.independent.co.uk/2026/10/30/8/18/iStock-2233436478.jpeg?trim=49,0,49,0&width=1200&height=800&crop=1200:800"
+    "imageUrl": "https://static.independent.co.uk/2026/10/30/8/18/iStock-2233436478.jpeg?trim=49,0,49,0&width=1200&height=800&crop=1200:800",
+    "publisherUrl": "https://www.independent.co.uk/bulletin/news/bigfoot-files-montana-washington-trump-b3088994.html"
   },
   {
     "id": "45298f494ce25e01e18d",
@@ -48,7 +50,8 @@
     "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQS2VYcjNvQndKb1g5bnlOQzk1cnJiQms0cFdIdmlvUngwNzVqZFBoaGFVbHU3U1FRVEtULWlNT1ZUbWJYZktuREoxbXBzWk5MVHRqTjlIRzd2dnZSUU1sX0hRc2Nfd0E0ZHQ2Q09TWkhTY2ZPbHU5c3h2N0F3R1V1U1pLZUJsTWxIQ2xPNVFRVXBOUU9oc2Y4cTRLbzUwNzhLQUhSdWYxblB1VXQtVExzRmN3?oc=5",
     "date": "2026-11-20T18:30:00+00:00",
     "category": "UAP",
-    "priority": "standard"
+    "priority": "standard",
+    "publisherUrl": "https://www.washingtonpost.com/nation/2026/11/20/bigfoot-believers-get-boost-an-unlikely-ally-us-forest-service/"
   },
   {
     "id": "a402a5349cd973bb0a57",
@@ -58,7 +61,8 @@
     "date": "2026-11-20T16:02:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://static.independent.co.uk/2026/11/20/14/19/GettyImages-2291892820.jpg?trim=0,13,9,0&width=1200&height=800&crop=1200:800"
+    "imageUrl": "https://static.independent.co.uk/2026/11/20/14/19/GettyImages-2291892820.jpg?trim=0,13,9,0&width=1200&height=800&crop=1200:800",
+    "publisherUrl": "https://www.independent.co.uk/news/world/americas/us-politics/pentagon-ufo-files-latest-release-b3088756.html"
   },
   {
     "id": "46ffb5bd5cf421178b2e",
@@ -68,7 +72,8 @@
     "date": "2026-11-20T15:57:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://assets1.cbsnewsstatic.com/hub/i/r/2026/11/20/b927b4a4-8fcb-4361-ada8-b28de36e7d97/thumbnail/1200x630/22f9744f657bc1cee5bd7fdb348266cf/screenshot-2026-11-20-at-10-47-10-am.png"
+    "imageUrl": "https://assets1.cbsnewsstatic.com/hub/i/r/2026/11/20/b927b4a4-8fcb-4361-ada8-b28de36e7d97/thumbnail/1200x630/22f9744f657bc1cee5bd7fdb348266cf/screenshot-2026-11-20-at-10-47-10-am.png",
+    "publisherUrl": "https://www.cbsnews.com/news/ufo-files-pentagon-contractor/"
   },
   {
     "id": "ef5451dc29b01efcda3f",
@@ -122,7 +127,8 @@
     "date": "2026-10-23T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://i.guim.co.uk/img/media/88c4a85fbc23a00f87395cdc6dff14db1ee7f624/0_0_1379_1104/master/1379.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=f32b1954d1997027fc2e2cd0f3ec4ca1"
+    "imageUrl": "https://i.guim.co.uk/img/media/88c4a85fbc23a00f87395cdc6dff14db1ee7f624/0_0_1379_1104/master/1379.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=f32b1954d1997027fc2e2cd0f3ec4ca1",
+    "publisherUrl": "https://www.theguardian.com/world/2026/oct/23/ufo-pentagon-files"
   },
   {
     "id": "5945b4c646b3c3b11ddb",
@@ -169,7 +175,7 @@
     "id": "0501a6c949de643566a9",
     "headline": "Watch: Sixth batch of UFO files includes orbs from 1952",
     "source": "BBC",
-    "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE4xQThHSEhzakVsRm1DYzh0bjJGcTZpT2J6WjVzWjBrSVA3Y0djNVJCUGh0WFdUSGNPUVk2Ykc5RWk5amtIWnlCOHE5UU1qbHFzaEttWl8tZWs?oc=5",
+    "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBSZ0NkWldiWnlYbGFEXzZncjh0OFVNQnN3RzZlY3FtX2ZQeldyT0tyNmJ5cmU1VUNLT1dmakFoSU5rYmN3VUNsWFZpSFkwNElBN2ZKX09KYklVZ28?oc=5",
     "date": "2026-09-18T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
@@ -195,8 +201,7 @@
     "date": "2026-09-18T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/09/18/c5c06ef2-a49b-4374-82ed-f2fadc57cdc3/thumbnail/1200x630/ef47a022a8c9afef0911f4c67466dcde/ufo.jpg",
-    "publisherUrl": "https://www.cbsnews.com/video/watch-pentagon-releases-15-new-ufo-videos/"
+    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/09/18/c5c06ef2-a49b-4374-82ed-f2fadc57cdc3/thumbnail/1200x630/ef47a022a8c9afef0911f4c67466dcde/ufo.jpg"
   },
   {
     "id": "f6cfda56970f8ba8649a",
@@ -274,12 +279,10 @@
     "headline": "Astrophysicist Avi Loeb breaks down Pentagon's 5th batch of UFO files",
     "source": "CBS News",
     "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOOVY2d2RuNjBLbWNYRlBncU1mUGd5Zl9WeHY0TXo2cjU4XzJrSVMwZzFuNi13YkE3YmRLUjFmMHVhRmJxbWt2TmYyRDRoTTRrQ1lmQ3k3YkFGbWpkMDBzZEdlcU4taEd0Qm5RTk92TmZBdVdzSjR2RlBxR19SZExwUzVHbGZ4WlB2eGhv?oc=5",
-    "date": "2026-08-08T07:00:00+00:00",
+    "date": "2026-08-07T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "publisherUrl": "https://www.cbsnews.com/video/astrophysicist-avi-loeb-pentagon-5th-batch-ufo-files/",
-    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/08/08/8060abf5-320a-4d54-b7e1-188279044f83/thumbnail/1200x630/5838ce7afa68d10ea26393d8a049496e/cbsn-fusion-astrophysicist-avi-loeb-pentagon-5th-batch-ufo-files-thumbnail.jpg",
-    "imageSource": "publisher_meta"
+    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/08/08/8060abf5-320a-4d54-b7e1-188279044f83/thumbnail/1200x630/5838ce7afa68d10ea26393d8a049496e/cbsn-fusion-astrophysicist-avi-loeb-pentagon-5th-batch-ufo-files-thumbnail.jpg"
   },
   {
     "id": "605447ffa43b58486cac",
@@ -363,9 +366,7 @@
     "date": "2026-07-23T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "publisherUrl": "https://www.independent.co.uk/news/world/americas/us-politics/dr-phil-trump-ufo-files-b3019901.html",
-    "imageUrl": "https://static.independent.co.uk/2026/07/23/01/2282952692..?trim=0,0,0,0&width=1200&height=800&crop=1200:800",
-    "imageSource": "publisher_meta"
+    "imageUrl": "https://static.independent.co.uk/2026/07/23/01/2282952692..?trim=0,0,0,0&width=1200&height=800&crop=1200:800"
   },
   {
     "id": "7bf2529778f8ef2adb71",
@@ -482,8 +483,7 @@
     "date": "2026-06-13T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://static.independent.co.uk/2026/06/12/12/48/Screenshot-2026-06-12-at-8-36-48-AM.png?trim=103,0,101,0&width=1200&height=800&crop=1200:800",
-    "publisherUrl": "https://www.independent.co.uk/bulletin/news/pentagon-ufo-release-red-orbs-video-b2995190.html"
+    "imageUrl": "https://static.independent.co.uk/2026/06/12/12/48/Screenshot-2026-06-12-at-8-36-48-AM.png?trim=103,0,101,0&width=1200&height=800&crop=1200:800"
   },
   {
     "id": "03bd63a63ae95e7e1f6b",
@@ -552,7 +552,8 @@
     "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOak8wUWdwdFd3TEdsYUJENHVjQ2lNbGVxTjA1d2RfTHFHUVdEMHdJR3BxS2VsM1F5emwta0tGTGlOWUlkY0xzNmZSdy1MdVpzbTUwWC1pakpuRHI4bzhza29Wci1jT3ZPNlJTSWxQcm9xS3hGT1RyZVk4OFN3eG1oR3h5X0o3SXZtbDliQ05xMlpfOEd0UW05amc5dkd3WEJYTnc?oc=5",
     "date": "2026-06-12T07:00:00+00:00",
     "category": "UAP",
-    "priority": "major"
+    "priority": "major",
+    "publisherUrl": "https://www.reuters.com/world/us/new-pentagon-ufo-file-reveals-glowing-orbs-us-northeast-2026-06-12/"
   },
   {
     "id": "ba40c8b0cc19209dce67",
@@ -1068,11 +1069,12 @@
     "id": "abb16d1c92f3fe8fd468",
     "headline": "Cardiff lecturer interviews 160 Bigfoot hunters over three years",
     "source": "BBC",
-    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5leHJaVzVCakhremQzOWQxcWFxdjduNFRwRjdVYWJNZkpJcGRZalhLcG1Ld3JlZ3BhVVVnWUNVakN1VVBHYzVDZW83ZDRPR09NRkhVdlQtSEpWZkFj?oc=5",
-    "date": "2026-04-02T07:00:00+00:00",
+    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE50cUFMRDJpYTcyTkpPei1YLW0yU3hQYXhpa1Uyd1NzNXFGTi1EaE1TXzZQckh0UlR6N3poVjNVaEtlSTBycWFpUEJWZnhpSnA5OGdhamJDVzIwQQ?oc=5",
+    "date": "2026-04-03T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg",
+    "publisherUrl": "https://www.bbc.com/news/articles/cvg58ydn4jpo"
   },
   {
     "id": "8d06dd474e5f2e6f3926",
