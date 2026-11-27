@@ -4,7 +4,7 @@ const fs=require('node:fs'),assert=require('node:assert/strict'),path=require('n
 const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
 const pages=['index.html','guide.html','sources.html','community-rules.html','research-edition.html',
  'investigations.html','terms.html','roswell-1947.html','rendlesham-forest-1980.html',
- 'who-is-who.html','privacy.html','world-uap-programmes.html'];
+ 'who-is-who.html','privacy.html','world-uap-programmes.html','first-investigation.html','site-updates.html'];
 const activeGa=/<script\b[^>]*\b(?:src\s*=\s*["'][^"']*(?:analytics-consent\.js|googletagmanager|google-analytics|gtag\/js)[^"']*["'])[^>]*>|(?:\bgtag\s*\(|window\.DDAnalyticsConsent|data-dd-analytics-open|id\s*=\s*["']dd-analytics-consent["'])/i;
 for(const p of pages){
  const html=read(p);
@@ -27,4 +27,4 @@ const adapter=read('assets/site-adsterra-m02.js');
 assert.match(adapter,/const RELEASE_ENABLED=false;/);
 assert.match(adapter,/advertising-consent-v1/);
 assert.match(adapter,/choice!=='accepted'/);
-console.log('GA4 RETIREMENT PASS: 12 public HTML pages clean; Netlify and Search Console retained; independent Adsterra consent locked');
+console.log('GA4 RETIREMENT PASS: 14 public HTML pages clean; Netlify and Search Console retained; independent Adsterra consent locked');

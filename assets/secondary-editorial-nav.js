@@ -1,9 +1,11 @@
-/* R2 public Who's Who navigation: original 14-tab navy/gold dock,
+/* Public editorial page navigation: premium navy/gold dock,
    matching Home/M12.3 rather than the retired five-tab native shell.
    Only first-party destinations; no auth, storage, trackers or bridge calls. */
 (()=>{
  'use strict';
- if(!/^\/who-is-who(?:\.html)?$/.test(location.pathname))return;
+ const page=location.pathname.replace(/\.html$/,'');
+ const isPeople=page==='/who-is-who';
+ if(!['/who-is-who','/first-investigation','/site-updates','/rendlesham-forest-1980','/roswell-1947','/guide'].includes(page))return;
  if(document.getElementById('ddWebSecondaryNav')||document.getElementById('ddAndroidEditorialNav'))return;
  const tabs=[
   ['discover','◈','News'],['archivePage','▥','Archive'],
@@ -13,6 +15,9 @@
   ['discussionsPage','☷','Discussions'],['watchRead','♫','Watch & Read'],
   ['chatPage','','Chat'],['profilePage','👤','Profile'],['hub','☷','Help']
  ];
+ // New editorial pages include the current Home Research destination. The
+ // existing Who's Who dock retains its reviewed original navigation contract.
+ if(!isPeople)tabs.splice(2,0,['originalResearchPage','⌕','Research']);
  const nav=document.createElement('nav');
  nav.id='ddWebSecondaryNav';nav.className='dd-web-editorial-nav';
  nav.setAttribute('aria-label','App navigation');
@@ -43,13 +48,14 @@
   const btn=document.createElement('button');
   btn.type='button';btn.className='tab';btn.dataset.tab=id;
   btn.setAttribute('aria-label',label==='Who’s Who'?'Who’s Who in Disclosure':label);
-  if(id==='peopleDirectory'){btn.classList.add('active');btn.setAttribute('aria-current','page')}
+  if(id==='peopleDirectory'&&isPeople){btn.classList.add('active');btn.setAttribute('aria-current','page')}
   const icon=document.createElement('span');
   icon.className='ico';icon.setAttribute('aria-hidden','true');
   if(id==='chatPage')icon.appendChild(chatGlyph());else icon.textContent=symbol;
   btn.append(icon,document.createTextNode(label));
   btn.addEventListener('click',()=>{
    if(id==='peopleDirectory'){
+    if(!isPeople){location.assign('/who-is-who.html');return;}
     const profile=document.getElementById('personProfile');
     if(profile&&!profile.classList.contains('hidden')&&typeof window.DDPeopleDirectoryBack==='function'){
      window.DDPeopleDirectoryBack();
@@ -94,7 +100,7 @@
  const observer=new MutationObserver(hideIfAndroid);
  observer.observe(document.body,{childList:true});
  hideIfAndroid();
- const editing=el=>!!el&&(el.matches?.('input,textarea,select,[contenteditable=true]')||
+ const editing=el=>!!el&&(el.matches?.('input:not([type=radio]):not([type=checkbox]):not([type=button]):not([type=submit]),textarea,select,[contenteditable=true]')||
   !!el.closest?.('[contenteditable=true]'));
  const syncKeyboard=()=>document.body.classList.toggle('dd-web-keyboard-open',editing(document.activeElement));
  document.addEventListener('focusin',syncKeyboard);
