@@ -135,12 +135,17 @@ function permalink(row){
 }
 async function shareThread(row){
  const url=permalink(row);if(!url)return;
+ const title=String(row.title||'Disclosure Desk discussion');
+ if(window.DDSharePublicLink){
+  if(await window.DDSharePublicLink(title,url)==='copied')say('Discussion title and link copied.');
+  return;
+ }
+ const text=title+'\n'+url;
  try{
-  if(navigator.share){await navigator.share({title:row.title||'Disclosure Desk discussion',url});return}
-  if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url);
-   say('Discussion link copied. Links work after the public Discussions launch.');return}
+  if(navigator.share){await navigator.share({title,text:title,url});return}
+  if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);say('Discussion title and link copied.');return}
  }catch(e){if(e?.name==='AbortError')return}
- prompt('Copy discussion link (available after public launch):',url);
+ prompt('Copy discussion title and link:',text);
 }
 function saveThread(row){
  if(!isId(row?.id))return;

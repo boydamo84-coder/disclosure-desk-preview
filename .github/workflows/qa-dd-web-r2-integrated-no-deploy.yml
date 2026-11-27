@@ -72,13 +72,14 @@ jobs:
           node scripts/test_page_help_contract.cjs
           node scripts/test_evidence_dna.cjs
           node scripts/test_case_connections.cjs
-          node scripts/test_public_share_links.cjs
           node scripts/test_original_research_contract.cjs
           node scripts/test_search_indexing.cjs
       - name: Verify strict public packaging and public link integrity
         run: |
           CONTEXT=production node scripts/build_public_release.cjs
           CONTEXT=production node scripts/test_public_release_package.cjs
+          node scripts/test_public_share_links.cjs
+          node scripts/test_share_previews.cjs
           node scripts/audit_public_pages_20261108.cjs
       - name: Install local browser dependencies and start loopback only
         run: |

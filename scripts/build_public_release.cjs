@@ -74,6 +74,7 @@ function websiteDir(dir){
   throw Error('Approved website dependency missing: '+dir+'/'+required);
 }
 top.forEach(copy);websiteDir('assets');websiteDir('research');
+require('./build_public_share_catalogue.cjs')(root);
 data.forEach(p=>copy('data/'+p));
 function addGenerated(rel, bytes){
  const contents=Buffer.from(bytes);
