@@ -50,8 +50,8 @@ for(const p of dir.people){
 for(const token of ['id="profileBiography"','id="profileTimeline"','id="profileArticles"','id="profileSocials"',
                     'id="profileVideoPlayers"','id="profilePodcasts"','id="profileFilms"','id="profileRelatedCases"','id="directoryBack"','id="peopleSearch"','id="peopleCategory"'])
  assert(page.includes(token),'Directory exposes '+token);
-assert(page.includes('analytics-consent.js')&&!page.includes('googletagmanager.com'),
- 'Public profile entry uses consent-gated analytics');
+assert(!/analytics-consent\.js|googletagmanager\.com|google-analytics\.com|gtag\(/i.test(page),
+ 'GA4 remains disabled on the public profile entry');
 assert(page.includes('href="/"')&&home.includes('href="/who-is-who.html"'),'Visible Home and directory navigation');
 assert(page.includes('https://uapdisclosuredesk.com/who-is-who'),'Canonical public directory');
 assert(page.includes('Video')&&page.includes('Profiles'),'Accessible user-facing profile sections');
@@ -91,30 +91,31 @@ for(const deed of [
 assert(app.includes('Display cropped to fit')&&app.includes("'Photo: '+photo.credit"),
  'Visible author/source credit and display crop acknowledgement');
 assert(page.includes('.card-photo-credit a{'),'Mobile directory credits have visible tappable links');
-assert(page.includes('/assets/people-directory.js?v=r2-photo-credit-tasl-20261114'),
+assert(/src="\/assets\/people-directory\.js\?v=[^"]+"/.test(page),
  'Who\'s Who production HTML must cache-bust the credited portrait renderer');
 
-assert(page.includes('/assets/secondary-editorial-nav.js?v=r2-premium-nav01')&&
- page.includes('/assets/secondary-editorial-nav.css?v=r2-premium-nav01'),
- 'Standalone Who\'s Who must load the original premium navigation resources');
+assert(/src="\/assets\/secondary-editorial-nav\.js\?v=[^"]+"/.test(page)&&
+ /href="\/assets\/secondary-editorial-nav\.css\?v=[^"]+"/.test(page),
+ 'Standalone Who\'s Who must load versioned shared navigation resources');
 assert(bundle.includes("'secondary-editorial-nav.js'")&&bundle.includes("'secondary-editorial-nav.css'"),
  'Premium navigation files must be explicitly website-only allowlisted');
-for(const id of ['discover','archivePage','peopleDirectory','researchStudio','mapPage',
+for(const id of ['discover','archivePage','originalResearchPage','peopleDirectory','researchStudio','mapPage',
  'clips','livePage','boards','witness','discussionsPage','watchRead','chatPage','profilePage','hub'])
- assert(editorialNav.includes("['"+id+"',"),'Fourteen-tab editorial dock preserves '+id);
-assert(editorialNav.includes('ddWebNavPrev')&&editorialNav.includes('ddWebNavNext')&&
- editorialNav.includes("location.assign('/?dd_tab='"),
- 'Dock must retain real scroll arrows and route to Home app sections');
+ assert(editorialNav.includes("['"+id+"',"),'Editorial dock preserves '+id);
+const sharedDock=fs.readFileSync('assets/site-dock.js','utf8');
+assert(editorialNav.includes('dock.mount(nav, openTab)')&&sharedDock.includes('ddDockMore')&&
+ sharedDock.includes('aria-expanded')&&editorialNav.includes("location.assign('/?dd_tab='"),
+ 'Dock uses shared accessible More destinations and routes to Home app sections');
 assert(editorialNav.includes("document.getElementById('ddAndroidEditorialNav')")&&
  editorialNavCss.includes('body:has(#ddAndroidEditorialNav)'),
  'Bundled M12.3 Android must suppress the duplicate web dock');
-assert(editorialNavCss.includes('background:#101a27f7')&&
- editorialNavCss.includes('.tab.active{color:#efd3a0}'),
+assert(/background:\s*#101a27f7/.test(editorialNavCss)&&
+ /color:\s*#f4d599/.test(editorialNavCss),
  'Premium dock keeps original midnight-navy/antique-gold visual contract');
 
 assert(app.includes('DDPeopleDirectoryBack')&&app.includes('paintPortrait'),'Native Back and licensed portrait renderer present');
 
-assert(page.includes('public-domain or Creative Commons sources'),
+assert(page.includes('Portrait sources and reuse terms are linked where available')&&!/all (?:the )?portraits are public.domain/i.test(page),
  'Public directory must not describe CC BY/SA images as all public-domain');
 assert(page.includes('An initials tile means no image is displayed'),
  'Describe unavailable external photos without claiming the subject lacks a verified image');

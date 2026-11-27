@@ -4,7 +4,7 @@ const assert=require('node:assert/strict'),path=require('node:path');
 const {chromium}=require('playwright-core');
 const BASE='http://127.0.0.1:4173';
 (async()=>{
- const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
+ const browser=await chromium.launch({executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
  try{
   for(const width of [393,1280]){
    const context=await browser.newContext({viewport:{width,height:850},locale:'en-GB'});

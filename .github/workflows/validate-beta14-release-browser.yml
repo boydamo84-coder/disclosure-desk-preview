@@ -23,7 +23,8 @@ jobs:
           node --check scripts/test_browser_release_smoke.cjs
       - name: Run local-only browser server
         run: |
-          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-release-browser.log 2>&1 &
+          CONTEXT=production node scripts/build_public_release.cjs
+          node scripts/serve_public_release_qa.cjs >/tmp/dd-release-browser.log 2>&1 &
           echo $! >/tmp/dd-release-browser.pid
           for i in $(seq 1 20); do curl -fsS --max-time 2 http://127.0.0.1:4173/ >/dev/null && exit 0; sleep 1; done
           cat /tmp/dd-release-browser.log

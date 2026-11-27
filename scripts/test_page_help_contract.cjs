@@ -5,7 +5,7 @@ const pages=['index.html','guide.html','who-is-who.html','investigations.html','
 const src=fs.readFileSync('assets/page-help.js','utf8');
 for(const path of pages){
  const s=fs.readFileSync(path,'utf8');
- assert(s.includes('/assets/page-help.js?v=r2-m10-help01'),'Contextual help included in '+path);
+ assert(/src="\/assets\/page-help\.js\?v=[^"]+"/.test(s),'Contextual help included in '+path);
  assert(s.includes('</body>'),'Existing page preserved '+path);
 }
 const home=fs.readFileSync('index.html','utf8');

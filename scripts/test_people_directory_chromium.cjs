@@ -5,7 +5,7 @@ const assert=require('node:assert/strict'),path=require('node:path');
 const {chromium}=require('playwright-core');
 const BASE='http://127.0.0.1:4173';
 (async()=>{
- const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,
+ const browser=await chromium.launch({executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',headless:true,
   args:['--no-sandbox','--disable-dev-shm-usage']});
  try{
   for(const width of [393,1280]){
@@ -18,27 +18,26 @@ const BASE='http://127.0.0.1:4173';
    const page=await ctx.newPage();const errors=[];
    page.on('pageerror',e=>errors.push(String(e.message||e)));
    await page.goto(BASE+'/who-is-who.html',{waitUntil:'domcontentloaded',timeout:30000});
-   await page.locator('#peopleCards article.card').first().waitFor();
+   await page.locator('#peopleCards article[data-person-id] button').first().waitFor();
 
    const dock=page.locator('#ddWebSecondaryNav');
    await dock.waitFor({state:'visible'});
-   const dockIds=await dock.locator('.tab').evaluateAll(nodes=>nodes.map(n=>n.dataset.tab));
-   assert.deepEqual(dockIds,[
-    'discover','archivePage','peopleDirectory','researchStudio','mapPage',
-    'clips','livePage','boards','witness','discussionsPage','watchRead',
-    'chatPage','profilePage','hub'
-   ],"Standalone Who's Who must show the ORIGINAL fourteen-tab editorial dock");
+   const dockIds=await dock.locator('.nav-inner [data-tab]').evaluateAll(nodes=>nodes.map(n=>n.dataset.tab));
+   assert.deepEqual(dockIds,['discover','archivePage','originalResearchPage','peopleDirectory','researchStudio'],
+    "Standalone Who's Who presents all five primary destinations");
    assert.equal(await dock.locator('.tab.active[aria-current="page"]').getAttribute('data-tab'),
     'peopleDirectory',"Who's Who must remain highlighted in the dock");
-   assert.equal(await page.locator('#ddWebNavNext').isVisible(),true,
-    'Scroll arrow reveals hidden premium navigation tabs');
-   const initialRailScroll=await dock.locator('.nav-inner').evaluate(el=>el.scrollLeft);
-   await page.locator('#ddWebNavNext').click();
-   await page.waitForFunction(x=>document.querySelector('#ddWebSecondaryNav .nav-inner').scrollLeft>x+12,initialRailScroll);
+   const more=dock.getByRole('button',{name:'More',exact:true});
+   await more.click();
+   const menu=page.getByRole('dialog',{name:'More destinations'});
+   await menu.waitFor();
+   for(const id of ['mapPage','clips','livePage','boards','witness','discussionsPage','watchRead','chatPage','profilePage','hub'])
+    assert(await menu.locator('[data-tab="'+id+'"]').isVisible(),'More preserves '+id);
+   await page.keyboard.press('Escape');
+   assert.equal(await menu.isVisible(),false,'Escape closes More');
+   assert.equal(await more.getAttribute('aria-expanded'),'false');
    assert.equal(await dock.locator('.tab[aria-current="page"]').getAttribute('data-tab'),
-    'peopleDirectory','Arrows scroll the dock without changing sections');
-   await page.locator('#ddWebNavPrev').click();
-   await page.waitForFunction(x=>document.querySelector('#ddWebSecondaryNav .nav-inner').scrollLeft<x-12,65);
+    'peopleDirectory','More preserves the selected section');
    if(width===393){
     await page.locator('#peopleSearch').focus();
     assert.equal(await dock.isVisible(),false,'Mobile keyboard focus must hide the dock');
@@ -46,7 +45,8 @@ const BASE='http://127.0.0.1:4173';
     await dock.waitFor({state:'visible'});
     const routeTest=await ctx.newPage();
     await routeTest.goto(BASE+'/who-is-who.html',{waitUntil:'domcontentloaded'});
-    await routeTest.locator('#ddWebSecondaryNav .tab[data-tab="mapPage"]').click();
+    await routeTest.locator('#ddWebSecondaryNav').getByRole('button',{name:'More',exact:true}).click();
+    await routeTest.getByRole('dialog',{name:'More destinations'}).locator('[data-tab="mapPage"]').click();
     await routeTest.waitForURL('**/?dd_tab=mapPage',{timeout:15000});
     assert.equal(new URL(routeTest.url()).searchParams.get('dd_tab'),'mapPage',
      'Standalone Map button uses the existing Home app router');
@@ -66,7 +66,7 @@ const BASE='http://127.0.0.1:4173';
     await nativeTest.close();
    }
 
-   assert.equal(await page.locator('#peopleCards article.card').count(),50,'All fifty source-linked cards appear');
+   assert.equal(await page.locator('#peopleCards article.card').count(),57,'All fifty base profiles and seven curated additions appear');
    assert.equal(await page.locator('iframe').count(),0,'No publisher player loads by default');
    const widths=await page.evaluate(()=>({a:document.documentElement.scrollWidth,b:window.innerWidth}));
    assert(widths.a<=widths.b+3,'Directory must not horizontally overflow '+width+'px');
@@ -111,7 +111,7 @@ const BASE='http://127.0.0.1:4173';
    await page.locator('#directoryPage').waitFor({state:'visible'});
    await page.locator('#peopleSearch').fill('zz-qa-no-match');
    await page.locator('#peopleSearch').fill(''); // Forces a genuine clear/input event even after history form restore.
-   await page.waitForFunction(()=>document.querySelectorAll('#peopleCards article.card').length===50,undefined,{timeout:8000})
+   await page.waitForFunction(()=>document.querySelectorAll('#peopleCards article.card').length===57,undefined,{timeout:8000})
     .catch(async error=>{
      console.log('Directory after Back diagnostic',await page.evaluate(()=>({
       url:location.href,query:document.getElementById('peopleSearch').value,
@@ -196,6 +196,7 @@ const BASE='http://127.0.0.1:4173';
    await legacy.goto(BASE+'/who-is-who.html?person=nick-pope',{waitUntil:'domcontentloaded'});
    await legacy.locator('#personProfile').waitFor({state:'visible'});
    assert.equal(await legacy.locator('#profileName').textContent(),'Nick Pope');
+   await legacy.locator('#profileFullStory > summary').click();
    assert.match(await legacy.locator('#profileBiography').innerText(),/6 April 2026/,'Historical memorial biography');
    assert.equal(await legacy.locator('#profileFilms .source-entry').count()>=1,true);
    assert.equal(await legacy.locator('#profileRelatedCases .dd-person-case-link').count(),1,
@@ -226,12 +227,12 @@ const BASE='http://127.0.0.1:4173';
     "Fravor's profile opens the actual Nimitz Archive case");
    const nimitzDna=fravor.locator('#archiveCaseBody details.dd-evidence-dna');
    await nimitzDna.locator('summary').first().click();
-   assert.equal(await nimitzDna.locator('.dd-case-people article').count(),1,
-    'Nimitz Archive has his source-attributed person record even without a claim draft');
+   assert.equal(await nimitzDna.locator('.dd-case-people article').count(),2,
+    'Nimitz Archive has Fravor and Knuth source-attributed roles even without a claim draft');
    const nimitzGraph=nimitzDna.locator('details.dd-evidence-graph');
    assert.equal(await nimitzGraph.count(),1,'Nimitz shows a source graph without inventing a claim');
    await nimitzGraph.locator('summary').first().click();
-   assert.match(await nimitzGraph.locator('[data-graph-summary]').innerText(),/1 attributed public person/i);
+   assert.match(await nimitzGraph.locator('[data-graph-summary]').innerText(),/2 attributed public person/i);
    assert.match(await nimitzGraph.locator('[data-graph-summary]').innerText(),/0 editorial draft statement/i);
    await fravor.close();
    await warren.close();
@@ -239,7 +240,7 @@ const BASE='http://127.0.0.1:4173';
    assert.equal(new URL(direct.url()).searchParams.has('person'),false,'Return clears profile ID');
    const deadly=errors.filter(x=>/ReferenceError|SyntaxError|Cannot access|is not defined/.test(x));
    assert.deepEqual(deadly,[],'Fatal client errors: '+deadly.join(', '));
-   console.log('PASS Who’s Who '+width+'px: 50 profiles, text/category filters, deep links, long bios, source history, click-only video, browser Back and no layout overflow');
+   console.log('PASS Who’s Who '+width+'px: 57 profiles, text/category filters, deep links, long bios, source history, click-only video, browser Back and no layout overflow');
    await ctx.close();
   }
  }finally{await browser.close()}

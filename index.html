@@ -3058,7 +3058,7 @@ async function ddLoadPersonCaseLinks(){
    if(!response.ok)throw Error('Public role ledger HTTP '+response.status);
    const dataset=await response.json();
    const parsed=window.DDPersonCaseLinks?.parse?.(dataset,{
-     personIds:['david-fravor','nick-pope','larry-warren'],
+     personIds:['david-fravor','nick-pope','larry-warren','kevin-knuth'],
      caseIds:['featured-rendlesham-1980','featured-nimitz-2004']
    });
    if(!parsed?.valid)throw Error('Public role attribution data failed schema review');

@@ -1,6 +1,6 @@
 'use strict';
 // Entire allowlisted public bundle: static links, local anchors, titles, basic
-// accessibility structure, GA consent coverage and private research separation.
+// accessibility structure, GA disabled and private research separation.
 // No live requests, database access, deployment or Netlify API needed.
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const ROOT='.release-staging/public-site';
@@ -11,7 +11,7 @@ const primary=new Set(['index.html','guide.html','sources.html','investigations.
 const allowVirtual=new Set(['home','login','logout','signup','account','profile']);
 // Netlify serves these reviewed public .html files at clean canonical URLs.
 // Do not generalise: unknown pretty URLs must still be flagged as 404 risks.
-const cleanPublicRoutes=new Set(['research-edition','sources','investigations','rendlesham-forest-1980','roswell-1947','who-is-who','guide','community-rules','privacy','terms']);
+const cleanPublicRoutes=new Set(['research-edition','sources','investigations','rendlesham-forest-1980','roswell-1947','who-is-who','guide','community-rules','privacy','terms','foia-tracker','pursue','first-investigation','site-updates','research-collaborations','world-uap-programmes','project-blue-book','nasa-uap-study','pentagon-navy-video-referral','foia-whs-27-f-0917','foia-pentagon-25-f-3215','nasa-mike-gold','david-fravor-hearing']);
 let errors=0,warnings=0,links=0;
 const report=[];
 for(const file of htmls){
@@ -58,7 +58,7 @@ for(const file of htmls){
  if(primary.has(file)){
   if(!/<title>[^<]{10,}/i.test(contents))problems.push('Missing useful title');
   if(!/<meta\s+name="description"\s+content="[^"]{40,}"/i.test(contents))problems.push('Missing SEO description');
-  if(!contents.includes('analytics-consent.js'))problems.push('Missing optional analytics consent module');
+  if(/analytics-consent\.js|googletagmanager\.com|google-analytics\.com|gtag\(/i.test(contents))problems.push('GA4 must remain disabled');
   if(/<script[^>]+src=["'][^"']*googletagmanager\.com/i.test(contents))problems.push('Direct analytics tag without opt-in');
  }
  if(file.startsWith('research/')&&contents.includes('analytics-consent.js'))

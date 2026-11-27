@@ -43,6 +43,8 @@ on:
       - '.github/workflows/qa-dd-web-r2-integrated-no-deploy.yml'
       - 'scripts/test_home_navigation_chromium.cjs'
       - 'scripts/test_m12_2_scroll_return_chromium.cjs'
+      - 'scripts/serve_public_release_qa.cjs'
+      - 'scripts/audit_public_pages_20261108.cjs'
   workflow_dispatch:
 permissions:
   contents: read
@@ -74,14 +76,15 @@ jobs:
           node scripts/test_search_indexing.cjs
       - name: Verify strict public packaging and public link integrity
         run: |
-          node scripts/test_public_release_package.cjs
+          CONTEXT=production node scripts/build_public_release.cjs
+          CONTEXT=production node scripts/test_public_release_package.cjs
           node scripts/audit_public_pages_20261108.cjs
       - name: Install local browser dependencies and start loopback only
         run: |
           npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 leaflet@1.9.4
           test -x /usr/bin/google-chrome
           node --check scripts/test_original_research_chromium.cjs
-          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-r2-local.log 2>&1 &
+          node scripts/serve_public_release_qa.cjs >/tmp/dd-r2-local.log 2>&1 &
           echo $! >/tmp/dd-r2-local.pid
           for i in $(seq 1 20); do curl -fsS --max-time 2 http://127.0.0.1:4173/ >/dev/null && exit 0; sleep 1; done
           cat /tmp/dd-r2-local.log

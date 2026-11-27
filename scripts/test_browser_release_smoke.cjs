@@ -24,7 +24,7 @@ async function selected(page,id){
  return await page.locator('.nav .tab[data-tab="'+id+'"]').getAttribute('aria-current');
 }
 (async()=>{
- const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
+ const browser=await chromium.launch({executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
  try{
   const context=await browser.newContext({viewport:{width:393,height:852},deviceScaleFactor:2,
    isMobile:true,hasTouch:true,locale:'en-GB'});

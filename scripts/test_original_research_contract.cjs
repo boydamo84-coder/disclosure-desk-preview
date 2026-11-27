@@ -36,7 +36,7 @@ for(const {slug,caseId,source} of routes){
     'Timelines, documentary record distinctions, uncertainty and corrections required: '+slug);
  assert.ok(content.includes('dd_archive_case='+caseId),'Exact existing source-record deep link: '+slug);
  assert.ok(content.includes(source),'Official source connection: '+slug);
- assert.ok(content.includes('assets/analytics-consent.js'),'Use existing optional analytics consent: '+slug);
+ assert.ok(!/analytics-consent\.js|googletagmanager\.com|google-analytics\.com|gtag\(/i.test(content),'GA4 remains disabled: '+slug);
  assert.ok(!/googletagmanager\.com|<script[^>]+adsbygoogle|supabase\.co|localStorage|sessionStorage/i.test(content),
     'Do not embed unconstrained analytics, ads, authentication or private state on public editorial page: '+slug);
  assert.ok(!/<meta[^>]+noindex/i.test(content),'Crawlable public dossier required: '+slug);
@@ -63,4 +63,4 @@ assert.ok(home.includes('ddPendingArchiveCase')&&home.includes('archiveCaseOpen(
 assert.ok(home.includes('href="/rendlesham-forest-1980">Read original research: Rendlesham Forest')&&
   home.includes('href="/roswell-1947">Read original research: Roswell'),
  'Archive detail modal must link back to the human-readable public research articles');
-console.log('PASS Original Research: two indexed, source-linked and substantial public dossiers; expected curated IDs, safe deep links, consent and archive return navigation. No deployment or external fact checking performed.');
+console.log('PASS Original Research: two indexed, source-linked and substantial public dossiers; expected curated IDs, safe deep links, disabled analytics and archive return navigation. No deployment or external fact checking performed.');

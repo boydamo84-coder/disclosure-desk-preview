@@ -6,16 +6,13 @@ const path=require('node:path');
 const {chromium}=require('playwright-core');
 const BASE='http://127.0.0.1:4173';
 (async()=>{
- const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
+ const browser=await chromium.launch({executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
  try{
   for(const viewport of [{width:393,height:852},{width:1280,height:900}]){
    const context=await browser.newContext({viewport,locale:'en-GB',isMobile:viewport.width===393,hasTouch:viewport.width===393});
    await context.addInitScript(()=>{try{localStorage.setItem('dd-welcome-tour-choice-v2','dismissed')}catch(_){}});
    await context.route('**/*',route=>{
     const u=new URL(route.request().url());
-    if(u.origin===BASE&&u.pathname==='/investigations')return route.fulfill({path:path.resolve('investigations.html'),contentType:'text/html'});
-    if(u.origin===BASE&&u.pathname==='/rendlesham-forest-1980')return route.fulfill({path:path.resolve('rendlesham-forest-1980.html'),contentType:'text/html'});
-    if(u.origin===BASE&&u.pathname==='/roswell-1947')return route.fulfill({path:path.resolve('roswell-1947.html'),contentType:'text/html'});
     if(u.origin===BASE)return route.continue();
     if(u.hostname==='unpkg.com'&&u.pathname==='/leaflet@1.9.4/dist/leaflet.js'){
      return route.fulfill({path:path.resolve('node_modules/leaflet/dist/leaflet.js'),contentType:'application/javascript'});
@@ -130,15 +127,15 @@ const BASE='http://127.0.0.1:4173';
     assert(await graph.locator('svg.dd-source-graph-svg rect').count()>=4,'Graphic nodes render');
     await graph.locator('select[data-graph-mode]').selectOption('all');
     assert.match(await graph.locator('[data-graph-summary]').innerText(),/3 case dossier/i);
-    assert.match(await graph.locator('[data-graph-summary]').innerText(),/3 attributed public person/i);
+    assert.match(await graph.locator('[data-graph-summary]').innerText(),/4 attributed public person/i);
     assert.match(await graph.locator('[data-graph-summary]').innerText(),/4 editorial draft statement/i);
-    assert.match(await graph.locator('[data-graph-summary]').innerText(),/6 distinct cited source page/i);
+    assert.match(await graph.locator('[data-graph-summary]').innerText(),/7 distinct cited source page/i);
     assert.match(await graph.locator('[data-graph-summary]').innerText(),/1 checked inter-document reference/i);
     assert.match(await graph.locator('[data-graph-summary]').innerText(),/0 evidenced re-use link/i);
-    assert.equal(await graph.locator('svg.dd-source-graph-svg rect').count(),16,'Three cases, three people, four statements, six cited documents');
+    assert.equal(await graph.locator('svg.dd-source-graph-svg rect').count(),18,'Three cases, four people, four statements, seven cited documents');
     const list=graph.locator('details').first();
     await list.locator('summary').click();
-    assert.equal(await list.locator('li').count(),15,'Text alternative includes eight research links, one source mention, six public roles');
+    assert.equal(await list.locator('li').count(),17,'Text alternative includes eight research links, one source mention, eight public-role edges');
     const edgesText=await list.innerText();
     assert.match(edgesText,/refers to a separately published inquiry/i,'Graph includes the checked NARA→GAO reference with clear non-copying label');
     assert.match(edgesText,/The Roswell Incident/i,'Graph preserves exact archive section locator');
