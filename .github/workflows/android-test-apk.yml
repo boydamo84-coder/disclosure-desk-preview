@@ -1,15 +1,15 @@
-name: Disclosure Desk Research RC1 private Android APK
+name: Disclosure Desk M99 private Android APK and unsigned Play candidate
 on:
   workflow_dispatch:
   push:
-    branches: [feature/research-collaboration-20261126]
+    branches: [android/m99-current-production-nov27]
 permissions:
   contents: read
 jobs:
   apk:
-    if: github.ref == 'refs/heads/feature/research-collaboration-20261126'
+    if: github.ref == 'refs/heads/android/m99-current-production-nov27'
     runs-on: ubuntu-latest
-    timeout-minutes: 22
+    timeout-minutes: 28
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,6 +29,27 @@ jobs:
           node scripts/test_android_dev_snapshot_contract.cjs
           node scripts/test_m96_notification_source_contract.cjs
           node scripts/test_m96k_chat_keyboard_focus.cjs
+          node scripts/test_m99_android_candidate.cjs
+          node scripts/test_news_pagination.cjs
+          node scripts/test_become_investigator.cjs
+          node scripts/test_m52_drive_web_oauth_config.cjs
+          node scripts/test_research_resume_20261108.cjs
+          node scripts/test_research_drive_runtime.cjs
+      - name: Browser regression against the exact embedded website (NO deploy)
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 leaflet@1.9.4
+          test -x /usr/bin/google-chrome
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory android-test/app/src/main/assets/dd-site >/tmp/dd-m99-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          for attempt in 1 2 3 4 5; do
+            if curl -fsS --max-time 2 http://127.0.0.1:4173/index.html -o /dev/null; then break; fi
+            sleep 1
+          done
+          DD_ANDROID_FIXTURE=1 node scripts/test_news_pagination_chromium.cjs
+          node scripts/test_become_investigator_chromium.cjs
+          node scripts/test_experience_discovery_chromium.cjs
+          node scripts/test_m98_app_tour_chromium.cjs
       - name: Verify Android link and notification boundaries
         run: |
           classes=$(mktemp -d)
@@ -50,12 +71,30 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.13'
-      - name: Build separate installable review APK
+      - name: Build separate installable review APK and unsigned Play bundle
         working-directory: android-test
-        run: gradle --no-daemon :app:assembleDebug
+        run: gradle --no-daemon :app:assembleDebug :app:bundleRelease
+      - name: Verify build output, debug signer, package and embedded content
+        run: |
+          apk=android-test/app/build/outputs/apk/debug/app-debug.apk
+          aab=android-test/app/build/outputs/bundle/release/app-release.aab
+          test -s "$apk" && test -s "$aab"
+          tools="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}/build-tools/35.0.0"
+          "$tools/apksigner" verify --print-certs "$apk"
+          "$tools/zipalign" -c -P 16 4 "$apk"
+          "$tools/aapt" dump badging "$apk" | grep -F "package: name='com.boyddigitalstudios.disclosuredesk.beta.m99' versionCode='35' versionName='0.16.1-preview'"
+          "$tools/aapt" dump badging "$apk" | grep -F "targetSdkVersion:'36'"
+          unzip -tqq "$aab"
+          python3 scripts/verify_android_m99_package.py "$apk" "$aab"
       - uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-Research-RC1-PRIVATE-BETA
+          name: DisclosureDesk-M99-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DisclosureDesk-M99-UNSIGNED-PLAY-CANDIDATE
+          path: android-test/app/build/outputs/bundle/release/app-release.aab
           if-no-files-found: error
           retention-days: 14

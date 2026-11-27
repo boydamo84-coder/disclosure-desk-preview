@@ -15,6 +15,9 @@ const readRows=rows.map(x=>({...x,readAt:new Date(now).toISOString()}));
  const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||(['/usr/bin/google-chrome','/usr/bin/chromium'].find(x=>fs.existsSync(x))),args:['--no-sandbox','--disable-dev-shm-usage']});
  async function make(width,path='/'){
   const ctx=await browser.newContext({viewport:{width,height:850},reducedMotion:'reduce'});
+  // Private APK QA uses a stub Android bridge; this is still a browser,
+  // not an emulator or a physical WebView, and it sends no native messages.
+  if(process.env.DD_ANDROID_FIXTURE==='1')await ctx.addInitScript(()=>{ window.DDAndroid={postMessage(){}}; });
   await ctx.addInitScript(read=>{
    if(!localStorage.getItem('disclosure_desk_read_articles_v1'))localStorage.setItem('disclosure_desk_read_articles_v1',JSON.stringify(read));
   },readRows);
