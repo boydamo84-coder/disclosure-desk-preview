@@ -638,7 +638,9 @@
 #ddHomeThemeVideo.dd-playing{opacity:1}
 #ddHomeThemeHero .hero-inner{z-index:2;padding-bottom:48px}
 #ddHomeThemeMenu{position:absolute;right:10px;bottom:10px;z-index:4}
-#ddHomeThemeMenu>summary{list-style:none;cursor:pointer;display:grid;place-items:center;width:44px;height:44px;border:1px solid #687d8d;border-radius:10px;background:#0b1724df;color:#e5c893;font-size:22px}
+/* Compact visible cog with the original 44px accessible tap target. */
+#ddHomeThemeMenu>summary{list-style:none;cursor:pointer;display:grid;place-items:center;position:relative;isolation:isolate;width:44px;height:44px;padding:0;border:0;border-radius:10px;background:transparent;color:#e5c893;font-size:17px;line-height:1}
+#ddHomeThemeMenu>summary::before{content:"";position:absolute;inset:6px;z-index:-1;border:1px solid #687d8d;border-radius:8px;background:#0b1724df;pointer-events:none}
 #ddHomeThemeMenu>summary::-webkit-details-marker{display:none}
 #ddHomeThemeMenu>summary:focus-visible{outline:2px solid #e5c893}
 #ddHomeThemeMenu #ddHomeThemeControls{position:absolute;bottom:50px;right:0;min-width:190px;display:grid;gap:8px;background:#0b1724;border:1px solid #687d8d;border-radius:10px;padding:12px;margin:0}

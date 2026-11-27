@@ -25,6 +25,26 @@ const base='http://127.0.0.1:4173';
   await page.locator('#ddSpotlightControls').waitFor({state:'visible'});
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Home overflow at '+width);
   if(width===393&&process.env.SCREENSHOT)await page.screenshot({path:process.env.SCREENSHOT});
+  // M100: smaller visual control, original touch target and unchanged settings.
+  const cog=page.locator('#ddHomeThemeMenu > summary'),settings=page.locator('#ddHomeThemeControls');
+  await cog.waitFor({state:'visible'});
+  const geometry=await cog.evaluate(el=>{
+   const rect=el.getBoundingClientRect(),ui=getComputedStyle(el),visual=getComputedStyle(el,'::before');
+   return {width:rect.width,height:rect.height,font:parseFloat(ui.fontSize),inset:parseFloat(visual.top),bg:ui.backgroundColor,overflow:el.closest('#ddHomeThemeHero').getBoundingClientRect().right<rect.right};
+  });
+  assert.ok(geometry.width>=44&&geometry.height>=44,'Accessible cog target');
+  assert.equal(geometry.font,17);
+  assert.equal(geometry.inset,6);
+  assert.equal(geometry.bg,'rgba(0, 0, 0, 0)');
+  assert.equal(geometry.overflow,false);
+  assert.equal(await settings.isVisible(),false);
+  await cog.click({position:{x:2,y:22}});
+  assert.equal(await settings.isVisible(),true,'Tap outside visible square still works');
+  assert.deepEqual(await page.locator('#ddHomeThemeChoice option').evaluateAll(options=>options.map(o=>o.value)),['nightfall','classic','eclipse']);
+  assert.equal(await page.locator('#ddHomeThemePause').isVisible(),true);
+  await cog.focus();
+  await cog.press('Enter');
+  assert.equal(await settings.isVisible(),false,'Keyboard closes settings');
   await page.locator('#ddJumpToNews').click();
   assert.equal(await page.locator('#ddLatestNews').evaluate(n=>document.activeElement===n),true);
   assert.equal(await page.locator('#newsLatestTab').evaluate(n=>n.classList.contains('active')),true);

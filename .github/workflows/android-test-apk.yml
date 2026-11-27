@@ -1,13 +1,13 @@
-name: Disclosure Desk M99 private Android APK and unsigned Play candidate
+name: Disclosure Desk M100 private Android APK and unsigned Play candidate
 on:
   workflow_dispatch:
   push:
-    branches: [android/m99-current-production-nov27]
+    branches: [android/m100-compact-banner-nov27]
 permissions:
   contents: read
 jobs:
   apk:
-    if: github.ref == 'refs/heads/android/m99-current-production-nov27'
+    if: github.ref == 'refs/heads/android/m100-compact-banner-nov27'
     runs-on: ubuntu-latest
     timeout-minutes: 28
     steps:
@@ -39,7 +39,7 @@ jobs:
         run: |
           npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 leaflet@1.9.4
           test -x /usr/bin/google-chrome
-          python3 -m http.server 4173 --bind 127.0.0.1 --directory android-test/app/src/main/assets/dd-site >/tmp/dd-m99-http.log 2>&1 &
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory android-test/app/src/main/assets/dd-site >/tmp/dd-m100-http.log 2>&1 &
           server=$!
           trap 'kill "$server" || true' EXIT
           for attempt in 1 2 3 4 5; do
@@ -82,19 +82,19 @@ jobs:
           tools="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}/build-tools/35.0.0"
           "$tools/apksigner" verify --print-certs "$apk"
           "$tools/zipalign" -c -P 16 4 "$apk"
-          "$tools/aapt" dump badging "$apk" | grep -F "package: name='com.boyddigitalstudios.disclosuredesk.beta.m99' versionCode='35' versionName='0.16.1-preview'"
+          "$tools/aapt" dump badging "$apk" | grep -F "package: name='com.boyddigitalstudios.disclosuredesk.beta.m100' versionCode='36' versionName='0.16.2-preview'"
           "$tools/aapt" dump badging "$apk" | grep -F "targetSdkVersion:'36'"
           unzip -tqq "$aab"
           python3 scripts/verify_android_m99_package.py "$apk" "$aab"
       - uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M99-PRIVATE-BETA
+          name: DisclosureDesk-M100-PRIVATE-BETA
           path: android-test/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
       - uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M99-UNSIGNED-PLAY-CANDIDATE
+          name: DisclosureDesk-M100-UNSIGNED-PLAY-CANDIDATE
           path: android-test/app/build/outputs/bundle/release/app-release.aab
           if-no-files-found: error
           retention-days: 14

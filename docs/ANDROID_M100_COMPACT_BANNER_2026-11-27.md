@@ -1,0 +1,5 @@
+# M100 — compact banner settings
+
+27 November 2026. Gary reported M99 working on his Galaxy S24 Ultra; requested a smaller settings cog in the homepage banner. M100 is a private acceptance candidate, based on remote M99 branch commit e5dd0af83da782c4e83724b743db6a95d5de6913. Only the visible home banner cog changes: 32px background, 17px icon, unchanged 44px touch area, existing keyboard focus, accessible name and background/motion settings. Other web assets and native behavior unchanged. Production website untouched; community publishing remains disabled.
+
+Version 0.16.2, build 36; independent debug package com.boyddigitalstudios.disclosuredesk.beta.m100 avoids signing conflict with previous debug builds and does not overwrite existing data. Keep previous beta if it contains local research; test new app separately. Repeat all M99 automated regressions, actual APK/AAB integrity, new responsive cog click and keyboard test. Physical follow-up: check cog opens/closes on S24 Ultra, normal appearance and theme selection. No production release, Play upload or signing changes authorized.
