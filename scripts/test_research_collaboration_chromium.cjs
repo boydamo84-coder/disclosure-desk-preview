@@ -25,6 +25,34 @@ const server = http.createServer((request,response) => {
 async function text(page,selector,value) {
   await page.waitForFunction(({selector,value}) => document.querySelector(selector)?.textContent.includes(value), {selector,value});
 }
+async function researchActions(page,container,width,key="foia-25-f-3215") {
+  const transfer=container.locator('[data-research-transfer="'+key+'"]');
+  const buttons=transfer.locator('.actions > :is(a.action,button)');
+  assert.deepEqual(await buttons.allTextContents(),['Add to Board','+ W.NE Ref','Open W.NE']);
+  const styles=await buttons.evaluateAll(nodes=>nodes.map(n=>{
+    const s=getComputedStyle(n),r=n.getBoundingClientRect();
+    const rgb=v=>v.match(/\d+/g).slice(0,3).map(Number);
+    const lum=v=>rgb(v).map(x=>x/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4)
+      .reduce((a,x,i)=>a+x*[.2126,.7152,.0722][i],0);
+    const l1=lum(s.color),l2=lum(s.backgroundColor);
+    return {bg:s.backgroundColor,fg:s.color,contrast:(Math.max(l1,l2)+.05)/(Math.min(l1,l2)+.05),
+      height:r.height,left:r.left,right:r.right,viewport:innerWidth};
+  }));
+  for(const style of styles){
+    assert.equal(style.bg,'rgb(25, 43, 58)','Research actions must be muted navy');
+    assert.equal(style.fg,'rgb(225, 197, 142)','Research actions must use readable muted gold');
+    assert.ok(style.contrast>=4.5&&style.height>=44&&style.left>=0&&style.right<=style.viewport,
+      'Research action contrast and touch target at '+width+'px: '+JSON.stringify(style));
+  }
+  assert.ok((await buttons.first().getAttribute('href')).endsWith('dd_research='+key));
+  assert.match(await buttons.last().getAttribute('href'),/dd_tab=researchStudio/);
+  const save=transfer.getByRole('button',{name:'+ W.NE Ref — Save to W.NE references'});
+  await save.click();
+  assert.match(await transfer.locator('[role=status]').innerText(),/Saved to W.NE/);
+  await save.click();
+  assert.match(await transfer.locator('[role=status]').innerText(),/already/);
+  console.log('PASS muted research controls, compact label, contrast '+styles[0].contrast.toFixed(2)+':1 and reference save at '+width+'px');
+}
 async function accessibility(page,route,width) {
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),true,route+' overflow at '+width);
   await page.addScriptTag({content:axe.source});
@@ -99,9 +127,9 @@ async function accessibility(page,route,width) {
       const original=await record.getByRole('link',{name:'Open original document'}).getAttribute('href');
       assert.match(original,/war.gov.*DOW-UAP-D089/);
       assert.match(await record.innerText(),/companion material identified by AARO/i);
-      await record.getByRole('button',{name:'Save to W.NE references'}).click();
+      await record.getByRole('button',{name:'+ W.NE Ref — Save to W.NE references'}).click();
       await text(page,'#record-r04-dow-uap-d089 [role=status]','Saved to W.NE');
-      await record.getByRole('button',{name:'Save to W.NE references'}).click();
+      await record.getByRole('button',{name:'+ W.NE Ref — Save to W.NE references'}).click();
       await text(page,'#record-r04-dow-uap-d089 [role=status]','already');
       assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('wne_research_references_v1')).map(row=>row.url)),[original]);
       const downloadEvent=page.waitForEvent('download');
@@ -125,10 +153,13 @@ async function accessibility(page,route,width) {
       assert.equal(await page.locator('#request-27-f-0917').isVisible(),false);
       await page.getByLabel('Find a request').fill('25-F-3215');
       assert.match(await page.locator('#request-25-f-3215').innerText(),/open on 19 November/);
+      await researchActions(page,page.locator('#request-25-f-3215'),width);
       const evidence=await page.locator('#request-25-f-3215').getByRole('link',{name:/Referral and tracking evidence/}).getAttribute('href');
       const pdf=await page.request.get(base+evidence);
       assert.equal(pdf.status(),200);
       assert.equal((await pdf.body()).subarray(0,5).toString(),'%PDF-');
+      await page.goto(base+'/investigations#navy-video-records-referral');
+      await researchActions(page,page.locator('#navy-video-records-referral'),width,'navy-video-records-referral');
       await page.goto(base+'/discussion-hosts#scientist');
       await accessibility(page,'discussion-hosts',width);
       assert.equal(await page.getByText('Automated discussion host',{exact:true}).count(),5);
@@ -136,10 +167,12 @@ async function accessibility(page,route,width) {
       assert.deepEqual(errors,[]);
       await page.goto(base+board);
       await page.getByRole('button',{name:'Choose investigation board'}).click();
+      assert.match(await page.locator('#ddBoardLocalNotice').innerText(),/Saved on this device only.*Copy device boards to cloud/s);
       await page.getByRole('button',{name:'Create a new collection'}).click();
       await page.locator('#pickerNewName').fill('PURSUE test board');
       await page.getByRole('button',{name:'Create and save'}).click();
       await text(page,'#boardList','DOW-UAP-D089');
+      assert.match(await page.locator('#ddBoardToast').textContent(),/Saved on this device/);
       assert.equal(await page.locator('#boardList a').filter({hasText:/DOW-UAP-D089/}).first().getAttribute('href'),original);
       assert.ok(!external.some(origin=>origin.includes('adsterra')||origin.includes('googletagmanager')));
       await context.close();
@@ -159,16 +192,15 @@ async function accessibility(page,route,width) {
         assert.equal(await choice.locator('option[value="orbital"]').count(),0);
         await page.waitForFunction(()=>{const v=document.getElementById('ddHomeThemeVideo');return v.readyState>=2&&!v.paused&&v.classList.contains('dd-playing')});
         assert.ok(await video.evaluate(v=>v.currentSrc.endsWith('/data/nightfall.mp4')&&v.muted&&v.loop));
-        const updates=page.locator('#ddSiteUpdates');
-        assert.equal(await updates.evaluate(n=>n.open),false);
-        await page.locator('#ddSiteUpdatesButton').click();
-        assert.equal(await updates.evaluate(n=>n.open),true);
+        const updates=await ctx.newPage();
+        await updates.goto(base+'/site-updates.html');
         assert.ok(await updates.getByText('Research & Collaboration',{exact:true}).isVisible());
         assert.ok(await updates.locator('.dd-updates-theme-live').isVisible());
-        assert.equal(await page.locator('#ddR3ReleaseAnnouncement').isVisible(),false);
+        assert.equal(await updates.locator('#ddR3ReleaseAnnouncement').isVisible(),false);
         await updates.locator('.dd-updates-history > summary').click();
-        assert.ok(await page.locator('#ddR3ReleaseAnnouncement').isVisible());
-        await page.locator('#ddSiteUpdatesButton').click();
+        assert.ok(await updates.locator('#ddR3ReleaseAnnouncement').isVisible());
+        await updates.close();
+        assert.ok(await page.locator('#ddSiteUpdatesButton').isVisible());
         const cog=page.locator('#ddHomeThemeMenu > summary');
         assert.equal(await choice.isVisible(),false);
         await cog.click();
@@ -236,6 +268,7 @@ async function accessibility(page,route,width) {
         await shortcut.click();
         assert.equal(await shortcut.getAttribute('aria-pressed'),'false');
         await page.waitForFunction(()=>Number(document.querySelector('#archiveStatus').textContent.split(' ')[0])>521);
+        assert.equal(await page.locator('#ddArchiveLoadedCount').textContent(),Number((await page.locator('#archiveStatus').textContent()).match(/of (\d+) source-linked/)[1]).toLocaleString('en-GB')+' RECORDS LOADED');
         assert.equal(await page.locator('#archivePage .dd-archive-people-shortcut').count(),0);
         await page.locator('#archivePage [data-dd-capabilities]').click();
         const help=page.locator('#ddResearchCapabilities');
@@ -249,6 +282,7 @@ async function accessibility(page,route,width) {
         assert.ok(await research.locator('#request-27-f-0917').isVisible());
         await research.locator('#foia-search').fill('25-F-3215');
         assert.ok(await research.locator('#request-25-f-3215').isVisible());
+        await researchActions(page,research.locator('#request-25-f-3215'),width);
         await research.locator('[data-dd-research-panel="ddResearchFoiGuide"]').click();
         assert.ok(await research.getByText('Example wording',{exact:true}).isVisible());
         await research.locator('[data-dd-research-panel="ddResearchCollab"]').click();

@@ -39,6 +39,19 @@ const server=http.createServer((req,res)=>{
    try{
     await ctx.route('**/*',r=>new URL(r.request().url()).origin===base?r.continue():r.abort('blockedbyclient'));
     const page=await ctx.newPage();
+    // A direct public-looking publication URL must not open the unapproved reader.
+    // Use the actual merged config, not the enabled synthetic fixture below.
+    const requests=[];
+    page.on('request',req=>requests.push(req.url()));
+    await page.goto(base+'/index.html?dd_tab=communityResearchPage&dd_publication='+id);
+    await page.waitForFunction(()=>new URL(location.href).searchParams.get('dd_tab')==='discover');
+    assert.equal(await page.locator('#communityResearchPage').isVisible(),false);
+    assert.equal(await page.locator('[data-tab="communityResearchPage"]').isVisible(),false);
+    assert.equal(await page.evaluate(()=>window.DD_COMMUNITY_FEATURES.researchPublishing),false);
+    assert.equal(await page.evaluate(()=>typeof window.DDCommunityResearch),'undefined');
+    assert.equal(new URL(page.url()).searchParams.has('dd_publication'),false);
+    assert.ok(!requests.some(url=>/\/rest\/v1\/.*dd_cr_/.test(url)));
+    console.log('PASS disabled Community Research deep link and no publication API requests at '+width+'px');
     await page.goto(base+'/index.html?dd_tab=originalResearchPage');
     await page.evaluate(row=>{
      window.DDTestPublication=row;

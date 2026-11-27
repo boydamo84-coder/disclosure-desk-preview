@@ -11,18 +11,18 @@ const themeEnabled=themeHtml.includes('id="ddHomeThemeHero" data-media-ready="tr
 const themeAssets=['nightfall','eclipse'].flatMap(n=>['mp4','jpg'].map(e=>'data/'+n+'.'+e));
 assert.deepEqual(paths.filter(p=>themeAssets.includes(p)).sort(),themeEnabled?themeAssets.sort():[],'Theme assets must match the explicit activation gate');
 assert.ok(!names.has('data/orbital.mp4')&&!names.has('data/orbital.jpg'),'Uncleared Orbital must not ship');
-assert.ok(paths.length>=35&&paths.length<=(process.env.CONTEXT==='production'?140:141)+(themeEnabled?4:0),'Unexpected package count '+paths.length);
+assert.ok(paths.length>=35&&paths.length<=(process.env.CONTEXT==='production'?145:146)+(themeEnabled?4:0),'Unexpected package count '+paths.length);
 for(const f of m.files){
  const bytes=fs.readFileSync(path.join(out,f.path));
  assert.equal(bytes.length,f.bytes,f.path);
  assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),f.sha256,f.path);
  assert.doesNotMatch(f.path,/(^|\/)(?:scripts|supabase|finance_local|finance-review|finance|android-test|docs|\.github)(\/|$)|\.(?:zip|sql|py|md|env)$/i);
 }
-for(const f of ['index.html','guide.html','sources.html','investigations.html','research-collaborations.html','pursue.html','foia-tracker.html','data/pursue-index.json','data/foia/27-f-0917-decision-extract.pdf','data/foia/27-f-0917-referral-extracts.pdf','rendlesham-forest-1980.html','roswell-1947.html','who-is-who.html','terms.html','research/wne.html','research/index.html',
+for(const f of ['index.html','first-investigation.html','assets/research-spotlight.js','data/research-spotlight.json','site-updates.html','guide.html','sources.html','investigations.html','research-collaborations.html','pursue.html','foia-tracker.html','data/pursue-index.json','data/foia/27-f-0917-decision-extract.pdf','data/foia/27-f-0917-referral-extracts.pdf','rendlesham-forest-1980.html','roswell-1947.html','who-is-who.html','terms.html','research/wne.html','research/index.html',
  'research/research-site-nav.js','research/google-drive.js','research/google-drive-config.js',
  'research/vendor-jszip-3.10.1.js','research/vendor-docx-9.5.1.js','research/vendor-dompurify-3.4.17.js','research/vendor-mammoth-1.12.3.js','research/docx-import-worker.js',
  'assets/community-polish.css','assets/media-submissions.js','assets/community-test-config.js','assets/profile-private-chat.js',
- 'assets/community-discussions.js','assets/page-help.js','assets/evidence-dna.js','assets/person-case-links.js','assets/people-directory.js','data/public-people-directory.json','data/evidence-dna-claim-drafts.json','data/public-person-case-links.json','data/approved-live-events.json','data/historical-news-archive.json'])
+ 'assets/community-discussions.js','assets/host-recommendations.js','assets/page-help.js','assets/evidence-dna.js','assets/person-case-links.js','assets/people-directory.js','data/public-people-directory.json','data/evidence-dna-claim-drafts.json','data/public-person-case-links.json','data/approved-live-events.json','data/historical-news-archive.json'])
  assert.ok(names.has(f),'Required site dependency missing: '+f);
 // R3 public route is an explicit, allowlisted browser interface, never a
 // server-side engine, SQL schema, private profile, file export or account data.
@@ -36,18 +36,15 @@ if(production)
   'Production must not ship private QA helper code');
 else assert.ok(names.has('research/r3-lab/hypothesis-session-qa.js'),
   'Preview must include opt-in QA helper');
-// Homepage release history is accessible but collapsed by default, preserving the previous research announcement.
+// Release notes live on their own accessible static page, not hidden in the Home DOM.
 const homeHtml=fs.readFileSync(path.join(out,'index.html'),'utf8');
-assert.equal((homeHtml.match(/id="ddSiteUpdates"/g)||[]).length,1);
-assert.match(homeHtml,/<details id="ddSiteUpdates" class="dd-site-updates">/,'Site Updates must start collapsed');
-assert.match(homeHtml,/<summary id="ddSiteUpdatesButton">/);
-assert.doesNotMatch(homeHtml,/PINNED SITE NEWS/);
-const updates=homeHtml.indexOf('id="ddSiteUpdates"'),oldUpdate=homeHtml.indexOf('id="ddR3ReleaseAnnouncement"');
-assert(updates>homeHtml.indexOf('id="discover"')&&oldUpdate>updates&&oldUpdate<homeHtml.indexOf('My Investigation Boards'),'Release history must be within Site Updates before Boards');
-assert.equal((homeHtml.match(/id="ddR3ReleaseAnnouncement"/g)||[]).length,1);
-assert.match(homeHtml,/id="ddR3ReleaseGuide"/);
-assert.match(homeHtml,/href="\/research\/r3-lab\/"/);
-for(const term of ['Research Gap Finder','Hypothesis Lab','Compare','History','Enable encrypted saving','Save encrypted backup to account','manual','independent security review','521 indexed records','27-F-0917','posting remains disabled','pending media clearance and playback testing','Android beta'])assert(homeHtml.includes(term),'Release notes missing '+term);
+const updatesHtml=fs.readFileSync(path.join(out,'site-updates.html'),'utf8');
+assert.match(homeHtml,/<a href="\/site-updates.html" id="ddSiteUpdatesButton">/);
+assert.doesNotMatch(homeHtml,/id="ddR3ReleaseAnnouncement"|id="ddResearchReleaseNotes"|PINNED SITE NEWS/);
+assert.equal((updatesHtml.match(/id="ddR3ReleaseAnnouncement"/g)||[]).length,1);
+assert.match(updatesHtml,/id="ddR3ReleaseGuide"/);
+assert.match(updatesHtml,/href="\/research\/r3-lab\/"/);
+for(const term of ['Research Gap Finder','Hypothesis Lab','Compare','History','Enable encrypted saving','Save encrypted backup to account','manual','independent security review','521 indexed records','27-F-0917','42-topic, 14-day scheduled trial','pending media clearance and playback testing','Android beta'])assert(updatesHtml.includes(term),'Release notes missing '+term);
 const r3Html=fs.readFileSync(path.join(out,'research/r3-lab/index.html'),'utf8');
 assert.match(r3Html,/data-r3-hosted="true"/);
 assert.match(r3Html,/noindex,nofollow,noarchive/);

@@ -1,0 +1,14 @@
+# Discussion Hosts — 14-day trial
+
+Owner explicitly approved activation 27 November 2026. Production baseline `c7e22ec206abf567b51951cae3ef5364cba8adc8`, rollback `backup/production-pre-discussion-hosts-20261127`. Only public index copy and Discussion Hosts feature flag differ in the published package; `researchPublishing:false`, Who evidence ballots and Adsterra remain off. No new AI calls or paid services. Free Supabase project plan verified; one short private database cron worker, with a 15-minute polling interval and a 14-day stop/unschedule, is intended.
+
+## Checks
+- Existing 42 original prompts, five labelled personas, 3 slots per day (09:00, 13:30, 19:00 UTC); no bots receive human accounts, votes, replies or DMs.
+- Disposable PostgreSQL tests passed with added RLS on the three private tables. Live database schema and 42 drafts installed while paused. Rolled-back live SQL role simulation verified owner-only edit/control, guest global/subject/thread visibility, public verified badge, no artificial votes, retry idempotency, pause, removal and expiry. No simulation rows committed.
+- Browser regression passed at 320, 393, 820, 1280 px and Android user-agent owner/dashboard/badge fixture. Guest access checks passed at 393 and 1280 px; allowlist package passed (144 files, 84 static references; no internal SQL, finance or QA). Only two public files changed. Physical Android installation and genuine owner sign-in acceptance remain untested; existing app may show the explicit body disclosure without the new badge.
+- Security adviser INFO entries for RLS-enabled private tables without policies are intentional deny-by-default. Security-definer RPC WARN entries are reviewed: public guest label lookup returns only published-system-thread IDs and persona keys, bounded to 30; authenticated admin RPCs enforce the database owner allowlist and reject anonymous sessions. Scheduler and tables have no Data API role privileges. Existing unrelated advisories unchanged.
+
+## Operations
+- Activate only after verified website release: approve the reviewed 42 drafts while paused, set start date, register a single job named `dd-discussion-hosts-14-day-trial` for `dd_host_private.run_scheduled_trial()`, then enable and resume. Record actual start/end and verification in issue #17. First scheduled slot 09:00 UTC; no retroactive catch-up outside the one-hour window.
+- Profile → Admin Centre → Discussions · Automated Hosts: pause/resume, preview/edit (returns edited item to draft), cancel or remove a posted thread. Stop via paused trial and `cron.unschedule('dd-discussion-hosts-14-day-trial')` if necessary. Worker automatically stops and removes the job at midnight UTC after day 14. Preserve audit history and do not delete member content.
+- Keep community PDF upload disabled pending scanner/privacy review.

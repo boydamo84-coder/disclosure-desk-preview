@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Refresh the DEV news snapshot from public Google News RSS, retaining validated history."""
 import datetime as dt, email.utils, hashlib, html, json, os, pathlib, re, urllib.parse, urllib.request, unicodedata
+try:
+    from news_editorial import editorial_eligible, editorial_display, editorial_rows, eligible_headline
+except ModuleNotFoundError:  # imported from a repository-root test
+    from scripts.news_editorial import editorial_eligible, editorial_display, editorial_rows, eligible_headline
 PATH=pathlib.Path("data/news-alerts.json")
 NOW=dt.datetime.now(dt.timezone.utc)
 # Worldwide discovery through English-language editions; not restricted to UK/US stories.
@@ -78,7 +82,7 @@ COUNTRY_WORDS={
  'South Africa':r'\b(?:south africa|south african|johannesburg|cape town)\b'
 }
 def relevant_headline(title):
-    return bool(TOPIC.search(title)) and not bool(OFF_TOPIC.search(title))
+    return eligible_headline(title) and bool(TOPIC.search(title)) and not bool(OFF_TOPIC.search(title))
 def applies_to_country(title,country):
     return relevant_headline(title) and bool(re.search(COUNTRY_WORDS[country],title,re.I))
 MAX_AGE=366
@@ -98,9 +102,13 @@ def parse(xml):
         except Exception: continue
         if not title or not url.startswith('https://') or not dt.timedelta(0)<=NOW-date<=dt.timedelta(days=MAX_AGE):continue
         # RSS labels frequently end in " - Publisher".
-        head,sep,publisher=title.rpartition(' - ')
-        if not sep:head,publisher=title,'Google News RSS'
-        if not relevant_headline(head):continue
+        head,sep,suffix=title.rpartition(' - ')
+        source_node=item.find('source')
+        publisher=(source_node.text or '').strip() if source_node is not None else suffix if sep else ''
+        if not publisher:continue
+        if not sep or suffix.casefold()!=publisher.casefold():head=title
+        source_url=source_node.get('url','') if source_node is not None else ''
+        if not relevant_headline(head) or not editorial_eligible({'headline':head,'source':publisher,'url':url,'publisherUrl':source_url}):continue
         # Some publishers expose approved image URLs through RSS media elements.
         # Do not invent an image or treat an illustration as a reported-event photograph.
         image_url=''
@@ -129,7 +137,7 @@ def direct_feed(name,url):
         summary=html.unescape(re.sub(r'<[^>]+>',' ',item.findtext('description') or ''))
         if not relevant_headline(title):continue
         article=(item.findtext('link') or '').strip()
-        if not article.startswith('https://'):continue
+        if not article.startswith('https://') or not editorial_eligible({'headline':title,'source':name,'url':article}):continue
         published=item.findtext('pubDate') or ''
         try:date=email.utils.parsedate_to_datetime(published).astimezone(dt.timezone.utc)
         except Exception:continue
@@ -245,7 +253,8 @@ def news_url_key(url):
 def prepare_news_items(items,now=NOW):
     seen=set();out=[]
     for item in sorted(expand_news_coverage(items),key=lambda x:x.get('date',''),reverse=True):
-        if not relevant_headline(item.get('headline','')):continue
+        if not relevant_headline(item.get('headline','')) or not editorial_eligible(item):continue
+        item=editorial_display(item)
         if item.get('country') in COUNTRY_WORDS and not applies_to_country(item['headline'],item['country']):
             item={key:value for key,value in item.items() if key!='country'}
         key=news_url_key(item.get('url',''))
@@ -353,12 +362,15 @@ def main():
             print('Google News redirects resolved:',sum(bool(v) for v in resolved.values()),'of',len(google_links))
         except Exception as exc:
             print('WARNING: Google News decoding unavailable:',type(exc).__name__,str(exc)[:180])
-    enriched=0;attempted=0;unresolved=0
+    enriched=0;attempted=0;unresolved=0;excluded_urls=set()
     for entry in candidates:
         original=entry['url']
         target=resolved.get(original) if original in resolved else original
         if not isinstance(target,str) or not target.startswith('https://') or urllib.parse.urlparse(target).hostname=='news.google.com':
             unresolved+=1
+            continue
+        if not editorial_eligible({**entry,'publisherUrl':target}):
+            excluded_urls.add(original)
             continue
         attempted+=1
         found=publisher_image(target)
@@ -367,6 +379,9 @@ def main():
             entry['imageSource']='Publisher Open Graph image'
             enriched+=1
     print('Publisher image extraction:',enriched,'of',attempted,'publisher URLs tested;',unresolved,'redirects unresolved')
+    if excluded_urls:
+        out=group_event_coverage([entry for entry in expand_news_coverage(out) if entry['url'] not in excluded_urls])
+    if not out:raise RuntimeError('No editorially eligible reports remain; refusing to overwrite')
     PATH.write_text(json.dumps(out[:500],ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     HEALTH_PATH.write_text(json.dumps({'checkedAt':NOW.isoformat(),'sources':health,'storiesPublished':len(out[:500])},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print('Updated',len(out[:500]),'stories; new last 7 days',recent,'old newest',old[0].get('date') if old else 'none')

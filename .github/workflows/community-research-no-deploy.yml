@@ -8,7 +8,7 @@ permissions:
 jobs:
   isolated:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,3 +24,15 @@ jobs:
           node scripts/test_community_research_draft.cjs
           node scripts/test_community_research_preview.cjs
           node scripts/test_community_research_transfer.cjs
+      - name: Current production baseline news regression (localhost source only)
+        run: |
+          node scripts/test_published_html_syntax.cjs
+          node scripts/test_news_pagination.cjs
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dd-cr-source-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          for attempt in 1 2 3 4 5; do
+            if curl -fsS --max-time 2 http://127.0.0.1:4173/index.html -o /dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/test_news_pagination_chromium.cjs

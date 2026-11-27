@@ -5,8 +5,8 @@ const read=p=>fs.readFileSync(p,'utf8');
 const origin='https://uapdisclosuredesk.com';
 const publicRoutes=[
  ['/','index.html'],['/research-edition','research-edition.html'],
- ['/sources','sources.html'],['/investigations','investigations.html'],['/rendlesham-forest-1980','rendlesham-forest-1980.html'],['/roswell-1947','roswell-1947.html'],['/who-is-who','who-is-who.html'],['/guide','guide.html'],
- ['/community-rules','community-rules.html'],['/privacy','privacy.html'],['/terms','terms.html']
+ ['/sources','sources.html'],['/investigations','investigations.html'],['/research-collaborations','research-collaborations.html'],['/pursue','pursue.html'],['/foia-tracker','foia-tracker.html'],['/rendlesham-forest-1980','rendlesham-forest-1980.html'],['/roswell-1947','roswell-1947.html'],['/who-is-who','who-is-who.html'],['/guide','guide.html'],
+ ['/community-rules','community-rules.html'],['/privacy','privacy.html'],['/terms','terms.html'],['/site-updates','site-updates.html'],['/first-investigation','first-investigation.html']
 ];
 const robots=read('robots.txt'),sitemap=read('sitemap.xml');
 assert.match(robots,/User-agent:\s*\*/);
@@ -39,7 +39,7 @@ for(const [route,file] of publicRoutes){
 }
 for(const [route,file] of publicRoutes.filter(([route])=>route!=='/')){
  const home=read('index.html');
- assert.ok(home.includes('href="'+route+'"'),'Crawlable direct homepage link '+route);
+ assert.ok(home.includes('href="'+route+'"')||home.includes('href="'+route+'.html"'),'Crawlable direct homepage link '+route);
 }
 // The new prettified public pages do not change private W.NE endpoints.
 // No public sitemap entries or canonical links may point to authenticated documents.
@@ -94,4 +94,4 @@ assert.match(read('assets/disclosure-desk-mark.svg'),/<svg[^>]*viewBox="0 0 512 
   'Favicon redirect must target the real Disclosure Desk artwork');
 assert.ok(read('scripts/build_public_release.cjs').includes("'disclosure-desk-mark.svg'"),
   'Strict release package must publish the favicon SVG');
-console.log('PASS Search: 11 clean sitemap URLs, consistent canonicals and schema, direct internal links, protected W.NE noindex, no search privacy regressions');
+console.log('PASS Search: reviewed clean sitemap URLs, consistent canonicals and schema, direct internal links, protected W.NE noindex, no search privacy regressions');

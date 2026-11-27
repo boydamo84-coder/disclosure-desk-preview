@@ -11,7 +11,7 @@ const $=id=>document.getElementById(id);
 const mk=(tag,text,cls)=>{const x=document.createElement(tag);if(text!==undefined)x.textContent=String(text);if(cls)x.className=cls;return x};
 let client=null,section=null,thread=null,sections=[],sort='recent',epoch=0,ready=false,feedPage=0,feedQuery='',feedTotal=0,feedModern=true,deepLinkHandled=false,searchTimer=null;
 let viewerId=undefined,identityRevision=0,ownerSectionIds=new Set(),flaggedThisSession=new Set(),replyParent=null;
-let globalSort='popular',globalRows=[],globalTotal=0,globalRequest=0,globalLoading=false,globalReturn=false;
+let globalSort='popular',globalRows=[],globalTotal=0,globalRequest=0,globalLoading=false,globalReturn=false,globalLoadedSort=null;
 let drawerRequest=0,drawerTimer=null;
 let discussionView='feed';
 const DD_FORUM_VIEW_KEY='dd-forum-overview-tab-v1:';
@@ -313,7 +313,7 @@ function openSubjectsDrawer(){
 }
 
 async function openSection(item){
- if(!isId(item?.id))return;globalReturn=false;++globalRequest;section=item;thread=null;
+ if(!isId(item?.id))return;globalReturn=false;++globalRequest;globalLoading=false;section=item;thread=null;
  const threadBack=$('ddForumBackThreads');if(threadBack)threadBack.textContent='← Back to posts';updateCommunityContext();setCreateButtons();feedPage=0;feedQuery='';feedTotal=0;
  if($('ddForumFeedSearch'))$('ddForumFeedSearch').value='';
  $('ddForumViewTabs').hidden=true;
@@ -390,8 +390,10 @@ async function openThread(item){
  photo(main,item);
  main.append(mk('p',item.body||'','dd-forum-body'));
  link(main,item.link_url,'Original source · '+(safeLink(item.link_url)?new URL(safeLink(item.link_url)).hostname:''));
+ main.dataset.ddHostThread=item.id;
  actionsFor(tools,'thread',item,true,tools.flagHost);
  pane.append(main,tools);
+ window.DDHostPicks?.discussion(main);
  const replyForm=$('ddForumReplyCreate');
  replyForm.hidden=false;
  // Keep comments directly beneath the full post. The composer follows the
@@ -707,7 +709,7 @@ function renderDiscussionCard(list,row,fromAll=false){
  if(fromAll){
   const subject=sections.find(s=>s.id===row.section_id)||
    {id:row.section_id,title:row.section_title||'Discussion subject',description:'',topic:'',is_steward:false};
-  const chip=nodeAction(main,'◈ '+(subject.title||'Discussion subject'),()=>openSection(subject),'dd-community-global-subject');
+  const chip=nodeAction(main,'◈ '+(subject.title||'Discussion subject'),()=>openSection(sections.find(s=>s.id===row.section_id)||subject),'dd-community-global-subject');
   chip.setAttribute('aria-label','View posts in subject: '+String(subject.title||'Discussion subject'));
  }
  const title=nodeAction(main,row.title||'Untitled topic',()=>fromAll?openGlobalThread(row):openThread(row),'dd-forum-title');
@@ -715,7 +717,9 @@ function renderDiscussionCard(list,row,fromAll=false){
  main.append(mk('p',String(row.body||'').slice(0,330),'dd-forum-body'));
  photo(main,row);
  link(main,row.link_url,safeLink(row.link_url)?'Source · '+new URL(safeLink(row.link_url)).hostname:'');
+ main.dataset.ddHostThread=row.id;
  card.append(main);actionsFor(actions,'thread',row,false,actions.flagHost);card.append(actions);list.append(card);
+ window.DDHostPicks?.discussion(main);
 }
 async function openGlobalThread(row){
  if(!isId(row?.id)||!isId(row?.section_id))return;
@@ -728,17 +732,21 @@ async function openGlobalThread(row){
  $('ddForumBackThreads').textContent='← Back to '+(globalSort==='new'?'New':globalSort==='top'?'Top':'Popular');
  await openThread(row); // Existing post detail retains automatic nested replies.
 }
-async function loadGlobalFeed(reset=false){
+async function loadGlobalFeed(reset=false,preserve=false){
  const list=$('ddForumGlobalFeed'),more=$('ddForumGlobalLoadMore'),status=$('ddForumGlobalStatus');
  if(!list||!more||!status||section||thread||!ready||discussionView!=='feed')return;
- if(globalLoading&&!reset)return;
- if(reset){globalRows=[];globalTotal=0;list.replaceChildren()}
- const stamp=++globalRequest,offset=globalRows.length,mode=globalSort;
- globalLoading=true;status.textContent='Loading '+mode+' discussions…';more.hidden=true;
+ if(globalLoading&&(!reset||preserve))return;
+ const mode=globalSort,keep=reset&&preserve&&globalLoadedSort===mode&&globalRows.length>0;
+ if(reset&&!keep){globalRows=[];globalTotal=0;globalLoadedSort=null;empty(list,'Loading discussions…')}
+ const stamp=++globalRequest,offset=reset?0:globalRows.length;
+ globalLoading=true;status.textContent=keep?'Updating discussions…':'Loading '+mode+' discussions…';more.hidden=true;
+ const retry=$('ddForumGlobalRetry');if(retry)retry.hidden=true;
  try{
   const rows=await rpc('dd_discussions_global_feed',{p_limit:10,p_offset:offset,p_sort:mode});
   if(stamp!==globalRequest||section||thread||discussionView!=='feed')return;
   if(!Array.isArray(rows))throw Error('Unexpected global feed response');
+  if(reset){globalRows=[];globalTotal=0}
+  globalLoadedSort=mode;
   const found=new Set(globalRows.map(row=>row.id));
   for(const row of rows)if(isId(row?.id)&&isId(row?.section_id)&&!found.has(row.id)){
    globalRows.push(row);found.add(row.id)
@@ -754,9 +762,9 @@ async function loadGlobalFeed(reset=false){
   if(stamp!==globalRequest)return;
   if(!globalRows.length){
    empty(list,'Across-subject posts are temporarily unavailable. You can still browse subjects.');
-   nodeAction(list,'Retry discussions',()=>loadGlobalFeed(true));
   }
-  status.textContent='Discussion feed unavailable. Other Discussions remain accessible.';
+  status.textContent=globalRows.length?'Could not refresh. Showing previously loaded discussions.':'Discussion feed unavailable. You can retry.';
+  if(retry){retry.hidden=false;retry.onclick=()=>{void loadGlobalFeed(true,true)}}
   more.hidden=true;
  }finally{if(stamp===globalRequest)globalLoading=false}
 }
@@ -851,7 +859,7 @@ function onIdentityChange(session){
  const next=session?.user?.id||null;
  if(viewerId===next)return; // Token refresh should not discard an open public discussion.
  closeSubjectsDrawer();
- viewerId=next;identityRevision++;epoch++;++globalRequest;globalLoading=false;globalRows=[];globalTotal=0;globalReturn=false;section=null;thread=null;ownerSectionIds=new Set();flaggedThisSession=new Set();setCreateButtons();sections=[];feedPage=0;feedQuery='';deepLinkHandled=false;
+ viewerId=next;identityRevision++;epoch++;++globalRequest;globalLoading=false;globalRows=[];globalTotal=0;globalLoadedSort=null;globalReturn=false;section=null;thread=null;ownerSectionIds=new Set();flaggedThisSession=new Set();setCreateButtons();sections=[];feedPage=0;feedQuery='';deepLinkHandled=false;
  showDiscussionView(savedDiscussionView(),false,false);
  for(const id of ['ddForumSectionDialog','ddForumPostDialog','ddForumActionDialog','ddForumMoreDialog','ddForumAdminDialog']){const dialog=$(id);if(dialog?.open)dialog.close()}
  updateCommunityContext();
@@ -869,6 +877,14 @@ async function refresh(){
  if(thread){await loadReplies();return}
  if(section){await loadThreads();return}
  const stamp=++epoch;
+ const params=typeof location==='undefined'?null:new URLSearchParams(location.search);
+ const pendingDeepLink=!deepLinkHandled&&params&&(isId(params.get('dd_thread'))||isId(params.get('dd_section')));
+ // The across-subject RPC already returns its subject metadata. On ordinary
+ // visits, start both reads together and keep same-account posts visible.
+ say(sections.length?'Updating discussion subjects…':'Loading discussion subjects…');
+ const subjects=$('ddForumSections');
+ if(subjects&&!sections.length)empty(subjects,'Loading discussion subjects…');
+ const feed=discussionView==='feed'&&!pendingDeepLink?loadGlobalFeed(true,true):null;
  try{
   const rows=await rpc('dd_discussions_sections',{p_limit:100});
   if(stamp!==epoch)return;
@@ -885,17 +901,17 @@ async function refresh(){
    });
   }
   await openDeepLink();
-  if(stamp===epoch&&!section&&!thread&&discussionView==='feed')await loadGlobalFeed(true);
+  if(stamp===epoch&&!section&&!thread&&discussionView==='feed'&&!feed)await loadGlobalFeed(true,true);
  }catch(e){
   if(stamp!==epoch)return;
   say('Public discussion subjects are temporarily unavailable. Please retry.');
-  for(const id of ['ddForumSections','ddForumGlobalFeed']){
-   const list=$(id);
-   if(!list||list.children.length)continue;
-   empty(list,'Discussion subjects could not be loaded.');
-   nodeAction(list,'Retry discussions',()=>refresh());
+  if(subjects&&!sections.length){
+   empty(subjects,'Discussion subjects could not be loaded.');
+   nodeAction(subjects,'Retry subjects',()=>refresh());
   }
+  if(!feed&&!section&&!thread&&discussionView==='feed')await loadGlobalFeed(true,true);
  }
+ if(feed)await feed;
 }
 function setCreateButtons(){const button=$('ddForumNewPost');if(button)button.hidden=!section||!!thread}
 async function openComposer(id,opener){

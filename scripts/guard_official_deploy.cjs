@@ -12,3 +12,19 @@ if(netlify&&context==='production'&&branch!=='production'){
 if(netlify&&branch==='feature/research-collaboration-20261126'){
   throw new Error('Research & Collaboration candidate builds run in GitHub Actions only.');
 }
+
+if(netlify&&branch==='feature/experience-discovery-20261127'){
+ throw new Error('Experience & Discovery candidate tests run in GitHub Actions only.');
+}
+
+if(netlify&&branch==='feature/become-investigator-20261127'){
+ throw new Error('Become the Investigator candidate tests run in GitHub Actions only.');
+}
+
+if(netlify&&branch==='feature/news-pagination-20261127'){
+ throw new Error('News pagination candidate tests run in GitHub Actions only.');
+}
+
+if(netlify&&branch==='fix/news-pager-full-width-20261127'){
+ throw new Error('News pager layout candidate tests run in GitHub Actions only.');
+}

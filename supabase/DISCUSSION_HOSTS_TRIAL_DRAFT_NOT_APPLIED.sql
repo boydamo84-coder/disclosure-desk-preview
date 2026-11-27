@@ -1,5 +1,5 @@
--- Isolated acceptance draft for issue #17. This file creates no cron job.
--- Run only in a disposable database until the owner separately approves activation.
+-- Issue #17 approved schema, initially disabled. Historical draft filename retained for fixture compatibility.
+-- Installed on 27 November 2026 with owner authorization; this schema creates no cron job.
 begin;
 create schema dd_host_private;
 revoke all on schema dd_host_private from public, anon, authenticated, service_role;
@@ -43,6 +43,10 @@ create table dd_host_private.audit (
   detail jsonb not null default '{}'::jsonb
 );
 revoke all on all tables in schema dd_host_private from public, anon, authenticated, service_role;
+-- Defence in depth: private tables are not available to Data API roles.
+alter table dd_host_private.trial enable row level security;
+alter table dd_host_private.queue enable row level security;
+alter table dd_host_private.audit enable row level security;
 
 create function dd_host_private.host_name(p_host text)
 returns text language sql immutable set search_path = '' as $$

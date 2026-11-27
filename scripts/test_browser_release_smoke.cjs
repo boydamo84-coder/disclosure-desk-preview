@@ -396,21 +396,20 @@ async function selected(page,id){
   assert.equal(await selected(page,'hub'),'page');
   pass('landscape modal is bounded to viewport and Escape returns to Explore');
 
-  // Fresh context explicitly exercises the first-visit dialog, not the stored
-  // dismissal used for ordinary navigation smoke checks.
+  // Fresh visitors browse straight away; the accessible existing tour is opt-in.
   const fresh=await browser.newContext({viewport:{width:393,height:852},
    deviceScaleFactor:2,isMobile:true,hasTouch:true,locale:'en-GB'});
   await fresh.route('**/*',offlineRoute);
   const first=await fresh.newPage();
   await first.goto(BASE+'/',{waitUntil:'load',timeout:35000});
-  await first.locator('#ddWelcomeDialog[open]').waitFor({state:'attached',timeout:7500});
-  assert.equal(await first.locator('#ddWelcomeDialog').evaluate(el=>el.open),true);
-  pass('first-visit welcome uses a real native modal dialog');
+  await first.waitForTimeout(1200);
+  assert.equal(await first.locator('#ddWelcomeDialog,#appTourDialog[open]').count(),0);
+  await first.getByRole('button',{name:'Take the tour',exact:true}).click();
+  await first.locator('#appTourDialog[open]').waitFor({state:'attached'});
   await first.keyboard.press('Escape');
-  assert.equal(await first.locator('#ddWelcomeDialog[open]').count(),0,
-   'Escape must dismiss first-visit modal');
+  await first.locator('#appTourDialog[open]').waitFor({state:'detached'});
   assert.equal(await selected(first,'discover'),'page');
-  pass('first-visit Escape dismisses welcome without leaving News');
+  pass('new visitor remains on Home; optional native tour opens and returns via Escape');
   await fresh.close();
 
   // Fully offline browser integration of profile avatars: guest hidden, owner auto-save.
