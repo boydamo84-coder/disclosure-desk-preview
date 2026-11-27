@@ -80,7 +80,7 @@ class NewsRelevanceTests(unittest.TestCase):
   self.assertEqual(result[0]['relatedCoverage'],[alternative])
  def test_query_identifiers_and_case_sensitive_paths_are_distinct(self):
   date='2026-11-10T04:00:00+00:00'
-  rows=[{'headline':'UAP official case '+str(101+i),'url':url,'date':date} for i,url in enumerate([
+  rows=[{'headline':'UAP official case '+str(101+i),'source':'Official archive','url':url,'date':date} for i,url in enumerate([
    'https://example.org/record?id=1','https://example.org/record?id=2',
    'https://example.org/Record?id=1'])]
   self.assertEqual(len(mod.prepare_news_items(rows,now=mod.dt.datetime.fromisoformat(date))),3)
@@ -92,9 +92,9 @@ class NewsRelevanceTests(unittest.TestCase):
   self.assertTrue(mod.same_report_event(a,b))
  def test_retained_nested_items_are_revalidated(self):
   date='2026-11-10T04:00:00+00:00'
-  row={'headline':'UFO official report','url':'https://example.org/a','date':date,'relatedCoverage':[
-   {'headline':'UFO official report','url':'http://unsafe.example/b','date':date},
-   {'headline':'UFO official report','url':'https://example.org/stale','date':'2020-01-01T00:00:00+00:00'}]}
+  row={'headline':'UFO official report','source':'Official archive','url':'https://example.org/a','date':date,'relatedCoverage':[
+   {'headline':'UFO official report','source':'Official archive','url':'http://unsafe.example/b','date':date},
+   {'headline':'UFO official report','source':'Official archive','url':'https://example.org/stale','date':'2020-01-01T00:00:00+00:00'}]}
   result=mod.prepare_news_items([row],now=mod.dt.datetime.fromisoformat(date))
   self.assertNotIn('relatedCoverage',result[0])
 if __name__=='__main__':unittest.main()
