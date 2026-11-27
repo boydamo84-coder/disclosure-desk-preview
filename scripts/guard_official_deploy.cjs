@@ -40,3 +40,7 @@ if (netlify && [branch, process.env.HEAD].includes('fix/issue22-mobile-nav-polis
 if (netlify && [branch, process.env.HEAD].includes('feature/brand-public-sharing-20261127')) {
   throw new Error('Public sharing candidate is restricted to isolated testing.');
 }
+
+if (netlify && [branch, process.env.HEAD].includes('android/m104-branded-sharing')) {
+  throw new Error('M104 private Android branch must never publish through Netlify.');
+}
