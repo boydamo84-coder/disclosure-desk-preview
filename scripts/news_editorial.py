@@ -5,7 +5,7 @@ The equivalent browser check in index.html also screens older CDN/cache snapshot
 import re
 from urllib.parse import urlsplit
 
-OFF_TOPIC = re.compile(r"\b(?:gta(?:\s*[-:]?\s*(?:\d+|vi|v))?|grand theft auto|playstation|xbox|nintendo switch|fortnite|roblox|minecraft|red dead redemption|video[ -]?games?|gaming guides?|quest guides?|walkthroughs?|cheat codes?|ufo moviez|wtf)\b", re.I)
+OFF_TOPIC = re.compile(r"\b(?:gta(?:\s*[-:]?\s*(?:\d+|vi|v))?|grand theft auto|playstation|xbox|nintendo switch|fortnite|roblox|minecraft|red dead redemption|video[ -]?games?|gaming guides?|quest guides?|walkthroughs?|cheat codes?|ufo moviez|market data|stock price|share price|token price|quarterly results|ebitda|wtf)\b", re.I)
 UNSUITABLE_SOURCE = re.compile(r"^(?:x|twitter|facebook|reddit|youtube|instagram|tiktok|threads|discord|google news(?: rss)?|aol(?:\.[a-z.]+)?|yahoo(?: news)?(?: [\w -]+)?|inkl|newsbreak(?::.*)?|newswav|breaking news, latest news and videos|medium|playdayone|softonic|khel now|unboxholics|foro3d|ign|gamespot|kotaku|polygon|game rant|gamerant|pc gamer|eurogamer)$", re.I)
 UNSUITABLE_HOSTS = (
     'x.com','twitter.com','t.co','facebook.com','fb.com','reddit.com','redd.it',
