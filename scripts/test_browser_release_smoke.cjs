@@ -55,6 +55,7 @@ async function selected(page,id){
   assert.equal(await hasVisibleSection(page,'discover'),true);
   await page.locator('#ddHomeDock .dd-dock-more').click();
   await page.locator('#ddDockMore [data-tab="profilePage"]').waitFor();
+  assert.equal(await page.locator('#ddDockMore [data-tab="profilePage"]').evaluate(el=>getComputedStyle(el).flexDirection),'row','More Profile matches horizontal menu rows');
   await page.keyboard.press('Escape');
   await page.locator('#ddDockMore').waitFor({state:'hidden'});
   assert.equal(await selected(page,'discover'),'page');

@@ -32,3 +32,7 @@ if(netlify&&branch==='fix/news-pager-full-width-20261127'){
 if(netlify&&[branch,process.env.HEAD].includes('feature/issue-22-final-launch-polish')){
  throw new Error('Issue #22 candidate is restricted to isolated testing.');
 }
+
+if (netlify && [branch, process.env.HEAD].includes('fix/issue22-mobile-nav-polish-20261127')) {
+  throw new Error('Mobile navigation polish candidate is restricted to isolated testing.');
+}

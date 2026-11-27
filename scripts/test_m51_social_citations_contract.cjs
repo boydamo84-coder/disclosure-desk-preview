@@ -15,8 +15,8 @@ assert.match(site,/querySelectorAll\('\[data-compare-news\]'\)/,
 assert.match(css,/\.dd-action-rail\{justify-content:flex-end!important\}/,
  'Align all shared social rails to the right, including mobile');
 assert.match(css,/#newsGrid article>\.dd-news-actions>\.dd-news-main-actions\{[\s\S]*?justify-content:flex-end!important/);
-assert.match(css,/\.nav \.tab\[data-tab="profilePage"\]\{[\s\S]*?flex-direction:column!important/,
- 'Profile avatar must sit above label');
+assert.match(css,/\.nav \.nav-inner > \.tab\[data-tab="profilePage"\]\{[\s\S]*?flex-direction:column!important/,
+ 'Primary dock Profile avatar must sit above label (More rows stay horizontal)');
 assert.match(site,/el\.dataset\.boardState=saved\?'added':'available'/);
 assert.match(site,/board\.links\.unshift\(entry\);boardSave\(\);refreshBookmarkStars\(\)/);
 assert.match(site,/data-timeline-key/);

@@ -323,13 +323,13 @@
  #newsGrid article>.dd-news-actions>.dd-news-main-actions button{padding:5px!important}
  #newsGrid article>.dd-news-actions .dd-news-compare-action{padding:5px 6px!important}
 }
-/* Profile icon/label: the avatar never sits beside the word Profile. */
-.nav .tab[data-tab="profilePage"]{
+/* Stack Profile only if it is a primary dock tab; More uses horizontal rows. */
+.nav .nav-inner > .tab[data-tab="profilePage"]{
  display:flex!important;flex-direction:column!important;align-items:center!important;
  justify-content:center!important;text-align:center!important;gap:2px!important;
  white-space:nowrap!important
 }
-.nav .tab[data-tab="profilePage"] .ico{
+.nav .nav-inner > .tab[data-tab="profilePage"] .ico{
  display:flex!important;flex:none!important;align-items:center!important;
  justify-content:center!important;margin:0 auto 2px!important;
  width:23px!important;height:23px!important;line-height:1!important

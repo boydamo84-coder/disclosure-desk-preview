@@ -1,0 +1,6 @@
+# Issue 22 — owner phone navigation polish (27 November 2026)
+- Base: exact deployed Issue 22 commit daca819371ef46b6c9d038cd4ec09a1c6975da55.
+- Owner test: More > Profile with a saved avatar was stacked instead of a matching horizontal label/icon row. The old primary dock-only CSS is now scoped to direct primary dock buttons; More retains its horizontal alignment with or without a photo. No change to photo storage or privacy.
+- Hide the redundant site header Back while the top-level Research destination is selected. The dedicated original investigations/case reader Back, other site section header Back, browser history and native Back retain their existing behavior. Central section navigation keeps the header updated on direct entry and history transitions.
+- Four-width Chromium assertions exercise Profile icon and synthetic avatar geometry and both Research Back controls; all four widths passed. Strict public staging 161 files; only index and community-polish CSS bytes change. The CSS URL has a new cache key. No community, account, research data or database change.
+- Owner authorized website deployment when ready. Validate exact commit's public package, integrated QA and browser smoke before fast-forward. Preserve rollback. Build Android review copy separately; no Play upload.

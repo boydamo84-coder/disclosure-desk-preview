@@ -2512,7 +2512,8 @@ function ddResearchHasResumeHint(){
 }
 function ddUpdateBackControl(){
  const back=document.getElementById('ddSiteBack');
- if(back)back.hidden=(document.querySelector('#discover')?.classList.contains('hidden')===false);
+ // News and Research are root destinations. Research's embedded readers have their own Back.
+ if(back)back.hidden=['discover','originalResearchPage'].some(id=>document.getElementById(id)?.classList.contains('hidden')===false);
 }
 // Add a browser history entry for real user navigation, rather than silently
 // replacing the only site entry. This restores native Android/Chrome Back.
@@ -2797,6 +2798,7 @@ if(id==='cases')renderCases();
 if(id==='clips'){renderClips();void loadDisclosureClips(true)}else pauseClips();
 if(id==='mapPage'){renderMapOfficialVideos();initMap();if(map){requestAnimationFrame(()=>map.invalidateSize({pan:false}));setTimeout(()=>map.invalidateSize({pan:false}),450)}}
 document.documentElement.classList.remove('dd-navigation-pending');
+ddUpdateBackControl();
 window.dispatchEvent(new CustomEvent('dd-public-section-change',{detail:{section:id}}));
 }
 // Expose the same guarded navigator used by the original site tabs.
@@ -4383,7 +4385,7 @@ loadLiveNews().finally(()=>{
 #mapPage #officialFootageSection,#mapPage #mapItems,
 #mapPage #mapArchiveResults{display:none!important}
 </style>
-<link rel="stylesheet" href="assets/community-polish.css?v=m74&m80=web-reply-parity&m86=on-demand&m87=news-reply-indent&m89=global-feed&drawer=v1&m90=tabs&m69=profile-login">
+<link rel="stylesheet" href="assets/community-polish.css?v=m74&m80=web-reply-parity&m86=on-demand&m87=news-reply-indent&m89=global-feed&drawer=v1&m90=tabs&m69=profile-login&nav=more-profile-row-20261127">
 <script defer src="/assets/site-ad-layout-m01.js?v=preview-1"></script><script defer src="/assets/site-adsterra-m02.js?v=staged-disabled-m02"></script><script defer src="/assets/page-help.js?v=20261127-help"></script><script src="/assets/research-public.js?v=20261127-actions&issue22=1" defer></script>
 <script src="/assets/discussion-hosts.js" defer></script>
 <script src="/assets/host-recommendations.js?v=20261127-r3" defer></script>

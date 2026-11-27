@@ -54,6 +54,25 @@ async function checkDock(page, selector, width) {
   for(const label of ['Map','Videos','LIVE','Boards','Witness','Discussions','Watch & Read','Profile','Help','Case Files','Rabbit Hole','Documents','Podcasts','About']){
     await dialog.getByRole('button',{name:label,exact:true}).waitFor();
   }
+  const profile=dialog.getByRole('button',{name:'Profile',exact:true});
+  // Real geometry catches stale main-dock avatar CSS overriding More row layout.
+  const profileLayout=()=>profile.evaluate(el=>{
+    const icon=el.querySelector('.ico'), text=[...el.childNodes].find(node=>node.nodeType===3&&node.textContent.trim());
+    const range=document.createRange();range.selectNodeContents(text);
+    const a=icon.getBoundingClientRect(),b=range.getBoundingClientRect(),r=el.getBoundingClientRect();
+    const css=getComputedStyle(el);
+    return {direction:css.flexDirection,iconLeft:a.left,iconRight:a.right,labelLeft:b.left,
+      centerDifference:Math.abs((a.top+a.bottom-b.top-b.bottom)/2),rowLeft:r.left,rowHeight:r.height};
+  });
+  const assertAligned=async()=>{const g=await profileLayout();
+    assert.equal(g.direction,'row');assert.ok(g.iconRight<g.labelLeft&&g.centerDifference<3&&g.iconLeft-g.rowLeft<16&&g.rowHeight>=44,JSON.stringify(g));
+  };
+  await assertAligned();
+  // Exercise the owner-photo rendering path without contacting account/storage services.
+  const previousIcon=await profile.evaluate(el=>{const ico=el.querySelector('.ico'),html=ico.innerHTML;
+    const image=document.createElement('img');image.alt='';image.src='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="23" height="23"%3E%3Ccircle cx="11.5" cy="11.5" r="11.5" fill="%2375899d"/%3E%3C/svg%3E';ico.replaceChildren(image);return html;});
+  await assertAligned();
+  await profile.evaluate((el,html)=>{el.querySelector('.ico').innerHTML=html;},previousIcon);
   assert.match(await page.locator(':focus').textContent(),/Close|Help/);
   await page.keyboard.press('Tab');
   assert.ok(await dialog.locator(':focus').count(),'Tab stays inside More');
@@ -98,10 +117,13 @@ async function checkDock(page, selector, width) {
       await page.locator('#discover').waitFor();
 
       await page.locator('#ddHomeDock [data-tab="originalResearchPage"]').click();
+      assert.equal(await page.locator('#ddSiteBack').isVisible(),false,'Research root has no redundant header Back');
       await page.getByRole('button',{name:/Original investigations/}).click();
       await page.locator('#ddOriginalReader [data-dd-reader-view="investigations"] a[href="/rendlesham-forest-1980"]').first().click();
       const ledger=page.locator('#dd-reader-rendlesham-forest-1980-record-ledger');
       await ledger.waitFor();
+      assert.equal(await page.locator('#ddSiteBack').isVisible(),false,'Research reader uses its own Back');
+      assert.equal(await page.locator('#ddReaderBack').isVisible(),true,'Dossier keeps its functional reader Back');
       assert.match(await ledger.innerText(),/signed memo/);
       assert.equal(await page.locator('#ddReaderSharePage').getAttribute('href'),'/rendlesham-forest-1980');
       await page.locator('#ddReaderBack').click();
