@@ -51,7 +51,7 @@ async function checkDock(page, selector, width) {
   assert.equal(dimensions.length,6);
   assert.ok(dimensions.every(d => d.width>=44&&d.height>=44&&d.inside&&d.icon),width+' px dock '+JSON.stringify(dimensions));
   const {trigger,dialog} = await openMore(page,root);
-  for(const label of ['Map','Videos','LIVE','Boards','Witness','Discussions','Watch & Read','Profile','Help','Case Files','Rabbit Hole','Documents','Podcasts','About']){
+  for(const label of ['Map','Videos','LIVE','Boards','Witness','Discussions','Watch & Read','Profile','Help','Case Files','Rabbit Hole','Documents','About']){
     await dialog.getByRole('button',{name:label,exact:true}).waitFor();
   }
   const profile=dialog.getByRole('button',{name:'Profile',exact:true});

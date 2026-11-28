@@ -28,4 +28,7 @@ with zipfile.ZipFile(filename) as archive:
         data = archive.read(prefix+path)
         assert len(data) == record["bytes"], path
         assert hashlib.sha256(data).hexdigest() == record["sha256"], path
+    for name in ("compact-header.js", "back-navigation.js"):
+        asset_prefix = "base/assets/" if Path(filename).suffix == ".aab" else "assets/"
+        assert archive.read(asset_prefix + name) == Path("android-test/app/src/main/assets", name).read_bytes(), name
     print(f"PASS {Path(filename).name}: {len(expected)} approved website assets match the reviewed manifest")

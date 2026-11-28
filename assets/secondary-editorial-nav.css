@@ -105,3 +105,19 @@ body:has(#ddAndroidEditorialNav) #ddWebSecondaryNav { display: none; }
   border-radius: .35rem;
 }
 .dd-public-skip:focus { transform: none; }
+
+/* Aggregate hidden-destination unread indicators without another poller. */
+.dd-site-dock .dd-dock-more[data-dd-attention]::after {
+  content: ""; position: absolute; top: 3px; right: max(5px, calc(50% - 23px));
+  width: 10px; height: 10px; border-radius: 50%; background: #ef9238;
+  box-shadow: 0 0 0 2px #101a27; pointer-events: none;
+}
+.dd-site-dock .dd-dock-links [data-tab] :is([data-new-badge],.dd-chat-unread-badge):not([hidden]) {
+  position: static!important; flex: none; margin-left: auto!important;
+  display: inline-flex!important; align-items: center; justify-content: center;
+  min-width: 18px; height: 18px; padding: 0 4px; border-radius: 20px;
+  background: #ef9238; color: #141c22; font-size: 10px; font-weight: 750;
+}
+.dd-site-dock .dd-dock-links [data-tab]:has(:is([data-new-badge],.dd-chat-unread-badge):not([hidden])) {
+  gap: 6px; padding-right: 4px;
+}

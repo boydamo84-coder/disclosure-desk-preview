@@ -26,7 +26,11 @@ assert(manifest.files.includes('research/r3-lab/index.html'),'Hypothesis Lab is 
 for(const file of ['assets/site-dock.js','data/case-dossier-readers.js','project-blue-book.html','foia-pentagon-25-f-3215.html']){
  assert(manifest.files.includes(file),'Offline editorial route or dependency missing: '+file);
 }
-assert.match(main,/#ddDockMore\[open\][^\n]+close\(\)/,'Android Back closes More before navigating');
+const back=read('android-test/app/src/main/assets/back-navigation.js');
+assert.match(back,/#ddDockMore\[open\]/,'Android Back handles More before navigating');
+assert.match(back,/dialog\.requestClose\(\)|dialog\.close\(\)/);
+assert.match(main,/registerOnBackInvokedCallback\(/,'Android 13+ system Back registered');
+assert.match(main,/unregisterOnBackInvokedCallback\(/,'Android Back callback cleaned up');
 assert.match(main,/endsWith\("\.pdf"\)\)mime="application\/pdf"/,'Android passes the published PDF type');
 
 assert(!manifest.files.some(p=>p.includes('hypothesis-session-qa')||p.includes('analytics-consent')||p.includes('who-evidence-ballot')),
@@ -45,9 +49,9 @@ assert.match(main,/"https"\.equals\(url\.getScheme\(\)\)/,'Only HTTPS origin int
 assert.match(main,/"uapdisclosuredesk\.com"\.equals\(url\.getHost\(\)\)/);
 assert.match(main,/DD_FIREBASE_APP_ID/,'Firebase groundwork preserved');
 assert.match(main,/PLAY_BILLING_APPROVED = false/,'Unverified paid purchase is disabled');
-assert.match(gradle,/applicationIdSuffix = "\.beta\.m106"/,'Private beta does not overwrite production app');
+assert.match(gradle,/applicationIdSuffix = "\.beta\.m107"/,'Private beta does not overwrite production app');
 assert.match(gradle,/targetSdk = 36/);
-assert.match(gradle,/versionCode = 42/);
+assert.match(gradle,/versionCode = 43/);
 assert(!manifest.files.some(p=>p.startsWith('.github/')||p.startsWith('supabase/')||p.startsWith('scripts/')||p.includes('SECRET')),
  'No source jobs, SQL or internal config distributed in APK');
 console.log('PASS reviewed M76 app snapshot, private worksheet and research assets, no GA implementation and separate Android package');

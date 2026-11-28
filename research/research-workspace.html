@@ -83,7 +83,17 @@ body.layout-horizontal.mode-both main::-webkit-scrollbar-thumb{background:#bfa77
 #dd-documents-dialog .dd-home-status{font-size:11px;line-height:1.4;padding:8px 0;margin-top:12px;color:#afc3cc}
 #dd-documents-status{overflow-wrap:anywhere;font-size:13px;line-height:1.5}
 @media(max-width:520px){.dd-home-create,.dd-home-actions,.dd-home-recovery-links{grid-template-columns:1fr}.dd-home-simple section{margin-top:11px}#dd-documents-dialog .dd-home-saved #dd-documents-list{max-height:175px}#dd-documents-dialog.dd-home-simple{padding:13px!important}}
-</style></head><body class="mode-both"><header><div id="dd-studio-heading"><strong>Disclosure Desk · Research Studio</strong><button id="dd-documents-btn" type="button" title="Open Research Studio Home">⌂ Home</button></div><div role="group" aria-label="Workspace layout"><button type="button" id="writerBtn" aria-pressed="false">✍ Editor</button><button type="button" id="bibleBtn" aria-pressed="false">📚 Research Library</button><button type="button" id="bothBtn" aria-pressed="true">◫ Side by side</button></div><label id="librarySizeControl" title="Adjust Research Library text size">Library text <input id="librarySize" type="range" min="70" max="120" step="5" value="85" aria-label="Research Library text size"><output id="librarySizeValue">85%</output></label><button id="editorHeaderTools" type="button" aria-expanded="true">⌃ Hide tools</button><span class="note">Research Edition · Powered by W.NE</span></header><dialog id="dd-documents-dialog" aria-labelledby="dd-documents-title" class="dd-home-simple">
+</style><style id="dd-writing-focus-style">
+#dd-writing-focus-enter,#dd-writing-focus-exit{min-height:40px;border-color:#b59a69;color:#ebd0a0;font-weight:700}
+#dd-writing-focus-enter:disabled{opacity:.45;cursor:not-allowed}
+#dd-writing-focus-bar{display:none}
+body.dd-writing-focus>header,body.dd-writing-focus>.dd-site-dock{display:none!important}
+body.dd-writing-focus>#dd-writing-focus-bar{display:flex;flex:0 0 auto;align-items:center;justify-content:space-between;gap:8px;padding:4px 8px;background:#0b131c;border-bottom:1px solid #435467;color:#d9c18e;font-weight:650;font-size:12px}
+body.dd-writing-focus>main{flex:1 1 0!important;min-height:0!important;height:auto!important;width:100%;padding:0!important;overflow:hidden!important;display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important}
+body.dd-writing-focus #editorPanel{display:block!important;width:100%;height:100%;min-height:0}
+body.dd-writing-focus #bible,body.dd-writing-focus #splitter{display:none!important}
+body.dd-writing-focus #writer{border:0;border-radius:0}
+</style></head><body class="mode-both"><header><div id="dd-studio-heading"><strong>Disclosure Desk · Research Studio</strong><button id="dd-documents-btn" type="button" title="Open Research Studio Home">⌂ Home</button><button id="dd-writing-focus-enter" type="button" aria-pressed="false" disabled>⛶ Full screen</button></div><div role="group" aria-label="Workspace layout"><button type="button" id="writerBtn" aria-pressed="false">✍ Editor</button><button type="button" id="bibleBtn" aria-pressed="false">📚 Research Library</button><button type="button" id="bothBtn" aria-pressed="true">◫ Side by side</button></div><label id="librarySizeControl" title="Adjust Research Library text size">Library text <input id="librarySize" type="range" min="70" max="120" step="5" value="85" aria-label="Research Library text size"><output id="librarySizeValue">85%</output></label><button id="editorHeaderTools" type="button" aria-expanded="true">⌃ Hide tools</button><span class="note">Research Edition · Powered by W.NE</span></header><div id="dd-writing-focus-bar"><span>W.NE · Writing mode</span><button id="dd-writing-focus-exit" type="button">Exit full screen</button></div><dialog id="dd-documents-dialog" aria-labelledby="dd-documents-title" class="dd-home-simple">
  <div class="dd-home-heading"><div><small>W.NE RESEARCH EDITION</small><h2 id="dd-documents-title">My documents</h2><p>Open your work or start something new. Your documents are private to your signed-in account.</p></div><button id="dd-close-documents" type="button" aria-label="Close My documents">✕</button></div>
  <section class="dd-home-primary">
   <label for="dd-new-document-name">Create a document</label>
@@ -154,12 +164,12 @@ const editorPanel=document.getElementById('editorPanel'),toolToggle=document.get
 const writer=document.getElementById('writer'), bible=document.getElementById('bible'), splitter=document.getElementById('splitter');
 function hideRedundantShortcut(){try{const d=writer.contentDocument;if(!d)return;let style=d.getElementById('dd-workspace-hide-library-shortcut');if(!style){style=d.createElement('style');style.id='dd-workspace-hide-library-shortcut';style.textContent='a[href="./wne_research_bible.html"],a[href="/research-bible"],#wne-research-bible-launch,a[href*="wne_home"],.wne-signature-link{display:none!important}';d.head.appendChild(style)}}catch{}}
 let toolExpanded=!window.matchMedia('(orientation:landscape) and (max-height:599px)').matches;
-function applyEditorTools(){try{const d=writer.contentDocument;if(!d)return;let st=d.getElementById('dd-editor-compact-tools');if(!st){st=d.createElement('style');st.id='dd-editor-compact-tools';d.head.appendChild(st)}st.textContent=toolExpanded?'':'.mobilebar,.topbar,#dd-word-ribbon-v1,#dd-word-context-v1,.wne-spell-wrap,.wne-spell-settings,.wne-format-toolbar,.wne-format-row,.formatbar,.toolbar,.format-toolbar{display:none!important} .main,.workarea{min-height:0!important}';toolToggle.textContent='⌄ Tools';const headToggle=document.getElementById('editorHeaderTools');if(headToggle){headToggle.textContent=toolExpanded?'⌃ Hide tools':'⌄ Show tools';headToggle.setAttribute('aria-expanded',String(toolExpanded))}if(toolToggle){toolToggle.hidden=true;toolToggle.style.display='none';toolToggle.setAttribute('aria-expanded',String(toolExpanded))}
+function applyEditorTools(){try{const d=writer.contentDocument;if(!d)return;let st=d.getElementById('dd-editor-compact-tools');if(!st){st=d.createElement('style');st.id='dd-editor-compact-tools';d.head.appendChild(st)}st.textContent=toolExpanded?'':'.mobilebar,.topbar,#dd-word-ribbon-v1,#dd-word-context-v1,.wne-spell-wrap,.wne-spell-settings,.wne-format-toolbar,.wne-format-row,.formatbar,.toolbar,.format-toolbar{display:none!important} .main,.workarea{min-height:0!important}';if(toolToggle)toolToggle.textContent='⌄ Tools';const headToggle=document.getElementById('editorHeaderTools');if(headToggle){headToggle.textContent=toolExpanded?'⌃ Hide tools':'⌄ Show tools';headToggle.setAttribute('aria-expanded',String(toolExpanded))}if(toolToggle){toolToggle.hidden=true;toolToggle.style.display='none';toolToggle.setAttribute('aria-expanded',String(toolExpanded))}
 const oldInner=d.getElementById('dd-inner-hide-tools');if(oldInner)oldInner.remove();}catch{}}
 /* The single Research Studio header button controls toolbar visibility. */
 document.getElementById('editorHeaderTools').addEventListener('click',()=>{toolExpanded=!toolExpanded;applyEditorTools()});
 writer.addEventListener('load',()=>{hideRedundantShortcut();applyEditorTools();syncQuickTool();try{const d=writer.contentDocument;let st=d.getElementById('dd-research-writer-labels');if(!st){st=d.createElement('style');st.id='dd-research-writer-labels';st.textContent='.wne-drive-status,[id*="drive-status"],[class*="drive-status"]{display:none!important}';d.head.appendChild(st)}const convert=()=>{const b=d.getElementById('drawer');if(b)b.textContent='☰ Sections';const status=d.querySelectorAll('[class*="drive"],[id*="drive"]');for(const el of status){if(el.children.length===0&&/Drive disconnected/i.test(el.textContent||''))el.style.display='none'}const nodes=d.querySelectorAll('.chapter-title,.chapter-count,.word-count,.chapter-words');for(const el of nodes){if(el.matches('input,textarea,[contenteditable]'))continue; if(el.childElementCount===0&&/Chapter/i.test(el.textContent||''))el.textContent=el.textContent.replace(/\bChapters?\b/g,x=>x==='Chapters'?'Sections':'Section')}};convert();}catch{}});
-function syncQuickTool(){try{const d=writer.contentDocument;if(!d)return;d.body.classList.toggle('dd-in-split',mode==='both'||document.body.classList.contains('typing'))}catch{}}
+function syncQuickTool(){try{const d=writer.contentDocument;if(!d)return;d.body.classList.toggle('dd-in-split',mode==='both'||document.body.classList.contains('typing')||document.body.classList.contains('dd-writing-focus'))}catch{}}
 const buttons={writer:document.getElementById('writerBtn'),bible:document.getElementById('bibleBtn'),both:document.getElementById('bothBtn')};
 const allowed=['writer','bible','both'];
 const sizeSlider=document.getElementById('librarySize'),sizeValue=document.getElementById('librarySizeValue');
@@ -187,6 +197,10 @@ function applyWidth(){
  const split=horizontal(), phone=phoneLandscape(), main=document.querySelector('main');
  document.body.classList.toggle('layout-horizontal',split);
  splitter.setAttribute('aria-orientation',split?'vertical':'horizontal');
+ if(document.body.classList.contains('dd-writing-focus')){
+  main.style.setProperty('grid-template-columns','minmax(0,1fr)','important');
+  main.style.setProperty('grid-template-rows','minmax(0,1fr)','important');return;
+ }
  if(mode!=='both'){main.style.gridTemplateColumns='';main.style.gridTemplateRows='';return}
  if(split){
    const available=main.clientWidth-10;
@@ -200,14 +214,40 @@ function applyWidth(){
  }
  splitter.setAttribute('aria-valuenow',String(editorPct));
 }
-function select(next,user=false){if(!allowed.includes(next))return;mode=next;if(user)manual=true;document.body.classList.remove('mode-writer','mode-bible','mode-both');document.body.classList.add('mode-'+mode);syncQuickTool();for(const [name,btn] of Object.entries(buttons))btn.setAttribute('aria-pressed',String(name===mode));applyWidth();try{localStorage.setItem(key,JSON.stringify({mode,manual}));if(user)localStorage.setItem(preferredViewKey,mode)}catch{}}
+function select(next,user=false){if(!allowed.includes(next))return;if(document.body.classList.contains('dd-writing-focus'))setWritingFocus(false,false);mode=next;if(user)manual=true;document.body.classList.remove('mode-writer','mode-bible','mode-both');document.body.classList.add('mode-'+mode);syncQuickTool();for(const [name,btn] of Object.entries(buttons))btn.setAttribute('aria-pressed',String(name===mode));applyWidth();try{localStorage.setItem(key,JSON.stringify({mode,manual}));if(user)localStorage.setItem(preferredViewKey,mode)}catch{}}
 for(const [name,btn] of Object.entries(buttons))btn.addEventListener('click',()=>select(name,true));
 function resize(p){editorPct=Math.max(20,Math.min(80,Math.round(p)));applyWidth();try{localStorage.setItem(widthKey,String(editorPct))}catch{}}
 splitter.addEventListener('pointerdown',ev=>{if(mode!=='both')return;ev.preventDefault();drag=ev.pointerId;document.body.classList.add('dd-resizing');splitter.setPointerCapture(ev.pointerId)});
 splitter.addEventListener('pointermove',ev=>{if(drag!==ev.pointerId)return;const main=document.querySelector('main'),r=main.getBoundingClientRect(),split=horizontal(),phone=phoneLandscape();const coord=split?ev.clientX-r.left+main.scrollLeft:ev.clientY-r.top;const total=split?(phone?Math.max(main.clientWidth-10,920):main.clientWidth-10):main.clientHeight;resize(100*coord/Math.max(1,total))});
 for(const type of ['pointerup','pointercancel','lostpointercapture'])splitter.addEventListener(type,()=>{drag=null;document.body.classList.remove('dd-resizing')});
 splitter.addEventListener('keydown',ev=>{if(ev.key==='ArrowLeft'||ev.key==='ArrowUp'||ev.key==='ArrowRight'||ev.key==='ArrowDown'){ev.preventDefault();resize(editorPct+((ev.key==='ArrowRight'||ev.key==='ArrowDown')?5:-5))}else if(ev.key==='Home'){resize(20)}else if(ev.key==='End'){resize(80)}});
-function adapt(){if(!manual)select(horizontal()?'both':'writer');else applyWidth()}
+const focusEnter=document.getElementById('dd-writing-focus-enter'),focusExit=document.getElementById('dd-writing-focus-exit');
+let previousTools=true;
+function focusAvailable(){
+ return !writer.hidden && /^\.\/wne\.html\?id=/.test(writer.getAttribute('src')||'');
+}
+function syncWritingFocus(){focusEnter.disabled=!focusAvailable()}
+function setWritingFocus(enabled,restoreFocus=true){
+ const active=document.body.classList.contains('dd-writing-focus');
+ if(enabled===active || (enabled&&!focusAvailable()))return false;
+ if(enabled){previousTools=toolExpanded;toolExpanded=true;}
+ else toolExpanded=previousTools;
+ document.body.classList.toggle('dd-writing-focus',enabled);
+ focusEnter.setAttribute('aria-pressed',String(enabled));
+ applyEditorTools();syncQuickTool();applyWidth();
+ if(restoreFocus)(enabled?focusExit:focusEnter).focus({preventScroll:true});
+ return true;
+}
+focusEnter.addEventListener('click',()=>setWritingFocus(true));
+focusExit.addEventListener('click',()=>setWritingFocus(false));
+window.ddResearchExitWritingFocus=()=>setWritingFocus(false);
+new MutationObserver(()=>{syncWritingFocus();if(!focusAvailable())setWritingFocus(false,false)})
+ .observe(writer,{attributes:true,attributeFilter:['hidden','src']});
+syncWritingFocus();
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'&&!document.querySelector('dialog[open]')&&document.body.classList.contains('dd-writing-focus')){e.preventDefault();setWritingFocus(false)}
+});
+function adapt(){if(document.body.classList.contains('dd-writing-focus'))applyWidth();else if(!manual)select(horizontal()?'both':'writer');else applyWidth()}
 function setTyping(active){document.body.classList.remove('typing');try{writer.contentWindow.ddTemporaryTypewriter?.(false)}catch{}syncQuickTool();applyWidth()}
 writer.addEventListener('load',()=>{try{const doc=writer.contentDocument;doc.addEventListener('focusin',ev=>{if(ev.target.closest('input,textarea,[contenteditable]'))setTyping(true)});doc.addEventListener('focusout',()=>setTimeout(()=>{if(!doc.activeElement?.closest('input,textarea,[contenteditable]'))setTyping(false)},150))}catch{}});
 window.addEventListener('resize',adapt);window.addEventListener('orientationchange',()=>requestAnimationFrame(adapt));adapt();

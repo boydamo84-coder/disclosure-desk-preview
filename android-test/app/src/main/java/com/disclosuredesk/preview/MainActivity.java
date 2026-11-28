@@ -106,6 +106,9 @@ public final class MainActivity extends Activity {
         }
     };
     private int documentGeneration;
+    private android.window.OnBackInvokedCallback modernBackCallback;
+    private String backNavigationScript;
+    private boolean backInProgress;
     private String pendingArchiveCase;
     private boolean deskHome;
     private View fullView;
@@ -167,6 +170,22 @@ public final class MainActivity extends Activity {
         root.addView(offlinePanel,new FrameLayout.LayoutParams(-1,-1));
         offlinePanel.setVisibility(View.GONE);
         setContentView(root);
+        // API 36 no longer dispatches Activity.onBackPressed() for system back.
+        // Keep the legacy override for API 26–32; both route into one handler.
+        if(Build.VERSION.SDK_INT>=33){
+            modernBackCallback=this::handleDeskBack;
+            getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
+                android.window.OnBackInvokedDispatcher.PRIORITY_DEFAULT,modernBackCallback);
+        }
+        try(BufferedReader reader=new BufferedReader(new InputStreamReader(
+                getAssets().open("back-navigation.js"),StandardCharsets.UTF_8))){
+            StringBuilder source=new StringBuilder();
+            String line;
+            while((line=reader.readLine())!=null)source.append(line).append('\n');
+            backNavigationScript=source.toString();
+        }catch(java.io.IOException error){
+            android.util.Log.e("DisclosureDesk","Back navigation asset could not be opened.",error);
+        }
         // Upgrade existing 2h subscriptions automatically without resetting the user's choices.
         syncDiscoverySchedules();
         // Android 15+ draws edge to edge. Earlier versions fit the system bars.
@@ -203,6 +222,7 @@ public final class MainActivity extends Activity {
             }
             @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap favicon){
                 documentGeneration++;
+                backInProgress=false;
                 nativeNews.rememberPosition();
                 root.removeCallbacks(refreshDeadline);
                 nativeNews.finishRefresh();
@@ -554,9 +574,31 @@ public final class MainActivity extends Activity {
         menu.getMenu().add("Offline Archive").setOnMenuItemClickListener(item->{openOfflineArchive();return true;});
         menu.getMenu().add("Research Inbox").setOnMenuItemClickListener(item->{showResearchInbox();return true;});
         menu.getMenu().add("Notification settings").setOnMenuItemClickListener(item->{notificationSettings();return true;});
+        menu.getMenu().add("How to use").setOnMenuItemClickListener(item->{openDeskHelp();return true;});
         menu.getMenu().add("App tour").setOnMenuItemClickListener(item->{showAppTour();return true;});
         menu.getMenu().add("Boyd Digital Studios website").setOnMenuItemClickListener(item->{openStudioWebsite();return true;});
         menu.show();
+    }
+
+    private void openDeskHelp(){
+        if(cachedNewsOnly || !compactHeader || !isAppHomeUrl(web.getUrl())){
+            showAppTour();
+            return;
+        }
+        if(nativeNewsSelected){
+            nativeNews.rememberPosition();
+            nativeNewsSelected=false;
+            layoutDesk();
+        }
+        int generation=documentGeneration;
+        web.evaluateJavascript("window.DDNativePageHelp?.()",value->{
+            if(generation!=documentGeneration || !isAppHomeUrl(web.getUrl()))return;
+            if("\"blocked\"".equals(value)){
+                android.widget.Toast.makeText(this,"Close the current panel to open Help",android.widget.Toast.LENGTH_SHORT).show();
+            }else if(!"\"opened\"".equals(value)){
+                showAppTour();
+            }
+        });
     }
 
     private static boolean isLauncherIntent(Intent intent) {
@@ -1275,7 +1317,9 @@ public final class MainActivity extends Activity {
           }).show();
     }
     private int dp(int pixels){return (int)(pixels*getResources().getDisplayMetrics().density+0.5f);}
-    @Override public void onBackPressed(){
+    @Override public void onBackPressed(){handleDeskBack();}
+    private void handleDeskBack(){
+        if(isFinishing() || isDestroyed() || backInProgress)return;
         if(fullView!=null){((WebChromeClient)web.getWebChromeClient()).onHideCustomView();return;}
         if(cachedNewsOnly){
             cachedNewsOnly=false;
@@ -1288,36 +1332,59 @@ public final class MainActivity extends Activity {
             layoutDesk();
             return;
         }
-        // Back closes the current popover/dialog or nested Discussion before
-        // switching tabs. In W.NE or another actual document URL, use WebView history.
-        String script="(function(){try{"
-          +"var url=new URL(location.href);"
-          + "var more=document.querySelector('#ddDockMore[open]');if(more){more.close();return 'handled'};"
-          +"if(url.pathname!=='/'&&url.pathname!=='/index.html')return 'exit';"
-          +"var dlg=document.querySelector('dialog[open]');if(dlg){dlg.close();return 'handled'};"
-          +"var d=document.getElementById('immersiveViewer');"
-          +"if(d&&!d.hidden){var c=document.getElementById('closeImmersive');if(c)c.click();return 'handled'};"
-          +"var reply=document.getElementById('ddForumReplyPane');"
-          +"var backPost=document.getElementById('ddForumBackThreads');"
-          +"if(reply&&!reply.hidden&&backPost){backPost.click();return 'handled'};"
-          +"var section=document.getElementById('ddForumThreadPane');"
-          +"var backSections=document.getElementById('ddForumBackSections');"
-          +"if(section&&!section.hidden&&backSections){backSections.click();return 'handled'};"
-          +"var active=document.querySelector('.tab.active');"
-          +"if(active&&active.dataset.tab!=='discover'){var home=document.querySelector('[data-tab=discover]');"
-          +"if(home)home.click();return 'home'};"
-          +"return 'exit'}catch(e){return 'exit'}})()";
-        web.evaluateJavascript(script,value->{
-            if("\"home\"".equals(value) && nativeShell){
-                nativeNewsSelected=true;
-                layoutDesk();
-            }else if(!"\"handled\"".equals(value) && !"\"home\"".equals(value)){
-                if(web.canGoBack())web.goBack();
-                else finish();
+        if(backNavigationScript==null){
+            if(web.canGoBack())web.goBack();
+            else offerReturnToDesk();
+            return;
+        }
+        int generation=documentGeneration;
+        backInProgress=true;
+        web.evaluateJavascript(backNavigationScript,value->{
+            backInProgress=false;
+            if(isFinishing() || isDestroyed() || generation!=documentGeneration)return;
+            if("\"home\"".equals(value)){
+                if(nativeShell){nativeNewsSelected=true;layoutDesk();}
+                return;
             }
+            if("\"handled\"".equals(value))return;
+            if("\"history\"".equals(value) || "\"root\"".equals(value)){
+                if(web.canGoBack()){web.goBack();return;}
+                if("\"root\"".equals(value)){
+                    // Only a confirmed News root can leave the task.
+                    moveTaskToBack(true);
+                    return;
+                }
+            }
+            // A direct deep link, unavailable JS or a page with no WebView
+            // history is not permission to close the app (or discard writing).
+            offerReturnToDesk();
         });
+    }
+    private void offerReturnToDesk(){
+        final String current=web.getUrl();
+        if(current!=null && current.startsWith(HOME+"research/")){
+            new AlertDialog.Builder(this)
+              .setTitle("Return to Disclosure Desk?")
+              .setMessage("Save or export any unsaved research before leaving this workspace.")
+              .setNegativeButton("Stay here",null)
+              .setPositiveButton("Return to Desk",(dialog,which)->web.loadUrl(HOME+"?dd_tab=researchStudio"))
+              .show();
+            return;
+        }
+        Uri address=Uri.parse(current==null?HOME:current);
+        String path=address.getPath();
+        boolean research="https".equals(address.getScheme()) && "uapdisclosuredesk.com".equals(address.getHost())
+            && path!=null && (path.startsWith("/investigations") || path.startsWith("/rendlesham-forest-1980")
+                || path.startsWith("/roswell-1947") || path.startsWith("/foia-tracker")
+                || path.startsWith("/research-collaborations"));
+        web.loadUrl(HOME+(research?"?dd_tab=originalResearchPage":"?dd_tab=discover"));
     }
     @Override protected void onPause(){if(nativeNews!=null)nativeNews.rememberPosition();if(adView!=null)adView.pause();super.onPause();}
     @Override protected void onResume(){super.onResume();if(adView!=null)adView.resume();if(premium!=null)premium.restore();}
-    @Override protected void onDestroy(){if(appTourDialog!=null)appTourDialog.dismiss();if(pendingFiles!=null){pendingFiles.onReceiveValue(null);pendingFiles=null;}if(premium!=null)premium.close();if(adView!=null)adView.destroy();web.destroy();super.onDestroy();}
+    @Override protected void onDestroy(){
+        if(Build.VERSION.SDK_INT>=33 && modernBackCallback!=null){
+            getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(modernBackCallback);
+            modernBackCallback=null;
+        }
+        if(appTourDialog!=null)appTourDialog.dismiss();if(pendingFiles!=null){pendingFiles.onReceiveValue(null);pendingFiles=null;}if(premium!=null)premium.close();if(adView!=null)adView.destroy();web.destroy();super.onDestroy();}
 }

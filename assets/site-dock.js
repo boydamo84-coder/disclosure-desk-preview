@@ -28,7 +28,7 @@
   };
   const additional = [
     ['cases', 'Case Files'], ['rabbitHole', 'Rabbit Hole'], ['resources', 'Documents'],
-    ['podcasts', 'Podcasts'], ['about', 'About'],
+    ['about', 'About'],
   ];
 
   function addIcon(button, id) {
@@ -80,6 +80,17 @@
     const close = dialog.querySelector('.dd-dock-heading button');
     function syncSelected() {
       trigger.classList.toggle('dd-dock-current', !!destinations.querySelector('[aria-current="page"]'));
+      // Reuse the existing live news/video/chat badges. Do not query another
+      // endpoint, accumulate counts, or display private chat content.
+      let attention = 0;
+      for (const tab of destinations.querySelectorAll('[data-tab]')) {
+        const unread = !tab.hidden && !tab.classList.contains('hidden') &&
+          !!tab.querySelector('[data-new-badge]:not([hidden]), .dd-chat-unread-badge:not([hidden])');
+        tab.toggleAttribute('data-dd-attention', unread);
+        if (unread) attention++;
+      }
+      trigger.toggleAttribute('data-dd-attention', attention > 0);
+      trigger.setAttribute('aria-label', attention ? 'More destinations, '+attention+' with new items' : 'More');
     }
     function placeTabs() {
       for (const tab of rail.querySelectorAll('[data-tab]')) {
@@ -98,7 +109,7 @@
     nav.append(dialog);
     nav.classList.add('dd-site-dock');
     new MutationObserver(placeTabs).observe(rail, {childList: true});
-    new MutationObserver(syncSelected).observe(destinations, {childList: true, subtree: true, attributes: true, attributeFilter: ['aria-current']});
+    new MutationObserver(syncSelected).observe(destinations, {childList: true, subtree: true, attributes: true, attributeFilter: ['aria-current', 'hidden', 'class']});
     trigger.addEventListener('click', () => {
       if (dialog.open) return;
       dialog.showModal();

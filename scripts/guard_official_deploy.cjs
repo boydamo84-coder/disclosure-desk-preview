@@ -52,3 +52,7 @@ if (netlify && [branch, process.env.HEAD].includes('feature/seo-keyword-launch-2
 if (netlify && [branch, process.env.HEAD].includes('android/m106-play-ready')) {
   throw new Error('M106 Android Play candidate must never deploy a website.');
 }
+
+if (netlify && [branch, process.env.HEAD].includes('android/m107-desk-help')) {
+  throw new Error('M107 Android UI candidate must never deploy a website.');
+}
