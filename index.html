@@ -1266,6 +1266,7 @@ let topic='All',newsCountry='All',map=null,layer=null;
 const DD_NEWS_PAGE_SIZE=30;
 const ddNewsPages={latest:1,top:1,read:1};
 let ddNewsPageTarget='',ddNewsView='latest',ddNewsSettled=false;
+const ddNewsRenderedPages={latest:1,top:1};
 const ddNewsUrlKeys=['page','news_view','news_category','news_country','news_q'];
 function ddHasNewsUrl(url=new URL(location.href)){return ddNewsUrlKeys.some(k=>url.searchParams.has(k))||url.searchParams.has('dd_news')}
 function ddReadNewsUrl(){
@@ -1560,6 +1561,7 @@ function news(){
  const targetIndex=targetId?matched.findIndex(x=>ddNewsMatchesId(x,targetId)):-1;
  if(targetIndex>=0)ddNewsPages.latest=Math.floor(targetIndex/DD_NEWS_PAGE_SIZE)+1;
  const page=ddNewsPageSlice(matched,ddNewsPages.latest);if(ddNewsSettled||ddNewsPages.latest<=page.count)ddNewsPages.latest=page.page;
+ ddNewsRenderedPages.latest=page.page;
  const results=page.items;
  ddRenderNewsPager('ddLatestNewsPager','latest',page,news);
  $('newsGrid').innerHTML=results.map((s,i)=>{
@@ -1639,9 +1641,8 @@ const DD_NEWS_EVENT_ORDINALS=new Set('first second third fourth fifth sixth seve
 function ddNewsEventTokens(headline){
  return new Set(ddNewsHeadlineKey(headline).split(' ').filter(word=>word.length>2&&!DD_NEWS_EVENT_STOP.has(word)));
 }
-function ddNewsEventRefs(headline){
+function ddNewsEventRefs(headline,tokens=ddNewsEventTokens(headline)){
  const title=String(headline||'').toLowerCase();
- const tokens=ddNewsEventTokens(headline);
  return {
   ids:new Set([...(title.match(/\bdow[\s-]*uap[\s-]*pr[\s-]*\d+\b/gi)||[]),
    ...(title.match(/\b(?:case|document|report)[- #]+(?:no[. ]*)?\d{2,}\b/gi)||[])].map(x=>x.replace(/[\s#.-]/g,''))),
@@ -1652,12 +1653,21 @@ function ddNewsEventRefs(headline){
 function ddNewsDifferentRefs(a,b){
  return a.size>0&&b.size>0&&(a.size!==b.size||[...a].some(x=>!b.has(x)));
 }
-function ddNewsSameEvent(a,b){
- const age=Math.abs(Date.parse(a.date)-Date.parse(b.date));
+function ddNewsSameEvent(a,b,metadata){
+ // Cache headline normalization and token/reference extraction per catalogue
+ // pass rather than repeating this work for every pair of nearby articles.
+ const get=row=>{
+  if(!metadata)return {date:Date.parse(row.date)};
+  if(!metadata.has(row))metadata.set(row,{date:Date.parse(row.date)});
+  return metadata.get(row);
+ };
+ const am=get(a),bm=get(b);
+ const age=Math.abs(am.date-bm.date);
  if(!Number.isFinite(age)||age>14*86400000)return false;
- const ar=ddNewsEventRefs(a.headline),br=ddNewsEventRefs(b.headline);
+ for(const [row,m] of [[a,am],[b,bm]])if(!m.refs){m.key=ddNewsHeadlineKey(row.headline);m.tokens=ddNewsEventTokens(row.headline);m.refs=ddNewsEventRefs(row.headline,m.tokens);}
+ const ar=am.refs,br=bm.refs;
  if(ddNewsDifferentRefs(ar.ids,br.ids)||ddNewsDifferentRefs(ar.years,br.years)||ddNewsDifferentRefs(ar.ordinals,br.ordinals))return false;
- if(ddNewsHeadlineKey(a.headline)===ddNewsHeadlineKey(b.headline))return true;
+ if(am.key===bm.key)return true;
  if(age>5*86400000)return false;
  const trumpAirforce=s=>{
   const t=String(s||'').toLowerCase();
@@ -1666,7 +1676,7 @@ function ddNewsSameEvent(a,b){
  };
  if(trumpAirforce(a.headline)&&trumpAirforce(b.headline))return true;
  if(age>3*86400000)return false;
- const at=ddNewsEventTokens(a.headline),bt=ddNewsEventTokens(b.headline);
+ const at=am.tokens,bt=bm.tokens;
  const intersection=[...at].filter(word=>bt.has(word)).length;
  return intersection>=4&&intersection/Math.max(1,Math.min(at.size,bt.size))>=0.80&&
   intersection/Math.max(1,new Set([...at,...bt]).size)>=0.53;
@@ -1697,84 +1707,104 @@ function ddNewsUrlKey(url){
  }catch{return ''}
 }
 function ddNewsDeduplicate(rows){
- const flat=ddNewsExpandCoverage(rows),groups=[],seenUrls=new Set();
+ const flat=ddNewsExpandCoverage(rows),groups=[],seenUrls=new Set(),metadata=new WeakMap();
  flat.sort((a,b)=>Date.parse(b.date||'')-Date.parse(a.date||''));
  for(const row of flat){
   const url=ddNewsUrlKey(row.url);
   if(url&&seenUrls.has(url))continue;
   if(url)seenUrls.add(url);
-  const primary=groups.find(x=>ddNewsSameEvent(x,row));
+  const primary=groups.find(x=>ddNewsSameEvent(x,row,metadata));
   if(primary){(primary.relatedCoverage??=[]).push(row)}
   else groups.push({...row});
  }
  return groups;
 }
-function ddNewsRows(rows,origin){
+function ddNewsRows(rows,origin,settled=true){
  if(!Array.isArray(rows))throw Error('Unexpected news catalogue');
  const valid=ddNewsExpandCoverage(rows).filter(x=>ddNewsEditorialEligible(x)&&safePublicUrl(x.url)&&!Number.isNaN(Date.parse(x.date))).map(ddNewsEditorialDisplay);
  if(!valid.length)throw Error('No attributed news reports');
  const deduped=ddNewsDeduplicate(valid.filter(x=>{const age=Date.now()-Date.parse(x.date);return age>=0&&age<=365*86400000}).sort((a,b)=>Date.parse(b.date)-Date.parse(a.date)));
  ddUpdateBadge('news',deduped.filter(x=>x.priority==='major'&&Date.now()-Date.parse(x.date)<48*3600000).map(x=>x.id||x.url));
  stories=deduped.map(x=>({headline:x.headline,originalHeadline:x.originalHeadline||'',source:x.source,publisher:x.source,country:x.country||'',sourceType:x.sourceType||'',originalLanguage:x.originalLanguage||'',summary:'Reported by '+x.source+' · Open the original reporting for full context.',url:x.url,date:x.date,id:x.id,category:x.category||'UAP',imageUrl:typeof x.imageUrl==='string'&&safePublicUrl(x.imageUrl)?x.imageUrl:'',imageSource:x.imageSource||'',publisherUrl:typeof x.publisherUrl==='string'&&safePublicUrl(x.publisherUrl)?x.publisherUrl:'',relatedCoverage:Array.isArray(x.relatedCoverage)?x.relatedCoverage:[]}));
- feedLive=true;if(origin!=='Offline cache · checking updates')ddNewsSettled=true;updatedAt=valid.reduce((a,x)=>x.date>a?x.date:a,valid[0].date);
+ feedLive=true;if(settled)ddNewsSettled=true;updatedAt=valid.reduce((a,x)=>x.date>a?x.date:a,valid[0].date);
  // When a local beta receives a fresher sourced feed, refresh saved-interest matches.
  if(myInterests.length){
   interestStories=localInterestMatches(stories,myInterests);
   $('interestStatus').textContent=localInterestsLabel(interestStories.length);
  }
- const old=Date.now()-Date.parse(updatedAt)>3*86400000;
- $('feedStatus').classList.toggle('feed-error',old);
- $('feedStatus').textContent=(old?'⚠ NEWS UPDATE DELAYED · ':'RESEARCH NEWS · ')+stories.length+' sourced stories · Latest '+new Date(updatedAt).toLocaleDateString('en-GB')+' · '+origin+(old?' · Freshness requires attention':'');
+ ddNewsSetStatus(origin);
  window.ddNewsTickerRows=deduped;window.dispatchEvent(new Event("dd-news-updated"));
  renderCases();news();if(ddNewsView==='top')renderTopNews();ddOpenNewsTarget();
  if(ddNewsSettled&&ddNewsView!=='read')ddWriteNewsUrl(ddNewsView,'replace',true);
 }
+function ddNewsSetStatus(origin){
+ const old=Date.now()-Date.parse(updatedAt)>3*86400000;
+ $('feedStatus').classList.toggle('feed-error',old);
+ $('feedStatus').textContent=(old?'⚠ NEWS UPDATE DELAYED · ':'RESEARCH NEWS · ')+stories.length+' sourced stories · Latest '+new Date(updatedAt).toLocaleDateString('en-GB')+' · '+origin+(old?' · Freshness requires attention':'');
+}
+// Keep the best displayed catalogue in memory as well as on disk. A slow
+// mirror or a failed cache write must never replace a fresher visible feed.
+let ddNewsDisplayed=null;
 async function loadLiveNews(force=false){
  if(feedBusy)return;
  feedBusy=true;$('feedRefresh').disabled=true;
  const cached=ddStoredNews();
- if(!feedLive&&cached){try{ddNewsRows(cached,'Offline cache · checking updates')}catch{}}
- $('feedStatus').textContent=feedLive?'Checking online for new stories…':'Loading news…';
+ let onlineAvailable=false,onlineAccepted=false;
+ function offer(rows,label,rank,online=false){
+  const latest=ddNewsFreshness(rows);
+  if(!Number.isFinite(latest))throw Error('No valid attributed news reports');
+  if(online)onlineAvailable=true;
+  const previous=ddNewsDisplayed;
+  if(previous&&(latest<previous.latest||(latest===previous.latest&&rank<previous.rank)))return;
+  const signature=JSON.stringify(rows);
+  const origin=label+' · checking for updates';
+  // Identical responses must not rebuild cards (or interrupt an open comment).
+  if(!previous||previous.signature!==signature)ddNewsRows(rows,origin,false);
+  else ddNewsSetStatus(origin);
+  ddNewsDisplayed={rows,latest,rank,label,signature,online};
+  if(online){
+   onlineAccepted=true;
+   // Persist as soon as the winning online feed arrives, even if the app
+   // closes before the slower mirror finishes.
+   try{localStorage.setItem(DD_NEWS_CACHE_KEY,JSON.stringify({rows,savedAt:new Date().toISOString()}))}catch{}
+  }
+ }
+ function finish(){
+  if(ddNewsDisplayed){
+   const best=ddNewsDisplayed;
+   ddNewsSetStatus(best.label+(onlineAccepted&&best.online?' · updated without site deployment':onlineAvailable?' · Saved copy is newer':' · Online update unavailable'));
+  }else{
+   stories=previewStories;window.ddNewsTickerRows=[];window.dispatchEvent(new Event('dd-news-updated'));
+   $('feedStatus').textContent='NEWS UNAVAILABLE · Showing editorial examples, not current reporting';$('feedStatus').classList.add('feed-error');news();
+  }
+ }
  try{
-   // GitHub's long-running catalogue updater currently writes to the active
-   // development feed. The main mirror can lag, so compare their actual
-   // article dates rather than assuming main is newer. No Netlify function.
-   const checked=await Promise.all(DD_NEWS_REMOTES.map(async source=>{
-     try{
-       const res=await fetch(source.url+'?t='+Date.now(),{cache:'no-store',signal:AbortSignal.timeout(12000)});
-       if(!res.ok)throw Error('HTTP '+res.status);
-       const rows=await res.json();
-       const latest=ddNewsFreshness(rows);
-       if(!Number.isFinite(latest))throw Error('No valid attributed news reports');
-       return {rows,latest,label:source.label};
-     }catch(error){
-       console.warn('GitHub news source unavailable:',source.label,error);
-       return null;
-     }
-   }));
-   const candidates=checked.filter(Boolean).sort((a,b)=>b.latest-a.latest);
-   if(!candidates.length)throw Error('No online GitHub news feed available');
-   const winner=candidates[0],savedLatest=ddNewsFreshness(cached);
-   // A temporarily lagging mirror must never overwrite a newer local copy.
-   if(savedLatest>winner.latest){
-     ddNewsRows(cached,'Saved GitHub news · checking for updates');
-   }else{
-     ddNewsRows(winner.rows,winner.label+' · updated without site deployment');
-     try{localStorage.setItem(DD_NEWS_CACHE_KEY,JSON.stringify({rows:winner.rows,savedAt:new Date().toISOString()}))}catch{}
-   }
- }catch(e){
-   console.warn('Online news update:',e.message);
-   if(feedLive){$('feedStatus').textContent='Online update unavailable · Showing cached news';}
-   else{
-     try{
-       const response=await fetch('data/news-alerts.json',{cache:'no-store'});
-       if(!response.ok)throw Error('Bundled feed unavailable');
-       ddNewsRows(await response.json(),'Bundled offline news · online update unavailable');
-     }catch{
-       stories=previewStories;window.ddNewsTickerRows=[];window.dispatchEvent(new Event('dd-news-updated'));$('feedStatus').textContent='NEWS UNAVAILABLE · Showing editorial examples, not current reporting';$('feedStatus').classList.add('feed-error');news();
-     }
-   }
- }finally{feedBusy=false;$('feedRefresh').disabled=false;if(ddPendingNews&&feedLive)$('feedStatus').textContent+=' · Shared story not found in the available news catalogue.';}
+  // On a cold launch paint the saved catalogue, or the packaged snapshot.
+  // Start the independent network requests without waiting for either mirror.
+  if(!feedLive&&cached){try{offer(cached,'Saved GitHub news',1)}catch{}}
+  if(feedLive)ddNewsSetStatus(ddNewsDisplayed.label+' · checking for updates');
+  else $('feedStatus').textContent='Loading saved news…';
+  const bundled=feedLive?Promise.resolve(): (async()=>{
+   try{
+    const response=await fetch('data/news-alerts.json',{cache:'no-store'});
+    if(!response.ok)throw Error('Bundled feed unavailable');
+    offer(await response.json(),'Bundled offline news',0);
+   }catch(error){console.warn('Bundled news unavailable:',error)}
+  })();
+  const online=DD_NEWS_REMOTES.map(async(source,index)=>{
+   try{
+    const res=await fetch(source.url+'?t='+Date.now(),{cache:'no-store',signal:AbortSignal.timeout(12000)});
+    if(!res.ok)throw Error('HTTP '+res.status);
+    offer(await res.json(),source.label,3-index,true);
+   }catch(error){console.warn('GitHub news source unavailable:',source.label,error)}
+  });
+  await Promise.all([bundled,...online]);
+ }finally{
+  try{finish()}finally{
+   feedBusy=false;$('feedRefresh').disabled=false;
+   if(ddPendingNews&&feedLive)$('feedStatus').textContent+=' · Shared story not found in the available news catalogue.';
+  }
+ }
 }
 
 const caseConnections={
@@ -3856,6 +3886,7 @@ function renderTopNews(){
  const ranked=[...groups].map(([name,articles])=>({name,articles,sourceCount:new Set(articles.map(x=>x.source.trim().toLowerCase())).size}))
  .sort((a,b)=>b.sourceCount-a.sourceCount||b.articles.length-a.articles.length||a.name.localeCompare(b.name)).slice(0,100);
  const page=ddNewsPageSlice(ranked,ddNewsPages.top);if(ddNewsSettled||ddNewsPages.top<=page.count)ddNewsPages.top=page.page;
+ ddNewsRenderedPages.top=page.page;
  const current=page.items;
  ddRenderNewsPager('ddTopPager','top',page,renderTopNews,'topics');
  $('topNewsStatus').textContent=ranked.length+' ranked topics from the current collected catalogue. Full historical rankings will grow as verified records are added.';
@@ -3926,7 +3957,9 @@ $('feedRefresh').onclick=()=>loadLiveNews(true);
 if(ddInitialNewsView==='top')switchNewsView('top');
 loadLiveNews().finally(()=>{
  if(!ddNewsSettled&&feedLive){
-  ddNewsSettled=true;news();if(ddNewsView==='top')renderTopNews();
+  ddNewsSettled=true;
+   if(ddNewsRenderedPages.latest!==ddNewsPages.latest){ddNewsPages.latest=ddNewsRenderedPages.latest;news();}
+   if(ddNewsView==='top'&&ddNewsRenderedPages.top!==ddNewsPages.top){ddNewsPages.top=ddNewsRenderedPages.top;renderTopNews();}
   if(ddNewsView!=='read')ddWriteNewsUrl(ddNewsView,'replace',true);
  }
  if(ddHasNewsUrl()&&ddNewsPages[ddNewsView]>1&&!$('discover').classList.contains('hidden')&&!ddAlertTarget.get('dd_news'))

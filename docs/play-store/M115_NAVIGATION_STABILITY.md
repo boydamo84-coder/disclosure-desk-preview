@@ -13,3 +13,6 @@
 - M115 320/393 px: held SDK, existing open customiser gains Discussions and Chat, stable select, save and fresh-page restoration passed. M114 393/1280 px, M113 320/393 px and all other browser/native/source contracts passed. M115 WebView lifecycle source checks and native compilation passed; physical shutdown/recovery test still mandatory (no physical crash reproduction or root stack).
 - Verified 161 approved assets byte-for-byte in all APK and AAB outputs, application ID/version/target 36, debug signature and alignment. [Installable M115 beta ZIP](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/46146287261/artifacts/15264251003) archive sha256:b9f9c5f1cb4a598338b2b890b976b8afdd4b1c47d32865177b6b225ee8140423; [unsigned Play build](https://github.com/boydamo84-coder/disclosure-desk-preview/actions/runs/46146287261/artifacts/15263494369) archive sha256:8bd6ca3d92ba21d704772575158b0e54607eba25f992f2b43bc0d8b505bd9c3a.
 - Do not submit to Play until physical navigation, recents dismissal, reopening and crash acceptance pass. Production website and database unchanged.
+
+## Owner follow-up
+28 November 2026: Owner confirms custom tabs save. Reports News takes a long time to load. See M116 for isolated performance follow-up; no explicit confirmation of the physical shutdown/crash test.

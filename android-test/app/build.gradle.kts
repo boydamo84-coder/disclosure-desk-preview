@@ -26,8 +26,8 @@ android {
         buildConfigField("String", "DD_FIREBASE_PROJECT_ID", "\"${System.getenv("DD_FIREBASE_PROJECT_ID") ?: ""}\"")
 
         buildConfigField("String", "DD_FIREBASE_SENDER_ID", "\"${System.getenv("DD_FIREBASE_SENDER_ID") ?: ""}\"")
-        versionCode = 51
-        versionName = "0.16.17"
+        versionCode = 52
+        versionName = "0.16.18"
         manifestPlaceholders["ddAppLabel"] = "Disclosure Desk"
     }
     buildFeatures { buildConfig = true }
@@ -44,9 +44,9 @@ android {
     buildTypes {
         getByName("debug") {
             // Never uninstall or overwrite the owner's installed production package.
-            applicationIdSuffix = ".beta.m115"
+            applicationIdSuffix = ".beta.m116"
             versionNameSuffix = "-preview"
-            manifestPlaceholders["ddAppLabel"] = "Disclosure Desk Beta M115"
+            manifestPlaceholders["ddAppLabel"] = "Disclosure Desk Beta M116"
         }
         getByName("release") {
             isMinifyEnabled = false

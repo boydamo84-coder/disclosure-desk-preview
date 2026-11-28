@@ -86,3 +86,7 @@ if (netlify && [branch, process.env.HEAD].includes('android/m114-comparison-labe
 if (netlify && [branch, process.env.HEAD].includes('android/m115-navigation-stability')) {
   throw new Error('M115 Android stability candidate must never deploy a website.');
 }
+
+if (netlify && [branch, process.env.HEAD].includes('android/m116-fast-news')) {
+  throw new Error('M116 Android News candidate must never deploy a website.');
+}
