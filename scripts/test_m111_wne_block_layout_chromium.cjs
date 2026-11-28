@@ -149,6 +149,19 @@ const fakeJs='(()=>{'+
   assert.deepEqual(await tables(),originals);
   assert.match(await page.locator('#editor').innerText(),/Second paragraph outside/);
   assert.equal(await page.locator('#editor img').count(),0);
+  // M114: the existing comparison action has its own concise name;
+  // the separate Citations tab retains its own independent controls.
+  await page.locator('#wne-splash').waitFor({state:'hidden'});
+  await page.locator('#dd-word-ribbon-v1 [data-ribbon="insert"]').click();
+  const compareButton=page.locator('#dd-word-context-v1 [data-action="compare"]');
+  assert.equal(await compareButton.innerText(),'📑 Comparison');
+  await compareButton.click();
+  await page.locator('#dd-comparison-dialog[open]').waitFor();
+  await page.locator('#dd-comparison-cancel').click();
+  await page.locator('#dd-word-ribbon-v1 [data-ribbon="citations"]').click();
+  assert.equal(await page.locator('#dd-word-context-v1').getByText('Insert saved citation',{exact:false}).count(),1);
+  assert.equal(await page.locator('#dd-word-context-v1 [data-action="compare"]').count(),0);
+  console.log('PASS M114 '+width+'px: Comparison label, original comparison dialog and independent Citations tab');
   assert.deepEqual(errors,[]);
   console.log('PASS M111 '+width+'px: keyboard image deletion, adjacent ordinary table gap, explicit paragraph after table, save and reload');
   await ctx.close();

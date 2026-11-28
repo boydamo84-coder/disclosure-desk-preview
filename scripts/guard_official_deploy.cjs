@@ -78,3 +78,7 @@ if (netlify && [branch, process.env.HEAD].includes('android/m110-shared-navigati
 if (netlify && [branch, process.env.HEAD].includes('android/m113-wne-menu-clearance')) {
   throw new Error('M113 Android W.NE dialog candidate must never deploy a website.');
 }
+
+if (netlify && [branch, process.env.HEAD].includes('android/m114-comparison-label')) {
+  throw new Error('M114 Android comparison label candidate must never deploy a website.');
+}

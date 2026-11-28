@@ -27,7 +27,7 @@
    markFile(false);
    if(b.dataset.ribbon==='insert'){
     const compare=panel.querySelector('[data-action=compare]');
-    if(compare)compare.textContent='📑 Case citation / comparison';
+    if(compare)compare.textContent='📑 Comparison';
     const image=panel.querySelector('[data-action=image]');
     if(image)image.textContent='🖼 Image & caption';
    }
