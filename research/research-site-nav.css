@@ -29,3 +29,8 @@ body.dd-site-nav-workspace.dd-site-nav-hidden>main{height:calc(100dvh - var(--dd
 #ddResearchSiteDock .nav-inner{grid-template-columns:repeat(6,minmax(0,1fr));overflow:visible}
 #ddResearchSiteDock .tab{min-width:0;max-width:none;margin:0;white-space:normal}
 #ddResearchSiteDock .dd-dock-links .tab .ico img{margin:0}
+
+/* The fixed dock is outside the workspace's flex flow. Reserve its measured
+   height so the actual editor iframe (including native modal top layers)
+   cannot extend behind it. Full-screen writing and Hide menu keep full space. */
+body.dd-site-nav-workspace.dd-site-nav-visible:not(.dd-writing-focus){padding-bottom:var(--dd-research-dock-height,95px)!important}

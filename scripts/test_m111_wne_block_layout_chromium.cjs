@@ -73,6 +73,13 @@ const fakeJs='(()=>{'+
    },[a,b],{timeout:5000});}catch(e){console.error('Gap diagnostics',a,b,await page.locator('#editor').evaluate(el=>[...el.children].map(n=>({tag:n.tagName,cls:n.className,txt:n.textContent.slice(0,60),gap:n.hasAttribute('data-wne-block-gap'),height:n.getBoundingClientRect().height,min:getComputedStyle(n).minHeight}))),errors);throw e}
   };
   await checkGap('Record D','Record E');
+  const finalTable=page.locator('#editor > table').last();
+  const tail=finalTable.locator('xpath=following-sibling::*[1]');
+  assert.ok(await tail.evaluate(el=>el.matches('p[data-wne-block-gap],div[data-wne-block-gap]')&&el.getBoundingClientRect().height>=28));
+  if(width===393)await tail.tap();else await tail.click();
+  await page.keyboard.type('Typed after the final table.');
+  assert.equal(await finalTable.evaluate(el=>el.textContent.includes('Typed after')),false);
+  assert.match(await page.locator('#editor').innerText(),/Typed after the final table/);
   assert.equal(await figure.locator('img').count(),1);
   await figure.locator('img').click();
   await page.locator('#dd-image-edit[open]').waitFor();

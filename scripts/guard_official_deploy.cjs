@@ -74,3 +74,7 @@ if (netlify && [branch, process.env.HEAD].includes('android/m111-wne-layout')) {
 if (netlify && [branch, process.env.HEAD].includes('android/m110-shared-navigation')) {
   throw new Error('M110 Android navigation candidate must never deploy a website.');
 }
+
+if (netlify && [branch, process.env.HEAD].includes('android/m113-wne-menu-clearance')) {
+  throw new Error('M113 Android W.NE dialog candidate must never deploy a website.');
+}

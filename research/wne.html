@@ -3416,13 +3416,15 @@ function normalize(){
  }
  const nodes=[...editor.childNodes].filter(n=>!ignored(n));
  const marked=new Set();
- for(let i=0;i<nodes.length-1;i++){
+ for(let i=0;i<nodes.length;i++){
   if(!rigid(nodes[i]))continue;
   let j=i+1;
   while(j<nodes.length&&(blank(nodes[j])||(nodes[j].nodeType===1&&nodes[j].tagName==='BR')))j++;
-  if(!rigid(nodes[j]))continue;
+  // A final table/comparison needs a real line beneath it as well as
+  // the existing gaps between adjacent blocks. Never put it inside a cell.
+  if(j<nodes.length&&!rigid(nodes[j]))continue;
   let p=nodes[i+1];
-  if(j===i+1){p=paragraph();editor.insertBefore(p,nodes[j])}
+  if(j===i+1){p=paragraph();editor.insertBefore(p,nodes[j]||null)}
   else if(p.tagName==='BR'){const replacement=paragraph();p.replaceWith(replacement);p=replacement}
   else if(!p.childNodes.length)p.append(document.createElement('br'));
   // Mark just the first empty line, even when the author added several.
@@ -3485,6 +3487,7 @@ window.WNEBlockLayout={insertParagraphAfter,target,move,remove};
 #dd-image-edit #dd-crop-preview{width:100%;max-height:230px;object-fit:contain;margin:9px 0}
 </style>
 <dialog id="dd-image-edit" aria-labelledby="dd-image-edit-title">
+<div class="dd-image-edit-content">
 <h3 id="dd-image-edit-title">Edit research image</h3>
 <label>Image width <output id="dd-edit-width-value">100%</output><input id="dd-edit-width" type="range" min="20" max="100" step="5" value="100"></label>
 <div><button data-img-align="left">Left</button><button data-img-align="center">Centre</button><button data-img-align="right">Right</button></div>
@@ -3499,7 +3502,8 @@ window.WNEBlockLayout={insertParagraphAfter,target,move,remove};
 <button type="button" id="dd-apply-crop">Apply crop</button><button type="button" id="dd-undo-crop" disabled>↶ Undo crop</button><button type="button" id="dd-redo-crop" disabled>↷ Redo crop</button>
 </details>
 <p id="dd-img-edit-feedback" role="status"></p>
-<div><button type="button" id="dd-remove-img">Remove image</button><button type="button" id="dd-close-img" class="primary">Done</button></div>
+</div>
+<div class="dd-image-edit-actions"><button type="button" id="dd-remove-img">Remove image</button><button type="button" id="dd-close-img" class="primary">Done</button></div>
 </dialog>
 <script id="dd-research-image-edit-v2-js">
 (function(){
@@ -3581,6 +3585,10 @@ window.WNEBlockLayout={insertParagraphAfter,target,move,remove};
 #dd-undo-crop:disabled,#dd-redo-crop:disabled,#dd-apply-crop:disabled{opacity:.4;cursor:not-allowed}
 </style><style id="dd-image-mobile-scroll-selection-v8">
 #dd-image-edit{box-sizing:border-box!important;max-height:min(76dvh,690px)!important;overflow-y:auto!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;top:0!important;bottom:0!important;margin:auto!important}
+#dd-image-edit[open]{display:flex;flex-direction:column;overflow:hidden!important}
+#dd-image-edit .dd-image-edit-content{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-right:2px;-webkit-overflow-scrolling:touch}
+#dd-image-edit .dd-image-edit-actions{display:flex;flex:0 0 auto;flex-wrap:wrap;justify-content:space-between;gap:4px;padding-top:6px;border-top:1px solid #a38c64;background:#142737}
+#dd-image-edit .dd-image-edit-actions button{min-height:44px}
 #dd-image-edit details{min-width:0}
 #dd-image-edit [data-img-align][aria-pressed="true"]{background:#d7bb87!important;color:#142737!important;border-color:#f0d69c!important;font-weight:700!important}
 #dd-crop-stage{max-height:240px!important}
