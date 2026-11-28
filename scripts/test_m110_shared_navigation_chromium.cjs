@@ -25,10 +25,14 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
    return route.fulfill({path:file,contentType:types[path.extname(file)]||'application/octet-stream'});
   });
   await context.addInitScript(()=>{
+   // Only simulate auth for the private research pages; public Desk and directory
+   // exercise the real guest/no-backend path, not an incomplete account mock.
+   if(!location.pathname.startsWith('/research/'))return;
    const user={id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'};
    window.supabase={createClient:()=>({
     auth:{getUser:async()=>({data:{user},error:null}),getSession:async()=>({data:{session:null},error:null}),onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}})},
-    from:()=>({select(){return this},eq(){return this},order(){return this},limit(){return this},maybeSingle:async()=>({data:null,error:null}),then(resolve){return Promise.resolve({data:[],error:null}).then(resolve)}})
+    rpc:async()=>({data:[],error:null}),
+    from:()=>({select(){return this},eq(){return this},not(){return this},order(){return this},limit(){return this},maybeSingle:async()=>({data:null,error:null}),then(resolve){return Promise.resolve({data:[],error:null}).then(resolve)}})
    })};
   });
   const page=await context.newPage();
