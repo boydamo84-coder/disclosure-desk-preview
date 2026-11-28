@@ -50,12 +50,14 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
   assert.equal(await page.locator('#ddPageHelpTitle').textContent(),"Who's Who in Disclosure");
   assert.equal(await page.evaluate(back),'handled');
   await iframe.locator('#peopleSearch').fill('David Fravor');
+  await page.evaluate(()=>{document.getElementById('ddAppPeopleFrame').contentWindow.__directoryDocumentIdentity='M109-retained-directory'});
   await iframe.locator('#peopleCards [data-person-id="david-fravor"] button').click();
   await iframe.locator('#personProfile:not(.hidden)').waitFor();
   assert.match(await iframe.locator('#profileName').textContent(),/Fravor/);
   const historyLength=await page.evaluate(()=>history.length);
   assert.equal(await page.evaluate(back),'handled','Android back returns to people cards');
   await iframe.locator('#directoryPage:not(.hidden)').waitFor();
+  assert.equal(await iframe.locator('#peopleSearch').inputValue(),'David Fravor','Back preserves directory filter');
   assert.equal(await page.evaluate(()=>history.length),historyLength,'No iframe profile history pollution');
   await tab('discover').click();
   await page.locator('#discover').waitFor();
@@ -63,6 +65,9 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
   assert.equal(await page.locator('#archiveSearch').inputValue(),'Rendlesham');
   assert.match(await page.locator('#ddArchiveLoadedCount').textContent(),/13,515/);
   await tab('peopleDirectory').click();
+  assert.equal(homeRequests,1,'Only one main Desk load before search check');
+  assert.equal(directoryRequests,1,'Only one directory load before search check');
+  assert.equal(await page.evaluate(()=>document.getElementById('ddAppPeopleFrame').contentWindow.__directoryDocumentIdentity),'M109-retained-directory');
   assert.equal(await iframe.locator('#peopleSearch').inputValue(),'David Fravor');
   assert.equal(await page.evaluate(()=>window.__deskDocumentIdentity),'M109-retained-desk');
   assert.equal(homeRequests,1,'Only one main Desk load');

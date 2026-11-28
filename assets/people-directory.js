@@ -15,8 +15,20 @@ let m29Dockets=new Map();
 let m29Rubric=null;
 const CASE_RETURN_KEY='dd-who-case-return-v1';
 const embeddedDirectory=document.documentElement.dataset.ddEmbeddedDirectory==='true';
-// Iframe profile changes must not add unrelated joint session-history entries.
-function directoryHistory(state,url){if(embeddedDirectory)history.replaceState(state,'',url);else history.pushState(state,'',url);}
+// The embedded directory has an independent logical profile stack. Avoid
+// mutating child History at all: WebView/Chromium joint navigation can
+// restore old form state when a child entry is replaced.
+let embeddedReturnAnchor=null;
+let embeddedFilters={query:'',kind:'all'};
+function directoryHistory(state,url){if(!embeddedDirectory)history.pushState(state,'',url);}
+function restoreEmbeddedFilters(){
+ if(!embeddedDirectory)return;
+ const search=$('peopleSearch'),category=$('peopleCategory');
+ if(search.value!==embeddedFilters.query||category.value!==embeddedFilters.kind){
+  search.value=embeddedFilters.query;category.value=embeddedFilters.kind;renderCards();
+ }
+}
+window.DDPeopleDirectoryResume=restoreEmbeddedFilters;
 let restoreSequence=0;
 const numberY=value=>Number.isFinite(value)&&value>=0?Math.round(value):null;
 function scrollToArea(element,offset=12){
@@ -78,11 +90,11 @@ function rememberProfileCaseDeparture(event){
   const isDossier=['/rendlesham-forest-1980','/rendlesham-forest-1980.html',
    '/roswell-1947','/roswell-1947.html'].includes(dest.pathname);
   if(!isArchive&&!isDossier)return;
-  const directoryReturn=history.state?.ddDirectoryReturn;
+  const directoryReturn=embeddedDirectory?embeddedReturnAnchor:history.state?.ddDirectoryReturn;
   sessionStorage.setItem(CASE_RETURN_KEY,JSON.stringify({
    personId:selected.id,personName:selected.name.slice(0,120),
    origin:location.origin,
-   page:location.pathname+location.search,
+   page:embeddedDirectory?'/who-is-who.html?person='+encodeURIComponent(selected.id):location.pathname+location.search,
    target:isArchive?'archive':'dossier',
    caseId:isArchive?dest.searchParams.get('dd_archive_case'):null,
    targetPath:isDossier?dest.pathname:null,
@@ -993,7 +1005,7 @@ function openPerson(person,updateUrl=true){
  if(updateUrl){
   originAnchor={personId:person.id,y:Math.max(0,Math.round(window.scrollY))};
   // Save the origin card's scroll position on the directory history entry.
-  history.replaceState({...history.state,ddDirectoryReturn:originAnchor},'',location.href);
+  if(embeddedDirectory)embeddedReturnAnchor=originAnchor;else history.replaceState({...history.state,ddDirectoryReturn:originAnchor},'',location.href);
  }
  selected=person;
  const show=$('personProfile'),directory=$('directoryPage');
@@ -1106,6 +1118,10 @@ function showDirectory(updateUrl=true,returnAnchor=null){
 // Native Android Back and the on-screen Back button use identical history-aware logic.
 function backToDirectory(){
  if(!selected)return false;
+ if(embeddedDirectory){
+  const anchor=embeddedReturnAnchor||{personId:selected.id,firstCard:true};
+  embeddedReturnAnchor=null;showDirectory(false,anchor);restoreEmbeddedFilters();return true;
+ }
  if(history.state?.fromDirectory&&!embeddedDirectory){history.back();return true;}
  const personId=selected.id;
  // Capture the return anchor BEFORE replaceState clears this profile entry.
@@ -1156,7 +1172,7 @@ $('directoryBack').addEventListener('click',backToDirectory);
 // A Back-to-directory return scroll is scheduled over two animation frames.
 // If the visitor immediately types or changes filters, their new interaction wins:
 // never let the stale return animation refocus an old card or jump the list.
-function onDirectoryFilterChanged(){++restoreSequence;renderCards();}
+function onDirectoryFilterChanged(){++restoreSequence;if(embeddedDirectory)embeddedFilters={query:$('peopleSearch').value,kind:$('peopleCategory').value};renderCards();}
 // M60: explicitly selected source-linked profiles for the staged directory.
 // Keep the original 50 and all case dossiers intact. An unreviewed extra JSON
 // entry must never become visible merely because it was placed in the file.

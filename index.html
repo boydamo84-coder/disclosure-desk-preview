@@ -608,6 +608,7 @@
 </style><link rel="stylesheet" href="assets/news-ticker.css?v=nov08-v9&issue22=1"><style id="dd-m35-no-navigation-flash">html.dd-navigation-pending .shell{visibility:hidden!important}</style><style id="dd-app-directory-style">
 #peopleDirectory{position:fixed;inset:var(--dd-app-directory-top,0px) 0 var(--dd-app-directory-bottom,65px);z-index:690;background:#09131e;max-width:none;margin:0;padding:0;display:flex;flex-direction:column}
 #peopleDirectory.hidden{display:none!important}
+#peopleDirectory.hidden:has(#ddAppPeopleFrame){display:flex!important;visibility:hidden;pointer-events:none}
 #ddAppPeopleFrame{display:block;width:100%;flex:1;min-height:0;border:0;background:#09131e}
 #ddAppPeopleLoading{margin:0;padding:12px 16px;color:#bccbd6;font-size:13px}
 html.dd-app-directory-open,html.dd-app-directory-open body{overflow:hidden}
@@ -2615,7 +2616,7 @@ function ddOpenAppPeople(){
   frame.src='/who-is-who.html';
   frame.addEventListener('load',()=>{$('ddAppPeopleLoading').hidden=true;ddSyncPeopleFrameBounds()});
   pane.append(frame);
- }
+ }else{try{$('ddAppPeopleFrame').contentWindow?.DDPeopleDirectoryResume?.()}catch(_){}}
  ddSyncPeopleFrameBounds();
 }
 function ddUserNavigateTo(section){
@@ -2901,6 +2902,7 @@ document.querySelectorAll('.nav .tab').forEach(t=>{
 });
 ['discover','archivePage','originalResearchPage','mapPage','cases','clips','rabbitHole','witness','about','resources','hub','boards','watchRead','livePage','researchStudio','profilePage','discussionsPage','chatPage','peopleDirectory'].forEach(k=>$(k).classList.toggle('hidden',k!==id));
 document.documentElement.classList.toggle('dd-app-directory-open',id==='peopleDirectory');
+$('peopleDirectory').inert=id!=='peopleDirectory';
 if(id==='peopleDirectory')ddOpenAppPeople();
 // Chat and Discussions originally have an HTML hidden attribute as well as a
 // hidden CSS class. Clear both when selected or these approved pages stay invisible.
