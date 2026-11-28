@@ -2828,6 +2828,7 @@ function select(name){
  if(name==='insert'){
   action('image','▧ Image');
   action('compare','▦ Compare evidence');
+  action('paragraph-after','＋ Paragraph after block');
   action('library','📚 Research Library');
  }else if(name==='review'){
   action('writing','✓ Writing checks');
@@ -2857,6 +2858,7 @@ panel.addEventListener('click',event=>{
  const map={image:'dd-insert-image',compare:'dd-insert-comparison',writing:'wne-spell-toggle',
    find:'wne-format-find',small:'wne-view-minus',large:'wne-view-plus',sections:'drawer',focus:'tvmode'};
  const id=button.dataset.action;
+ if(id==='paragraph-after'){window.WNEBlockLayout?.insertParagraphAfter();return;}
  if(id==='library'){
   try{
    const home=window.parent!==window?window.parent.document.getElementById('bibleBtn'):null;
@@ -3377,6 +3379,98 @@ document.getElementById('dd-image-confirm').onclick=async()=>{
 })();
 </script>
 
+<style id="dd-wne-block-layout-m111">
+/* Real paragraphs, not cosmetic table margins: the touch target is editable. */
+#editor > [data-wne-block-gap]{min-height:32px;margin:5px 0;line-height:1.85;cursor:text}
+#dd-image-edit .dd-image-position{display:flex;flex-wrap:wrap;gap:5px}
+#dd-image-edit .dd-image-position button{flex:1 1 auto;min-height:42px}
+#dd-image-edit .dd-image-position button:disabled{opacity:.45;cursor:not-allowed}
+</style>
+<script id="dd-wne-block-layout-m111-js">
+(()=>{
+'use strict';
+const editor=document.getElementById('editor');if(!editor)return;
+const editable=()=>editor.contentEditable==='true';
+const blank=n=>n?.nodeType===1&&['P','DIV'].includes(n.tagName)&&!n.classList.contains('dd-comparison-block')&&!n.textContent.replace(/[\u200b\ufeff\u00a0]/g,'').trim()&&!n.querySelector('img,table,figure,hr');
+const rigid=n=>n?.nodeType===1&&(n.matches('table,.dd-comparison-block')||n.querySelector('table'));
+const ignored=n=>n.nodeType===8||(n.nodeType===3&&!n.textContent.trim());
+const paragraph=()=>{const p=document.createElement('p');p.append(document.createElement('br'));return p};
+const topBlock=n=>{if(!n||n===editor||!editor.contains(n))return null;while(n.parentNode!==editor){n=n.parentNode;if(!n)return null}return n};
+const caret=p=>{if(!editable()||!editor.contains(p))return;editor.focus({preventScroll:true});const range=document.createRange();range.selectNodeContents(p);range.collapse(true);const sel=getSelection();sel.removeAllRanges();sel.addRange(range)};
+let lastBlock=null;
+document.addEventListener('selectionchange',()=>{const sel=getSelection();const block=topBlock(sel?.anchorNode);if(block)lastBlock=block});
+function normalize(){
+ if(!editable())return;
+ // Backspace can remove only the bitmap and leave a small empty frame.
+ // Convert orphaned top-level frames into text without dropping a caption.
+ for(const fig of editor.querySelectorAll(':scope > figure:not(:has(img))')){
+  if(fig.querySelector('table,figure'))continue;
+  const sel=getSelection(),wasInside=sel?.anchorNode&&fig.contains(sel.anchorNode);
+  const p=paragraph();p.replaceChildren();
+  for(const child of [...fig.childNodes]){
+   if(child.nodeType===1&&child.tagName==='FIGCAPTION')p.append(...child.childNodes);
+   else p.append(child);
+  }
+  if(!p.childNodes.length)p.append(document.createElement('br'));
+  fig.replaceWith(p);if(wasInside)caret(p);
+ }
+ const nodes=[...editor.childNodes].filter(n=>!ignored(n));
+ const marked=new Set();
+ for(let i=0;i<nodes.length-1;i++){
+  if(!rigid(nodes[i]))continue;
+  let j=i+1;
+  while(j<nodes.length&&(blank(nodes[j])||(nodes[j].nodeType===1&&nodes[j].tagName==='BR')))j++;
+  if(!rigid(nodes[j]))continue;
+  let p=nodes[i+1];
+  if(j===i+1){p=paragraph();editor.insertBefore(p,nodes[j])}
+  else if(p.tagName==='BR'){const replacement=paragraph();p.replaceWith(replacement);p=replacement}
+  else if(!p.childNodes.length)p.append(document.createElement('br'));
+  // Mark just the first empty line, even when the author added several.
+  marked.add(p);p.setAttribute('data-wne-block-gap','');
+ }
+ for(const n of editor.querySelectorAll(':scope > [data-wne-block-gap]'))if(!marked.has(n))n.removeAttribute('data-wne-block-gap');
+}
+const notify=()=>editor.dispatchEvent(new Event('input',{bubbles:true}));
+// Capture runs before W.NE's normal input/autosave listener; no recursive input
+// or HTML rebuild, so table contents, selection and the normal typing path stay intact.
+editor.addEventListener('input',e=>{if(!e.isComposing)normalize()},true);
+editor.addEventListener('compositionend',normalize);
+new MutationObserver(normalize).observe(editor,{childList:true,attributes:true,attributeFilter:['contenteditable']});
+editor.addEventListener('click',e=>{const p=e.target.closest?.('[data-wne-block-gap]');if(p?.parentNode===editor&&blank(p)&&editable()){e.preventDefault();caret(p)}},true);
+function insertParagraphAfter(){
+ if(!editable())return;
+ const sel=getSelection();
+ const block=topBlock(sel?.anchorNode)||(lastBlock?.parentNode===editor?lastBlock:editor.lastChild);
+ let next=block?.nextSibling;while(next&&ignored(next))next=next.nextSibling;
+ const p=blank(next)?next:paragraph();
+ if(p!==next)editor.insertBefore(p,next||null);
+ if(!p.childNodes.length)p.append(document.createElement('br'));
+ caret(p);notify();p.scrollIntoView({block:'nearest'});
+}
+function target(fig,direction){
+ if(!editable()||!fig||!editor.contains(fig))return null;
+ const root=topBlock(fig);if(!root)return null;
+ // A figure pasted inside text or a comparison can be lifted out without
+ // moving its containing table or deleting the surrounding text.
+ if(root!==fig)return root;
+ let n=direction<0?fig.previousSibling:fig.nextSibling;
+ while(n&&(ignored(n)||blank(n)||(n.nodeType===1&&n.tagName==='BR')))n=direction<0?n.previousSibling:n.nextSibling;
+ return n;
+}
+function move(fig,direction){
+ const other=target(fig,direction);if(!other)return false;
+ editor.insertBefore(fig,direction<0?other:other.nextSibling);
+ normalize();return true;
+}
+function remove(fig){
+ if(!editable()||!fig||!editor.contains(fig))return false;
+ if(fig.parentNode===editor)fig.replaceWith(paragraph());else fig.remove();
+ normalize();return true;
+}
+window.WNEBlockLayout={insertParagraphAfter,target,move,remove};
+})();
+</script>
+
 <style id="dd-research-image-edit-v2-css">
 #editor figure[align=left]{margin-left:0!important;margin-right:auto!important}
 #editor figure[align=right]{margin-right:0!important;margin-left:auto!important}
@@ -3394,6 +3488,7 @@ document.getElementById('dd-image-confirm').onclick=async()=>{
 <label>Image width <output id="dd-edit-width-value">100%</output><input id="dd-edit-width" type="range" min="20" max="100" step="5" value="100"></label>
 <div><button data-img-align="left">Left</button><button data-img-align="center">Centre</button><button data-img-align="right">Right</button></div>
 <label>Caption and source<input id="dd-edit-caption" maxlength="550"></label>
+<div class="dd-image-position" role="group" aria-label="Position in document"><button type="button" id="dd-image-move-up">↑ Move up</button><button type="button" id="dd-image-move-down">↓ Move down</button></div>
 <details><summary>Crop image</summary><p style="font-size:12px">Drag the crop edges using the sliders. Crop replaces this report copy, not the original file on your phone.</p>
 <div id="dd-crop-stage"><img id="dd-crop-preview" alt="Crop preview"><div id="dd-crop-mask" aria-hidden="true"></div></div><p id="dd-crop-readout" style="font-size:12px;color:#e6c58e">Full image selected</p>
 <label>Left %<input id="dd-crop-left" type="range" min="0" max="70" value="0"></label>
@@ -3408,11 +3503,18 @@ document.getElementById('dd-image-confirm').onclick=async()=>{
 <script id="dd-research-image-edit-v2-js">
 (function(){
  const editor=document.getElementById('editor'),modal=document.getElementById('dd-image-edit');if(!editor||!modal)return;
- const val=id=>document.getElementById(id);let image=null,fig=null,cropHistory=[],redoHistory=[];
+ const val=id=>document.getElementById(id);let image=null,fig=null,cropHistory=[],redoHistory=[],moved=false;
  const update=()=>editor.dispatchEvent(new Event('input',{bubbles:true}));
+ const layout=window.WNEBlockLayout;
+ const refreshPosition=()=>{val('dd-image-move-up').disabled=!layout?.target(fig,-1);val('dd-image-move-down').disabled=!layout?.target(fig,1)};
+ for(const [id,dir] of [['dd-image-move-up',-1],['dd-image-move-down',1]])val(id).onclick=()=>{
+  if(!layout?.move(fig,dir))return;
+  moved=true;update();refreshPosition();
+  val('dd-img-edit-feedback').textContent=dir<0?'Image moved up in the document.':'Image moved down in the document.';
+ };
  editor.addEventListener('click',e=>{
   const img=e.target.closest('figure img');if(!img||!editor.contains(img)||editor.contentEditable!=='true')return;
-  image=img;fig=img.closest('figure');
+  image=img;fig=img.closest('figure');moved=false;refreshPosition();
   val('dd-edit-width').value=Number.parseInt(fig.getAttribute('width'))||Number.parseInt(img.getAttribute('width'))||100;
   val('dd-edit-width-value').textContent=val('dd-edit-width').value+'%';
   val('dd-edit-caption').value=fig.querySelector('figcaption')?.textContent||'';
@@ -3433,11 +3535,11 @@ document.getElementById('dd-image-confirm').onclick=async()=>{
    val('dd-img-edit-feedback').textContent='Remove this image from the report? Tap Confirm remove image again, or Done to keep it.';
    return;
   }
-  fig.remove();update();modal.close();removePending=false;
+  if(!layout?.remove(fig))return;update();modal.close();removePending=false;
   val('dd-remove-img').textContent='Remove image';
  };
  modal.addEventListener('close',()=>{removePending=false;val('dd-remove-img').textContent='Remove image';val('dd-img-edit-feedback').textContent='';});
- val('dd-close-img').onclick=()=>modal.close();
+ val('dd-close-img').onclick=()=>{modal.close();if(moved&&editor.contains(fig))fig.scrollIntoView({block:'nearest'});};
  const refreshCrop=()=>{
  const l=+val('dd-crop-left').value,t=+val('dd-crop-top').value,r=+val('dd-crop-right').value,b=+val('dd-crop-bottom').value;
  const valid=l+r<95&&t+b<95;

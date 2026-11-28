@@ -65,6 +65,9 @@ if (netlify && [branch, process.env.HEAD].includes('android/m109-persistent-dire
   throw new Error('M109 Android navigation candidate must never deploy a website.');
 }
 
+if (netlify && [branch, process.env.HEAD].includes('android/m111-wne-layout')) {
+  throw new Error('M111 Android editor candidate must never deploy a website.');
+}
 if (netlify && [branch, process.env.HEAD].includes('android/m110-shared-navigation')) {
   throw new Error('M110 Android navigation candidate must never deploy a website.');
 }

@@ -1,13 +1,13 @@
-name: Disclosure Desk M110 private Android APK
+name: Disclosure Desk M111 private Android APK
 on:
   workflow_dispatch:
   push:
-    branches: [android/m110-shared-navigation]
+    branches: [android/m111-wne-layout]
 permissions:
   contents: read
 jobs:
   apk:
-    if: github.ref == 'refs/heads/android/m110-shared-navigation'
+    if: github.ref == 'refs/heads/android/m111-wne-layout'
     runs-on: ubuntu-latest
     timeout-minutes: 28
     steps:
@@ -44,13 +44,14 @@ jobs:
         run: |
           npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 leaflet@1.9.4
           test -x /usr/bin/google-chrome
-          python3 -m http.server 4173 --bind 127.0.0.1 --directory android-test/app/src/main/assets/dd-site >/tmp/dd-m110-http.log 2>&1 &
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory android-test/app/src/main/assets/dd-site >/tmp/dd-m111-http.log 2>&1 &
           server=$!
           trap 'kill "$server" || true' EXIT
           for attempt in 1 2 3 4 5; do
             if curl -fsS --max-time 2 http://127.0.0.1:4173/index.html -o /dev/null; then break; fi
             sleep 1
           done
+          node scripts/test_m111_wne_block_layout_chromium.cjs
           node scripts/test_m109_persistent_directory_chromium.cjs
           node scripts/test_m110_shared_navigation_chromium.cjs
           CHROME_PATH=/usr/bin/google-chrome node scripts/test_issue22_release_chromium.cjs
@@ -90,38 +91,38 @@ jobs:
           tools="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}/build-tools/35.0.0"
           "$tools/apksigner" verify --print-certs "$apk"
           "$tools/zipalign" -c -P 16 4 "$apk"
-          "$tools/aapt" dump badging "$apk" | grep -F "package: name='com.boyddigitalstudios.disclosuredesk.beta.m110' versionCode='46' versionName='0.16.12-preview'"
+          "$tools/aapt" dump badging "$apk" | grep -F "package: name='com.boyddigitalstudios.disclosuredesk.beta.m111' versionCode='47' versionName='0.16.13-preview'"
           "$tools/aapt" dump badging "$apk" | grep -F "targetSdkVersion:'36'"
           python3 scripts/verify_android_m106_package.py "$apk"
           release_apk=android-test/app/build/outputs/apk/release/app-release-unsigned.apk
           aab=android-test/app/build/outputs/bundle/release/app-release.aab
           test -s "$release_apk" && test -s "$aab"
           "$tools/zipalign" -c -P 16 4 "$release_apk"
-          "$tools/aapt" dump badging "$release_apk" | grep -F "package: name='com.boyddigitalstudios.disclosuredesk' versionCode='46' versionName='0.16.12'"
+          "$tools/aapt" dump badging "$release_apk" | grep -F "package: name='com.boyddigitalstudios.disclosuredesk' versionCode='47' versionName='0.16.13'"
           "$tools/aapt" dump badging "$release_apk" | grep -F "targetSdkVersion:'36'"
           python3 scripts/verify_android_m106_package.py "$release_apk"
           python3 scripts/verify_android_m106_package.py "$aab"
           # A production release cannot be uploaded until signed with the owner's existing upload key.
           python3 scripts/test_play_release_m106.py "$release_apk" "$aab"
-          mkdir -p .release-staging/android-m110
-          cp "$apk" .release-staging/android-m110/DisclosureDesk-M110-private-beta.apk
-          cp "$aab" .release-staging/android-m110/DisclosureDesk-M110-UNSIGNED.aab
-          cp "$release_apk" .release-staging/android-m110/DisclosureDesk-M110-release-UNSIGNED.apk
-          (cd .release-staging/android-m110 && sha256sum *.apk *.aab > SHA256SUMS.txt)
+          mkdir -p .release-staging/android-m111
+          cp "$apk" .release-staging/android-m111/DisclosureDesk-M111-private-beta.apk
+          cp "$aab" .release-staging/android-m111/DisclosureDesk-M111-UNSIGNED.aab
+          cp "$release_apk" .release-staging/android-m111/DisclosureDesk-M111-release-UNSIGNED.apk
+          (cd .release-staging/android-m111 && sha256sum *.apk *.aab > SHA256SUMS.txt)
 
       - uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M110-PRIVATE-BETA
-          path: .release-staging/android-m110/DisclosureDesk-M110-private-beta.apk
+          name: DisclosureDesk-M111-PRIVATE-BETA
+          path: .release-staging/android-m111/DisclosureDesk-M111-private-beta.apk
           if-no-files-found: error
           retention-days: 14
       - uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-M110-PLAY-UNSIGNED
+          name: DisclosureDesk-M111-PLAY-UNSIGNED
           path: |
-            .release-staging/android-m110/DisclosureDesk-M110-UNSIGNED.aab
-            .release-staging/android-m110/DisclosureDesk-M110-release-UNSIGNED.apk
-            .release-staging/android-m110/SHA256SUMS.txt
+            .release-staging/android-m111/DisclosureDesk-M111-UNSIGNED.aab
+            .release-staging/android-m111/DisclosureDesk-M111-release-UNSIGNED.apk
+            .release-staging/android-m111/SHA256SUMS.txt
             docs/play-store/
           if-no-files-found: error
           retention-days: 30
