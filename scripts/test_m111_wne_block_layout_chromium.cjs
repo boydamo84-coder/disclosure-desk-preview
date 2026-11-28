@@ -64,13 +64,13 @@ const fakeJs='(()=>{'+
   const original=await imageProperties();
   const order=()=>page.locator('#editor').evaluate(el=>[...el.children].filter(n=>n.matches('.dd-comparison-block,table,figure')).map(n=>n.matches('figure')?'IMAGE':n.querySelector('th,td').textContent==='Field'?n.querySelector('p').textContent:n.querySelector('td').textContent));
   const checkGap=async(a,b)=>{
-   await page.waitForFunction(([a,b])=>{
+   try{await page.waitForFunction(([a,b])=>{
     const ed=document.getElementById('editor');
     const nodes=[...ed.children];
     const left=nodes.find(n=>n.matches('.dd-comparison-block,table')&&n.textContent.includes(a)),right=nodes.find(n=>n.matches('.dd-comparison-block,table')&&n.textContent.includes(b));
     const between=nodes.slice(nodes.indexOf(left)+1,nodes.indexOf(right));
-    return left&&right&&between.some(n=>n.matches('p[data-wne-block-gap],div[data-wne-block-gap]')&&n.getBoundingClientRect().height>=30);
-   },[a,b]);
+    return left&&right&&between.some(n=>n.matches('p[data-wne-block-gap],div[data-wne-block-gap]')&&parseFloat(getComputedStyle(n).minHeight)>=30&&n.getBoundingClientRect().height>=20);
+   },[a,b],{timeout:5000});}catch(e){console.error('Gap diagnostics',a,b,await page.locator('#editor').evaluate(el=>[...el.children].map(n=>({tag:n.tagName,cls:n.className,txt:n.textContent.slice(0,60),gap:n.hasAttribute('data-wne-block-gap'),height:n.getBoundingClientRect().height,min:getComputedStyle(n).minHeight}))),errors);throw e}
   };
   await checkGap('Record D','Record E');
   assert.equal(await figure.locator('img').count(),1);

@@ -2,7 +2,12 @@
 (() => {
   'use strict';
 
-  const primary = ['discover', 'archivePage', 'originalResearchPage', 'peopleDirectory', 'researchStudio'];
+  const android = navigator.userAgent.includes('DisclosureDeskAndroid');
+  const webPrimary = ['discover', 'archivePage', 'originalResearchPage', 'peopleDirectory', 'researchStudio'];
+  const appPrimary = ['discover', 'clips', 'archivePage', 'originalResearchPage', 'researchStudio'];
+  const preferencesKey = 'dd-android-dock-order-v1';
+  const labels = {discover:'News',clips:'Videos',archivePage:'Archive',originalResearchPage:'Research',researchStudio:'W.NE',peopleDirectory:'Who’s Who',mapPage:'Map',livePage:'LIVE',boards:'Boards',witness:'Witness',discussionsPage:'Discussions',watchRead:'Watch & Read',chatPage:'Chat',profilePage:'Profile',hub:'Help',cases:'Case Files',rabbitHole:'Rabbit Hole',resources:'Documents',about:'About'};
+  const primary = android ? appPrimary : webPrimary;
   const icons = {
     discover: 'M4 5h16v14H4zM8 9h3v4H8zM14 9h3m-3 4h3m-9 3h9',
     archivePage: 'M4 8h16v12H4zM3 4h18v4H3zM9 12h6',
@@ -92,14 +97,48 @@
       trigger.toggleAttribute('data-dd-attention', attention > 0);
       trigger.setAttribute('aria-label', attention ? 'More destinations, '+attention+' with new items' : 'More');
     }
-    function placeTabs() {
-      for (const tab of rail.querySelectorAll('[data-tab]')) {
-        addIcon(tab, tab.dataset.tab);
-        if (!primary.includes(tab.dataset.tab)) destinations.append(tab);
+    const registered = new Map();
+    let preference = appPrimary.slice(), draft = null;
+    if(android){
+      try{
+        const saved=JSON.parse(localStorage.getItem(preferencesKey)||'null');
+        if(Array.isArray(saved)&&saved.length===5&&new Set(saved).size===5&&saved.every(id=>Object.hasOwn(labels,id)))preference=saved;
+      }catch(_){}
+    }
+    const available = () => [...registered.entries()].filter(([id,tab])=>Object.hasOwn(labels,id)&&tab.isConnected&&!tab.hidden&&!tab.classList.contains('hidden')).map(([id])=>id);
+    function desired(order=preference){
+      const ids=available();
+      return [...new Set([...order,...appPrimary,...ids])].filter(id=>ids.includes(id)).slice(0,5);
+    }
+    function register(){
+      for(const tab of [...rail.querySelectorAll(':scope > [data-tab]'),...destinations.querySelectorAll(':scope > [data-tab]')]){
+        const id=tab.dataset.tab;
+        if(registered.get(id)===tab)continue;
+        addIcon(tab,id);registered.set(id,tab);
       }
+    }
+    function placeTabs() {
+      if(!android){
+        for (const tab of rail.querySelectorAll('[data-tab]')) {
+          if(!tab.querySelector('.ico svg, .ico img'))addIcon(tab, tab.dataset.tab);
+          if (!primary.includes(tab.dataset.tab)) destinations.append(tab);
+        }
+        syncSelected();
+        return;
+      }
+      register();
+      const selected=desired();
+      for(const [id,tab] of registered){
+        if(!tab.isConnected)continue;
+        if(!selected.includes(id)&&tab.parentNode!==destinations)destinations.append(tab);
+      }
+      selected.forEach((id,i)=>{
+        const tab=registered.get(id);
+        if(rail.children[i]!==tab)rail.insertBefore(tab,rail.children[i]||trigger);
+      });
+      if(rail.lastElementChild!==trigger)rail.append(trigger);
       syncSelected();
     }
-    placeTabs();
     for (const [id, label] of additional) {
       const tab = makeTab(id, label, () => action(id));
       addIcon(tab, id);
@@ -108,6 +147,65 @@
     rail.append(trigger);
     nav.append(dialog);
     nav.classList.add('dd-site-dock');
+    if(android){
+      const customise=document.createElement('button');
+      customise.type='button';customise.className='dd-dock-customise';customise.textContent='Customise bottom tabs';
+      customise.setAttribute('aria-expanded','false');
+      const settings=document.createElement('section');
+      settings.className='dd-dock-settings';settings.hidden=true;settings.id='ddDockSettings';
+      customise.setAttribute('aria-controls',settings.id);
+      settings.innerHTML='<h3>Your bottom tabs</h3><p>Choose the five destinations in the order you prefer. Selecting an existing tab swaps its position. More always stays visible.</p><div class="dd-dock-slots"></div><div class="dd-dock-settings-actions"><button type="button" data-dock-reset>Reset defaults</button><button type="button" data-dock-cancel>Cancel</button><button type="button" data-dock-save>Save tabs</button></div>';
+      destinations.before(customise,settings);
+      const slots=settings.querySelector('.dd-dock-slots');
+      function renderSettings(){
+        slots.replaceChildren();
+        const choices=available();
+        draft.forEach((id,i)=>{
+          const row=document.createElement('label');row.className='dd-dock-slot';row.textContent='Position '+(i+1);
+          const select=document.createElement('select');select.setAttribute('aria-label','Bottom tab '+(i+1));
+          for(const key of choices){
+            const option=document.createElement('option');option.value=key;option.textContent=labels[key]||key;select.append(option);
+          }
+          select.value=id;
+          select.addEventListener('change',()=>{
+            const value=select.value, other=draft.indexOf(value);
+            if(other>=0&&other!==i)draft[other]=draft[i];
+            draft[i]=value;
+            renderSettings();slots.querySelectorAll('select')[i]?.focus();
+          });
+          row.append(select);slots.append(row);
+        });
+      }
+      function endSettings(){
+        draft=null;settings.hidden=true;destinations.hidden=false;
+        customise.setAttribute('aria-expanded','false');
+        customise.textContent='Customise bottom tabs';
+      }
+      customise.addEventListener('click',()=>{
+        if(draft){endSettings();return}
+        draft=desired();renderSettings();
+        settings.hidden=false;destinations.hidden=true;customise.setAttribute('aria-expanded','true');customise.textContent='Back to destinations';
+        slots.querySelector('select')?.focus();
+      });
+      settings.querySelector('[data-dock-reset]').onclick=()=>{draft=desired(appPrimary);renderSettings()};
+      settings.querySelector('[data-dock-cancel]').onclick=()=>{endSettings();customise.focus()};
+      settings.querySelector('[data-dock-save]').onclick=()=>{
+        if(!draft||draft.length!==5||new Set(draft).size!==5)return;
+        preference=draft.slice();
+        try{localStorage.setItem(preferencesKey,JSON.stringify(preference))}catch(_){}
+        placeTabs();endSettings();dialog.close();
+      };
+      dialog.addEventListener('close',endSettings);
+      window.addEventListener('storage',e=>{
+        if(e.key!==preferencesKey)return;
+        try{
+          const value=JSON.parse(e.newValue||'null');
+          if(Array.isArray(value)&&value.length===5&&new Set(value).size===5&&value.every(id=>Object.hasOwn(labels,id))){preference=value;placeTabs()}
+          else if(!value){preference=appPrimary.slice();placeTabs()}
+        }catch(_){}
+      });
+    }
+    placeTabs();
     new MutationObserver(placeTabs).observe(rail, {childList: true});
     new MutationObserver(syncSelected).observe(destinations, {childList: true, subtree: true, attributes: true, attributeFilter: ['aria-current', 'hidden', 'class']});
     trigger.addEventListener('click', () => {

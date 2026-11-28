@@ -121,3 +121,18 @@ body:has(#ddAndroidEditorialNav) #ddWebSecondaryNav { display: none; }
 .dd-site-dock .dd-dock-links [data-tab]:has(:is([data-new-badge],.dd-chat-unread-badge):not([hidden])) {
   gap: 6px; padding-right: 4px;
 }
+
+
+/* Android-only tab customisation (the web builds never create this panel). */
+.dd-dock-customise{display:block;width:100%;min-height:44px;margin:10px 0 2px;padding:8px;border:1px solid #526779;border-radius:8px;background:#192a3b;color:#f4d599;text-align:center;font:600 13px system-ui;cursor:pointer}
+.dd-dock-settings[hidden],.dd-dock-links[hidden]{display:none!important}
+.dd-dock-settings{padding:10px 1px}
+.dd-dock-settings h3{font-size:16px;margin:0 0 5px}
+.dd-dock-settings p{font-size:12px;color:#c0cbd4;line-height:1.45;margin:0 0 10px}
+.dd-dock-slot{display:grid;grid-template-columns:85px minmax(0,1fr);gap:8px;align-items:center;margin:6px 0;font-size:12px}
+.dd-dock-slot select{min-height:44px;max-width:100%;width:100%;padding:6px;border-radius:7px;border:1px solid #526779;background:#192a3b;color:#eef3f6;font:600 13px system-ui}
+.dd-dock-settings-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.dd-dock-settings-actions button{flex:1 1 auto;min-height:44px;padding:6px 9px;border:1px solid #526779;border-radius:7px;background:#192a3b;color:#eef3f6;font:600 12px system-ui}
+.dd-dock-settings-actions [data-dock-save]{background:#e5c68e;color:#142435;font-weight:750}
+.dd-site-dock .nav-inner .tab{overflow-wrap:anywhere;white-space:normal}
+.dd-site-dock .nav-inner .tab .ico img{display:block;width:21px;height:21px;border-radius:50%;object-fit:cover;margin:auto}

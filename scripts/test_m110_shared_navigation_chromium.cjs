@@ -45,17 +45,30 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
   for(const width of [320,393,768]){
    await page.setViewportSize({width,height:780});
    assert.deepEqual(await dock.locator('.nav-inner>button').evaluateAll(nodes=>nodes.map(n=>n.dataset.tab||'more')),
-    ['discover','archivePage','originalResearchPage','peopleDirectory','researchStudio','more']);
+    ['discover','clips','archivePage','originalResearchPage','researchStudio','more']);
    assert.equal(await dock.locator('.nav-inner>button .ico svg').count(),6);
    assert.equal(await dock.locator('.nav-inner').evaluate(el=>el.scrollWidth<=el.clientWidth+1),true);
    assert.equal(await dock.locator('[data-tab="originalResearchPage"]').getAttribute('aria-current'),'page');
    await dock.locator('.dd-dock-more').click();
    assert.equal(await dock.locator('[data-tab="chatPage"]').isVisible(),true);
+   assert.equal(await dock.locator('[data-tab="peopleDirectory"]').isVisible(),true);
    assert.equal(await dock.locator('[data-tab="hub"]').textContent(),'Help');
    assert.equal(await page.evaluate(back),'handled','Back closes More');
    await dock.locator('#ddDockMore').waitFor({state:'hidden'});
   }
   await page.setViewportSize({width:393,height:780});
+  const customized=['archivePage','peopleDirectory','discover','originalResearchPage','researchStudio','more'];
+  const currentOrder=selector=>page.locator(selector+' .nav-inner>button').evaluateAll(nodes=>nodes.map(n=>n.dataset.tab||'more'));
+  await dock.locator('.dd-dock-more').click();
+  await dock.locator('.dd-dock-customise').click();
+  await dock.getByLabel('Bottom tab 2',{exact:true}).selectOption('peopleDirectory');
+  await dock.getByLabel('Bottom tab 1',{exact:true}).selectOption('archivePage');
+  await dock.locator('[data-dock-save]').click();
+  await dock.locator('#ddDockMore').waitFor({state:'hidden'});
+  assert.deepEqual(await currentOrder('#ddWebSecondaryNav'),customized);
+  await page.reload({waitUntil:'load'});
+  await page.waitForFunction(()=>document.documentElement.dataset.r3Boot==='ready');
+  assert.deepEqual(await currentOrder('#ddWebSecondaryNav'),customized,'Custom order persists after a full reload');
   await page.locator('#sampleBtn').click();
   await page.locator('#workPanel').waitFor();
   await dock.locator('[data-tab="peopleDirectory"]').click();
@@ -72,6 +85,7 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
   await page.goto(origin+'/research/research-workspace.html?id=11111111-1111-4111-8111-111111111111',{waitUntil:'domcontentloaded'});
   await page.frameLocator('#writer').locator('#editor').waitFor();
   await page.locator('#ddResearchSiteDock').waitFor();
+  assert.deepEqual(await currentOrder('#ddResearchSiteDock'),customized,'Same preferences in W.NE');
   assert.equal(await page.evaluate(()=>ddResearchNavigateTo('peopleDirectory')),false,'Failed save leaves W.NE in place');
   assert.match(page.url(),/research-workspace/);
   await page.evaluate(()=>document.getElementById('writer').contentWindow.wneSaveBeforeNavigation=async()=>true);
@@ -81,11 +95,32 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
   assert.equal(homeRequests,1);
   assert.equal(standaloneDirectory,0,'No intermediate standalone directory from W.NE');
   assert.equal(embeddedDirectory,1);
+  assert.deepEqual(await currentOrder('#ddHomeDock'),customized,'Same preferences on Home');
   await page.locator('#ddHomeDock [data-tab="originalResearchPage"]').click();
   await page.locator('#originalResearchPage').waitFor();
   assert.equal(homeRequests,1,'Research tab must not reload Desk after W.NE return');
   await page.locator('#ddHomeDock [data-tab="peopleDirectory"]').click();
   assert.equal(embeddedDirectory,1,'Directory retained after returning from Research');
+  // Video has been relegated to More; preserve its original badge and count.
+  await page.evaluate(()=>{
+   const badge=document.querySelector('#ddHomeDock [data-new-badge="videos"]');badge.textContent='3';badge.hidden=false;
+  });
+  await page.waitForFunction(()=>document.querySelector('#ddHomeDock .dd-dock-more').hasAttribute('data-dd-attention'));
+  await page.locator('#ddHomeDock .dd-dock-more').click();
+  assert.equal(await page.locator('#ddHomeDock .dd-dock-links [data-tab="clips"] [data-new-badge]').isVisible(),true);
+  await page.locator('#ddHomeDock .dd-dock-customise').click();
+  await page.locator('#ddHomeDock [data-dock-reset]').click();
+  await page.locator('#ddHomeDock [data-dock-save]').click();
+  await page.locator('#ddHomeDock #ddDockMore').waitFor({state:'hidden'});
+  assert.deepEqual(await currentOrder('#ddHomeDock'),['discover','clips','archivePage','originalResearchPage','researchStudio','more']);
+  assert.equal(await page.locator('#ddHomeDock .nav-inner [data-new-badge="videos"]').isVisible(),true,'Badge follows tab to bar');
+  assert.equal(await page.locator('#ddHomeDock .dd-dock-more').getAttribute('data-dd-attention'),null,'No double-counted video alert');
+  await page.locator('#ddHomeDock .dd-dock-more').click();
+  await page.locator('#ddHomeDock .dd-dock-customise').click();
+  await page.locator('#ddHomeDock').getByLabel('Bottom tab 1',{exact:true}).selectOption('profilePage');
+  await page.locator('#ddHomeDock [data-dock-cancel]').click();
+  await page.locator('#ddHomeDock .dd-dock-heading button').click();
+  assert.deepEqual(await currentOrder('#ddHomeDock'),['discover','clips','archivePage','originalResearchPage','researchStudio','more'],'Cancel leaves original preferences');
   assert.ok(!errors.length,errors.join('\n'));
   console.log('PASS M110: R3 shared dock 320/393/768px, cancel-safe unsaved notebook and Back, W.NE save guard, direct retained directory route and quick next tab.');
  }finally{await browser.close()}

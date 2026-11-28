@@ -27,12 +27,13 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
   await page.waitForFunction(()=>typeof window.DDPageHelp?.open==='function');
   assert.equal(await page.evaluate(header),true);
   await page.evaluate(()=>{window.__deskDocumentIdentity='M109-retained-desk'});
-  const tab=id=>page.locator('#ddHomeDock .nav-inner [data-tab="'+id+'"]');
+  const tab=id=>page.locator('#ddHomeDock [data-tab="'+id+'"]');
+  const openTab=async id=>{if(!await tab(id).isVisible())await page.locator('#ddHomeDock .dd-dock-more').click();await tab(id).click();};
   await tab('archivePage').click();
   await page.waitForFunction(()=>document.getElementById('ddArchiveLoadedCount').textContent.includes('13,515'),{},{timeout:45000});
   await page.locator('#archiveSearch').fill('Rendlesham');
   assert.equal(directoryRequests,0,'Directory not loaded in advance');
-  await tab('peopleDirectory').click();
+  await openTab('peopleDirectory');
   const iframe=page.frameLocator('#ddAppPeopleFrame');
   await iframe.locator('#peopleCards .card').first().waitFor({timeout:20000});
   assert.equal(await iframe.locator('html').getAttribute('data-dd-embedded-directory'),'true');
@@ -76,7 +77,7 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
   await tab('archivePage').click();
   assert.equal(await page.locator('#archiveSearch').inputValue(),'Rendlesham');
   assert.match(await page.locator('#ddArchiveLoadedCount').textContent(),/13,515/);
-  await tab('peopleDirectory').click();
+  await openTab('peopleDirectory');
   assert.equal(homeRequests,1,'Only one main Desk load before search check');
   assert.equal(directoryRequests,1,'Only one directory load before search check');
   assert.equal(await page.evaluate(()=>document.getElementById('ddAppPeopleFrame').contentWindow.__directoryDocumentIdentity),'M109-retained-directory');
@@ -87,7 +88,7 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
   assert.equal(await page.evaluate(back),'history','Directory root uses same-document tab history');
   await page.goBack();
   await page.locator('#archivePage').waitFor();
-  await tab('peopleDirectory').click();
+  await openTab('peopleDirectory');
   await Promise.all([page.waitForURL(origin+'/world-uap-programmes.html'),iframe.locator('a[href="/world-uap-programmes.html"]').first().click()]);
   assert.equal(await page.locator('#ddAppPeopleFrame').count(),0,'Explicit editorial source opens as a top-level document');
   assert.ok(!errors.length,errors.join('\n'));

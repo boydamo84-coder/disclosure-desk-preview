@@ -3436,6 +3436,7 @@ const notify=()=>editor.dispatchEvent(new Event('input',{bubbles:true}));
 editor.addEventListener('input',e=>{if(!e.isComposing)normalize()},true);
 editor.addEventListener('compositionend',normalize);
 new MutationObserver(normalize).observe(editor,{childList:true,attributes:true,attributeFilter:['contenteditable']});
+normalize();
 editor.addEventListener('click',e=>{const p=e.target.closest?.('[data-wne-block-gap]');if(p?.parentNode===editor&&blank(p)&&editable()){e.preventDefault();caret(p)}},true);
 function insertParagraphAfter(){
  if(!editable())return;
