@@ -238,7 +238,13 @@ public final class MainActivity extends Activity {
                 layoutDesk();
             }
             @Override public void onPageCommitVisible(WebView view,String url){
-                if(!mainPageFailed && isAppHomeUrl(url))showOnline();
+                if(!mainPageFailed && isAppHomeUrl(url) && isAppHomeUrl(view.getUrl())){
+                    // CommitVisible may precede remote images and deferred assets.
+                    // Install the native header as soon as DOM controls are ready;
+                    // onPageFinished remains the fallback and installs contextual help.
+                    showOnline();
+                    installCompactHeader();
+                }
             }
             @Override public void onPageFinished(WebView view,String url){
                 if(!mainPageFailed && isAppHomeUrl(url) && isAppHomeUrl(view.getUrl())){
@@ -435,8 +441,11 @@ public final class MainActivity extends Activity {
     }
     private void finishHomeLayout(int generation,boolean installed){
         if(generation!=documentGeneration || mainPageFailed || !isAppHomeUrl(web.getUrl()))return;
+        // If the early attempt ran before the DOM was ready, leave the real
+        // website header visible (never show two headers). Retry on finish.
+        if(!installed)return;
         deskHome=true;
-        compactHeader=installed;
+        compactHeader=true;
         showOnline();
         maybeShowAppTour();
     }

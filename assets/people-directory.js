@@ -14,6 +14,9 @@ let caseLinks={valid:true,links:[]};
 let m29Dockets=new Map();
 let m29Rubric=null;
 const CASE_RETURN_KEY='dd-who-case-return-v1';
+const embeddedDirectory=document.documentElement.dataset.ddEmbeddedDirectory==='true';
+// Iframe profile changes must not add unrelated joint session-history entries.
+function directoryHistory(state,url){if(embeddedDirectory)history.replaceState(state,'',url);else history.pushState(state,'',url);}
 let restoreSequence=0;
 const numberY=value=>Number.isFinite(value)&&value>=0?Math.round(value):null;
 function scrollToArea(element,offset=12){
@@ -1086,8 +1089,8 @@ function openPerson(person,updateUrl=true){
  $('directoryBack').focus({preventScroll:true});
  if(updateUrl){
   const u=new URL(location.href);u.searchParams.set('person',person.id);
-  history.pushState({directoryPerson:person.id,fromDirectory:true,
-   ddDirectoryReturn:originAnchor},'',u.pathname+u.search+u.hash);
+  directoryHistory({directoryPerson:person.id,fromDirectory:true,
+   ddDirectoryReturn:originAnchor},u.pathname+u.search+u.hash);
  }
  showProfileAtContent(person,!updateUrl);
 }
@@ -1096,14 +1099,14 @@ function showDirectory(updateUrl=true,returnAnchor=null){
  selected=null;
  if(updateUrl){
   const u=new URL(location.href);u.searchParams.delete('person');
-  history.pushState({directoryPerson:null},'',u.pathname+u.search+u.hash);
+  directoryHistory({directoryPerson:null},u.pathname+u.search+u.hash);
  }
  restoreDirectoryPosition(returnAnchor);
 }
 // Native Android Back and the on-screen Back button use identical history-aware logic.
 function backToDirectory(){
  if(!selected)return false;
- if(history.state?.fromDirectory){history.back();return true;}
+ if(history.state?.fromDirectory&&!embeddedDirectory){history.back();return true;}
  const personId=selected.id;
  // Capture the return anchor BEFORE replaceState clears this profile entry.
  // This matters after crossing Archive's separate document history.

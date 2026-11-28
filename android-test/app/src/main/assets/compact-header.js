@@ -21,7 +21,8 @@
             });
             const research = document.getElementById('originalResearchPage');
             const topic = section || (research && !research.classList.contains('hidden') ? 'investigations' : 'discover');
-            window.DDPageHelp.open(topic);
+            const embeddedPeople=document.getElementById('peopleDirectory');
+            window.DDPageHelp.open(embeddedPeople&&!embeddedPeople.classList.contains('hidden')?'people':topic);
             return 'opened';
         };
         if (!document.getElementById('ddAndroidDeskHelpStyle')) {

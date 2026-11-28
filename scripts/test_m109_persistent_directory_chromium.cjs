@@ -1,0 +1,79 @@
+'use strict';
+const assert=require('node:assert/strict');
+const fs=require('node:fs'),path=require('node:path');
+const {chromium}=require('playwright-core');
+const origin='https://uapdisclosuredesk.com',root=path.resolve('android-test/app/src/main/assets/dd-site');
+const header=fs.readFileSync('android-test/app/src/main/assets/compact-header.js','utf8');
+const back=fs.readFileSync('android-test/app/src/main/assets/back-navigation.js','utf8');
+const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg'};
+(async()=>{
+ const browser=await chromium.launch({executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
+ try{
+  const context=await browser.newContext({viewport:{width:393,height:780},reducedMotion:'reduce',userAgent:'Mozilla/5.0 Android DisclosureDeskAndroid'});
+  let homeRequests=0,directoryRequests=0;
+  await context.route('**/*',async route=>{
+   const url=new URL(route.request().url());
+   if(url.origin!==origin)return route.abort();
+   if(url.pathname==='/'&&route.request().isNavigationRequest())homeRequests++;
+   if(url.pathname==='/who-is-who.html'&&route.request().isNavigationRequest())directoryRequests++;
+   let file=path.join(root,url.pathname==='/'?'index.html':url.pathname.replace(/^\//,''));
+   if(!fs.existsSync(file)&&!path.extname(file))file+='.html';
+   if(!file.startsWith(root+path.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile())return route.fulfill({status:404,body:''});
+   return route.fulfill({path:file,contentType:types[path.extname(file)]||'application/octet-stream'});
+  });
+  const page=await context.newPage();
+  const errors=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.goto(origin+'/?dd_tab=discover',{waitUntil:'load'});
+  await page.waitForFunction(()=>typeof window.DDPageHelp?.open==='function');
+  assert.equal(await page.evaluate(header),true);
+  await page.evaluate(()=>{window.__deskDocumentIdentity='M109-retained-desk'});
+  const tab=id=>page.locator('#ddHomeDock .nav-inner [data-tab="'+id+'"]');
+  await tab('archivePage').click();
+  await page.waitForFunction(()=>document.getElementById('ddArchiveLoadedCount').textContent.includes('13,515'),{},{timeout:45000});
+  await page.locator('#archiveSearch').fill('Rendlesham');
+  assert.equal(directoryRequests,0,'Directory not loaded in advance');
+  await tab('peopleDirectory').click();
+  const iframe=page.frameLocator('#ddAppPeopleFrame');
+  await iframe.locator('#peopleCards .card').first().waitFor({timeout:20000});
+  assert.equal(await iframe.locator('html').getAttribute('data-dd-embedded-directory'),'true');
+  assert.equal(await iframe.locator('body>header').isVisible(),false,'No duplicate header');
+  assert.equal(await iframe.locator('#ddWebSecondaryNav').count(),0,'No duplicate dock');
+  assert.equal(await tab('peopleDirectory').getAttribute('aria-current'),'page');
+  for(const width of [320,393]){
+   await page.setViewportSize({width,height:780});
+   await page.waitForFunction(()=>{
+    const a=document.getElementById('ddAppPeopleFrame').getBoundingClientRect(),b=document.getElementById('ddHomeDock').getBoundingClientRect();
+    return a.top>=0&&a.bottom<=b.top+1&&a.height>400&&a.left>=0&&a.right<=innerWidth+1;
+   });
+  }
+  assert.equal(await page.evaluate(()=>DDNativePageHelp()),'opened');
+  assert.equal(await page.locator('#ddPageHelpTitle').textContent(),"Who's Who in Disclosure");
+  assert.equal(await page.evaluate(back),'handled');
+  await iframe.locator('#peopleSearch').fill('David Fravor');
+  await iframe.locator('#peopleCards [data-person-id="david-fravor"] button').click();
+  await iframe.locator('#personProfile:not(.hidden)').waitFor();
+  assert.match(await iframe.locator('#profileName').textContent(),/Fravor/);
+  const historyLength=await page.evaluate(()=>history.length);
+  assert.equal(await page.evaluate(back),'handled','Android back returns to people cards');
+  await iframe.locator('#directoryPage:not(.hidden)').waitFor();
+  assert.equal(await page.evaluate(()=>history.length),historyLength,'No iframe profile history pollution');
+  await tab('discover').click();
+  await page.locator('#discover').waitFor();
+  await tab('archivePage').click();
+  assert.equal(await page.locator('#archiveSearch').inputValue(),'Rendlesham');
+  assert.match(await page.locator('#ddArchiveLoadedCount').textContent(),/13,515/);
+  await tab('peopleDirectory').click();
+  assert.equal(await iframe.locator('#peopleSearch').inputValue(),'David Fravor');
+  assert.equal(await page.evaluate(()=>window.__deskDocumentIdentity),'M109-retained-desk');
+  assert.equal(homeRequests,1,'Only one main Desk load');
+  assert.equal(directoryRequests,1,'Only one directory load');
+  assert.equal(await page.evaluate(back),'history','Directory root uses same-document tab history');
+  await page.goBack();
+  await page.locator('#archivePage').waitFor();
+  await tab('peopleDirectory').click();
+  await Promise.all([page.waitForURL(origin+'/world-uap-programmes.html'),iframe.locator('a[href="/world-uap-programmes.html"]').first().click()]);
+  assert.equal(await page.locator('#ddAppPeopleFrame').count(),0,'Explicit editorial source opens as a top-level document');
+  assert.ok(!errors.length,errors.join('\n'));
+  console.log('PASS M109: one Desk and one Who’s Who load across repeated navigation; header/dock, archive/search state, profile Back, context help, 320/393px bounds and explicit source routes.');
+ }finally{await browser.close()}
+})().catch(e=>{console.error(e);process.exitCode=1});

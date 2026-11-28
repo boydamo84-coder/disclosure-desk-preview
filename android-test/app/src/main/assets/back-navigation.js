@@ -39,6 +39,17 @@
 
         const active = Array.from(document.querySelectorAll('.shell > section')).find(visible);
         if (!active) return 'history';
+        if (active.id === 'peopleDirectory') {
+            const frame = document.getElementById('ddAppPeopleFrame');
+            const sub = frame?.contentDocument;
+            const subDialog = sub && Array.from(sub.querySelectorAll('dialog[open]')).pop();
+            if (subDialog) {
+                if (typeof subDialog.requestClose === 'function') subDialog.requestClose();
+                else subDialog.close();
+                return 'handled';
+            }
+            if (frame?.contentWindow?.DDPeopleDirectoryBack?.()) return 'handled';
+        }
         if (active.id === 'originalResearchPage') {
             const reader = document.getElementById('ddOriginalReader');
             const back = document.getElementById('ddReaderBack');

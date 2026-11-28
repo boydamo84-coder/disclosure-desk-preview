@@ -605,13 +605,19 @@
 .dd-comment-card .dd-comment-action-rail .dd-vote-status{font-size:11px;line-height:1.35;overflow-wrap:anywhere}
 .dd-comment-card .dd-comment-action-rail .dd-vote-status:not(:empty){flex:1 1 160px;padding:4px 7px}
 @media(max-width:480px){.dd-comment-card .dd-comment-main{padding:11px 12px 9px}.dd-comment-card .dd-comment-action-rail{padding:3px 6px}.dd-comment-card .dd-comment-action-rail .dd-community-vote-button{padding:5px 8px;min-width:44px}}
-</style><link rel="stylesheet" href="assets/news-ticker.css?v=nov08-v9&issue22=1"><style id="dd-m35-no-navigation-flash">html.dd-navigation-pending .shell{visibility:hidden!important}</style>
+</style><link rel="stylesheet" href="assets/news-ticker.css?v=nov08-v9&issue22=1"><style id="dd-m35-no-navigation-flash">html.dd-navigation-pending .shell{visibility:hidden!important}</style><style id="dd-app-directory-style">
+#peopleDirectory{position:fixed;inset:var(--dd-app-directory-top,0px) 0 var(--dd-app-directory-bottom,65px);z-index:690;background:#09131e;max-width:none;margin:0;padding:0;display:flex;flex-direction:column}
+#peopleDirectory.hidden{display:none!important}
+#ddAppPeopleFrame{display:block;width:100%;flex:1;min-height:0;border:0;background:#09131e}
+#ddAppPeopleLoading{margin:0;padding:12px 16px;color:#bccbd6;font-size:13px}
+html.dd-app-directory-open,html.dd-app-directory-open body{overflow:hidden}
+</style>
 <script id="dd-m35-early-route">
 /* A W.NE dock tap opens its FINAL section, not the site's default home for a frame. */
 (function(){
  try{
   const target=new URLSearchParams(location.search).get('dd_tab');
-  if(['archivePage','originalResearchPage','mapPage','clips','livePage','boards','witness','watchRead','profilePage','hub','discussionsPage','chatPage','cases','rabbitHole','resources','podcasts','about'].includes(target)){
+  if(['archivePage','originalResearchPage','researchStudio','mapPage','clips','livePage','boards','witness','watchRead','profilePage','hub','discussionsPage','chatPage','cases','rabbitHole','resources','podcasts','about'].includes(target)||(target==='peopleDirectory'&&navigator.userAgent.includes('DisclosureDeskAndroid'))){
    document.documentElement.classList.add('dd-navigation-pending');
    window.setTimeout(()=>document.documentElement.classList.remove('dd-navigation-pending'),2500);
   }
@@ -1207,7 +1213,7 @@
   <div class="dd-profile-card"><h3>Urgent safety &amp; requests</h3><p class="muted small">Ordinary comments and reports publish immediately. Only hidden items enter the normal review queue. Urgent abuse/privacy reports, appeals and correction requests need a dedicated inbox in a later phase.</p><a href="mailto:support@uapdisclosuredesk.com?subject=Disclosure%20Desk%20urgent%20community%20report">Open support email</a></div>
   <div class="dd-profile-card"><h3>Site traffic &amp; search</h3><p class="muted small">Netlify Web Analytics provides server-side traffic and page-request trends without a Google Analytics tracking script. Google Search Console separately reports how the site appears in Google Search. Netlify request data does not count every navigation between tabs within the same page.</p><div class="dd-profile-actions"><a href="https://app.netlify.com/" rel="noopener noreferrer" target="_blank">Netlify dashboard</a><a href="https://search.google.com/search-console" rel="noopener noreferrer" target="_blank">Search Console</a></div></div>
  </div></section>
-</div></div></section><div class="dd-sources-direct"><a class="outline" href="/sources">Sources &amp; Archives</a></div><div class="footer">Disclosure Desk · Independent investigations · Not affiliated with government or research agencies<div class="dd-studio-footer-credit">Created by <a href="https://boyddigitalstudios.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Boyd Digital Studios official website"><strong>Boyd Digital Studios</strong></a> · W.NE Research Edition</div><div class="dd-site-footer-actions"><a href="/site-updates">Site updates</a><a href="/investigations">Original Research</a><a href="/guide">How-to &amp; FAQ</a><a href="/community-rules">Community Rules</a><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="mailto:support@uapdisclosuredesk.com?subject=Disclosure%20Desk%20enquiry">Contact &amp; enquiries</a><a href="/?dd_tab=originalResearchPage&amp;dd_sponsor=1" id="ddFooterSponsor">Sponsor Us</a><button type="button" class="dd-site-footer-about" data-go="about">About</button></div></div></div><nav class="nav" id="ddHomeDock" aria-label="App navigation"><div class="nav-inner"><button class="tab active" data-tab="discover" aria-current="page"><span class="ico">◈</span>News<span class="dd-new-dot" data-new-badge="news" hidden></span></button><button class="tab" data-tab="archivePage"><span class="ico">▥</span>Archive</button><button class="tab" data-tab="originalResearchPage"><span class="ico">⌕</span>Research</button><button class="tab" data-tab="peopleDirectory" aria-label="Who’s Who in Disclosure"><span class="ico">♙</span>Who’s Who</button><button class="tab" data-tab="researchStudio"><span class="ico">✎</span>W.NE</button><button class="tab" data-tab="mapPage"><span class="ico">◎</span>Map</button><button class="tab" data-tab="clips"><span class="ico">▶</span>Videos<span class="dd-new-dot" data-new-badge="videos" hidden></span></button><button class="tab" data-tab="livePage"><span class="ico">●</span>LIVE</button><button class="tab" data-tab="boards"><span class="ico">▣</span>Boards</button><button class="tab" data-tab="witness"><span class="ico">◉</span>Witness</button><button class="tab" data-tab="watchRead"><span class="ico">♫</span>Watch &amp; Read</button><button class="tab" data-tab="profilePage"><span class="ico">👤</span>Profile</button><button class="tab" data-tab="hub"><span class="ico">☷</span>Help</button></div></nav>
+</div></div></section><section id="peopleDirectory" class="hidden" aria-label="Who's Who in Disclosure"><p id="ddAppPeopleLoading" role="status">Opening the people directory…</p></section><div class="dd-sources-direct"><a class="outline" href="/sources">Sources &amp; Archives</a></div><div class="footer">Disclosure Desk · Independent investigations · Not affiliated with government or research agencies<div class="dd-studio-footer-credit">Created by <a href="https://boyddigitalstudios.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Boyd Digital Studios official website"><strong>Boyd Digital Studios</strong></a> · W.NE Research Edition</div><div class="dd-site-footer-actions"><a href="/site-updates">Site updates</a><a href="/investigations">Original Research</a><a href="/guide">How-to &amp; FAQ</a><a href="/community-rules">Community Rules</a><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="mailto:support@uapdisclosuredesk.com?subject=Disclosure%20Desk%20enquiry">Contact &amp; enquiries</a><a href="/?dd_tab=originalResearchPage&amp;dd_sponsor=1" id="ddFooterSponsor">Sponsor Us</a><button type="button" class="dd-site-footer-about" data-go="about">About</button></div></div></div><nav class="nav" id="ddHomeDock" aria-label="App navigation"><div class="nav-inner"><button class="tab active" data-tab="discover" aria-current="page"><span class="ico">◈</span>News<span class="dd-new-dot" data-new-badge="news" hidden></span></button><button class="tab" data-tab="archivePage"><span class="ico">▥</span>Archive</button><button class="tab" data-tab="originalResearchPage"><span class="ico">⌕</span>Research</button><button class="tab" data-tab="peopleDirectory" aria-label="Who’s Who in Disclosure"><span class="ico">♙</span>Who’s Who</button><button class="tab" data-tab="researchStudio"><span class="ico">✎</span>W.NE</button><button class="tab" data-tab="mapPage"><span class="ico">◎</span>Map</button><button class="tab" data-tab="clips"><span class="ico">▶</span>Videos<span class="dd-new-dot" data-new-badge="videos" hidden></span></button><button class="tab" data-tab="livePage"><span class="ico">●</span>LIVE</button><button class="tab" data-tab="boards"><span class="ico">▣</span>Boards</button><button class="tab" data-tab="witness"><span class="ico">◉</span>Witness</button><button class="tab" data-tab="watchRead"><span class="ico">♫</span>Watch &amp; Read</button><button class="tab" data-tab="profilePage"><span class="ico">👤</span>Profile</button><button class="tab" data-tab="hub"><span class="ico">☷</span>Help</button></div></nav>
 <aside id="ddNewsTickerHub" class="dd-news-ticker-hub" aria-label="Disclosure Desk live UAP headline ticker" hidden>
   <div class="dd-news-ticker-top"><strong>● LIVE UAP NEWS DESK</strong>
     <div class="dd-ticker-controls">
@@ -2588,13 +2594,37 @@ function ddUpdateBackControl(){
 }
 // Add a browser history entry for real user navigation, rather than silently
 // replacing the only site entry. This restores native Android/Chrome Back.
+// Android-only: reuse the canonical public directory in an isolated, retained
+// frame. Home, loaded archive, ticker, account and dock stay alive between tabs.
+const ddAppPeopleEnabled=navigator.userAgent.includes('DisclosureDeskAndroid');
+function ddSyncPeopleFrameBounds(){
+ if(!ddAppPeopleEnabled)return;
+ const homeHeader=document.querySelector('.shell>header.top'),dock=$('ddHomeDock');
+ const top=homeHeader?.getBoundingClientRect().bottom||0;
+ const bottom=dock?Math.max(0,innerHeight-dock.getBoundingClientRect().top):0;
+ const pane=$('peopleDirectory');
+ pane.style.setProperty('--dd-app-directory-top',Math.max(0,top)+'px');
+ pane.style.setProperty('--dd-app-directory-bottom',bottom+'px');
+}
+function ddOpenAppPeople(){
+ if(!ddAppPeopleEnabled)return;
+ const pane=$('peopleDirectory');
+ if(!$('ddAppPeopleFrame')){
+  const frame=document.createElement('iframe');
+  frame.id='ddAppPeopleFrame';frame.title="Who's Who in Disclosure";
+  frame.src='/who-is-who.html';
+  frame.addEventListener('load',()=>{$('ddAppPeopleLoading').hidden=true;ddSyncPeopleFrameBounds()});
+  pane.append(frame);
+ }
+ ddSyncPeopleFrameBounds();
+}
 function ddUserNavigateTo(section){
  const podcasts=section==='podcasts';if(podcasts)section='watchRead';
  const current=document.querySelector('.nav .tab.active')?.dataset.tab||'discover';
  const actual=[...document.querySelectorAll('.shell > section')].find(el=>!el.classList.contains('hidden'))?.id||current;
  if(actual===section){if(podcasts)ddOpenRecommendedPods();ddUpdateBackControl();return}
  const allowed=['discover','archivePage','originalResearchPage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','hub','profilePage','discussionsPage','chatPage','cases','rabbitHole','resources','podcasts','about'];
- if(!allowed.includes(section))return;
+ if(!allowed.includes(section)&&!(ddAppPeopleEnabled&&section==='peopleDirectory'))return;
  try{
   const prior={...history.state,ddSection:actual,ddArchiveCaseId:null};
   if(!history.state?.ddSection)history.replaceState(prior,'',location.href);
@@ -2610,7 +2640,14 @@ function ddUserNavigateTo(section){
  ddUpdateBackControl();
 }
 function ddOnPublicTabClick(tab){
- if(tab==='peopleDirectory'){window.location.assign('/who-is-who.html');return;}
+ if(tab==='peopleDirectory'){
+  if(!ddAppPeopleEnabled){window.location.assign('/who-is-who.html');return;}
+  if(!$('peopleDirectory').classList.contains('hidden')){
+   try{$('ddAppPeopleFrame')?.contentWindow?.DDPeopleDirectoryBack?.()}catch(_){}
+   return;
+  }
+  ddUserNavigateTo(tab);return;
+ }
  if(tab==='researchStudio'&&!$('researchStudio').classList.contains('hidden'))return;
  if(tab==='researchStudio'&&ddResearchHasResumeHint()){
   // Never trust a client-stored document ID as authorization or embed it in
@@ -2845,10 +2882,11 @@ function ddOpenRecommendedPods(){
  });
 }
 function navigateTo(id){
+ if(id==='peopleDirectory'&&!ddAppPeopleEnabled){window.location.assign('/who-is-who.html');return;}
  const podcasts=id==='podcasts';if(podcasts)id='watchRead';
 if(id==='discussionsPage'&&window.DD_COMMUNITY_FEATURES?.discussions!==true)return;
 if(id==='chatPage'&&window.DD_COMMUNITY_FEATURES?.privateChat!==true)return;
-if(['discover','archivePage','originalResearchPage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','hub','profilePage','discussionsPage','chatPage','cases','rabbitHole','resources','podcasts','about'].includes(id)){
+if(['discover','archivePage','originalResearchPage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','hub','profilePage','discussionsPage','chatPage','cases','rabbitHole','resources','podcasts','about','peopleDirectory'].includes(id)){
  try{window.sessionStorage?.setItem(ddLastTabKey,id)}catch{}
  ddSyncActiveTabUrl(id);
 }
@@ -2861,7 +2899,9 @@ document.querySelectorAll('.nav .tab').forEach(t=>{
  t.classList.toggle('active',selected);
  if(selected)t.setAttribute('aria-current','page');else t.removeAttribute('aria-current');
 });
-['discover','archivePage','originalResearchPage','mapPage','cases','clips','rabbitHole','witness','about','resources','hub','boards','watchRead','livePage','researchStudio','profilePage','discussionsPage','chatPage'].forEach(k=>$(k).classList.toggle('hidden',k!==id));
+['discover','archivePage','originalResearchPage','mapPage','cases','clips','rabbitHole','witness','about','resources','hub','boards','watchRead','livePage','researchStudio','profilePage','discussionsPage','chatPage','peopleDirectory'].forEach(k=>$(k).classList.toggle('hidden',k!==id));
+document.documentElement.classList.toggle('dd-app-directory-open',id==='peopleDirectory');
+if(id==='peopleDirectory')ddOpenAppPeople();
 // Chat and Discussions originally have an HTML hidden attribute as well as a
 // hidden CSS class. Clear both when selected or these approved pages stay invisible.
 for(const communityPage of ['chatPage','discussionsPage']){
@@ -2904,7 +2944,11 @@ document.getElementById('ddSiteBack')?.addEventListener('click',()=>{
 let ddRememberedTab=null;
 try{ddRememberedTab=window.sessionStorage?.getItem(ddLastTabKey)||null}catch{}
 const ddResearchReturnTab=new URLSearchParams(location.search).get('dd_tab')||(ddHasNewsUrl()?'discover':ddRememberedTab);
-if(['discover','archivePage','originalResearchPage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','podcasts','hub','profilePage','cases','rabbitHole','resources','about'].includes(ddResearchReturnTab)){
+if(ddAppPeopleEnabled){
+ window.addEventListener('resize',ddSyncPeopleFrameBounds,{passive:true});
+ if(typeof ResizeObserver!=='undefined'){const observer=new ResizeObserver(ddSyncPeopleFrameBounds);for(const node of [document.querySelector('.shell>header.top'),$('ddHomeDock')])if(node)observer.observe(node);}
+}
+if(['discover','archivePage','originalResearchPage','researchStudio','mapPage','livePage','clips','boards','witness','watchRead','podcasts','hub','profilePage','cases','rabbitHole','resources','about'].includes(ddResearchReturnTab)||(ddAppPeopleEnabled&&ddResearchReturnTab==='peopleDirectory')){
  navigateTo(ddResearchReturnTab);
 }
 // This additional tab is deferred until the host's source-controlled feature flag

@@ -1,6 +1,7 @@
 /* Public editorial pages use the same destination dock as Home. */
 (() => {
   'use strict';
+  if(document.documentElement.dataset.ddEmbeddedDirectory==='true')return; // Parent Desk owns the dock.
   const page = location.pathname.replace(/\.html$/, '');
   if (document.getElementById('ddWebSecondaryNav') || document.getElementById('ddAndroidEditorialNav')) return;
   const nav = document.createElement('nav');
