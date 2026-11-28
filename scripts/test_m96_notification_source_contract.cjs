@@ -13,7 +13,7 @@ const workflow=read('.github/workflows/android-test-apk.yml');
 assert.match(gradle,/applicationIdSuffix = "\.beta\.m116"/);
 assert.match(gradle,/versionCode = 52/);
 assert.match(gradle,/0\.16\.17/);
-assert.match(workflow,/android\/m116-navigation-stability/);
+assert.match(workflow,/android\/m116-fast-news/);
 assert.match(workflow,/DisclosureDesk-M116-PRIVATE-BETA/);
 assert.match(manifest,/android:allowBackup="false"/);
 assert.match(main,/menu\.getMenu\(\)\.add\("Notification centre"\)/);
