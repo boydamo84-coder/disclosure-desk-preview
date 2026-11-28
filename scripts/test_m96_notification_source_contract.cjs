@@ -10,11 +10,11 @@ const gate=read('android-test/app/src/main/java/com/disclosuredesk/preview/ChatN
 const gradle=read('android-test/app/build.gradle.kts');
 const manifest=read('android-test/app/src/main/AndroidManifest.xml');
 const workflow=read('.github/workflows/android-test-apk.yml');
-assert.match(gradle,/applicationIdSuffix = "\.beta\.m111"/);
-assert.match(gradle,/versionCode = 47/);
-assert.match(gradle,/0\.16\.13/);
-assert.match(workflow,/android\/m111-wne-layout/);
-assert.match(workflow,/DisclosureDesk-M111-PRIVATE-BETA/);
+assert.match(gradle,/applicationIdSuffix = "\.beta\.m112"/);
+assert.match(gradle,/versionCode = 48/);
+assert.match(gradle,/0\.16\.14/);
+assert.match(workflow,/android\/m112-launch-frame/);
+assert.match(workflow,/DisclosureDesk-M112-PRIVATE-BETA/);
 assert.match(manifest,/android:allowBackup="false"/);
 assert.match(main,/menu\.getMenu\(\)\.add\("Notification centre"\)/);
 assert.match(main,/NotificationInboxStore\.visible\(this,owner\)/);

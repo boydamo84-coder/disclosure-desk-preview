@@ -113,6 +113,12 @@ public final class MainActivity extends Activity {
     private boolean deskHome;
     private View fullView;
     private View splash;
+    private boolean homeLayoutPrepared;
+    private boolean homeLayoutInFlight;
+    private boolean homeLayoutExpired;
+    private Runnable homeLayoutRetry;
+    private Runnable homeLayoutWatchdog;
+    private String compactHeaderScript;
     private View offlinePanel;
     private boolean mainPageFailed=false;
     private CustomViewCallback fullCallback;
@@ -157,15 +163,7 @@ public final class MainActivity extends Activity {
         deskBar = createDeskBar();
         deskBar.setVisibility(View.GONE);
         root.addView(deskBar, new FrameLayout.LayoutParams(-1, dp(DESK_BAR_DP), Gravity.TOP));
-        ImageView mark=new ImageView(this);
-        mark.setImageResource(com.disclosuredesk.preview.R.drawable.dd_emblem);
-        mark.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        FrameLayout launch=new FrameLayout(this);
-        launch.setBackgroundColor(Color.rgb(11,19,28));
-        FrameLayout.LayoutParams markParams=new FrameLayout.LayoutParams(dp(200),dp(200),Gravity.CENTER);
-        launch.addView(mark,markParams);
-        splash=launch;
-        root.addView(launch,new FrameLayout.LayoutParams(-1,-1));
+        showLaunchCover();
         offlinePanel=createOfflinePanel();
         root.addView(offlinePanel,new FrameLayout.LayoutParams(-1,-1));
         offlinePanel.setVisibility(View.GONE);
@@ -185,6 +183,14 @@ public final class MainActivity extends Activity {
             backNavigationScript=source.toString();
         }catch(java.io.IOException error){
             android.util.Log.e("DisclosureDesk","Back navigation asset could not be opened.",error);
+        }
+        try(BufferedReader reader=new BufferedReader(new InputStreamReader(
+                getAssets().open("compact-header.js"),StandardCharsets.UTF_8))){
+            StringBuilder source=new StringBuilder();String line;
+            while((line=reader.readLine())!=null)source.append(line).append('\n');
+            compactHeaderScript=source.toString();
+        }catch(java.io.IOException error){
+            android.util.Log.e("DisclosureDesk","Compact header asset could not be opened.",error);
         }
         // Upgrade existing 2h subscriptions automatically without resetting the user's choices.
         syncDiscoverySchedules();
@@ -222,6 +228,10 @@ public final class MainActivity extends Activity {
             }
             @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap favicon){
                 documentGeneration++;
+                cancelHomeLayoutCallbacks();
+                homeLayoutPrepared=false;
+                homeLayoutInFlight=false;
+                homeLayoutExpired=false;
                 backInProgress=false;
                 nativeNews.rememberPosition();
                 root.removeCallbacks(refreshDeadline);
@@ -234,28 +244,39 @@ public final class MainActivity extends Activity {
                 updateDeskPhoto("");
                 deskHome = false;
                 compactHeader = false;
-                if(isAppHomeUrl(url))mainPageFailed=false;
+                if(isAppHomeUrl(url)){
+                    mainPageFailed=false;
+                    showLaunchCover();
+                    final int generation=documentGeneration;
+                    // Never strand the user behind the cover if script startup or
+                    // the visual-state callback fails. Normally the ready frame
+                    // is shown much earlier, without waiting for network assets.
+                    homeLayoutWatchdog=()->{
+                        if(generation!=documentGeneration || mainPageFailed)return;
+                        homeLayoutExpired=true;
+                        if(isAppHomeUrl(web.getUrl()))revealHome(generation);
+                        else if(splash!=null)showOnline();
+                    };
+                    root.postDelayed(homeLayoutWatchdog,10000);
+                }
                 layoutDesk();
             }
             @Override public void onPageCommitVisible(WebView view,String url){
-                if(!mainPageFailed && isAppHomeUrl(url) && isAppHomeUrl(view.getUrl())){
-                    // CommitVisible may precede remote images and deferred assets.
-                    // Install the native header as soon as DOM controls are ready;
-                    // onPageFinished remains the fallback and installs contextual help.
-                    showOnline();
-                    installCompactHeader();
-                }
+                if(mainPageFailed)return;
+                if(isAppHomeUrl(url) && isAppHomeUrl(view.getUrl())){
+                    // A visible WebView commit is NOT the final app layout.
+                    // The cover stays in place until the shared dock, native
+                    // controls and the resized WebView are ready to draw together.
+                    prepareHomeLayout();
+                }else if(splash!=null && url!=null && url.equals(view.getUrl()) && !isAppHomeUrl(url))showOnline();
             }
             @Override public void onPageFinished(WebView view,String url){
                 if(!mainPageFailed && isAppHomeUrl(url) && isAppHomeUrl(view.getUrl())){
-                    installCompactHeader();
+                    prepareHomeLayout();
                     installNativeShell(url);
-                    useTwoLineBreakingNews();
-                    installProfileNotificationControl();
-                    installResearchInboxControl();
                     deliverChatToken();
                     openPendingArchiveCase();
-                }
+                }else if(!mainPageFailed && splash!=null && url!=null && url.equals(view.getUrl()) && !isAppHomeUrl(url))showOnline();
             }
             @Override public void onReceivedError(WebView view,WebResourceRequest request,WebResourceError error){
                 if(request.isForMainFrame() && request.getUrl()!=null &&
@@ -426,28 +447,71 @@ public final class MainActivity extends Activity {
         }
         return new RippleDrawable(ColorStateList.valueOf(0x33F2D7A2),surface,mask);
     }
-    private void installCompactHeader(){
-        int generation=documentGeneration;
-        try(BufferedReader script=new BufferedReader(new InputStreamReader(
-                getAssets().open("compact-header.js"),StandardCharsets.UTF_8))){
-            StringBuilder source=new StringBuilder();
-            String line;
-            while((line=script.readLine())!=null)source.append(line).append('\n');
-            web.evaluateJavascript(source.toString(),value->finishHomeLayout(generation,"true".equals(value)));
-        }catch(java.io.IOException error){
-            android.util.Log.e("DisclosureDesk","Compact header asset could not be opened.",error);
-            finishHomeLayout(generation,false);
-        }
+    private void showLaunchCover(){
+        if(splash!=null)return;
+        ImageView mark=new ImageView(this);
+        mark.setImageResource(R.drawable.dd_emblem);
+        mark.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        FrameLayout launch=new FrameLayout(this);
+        launch.setBackgroundColor(Color.rgb(11,19,28));
+        launch.setClickable(true);
+        launch.setContentDescription("Loading Disclosure Desk");
+        launch.addView(mark,new FrameLayout.LayoutParams(dp(200),dp(200),Gravity.CENTER));
+        splash=launch;
+        root.addView(launch,new FrameLayout.LayoutParams(-1,-1));
+        launch.bringToFront();
     }
-    private void finishHomeLayout(int generation,boolean installed){
-        if(generation!=documentGeneration || mainPageFailed || !isAppHomeUrl(web.getUrl()))return;
-        // If the early attempt ran before the DOM was ready, leave the real
-        // website header visible (never show two headers). Retry on finish.
-        if(!installed)return;
-        deskHome=true;
-        compactHeader=true;
+    private void cancelHomeLayoutCallbacks(){
+        if(root==null)return;
+        if(homeLayoutRetry!=null)root.removeCallbacks(homeLayoutRetry);
+        if(homeLayoutWatchdog!=null)root.removeCallbacks(homeLayoutWatchdog);
+        homeLayoutRetry=null;homeLayoutWatchdog=null;
+    }
+    private void prepareHomeLayout(){
+        if(mainPageFailed || homeLayoutPrepared || homeLayoutInFlight ||
+            homeLayoutRetry!=null || !isAppHomeUrl(web.getUrl()) || isFinishing() || isDestroyed())return;
+        int generation=documentGeneration;
+        if(compactHeaderScript==null){revealHome(generation);return;}
+        homeLayoutInFlight=true;
+        web.evaluateJavascript(compactHeaderScript,value->{
+            if(generation!=documentGeneration || mainPageFailed || !isAppHomeUrl(web.getUrl()) ||
+                isFinishing() || isDestroyed())return;
+            homeLayoutInFlight=false;
+            if(!"true".equals(value)){
+                if(!homeLayoutExpired){
+                    homeLayoutRetry=()->{homeLayoutRetry=null;prepareHomeLayout();};
+                    root.postDelayed(homeLayoutRetry,75);
+                }
+                return;
+            }
+            deskHome=true;
+            compactHeader=true;
+            homeLayoutPrepared=true;
+            // Reserve the final native header height WHILE the cover is still
+            // above both views, instead of resizing a visible page.
+            layoutDesk();
+            root.getViewTreeObserver().addOnPreDrawListener(new android.view.ViewTreeObserver.OnPreDrawListener(){
+                @Override public boolean onPreDraw(){
+                    if(root.getViewTreeObserver().isAlive())root.getViewTreeObserver().removeOnPreDrawListener(this);
+                    if(generation==documentGeneration && !mainPageFailed && !isFinishing() && !isDestroyed()){
+                        web.postVisualStateCallback(generation,new WebView.VisualStateCallback(){
+                            @Override public void onComplete(long requestId){
+                                revealHome(generation);
+                            }
+                        });
+                    }
+                    return true;
+                }
+            });
+            root.invalidate();
+        });
+    }
+    private void revealHome(int generation){
+        if(generation!=documentGeneration || mainPageFailed || !isAppHomeUrl(web.getUrl()) ||
+            isFinishing() || isDestroyed())return;
+        cancelHomeLayoutCallbacks();
         showOnline();
-        maybeShowAppTour();
+        if(homeLayoutPrepared)maybeShowAppTour();
     }
     private void installNativeShell(String url){
         if(!WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER))return;
@@ -621,7 +685,7 @@ public final class MainActivity extends Activity {
     }
 
     private void maybeShowAppTour() {
-        if (!offerAppTour || !deskHome || !hasWindowFocus() || mainPageFailed || fullView != null
+        if (!offerAppTour || splash!=null || !deskHome || !hasWindowFocus() || mainPageFailed || fullView != null
             || !HOME.equals(web.getUrl())) return;
         offerAppTour = false;
         // The same origin-scoped bridge suppresses the website's welcome prompt.
@@ -733,7 +797,7 @@ public final class MainActivity extends Activity {
         startActivityForResult(new Intent(this,OfflineArchiveActivity.class),OFFLINE_ARCHIVE_REQUEST);
     }
     private void layoutDesk(){
-        boolean ready=splash==null && offlinePanel!=null && offlinePanel.getVisibility()!=View.VISIBLE;
+        boolean ready=(splash==null || homeLayoutPrepared) && offlinePanel!=null && offlinePanel.getVisibility()!=View.VISIBLE;
         boolean showDesk=(deskHome && ready || cachedNewsOnly) && fullView==null;
         if(deskBar==null || web==null)return;
         deskBar.setVisibility(showDesk?View.VISIBLE:View.GONE);
@@ -743,7 +807,8 @@ public final class MainActivity extends Activity {
                 nativeNewsSelected && "discover".equals(activeSection) && !shellModal);
         boolean showNav=ready && nativeShell && fullView==null && !shellModal && !bottomNav.isKeyboardOpen();
         nativeNews.setVisibility(showNews?View.VISIBLE:View.GONE);
-        web.setImportantForAccessibility(showNews?View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS:View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
+        web.setImportantForAccessibility(showNews || splash!=null?View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS:View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
+        deskBar.setImportantForAccessibility(splash!=null?View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS:View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
         bottomNav.setVisibility(showNav?View.VISIBLE:View.GONE);
         boolean showAd=adView!=null && ready && fullView==null && !bottomNav.isKeyboardOpen() && !shellModal;
         if(adView!=null)adView.setVisibility(showAd?View.VISIBLE:View.GONE);
@@ -894,6 +959,7 @@ public final class MainActivity extends Activity {
     private void showOffline(){
         if(isFinishing() || offlinePanel==null)return;
         runOnUiThread(()->{
+            cancelHomeLayoutCallbacks();
             if(splash!=null){root.removeView(splash);splash=null;}
             offlinePanel.setVisibility(View.VISIBLE);
             offlinePanel.bringToFront();
@@ -1113,87 +1179,6 @@ public final class MainActivity extends Activity {
             work.enqueueUniquePeriodicWork(DiscoveryWorker.JOB_VIDEOS,ExistingPeriodicWorkPolicy.UPDATE,videoCheck);
         }else work.cancelUniqueWork(DiscoveryWorker.JOB_VIDEOS);
     }
-    private void useTwoLineBreakingNews(){
-        // Android app ONLY: make the lead headline easier to read without growing
-        // the 39px breaking-news band or changing the public website.
-        // At 15px line-height, two lines + 8px padding fit within 38px.
-        if(web==null)return;
-        String script="(function(){"
-          +"if(document.getElementById('dd-android-breaking-2line'))return;"
-          +"var style=document.createElement('style');"
-          +"style.id='dd-android-breaking-2line';"
-          +"style.textContent='"
-          +".dd-news-ticker-breaking{height:39px;min-height:39px;max-height:39px;}"
-          +".dd-news-ticker-breaking .dd-ticker-viewport{height:39px;min-height:0;max-height:39px;}"
-          +".dd-news-ticker-breaking .dd-ticker-link{display:-webkit-box;"
-          +"-webkit-box-orient:vertical;-webkit-line-clamp:2;white-space:normal;"
-          +"line-height:15px;padding:4px 9px;max-height:38px;box-sizing:border-box;"
-          +"overflow:hidden;text-overflow:ellipsis;}"
-          +"';document.head.appendChild(style);"
-          +"})()";
-        web.evaluateJavascript(script,null);
-    }
-
-    private void installProfileNotificationControl(){
-        // This item exists ONLY in the Android APK's in-site Profile screen;
-        // it does not add a floating bell or alter the public website's Profile.
-        if(!WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)||web==null)return;
-        String javascript="(function(){try{"
-          +"var settings=document.getElementById('ddProfileSettings');"
-          +"if(!settings||document.getElementById('ddAndroidAlertsSettings'))return;"
-          +"var panel=document.createElement('details');panel.id='ddAndroidAlertsSettings';"
-          +"panel.className='dd-profile-card dd-profile-fold dd-android-alert-settings';"
-          +"var summary=document.createElement('summary');"
-          +"var label=document.createElement('span');label.textContent='🔔 App notifications';"
-          +"var chevron=document.createElement('span');chevron.className='dd-profile-chevron';"
-          +"chevron.setAttribute('aria-hidden','true');chevron.textContent='⌄';"
-          +"summary.append(label,chevron);"
-          +"var note=document.createElement('p');note.textContent='News and video alerts. Chat push notifications are being prepared.';"
-          +"note.className='muted small';note.style.cssText='margin:10px 0 12px';"
-          +"var action=document.createElement('button');action.type='button';action.className='outline';"
-          +"action.textContent='Notification settings';action.setAttribute('aria-label','Open Android notification settings');"
-          +"action.style.cssText='min-height:44px;padding:10px 15px;margin-bottom:12px';"
-          +"action.addEventListener('click',function(){"
-          +"if(window.DDAndroid&&typeof window.DDAndroid.postMessage==='function')"
-          +"window.DDAndroid.postMessage(JSON.stringify({type:'open_notification_settings'}));"
-          +"});panel.append(summary,note,action);"
-          +"var meta=settings.querySelector('.dd-profile-settings-meta');"
-          +"if(meta)meta.insertAdjacentElement('afterend',panel);else settings.append(panel);"
-          +"}catch(e){}})()";
-        web.evaluateJavascript(javascript,null);
-    }
-    private void installResearchInboxControl(){
-        if(!WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)||web==null)return;
-        String script="(function(){"
-          +"if(!window.DDAndroid||typeof window.DDAndroid.postMessage!=='function')return;"
-          +"var newsHero=document.querySelector('#discover > .hero');"
-          +"var exploreHeading=document.getElementById('ddExploreTitle');"
-          +"if(!newsHero||!exploreHeading||document.getElementById('ddAndroidResearchInbox'))return;"
-          +"var style=document.createElement('style');"
-          +"style.textContent='.dd-android-research-inbox{display:flex;gap:8px;margin:10px 0 14px}'"
-          +"+'.dd-android-research-inbox button{min-height:44px;padding:8px 14px}'"
-          +"+'.dd-android-research-inbox button:first-child{flex:1;text-align:left;font-weight:700}'"
-          +"+'.dd-android-research-inbox button:last-child{min-width:44px;padding:8px;font-size:19px}';"
-          +"document.head.appendChild(style);"
-          +"function button(text,label,type){"
-          +"var action=document.createElement('button');"
-          +"action.type='button';action.className='outline';action.textContent=text;"
-          +"action.setAttribute('aria-label',label);"
-          +"action.addEventListener('click',function(){window.DDAndroid.postMessage(JSON.stringify({type:type}));});"
-          +"return action;"
-          +"}"
-          +"function shortcut(id){"
-          +"var row=document.createElement('div');row.id=id;row.className='dd-android-research-inbox';"
-          +"row.append(button('Research Inbox','Open Research Inbox','open_research_inbox'),"
-          +"button('ⓘ','How to use Research Inbox','open_research_inbox_help'));"
-          +"return row;"
-          +"}"
-          +"newsHero.before(shortcut('ddAndroidResearchInbox'));"
-          +"exploreHeading.after(shortcut('ddAndroidResearchInboxExplore'));"
-          +"})()";
-        web.evaluateJavascript(script,null);
-    }
-
     private void showResearchInboxHelp(){
         if(isFinishing()||isDestroyed()||web==null)return;
         new AlertDialog.Builder(this)
@@ -1392,6 +1377,7 @@ public final class MainActivity extends Activity {
     @Override protected void onPause(){if(nativeNews!=null)nativeNews.rememberPosition();if(adView!=null)adView.pause();super.onPause();}
     @Override protected void onResume(){super.onResume();if(adView!=null)adView.resume();if(premium!=null)premium.restore();}
     @Override protected void onDestroy(){
+        cancelHomeLayoutCallbacks();
         if(Build.VERSION.SDK_INT>=33 && modernBackCallback!=null){
             getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(modernBackCallback);
             modernBackCallback=null;
