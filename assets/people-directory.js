@@ -1005,7 +1005,13 @@ function openPerson(person,updateUrl=true){
  if(updateUrl){
   originAnchor={personId:person.id,y:Math.max(0,Math.round(window.scrollY))};
   // Save the origin card's scroll position on the directory history entry.
-  if(embeddedDirectory)embeddedReturnAnchor=originAnchor;else history.replaceState({...history.state,ddDirectoryReturn:originAnchor},'',location.href);
+  if(embeddedDirectory){
+   // The public static cards can paint before the JS input listener attaches.
+   // Capture the actual visible field at the moment of opening a profile,
+   // not just the last input event, so early typing is retained on Back.
+   embeddedReturnAnchor=originAnchor;
+   embeddedFilters={query:$('peopleSearch').value,kind:$('peopleCategory').value};
+  }else history.replaceState({...history.state,ddDirectoryReturn:originAnchor},'',location.href);
  }
  selected=person;
  const show=$('personProfile'),directory=$('directoryPage');
@@ -1202,7 +1208,7 @@ function appendStagedProfiles(base,additions){
 }
 $('peopleSearch').addEventListener('input',onDirectoryFilterChanged);
 $('peopleCategory').addEventListener('change',onDirectoryFilterChanged);
-window.addEventListener('popstate',fromLocation);
+if(!embeddedDirectory)window.addEventListener('popstate',fromLocation);
 Promise.all([
  fetch('/data/public-people-directory.json',{cache:'no-store'}).then(resp=>{
  if(!resp.ok)throw Error('Source directory '+resp.status);
@@ -1233,6 +1239,7 @@ Promise.all([
  const reviewerDockets=parseM29EditorialQueue(reviewQueue,people);
  m29Dockets=reviewerDockets?.dockets||new Map();
  m29Rubric=reviewerDockets?.rubric||null;
+ if(embeddedDirectory)embeddedFilters={query:$('peopleSearch').value,kind:$('peopleCategory').value};
  renderCards();fromLocation();
 }).catch(error=>{
  $('peopleStatus').textContent='The public profile directory is temporarily unavailable. The research pages and source links above remain accessible.';
