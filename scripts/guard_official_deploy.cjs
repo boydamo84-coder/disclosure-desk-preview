@@ -64,3 +64,7 @@ if (netlify && [branch, process.env.HEAD].includes('android/m108-wne-polish')) {
 if (netlify && [branch, process.env.HEAD].includes('android/m109-persistent-directory')) {
   throw new Error('M109 Android navigation candidate must never deploy a website.');
 }
+
+if (netlify && [branch, process.env.HEAD].includes('android/m110-shared-navigation')) {
+  throw new Error('M110 Android navigation candidate must never deploy a website.');
+}

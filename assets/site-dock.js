@@ -129,7 +129,18 @@
     window.addEventListener('popstate', () => { if (dialog.open) dialog.close(); });
   }
 
-  window.DDSiteDock = {mount, makeTab, addIcon};
+  function destination(id) {
+    if (id === 'peopleDirectory' && !navigator.userAgent.includes('DisclosureDeskAndroid')) return '/who-is-who.html';
+    if (id === 'researchStudio') {
+      try {
+        if (sessionStorage.getItem('dd-wne-resume-entry-v1') === '1' ||
+            localStorage.getItem('dd-wne-resume-entry-v1') === '1' ||
+            /^[0-9a-f-]{36}$/i.test(sessionStorage.getItem('wne-research-active-document') || '')) return '/research/index.html';
+      } catch (_) {}
+    }
+    return '/?dd_tab=' + encodeURIComponent(id);
+  }
+  window.DDSiteDock = {mount, makeTab, addIcon, destination};
   const home = document.querySelector('#ddHomeDock');
   if (home) mount(home, id => window.ddUserNavigateTo?.(id));
 })();

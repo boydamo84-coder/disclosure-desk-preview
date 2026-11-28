@@ -38,7 +38,55 @@
    .replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,54);
   return 'h-'+(out||'idea')+'-'+count;
  };
+ async function navigateHosted(id){
+  if(busy)return false;
+  if(!$('editorForm').hidden|| (book&&!unlockedVault)){
+   if(!(await confirmAction({
+    title:'Leave unfinished research?',
+    message:!$('editorForm').hidden?'Your editor contains unsaved text. Save a revision before leaving, or those edits will be lost.':'This notebook is session-only and is not saved. Enable encrypted local saving before leaving if you want to keep it.',
+    confirmText:'Leave research',cancelText:'Keep working',destructive:true
+   })))return false;
+  }
+  location.assign(window.DDSiteDock.destination(id));
+  return true;
+ }
+ function renderHostedDock(){
+  const shared=window.DDSiteDock,nav=$('ddWebSecondaryNav'),rail=$('dockScroll');
+  if(!shared){nav.hidden=true;return;}
+  const tabs=[['discover','News'],['archivePage','Archive'],['originalResearchPage','Research'],
+   ['peopleDirectory','Who’s Who'],['researchStudio','W.NE'],['mapPage','Map'],
+   ['clips','Videos'],['livePage','LIVE'],['boards','Boards'],['witness','Witness'],
+   ['watchRead','Watch & Read'],['profilePage','Profile'],['hub','Help']];
+  if(window.DD_COMMUNITY_FEATURES?.discussions===true)tabs.splice(10,0,['discussionsPage','Discussions']);
+  if(window.DD_COMMUNITY_FEATURES?.privateChat===true)tabs.splice(tabs.length-2,0,['chatPage','Chat']);
+  $('dockPrev').remove();$('dockNext').remove();
+  nav.setAttribute('aria-label','Disclosure Desk navigation');
+  rail.setAttribute('aria-label','Disclosure Desk destinations');
+  for(const [id,label] of tabs){
+   const tab=shared.makeTab(id,label,()=>void navigateHosted(id));
+   if(id==='originalResearchPage'){tab.classList.add('active');tab.setAttribute('aria-current','page');}
+   rail.append(tab);
+  }
+  shared.mount(nav,id=>void navigateHosted(id));
+  // Preserve safe mobile editing behavior and the existing branded leave confirmation.
+  const editing=el=>!!el&&(el.matches?.('input,textarea,select,[contenteditable=true]')||!!el.closest?.('[contenteditable=true]'));
+  let timer;
+  const sync=()=>{clearTimeout(timer);timer=setTimeout(()=>document.body.classList.toggle(
+    'dd-web-keyboard-open',editing(document.activeElement)||!$('editorForm').hidden),350);};
+  document.addEventListener('focusin',()=>{if(editing(document.activeElement)){clearTimeout(timer);document.body.classList.add('dd-web-keyboard-open');}else sync();});
+  document.addEventListener('focusout',sync);
+  document.body.classList.add('dd-web-secondary-nav');
+  document.addEventListener('click',event=>{
+   const link=event.target?.closest?.('a[href^="/?dd_tab="]');
+   if(!link)return;
+   const id=new URL(link.href).searchParams.get('dd_tab');
+   if(!tabs.some(tab=>tab[0]===id))return;
+   event.preventDefault();void navigateHosted(id);
+  });
+  window.DDR3NavigateTo=navigateHosted;
+ }
  function renderDock(){
+  if(hosted){renderHostedDock();return;}
   // Same 14 IDs, labels and glyphs as approved R2 secondary-editorial-nav.js;
   // links remain disabled because this is an isolated localhost prototype.
   const tabs=[

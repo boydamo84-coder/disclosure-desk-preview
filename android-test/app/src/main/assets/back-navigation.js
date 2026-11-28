@@ -21,6 +21,10 @@
         // W.NE has its own save-before-navigation guard. Never bypass it on
         // a native gesture; focus mode exits without reloading either iframe.
         if (location.pathname.startsWith('/research/')) {
+            if (location.pathname.startsWith('/research/r3-lab/') && typeof window.DDR3NavigateTo === 'function') {
+                void window.DDR3NavigateTo('originalResearchPage');
+                return 'handled';
+            }
             const writer = document.getElementById('writer');
             const inner = writer?.contentDocument;
             const innerDialog = inner && Array.from(inner.querySelectorAll('dialog[open]')).pop();

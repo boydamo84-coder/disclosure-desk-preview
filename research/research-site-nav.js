@@ -30,7 +30,7 @@ let busy=false,status=null,nav=null,toggle=null,dock=null;
 function destination(tab){
  // Use an explicit website tab for News too. The bare '/' previously let an
  // older session's remembered W.NE landing page win after leaving the editor.
- return tab==='researchStudio'?'/research/index.html':tab==='peopleDirectory'?'/who-is-who.html':'/?dd_tab='+encodeURIComponent(tab);
+ return tab==='researchStudio'?'/research/index.html':(window.DDSiteDock?.destination(tab)||'/?dd_tab='+encodeURIComponent(tab));
 }
 function say(message,error=false){
  if(status){status.textContent=message;status.dataset.error=error?'yes':'no'}

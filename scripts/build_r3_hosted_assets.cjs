@@ -49,6 +49,7 @@ module.exports=function buildHostedR3(root,out,manifestFiles){
   '<script defer src="../../assets/community-test-config.js"></script>\n'+
   ' <script defer crossorigin="anonymous" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>\n'+
   ' <script defer src="./hypothesis-cloud.js?v='+id+'"></script>\n'+
+  ' <script defer src="../../assets/site-dock.js?v=m110"></script>\n'+
   ' <script defer src="./hypothesis-ui.js?v='+id+'"></script>'+(
    production?'':'\n <script defer src="./hypothesis-session-qa.js?v='+id+'"></script>'));
  const securityNote=/<p class="security-note" id="privacyWarning">[\s\S]*?<\/p>/;
@@ -96,6 +97,7 @@ module.exports=function buildHostedR3(root,out,manifestFiles){
  '<div class="r3-qa-actions"><button type="button" id="r3QaCopyResults" class="btn-secondary">Copy safe test results</button></div></section>';
  replaceOnce('<section class="panel setup-panel" id="setupPanel"',cloudPanel+qaPanel+
   '<section class="panel setup-panel" id="setupPanel"');
+ html=html.replace(/<p class="build-stamp" id="r3BuildStamp"[^>]*>[\s\S]*?<\/p>/,'');
  add('index.html',html);
  const forbidden=/\b(?:service_role|sb_secret_|private[_-]key|auth\.users)\b/i;
  for(const f of manifestFiles.filter(x=>x.path.startsWith('research/r3-lab/'))){

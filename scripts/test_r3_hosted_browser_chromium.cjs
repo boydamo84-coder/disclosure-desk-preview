@@ -93,9 +93,10 @@ const BASE='http://127.0.0.1:4173';
    assert.equal(await page.locator('#r3QaOwnId').inputValue(),'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa');
    assert.match(await page.locator('#r3QaResults').textContent(),/Own encrypted notebook backup present: NO/);
    assert.match(await page.locator('#r3CloudProfile').textContent(),/researcher\.test/);
-   assert.equal(await page.locator('#ddWebSecondaryNav .tab').count(),14);
+   assert.deepEqual(await page.locator('#ddWebSecondaryNav .nav-inner > button').evaluateAll(nodes=>nodes.map(n=>n.dataset.tab||'more')),
+    ['discover','archivePage','originalResearchPage','peopleDirectory','researchStudio','more']);
    assert.equal(await page.locator('#ddWebSecondaryNav .tab[disabled]').count(),0);
-   assert.equal(await page.locator('#ddWebSecondaryNav .tab.active').getAttribute('data-tab'),'boards');
+   assert.equal(await page.locator('#ddWebSecondaryNav .tab.active').getAttribute('data-tab'),'originalResearchPage');
    assert.equal(await page.locator('#r3CloudUpload').isDisabled(),true);
    await page.locator('#sampleBtn').click();
    await page.locator('#workPanel').waitFor({state:'visible'});
@@ -188,7 +189,7 @@ const BASE='http://127.0.0.1:4173';
    const size=await page.evaluate(()=>({actual:document.documentElement.scrollWidth,width:innerWidth}));
    assert(size.actual<=size.width+3,'Hosted R3 horizontal overflow '+JSON.stringify(size));
    await context.close();
-   console.log('PASS R3 hosted '+width+'px: signed-in profile, 14-nav, explicit ciphertext backup, cancel, download and delete; no plaintext');
+   console.log('PASS R3 hosted '+width+'px: signed-in profile, shared six-cell dock, explicit ciphertext backup, cancel, download and delete; no plaintext');
   }
  }finally{await browser.close()}
 })().catch(error=>{console.error(error.stack||error);process.exitCode=1});

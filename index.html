@@ -619,8 +619,20 @@ html.dd-app-directory-open,html.dd-app-directory-open body{overflow:hidden}
  try{
   const target=new URLSearchParams(location.search).get('dd_tab');
   if(['archivePage','originalResearchPage','researchStudio','mapPage','clips','livePage','boards','witness','watchRead','profilePage','hub','discussionsPage','chatPage','cases','rabbitHole','resources','podcasts','about'].includes(target)||(target==='peopleDirectory'&&navigator.userAgent.includes('DisclosureDeskAndroid'))){
-   document.documentElement.classList.add('dd-navigation-pending');
-   window.setTimeout(()=>document.documentElement.classList.remove('dd-navigation-pending'),2500);
+   if(navigator.userAgent.includes('DisclosureDeskAndroid')&& !['chatPage','discussionsPage'].includes(target)){
+    // Show the final tab's static content immediately; never flash News or blank the whole app.
+    const sheet=document.createElement('style');sheet.id='ddAndroidEarlyTab';
+    sheet.textContent='html.dd-android-early .shell>section:not(#'+target+'){display:none!important}'+
+      'html.dd-android-early #'+target+'{display:'+(target==='peopleDirectory'?'flex':'block')+'!important}'+
+      'html.dd-android-early #ddHomeDock:not(.dd-site-dock){visibility:hidden}';
+    document.head.append(sheet);document.documentElement.classList.add('dd-android-early');
+    if(target==='peopleDirectory')document.documentElement.classList.add('dd-app-directory-open');
+    // Safety fallback if a startup script fails. Normal navigateTo clears it much earlier.
+    window.setTimeout(()=>{document.documentElement.classList.remove('dd-android-early');sheet.remove()},2500);
+   }else{
+    document.documentElement.classList.add('dd-navigation-pending');
+    window.setTimeout(()=>document.documentElement.classList.remove('dd-navigation-pending'),2500);
+   }
   }
  }catch(_){}
 })();
@@ -2922,7 +2934,8 @@ if(id==='rabbitHole')renderRabbitHole();
 if(id==='cases')renderCases();
 if(id==='clips'){renderClips();void loadDisclosureClips(true)}else pauseClips();
 if(id==='mapPage'){renderMapOfficialVideos();initMap();if(map){requestAnimationFrame(()=>map.invalidateSize({pan:false}));setTimeout(()=>map.invalidateSize({pan:false}),450)}}
-document.documentElement.classList.remove('dd-navigation-pending');
+document.documentElement.classList.remove('dd-navigation-pending','dd-android-early');
+document.getElementById('ddAndroidEarlyTab')?.remove();
 ddUpdateBackControl();
 window.dispatchEvent(new CustomEvent('dd-public-section-change',{detail:{section:id}}));
 if(podcasts)ddOpenRecommendedPods();
