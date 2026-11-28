@@ -1,15 +1,15 @@
-name: Disclosure Desk Research RC1 private Android APK
+name: Disclosure Desk M106 private Android APK
 on:
   workflow_dispatch:
   push:
-    branches: [feature/research-collaboration-20261126]
+    branches: [android/m106-play-ready]
 permissions:
   contents: read
 jobs:
   apk:
-    if: github.ref == 'refs/heads/feature/research-collaboration-20261126'
+    if: github.ref == 'refs/heads/android/m106-play-ready'
     runs-on: ubuntu-latest
-    timeout-minutes: 22
+    timeout-minutes: 28
     steps:
       - uses: actions/checkout@v4
         with:
@@ -25,10 +25,37 @@ jobs:
         run: |
           CONTEXT=production node scripts/build_public_release.cjs
           CONTEXT=production node scripts/test_public_release_package.cjs
+          node scripts/test_search_indexing.cjs
+          node scripts/test_seo_key_pages.cjs
+          node scripts/test_m70_release_guard.cjs --bundle
           node scripts/stage_android_dev_snapshot.cjs
           node scripts/test_android_dev_snapshot_contract.cjs
           node scripts/test_m96_notification_source_contract.cjs
           node scripts/test_m96k_chat_keyboard_focus.cjs
+          node scripts/test_person_case_links.cjs
+          node scripts/test_news_pagination.cjs
+          node scripts/test_public_share_links.cjs
+          node scripts/test_share_previews.cjs
+          node scripts/test_become_investigator.cjs
+          node scripts/test_m52_drive_web_oauth_config.cjs
+          node scripts/test_research_resume_20261108.cjs
+          node scripts/test_research_drive_runtime.cjs
+      - name: Browser regression against the exact embedded website (NO deploy)
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 leaflet@1.9.4
+          test -x /usr/bin/google-chrome
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory android-test/app/src/main/assets/dd-site >/tmp/dd-m106-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          for attempt in 1 2 3 4 5; do
+            if curl -fsS --max-time 2 http://127.0.0.1:4173/index.html -o /dev/null; then break; fi
+            sleep 1
+          done
+          CHROME_PATH=/usr/bin/google-chrome node scripts/test_issue22_release_chromium.cjs
+          DD_ANDROID_FIXTURE=1 node scripts/test_news_pagination_chromium.cjs
+          node scripts/test_become_investigator_chromium.cjs
+          node scripts/test_experience_discovery_chromium.cjs
+          node scripts/test_m98_app_tour_chromium.cjs
       - name: Verify Android link and notification boundaries
         run: |
           classes=$(mktemp -d)
@@ -50,12 +77,48 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.13'
-      - name: Build separate installable review APK
+      - name: Build installable private beta and unsigned Play release
         working-directory: android-test
-        run: gradle --no-daemon :app:assembleDebug
+        run: gradle --no-daemon :app:assembleDebug :app:assembleRelease :app:bundleRelease
+      - name: Verify build output, debug signer, package and embedded content
+        run: |
+          apk=android-test/app/build/outputs/apk/debug/app-debug.apk
+          test -s "$apk"
+          tools="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}/build-tools/35.0.0"
+          "$tools/apksigner" verify --print-certs "$apk"
+          "$tools/zipalign" -c -P 16 4 "$apk"
+          "$tools/aapt" dump badging "$apk" | grep -F "package: name='com.boyddigitalstudios.disclosuredesk.beta.m106' versionCode='42' versionName='0.16.8-preview'"
+          "$tools/aapt" dump badging "$apk" | grep -F "targetSdkVersion:'36'"
+          python3 scripts/verify_android_m106_package.py "$apk"
+          release_apk=android-test/app/build/outputs/apk/release/app-release-unsigned.apk
+          aab=android-test/app/build/outputs/bundle/release/app-release.aab
+          test -s "$release_apk" && test -s "$aab"
+          "$tools/zipalign" -c -P 16 4 "$release_apk"
+          "$tools/aapt" dump badging "$release_apk" | grep -F "package: name='com.boyddigitalstudios.disclosuredesk' versionCode='42' versionName='0.16.8'"
+          "$tools/aapt" dump badging "$release_apk" | grep -F "targetSdkVersion:'36'"
+          python3 scripts/verify_android_m106_package.py "$release_apk"
+          python3 scripts/verify_android_m106_package.py "$aab"
+          # A production release cannot be uploaded until signed with the owner's existing upload key.
+          python3 scripts/test_play_release_m106.py "$release_apk" "$aab"
+          mkdir -p .release-staging/android-m106
+          cp "$apk" .release-staging/android-m106/DisclosureDesk-M106-private-beta.apk
+          cp "$aab" .release-staging/android-m106/DisclosureDesk-M106-UNSIGNED.aab
+          cp "$release_apk" .release-staging/android-m106/DisclosureDesk-M106-release-UNSIGNED.apk
+          (cd .release-staging/android-m106 && sha256sum *.apk *.aab > SHA256SUMS.txt)
+
       - uses: actions/upload-artifact@v4
         with:
-          name: DisclosureDesk-Research-RC1-PRIVATE-BETA
-          path: android-test/app/build/outputs/apk/debug/app-debug.apk
+          name: DisclosureDesk-M106-PRIVATE-BETA
+          path: .release-staging/android-m106/DisclosureDesk-M106-private-beta.apk
           if-no-files-found: error
           retention-days: 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DisclosureDesk-M106-PLAY-UNSIGNED
+          path: |
+            .release-staging/android-m106/DisclosureDesk-M106-UNSIGNED.aab
+            .release-staging/android-m106/DisclosureDesk-M106-release-UNSIGNED.apk
+            .release-staging/android-m106/SHA256SUMS.txt
+            docs/play-store/
+          if-no-files-found: error
+          retention-days: 30

@@ -48,3 +48,7 @@ if (netlify && [branch, process.env.HEAD].includes('feature/share-identifiable-p
 if (netlify && [branch, process.env.HEAD].includes('feature/seo-keyword-launch-20261128')) {
   throw new Error('SEO keyword launch candidate is restricted to isolated testing.');
 }
+
+if (netlify && [branch, process.env.HEAD].includes('android/m106-play-ready')) {
+  throw new Error('M106 Android Play candidate must never deploy a website.');
+}

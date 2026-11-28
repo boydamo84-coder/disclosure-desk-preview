@@ -1,5 +1,13 @@
 # Disclosure Desk — MASTER HANDOVER
 
+## 28 November 2026 · Android M106 Play preparation — NO WEB DEPLOY / NO PLAY SUBMISSION
+
+- Production web base verified at `c1678875f98073553fe24229b9aa080dd301681a`, exact SEO candidate tree. M105 was v0.16.7/41; new M106 v0.16.8/42, debug package suffix .beta.m106 and existing unsuffixed production ID. Android-specific source matches M105 except version, no new website runtime changes.
+- Branch `android/m106-play-ready` blocked from Netlify. Build strict public 161-file snapshot, run current SEO, navigation, news, tour, sharing, writer/cloud and native safety regressions, then assemble debug APK and unsigned release APK/AAB. Verify all packaged bytes, target 36, identity, ZIP/native alignment. No upload keys/secrets in source or artifacts. Publication requires existing Play upload key and account-specific Console checks.
+- Owner asked for lifetime Remove Ads GBP 4.99: existing Google Play Billing scaffolding and product ID `remove_ads_lifetime` retained; both billing and ads hard OFF until real Play product/test configuration and backend verification, refund/restore and consent acceptance. No live billing or additional services enabled. GA4 remains retired in APK/site; library excludes Firebase Analytics.
+- Offline W.NE remains a separate unfinished acceptance gate: bundled UI, local draft and emergency export recovery exist; no claim of full offline new/existing document editing or conflict-safe sync. Do not compromise research persistence. Physical airplane-mode + reconnection test and any required implementation follow separately.
+- Store listing draft, icon, feature graphic and policy/operational checklist in `docs/play-store/`. Still need authentic phone screenshots, account/track/signing status, review access, deletion/moderation and Data safety verification. No production deployment or database changes.
+
 ## 28 November 2026 · Search discovery / keyword launch candidate — NO DEPLOY
 
 - Owner approved applying the 400-keyword OpenSEO research to existing public pages, US audience first and UK second. Production baseline `534f99cd` (identifiable social previews), branch `feature/seo-keyword-launch-20261128`. OpenSEO project has 400 saved phrases; 301 have US volume estimates and 99 exploratory. Prior budget use: 224 credits, 276 remain. No new paid SEO requests in implementation.

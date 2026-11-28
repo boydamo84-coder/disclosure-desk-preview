@@ -15,3 +15,9 @@ android-test/.gradle/
 android-test/.kotlin/
 android-test/**/build/
 android-test/local.properties
+
+# Never commit Play upload keys or local Android distribution binaries.
+*.jks
+*.keystore
+*.aab
+*.apk
