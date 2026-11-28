@@ -1,4 +1,4 @@
-/* Disclosure Desk Research Edition: mirror the public swipeable navigation dock.
+/* Disclosure Desk Research Edition: use the shared five-destination dock and More menu.
  * Never navigate away from an open W.NE document unless its existing
  * cloud-save function confirms the current revision has been saved.
  * The independent original W.NE product is not changed by this shell.
@@ -6,7 +6,8 @@
 (()=>{
 'use strict';
 const TABS=[
- ['discover','◈','News'],['archivePage','▥','Archive'],['researchStudio','✎','W.NE'],
+ ['discover','◈','News'],['archivePage','▥','Archive'],['originalResearchPage','⌕','Research'],
+ ['peopleDirectory','♙','Who’s Who'],['researchStudio','✎','W.NE'],
  ['mapPage','◎','Map'],['clips','▶','Videos'],['livePage','●','LIVE'],
  ['boards','▣','Boards'],['witness','◉','Witness'],
  ['watchRead','♫','Watch & Read'],['profilePage','👤','Profile'],['hub','☷','Help']
@@ -29,7 +30,7 @@ let busy=false,status=null,nav=null,toggle=null,dock=null;
 function destination(tab){
  // Use an explicit website tab for News too. The bare '/' previously let an
  // older session's remembered W.NE landing page win after leaving the editor.
- return tab==='researchStudio'?'/research/index.html':'/?dd_tab='+encodeURIComponent(tab);
+ return tab==='researchStudio'?'/research/index.html':tab==='peopleDirectory'?'/who-is-who.html':'/?dd_tab='+encodeURIComponent(tab);
 }
 function say(message,error=false){
  if(status){status.textContent=message;status.dataset.error=error?'yes':'no'}
@@ -74,8 +75,8 @@ async function verifySaved(tab){
 }
 async function go(tab){
  if(busy)return false;
- if(!TABS.some(x=>x[0]===tab))return false;
- if(tab==='researchStudio'&&(workspace||editor))return true; // No reload of an open report.
+ if(!TABS.some(x=>x[0]===tab)&&!['cases','rabbitHole','resources','about'].includes(tab))return false;
+ if(tab==='researchStudio'&&(workspace||editor||location.pathname.endsWith('/index.html')||location.pathname==='/research/'))return true; // No reload of an active report or entry.
  busy=true;
  dock?.setAttribute('aria-busy','true');
  try{
@@ -152,42 +153,37 @@ const sheet=document.createElement('link');
 sheet.rel='stylesheet';sheet.href='./research-site-nav.css';
 document.head.appendChild(sheet);
 dock=document.createElement('div');
-dock.className='dd-site-dock';
+dock.id='ddResearchSiteDock';
 dock.setAttribute('role','region');
 dock.setAttribute('aria-label','Disclosure Desk navigation');
-dock.innerHTML='<div class="dd-site-dock-head"><span class="dd-site-dock-status" role="status" aria-live="polite"></span><button class="dd-site-dock-toggle" type="button" aria-expanded="true">Hide menu</button></div><nav class="dd-site-dock-track" aria-label="Disclosure Desk sections"></nav>';
+dock.innerHTML='<div class="dd-site-dock-head"><span class="dd-site-dock-status" role="status" aria-live="polite"></span><button class="dd-site-dock-toggle" type="button" aria-expanded="true">Hide menu</button></div><nav class="nav-inner dd-site-dock-track" aria-label="Disclosure Desk sections"></nav>';
 document.body.appendChild(dock);
 nav=dock.querySelector('nav');
 status=dock.querySelector('.dd-site-dock-status');
 toggle=dock.querySelector('.dd-site-dock-toggle');
-for(const [id,icon,label] of TABS){
- const button=document.createElement('button');
- button.type='button';button.className='dd-site-dock-tab';button.dataset.ddTab=id;
+// Mount the identical shared SVG dock used on Home and editorial pages.
+const shared=window.DDSiteDock;
+if(!shared){dock.remove();return;}
+for(const [id,,label] of TABS){
+ const button=shared.makeTab(id,label,()=>{void go(id)});
+ button.classList.add('dd-site-dock-tab');
+ button.dataset.ddTab=id;
  button.setAttribute('aria-label',label);
  if(id==='researchStudio')button.setAttribute('aria-current','page');
- const ico=document.createElement('span');ico.className='dd-site-dock-icon';ico.setAttribute('aria-hidden','true');
- if(id==='chatPage'&&typeof document.createElementNS==='function'){
-  const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');
-  svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('fill','none');
-  svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.85');
-  svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');
-  svg.setAttribute('aria-hidden','true');svg.setAttribute('class','dd-chat-nav-symbol');
-  const path=document.createElementNS(ns,'path');path.setAttribute('d','M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4.2-1L3 21l2-5a8.5 8.5 0 1 1 16-4.5Z');
-  svg.appendChild(path);ico.appendChild(svg);
- }else ico.textContent=icon;
- button.append(ico,document.createTextNode(label));
- button.addEventListener('click',()=>{void go(id)});
  nav.appendChild(button);
 }
+shared.mount(dock,id=>{void go(id)});
+for(const icon of dock.querySelectorAll('.ico'))icon.classList.add('dd-site-dock-icon');
 // Owner-only profile photo in the Research dock, using the same opaque
 // private Storage key as the main website. Never derive a URL from a username.
-const profileIcon=nav.querySelector('[data-dd-tab="profilePage"] .dd-site-dock-icon');
+const profileIcon=dock.querySelector('[data-tab="profilePage"] .ico');
+const genericProfile=profileIcon?.firstElementChild?.cloneNode(true);
 let avatarClient=null,avatarEpoch=0,avatarOwner=null,avatarUrl=null,avatarBusy=false;
 const avatarUUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 function resetResearchAvatar(){
  if(avatarUrl){try{URL.revokeObjectURL(avatarUrl)}catch(_){}avatarUrl=null}
  avatarOwner=null;
- if(profileIcon)profileIcon.textContent='👤';
+ if(profileIcon&&genericProfile)profileIcon.replaceChildren(genericProfile.cloneNode(true));
 }
 async function refreshResearchAvatar(){
  const gen=++avatarEpoch;
@@ -254,8 +250,7 @@ function setHidden(hidden){
  try{localStorage.setItem(STORAGE_KEY,hidden?'1':'0')}catch(_){}
  measure();
  if(!hidden){
-  const active=nav.querySelector('[aria-current="page"]');
-  if(active)nav.scrollLeft=Math.max(0,active.offsetLeft-nav.clientWidth/2+active.clientWidth/2);
+  // The six cells fit the viewport; no scroll position to restore.
  }
 }
 if(workspace)document.body.classList.add('dd-site-nav-workspace');

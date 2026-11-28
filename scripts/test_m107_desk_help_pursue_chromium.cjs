@@ -12,10 +12,11 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
  const browser=await chromium.launch({executablePath:chrome,headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
  try{
   const context=await browser.newContext({viewport:{width:393,height:780},reducedMotion:'reduce'});
+  let mapRequests=0;
   await context.route('**/*',async route=>{
    const url=new URL(route.request().url());
    if(url.hostname==='unpkg.com'&&url.pathname==='/leaflet@1.9.4/dist/leaflet.js'&&fs.existsSync('node_modules/leaflet/dist/leaflet.js'))
-    return route.fulfill({path:'node_modules/leaflet/dist/leaflet.js',contentType:'application/javascript'});
+    {mapRequests++;return route.fulfill({path:'node_modules/leaflet/dist/leaflet.js',contentType:'application/javascript'});}
    if(url.origin!==origin)return route.abort();
    let file=path.join(root,url.pathname==='/'?'index.html':url.pathname.replace(/^\//,''));
    if(!fs.existsSync(file)&&!path.extname(file))file+='.html';
@@ -25,6 +26,7 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
   const page=await context.newPage();
   await page.goto(origin+'/?dd_tab=discover',{waitUntil:'load'});
   await page.waitForFunction(()=>typeof window.DDPageHelp?.open==='function');
+  assert.equal(mapRequests,0,'News does not wait for a remote map library');
   const homeHelp=page.locator('#discover > .dd-help-bar');
   assert.equal(await homeHelp.isVisible(),true,'Website retains the original help row');
   assert.equal(await page.evaluate(header),true);
@@ -54,6 +56,10 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
   await page.locator('#ddArchivePursueShortcut').click();
   assert.equal(await page.locator('#ddArchivePursueShortcut').getAttribute('aria-pressed'),'false');
   assert.doesNotMatch(await page.locator('#archiveStatus').textContent(),/PURSUE only/);
+  assert.equal(mapRequests,0,'Archive also does not fetch the map library');
+  await page.evaluate(()=>navigateTo('mapPage'));
+  await page.waitForFunction(()=>document.getElementById('map').classList.contains('leaflet-container'));
+  assert.equal(mapRequests,1,'Map starts its existing library on selection');
   // Nested reader > investigations listing > Research > News; no task exit.
   await page.evaluate(()=>navigateTo('originalResearchPage'));
   await page.locator('[data-dd-open-reader]').click();
@@ -131,12 +137,46 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
     from:()=>({select(){return this},eq(){return this},order(){return this},limit(){return this},then(resolve){return Promise.resolve({data:[],error:null}).then(resolve)}})
    })};
   });
+  let libraryRequests=0;
+  await context.route('**/research/research-bible.html',route=>{libraryRequests++;return route.fulfill({contentType:'text/html',body:'<!doctype html><title>Fictional research library</title><p>Library</p>'})});
   const focusPage=await context.newPage();
   await focusPage.goto(origin+'/research/research-workspace.html?id=11111111-1111-4111-8111-111111111111',{waitUntil:'domcontentloaded'});
   await focusPage.locator('#writer').waitFor();
   const editor=focusPage.frameLocator('#writer').locator('#editor');
   await editor.waitFor();
+  await focusPage.locator('#ddResearchSiteDock').waitFor();
+  assert.equal(await focusPage.locator('#dd-documents-btn').isVisible(),false,'Duplicate outer Home removed');
+  assert.equal(await focusPage.locator('#bible').getAttribute('src'),'about:blank','Editor-only startup skips separate Library');
+  assert.equal(libraryRequests,0);
+  const dock=focusPage.locator('#ddResearchSiteDock');
+  const primary=dock.locator('.nav-inner > button');
+  assert.deepEqual(await primary.evaluateAll(buttons=>buttons.map(b=>b.dataset.tab||'more')),
+    ['discover','archivePage','originalResearchPage','peopleDirectory','researchStudio','more']);
+  for(const width of [320,393]){
+   await focusPage.setViewportSize({width,height:780});
+   assert.equal(await dock.locator('.nav-inner').evaluate(el=>el.scrollWidth<=el.clientWidth+1),true,'Six cells fit '+width);
+  }
+  const oldUrl=focusPage.url();
+  await dock.locator('[data-tab="researchStudio"]').click();
+  await dock.locator('[data-tab="researchStudio"]').click();
+  assert.equal(focusPage.url(),oldUrl,'Repeat active W.NE tab keeps report mounted');
+  assert.equal(await focusPage.evaluate(()=>document.getElementById('writer').contentWindow.__identity),123);
+  await dock.locator('.dd-dock-more').click();
+  await dock.locator('#ddDockMore[open]').waitFor();
+  assert.equal(await dock.locator('[data-tab="witness"]').isVisible(),true);
+  await dock.locator('.dd-dock-heading button').click();
+  assert.equal(await focusPage.evaluate(()=>ddResearchNavigateTo('archivePage')),false,'Failed save blocks shared dock navigation');
+  // File's existing document-manager bridge remains available.
+  await focusPage.evaluate(()=>document.getElementById('writer').contentWindow.wneSaveBeforeNavigation=async()=>true);
+  assert.equal(await focusPage.evaluate(()=>ddResearchOpenHome()),true);
+  await focusPage.locator('#dd-documents-dialog[open]').waitFor();
+  await focusPage.locator('#dd-close-documents').click();
+  await focusPage.evaluate(()=>document.getElementById('writer').contentWindow.wneSaveBeforeNavigation=async()=>false);
   await focusPage.locator('#bothBtn').click();
+  await focusPage.waitForFunction(()=>document.getElementById('bible').getAttribute('src')==='./research-bible.html');
+  await focusPage.frameLocator('#bible').locator('p').waitFor();
+  assert.equal(libraryRequests,1,'Library loads only on first selection');
+
   const regular=await focusPage.locator('#writer').boundingBox();
   await focusPage.locator('#dd-writing-focus-enter').click();
   assert.equal(await focusPage.locator('body>header').isVisible(),false);
@@ -156,6 +196,7 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
   await focusPage.locator('#dd-writing-focus-exit').click();
   assert.equal(await focusPage.locator('#dd-writing-focus-bar').isVisible(),false);
   assert.equal(await editor.innerText(),'Unsaved synthetic writing');
+  console.log('PASS M108: shared 6-cell W.NE dock at 320/393px, repeat-tab stability, File document manager, save guard, on-demand Map and Library.');
   console.log('PASS M107: Android-only Desk help, public help preserved, PURSUE scroll + filter reset, nested research readers, tab history, all public SPA sections and canonical back routes.');
  }finally{await browser.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});

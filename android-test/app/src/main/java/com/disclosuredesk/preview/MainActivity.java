@@ -211,7 +211,7 @@ public final class MainActivity extends Activity {
         settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setAllowFileAccess(false);
         // Keep content:// reads enabled for the existing Android document/image chooser.
-        settings.setCacheMode(WebSettings.LOAD_NO_CACHE); // Private APK always uses its embedded UI version.
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT); // Bundled UI is still intercepted; allow normal HTTP caching for remote static assets.
         web.setWebViewClient(new WebViewClient(){
             @Override public WebResourceResponse shouldInterceptRequest(WebView view,WebResourceRequest request){
                 if(isGoogleAnalyticsHost(request.getUrl().getHost())){
@@ -820,7 +820,8 @@ public final class MainActivity extends Activity {
             // Bundled video/PDF bytes are binary, not UTF-8 text. The allowlist
             // and existing FOIA viewer grant still define which files are served.
             String encoding=("video/mp4".equals(mime)||"application/pdf".equals(mime))?null:"UTF-8";
-            return new WebResourceResponse(mime,encoding,bytes);
+            return new WebResourceResponse(mime,encoding,200,"OK",
+                Collections.singletonMap("Cache-Control","no-store"),bytes);
         }catch(Exception ex){
             android.util.Log.e("DisclosureDesk","Bundled site asset could not be opened: "+name);
             return new WebResourceResponse("text/plain","UTF-8",404,"Not Found",

@@ -35,6 +35,11 @@
       } else document.getElementById('directoryPage')?.scrollIntoView({block: 'start'});
       return;
     }
+    if (id === 'researchStudio') {
+      try {
+        if (sessionStorage.getItem('dd-wne-resume-entry-v1')==='1'||localStorage.getItem('dd-wne-resume-entry-v1')==='1'||/^[0-9a-f-]{36}$/i.test(sessionStorage.getItem('wne-research-active-document')||'')) {location.assign('/research/index.html');return;}
+      }catch(_){}
+    }
     location.assign('/?dd_tab=' + encodeURIComponent(id));
   }
 

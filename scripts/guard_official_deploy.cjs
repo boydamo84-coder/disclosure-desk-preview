@@ -56,3 +56,7 @@ if (netlify && [branch, process.env.HEAD].includes('android/m106-play-ready')) {
 if (netlify && [branch, process.env.HEAD].includes('android/m107-desk-help')) {
   throw new Error('M107 Android UI candidate must never deploy a website.');
 }
+
+if (netlify && [branch, process.env.HEAD].includes('android/m108-wne-polish')) {
+  throw new Error('M108 Android W.NE candidate must never deploy a website.');
+}
