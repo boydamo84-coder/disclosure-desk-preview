@@ -82,3 +82,7 @@ if (netlify && [branch, process.env.HEAD].includes('android/m113-wne-menu-cleara
 if (netlify && [branch, process.env.HEAD].includes('android/m114-comparison-label')) {
   throw new Error('M114 Android comparison label candidate must never deploy a website.');
 }
+
+if (netlify && [branch, process.env.HEAD].includes('android/m115-navigation-stability')) {
+  throw new Error('M115 Android stability candidate must never deploy a website.');
+}

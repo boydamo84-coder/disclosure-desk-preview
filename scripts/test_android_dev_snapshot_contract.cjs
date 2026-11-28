@@ -49,9 +49,16 @@ assert.match(main,/"https"\.equals\(url\.getScheme\(\)\)/,'Only HTTPS origin int
 assert.match(main,/"uapdisclosuredesk\.com"\.equals\(url\.getHost\(\)\)/);
 assert.match(main,/DD_FIREBASE_APP_ID/,'Firebase groundwork preserved');
 assert.match(main,/PLAY_BILLING_APPROVED = false/,'Unverified paid purchase is disabled');
-assert.match(gradle,/applicationIdSuffix = "\.beta\.m114"/,'Private beta does not overwrite production app');
+assert.match(gradle,/applicationIdSuffix = "\.beta\.m115"/,'Private beta does not overwrite production app');
 assert.match(gradle,/targetSdk = 36/);
-assert.match(gradle,/versionCode = 50/);
+assert.match(gradle,/versionCode = 51/);
 assert(!manifest.files.some(p=>p.startsWith('.github/')||p.startsWith('supabase/')||p.startsWith('scripts/')||p.includes('SECRET')),
  'No source jobs, SQL or internal config distributed in APK');
+// M115 native shutdown contract: callbacks invalidated, dead WebView detached
+// before destruction, and renderer loss handled without automatic restart.
+assert.match(main,/onRenderProcessGone\(WebView view,[\s\S]*?disposeWebView\(true\);[\s\S]*?showRendererRecovery\(\);[\s\S]*?return true;/);
+assert.match(main,/disposeWebView\(boolean rendererGone\)[\s\S]*?documentGeneration\+\+;[\s\S]*?web=null;[\s\S]*?removeView\(doomed\);[\s\S]*?doomed\.destroy\(\);/);
+assert.match(main,/onDestroy\(\)[\s\S]*?destroying=true;[\s\S]*?disposeWebView\(false\);[\s\S]*?finally\{super\.onDestroy\(\);\}/);
+assert.match(main,/if\(BuildConfig\.DEBUG\)menu\.getMenu\(\)\.add\("Last app exit \(beta\)"\)/);
+console.log('PASS M115 WebView lifecycle source contract, renderer recovery and local beta-only exit diagnostics.');
 console.log('PASS reviewed M76 app snapshot, private worksheet and research assets, no GA implementation and separate Android package');

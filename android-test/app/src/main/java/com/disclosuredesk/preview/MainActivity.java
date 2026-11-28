@@ -87,6 +87,8 @@ public final class MainActivity extends Activity {
         "/data/foia/27-f-0917-referral-extracts.pdf"));
     private ResearchInboxStore researchInbox;
     private WebView web;
+    private boolean destroying;
+    private boolean webAvailable(){return web!=null && !destroying && !isFinishing() && !isDestroyed();}
     private FrameLayout root;
     private LinearLayout deskBar;
     private ImageButton deskProfile;
@@ -100,7 +102,7 @@ public final class MainActivity extends Activity {
     private boolean cachedNewsOnly;
     private String activeSection="discover";
     private final Runnable refreshDeadline=()->{
-        if(nativeNews!=null){
+        if(webAvailable() && nativeNews!=null){
             nativeNews.finishRefresh();
             nativeNews.update(null,"News refresh timed out · Showing available headlines");
         }
@@ -227,6 +229,7 @@ public final class MainActivity extends Activity {
                 return embeddedWebsiteAsset(request);
             }
             @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap favicon){
+                if(view!=web || !webAvailable())return;
                 documentGeneration++;
                 cancelHomeLayoutCallbacks();
                 homeLayoutPrepared=false;
@@ -252,7 +255,7 @@ public final class MainActivity extends Activity {
                     // the visual-state callback fails. Normally the ready frame
                     // is shown much earlier, without waiting for network assets.
                     homeLayoutWatchdog=()->{
-                        if(generation!=documentGeneration || mainPageFailed)return;
+                        if(!webAvailable() || generation!=documentGeneration || mainPageFailed)return;
                         homeLayoutExpired=true;
                         if(isAppHomeUrl(web.getUrl()))revealHome(generation);
                         else if(splash!=null)showOnline();
@@ -262,6 +265,7 @@ public final class MainActivity extends Activity {
                 layoutDesk();
             }
             @Override public void onPageCommitVisible(WebView view,String url){
+                if(view!=web || !webAvailable())return;
                 if(mainPageFailed)return;
                 if(isAppHomeUrl(url) && isAppHomeUrl(view.getUrl())){
                     // A visible WebView commit is NOT the final app layout.
@@ -271,6 +275,7 @@ public final class MainActivity extends Activity {
                 }else if(splash!=null && url!=null && url.equals(view.getUrl()) && !isAppHomeUrl(url))showOnline();
             }
             @Override public void onPageFinished(WebView view,String url){
+                if(view!=web || !webAvailable())return;
                 if(!mainPageFailed && isAppHomeUrl(url) && isAppHomeUrl(view.getUrl())){
                     prepareHomeLayout();
                     installNativeShell(url);
@@ -279,6 +284,7 @@ public final class MainActivity extends Activity {
                 }else if(!mainPageFailed && splash!=null && url!=null && url.equals(view.getUrl()) && !isAppHomeUrl(url))showOnline();
             }
             @Override public void onReceivedError(WebView view,WebResourceRequest request,WebResourceError error){
+                if(view!=web || !webAvailable())return;
                 if(request.isForMainFrame() && request.getUrl()!=null &&
                    ("uapdisclosuredesk.com".equals(request.getUrl().getHost()) ||
                     "www.uapdisclosuredesk.com".equals(request.getUrl().getHost()))){
@@ -286,7 +292,20 @@ public final class MainActivity extends Activity {
                     showOffline();
                 }
             }
+            @Override public boolean onRenderProcessGone(WebView view,android.webkit.RenderProcessGoneDetail detail){
+                // A terminated renderer cannot be reused. Keep the app alive and
+                // provide an explicit recovery instead of killing the host process.
+                if(view!=web)return true;
+                boolean crashed=detail.didCrash();
+                android.util.Log.w("DisclosureDesk","WebView renderer exited; crashed="+crashed);
+                if(BuildConfig.DEBUG)getPreferences(MODE_PRIVATE).edit().putString("last-renderer-exit",
+                    (crashed?"Renderer crash":"Renderer terminated")+" at "+DateFormat.getDateTimeInstance().format(new Date())).apply();
+                disposeWebView(true);
+                if(!destroying && !isFinishing() && !isDestroyed())showRendererRecovery();
+                return true;
+            }
             @Override public boolean shouldOverrideUrlLoading(WebView view,WebResourceRequest request){
+                if(view!=web || !webAvailable())return true;
                 Uri url=request.getUrl();
                 String host=url.getHost();
                 if(request.isForMainFrame() && "https".equals(url.getScheme())
@@ -312,6 +331,7 @@ public final class MainActivity extends Activity {
         });
         web.setWebChromeClient(new WebChromeClient(){
             @Override public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> callback, FileChooserParams params){
+                if(view!=web || !webAvailable()){callback.onReceiveValue(null);return true;}
                 if(pendingFiles!=null){pendingFiles.onReceiveValue(null);pendingFiles=null;}
                 pendingFiles=callback;
                 try{
@@ -327,14 +347,14 @@ public final class MainActivity extends Activity {
                 }
             }
             @Override public void onShowCustomView(View view,CustomViewCallback callback){
-                if(fullView!=null){callback.onCustomViewHidden();return;}
+                if(!webAvailable() || fullView!=null){callback.onCustomViewHidden();return;}
                 fullView=view;fullCallback=callback;
                 web.setVisibility(View.GONE);
                 root.addView(view,new FrameLayout.LayoutParams(-1,-1));
                 layoutDesk();
             }
             @Override public void onHideCustomView(){
-                if(fullView==null)return;
+                if(fullView==null || !webAvailable())return;
                 root.removeView(fullView);fullView=null;
                 web.setVisibility(View.VISIBLE);
                 if(fullCallback!=null){fullCallback.onCustomViewHidden();fullCallback=null;}
@@ -350,7 +370,7 @@ public final class MainActivity extends Activity {
         if(PLAY_ADS_APPROVED)prepareTestBanner();
     }
     @Override protected void onSaveInstanceState(Bundle state){
-        if(web!=null)web.saveState(state);
+        if(webAvailable())web.saveState(state);
         state.putString("pendingArchiveCase",pendingArchiveCase);
         super.onSaveInstanceState(state);
     }
@@ -361,7 +381,7 @@ public final class MainActivity extends Activity {
             pendingFiles=null;
             callback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode,data));
         }
-        if(requestCode==OFFLINE_ARCHIVE_REQUEST && resultCode==RESULT_OK && data!=null){
+        if(requestCode==OFFLINE_ARCHIVE_REQUEST && resultCode==RESULT_OK && data!=null && webAvailable()){
             pendingArchiveCase=data.getStringExtra("archive_case");
             if(isAppHomeUrl(web.getUrl()) && !mainPageFailed) openPendingArchiveCase();
             else web.loadUrl(HOME);
@@ -369,7 +389,7 @@ public final class MainActivity extends Activity {
     }
     private void openPendingArchiveCase(){
         String id=pendingArchiveCase;
-        if(id==null || id.length()>160)return;
+        if(!webAvailable() || id==null || id.length()>160)return;
         // Open in the same document so an unsaved workspace and WebView history stay intact.
         String script="(function(id){if(location.pathname!=='/'||typeof navigateTo!=='function'"
           + "||typeof archiveCaseOpen!=='function')return false;"
@@ -468,13 +488,13 @@ public final class MainActivity extends Activity {
         homeLayoutRetry=null;homeLayoutWatchdog=null;
     }
     private void prepareHomeLayout(){
-        if(mainPageFailed || homeLayoutPrepared || homeLayoutInFlight ||
+        if(!webAvailable() || mainPageFailed || homeLayoutPrepared || homeLayoutInFlight ||
             homeLayoutRetry!=null || !isAppHomeUrl(web.getUrl()) || isFinishing() || isDestroyed())return;
         int generation=documentGeneration;
         if(compactHeaderScript==null){revealHome(generation);return;}
         homeLayoutInFlight=true;
         web.evaluateJavascript(compactHeaderScript,value->{
-            if(generation!=documentGeneration || mainPageFailed || !isAppHomeUrl(web.getUrl()) ||
+            if(!webAvailable() || generation!=documentGeneration || mainPageFailed || !isAppHomeUrl(web.getUrl()) ||
                 isFinishing() || isDestroyed())return;
             homeLayoutInFlight=false;
             if(!"true".equals(value)){
@@ -493,7 +513,7 @@ public final class MainActivity extends Activity {
             root.getViewTreeObserver().addOnPreDrawListener(new android.view.ViewTreeObserver.OnPreDrawListener(){
                 @Override public boolean onPreDraw(){
                     if(root.getViewTreeObserver().isAlive())root.getViewTreeObserver().removeOnPreDrawListener(this);
-                    if(generation==documentGeneration && !mainPageFailed && !isFinishing() && !isDestroyed()){
+                    if(webAvailable() && generation==documentGeneration && !mainPageFailed){
                         web.postVisualStateCallback(generation,new WebView.VisualStateCallback(){
                             @Override public void onComplete(long requestId){
                                 revealHome(generation);
@@ -507,14 +527,14 @@ public final class MainActivity extends Activity {
         });
     }
     private void revealHome(int generation){
-        if(generation!=documentGeneration || mainPageFailed || !isAppHomeUrl(web.getUrl()) ||
+        if(!webAvailable() || generation!=documentGeneration || mainPageFailed || !isAppHomeUrl(web.getUrl()) ||
             isFinishing() || isDestroyed())return;
         cancelHomeLayoutCallbacks();
         showOnline();
         if(homeLayoutPrepared)maybeShowAppTour();
     }
     private void installNativeShell(String url){
-        if(!WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER))return;
+        if(!webAvailable() || !WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER))return;
         int generation=documentGeneration;
         try(BufferedReader script=new BufferedReader(new InputStreamReader(
                 getAssets().open("native-shell.js"),StandardCharsets.UTF_8))){
@@ -522,7 +542,7 @@ public final class MainActivity extends Activity {
             String line;
             while((line=script.readLine())!=null)source.append(line).append('\n');
             web.evaluateJavascript(source.toString()+"("+generation+")",value->{
-                if(generation!=documentGeneration || mainPageFailed || !isAppHomeUrl(web.getUrl()))return;
+                if(!webAvailable() || generation!=documentGeneration || mainPageFailed || !isAppHomeUrl(web.getUrl()))return;
                 nativeShell="true".equals(value);
                 Uri address=Uri.parse(url);
                 nativeNewsSelected=nativeShell && address.getQueryParameter("dd_news")==null
@@ -561,16 +581,17 @@ public final class MainActivity extends Activity {
         deskProfile.setPadding(inset,inset,inset,inset);
     }
     private void openNativeSection(String section){
-        if(!nativeShell || !isAppHomeUrl(web.getUrl()))return;
+        if(!webAvailable() || !nativeShell || !isAppHomeUrl(web.getUrl()))return;
         int generation=documentGeneration;
         web.evaluateJavascript("window.DDNativeShell?.go("+JSONObject.quote(section)+")",value->{
-            if(generation!=documentGeneration || !"true".equals(value))return;
+            if(!webAvailable() || generation!=documentGeneration || !"true".equals(value))return;
             if(!"discover".equals(section))nativeNews.rememberPosition();
             nativeNewsSelected="discover".equals(section);
             layoutDesk();
         });
     }
     private void refreshNativeNews(){
+        if(!webAvailable())return;
         root.removeCallbacks(refreshDeadline);
         if(cachedNewsOnly || !nativeShell || !isAppHomeUrl(web.getUrl())){
             nativeNews.finishRefresh();
@@ -583,6 +604,7 @@ public final class MainActivity extends Activity {
         web.evaluateJavascript("void window.DDNativeShell?.refresh()",null);
     }
     private void showSharedNews(String id,String url){
+        if(!webAvailable())return;
         if(cachedNewsOnly || !nativeShell || !isAppHomeUrl(web.getUrl())){
             android.widget.Toast.makeText(this,"Connect to open discussion and research tools",android.widget.Toast.LENGTH_SHORT).show();
             return;
@@ -592,7 +614,7 @@ public final class MainActivity extends Activity {
         layoutDesk();
         if(!id.isEmpty() && NativeNewsView.safeUrl(url)){
             web.evaluateJavascript("window.DDNativeShell?.story("+JSONObject.quote(id)+","+JSONObject.quote(url)+")",value->{
-                if("false".equals(value) && !nativeNewsSelected)
+                if(webAvailable() && "false".equals(value) && !nativeNewsSelected)
                     android.widget.Toast.makeText(this,"This story is in your saved list. Its original link is still available there.",android.widget.Toast.LENGTH_SHORT).show();
             });
         }
@@ -600,7 +622,7 @@ public final class MainActivity extends Activity {
     private void openNewsPublisher(JSONObject story){
         String url=story.optString("url");
         if(!NativeNewsView.safeUrl(url))return;
-        if(nativeShell && isAppHomeUrl(web.getUrl())){
+        if(webAvailable() && nativeShell && isAppHomeUrl(web.getUrl())){
             web.evaluateJavascript("window.DDNativeShell?.read(JSON.parse("+
                 JSONObject.quote(story.toString())+"))",null);
         }
@@ -611,12 +633,13 @@ public final class MainActivity extends Activity {
         }
     }
     private void openProfile(){
-        if(cachedNewsOnly || !compactHeader || !isAppHomeUrl(web.getUrl()))return;
+        if(!webAvailable() || cachedNewsOnly || !compactHeader || !isAppHomeUrl(web.getUrl()))return;
         String script="(function(){if(location.origin!=='https://uapdisclosuredesk.com'||location.pathname!=='/')return false;"
           + "const profile=document.getElementById('ddProfileShortcut');"
           + "if(!profile||document.querySelector('dialog[open]'))return false;"
           + "profile.click();return true;})()";
         web.evaluateJavascript(script,value->{
+            if(!webAvailable())return;
             if("true".equals(value) && isAppHomeUrl(web.getUrl())){
                 nativeNews.rememberPosition();
                 nativeNewsSelected=false;
@@ -649,11 +672,41 @@ public final class MainActivity extends Activity {
         menu.getMenu().add("Notification settings").setOnMenuItemClickListener(item->{notificationSettings();return true;});
         menu.getMenu().add("How to use").setOnMenuItemClickListener(item->{openDeskHelp();return true;});
         menu.getMenu().add("App tour").setOnMenuItemClickListener(item->{showAppTour();return true;});
+        if(BuildConfig.DEBUG)menu.getMenu().add("Last app exit (beta)").setOnMenuItemClickListener(item->{showExitDiagnostics();return true;});
         menu.getMenu().add("Boyd Digital Studios website").setOnMenuItemClickListener(item->{openStudioWebsite();return true;});
         menu.show();
     }
 
+    // Local beta diagnostics: reason/status and times only, never account data,
+    // URLs, document content, log messages, or network upload.
+    private void showExitDiagnostics(){
+        StringBuilder summary=new StringBuilder("Android app exit information (this installation only)\n");
+        if(Build.VERSION.SDK_INT>=30){
+            try{
+                android.app.ActivityManager manager=getSystemService(android.app.ActivityManager.class);
+                if(manager!=null){
+                    java.util.List<android.app.ApplicationExitInfo> exits=manager.getHistoricalProcessExitReasons(getPackageName(),0,5);
+                    if(exits.isEmpty())summary.append("No recorded exit.\n");
+                    for(android.app.ApplicationExitInfo entry:exits){
+                        int reason=entry.getReason();
+                        String label=reason==android.app.ApplicationExitInfo.REASON_CRASH?"Java crash":
+                            reason==android.app.ApplicationExitInfo.REASON_CRASH_NATIVE?"Native crash":
+                            reason==android.app.ApplicationExitInfo.REASON_ANR?"Not responding":
+                            reason==android.app.ApplicationExitInfo.REASON_LOW_MEMORY?"Low memory":
+                            reason==android.app.ApplicationExitInfo.REASON_USER_REQUESTED?"User requested":"Other";
+                        summary.append(DateFormat.getDateTimeInstance().format(new Date(entry.getTimestamp())))
+                            .append(" · ").append(label).append(" (").append(reason).append("), status ").append(entry.getStatus()).append('\n');
+                    }
+                }
+            }catch(RuntimeException ignored){summary.append("Android exit details unavailable.\n");}
+        }else summary.append("Exit reasons require Android 11 or later.\n");
+        summary.append("\n").append(getPreferences(MODE_PRIVATE).getString("last-renderer-exit","No renderer termination recorded."));
+        new AlertDialog.Builder(this).setTitle("Last app exit (beta)").setMessage(summary.toString())
+            .setPositiveButton("Close",null).show();
+    }
+
     private void openDeskHelp(){
+        if(!webAvailable())return;
         if(cachedNewsOnly || !compactHeader || !isAppHomeUrl(web.getUrl())){
             showAppTour();
             return;
@@ -665,7 +718,7 @@ public final class MainActivity extends Activity {
         }
         int generation=documentGeneration;
         web.evaluateJavascript("window.DDNativePageHelp?.()",value->{
-            if(generation!=documentGeneration || !isAppHomeUrl(web.getUrl()))return;
+            if(!webAvailable() || generation!=documentGeneration || !isAppHomeUrl(web.getUrl()))return;
             if("\"blocked\"".equals(value)){
                 android.widget.Toast.makeText(this,"Close the current panel to open Help",android.widget.Toast.LENGTH_SHORT).show();
             }else if(!"\"opened\"".equals(value)){
@@ -685,7 +738,7 @@ public final class MainActivity extends Activity {
     }
 
     private void maybeShowAppTour() {
-        if (!offerAppTour || splash!=null || !deskHome || !hasWindowFocus() || mainPageFailed || fullView != null
+        if (!webAvailable() || !offerAppTour || splash!=null || !deskHome || !hasWindowFocus() || mainPageFailed || fullView != null
             || !HOME.equals(web.getUrl())) return;
         offerAppTour = false;
         // The same origin-scoped bridge suppresses the website's welcome prompt.
@@ -758,7 +811,7 @@ public final class MainActivity extends Activity {
                 if("chat".equals(entry.type))targetIntent.putExtra("dd_recipient_id",entry.owner);
                 String destination=notificationUrl(targetIntent);
                 dialog.dismiss();
-                if(!HOME.equals(destination) && web!=null)web.loadUrl(destination);
+                if(!HOME.equals(destination) && webAvailable())web.loadUrl(destination);
             });
         }
         dialog.setOnShowListener(d->{
@@ -769,6 +822,7 @@ public final class MainActivity extends Activity {
     }
 
     private void openResearchDesk(){
+        if(!webAvailable())return;
         cachedNewsOnly=false;
         mainPageFailed=false;
         showOnline();
@@ -799,7 +853,7 @@ public final class MainActivity extends Activity {
     private void layoutDesk(){
         boolean ready=(splash==null || homeLayoutPrepared) && offlinePanel!=null && offlinePanel.getVisibility()!=View.VISIBLE;
         boolean showDesk=(deskHome && ready || cachedNewsOnly) && fullView==null;
-        if(deskBar==null || web==null)return;
+        if(deskBar==null || !webAvailable())return;
         deskBar.setVisibility(showDesk?View.VISIBLE:View.GONE);
         deskProfile.setVisibility(compactHeader && !cachedNewsOnly?View.VISIBLE:View.GONE);
         deskSupport.setVisibility(compactHeader || cachedNewsOnly?View.VISIBLE:View.GONE);
@@ -931,6 +985,7 @@ public final class MainActivity extends Activity {
         retry.setText("Retry connection");
         retry.setAllCaps(false);
         retry.setOnClickListener(v->{
+            if(!webAvailable())return;
             offlinePanel.setVisibility(View.GONE);
             layoutDesk();
             mainPageFailed=false;
@@ -1043,7 +1098,7 @@ public final class MainActivity extends Activity {
         }
         if(receiveSharedResearchLink(intent))return;
         String target=notificationUrl(intent);
-        if(!HOME.equals(target)&&web!=null)web.loadUrl(target);
+        if(!HOME.equals(target)&&webAvailable())web.loadUrl(target);
     }
     private void setupChatPushBridge(){
         // Never use addJavascriptInterface: that API exposes privileged handlers to
@@ -1052,7 +1107,7 @@ public final class MainActivity extends Activity {
             WebViewCompat.addWebMessageListener(web,"DDAndroid",
               Collections.singleton("https://uapdisclosuredesk.com"),
               (view,message,origin,isMainFrame,reply)->{
-                if(!isMainFrame || origin==null || !"https".equals(origin.getScheme()) ||
+                if(view!=web || !webAvailable() || !isMainFrame || origin==null || !"https".equals(origin.getScheme()) ||
                    !"uapdisclosuredesk.com".equals(origin.getHost()))return;
                 try{
                     JSONObject data=new JSONObject(message.getData());
@@ -1149,12 +1204,13 @@ public final class MainActivity extends Activity {
         }
     }
     private void deliverChatToken(){
-        if(FirebaseApp.getApps(this).isEmpty() || web==null)return;
+        if(!webAvailable() || FirebaseApp.getApps(this).isEmpty())return;
         String url=web.getUrl();
         if(url==null || !url.startsWith(HOME))return;
         String owner=getSharedPreferences("dd-chat-push",MODE_PRIVATE).getString("active-user","");
         if(owner==null || owner.isEmpty())return;
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token->{
+            if(!webAvailable())return;
             String address=web.getUrl();
             if(address!=null && address.startsWith(HOME) && !token.isEmpty() &&
               owner.equals(getSharedPreferences("dd-chat-push",MODE_PRIVATE).getString("active-user","")))
@@ -1186,7 +1242,7 @@ public final class MainActivity extends Activity {
           .setMessage(ResearchInboxActivity.shareInstructions(this)
               + " Open Desk → Research Inbox to find it. Tap a link to open it or use ⋯ to rename, copy or remove it. Links stay on this device.")
           .setNegativeButton("Close",null)
-          .setPositiveButton("Open guide",(dialog,which)->web.loadUrl(HOME+"guide#android-research-inbox"))
+          .setPositiveButton("Open guide",(dialog,which)->{if(webAvailable())web.loadUrl(HOME+"guide#android-research-inbox");})
           .show();
     }
 
@@ -1314,7 +1370,8 @@ public final class MainActivity extends Activity {
     private int dp(int pixels){return (int)(pixels*getResources().getDisplayMetrics().density+0.5f);}
     @Override public void onBackPressed(){handleDeskBack();}
     private void handleDeskBack(){
-        if(isFinishing() || isDestroyed() || backInProgress)return;
+        if(!webAvailable()){if(!destroying&&!isFinishing()&&!isDestroyed()&&web==null)moveTaskToBack(true);return;}
+        if(backInProgress)return;
         if(fullView!=null){((WebChromeClient)web.getWebChromeClient()).onHideCustomView();return;}
         if(cachedNewsOnly){
             cachedNewsOnly=false;
@@ -1336,7 +1393,7 @@ public final class MainActivity extends Activity {
         backInProgress=true;
         web.evaluateJavascript(backNavigationScript,value->{
             backInProgress=false;
-            if(isFinishing() || isDestroyed() || generation!=documentGeneration)return;
+            if(!webAvailable() || generation!=documentGeneration)return;
             if("\"home\"".equals(value)){
                 if(nativeShell){nativeNewsSelected=true;layoutDesk();}
                 return;
@@ -1356,13 +1413,14 @@ public final class MainActivity extends Activity {
         });
     }
     private void offerReturnToDesk(){
+        if(!webAvailable())return;
         final String current=web.getUrl();
         if(current!=null && current.startsWith(HOME+"research/")){
             new AlertDialog.Builder(this)
               .setTitle("Return to Disclosure Desk?")
               .setMessage("Save or export any unsaved research before leaving this workspace.")
               .setNegativeButton("Stay here",null)
-              .setPositiveButton("Return to Desk",(dialog,which)->web.loadUrl(HOME+"?dd_tab=researchStudio"))
+              .setPositiveButton("Return to Desk",(dialog,which)->{if(webAvailable())web.loadUrl(HOME+"?dd_tab=researchStudio");})
               .show();
             return;
         }
@@ -1376,11 +1434,65 @@ public final class MainActivity extends Activity {
     }
     @Override protected void onPause(){if(nativeNews!=null)nativeNews.rememberPosition();if(adView!=null)adView.pause();super.onPause();}
     @Override protected void onResume(){super.onResume();if(adView!=null)adView.resume();if(premium!=null)premium.restore();}
-    @Override protected void onDestroy(){
+    // Release the exact WebView on the UI thread, detached from the hierarchy
+    // first. Invalidate all pending callbacks before clearing the reference.
+    private void disposeWebView(boolean rendererGone){
+        documentGeneration++;
         cancelHomeLayoutCallbacks();
+        if(root!=null)root.removeCallbacks(refreshDeadline);
+        WebView doomed=web;
+        if(doomed==null)return;
+        ValueCallback<Uri[]> files=pendingFiles;
+        pendingFiles=null;
+        if(!rendererGone && files!=null){
+            try{files.onReceiveValue(null);}catch(RuntimeException error){android.util.Log.w("DisclosureDesk","File chooser already closed.");}
+        }
+        web=null;
+        if(fullView!=null && root!=null)root.removeView(fullView);
+        fullView=null;fullCallback=null;
+        // No WebView calls are allowed after destroy; avoid loading/navigating
+        // the dead renderer while its asynchronous cleanup is still running.
+        android.view.ViewParent parent=doomed.getParent();
+        if(parent instanceof android.view.ViewGroup)((android.view.ViewGroup)parent).removeView(doomed);
+        doomed.destroy();
+    }
+    private void showRendererRecovery(){
+        if(appTourDialog!=null)appTourDialog.dismiss();
+        offerAppTour=false;
+        root.removeAllViews();
+        splash=null;
+        LinearLayout panel=new LinearLayout(this);
+        panel.setOrientation(LinearLayout.VERTICAL);
+        panel.setGravity(Gravity.CENTER);
+        panel.setPadding(dp(24),dp(24),dp(24),dp(24));
+        panel.setBackgroundColor(Color.rgb(9,16,28));
+        TextView notice=new TextView(this);
+        notice.setGravity(Gravity.CENTER);
+        notice.setTextColor(DESK_GOLD);
+        notice.setTextSize(16);
+        notice.setText("Disclosure Desk's display was interrupted. Your saved account data has not been cleared. Reopen the Desk to recover saved research; unsaved changes may need draft recovery.");
+        panel.addView(notice,new LinearLayout.LayoutParams(-1,-2));
+        Button retry=new Button(this);
+        retry.setAllCaps(false);retry.setText("Reopen Disclosure Desk");
+        retry.setOnClickListener(v->{retry.setEnabled(false);recreate();});
+        LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(-1,dp(52));lp.topMargin=dp(20);
+        panel.addView(retry,lp);
+        root.addView(panel,new FrameLayout.LayoutParams(-1,-1));
+    }
+
+    @Override protected void onDestroy(){
+        destroying=true;
+        cancelHomeLayoutCallbacks();
+        if(root!=null){root.removeCallbacks(refreshDeadline);root.setOnApplyWindowInsetsListener(null);}
         if(Build.VERSION.SDK_INT>=33 && modernBackCallback!=null){
             getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(modernBackCallback);
             modernBackCallback=null;
         }
-        if(appTourDialog!=null)appTourDialog.dismiss();if(pendingFiles!=null){pendingFiles.onReceiveValue(null);pendingFiles=null;}if(premium!=null)premium.close();if(adView!=null)adView.destroy();web.destroy();super.onDestroy();}
+        try{
+            if(appTourDialog!=null)appTourDialog.dismiss();
+            disposeWebView(false);
+            if(premium!=null)premium.close();
+            if(adView!=null)adView.destroy();
+        }finally{super.onDestroy();}
+    }
 }

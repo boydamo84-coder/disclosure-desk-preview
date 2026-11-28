@@ -98,7 +98,7 @@
       trigger.setAttribute('aria-label', attention ? 'More destinations, '+attention+' with new items' : 'More');
     }
     const registered = new Map();
-    let preference = appPrimary.slice(), draft = null;
+    let preference = appPrimary.slice(), draft = null, refreshSettings = () => {};
     if(android){
       try{
         const saved=JSON.parse(localStorage.getItem(preferencesKey)||'null');
@@ -138,6 +138,7 @@
       });
       if(rail.lastElementChild!==trigger)rail.append(trigger);
       syncSelected();
+      refreshSettings();
     }
     for (const [id, label] of additional) {
       const tab = makeTab(id, label, () => action(id));
@@ -157,6 +158,7 @@
       settings.innerHTML='<h3>Your bottom tabs</h3><p>Choose the five destinations in the order you prefer. Selecting an existing tab swaps its position. More always stays visible.</p><div class="dd-dock-slots"></div><div class="dd-dock-settings-actions"><button type="button" data-dock-reset>Reset defaults</button><button type="button" data-dock-cancel>Cancel</button><button type="button" data-dock-save>Save tabs</button></div>';
       destinations.before(customise,settings);
       const slots=settings.querySelector('.dd-dock-slots');
+      let draftEdited=false;
       function renderSettings(){
         slots.replaceChildren();
         const choices=available();
@@ -171,23 +173,43 @@
             const value=select.value, other=draft.indexOf(value);
             if(other>=0&&other!==i)draft[other]=draft[i];
             draft[i]=value;
-            renderSettings();slots.querySelectorAll('select')[i]?.focus();
+            draftEdited=true;
+            // Keep the live select elements stable while Android's native
+            // option picker is closing. Change sibling values only.
+            slots.querySelectorAll('select').forEach((control,j)=>{control.value=draft[j]});
           });
           row.append(select);slots.append(row);
         });
       }
+      // Chat and Discussions arrive asynchronously directly in More. Update
+      // the existing selects in place, not the native Android picker/widget.
+      refreshSettings=()=>{
+        if(!draft)return;
+        const choices=available();
+        const selections=slots.querySelectorAll('select');
+        const current=selections[0] ? [...selections[0].options].map(o=>o.value) : [];
+        if(current.length===choices.length&&current.every((id,i)=>id===choices[i]))return;
+        draft=desired(draftEdited?draft:preference);
+        selections.forEach((select,i)=>{
+          for(const option of [...select.options])if(!choices.includes(option.value))option.remove();
+          for(const key of choices)if(![...select.options].some(o=>o.value===key)){
+            const option=document.createElement('option');option.value=key;option.textContent=labels[key];select.append(option);
+          }
+          select.value=draft[i];
+        });
+      };
       function endSettings(){
-        draft=null;settings.hidden=true;destinations.hidden=false;
+        draft=null;draftEdited=false;settings.hidden=true;destinations.hidden=false;
         customise.setAttribute('aria-expanded','false');
         customise.textContent='Customise bottom tabs';
       }
       customise.addEventListener('click',()=>{
         if(draft){endSettings();return}
-        draft=desired();renderSettings();
+        placeTabs();draftEdited=false;draft=desired();renderSettings();
         settings.hidden=false;destinations.hidden=true;customise.setAttribute('aria-expanded','true');customise.textContent='Back to destinations';
         slots.querySelector('select')?.focus();
       });
-      settings.querySelector('[data-dock-reset]').onclick=()=>{draft=desired(appPrimary);renderSettings()};
+      settings.querySelector('[data-dock-reset]').onclick=()=>{draftEdited=true;draft=desired(appPrimary);slots.querySelectorAll('select').forEach((control,j)=>{control.value=draft[j]})};
       settings.querySelector('[data-dock-cancel]').onclick=()=>{endSettings();customise.focus()};
       settings.querySelector('[data-dock-save]').onclick=()=>{
         if(!draft||draft.length!==5||new Set(draft).size!==5)return;
@@ -207,6 +229,9 @@
     }
     placeTabs();
     new MutationObserver(placeTabs).observe(rail, {childList: true});
+    // Deferred community modules insert beside Witness/Profile, which may
+    // already be inside More. Re-register on either parent, even on restart.
+    if(android)new MutationObserver(placeTabs).observe(destinations,{childList:true});
     new MutationObserver(syncSelected).observe(destinations, {childList: true, subtree: true, attributes: true, attributeFilter: ['aria-current', 'hidden', 'class']});
     trigger.addEventListener('click', () => {
       if (dialog.open) return;

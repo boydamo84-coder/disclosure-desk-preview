@@ -58,9 +58,22 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
      assert.equal(await page.locator('#'+tab).isVisible(),true,'The correct direct section is visible');
      assert.equal(await page.evaluate(native),true,'Repeat evaluation is safe');
      assert.equal(await page.locator('#ddAndroidResearchInbox').count(),1,'No duplicate Inbox');
+     // M115: open the customiser BEFORE the deferred community modules execute.
+     // They insert their original nodes into More, not the primary rail.
+     const dock=page.locator('#ddHomeDock');
+     await dock.locator('.dd-dock-more').click();
+     await dock.locator('.dd-dock-customise').click();
+     assert.equal(await dock.locator('select option[value="discussionsPage"]').count(),0);
+     assert.equal(await dock.locator('select option[value="chatPage"]').count(),0);
      // Release the deferred SDK. The final layout controls must not change.
      unblock();
      await page.waitForLoadState('load');
+     await dock.locator('select option[value="discussionsPage"]').first().waitFor({state:'attached'});
+     await dock.locator('select option[value="chatPage"]').first().waitFor({state:'attached'});
+     assert.equal(await dock.locator('select option[value="discussionsPage"]').count(),5);
+     assert.equal(await dock.locator('select option[value="chatPage"]').count(),5);
+     await dock.locator('[data-dock-cancel]').click();
+     await dock.locator('.dd-dock-heading button').click();
      assert.equal(await page.locator('header.top').isVisible(),false);
      assert.equal(await page.locator('#ddAndroidResearchInbox').count(),1);
      assert.equal(await page.locator('#discover > .dd-help-bar').isVisible(),false);
@@ -70,6 +83,23 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
      assert.equal(await page.evaluate(()=>DDNativePageHelp()),'opened');
      await page.locator('#ddPageHelpDialog[open]').waitFor();
      await page.locator('.dd-help-close').click();
+     // Save both late destinations and reload exactly as a new page starts.
+     await dock.locator('.dd-dock-more').click();
+     await dock.locator('.dd-dock-customise').click();
+     await dock.getByLabel('Bottom tab 4',{exact:true}).evaluate(el=>el.dataset.m115Stable='yes');
+     await dock.getByLabel('Bottom tab 4',{exact:true}).selectOption('discussionsPage');
+     assert.equal(await dock.getByLabel('Bottom tab 4',{exact:true}).getAttribute('data-m115-stable'),'yes','Do not detach Android select when picker closes');
+     await dock.getByLabel('Bottom tab 5',{exact:true}).selectOption('chatPage');
+     await dock.locator('[data-dock-save]').click();
+     await dock.locator('#ddDockMore').waitFor({state:'hidden'});
+     const expected=['discover','clips','archivePage','discussionsPage','chatPage','more'];
+     const order=()=>dock.locator('.nav-inner>button').evaluateAll(nodes=>nodes.map(n=>n.dataset.tab||'more'));
+     assert.deepEqual(await order(),expected);
+     await page.reload({waitUntil:'load'});
+     await page.waitForFunction(()=>[...document.querySelectorAll('#ddHomeDock .nav-inner > [data-tab]')].some(n=>n.dataset.tab==='chatPage'));
+     assert.deepEqual(await order(),expected,'Saved late destinations restore without opening settings again');
+     assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('dd-android-dock-order-v1'))),expected.slice(0,5));
+     console.log('PASS M115 '+width+'px: deferred community choices while customising, immediate save, and fresh page restoration');
      assert.deepEqual(errors,[]);
      console.log('PASS M112 '+width+'px '+tab+': first native-ready frame, remote SDK held, final tabs, no duplicate controls, direct destination and help/Inbox bridges');
    }finally{unblock();await ctx.close()}
