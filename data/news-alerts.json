@@ -1,5 +1,23 @@
 [
   {
+    "id": "9e23e28ff749d7023bbb",
+    "headline": "Bigfoot enthusiasts hope government’s US sightings files are ‘just the beginning’ of proving the creature real",
+    "source": "The Guardian",
+    "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNLXVWMWtlN0wxLXFncDdfcmxTV3VwRUZ5TzhpMnZoWDZUcE1GUW9mQzVhREJqQkQ5U0Z3STdjR2doMHFNcndIamFRLTV5aDVESWlEaXBqSFdJLWlzV3ZyWXR2QURNcW43WVhueVotTVdFUElkTXZaU2UxaE8xVGVTeFJOVQ?oc=5",
+    "date": "2026-11-27T19:08:00+00:00",
+    "category": "UAP",
+    "priority": "major"
+  },
+  {
+    "id": "ea70d32551a8a34ba38b",
+    "headline": "What’s inside the government’s newly released Bigfoot files?",
+    "source": "CNN",
+    "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQMXpnTWpuTUhxU3lpUnYtOERhanJ1ZUp5RnN3dmk4MFpOZnhZM3IzckJJeWlleG9GX3U0WHNOeG5JSWlPVV9uQzMwOTdqbmlKMFljZVhxVklXYWZaNnY4MjNseGRNSUlFTmlYY2ZBOUM3aU9fNEVld21odk1BWXNKSmt4cF9QZTA?oc=5",
+    "date": "2026-11-23T21:40:00+00:00",
+    "category": "UAP",
+    "priority": "major"
+  },
+  {
     "id": "5ab2621a1062ae700b1e",
     "headline": "US releases files on suspected Bigfoot sightings in Montana and Oregon",
     "source": "The Guardian",
@@ -44,16 +62,6 @@
     "publisherUrl": "https://www.independent.co.uk/news/world/americas/us-politics/bigfoot-files-released-forest-service-b3088947.html"
   },
   {
-    "id": "81a98d7606bfff4bab56",
-    "headline": "Bigfoot believers get a boost from an unlikely ally: The U.S. Forest Service",
-    "source": "The Washington Post",
-    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQS2VYcjNvQndKb1g5bnlOQzk1cnJiQms0cFdIdmlvUngwNzVqZFBoaGFVbHU3U1FRVEtULWlNT1ZUbWJYZktuREoxbXBzWk5MVHRqTjlIRzd2dnZSUU1sX0hRc2Nfd0E0ZHQ2Q09TWkhTY2ZPbHU5c3h2N0F3R1V1U1pLZUJsTWxIQ2xPNVFRVXBOUU9oc2Y4cTRLbzUwNzhLQUhSdWYxblB1VXQtVExzRmN3?oc=5",
-    "date": "2026-11-20T18:30:00+00:00",
-    "category": "UAP",
-    "priority": "standard",
-    "publisherUrl": "https://www.washingtonpost.com/nation/2026/11/20/bigfoot-believers-get-boost-an-unlikely-ally-us-forest-service/"
-  },
-  {
     "id": "a402a5349cd973bb0a57",
     "headline": "Trump releases new UFO video showing mystery object passing naval ship",
     "source": "The Independent",
@@ -72,8 +80,16 @@
     "date": "2026-11-20T15:57:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://assets1.cbsnewsstatic.com/hub/i/r/2026/11/20/b927b4a4-8fcb-4361-ada8-b28de36e7d97/thumbnail/1200x630/22f9744f657bc1cee5bd7fdb348266cf/screenshot-2026-11-20-at-10-47-10-am.png",
-    "publisherUrl": "https://www.cbsnews.com/news/ufo-files-pentagon-contractor/"
+    "imageUrl": "https://assets1.cbsnewsstatic.com/hub/i/r/2026/11/20/b927b4a4-8fcb-4361-ada8-b28de36e7d97/thumbnail/1200x630/22f9744f657bc1cee5bd7fdb348266cf/screenshot-2026-11-20-at-10-47-10-am.png"
+  },
+  {
+    "id": "81a98d7606bfff4bab56",
+    "headline": "Bigfoot believers get a boost from an unlikely ally: The U.S. Forest Service",
+    "source": "The Washington Post",
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQS2VYcjNvQndKb1g5bnlOQzk1cnJiQms0cFdIdmlvUngwNzVqZFBoaGFVbHU3U1FRVEtULWlNT1ZUbWJYZktuREoxbXBzWk5MVHRqTjlIRzd2dnZSUU1sX0hRc2Nfd0E0ZHQ2Q09TWkhTY2ZPbHU5c3h2N0F3R1V1U1pLZUJsTWxIQ2xPNVFRVXBOUU9oc2Y4cTRLbzUwNzhLQUhSdWYxblB1VXQtVExzRmN3?oc=5",
+    "date": "2026-11-20T08:00:00+00:00",
+    "category": "UAP",
+    "priority": "standard"
   },
   {
     "id": "ef5451dc29b01efcda3f",
@@ -83,8 +99,7 @@
     "date": "2026-11-01T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/10/31/92cefc93-e8e5-43f1-bb77-8c7ff3044915/thumbnail/1200x630/1fecf9d18a0a263af523749271a445b1/uaps-top-secret-1280.jpg",
-    "publisherUrl": "https://www.cbsnews.com/news/is-the-truth-really-out-there-studying-uap-sightings/"
+    "imageUrl": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/10/31/92cefc93-e8e5-43f1-bb77-8c7ff3044915/thumbnail/1200x630/1fecf9d18a0a263af523749271a445b1/uaps-top-secret-1280.jpg"
   },
   {
     "id": "63f7be4828e9ea82f3c3",
@@ -94,8 +109,7 @@
     "date": "2026-10-24T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://static.independent.co.uk/2026/10/24/8/54/Screenshot-2026-10-24-at-09-09-18.png?trim=0,0,0,74&width=1200&height=800&crop=1200:800",
-    "publisherUrl": "https://www.independent.co.uk/news/world/americas/pentagon-ufo-files-triangles-us-trump-b3072621.html"
+    "imageUrl": "https://static.independent.co.uk/2026/10/24/8/54/Screenshot-2026-10-24-at-09-09-18.png?trim=0,0,0,74&width=1200&height=800&crop=1200:800"
   },
   {
     "id": "e229969c3fd10be8998b",
@@ -105,8 +119,7 @@
     "date": "2026-10-23T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://assets1.cbsnewsstatic.com/hub/i/r/2026/10/24/4b232dc1-0eaa-48c7-b9a5-0e31dbdb485b/thumbnail/1200x630/bdf3eb6e5abef557ec702fa5a11fa07e/04e5a4aa97488fc37c8a47617cf1e3db.png",
-    "publisherUrl": "https://www.cbsnews.com/losangeles/video/new-ufo-files-from-the-pentagon-detail-sightings-over-catalina-island/"
+    "imageUrl": "https://assets1.cbsnewsstatic.com/hub/i/r/2026/10/24/4b232dc1-0eaa-48c7-b9a5-0e31dbdb485b/thumbnail/1200x630/bdf3eb6e5abef557ec702fa5a11fa07e/04e5a4aa97488fc37c8a47617cf1e3db.png"
   },
   {
     "id": "49b4639821a22bbed2e8",
@@ -286,7 +299,7 @@
     "id": "605447ffa43b58486cac",
     "headline": "Pentagon releases fresh batch of UFO files",
     "source": "BBC",
-    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5VYUJsOVdoS1pER1ZleGRsd21RQl9DWGVHNEFWM1R5dUJJMndHVWs2amZNNXZVUUMzVlFUN011VUhXY0pSdjhnM2lqVGJGd2Q4LWNVX2lRWk5sRnQ1?oc=5",
+    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBGNjdZaXNSbFNGN1dHdk1tQkx0aXo5V0VEczJYSWxvT0ZQY2ZsRGdHZFU3dDhvekpnV1pPNlVIZWlWQ0RfVHN4aUh3a3V1SlEybFE0bHI1SXpJUQ?oc=5",
     "date": "2026-08-07T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
@@ -354,7 +367,8 @@
     "date": "2026-07-23T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://static.independent.co.uk/2026/07/23/07/2283475798..?trim=0,0,0,0&width=1200&height=800&crop=1200:800"
+    "imageUrl": "https://static.independent.co.uk/2026/07/23/07/2283475798..?trim=0,0,0,0&width=1200&height=800&crop=1200:800",
+    "publisherUrl": "https://www.independent.co.uk/bulletin/news/dr-phil-trump-ufos-government-cover-up-b3019990.html"
   },
   {
     "id": "952e2642c0d30045fb5d",
@@ -364,7 +378,8 @@
     "date": "2026-07-23T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://static.independent.co.uk/2026/07/23/01/2282952692..?trim=0,0,0,0&width=1200&height=800&crop=1200:800"
+    "imageUrl": "https://static.independent.co.uk/2026/07/23/01/2282952692..?trim=0,0,0,0&width=1200&height=800&crop=1200:800",
+    "publisherUrl": "https://www.independent.co.uk/news/world/americas/us-politics/dr-phil-trump-ufo-files-b3019901.html"
   },
   {
     "id": "7bf2529778f8ef2adb71",
@@ -374,7 +389,8 @@
     "date": "2026-07-14T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://static01.nyt.com/images/2026/07/06/world/xp-spacedebris/xp-spacedebris-videoSixteenByNineJumbo1600.jpg"
+    "imageUrl": "https://static01.nyt.com/images/2026/07/06/world/xp-spacedebris/xp-spacedebris-videoSixteenByNineJumbo1600.jpg",
+    "publisherUrl": "https://www.nytimes.com/2026/07/07/world/australia/queensland-australia-space-balls-debris.html"
   },
   {
     "id": "b1fb11b777028fca4aba",
@@ -384,7 +400,8 @@
     "date": "2026-07-11T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/videoframe-0-2-20260711081026740.png?c=16x9&q=w_800,c_fill"
+    "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/videoframe-0-2-20260711081026740.png?c=16x9&q=w_800,c_fill",
+    "publisherUrl": "https://www.cnn.com/2026/07/11/world/video/pentagon-ufo-files-michaelson-reader-071101aseg2-cnni-us-fast"
   },
   {
     "id": "3866cfa8c254c444e171",
@@ -394,7 +411,8 @@
     "date": "2026-07-10T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/d3bb/live/51ab41d0-7c72-11f1-9fad-d539485c17c2.png"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/d3bb/live/51ab41d0-7c72-11f1-9fad-d539485c17c2.png",
+    "publisherUrl": "https://www.bbc.com/news/videos/c8x2zez8qwzo"
   },
   {
     "id": "9670db22421ee589ac78",
@@ -404,7 +422,8 @@
     "date": "2026-07-10T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/mpx/2704722219/2026_07/1783734848308_now_staytuned_pentagon_ufo_files_fourth_batch_260710_S3_1920x1080-881xs3.jpg"
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/mpx/2704722219/2026_07/1783734848308_now_staytuned_pentagon_ufo_files_fourth_batch_260710_S3_1920x1080-881xs3.jpg",
+    "publisherUrl": "https://www.nbcnews.com/video/pentagon-releases-fourth-batch-of-ufo-files-266532933775"
   },
   {
     "id": "c184b657ffce0a850368",
@@ -449,7 +468,8 @@
     "date": "2026-06-25T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/mpx/2704722219/2026_06/1782437664430_now_staytuned_ufo_whistleblowers_interview_260625_S3_1920x1080-oo3h85.jpg"
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/mpx/2704722219/2026_06/1782437664430_now_staytuned_ufo_whistleblowers_interview_260625_S3_1920x1080-oo3h85.jpg",
+    "publisherUrl": "https://www.nbcnews.com/video/catching-up-with-whistleblowers-on-secret-government-ufo-programs-265709637802"
   },
   {
     "id": "27b0ea2b42d34e8897b4",
@@ -467,11 +487,12 @@
     "id": "b22f4d5039175e53c223",
     "headline": "Does the UK have a blind spot on UFO sightings?",
     "source": "BBC",
-    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9sUWM5ZndzVWpxbUwycWw0eEt4QlJyWldFckhnSDFZWjBPVGVsWHF5bmxaWmp0RFJ1UUVUM25mdFpaRnFFODRIMWx3ZXlyRFJ3WlNWRWt5STMwZzlu?oc=5",
-    "date": "2026-06-14T07:00:00+00:00",
+    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1VdmZOOS1HWFdCcTVab3k1Uy00Ul93RjQ0MlRyaFNfdThTMWMzOThoalRFdE1iRkxLZ21fN2FqUlctcGpQUVlSb090a1NZbzREX2JKX1ZFazBndw?oc=5",
+    "date": "2026-06-13T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/81bf/live/cc19f4f0-65c2-11f1-b1db-af71d47507d6.png"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/81bf/live/cc19f4f0-65c2-11f1-b1db-af71d47507d6.png",
+    "publisherUrl": "https://www.bbc.com/news/articles/c3929kk7gdjo"
   },
   {
     "id": "cf279d727e97d05e75da",
@@ -481,7 +502,8 @@
     "date": "2026-06-13T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://static.independent.co.uk/2026/06/12/12/48/Screenshot-2026-06-12-at-8-36-48-AM.png?trim=103,0,101,0&width=1200&height=800&crop=1200:800"
+    "imageUrl": "https://static.independent.co.uk/2026/06/12/12/48/Screenshot-2026-06-12-at-8-36-48-AM.png?trim=103,0,101,0&width=1200&height=800&crop=1200:800",
+    "publisherUrl": "https://www.independent.co.uk/bulletin/news/pentagon-ufo-release-red-orbs-video-b2995190.html"
   },
   {
     "id": "03bd63a63ae95e7e1f6b",
@@ -502,7 +524,8 @@
     "date": "2026-06-12T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/fa2c/live/d7a50d30-666e-11f1-8e1d-bbbb1017d210.jpg"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/fa2c/live/d7a50d30-666e-11f1-8e1d-bbbb1017d210.jpg",
+    "publisherUrl": "https://www.bbc.com/news/videos/c8e2w83kxryo"
   },
   {
     "id": "0f50d51e797fdd617f8a",
@@ -667,8 +690,7 @@
     "date": "2026-05-22T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://i.guim.co.uk/img/media/a747d52d9f3626f44bdedd8110aa60b5e6fb1027/186_0_2146_1718/master/2146.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=6c333389ccc41365bf1ce40796ad11d8",
-    "publisherUrl": "https://www.theguardian.com/world/2026/may/22/pentagon-ufo-videos-testimony-documents"
+    "imageUrl": "https://i.guim.co.uk/img/media/a747d52d9f3626f44bdedd8110aa60b5e6fb1027/186_0_2146_1718/master/2146.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=6c333389ccc41365bf1ce40796ad11d8"
   },
   {
     "id": "68b7897a04a646ef7cd6",
@@ -678,8 +700,7 @@
     "date": "2026-05-22T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/07b3/live/d34ce420-55fb-11f1-8b8c-6d33e1d5abb6.jpg",
-    "publisherUrl": "https://www.bbc.com/news/videos/cp3p2dkqxd0o"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/07b3/live/d34ce420-55fb-11f1-8b8c-6d33e1d5abb6.jpg"
   },
   {
     "id": "ab9fb402600a826d1736",
@@ -689,8 +710,7 @@
     "date": "2026-05-22T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://static.independent.co.uk/2026/05/22/13/17/DOW-UAP-PR051.jpg?trim=0,0,0,0&width=1200&height=800&crop=1200:800",
-    "publisherUrl": "https://www.independent.co.uk/news/world/americas/us-politics/pentagon-ufo-files-release-orbs-latest-updates-b2982000.html"
+    "imageUrl": "https://static.independent.co.uk/2026/05/22/13/17/DOW-UAP-PR051.jpg?trim=0,0,0,0&width=1200&height=800&crop=1200:800"
   },
   {
     "id": "1a08ef7b074ed0d424e2",
@@ -964,8 +984,7 @@
     "date": "2026-05-08T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3d2f/live/55b14d10-4b17-11f1-be9e-ad2f8d891a76.png",
-    "publisherUrl": "https://www.bbc.com/news/articles/c1m2epkey44o"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3d2f/live/55b14d10-4b17-11f1-be9e-ad2f8d891a76.png"
   },
   {
     "id": "580cf2308598f270d357",
@@ -975,8 +994,7 @@
     "date": "2026-04-30T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://i.guim.co.uk/img/media/5c865ffdce7393f3d3e05ba1851a8294456c8561/843_0_4542_3634/master/4542.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=e9006f484ee7b6c6ddee5d1143cf1560",
-    "publisherUrl": "https://www.theguardian.com/world/2026/apr/30/the-rendlesham-forest-mystery-its-the-perfect-storm-of-a-ufo-case"
+    "imageUrl": "https://i.guim.co.uk/img/media/5c865ffdce7393f3d3e05ba1851a8294456c8561/843_0_4542_3634/master/4542.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=e9006f484ee7b6c6ddee5d1143cf1560"
   },
   {
     "id": "5d16f5f34d9c207e6806",
@@ -986,8 +1004,7 @@
     "date": "2026-04-22T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://i.guim.co.uk/img/media/ed98517cae01bcf53ece2c226641a36766ad7e33/444_0_1350_1080/master/1350.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=a8372289603af43003457e608cabe4ae",
-    "publisherUrl": "https://www.theguardian.com/science/2026/apr/22/pentagon-released-ufo-videos-chase-aliens"
+    "imageUrl": "https://i.guim.co.uk/img/media/ed98517cae01bcf53ece2c226641a36766ad7e33/444_0_1350_1080/master/1350.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=a8372289603af43003457e608cabe4ae"
   },
   {
     "id": "ca6e383f5207c9657d2d",
@@ -1052,8 +1069,7 @@
     "date": "2026-04-05T07:00:00+00:00",
     "category": "UAP",
     "priority": "major",
-    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8",
-    "publisherUrl": "https://www.theguardian.com/us-news/2026/apr/05/alien-life-nasa-jared-isaacman-artemis-ii"
+    "imageUrl": "https://i.guim.co.uk/img/media/6909524548fa99412422973f77f9a4a570e95c41/309_0_3733_2987/master/3733.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=1faa60d6270cf4e127939b558e873df8"
   },
   {
     "id": "ef2cf6dd2b9e6f0cd58a",
@@ -1075,8 +1091,7 @@
     "date": "2026-04-03T07:00:00+00:00",
     "category": "UAP",
     "priority": "standard",
-    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg",
-    "publisherUrl": "https://www.bbc.com/news/articles/cvg58ydn4jpo"
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3121/live/413b8b00-2f26-11f1-a425-47721dfc6207.jpg"
   },
   {
     "id": "8d06dd474e5f2e6f3926",
