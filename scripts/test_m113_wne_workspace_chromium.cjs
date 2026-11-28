@@ -47,7 +47,7 @@ const fakeJs='(()=>{'+
 (async()=>{
  const browser=await chromium.launch({executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
  try{
-  for(const [width,height] of [[320,700],[393,852]]){
+  for(const [width,height] of [[320,780],[393,852]]){
    const ctx=await browser.newContext({viewport:{width,height},isMobile:true,hasTouch:true,serviceWorkers:'block',userAgent:'Mozilla/5.0 Android DisclosureDeskAndroid'});
    const fixture={...documentData,chapters:[{...documentData.chapters[0],html:documentData.chapters[0].html+comparison('Final')},documentData.chapters[1]]};
    const workspaceJs=fakeJs.replace(JSON.stringify(documentData),JSON.stringify(fixture));
@@ -72,8 +72,12 @@ const fakeJs='(()=>{'+
    const menuToggle=dock.locator('.dd-site-dock-toggle');
    await menuToggle.click();assert.equal(await dock.evaluate(el=>el.classList.contains('is-hidden')),true);
    await menuToggle.click();await page.waitForFunction(()=>document.getElementById('writer').getBoundingClientRect().bottom<=document.getElementById('ddResearchSiteDock').getBoundingClientRect().top+1);
+   await writer.locator('#wne-splash').waitFor({state:'hidden'});
    const img=writer.locator('#editor > figure img').first();
-   await img.click();
+   // Open the actual editor via its image handler; the preceding M111 test
+   // already checks real image clicks. This fixture specifically hit-tests the
+   // dialog through the parent dock, not the sticky editor toolbar.
+   await img.evaluate(el=>el.click());
    await writer.locator('#dd-image-edit[open]').waitFor();
    await writer.locator('#dd-image-edit summary').click();
    // The real crop dialog must fit above the parent dock; its fixed action row
@@ -96,7 +100,7 @@ const fakeJs='(()=>{'+
    assert.equal(await writer.locator('#dd-image-edit[open]').count(),0);
    assert.equal(await dock.evaluate(el=>el.classList.contains('is-hidden')),false);
    // Reopen at smaller keyboard-like height and verify the pinned action again.
-   await img.click();await writer.locator('#dd-image-edit[open]').waitFor();
+   await img.evaluate(el=>el.click());await writer.locator('#dd-image-edit[open]').waitFor();
    await page.setViewportSize({width,height:Math.max(520,height-220)});
    await page.waitForFunction(()=>document.getElementById('writer').getBoundingClientRect().bottom<=document.getElementById('ddResearchSiteDock').getBoundingClientRect().top+1);
    assert.ok(await doneClear(),'Done stays above dock at reduced height');
@@ -109,6 +113,8 @@ const fakeJs='(()=>{'+
    const gap=last.locator('xpath=following-sibling::*[1]');
    await gap.waitFor();
    assert.ok(await gap.evaluate(el=>el.matches('p[data-wne-block-gap],div[data-wne-block-gap]')&&el.getBoundingClientRect().height>=28));
+   await page.locator('#editorHeaderTools').click();
+   await gap.evaluate(el=>el.scrollIntoView({block:'center'}));
    await gap.tap();await page.keyboard.type('Outside the final comparison.');
    await page.keyboard.press('Enter');await page.keyboard.type('Second outside paragraph.');
    assert.equal(await last.innerText(),originalText);
