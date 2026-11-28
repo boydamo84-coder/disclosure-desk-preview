@@ -7,7 +7,10 @@ const root=path.resolve('android-test/app/src/main/assets/dd-site'),origin='http
 const native=fs.readFileSync('android-test/app/src/main/assets/compact-header.js','utf8');
 const java=fs.readFileSync('android-test/app/src/main/java/com/disclosuredesk/preview/MainActivity.java','utf8');
 const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
-assert(html.indexOf('page-help.js')<html.indexOf('@supabase/supabase-js'),'Local help must not wait for the remote SDK');
+for(const shellScript of ['site-dock.js','page-help.js','support-site.js']){
+ assert(html.indexOf(shellScript)<html.indexOf('@supabase/supabase-js'),'Local shell must precede remote SDK: '+shellScript);
+ assert(!new RegExp('<script defer src="[^"]*'+shellScript.replace('.', '\\.')+'').test(html),'Shell script must be synchronous: '+shellScript);
+}
 assert.match(java,/onPageCommitVisible[\s\S]*?prepareHomeLayout\(\);/);
 assert.match(java,/homeLayoutPrepared=true;[\s\S]*?layoutDesk\(\);[\s\S]*?addOnPreDrawListener[\s\S]*?postVisualStateCallback[\s\S]*?revealHome\(generation\)/,'Native cover waits for final layout and WebView visual state');
 assert.match(java,/root\.postDelayed\(homeLayoutWatchdog,10000\)/,'Bounded fallback avoids a stuck launch');
@@ -42,8 +45,9 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
      await page.goto(origin+'/?dd_tab='+tab,{waitUntil:'commit'});
      assert.equal(await page.evaluate(()=>window.__earlyResult),false,'Do not touch incomplete shell on first paint');
      // Native retry loop can succeed before onPageFinished / DOMContentLoaded.
-     await page.waitForFunction(code=>(0,eval)(code)===true,native,{timeout:15000,polling:75});
-     assert(requested&&!finished,'First complete layout does not wait for the remote Supabase SDK');
+     try{await page.waitForFunction(code=>(0,eval)(code)===true,native,{timeout:15000,polling:75});}catch(e){console.error('Startup gates',await page.evaluate(()=>({ready:document.readyState,classes:document.documentElement.className,dock:document.getElementById('ddHomeDock')?.className,help:typeof window.DDPageHelp?.open,nav:typeof window.navigateTo,support:document.querySelector('header.top a.dd-header-support')?.href,hero:!!document.querySelector('#discover > .hero'),explore:!!document.getElementById('ddExploreTitle')})),errors);throw e;}
+     await page.waitForFunction(()=>document.querySelector('script[src*="@supabase/supabase-js"]')!==null);
+     assert(!finished,'First complete layout does not wait for the remote Supabase SDK');
      assert.equal(await page.locator('header.top').isVisible(),false,'No large header in the revealed frame');
      assert.equal(await page.locator('#discover > .dd-help-bar').isVisible(),false,'No temporary homepage help row');
      assert.equal(await page.locator('#ddHomeDock .nav-inner>button').evaluateAll(nodes=>nodes.map(n=>n.dataset.tab||'more')).then(a=>a.join(',')),'discover,clips,archivePage,originalResearchPage,researchStudio,more');

@@ -51,6 +51,7 @@ function initialise(){
  card.append(body);about.append(card);
 }
 window.DDSupportSite=Object.freeze({validateSupportUrl});
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialise);
+// The app mounts the local shell after its DOM is present, before deferred remote scripts.
+if(document.readyState==='loading'&&!document.querySelector('header.top #ddProfileShortcut'))document.addEventListener('DOMContentLoaded',initialise);
 else initialise();
 })();
