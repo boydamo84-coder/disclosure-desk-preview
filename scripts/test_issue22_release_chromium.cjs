@@ -180,8 +180,14 @@ async function checkDock(page, selector, width) {
     }
     assert.equal(images.size,3);
     await page.goto(local+'/pursue');
-    assert.equal(await page.locator('#archive-public-index a').count(),24);
+    const catalogue=JSON.parse(fs.readFileSync(path.join(staging,'data/pursue-index.json'),'utf8'));
+    assert.equal(await page.locator('#archive-public-index a').count(),catalogue.records.length);
     assert.ok(await page.locator('#archive-public-index').isVisible());
+    assert.equal(await page.locator('#archive-public-index .dd-public-release').count(),catalogue.releases.length);
+    const release=page.locator('#archive-public-index .dd-public-release').first();
+    await release.locator('summary').click();
+    assert.ok(await release.locator('a').first().isVisible());
+    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
     await page.goto(local+'/who-is-who');
     assert.ok(await page.locator('#peopleCards a').count()>=50);
     const staticBio=page.locator('#peopleCards a[href="/nasa-mike-gold"]');

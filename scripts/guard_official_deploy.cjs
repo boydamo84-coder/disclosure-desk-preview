@@ -44,3 +44,7 @@ if (netlify && [branch, process.env.HEAD].includes('feature/brand-public-sharing
 if (netlify && [branch, process.env.HEAD].includes('feature/share-identifiable-previews-20261127')) {
   throw new Error('Share-title candidate is restricted to isolated testing.');
 }
+
+if (netlify && [branch, process.env.HEAD].includes('feature/seo-keyword-launch-20261128')) {
+  throw new Error('SEO keyword launch candidate is restricted to isolated testing.');
+}

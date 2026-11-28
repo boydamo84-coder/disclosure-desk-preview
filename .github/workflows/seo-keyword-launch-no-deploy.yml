@@ -1,0 +1,45 @@
+name: SEO keyword launch QA (NO deploy)
+on:
+  push:
+    branches: [feature/seo-keyword-launch-20261128]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-and-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      CONTEXT: production
+      CHROME_PATH: /usr/bin/google-chrome
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate strict public package and SEO
+        run: |
+          node scripts/test_public_release_package.cjs
+          node scripts/test_search_indexing.cjs
+          node scripts/test_seo_key_pages.cjs
+          node scripts/test_published_html_syntax.cjs
+          node scripts/test_m70_release_guard.cjs --bundle
+          node scripts/test_become_investigator.cjs
+          node scripts/test_news_pagination.cjs
+          node scripts/test_share_previews.cjs
+      - name: Run real Chromium with local-only requests
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts playwright-core@1.56.1 leaflet@1.9.4
+          test -x "$CHROME_PATH"
+          node scripts/test_issue22_release_chromium.cjs
+          node scripts/serve_public_release_qa.cjs >/tmp/dd-seo-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          for attempt in 1 2 3 4 5; do
+            if curl -fsS --max-time 2 http://127.0.0.1:4173/index.html -o /dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/test_news_pagination_chromium.cjs
+          node scripts/test_experience_discovery_chromium.cjs

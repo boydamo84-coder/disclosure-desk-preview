@@ -37,6 +37,12 @@ h2 { font-size: clamp(1.32rem, 3vw, 1.85rem); }
 h3 { font-size: 1.15rem; }
 p { margin: 0 0 15px; }
 .intro { max-width: 67ch; font-size: 1.125rem; color: #d3dfe7; }
+#archive-public-index summary { cursor: pointer; color: var(--gold); font-weight: 650; }
+#archive-public-index > summary { min-height: 44px; line-height: 1.5; }
+#archive-public-index > p { margin-top: 12px; }
+.dd-public-release { padding: 12px 0; border-top: 1px solid var(--border); }
+.dd-public-release ul { padding-inline-start: 20px; margin-bottom: 0; }
+.dd-public-release li { margin-block: 10px; overflow-wrap: anywhere; }
 .muted, .record-meta { color: var(--muted); }
 .record-meta { font-size: .9rem; }
 .grid, .filters { display: grid; gap: 14px; }

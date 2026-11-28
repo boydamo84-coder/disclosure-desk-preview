@@ -14,8 +14,8 @@ const extracts = '/data/foia/27-f-0917-referral-extracts.pdf';
 
 const pages = {
   'project-blue-book': {
-    heading: 'Project Blue Book: using the US National Archives records',
-    description: 'How to identify a Project Blue Book case, read its records alongside the original context, and interpret gaps in the US Air Force archive.',
+    heading: 'Project Blue Book files and records',
+    description: 'Find Project Blue Book UFO case files in the US National Archives, trace original Air Force records by date and location, and interpret archive gaps.',
     tag: 'Archive review',
     sections: [
       ['What the archive holds', 'The US Air Force ended Project Blue Book in 1969. The National Archives holds its declassified records, including case files and administrative material. The finding aid explains how to look up case files by date and location.'],
@@ -23,10 +23,10 @@ const pages = {
       ['What a search can establish', 'The National Archives reports that it could not locate documentation discussing the July 1947 Roswell incident among the Blue Book records. Separate GAO, Air Force and FBI material is available for that episode.'],
     ],
     sources: [['Official Project Blue Book research guide', blueBook], ['UAP holdings by record group', 'https://www.archives.gov/research/topics/uaps/rg-collections']],
-    related: [['Roswell record ledger', '/roswell-1947#record-ledger'], ['Evidence Archive', '/?dd_tab=archivePage']],
+    related: [['Roswell UFO incident: original records', '/roswell-1947#record-ledger'], ['Government UFO archives by country', '/sources'], ['Evidence Archive', '/?dd_tab=archivePage']],
   },
   'nasa-uap-study': {
-    heading: 'NASA’s 2023 UAP study and its data recommendations',
+    heading: 'NASA’s 2023 UAP study report and recommendations',
     description: 'Read the September 2023 NASA independent study team report and trace its recommendations for improving the quality of future UAP observations.',
     tag: 'Programme review',
     sections: [
@@ -38,8 +38,8 @@ const pages = {
     related: [['Mike Gold’s NASA study role', '/nasa-mike-gold'], ['Try the guided investigation', '/first-investigation']],
   },
   'pentagon-navy-video-referral': {
-    heading: 'Tracing the Pentagon referral for the Navy UAP videos',
-    description: 'Trace the 2020 official Navy video release, the 2025 referral of seven documents and the separate 2026 administrative FOIA response.',
+    heading: 'Pentagon UFO videos: the Navy release and FOIA referral',
+    description: 'Trace the official release of Navy UAP videos FLIR1, GIMBAL and GOFAST in 2020, the seven referred documents and the separate 2026 FOIA response.',
     tag: 'FOIA research review',
     sections: [
       ['Start with the video release', 'The Department of Defense’s 27 April 2020 statement covers the release of one Navy video recorded in November 2004 and two recorded in January 2015. The referral concerns the paperwork behind the decision to release those videos.'],
@@ -47,7 +47,7 @@ const pages = {
       ['Identify the missing decision', 'The 19 November 2026 final response to a separate case, 27-F-0917, released administrative records and described 25-F-3215 as open. A later release or final disposition identifying 25-F-3215 would answer what happened to the seven underlying documents.'],
     ],
     sources: [['DoD video-release statement', navyRelease], ['Referral and Pentagon acknowledgement (redacted PDF)', extracts], ['Final WHS administrative response (redacted PDF)', decision]],
-    related: [['Pentagon case 25-F-3215', '/foia-pentagon-25-f-3215'], ['WHS case 27-F-0917', '/foia-whs-27-f-0917']],
+    related: [['Pentagon case 25-F-3215', '/foia-pentagon-25-f-3215'], ['WHS case 27-F-0917', '/foia-whs-27-f-0917'], ['UAP and UFO FOIA tracker', '/foia-tracker'], ['Official UAP releases in PURSUE', '/pursue']],
   },
   'foia-whs-27-f-0917': {
     heading: 'WHS FOIA 27-F-0917: administrative records decision',
@@ -83,15 +83,15 @@ const pages = {
     related: [['Full Mike Gold directory profile', '/who-is-who?person=mike-gold'], ['NASA study methods review', '/nasa-uap-study']],
   },
   'david-fravor-hearing': {
-    heading: 'David Fravor’s 2023 congressional UAP testimony',
-    description: 'Find David Fravor’s written witness statement and the official record of the July 2023 US House hearing on UAP.',
+    heading: 'David Fravor’s UAP testimony: the 2004 Tic Tac encounter',
+    description: 'Read David Fravor’s written witness statement on the reported 2004 USS Nimitz encounter, and the official record of the July 2023 congressional UAP hearing.',
     tag: 'Who’s Who · Attributed witness statement',
     sections: [
       ['What the hearing record establishes', 'David Fravor spoke at the House Oversight hearing on 26 July 2023. The committee record includes his written witness statement about his account of an encounter off the coast of Southern California in 2004.'],
       ['Reading the testimony', 'Start with the witness statement and transcript. Record which details Fravor says he observed and which he attributes to other people or instruments. The committee material establishes the testimony and its attribution. Further original data are needed to assess the physical observation.'],
     ],
     sources: [['US House hearing and witness materials', fravorHearing], ['Official hearing transcript and printed record', 'https://www.govinfo.gov/content/pkg/CHRG-118hhrg53022/html/CHRG-118hhrg53022.htm']],
-    related: [['Full David Fravor directory profile', '/who-is-who?person=david-fravor'], ['Evidence First research guide', '/guide#evidence-first']],
+    related: [['Full David Fravor directory profile', '/who-is-who?person=david-fravor'], ['Pentagon Navy video release records', '/pentagon-navy-video-referral'], ['Evidence First research guide', '/guide#evidence-first']],
   },
 };
 
@@ -108,6 +108,11 @@ function pageHtml(slug, info) {
   const isProfile = info.tag.startsWith('Who’s Who');
   const image = origin + '/assets/share-' + (isProfile ? 'people' : 'research') + '.jpg';
   const alt = 'Disclosure Desk emblem and ' + (isProfile ? 'Who’s Who' : 'Original Research') + ' wordmark on a navy background';
+  const schema = JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'WebPage',
+    name: info.heading + ' | Disclosure Desk', description: info.description,
+    url: canonical, isPartOf: {'@type': 'WebSite', name: 'Disclosure Desk', url: origin + '/'}
+  }).replace(/</g, '\\u003c');
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b131c">
@@ -117,6 +122,7 @@ function pageHtml(slug, info) {
 <meta property="og:image" content="${image}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${alt}">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${title}"><meta name="twitter:description" content="${description}">
 <meta name="twitter:image" content="${image}"><meta name="twitter:image:alt" content="${alt}">
+<script type="application/ld+json">${schema}</script>
 <link rel="icon" href="/assets/disclosure-desk-mark.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/research-public.css"><link rel="stylesheet" href="/assets/secondary-editorial-nav.css?v=issue22">
 <script src="/assets/site-dock.js?v=issue22" defer></script><script src="/assets/secondary-editorial-nav.js?v=issue22" defer></script>
@@ -135,12 +141,28 @@ ${info.sections.map(([heading, paragraph]) => '<section class="panel block"><h2>
 
 function pursueIndex(root) {
   const catalogue = JSON.parse(fs.readFileSync(path.join(root, 'data/pursue-index.json'), 'utf8'));
-  return '<details id="archive-public-index" class="panel block" open><summary>Browse selected records by release</summary>' +
-    catalogue.releases.map(release => {
-      const safe = catalogue.records.filter(record => record.release === release.number &&
-        /^https:\/\/www\.(?:war\.gov|dvidshub\.net)\//.test(record.source));
-      return '<h2>Release ' + String(release.number).padStart(2, '0') + '</h2>' +
-        links(safe.slice(0, 3).map(record => [record.title, record.source]));
+  // Public catalogue metadata only. Include every approved source record in
+  // HTML, not just the first three; the interactive catalogue remains paginated.
+  const safe = catalogue.records.filter(record => {
+    try {
+      const url = new URL(record.source);
+      return /^r\d{2}-[a-z0-9-]{2,75}$/.test(record.key) &&
+        url.protocol === 'https:' && !url.username && !url.password &&
+        ['www.war.gov', 'www.dvidshub.net'].includes(url.host);
+    } catch { return false; }
+  });
+  return '<details id="archive-public-index" class="panel block" open><summary>Browse all ' +
+    safe.length + ' official record links by release</summary>' +
+    '<p class="muted">Expand a release to find its catalogue titles and record identifiers. The links open the originating government records; no additional claims or copies are added here.</p>' +
+    catalogue.releases.slice().reverse().map(release => {
+      const records = safe.filter(record => record.release === release.number);
+      const label = 'Release ' + String(release.number).padStart(2, '0') + ' · ' + release.date +
+        ' · ' + records.length + ' records';
+      return '<details class="dd-public-release"><summary>' + escape(label) + '</summary><ul>' +
+        records.map(record => '<li><a href="' + escape(record.source) + '">' + escape(record.title) + '</a>' +
+          '<small class="record-meta"> · ' + escape([record.identifier && !record.title.includes(record.identifier) ? record.identifier : '',
+            record.agency, record.kind].filter(Boolean).join(' · ')) + '</small></li>').join('') +
+        '</ul></details>';
     }).join('') + '</details>';
 }
 
@@ -152,8 +174,10 @@ function peopleIndex(root) {
     .sort((a, b) => a.name.localeCompare(b.name, 'en'));
   const previews = {'mike-gold': '/nasa-mike-gold', 'david-fravor': '/david-fravor-hearing'};
   return '<div class="card"><details open><summary>Browse the public people index</summary>' +
-    '<p>Open a public record summary or an interactive directory profile.</p>' +
-    links(publicPeople.map(p => [p.name, previews[p.id] || '/who-is-who?person=' + encodeURIComponent(p.id)])) +
+    '<p>Open a public record summary or interactive directory profile. Directory editorial review is ongoing; the names and role labels are search entry points, not findings about the people listed.</p>' +
+    '<ul class="link-list">' + publicPeople.map(p =>
+      '<li><a href="' + escape(previews[p.id] || '/who-is-who?person=' + encodeURIComponent(p.id)) + '">' +
+      escape(p.name) + '</a> <small class="muted">· ' + escape(p.role) + '</small></li>').join('') + '</ul>' +
     '</details></div>';
 }
 
