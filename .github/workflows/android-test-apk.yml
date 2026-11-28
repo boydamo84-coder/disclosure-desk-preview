@@ -51,14 +51,14 @@ jobs:
             if curl -fsS --max-time 2 http://127.0.0.1:4173/index.html -o /dev/null; then break; fi
             sleep 1
           done
+          node scripts/test_m109_persistent_directory_chromium.cjs
+          node scripts/test_m110_shared_navigation_chromium.cjs
           CHROME_PATH=/usr/bin/google-chrome node scripts/test_issue22_release_chromium.cjs
           DD_ANDROID_FIXTURE=1 node scripts/test_news_pagination_chromium.cjs
           node scripts/test_become_investigator_chromium.cjs
           node scripts/test_experience_discovery_chromium.cjs
           node scripts/test_m98_app_tour_chromium.cjs
           node scripts/test_m107_desk_help_pursue_chromium.cjs
-          node scripts/test_m109_persistent_directory_chromium.cjs
-          node scripts/test_m110_shared_navigation_chromium.cjs
       - name: Verify Android link and notification boundaries
         run: |
           classes=$(mktemp -d)

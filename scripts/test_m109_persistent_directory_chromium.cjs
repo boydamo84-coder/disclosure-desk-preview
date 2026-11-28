@@ -49,7 +49,19 @@ const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','
   assert.equal(await page.evaluate(()=>DDNativePageHelp()),'opened');
   assert.equal(await page.locator('#ddPageHelpTitle').textContent(),"Who's Who in Disclosure");
   assert.equal(await page.evaluate(back),'handled');
-  await iframe.locator('#peopleSearch').fill('David Fravor');
+  await page.locator('#ddPageHelpDialog').waitFor({state:'hidden'});
+  // Static cards appear before the source data and input listeners are ready.
+  await iframe.locator('#peopleStatus').filter({hasText:'people match'}).waitFor();
+  const search=iframe.locator('#peopleSearch');
+  await search.click();
+  await search.pressSequentially('David Fravor',{delay:20});
+  await page.waitForFunction(()=>{
+   const doc=document.getElementById('ddAppPeopleFrame').contentDocument;
+   return doc.getElementById('peopleSearch').value==='David Fravor'&&
+      doc.querySelectorAll('#peopleCards [data-person-id]').length<57&&
+      !!doc.querySelector('#peopleCards [data-person-id="david-fravor"] button');
+  });
+  assert.equal(await search.inputValue(),'David Fravor','Filter must actually be active before opening the profile');
   await page.evaluate(()=>{document.getElementById('ddAppPeopleFrame').contentWindow.__directoryDocumentIdentity='M109-retained-directory'});
   await iframe.locator('#peopleCards [data-person-id="david-fravor"] button').click();
   await iframe.locator('#personProfile:not(.hidden)').waitFor();
