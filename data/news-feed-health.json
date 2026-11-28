@@ -1,35 +1,35 @@
 {
-  "checkedAt": "2026-11-28T04:15:24.468984+00:00",
+  "checkedAt": "2026-11-28T13:01:14.697888+00:00",
   "sources": [
     {
       "source": "Search: UFO UAP when:7d",
       "status": "ok",
-      "items": 55,
-      "latestArticleAt": "2026-11-27T18:06:43+00:00"
+      "items": 52,
+      "latestArticleAt": "2026-11-28T11:00:33+00:00"
     },
     {
       "source": "Search: \"unidentified anomalous phenomena\" when:7d",
       "status": "ok",
-      "items": 6,
-      "latestArticleAt": "2026-11-27T15:07:42+00:00"
+      "items": 8,
+      "latestArticleAt": "2026-11-27T15:28:30+00:00"
     },
     {
       "source": "Search: UFO disclosure when:7d",
       "status": "ok",
-      "items": 17,
+      "items": 14,
       "latestArticleAt": "2026-11-27T22:40:00+00:00"
     },
     {
       "source": "Search: AARO Pentagon UFO when:7d",
       "status": "ok",
-      "items": 2,
-      "latestArticleAt": "2026-11-26T19:35:00+00:00"
+      "items": 3,
+      "latestArticleAt": "2026-11-27T14:15:00+00:00"
     },
     {
       "source": "Search: UFO sightings when:7d",
       "status": "ok",
       "items": 9,
-      "latestArticleAt": "2026-11-27T15:07:42+00:00"
+      "latestArticleAt": "2026-11-27T14:15:00+00:00"
     },
     {
       "source": "Search: UAP congress hearing when:7d",
@@ -59,12 +59,12 @@
       "source": "Search: UFO UAP Australia New Zealand when:7d",
       "status": "ok",
       "items": 1,
-      "latestArticleAt": "2026-11-21T19:47:42+00:00"
+      "latestArticleAt": "2026-11-27T18:06:43+00:00"
     },
     {
       "source": "Search: UFO UAP Africa Middle East when:7d",
       "status": "ok",
-      "items": 2,
+      "items": 1,
       "latestArticleAt": "2026-11-27T13:15:00+00:00"
     },
     {
@@ -80,10 +80,9 @@
       "latestArticleAt": null
     },
     {
-      "source": "Search: France",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "source": "Search: UFO UAP France GEIPAN when:7d",
+      "status": "failed",
+      "items": 0
     },
     {
       "source": "Search: Germany",
@@ -104,10 +103,9 @@
       "latestArticleAt": null
     },
     {
-      "source": "Search: Japan",
-      "status": "ok",
-      "items": 1,
-      "latestArticleAt": "2026-11-21T19:47:42+00:00"
+      "source": "Search: UFO UAP Japan when:7d",
+      "status": "failed",
+      "items": 0
     },
     {
       "source": "Search: Canada",
@@ -116,10 +114,9 @@
       "latestArticleAt": null
     },
     {
-      "source": "Search: Australia",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "source": "Search: UFO UAP Australia when:7d",
+      "status": "failed",
+      "items": 0
     },
     {
       "source": "Search: United Kingdom",
@@ -134,10 +131,9 @@
       "latestArticleAt": null
     },
     {
-      "source": "Search: Argentina",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "source": "Search: OVNI UFO Argentina when:7d",
+      "status": "failed",
+      "items": 0
     },
     {
       "source": "Search: Chile",
@@ -152,16 +148,14 @@
       "latestArticleAt": null
     },
     {
-      "source": "Search: Spain",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "source": "Search: OVNI UFO Spain when:7d",
+      "status": "failed",
+      "items": 0
     },
     {
-      "source": "Search: Italy",
-      "status": "empty",
-      "items": 0,
-      "latestArticleAt": null
+      "source": "Search: UFO UAP Italy when:7d",
+      "status": "failed",
+      "items": 0
     },
     {
       "source": "Search: India",
@@ -204,5 +198,5 @@
       "latestArticleAt": null
     }
   ],
-  "storiesPublished": 440
+  "storiesPublished": 442
 }
