@@ -12,7 +12,7 @@ const manifest=read('android-test/app/src/main/AndroidManifest.xml');
 const workflow=read('.github/workflows/android-test-apk.yml');
 assert.match(gradle,/applicationIdSuffix = "\.beta\.m113"/);
 assert.match(gradle,/versionCode = 49/);
-assert.match(gradle,/0\.16\.14/);
+assert.match(gradle,/0\.16\.15/);
 assert.match(workflow,/android\/m113-wne-menu-clearance/);
 assert.match(workflow,/DisclosureDesk-M113-PRIVATE-BETA/);
 assert.match(manifest,/android:allowBackup="false"/);
